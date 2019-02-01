@@ -876,17 +876,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/hasOpportunity -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasOpportunity">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T11:45:06Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasOpportunity</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/core/hasPayment -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasPayment">
@@ -2938,6 +2927,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dcterms:title xml:lang="en">Plan</dcterms:title>
         <rdfs:label xml:lang="en">Plan</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/plan</rdfs:seeAlso>
+        <synonym xml:lang="en">Campaign</synonym>
     </owl:Class>
     
 
