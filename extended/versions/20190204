@@ -15,7 +15,7 @@
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/extended">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/extended/20190204"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/core/20190201"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/core/20190204"/>
         <dc:contributor rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://orcid.org/0000-0001-8017-8797</dc:contributor>
         <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://orcid.org/0000-0001-8017-8797</dc:creator>
         <dc:publisher rdf:datatype="http://www.w3.org/2001/XMLSchema#token">Hadden Industries Ltd</dc:publisher>
