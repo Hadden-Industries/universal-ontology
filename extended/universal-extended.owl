@@ -14,10 +14,10 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/extended">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/extended/20190204"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/extended/20190205"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/core/20190204"/>
-        <dc:contributor rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://orcid.org/0000-0001-8017-8797</dc:contributor>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://orcid.org/0000-0001-8017-8797</dc:creator>
+        <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:publisher rdf:datatype="http://www.w3.org/2001/XMLSchema#token">Hadden Industries Ltd</dc:publisher>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-09-30</dcterms:created>
         <dcterms:description xml:lang="en">Broad set of concepts and categories, applicable to many domains, that shows their properties and the relations between them</dcterms:description>
@@ -25,9 +25,9 @@
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0b29ff4f-6c01-4bea-9df9-789ccd53579b</dcterms:identifier>
         <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
         <dcterms:license rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.gnu.org/licenses/gpl-3.0.en.html</dcterms:license>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-02-04</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-02-05</dcterms:modified>
         <dcterms:rights xml:lang="en">© 2019 Hadden Industries Ltd</dcterms:rights>
-        <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://id.loc.gov/authorities/subjects/sh85094833</dcterms:subject>
+        <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Extended Ontology</dcterms:title>
         <rdfs:label xml:lang="en">HaddenIndustriesUniversalExtendedOntology</rdfs:label>
     </owl:Ontology>
@@ -115,7 +115,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/Barcode_hasBarcodeSymbology">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/Barcode"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/BarcodeSymbology"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T09:54:14Z</dcterms:created>
         <rdfs:label xml:lang="en">hasBarcodeSymbology</rdfs:label>
     </owl:ObjectProperty>
@@ -127,7 +127,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/Duty_hasActivity">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/Duty"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-30T14:24:35Z</dcterms:created>
         <rdfs:label xml:lang="en">hasActivity</rdfs:label>
     </owl:ObjectProperty>
@@ -139,7 +139,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/Opportunity_hasPerson">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/Opportunity"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-18T12:59:26Z</dcterms:created>
         <rdfs:label xml:lang="en">hasPerson</rdfs:label>
     </owl:ObjectProperty>
@@ -151,7 +151,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/TransportLink_hasTransportNode">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportLink"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportNode"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-19T15:29:48Z</dcterms:created>
         <rdfs:label xml:lang="en">hasTransportNode</rdfs:label>
     </owl:ObjectProperty>
@@ -163,7 +163,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasDuty">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/extended/Duty"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-30T14:45:45Z</dcterms:created>
         <rdfs:label xml:lang="en">hasDuty</rdfs:label>
     </owl:ObjectProperty>
@@ -175,7 +175,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasOccupation">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/EmploymentContract"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Occupation"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-21T20:03:19Z</dcterms:created>
         <rdfs:label xml:lang="en">hasOccupation</rdfs:label>
     </owl:ObjectProperty>
@@ -187,7 +187,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasOpportunity">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/extended/Opportunity"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T11:45:06Z</dcterms:created>
         <rdfs:label xml:lang="en">hasOpportunity</rdfs:label>
     </owl:ObjectProperty>
@@ -199,7 +199,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasTransportLink">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportNetwork"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportLink"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-19T15:10:39Z</dcterms:created>
         <rdfs:label xml:lang="en">hasTransportLink</rdfs:label>
     </owl:ObjectProperty>
@@ -211,7 +211,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasTransportNode">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportNetwork"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportNode"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-25T12:25:18Z</dcterms:created>
         <rdfs:label xml:lang="en">hasTransportNode</rdfs:label>
     </owl:ObjectProperty>
@@ -223,7 +223,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasTransportSegment">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportLink"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportSegment"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-30T09:22:30Z</dcterms:created>
         <rdfs:label xml:lang="en">hasTransportSegment</rdfs:label>
     </owl:ObjectProperty>
@@ -316,7 +316,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Accident">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-24T15:16:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Unforeseen Event with negative consequences</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:9c142c3e-b197-451b-b996-6446e5be6771</dcterms:identifier>
@@ -331,7 +331,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Aeroplane">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Vehicle"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T09:49:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Powered flying Vehicle with fixed wings and a weight greater than that of the air it displaces</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:350bb312-b53e-4314-883b-0b8a82893411</dcterms:identifier>
@@ -346,7 +346,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/AnimalHazard">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Hazard"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T12:57:51Z</dcterms:created>
         <dcterms:description xml:lang="en">Hazard that is a living organism, that is not a Natural Person</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:58e8b7c3-7b06-4891-a0a7-752225e7e131</dcterms:identifier>
@@ -360,7 +360,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Assessment">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-26T12:54:41Z</dcterms:created>
         <dcterms:description xml:lang="en">Activity evaluating the nature, ability, and/or quality of a thing</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a131b4f9-e7ca-4329-9e54-340078152dc6</dcterms:identifier>
@@ -374,7 +374,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/BankAccountNumber">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/AccountNumber"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T10:27:47Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of an arrangement with a bank to hold money and keep records of transactions</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:824d3ff6-dae5-4745-9724-739e97256c40</dcterms:identifier>
@@ -388,7 +388,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Barcode">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Label"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Machine-readable pattern Label</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:55b42f3a-29ad-415b-b07a-e3f0994eb549</dcterms:identifier>
@@ -402,7 +402,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/BarcodeReader">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Device"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T13:23:54Z</dcterms:created>
         <dcterms:description xml:lang="en">Electronic Device that can read and output the information of a Barcode</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:aff58c44-0f6e-4c5b-b5b0-457e97b95c53</dcterms:identifier>
@@ -417,7 +417,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Bicycle">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Vehicle"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-31T08:42:48Z</dcterms:created>
         <dcterms:description xml:lang="en">Vehicle consisting of two wheels held in a frame one behind the other, propelled by pedals and steered with handlebars attached to the front wheel</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7731e87b-eed4-4533-a579-5dc75eeee834</dcterms:identifier>
@@ -431,7 +431,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Contact">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonRelationship"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-18T12:51:19Z</dcterms:created>
         <dcterms:description xml:lang="en">Person Relationship between one Person acting as the point of communication to another</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:498bcae6-b8c9-4ff7-8276-884b7328215f</dcterms:identifier>
@@ -445,7 +445,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/CrimeHazard">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Hazard"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:30:07Z</dcterms:created>
         <dcterms:description xml:lang="en">Hazard that is related to unlawful acts punishable by a state or other authority</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0fff7b3f-0266-45b1-9421-dc73d65d9685</dcterms:identifier>
@@ -460,7 +460,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Duty">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Plan"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T08:40:45Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of Activities that a Person is expected or required to do by moral or legal obligation</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:03e57f40-9046-4e32-b03a-72804530c34a</dcterms:identifier>
@@ -474,7 +474,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/EmploymentContract">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Contract"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T11:55:21Z</dcterms:created>
         <dcterms:description xml:lang="en">Contract used in labour law to attribute rights and responsibilities between an employer and an employee</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:78fb8695-d8f1-4cd8-a740-517276dc6de5</dcterms:identifier>
@@ -488,7 +488,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/FacebookAccount">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T10:40:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Facebook registration</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:6fc920b6-a927-4c19-a239-e08e4a43bdc8</dcterms:identifier>
@@ -503,7 +503,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/FloodingHazard">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Hazard"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T12:59:09Z</dcterms:created>
         <dcterms:description xml:lang="en">Hazard that is an overflow of a large amount of water beyond its normal limits, especially over what is normally dry land</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:aced9d14-cc9a-43d3-a9e2-9c2233f627e0</dcterms:identifier>
@@ -518,7 +518,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Footpath">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportLink"/>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/extended/Road"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:09:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Transport Link that is intended for use only by pedestrians</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a682b2fa-9fde-4859-82ff-d2ab3d7082e3</dcterms:identifier>
@@ -532,7 +532,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/GlobalNavigationSatelliteSystem">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/extended/SatelliteNavigationSystem"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:22:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Satellite Navigation System with global coverage</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:93fbc7d9-5c5a-4dbc-8da3-691f42eb8c10</dcterms:identifier>
@@ -547,7 +547,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/GoogleAccount">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T10:40:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Google registration</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:debb9c96-6d9b-42ad-a6d1-6d0bef407037</dcterms:identifier>
@@ -562,7 +562,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/IndoorActivity">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/extended/OutdoorActivity"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:06:35Z</dcterms:created>
         <dcterms:description xml:lang="en">Activity that takes place inside a Building</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0bb78ac3-077a-4ec0-9489-9ffb11bae9be</dcterms:identifier>
@@ -576,7 +576,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/InstagramAccount">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:02:46Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of an Instagram registration</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:236b9c47-5c48-476e-a8b3-cacf17b75033</dcterms:identifier>
@@ -591,7 +591,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/LicenseAgreement">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Contract"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T12:51:42Z</dcterms:created>
         <dcterms:description xml:lang="en">Contract of the official permission to do, use, or own some thing</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7181b2f5-5b3c-4e13-b2b3-09ec1758bc9d</dcterms:identifier>
@@ -605,7 +605,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Lorry">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Vehicle"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-31T08:47:29Z</dcterms:created>
         <dcterms:description xml:lang="en">Large, heavy motor Vehicle</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:084cd59a-3fc2-42d3-9755-ed26dbb5000d</dcterms:identifier>
@@ -618,7 +618,7 @@
     <!-- https://haddenindustries.com/ontology/universal/extended/Opportunity -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Opportunity">
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Possibility of creating value for the owners of Products Or Services if they were made into an Offering to Persons</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a156b301-a0cc-4c43-ba02-4054cde3b42f</dcterms:identifier>
@@ -632,7 +632,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/OutdoorActivity">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:07:41Z</dcterms:created>
         <dcterms:description xml:lang="en">Activity that takes place in the open air</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3ed0243d-e977-46e4-bbfe-68e065768e50</dcterms:identifier>
@@ -646,7 +646,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/RadioFrequencyIdentificationTag">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Label"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-24T11:29:10Z</dcterms:created>
         <dcterms:description xml:lang="en">Label that uses electromagnetic waves in the radio spectrum to expose its information</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b1dfac5e-4514-451d-9df4-2e77d065a98d</dcterms:identifier>
@@ -661,7 +661,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Regulator">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/JuridicalPerson"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Independent Juridical Person that ensures compliance with laws and standards</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:2903e369-f316-4296-b27f-c5909176ee58</dcterms:identifier>
@@ -675,7 +675,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/RentalAgreement">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Contract"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-31T09:52:58Z</dcterms:created>
         <dcterms:description xml:lang="en">Contract concerning the use of a property owned by a landlord</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:55286c37-586f-4922-84e3-7e183b9a2991</dcterms:identifier>
@@ -689,7 +689,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Road">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportLink"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:15:32Z</dcterms:created>
         <dcterms:description xml:lang="en">Transport Link using a stabilised base other than rails or air strips, primarily for the use of Vehicles</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a1d91b9f-8435-4f3e-a228-b17629bf2744</dcterms:identifier>
@@ -703,7 +703,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/SatelliteNavigationSystem">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/System"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:21:14Z</dcterms:created>
         <dcterms:description xml:lang="en">System of navigation dependent on information received from satellites</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:99531e82-1d4e-476f-8b82-32de4c0fbe82</dcterms:identifier>
@@ -719,7 +719,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Scan">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-08-10T16:29:28Z</dcterms:created>
         <dcterms:description xml:lang="en">Act of looking at all parts of something carefully in order to detect some feature</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3a86be71-d84a-42e9-b8e0-1a20e6563300</dcterms:identifier>
@@ -733,7 +733,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Signature">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-08-10T16:31:50Z</dcterms:created>
         <dcterms:description xml:lang="en">Action of signing a Document</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:59480da7-974c-4f2c-870d-4a72d16da2f3</dcterms:identifier>
@@ -746,7 +746,7 @@
     <!-- https://haddenindustries.com/ontology/universal/extended/SpecialInstruction -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/SpecialInstruction">
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-19T08:43:35Z</dcterms:created>
         <dcterms:description xml:lang="en">Order provided to guide the provision of Products Or Services at a Location</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:187c62e6-0b41-479b-b8af-ef2e4a7823cd</dcterms:identifier>
@@ -760,7 +760,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/TradeUnion">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T08:48:37Z</dcterms:created>
         <dcterms:description xml:lang="en">Organisation of workers who have come together to achieve common goals, usually to maintain or improve the conditions of their employment</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3aa82672-5051-4317-8471-b7c221c0dee6</dcterms:identifier>
@@ -774,7 +774,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Train">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Vehicle"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T10:43:49Z</dcterms:created>
         <dcterms:description xml:lang="en">Vehicle composed of connected carriages that move along a railway</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:c3b4fe08-df9d-48f8-8da4-39388cdac565</dcterms:identifier>
@@ -800,7 +800,7 @@
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportNode"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-19T15:09:30Z</dcterms:created>
         <dcterms:description xml:lang="en">Way connecting Transport Nodes to one another</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:106bb2d5-18a8-4c3a-832e-53a472c5bbaf</dcterms:identifier>
@@ -826,7 +826,7 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/extended/TransportNode"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:16:58Z</dcterms:created>
         <dcterms:description xml:lang="en">Realisation of a geometric graph, composed of Transport Nodes connected by Transport Links</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:06c095c5-320c-48b6-bcae-09e58985773a</dcterms:identifier>
@@ -840,7 +840,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/TransportNode">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-25T12:24:54Z</dcterms:created>
         <dcterms:description xml:lang="en">Point in a Transport Network where transport Objects can enter or change way</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:6495f598-3b87-4794-a163-f00dc82b9e99</dcterms:identifier>
@@ -856,7 +856,7 @@
     <!-- https://haddenindustries.com/ontology/universal/extended/TransportSegment -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/TransportSegment">
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-30T09:22:05Z</dcterms:created>
         <dcterms:description xml:lang="en">Geometric element from which Transport Links are constructed</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3af30759-43cb-42a9-b2b7-63f0781a1b43</dcterms:identifier>
@@ -871,7 +871,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/TwitterAccount">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-01-18T11:44:53Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Twitter registration</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3d437b20-99b8-4244-a538-4e0f430bfb2c</dcterms:identifier>
@@ -885,7 +885,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Van">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Vehicle"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-31T08:43:01Z</dcterms:created>
         <dcterms:description xml:lang="en">Covered motor Vehicle, typically without side windows</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:9763aa6d-fdf6-4244-b992-a4865da17231</dcterms:identifier>
@@ -899,7 +899,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/VolumetricScanner">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuringSystem"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-26T15:31:08Z</dcterms:created>
         <dcterms:description xml:lang="en">Measuring Instrument that carries out a 3-dimensional Measurement of an Object</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:9414b5a9-c35d-4bde-808b-4fd676725c6e</dcterms:identifier>
@@ -913,7 +913,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/WhatsAppAccount">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:02:24Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a WhatsApp registration</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:650d57de-1a18-4869-98d9-06e2847b9320</dcterms:identifier>
@@ -939,7 +939,7 @@
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/BeiDouNavigationSatelliteSystem">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/extended/GlobalNavigationSatelliteSystem"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:38:18Z</dcterms:created>
         <dcterms:description xml:lang="en">Global Navigation Satellite System that is being created by China through the China National Space Administration</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:bca70887-b32c-462e-9ff0-46aa469873f6</dcterms:identifier>
@@ -954,7 +954,7 @@
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/GLONASS">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/extended/GlobalNavigationSatelliteSystem"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:31:59Z</dcterms:created>
         <dcterms:description xml:lang="en">Global Navigation Satellite System owned by the Russian Federation</dcterms:description>
         <rdfs:label xml:lang="en">GLONASS</rdfs:label>
@@ -967,7 +967,7 @@
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/GlobalNavigationSatelliteSystem-Galileo">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/extended/GlobalNavigationSatelliteSystem"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:28:30Z</dcterms:created>
         <dcterms:description xml:lang="en">Global Navigation Satellite System that is being created by the European Union through the European GNSS Agency</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:f3408aa9-6fa1-49d3-9413-7e4a4885cd95</dcterms:identifier>
@@ -981,7 +981,7 @@
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/GlobalPositioningSystem">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/extended/GlobalNavigationSatelliteSystem"/>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T12:14:37Z</dcterms:created>
         <dcterms:description xml:lang="en">Global Navigation Satellite System owned by the United States government</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:cb02443b-3a8e-432f-945d-e40c39f41bb3</dcterms:identifier>
@@ -995,7 +995,7 @@
     <!-- https://haddenindustries.com/ontology/universal/extended/PersonNameSuffix-Limited -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/PersonNameSuffix-Limited">
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-19T14:55:05Z</dcterms:created>
         <rdfs:label xml:lang="en">Limited</rdfs:label>
     </owl:NamedIndividual>
@@ -1005,7 +1005,7 @@
     <!-- https://haddenindustries.com/ontology/universal/extended/PersonNameSuffix-Ltd -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/PersonNameSuffix-Ltd">
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-21T19:42:27Z</dcterms:created>
         <rdfs:label xml:lang="en">Ltd</rdfs:label>
     </owl:NamedIndividual>
@@ -1015,7 +1015,7 @@
     <!-- https://haddenindustries.com/ontology/universal/extended/PersonNameSuffix-PLC -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/PersonNameSuffix-PLC">
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-21T16:06:55Z</dcterms:created>
         <rdfs:label xml:lang="en">PLC</rdfs:label>
     </owl:NamedIndividual>
@@ -1026,7 +1026,7 @@
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/SpatialReferenceSystem-IRENET95IrishTransverseMercator">
         <uc:idIntegerPositive rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">2157</uc:idIntegerPositive>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T23:26:34Z</dcterms:created>
         <dcterms:description xml:lang="en">Spatial Reference System used in Ireland</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:d9ae9eca-0599-46aa-bca3-740716e514b7</dcterms:identifier>
@@ -1042,7 +1042,7 @@
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/SpatialReferenceSystem-OSGB1936BritishNationalGrid">
         <uc:idIntegerPositive rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">27700</uc:idIntegerPositive>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T17:59:42Z</dcterms:created>
         <dcterms:description xml:lang="en">Spatial Reference System used in Great Britain</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:de3f851f-42ee-4faf-8a7f-30e9146eb9c7</dcterms:identifier>
@@ -1059,7 +1059,7 @@
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/SpatialReferenceSystem-WGS84">
         <uc:idIntegerPositive rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">4326</uc:idIntegerPositive>
-        <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maksym Shostak</dc:creator>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T17:53:35Z</dcterms:created>
         <dcterms:description xml:lang="en">Spatial Reference System used in cartography, geodesy, and navigation including the Global Positioning System</dcterms:description>
         <rdfs:label xml:lang="en">WGS84</rdfs:label>
