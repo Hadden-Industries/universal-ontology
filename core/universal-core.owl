@@ -1704,7 +1704,6 @@
         <dcterms:references xml:lang="en">ISO 8601</dcterms:references>
         <dcterms:title xml:lang="en">Day Of Week</dcterms:title>
         <rdfs:label xml:lang="en">DayOfWeek</rdfs:label>
-        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.w3.org/2006/time#DayOfWeek</rdfs:seeAlso>
     </owl:Class>
     
 
@@ -3737,8 +3736,8 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
     </rdf:Description>
     <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/synonym">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <rdfs:comment xml:lang="en">Word or phrase that means exactly or nearly the same as another word or phrase in the same language</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-20T08:30:07Z</dcterms:created>
+        <rdfs:comment xml:lang="en">Word or phrase that means exactly or nearly the same as another word or phrase in the same language</rdfs:comment>
     </rdf:Description>
     
 
