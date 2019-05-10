@@ -13,7 +13,7 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/core">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20190208"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20190509"/>
         <owl:imports rdf:resource="http://purl.org/dc/terms#2012"/>
         <owl:imports rdf:resource="http://www.w3.org/2006/time#2016"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -25,8 +25,8 @@
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:478440d0-9623-45ef-973f-ab0e7f2a9dec</dcterms:identifier>
         <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
         <dcterms:license rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://opensource.org/licenses/MIT</dcterms:license>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-02-08</dcterms:modified>
-        <dcterms:rights rdf:datatype="http://www.w3.org/2001/XMLSchema#token">© 2019 Hadden Industries Ltd</dcterms:rights>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
+        <dcterms:rights xml:lang="en">© 2019 Hadden Industries Ltd</dcterms:rights>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Core Ontology</dcterms:title>
         <rdfs:label xml:lang="en">HaddenIndustriesUniversalCoreOntology</rdfs:label>
@@ -116,6 +116,18 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T10:13:15Z</dcterms:created>
         <rdfs:label xml:lang="en">hasActivity</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Activity_hasLocation -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Activity_hasLocation">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T07:37:17Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasLocation</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -493,6 +505,18 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/Object_hasQuantityValue -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Object_hasQuantityValue">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Object"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-04-11T11:59:42Z</dcterms:created>
+        <rdfs:label xml:lang="en">Object_hasQuantityValue</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/Offering_hasBrand -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Offering_hasBrand">
@@ -566,6 +590,18 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/Organisation_hasOrganisation -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Organisation_hasOrganisation">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T07:34:45Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasOrganisation</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/Person_hasAddress -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Person_hasAddress">
@@ -590,14 +626,14 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/Plan_hasActivity -->
+    <!-- https://haddenindustries.com/ontology/universal/core/Plan_hasTask -->
 
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Plan_hasActivity">
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Plan_hasTask">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Plan"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Task"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-25T11:26:02Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasActivity</rdfs:label>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T07:39:36Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasTask</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -646,6 +682,18 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-24T13:14:17Z</dcterms:created>
         <rdfs:label xml:lang="en">hasLocation</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Task_hasActivity -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Task_hasActivity">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Task"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T07:40:45Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasActivity</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1292,6 +1340,13 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity_hasLocation"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity_hasOrganisation"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
@@ -1394,6 +1449,21 @@
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7edea946-cd80-4c64-828d-6eaa0abfe234</dcterms:identifier>
         <dcterms:title xml:lang="en">Area</dcterms:title>
         <rdfs:label xml:lang="en">Area</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Author -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Author">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToPersonRelationship"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T13:10:10Z</dcterms:created>
+        <dcterms:description xml:lang="en">Writer of a Document</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:dcf37505-568a-49ea-8bd2-b713d9c97e74</dcterms:identifier>
+        <dcterms:title xml:lang="en">Author</dcterms:title>
+        <rdfs:label xml:lang="en">Author</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/author</rdfs:seeAlso>
     </owl:Class>
     
 
@@ -1590,6 +1660,21 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/ConfidentialityClassification -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ConfidentialityClassification">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ReferenceData"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:03:23Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category assigned to things regarding the state of keeping or being kept secret or private</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:d425ecb0-1504-4712-aac3-a3afac0bef89</dcterms:identifier>
+        <dcterms:title xml:lang="en">Confidentiality Classification</dcterms:title>
+        <rdfs:label xml:lang="en">ConfidentialityClassification</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/confidentiality</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/Contract -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Contract">
@@ -1674,6 +1759,36 @@
         <dcterms:references xml:lang="en">ISO 3166-2</dcterms:references>
         <dcterms:title xml:lang="en">Country Subdivision</dcterms:title>
         <rdfs:label xml:lang="en">CountrySubdivision</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Court -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Court">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ReferenceData"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:02:57Z</dcterms:created>
+        <dcterms:description xml:lang="en">Body of Persons presided over by judges or magistrates, and acting as a tribunal in civil and criminal cases</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0148baea-2df4-43a4-b066-63f37a870190</dcterms:identifier>
+        <dcterms:title xml:lang="en">Court</dcterms:title>
+        <rdfs:label xml:lang="en">Court</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/court</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/CourtStage -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/CourtStage">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ReferenceData"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:01:41Z</dcterms:created>
+        <dcterms:description xml:lang="en">Point, period, or step in a process of Court proceedings</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1460e01c-6254-46ce-a448-41abd2190d2c</dcterms:identifier>
+        <dcterms:title xml:lang="en">Court Stage</dcterms:title>
+        <rdfs:label xml:lang="en">CourtStage</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/stage</rdfs:seeAlso>
     </owl:Class>
     
 
@@ -1803,11 +1918,27 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T11:44:16Z</dcterms:created>
-        <dcterms:description xml:lang="en">Product Or Service Individual of an electronic mail box</dcterms:description>
+        <dcterms:description xml:lang="en">Product Or Service Individual of an Email Service</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a58191d7-a51b-454d-8755-b9048ebdd9d6</dcterms:identifier>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
         <dcterms:title xml:lang="en">Email Address</dcterms:title>
         <rdfs:label xml:lang="en">EmailAddress</rdfs:label>
         <synonym xml:lang="en">E-mail Address</synonym>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/EmailService -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/EmailService">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T15:09:01Z</dcterms:created>
+        <dcterms:description xml:lang="en">Product Or Service providing an electronic mail box</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:832d0fb8-c64a-4844-81fd-8d7d45116f06</dcterms:identifier>
+        <rdfs:label xml:lang="en">EmailService</rdfs:label>
+        <synonym xml:lang="en">E-Mail Service</synonym>
+        <synonym xml:lang="en">Electronic Mail Service</synonym>
     </owl:Class>
     
 
@@ -1880,8 +2011,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/GeographicPostcode_hasLocation"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
+                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/core/NonGeographicPostcode"/>
@@ -1889,6 +2019,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-12T19:03:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Postcode that corresponds to a Location</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0391bfc2-9744-4fcd-b4ce-11978c639819</dcterms:identifier>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
         <dcterms:title xml:lang="en">Geographic Postcode</dcterms:title>
         <rdfs:label xml:lang="en">GeographicPostcode</rdfs:label>
     </owl:Class>
@@ -2642,6 +2773,22 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/OffenceType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/OffenceType">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ReferenceData"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:00:48Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of breaches of laws or rules, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:2a5917ac-81d2-4a45-b85b-f7dbf34484f7</dcterms:identifier>
+        <dcterms:title xml:lang="en">Offence Type</dcterms:title>
+        <rdfs:label xml:lang="en">OffenceType</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/offence</rdfs:seeAlso>
+        <synonym xml:lang="en">Offense Type</synonym>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/Offering -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Offering">
@@ -2741,6 +2888,13 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation_hasLocation"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation_hasOrganisation"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -2924,15 +3078,16 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Plan_hasActivity"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Plan_hasTask"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Task"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Detailed proposal for doing or achieving something</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:05afc059-5513-4677-bf9c-091cbc3f914f</dcterms:identifier>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-02-01</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
         <dcterms:title xml:lang="en">Plan</dcterms:title>
         <rdfs:label xml:lang="en">Plan</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/plan</rdfs:seeAlso>
@@ -2990,6 +3145,21 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dcterms:title xml:lang="en">Price</dcterms:title>
         <rdfs:label xml:lang="en">Price</rdfs:label>
         <rdfs:seeAlso xml:lang="en">http://purl.org/goodrelations/v1#PriceSpecification</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/PriorityClassification -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/PriorityClassification">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ReferenceData"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:03:40Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category assigned to things regarding the fact or condition of being regarded or treated as more important than others</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:40c0183e-af3a-41e9-b046-0dbf3f7bc3d1</dcterms:identifier>
+        <dcterms:title xml:lang="en">Priority Classification</dcterms:title>
+        <rdfs:label xml:lang="en">PriorityClassification</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/priority</rdfs:seeAlso>
     </owl:Class>
     
 
@@ -3318,6 +3488,21 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/SentenceType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/SentenceType">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ReferenceData"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:07:40Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of penalties assigned to defendants found guilty by a Court, or fixed by law for particular offences, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:478998c3-3850-4661-833d-7efdbe98d920</dcterms:identifier>
+        <dcterms:title xml:lang="en">Sentence Type</dcterms:title>
+        <rdfs:label xml:lang="en">SentenceType</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/sentence</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/Sex -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Sex">
@@ -3377,16 +3562,53 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/Task -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Task">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Task_hasActivity"/>
+                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T07:39:02Z</dcterms:created>
+        <dcterms:description xml:lang="en">Piece of work to be done or undertaken in a Plan</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:73fee82e-9f20-4d7e-b2eb-a84d92a4483e</dcterms:identifier>
+        <dcterms:title xml:lang="en">Task</dcterms:title>
+        <rdfs:label xml:lang="en">Task</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/task</rdfs:seeAlso>
+        <synonym xml:lang="en">Plan Activity</synonym>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/TelephoneNumber -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TelephoneNumber">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:52:45Z</dcterms:created>
-        <dcterms:description xml:lang="en">Product Or Service Individual assigned to a fixed-line telephone subscriber station or to a wireless electronic telephony Device</dcterms:description>
+        <dcterms:description xml:lang="en">Product Or Service Individual of a Telephony Service</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3bc7f081-f3dd-4198-abbd-6769c8d861ff</dcterms:identifier>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
         <dcterms:title xml:lang="en">Telephone Number</dcterms:title>
         <rdfs:label xml:lang="en">TelephoneNumber</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/TelephonyService -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TelephonyService">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T15:13:31Z</dcterms:created>
+        <dcterms:description xml:lang="en">Product Or Service providing use of a System for transmitting voices over a distance using wire or radio, by converting acoustic vibrations to electrical signals</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b4eeed79-1b84-45d7-add8-7ee8d867009e</dcterms:identifier>
+        <dcterms:title xml:lang="en">Telephony Service</dcterms:title>
+        <rdfs:label xml:lang="en">TelephonyService</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/telephone</rdfs:seeAlso>
     </owl:Class>
     
 
@@ -3506,6 +3728,22 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/TrafficLightRating -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TrafficLightRating">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ReferenceData"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T09:59:31Z</dcterms:created>
+        <dcterms:description xml:lang="en">Classification of a status of a variable according to the colour of traffic lights; Red, Amber, or Green</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b4433dd5-04e5-4569-a0f3-94fac5df9a8e</dcterms:identifier>
+        <dcterms:title xml:lang="en">Traffic Light Rating</dcterms:title>
+        <rdfs:label xml:lang="en">TrafficLightRating</rdfs:label>
+        <synonym xml:lang="en">RAG Status</synonym>
+        <synonym xml:lang="en">Red Amber Green Status</synonym>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/TransactionTime -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TransactionTime">
@@ -3545,6 +3783,21 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a6d9b70e-3a55-431f-8345-edd4389c32a6</dcterms:identifier>
         <dcterms:title xml:lang="en">Vehicle</dcterms:title>
         <rdfs:label xml:lang="en">Vehicle</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/VerificationResultType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/VerificationResultType">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ReferenceData"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:24:03Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of outcomes of processes of establishing the truth, accuracy, or validity of something, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:66cec8d2-a1bf-4e9a-b8cc-fad970a0dea1</dcterms:identifier>
+        <dcterms:title xml:lang="en">Verification Result Type</dcterms:title>
+        <rdfs:label xml:lang="en">VerificationResultType</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/verification</rdfs:seeAlso>
     </owl:Class>
     
 
@@ -3792,5 +4045,5 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
 
 
 
-<!-- Generated by the OWL API (version 4.5.7.2018-12-02T02:23:35Z) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
 
