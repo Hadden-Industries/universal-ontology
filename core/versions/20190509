@@ -22,7 +22,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-09-30</dcterms:created>
         <dcterms:description xml:lang="en">Set of concepts and categories, applicable to almost all domains, that shows their properties and the relations between them</dcterms:description>
         <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:478440d0-9623-45ef-973f-ab0e7f2a9dec</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:478440d0-9623-45ef-973f-ab0e7f2a9dec"/>
         <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
         <dcterms:license rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://opensource.org/licenses/MIT</dcterms:license>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
@@ -1307,7 +1307,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T08:52:31Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service that is the arrangement for regular dealings with a business</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:e7793f14-1a42-4b2f-9b6f-47a65363001d</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:e7793f14-1a42-4b2f-9b6f-47a65363001d"/>
         <dcterms:title xml:lang="en">Account</dcterms:title>
         <rdfs:label xml:lang="en">Account</rdfs:label>
     </owl:Class>
@@ -1321,7 +1321,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-24T08:49:55Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of an Account</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:4ce5386d-926d-4be8-81fe-e57e23dd431a</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:4ce5386d-926d-4be8-81fe-e57e23dd431a"/>
         <dcterms:title xml:lang="en">Account Number</dcterms:title>
         <rdfs:label xml:lang="en">AccountNumber</rdfs:label>
     </owl:Class>
@@ -1369,7 +1369,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T08:38:34Z</dcterms:created>
         <dcterms:description xml:lang="en">Deed, action, or function that a Person or Organisation does</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:c19139ac-2c4a-4508-ad07-457a402ad47c</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:c19139ac-2c4a-4508-ad07-457a402ad47c"/>
         <dcterms:title xml:lang="en">Activity</dcterms:title>
         <rdfs:label xml:lang="en">Activity</rdfs:label>
     </owl:Class>
@@ -1389,7 +1389,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Particulars of a place</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:623ea210-aed1-4788-b0c1-55a970288274</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:623ea210-aed1-4788-b0c1-55a970288274"/>
         <dcterms:title xml:lang="en">Address</dcterms:title>
         <rdfs:label xml:lang="en">Address</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/address</rdfs:seeAlso>
@@ -1417,7 +1417,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T14:07:40Z</dcterms:created>
         <dcterms:description xml:lang="en">Software Product Or Service System designed to fulfil a particular purpose</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:342d2c3f-5f69-41eb-a495-90d12041411e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:342d2c3f-5f69-41eb-a495-90d12041411e"/>
         <dcterms:title xml:lang="en">Application</dcterms:title>
         <rdfs:label xml:lang="en">Application</rdfs:label>
     </owl:Class>
@@ -1431,7 +1431,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T09:08:08Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of subroutine definitions, protocols, and tools for building Applications</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:05392562-b3f8-4490-b36f-5c811df6f932</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:05392562-b3f8-4490-b36f-5c811df6f932"/>
         <dcterms:title xml:lang="en">Application Programming Interface</dcterms:title>
         <rdfs:label xml:lang="en">ApplicationProgrammingInterface</rdfs:label>
         <acronym xml:lang="en">API</acronym>
@@ -1446,7 +1446,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T09:09:40Z</dcterms:created>
         <dcterms:description xml:lang="en">Two-dimensional Geometry</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7edea946-cd80-4c64-828d-6eaa0abfe234</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:7edea946-cd80-4c64-828d-6eaa0abfe234"/>
         <dcterms:title xml:lang="en">Area</dcterms:title>
         <rdfs:label xml:lang="en">Area</rdfs:label>
     </owl:Class>
@@ -1460,7 +1460,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T13:10:10Z</dcterms:created>
         <dcterms:description xml:lang="en">Writer of a Document</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:dcf37505-568a-49ea-8bd2-b713d9c97e74</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:dcf37505-568a-49ea-8bd2-b713d9c97e74"/>
         <dcterms:title xml:lang="en">Author</dcterms:title>
         <rdfs:label xml:lang="en">Author</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/author</rdfs:seeAlso>
@@ -1475,7 +1475,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T09:41:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Specification of how to encode data into a Machine-readable Image</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:4bbe9d9a-bfb9-4659-a2f6-69707a9810b1</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:4bbe9d9a-bfb9-4659-a2f6-69707a9810b1"/>
         <dcterms:title xml:lang="en">Barcode Symbology</dcterms:title>
         <rdfs:label xml:lang="en">BarcodeSymbology</rdfs:label>
     </owl:Class>
@@ -1489,7 +1489,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-11T10:18:30Z</dcterms:created>
         <dcterms:description xml:lang="en">Basic unit of ownership that is recorded in the land books, land registers or equivalent. It is defined by unique ownership and homogeneous real property rights, and may consist of one or more adjacent or geographically separate parcels. In the United Kingdom, it is known as Basic Land and Property Unit, under BS 7666-2.</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:5206582f-69e1-4190-963b-7a1ac1a2a583</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:5206582f-69e1-4190-963b-7a1ac1a2a583"/>
         <dcterms:title xml:lang="en">Basic Property Unit</dcterms:title>
         <rdfs:label xml:lang="en">BasicPropertyUnit</rdfs:label>
         <rdfs:seeAlso xml:lang="en">http://inspire.ec.europa.eu/featureconcept/BasicPropertyUnit</rdfs:seeAlso>
@@ -1506,7 +1506,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T11:39:47Z</dcterms:created>
         <dcterms:description xml:lang="en">Document confirming that a Natural Person was born</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3a2ab949-e441-4c9a-8873-224817246ec9</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3a2ab949-e441-4c9a-8873-224817246ec9"/>
         <dcterms:title xml:lang="en">Birth Certificate</dcterms:title>
         <rdfs:label xml:lang="en">BirthCertificate</rdfs:label>
     </owl:Class>
@@ -1526,7 +1526,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-20T14:41:07Z</dcterms:created>
         <dcterms:description xml:lang="en">Identity associated with a set of Products Or Services</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:5e730ef6-42fd-4a65-b939-3c061c7c5d36</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:5e730ef6-42fd-4a65-b939-3c061c7c5d36"/>
         <dcterms:title xml:lang="en">Brand</dcterms:title>
         <rdfs:label xml:lang="en">Brand</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://purl.org/goodrelations/v1#Brand</rdfs:seeAlso>
@@ -1541,7 +1541,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:47:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Structure with a roof and walls, such as a house or factory</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:4f274149-80a2-4d5b-9749-79b591fa2cfd</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:4f274149-80a2-4d5b-9749-79b591fa2cfd"/>
         <dcterms:title xml:lang="en">Building</dcterms:title>
         <rdfs:label xml:lang="en">Building</rdfs:label>
     </owl:Class>
@@ -1555,7 +1555,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T09:35:56Z</dcterms:created>
         <dcterms:description xml:lang="en">Location representing the Area of a Building where it meets the ground</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:fc408fe2-9979-47b8-bc7a-fc5b75e2b7ab</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:fc408fe2-9979-47b8-bc7a-fc5b75e2b7ab"/>
         <dcterms:title xml:lang="en">Building Footprint</dcterms:title>
         <rdfs:label xml:lang="en">BuildingFootprint</rdfs:label>
     </owl:Class>
@@ -1569,7 +1569,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of days organised into timeframes</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3e5ee9bf-cf4e-4252-a9d7-4116bc797a23</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3e5ee9bf-cf4e-4252-a9d7-4116bc797a23"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.gov.uk/bank-holidays</dcterms:references>
         <dcterms:title xml:lang="en">Calendar</dcterms:title>
         <rdfs:label xml:lang="en">Calendar</rdfs:label>
@@ -1597,7 +1597,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T13:31:24Z</dcterms:created>
         <dcterms:description xml:lang="en">Legal demand for compensation for a loss under a Contract</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b405a4a7-646a-462f-9293-3223c658dff1</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b405a4a7-646a-462f-9293-3223c658dff1"/>
         <dcterms:title xml:lang="en">Claim</dcterms:title>
         <rdfs:label xml:lang="en">Claim</rdfs:label>
     </owl:Class>
@@ -1611,7 +1611,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T10:06:19Z</dcterms:created>
         <dcterms:description xml:lang="en">Continuous Linear Barcode Symbology of variable length and very high density, it can encode all 128 characters of ASCII and, by use of an extension symbol (FNC4), the Latin-1 characters defined in ISO/IEC 8859-1</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:2c809e30-5c36-434e-b776-5f7cfde379b5</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:2c809e30-5c36-434e-b776-5f7cfde379b5"/>
         <dcterms:references xml:lang="en">ISO/IEC 15417</dcterms:references>
         <dcterms:title xml:lang="en">Code 128</dcterms:title>
         <rdfs:label xml:lang="en">Code128</rdfs:label>
@@ -1626,7 +1626,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T10:11:09Z</dcterms:created>
         <dcterms:description xml:lang="en">Discrete Linear Barcode Symbology of variable length with no check digit, its specification defines 43 characters consisting of uppercase letters, numeric digits, and a number of special characters, as well as an additional character (denoted &apos;*&apos;) that is used for both start and stop delimiter</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:fd9066c7-016f-4dd7-b4d3-25cb522b7e34</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:fd9066c7-016f-4dd7-b4d3-25cb522b7e34"/>
         <dcterms:references xml:lang="en">ISO/IEC 16388</dcterms:references>
         <dcterms:title xml:lang="en">Code 39</dcterms:title>
         <rdfs:label xml:lang="en">Code39</rdfs:label>
@@ -1653,7 +1653,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T12:55:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Message Thread in which a Person expresses dissatisfaction with a Product Or Service</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:42fd815e-cd83-4d46-a489-9d9c72ec2eb1</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:42fd815e-cd83-4d46-a489-9d9c72ec2eb1"/>
         <dcterms:title xml:lang="en">Complaint</dcterms:title>
         <rdfs:label xml:lang="en">Complaint</rdfs:label>
     </owl:Class>
@@ -1667,7 +1667,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:03:23Z</dcterms:created>
         <dcterms:description xml:lang="en">Category assigned to things regarding the state of keeping or being kept secret or private</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:d425ecb0-1504-4712-aac3-a3afac0bef89</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:d425ecb0-1504-4712-aac3-a3afac0bef89"/>
         <dcterms:title xml:lang="en">Confidentiality Classification</dcterms:title>
         <rdfs:label xml:lang="en">ConfidentialityClassification</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/confidentiality</rdfs:seeAlso>
@@ -1703,7 +1703,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Agreement between Persons for the provision of Products Or Services, that is intended to be enforceable by law</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:41cdbdc3-de73-48ca-810d-82e776da8af2</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:41cdbdc3-de73-48ca-810d-82e776da8af2"/>
         <dcterms:title xml:lang="en">Contract</dcterms:title>
         <rdfs:label xml:lang="en">Contract</rdfs:label>
     </owl:Class>
@@ -1724,7 +1724,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Geographically defined, recognised, sovereign state</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a206e50e-e5be-4cd6-b377-542f2c6cb692</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a206e50e-e5be-4cd6-b377-542f2c6cb692"/>
         <dcterms:references xml:lang="en">ISO 3166-1</dcterms:references>
         <dcterms:references xml:lang="en">ISO 3166-3</dcterms:references>
         <dcterms:title xml:lang="en">Country</dcterms:title>
@@ -1755,7 +1755,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-03T17:40:36Z</dcterms:created>
         <dcterms:description xml:lang="en">Administrative area or dependent territory of a Country</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1d8799a7-6253-4300-abff-797a4d30c5e9</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:1d8799a7-6253-4300-abff-797a4d30c5e9"/>
         <dcterms:references xml:lang="en">ISO 3166-2</dcterms:references>
         <dcterms:title xml:lang="en">Country Subdivision</dcterms:title>
         <rdfs:label xml:lang="en">CountrySubdivision</rdfs:label>
@@ -1770,7 +1770,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:02:57Z</dcterms:created>
         <dcterms:description xml:lang="en">Body of Persons presided over by judges or magistrates, and acting as a tribunal in civil and criminal cases</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0148baea-2df4-43a4-b066-63f37a870190</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:0148baea-2df4-43a4-b066-63f37a870190"/>
         <dcterms:title xml:lang="en">Court</dcterms:title>
         <rdfs:label xml:lang="en">Court</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/court</rdfs:seeAlso>
@@ -1785,7 +1785,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:01:41Z</dcterms:created>
         <dcterms:description xml:lang="en">Point, period, or step in a process of Court proceedings</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1460e01c-6254-46ce-a448-41abd2190d2c</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:1460e01c-6254-46ce-a448-41abd2190d2c"/>
         <dcterms:title xml:lang="en">Court Stage</dcterms:title>
         <rdfs:label xml:lang="en">CourtStage</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/stage</rdfs:seeAlso>
@@ -1800,7 +1800,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:14:38Z</dcterms:created>
         <dcterms:description xml:lang="en">Matrix Barcode Symbology consisting of black and white &quot;cells&quot; or modules arranged in either a square or rectangular pattern</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0af82168-823c-4cab-a1ba-0fd41a5cbded</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:0af82168-823c-4cab-a1ba-0fd41a5cbded"/>
         <dcterms:references xml:lang="en">ISO/IEC 16022</dcterms:references>
         <dcterms:title xml:lang="en">Data Matrix</dcterms:title>
         <rdfs:label xml:lang="en">DataMatrix</rdfs:label>
@@ -1815,7 +1815,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-24T12:28:01Z</dcterms:created>
         <dcterms:description xml:lang="en">One of the seven successive 24-hour Time Intervals that comprise a week</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:5cb4fd09-537c-496a-9dbd-2d0a19148c58</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:5cb4fd09-537c-496a-9dbd-2d0a19148c58"/>
         <dcterms:references xml:lang="en">ISO 8601</dcterms:references>
         <dcterms:title xml:lang="en">Day Of Week</dcterms:title>
         <rdfs:label xml:lang="en">DayOfWeek</rdfs:label>
@@ -1830,7 +1830,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T14:53:12Z</dcterms:created>
         <dcterms:description xml:lang="en">Document confirming that a Natural Person is deceased</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:86662c40-eed2-4dcb-9184-4ab74b41a195</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:86662c40-eed2-4dcb-9184-4ab74b41a195"/>
         <dcterms:title xml:lang="en">Death Certificate</dcterms:title>
         <rdfs:label xml:lang="en">DeathCertificate</rdfs:label>
     </owl:Class>
@@ -1844,7 +1844,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Mechanical or electronic Machine that is typically portable</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:d8bdff75-51b7-43a5-8f2a-b6c5cb5e1c1e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:d8bdff75-51b7-43a5-8f2a-b6c5cb5e1c1e"/>
         <dcterms:title xml:lang="en">Device</dcterms:title>
         <rdfs:label xml:lang="en">Device</rdfs:label>
     </owl:Class>
@@ -1878,7 +1878,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Structured information that serves as an official record</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:2dc05ab0-a47f-4799-839e-e3d4c7e04086</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:2dc05ab0-a47f-4799-839e-e3d4c7e04086"/>
         <dcterms:title xml:lang="en">Document</dcterms:title>
         <rdfs:label xml:lang="en">Document</rdfs:label>
     </owl:Class>
@@ -1891,7 +1891,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-11-19T12:12:24Z</dcterms:created>
         <dcterms:description xml:lang="en">Association between a Document and a Person</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1fe5827d-44b2-4a7b-a60c-d6bd49d17d09</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:1fe5827d-44b2-4a7b-a60c-d6bd49d17d09"/>
         <dcterms:title xml:lang="en">Document To Person Relationship</dcterms:title>
         <rdfs:label xml:lang="en">DocumentToPersonRelationship</rdfs:label>
     </owl:Class>
@@ -1905,7 +1905,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:19:01Z</dcterms:created>
         <dcterms:description xml:lang="en">Data Matrix using Reed-Solomon codes for error and erasure recovery, supporting inverse reading symbols, specification of the character set, rectangular symbols, and linking of up to 16 symbols to encode larger amounts of data</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:91337fa1-ca13-4eaf-a836-800d6300f7bc</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:91337fa1-ca13-4eaf-a836-800d6300f7bc"/>
         <dcterms:title xml:lang="en">ECC 200</dcterms:title>
         <rdfs:label xml:lang="en">ECC200</rdfs:label>
     </owl:Class>
@@ -1919,7 +1919,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T11:44:16Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of an Email Service</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a58191d7-a51b-454d-8755-b9048ebdd9d6</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a58191d7-a51b-454d-8755-b9048ebdd9d6"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
         <dcterms:title xml:lang="en">Email Address</dcterms:title>
         <rdfs:label xml:lang="en">EmailAddress</rdfs:label>
@@ -1935,7 +1935,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T15:09:01Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service providing an electronic mail box</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:832d0fb8-c64a-4844-81fd-8d7d45116f06</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:832d0fb8-c64a-4844-81fd-8d7d45116f06"/>
         <rdfs:label xml:lang="en">EmailService</rdfs:label>
         <synonym xml:lang="en">E-Mail Service</synonym>
         <synonym xml:lang="en">Electronic Mail Service</synonym>
@@ -1983,7 +1983,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Occurrence, potentially involving Persons, Locations, Objects, or Documents</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:700de2be-ede3-4ec6-b031-6248e70881a1</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:700de2be-ede3-4ec6-b031-6248e70881a1"/>
         <dcterms:title xml:lang="en">Event</dcterms:title>
         <rdfs:label xml:lang="en">Event</rdfs:label>
     </owl:Class>
@@ -1997,7 +1997,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:54:41Z</dcterms:created>
         <dcterms:description xml:lang="en">Landline Number assigned to a Device capable of telephonically transmitting and receiving Documents</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:5580ac18-9911-458a-a90a-d6d1ec738235</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:5580ac18-9911-458a-a90a-d6d1ec738235"/>
         <dcterms:title xml:lang="en">Fax Number</dcterms:title>
         <rdfs:label xml:lang="en">FaxNumber</rdfs:label>
     </owl:Class>
@@ -2018,7 +2018,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-12T19:03:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Postcode that corresponds to a Location</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0391bfc2-9744-4fcd-b4ce-11978c639819</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:0391bfc2-9744-4fcd-b4ce-11978c639819"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
         <dcterms:title xml:lang="en">Geographic Postcode</dcterms:title>
         <rdfs:label xml:lang="en">GeographicPostcode</rdfs:label>
@@ -2039,7 +2039,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-25T10:54:52Z</dcterms:created>
         <dcterms:description xml:lang="en">Spatial component of geographic features</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a665463d-cbae-431d-a251-bf9a0d57d167</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a665463d-cbae-431d-a251-bf9a0d57d167"/>
         <dcterms:title xml:lang="en">Geometry</dcterms:title>
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://support.esri.com/other-resources/gis-dictionary/term/geometry</rdfs:comment>
         <rdfs:label xml:lang="en">Geometry</rdfs:label>
@@ -2059,7 +2059,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:05:14Z</dcterms:created>
         <dcterms:description xml:lang="en">Danger at a Location</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:54a84778-f60a-4d14-a059-597a322921f2</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:54a84778-f60a-4d14-a059-597a322921f2"/>
         <dcterms:title xml:lang="en">Hazard</dcterms:title>
         <rdfs:label xml:lang="en">Hazard</rdfs:label>
     </owl:Class>
@@ -2073,7 +2073,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-20T15:44:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Visual representation of a thing</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:f31c7ed8-b35a-4d27-a178-b8b075797bca</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:f31c7ed8-b35a-4d27-a178-b8b075797bca"/>
         <dcterms:title xml:lang="en">Image</dcterms:title>
         <rdfs:label xml:lang="en">Image</rdfs:label>
     </owl:Class>
@@ -2094,7 +2094,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-19T09:22:30Z</dcterms:created>
         <dcterms:description xml:lang="en">Document To Person Relationship in which a Person unintentionally benefits from a Contract between a Promisor and Promisee</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0e51d0e1-9857-4f83-9d9d-bb99146f60f6</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:0e51d0e1-9857-4f83-9d9d-bb99146f60f6"/>
         <dcterms:title xml:lang="en">Incidental Beneficiary</dcterms:title>
         <rdfs:label xml:lang="en">IncidentalBeneficiary</rdfs:label>
     </owl:Class>
@@ -2108,7 +2108,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T14:41:51Z</dcterms:created>
         <dcterms:description xml:lang="en">Legal Document relating to the formation of a Juridical Person</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:e6965172-1b2c-428c-bf32-1d9c304f4955</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:e6965172-1b2c-428c-bf32-1d9c304f4955"/>
         <dcterms:title xml:lang="en">Incorporation Certificate</dcterms:title>
         <rdfs:label xml:lang="en">IncorporationCertificate</rdfs:label>
     </owl:Class>
@@ -2129,7 +2129,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-19T09:22:37Z</dcterms:created>
         <dcterms:description xml:lang="en">Document To Person Relationship in which a Person is neither a Promisor nor Promisee in a Contract, but stands to benefit from the Contract&apos;s performance by acquiring rights under it</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:78237bf6-25ce-4927-b42d-07ad19744144</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:78237bf6-25ce-4927-b42d-07ad19744144"/>
         <dcterms:title xml:lang="en">Intended Beneficiary</dcterms:title>
         <rdfs:label xml:lang="en">IntendedBeneficiary</rdfs:label>
     </owl:Class>
@@ -2143,7 +2143,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-10-26T11:46:14Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of an Internet Protocol Address Assignment</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:127c4692-7036-4bb3-8d54-d0a095c9a685</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:127c4692-7036-4bb3-8d54-d0a095c9a685"/>
         <dcterms:title xml:lang="en">Internet Protocol Address</dcterms:title>
         <rdfs:label xml:lang="en">InternetProtocolAddress</rdfs:label>
         <synonym xml:lang="en">IP Address</synonym>
@@ -2158,7 +2158,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-10-26T11:51:41Z</dcterms:created>
         <dcterms:description xml:lang="en">Allocation of a numerical identifier to a Device connected to a computer network that uses the Internet Protocol for communication</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:009d67de-2f51-4e76-b5ae-042707635966</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:009d67de-2f51-4e76-b5ae-042707635966"/>
         <dcterms:title xml:lang="en">Internet Protocol Address Assignment</dcterms:title>
         <rdfs:label xml:lang="en">InternetProtocolAddressAssignment</rdfs:label>
         <synonym xml:lang="en">IP address assignment</synonym>
@@ -2173,7 +2173,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T12:31:54Z</dcterms:created>
         <dcterms:description xml:lang="en">Document listing of provided Products Or Services, with a statement of the Payment due for these</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:61895c9d-273c-442a-9d38-dba697a39ec5</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:61895c9d-273c-442a-9d38-dba697a39ec5"/>
         <dcterms:title xml:lang="en">Invoice</dcterms:title>
         <rdfs:label xml:lang="en">Invoice</rdfs:label>
     </owl:Class>
@@ -2188,7 +2188,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Entity, that is not a Natural Person, recognised by law as having exercisable rights and duties</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:075cf570-c695-42c7-9387-05766ba4e836</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:075cf570-c695-42c7-9387-05766ba4e836"/>
         <dcterms:title xml:lang="en">Juridical Person</dcterms:title>
         <rdfs:label xml:lang="en">JuridicalPerson</rdfs:label>
         <synonym xml:lang="en">Company</synonym>
@@ -2212,7 +2212,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:35:21Z</dcterms:created>
         <dcterms:description xml:lang="en">Aspect common to mutually comparable Quantities</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:15e770c8-d8b7-44de-adcb-dd4df154e03b</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:15e770c8-d8b7-44de-adcb-dd4df154e03b"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.unece.org/tradewelcome/un-centre-for-trade-facilitation-and-e-business-uncefact/outputs/cefactrecommendationsrec-index/list-of-trade-facilitation-recommendations-n-16-to-20.html</dcterms:references>
         <dcterms:title xml:lang="en">Kind Of Quantity</dcterms:title>
         <rdfs:comment xml:lang="en">NOTE 1 The division of ‘quantity’ according to ‘kind of quantity’ is to some extent arbitrary.
@@ -2235,7 +2235,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-24T11:18:35Z</dcterms:created>
         <dcterms:description xml:lang="en">Object attached to another Object that it gives information about</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:2ec2af86-fcc8-4a41-999b-d30b5d9a9fd9</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:2ec2af86-fcc8-4a41-999b-d30b5d9a9fd9"/>
         <dcterms:title xml:lang="en">Label</dcterms:title>
         <rdfs:label xml:lang="en">Label</rdfs:label>
     </owl:Class>
@@ -2257,7 +2257,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:53:50Z</dcterms:created>
         <dcterms:description xml:lang="en">Telephone Number assigned to a fixed-line telephone subscriber station</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:959b3360-1f4a-4427-bf6b-44a754889155</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:959b3360-1f4a-4427-bf6b-44a754889155"/>
         <dcterms:title xml:lang="en">Landline Number</dcterms:title>
         <rdfs:label xml:lang="en">LandlineNumber</rdfs:label>
     </owl:Class>
@@ -2271,7 +2271,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:24:11Z</dcterms:created>
         <dcterms:description xml:lang="en">One-dimensional Geometry</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:22797edb-b2eb-47ca-a34e-5cce25fdac86</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:22797edb-b2eb-47ca-a34e-5cce25fdac86"/>
         <dcterms:title xml:lang="en">Line</dcterms:title>
         <rdfs:label xml:lang="en">Line</rdfs:label>
     </owl:Class>
@@ -2286,7 +2286,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:05:31Z</dcterms:created>
         <dcterms:description xml:lang="en">Barcode Symbology encoded in lines and spaces of various widths</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:9be59c46-2c98-4c46-9e60-43fad686ad78</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:9be59c46-2c98-4c46-9e60-43fad686ad78"/>
         <dcterms:title xml:lang="en">Linear Barcode Symbology</dcterms:title>
         <rdfs:label xml:lang="en">LinearBarcodeSymbology</rdfs:label>
         <synonym xml:lang="en">1D barcode symbology</synonym>
@@ -2328,7 +2328,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-10T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Particular place that can be described by a Geometry in a Spatial Reference System</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1c8bf785-3d5d-4877-b198-f81742587eb7</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:1c8bf785-3d5d-4877-b198-f81742587eb7"/>
         <dcterms:title xml:lang="en">Location</dcterms:title>
         <rdfs:label xml:lang="en">Location</rdfs:label>
     </owl:Class>
@@ -2353,7 +2353,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T10:43:28Z</dcterms:created>
         <dcterms:description xml:lang="en">Time Interval associated to a Location</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3b7c5036-87cb-43ab-b117-882e731f5427</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3b7c5036-87cb-43ab-b117-882e731f5427"/>
         <dcterms:title xml:lang="en">Location Time Interval</dcterms:title>
         <rdfs:label xml:lang="en">LocationTimeInterval</rdfs:label>
     </owl:Class>
@@ -2367,7 +2367,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Structure that uses energy to perform an intended action</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:108b4ec3-c719-4916-8d0f-c63e4dc0b78b</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:108b4ec3-c719-4916-8d0f-c63e4dc0b78b"/>
         <dcterms:title xml:lang="en">Machine</dcterms:title>
         <rdfs:label xml:lang="en">Machine</rdfs:label>
     </owl:Class>
@@ -2381,7 +2381,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T14:58:40Z</dcterms:created>
         <dcterms:description xml:lang="en">Document confirming the legally or formally recognised union of Natural Persons as partners in a personal relationship</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:6caa8687-f828-446c-9abb-b185a5720de9</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:6caa8687-f828-446c-9abb-b185a5720de9"/>
         <dcterms:title xml:lang="en">Marriage Certificate</dcterms:title>
         <rdfs:label xml:lang="en">MarriageCertificate</rdfs:label>
     </owl:Class>
@@ -2395,7 +2395,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:12:38Z</dcterms:created>
         <dcterms:description xml:lang="en">Barcode Symbology encoded in two dimensions</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:ee5861b3-637a-438e-ba8f-b96a26767248</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:ee5861b3-637a-438e-ba8f-b96a26767248"/>
         <dcterms:title xml:lang="en">Matrix Barcode Symbology</dcterms:title>
         <rdfs:label xml:lang="en">MatrixBarcodeSymbology</rdfs:label>
         <synonym xml:lang="en">2D barcode symbology</synonym>
@@ -2411,7 +2411,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:42:19Z</dcterms:created>
         <dcterms:description xml:lang="en">Quantity Value representing a Measurement Result</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:5a08adf0-0137-4351-8985-1a0cd4947ae0</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:5a08adf0-0137-4351-8985-1a0cd4947ae0"/>
         <dcterms:title xml:lang="en">Measured Quantity Value</dcterms:title>
         <rdfs:comment xml:lang="en">NOTE 1 For a measurement involving replicate indications, each indication can be used to provide a corresponding measured quantity value. This set of individual measured quantity values can be used to calculate a resulting measured quantity value, such as an average or median, usually with a decreased associated measurement uncertainty.
 NOTE 2 When the range of the true quantity values believed to represent the measurand is small compared with the measurement uncertainty, a measured quantity value can be considered to be an estimate of an essentially unique true quantity value and is often an average or median of individual measured quantity values obtained through replicate measurements.
@@ -2451,7 +2451,7 @@ NOTE 4 In the GUM, the terms “result of measurement” and “estimate of the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T10:54:03Z</dcterms:created>
         <dcterms:description xml:lang="en">Process of experimentally obtaining one or more Quantity Values that can reasonably be attributed to a Quantity</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7a401850-ea0b-4a97-83f8-180931573f3e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:7a401850-ea0b-4a97-83f8-180931573f3e"/>
         <dcterms:title xml:lang="en">Measurement</dcterms:title>
         <rdfs:comment xml:lang="en">NOTE 1 Measurement does not apply to nominal properties.
 NOTE 2 Measurement implies comparison of quantities or counting of entities.
@@ -2469,7 +2469,7 @@ NOTE 3 Measurement presupposes a description of the quantity commensurate with t
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:12:38Z</dcterms:created>
         <dcterms:description xml:lang="en">Generic description of a logical organisation of operations used in a Measurement</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a15bef2b-44ff-491a-8f5d-8c72ac91033f</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a15bef2b-44ff-491a-8f5d-8c72ac91033f"/>
         <dcterms:title xml:lang="en">Measurement Method</dcterms:title>
         <rdfs:comment xml:lang="en">NOTE Measurement methods may be qualified in various ways such as:
 — substitution measurement method,
@@ -2498,7 +2498,7 @@ See IEC 60050-300:2001.</rdfs:comment>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:01:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of Quantity Values being attributed to a measurand together with any other available relevant information</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b30a4fbd-bcfb-4b02-9bdf-4f3ab77ffce3</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b30a4fbd-bcfb-4b02-9bdf-4f3ab77ffce3"/>
         <dcterms:title xml:lang="en">Measurement Result</dcterms:title>
         <rdfs:comment xml:lang="en">NOTE 1 A measurement result generally contains “relevant information” about the set of quantity values, such that some may be more representative of the measurand than others. This may be expressed in the form of a probability density function (PDF).
 NOTE 2 A measurement result is generally expressed as a single measured quantity value and a measurement uncertainty. If the measurement uncertainty is considered to be negligible for some purpose, the measurement result may be expressed as a single measured quantity value. In many fields, this is the common way of expressing a measurement result.
@@ -2517,7 +2517,7 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:37:30Z</dcterms:created>
         <dcterms:description xml:lang="en">Real scalar Quantity, defined and adopted by convention, with which any other Quantity of the same kind can be compared to express the ratio of the two Quantities as a number</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7d0079f9-c0b7-4726-a1db-d6b388eb3389</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:7d0079f9-c0b7-4726-a1db-d6b388eb3389"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.unece.org/tradewelcome/un-centre-for-trade-facilitation-and-e-business-uncefact/outputs/cefactrecommendationsrec-index/list-of-trade-facilitation-recommendations-n-16-to-20.html</dcterms:references>
         <dcterms:title xml:lang="en">Measurement Unit</dcterms:title>
         <rdfs:comment xml:lang="en">NOTE 1 Measurement units are designated by conventionally assigned names and symbols.
@@ -2539,7 +2539,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:32:43Z</dcterms:created>
         <dcterms:description xml:lang="en">Device used for making Measurements, alone or in conjunction with one or more supplementary devices</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:563eba12-7614-4736-bd76-f1a1bc929eab</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:563eba12-7614-4736-bd76-f1a1bc929eab"/>
         <dcterms:title xml:lang="en">Measuring Instrument</dcterms:title>
         <rdfs:comment xml:lang="en">1. A measuring instrument that can be used alone is a measuring system.
 2. A measuring instrument may be an indicating measuring instrument or a material measure.</rdfs:comment>
@@ -2556,7 +2556,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:38:51Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of one or more Measuring Instruments and often other devices, including any reagent and supply, assembled and adapted to give information used to generate measured Quantity Values within specified intervals for Quantities of specified Kinds</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1a423aab-253c-4b21-9dbd-19d61faa94d7</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:1a423aab-253c-4b21-9dbd-19d61faa94d7"/>
         <dcterms:title xml:lang="en">Measuring System</dcterms:title>
         <rdfs:comment xml:lang="en">A measuring system may consist of only one measuring instrument.</rdfs:comment>
         <rdfs:label xml:lang="en">MeasuringSystem</rdfs:label>
@@ -2579,7 +2579,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Event of information transmission between Product Or Service Individuals</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:968544c5-f31c-4476-b946-89c2fa926998</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:968544c5-f31c-4476-b946-89c2fa926998"/>
         <dcterms:title xml:lang="en">Message</dcterms:title>
         <rdfs:label xml:lang="en">Message</rdfs:label>
     </owl:Class>
@@ -2598,7 +2598,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T13:39:48Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of Messages that has a common theme</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:ac9b5e72-1035-4502-9598-5f0d994d7ad5</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:ac9b5e72-1035-4502-9598-5f0d994d7ad5"/>
         <dcterms:title xml:lang="en">Message Thread</dcterms:title>
         <rdfs:label xml:lang="en">MessageThread</rdfs:label>
     </owl:Class>
@@ -2612,7 +2612,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:55:50Z</dcterms:created>
         <dcterms:description xml:lang="en">Telephone Number assigned to a wireless electronic telephony Device</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:99d35578-0ecd-4acb-bcbc-99d49366445f</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:99d35578-0ecd-4acb-bcbc-99d49366445f"/>
         <dcterms:title xml:lang="en">Mobile Number</dcterms:title>
         <rdfs:label xml:lang="en">MobileNumber</rdfs:label>
     </owl:Class>
@@ -2640,7 +2640,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Individual human being</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:ac3fa707-b0be-4a9d-915a-c43f46330a25</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:ac3fa707-b0be-4a9d-915a-c43f46330a25"/>
         <dcterms:title xml:lang="en">Natural Person</dcterms:title>
         <rdfs:label xml:lang="en">NaturalPerson</rdfs:label>
         <synonym xml:lang="en">Human</synonym>
@@ -2662,7 +2662,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T11:57:47Z</dcterms:created>
         <dcterms:description xml:lang="en">Natural Person&apos;s identification of self as male, female, or neither</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:686e15f1-1791-45da-8078-ff938bf71a1d</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:686e15f1-1791-45da-8078-ff938bf71a1d"/>
         <dcterms:title xml:lang="en">Natural Person Gender</dcterms:title>
         <rdfs:label xml:lang="en">NaturalPersonGender</rdfs:label>
     </owl:Class>
@@ -2675,7 +2675,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T11:51:03Z</dcterms:created>
         <dcterms:description xml:lang="en">Prefix added to a Natural Person&apos;s name in certain contexts</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1ba7c00f-a70e-4dab-8684-fb1aa8277fb7</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:1ba7c00f-a70e-4dab-8684-fb1aa8277fb7"/>
         <dcterms:title xml:lang="en">Natural Person Title</dcterms:title>
         <rdfs:label xml:lang="en">NaturalPersonTitle</rdfs:label>
     </owl:Class>
@@ -2689,7 +2689,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-12T18:59:09Z</dcterms:created>
         <dcterms:description xml:lang="en">Postcode that does not correspond to a Location</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:f25a87d8-d04e-4527-aabc-66d07292c341</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:f25a87d8-d04e-4527-aabc-66d07292c341"/>
         <dcterms:title xml:lang="en">Non-Geographic Postcode</dcterms:title>
         <rdfs:label xml:lang="en">NonGeographicPostcode</rdfs:label>
     </owl:Class>
@@ -2703,7 +2703,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:46:19Z</dcterms:created>
         <dcterms:description xml:lang="en">Structure not designed for continuous human occupancy</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b9b12aca-6dbb-4d98-9869-d8c69f50d7c5</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b9b12aca-6dbb-4d98-9869-d8c69f50d7c5"/>
         <dcterms:title xml:lang="en">Nonbuilding Structure</dcterms:title>
         <rdfs:label xml:lang="en">NonbuildingStructure</rdfs:label>
     </owl:Class>
@@ -2717,7 +2717,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T13:12:57Z</dcterms:created>
         <dcterms:description xml:lang="en">Message informing of something, typically in a formal or official manner</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:74587cb5-b77d-4594-a34e-e2e855768034</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:74587cb5-b77d-4594-a34e-e2e855768034"/>
         <dcterms:title xml:lang="en">Notification</dcterms:title>
         <rdfs:label xml:lang="en">Notification</rdfs:label>
     </owl:Class>
@@ -2751,7 +2751,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Material thing</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3a074d33-b750-4992-8d96-5cd627b625d3</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3a074d33-b750-4992-8d96-5cd627b625d3"/>
         <dcterms:title xml:lang="en">Object</dcterms:title>
         <rdfs:label xml:lang="en">Object</rdfs:label>
     </owl:Class>
@@ -2765,7 +2765,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-21T20:00:57Z</dcterms:created>
         <dcterms:description xml:lang="en">Person&apos;s usual or principal work or business, especially as a means of earning a living</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:15e24004-fd4c-48d3-ac93-c7fb607b577f</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:15e24004-fd4c-48d3-ac93-c7fb607b577f"/>
         <dcterms:references xml:lang="en">United Kingdom Standard Occupational Classification</dcterms:references>
         <dcterms:title xml:lang="en">Occupation</dcterms:title>
         <rdfs:label xml:lang="en">Occupation</rdfs:label>
@@ -2780,7 +2780,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:00:48Z</dcterms:created>
         <dcterms:description xml:lang="en">Category of breaches of laws or rules, having common characteristics</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:2a5917ac-81d2-4a45-b85b-f7dbf34484f7</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:2a5917ac-81d2-4a45-b85b-f7dbf34484f7"/>
         <dcterms:title xml:lang="en">Offence Type</dcterms:title>
         <rdfs:label xml:lang="en">OffenceType</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/offence</rdfs:seeAlso>
@@ -2821,7 +2821,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-24T10:04:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Request to make an offer to Contract for the provision of Products Or Services</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:dbe0e629-c5d7-4c8a-bed1-c83c70b32a80</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:dbe0e629-c5d7-4c8a-bed1-c83c70b32a80"/>
         <dcterms:title xml:lang="en">Offering</dcterms:title>
         <rdfs:label xml:lang="en">Offering</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://purl.org/goodrelations/v1#Offering</rdfs:seeAlso>
@@ -2838,7 +2838,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T10:33:13Z</dcterms:created>
         <dcterms:description xml:lang="en">Loction Time Interval when customers can browse Offerings</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:c03bc621-59b1-4022-9f78-9ad877dea71a</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:c03bc621-59b1-4022-9f78-9ad877dea71a"/>
         <dcterms:title xml:lang="en">Opening Hours</dcterms:title>
         <rdfs:label xml:lang="en">OpeningHours</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://purl.org/goodrelations/v1#OpeningHoursSpecification</rdfs:seeAlso>
@@ -2859,7 +2859,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Person&apos;s request for the supply of an Offering</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:270ee6a4-0c9b-4ce8-bf5a-907e872e4a3e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:270ee6a4-0c9b-4ce8-bf5a-907e872e4a3e"/>
         <dcterms:title xml:lang="en">Order</dcterms:title>
         <rdfs:comment xml:lang="en">Expression of willingness to Contract on certain terms, made with the intention that it shall become binding as soon as it is accepted by the Person to whom it is addressed</rdfs:comment>
         <rdfs:label xml:lang="en">Order</rdfs:label>
@@ -2900,7 +2900,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-28T16:35:44Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of Persons with a purpose, that has no legal recognition of exercisable rights and duties</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:06155ec9-e8a3-4323-af0d-d6f32687bb20</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:06155ec9-e8a3-4323-af0d-d6f32687bb20"/>
         <dcterms:title xml:lang="en">Organisation</dcterms:title>
         <rdfs:label xml:lang="en">Organisation</rdfs:label>
     </owl:Class>
@@ -2928,7 +2928,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T13:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Event when a remuneration occurs for the provision of some Product Or Service under a Contract</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:62a0fb4d-f5bc-457c-9c9d-c90305502d89</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:62a0fb4d-f5bc-457c-9c9d-c90305502d89"/>
         <dcterms:title xml:lang="en">Payment</dcterms:title>
         <rdfs:label xml:lang="en">Payment</rdfs:label>
     </owl:Class>
@@ -3012,7 +3012,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Human being or entity recognised by law as having exercisable rights and duties</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1ef827ec-12a3-43e6-88de-d149d3be2b8e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:1ef827ec-12a3-43e6-88de-d149d3be2b8e"/>
         <dcterms:title xml:lang="en">Person</dcterms:title>
         <rdfs:label xml:lang="en">Person</rdfs:label>
     </owl:Class>
@@ -3025,7 +3025,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T14:33:42Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of words by which a Person is designated, called, or known</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:d887b496-8cff-4ffb-a242-6147fd664b85</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:d887b496-8cff-4ffb-a242-6147fd664b85"/>
         <dcterms:title xml:lang="en">Person Name</dcterms:title>
         <rdfs:label xml:lang="en">PersonName</rdfs:label>
     </owl:Class>
@@ -3038,7 +3038,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-24T15:55:24Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of letters added to the end of a Person&apos;s Name in certain contexts</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:ed18c389-14d7-48d3-8b45-09a54aaaa2d2</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:ed18c389-14d7-48d3-8b45-09a54aaaa2d2"/>
         <dcterms:title xml:lang="en">Person Name Suffix</dcterms:title>
         <rdfs:label xml:lang="en">PersonNameSuffix</rdfs:label>
     </owl:Class>
@@ -3065,7 +3065,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Way in which Persons are connected</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:72aa9d95-dff4-4cd9-8362-39aadef9b553</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:72aa9d95-dff4-4cd9-8362-39aadef9b553"/>
         <dcterms:title xml:lang="en">Person Relationship</dcterms:title>
         <rdfs:label xml:lang="en">PersonRelationship</rdfs:label>
     </owl:Class>
@@ -3086,7 +3086,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Detailed proposal for doing or achieving something</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:05afc059-5513-4677-bf9c-091cbc3f914f</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:05afc059-5513-4677-bf9c-091cbc3f914f"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
         <dcterms:title xml:lang="en">Plan</dcterms:title>
         <rdfs:label xml:lang="en">Plan</rdfs:label>
@@ -3103,7 +3103,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T09:22:39Z</dcterms:created>
         <dcterms:description xml:lang="en">Zero-dimensional Geometry</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a22570be-af17-40ff-9ae1-9aecab9fdd7c</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a22570be-af17-40ff-9ae1-9aecab9fdd7c"/>
         <dcterms:title xml:lang="en">Point</dcterms:title>
         <rdfs:label xml:lang="en">Point</rdfs:label>
     </owl:Class>
@@ -3124,7 +3124,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Short series of characters that identifies a set of Postal Addresses</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3df2013b-7938-45c3-b74c-f745889d0936</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3df2013b-7938-45c3-b74c-f745889d0936"/>
         <dcterms:references xml:lang="en">Postcode Address File</dcterms:references>
         <dcterms:title xml:lang="en">Postcode</dcterms:title>
         <rdfs:label xml:lang="en">Postcode</rdfs:label>
@@ -3141,7 +3141,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-30T10:04:57Z</dcterms:created>
         <dcterms:description xml:lang="en">Compensation required for providing an Offering</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b6a67106-2394-4e06-82f2-ba8b07607277</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b6a67106-2394-4e06-82f2-ba8b07607277"/>
         <dcterms:title xml:lang="en">Price</dcterms:title>
         <rdfs:label xml:lang="en">Price</rdfs:label>
         <rdfs:seeAlso xml:lang="en">http://purl.org/goodrelations/v1#PriceSpecification</rdfs:seeAlso>
@@ -3156,7 +3156,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:03:40Z</dcterms:created>
         <dcterms:description xml:lang="en">Category assigned to things regarding the fact or condition of being regarded or treated as more important than others</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:40c0183e-af3a-41e9-b046-0dbf3f7bc3d1</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:40c0183e-af3a-41e9-b046-0dbf3f7bc3d1"/>
         <dcterms:title xml:lang="en">Priority Classification</dcterms:title>
         <rdfs:label xml:lang="en">PriorityClassification</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/priority</rdfs:seeAlso>
@@ -3177,7 +3177,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Utility offered to Persons</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:d3ee207a-7033-431b-a9d1-fa3cc73e7676</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:d3ee207a-7033-431b-a9d1-fa3cc73e7676"/>
         <dcterms:title xml:lang="en">Product Or Service</dcterms:title>
         <rdfs:label xml:lang="en">ProductOrService</rdfs:label>
         <rdfs:seeAlso xml:lang="en">http://purl.org/goodrelations/v1#ProductOrService</rdfs:seeAlso>
@@ -3198,7 +3198,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T15:08:21Z</dcterms:created>
         <dcterms:description xml:lang="en">Single instance of a Product Or Service provided under a Contract</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:9a88d8f8-b72e-49d9-9340-43133d747dd0</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:9a88d8f8-b72e-49d9-9340-43133d747dd0"/>
         <dcterms:title xml:lang="en">Product Or Service Individual</dcterms:title>
         <rdfs:label xml:lang="en">ProductOrServiceIndividual</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://purl.org/goodrelations/v1#Individual</rdfs:seeAlso>
@@ -3214,7 +3214,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:30:05Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual not consisting of physical Objects</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:19cd521c-30ba-4024-a6c3-3d7648632e53</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:19cd521c-30ba-4024-a6c3-3d7648632e53"/>
         <dcterms:title xml:lang="en">Product Or Service Individual Non-Material</dcterms:title>
         <rdfs:label xml:lang="en">ProductOrServiceIndividualNonMaterial</rdfs:label>
     </owl:Class>
@@ -3229,7 +3229,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:20:44Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual consisting of physical Objects</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:81a7c4ab-95ab-48ca-92fb-4dff471c056b</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:81a7c4ab-95ab-48ca-92fb-4dff471c056b"/>
         <dcterms:title xml:lang="en">Product Or Service Individual Object</dcterms:title>
         <rdfs:label xml:lang="en">ProductOrServiceIndividualObject</rdfs:label>
         <synonym xml:lang="en">Good</synonym>
@@ -3250,7 +3250,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-18T13:50:48Z</dcterms:created>
         <dcterms:description xml:lang="en">Person&apos;s expressed choice of configuration of a Product Or Service</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:11515a85-86ed-4e21-b3a4-d19954a17d3c</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:11515a85-86ed-4e21-b3a4-d19954a17d3c"/>
         <dcterms:title xml:lang="en">Product Or Service Preference</dcterms:title>
         <rdfs:label xml:lang="en">ProductOrServicePreference</rdfs:label>
     </owl:Class>
@@ -3264,7 +3264,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T08:14:08Z</dcterms:created>
         <dcterms:description xml:lang="en">Event describing the temporary halt of the provisioning of Products Or Services</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:911a7b94-6884-4a76-9ccb-9abb83d816f5</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:911a7b94-6884-4a76-9ccb-9abb83d816f5"/>
         <dcterms:title xml:lang="en">Product Or Service Suspension</dcterms:title>
         <rdfs:label xml:lang="en">ProductOrServiceSuspension</rdfs:label>
     </owl:Class>
@@ -3278,7 +3278,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-11-19T12:22:57Z</dcterms:created>
         <dcterms:description xml:lang="en">Document To Person Relationship in which a Person is the recipient of a Contract received from the Promisor</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b2807948-3545-4ff6-8165-acfccc48bf5e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b2807948-3545-4ff6-8165-acfccc48bf5e"/>
         <dcterms:title xml:lang="en">Promisee</dcterms:title>
         <rdfs:label xml:lang="en">Promisee</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.duhaime.org/LegalDictionary/P/Promisee.aspx</rdfs:seeAlso>
@@ -3295,7 +3295,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-11-19T12:23:12Z</dcterms:created>
         <dcterms:description xml:lang="en">Document To Person Relationship in which a Person becomes obliged through a Contract towards another</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:2dbd5fb0-2f57-4621-8c98-0b8348b6ecfa</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:2dbd5fb0-2f57-4621-8c98-0b8348b6ecfa"/>
         <dcterms:title xml:lang="en">Promisor</dcterms:title>
         <rdfs:label xml:lang="en">Promisor</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.duhaime.org/LegalDictionary/P/Promisor.aspx</rdfs:seeAlso>
@@ -3312,7 +3312,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-20T13:58:45Z</dcterms:created>
         <dcterms:description xml:lang="en">Document awarded on the successful completion of a course of training or passing of an exam</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:dcd05755-afd1-4577-bdaf-ebdd0da8aba9</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:dcd05755-afd1-4577-bdaf-ebdd0da8aba9"/>
         <dcterms:title xml:lang="en">Qualification</dcterms:title>
         <rdfs:label xml:lang="en">Qualification</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.collinsdictionary.com/dictionary/english/qualification</rdfs:seeAlso>
@@ -3334,7 +3334,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Property of a phenomenon, body, or substance, where the property has a magnitude that can be expressed as a number and a reference</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b170a42e-271a-4fdd-a8cf-4072261dc739</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b170a42e-271a-4fdd-a8cf-4072261dc739"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.unece.org/tradewelcome/un-centre-for-trade-facilitation-and-e-business-uncefact/outputs/cefactrecommendationsrec-index/list-of-trade-facilitation-recommendations-n-16-to-20.html</dcterms:references>
         <dcterms:title xml:lang="en">Quantity</dcterms:title>
         <rdfs:comment xml:lang="en">NOTE 1 The generic concept ‘quantity’ can be divided into several levels of specific concepts, as shown in the following table. The left hand side of the table shows specific concepts under ‘quantity’. These are generic concepts for the individual quantities in the right hand column.
@@ -3364,7 +3364,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:43:44Z</dcterms:created>
         <dcterms:description xml:lang="en">Number and reference together expressing magnitude of a Quantity</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:4a1fe34f-9ee0-4509-92d0-f5d17383b108</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:4a1fe34f-9ee0-4509-92d0-f5d17383b108"/>
         <dcterms:title xml:lang="en">Quantity Value</dcterms:title>
         <rdfs:comment xml:lang="en">EXAMPLE 1 Length of a given rod:
 5.34 m or 534 cm
@@ -3412,7 +3412,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-10-26T07:40:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Formal statement setting out the estimated cost for a particular Offering</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:795e0cdf-619f-4fca-849b-5309403840eb</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:795e0cdf-619f-4fca-849b-5309403840eb"/>
         <dcterms:title xml:lang="en">Quotation</dcterms:title>
         <rdfs:label xml:lang="en">Quotation</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/quotation</rdfs:seeAlso>
@@ -3427,7 +3427,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Information that is used to qualify or categorise other data</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:e609364f-0bd0-4d6f-a175-c619b11799ee</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:e609364f-0bd0-4d6f-a175-c619b11799ee"/>
         <dcterms:title xml:lang="en">Reference Data</dcterms:title>
         <rdfs:label xml:lang="en">ReferenceData</rdfs:label>
         <acronym xml:lang="en">RD</acronym>
@@ -3442,7 +3442,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T14:20:10Z</dcterms:created>
         <dcterms:description xml:lang="en">Person-reversed Payment that arises because of a Complaint</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:f25b9883-90fc-4a08-a330-f1199820e871</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:f25b9883-90fc-4a08-a330-f1199820e871"/>
         <dcterms:title xml:lang="en">Refund</dcterms:title>
         <rdfs:label xml:lang="en">Refund</rdfs:label>
     </owl:Class>
@@ -3462,7 +3462,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Thing required to carry out an Activity</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:e0b33311-5b98-4154-8b7e-b590c89faada</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:e0b33311-5b98-4154-8b7e-b590c89faada"/>
         <dcterms:title xml:lang="en">Resource</dcterms:title>
         <rdfs:label xml:lang="en">Resource</rdfs:label>
     </owl:Class>
@@ -3481,7 +3481,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Totally ordered set of Locations</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:068b2a94-359a-4b59-aad8-d3f406bb5b9b</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:068b2a94-359a-4b59-aad8-d3f406bb5b9b"/>
         <dcterms:title xml:lang="en">Route</dcterms:title>
         <rdfs:label xml:lang="en">Route</rdfs:label>
     </owl:Class>
@@ -3495,7 +3495,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:07:40Z</dcterms:created>
         <dcterms:description xml:lang="en">Category of penalties assigned to defendants found guilty by a Court, or fixed by law for particular offences, having common characteristics</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:478998c3-3850-4661-833d-7efdbe98d920</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:478998c3-3850-4661-833d-7efdbe98d920"/>
         <dcterms:title xml:lang="en">Sentence Type</dcterms:title>
         <rdfs:label xml:lang="en">SentenceType</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/sentence</rdfs:seeAlso>
@@ -3510,7 +3510,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-06-02T08:21:27Z</dcterms:created>
         <dcterms:description xml:lang="en">Category into which humans and most other living things are divided on the basis of their reproductive function</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:68eca4f2-6032-4a47-8e6f-2b4a6c9ef70f</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:68eca4f2-6032-4a47-8e6f-2b4a6c9ef70f"/>
         <dcterms:references xml:lang="en">ISO/IEC 5218:2004</dcterms:references>
         <dcterms:title xml:lang="en">Sex</dcterms:title>
         <rdfs:label xml:lang="en">Sex</rdfs:label>
@@ -3525,7 +3525,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T17:33:56Z</dcterms:created>
         <dcterms:description xml:lang="en">Coordinate-based local, regional, or global system used to locate geographical entities</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:caa7d84d-236d-4c10-a46f-893b6189b814</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:caa7d84d-236d-4c10-a46f-893b6189b814"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.epsg-registry.org/</dcterms:references>
         <dcterms:title xml:lang="en">Spatial Reference System</dcterms:title>
         <rdfs:label xml:lang="en">SpatialReferenceSystem</rdfs:label>
@@ -3542,7 +3542,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:44:40Z</dcterms:created>
         <dcterms:description xml:lang="en">Built arrangement of Objects</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:8da5c20f-4463-49f5-b6f5-4fb2d93677cb</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:8da5c20f-4463-49f5-b6f5-4fb2d93677cb"/>
         <dcterms:title xml:lang="en">Structure</dcterms:title>
         <rdfs:label xml:lang="en">Structure</rdfs:label>
     </owl:Class>
@@ -3555,7 +3555,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Organised set of things, which act cohesively to bring about a result</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:5d947e7a-3fca-405b-b14f-f74878d2201e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:5d947e7a-3fca-405b-b14f-f74878d2201e"/>
         <dcterms:title xml:lang="en">System</dcterms:title>
         <rdfs:label xml:lang="en">System</rdfs:label>
     </owl:Class>
@@ -3574,7 +3574,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T07:39:02Z</dcterms:created>
         <dcterms:description xml:lang="en">Piece of work to be done or undertaken in a Plan</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:73fee82e-9f20-4d7e-b2eb-a84d92a4483e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:73fee82e-9f20-4d7e-b2eb-a84d92a4483e"/>
         <dcterms:title xml:lang="en">Task</dcterms:title>
         <rdfs:label xml:lang="en">Task</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/task</rdfs:seeAlso>
@@ -3590,7 +3590,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:52:45Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Telephony Service</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3bc7f081-f3dd-4198-abbd-6769c8d861ff</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3bc7f081-f3dd-4198-abbd-6769c8d861ff"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
         <dcterms:title xml:lang="en">Telephone Number</dcterms:title>
         <rdfs:label xml:lang="en">TelephoneNumber</rdfs:label>
@@ -3605,7 +3605,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T15:13:31Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service providing use of a System for transmitting voices over a distance using wire or radio, by converting acoustic vibrations to electrical signals</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b4eeed79-1b84-45d7-add8-7ee8d867009e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b4eeed79-1b84-45d7-add8-7ee8d867009e"/>
         <dcterms:title xml:lang="en">Telephony Service</dcterms:title>
         <rdfs:label xml:lang="en">TelephonyService</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/telephone</rdfs:seeAlso>
@@ -3619,7 +3619,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Measure applied to the order in which events happen, and the duration of the events, or periods between the events</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7eede9b4-c469-4dcd-a0cd-d2fe5a945c8f</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:7eede9b4-c469-4dcd-a0cd-d2fe5a945c8f"/>
         <dcterms:title xml:lang="en">Time</dcterms:title>
         <rdfs:label xml:lang="en">Time</rdfs:label>
     </owl:Class>
@@ -3632,7 +3632,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T15:22:17Z</dcterms:created>
         <dcterms:description xml:lang="en">Length of Time that something exists or lasts</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:88f073d8-7d50-4ba4-8026-7e64e782ee2b</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:88f073d8-7d50-4ba4-8026-7e64e782ee2b"/>
         <dcterms:title xml:lang="en">Time Duration</dcterms:title>
         <rdfs:label xml:lang="en">TimeDuration</rdfs:label>
     </owl:Class>
@@ -3654,7 +3654,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Point in Time at which some statement is true</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:f592577a-9c5d-4a02-9e6e-dac491c8a650</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:f592577a-9c5d-4a02-9e6e-dac491c8a650"/>
         <dcterms:title xml:lang="en">Time Instant</dcterms:title>
         <rdfs:label xml:lang="en">TimeInstant</rdfs:label>
         <synonym xml:lang="en">Point In Time</synonym>
@@ -3684,7 +3684,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Time during which some statement is true</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:958da1ff-d3f9-40b1-b1a5-680a99ccfbd6</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:958da1ff-d3f9-40b1-b1a5-680a99ccfbd6"/>
         <dcterms:title xml:lang="en">Time Interval</dcterms:title>
         <rdfs:label xml:lang="en">TimeInterval</rdfs:label>
     </owl:Class>
@@ -3704,7 +3704,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-31T09:49:32Z</dcterms:created>
         <dcterms:description xml:lang="en">Document evidencing a Person&apos;s legal ownership of property</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7ebb835a-497c-4c9b-8077-5fca9f8449a3</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:7ebb835a-497c-4c9b-8077-5fca9f8449a3"/>
         <dcterms:title xml:lang="en">Title Deed</dcterms:title>
         <rdfs:label xml:lang="en">TitleDeed</rdfs:label>
     </owl:Class>
@@ -3718,7 +3718,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-26T12:44:49Z</dcterms:created>
         <dcterms:description xml:lang="en">Built-up area with a name, defined geographic boundaries, and local government</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:5c4992a5-8a86-4ae5-a4a5-dd8c2f1689ee</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:5c4992a5-8a86-4ae5-a4a5-dd8c2f1689ee"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.geonames.org/</dcterms:references>
         <dcterms:title xml:lang="en">Town</dcterms:title>
         <rdfs:label xml:lang="en">Town</rdfs:label>
@@ -3735,7 +3735,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T09:59:31Z</dcterms:created>
         <dcterms:description xml:lang="en">Classification of a status of a variable according to the colour of traffic lights; Red, Amber, or Green</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b4433dd5-04e5-4569-a0f3-94fac5df9a8e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b4433dd5-04e5-4569-a0f3-94fac5df9a8e"/>
         <dcterms:title xml:lang="en">Traffic Light Rating</dcterms:title>
         <rdfs:label xml:lang="en">TrafficLightRating</rdfs:label>
         <synonym xml:lang="en">RAG Status</synonym>
@@ -3752,7 +3752,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Time Interval during which a statement is held in a data store</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:5679728f-cda7-4e37-9839-516a7985ea05</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:5679728f-cda7-4e37-9839-516a7985ea05"/>
         <dcterms:title xml:lang="en">Transaction Time</dcterms:title>
         <rdfs:label xml:lang="en">TransactionTime</rdfs:label>
     </owl:Class>
@@ -3766,7 +3766,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Time Interval during which a statement is true in the modelled reality</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a37e3066-656f-484c-80ca-f06532e3d994</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a37e3066-656f-484c-80ca-f06532e3d994"/>
         <dcterms:title xml:lang="en">Valid Time</dcterms:title>
         <rdfs:label xml:lang="en">ValidTime</rdfs:label>
     </owl:Class>
@@ -3780,7 +3780,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Machine used to transport Objects</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a6d9b70e-3a55-431f-8345-edd4389c32a6</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a6d9b70e-3a55-431f-8345-edd4389c32a6"/>
         <dcterms:title xml:lang="en">Vehicle</dcterms:title>
         <rdfs:label xml:lang="en">Vehicle</rdfs:label>
     </owl:Class>
@@ -3794,7 +3794,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:24:03Z</dcterms:created>
         <dcterms:description xml:lang="en">Category of outcomes of processes of establishing the truth, accuracy, or validity of something, having common characteristics</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:66cec8d2-a1bf-4e9a-b8cc-fad970a0dea1</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:66cec8d2-a1bf-4e9a-b8cc-fad970a0dea1"/>
         <dcterms:title xml:lang="en">Verification Result Type</dcterms:title>
         <rdfs:label xml:lang="en">VerificationResultType</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/verification</rdfs:seeAlso>
@@ -3809,7 +3809,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:33:36Z</dcterms:created>
         <dcterms:description xml:lang="en">Three-dimensional Geometry</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:58518d83-9cd1-4b29-9c19-2443636d23cf</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:58518d83-9cd1-4b29-9c19-2443636d23cf"/>
         <dcterms:title xml:lang="en">Volume</dcterms:title>
         <rdfs:label xml:lang="en">Volume</rdfs:label>
     </owl:Class>

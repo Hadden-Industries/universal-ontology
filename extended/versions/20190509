@@ -22,7 +22,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-09-30</dcterms:created>
         <dcterms:description xml:lang="en">Broad set of concepts and categories, applicable to many domains, that shows their properties and the relations between them</dcterms:description>
         <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0b29ff4f-6c01-4bea-9df9-789ccd53579b</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:0b29ff4f-6c01-4bea-9df9-789ccd53579b"/>
         <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
         <dcterms:license rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://opensource.org/licenses/MIT</dcterms:license>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
@@ -343,7 +343,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-24T15:16:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Unforeseen Event with negative consequences</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:9c142c3e-b197-451b-b996-6446e5be6771</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:9c142c3e-b197-451b-b996-6446e5be6771"/>
         <dcterms:title xml:lang="en">Accident</dcterms:title>
         <rdfs:label xml:lang="en">Accident</rdfs:label>
         <uc:synonym xml:lang="en">Unintentional injury</uc:synonym>
@@ -358,7 +358,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T09:49:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Powered flying Vehicle with fixed wings and a weight greater than that of the air it displaces</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:350bb312-b53e-4314-883b-0b8a82893411</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:350bb312-b53e-4314-883b-0b8a82893411"/>
         <dcterms:title xml:lang="en">Aeroplane</dcterms:title>
         <rdfs:label xml:lang="en">Aeroplane</rdfs:label>
         <uc:synonym xml:lang="en">Airplane</uc:synonym>
@@ -373,7 +373,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T12:57:51Z</dcterms:created>
         <dcterms:description xml:lang="en">Hazard that is a living organism, that is not a Natural Person</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:58e8b7c3-7b06-4891-a0a7-752225e7e131</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:58e8b7c3-7b06-4891-a0a7-752225e7e131"/>
         <dcterms:title xml:lang="en">Animal Hazard</dcterms:title>
         <rdfs:label xml:lang="en">AnimalHazard</rdfs:label>
     </owl:Class>
@@ -387,7 +387,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-26T12:54:41Z</dcterms:created>
         <dcterms:description xml:lang="en">Activity evaluating the nature, ability, and/or quality of a thing</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a131b4f9-e7ca-4329-9e54-340078152dc6</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a131b4f9-e7ca-4329-9e54-340078152dc6"/>
         <dcterms:title xml:lang="en">Assessment</dcterms:title>
         <rdfs:label xml:lang="en">Assessment</rdfs:label>
     </owl:Class>
@@ -401,7 +401,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T10:27:47Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of an arrangement with a bank to hold money and keep records of transactions</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:824d3ff6-dae5-4745-9724-739e97256c40</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:824d3ff6-dae5-4745-9724-739e97256c40"/>
         <dcterms:title xml:lang="en">Bank Account Number</dcterms:title>
         <rdfs:label xml:lang="en">BankAccountNumber</rdfs:label>
     </owl:Class>
@@ -415,7 +415,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Machine-readable pattern Label</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:55b42f3a-29ad-415b-b07a-e3f0994eb549</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:55b42f3a-29ad-415b-b07a-e3f0994eb549"/>
         <dcterms:title xml:lang="en">Barcode</dcterms:title>
         <rdfs:label xml:lang="en">Barcode</rdfs:label>
     </owl:Class>
@@ -429,7 +429,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T13:23:54Z</dcterms:created>
         <dcterms:description xml:lang="en">Electronic Device that can read and output the information of a Barcode</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:aff58c44-0f6e-4c5b-b5b0-457e97b95c53</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:aff58c44-0f6e-4c5b-b5b0-457e97b95c53"/>
         <dcterms:title xml:lang="en">Barcode Reader</dcterms:title>
         <rdfs:label xml:lang="en">BarcodeReader</rdfs:label>
         <uc:synonym xml:lang="en">Barcode scanner</uc:synonym>
@@ -444,7 +444,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-31T08:42:48Z</dcterms:created>
         <dcterms:description xml:lang="en">Vehicle consisting of two wheels held in a frame one behind the other, propelled by pedals and steered with handlebars attached to the front wheel</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7731e87b-eed4-4533-a579-5dc75eeee834</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:7731e87b-eed4-4533-a579-5dc75eeee834"/>
         <dcterms:title xml:lang="en">Bicycle</dcterms:title>
         <rdfs:label xml:lang="en">Bicycle</rdfs:label>
     </owl:Class>
@@ -458,7 +458,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T09:52:08Z</dcterms:created>
         <dcterms:description xml:lang="en">Event that is an instance of a particular situation; an example of something occurring</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:c01882c9-65e6-485c-946f-07c73868a0f0</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:c01882c9-65e6-485c-946f-07c73868a0f0"/>
         <dcterms:title xml:lang="en">Case</dcterms:title>
         <rdfs:label xml:lang="en">Case</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/case</rdfs:seeAlso>
@@ -473,7 +473,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:27:16Z</dcterms:created>
         <dcterms:description xml:lang="en">Event of a formal assessment of a Case with the intention of instituting change if necessary</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:431c1bbf-7a1b-4678-9c67-3c7720d6a4b9</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:431c1bbf-7a1b-4678-9c67-3c7720d6a4b9"/>
         <dcterms:title xml:lang="en">Case Review</dcterms:title>
         <rdfs:label xml:lang="en">CaseReview</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/review</rdfs:seeAlso>
@@ -488,7 +488,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:48:30Z</dcterms:created>
         <dcterms:description xml:lang="en">Document that initiates criminal charges against a defendant</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1382486d-dd97-4741-bad2-60107295d1f0</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:1382486d-dd97-4741-bad2-60107295d1f0"/>
         <dcterms:title xml:lang="en">Charging Document</dcterms:title>
         <rdfs:label xml:lang="en">ChargingDocument</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.nolo.com/legal-encyclopedia/what-charging-document.html</rdfs:seeAlso>
@@ -505,7 +505,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T16:44:56Z</dcterms:created>
         <dcterms:description xml:lang="en">Document detailing an accusation in a Charging Document, typically one formally made against a prisoner brought to trial</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a492803b-b4f0-486f-b248-ff8bf72cfb7a</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a492803b-b4f0-486f-b248-ff8bf72cfb7a"/>
         <dcterms:title xml:lang="en">Charging Document Charge</dcterms:title>
         <rdfs:label xml:lang="en">ChargingDocumentCharge</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/charge</rdfs:seeAlso>
@@ -519,7 +519,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T07:31:01Z</dcterms:created>
         <dcterms:description xml:lang="en">Explanatory note</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0a0ac966-b658-45fa-b1f2-f34e2431fbc5</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:0a0ac966-b658-45fa-b1f2-f34e2431fbc5"/>
         <dcterms:title xml:lang="en">Comment</dcterms:title>
         <rdfs:label xml:lang="en">Comment</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/comment</rdfs:seeAlso>
@@ -534,7 +534,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-18T12:51:19Z</dcterms:created>
         <dcterms:description xml:lang="en">Person Relationship between one Person acting as the point of communication to another</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:498bcae6-b8c9-4ff7-8276-884b7328215f</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:498bcae6-b8c9-4ff7-8276-884b7328215f"/>
         <dcterms:title xml:lang="en">Contact</dcterms:title>
         <rdfs:label xml:lang="en">Contact</rdfs:label>
     </owl:Class>
@@ -548,7 +548,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T16:57:11Z</dcterms:created>
         <dcterms:description xml:lang="en">Event in which a Person who has been charged with a crime or named as a party to a lawsuit appears in Court, either in person or through an attorney</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:151ca34d-66f0-4d71-ae09-99b44dc66708</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:151ca34d-66f0-4d71-ae09-99b44dc66708"/>
         <dcterms:title xml:lang="en">Court Appearance</dcterms:title>
         <rdfs:label xml:lang="en">CourtAppearance</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.yourdictionary.com/court-appearance</rdfs:seeAlso>
@@ -563,7 +563,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T17:18:02Z</dcterms:created>
         <dcterms:description xml:lang="en">Sentence assigned by a court</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b15cbda2-673a-42c2-81d0-53b3473de187</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b15cbda2-673a-42c2-81d0-53b3473de187"/>
         <dcterms:title xml:lang="en">Court Sentence</dcterms:title>
         <rdfs:label xml:lang="en">CourtSentence</rdfs:label>
     </owl:Class>
@@ -577,7 +577,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:30:07Z</dcterms:created>
         <dcterms:description xml:lang="en">Hazard that is related to unlawful acts punishable by a state or other authority</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0fff7b3f-0266-45b1-9421-dc73d65d9685</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:0fff7b3f-0266-45b1-9421-dc73d65d9685"/>
         <dcterms:title xml:lang="en">Crime Hazard</dcterms:title>
         <rdfs:label xml:lang="en">CrimeHazard</rdfs:label>
         <uc:synonym xml:lang="en">Area security</uc:synonym>
@@ -592,7 +592,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T17:02:39Z</dcterms:created>
         <dcterms:description xml:lang="en">Document permitting a Person to drive a motor Vehicle</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:06d3cd76-625f-410f-a777-4b6d7490f265</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:06d3cd76-625f-410f-a777-4b6d7490f265"/>
         <dcterms:title xml:lang="en">Driving License</dcterms:title>
         <rdfs:label xml:lang="en">DrivingLicense</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/driving_licence</rdfs:seeAlso>
@@ -607,7 +607,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T16:59:18Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Driving License registration</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:919ee805-a271-4e25-a957-def5c6a75cb2</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:919ee805-a271-4e25-a957-def5c6a75cb2"/>
         <dcterms:title xml:lang="en">Driving License Number</dcterms:title>
         <rdfs:label xml:lang="en">DrivingLicenseNumber</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.gov.uk/browse/driving/driving-licences</rdfs:seeAlso>
@@ -625,7 +625,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T08:40:45Z</dcterms:created>
         <dcterms:description xml:lang="en">Plan that a Person is expected or required to follow by moral or legal obligation</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:03e57f40-9046-4e32-b03a-72804530c34a</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:03e57f40-9046-4e32-b03a-72804530c34a"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
         <dcterms:title xml:lang="en">Duty</dcterms:title>
         <rdfs:label xml:lang="en">Duty</rdfs:label>
@@ -640,8 +640,8 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-02-10T21:32:20Z</dcterms:created>
         <dcterms:description xml:lang="en">Event of sudden violent shaking of the ground, as a result of movements within the earth&apos;s crust or volcanic action</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:</dcterms:identifier>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:08b0b002-fedb-4781-be59-8bdc3fd6a5a2</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:"/>
+        <dcterms:identifier rdf:resource="urn:uuid:08b0b002-fedb-4781-be59-8bdc3fd6a5a2"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/earthquake</dcterms:references>
         <dcterms:title xml:lang="en">Earthquake</dcterms:title>
         <rdfs:label xml:lang="en">Earthquake</rdfs:label>
@@ -656,7 +656,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T11:55:21Z</dcterms:created>
         <dcterms:description xml:lang="en">Contract used in labour law to attribute rights and responsibilities between an employer and an employee</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:78fb8695-d8f1-4cd8-a740-517276dc6de5</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:78fb8695-d8f1-4cd8-a740-517276dc6de5"/>
         <dcterms:title xml:lang="en">Employment Contract</dcterms:title>
         <rdfs:label xml:lang="en">EmploymentContract</rdfs:label>
     </owl:Class>
@@ -670,7 +670,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-02-10T21:23:51Z</dcterms:created>
         <dcterms:description xml:lang="en">Physical Activity carried out to sustain or improve health and fitness</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b0cabad7-dfec-4c37-9aac-9de20e3e2a83</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b0cabad7-dfec-4c37-9aac-9de20e3e2a83"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/exercise</dcterms:references>
         <dcterms:title xml:lang="en">Exercise</dcterms:title>
         <rdfs:label xml:lang="en">Exercise</rdfs:label>
@@ -685,7 +685,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-04-11T09:28:27Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service used during Exercise to enhance the strength or conditioning effects of that Exercise by providing either fixed or adjustable amounts of resistance, or to otherwise enhance the experience or outcome of an Exercise routine</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:144a4c68-3f7a-49dc-bbd9-f1beb4a0f84d</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:144a4c68-3f7a-49dc-bbd9-f1beb4a0f84d"/>
         <dcterms:title xml:lang="en">Exercise Equipment</dcterms:title>
         <rdfs:label xml:lang="en">ExerciseEquipment</rdfs:label>
     </owl:Class>
@@ -699,7 +699,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-04-11T09:22:48Z</dcterms:created>
         <dcterms:description xml:lang="en">Number of repetitions of a particular Exercise</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:ee2b3595-805d-46a3-9421-26d661a6831d</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:ee2b3595-805d-46a3-9421-26d661a6831d"/>
         <dcterms:title xml:lang="en">Exercise Set</dcterms:title>
         <rdfs:label xml:lang="en">ExerciseSet</rdfs:label>
     </owl:Class>
@@ -713,7 +713,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T10:40:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Facebook registration</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:6fc920b6-a927-4c19-a239-e08e4a43bdc8</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:6fc920b6-a927-4c19-a239-e08e4a43bdc8"/>
         <dcterms:title xml:lang="en">Facebook Account</dcterms:title>
         <rdfs:label xml:lang="en">FacebookAccount</rdfs:label>
         <uc:synonym xml:lang="en">FB Account</uc:synonym>
@@ -727,7 +727,7 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T13:15:25Z</dcterms:created>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1cd4ae53-1710-4bad-9023-735f10f6e88f</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:1cd4ae53-1710-4bad-9023-735f10f6e88f"/>
         <dcterms:title xml:lang="en">Financial Crime Cost Or Recovery</dcterms:title>
         <rdfs:label xml:lang="en">FinancialCrimeCostOrRecovery</rdfs:label>
     </owl:Class>
@@ -741,7 +741,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:57:16Z</dcterms:created>
         <dcterms:description xml:lang="en">Penalty involving monetary resources</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:26201967-ed45-4b56-91ad-ae771150b505</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:26201967-ed45-4b56-91ad-ae771150b505"/>
         <dcterms:title xml:lang="en">Financial Penalty</dcterms:title>
         <rdfs:label xml:lang="en">FinancialPenalty</rdfs:label>
     </owl:Class>
@@ -755,7 +755,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T12:59:09Z</dcterms:created>
         <dcterms:description xml:lang="en">Hazard that is an overflow of a large amount of water beyond its normal limits, especially over what is normally dry land</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:aced9d14-cc9a-43d3-a9e2-9c2233f627e0</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:aced9d14-cc9a-43d3-a9e2-9c2233f627e0"/>
         <dcterms:title xml:lang="en">Flooding Hazard</dcterms:title>
         <rdfs:label xml:lang="en">FloodingHazard</rdfs:label>
     </owl:Class>
@@ -769,7 +769,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-04-11T09:53:38Z</dcterms:created>
         <dcterms:description xml:lang="en">Nutritious Object that living beings eat or drink or absorb in order to maintain life and growth</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:566e9a82-005b-4f99-b001-e1c70a1962e5</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:566e9a82-005b-4f99-b001-e1c70a1962e5"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/food</dcterms:references>
         <dcterms:title xml:lang="en">Food</dcterms:title>
         <rdfs:label xml:lang="en">Food</rdfs:label>
@@ -784,7 +784,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-04-11T11:53:56Z</dcterms:created>
         <dcterms:description xml:lang="en">Constituent Quantity of a part, element, or ingredient of Food</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:65e8adcc-1d1b-43ee-9742-466353999425</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:65e8adcc-1d1b-43ee-9742-466353999425"/>
         <dcterms:title xml:lang="en">Food Component</dcterms:title>
         <rdfs:label xml:lang="en">FoodComponent</rdfs:label>
     </owl:Class>
@@ -799,7 +799,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:09:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Transport Link that is intended for use only by pedestrians</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a682b2fa-9fde-4859-82ff-d2ab3d7082e3</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a682b2fa-9fde-4859-82ff-d2ab3d7082e3"/>
         <dcterms:title xml:lang="en">Footpath</dcterms:title>
         <rdfs:label xml:lang="en">Footpath</rdfs:label>
     </owl:Class>
@@ -813,7 +813,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:22:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Satellite Navigation System with global coverage</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:93fbc7d9-5c5a-4dbc-8da3-691f42eb8c10</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:93fbc7d9-5c5a-4dbc-8da3-691f42eb8c10"/>
         <dcterms:title xml:lang="en">Global Navigation Satellite System</dcterms:title>
         <rdfs:label xml:lang="en">GlobalNavigationSatelliteSystem</rdfs:label>
         <uc:acronym xml:lang="en">GNSS</uc:acronym>
@@ -828,7 +828,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T10:40:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Google registration</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:debb9c96-6d9b-42ad-a6d1-6d0bef407037</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:debb9c96-6d9b-42ad-a6d1-6d0bef407037"/>
         <dcterms:title xml:lang="en">Google Account</dcterms:title>
         <rdfs:label xml:lang="en">GoogleAccount</rdfs:label>
     </owl:Class>
@@ -843,7 +843,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:06:35Z</dcterms:created>
         <dcterms:description xml:lang="en">Activity that takes place inside a Building</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:0bb78ac3-077a-4ec0-9489-9ffb11bae9be</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:0bb78ac3-077a-4ec0-9489-9ffb11bae9be"/>
         <dcterms:title xml:lang="en">Indoor Activity</dcterms:title>
         <rdfs:label xml:lang="en">IndoorActivity</rdfs:label>
     </owl:Class>
@@ -857,7 +857,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:02:46Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of an Instagram registration</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:236b9c47-5c48-476e-a8b3-cacf17b75033</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:236b9c47-5c48-476e-a8b3-cacf17b75033"/>
         <dcterms:title xml:lang="en">Instagram Account</dcterms:title>
         <rdfs:label xml:lang="en">InstagramAccount</rdfs:label>
         <uc:synonym xml:lang="en">IG Account</uc:synonym>
@@ -872,7 +872,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-03T12:05:10Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service of an arrangement by which a company or the state undertakes to provide a guarantee of compensation for specified loss, damage, illness, or death in return for Payment of a specified premium</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:e49b94f1-622e-4356-b3ef-edd18e9bd17d</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:e49b94f1-622e-4356-b3ef-edd18e9bd17d"/>
         <dcterms:title xml:lang="en">Insurance</dcterms:title>
         <rdfs:label xml:lang="en">Insurance</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/insurance</rdfs:seeAlso>
@@ -887,7 +887,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-03T11:01:05Z</dcterms:created>
         <dcterms:description xml:lang="en">Contract for an Insurance Policy Number</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:2c269572-d895-4075-b1ee-1ed79c88f9fa</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:2c269572-d895-4075-b1ee-1ed79c88f9fa"/>
         <dcterms:title xml:lang="en">Insurance Policy</dcterms:title>
         <rdfs:label xml:lang="en">InsurancePolicy</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/policy</rdfs:seeAlso>
@@ -903,7 +903,7 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-03T11:04:14Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of an Insurance Product Or Service</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:5f1436b7-409d-4427-9e1f-31066fcf306b</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:5f1436b7-409d-4427-9e1f-31066fcf306b"/>
         <dcterms:title xml:lang="en">Insurance Policy Number</dcterms:title>
         <rdfs:label xml:lang="en">InsurancePolicyNumber</rdfs:label>
     </owl:Class>
@@ -922,7 +922,7 @@ Facilitates effective operation by enabling it to respond in an appropriate mann
 Ensures the quality of internal and external reporting, which in turn requires the maintenance of proper records and processes that generate a flow of timely, relevant and reliable information from both internal and external sources.
 
 Ensures compliance with applicable laws and regulations and also with internal policies.</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:2c4597b0-3a7e-4ffd-b116-9b743c9e3a9f</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:2c4597b0-3a7e-4ffd-b116-9b743c9e3a9f"/>
         <dcterms:title xml:lang="en">Internal Control</dcterms:title>
         <rdfs:label xml:lang="en">InternalControl</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.accaglobal.com/uk/en/student/exam-support-resources/fundamentals-exams-study-resources/f1/technical-articles/internal-controls.html</rdfs:seeAlso>
@@ -943,7 +943,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T11:12:13Z</dcterms:created>
         <dcterms:description xml:lang="en">Document pointing out that an Internal Control is of a low standard; performing or performed badly</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:ca5a0c39-b37d-4ad6-bbc0-95ec3addb2de</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:ca5a0c39-b37d-4ad6-bbc0-95ec3addb2de"/>
         <dcterms:title xml:lang="en">Internal Control Weakness</dcterms:title>
         <rdfs:label xml:lang="en">InternalControlWeakness</rdfs:label>
         <uc:acronym xml:lang="en">ICW</uc:acronym>
@@ -958,7 +958,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T12:51:42Z</dcterms:created>
         <dcterms:description xml:lang="en">Contract of the official permission to do, use, or own some thing</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7181b2f5-5b3c-4e13-b2b3-09ec1758bc9d</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:7181b2f5-5b3c-4e13-b2b3-09ec1758bc9d"/>
         <dcterms:title xml:lang="en">License Agreement</dcterms:title>
         <rdfs:label xml:lang="en">LicenseAgreement</rdfs:label>
     </owl:Class>
@@ -972,7 +972,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-31T08:47:29Z</dcterms:created>
         <dcterms:description xml:lang="en">Large, heavy motor Vehicle</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:084cd59a-3fc2-42d3-9755-ed26dbb5000d</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:084cd59a-3fc2-42d3-9755-ed26dbb5000d"/>
         <dcterms:title xml:lang="en">Lorry</dcterms:title>
         <rdfs:label xml:lang="en">Lorry</rdfs:label>
     </owl:Class>
@@ -1000,7 +1000,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T17:00:27Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a National Insurance registration</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b92782ad-62b2-49b2-a642-10b7cc3b20a5</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b92782ad-62b2-49b2-a642-10b7cc3b20a5"/>
         <dcterms:title xml:lang="en">National Insurance Number</dcterms:title>
         <rdfs:label xml:lang="en">NationalInsuranceNumber</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.gov.uk/hmrc-internal-manuals/national-insurance-manual/nim39000</rdfs:seeAlso>
@@ -1015,7 +1015,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Possibility of creating value for the owners of Products Or Services if they were made into an Offering to Persons</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a156b301-a0cc-4c43-ba02-4054cde3b42f</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a156b301-a0cc-4c43-ba02-4054cde3b42f"/>
         <dcterms:title xml:lang="en">Opportunity</dcterms:title>
         <rdfs:label xml:lang="en">Opportunity</rdfs:label>
     </owl:Class>
@@ -1029,7 +1029,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:07:41Z</dcterms:created>
         <dcterms:description xml:lang="en">Activity that takes place in the open air</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3ed0243d-e977-46e4-bbfe-68e065768e50</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3ed0243d-e977-46e4-bbfe-68e065768e50"/>
         <dcterms:title xml:lang="en">Outdoor Activity</dcterms:title>
         <rdfs:label xml:lang="en">OutdoorActivity</rdfs:label>
     </owl:Class>
@@ -1043,7 +1043,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T16:35:20Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a payment card, such as a credit card or debit card, as well as stored-value card, gift card, or other similar card</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:9d3ea722-b553-4605-9811-7279da2b241b</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:9d3ea722-b553-4605-9811-7279da2b241b"/>
         <dcterms:title xml:lang="en">Payment Card Number</dcterms:title>
         <rdfs:label xml:lang="en">PaymentCardNumber</rdfs:label>
         <uc:synonym xml:lang="en">Bank Card Number</uc:synonym>
@@ -1060,7 +1060,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T17:15:20Z</dcterms:created>
         <dcterms:description xml:lang="en">Punishment imposed for breaking a law, rule, or Contract</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:028a5636-4d2e-416e-8ca7-a416613fe980</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:028a5636-4d2e-416e-8ca7-a416613fe980"/>
         <dcterms:title xml:lang="en">Penalty</dcterms:title>
         <rdfs:label xml:lang="en">Penalty</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/penalty</rdfs:seeAlso>
@@ -1075,7 +1075,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-02-10T21:16:51Z</dcterms:created>
         <dcterms:description xml:lang="en">Activity relating to the body as opposed to the mind</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:1c7f2c7e-f1c7-4a39-9f67-136bbbe517a0</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:1c7f2c7e-f1c7-4a39-9f67-136bbbe517a0"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/physical</dcterms:references>
         <dcterms:title xml:lang="en">Physical Activity</dcterms:title>
         <rdfs:label xml:lang="en">PhysicalActivity</rdfs:label>
@@ -1090,7 +1090,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T15:44:21Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service offered by the Post, where a service results from the completion, in a logical sequence, of a series of postal operations</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:fec72d29-a1ab-4bfc-951e-c57861a24a1d</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:fec72d29-a1ab-4bfc-951e-c57861a24a1d"/>
         <dcterms:title xml:lang="en">Postal Service</dcterms:title>
         <rdfs:label xml:lang="en">PostalService</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://upu.multitranstms.com/TERMPOST/Term.mvc/Display?termGroupId=37196</rdfs:seeAlso>
@@ -1105,7 +1105,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-24T11:29:10Z</dcterms:created>
         <dcterms:description xml:lang="en">Label that uses electromagnetic waves in the radio spectrum to expose its information</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:b1dfac5e-4514-451d-9df4-2e77d065a98d</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:b1dfac5e-4514-451d-9df4-2e77d065a98d"/>
         <dcterms:title xml:lang="en">Radio Frequency Identification Tag</dcterms:title>
         <rdfs:label xml:lang="en">RadioFrequencyIdentificationTag</rdfs:label>
         <uc:synonym xml:lang="en">RFID tag</uc:synonym>
@@ -1120,7 +1120,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Independent Juridical Person that ensures compliance with laws and standards</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:2903e369-f316-4296-b27f-c5909176ee58</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:2903e369-f316-4296-b27f-c5909176ee58"/>
         <dcterms:title xml:lang="en">Regulator</dcterms:title>
         <rdfs:label xml:lang="en">Regulator</rdfs:label>
     </owl:Class>
@@ -1134,7 +1134,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-31T09:52:58Z</dcterms:created>
         <dcterms:description xml:lang="en">Contract concerning the use of a property owned by a landlord</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:55286c37-586f-4922-84e3-7e183b9a2991</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:55286c37-586f-4922-84e3-7e183b9a2991"/>
         <dcterms:title xml:lang="en">Rental Agreement</dcterms:title>
         <rdfs:label xml:lang="en">RentalAgreement</rdfs:label>
     </owl:Class>
@@ -1148,7 +1148,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:15:32Z</dcterms:created>
         <dcterms:description xml:lang="en">Transport Link using a stabilised base other than rails or air strips, primarily for the use of Vehicles</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:a1d91b9f-8435-4f3e-a228-b17629bf2744</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:a1d91b9f-8435-4f3e-a228-b17629bf2744"/>
         <dcterms:title xml:lang="en">Road</dcterms:title>
         <rdfs:label xml:lang="en">Road</rdfs:label>
     </owl:Class>
@@ -1162,7 +1162,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:21:14Z</dcterms:created>
         <dcterms:description xml:lang="en">System of navigation dependent on information received from satellites</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:99531e82-1d4e-476f-8b82-32de4c0fbe82</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:99531e82-1d4e-476f-8b82-32de4c0fbe82"/>
         <dcterms:title xml:lang="en">Satellite Navigation System</dcterms:title>
         <rdfs:label xml:lang="en">SatelliteNavigationSystem</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/satnav</rdfs:seeAlso>
@@ -1178,7 +1178,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-08-10T16:29:28Z</dcterms:created>
         <dcterms:description xml:lang="en">Act of looking at all parts of something carefully in order to detect some feature</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3a86be71-d84a-42e9-b8e0-1a20e6563300</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3a86be71-d84a-42e9-b8e0-1a20e6563300"/>
         <dcterms:title xml:lang="en">Scan</dcterms:title>
         <rdfs:label xml:lang="en">Scan</rdfs:label>
     </owl:Class>
@@ -1192,7 +1192,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T17:16:47Z</dcterms:created>
         <dcterms:description xml:lang="en">Penalty assigned to a defendant found guilty by a court, or fixed by law for a particular offence</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:7e8aae52-3386-41ef-80c5-e194caca8811</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:7e8aae52-3386-41ef-80c5-e194caca8811"/>
         <dcterms:title xml:lang="en">Sentence</dcterms:title>
         <rdfs:label xml:lang="en">Sentence</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/sentence</rdfs:seeAlso>
@@ -1207,7 +1207,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-08-10T16:31:50Z</dcterms:created>
         <dcterms:description xml:lang="en">Action of signing a Document</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:59480da7-974c-4f2c-870d-4a72d16da2f3</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:59480da7-974c-4f2c-870d-4a72d16da2f3"/>
         <dcterms:title xml:lang="en">Signature</dcterms:title>
         <rdfs:label xml:lang="en">Signature</rdfs:label>
     </owl:Class>
@@ -1220,7 +1220,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-19T08:43:35Z</dcterms:created>
         <dcterms:description xml:lang="en">Order provided to guide the provision of Products Or Services at a Location</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:187c62e6-0b41-479b-b8af-ef2e4a7823cd</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:187c62e6-0b41-479b-b8af-ef2e4a7823cd"/>
         <dcterms:title xml:lang="en">Special Instruction</dcterms:title>
         <rdfs:label xml:lang="en">SpecialInstruction</rdfs:label>
     </owl:Class>
@@ -1233,7 +1233,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-04-11T09:38:36Z</dcterms:created>
         <dcterms:description xml:lang="en">Word, phrase, or name used to identify a thing as belonging to a particular category or topic</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:6b368190-45d1-46d1-a156-9b06c2dceaeb</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:6b368190-45d1-46d1-a156-9b06c2dceaeb"/>
         <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/tag</dcterms:references>
         <dcterms:title xml:lang="en">Tag</dcterms:title>
         <rdfs:label xml:lang="en">Tag</rdfs:label>
@@ -1248,7 +1248,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T08:48:37Z</dcterms:created>
         <dcterms:description xml:lang="en">Organisation of workers who have come together to achieve common goals, usually to maintain or improve the conditions of their employment</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3aa82672-5051-4317-8471-b7c221c0dee6</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3aa82672-5051-4317-8471-b7c221c0dee6"/>
         <dcterms:title xml:lang="en">Trade Union</dcterms:title>
         <rdfs:label xml:lang="en">TradeUnion</rdfs:label>
     </owl:Class>
@@ -1262,7 +1262,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T10:43:49Z</dcterms:created>
         <dcterms:description xml:lang="en">Vehicle composed of connected carriages that move along a railway</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:c3b4fe08-df9d-48f8-8da4-39388cdac565</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:c3b4fe08-df9d-48f8-8da4-39388cdac565"/>
         <dcterms:title xml:lang="en">Train</dcterms:title>
         <rdfs:label xml:lang="en">Train</rdfs:label>
     </owl:Class>
@@ -1288,7 +1288,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-19T15:09:30Z</dcterms:created>
         <dcterms:description xml:lang="en">Way connecting Transport Nodes to one another</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:106bb2d5-18a8-4c3a-832e-53a472c5bbaf</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:106bb2d5-18a8-4c3a-832e-53a472c5bbaf"/>
         <dcterms:title xml:lang="en">Transport Link</dcterms:title>
         <rdfs:label xml:lang="en">TransportLink</rdfs:label>
         <uc:synonym xml:lang="en">Network link</uc:synonym>
@@ -1314,7 +1314,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:16:58Z</dcterms:created>
         <dcterms:description xml:lang="en">Realisation of a geometric graph, composed of Transport Nodes connected by Transport Links</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:06c095c5-320c-48b6-bcae-09e58985773a</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:06c095c5-320c-48b6-bcae-09e58985773a"/>
         <dcterms:title xml:lang="en">Transport Network</dcterms:title>
         <rdfs:label xml:lang="en">TransportNetwork</rdfs:label>
     </owl:Class>
@@ -1328,7 +1328,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-25T12:24:54Z</dcterms:created>
         <dcterms:description xml:lang="en">Point in a Transport Network where transport Objects can enter or change way</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:6495f598-3b87-4794-a163-f00dc82b9e99</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:6495f598-3b87-4794-a163-f00dc82b9e99"/>
         <dcterms:title xml:lang="en">Transport Node</dcterms:title>
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://gis.stackexchange.com/questions/61927/difference-between-node-and-vertex-in-gis</rdfs:comment>
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://support.esri.com/sitecore/content/support/Home/other-resources/gis-dictionary/term/node</rdfs:comment>
@@ -1344,7 +1344,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-30T09:22:05Z</dcterms:created>
         <dcterms:description xml:lang="en">Geometric element from which Transport Links are constructed</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3af30759-43cb-42a9-b2b7-63f0781a1b43</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3af30759-43cb-42a9-b2b7-63f0781a1b43"/>
         <dcterms:title xml:lang="en">Transport Segment</dcterms:title>
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://support.esri.com/sitecore/content/support/Home/other-resources/gis-dictionary/term/segment</rdfs:comment>
         <rdfs:label xml:lang="en">TransportSegment</rdfs:label>
@@ -1359,7 +1359,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-01-18T11:44:53Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Twitter registration</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:3d437b20-99b8-4244-a538-4e0f430bfb2c</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:3d437b20-99b8-4244-a538-4e0f430bfb2c"/>
         <dcterms:title xml:lang="en">Twitter Account</dcterms:title>
         <rdfs:label xml:lang="en">TwitterAccount</rdfs:label>
     </owl:Class>
@@ -1389,7 +1389,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-31T08:43:01Z</dcterms:created>
         <dcterms:description xml:lang="en">Covered motor Vehicle, typically without side windows</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:9763aa6d-fdf6-4244-b992-a4865da17231</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:9763aa6d-fdf6-4244-b992-a4865da17231"/>
         <dcterms:title xml:lang="en">Van</dcterms:title>
         <rdfs:label xml:lang="en">Van</rdfs:label>
     </owl:Class>
@@ -1402,7 +1402,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T17:08:02Z</dcterms:created>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:841bb1ec-78fe-452d-ad6a-1636fa774d11</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:841bb1ec-78fe-452d-ad6a-1636fa774d11"/>
         <dcterms:title xml:lang="en">Product Or Service Individual of a Vehicle registration</dcterms:title>
         <dcterms:title xml:lang="en">Vehicle Registration Number</dcterms:title>
         <rdfs:label xml:lang="en">VehicleRegistrationNumber</rdfs:label>
@@ -1417,7 +1417,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-26T15:31:08Z</dcterms:created>
         <dcterms:description xml:lang="en">Measuring Instrument that carries out a 3-dimensional Measurement of an Object</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:9414b5a9-c35d-4bde-808b-4fd676725c6e</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:9414b5a9-c35d-4bde-808b-4fd676725c6e"/>
         <dcterms:title xml:lang="en">Volumetric Scanner</dcterms:title>
         <rdfs:label xml:lang="en">VolumetricScanner</rdfs:label>
     </owl:Class>
@@ -1431,7 +1431,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T17:12:45Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service of a set of related web pages located under a single domain name</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:21a6485d-a4c6-4e17-9f19-a94b0a8f71f4</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:21a6485d-a4c6-4e17-9f19-a94b0a8f71f4"/>
         <dcterms:title xml:lang="en">Website</dcterms:title>
         <rdfs:label xml:lang="en">Website</rdfs:label>
         <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/website</rdfs:seeAlso>
@@ -1446,7 +1446,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T17:11:18Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Website</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:41abe204-aff5-4d0e-9ef2-298b6960191a</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:41abe204-aff5-4d0e-9ef2-298b6960191a"/>
         <dcterms:title xml:lang="en">WebsiteAddress</dcterms:title>
         <rdfs:label xml:lang="en">WebsiteAddress</rdfs:label>
     </owl:Class>
@@ -1460,7 +1460,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:02:24Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a WhatsApp registration</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:650d57de-1a18-4869-98d9-06e2847b9320</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:650d57de-1a18-4869-98d9-06e2847b9320"/>
         <dcterms:title xml:lang="en">WhatsApp Account</dcterms:title>
         <rdfs:label xml:lang="en">WhatsAppAccount</rdfs:label>
         <uc:synonym xml:lang="en">WA Account</uc:synonym>
@@ -1486,7 +1486,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:38:18Z</dcterms:created>
         <dcterms:description xml:lang="en">Global Navigation Satellite System that is being created by China through the China National Space Administration</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:bca70887-b32c-462e-9ff0-46aa469873f6</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:bca70887-b32c-462e-9ff0-46aa469873f6"/>
         <dcterms:title xml:lang="en">BeiDou Navigation Satellite System</dcterms:title>
         <uc:synonym xml:lang="en">BeiDou-3</uc:synonym>
         <uc:synonym xml:lang="en">COMPASS</uc:synonym>
@@ -1514,7 +1514,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-03T16:28:30Z</dcterms:created>
         <dcterms:description xml:lang="en">Global Navigation Satellite System that is being created by the European Union through the European GNSS Agency</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:f3408aa9-6fa1-49d3-9413-7e4a4885cd95</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:f3408aa9-6fa1-49d3-9413-7e4a4885cd95"/>
         <dcterms:title xml:lang="en">Galileo</dcterms:title>
         <rdfs:label xml:lang="en">Galileo</rdfs:label>
     </owl:NamedIndividual>
@@ -1528,7 +1528,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T12:14:37Z</dcterms:created>
         <dcterms:description xml:lang="en">Global Navigation Satellite System owned by the United States government</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:cb02443b-3a8e-432f-945d-e40c39f41bb3</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:cb02443b-3a8e-432f-945d-e40c39f41bb3"/>
         <dcterms:title xml:lang="en">Global Positioning System</dcterms:title>
         <rdfs:label xml:lang="en">GlobalPositioningSystem</rdfs:label>
         <uc:acronym xml:lang="en">GPS</uc:acronym>
@@ -1573,7 +1573,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T23:26:34Z</dcterms:created>
         <dcterms:description xml:lang="en">Spatial Reference System used in Ireland</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:d9ae9eca-0599-46aa-bca3-740716e514b7</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:d9ae9eca-0599-46aa-bca3-740716e514b7"/>
         <dcterms:title xml:lang="en">IRENET95 Irish Transverse Mercator</dcterms:title>
         <rdfs:label xml:lang="en">IRENET95IrishTransverseMercator</rdfs:label>
         <uc:synonym xml:lang="en">ITM</uc:synonym>
@@ -1589,7 +1589,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T17:59:42Z</dcterms:created>
         <dcterms:description xml:lang="en">Spatial Reference System used in Great Britain</dcterms:description>
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#token">urn:uuid:de3f851f-42ee-4faf-8a7f-30e9146eb9c7</dcterms:identifier>
+        <dcterms:identifier rdf:resource="urn:uuid:de3f851f-42ee-4faf-8a7f-30e9146eb9c7"/>
         <dcterms:title xml:lang="en">OSGB 1936 British National Grid</dcterms:title>
         <rdfs:label xml:lang="en">OSGB1936BritishNationalGrid</rdfs:label>
         <uc:synonym xml:lang="en">BNG</uc:synonym>
