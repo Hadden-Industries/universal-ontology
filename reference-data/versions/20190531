@@ -453,6 +453,20 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/FoodComponent -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/FoodComponent">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-04-11T11:53:56Z</dcterms:created>
+        <dcterms:description xml:lang="en">Constituent Quantity of a part, element, or ingredient of Food</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:65e8adcc-1d1b-43ee-9742-466353999425"/>
+        <dcterms:title xml:lang="en">Food Component</dcterms:title>
+        <rdfs:label xml:lang="en">FoodComponent</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/GeographicPostcode -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/GeographicPostcode">
