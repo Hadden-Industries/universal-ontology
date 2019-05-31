@@ -1,0 +1,987 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="https://haddenindustries.com/ontology/universal/reference-data/"
+     xml:base="https://haddenindustries.com/ontology/universal/reference-data/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:gr="http://purl.org/goodrelations/v1"
+     xmlns:sc="http://schema.org/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:foaf="http://xmlns.com/foaf/0.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+     xmlns:dcterms="http://purl.org/dc/terms/">
+    <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data">
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20190531"/>
+        <owl:imports rdf:resource="http://purl.org/dc/terms#2012"/>
+        <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dc:publisher rdf:datatype="http://www.w3.org/2001/XMLSchema#token">Hadden Industries Ltd</dc:publisher>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-10-14</dcterms:created>
+        <dcterms:description xml:lang="en">Set of concepts and categories, applicable to Information that is used to qualify or categorise other data, that shows their properties and the relations between them</dcterms:description>
+        <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
+        <dcterms:identifier rdf:resource="urn:uuid:7be316dd-2ca3-437b-a9d1-cf8939e1d5c2"/>
+        <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
+        <dcterms:license rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://opensource.org/licenses/MIT</dcterms:license>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-31</dcterms:modified>
+        <dcterms:rights xml:lang="en">© 2019 Hadden Industries Ltd</dcterms:rights>
+        <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
+        <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology</dcterms:title>
+        <rdfs:label xml:lang="en">HaddenIndustriesUniversalReferenceDataOntology</rdfs:label>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/creator -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/created -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/description -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/identifier -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/identifier"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/references -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/references"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/title -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-03T17:41:04Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Currency_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Currency_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T09:22:52Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity_hasQuantity -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity_hasQuantity">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:19:24Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasQuantity</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Language_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Language_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T13:13:13Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Postcode_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Postcode_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Postcode"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-28T16:22:36Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Town_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Town_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Town"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T09:24:53Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasCurrencyFrom -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasCurrencyFrom">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T09:21:17Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCurrencyFrom</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasCurrencyTo -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasCurrencyTo">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T09:21:35Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCurrencyTo</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasKindOfQuantity -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasKindOfQuantity">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T15:26:33Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasKindOfQuantity</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/2006/time#DayOfWeek -->
+
+    <owl:Class rdf:about="http://www.w3.org/2006/time#DayOfWeek">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/BarcodeSymbology -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/BarcodeSymbology">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T09:41:00Z</dcterms:created>
+        <dcterms:description xml:lang="en">Specification of how to encode data into a Machine-readable Image</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:4bbe9d9a-bfb9-4659-a2f6-69707a9810b1"/>
+        <dcterms:title xml:lang="en">Barcode Symbology</dcterms:title>
+        <rdfs:label xml:lang="en">BarcodeSymbology</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Calendar -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Calendar">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
+        <dcterms:description xml:lang="en">Set of days organised into timeframes</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:3e5ee9bf-cf4e-4252-a9d7-4116bc797a23"/>
+        <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.gov.uk/bank-holidays</dcterms:references>
+        <dcterms:title xml:lang="en">Calendar</dcterms:title>
+        <rdfs:label xml:lang="en">Calendar</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Code128 -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Code128">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LinearBarcodeSymbology"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T10:06:19Z</dcterms:created>
+        <dcterms:description xml:lang="en">Continuous Linear Barcode Symbology of variable length and very high density, it can encode all 128 characters of ASCII and, by use of an extension symbol (FNC4), the Latin-1 characters defined in ISO/IEC 8859-1</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:2c809e30-5c36-434e-b776-5f7cfde379b5"/>
+        <dcterms:references xml:lang="en">ISO/IEC 15417</dcterms:references>
+        <dcterms:title xml:lang="en">Code 128</dcterms:title>
+        <rdfs:label xml:lang="en">Code128</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Code39 -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Code39">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LinearBarcodeSymbology"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">Alpha39</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Code 3 of 9</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Code 3/9</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Type 39</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">USD-3</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">USS Code 39</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T10:11:09Z</dcterms:created>
+        <dcterms:description xml:lang="en">Discrete Linear Barcode Symbology of variable length with no check digit, its specification defines 43 characters consisting of uppercase letters, numeric digits, and a number of special characters, as well as an additional character (denoted &apos;*&apos;) that is used for both start and stop delimiter</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:fd9066c7-016f-4dd7-b4d3-25cb522b7e34"/>
+        <dcterms:references xml:lang="en">ISO/IEC 16388</dcterms:references>
+        <dcterms:title xml:lang="en">Code 39</dcterms:title>
+        <rdfs:label xml:lang="en">Code39</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/ConfidentialityClassification -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ConfidentialityClassification">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:03:23Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category assigned to things regarding the state of keeping or being kept secret or private</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:d425ecb0-1504-4712-aac3-a3afac0bef89"/>
+        <dcterms:title xml:lang="en">Confidentiality Classification</dcterms:title>
+        <rdfs:label xml:lang="en">ConfidentialityClassification</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/confidentiality</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Country -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Country">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
+        <dcterms:description xml:lang="en">Geographically defined, recognised, sovereign state</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:a206e50e-e5be-4cd6-b377-542f2c6cb692"/>
+        <dcterms:references xml:lang="en">ISO 3166-1</dcterms:references>
+        <dcterms:references xml:lang="en">ISO 3166-3</dcterms:references>
+        <dcterms:title xml:lang="en">Country</dcterms:title>
+        <rdfs:label xml:lang="en">Country</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://schema.org/Country</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision_hasCountry"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-03T17:40:36Z</dcterms:created>
+        <dcterms:description xml:lang="en">Administrative area or dependent territory of a Country</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:1d8799a7-6253-4300-abff-797a4d30c5e9"/>
+        <dcterms:references xml:lang="en">ISO 3166-2</dcterms:references>
+        <dcterms:title xml:lang="en">Country Subdivision</dcterms:title>
+        <rdfs:label xml:lang="en">CountrySubdivision</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Court -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Court">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:02:57Z</dcterms:created>
+        <dcterms:description xml:lang="en">Body of Persons presided over by judges or magistrates, and acting as a tribunal in civil and criminal cases</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:0148baea-2df4-43a4-b066-63f37a870190"/>
+        <dcterms:title xml:lang="en">Court</dcterms:title>
+        <rdfs:label xml:lang="en">Court</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/court</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CourtStage -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CourtStage">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:01:41Z</dcterms:created>
+        <dcterms:description xml:lang="en">Point, period, or step in a process of Court proceedings</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:1460e01c-6254-46ce-a448-41abd2190d2c"/>
+        <dcterms:title xml:lang="en">Court Stage</dcterms:title>
+        <rdfs:label xml:lang="en">CourtStage</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/stage</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Currency -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Currency">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency_hasCountry"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T08:47:02Z</dcterms:created>
+        <dcterms:description xml:lang="en">System of money in general use in a particular Country</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:48828936-cdda-419e-b934-bcd7aa85b708"/>
+        <dcterms:title xml:lang="en">Currency</dcterms:title>
+        <rdfs:label xml:lang="en">Currency</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/currency</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasCurrencyFrom"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasCurrencyTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">FX Rate</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T08:40:57Z</dcterms:created>
+        <dcterms:description xml:lang="en">Value of one Currency for the purpose of conversion to another</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:e12e471d-ad7b-4968-b213-5c89b81ca254"/>
+        <dcterms:title xml:lang="en">Currency Exchange Rate</dcterms:title>
+        <rdfs:label xml:lang="en">CurrencyExchangeRate</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/exchange_rate</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DataMatrix -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DataMatrix">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MatrixBarcodeSymbology"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:14:38Z</dcterms:created>
+        <dcterms:description xml:lang="en">Matrix Barcode Symbology consisting of black and white &quot;cells&quot; or modules arranged in either a square or rectangular pattern</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:0af82168-823c-4cab-a1ba-0fd41a5cbded"/>
+        <dcterms:references xml:lang="en">ISO/IEC 16022</dcterms:references>
+        <dcterms:title xml:lang="en">Data Matrix</dcterms:title>
+        <rdfs:label xml:lang="en">DataMatrix</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-24T12:28:01Z</dcterms:created>
+        <dcterms:description xml:lang="en">One of the seven successive 24-hour Time Intervals that comprise a week</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:5cb4fd09-537c-496a-9dbd-2d0a19148c58"/>
+        <dcterms:references xml:lang="en">ISO 8601</dcterms:references>
+        <dcterms:title xml:lang="en">Day Of Week</dcterms:title>
+        <rdfs:label xml:lang="en">DayOfWeek</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/ECC200 -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ECC200">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataMatrix"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:19:01Z</dcterms:created>
+        <dcterms:description xml:lang="en">Data Matrix using Reed-Solomon codes for error and erasure recovery, supporting inverse reading symbols, specification of the character set, rectangular symbols, and linking of up to 16 symbols to encode larger amounts of data</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:91337fa1-ca13-4eaf-a836-800d6300f7bc"/>
+        <dcterms:title xml:lang="en">ECC 200</dcterms:title>
+        <rdfs:label xml:lang="en">ECC200</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/GeographicPostcode -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/GeographicPostcode">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Postcode"/>
+        <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NonGeographicPostcode"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-12T19:03:15Z</dcterms:created>
+        <dcterms:description xml:lang="en">Postcode that corresponds to a Location</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:0391bfc2-9744-4fcd-b4ce-11978c639819"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-05-09</dcterms:modified>
+        <dcterms:title xml:lang="en">Geographic Postcode</dcterms:title>
+        <rdfs:label xml:lang="en">GeographicPostcode</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity_hasQuantity"/>
+                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">Kind</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:35:21Z</dcterms:created>
+        <dcterms:description xml:lang="en">Aspect common to mutually comparable Quantities</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:15e770c8-d8b7-44de-adcb-dd4df154e03b"/>
+        <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.unece.org/tradewelcome/un-centre-for-trade-facilitation-and-e-business-uncefact/outputs/cefactrecommendationsrec-index/list-of-trade-facilitation-recommendations-n-16-to-20.html</dcterms:references>
+        <dcterms:title xml:lang="en">Kind Of Quantity</dcterms:title>
+        <rdfs:comment xml:lang="en">NOTE 1 The division of ‘quantity’ according to ‘kind of quantity’ is to some extent arbitrary.
+EXAMPLE 1 The quantities diameter, circumference, and wavelength are generally considered to be quantities of the same kind, namely of the kind of quantity called length.
+EXAMPLE 2 The quantities heat, kinetic energy, and potential energy are generally considered to be quantities of the same kind, namely of the kind of quantity called energy.
+NOTE 2 Quantities of the same kind within a given system of quantities have the same quantity dimension. However, quantities of the same dimension are not necessarily of the same kind.
+EXAMPLE The quantities moment of force and energy are, by convention, not regarded as being of the same kind, although they have the same dimension. Similarly for heat capacity and entropy, as well as for number of entities, relative permeability, and mass fraction.
+NOTE 3 In English, the terms for quantities in the left half of the table in 1.1, Note 1, are often used for the corresponding ‘kinds of quantity’. In French, the term “nature” is only used in expressions such as “grandeurs de même nature” (in English, “quantities of the same kind”).</rdfs:comment>
+        <rdfs:label xml:lang="en">KindOfQuantity</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://jcgm.bipm.org/vim/en/1.2.html</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Language -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Language">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language_hasCountry"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T13:06:04Z</dcterms:created>
+        <dcterms:description xml:lang="en">Method of human communication, either spoken or written, consisting of the use of words in a structured and conventional way</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:6f901344-35a1-47ca-ab94-176e47fb1775"/>
+        <dcterms:title xml:lang="en">Language</dcterms:title>
+        <rdfs:label xml:lang="en">Language</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/language</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LinearBarcodeSymbology -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LinearBarcodeSymbology">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BarcodeSymbology"/>
+        <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MatrixBarcodeSymbology"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">1D barcode symbology</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">One-dimensional barcode symbology</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:05:31Z</dcterms:created>
+        <dcterms:description xml:lang="en">Barcode Symbology encoded in lines and spaces of various widths</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:9be59c46-2c98-4c46-9e60-43fad686ad78"/>
+        <dcterms:title xml:lang="en">Linear Barcode Symbology</dcterms:title>
+        <rdfs:label xml:lang="en">LinearBarcodeSymbology</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/MatrixBarcodeSymbology -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MatrixBarcodeSymbology">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BarcodeSymbology"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">2D barcode symbology</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Two-dimensional barcode symbology</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:12:38Z</dcterms:created>
+        <dcterms:description xml:lang="en">Barcode Symbology encoded in two dimensions</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:ee5861b3-637a-438e-ba8f-b96a26767248"/>
+        <dcterms:title xml:lang="en">Matrix Barcode Symbology</dcterms:title>
+        <rdfs:label xml:lang="en">MatrixBarcodeSymbology</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">Method of measurement</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:12:38Z</dcterms:created>
+        <dcterms:description xml:lang="en">Generic description of a logical organisation of operations used in a Measurement</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:a15bef2b-44ff-491a-8f5d-8c72ac91033f"/>
+        <dcterms:title xml:lang="en">Measurement Method</dcterms:title>
+        <rdfs:comment xml:lang="en">NOTE Measurement methods may be qualified in various ways such as:
+— substitution measurement method,
+— differential measurement method, and
+— null measurement method;
+or
+— direct measurement method, and
+— indirect measurement method.
+See IEC 60050-300:2001.</rdfs:comment>
+        <rdfs:label xml:lang="en">MeasurementMethod</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://jcgm.bipm.org/vim/en/2.5.html</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">Unit</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Unit of measurement</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:37:30Z</dcterms:created>
+        <dcterms:description xml:lang="en">Real scalar Quantity, defined and adopted by convention, with which any other Quantity of the same kind can be compared to express the ratio of the two Quantities as a number</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:7d0079f9-c0b7-4726-a1db-d6b388eb3389"/>
+        <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.unece.org/tradewelcome/un-centre-for-trade-facilitation-and-e-business-uncefact/outputs/cefactrecommendationsrec-index/list-of-trade-facilitation-recommendations-n-16-to-20.html</dcterms:references>
+        <dcterms:title xml:lang="en">Measurement Unit</dcterms:title>
+        <rdfs:comment xml:lang="en">NOTE 1 Measurement units are designated by conventionally assigned names and symbols.
+NOTE 2 Measurement units of quantities of the same quantity dimension may be designated by the same name and symbol even when the quantities are not of the same kind. For example, joule per kelvin and J/K are respectively the name and symbol of both a measurement unit of heat capacity and a measurement unit of entropy, which are generally not considered to be quantities of the same kind. However, in some cases special measurement unit names are restricted to be used with quantities of a specific kind only. For example, the measurement unit ‘second to the power minus one’ (1/s) is called hertz (Hz) when used for frequencies and becquerel (Bq) when used for activities of radionuclides.
+NOTE 3 Measurement units of quantities of dimension one are numbers. In some cases these measurement units are given special names, e.g. radian, steradian, and decibel, or are expressed by quotients such as millimole per mole equal to 10–3 and microgram per kilogram equal to 10–9.
+NOTE 4 For a given quantity, the short term “unit” is often combined with the quantity name, such as “mass unit” or “unit of mass”.</rdfs:comment>
+        <rdfs:label xml:lang="en">MeasurementUnit</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://jcgm.bipm.org/vim/en/1.9.html</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/NonGeographicPostcode -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/NonGeographicPostcode">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Postcode"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-12T18:59:09Z</dcterms:created>
+        <dcterms:description xml:lang="en">Postcode that does not correspond to a Location</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:f25a87d8-d04e-4527-aabc-66d07292c341"/>
+        <dcterms:title xml:lang="en">Non-Geographic Postcode</dcterms:title>
+        <rdfs:label xml:lang="en">NonGeographicPostcode</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Occupation -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Occupation">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-21T20:00:57Z</dcterms:created>
+        <dcterms:description xml:lang="en">Person&apos;s usual or principal work or business, especially as a means of earning a living</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:15e24004-fd4c-48d3-ac93-c7fb607b577f"/>
+        <dcterms:references xml:lang="en">United Kingdom Standard Occupational Classification</dcterms:references>
+        <dcterms:title xml:lang="en">Occupation</dcterms:title>
+        <rdfs:label xml:lang="en">Occupation</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/OffenceType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OffenceType">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">Offense Type</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:00:48Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of breaches of laws or rules, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:2a5917ac-81d2-4a45-b85b-f7dbf34484f7"/>
+        <dcterms:title xml:lang="en">Offence Type</dcterms:title>
+        <rdfs:label xml:lang="en">OffenceType</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/offence</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Postcode -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Postcode">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Postcode_hasCountry"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">Post Code</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Postal Code</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Zip Code</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
+        <dcterms:description xml:lang="en">Short series of characters that identifies a set of Postal Addresses</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:3df2013b-7938-45c3-b74c-f745889d0936"/>
+        <dcterms:references xml:lang="en">Postcode Address File</dcterms:references>
+        <dcterms:title xml:lang="en">Postcode</dcterms:title>
+        <rdfs:label xml:lang="en">Postcode</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/PriorityClassification -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/PriorityClassification">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:03:40Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category assigned to things regarding the fact or condition of being regarded or treated as more important than others</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:40c0183e-af3a-41e9-b046-0dbf3f7bc3d1"/>
+        <dcterms:title xml:lang="en">Priority Classification</dcterms:title>
+        <rdfs:label xml:lang="en">PriorityClassification</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/priority</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Quantity -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Quantity">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasKindOfQuantity"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">Dimension</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
+        <dcterms:description xml:lang="en">Property of a phenomenon, body, or substance, where the property has a magnitude that can be expressed as a number and a reference</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:b170a42e-271a-4fdd-a8cf-4072261dc739"/>
+        <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.unece.org/tradewelcome/un-centre-for-trade-facilitation-and-e-business-uncefact/outputs/cefactrecommendationsrec-index/list-of-trade-facilitation-recommendations-n-16-to-20.html</dcterms:references>
+        <dcterms:title xml:lang="en">Quantity</dcterms:title>
+        <rdfs:comment xml:lang="en">NOTE 1 The generic concept ‘quantity’ can be divided into several levels of specific concepts, as shown in the following table. The left hand side of the table shows specific concepts under ‘quantity’. These are generic concepts for the individual quantities in the right hand column.
+NOTE 2 A reference can be a measurement unit, a measurement procedure, a reference material, or a combination of such.
+NOTE 3 Symbols for quantities are given in the ISO 80000 and IEC 80000 series Quantities and units. The symbols for quantities are written in italics. A given symbol can indicate different quantities.
+NOTE 4 The preferred IUPAC-IFCC format for designations of quantities in laboratory medicine is “System—Component; kind-of-quantity”.
+EXAMPLE “Plasma (Blood)Sodium ion; amount-of-substance concentration equal to 143 mmol/l in a given person at a given time”.
+NOTE 5 A quantity as defined here is a scalar. However, a vector or a tensor, the components of which are quantities, is also considered to be a quantity.
+NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physical quantity’, ‘chemical quantity’, and ‘biological quantity’, or base quantity and derived quantity.</rdfs:comment>
+        <rdfs:label xml:lang="en">Quantity</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://jcgm.bipm.org/vim/en/1.1.html</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/SentenceType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/SentenceType">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:07:40Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of penalties assigned to defendants found guilty by a Court, or fixed by law for particular offences, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:478998c3-3850-4661-833d-7efdbe98d920"/>
+        <dcterms:title xml:lang="en">Sentence Type</dcterms:title>
+        <rdfs:label xml:lang="en">SentenceType</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/sentence</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Sex -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Sex">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-06-02T08:21:27Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category into which humans and most other living things are divided on the basis of their reproductive function</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:68eca4f2-6032-4a47-8e6f-2b4a6c9ef70f"/>
+        <dcterms:references xml:lang="en">ISO/IEC 5218:2004</dcterms:references>
+        <dcterms:title xml:lang="en">Sex</dcterms:title>
+        <rdfs:label xml:lang="en">Sex</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/SpatialReferenceSystem -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/SpatialReferenceSystem">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">Coordinate reference system</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">SRS</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T17:33:56Z</dcterms:created>
+        <dcterms:description xml:lang="en">Coordinate-based local, regional, or global system used to locate geographical entities</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:caa7d84d-236d-4c10-a46f-893b6189b814"/>
+        <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.epsg-registry.org/</dcterms:references>
+        <dcterms:title xml:lang="en">Spatial Reference System</dcterms:title>
+        <rdfs:label xml:lang="en">SpatialReferenceSystem</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Town -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Town">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Town_hasCountry"/>
+                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">City</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Village</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-26T12:44:49Z</dcterms:created>
+        <dcterms:description xml:lang="en">Built-up area with a name, defined geographic boundaries, and local government</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:5c4992a5-8a86-4ae5-a4a5-dd8c2f1689ee"/>
+        <dcterms:references rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">http://www.geonames.org/</dcterms:references>
+        <dcterms:title xml:lang="en">Town</dcterms:title>
+        <rdfs:label xml:lang="en">Town</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/TrafficLightRating -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/TrafficLightRating">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">RAG Status</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Red Amber Green Status</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T09:59:31Z</dcterms:created>
+        <dcterms:description xml:lang="en">Classification of a status of a variable according to the colour of traffic lights; Red, Amber, or Green</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:b4433dd5-04e5-4569-a0f3-94fac5df9a8e"/>
+        <dcterms:title xml:lang="en">Traffic Light Rating</dcterms:title>
+        <rdfs:label xml:lang="en">TrafficLightRating</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/VerificationResultType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/VerificationResultType">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T10:24:03Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of outcomes of processes of establishing the truth, accuracy, or validity of something, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:66cec8d2-a1bf-4e9a-b8cc-fad970a0dea1"/>
+        <dcterms:title xml:lang="en">Verification Result Type</dcterms:title>
+        <rdfs:label xml:lang="en">VerificationResultType</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://en.oxforddictionaries.com/definition/verification</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/2006/time#Friday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Friday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Friday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Monday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Monday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Monday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Saturday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Saturday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Saturday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Sunday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Sunday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Sunday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Thursday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Thursday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Thursday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Tuesday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Tuesday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Tuesday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Wednesday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Wednesday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Wednesday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Friday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Friday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:56:46Z</dcterms:created>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">5</dcterms:identifier>
+        <dcterms:title xml:lang="en">Friday</dcterms:title>
+        <rdfs:label xml:lang="en">Friday</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Monday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Monday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-28T10:04:39Z</dcterms:created>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">1</dcterms:identifier>
+        <dcterms:title xml:lang="en">Monday</dcterms:title>
+        <rdfs:label xml:lang="en">Monday</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Saturday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Saturday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:56:54Z</dcterms:created>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">6</dcterms:identifier>
+        <dcterms:title xml:lang="en">Saturday</dcterms:title>
+        <rdfs:label xml:lang="en">Saturday</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Sunday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Sunday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:57:00Z</dcterms:created>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">7</dcterms:identifier>
+        <dcterms:title xml:lang="en">Sunday</dcterms:title>
+        <rdfs:label xml:lang="en">Sunday</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Thursday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Thursday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:56:40Z</dcterms:created>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">4</dcterms:identifier>
+        <dcterms:title xml:lang="en">Thursday</dcterms:title>
+        <rdfs:label xml:lang="en">Thursday</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Tuesday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Tuesday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:56:22Z</dcterms:created>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">2</dcterms:identifier>
+        <dcterms:title xml:lang="en">Tuesday</dcterms:title>
+        <rdfs:label xml:lang="en">Tuesday</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Wednesday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Wednesday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:56:32Z</dcterms:created>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">3</dcterms:identifier>
+        <dcterms:title xml:lang="en">Wednesday</dcterms:title>
+        <rdfs:label xml:lang="en">Wednesday</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Friday"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Monday"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Saturday"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Sunday"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Thursday"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Tuesday"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek-Wednesday"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
