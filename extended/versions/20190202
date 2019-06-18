@@ -22,6 +22,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2019-02-02</dcterms:modified>
         <dcterms:title xml:lang="en">Hadden Industries Universal Extended Ontology</dcterms:title>
         <rdfs:label xml:lang="en">HaddenIndustriesUniversalExtendedOntology</rdfs:label>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/extended/20190201"/>
     </owl:Ontology>
     
 

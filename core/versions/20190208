@@ -30,6 +30,7 @@
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Core Ontology</dcterms:title>
         <rdfs:label xml:lang="en">HaddenIndustriesUniversalCoreOntology</rdfs:label>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/core/20190205"/>
     </owl:Ontology>
     
 
