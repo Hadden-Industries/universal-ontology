@@ -949,9 +949,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:56:46Z</dcterms:created>
+        <dcterms:description xml:lang="en">Day Of Week before Saturday and following Thursday</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">5</dcterms:identifier>
         <dcterms:title xml:lang="en">Friday</dcterms:title>
         <rdfs:label xml:lang="en">Friday</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.lexico.com/en/definition/friday</rdfs:seeAlso>
     </owl:NamedIndividual>
     
 
@@ -962,9 +964,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-28T10:04:39Z</dcterms:created>
+        <dcterms:description xml:lang="en">Day Of Week before Tuesday and following Sunday</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">1</dcterms:identifier>
         <dcterms:title xml:lang="en">Monday</dcterms:title>
         <rdfs:label xml:lang="en">Monday</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.lexico.com/en/definition/monday</rdfs:seeAlso>
     </owl:NamedIndividual>
     
 
@@ -975,9 +979,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:56:54Z</dcterms:created>
+        <dcterms:description xml:lang="en">Day Of Week before Sunday and following Friday, and (together with Sunday) forming part of the weekend</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">6</dcterms:identifier>
         <dcterms:title xml:lang="en">Saturday</dcterms:title>
         <rdfs:label xml:lang="en">Saturday</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.lexico.com/en/definition/saturday</rdfs:seeAlso>
     </owl:NamedIndividual>
     
 
@@ -988,9 +994,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:57:00Z</dcterms:created>
+        <dcterms:description xml:lang="en">Day Of Week before Monday and following Saturday, observed by Christians as a day of rest and religious worship and (together with Saturday) forming part of the weekend</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">7</dcterms:identifier>
         <dcterms:title xml:lang="en">Sunday</dcterms:title>
         <rdfs:label xml:lang="en">Sunday</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.lexico.com/en/definition/sunday</rdfs:seeAlso>
     </owl:NamedIndividual>
     
 
@@ -1001,9 +1009,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:56:40Z</dcterms:created>
+        <dcterms:description xml:lang="en">Day Of Week before Friday and following Wednesday</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">4</dcterms:identifier>
         <dcterms:title xml:lang="en">Thursday</dcterms:title>
         <rdfs:label xml:lang="en">Thursday</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.lexico.com/en/definition/thursday</rdfs:seeAlso>
     </owl:NamedIndividual>
     
 
@@ -1014,9 +1024,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:56:22Z</dcterms:created>
+        <dcterms:description xml:lang="en">Day Of Week before Wednesday and following Monday</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">2</dcterms:identifier>
         <dcterms:title xml:lang="en">Tuesday</dcterms:title>
         <rdfs:label xml:lang="en">Tuesday</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.lexico.com/en/definition/tuesday</rdfs:seeAlso>
     </owl:NamedIndividual>
     
 
@@ -1027,9 +1039,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:56:32Z</dcterms:created>
+        <dcterms:description xml:lang="en">Day Of Week before Thursday and following Tuesday</dcterms:description>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">3</dcterms:identifier>
         <dcterms:title xml:lang="en">Wednesday</dcterms:title>
         <rdfs:label xml:lang="en">Wednesday</rdfs:label>
+        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.lexico.com/en/definition/wednesday</rdfs:seeAlso>
     </owl:NamedIndividual>
     
 
