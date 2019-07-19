@@ -833,7 +833,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-07-10T12:53:03Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service that is the enrollment of a doctor to the List of Registered Medical Practitioners, managed by the General Medical Council</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:70d6befb-e948-4085-adab-1aaa76d0a618"/>
-        <dcterms:title>General Medical Council Registration</dcterms:title>
+        <dcterms:title xml:lang="en">General Medical Council Registration</dcterms:title>
         <rdfs:label>GeneralMedicalCouncilRegistration</rdfs:label>
         <uc:acronym xml:lang="en">GMC Registration</uc:acronym>
     </owl:Class>
@@ -1541,7 +1541,7 @@ Ensures compliance with applicable laws and regulations and also with internal p
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T17:11:18Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Website</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:41abe204-aff5-4d0e-9ef2-298b6960191a"/>
-        <dcterms:title xml:lang="en">WebsiteAddress</dcterms:title>
+        <dcterms:title xml:lang="en">Website Address</dcterms:title>
         <rdfs:label xml:lang="en">WebsiteAddress</rdfs:label>
     </owl:Class>
     
@@ -1670,11 +1670,11 @@ Ensures compliance with applicable laws and regulations and also with internal p
     <!-- https://haddenindustries.com/ontology/universal/extended/SpatialReferenceSystem-IRENET95IrishTransverseMercator -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/SpatialReferenceSystem-IRENET95IrishTransverseMercator">
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">2157</dcterms:identifier>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T23:26:34Z</dcterms:created>
         <dcterms:description xml:lang="en">Spatial Reference System used in Ireland</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d9ae9eca-0599-46aa-bca3-740716e514b7"/>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">2157</dcterms:identifier>
         <dcterms:title xml:lang="en">IRENET95 Irish Transverse Mercator</dcterms:title>
         <rdfs:label xml:lang="en">IRENET95IrishTransverseMercator</rdfs:label>
         <uc:synonym xml:lang="en">ITM</uc:synonym>
@@ -1686,11 +1686,11 @@ Ensures compliance with applicable laws and regulations and also with internal p
     <!-- https://haddenindustries.com/ontology/universal/extended/SpatialReferenceSystem-OSGB1936BritishNationalGrid -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/SpatialReferenceSystem-OSGB1936BritishNationalGrid">
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">27700</dcterms:identifier>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T17:59:42Z</dcterms:created>
         <dcterms:description xml:lang="en">Spatial Reference System used in Great Britain</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:de3f851f-42ee-4faf-8a7f-30e9146eb9c7"/>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">27700</dcterms:identifier>
         <dcterms:title xml:lang="en">OSGB 1936 British National Grid</dcterms:title>
         <rdfs:label xml:lang="en">OSGB1936BritishNationalGrid</rdfs:label>
         <uc:synonym xml:lang="en">BNG</uc:synonym>
@@ -1703,10 +1703,10 @@ Ensures compliance with applicable laws and regulations and also with internal p
     <!-- https://haddenindustries.com/ontology/universal/extended/SpatialReferenceSystem-WGS84 -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/extended/SpatialReferenceSystem-WGS84">
-        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">4326</dcterms:identifier>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T17:53:35Z</dcterms:created>
         <dcterms:description xml:lang="en">Spatial Reference System used in cartography, geodesy, and navigation including the Global Positioning System</dcterms:description>
+        <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">4326</dcterms:identifier>
         <dcterms:title xml:lang="en">WGS84</dcterms:title>
         <rdfs:label xml:lang="en">WGS84</rdfs:label>
         <uc:synonym xml:lang="en">EPSG:4326</uc:synonym>
