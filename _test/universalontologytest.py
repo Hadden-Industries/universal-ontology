@@ -56,10 +56,19 @@ class UniversalOntologyTest(XmlTestCase):
 					if modifiedFirstElement is not None:
 						self.assertXpathsOnlyOne(elem, ['./dcterms:modified'])
 						
-						self.assertXmlHasAttribute(modifiedFirstElement, '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}datatype', expected_value = 'http://www.w3.org/2001/XMLSchema#dateTime')
+						modifiedFirstElementDatatype = modifiedFirstElement.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}datatype')
 						
-						if not modifiedFirstElement.text[-1:] == 'Z':
-							self.fail('dcterms:modified "%s" is not a UTC value' % modifiedFirstElement.text)
+						if modifiedFirstElementDatatype is not None:
+							
+							if modifiedFirstElementDatatype == 'http://www.w3.org/2001/XMLSchema#dateTime':
+								if not modifiedFirstElement.text[-1:] == 'Z':
+									self.fail('dcterms:modified "%s" is not a UTC value' % modifiedFirstElement.text)
+							elif not modifiedFirstElementDatatype == 'http://www.w3.org/2001/XMLSchema#date':
+								self.fail('dcterms:modified has invalid rdf:datatype of "%s"' % modifiedFirstElementDatatype)
+							
+						else:
+							
+							self.fail('dcterms:modified has no rdf:datatype')
 					
 					# Contributors
 					contributorFirstElement = elem.find('{http://purl.org/dc/elements/1.1/}contributor')
@@ -147,13 +156,21 @@ class UniversalOntologyTest(XmlTestCase):
 					self.assertXpathsExist(elem, ['./dcterms:description'])
 					
 					for description in elem.iterfind('{http://purl.org/dc/terms/}description'):
-						self.assertXmlHasAttribute(description, '{http://www.w3.org/XML/1998/namespace}lang')	
+						self.assertXmlHasAttribute(description, '{http://www.w3.org/XML/1998/namespace}lang')
 						
 					self.assertXpathsUniqueValue(elem, ['./dcterms:description/@xml:lang'])
 					
 					# Alternative names
 					for alternative in elem.iterfind('{http://purl.org/dc/terms/}alternative'):
-						self.assertXmlHasAttribute(alternative, '{http://www.w3.org/XML/1998/namespace}lang')	
+						self.assertXmlHasAttribute(alternative, '{http://www.w3.org/XML/1998/namespace}lang')
+					
+					# Acronyms
+					for acronym in elem.iterfind('{https://haddenindustries.com/ontology/universal/core/}acronym'):
+						self.assertXmlHasAttribute(acronym, '{http://www.w3.org/XML/1998/namespace}lang')
+						
+					# Synonyms
+					for synonym in elem.iterfind('{https://haddenindustries.com/ontology/universal/core/}synonym'):
+						self.assertXmlHasAttribute(synonym, '{http://www.w3.org/XML/1998/namespace}lang')
 					
 				except:
 					print(classRdfAboutTail)
