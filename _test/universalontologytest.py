@@ -1,5 +1,6 @@
 #! python
 # Hadden Industries Universal Ontology Test
+import itertools
 import re
 
 from pathlib import Path
@@ -23,7 +24,10 @@ class UniversalOntologyTest(XmlTestCase):
 		# Everything starts with 'assertXmlDocument'
 		root = self.assertXmlDocument(file_path.read_text(encoding='utf-8'))
 
-		for elem in root.iterfind('{http://www.w3.org/2002/07/owl#}Class'):
+		for elem in itertools.chain(
+			root.iterfind('{http://www.w3.org/2002/07/owl#}Class'),
+			root.iterfind('{http://www.w3.org/2002/07/owl#}NamedIndividual')
+			):
 			
 			classRdfAbout = elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
 			
@@ -89,7 +93,7 @@ class UniversalOntologyTest(XmlTestCase):
 					for identifier in elem.iterfind('{http://purl.org/dc/terms/}identifier'):
 						identifierRdfResource = identifier.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
 						
-						if identifierRdfResource.startswith('urn:uuid:'):
+						if identifierRdfResource is not None and identifierRdfResource.startswith('urn:uuid:'):
 							if not hasUuidIdentifier:
 								hasUuidIdentifier = True
 							try:
