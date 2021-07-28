@@ -1,0 +1,705 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="https://haddenindustries.com/ontology/universal/reference-data-equivalents/"
+     xml:base="https://haddenindustries.com/ontology/universal/reference-data-equivalents/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:sc="http://schema.org/"
+     xmlns:daq="http://purl.org/eis/vocab/daq#"
+     xmlns:dqv="http://www.w3.org/ns/dqv#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+     xmlns:dcterms="http://purl.org/dc/terms/">
+    <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data-equivalents">
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data-equivalents/20210728"/>
+        <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dc:publisher rdf:datatype="http://www.w3.org/2001/XMLSchema#token">Hadden Industries Ltd</dc:publisher>
+        <dcterms:created xml:lang="en">2021-07-28</dcterms:created>
+        <dcterms:description xml:lang="en">Set of concepts and categories, applicable to information that is used to qualify or categorise other data, that shows their properties and the relations between them, that are equal in meaning</dcterms:description>
+        <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
+        <dcterms:identifier rdf:resource="urn:uuid:47622a72-9750-49c3-bc39-95a7142c7605"/>
+        <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
+        <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
+        <dcterms:modified xml:lang="en">2021-07-28</dcterms:modified>
+        <dcterms:rights xml:lang="en">© 2021 Hadden Industries Ltd</dcterms:rights>
+        <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
+        <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology Equivalents</dcterms:title>
+        <rdfs:label xml:lang="en">HaddenIndustriesUniversalReferenceDataOntologyEquivalents</rdfs:label>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/contributor -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/contributor"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/creator -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/publisher -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/publisher"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/alternative -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/alternative"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/created -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/description -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/format -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/format"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/identifier -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/identifier"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/language -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/language"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/license -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/license"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/modified -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/modified"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/references -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/references"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/rights -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/rights"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/source -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/source"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/subject -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/subject"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/title -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/eis/vocab/daq#hasDimension -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/eis/vocab/daq#hasDimension">
+        <owl:equivalentProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasDataQualityDimension"/>
+        <rdfs:domain rdf:resource="http://purl.org/eis/vocab/daq#Category"/>
+        <rdfs:range rdf:resource="http://purl.org/eis/vocab/daq#Dimension"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/ns/dqv#inCategory -->
+
+    <owl:ObjectProperty rdf:about="http://www.w3.org/ns/dqv#inCategory">
+        <rdfs:domain rdf:resource="http://www.w3.org/ns/dqv#Dimension"/>
+        <rdfs:range rdf:resource="http://www.w3.org/ns/dqv#Category"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasDataQualityDimension -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasDataQualityDimension">
+        <owl:equivalentProperty>
+            <rdf:Description>
+                <owl:inverseOf rdf:resource="http://www.w3.org/ns/dqv#inCategory"/>
+            </rdf:Description>
+        </owl:equivalentProperty>
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityCategory"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityDimension"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/terms/Frequency -->
+
+    <owl:Class rdf:about="http://purl.org/dc/terms/Frequency">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Frequency"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/eis/vocab/daq#Category -->
+
+    <owl:Class rdf:about="http://purl.org/eis/vocab/daq#Category">
+        <owl:equivalentClass rdf:resource="http://www.w3.org/ns/dqv#Category"/>
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityCategory"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/eis/vocab/daq#hasDimension"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/eis/vocab/daq#Dimension"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/eis/vocab/daq#Dimension -->
+
+    <owl:Class rdf:about="http://purl.org/eis/vocab/daq#Dimension">
+        <owl:equivalentClass rdf:resource="http://www.w3.org/ns/dqv#Dimension"/>
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityDimension"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/City -->
+
+    <owl:Class rdf:about="http://schema.org/City">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Town"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Country -->
+
+    <owl:Class rdf:about="http://schema.org/Country">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Courthouse -->
+
+    <owl:Class rdf:about="http://schema.org/Courthouse">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Court"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/DayOfWeek -->
+
+    <owl:Class rdf:about="http://schema.org/DayOfWeek">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/ExchangeRateSpecification -->
+
+    <owl:Class rdf:about="http://schema.org/ExchangeRateSpecification">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Language -->
+
+    <owl:Class rdf:about="http://schema.org/Language">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Occupation -->
+
+    <owl:Class rdf:about="http://schema.org/Occupation">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Quantity -->
+
+    <owl:Class rdf:about="http://schema.org/Quantity">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/State -->
+
+    <owl:Class rdf:about="http://schema.org/State">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/currency -->
+
+    <owl:Class rdf:about="http://schema.org/currency">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/exerciseType -->
+
+    <owl:Class rdf:about="http://schema.org/exerciseType">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ExerciseType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/frequency -->
+
+    <owl:Class rdf:about="http://schema.org/frequency">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Frequency"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/gender -->
+
+    <owl:Class rdf:about="http://schema.org/gender">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Gender"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/honorificPrefix -->
+
+    <owl:Class rdf:about="http://schema.org/honorificPrefix">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Title"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/honorificSuffix -->
+
+    <owl:Class rdf:about="http://schema.org/honorificSuffix">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffix"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/isicV4 -->
+
+    <owl:Class rdf:about="http://schema.org/isicV4">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision4"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/measurementTechnique -->
+
+    <owl:Class rdf:about="http://schema.org/measurementTechnique">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/postalCode -->
+
+    <owl:Class rdf:about="http://schema.org/postalCode">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Postcode"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/skills -->
+
+    <owl:Class rdf:about="http://schema.org/skills">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Skill"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/unitCode -->
+
+    <owl:Class rdf:about="http://schema.org/unitCode">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#DayOfWeek -->
+
+    <owl:Class rdf:about="http://www.w3.org/2006/time#DayOfWeek">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#MonthOfYear -->
+
+    <owl:Class rdf:about="http://www.w3.org/2006/time#MonthOfYear">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MonthOfYear"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#TimeZone -->
+
+    <owl:Class rdf:about="http://www.w3.org/2006/time#TimeZone">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TimeZone"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/ns/dqv#Category -->
+
+    <owl:Class rdf:about="http://www.w3.org/ns/dqv#Category">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityCategory"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/ns/dqv#Dimension -->
+
+    <owl:Class rdf:about="http://www.w3.org/ns/dqv#Dimension">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityDimension"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.w3.org/ns/dqv#inCategory"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.w3.org/ns/dqv#Category"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Country -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Court -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Court"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Currency -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DataQualityCategory -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DataQualityCategory"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DataQualityDimension -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DataQualityDimension"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/ExerciseType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ExerciseType"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Frequency -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Frequency"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Gender -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Gender"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision4 -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision4"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Language -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/MonthOfYear -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MonthOfYear"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffix -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffix"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassification -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassification"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Postcode -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Postcode"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Quantity -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Skill -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Skill"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/TimeZone -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/TimeZone"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Title -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Title"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Town -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Town"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/2006/time#Friday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Friday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Friday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Monday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Monday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Monday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Saturday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Saturday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Saturday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Sunday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Sunday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Sunday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Thursday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Thursday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Thursday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Tuesday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Tuesday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Tuesday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Wednesday -->
+
+    <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Wednesday">
+        <owl:sameAs rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Wednesday"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Friday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Friday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Monday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Monday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Saturday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Saturday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Sunday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Sunday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Thursday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Thursday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Tuesday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Tuesday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Wednesday -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Wednesday">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DayOfWeek"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
