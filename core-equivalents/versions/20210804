@@ -1,0 +1,521 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="https://haddenindustries.com/ontology/universal/core-equivalents/"
+     xml:base="https://haddenindustries.com/ontology/universal/core-equivalents/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:gr="http://purl.org/goodrelations/v1"
+     xmlns:sc="http://schema.org/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+     xmlns:dcterms="http://purl.org/dc/terms/">
+    <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/core-equivalents">
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core-equivalents/20210804"/>
+        <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dc:publisher rdf:datatype="http://www.w3.org/2001/XMLSchema#token">Hadden Industries Ltd</dc:publisher>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-08-04</dcterms:created>
+        <dcterms:description xml:lang="en">Set of concepts and categories, applicable to almost all domains, that shows their properties and the relations between them, that are equal in meaning</dcterms:description>
+        <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
+        <dcterms:identifier rdf:resource="urn:uuid:037fee01-80e7-4326-9478-83ee42874436"/>
+        <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
+        <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-08-04</dcterms:modified>
+        <dcterms:rights xml:lang="en">© 2021 Hadden Industries Ltd</dcterms:rights>
+        <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
+        <dcterms:title xml:lang="en">Hadden Industries Universal Core Ontology Equivalents</dcterms:title>
+        <rdfs:label xml:lang="en">HaddenIndustriesUniversalCoreOntologyEquivalents</rdfs:label>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/contributor -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/contributor"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/creator -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/publisher -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/publisher"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/created -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/description -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/format -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/format"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/identifier -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/identifier"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/language -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/language"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/license -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/license"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/modified -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/modified"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/rights -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/rights"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/subject -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/subject"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/title -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/goodrelations/v1#availableAtOrFrom -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/goodrelations/v1#availableAtOrFrom">
+        <owl:equivalentProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering_hasLocation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/goodrelations/v1#hasBrand -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/goodrelations/v1#hasBrand">
+        <owl:equivalentProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/hasBrand"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Offering_hasLocation -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Offering_hasLocation"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/hasBrand -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasBrand"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/terms/BibliographicResource -->
+
+    <owl:Class rdf:about="http://purl.org/dc/terms/BibliographicResource">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/dc/terms/PhysicalResource -->
+
+    <owl:Class rdf:about="http://purl.org/dc/terms/PhysicalResource">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/goodrelations/v1#Brand -->
+
+    <owl:Class rdf:about="http://purl.org/goodrelations/v1#Brand">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Brand"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/goodrelations/v1#Business -->
+
+    <owl:Class rdf:about="http://purl.org/goodrelations/v1#Business">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/JuridicalPerson"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/goodrelations/v1#Individual -->
+
+    <owl:Class rdf:about="http://purl.org/goodrelations/v1#Individual">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/goodrelations/v1#Offering -->
+
+    <owl:Class rdf:about="http://purl.org/goodrelations/v1#Offering">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/goodrelations/v1#OpeningHoursSpecification -->
+
+    <owl:Class rdf:about="http://purl.org/goodrelations/v1#OpeningHoursSpecification">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/OpeningHours"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/goodrelations/v1#PriceSpecification -->
+
+    <owl:Class rdf:about="http://purl.org/goodrelations/v1#PriceSpecification">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/PriceSpecification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://purl.org/goodrelations/v1#ProductOrService -->
+
+    <owl:Class rdf:about="http://purl.org/goodrelations/v1#ProductOrService">
+        <owl:equivalentClass rdf:resource="http://schema.org/Product"/>
+        <owl:equivalentClass rdf:resource="http://schema.org/Service"/>
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Corporation -->
+
+    <owl:Class rdf:about="http://schema.org/Corporation">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/JuridicalPerson"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Duration -->
+
+    <owl:Class rdf:about="http://schema.org/Duration">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/TimeDuration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Event -->
+
+    <owl:Class rdf:about="http://schema.org/Event">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/ImageObject -->
+
+    <owl:Class rdf:about="http://schema.org/ImageObject">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Image"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Message -->
+
+    <owl:Class rdf:about="http://schema.org/Message">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Message"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/OpeningHoursSpecification -->
+
+    <owl:Class rdf:about="http://schema.org/OpeningHoursSpecification">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/OpeningHours"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Organization -->
+
+    <owl:Class rdf:about="http://schema.org/Organization">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Person -->
+
+    <owl:Class rdf:about="http://schema.org/Person">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Product -->
+
+    <owl:Class rdf:about="http://schema.org/Product"/>
+    
+
+
+    <!-- http://schema.org/Service -->
+
+    <owl:Class rdf:about="http://schema.org/Service"/>
+    
+
+
+    <!-- http://schema.org/Vehicle -->
+
+    <owl:Class rdf:about="http://schema.org/Vehicle">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Vehicle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/email -->
+
+    <owl:Class rdf:about="http://schema.org/email">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/faxNumber -->
+
+    <owl:Class rdf:about="http://schema.org/faxNumber">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/FaxNumber"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/telephone -->
+
+    <owl:Class rdf:about="http://schema.org/telephone">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/TelephoneNumber"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Instant -->
+
+    <owl:Class rdf:about="http://www.w3.org/2006/time#Instant">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/TimeInstant"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Interval -->
+
+    <owl:Class rdf:about="http://www.w3.org/2006/time#Interval">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/TimeInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#TemporalDuration -->
+
+    <owl:Class rdf:about="http://www.w3.org/2006/time#TemporalDuration">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/TimeDuration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#TemporalEntity -->
+
+    <owl:Class rdf:about="http://www.w3.org/2006/time#TemporalEntity">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Time"/>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Brand -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Brand"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Document -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Document"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Event -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Event"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/FaxNumber -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/FaxNumber"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Image -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Image"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/JuridicalPerson -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/JuridicalPerson"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/MaterialObject -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Message -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Message"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/NaturalPerson -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Offering -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Offering"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/OpeningHours -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/OpeningHours"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Organisation -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/PriceSpecification -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/PriceSpecification"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/ProductOrService -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/TelephoneNumber -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TelephoneNumber"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Time -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Time"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/TimeDuration -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TimeDuration"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/TimeInstant -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TimeInstant"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/TimeInterval -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TimeInterval"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Vehicle -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Vehicle"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
