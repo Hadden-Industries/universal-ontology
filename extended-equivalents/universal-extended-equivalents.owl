@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="https://haddenindustries.com/ontology/universal/extended-equivalents/"
+     xml:base="https://haddenindustries.com/ontology/universal/extended-equivalents/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:gr="http://purl.org/goodrelations/v1"
+     xmlns:sc="http://schema.org/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+     xmlns:dcterms="http://purl.org/dc/terms/">
+    <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/extended-equivalents">
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/extended-equivalents/20210826"/>
+        <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dc:publisher rdf:datatype="http://www.w3.org/2001/XMLSchema#token">Hadden Industries Ltd</dc:publisher>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-08-26</dcterms:created>
+        <dcterms:description xml:lang="en">Broad set of concepts and categories, applicable to many domains, that shows their properties and the relations between them, that are equal in meaning</dcterms:description>
+        <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
+        <dcterms:identifier rdf:resource="urn:uuid:1044fd50-3289-4e9c-bf95-088905d566de"/>
+        <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
+        <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-08-26</dcterms:modified>
+        <dcterms:rights xml:lang="en">© 2021 Hadden Industries Ltd</dcterms:rights>
+        <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
+        <dcterms:title xml:lang="en">Hadden Industries Universal Extended Ontology Equivalents</dcterms:title>
+        <rdfs:label xml:lang="en">HaddenIndustriesUniversalExtendedOntologyEquivalents</rdfs:label>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/contributor -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/contributor"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/creator -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/publisher -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/publisher"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/created -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/description -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/format -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/format"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/identifier -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/identifier"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/language -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/language"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/license -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/license"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/modified -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/modified"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/rights -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/rights"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/subject -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/subject"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/title -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+    <!-- http://schema.org/AudioObject -->
+
+    <owl:Class rdf:about="http://schema.org/AudioObject">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/Audio"/>
+    </owl:Class>
+    
+
+    <!-- https://haddenindustries.com/ontology/universal/extended/Audio -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Audio"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
