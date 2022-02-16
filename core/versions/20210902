@@ -1865,21 +1865,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/ApplicationProgrammingInterface -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ApplicationProgrammingInterface">
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T09:08:08Z</dcterms:created>
-        <dcterms:description xml:lang="en">Set of subroutine definitions, protocols, and tools for building Applications</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:05392562-b3f8-4490-b36f-5c811df6f932"/>
-        <dcterms:title xml:lang="en">Application Programming Interface</dcterms:title>
-        <rdfs:label xml:lang="en">ApplicationProgrammingInterface</rdfs:label>
-        <acronym xml:lang="en">API</acronym>
-    </owl:Class>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/core/Area -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Area">
