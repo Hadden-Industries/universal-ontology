@@ -194,14 +194,14 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/extended/EducationAttainment_hasPerson -->
+    <!-- https://haddenindustries.com/ontology/universal/extended/EducationAttainment_hasNaturalPerson -->
 
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/EducationAttainment_hasPerson">
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/EducationAttainment_hasNaturalPerson">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/EducationAttainment"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-03-18T12:34:25Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasPerson</rdfs:label>
+        <rdfs:label xml:lang="en">hasNaturalPerson</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1912,9 +1912,9 @@ Note 3 to entry: A grouping of assets referred to as an asset system (3.2.5) cou
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/EducationAttainment_hasPerson"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/EducationAttainment_hasNaturalPerson"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
