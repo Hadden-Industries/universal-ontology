@@ -1266,6 +1266,18 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/hasMaterialObjectType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasMaterialObjectType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MaterialObjectType"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-22T19:53:50Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasMaterialObjectType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/hasMeasuredQuantityValue -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasMeasuredQuantityValue">
@@ -1427,6 +1439,18 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:20:42Z</dcterms:created>
         <rdfs:label xml:lang="en">hasPersonRelationshipType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/hasPersonType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasPersonType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonType"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-22T19:46:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasPersonType</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -2779,11 +2803,18 @@ EXAMPLE:“Madrid”, “California”.</rdfs:comment>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/hasMaterialObjectType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MaterialObjectType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Object which has physical extension in space and time</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:3a074d33-b750-4992-8d96-5cd627b625d3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-27T12:42:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-22T19:54:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.1.1.60"/>
         <dcterms:title xml:lang="en">Material Object</dcterms:title>
         <rdfs:comment xml:lang="en">See also “naturafact”, “artefact (1) &lt;man-made object&gt;; ISO 21127:2014, classes “E 18” and “E 19”.</rdfs:comment>
@@ -3393,11 +3424,18 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonName"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/hasPersonType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Entity, i.e. a natural or legal person, recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:1ef827ec-12a3-43e6-88de-d149d3be2b8e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-03-21T12:00:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-22T19:48:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:14662:ed-3:v1:en:term:3.24"/>
         <dcterms:title xml:lang="en">Person</dcterms:title>
         <rdfs:comment xml:lang="en">Minimum and common external constraints applicable to a business transaction often require one to differentiate among three common sub-types of Person, namely &quot;individual&quot;, &quot;organisation&quot;, and &quot;public administration&quot;.</rdfs:comment>
