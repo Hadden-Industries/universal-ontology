@@ -3087,6 +3087,19 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/MaterialObjectType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MaterialObjectType">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-22T19:51:07Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of objects which have physical extension in space and time, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:cd7fda49-f9bf-41e4-a2c4-4abeb94e9243"/>
+        <dcterms:title xml:lang="en">Material Object Type</dcterms:title>
+        <rdfs:label xml:lang="en">MaterialObjectType</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/MatrixBarcodeSymbology -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MatrixBarcodeSymbology">
