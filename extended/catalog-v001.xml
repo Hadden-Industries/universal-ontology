@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/core/20221222" uri="file:/C:/Users/maksy/GitHub/universal-ontology/core/versions/20221222"/>
+    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/core/20230210" uri="file:/C:/Users/maksy/GitHub/universal-ontology/core/versions/20230210"/>
     <uri id="Imports Wizard Entry" name="http://www.w3.org/2006/time#2016" uri="file:/C:/Users/maksy/GitHub/universal-ontology/core/time.rdf"/>
     <uri id="Imports Wizard Entry" name="http://purl.org/dc/terms#2012" uri="file:/C:/Users/maksy/GitHub/universal-ontology/core/dcterms.rdf"/>
-    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/reference-data/20221222" uri="file:/C:/Users/maksy/GitHub/universal-ontology/reference-data/versions/20221222"/>
+    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/reference-data/20230210" uri="file:/C:/Users/maksy/GitHub/universal-ontology/reference-data/versions/20230210"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1671739016243" name="https://haddenindustries.com/ontology/universal/extended/" uri="universal-extended.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1676241082500" name="https://haddenindustries.com/ontology/universal/extended/" uri="universal-extended.owl"/>
     </group>
 </catalog>
