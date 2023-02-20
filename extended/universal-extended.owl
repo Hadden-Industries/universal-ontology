@@ -1203,18 +1203,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/extended/hasMaritalStatus -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasMaritalStatus">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MaritalStatus"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-23T23:09:02Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMaritalStatus</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/extended/hasNationalIdentity -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasNationalIdentity">
@@ -1239,15 +1227,14 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/extended/hasOccupationClassification -->
+    <!-- https://haddenindustries.com/ontology/universal/extended/hasOccupation -->
 
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasOccupationClassification">
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasOccupation">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/EmploymentContract"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-21T20:03:19Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-24T12:00:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasOccupationClassification</rdfs:label>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-20T12:39:13Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasOccupation</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1570,12 +1557,6 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/hasEurostatActivityAndEmploymentStatus"/>
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EurostatActivityAndEmploymentStatus"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/hasMaritalStatus"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MaritalStatus"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -3044,15 +3025,16 @@ Note 1 to entry: See also electronic mail (2) &lt;service&gt;  (3.1.9.15); lette
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Contract"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/hasOccupationClassification"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassification"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/hasOccupation"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T11:55:21Z</dcterms:created>
         <dcterms:description xml:lang="en">Contract used in labour law to attribute rights and responsibilities between an employer and an employee</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:78fb8695-d8f1-4cd8-a740-517276dc6de5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-24T12:01:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-20T12:40:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Employment Contract</dcterms:title>
         <rdfs:label xml:lang="en">EmploymentContract</rdfs:label>
     </owl:Class>
