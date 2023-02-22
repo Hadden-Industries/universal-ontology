@@ -293,6 +293,18 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Demonym_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Demonym_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Demonym"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-22T23:01:54Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Demonym_hasCountrySubdivision -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Demonym_hasCountrySubdivision">
@@ -2063,11 +2075,18 @@ Note 2 to entry: The symbology has error detection (3.16) and error correction (
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Town"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Demonym_hasCountry"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T17:58:30Z</dcterms:created>
         <dcterms:description xml:lang="en">Noun used to denote the natives or inhabitants of a particular country, state, city, etc.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:ada880f3-e762-4c81-953b-1cd61c53b16c"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-19T17:17:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-22T23:02:00Z</dcterms:modified>
         <dcterms:references rdf:resource="https://www.lexico.com/en/definition/demonym"/>
         <dcterms:title xml:lang="en">Demonym</dcterms:title>
         <rdfs:label xml:lang="en">Demonym</rdfs:label>
