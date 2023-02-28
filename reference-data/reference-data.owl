@@ -1161,6 +1161,14 @@
     
 
 
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/LanguageIdentification -->
+
+    <rdf:Description rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/LanguageIdentification">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
+    </rdf:Description>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/AcceptabilityRating -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/AcceptabilityRating">
