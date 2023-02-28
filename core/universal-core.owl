@@ -1083,18 +1083,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/hasIndustrialClassification -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasIndustrialClassification">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/JuridicalPerson"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IndustrialClassification"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:38:34Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasIndustrialClassification</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/core/hasInternationalE164NumberCountryCode -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasInternationalE164NumberCountryCode">
@@ -2474,18 +2462,12 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/JuridicalPerson">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/hasIndustrialClassification"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IndustrialClassification"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Entity, that is not a natural person, recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:075cf570-c695-42c7-9387-05766ba4e836"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-01-21T20:00:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-28T16:57:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:14662:ed-3:v1:en:term:3.24"/>
         <dcterms:title xml:lang="en">Juridical Person</dcterms:title>
         <rdfs:comment xml:lang="en">Definition derived from &quot;Person&quot;</rdfs:comment>
@@ -4026,8 +4008,8 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
     </rdf:Description>
     <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/synonym">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-20T08:30:07Z</dcterms:created>
         <rdfs:comment xml:lang="en">Word or phrase that means exactly or nearly the same as another word or phrase in the same language</rdfs:comment>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-20T08:30:07Z</dcterms:created>
     </rdf:Description>
     
 
