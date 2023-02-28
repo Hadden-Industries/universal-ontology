@@ -2641,11 +2641,12 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
     <!-- https://haddenindustries.com/ontology/universal/reference-data/FlotationType -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/FlotationType">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T13:02:59Z</dcterms:created>
         <dcterms:description xml:lang="en">Category of processes of offering a company&apos;s shares for sale on the stock market for the first time, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:618f6b93-698f-4b80-ae89-b7e53503d8b9"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-21T12:22:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-28T22:33:00Z</dcterms:modified>
         <dcterms:references rdf:resource="https://www.lexico.com/definition/flotation"/>
         <dcterms:title xml:lang="en">Flotation Type</dcterms:title>
         <rdfs:label xml:lang="en">FlotationType</rdfs:label>
