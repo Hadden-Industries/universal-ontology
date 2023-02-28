@@ -10,7 +10,7 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3">
-        <owl:versionIRI rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/20230228"/>
+        <owl:versionIRI rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/v1"/>
         <owl:imports rdf:resource="http://purl.org/dc/terms#2012"/>
         <dcterms:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created xml:lang="en">2020-05-21</dcterms:created>
