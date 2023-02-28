@@ -637,18 +637,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/extended/NaturalPersonPersonalPronoun_hasNaturalPerson -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/NaturalPersonPersonalPronoun_hasNaturalPerson">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/NaturalPersonPersonalPronoun"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-07T11:10:57Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasNaturalPerson</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/extended/NaturalPersonSexualOrientationRelationship_hasNaturalPerson -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/NaturalPersonSexualOrientationRelationship_hasNaturalPerson">
@@ -1094,6 +1082,18 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/extended/hasAssetType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasAssetType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/Asset"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AssetType"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-28T22:35:05Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasAssetType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/extended/hasCompanyRegister -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasCompanyRegister">
@@ -1343,18 +1343,6 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T11:45:06Z</dcterms:created>
         <rdfs:label xml:lang="en">hasOpportunity</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/extended/hasPersonalPronoun -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/hasPersonalPronoun">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/NaturalPersonPersonalPronoun"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonalPronoun"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-07T11:10:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasPersonalPronoun</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -2067,10 +2055,18 @@ Note 3 to entry: 01.04.01 (2382)
     <!-- https://haddenindustries.com/ontology/universal/extended/Asset -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Asset">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/hasAssetType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AssetType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-02T09:06:08Z</dcterms:created>
         <dcterms:description xml:lang="en">Item, thing or entity that has potential or actual value to an organisation</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:a964d2a7-6e00-4f98-8017-24df3b45e2f1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-28T22:38:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso:55000:ed-1:v2:en:term:3.2.1"/>
         <dcterms:title xml:lang="en">Asset</dcterms:title>
         <rdfs:comment xml:lang="en">Note 1 to entry: Value can be tangible or intangible, financial or non-financial, and includes consideration of risks (3.1.21) and liabilities. It can be positive or negative at different stages of the asset life (3.2.2).
@@ -4086,33 +4082,6 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <dcterms:identifier rdf:resource="urn:uuid:7aac72ef-fce8-471a-81d8-cbd830a5c992"/>
         <dcterms:title xml:lang="en">Natural Person Marital Status</dcterms:title>
         <rdfs:label xml:lang="en">NaturalPersonMaritalStatus</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/extended/NaturalPersonPersonalPronoun -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/NaturalPersonPersonalPronoun">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/NaturalPersonPersonalPronoun_hasNaturalPerson"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/hasPersonalPronoun"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonalPronoun"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-07T11:09:43Z</dcterms:created>
-        <dcterms:description xml:lang="en">Association of a Personal Pronoun to a Natural Person</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:60ed5fac-665a-4ee1-b4b2-272c7515714b"/>
-        <dcterms:title xml:lang="en">Natural Person Personal Pronoun</dcterms:title>
-        <rdfs:label xml:lang="en">NaturalPersonPersonalPronoun</rdfs:label>
     </owl:Class>
     
 
