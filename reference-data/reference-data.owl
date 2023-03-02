@@ -1231,6 +1231,19 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/ActivityToPersonRelationshipType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ActivityToPersonRelationshipType">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-02T22:40:10Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of the way in which persons and activities are connected, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:b1040294-6eea-4b1f-a297-df739b74b2d6"/>
+        <dcterms:title xml:lang="en">Activity To Person Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en">ActivityToPersonRelationshipType</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/AddressRelationshipType -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/AddressRelationshipType">
@@ -4208,6 +4221,20 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/OfferingCategory -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OfferingCategory">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-02T22:42:30Z</dcterms:created>
+        <dcterms:description xml:lang="en">Class of offerings, regarded as having particular shared characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:e59789b5-44ab-49f1-9d45-9168f17cf7c1"/>
+        <dcterms:title xml:lang="en">Offering Category</dcterms:title>
+        <rdfs:label xml:lang="en">OfferingCategory</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://purl.org/goodrelations/v1#category"/>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/OrganisationRelationshipType -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OrganisationRelationshipType">
@@ -4246,6 +4273,22 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dcterms:references rdf:resource="https://www.lexico.com/en/definition/outdoor"/>
         <dcterms:title xml:lang="en">Outdoor Activity</dcterms:title>
         <rdfs:label xml:lang="en">OutdoorActivity</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/PaymentMethod -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/PaymentMethod">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">Method Of Payment</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Mode Of Payment</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-02T22:55:37Z</dcterms:created>
+        <dcterms:description xml:lang="en">Way of paying for something, such as cash</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:128d3006-85e6-4803-a4f7-594451d313d4"/>
+        <dcterms:references rdf:resource="https://dictionary.cambridge.org/dictionary/english/mode-of-payment?q=payment+method"/>
+        <dcterms:title xml:lang="en">Payment Method</dcterms:title>
+        <rdfs:label xml:lang="en">PaymentMethod</rdfs:label>
     </owl:Class>
     
 
@@ -4445,6 +4488,20 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dcterms:references rdf:resource="https://www.lexico.com/definition/priority"/>
         <dcterms:title xml:lang="en">Priority Classification</dcterms:title>
         <rdfs:label xml:lang="en">PriorityClassification</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceCategory -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceCategory">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-02T22:38:52Z</dcterms:created>
+        <dcterms:description xml:lang="en">Class of products or services, regarded as having particular shared characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:7f8aef98-e9b2-475e-b911-2252f29ae224"/>
+        <dcterms:title xml:lang="en">Product Or Service Category</dcterms:title>
+        <rdfs:label xml:lang="en">ProductOrServiceCategory</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://purl.org/goodrelations/v1#category"/>
     </owl:Class>
     
 
@@ -5305,6 +5362,22 @@ Note 1 to entry: For the form resulting from the conversion of one writing syste
     <!-- http://www.w3.org/2006/time#Wednesday -->
 
     <owl:NamedIndividual rdf:about="http://www.w3.org/2006/time#Wednesday"/>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/ActivityInterest -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ActivityInterest">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ActivityToPersonRelationshipType"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-07-29T12:46:58Z</dcterms:created>
+        <dcterms:description xml:lang="en">Activity To Person Relationship Type in which a Person enjoys doing or studying an Activity</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:15803047-19e3-4133-b112-dcff53488258"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-02T22:45:00Z</dcterms:modified>
+        <dcterms:references rdf:resource="https://www.lexico.com/en/definition/interest"/>
+        <dcterms:title xml:lang="en">Activity Interest</dcterms:title>
+        <rdfs:label xml:lang="en">ActivityInterest</rdfs:label>
+    </owl:NamedIndividual>
     
 
 
