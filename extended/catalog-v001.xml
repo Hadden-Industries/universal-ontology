@@ -3,9 +3,9 @@
     <uri id="Imports Wizard Entry" name="http://purl.org/dc/terms#2012" uri="file:/C:/Users/maksy/GitHub/universal-ontology/iso-iec11179-3/dcterms.rdf"/>
     <uri id="Imports Wizard Entry" name="http://standards.iso.org/iso-iec/11179/-3/ed-3/v1" uri="file:/C:/Users/maksy/GitHub/universal-ontology/iso-iec11179-3/versions/v1"/>
     <uri id="Imports Wizard Entry" name="http://www.w3.org/2006/time#2016" uri="file:/C:/Users/maksy/GitHub/universal-ontology/core/time.rdf"/>
-    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/core/20230302" uri="file:/C:/Users/maksy/GitHub/universal-ontology/core/versions/20230302"/>
-    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/reference-data/20230302" uri="file:/C:/Users/maksy/GitHub/universal-ontology/reference-data/versions/20230302"/>
+    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/core/20230309" uri="file:/C:/Users/maksy/GitHub/universal-ontology/core/versions/20230309"/>
+    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/reference-data/20230309" uri="file:/C:/Users/maksy/GitHub/universal-ontology/reference-data/versions/20230309"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1677771465088" name="https://haddenindustries.com/ontology/universal/extended/" uri="universal-extended.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1678366927936" name="https://haddenindustries.com/ontology/universal/extended/" uri="universal-extended.owl"/>
     </group>
 </catalog>
