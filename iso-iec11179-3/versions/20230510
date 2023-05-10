@@ -2903,7 +2903,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:43:20Z</dcterms:created>
         <dcterms:description xml:lang="en">document that provides pertinent details for consultation about a subject</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.102"/>
-        <dcterms:identifier rdf:resource="urn:uuid:a1071108-64e5-4735-954a-8b5854703eed"/>
+        <dcterms:identifier rdf:resource="urn:uuid:707179f7-3c7b-4178-b0f5-d90a63a283be"/>
     </owl:Class>
     
 
@@ -2953,7 +2953,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:description xml:lang="en">&lt;generic&gt;inclusion of an item in a registry (3.2.113)
 &lt;metadata registry&gt; inclusion of a metadata item (3.2.75) in a metadata registry (3.2.78)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.108"/>
-        <dcterms:identifier rdf:resource="urn:uuid:910d8378-12d5-4974-b526-c1dcef1cc80e"/>
+        <dcterms:identifier rdf:resource="urn:uuid:92a510ad-ca1d-4d78-a9c8-c23b35c8a118"/>
     </owl:Class>
     
 
