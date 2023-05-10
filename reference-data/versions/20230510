@@ -11,7 +11,7 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20230505"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20230510"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-3/v1"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -22,13 +22,13 @@
         <dcterms:identifier rdf:resource="urn:uuid:7be316dd-2ca3-437b-a9d1-cf8939e1d5c2"/>
         <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2023-05-05</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2023-05-10</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights xml:lang="en">© 2023 Hadden Industries Ltd</dcterms:rights>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology</dcterms:title>
         <rdfs:label xml:lang="en">HaddenIndustriesUniversalReferenceDataOntology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20230316"/>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20230505"/>
     </owl:Ontology>
     
 
@@ -247,6 +247,18 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryPostcodeFormat_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryPostcodeFormat_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountryPostcodeFormat"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:51:05Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryRelationship_hasCountryIs -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryRelationship_hasCountryIs">
@@ -343,6 +355,42 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryToCurrencyRelationship_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryToCurrencyRelationship_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountryToCurrencyRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:11:12Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryToCurrencyRelationship_hasCurrency -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryToCurrencyRelationship_hasCurrency">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountryToCurrencyRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:11:35Z</dcterms:created>
+        <rdfs:label>hasCurrency</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryToInternationalE164NumberCountryCodeRelationship_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryToInternationalE164NumberCountryCodeRelationship_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountryToInternationalE164NumberCountryCodeRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:29:31Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryToLanguageRelationship_hasCountry -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryToLanguageRelationship_hasCountry">
@@ -363,18 +411,6 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-05T11:39:59Z</dcterms:created>
         <rdfs:label xml:lang="en">hasLanguage</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/Country_hasDomainNameSystemDomain -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Country_hasDomainNameSystemDomain">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-04-24T23:18:07Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasDomainNameSystemDomain</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -439,6 +475,18 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:33:36Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Gender_hasSex -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Gender_hasSex">
@@ -475,6 +523,18 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/InternationalPrefix_hasCountry -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InternationalPrefix_hasCountry">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalPrefix"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:36:44Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/JuridicalPersonType_hasCountry -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/JuridicalPersonType_hasCountry">
@@ -507,6 +567,78 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:19:24Z</dcterms:created>
         <rdfs:label xml:lang="en">hasQuantity</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtagToLanguageIdentificationRelationship_hasLanguageExtensionSubtag -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtagToLanguageIdentificationRelationship_hasLanguageExtensionSubtag">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtagToLanguageIdentificationRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtag"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:28:29Z</dcterms:created>
+        <rdfs:label>hasLanguageExtensionSubtag</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtagToLanguageIdentificationRelationship_hasLanguageIdentification -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtagToLanguageIdentificationRelationship_hasLanguageIdentification">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtagToLanguageIdentificationRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:28:47Z</dcterms:created>
+        <rdfs:label>hasLanguageIdentification</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationPrivateUseQualifier_hasLanguageIdentification -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationPrivateUseQualifier_hasLanguageIdentification">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationPrivateUseQualifier"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:27:00Z</dcterms:created>
+        <rdfs:label>hasLanguageIdentification</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationPrivateUseQualifier_hasLanguagePrivateUseSubtag -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationPrivateUseQualifier_hasLanguagePrivateUseSubtag">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationPrivateUseQualifier"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguagePrivateUseSubtag"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:27:40Z</dcterms:created>
+        <rdfs:label>hasLanguagePrivateUseSubtag</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationToLanguageVariantRelationship_hasLanguageIdentification -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationToLanguageVariantRelationship_hasLanguageIdentification">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationToLanguageVariantRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T14:25:53Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasLanguageIdentification</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationToLanguageVariantRelationship_hasLanguageVariant -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationToLanguageVariantRelationship_hasLanguageVariant">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationToLanguageVariantRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageVariant"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T14:25:26Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasLanguageVariant</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -615,6 +747,30 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-11-28T11:06:52Z</dcterms:created>
         <rdfs:label xml:lang="en">hasMarket</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship_hasMeasurementUnit -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship_hasMeasurementUnit">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:52:33Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasMeasurementUnit</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship_hasQuantity -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship_hasQuantity">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:52:55Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasQuantity</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -812,18 +968,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasDemonym -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasDemonym">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Demonym"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T18:08:14Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasDemonym</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/reference-data/hasDistributionChannelLevel -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasDistributionChannelLevel">
@@ -936,23 +1080,11 @@
     <!-- https://haddenindustries.com/ontology/universal/reference-data/hasInternationalE164NumberCountryCode -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasInternationalE164NumberCountryCode">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountryToInternationalE164NumberCountryCodeRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberCountryCode"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-06T11:27:49Z</dcterms:created>
-        <rdfs:label>hasInternationalE164NumberCountryCode</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasInternationalPrefix -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasInternationalPrefix">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalPrefix"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-06T11:32:33Z</dcterms:created>
-        <rdfs:label>hasInternationalPrefix</rdfs:label>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:30:11Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasInternationalE164NumberCountryCode</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -981,30 +1113,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasLanguageExtensionSubtag -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageExtensionSubtag">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtag"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-16T22:53:33Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageExtensionSubtag</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasLanguagePrivateUseSubtag -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasLanguagePrivateUseSubtag">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguagePrivateUseSubtag"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-16T22:54:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguagePrivateUseSubtag</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/reference-data/hasLanguageRegion -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageRegion">
@@ -1013,6 +1121,18 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-08-03T13:42:35Z</dcterms:created>
         <rdfs:label xml:lang="en">hasLanguageRegion</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasLanguageRelationshipType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageRelationshipType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageRelationshipType"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:44:07Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasLanguageRelationshipType</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1053,18 +1173,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasLanguageVariant -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageVariant">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageVariant"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-08-04T10:14:02Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageVariant</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/reference-data/hasMarketIs -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasMarketIs">
@@ -1097,18 +1205,6 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T18:26:54Z</dcterms:created>
         <rdfs:label xml:lang="en">hasMarketRelationshipType</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasMeasurementUnit -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasMeasurementUnit">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-19T17:26:24Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMeasurementUnit</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1272,7 +1368,6 @@
 
     <rdf:Description rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/AcceptabilityRating">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AcceptabilityRating"/>
-        <dcterms:identifier rdf:resource="urn:uuid:54a7852d-e943-49f9-9035-d5f1f151a158"/>
     </rdf:Description>
     
 
@@ -1456,6 +1551,8 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T17:21:30Z</dcterms:created>
         <dcterms:description xml:lang="en">Character encoding standard for electronic communication</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:f3b33f73-7fb2-45a2-b9df-45946aeb1ef5"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:11:00Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://datatracker.ietf.org/doc/rfc20/"/>
         <dcterms:title xml:lang="en">American Standard Code For Information Interchange</dcterms:title>
         <rdfs:label xml:lang="en">AmericanStandardCodeForInformationInterchange</rdfs:label>
     </owl:Class>
@@ -1781,38 +1878,11 @@ Note 1 to entry: calendar month (3.1.2.19) and calendar year (3.1.2.21) are time
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Country -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Country">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasDemonym"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Demonym"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country_hasDomainNameSystemDomain"/>
-                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasInternationalE164NumberCountryCode"/>
-                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberCountryCode"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasInternationalPrefix"/>
-                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalPrefix"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">One of the political units which the world is divided into, covering a particular area of land</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:a206e50e-e5be-4cd6-b377-542f2c6cb692"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-04-24T23:20:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:36:00Z</dcterms:modified>
         <dcterms:references rdf:resource="https://www.collinsdictionary.com/dictionary/english/country"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:3166:-1:en"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:3166:-3:en"/>
@@ -1921,6 +1991,26 @@ Note 1 to entry: calendar month (3.1.2.19) and calendar year (3.1.2.21) are time
         <dcterms:references rdf:resource="https://www.lexico.com/definition/population"/>
         <dcterms:title xml:lang="en">Country Population Count</dcterms:title>
         <rdfs:label xml:lang="en">CountryPopulationCount</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryPostcodeFormat -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryPostcodeFormat">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountryPostcodeFormat_hasCountry"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:48:43Z</dcterms:created>
+        <dcterms:description xml:lang="en">Specific structure and pattern that a postcode follows in a particular country</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:932546f5-9d0a-47d2-9388-9c33c854fcbb"/>
+        <dcterms:title xml:lang="en">Country Postcode Format</dcterms:title>
+        <rdfs:label xml:lang="en">CountryPostcodeFormat</rdfs:label>
     </owl:Class>
     
 
@@ -2041,6 +2131,19 @@ Note 1 to entry: calendar month (3.1.2.19) and calendar year (3.1.2.21) are time
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivisionToLocationRelationshipType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivisionToLocationRelationshipType">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:03:08Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of the way in which country subdivisions and locations are connected, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:8cfd6601-9ada-448e-a6bb-8a5c71a0fd0e"/>
+        <dcterms:title xml:lang="en">Country Subdivision To Location Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en">CountrySubdivisionToLocationRelationshipType</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryTaxRate -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryTaxRate">
@@ -2088,10 +2191,64 @@ Note 1 to entry: calendar month (3.1.2.19) and calendar year (3.1.2.21) are time
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-05T11:50:19Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of the way in which countries and country groups are connected, having common characteristics</dcterms:description>
+        <dcterms:description xml:lang="en">Way in which countries and country groups are connected</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:e73b8bab-f3de-49fa-8f5e-ab08afb08d7a"/>
         <dcterms:title xml:lang="en">Country To Country Group Relationship</dcterms:title>
         <rdfs:label xml:lang="en">CountryToCountryGroupRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryToCurrencyRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryToCurrencyRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountryToCurrencyRelationship_hasCountry"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountryToCurrencyRelationship_hasCurrency"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:10:00Z</dcterms:created>
+        <dcterms:description xml:lang="en">Way in which countries and currencies are connected</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:a98cc237-043a-4d31-b104-83d77ae58076"/>
+        <dcterms:title xml:lang="en">Country To Currency Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">CountryToCurrencyRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryToInternationalE164NumberCountryCodeRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryToInternationalE164NumberCountryCodeRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountryToInternationalE164NumberCountryCodeRelationship_hasCountry"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasInternationalE164NumberCountryCode"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberCountryCode"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:27:44Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of the way in which countries and international E.164 number country codes are connected, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:bca9cd77-bafa-430b-ab67-934ce72a188a"/>
+        <dcterms:title xml:lang="en">Country To International E164 Number Country Code Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">CountryToInternationalE164NumberCountryCodeRelationship</rdfs:label>
     </owl:Class>
     
 
@@ -2115,10 +2272,23 @@ Note 1 to entry: calendar month (3.1.2.19) and calendar year (3.1.2.21) are time
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-05T11:37:09Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of the way in which countries and languages are connected, having common characteristics</dcterms:description>
+        <dcterms:description xml:lang="en">Way in which countries and languages are connected</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:543b868f-337c-4d4d-a5a7-72617bad30c4"/>
         <dcterms:title xml:lang="en">Country To Language Relationship</dcterms:title>
         <rdfs:label xml:lang="en">CountryToLanguageRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountryToLocationRelationshipType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryToLocationRelationshipType">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:02:41Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of the way in which countries and locations are connected, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:ecba157f-5c6d-4485-ab6e-3011503951dc"/>
+        <dcterms:title xml:lang="en">Country To Location Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en">CountryToLocationRelationshipType</rdfs:label>
     </owl:Class>
     
 
@@ -2620,6 +2790,13 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain">
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain_hasCountry"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasDomainNameSystemDomain"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain"/>
@@ -2644,6 +2821,7 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-04-24T21:54:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Common address suffix shared by a distinct subset of the Internet in the hierarchical Domain Name System</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:03dc4242-2d88-4b7e-bde6-d617d01833c8"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:34:00Z</dcterms:modified>
         <dcterms:references rdf:resource="https://www.lexico.com/definition/domain"/>
         <dcterms:source rdf:resource="https://www.iana.org/domains/root/db"/>
         <dcterms:title xml:lang="en">Domain Name System Domain</dcterms:title>
@@ -3383,6 +3561,12 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
     <!-- https://haddenindustries.com/ontology/universal/reference-data/InternationalPrefix -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InternationalPrefix">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalPrefix_hasCountry"/>
+                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:alternative xml:lang="en">Dial Out Code</dcterms:alternative>
         <dcterms:alternative xml:lang="en">Exit Code</dcterms:alternative>
@@ -3393,7 +3577,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-06T09:39:10Z</dcterms:created>
         <dcterms:description xml:lang="en">Digit or combination of digits used to indicate that the number following is an international E.164-number</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:687c0395-6653-4a34-b46c-f0b356e4dff4"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-23T16:12:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:34:30Z</dcterms:modified>
         <dcterms:references rdf:resource="https://www.itu.int/rec/T-REC-E.101-200911-I/en"/>
         <dcterms:source rdf:resource="http://handle.itu.int/11.1002/pub/8056d56c-en"/>
         <dcterms:title xml:lang="en">International Prefix</dcterms:title>
@@ -3649,23 +3833,36 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification -->
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtagToLanguageIdentificationRelationship -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification">
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtagToLanguageIdentificationRelationship">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageExtensionSubtag"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtagToLanguageIdentificationRelationship_hasLanguageExtensionSubtag"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtag"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasLanguagePrivateUseSubtag"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguagePrivateUseSubtag"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtagToLanguageIdentificationRelationship_hasLanguageIdentification"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:25:41Z</dcterms:created>
+        <dcterms:description xml:lang="en">Association between a language extension subtag and a language identification</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:450393bb-08d0-4a3a-9438-07f3f316674e"/>
+        <dcterms:title xml:lang="en">Language Extension Subtag To Language Identification Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">LanguageExtensionSubtagToLanguageIdentificationRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification">
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageRegion"/>
@@ -3678,13 +3875,6 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageScript"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScript"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageVariant"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageVariant"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -3712,10 +3902,64 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-08-03T13:17:24Z</dcterms:created>
         <dcterms:description xml:lang="en">Composite datatype that serves as an identifier for a language, where the language is always defined as spoken (or written, signed or otherwise signaled) by human beings for communication of information to other human beings; computer languages such as programming languages are explicitly  excluded</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:6e0e6da2-c817-49d8-bba0-46a7576c5fa5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-16T22:55:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:31:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-3:v1:en:clause:6.3.5.1"/>
         <dcterms:title xml:lang="en">Language Identification</dcterms:title>
         <rdfs:label xml:lang="en">LanguageIdentification</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationPrivateUseQualifier -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationPrivateUseQualifier">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationPrivateUseQualifier_hasLanguageIdentification"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationPrivateUseQualifier_hasLanguagePrivateUseSubtag"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguagePrivateUseSubtag"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:21:17Z</dcterms:created>
+        <dcterms:description xml:lang="en">Association between a language identification and a language private use subtag</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:5d9534e6-3ffb-4fdc-b0a4-5e920b46af59"/>
+        <dcterms:title xml:lang="en">Language Identification Private Use Qualifier</dcterms:title>
+        <rdfs:label xml:lang="en">LanguageIdentificationPrivateUseQualifier</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationToLanguageVariantRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationToLanguageVariantRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationToLanguageVariantRelationship_hasLanguageIdentification"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentificationToLanguageVariantRelationship_hasLanguageVariant"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageVariant"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T14:23:22Z</dcterms:created>
+        <dcterms:description xml:lang="en">Association between a language identification and a language variant</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:41264e3c-ead1-4b66-a22a-befecb12ae2e"/>
+        <dcterms:title xml:lang="en">Language Identification To Language Variant Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">LanguageIdentificationToLanguageVariantRelationship</rdfs:label>
     </owl:Class>
     
 
@@ -3746,6 +3990,26 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dcterms:source rdf:resource="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry"/>
         <dcterms:title xml:lang="en">Language Region</dcterms:title>
         <rdfs:label xml:lang="en">LanguageRegion</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageRelationshipType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageRelationshipType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:42:41Z</dcterms:created>
+        <dcterms:description xml:lang="en">Way in which languages are connected</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:61a2c09f-b6c4-494c-8904-154b5e0ba016"/>
+        <dcterms:title xml:lang="en">Language Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">LanguageRelationship</rdfs:label>
     </owl:Class>
     
 
@@ -3910,6 +4174,19 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LocationToTownRelationshipType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LocationToTownRelationshipType">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:03:51Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of the way in which locations and towns are connected, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:d3dd607e-8679-42f5-acad-22e7fa66b3f5"/>
+        <dcterms:title xml:lang="en">Location To Town Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en">LocationToTownRelationshipType</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/MaritalStatus -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MaritalStatus">
@@ -3919,12 +4196,12 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dcterms:description xml:lang="en">One&apos;s situation with regard to whether one is single, married, separated, divorced, or widowed</dcterms:description>
         <dcterms:identifier rdf:resource="http://snomed.info/id/125680007"/>
         <dcterms:identifier rdf:resource="urn:uuid:ae78c756-efc3-4308-a363-6633a138acb8"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-25T12:34:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:20:00Z</dcterms:modified>
         <dcterms:references rdf:resource="https://www.lexico.com/definition/marital_status"/>
+        <dcterms:source rdf:resource="https://analysisfunction.civilservice.gov.uk/policy-store/demographic-information-harmonised-principle/#marital-or-partnership-status-and-living-arrangements"/>
         <dcterms:source rdf:resource="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_MARSTA&amp;StrLanguageCode=EN&amp;IntPcKey=37388895&amp;StrLayoutCode=HIERARCHIC"/>
         <dcterms:title xml:lang="en">Marital Status</dcterms:title>
         <rdfs:label xml:lang="en">MaritalStatus</rdfs:label>
-        <rdfs:seeAlso rdf:resource="https://gss.civilservice.gov.uk/policy-store/demographic-information/#marital-or-partnership-status-and-living-arrangements"/>
     </owl:Class>
     
 
@@ -4253,6 +4530,33 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship_hasMeasurementUnit"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship_hasQuantity"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:51:26Z</dcterms:created>
+        <dcterms:description xml:lang="en">Way in which measurement units and quantities are connected</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:3822fb91-e7dd-47dd-b0ce-ace179933428"/>
+        <dcterms:title xml:lang="en">Measurement Unit To Quantity Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">MeasurementUnitToQuantityRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/MonetaryAuthority -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MonetaryAuthority">
@@ -4436,7 +4740,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-25T12:22:00Z</dcterms:modified>
         <dcterms:references rdf:resource="https://www.census.gov/eos/www/naics/index.html"/>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardIndustrialClassification1987"/>
-        <dcterms:title xml:lang="en">North AmericanIndustry Classification System 1997</dcterms:title>
+        <dcterms:title xml:lang="en">North American Industry Classification System 1997</dcterms:title>
         <rdfs:label xml:lang="en">NorthAmericanIndustryClassificationSystem1997</rdfs:label>
     </owl:Class>
     
@@ -4456,7 +4760,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dcterms:references rdf:resource="https://www.census.gov/eos/www/naics/index.html"/>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem1997"/>
         <dcterms:source rdf:resource="https://www.census.gov/eos/www/naics/downloadables/downloadables.html"/>
-        <dcterms:title xml:lang="en">North AmericanIndustry Classification System 2002</dcterms:title>
+        <dcterms:title xml:lang="en">North American Industry Classification System 2002</dcterms:title>
         <rdfs:label xml:lang="en">NorthAmericanIndustryClassificationSystem2002</rdfs:label>
     </owl:Class>
     
@@ -4476,7 +4780,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dcterms:references rdf:resource="https://www.census.gov/eos/www/naics/index.html"/>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2002"/>
         <dcterms:source rdf:resource="https://www.census.gov/eos/www/naics/downloadables/downloadables.html"/>
-        <dcterms:title xml:lang="en">North AmericanIndustry Classification System 2007</dcterms:title>
+        <dcterms:title xml:lang="en">North American Industry Classification System 2007</dcterms:title>
         <rdfs:label xml:lang="en">NorthAmericanIndustryClassificationSystem2007</rdfs:label>
     </owl:Class>
     
@@ -4496,7 +4800,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dcterms:references rdf:resource="https://www.census.gov/eos/www/naics/index.html"/>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2007"/>
         <dcterms:source rdf:resource="https://www.census.gov/eos/www/naics/downloadables/downloadables.html"/>
-        <dcterms:title xml:lang="en">North AmericanIndustry Classification System 2012</dcterms:title>
+        <dcterms:title xml:lang="en">North American Industry Classification System 2012</dcterms:title>
         <rdfs:label xml:lang="en">NorthAmericanIndustryClassificationSystem2012</rdfs:label>
     </owl:Class>
     
@@ -4515,7 +4819,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dcterms:references rdf:resource="https://www.census.gov/eos/www/naics/index.html"/>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2012"/>
         <dcterms:source rdf:resource="https://www.census.gov/eos/www/naics/downloadables/downloadables.html"/>
-        <dcterms:title xml:lang="en">North AmericanIndustry Classification System 2017</dcterms:title>
+        <dcterms:title xml:lang="en">North American Industry Classification System 2017</dcterms:title>
         <rdfs:label xml:lang="en">NorthAmericanIndustryClassificationSystem2017</rdfs:label>
     </owl:Class>
     
@@ -4962,19 +5266,12 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasMeasurementUnit"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:alternative xml:lang="en">Dimension</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Property of a phenomenon, body, or substance, where the property has a magnitude that can be expressed as a number and a reference</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b170a42e-271a-4fdd-a8cf-4072261dc739"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-19T17:50:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:55:00Z</dcterms:modified>
         <dcterms:references rdf:resource="https://jcgm.bipm.org/vim/en/1.1.html"/>
         <dcterms:source rdf:resource="http://www.unece.org/tradewelcome/un-centre-for-trade-facilitation-and-e-business-uncefact/outputs/cefactrecommendationsrec-index/list-of-trade-facilitation-recommendations-n-16-to-20.html"/>
         <dcterms:title xml:lang="en">Quantity</dcterms:title>
@@ -5155,11 +5452,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:description xml:lang="en">Person&apos;s identity in relation to the gender or genders to which they are sexually attracted; the fact of being heterosexual, homosexual, etc.</dcterms:description>
         <dcterms:identifier rdf:resource="http://snomed.info/id/66621004"/>
         <dcterms:identifier rdf:resource="urn:uuid:0c72bd90-c073-48d5-bfaa-4541913d0788"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-23T16:37:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:18:00Z</dcterms:modified>
         <dcterms:references rdf:resource="https://www.lexico.com/definition/sexual_orientation"/>
+        <dcterms:source rdf:resource="https://analysisfunction.civilservice.gov.uk/policy-store/sexual-orientation/"/>
         <dcterms:title xml:lang="en">Sexual Orientation</dcterms:title>
         <rdfs:label xml:lang="en">SexualOrientation</rdfs:label>
-        <rdfs:seeAlso rdf:resource="https://gss.civilservice.gov.uk/policy-store/sexual-orientation/"/>
     </owl:Class>
     
 
