@@ -20,13 +20,13 @@
         <dcterms:identifier rdf:resource="urn:uuid:25308c10-7e78-4b8b-8945-1cb75051f8d0"/>
         <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2023-02-28</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2023-05-10</dcterms:modified>
         <dcterms:publisher xml:lang="en">Hadden Industries Ltd</dcterms:publisher>
         <dcterms:rights xml:lang="en">© 2023 Hadden Industries Ltd</dcterms:rights>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">ISO/IEC 11179-3:2013 Ontology</dcterms:title>
         <rdfs:label xml:lang="en">ISO_IEC11179-3_2013Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/20201106"/>
+        <owl:priorVersion rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/20230228"/>
     </owl:Ontology>
     
 
@@ -330,6 +330,42 @@
     
 
 
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/IdentifierScope_scope -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/IdentifierScope_scope">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/IdentifierScope"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:40:43Z</dcterms:created>
+        <rdfs:label xml:lang="en">scope</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/ItemDesignation_item -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/ItemDesignation_item">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemDesignation"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignatableItem"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:28:10Z</dcterms:created>
+        <rdfs:label xml:lang="en">item</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/ItemSlot_item -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/ItemSlot_item">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemSlot"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/IdentifiedItem"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:33:16Z</dcterms:created>
+        <rdfs:label xml:lang="en">item</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/Namespace_naming_authority -->
 
     <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/Namespace_naming_authority">
@@ -413,6 +449,17 @@ NOTE 2 Constraints on the unit of measure dimensionality are specified in 11.3.4
     
 
 
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/acceptable_convention -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/acceptable_convention">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConventionUtilization"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConvention"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:23:12Z</dcterms:created>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/assignedTo -->
 
     <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/assignedTo">
@@ -422,11 +469,55 @@ NOTE 2 Constraints on the unit of measure dimensionality are specified in 11.3.4
     
 
 
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/binding -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/binding">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignationNamespace"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:16:47Z</dcterms:created>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/conformant_designation -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/conformant_designation">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConventionConformance"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:35:29Z</dcterms:created>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/contained_identifier -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/contained_identifier">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/IdentifierScope"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ScopedIdentifier"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:41:10Z</dcterms:created>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/containerFor -->
 
     <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/containerFor">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T15:21:56Z</dcterms:created>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/convention -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/convention">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConventionConformance"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConvention"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:34:57Z</dcterms:created>
     </owl:ObjectProperty>
     
 
@@ -518,6 +609,28 @@ NOTE 2 Constraints on the unit of measure dimensionality are specified in 11.3.4
     
 
 
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/definition -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/definition">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemDefinition"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Definition"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:26:22Z</dcterms:created>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/definition_heading -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/definition_heading">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignationDefinitionPairing"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:15:01Z</dcterms:created>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/denotesA -->
 
     <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/denotesA">
@@ -527,26 +640,13 @@ NOTE 2 Constraints on the unit of measure dimensionality are specified in 11.3.4
     
 
 
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/designation_definition_pairing -->
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/designation -->
 
-    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/designation_definition_pairing">
-        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
-        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Definition"/>
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/designation">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemDesignation"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:19:29Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:7.3.4.1"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/designation_namespace -->
-
-    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/designation_namespace">
-        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
-        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:18:41Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:7.3.4.2"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:28:44Z</dcterms:created>
     </owl:ObjectProperty>
     
 
@@ -590,18 +690,6 @@ NOTE 2 Constraints on the unit of measure dimensionality are specified in 11.3.4
     
 
 
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/identifier_scope -->
-
-    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/identifier_scope">
-        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ScopedIdentifier"/>
-        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:54:53Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:7.2.3.2"/>
-    </owl:ObjectProperty>
-    
-
-
     <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/instanceOf -->
 
     <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/instanceOf">
@@ -620,38 +708,13 @@ NOTE 2 Constraints on the unit of measure dimensionality are specified in 11.3.4
     
 
 
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/item_definition -->
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/item -->
 
-    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/item_definition">
-        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Definition"/>
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/item">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemDefinition"/>
         <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignatableItem"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T15:36:43Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:7.3.4.3"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/item_designation -->
-
-    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/item_designation">
-        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
-        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignatableItem"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:29:57Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:7.3.4.4"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/item_slot -->
-
-    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/item_slot">
-        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/IdentifiedItem"/>
-        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Slot"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T15:18:47Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:7.2.3.3"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:25:39Z</dcterms:created>
     </owl:ObjectProperty>
     
 
@@ -665,26 +728,13 @@ NOTE 2 Constraints on the unit of measure dimensionality are specified in 11.3.4
     
 
 
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/naming_convention_conformance -->
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/namespace -->
 
-    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/naming_convention_conformance">
-        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
-        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConvention"/>
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/namespace">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignationNamespace"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:17:41Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:7.3.4.5"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/naming_convention_utilization -->
-
-    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/naming_convention_utilization">
-        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
-        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConvention"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T15:52:44Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:7.3.4.6"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:15:37Z</dcterms:created>
     </owl:ObjectProperty>
     
 
@@ -801,6 +851,17 @@ NOTE 2 Constraints on the unit of measure dimensionality are specified in 11.3.4
     
 
 
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/slot -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/slot">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemSlot"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Slot"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:34:18Z</dcterms:created>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/source -->
 
     <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/source">
@@ -810,6 +871,17 @@ NOTE 2 Constraints on the unit of measure dimensionality are specified in 11.3.4
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T19:05:44Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:7.3.2.4.2.3"/>
         <rdfs:comment xml:lang="en">reference to the source from which the definition text is taken</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/specific_definition -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/specific_definition">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignationDefinitionPairing"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Definition"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:15:36Z</dcterms:created>
     </owl:ObjectProperty>
     
 
@@ -850,6 +922,17 @@ NOTE 2 Constraints on the unit of measure dimensionality are specified in 11.3.4
     <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/unitOf">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:15:42Z</dcterms:created>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/utilization -->
+
+    <owl:ObjectProperty rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/utilization">
+        <rdfs:domain rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConventionUtilization"/>
+        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:22:52Z</dcterms:created>
     </owl:ObjectProperty>
     
 
@@ -1422,6 +1505,7 @@ full_expansion is defined only when Namespace has exactly one identifier.</rdfs:
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:36:55Z</dcterms:created>
         <dcterms:description xml:lang="en">scale of acceptability</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.1"/>
+        <dcterms:identifier rdf:resource="urn:uuid:54a7852d-e943-49f9-9035-d5f1f151a158"/>
         <rdfs:comment xml:lang="en">NOTE 1 The following values shall be used: preferred, admitted, deprecated, obsolete and superseded
 NOTE 2 Adapted from ISO 10241 :1992, 5.2.2.</rdfs:comment>
     </owl:Class>
@@ -1437,6 +1521,7 @@ NOTE 2 Adapted from ISO 10241 :1992, 5.2.2.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:57:31Z</dcterms:created>
         <dcterms:description xml:lang="en">registered item (3.2.105) for which administrative information (3.2.3) is recorded</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.2"/>
+        <dcterms:identifier rdf:resource="urn:uuid:252a8fa0-65b9-486d-be5c-159d8acc066b"/>
     </owl:Class>
     
 
@@ -1449,6 +1534,7 @@ NOTE 2 Adapted from ISO 10241 :1992, 5.2.2.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:59:15Z</dcterms:created>
         <dcterms:description xml:lang="en">registered item (3.2.105) for which administrative information (3.2.3) is recorded in another registered item</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.6"/>
+        <dcterms:identifier rdf:resource="urn:uuid:8c3c3e9c-aae0-4862-98f5-2d73fcd85632"/>
         <rdfs:comment xml:lang="en">NOTE This is often a member of a group of registered items that is managed as a whole.</rdfs:comment>
     </owl:Class>
     
@@ -1467,6 +1553,7 @@ NOTE 2 Adapted from ISO 10241 :1992, 5.2.2.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:10:46Z</dcterms:created>
         <dcterms:description xml:lang="en">abstraction of a property (3.2.100) of an object (3.2.87) or of a set of objects</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.14"/>
+        <dcterms:identifier rdf:resource="urn:uuid:47cc2b00-90b7-43d9-8b1d-12f610d5c89b"/>
         <rdfs:comment xml:lang="en">NOTE Characteristics are used for describing concepts (3.2.18).
 [ISO 1087-1:2000, 3.2.4]</rdfs:comment>
     </owl:Class>
@@ -1481,6 +1568,7 @@ NOTE 2 Adapted from ISO 10241 :1992, 5.2.2.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:25:39Z</dcterms:created>
         <dcterms:description xml:lang="en">metadata item (3.2.75) of a type for which classification is supported in a given metadata registry (3.2.78)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.15"/>
+        <dcterms:identifier rdf:resource="urn:uuid:80d2747d-36a5-45c2-80af-fff5090a4c31"/>
     </owl:Class>
     
 
@@ -1498,6 +1586,7 @@ NOTE 2 Adapted from ISO 10241 :1992, 5.2.2.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:10:10Z</dcterms:created>
         <dcterms:description xml:lang="en">unit of knowledge created by a unique combination of characteristics (3.2.14)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.18"/>
+        <dcterms:identifier rdf:resource="urn:uuid:3b3aa4a2-5d92-431a-b70b-2d8d8e158682"/>
         <rdfs:comment xml:lang="en">NOTE Concepts are not necessarily bound to particular languages. They are, however, influenced by the social or cultural background which often leads to different categorizations.
 [ISO 1087-1:2000, 3.2.1]
 NOTE 2 A concept is independent of its representation.</rdfs:comment>
@@ -1513,6 +1602,7 @@ NOTE 2 A concept is independent of its representation.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T11:57:14Z</dcterms:created>
         <dcterms:description xml:lang="en">data model (3.2.36) that represents an abstract view of the real world</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.20"/>
+        <dcterms:identifier rdf:resource="urn:uuid:e4bafe9c-f387-4f52-8c34-4c39ac73d6d9"/>
     </owl:Class>
     
 
@@ -1526,6 +1616,7 @@ NOTE 2 A concept is independent of its representation.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:38:36Z</dcterms:created>
         <dcterms:description xml:lang="en">concept (3.2.18) that expresses its description or valid instance meanings</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.21"/>
+        <dcterms:identifier rdf:resource="urn:uuid:1c3d494f-ad3a-4376-b6ab-d2c790443c3c"/>
     </owl:Class>
     
 
@@ -1572,6 +1663,7 @@ NOTE 2 A concept is independent of its representation.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:42:29Z</dcterms:created>
         <dcterms:description xml:lang="en">instance of a role (3.2.121) of an individual (3.2.65) or organization (3.2.90) (or organization part (3.2.93) or organization Person (3.2.95)) to or from whom an information item(s), a material object(s) and/or person(s) can be sent in a specified context</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.23"/>
+        <dcterms:identifier rdf:resource="urn:uuid:3cb479df-33ff-4f07-bcef-19ef93ce3fab"/>
     </owl:Class>
     
 
@@ -1583,6 +1675,7 @@ NOTE 2 A concept is independent of its representation.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:35Z</dcterms:created>
         <dcterms:description xml:lang="en">&lt;designation and definition&gt; setting in which a designation (3.2.51) or definition (3.2.39) is used</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.25"/>
+        <dcterms:identifier rdf:resource="urn:uuid:bf046a01-0c7e-4d32-81c8-eeba2e520bee"/>
     </owl:Class>
     
 
@@ -1594,6 +1687,7 @@ NOTE 2 A concept is independent of its representation.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:07:22Z</dcterms:created>
         <dcterms:description xml:lang="en">re-interpretable representation of information in a formalized manner suitable for communication, interpretation or processing</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.27"/>
+        <dcterms:identifier rdf:resource="urn:uuid:53088597-736f-42c8-9bb1-387969a6ca91"/>
         <rdfs:comment xml:lang="en">NOTE Data can be processed by human or automatic means.</rdfs:comment>
     </owl:Class>
     
@@ -1640,6 +1734,7 @@ NOTE 2 A concept is independent of its representation.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:45:06Z</dcterms:created>
         <dcterms:description xml:lang="en">&lt;in organization of data&gt; unit of data (3.2.27) that is considered in context to be indivisible</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.28"/>
+        <dcterms:identifier rdf:resource="urn:uuid:0c2bc95b-f121-4aff-bc5a-f7849f589373"/>
         <rdfs:comment xml:lang="en">EXAMPLE The data element “age of a person” with values consisting of all combinations of 3 decimal digits.</rdfs:comment>
     </owl:Class>
     
@@ -1688,6 +1783,7 @@ NOTE 2 A concept is independent of its representation.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:45:14Z</dcterms:created>
         <dcterms:description xml:lang="en">concept (3.2.18) that is an association (3.1.2) of a property (3.2.100) with an object class (3.2.88)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.29"/>
+        <dcterms:identifier rdf:resource="urn:uuid:bcc043e4-da45-479e-825d-bfe98f34054b"/>
         <rdfs:comment xml:lang="en">NOTE 1 A data element concept is implicitly associated with both the property and the object class whose combination it expresses.
 NOTE 2 A data element concept may also be associated with zero or more conceptual domains (3.2.21) each of which expresses its value meanings (3.2.141).
 NOTE 3 A data element concept may also be associated with zero or more data elements (3.2.28) each of which provide representation for the data element concept via its associated value domain (3.2.140).</rdfs:comment>
@@ -1708,6 +1804,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T11:56:28Z</dcterms:created>
         <dcterms:description xml:lang="en">graphical and/or lexical representation of data (3.2.27), specifying their properties, structure and inter-relationships</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.36"/>
+        <dcterms:identifier rdf:resource="urn:uuid:662964e9-a489-4fad-a281-e514d3e4c4b8"/>
     </owl:Class>
     
 
@@ -1719,6 +1816,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T21:39:16Z</dcterms:created>
         <dcterms:description xml:lang="en">set of distinct values, characterized by properties of those values and by operations on those values</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.1.9"/>
+        <dcterms:identifier rdf:resource="urn:uuid:8f133ec8-1e43-4588-9b35-64141d139385"/>
     </owl:Class>
     
 
@@ -1754,13 +1852,6 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/item_definition"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignatableItem"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/Definition_language"/>
                 <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
                 <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/LanguageIdentification"/>
@@ -1784,6 +1875,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:28Z</dcterms:created>
         <dcterms:description xml:lang="en">representation of a concept (3.2.18) by a descriptive statement which serves to differentiate it from related concepts</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.39"/>
+        <dcterms:identifier rdf:resource="urn:uuid:de8b84b9-e38c-46cb-87f4-3959232402ba"/>
     </owl:Class>
     
 
@@ -1823,6 +1915,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:30:08Z</dcterms:created>
         <dcterms:description xml:lang="en">&lt;designatable item&gt; context (3.2.25) in which the definition (3.2.39) is applicable</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.41"/>
+        <dcterms:identifier rdf:resource="urn:uuid:6d813f00-7df0-4d16-bf61-d8a267ac7df5"/>
     </owl:Class>
     
 
@@ -1834,6 +1927,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T18:56:26Z</dcterms:created>
         <dcterms:description xml:lang="en">reference to the source from which the definition (3.2.39) is taken</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.43"/>
+        <dcterms:identifier rdf:resource="urn:uuid:d396362c-ef48-4708-9b62-e964f2aaa168"/>
     </owl:Class>
     
 
@@ -1846,6 +1940,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">identified item (3.2.64) which can have designations (3.2.51) and/or definitions (3.2.40)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.50"/>
+        <dcterms:identifier rdf:resource="urn:uuid:dfabe3af-6470-4f8a-9053-970085f972c0"/>
     </owl:Class>
     
 
@@ -1862,44 +1957,9 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/designation_definition_pairing"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Definition"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/designation_namespace"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/naming_convention_conformance"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConvention"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/item_designation"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignatableItem"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/Designation_language"/>
                 <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
                 <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/LanguageIdentification"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/designation_definition_pairing"/>
-                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
-                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Definition"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1913,6 +1973,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:21Z</dcterms:created>
         <dcterms:description xml:lang="en">&lt;designatable item&gt; representation of a designatable item (3.2.50) by a sign (3.2.123) which denotes it</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.52"/>
+        <dcterms:identifier rdf:resource="urn:uuid:fc458e74-b84a-4ef9-bcae-5ca958340077"/>
         <rdfs:comment xml:lang="en">NOTE This contextualized designation is as specified in designation (3.2.51) or a name (3.2.83).</rdfs:comment>
     </owl:Class>
     
@@ -1953,6 +2014,61 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:29:54Z</dcterms:created>
         <dcterms:description xml:lang="en">&lt;designatable item&gt; context (3.2.25) in which a designation (3.2.51) is applicable</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.54"/>
+        <dcterms:identifier rdf:resource="urn:uuid:e45723fc-5d38-4ecf-a7dc-09525286c333"/>
+    </owl:Class>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignationDefinitionPairing -->
+
+    <owl:Class rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignationDefinitionPairing">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/definition_heading"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/specific_definition"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Definition"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:12:55Z</dcterms:created>
+        <dcterms:description xml:lang="en">records the bindings of zero or one Designation (7.3.2.3) to zero or one Definition (7.3.2.4)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:clause:7.3.4.1"/>
+        <dcterms:identifier rdf:resource="urn:uuid:201d4aac-0779-4a7a-ad7d-22a6ad604177"/>
+        <rdfs:comment xml:lang="en">NOTE 1 If there is a need to pair a designation with different definitions in different contexts, then this requires the use of separate Designatable_Items (7.3.2.2), Designations and Definitions, even though the Sign (6.2.10) used by each Designation may be identical.
+NOTE 2 The requirement that a Designation be associated with a Designatable_Item, means that it is not possible to use the registry simply to record terms as designations with associated definitions without reference to some item. It is anticipated that such a requirement would be met by the use of a Concept_System (9.1.2.2), where each term would be specified as a Concept (9.1.2.1).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignationNamespace -->
+
+    <owl:Class rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignationNamespace">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/binding"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/namespace"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:10:52Z</dcterms:created>
+        <dcterms:description xml:lang="en">namespace (3.2.84) to which a designation (3.2.51) is bound</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.56"/>
+        <dcterms:identifier rdf:resource="urn:uuid:2b22fff8-aa6f-4ecb-aa94-6ae35515d38b"/>
     </owl:Class>
     
 
@@ -2007,6 +2123,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:45:34Z</dcterms:created>
         <dcterms:description xml:lang="en">composite datatype (3.1.9) used to specify the document type of a Reference_Document (6.3.7). The document type may be specified using an identifier (6.3.3.2.1) or a description (6.3.3.2.2).</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:clause:6.3.3"/>
+        <dcterms:identifier rdf:resource="urn:uuid:13c73ad9-39dd-4f6d-860c-30b62b1632bc"/>
         <rdfs:comment xml:lang="en">Definition is incorrect in the standard - &quot;datatype&quot; is term 3.1.9, not 3.1.8</rdfs:comment>
     </owl:Class>
     
@@ -2019,6 +2136,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T15:17:27Z</dcterms:created>
         <dcterms:description xml:lang="en">feature not defined by this part of ISO/IEC 11179</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.62"/>
+        <dcterms:identifier rdf:resource="urn:uuid:737dae47-be06-4e1d-a81c-6e8d9f76c0a7"/>
         <rdfs:comment xml:lang="en">NOTE This part of ISO/IEC 11179 specifies slots (3.2.124) as a mechanism for extending identified items (3.2.64).</rdfs:comment>
     </owl:Class>
     
@@ -2040,17 +2158,11 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
                 <owl:someValuesFrom rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/MetadataRegistry"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/item_slot"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Slot"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:50:34Z</dcterms:created>
         <dcterms:description xml:lang="en">metadata item (3.2.75) identified in a metadata registry (3.2.78)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.64"/>
+        <dcterms:identifier rdf:resource="urn:uuid:658b2c19-ed69-48a6-a5de-a0ac6b394602"/>
     </owl:Class>
     
 
@@ -2062,7 +2174,33 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:52:25Z</dcterms:created>
         <dcterms:description xml:lang="en">&lt;metamodel&gt; sequence of characters, capable of uniquely identifying that with which it is associated, within a specified context</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.1.11"/>
+        <dcterms:identifier rdf:resource="urn:uuid:69405cfe-fee5-4f82-8f8a-67da39b84d31"/>
         <rdfs:comment xml:lang="en">NOTE A name (3.2.83) should not be used as an identifier because it is not linguistically neutral.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/IdentifierScope -->
+
+    <owl:Class rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/IdentifierScope">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/contained_identifier"/>
+                <owl:someValuesFrom rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ScopedIdentifier"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/IdentifierScope_scope"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:38:23Z</dcterms:created>
+        <dcterms:description xml:lang="en">associates zero, one or more Scoped_Identifiers (7.2.2.2) with exactly one Namespace (7.2.2.3)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:clause:7.2.3.2"/>
+        <dcterms:identifier rdf:resource="urn:uuid:402f0b90-81ab-47de-a810-216f5a270b4d"/>
     </owl:Class>
     
 
@@ -2074,6 +2212,82 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:29:51Z</dcterms:created>
         <dcterms:description xml:lang="en">single human being</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.65"/>
+        <dcterms:identifier rdf:resource="urn:uuid:abe8371f-74aa-4fbe-a030-75b12f17a613"/>
+    </owl:Class>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemDefinition -->
+
+    <owl:Class rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemDefinition">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/definition"/>
+                <owl:someValuesFrom rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Definition"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/item"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignatableItem"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:21:47Z</dcterms:created>
+        <dcterms:description xml:lang="en">records the binding of exactly one Designatable_Item (7.3.2.2) to zero or more Definitions (7.3.2.4), recording also that the Designatable_Item is defined by the Definitions. The association records all of the definitions for a specific Designatable_Item.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:clause:7.3.4.3"/>
+        <dcterms:identifier rdf:resource="urn:uuid:ce13b4a3-98fb-49d2-bfeb-8dcbe17014f2"/>
+    </owl:Class>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemDesignation -->
+
+    <owl:Class rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemDesignation">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/designation"/>
+                <owl:someValuesFrom rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/ItemDesignation_item"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DesignatableItem"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:22:14Z</dcterms:created>
+        <dcterms:description xml:lang="en">records the bindings of exactly one Designatable_Item (7.3.2.2) to zero or more Designations (7.3.2.3), records all of the Designations (sign + language pairs) of a Designatable_Item</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:clause:7.3.4.4"/>
+        <dcterms:identifier rdf:resource="urn:uuid:478ead10-057e-4d8d-89e1-f214edb741d0"/>
+    </owl:Class>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemSlot -->
+
+    <owl:Class rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ItemSlot">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/slot"/>
+                <owl:someValuesFrom rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Slot"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/ItemSlot_item"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/IdentifiedItem"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:32:28Z</dcterms:created>
+        <dcterms:description xml:lang="en">associates an Identified_Item (7.2.2.1) with zero, one or more Slots (7.2.2.4) which extend the Identified_item</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:clause:7.2.3.3"/>
+        <dcterms:identifier rdf:resource="urn:uuid:9f6f6a70-f91f-434e-b61f-d70e76c10511"/>
     </owl:Class>
     
 
@@ -2091,6 +2305,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T21:40:04Z</dcterms:created>
         <dcterms:description xml:lang="en">system of signs (3.2.123) for communication, usually consisting of a vocabulary and rules</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.68"/>
+        <dcterms:identifier rdf:resource="urn:uuid:70e197bc-7471-4fc9-b9f0-352394736597"/>
     </owl:Class>
     
 
@@ -2172,6 +2387,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:10:10Z</dcterms:created>
         <dcterms:description xml:lang="en">composite datatype (3.1.9) that serves as an identifier (3.1.11) for a language (3.2.68). Language Identification always defines a language as spoken (or written, signed or otherwise signaled) by human beings for communication of information to other human beings. Computer languages such as programming languages are explicitly excluded.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:clause:6.3.5"/>
+        <dcterms:identifier rdf:resource="urn:uuid:143b32bb-d1d2-4795-97e1-c1a57a286de3"/>
         <rdfs:comment xml:lang="en">Definition is incorrect in the standard - &quot;datatype&quot; is term 3.1.9, not 3.1.8</rdfs:comment>
     </owl:Class>
     
@@ -2185,6 +2401,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:08:55Z</dcterms:created>
         <dcterms:description xml:lang="en">data (3.2.27) that defines and describes other data</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.74"/>
+        <dcterms:identifier rdf:resource="urn:uuid:18dc00d0-8fdc-475e-bed1-143780e96de5"/>
     </owl:Class>
     
 
@@ -2202,6 +2419,7 @@ NOTE 3 A data element concept may also be associated with zero or more data elem
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:43:10Z</dcterms:created>
         <dcterms:description xml:lang="en">instance of a metadata object (3.2.76)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.75"/>
+        <dcterms:identifier rdf:resource="urn:uuid:a1968ad1-710f-497f-9302-647273f7be27"/>
         <rdfs:comment xml:lang="en">NOTE 1 In all parts of ISO/IEC 11179, this term is applied only to instances of metadata objects described by the metamodel in Clauses 5 through 11 of this part of ISO/IEC 11179. Examples include instances of Data_Elements (11.5.2.1), Data_Element_Concepts (11.2.2.3), Permissible_Values (11.3.2.7) etc.
 NOTE 2 A metadata item has associated attributes (3.1.4), as appropriate for the metadata object it instantiates.</rdfs:comment>
     </owl:Class>
@@ -2221,6 +2439,7 @@ NOTE 2 A metadata item has associated attributes (3.1.4), as appropriate for the
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:48:31Z</dcterms:created>
         <dcterms:description xml:lang="en">object type defined by a metamodel (3.2.80)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.76"/>
+        <dcterms:identifier rdf:resource="urn:uuid:6ed0b546-d23c-494b-bc77-8c141fd5b95b"/>
         <rdfs:comment xml:lang="en">NOTE In all parts of ISO/IEC 11179, this term is applied only to metadata objects described by the metamodel in Clauses 5 through 11 of this part of ISO/IEC 11179. Examples include Data_Elements (11.5.2.1), Data_Element_Concepts (11.2.2.3), Permissible_Values (11.3.2.7) etc.</rdfs:comment>
     </owl:Class>
     
@@ -2240,6 +2459,7 @@ NOTE 2 A metadata item has associated attributes (3.1.4), as appropriate for the
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:51:31Z</dcterms:created>
         <dcterms:description xml:lang="en">information system for registering metadata (3.2.74)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.78"/>
+        <dcterms:identifier rdf:resource="urn:uuid:577e16a9-d67d-4d69-9681-f5c58feecba1"/>
         <rdfs:comment xml:lang="en">NOTE The associated information store or database is known as a metadata register (3.2.77).</rdfs:comment>
     </owl:Class>
     
@@ -2252,6 +2472,7 @@ NOTE 2 A metadata item has associated attributes (3.1.4), as appropriate for the
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:06:02Z</dcterms:created>
         <dcterms:description xml:lang="en">model that specifies one or more other models</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.80"/>
+        <dcterms:identifier rdf:resource="urn:uuid:ce409c82-7bb3-4cc6-b877-349364c4448a"/>
     </owl:Class>
     
 
@@ -2264,6 +2485,7 @@ NOTE 2 A metadata item has associated attributes (3.1.4), as appropriate for the
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T08:21:38Z</dcterms:created>
         <dcterms:description xml:lang="en">designation (3.2.51) of an object (3.2.87) by a linguistic expression</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.83"/>
+        <dcterms:identifier rdf:resource="urn:uuid:7c98584b-bd26-4cca-9a22-e71a97bef153"/>
     </owl:Class>
     
 
@@ -2276,13 +2498,6 @@ NOTE 2 A metadata item has associated attributes (3.1.4), as appropriate for the
                 <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/Namespace_naming_authority"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Organization"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/naming_convention_utilization"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConvention"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2366,6 +2581,7 @@ NOTE 2 A metadata item has associated attributes (3.1.4), as appropriate for the
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:45Z</dcterms:created>
         <dcterms:description xml:lang="en">set of designations (3.2.51) and/or scoped identifiers (3.2.122) for a particular business need</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.84"/>
+        <dcterms:identifier rdf:resource="urn:uuid:4445982a-301f-4a32-be42-d454cad2baf5"/>
         <rdfs:comment xml:lang="en">NOTE The term namespace is used in this International Standard because it is in common use, even though the concept is being applied to identifiers as well as names.</rdfs:comment>
     </owl:Class>
     
@@ -2413,7 +2629,58 @@ NOTE 2 A metadata item has associated attributes (3.1.4), as appropriate for the
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:53Z</dcterms:created>
         <dcterms:description xml:lang="en">specification of how signs (3.2.123) of designations (3.2.51) and/or scoped identifiers (3.2.122) are formulated</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.85"/>
+        <dcterms:identifier rdf:resource="urn:uuid:f24d09d4-3912-4042-9df3-3e76a9733321"/>
         <rdfs:comment xml:lang="en">NOTE A naming convention can apply to scoped identifiers when they are included in the associated namespace (3.2.84)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConventionConformance -->
+
+    <owl:Class rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConventionConformance">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/convention"/>
+                <owl:someValuesFrom rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConvention"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/conformant_designation"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:34:27Z</dcterms:created>
+        <dcterms:description xml:lang="en">records the Naming_Conventions (if any) to which a particular Designation conforms</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:clause:7.3.4.5"/>
+        <dcterms:identifier rdf:resource="urn:uuid:a7231da9-33a1-443f-a969-cc9563ba00e1"/>
+    </owl:Class>
+    
+
+
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConventionUtilization -->
+
+    <owl:Class rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConventionUtilization">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/acceptable_convention"/>
+                <owl:someValuesFrom rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/NamingConvention"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/utilization"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:19:43Z</dcterms:created>
+        <dcterms:description xml:lang="en">records the Naming_Conventions (if any) used by a Namespace</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:clause:7.3.4.6"/>
+        <dcterms:identifier rdf:resource="urn:uuid:d557677c-46b2-4515-ac0a-ff94ea9a2465"/>
     </owl:Class>
     
 
@@ -2425,6 +2692,7 @@ NOTE 2 A metadata item has associated attributes (3.1.4), as appropriate for the
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:54:26Z</dcterms:created>
         <dcterms:description xml:lang="en">formal syntax and associated semantics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.86"/>
+        <dcterms:identifier rdf:resource="urn:uuid:1feddf09-d992-4cb4-93f9-5a29bc616769"/>
         <rdfs:comment xml:lang="en">EXAMPLES UML, MOF, OCL, OWL/RDF, SKOS, CGIF, XCL, XTM, or ISO/IEC 11404
 NOTE Formal syntax is often intended for machine processing.</rdfs:comment>
     </owl:Class>
@@ -2438,6 +2706,7 @@ NOTE Formal syntax is often intended for machine processing.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:11:44Z</dcterms:created>
         <dcterms:description xml:lang="en">anything perceivable or conceivable</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.87"/>
+        <dcterms:identifier rdf:resource="urn:uuid:542ced23-e605-484d-b603-e8bcfffd5d49"/>
         <rdfs:comment xml:lang="en">NOTE 1 Objects may also be material (e.g. an engine, a sheet of paper, a diamond), immaterial (e.g. a conversion ratio, a project plan) or imagined (e.g. a unicorn);
 NOTE 2 Adapted from ISO 1087-1:2000, 3.1.1.</rdfs:comment>
     </owl:Class>
@@ -2457,6 +2726,7 @@ NOTE 2 Adapted from ISO 1087-1:2000, 3.1.1.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:11:21Z</dcterms:created>
         <dcterms:description xml:lang="en">set of ideas, abstractions or things in the real world that are identified with explicit boundaries and meaning and whose properties and behaviour follow the same rules</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.88"/>
+        <dcterms:identifier rdf:resource="urn:uuid:bd761172-d1ed-4162-b3e3-40c032f84c80"/>
     </owl:Class>
     
 
@@ -2474,6 +2744,7 @@ NOTE 2 Adapted from ISO 1087-1:2000, 3.1.1.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:25:47Z</dcterms:created>
         <dcterms:description xml:lang="en">unique framework of authority within which individuals (3.2.65) act, or are designated to act, towards some purpose</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.90"/>
+        <dcterms:identifier rdf:resource="urn:uuid:e39c34c8-9678-4cbc-8934-9304acac9831"/>
         <rdfs:comment xml:lang="en">NOTE 1 The kinds of organizations covered by ISO/IEC 6523-1 include the following examples:
   a) an organization incorporated under law;
   b) an unincorporated organization or activity providing goods and/or services including:
@@ -2530,6 +2801,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:44:20Z</dcterms:created>
         <dcterms:description xml:lang="en">designation (3.2.51) of a value meaning (3.2.141)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.96"/>
+        <dcterms:identifier rdf:resource="urn:uuid:100011b6-7476-4acf-98a2-1dfb7b985b7b"/>
         <rdfs:comment xml:lang="en">NOTE A permissible value may be associated with one or more enumerated value domains (3.2.61).</rdfs:comment>
     </owl:Class>
     
@@ -2549,6 +2821,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:11:02Z</dcterms:created>
         <dcterms:description xml:lang="en">quality common to all members of an object class (3.2.88)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.100"/>
+        <dcterms:identifier rdf:resource="urn:uuid:efdc4be0-730e-4064-a8cd-694aa26e400c"/>
     </owl:Class>
     
 
@@ -2630,6 +2903,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:43:20Z</dcterms:created>
         <dcterms:description xml:lang="en">document that provides pertinent details for consultation about a subject</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.102"/>
+        <dcterms:identifier rdf:resource="urn:uuid:a1071108-64e5-4735-954a-8b5854703eed"/>
     </owl:Class>
     
 
@@ -2647,6 +2921,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:46:40Z</dcterms:created>
         <dcterms:description xml:lang="en">information store or database maintained by a registry (3.2.113)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.104"/>
+        <dcterms:identifier rdf:resource="urn:uuid:8ef3558f-5896-4f14-9984-84e38af7b60a"/>
     </owl:Class>
     
 
@@ -2665,6 +2940,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:55:53Z</dcterms:created>
         <dcterms:description xml:lang="en">metadata item (3.2.75) that is recorded and managed in a metadata registry (3.2.78)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.105"/>
+        <dcterms:identifier rdf:resource="urn:uuid:ef252164-d0cf-4909-8237-df01cac516f8"/>
     </owl:Class>
     
 
@@ -2677,6 +2953,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:description xml:lang="en">&lt;generic&gt;inclusion of an item in a registry (3.2.113)
 &lt;metadata registry&gt; inclusion of a metadata item (3.2.75) in a metadata registry (3.2.78)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.108"/>
+        <dcterms:identifier rdf:resource="urn:uuid:910d8378-12d5-4974-b526-c1dcef1cc80e"/>
     </owl:Class>
     
 
@@ -2696,6 +2973,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:45:01Z</dcterms:created>
         <dcterms:description xml:lang="en">organization (3.2.90) responsible for maintaining a register (3.2.104)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.109"/>
+        <dcterms:identifier rdf:resource="urn:uuid:31242075-de2b-4d91-b22e-c5d10d3bd432"/>
     </owl:Class>
     
 
@@ -2714,6 +2992,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:42:57Z</dcterms:created>
         <dcterms:description xml:lang="en">identifier (3.1.11) assigned to a registration authority (3.2.109)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.110"/>
+        <dcterms:identifier rdf:resource="urn:uuid:688b4323-abbc-4bc1-aad1-f0e833616671"/>
         <rdfs:comment xml:lang="en">NOTE See ISO/IEC 11179-6 and ISO/IEC 6523-2.</rdfs:comment>
     </owl:Class>
     
@@ -2732,6 +3011,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:47:43Z</dcterms:created>
         <dcterms:description xml:lang="en">information system for registration (3.2.108)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.113"/>
+        <dcterms:identifier rdf:resource="urn:uuid:d7190407-4294-446a-8591-f0a74d89f410"/>
     </owl:Class>
     
 
@@ -2743,6 +3023,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:42:43Z</dcterms:created>
         <dcterms:description xml:lang="en">specified responsibilities</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.121"/>
+        <dcterms:identifier rdf:resource="urn:uuid:33e09ed2-6efb-4c94-b4fb-a0307db5b974"/>
     </owl:Class>
     
 
@@ -2751,13 +3032,6 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
 
     <owl:Class rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/ScopedIdentifier">
         <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Identifier"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/identifier_scope"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Namespace"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/full_expansion"/>
@@ -2804,6 +3078,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:51:56Z</dcterms:created>
         <dcterms:description xml:lang="en">identifier (3.1.11) of an identified item (3.2.64) within a specified namespace (3.2.84)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.122"/>
+        <dcterms:identifier rdf:resource="urn:uuid:6b42b05b-6244-49e5-8925-a9895e03429b"/>
         <rdfs:comment xml:lang="en">NOTE A namespace provides the scope within which the scoped identifier uniquely identifies the identified item.</rdfs:comment>
     </owl:Class>
     
@@ -2822,6 +3097,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:09:57Z</dcterms:created>
         <dcterms:description xml:lang="en">textual string or symbol that can be used to denote a concept (3.2.18)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.123"/>
+        <dcterms:identifier rdf:resource="urn:uuid:933db32b-2d55-4da6-95bb-98baf212749e"/>
     </owl:Class>
     
 
@@ -2839,6 +3115,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T15:15:41Z</dcterms:created>
         <dcterms:description xml:lang="en">container for an extension (3.2.62) to an identified item (3.2.64)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.124"/>
+        <dcterms:identifier rdf:resource="urn:uuid:f1f5bc3f-0438-48cc-9d31-d2a87bfae9a8"/>
     </owl:Class>
     
 
@@ -2856,6 +3133,7 @@ NOTE 2 Adapted from ISO/IEC 6523-1:1998, 3.1</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:56:05Z</dcterms:created>
         <dcterms:description xml:lang="en">paragraph, page or document that can be used to define or describe an object (3.2.87)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.136"/>
+        <dcterms:identifier rdf:resource="urn:uuid:19baa4e2-1ae2-4438-a9f6-c027af4adef4"/>
         <rdfs:comment xml:lang="en">NOTE 1 Text is data (3.2.27) in the form of characters, symbols, words, phrases, paragraphs, sentences, tables, or other character arrangements, intended to convey a meaning, and whose interpretation is essentially based upon the reader’s knowledge of some natural language or artificial language
 NOTE 2 Adapted from ISO/IEC 2382-23:1994
 NOTE 3 See also the Text datatype (6.2.12).</rdfs:comment>
@@ -2871,6 +3149,7 @@ NOTE 3 See also the Text datatype (6.2.12).</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T16:32:59Z</dcterms:created>
         <dcterms:description xml:lang="en">&lt;value domain&gt; actual units in which the associated values are measured</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.138"/>
+        <dcterms:identifier rdf:resource="urn:uuid:4e8cf173-7f84-4e15-a489-2c11d78b8192"/>
         <rdfs:comment xml:lang="en">NOTE 1 ISO 31-0:1982 specifies a system of physical measurement (the International System of Units, SI). Physical measurement is only one type of measurement. Value measurement is another type of measurement. This part of ISO/IEC 11179 permits the use of any appropriate system of measurement.
 NOTE 2 The dimensionality (3.2.58) of the associated conceptual domain (3.2.21) must be appropriate for the specified unit of measure.</rdfs:comment>
     </owl:Class>
@@ -2947,6 +3226,7 @@ NOTE 2 The dimensionality (3.2.58) of the associated conceptual domain (3.2.21) 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:43:57Z</dcterms:created>
         <dcterms:description xml:lang="en">set of permissible values (3.2.96)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.140"/>
+        <dcterms:identifier rdf:resource="urn:uuid:4b417f18-86b4-43de-aff5-d8ee63f5b34f"/>
         <rdfs:comment xml:lang="en">NOTE 1 The value domain provides representation, but has no implication as to what data element concept (3.2.29) the values might be associated with nor what the values mean
 NOTE 2 The permissible values may either be enumerated or expressed via a description.</rdfs:comment>
     </owl:Class>
@@ -2982,6 +3262,7 @@ NOTE 2 The permissible values may either be enumerated or expressed via a descri
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:56:45Z</dcterms:created>
         <dcterms:description xml:lang="en">semantic content of a possible value</dcterms:description>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:3.2.141"/>
+        <dcterms:identifier rdf:resource="urn:uuid:998a183b-a258-4dc1-8d00-2fe60d2ec3d6"/>
         <rdfs:comment xml:lang="en">NOTE The representation of value meanings in a registry (3.2.113) shall be independent of (and shall not constrain) their representation in any corresponding value domain (3.2.140).</rdfs:comment>
     </owl:Class>
     
