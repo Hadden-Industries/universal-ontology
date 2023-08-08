@@ -11,46 +11,24 @@
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3">
         <owl:versionIRI rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/v1"/>
-        <owl:imports rdf:resource="http://purl.org/dc/terms#2012"/>
+        <owl:imports rdf:resource="https://dublincore.org/2020/01/20/dublin_core_elements.rdf"/>
+        <owl:imports rdf:resource="https://dublincore.org/2020/01/20/dublin_core_terms.rdf"/>
         <dcterms:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created xml:lang="en">2020-05-21</dcterms:created>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-05-21</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">Set of concepts and categories, applicable to metadata registries as specified in ISO/IEC 11179-3:2013, that shows their properties and the relations between them</dcterms:description>
         <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
         <dcterms:identifier rdf:resource="urn:uuid:25308c10-7e78-4b8b-8945-1cb75051f8d0"/>
         <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2023-05-10</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2023-08-08</dcterms:modified>
         <dcterms:publisher xml:lang="en">Hadden Industries Ltd</dcterms:publisher>
         <dcterms:rights xml:lang="en">© 2023 Hadden Industries Ltd</dcterms:rights>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">ISO/IEC 11179-3:2013 Ontology</dcterms:title>
         <rdfs:label xml:lang="en">ISO_IEC11179-3_2013Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/20230228"/>
+        <owl:priorVersion rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/20230510"/>
     </owl:Ontology>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Annotation properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://purl.org/dc/elements/1.1/creator -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/created -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
     
 
 
