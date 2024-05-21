@@ -175,6 +175,16 @@ class UniversalOntologyTest(XmlTestCase):
 					# Synonyms
 					for synonym in elem.iterfind('{https://haddenindustries.com/ontology/universal/core/}synonym'):
 						self.assertXmlHasAttribute(synonym, '{http://www.w3.org/XML/1998/namespace}lang')
+                        
+					# Comments					
+					for comment in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}comment'):
+					
+						commentXmlLang = comment.get('{http://www.w3.org/XML/1998/namespace}lang')
+						
+						if commentXmlLang is None:
+							self.fail('rdfs:comment does not have an xml:lang attribute: %s' % comment.text)
+						
+					#self.assertXpathsUniqueValue(elem, ['./rdfs:comment/@xml:lang'])
 					
 				except:
 					print(classRdfAboutTail)
