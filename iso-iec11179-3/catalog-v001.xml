@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="Imports Wizard Entry" name="http://purl.org/dc/elements/1.1/" uri="dc.rdf"/>
+    <uri id="Imports Wizard Entry" name="http://purl.org/dc/terms/" uri="dcterms.rdf"/>
+    <uri id="Imports Wizard Entry" name="https://dublincore.org/2020/01/20/dublin_core_elements.rdf" uri="dc.rdf"/>
+    <uri id="Imports Wizard Entry" name="https://dublincore.org/2020/01/20/dublin_core_terms.rdf" uri="dcterms.rdf"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1691487931471" name="https://dublincore.org/2020/01/20/dublin_core_elements.rdf" uri="dc.rdf"/>
-        <uri id="Automatically generated entry, Timestamp=1691487931471" name="https://dublincore.org/2020/01/20/dublin_core_terms.rdf" uri="dcterms.rdf"/>
-        <uri id="Automatically generated entry, Timestamp=1691487931471" name="http://standards.iso.org/iso-iec/11179/-3/ed-3/" uri="iso-iec11179-3.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1743761541329" name="http://purl.org/dc/elements/1.1/" uri="dc.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1743761541329" name="http://purl.org/dc/terms/" uri="dcterms.rdf"/>
+        <uri id="Automatically generated entry, Timestamp=1743761541329" name="http://standards.iso.org/iso-iec/11179/-3/ed-4/" uri="iso-iec11179-3.owl"/>
     </group>
 </catalog>
