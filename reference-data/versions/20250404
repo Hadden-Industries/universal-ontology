@@ -2,7 +2,7 @@
 <rdf:RDF xmlns="https://haddenindustries.com/ontology/universal/reference-data/"
      xml:base="https://haddenindustries.com/ontology/universal/reference-data/"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
-     xmlns:md="http://standards.iso.org/iso-iec/11179/-3/ed-3/"
+     xmlns:md="http://standards.iso.org/iso-iec/11179/-3/ed-4/"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
@@ -13,7 +13,7 @@
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20250404"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-3/v1"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20250404"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:publisher rdf:datatype="http://www.w3.org/2001/XMLSchema#token">Hadden Industries Ltd</dc:publisher>
@@ -408,9 +408,10 @@
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountryToLanguageRelationship_hasLanguage">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountryToLanguageRelationship"/>
-        <rdfs:range rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Language"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-05T11:39:59Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-04T18:34:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">hasLanguage</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1377,34 +1378,34 @@
     
 
 
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/AcceptabilityRating -->
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-4/term/AcceptabilityRating -->
 
-    <rdf:Description rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/AcceptabilityRating">
+    <rdf:Description rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-4/term/AcceptabilityRating">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AcceptabilityRating"/>
     </rdf:Description>
     
 
 
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DocumentType -->
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-4/term/DocumentType -->
 
-    <rdf:Description rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/DocumentType">
+    <rdf:Description rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-4/term/DocumentType">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
         <dcterms:identifier rdf:resource="urn:uuid:227dc739-e6de-496e-8c6e-442c2cb3eb16"/>
     </rdf:Description>
     
 
 
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Language -->
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-4/term/Language -->
 
-    <rdf:Description rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Language">
+    <rdf:Description rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-4/term/Language">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
     </rdf:Description>
     
 
 
-    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-3/term/LanguageIdentification -->
+    <!-- http://standards.iso.org/iso-iec/11179/-3/ed-4/term/LanguageIdentification -->
 
-    <rdf:Description rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/LanguageIdentification">
+    <rdf:Description rdf:about="http://standards.iso.org/iso-iec/11179/-3/ed-4/term/LanguageIdentification">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
     </rdf:Description>
     
@@ -2594,7 +2595,7 @@ Note 2 to entry: The symbology has error detection (3.16) and error correction (
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Demonym -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Demonym">
-        <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+        <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-4/term/Designation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Demonym_hasCountrySubdivision"/>
@@ -3730,7 +3731,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
     <!-- https://haddenindustries.com/ontology/universal/reference-data/JuridicalPersonNameSuffix -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/JuridicalPersonNameSuffix">
-        <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+        <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-4/term/Designation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasCompanyRegister"/>
@@ -4695,7 +4696,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     <!-- https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffix -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffix">
-        <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+        <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-4/term/Designation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffix_hasSex"/>
@@ -5115,7 +5116,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     <!-- https://haddenindustries.com/ontology/universal/reference-data/PersonalPronoun -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/PersonalPronoun">
-        <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+        <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-4/term/Designation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasGrammaticalGender"/>
@@ -5679,7 +5680,7 @@ Note 2 to entry: Typically, within health care settings the only officially reco
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Title -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Title">
-        <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-3/term/Designation"/>
+        <rdfs:subClassOf rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-4/term/Designation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasSex"/>
