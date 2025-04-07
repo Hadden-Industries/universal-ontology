@@ -16,10 +16,14 @@ class UniversalOntologyTest(XmlTestCase):
 		pathStemToNS = {
 			'reference-data' : nsRoot + 'reference-data/',
 			'universal-core' : nsRoot + 'core/',
-			'universal-extended' : nsRoot + 'extended/'
+			'universal-extended' : nsRoot + 'extended/',
+			'iso-iec11179-3' : 'http://standards.iso.org/iso-iec/11179/-3/ed-4/'
 		}
 		
 		ns = pathStemToNS.get(file_path.stem)
+		
+		identifiersList = []
+		labelsList = []
 		
 		# Everything starts with 'assertXmlDocument'
 		root = self.assertXmlDocument(file_path.read_text(encoding='utf-8'))
@@ -33,8 +37,14 @@ class UniversalOntologyTest(XmlTestCase):
 			
 			if classRdfAbout.startswith(ns):
 				
-				classRdfAboutTail = str.replace(classRdfAbout, ns, '')
-				
+				if ns == 'http://standards.iso.org/iso-iec/11179/-3/ed-4/':
+					
+					classRdfAboutTail = str.replace(classRdfAbout, ns + 'term/', '')
+					
+				else:
+					
+					classRdfAboutTail = str.replace(classRdfAbout, ns, '')
+					
 				try:
 					# Creator
 					self.assertXpathsOnlyOne(elem, ['./dc:creator'])
@@ -91,70 +101,94 @@ class UniversalOntologyTest(XmlTestCase):
 					hasUuidIdentifier = False
 					
 					for identifier in elem.iterfind('{http://purl.org/dc/terms/}identifier'):
+						
 						identifierRdfResource = identifier.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
 						
-						if identifierRdfResource is not None and identifierRdfResource.startswith('urn:uuid:'):
-							if not hasUuidIdentifier:
-								hasUuidIdentifier = True
-							try:
-								UuidValue = UUID(identifierRdfResource[len('urn:uuid:'):], version = 4)
-							except ValueError:
-								self.fail('dcterms:identifier "%s" is not a valid version 4 UUID' % identifierRdfResource[len('urn:uuid:'):])
+						if identifierRdfResource is not None:
+							
+							# Check all identifiers are unique
+							if identifierRdfResource in identifiersList:
+								
+								self.fail('another element with dcterms:identifier "%s" already exists' % identifierRdfResource)
+							
+							identifiersList.append(identifierRdfResource)
+							
+							if identifierRdfResource.startswith('urn:uuid:'):
+								
+								if not hasUuidIdentifier:
+									hasUuidIdentifier = True
+								try:
+									UuidValue = UUID(identifierRdfResource[len('urn:uuid:'):], version = 4)
+								except ValueError:
+									self.fail('dcterms:identifier "%s" is not a valid version 4 UUID' % identifierRdfResource[len('urn:uuid:'):])
 								
 					if not hasUuidIdentifier:
 						self.fail('dcterms:identifier of type UUID not found')				
 					
 					# Labels
-					self.assertXpathsExist(elem, ['./rdfs:label'])
-					
-					hasEnglishLabel = False
-					
-					for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
-					
-						if not re.sub(r'[a-zA-Z0-9]+', '', label.text) == '':
-							self.fail('rdfs:label "%s" has invalid characters' % label.text)
-							
-						labelXmlLang = label.get('{http://www.w3.org/XML/1998/namespace}lang')
+                    
+					if classRdfAbout.startswith(nsRoot):
+                    
+						self.assertXpathsExist(elem, ['./rdfs:label'])
 						
-						if labelXmlLang is None:
-							self.fail('rdfs:label does not have an xml:lang attribute: %s' % label.text)
-							
-						if labelXmlLang == 'en':
-							if not hasEnglishLabel:
-								hasEnglishLabel = True
-							
-							if not classRdfAboutTail == label.text:
-								self.fail('en rdfs:label is not the same as the rdf:about: %s' % label.text)
+						hasEnglishLabel = False
+						
+						for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
+						
+							if not re.sub(r'[a-zA-Z0-9]+', '', label.text) == '':
+								self.fail('rdfs:label "%s" has invalid characters' % label.text)
 								
-						for title in elem.iterfind('{http://purl.org/dc/terms/}title'):
-							if title.get('{http://www.w3.org/XML/1998/namespace}lang') == labelXmlLang:
-								if not re.sub(r'[^a-zA-Z0-9]+', '', title.text) == label.text:
-									self.fail('%s dcterms:title "%s" does not correspond to the rdfs:label "%s"' % (labelXmlLang, title.text, label.text,))
+							labelXmlLang = label.get('{http://www.w3.org/XML/1998/namespace}lang')
+							
+							if labelXmlLang is None:
+								self.fail('rdfs:label does not have an xml:lang attribute: %s' % label.text)
+							
+							# Check all labels are unique
+							if label.text in labelsList:
+								
+								self.fail('another element with rdfs:label "%s" already exists' % label.text)
+							
+							labelsList.append(label.text)
+							
+							if labelXmlLang == 'en':
+								if not hasEnglishLabel:
+									hasEnglishLabel = True
+								
+								if not classRdfAboutTail == label.text:
+									self.fail('en rdfs:label is not the same as the rdf:about: %s' % label.text)
 									
-					if not hasEnglishLabel:
-						self.fail('en rdfs:label not found')
-						
-					self.assertXpathsUniqueValue(elem, ['./rdfs:label/@xml:lang'])
+							for title in elem.iterfind('{http://purl.org/dc/terms/}title'):
+								if title.get('{http://www.w3.org/XML/1998/namespace}lang') == labelXmlLang:
+									if not re.sub(r'[^a-zA-Z0-9]+', '', title.text) == label.text:
+										self.fail('%s dcterms:title "%s" does not correspond to the rdfs:label "%s"' % (labelXmlLang, title.text, label.text,))
+										
+						if not hasEnglishLabel:
+							self.fail('en rdfs:label not found')
+							
+						self.assertXpathsUniqueValue(elem, ['./rdfs:label/@xml:lang'])
 					
 					# Names
-					self.assertXpathsExist(elem, ['./dcterms:title'])
 					
-					hasEnglishTitle = False
+					if classRdfAbout.startswith(nsRoot):
 					
-					for title in elem.iterfind('{http://purl.org/dc/terms/}title'):
-					
-						titleXmlLang = title.get('{http://www.w3.org/XML/1998/namespace}lang')
+						self.assertXpathsExist(elem, ['./dcterms:title'])
 						
-						if titleXmlLang is None:
-							self.fail('dcterms:title does not have an xml:lang attribute: %s' % title.text)
-							
-						if titleXmlLang == 'en':
-							hasEnglishTitle = True
-							
-					if not hasEnglishTitle:
-						self.fail('English dcterms:title not found')
+						hasEnglishTitle = False
 						
-					self.assertXpathsUniqueValue(elem, ['./dcterms:title/@xml:lang'])
+						for title in elem.iterfind('{http://purl.org/dc/terms/}title'):
+						
+							titleXmlLang = title.get('{http://www.w3.org/XML/1998/namespace}lang')
+							
+							if titleXmlLang is None:
+								self.fail('dcterms:title does not have an xml:lang attribute: %s' % title.text)
+								
+							if titleXmlLang == 'en':
+								hasEnglishTitle = True
+								
+						if not hasEnglishTitle:
+							self.fail('English dcterms:title not found')
+							
+						self.assertXpathsUniqueValue(elem, ['./dcterms:title/@xml:lang'])
 					
 					# Descriptions
 					self.assertXpathsExist(elem, ['./dcterms:description'])
@@ -192,12 +226,6 @@ class UniversalOntologyTest(XmlTestCase):
 				
 		# Check namespace
 		self.assertXmlNamespace(root, None, ns)
-		
-		# Check all identifiers are unique
-		self.assertXpathsUniqueValue(root, ['./owl:Class/dcterms:identifier/@rdf:resource'])
-		
-		# Check all labels are unique
-		self.assertXpathsUniqueValue(root, ['./owl:Class/rdfs:label'])
 
 if __name__ == '__main__':
 	
