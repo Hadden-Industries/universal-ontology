@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-    <uri id="Imports Wizard Entry" name="http://purl.org/dc/terms#2012" uri="../iso-iec11179-3/dcterms.rdf"/>
+    <uri id="Imports Wizard Entry" name="https://dublincore.org/2020/01/20/dublin_core_elements.rdf" uri="../iso-iec11179-3/dc.rdf"/>
+    <uri id="Imports Wizard Entry" name="https://dublincore.org/2020/01/20/dublin_core_terms.rdf" uri="../iso-iec11179-3/dcterms.rdf"/>
     <uri id="Imports Wizard Entry" name="http://standards.iso.org/iso-iec/11179/-3/ed-3/v1" uri="../iso-iec11179-3/versions/v1"/>
+    <uri id="Imports Wizard Entry" name="http://standards.iso.org/iso-iec/11179/-3/ed-4/20250408" uri="../iso-iec11179-3/versions/20250408"/>
+    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20250408" uri="../iso-iec11179-3/versions/20250408"/>
     <uri id="Imports Wizard Entry" name="http://www.w3.org/2006/time" uri="../core/time.rdf"/>
-    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/core/20240729" uri="../core/versions/20240729"/>
-    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/reference-data/20240520" uri="../reference-data/versions/20240520"/>
+    <uri id="Imports Wizard Entry" name="https://raw.githubusercontent.com/w3c/sdw/gh-pages/time/rdf/time.rdf" uri="../core/time.rdf"/>
+    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/core/20250409" uri="../core/versions/20250409"/>
+    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/reference-data/20250408" uri="../reference-data/versions/20250408"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1722280215951" name="https://haddenindustries.com/ontology/universal/extended/" uri="universal-extended.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1744222614708" name="https://haddenindustries.com/ontology/universal/extended/" uri="universal-extended.owl"/>
     </group>
 </catalog>
