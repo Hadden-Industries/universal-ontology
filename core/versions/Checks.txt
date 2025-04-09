@@ -1,0 +1,4 @@
+Change
+<owl:imports rdf:resource="http://www.w3.org/2006/time"/>
+to
+<owl:imports rdf:resource="https://raw.githubusercontent.com/w3c/sdw/gh-pages/time/rdf/time.rdf"/>
