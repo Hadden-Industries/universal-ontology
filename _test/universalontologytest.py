@@ -49,6 +49,10 @@ class UniversalOntologyTest(XmlTestCase):
 					# Creator
 					self.assertXpathsOnlyOne(elem, ['./dc:creator'])
 					
+					if elem.find('{http://purl.org/dc/elements/1.1/}creator') is None:
+						
+						self.fail('dc:creator does not exist')
+					
 					creatorResourceValue = elem.find('{http://purl.org/dc/elements/1.1/}creator').get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
 					
 					if not (creatorResourceValue.startswith('http://orcid.org/') or creatorResourceValue.startswith('https://orcid.org/')):
