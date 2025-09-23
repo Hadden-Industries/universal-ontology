@@ -13,7 +13,7 @@
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20250923"/>
-        <owl:imports rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-4/20250923"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20250923"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:publisher rdf:datatype="http://www.w3.org/2001/XMLSchema#token">Hadden Industries Ltd</dc:publisher>
