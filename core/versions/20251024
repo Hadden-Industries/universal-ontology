@@ -15,7 +15,7 @@
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/core">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20251024"/>
-        <owl:imports rdf:resource="http://www.w3.org/2006/time"/>
+        <owl:imports rdf:resource="https://raw.githubusercontent.com/w3c/sdw/gh-pages/time/rdf/time.rdf"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20251024"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
