@@ -993,18 +993,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/Town_hasCountry -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Town_hasCountry">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Town"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T09:24:53Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasCountry</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/reference-data/TransliterationSystem_hasLanguageIdentificationFrom -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/TransliterationSystem_hasLanguageIdentificationFrom">
@@ -4837,19 +4825,6 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/LocationToTownRelationshipType -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LocationToTownRelationshipType">
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:03:51Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of the way in which locations and towns are connected, having common characteristics</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:d3dd607e-8679-42f5-acad-22e7fa66b3f5"/>
-        <dcterms:title xml:lang="en">Location To Town Relationship Type</dcterms:title>
-        <rdfs:label xml:lang="en">LocationToTownRelationshipType</rdfs:label>
-    </owl:Class>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/reference-data/MaritalStatus -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MaritalStatus">
@@ -6633,31 +6608,6 @@ Note 2 to entry: Typically, within health care settings the only officially reco
         <dcterms:references rdf:resource="https://www.lexico.com/definition/title"/>
         <dcterms:title xml:lang="en">Title</dcterms:title>
         <rdfs:label xml:lang="en">Title</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/Town -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Town">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Town_hasCountry"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">City</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Village</dcterms:alternative>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-26T12:44:49Z</dcterms:created>
-        <dcterms:description xml:lang="en">Built-up area with a name, defined boundaries, and local government</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:5c4992a5-8a86-4ae5-a4a5-dd8c2f1689ee"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-07-28T00:13:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.lexico.com/definition/town"/>
-        <dcterms:source rdf:resource="http://www.geonames.org/"/>
-        <dcterms:title xml:lang="en">Town</dcterms:title>
-        <rdfs:comment xml:lang="en">Definition modified from the referenced source, omitting &quot;, that is larger than a village and generally smaller than a city&quot;</rdfs:comment>
-        <rdfs:label xml:lang="en">Town</rdfs:label>
     </owl:Class>
     
 
