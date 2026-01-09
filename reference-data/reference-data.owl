@@ -407,7 +407,7 @@
     <!-- https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode_hasGeographicFeature -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode_hasGeographicFeature">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode"/>
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:33:00Z</dcterms:created>
@@ -416,14 +416,14 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode_hasITU-TE164CountryCode -->
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode_hasITUTE164CountryCode -->
 
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode_hasITU-TE164CountryCode">
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode_hasITUTE164CountryCode">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:36:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasITU-TE164CountryCode</rdfs:label>
+        <rdfs:label xml:lang="en">hasITUTE164CountryCode</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -683,7 +683,7 @@
     <!-- https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType_hasCompanyRegister -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType_hasCompanyRegister">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CompanyRegisterFormType"/>
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthority"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:38:00Z</dcterms:created>
@@ -1922,28 +1922,6 @@ Note 3 to entry: Calendar systems are defined by various authorities. Usage of p
         <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.1.8.04"/>
         <dcterms:title xml:lang="en">Communication Type</dcterms:title>
         <rdfs:label xml:lang="en">CommunicationType</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/CompanyRegisterFormType -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CompanyRegisterFormType">
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType_hasCompanyRegister"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthority"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:42:00Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of document with blank spaces for information to be inserted, as formalised by a Legal Entity Registration Authority, having common characteristics</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:38bfc288-e102-4210-8865-7b771c50d8e4"/>
-        <dcterms:references rdf:resource="https://dictionary.cambridge.org/dictionary/english/form"/>
-        <dcterms:title xml:lang="en">Legal Entity Registration Authority Form Type</dcterms:title>
-        <rdfs:label xml:lang="en">LegalEntityRegistrationAuthorityFormType</rdfs:label>
     </owl:Class>
     
 
@@ -3478,9 +3456,9 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode -->
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode">
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode">
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode_hasGeographicFeature"/>
@@ -3509,8 +3487,8 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
         <dcterms:identifier rdf:resource="urn:uuid:42ceb2ca-425f-4fd3-89b3-9eadeda6831a"/>
         <dcterms:references rdf:resource="https://www.itu.int/rec/T-REC-E.101-200911-I/en"/>
         <dcterms:source rdf:resource="http://handle.itu.int/11.1002/pub/80eefa4f-en"/>
-        <dcterms:title xml:lang="en">ITU-T E164 Country Code</dcterms:title>
-        <rdfs:label xml:lang="en">ITU-TE164CountryCode</rdfs:label>
+        <dcterms:title xml:lang="en">ITU-T E.164 Country Code</dcterms:title>
+        <rdfs:label xml:lang="en">ITUTE164CountryCode</rdfs:label>
     </owl:Class>
     
 
@@ -3681,9 +3659,9 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode_hasITU-TE164CountryCode"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode_hasITUTE164CountryCode"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode"/>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -4440,9 +4418,9 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T16:17:47Z</dcterms:created>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T11:31:00Z</dcterms:created>
+        <dcterms:description xml:lang="en">Character that is allowed or not allowed to be included in the name of a legal entity registered with a particular legal entity registration authority</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:3b8d1bda-f19d-472a-ba8b-9fd0f07d5816"/>
-        <dcterms:identifier xml:lang="en">Character that is allowed or not allowed to be included in the name of a legal entity registered with a particular legal entity registration authority</dcterms:identifier>
         <dcterms:source rdf:resource="https://www.legislation.gov.uk/uksi/2009/1085/schedule/1/made"/>
         <dcterms:source rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/schedule/1/made"/>
         <dcterms:title xml:lang="en">Legal Entity Name Character</dcterms:title>
@@ -4463,6 +4441,28 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dcterms:title xml:lang="en">Legal Entity Registration Authority</dcterms:title>
         <rdfs:label xml:lang="en">LegalEntityRegistrationAuthority</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.gov.uk/government/publications/overseas-registries/overseas-registries"/>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType_hasCompanyRegister"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthority"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:42:00Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category of document with blank spaces for information to be inserted, as formalised by a Legal Entity Registration Authority, having common characteristics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:38bfc288-e102-4210-8865-7b771c50d8e4"/>
+        <dcterms:references rdf:resource="https://dictionary.cambridge.org/dictionary/english/form"/>
+        <dcterms:title xml:lang="en">Legal Entity Registration Authority Form Type</dcterms:title>
+        <rdfs:label xml:lang="en">LegalEntityRegistrationAuthorityFormType</rdfs:label>
     </owl:Class>
     
 
