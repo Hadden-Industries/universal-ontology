@@ -1086,6 +1086,8 @@
     <!-- https://haddenindustries.com/ontology/universal/reference-data/OffenceClassification_hasOffenceCategory -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OffenceClassification_hasOffenceCategory">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OffenceClassification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OffenceCategory"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T14:42:57Z</dcterms:created>
         <rdfs:label xml:lang="en">hasOffenceCategory</rdfs:label>
