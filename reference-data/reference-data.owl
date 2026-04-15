@@ -303,6 +303,30 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipTypeToDocumentTypeRelationship_hasDocumentToPersonRelationshipType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipTypeToDocumentTypeRelationship_hasDocumentToPersonRelationshipType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipTypeToDocumentTypeRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T16:09:05Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasDocumentToPersonRelationshipType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipTypeToDocumentTypeRelationship_hasDocumentType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipTypeToDocumentTypeRelationship_hasDocumentType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipTypeToDocumentTypeRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T16:09:15Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasDocumentType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain_hasGeographicFeature -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain_hasGeographicFeature">
@@ -323,6 +347,30 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T14:36:00Z</dcterms:created>
         <rdfs:label xml:lang="en">hasEconomicActivityClassificationSchemeType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipTypeToEventTypeRelationship_hasEventToPersonRelationshipType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipTypeToEventTypeRelationship_hasEventToPersonRelationshipType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipTypeToEventTypeRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T16:13:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasEventToPersonRelationshipType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipTypeToEventTypeRelationship_hasEventType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipTypeToEventTypeRelationship_hasEventType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipTypeToEventTypeRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T16:13:08Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasEventType</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -2985,6 +3033,33 @@ Note 4 to entry: 15.04.01 (17.05.08) (2382)
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipTypeToDocumentTypeRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipTypeToDocumentTypeRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipTypeToDocumentTypeRelationship_hasDocumentToPersonRelationshipType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipTypeToDocumentTypeRelationship_hasDocumentType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T16:06:44Z</dcterms:created>
+        <dcterms:description xml:lang="en">Association defining what Document To Person Relationship Type is applicable to a Document Type</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:85d0d37c-ea82-4cde-a2e4-15ee77192f2f"/>
+        <dcterms:title xml:lang="en">Document To Person Relationship Type To Document Type Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">DocumentToPersonRelationshipTypeToDocumentTypeRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/DocumentToProductOrServiceRelationshipType -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DocumentToProductOrServiceRelationshipType">
@@ -3314,6 +3389,33 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
         <dcterms:identifier rdf:resource="urn:uuid:99e98c5e-d787-4bb4-a8d9-912a58ffb45c"/>
         <dcterms:title xml:lang="en">Event To Person Relationship Type</dcterms:title>
         <rdfs:label xml:lang="en">EventToPersonRelationshipType</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipTypeToEventTypeRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipTypeToEventTypeRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipTypeToEventTypeRelationship_hasEventToPersonRelationshipType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipTypeToEventTypeRelationship_hasEventType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T16:02:53Z</dcterms:created>
+        <dcterms:description xml:lang="en">Association defining what Event To Person Relationship Type is applicable to an Event Type</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:9e794aa3-ec6e-4ec8-9b50-d5656e06fc6d"/>
+        <dcterms:title xml:lang="en">Event To Person Relationship Type To Event Type Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">EventToPersonRelationshipTypeToEventTypeRelationship</rdfs:label>
     </owl:Class>
     
 
