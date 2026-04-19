@@ -112,6 +112,12 @@
     
 
 
+    <!-- http://purl.org/dc/terms/references -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/references"/>
+    
+
+
     <!-- http://purl.org/dc/terms/rights -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/rights"/>
@@ -434,6 +440,30 @@ NOTE ISO/IEC 19773 is referenced but not required.</rdfs:comment>
     
 
 
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/DefinitionSourceReference_definition -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/DefinitionSourceReference_definition">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DefinitionSourceReference"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Definition"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:34:47Z</dcterms:created>
+        <rdfs:label xml:lang="en">definition</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/DefinitionSourceReference_reference_document -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/DefinitionSourceReference_reference_document">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DefinitionSourceReference"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ReferenceDocument"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:35:05Z</dcterms:created>
+        <rdfs:label xml:lang="en">reference_document</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Definition_language -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Definition_language">
@@ -551,6 +581,18 @@ Registry_Specification class (9.4.10).
         <dcterms:description xml:lang="en">reference to the source from which the sign of the designation is taken</dcterms:description>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.1.3"/>
         <rdfs:label xml:lang="en">source</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/DocumentationLanguageIdentifier_language_identification -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/DocumentationLanguageIdentifier_language_identification">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DocumentationLanguageIdentifier"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:08:04Z</dcterms:created>
+        <rdfs:label xml:lang="en">language_identification</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -876,6 +918,44 @@ Registry_Specification class, then a value for this attribute shall be specified
     
 
 
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Registrar_registration_authority_registrar -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Registrar_registration_authority_registrar">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Registrar"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthorityRegistrar"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:34:20Z</dcterms:created>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.6"/>
+        <rdfs:label xml:lang="en">registration_authority_registrar</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationAuthorityRegistrar_registration_authority -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationAuthorityRegistrar_registration_authority">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthorityRegistrar"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthority"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:32:43Z</dcterms:created>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.6"/>
+        <rdfs:label xml:lang="en">registration_authority</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationAuthority_documentation_language_identifier -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationAuthority_documentation_language_identifier">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthority"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DocumentationLanguageIdentifier"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:09:27Z</dcterms:created>
+        <rdfs:label xml:lang="en">documentation_language_identifier</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationState_previous_state -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationState_previous_state">
@@ -907,6 +987,66 @@ Permitted values for registration_status are specified in 9.6.1.</dcterms:descri
     
 
 
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_alternative_language -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_alternative_language">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:07:34Z</dcterms:created>
+        <dcterms:description xml:lang="en">Any other language that is used in the registry
+Examples: eng-840, en-US</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">alternative_language</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_context -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_context">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Context"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:07:46Z</dcterms:created>
+        <dcterms:description xml:lang="en">context which represents the registry itself
+It is sometimes useful to reference a default context, rather than create a new one. This attribute is one possible choice for such a default.</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">context</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_default_language -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_default_language">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:07:21Z</dcterms:created>
+        <dcterms:description xml:lang="en">The language that is used as the default in the registry for designations, definitions and reference documents.
+Examples: eng-840, en-US</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">default_language</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_degree_of_conformance -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_degree_of_conformance">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DegreeOfConformance"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:08:12Z</dcterms:created>
+        <dcterms:description xml:lang="en">‘conforming’ or ‘strictly conforming’. See 4.2.
+Condition: applies only if standard is specified.</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">degree_of_conformance</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Role_mail_address -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Role_mail_address">
@@ -931,6 +1071,34 @@ Permitted values for registration_status are specified in 9.6.1.</dcterms:descri
         <dcterms:description xml:lang="en">phone numbers for the role</dcterms:description>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.4.2"/>
         <rdfs:label xml:lang="en">phone_number</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/StewardshipRecord_contact -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/StewardshipRecord_contact">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/StewardshipRecord"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Contact"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:23:19Z</dcterms:created>
+        <dcterms:description xml:lang="en">information about the contact that is responsible for the stewardship of the administered items that are linked to this stewardship record</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.8.3"/>
+        <rdfs:label xml:lang="en">contact</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/StewardshipRecord_organization -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/StewardshipRecord_organization">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/StewardshipRecord"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:23:11Z</dcterms:created>
+        <dcterms:description xml:lang="en">information about the organization that is responsible for the stewardship of the administered items that are linked to this stewardship record</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.8.3"/>
+        <rdfs:label xml:lang="en">organization</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -987,6 +1155,60 @@ Permitted values for registration_status are specified in 9.6.1.</dcterms:descri
     
 
 
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/SubmissionRecord_contact -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/SubmissionRecord_contact">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubmissionRecord"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Contact"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:39:38Z</dcterms:created>
+        <dcterms:description xml:lang="en">information about the contact that is responsible for the submission of the registered items that are linked to this submission record</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.9.3"/>
+        <rdfs:label xml:lang="en">contact</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/SubmissionRecord_organization -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/SubmissionRecord_organization">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubmissionRecord"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:39:22Z</dcterms:created>
+        <dcterms:description xml:lang="en">information about the organization that is responsible for the submission of the registered items that are linked to this submission record</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.9.3"/>
+        <rdfs:label xml:lang="en">organization</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Submission_registered_item -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Submission_registered_item">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Submission"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegisteredItem"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:46:24Z</dcterms:created>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.8"/>
+        <rdfs:label xml:lang="en">registered_item</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Submission_submission_record -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Submission_submission_record">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Submission"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubmissionRecord"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:46:12Z</dcterms:created>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.8"/>
+        <rdfs:label xml:lang="en">submission_record</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ValueDomain_datatype -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ValueDomain_datatype">
@@ -1020,15 +1242,6 @@ Permitted values for registration_status are specified in 9.6.1.</dcterms:descri
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:23:12Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">acceptable_convention</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/assignedTo -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/assignedTo">
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-28T11:13:35Z</dcterms:created>
     </owl:ObjectProperty>
     
 
@@ -1288,6 +1501,15 @@ This association records the categorization, as modelled by the instance of the 
     
 
 
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/forThe -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/forThe">
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:54:50Z</dcterms:created>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/identifiedIn -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/identifiedIn">
@@ -1455,6 +1677,20 @@ This association records the registration authority responsible for the register
     
 
 
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/registration_authority_identifier -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/registration_authority_identifier">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthority"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthorityIdentifier"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:02:28Z</dcterms:created>
+        <dcterms:description xml:lang="en">identifier of a registration authority</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.6.4"/>
+        <rdfs:label xml:lang="en">registration_authority_identifier</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/registration_authority_namespace -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/registration_authority_namespace">
@@ -1536,20 +1772,26 @@ This association records the namespace that provides the scope for the registrat
     
 
 
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stewardship -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stewardship">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AdministeredItem"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/StewardshipRecord"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:26:55Z</dcterms:created>
+        <dcterms:description xml:lang="en">records the binding of exactly one instance of the Stewardship_Record (9.4.8) class with one or more instances of the Administered_Item (9.4.2) class.
+This association records the stewardship record for the administered item, where the stewardship record identifies the stewardship organization, represented by an instance of the Organization (6.3.3) class, and the stewardship contact, represented by an instance of the Contact (6.3.5) class, who are responsible for maintaining the administrative information for the administered item.</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.7"/>
+        <rdfs:label xml:lang="en">stewardship</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/systemOf -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/systemOf">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T21:40:23Z</dcterms:created>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/takenFrom -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/takenFrom">
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T18:58:13Z</dcterms:created>
     </owl:ObjectProperty>
     
 
@@ -2039,6 +2281,20 @@ NOTE 2 The absence of the permissible_value_end_date attribute indicates that th
     
 
 
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Registrar_identifier -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Registrar_identifier">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Registrar"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:18:58Z</dcterms:created>
+        <dcterms:description xml:lang="en">identifier for this registrar</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.7.4"/>
+        <rdfs:label xml:lang="en">identifier</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationAuthorityIdentifier_OPI_source -->
 
     <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationAuthorityIdentifier_OPI_source">
@@ -2169,6 +2425,189 @@ The values, and their associated meanings, to be applied to this attribute are d
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.4.3"/>
         <dcterms:title xml:lang="en">Until Date</dcterms:title>
         <rdfs:label xml:lang="en">until_date</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_character_repertoire -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_character_repertoire">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:30Z</dcterms:created>
+        <dcterms:description xml:lang="en">The character repertoire that is used by the registry for internal operation
+Example: ISO/IEC 646[3] or ISO/IEC 10646[10]</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">character_repertoire</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_comment -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_comment">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/textDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:05Z</dcterms:created>
+        <dcterms:description xml:lang="en">any comment that should be noted about the registry</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">comment</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_conformance_label -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_conformance_label">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:54:15Z</dcterms:created>
+        <dcterms:description xml:lang="en">The conformance label of the registry as described in the standard
+Example: ISO/IEC 11179-3:2023 Basic Registry (see 4.4.3).
+Condition: applies only if standard is specified, and the specified standard uses conformance labels.</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">conformance_label</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_conformance_level -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_conformance_level">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:54:06Z</dcterms:created>
+        <dcterms:description xml:lang="en">The conformance level of the registry as described in the standard
+Example: Conformance Level 2 (where standard is specified as ISO/IEC 11179-3:2003).
+Condition: applies only if standard is specified, and the specified standard uses conformance levels.
+Note: This document specifies conformance labels instead of conformance levels.</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">conformance_level</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_default_time_zone -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_default_time_zone">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/datetimeDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:54:52Z</dcterms:created>
+        <dcterms:description xml:lang="en">time zone to be assumed for any datetime instance that does not explicitly specify its own time zone.
+Specified as the number of hours offset from UTC, with no separator between hours and minutes, with a leading zero if the hour is less then 9, and a leading minus sign if applicable.
+Example: For Newfoundland Daylight Time: -0230</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">default_time_zone</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_excluded_features -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_excluded_features">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:54:31Z</dcterms:created>
+        <dcterms:description xml:lang="en">Freeform specification of the features of the standard that this implementation does not support.
+Condition: applies only if standard is specified, and the specified standard allows conformance by feature (see 4.3).</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">excluded_features</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_included_features -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_included_features">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:54:23Z</dcterms:created>
+        <dcterms:description xml:lang="en">Freeform specification of the features of the standard that this implementation supports.
+Condition: applies only if standard is specified, and the specified standard allows conformance by feature (see 4.3).</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">included_features</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_name -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_name">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/signDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:52:55Z</dcterms:created>
+        <dcterms:description xml:lang="en">name by which the registry is commonly known
+Example: Australian Institute of Health and Welfare (AIHW) Metadata Online Registry (METeOR)[39]</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">name</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_reference_document__identifier_kind -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_reference_document__identifier_kind">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:40Z</dcterms:created>
+        <dcterms:description xml:lang="en">Specification of the kind of identifier used for identifying reference documents in the registry
+Examples: Some registries use URIs. Other registries use an external document management system which provides unstructured, opaque identifiers. Yet other registries define a structured identifier form which embeds an identifier type within each identifier in the registry. This attribute specifies the form of identifiers used for reference documents in this particular registry.</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">reference_document_identifier_kind</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_representation_class_scheme_id -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_representation_class_scheme_id">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:49Z</dcterms:created>
+        <dcterms:description xml:lang="en">identifier of the classification scheme used by the registry to capture representation classes
+Changes from previous editions: Edition 2 (ISO/IEC 11179-3:2003[12]) had a separate structure to record “representation classes”. In edition 3 (ISO/IEC 11179-3:2013[13]) and edition 4 (this document), these are considered to be just another classification scheme, which in edition 3 was considered a kind of concept system. This document has restored a Classification_Scheme class independent of the Concept_System class specified in ISO/IEC 11179-32. This attribute allows the registration authority to specify which classification scheme is used for this purpose. This document uses just the identifier of the classification scheme for this attribute. Edition 3 embedded a whole concept system.</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">representation_class_scheme_id</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_standard -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_standard">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:58Z</dcterms:created>
+        <dcterms:description xml:lang="en">Identifier for the standard to which this registry complies.
+Example: ISO/IEC 11179-3:2023</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">standard</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_web_address -->
+
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_web_address">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:13Z</dcterms:created>
+        <dcterms:description xml:lang="en">The World Wide Web uniform resource locator (URL) for the registry
+Example: https:// meteor .aihw .gov .au/</dcterms:description>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
+        <rdfs:label xml:lang="en">web_address</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -2763,6 +3202,13 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stewardship"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/StewardshipRecord"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/AdministeredItem_change_description"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/textDatatype"/>
@@ -2829,7 +3275,8 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:57:31Z</dcterms:created>
         <dcterms:description xml:lang="en">registered item (3.2.65) for which administrative information (3.2.67) is recorded</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:252a8fa0-65b9-486d-be5c-159d8acc066b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:35:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:46:00Z</dcterms:modified>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.2"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.66"/>
     </owl:Class>
     
@@ -2850,7 +3297,8 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:59:15Z</dcterms:created>
         <dcterms:description xml:lang="en">registered item (3.2.65) for which administrative information (3.2.67) is recorded in another registered item</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:8c3c3e9c-aae0-4862-98f5-2d73fcd85632"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:35:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:47:00Z</dcterms:modified>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.3"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.68"/>
         <rdfs:comment xml:lang="en">Note 1 to entry: This is often a member of a group of registered items that is managed as a whole.</rdfs:comment>
     </owl:Class>
@@ -3171,6 +3619,8 @@ Note 2 to entry: A concept is independent of its representation.
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:42:29Z</dcterms:created>
         <dcterms:description xml:lang="en">instance of a role (3.2.83), an individual (3.2.82) or both within an organization (3.2.84) to or from whom an information item(s), a material object(s), person(s) or some combination can be sent in a specified context</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:3cb479df-33ff-4f07-bcef-19ef93ce3fab"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:40:44Z</dcterms:modified>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.2.1"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.78"/>
     </owl:Class>
     
@@ -3341,12 +3791,6 @@ Note 1 to entry: The definition states that a data element is “indivisible” 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Definition">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/takenFrom"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DefinitionSourceReference"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Definition_language"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
@@ -3384,6 +3828,7 @@ Note 1 to entry: The definition states that a data element is “indivisible” 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:28Z</dcterms:created>
         <dcterms:description xml:lang="en">&lt;registry&gt; representation of a registry item (3.2.54) by a descriptive statement which, in a given language (3.2.16) and context(s) (3.2.15), serves to differentiate it from other registry items</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:de8b84b9-e38c-46cb-87f4-3959232402ba"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:54:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.23"/>
     </owl:Class>
     
@@ -3432,10 +3877,25 @@ Note 1 to entry: The definition states that a data element is “indivisible” 
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DefinitionSourceReference -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DefinitionSourceReference">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/DefinitionSourceReference_definition"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Definition"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/DefinitionSourceReference_reference_document"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ReferenceDocument"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T18:56:26Z</dcterms:created>
         <dcterms:description xml:lang="en">reference to the source from which the definition (3.2.23) is taken</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d396362c-ef48-4708-9b62-e964f2aaa168"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:39:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.28"/>
     </owl:Class>
     
@@ -3665,8 +4125,27 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:45:34Z</dcterms:created>
         <dcterms:description xml:lang="en">class used to specify the document type of a Reference_Document (6.3.8). The document type can be specified using an identifier or a description.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:13c73ad9-39dd-4f6d-860c-30b62b1632bc"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.6.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:15:05Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.6"/>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DocumentationLanguageIdentifier -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DocumentationLanguageIdentifier">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/DocumentationLanguageIdentifier_language_identification"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:05:40Z</dcterms:created>
+        <dcterms:description xml:lang="en">identifier of the language used for documentation by the registration authority</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:ed3f38ff-746c-4505-9660-8d4d617ab398"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.6.4"/>
     </owl:Class>
     
 
@@ -3724,6 +4203,8 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:50:34Z</dcterms:created>
         <dcterms:description xml:lang="en">registry item (3.2.54) identified in a registry (3.2.49)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:658b2c19-ed69-48a6-a5de-a0ac6b394602"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:44:30Z</dcterms:modified>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.3.1"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.61"/>
     </owl:Class>
     
@@ -3747,21 +4228,23 @@ Every instance of the Identified_Item class shall have links via one or more ins
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/IdentifierScope">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/contained_identifier"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ScopedIdentifier"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/IdentifierScope_scope"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Namespace"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/IdentifierScope_scope"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/contained_identifier"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Namespace"/>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ScopedIdentifier"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:38:23Z</dcterms:created>
         <dcterms:description xml:lang="en">association that records the binding of zero, one or more instances of the Scoped_Identifier (7.3.2) class with exactly one instance of the Namespace (7.3.3) class which provides the scope for the instance of the Scoped_Identifier. The association records the namespace that provides the scope for the scoped identifiers.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:402f0b90-81ab-47de-a810-216f5a270b4d"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:41:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:7.4.3"/>
         <rdfs:comment xml:lang="en">NOTE See Constraint on Scoped_Identifier (7.3.2.4).</rdfs:comment>
     </owl:Class>
@@ -3836,7 +4319,7 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-04T12:29:46Z</dcterms:created>
         <dcterms:description xml:lang="en">abstract superclass, each instance of which models a registry item, but which, as an abstract class, shall also be instantiated as a specific subclass [e.g. Concept (6.4.2.2), Data_Element (ISO/IEC 11179-31:2023, 7.6.2.1), etc.]. Item provides the basis for all registry items entered into a metadata registry that conforms to the specifications contained in the appropriate parts of ISO/IEC 11179. Additional facilities defined later allow any Item to be: identified (see Clause 7), named and defined (see Clause 8), registered and administered (see Clause 9), classified (see Clause 10) and mapped to other registry items (see Clause 11).</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:bde43ac8-4588-4f64-9b89-7a5bf90c6922"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.4.2.1.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:57:05Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.4.2.1"/>
     </owl:Class>
     
@@ -3874,15 +4357,16 @@ This association records the registry items that are to be classified as classif
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemDefinition">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/definition"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Definition"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ItemDefinition_item"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Item"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ItemDefinition_item"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/definition"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Item"/>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Definition"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -3890,6 +4374,7 @@ This association records the registry items that are to be classified as classif
         <dcterms:description xml:lang="en">association that records the binding of exactly one instance of the Item (8.2.1) class to zero, one or more instances of the Definition (8.4.2) class. The association records all of the definitions for a specific registry item.
 A definition shall be used for exactly one registry item. Definitions shall not be reused across multiple registry items because each such item should be distinct and distinguishable, and this should be reflected in the definition, if not in the text itself, then in the associated context.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:ce13b4a3-98fb-49d2-bfeb-8dcbe17014f2"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:39:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.6.3"/>
     </owl:Class>
     
@@ -3900,15 +4385,16 @@ A definition shall be used for exactly one registry item. Definitions shall not 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemDesignation">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/designation"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Designation"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ItemDesignation_item"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Item"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ItemDesignation_item"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/designation"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Item"/>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Designation"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -3917,6 +4403,7 @@ A definition shall be used for exactly one registry item. Definitions shall not 
 This association records that the registry item is designated by the designation(s) by recording all the designations (sign plus language pairs) for a registry item.
 A designation shall be used for exactly one registry item. Designations shall not be reused across multiple registry items because each such registry item should be distinct and distinguishable, and this should be reflected in the designations, if not in sign of the designation itself, then in the associated context or namespace.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:478ead10-057e-4d8d-89e1-f214edb741d0"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:39:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.6.4"/>
     </owl:Class>
     
@@ -3979,7 +4466,7 @@ A designation shall be used for exactly one registry item. Designations shall no
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T10:27:56Z</dcterms:created>
         <dcterms:description xml:lang="en">class each instance of which models some part of a mapping of registry items. Each instance of the Item_Mapping class comprises a Subject_Mapping (11.4.1) set of instances of the Item class (11.2.1) and an Object_Mapping (11.4.2) set of instances of the Item class that model similar real-world requirements.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:6b274025-a5ee-4242-8476-cfbbc686fff3"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.3.1.2"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:58:05Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.3.1"/>
     </owl:Class>
     
@@ -4004,15 +4491,16 @@ A conforming implementation may extend the above list of values.</rdfs:comment>
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemSlot">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/slot"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Slot"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ItemSlot_item"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Item"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ItemSlot_item"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/slot"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Item"/>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Slot"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -4020,6 +4508,7 @@ A conforming implementation may extend the above list of values.</rdfs:comment>
         <dcterms:description xml:lang="en">association that records the binding of exactly one instance of the Item (6.4.2.1) class with zero, one or more instances of the Slot (6.4.2.4) class.
 This association registers the slots that are used to extend the registry item.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:9f6f6a70-f91f-434e-b61f-d70e76c10511"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:40:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.4.3.1"/>
     </owl:Class>
     
@@ -4358,6 +4847,8 @@ Note 2 to entry: The term also applies to metadata objects described by the meta
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:45Z</dcterms:created>
         <dcterms:description xml:lang="en">set of designations (3.2.11), scoped identifiers (3.2.62) or both for a particular business need</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:4445982a-301f-4a32-be42-d454cad2baf5"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:45:00Z</dcterms:modified>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.3.2"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.13"/>
         <rdfs:comment xml:lang="en">Note 1 to entry: The term namespace is used in this document because it is in common use, even though the concept is being applied to identifiers as well as names.</rdfs:comment>
     </owl:Class>
@@ -4418,15 +4909,16 @@ Note 2 to entry: The term also applies to metadata objects described by the meta
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/NamingConventionConformance">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/convention"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/NamingConvention"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/conformant_designation"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Designation"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/conformant_designation"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/convention"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Designation"/>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/NamingConvention"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -4434,6 +4926,7 @@ Note 2 to entry: The term also applies to metadata objects described by the meta
         <dcterms:description xml:lang="en">association that records the binding of zero, one or more instances of the Designation (8.4.1) class to zero, one or more instances of the Naming_Convention (8.4.4)class.
 This association records the naming convention to which a designation conforms.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:a7231da9-33a1-443f-a969-cc9563ba00e1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:43:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.6.5"/>
     </owl:Class>
     
@@ -4445,7 +4938,8 @@ This association records the naming convention to which a designation conforms.<
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/acceptable_convention"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/NamingConvention"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/NamingConvention"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -4460,6 +4954,7 @@ This association records the naming convention to which a designation conforms.<
         <dcterms:description xml:lang="en">association records the binding of zero, one or more instances of the Namespace (8.3.1) class to zero, one or more instances of the Naming_Convention (8.4.4) class.
 This association records the naming convention used by the namespace.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d557677c-46b2-4515-ac0a-ff94ea9a2465"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:43:30Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.6.6"/>
     </owl:Class>
     
@@ -4575,8 +5070,7 @@ This association records that the set of classification scheme items are the obj
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:17:27Z</dcterms:created>
         <dcterms:description xml:lang="en">association which records the binding of zero, one or more instances of the Item_Mapping class (11.3.1) with one or more instances of the Item class (6.4.2.1) which are the object of the mapping</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:ac307cad-abc8-427e-9c22-9b8cf06c111a"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:35:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.2.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:59:05Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.2"/>
     </owl:Class>
     
@@ -4644,6 +5138,8 @@ This association records that the set of classification scheme items are the obj
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:25:47Z</dcterms:created>
         <dcterms:description xml:lang="en">unique framework of authority within which individuals (3.2.82) act, or are designated to act, towards some purpose</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:e39c34c8-9678-4cbc-8934-9304acac9831"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:43:00Z</dcterms:modified>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.2.2"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.84"/>
         <rdfs:comment xml:lang="en">Note 1 to entry: The kinds of organizations covered by ISO/IEC 6523-1[8] include the following examples:
 a) an organization incorporated under law;
@@ -4860,6 +5356,8 @@ This association records the reference documents that provide additional informa
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:43:20Z</dcterms:created>
         <dcterms:description xml:lang="en">document that provides pertinent details for consultation about a subject</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:707179f7-3c7b-4178-b0f5-d90a63a283be"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:44:00Z</dcterms:modified>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.2.3"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.101"/>
     </owl:Class>
     
@@ -4911,8 +5409,62 @@ This association records the reference documents that provide additional informa
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:55:53Z</dcterms:created>
         <dcterms:description xml:lang="en">identified item (3.2.61) that is recorded and managed in a registry (3.2.49)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:ef252164-d0cf-4909-8237-df01cac516f8"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T14:36:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:45:30Z</dcterms:modified>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.1"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.65"/>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Registrar -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Registrar">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Contact"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Registrar_registration_authority_registrar"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthorityRegistrar"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Registrar_identifier"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Registrar_identifier"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:50:27Z</dcterms:created>
+        <dcterms:description xml:lang="en">representative of a registration authority (3.2.92)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:3907e822-6b1c-4f6c-a56e-e1ad529cc34a"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.90"/>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrarIdentifier -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrarIdentifier">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Identifier"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/forThe"/>
+                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Registrar"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:52:36Z</dcterms:created>
+        <dcterms:description xml:lang="en">identifier (3.1.16) for the registrar (3.2.90)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:f97ad99c-ced8-457e-8ad9-f62222c8c0eb"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.91"/>
     </owl:Class>
     
 
@@ -4945,9 +5497,23 @@ Note 3 to entry: A registry item is recorded in the registry, but is not necessa
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationAuthority_documentation_language_identifier"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DocumentationLanguageIdentifier"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/registration_authority_namespace"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Namespace"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/registration_authority_identifier"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthorityIdentifier"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -4962,6 +5528,8 @@ Note 3 to entry: A registry item is recorded in the registry, but is not necessa
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:45:01Z</dcterms:created>
         <dcterms:description xml:lang="en">organization (3.2.84) responsible for maintaining a register (3.2.50)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:31242075-de2b-4d91-b22e-c5d10d3bd432"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:48:00Z</dcterms:modified>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.6"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.92"/>
     </owl:Class>
     
@@ -4971,12 +5539,6 @@ Note 3 to entry: A registry item is recorded in the registry, but is not necessa
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthorityIdentifier">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Identifier"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/assignedTo"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthority"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationAuthorityIdentifier_OPI_source"/>
@@ -5023,7 +5585,29 @@ Note 3 to entry: A registry item is recorded in the registry, but is not necessa
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:42:57Z</dcterms:created>
         <dcterms:description xml:lang="en">identifier (3.1.16) assigned to a registration authority (3.2.92)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:688b4323-abbc-4bc1-aad1-f0e833616671"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:25:00Z</dcterms:modified>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.9"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.93"/>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthorityRegistrar -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthorityRegistrar">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrationAuthorityRegistrar_registration_authority"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthority"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:30:33Z</dcterms:created>
+        <dcterms:description xml:lang="en">records the binding of exactly one instance of the Registration_Authority (9.4.6) class with one or more instances of the Registrar (9.4.7) class.
+This association records the registrars that represent the registration authority.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:ad3d34fc-d02b-4e16-8626-0690f6f938c8"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.6"/>
     </owl:Class>
     
 
@@ -5176,6 +5760,214 @@ Note 3 to entry: A registry item is recorded in the registry, but is not necessa
         <dcterms:identifier rdf:resource="urn:uuid:bfa88772-53c3-4eee-b521-1f2281885543"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.54"/>
         <rdfs:comment xml:lang="en">Note 1 to entry: A registry item is recorded in the registry, but is not necessarily identified, named, defined, classified, registered or administered. Specific information needs to be provided for each of these categories which can be provided when the item is initially recorded, or later. See also classified item (3.2.59), identified item (3.2.61), registered item (3.2.65), administered item (3.2.66) and attached item (3.2.68).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_alternative_language"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_context"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Context"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_default_language"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_degree_of_conformance"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DegreeOfConformance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_context"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Context"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_default_language"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_degree_of_conformance"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DegreeOfConformance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_comment"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/textDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_conformance_label"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_conformance_level"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_default_time_zone"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/datetimeDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_excluded_features"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_included_features"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_reference_document__identifier_kind"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_representation_class_scheme_id"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_standard"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_web_address"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_character_repertoire"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_name"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/signDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_comment"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/textDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_conformance_label"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_conformance_level"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_default_time_zone"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/datetimeDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_excluded_features"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_included_features"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_representation_class_scheme_id"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_standard"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_web_address"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:49:46Z</dcterms:created>
+        <dcterms:description xml:lang="en">describes the environment in which a registry operates. If this document is being applied in an environment that does not use a registry, then Registry_Specification is not required. In an environment with multiple registries, there should be one Registry_Specification per registry.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:1cd3eda7-77d7-4cdc-b74c-4d1ef57cdbff"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10"/>
     </owl:Class>
     
 
@@ -5354,6 +6146,33 @@ Note 3 to entry: A registry item is recorded in the registry, but is not necessa
     
 
 
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/StewardshipRecord -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/StewardshipRecord">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/StewardshipRecord_contact"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Contact"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/StewardshipRecord_organization"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:40:44Z</dcterms:created>
+        <dcterms:description xml:lang="en">record of a stewardship organization (3.2.104) and a stewardship contact (3.2.103) involved in the stewardship (3.2.102) of an administered item (3.2.66)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:e4cdc8e1-40e3-41a7-8d3a-56c9544f2655"/>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.8"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.105"/>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubjectClassificationSchemeItem -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubjectClassificationSchemeItem">
@@ -5416,9 +6235,62 @@ This association records that the set of classification scheme items are the sub
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:17:21Z</dcterms:created>
         <dcterms:description xml:lang="en">association which records the binding of zero, one or more instances of the Item_Mapping class (11.3.1) with one or more instances of the Item class (6.4.2.1) which are the subject of the mapping</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d8abe96b-5b29-480e-82e6-d069adab761f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:35:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.1.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:00:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.1"/>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Submission -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Submission">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Submission_registered_item"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegisteredItem"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Submission_submission_record"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubmissionRecord"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:43:57Z</dcterms:created>
+        <dcterms:description xml:lang="en">act of submitting a registry item (3.2.54) for registration (3.2.55) in a registry (3.2.49)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:9405beb2-5d04-4102-9481-7757bf99848f"/>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.8"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.106"/>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubmissionRecord -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubmissionRecord">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/SubmissionRecord_contact"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Contact"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/SubmissionRecord_organization"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:36:50Z</dcterms:created>
+        <dcterms:description xml:lang="en">record of a submission organization (3.2.108) and a submission contact (3.2.107) involved in the submission (3.2.106) of a registry item (3.2.54) for registration (3.2.55)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:7d8b9412-39f5-4913-bb14-a059899baff2"/>
+        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.9"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.109"/>
     </owl:Class>
     
 
