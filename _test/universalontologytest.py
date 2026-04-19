@@ -11,13 +11,13 @@ class UniversalOntologyTest(XmlTestCase):
 
 	def run_on_path(self, file_path: Path):
 		
-		nsRoot = 'https://haddenindustries.com/ontology/universal/'
+		nsRoot = 'https://haddenindustries.com/ontology/'
 		
 		pathStemToNS = {
-			'reference-data' : nsRoot + 'reference-data/',
-			'universal-core' : nsRoot + 'core/',
-			'universal-extended' : nsRoot + 'extended/',
-			'iso-iec11179-3' : 'http://standards.iso.org/iso-iec/11179/-3/ed-4/'
+			'iso-iec11179-3' : nsRoot + 'iso-iec/11179/-3/ed-4/',
+			'reference-data' : nsRoot + 'universal/reference-data/',
+			'universal-core' : nsRoot + 'universal/core/',
+			'universal-extended' : nsRoot + 'universal/extended/'
 		}
 		
 		ns = pathStemToNS.get(file_path.stem)
@@ -37,7 +37,7 @@ class UniversalOntologyTest(XmlTestCase):
 			
 			if classRdfAbout.startswith(ns):
 				
-				if ns == 'http://standards.iso.org/iso-iec/11179/-3/ed-4/':
+				if ns == 'https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/':
 					
 					classRdfAboutTail = str.replace(classRdfAbout, ns + 'term/', '')
 					
@@ -131,7 +131,7 @@ class UniversalOntologyTest(XmlTestCase):
 					
 					# Labels
                     
-					if classRdfAbout.startswith(nsRoot):
+					if classRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
                     
 						self.assertXpathsExist(elem, ['./rdfs:label'])
 						
@@ -173,7 +173,7 @@ class UniversalOntologyTest(XmlTestCase):
 					
 					# Names
 					
-					if classRdfAbout.startswith(nsRoot):
+					if classRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
 					
 						self.assertXpathsExist(elem, ['./dcterms:title'])
 						
