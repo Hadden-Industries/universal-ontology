@@ -1,4 +1,0 @@
-Change e.g.
-<owl:imports rdf:resource="http://standards.iso.org/iso-iec/11179/-3/ed-4/20250404"/>
-to e.g.
-<owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20250404"/>
