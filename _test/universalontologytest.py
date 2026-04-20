@@ -14,10 +14,11 @@ class UniversalOntologyTest(XmlTestCase):
 		nsRoot = 'https://haddenindustries.com/ontology/'
 		
 		pathStemToNS = {
-			'iso-iec11179-3' : nsRoot + 'iso-iec/11179/-3/ed-4/',
-			'reference-data' : nsRoot + 'universal/reference-data/',
-			'universal-core' : nsRoot + 'universal/core/',
-			'universal-extended' : nsRoot + 'universal/extended/'
+			'iso-iec11179-3'     : nsRoot + 'iso-iec/11179/-3/ed-4/',
+			'reference-data'     : nsRoot + 'universal/reference-data/',
+			'universal-core'     : nsRoot + 'universal/core/',
+			'universal-extended' : nsRoot + 'universal/extended/',
+			'iso-31073'          : nsRoot + 'iso/31073/ed-1/'
 		}
 		
 		ns = pathStemToNS.get(file_path.stem)
@@ -37,7 +38,7 @@ class UniversalOntologyTest(XmlTestCase):
 			
 			if classRdfAbout.startswith(ns):
 				
-				if ns == 'https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/':
+				if ns.startswith('https://haddenindustries.com/ontology/iso'):
 					
 					classRdfAboutTail = str.replace(classRdfAbout, ns + 'term/', '')
 					
