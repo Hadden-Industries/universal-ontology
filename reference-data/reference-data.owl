@@ -13,7 +13,7 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260422"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260423"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260419"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -23,14 +23,17 @@
         <dcterms:identifier rdf:resource="urn:uuid:7be316dd-2ca3-437b-a9d1-cf8939e1d5c2"/>
         <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-22</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-23</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights xml:lang="en">© 2026 Hadden Industries Ltd</dcterms:rights>
+        <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
+        <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85035852"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
+        <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology</dcterms:title>
         <rdfs:label xml:lang="en">HaddenIndustriesUniversalReferenceDataOntology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260419"/>
-        <owl:versionInfo>2026-04-22</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260422"/>
+        <owl:versionInfo>2026-04-23</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -1802,11 +1805,16 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-01T13:34:27Z</dcterms:created>
         <dcterms:description xml:lang="en">Scale of quality of being satisfactory and able to be agreed to or approved of</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:c2d971da-a7c5-42ee-b15b-2d70bfaacd94"/>
-        <dcterms:references rdf:resource="https://dictionary.cambridge.org/dictionary/english/acceptability"/>
-        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:en:term:3.2.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T13:58:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Acceptability Rating</dcterms:title>
         <rdfs:label xml:lang="en">AcceptabilityRating</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AcceptabilityRating"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Scale of quality of being satisfactory and able to be agreed to or approved of</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/acceptability"/>
+    </owl:Axiom>
     
 
 
@@ -2103,6 +2111,56 @@ Physical assets, information assets, intangible assets, critical assets (3.2.7),
         <rdfs:comment xml:lang="en">Typically, the bank base rate is a reference rate set by a central bank. Banks that are regulated by a given central bank cannot lend below the base rate to their customers. The bank base rate is determined on an ongoing basis and represents the central bank&apos;s judgement of the price of short-term funds on their interbank market.</rdfs:comment>
         <rdfs:label xml:lang="en">BaseRate</rdfs:label>
     </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/BasicLandAndPropertyUnit -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/BasicLandAndPropertyUnit">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicPropertyUnit"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T11:36:06Z</dcterms:created>
+        <dcterms:description xml:lang="en">Area of land in uniform property rights or, in the absence of such ownership evidence or where required for administrative purposes, inferred from physical features, occupation or use</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:cc28d198-367c-4f99-ab3c-63a16405c6bd"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T12:33:00Z</dcterms:modified>
+        <dcterms:title xml:lang="en">Basic Land And Property Unit</dcterms:title>
+        <rdfs:comment xml:lang="en">Basic Property Unit in the United Kingdom as defined under British Standard 7666-2</rdfs:comment>
+        <rdfs:label xml:lang="en">BasicLandAndPropertyUnit</rdfs:label>
+    </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicLandAndPropertyUnit"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedTarget xml:lang="en">Basic Land And Property Unit</owl:annotatedTarget>
+        <dcterms:alternative xml:lang="en">BLPU</dcterms:alternative>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicLandAndPropertyUnit"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Area of land in uniform property rights or, in the absence of such ownership evidence or where required for administrative purposes, inferred from physical features, occupation or use</owl:annotatedTarget>
+        <dcterms:source rdf:resource="urn:isbn:978-0-580-48723-1"/>
+    </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/BasicPropertyUnit -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/BasicPropertyUnit">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-11T10:18:30Z</dcterms:created>
+        <dcterms:description xml:lang="en">Basic unit of ownership that is recorded in the land books, land registers or equivalent. It is defined by unique ownership and homogeneous real property rights, and may consist of one or more adjacent or geographically separate parcels.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:5206582f-69e1-4190-963b-7a1ac1a2a583"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T07:53:00Z</dcterms:modified>
+        <dcterms:source rdf:resource="http://inspire.ec.europa.eu/featureconcept/BasicPropertyUnit"/>
+        <dcterms:title xml:lang="en">Basic Property Unit</dcterms:title>
+        <rdfs:label xml:lang="en">BasicPropertyUnit</rdfs:label>
+    </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicPropertyUnit"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedTarget xml:lang="en">Basic Property Unit</owl:annotatedTarget>
+        <dcterms:alternative xml:lang="en">BPU</dcterms:alternative>
+    </owl:Axiom>
     
 
 
