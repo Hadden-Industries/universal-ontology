@@ -3754,17 +3754,19 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         </owl:equivalentClass>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:description xml:lang="en">Output or outcome provided by an organisation to interested parties</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Output or outcome provided by an organisation to interested parties</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d3ee207a-7033-431b-a9d1-fa3cc73e7676"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T11:18:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T15:59:00Z</dcterms:modified>
+        <dcterms:source rdf:resource="iso:std:iso:22300:ed-3:v1:term:3.1.191"/>
         <dcterms:title xml:lang="en">Product Or Service</dcterms:title>
+        <rdfs:comment xml:lang="en">Manufactured items, car insurance, community nursing</rdfs:comment>
         <rdfs:label xml:lang="en">ProductOrService</rdfs:label>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
-        <owl:annotatedTarget xml:lang="en">Output or outcome provided by an organisation to interested parties</owl:annotatedTarget>
-        <dcterms:source rdf:resource="urn:iso:std:iso:22300:ed-3:v1:en:term:3.1.191"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Manufactured items, car insurance, community nursing</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
     </owl:Axiom>
     
 
