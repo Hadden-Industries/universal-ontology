@@ -155,12 +155,14 @@ class UniversalOntologyTest(XmlTestCase):
 							
 							labelsList.append(label.text)
 							
-							if labelXmlLang == 'en':
+							if labelXmlLang.partition('-')[0] == 'en':
 								if not hasEnglishLabel:
 									hasEnglishLabel = True
 								
-								if not classRdfAboutTail == label.text:
-									self.fail('en rdfs:label is not the same as the rdf:about: %s' % label.text)
+								if labelXmlLang == 'en' or labelXmlLang == 'en-gb':
+								
+									if not classRdfAboutTail == label.text:
+										self.fail('en rdfs:label is not the same as the rdf:about: %s' % label.text)
 									
 							for title in elem.iterfind('{http://purl.org/dc/terms/}title'):
 								if title.get('{http://www.w3.org/XML/1998/namespace}lang') == labelXmlLang:
@@ -187,7 +189,7 @@ class UniversalOntologyTest(XmlTestCase):
 							if titleXmlLang is None:
 								self.fail('dcterms:title does not have an xml:lang attribute: %s' % title.text)
 								
-							if titleXmlLang == 'en':
+							if titleXmlLang.partition('-')[0] == 'en':
 								hasEnglishTitle = True
 								
 						if not hasEnglishTitle:
