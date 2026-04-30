@@ -29,22 +29,68 @@ class UniversalOntologyTest(XmlTestCase):
 		# Everything starts with 'assertXmlDocument'
 		root = self.assertXmlDocument(file_path.read_text(encoding='utf-8'))
 
+		ontologyElement = root.find('{http://www.w3.org/2002/07/owl#}Ontology')
+		if ontologyElement is not None:
+			
+			versionIriElement = ontologyElement.find('{http://www.w3.org/2002/07/owl#}versionIRI')
+			if versionIriElement is None:
+				self.fail('owl:versionIRI does not exist in owl:Ontology')
+			
+			versionIriResource = versionIriElement.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
+			if not versionIriResource:
+				self.fail('owl:versionIRI does not have an rdf:resource attribute')
+				
+			versionIriTail = versionIriResource.rstrip('/').split('/')[-1]
+			
+			versionInfoElement = ontologyElement.find('{http://www.w3.org/2002/07/owl#}versionInfo')
+			if versionInfoElement is None or not versionInfoElement.text:
+				self.fail('owl:versionInfo does not exist or is empty in owl:Ontology')
+				
+			versionInfoDehyphened = str.replace(versionInfoElement.text, '-', '')
+			
+			if versionIriTail != versionInfoDehyphened:
+				self.fail('Ontology version metadata mismatch. versionIRI tail: "%s", versionInfo de-hyphened: "%s"' % (versionIriTail, versionInfoDehyphened))
+			
+			modifiedElement = ontologyElement.find('{http://purl.org/dc/terms/}modified')
+			if modifiedElement is not None and modifiedElement.text:
+				modifiedDehyphened = str.replace(modifiedElement.text, '-', '')
+				if versionIriTail != modifiedDehyphened:
+					self.fail('Ontology version metadata mismatch. versionIRI tail: "%s", modified de-hyphened: "%s"' % (versionIriTail, modifiedDehyphened))
+
 		for elem in itertools.chain(
 			root.iterfind('{http://www.w3.org/2002/07/owl#}Class'),
 			root.iterfind('{http://www.w3.org/2002/07/owl#}NamedIndividual')
 			):
 			
-			classRdfAbout = elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
+			entityRdfAbout = elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
 			
-			if classRdfAbout.startswith(ns):
+			if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
+				is_dataset = False
+				for rdf_type in elem.iterfind('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}type'):
+					if rdf_type.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource') == 'http://www.w3.org/ns/dcat#Dataset':
+						is_dataset = True
+						break
+				
+				if is_dataset:
+					has_valid_theme = False
+					for theme in elem.iterfind('{http://www.w3.org/ns/dcat#}theme'):
+						theme_resource = theme.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
+						if theme_resource and theme_resource.strip():
+							has_valid_theme = True
+							break
+					
+					if not has_valid_theme:
+						self.fail('owl:NamedIndividual Dataset "%s" is missing a dcat:theme with a non-empty rdf:resource' % entityRdfAbout)
+			
+			if entityRdfAbout.startswith(ns):
 				
 				if ns.startswith('https://haddenindustries.com/ontology/iso'):
 					
-					classRdfAboutTail = str.replace(classRdfAbout, ns + 'term/', '')
+					entityRdfAboutTail = str.replace(entityRdfAbout, ns + 'term/', '')
 					
 				else:
 					
-					classRdfAboutTail = str.replace(classRdfAbout, ns, '')
+					entityRdfAboutTail = str.replace(entityRdfAbout, ns, '')
 					
 				try:
 					# Creator
@@ -70,6 +116,10 @@ class UniversalOntologyTest(XmlTestCase):
 						self.fail('dcterms:created "%s" is not a UTC value' % createdFirstElement.text)
 					
 					# Modified at date and time
+					if len(elem.findall('{http://purl.org/dc/terms/}modified')) > 1:
+						entity_type = "owl:NamedIndividual" if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual' else "owl:Class"
+						self.fail('%s "%s" has more than one dcterms:modified' % (entity_type, entityRdfAbout))
+
 					modifiedFirstElement = elem.find('{http://purl.org/dc/terms/}modified')
 					
 					if modifiedFirstElement is not None:
@@ -131,9 +181,9 @@ class UniversalOntologyTest(XmlTestCase):
 						self.fail('dcterms:identifier of type UUID not found')				
 					
 					# Labels
-                    
-					if classRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
-                    
+					
+					if entityRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
+					
 						self.assertXpathsExist(elem, ['./rdfs:label'])
 						
 						hasEnglishLabel = False
@@ -161,7 +211,7 @@ class UniversalOntologyTest(XmlTestCase):
 								
 								if labelXmlLang == 'en' or labelXmlLang == 'en-gb':
 								
-									if not classRdfAboutTail == label.text:
+									if not entityRdfAboutTail == label.text:
 										self.fail('en rdfs:label is not the same as the rdf:about: %s' % label.text)
 									
 							for title in elem.iterfind('{http://purl.org/dc/terms/}title'):
@@ -176,7 +226,7 @@ class UniversalOntologyTest(XmlTestCase):
 					
 					# Names
 					
-					if classRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
+					if entityRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
 					
 						self.assertXpathsExist(elem, ['./dcterms:title'])
 						
@@ -216,7 +266,7 @@ class UniversalOntologyTest(XmlTestCase):
 					# Synonyms
 					for synonym in elem.iterfind('{https://haddenindustries.com/ontology/universal/core/}synonym'):
 						self.assertXmlHasAttribute(synonym, '{http://www.w3.org/XML/1998/namespace}lang')
-                        
+						
 					# Comments					
 					for comment in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}comment'):
 					
@@ -228,7 +278,7 @@ class UniversalOntologyTest(XmlTestCase):
 					#self.assertXpathsUniqueValue(elem, ['./rdfs:comment/@xml:lang'])
 					
 				except:
-					print(classRdfAboutTail)
+					print(entityRdfAboutTail)
 					raise
 				
 		# Check namespace
