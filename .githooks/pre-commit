@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # Enforce strict execution context: fail on error, fail on unbound variable, fail on pipeline errors.
 set -euo pipefail
 
