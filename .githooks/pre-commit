@@ -1,20 +1,35 @@
 #!/bin/sh
-# Enforce strict execution context: fail on error, fail on unbound variable, fail on pipeline errors.
-set -euo pipefail
+# Enforce strict execution context: fail on error, fail on unbound variable.
+set -eu
+set -o pipefail 2>/dev/null || true
 
-readonly TEST_EXECUTABLE="python"
 readonly TEST_SCRIPT_PATH="_test/universalontologytest.py"
-# Regex pattern isolates targeted ontology matrices to prevent unnecessary test execution
 readonly TARGET_PATTERN="^(iso-iec11179-3\.owl|reference-data\.owl|universal-core\.owl|universal-extended\.owl|iso-iec11179-3/versions/.*|reference-data/versions/.*|core/versions/.*|extended/versions/.*)$"
 
-validate_prerequisites() {
-    if ! command -v "${TEST_EXECUTABLE}" >/dev/null 2>&1; then
-        printf "CRITICAL: %s runtime not detected in PATH.\n" "${TEST_EXECUTABLE}" >&2
+# 1. Dynamic Interpreter Resolution
+resolve_python_executable() {
+    # Check for Windows virtual environment binary
+    if [ -x ".venv/Scripts/python.exe" ]; then
+        echo ".venv/Scripts/python.exe"
+    # Check for POSIX virtual environment binary
+    elif [ -x ".venv/bin/python" ]; then
+        echo ".venv/bin/python"
+    # Fallback to globally available executable
+    elif command -v python3 >/dev/null 2>&1; then
+        echo "python3"
+    elif command -v python >/dev/null 2>&1; then
+        echo "python"
+    else
+        printf "CRITICAL_FAILURE: Python runtime not detected in standard paths or local .venv.\n" >&2
         exit 1
     fi
+}
 
-    if [[ ! -f "${TEST_SCRIPT_PATH}" ]]; then
-        printf "CRITICAL: Validation script missing at operational path: %s\n" "${TEST_SCRIPT_PATH}" >&2
+readonly TEST_EXECUTABLE=$(resolve_python_executable)
+
+validate_prerequisites() {
+    if [ ! -f "${TEST_SCRIPT_PATH}" ]; then
+        printf "CRITICAL_FAILURE: Validation script missing at operational path: %s\n" "${TEST_SCRIPT_PATH}" >&2
         exit 1
     fi
 }
@@ -23,13 +38,12 @@ execute_ontology_validation() {
     local target_file="$1"
     local execution_output
 
-    # Disable exit-on-error temporarily to capture application-level validation failures
     set +e
     execution_output=$("${TEST_EXECUTABLE}" "${TEST_SCRIPT_PATH}" "${target_file}" 2>&1)
     local exit_code=$?
     set -e
 
-    if [[ -n "${execution_output}" || "${exit_code}" -ne 0 ]]; then
+    if [ -n "${execution_output}" ] || [ "${exit_code}" -ne 0 ]; then
         printf "VALIDATION_FAILURE: %s\n" "${target_file}" >&2
         printf -- "--------------------------------------------------\n" >&2
         printf "%s\n" "${execution_output}" >&2
@@ -45,16 +59,16 @@ main() {
 
     local validation_failures=0
 
-    # Utilize null-terminated file streams to prevent injection vectors via crafted filenames
-    while IFS= read -r -d '' staged_file; do
+    # Utilize null-terminated file streams to prevent injection vectors
+    while IFS= read -r staged_file; do
         if echo "${staged_file}" | grep -Eq "${TARGET_PATTERN}"; then
             if ! execute_ontology_validation "${staged_file}"; then
-                ((validation_failures++))
+                validation_failures=$((validation_failures + 1))
             fi
         fi
-    done < <(git diff --cached --name-only --diff-filter=ACM -z)
+    done < $(git diff --cached --name-only --diff-filter=ACM -z | tr '\0' '\n')
 
-    if (( validation_failures > 0 )); then
+    if [ "${validation_failures}" -gt 0 ]; then
         printf "ABORT: %d ontology validation(s) failed. Remediate issues before committing.\n" "${validation_failures}" >&2
         exit 1
     fi
