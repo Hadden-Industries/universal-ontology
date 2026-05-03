@@ -59,14 +59,19 @@ main() {
 
     local validation_failures=0
 
-    # Utilize null-terminated file streams to prevent injection vectors
+    # FIX: Use '< <()' so the shell treats the command output as a stream/file.
+    # We also use 'tr' to convert the null-terminated strings (\0) to newlines (\n)
+    # so that the 'read' command can process them one by one.
     while IFS= read -r staged_file; do
+        # Guard: Skip empty strings
+        [ -z "$staged_file" ] && continue
+
         if echo "${staged_file}" | grep -Eq "${TARGET_PATTERN}"; then
             if ! execute_ontology_validation "${staged_file}"; then
                 validation_failures=$((validation_failures + 1))
             fi
         fi
-    done < $(git diff --cached --name-only --diff-filter=ACM -z | tr '\0' '\n')
+    done < <(git diff --cached --name-only --diff-filter=ACM -z | tr '\0' '\n')
 
     if [ "${validation_failures}" -gt 0 ]; then
         printf "ABORT: %d ontology validation(s) failed. Remediate issues before committing.\n" "${validation_failures}" >&2
