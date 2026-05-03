@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Enforce strict execution context: fail on error, fail on unbound variable, fail on pipeline errors.
+set -euo pipefail
+
+readonly TEST_EXECUTABLE="python"
+readonly TEST_SCRIPT_PATH="_test/universalontologytest.py"
+# Regex pattern isolates targeted ontology matrices to prevent unnecessary test execution
+readonly TARGET_PATTERN="^(iso-iec11179-3\.owl|reference-data\.owl|universal-core\.owl|universal-extended\.owl|iso-iec11179-3/versions/.*|reference-data/versions/.*|core/versions/.*|extended/versions/.*)$"
+
+validate_prerequisites() {
+    if ! command -v "${TEST_EXECUTABLE}" >/dev/null 2>&1; then
+        printf "CRITICAL: %s runtime not detected in PATH.\n" "${TEST_EXECUTABLE}" >&2
+        exit 1
+    fi
+
+    if [[ ! -f "${TEST_SCRIPT_PATH}" ]]; then
+        printf "CRITICAL: Validation script missing at operational path: %s\n" "${TEST_SCRIPT_PATH}" >&2
+        exit 1
+    fi
+}
+
+execute_ontology_validation() {
+    local target_file="$1"
+    local execution_output
+
+    # Disable exit-on-error temporarily to capture application-level validation failures
+    set +e
+    execution_output=$("${TEST_EXECUTABLE}" "${TEST_SCRIPT_PATH}" "${target_file}" 2>&1)
+    local exit_code=$?
+    set -e
+
+    if [[ -n "${execution_output}" || "${exit_code}" -ne 0 ]]; then
+        printf "VALIDATION_FAILURE: %s\n" "${target_file}" >&2
+        printf -- "--------------------------------------------------\n" >&2
+        printf "%s\n" "${execution_output}" >&2
+        printf -- "--------------------------------------------------\n" >&2
+        return 1
+    fi
+
+    return 0
+}
+
+main() {
+    validate_prerequisites
+
+    local validation_failures=0
+
+    # Utilize null-terminated file streams to prevent injection vectors via crafted filenames
+    while IFS= read -r -d '' staged_file; do
+        if echo "${staged_file}" | grep -Eq "${TARGET_PATTERN}"; then
+            if ! execute_ontology_validation "${staged_file}"; then
+                ((validation_failures++))
+            fi
+        fi
+    done < <(git diff --cached --name-only --diff-filter=ACM -z)
+
+    if (( validation_failures > 0 )); then
+        printf "ABORT: %d ontology validation(s) failed. Remediate issues before committing.\n" "${validation_failures}" >&2
+        exit 1
+    fi
+
+    exit 0
+}
+
+main "$@"
