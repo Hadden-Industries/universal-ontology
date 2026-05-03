@@ -1,0 +1,98 @@
+name: Enterprise Ontology Validation Pipeline
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-ontologies:
+    name: OWL Differential Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Provision Python Runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Hydrate Runtime Dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip >/dev/null
+          
+          # Conditionally provision dependencies if a manifest boundary exists
+          if [[ -f "requirements.txt" ]]; then
+              pip install -r requirements.txt
+          else
+              echo "DEPENDENCY_STATE: No requirements.txt detected. Executing exclusively within Python standard library boundary."
+          fi
+
+      - name: Execute Deterministic Payload Validation
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          readonly TEST_EXECUTABLE="python"
+          readonly TEST_SCRIPT="_test/universalontologytest.py"
+          readonly TARGET_PATTERN="^(iso-iec11179-3\.owl|reference-data\.owl|universal-core\.owl|universal-extended\.owl|iso-iec11179-3/versions/.*|reference-data/versions/.*|core/versions/.*|extended/versions/.*)$"
+          readonly GIT_EMPTY_TREE="4b825dc642cb6eb9a060e54bf8d69288fbee4904"
+
+          if [[ ! -f "${TEST_SCRIPT}" ]]; then
+              echo "::error::Validation script missing at boundary: ${TEST_SCRIPT}"
+              exit 1
+          fi
+
+          # 1. Resolve differential base pointer
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+              DIFF_BASE="${{ github.event.pull_request.base.sha }}"
+          else
+              DIFF_BASE="${{ github.event.before }}"
+          fi
+
+          # 2. Handle invalid refs (e.g., new branch creation or forced pushes)
+          if ! git rev-parse --verify "${DIFF_BASE}^{commit}" >/dev/null 2>&1; then
+              if git rev-parse --verify "HEAD^" >/dev/null 2>&1; then
+                  DIFF_BASE="HEAD^"
+              else
+                  # Fallback to absolute zero-state for initial commits
+                  DIFF_BASE="${GIT_EMPTY_TREE}"
+              fi
+          fi
+
+          failure_count=0
+
+          # 3. Stream differential payload through validation matrix
+          while IFS= read -r -d '' file; do
+              if echo "${file}" | grep -Eq "${TARGET_PATTERN}"; then
+                  if [[ -f "${file}" ]]; then
+                      set +e
+                      test_output=$("${TEST_EXECUTABLE}" "${TEST_SCRIPT}" "${file}" 2>&1)
+                      exit_code=$?
+                      set -e
+
+                      if [[ -n "${test_output}" || "${exit_code}" -ne 0 ]]; then
+                          echo "::error file=${file}::Constraint violations detected in ${file}"
+                          printf "%s\n" "${test_output}"
+                          ((failure_count++))
+                      fi
+                  fi
+              fi
+          done < <(git diff --name-only --diff-filter=ACM -z "${DIFF_BASE}" "${{ github.sha }}")
+
+          # 4. Enforce strict pipeline failure on matrix breach
+          if (( failure_count > 0 )); then
+              echo "::error::Pipeline aborted. ${failure_count} ontology payload(s) breached constraints."
+              exit 1
+          fi
