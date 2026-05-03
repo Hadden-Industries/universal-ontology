@@ -1,4 +1,4 @@
-
+# Universal Ontology Exclusions
 reference-data/versions/latest
 reference-data-equivalents/versions/latest
 core/versions/latest
@@ -9,3 +9,8 @@ iso-iec11179-3/versions/latest
 core/versions/latest-unstable
 extended/versions/latest-unstable
 iso-31073/versions/latest
+
+# Infrastructure Exclusions
+.venv/
+__pycache__/
+*.pyc
