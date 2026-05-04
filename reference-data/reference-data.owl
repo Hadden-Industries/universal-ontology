@@ -2744,7 +2744,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative>Foreign Exchange Rate</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Foreign Exchange Rate</dcterms:alternative>
         <dcterms:alternative xml:lang="en">Foreign Exchange Reference Rate</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T08:40:57Z</dcterms:created>
         <dcterms:description xml:lang="en">Value of one currency for the purpose of conversion to another</dcterms:description>
@@ -2756,7 +2756,7 @@
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/alternative"/>
-        <owl:annotatedTarget>Foreign Exchange Rate</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">Foreign Exchange Rate</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">FX Rate</dcterms:alternative>
     </owl:Axiom>
     <owl:Axiom>
