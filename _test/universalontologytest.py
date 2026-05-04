@@ -21,7 +21,29 @@ class UniversalOntologyTest(XmlTestCase):
 			'iso-31073'          : nsRoot + 'iso/31073/ed-1/'
 		}
 		
+		# 1. Try to match the exact filename (for the main .owl files)
 		ns = pathStemToNS.get(file_path.stem)
+		
+		# 2. If it fails, check the parent directories using a structural map
+		if ns is None:
+			# Maps the physical directory names to your logical dictionary keys
+			directory_to_stem_map = {
+				'iso-iec11179-3': 'iso-iec11179-3',
+				'reference-data': 'reference-data',
+				'core':           'universal-core',
+				'extended':       'universal-extended',
+				'iso-31073':      'iso-31073'
+			}
+			
+			for part in file_path.parts:
+				if part in directory_to_stem_map:
+					mapped_stem = directory_to_stem_map[part]
+					ns = pathStemToNS.get(mapped_stem)
+					break
+		
+		# 3. Failsafe to prevent NoneType crashes
+		if ns is None:
+			self.fail('Ontology validation failed: Could not determine namespace for file path "%s"' % file_path)
 		
 		identifiersList = []
 		labelsList = []
