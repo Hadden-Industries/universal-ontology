@@ -11,47 +11,31 @@ class UniversalOntologyTest(XmlTestCase):
 
 	def run_on_path(self, file_path: Path):
 		
-		nsRoot = 'https://haddenindustries.com/ontology/'
+		# 1. Parse the XML document first so we can read its self-declared metadata
+		root = self.assertXmlDocument(file_path.read_text(encoding='utf-8'))
 		
-		pathStemToNS = {
-			'iso-iec11179-3'     : nsRoot + 'iso-iec/11179/-3/ed-4/',
-			'reference-data'     : nsRoot + 'universal/reference-data/',
-			'universal-core'     : nsRoot + 'universal/core/',
-			'universal-extended' : nsRoot + 'universal/extended/',
-			'iso-31073'          : nsRoot + 'iso/31073/ed-1/'
-		}
+		# Lookup the ontology element once to optimize parsing
+		ontologyElement = root.find('{http://www.w3.org/2002/07/owl#}Ontology')
 		
-		# 1. Try to match the exact filename (for the main .owl files)
-		ns = pathStemToNS.get(file_path.stem)
+		# 2. Dynamically extract the base namespace
+		# Primary fallback: check xml:base on the root <rdf:RDF> element
+		ns = root.get('{http://www.w3.org/XML/1998/namespace}base')
 		
-		# 2. If it fails, check the parent directories using a structural map
-		if ns is None:
-			# Maps the physical directory names to your logical dictionary keys
-			directory_to_stem_map = {
-				'iso-iec11179-3': 'iso-iec11179-3',
-				'reference-data': 'reference-data',
-				'core':           'universal-core',
-				'extended':       'universal-extended',
-				'iso-31073':      'iso-31073'
-			}
+		# Secondary fallback: check rdf:about on the <owl:Ontology> element
+		if not ns and ontologyElement is not None:
+			ns = ontologyElement.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
+		
+		# Failsafe
+		if not ns:
+			self.fail('Ontology validation failed: Could not dynamically determine namespace (xml:base or owl:Ontology rdf:about) for file.')
 			
-			for part in file_path.parts:
-				if part in directory_to_stem_map:
-					mapped_stem = directory_to_stem_map[part]
-					ns = pathStemToNS.get(mapped_stem)
-					break
-		
-		# 3. Failsafe to prevent NoneType crashes
-		if ns is None:
-			self.fail('Ontology validation failed: Could not determine namespace for file path "%s"' % file_path)
+		# Ensure trailing slash to allow strict URI removal later
+		if not ns.endswith('/'):
+			ns += '/'
 		
 		identifiersList = []
 		labelsList = []
-		
-		# Everything starts with 'assertXmlDocument'
-		root = self.assertXmlDocument(file_path.read_text(encoding='utf-8'))
 
-		ontologyElement = root.find('{http://www.w3.org/2002/07/owl#}Ontology')
 		if ontologyElement is not None:
 			
 			versionIriElement = ontologyElement.find('{http://www.w3.org/2002/07/owl#}versionIRI')
@@ -85,6 +69,10 @@ class UniversalOntologyTest(XmlTestCase):
 			):
 			
 			entityRdfAbout = elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
+			
+			# Check restored to prevent TypeError crashes on incomplete tags
+			if entityRdfAbout is None:
+				self.fail("Ontology constraint breach: Entity is missing 'rdf:about' attribute.")
 			
 			if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
 				is_dataset = False
