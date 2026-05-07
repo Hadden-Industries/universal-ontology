@@ -15,18 +15,18 @@
      xmlns:time="http://www.w3.org/2006/time#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/core/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260423"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260507"/>
         <owl:imports rdf:resource="http://www.w3.org/2006/time"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260423"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260507"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-09-30</dcterms:created>
         <dcterms:description xml:lang="en">Set of concepts and categories, applicable to almost all domains, that shows their properties and the relations between them</dcterms:description>
         <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
         <dcterms:identifier rdf:resource="urn:uuid:478440d0-9623-45ef-973f-ab0e7f2a9dec"/>
-        <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
+        <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-23</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-05-07</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights xml:lang="en">© 2026 Hadden Industries Ltd</dcterms:rights>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
@@ -35,8 +35,8 @@
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Core Ontology</dcterms:title>
         <rdfs:label xml:lang="en">HaddenIndustriesUniversalCoreOntology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/core/20260420"/>
-        <owl:versionInfo>2026-04-23</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/core/20260423"/>
+        <owl:versionInfo>2026-05-07</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -49,42 +49,6 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
-
-
-    <!-- http://purl.org/dc/elements/1.1/creator -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/created -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/description -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/identifier -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/identifier"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/references -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/references"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/title -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
     
 
 
@@ -130,11 +94,18 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-11T16:42:16Z</dcterms:created>
         <dcterms:description xml:lang="en">Data type that describes a point or geometry potentially occupied by an object or person</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b36ab6fb-3317-47c8-87c1-8451ebeaf45a"/>
-        <dcterms:references rdf:resource="urn:iso:std:iso:19133:ed-1:v1:en:term:4.18"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:13:57Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:19133:ed-1:v1:term:4.18"/>
         <dcterms:title xml:lang="en">Position</dcterms:title>
         <rdfs:comment xml:lang="en">A direct position is a semantic subtype of position. Direct positions as described can only define a point and therefore not all positions can be represented by a direct position. That is consistent with the “is type of” relation. An ISO 19107 geometry is also a position, just not a direct position.</rdfs:comment>
         <rdfs:label xml:lang="en">Position</rdfs:label>
     </rdfs:Datatype>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Position"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">A direct position is a semantic subtype of position. Direct positions as described can only define a point and therefore not all positions can be represented by a direct position. That is consistent with the “is type of” relation. An ISO 19107 geometry is also a position, just not a direct position.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -317,6 +288,30 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship_hasAddress -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship_hasAddress">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:47:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasAddress</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship_hasOrganisation -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship_hasOrganisation">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:47:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasOrganisation</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/AddressToPersonRelationship_hasAddress -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/AddressToPersonRelationship_hasAddress">
@@ -473,6 +468,42 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship_hasDocument -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship_hasDocument">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:47:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasDocument</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship_hasDocumentToProductOrServiceRelationshipType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship_hasDocumentToProductOrServiceRelationshipType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToProductOrServiceRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:47:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasDocumentToProductOrServiceRelationshipType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship_hasProductOrService -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship_hasProductOrService">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:47:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasProductOrService</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress_hasDomainNameSystemDomain -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress_hasDomainNameSystemDomain">
@@ -535,6 +566,30 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship_hasEvent -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship_hasEvent">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:54:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasEvent</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship_hasOrganisation -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship_hasOrganisation">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:54:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasOrganisation</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/EventToPersonRelationship_hasEvent -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/EventToPersonRelationship_hasEvent">
@@ -555,6 +610,42 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:02:58Z</dcterms:created>
         <rdfs:label xml:lang="en">hasPerson</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship_hasEvent -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship_hasEvent">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:54:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasEvent</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship_hasEventToProductOrServiceRelationshipType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship_hasEventToProductOrServiceRelationshipType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToProductOrServiceRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:54:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasEventToProductOrServiceRelationshipType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship_hasProductOrService -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship_hasProductOrService">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:54:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasProductOrService</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -602,18 +693,6 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T14:19:25Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLocation</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/LandlineNumber_hasLocation -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/LandlineNumber_hasLocation">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/LandlineNumber"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:56:34Z</dcterms:created>
         <rdfs:label xml:lang="en">hasLocation</rdfs:label>
     </owl:ObjectProperty>
     
@@ -670,6 +749,18 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/Offer_hasOffering -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Offer_hasOffering">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Offer"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T09:45:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasOffering</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/OfferingToProductOrServiceRelationship_hasOffering -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/OfferingToProductOrServiceRelationship_hasOffering">
@@ -690,18 +781,6 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:43:48Z</dcterms:created>
         <rdfs:label xml:lang="en">hasProductOrService</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/Order_hasOffering -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Order_hasOffering">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Order"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-24T10:13:38Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasOffering</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -754,6 +833,42 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship_hasOrganisation -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship_hasOrganisation">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:36:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasOrganisation</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship_hasOrganisationToProductOrServiceRelationshipType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship_hasOrganisationToProductOrServiceRelationshipType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OrganisationToProductOrServiceRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:36:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasOrganisationToProductOrServiceRelationshipType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship_hasProductOrService -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship_hasProductOrService">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:36:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasProductOrService</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/OutputToProcessRelationship_hasOutput -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/OutputToProcessRelationship_hasOutput">
@@ -774,6 +889,42 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T11:21:34Z</dcterms:created>
         <rdfs:label xml:lang="en">hasProcess</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship_hasPerson -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship_hasPerson">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:29:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasPerson</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship_hasPersonToProductOrServiceRelationshipType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship_hasPersonToProductOrServiceRelationshipType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonToProductOrServiceRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:29:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasPersonToProductOrServiceRelationshipType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship_hasProductOrService -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship_hasProductOrService">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:29:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasProductOrService</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -895,6 +1046,18 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T09:36:47Z</dcterms:created>
         <rdfs:label xml:lang="en">hasAddressToLocationRelationshipType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/hasAddressToOrganisationRelationshipType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasAddressToOrganisationRelationshipType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AddressToOrganisationRelationshipType"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T22:57:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasAddressToOrganisationRelationshipType</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1105,6 +1268,18 @@
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/hasEventToOrganisationRelationshipType -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasEventToOrganisationRelationshipType">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToOrganisationRelationshipType"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T22:58:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasEventToOrganisationRelationshipType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/hasEventToPersonRelationshipType -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasEventToPersonRelationshipType">
@@ -1296,18 +1471,6 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:23:49Z</dcterms:created>
         <rdfs:label xml:lang="en">hasMeasurementUnit</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/hasMessage -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasMessage">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/MessageThread"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Message"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T13:44:13Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMessage</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1521,25 +1684,47 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/QuantityValue_NumericalQuantityValue -->
+    <!-- https://haddenindustries.com/ontology/universal/core/QuantityValue_numericalQuantityValue -->
 
-    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/universal/core/QuantityValue_NumericalQuantityValue">
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/universal/core/QuantityValue_numericalQuantityValue">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T14:33:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Number in the expression of a quantity value, other than any number serving as the reference</dcterms:description>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:22:00Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/1.20.html"/>
         <dcterms:title xml:lang="en">Numerical Quantity Value</dcterms:title>
-        <rdfs:comment xml:lang="en">NOTE 1 For quantities of dimension one, the reference is a measurement unit which is a number and this is not considered as a part of the numerical quantity value.
-
-EXAMPLE In an amount-of-substance fraction equal to 3 mmol/mol, the numerical quantity value is 3 and the unit is mmol/mol. The unit mmol/mol is numerically equal to 0.001, but this number 0.001 is not part of the numerical quantity value, which remains 3.
-
-NOTE 2 For quantities that have a measurement unit (i.e. those other than ordinal quantities), the numerical value {Q} of a quantity Q is frequently denoted {Q} = Q/[Q], where [Q] denotes the measurement unit.
-
-EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5.7 kg)/kg = 5.7. The same quantity value can be expressed as 5 700 g in which case the numerical quantity value {m} = (5 700 g)/g = 5 700.</rdfs:comment>
-        <rdfs:label xml:lang="en">NumericalQuantityValue</rdfs:label>
-        <rdfs:seeAlso rdf:resource="https://jcgm.bipm.org/vim/en/1.20.html"/>
+        <rdfs:comment xml:lang="en">For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5.7 kg)/kg = 5.7. The same quantity value can be expressed as 5 700 g in which case the numerical quantity value {m} = (5 700 g)/g = 5 700.</rdfs:comment>
+        <rdfs:comment xml:lang="en">For quantities of dimension one, the reference is a measurement unit which is a number and this is not considered as a part of the numerical quantity value</rdfs:comment>
+        <rdfs:comment xml:lang="en">For quantities that have a measurement unit (i.e. those other than ordinal quantities), the numerical value {Q} of a quantity Q is frequently denoted {Q} = Q/[Q], where [Q] denotes the measurement unit</rdfs:comment>
+        <rdfs:comment xml:lang="en">In an amount-of-substance fraction equal to 3 mmol/mol, the numerical quantity value is 3 and the unit is mmol/mol. The unit mmol/mol is numerically equal to 0.001, but this number 0.001 is not part of the numerical quantity value, which remains 3.</rdfs:comment>
+        <rdfs:label xml:lang="en">numericalQuantityValue</rdfs:label>
     </owl:DatatypeProperty>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue_numericalQuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5.7 kg)/kg = 5.7. The same quantity value can be expressed as 5 700 g in which case the numerical quantity value {m} = (5 700 g)/g = 5 700.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue_numericalQuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">For quantities of dimension one, the reference is a measurement unit which is a number and this is not considered as a part of the numerical quantity value</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 1</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue_numericalQuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">For quantities that have a measurement unit (i.e. those other than ordinal quantities), the numerical value {Q} of a quantity Q is frequently denoted {Q} = Q/[Q], where [Q] denotes the measurement unit</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 2</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue_numericalQuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">In an amount-of-substance fraction equal to 3 mmol/mol, the numerical quantity value is 3 and the unit is mmol/mol. The unit mmol/mol is numerically equal to 0.001, but this number 0.001 is not part of the numerical quantity value, which remains 3.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -1559,7 +1744,8 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/TimeInterval"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
-        <rdfs:label>dateTimeEnd</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T09:46:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">dateTimeEnd</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -1570,7 +1756,8 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/TimeInterval"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
-        <rdfs:label>dateTimeStart</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T09:47:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">dateTimeStart</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -1583,18 +1770,6 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
-
-
-    <!-- http://purl.org/dc/terms/BibliographicResource -->
-
-    <owl:Class rdf:about="http://purl.org/dc/terms/BibliographicResource"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/PhysicalResource -->
-
-    <owl:Class rdf:about="http://purl.org/dc/terms/PhysicalResource"/>
     
 
 
@@ -1638,14 +1813,6 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization -->
-
-    <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
-    </rdf:Description>
-    
-
-
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ReferenceDocument -->
 
     <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ReferenceDocument">
@@ -1660,11 +1827,20 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T08:52:31Z</dcterms:created>
-        <dcterms:description xml:lang="en">Product Or Service that is the arrangement for regular dealings with a business</dcterms:description>
+        <dcterms:description xml:lang="en">Product Or Service that is the formal business arrangement providing for regular dealings or services</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:e7793f14-1a42-4b2f-9b6f-47a65363001d"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:01:29Z</dcterms:modified>
         <dcterms:title xml:lang="en">Account</dcterms:title>
         <rdfs:label xml:lang="en">Account</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Account"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Product Or Service that is the formal business arrangement providing for regular dealings or services</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.merriam-webster.com/dictionary/account"/>
+        <rdfs:comment xml:lang="en">Modified to use the partial definition</rdfs:comment>
+        <rdfs:comment xml:lang="en">Section 3 a (1)</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -1750,13 +1926,83 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Address">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
-        <dcterms:description xml:lang="en">Specific indication of a person&apos;s place of residence (natural or legal person)</dcterms:description>
+        <dcterms:description xml:lang="en">Structured information that allows the unambiguous determination of an object for purposes of identification and location</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:623ea210-aed1-4788-b0c1-55a970288274"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T09:14:29Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:isbn:978-92-95025-42-4"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:06:20Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:19160:-1:ed-1:v1:term:4.1"/>
         <dcterms:title xml:lang="en">Address</dcterms:title>
+        <rdfs:comment xml:lang="en">Address where the object is a building group, such as a school or large apartment area: 228-dong 404-ho, 26 Kyunghee-daero, Dongdaemun-gu, Seoul 130–701, South Korea</rdfs:comment>
+        <rdfs:comment xml:lang="en">Address where the object is a building: Lombardy House, 809 Lombardy Street, The Hills, 0039, South Africa</rdfs:comment>
+        <rdfs:comment xml:lang="en">Address where the object is a business: 611 Fifth Avenue, New York NY 10022</rdfs:comment>
+        <rdfs:comment xml:lang="en">Address where the object is a land parcel for a building: San 4–5, Munjae-ro, Songpa-gu, Seoul, 13144, South Korea</rdfs:comment>
+        <rdfs:comment xml:lang="en-gb">In addition to the addressable object, there may be a multitude of people, organizations, addressees or other objects associated with an address. These are external to the address model (refer to Annex C and Annex F for examples).</rdfs:comment>
+        <rdfs:comment xml:lang="en">The object is identifiable in the real world, i.e. electronic and virtual addresses are excluded</rdfs:comment>
+        <rdfs:comment xml:lang="en">There can be many addresses for an object, but at any moment (or lifecycle stage), an address unambiguously determines a single object (see Annex D for examples)</rdfs:comment>
+        <rdfs:comment xml:lang="en">Two addresses for the same addressable object and from the same address class, but in two different languages are two different addresses (refer to Annex E for more examples)</rdfs:comment>
+        <rdfs:comment xml:lang="en">Two addresses from two different address classes (4.4) (i.e. they have different sets of components) for the same addressable object are two different addresses (refer to Annex E for more examples)</rdfs:comment>
+        <rdfs:comment xml:lang="en">“Identification” refers to the fact that the structured information in the address unambiguously determines the object, i.e. it helps the human to identify the object. In other words, “identification” here does not refer to unique identifiers in a database or dataset.</rdfs:comment>
         <rdfs:label xml:lang="en">Address</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Address where the object is a building group, such as a school or large apartment area: 228-dong 404-ho, 26 Kyunghee-daero, Dongdaemun-gu, Seoul 130–701, South Korea</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE  4</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Address where the object is a building: Lombardy House, 809 Lombardy Street, The Hills, 0039, South Africa</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE  2</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Address where the object is a business: 611 Fifth Avenue, New York NY 10022</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE  1</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Address where the object is a land parcel for a building: San 4–5, Munjae-ro, Songpa-gu, Seoul, 13144, South Korea</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE  3</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en-gb">In addition to the addressable object, there may be a multitude of people, organizations, addressees or other objects associated with an address. These are external to the address model (refer to Annex C and Annex F for examples).</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 6 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">The object is identifiable in the real world, i.e. electronic and virtual addresses are excluded</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">There can be many addresses for an object, but at any moment (or lifecycle stage), an address unambiguously determines a single object (see Annex D for examples)</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Two addresses for the same addressable object and from the same address class, but in two different languages are two different addresses (refer to Annex E for more examples)</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 5 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Two addresses from two different address classes (4.4) (i.e. they have different sets of components) for the same addressable object are two different addresses (refer to Annex E for more examples)</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 4 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">“Identification” refers to the fact that the structured information in the address unambiguously determines the object, i.e. it helps the human to identify the object. In other words, “identification” here does not refer to unique identifiers in a database or dataset.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -1930,6 +2176,41 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship_hasAddress"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship_hasOrganisation"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/hasAddressToOrganisationRelationshipType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AddressToOrganisationRelationshipType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T16:04:35Z</dcterms:created>
+        <dcterms:description xml:lang="en-gb">Association between an Address and an Organisation</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:83c1f822-741e-44af-b011-799e4090e139"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:40:20Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Address To Organisation Relationship</dcterms:title>
+        <rdfs:label xml:lang="en-gb">AddressToOrganisationRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/AddressToPersonRelationship -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/AddressToPersonRelationship">
@@ -1964,20 +2245,6 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/Area -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Area">
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T09:09:40Z</dcterms:created>
-        <dcterms:description xml:lang="en">Two-dimensional Geometry</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:7edea946-cd80-4c64-828d-6eaa0abfe234"/>
-        <dcterms:title xml:lang="en">Area</dcterms:title>
-        <rdfs:label xml:lang="en">Area</rdfs:label>
-    </owl:Class>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/core/BirthCertificate -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/BirthCertificate">
@@ -2006,8 +2273,8 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-20T14:41:07Z</dcterms:created>
         <dcterms:description xml:lang="en">Intangible asset, including but not limited to, names, terms, signs, symbols, logos and designs, or a combination of these, intended to identify goods, services or entities, or a combination of these, creating distinctive images and associations in the minds of stakeholders, thereby generating economic benefit/values</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:5e730ef6-42fd-4a65-b939-3c061c7c5d36"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-01-21T20:01:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso:20671:ed-1:v1:en:term:3.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:05:08Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:20671:ed-1:v1:term:3.1"/>
         <dcterms:title xml:lang="en">Brand</dcterms:title>
         <rdfs:label xml:lang="en">Brand</rdfs:label>
     </owl:Class>
@@ -2022,9 +2289,16 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:47:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Structure with a roof and walls, such as a house or factory</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:4f274149-80a2-4d5b-9749-79b591fa2cfd"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:29:49Z</dcterms:modified>
         <dcterms:title xml:lang="en">Building</dcterms:title>
         <rdfs:label xml:lang="en">Building</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Building"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Structure with a roof and walls, such as a house or factory</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.oed.com/dictionary/building_n"/>
+    </owl:Axiom>
     
 
 
@@ -2166,12 +2440,12 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Recorded information or material object which can be treated as a unit in a documentation process</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:2dc05ab0-a47f-4799-839e-e3d4c7e04086"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T11:47:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T01:19:40Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.38"/>
         <dcterms:title xml:lang="en">Document</dcterms:title>
         <rdfs:comment xml:lang="en">Documents often are the manifestations of works.They can differ extensively in form and characteristics.</rdfs:comment>
         <rdfs:comment xml:lang="en">In some professional usage, documents are sometimes referred to as “medium”, “title” or “item”</rdfs:comment>
-        <rdfs:comment xml:lang="en">See also ISO 25964-1:2011, definition 2.15; ISO 11005:2010, definition 3.1; ISO 15489-1:2016, definition 3.10; IEC 82045-1:2001, definition 3.2.3; ISO 9000:2015, definition 3.7.2.</rdfs:comment>
+        <rdfs:comment xml:lang="en">See also ISO 25964-1:2011, definition 2.15; ISO 11005:2010, definition 3.1; ISO 15489-1:2016, definition 3.10; IEC 82045-1:2001, definition 3.2.3; ISO 9000:2015, definition 3.7.2</rdfs:comment>
         <rdfs:comment xml:lang="en">This definition refers not only to written and printed materials in paper or microform versions (for example, conventional books, journals, diagrams, maps), but also to non-printed media such as machine-readable and digitised records, Internet and intranet resources, films, sound recordings, people and organisations as knowledge resources, buildings, sites, monuments, three-dimensional objects or realia; and to collections of such items or parts of such items. (Note taken from ISO 25964-1:2011, definition 2.15.) Also, software, since recorded, can be considered a document.</rdfs:comment>
         <rdfs:label xml:lang="en">Document</rdfs:label>
         <rdfs:seeAlso rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.8.5"/>
@@ -2191,7 +2465,7 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">See also ISO 25964-1:2011, definition 2.15; ISO 11005:2010, definition 3.1; ISO 15489-1:2016, definition 3.10; IEC 82045-1:2001, definition 3.2.3; ISO 9000:2015, definition 3.7.2.</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">See also ISO 25964-1:2011, definition 2.15; ISO 11005:2010, definition 3.1; ISO 15489-1:2016, definition 3.10; IEC 82045-1:2001, definition 3.2.3; ISO 9000:2015, definition 3.7.2</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
@@ -2331,10 +2605,11 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-09T12:45:48Z</dcterms:created>
-        <dcterms:description xml:lang="en">Association between a Document and an Organisation</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Association between a Document and an Organisation</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:ee935f80-414a-4325-a119-a3f865125bdb"/>
-        <dcterms:title xml:lang="en">Document To Organisation Relationship</dcterms:title>
-        <rdfs:label xml:lang="en">DocumentToOrganisationRelationship</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:08:29Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Document To Organisation Relationship</dcterms:title>
+        <rdfs:label xml:lang="en-gb">DocumentToOrganisationRelationship</rdfs:label>
     </owl:Class>
     
 
@@ -2374,6 +2649,41 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship_hasDocument"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship_hasDocumentToProductOrServiceRelationshipType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToProductOrServiceRelationshipType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToProductOrServiceRelationship_hasProductOrService"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-24T10:47:39Z</dcterms:created>
+        <dcterms:description xml:lang="en">Association between a Document and a Product Or Service</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:9e3f8558-0e7a-48a1-a9c9-d69670cc5aff"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:53:00Z</dcterms:modified>
+        <dcterms:title xml:lang="en">Document To Product Or Service Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">DocumentToProductOrServiceRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress">
@@ -2406,8 +2716,8 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T15:09:01Z</dcterms:created>
         <dcterms:description xml:lang="en">Electronic service to compose, store, retrieve, and transmit messages among subscribers</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:832d0fb8-c64a-4844-81fd-8d7d45116f06"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-04T22:01:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.1.9.15"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:01:56Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.9.15"/>
         <dcterms:title xml:lang="en">Electronic Mail Service</dcterms:title>
         <rdfs:label xml:lang="en">ElectronicMailService</rdfs:label>
         <synonym xml:lang="en">E-Mail</synonym>
@@ -2438,14 +2748,32 @@ EXAMPLE For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Occurrence or change of a particular set of circumstances</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:700de2be-ede3-4ec6-b031-6248e70881a1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-18T16:52:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso:31073:ed-1:v1:en:term:3.3.11"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T22:14:41Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.11"/>
         <dcterms:title xml:lang="en">Event</dcterms:title>
-        <rdfs:comment xml:lang="en">Note 1 to entry: An event can have one or more occurrences, and can have several causes and several consequences (3.3.18).
-Note 2 to entry: An event can also be something that is expected which does not happen, or something that is not expected which does happen.
-Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
+        <rdfs:comment xml:lang="en">An event can also be something that is expected which does not happen, or something that is not expected which does happen</rdfs:comment>
+        <rdfs:comment xml:lang="en">An event can be a risk source (3.3.10)</rdfs:comment>
+        <rdfs:comment xml:lang="en">An event can have one or more occurrences, and can have several causes and several consequences (3.3.18)</rdfs:comment>
         <rdfs:label xml:lang="en">Event</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">An event can also be something that is expected which does not happen, or something that is not expected which does happen</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">An event can be a risk source (3.3.10)</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">An event can have one or more occurrences, and can have several causes and several consequences (3.3.18)</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -2552,6 +2880,41 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship_hasEvent"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship_hasOrganisation"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/hasEventToOrganisationRelationshipType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToOrganisationRelationshipType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T17:38:17Z</dcterms:created>
+        <dcterms:description xml:lang="en-gb">Association between an Event and an Organisation</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:558bb570-1d93-48e9-a2f4-99143feb043a"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:40:48Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Event To Organisation Relationship</dcterms:title>
+        <rdfs:label xml:lang="en-gb">EventToOrganisationRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/EventToPersonRelationship -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/EventToPersonRelationship">
@@ -2586,17 +2949,37 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/FaxNumber -->
+    <!-- https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/FaxNumber">
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/LandlineNumber"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:54:41Z</dcterms:created>
-        <dcterms:description xml:lang="en">Landline Number assigned to a Device capable of telephonically transmitting and receiving Documents</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:5580ac18-9911-458a-a90a-d6d1ec738235"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T10:55:00Z</dcterms:modified>
-        <dcterms:title xml:lang="en">Fax Number</dcterms:title>
-        <rdfs:label xml:lang="en">FaxNumber</rdfs:label>
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship_hasEvent"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship_hasEventToProductOrServiceRelationshipType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToProductOrServiceRelationshipType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToProductOrServiceRelationship_hasProductOrService"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-24T10:47:46Z</dcterms:created>
+        <dcterms:description xml:lang="en">Association between an Event and a Product Or Service</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:7ffccc5a-489f-4512-8c44-f80b0cb13e2f"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:55:00Z</dcterms:modified>
+        <dcterms:title xml:lang="en">Event To Product Or Service Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">EventToProductOrServiceRelationship</rdfs:label>
     </owl:Class>
     
 
@@ -2647,13 +3030,20 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-25T10:54:52Z</dcterms:created>
-        <dcterms:description xml:lang="en">Spatial component of geographic features</dcterms:description>
+        <dcterms:description xml:lang="en">Shape and geographic location of a feature</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:a665463d-cbae-431d-a251-bf9a0d57d167"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T10:57:57Z</dcterms:modified>
-        <dcterms:references rdf:resource="http://help.arcgis.com/en/geodatabase/10.0/sdk/arcsde/concepts/geometry/geometry.htm"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T23:38:10Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.27"/>
         <dcterms:title xml:lang="en">Geometry</dcterms:title>
         <rdfs:label xml:lang="en">Geometry</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://help.arcgis.com/en/geodatabase/10.0/sdk/arcsde/concepts/geometry/geometry.htm"/>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Shape and geographic location of a feature</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Definite article &quot;the&quot; removed from the beginning of the definition</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -2723,11 +3113,11 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Entity, that is not a natural person, recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:075cf570-c695-42c7-9387-05766ba4e836"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T12:30:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T22:25:43Z</dcterms:modified>
         <dcterms:title xml:lang="en">Juridical Person</dcterms:title>
         <rdfs:label xml:lang="en">JuridicalPerson</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.law.cornell.edu/wex/artificial_person"/>
-        <rdfs:seeAlso rdf:resource="urn:iso:std:iso:20275:ed-1:v1:en:term:3.2"/>
+        <rdfs:seeAlso rdf:resource="urn:iso:std:iso:20275:ed-1:v1:term:3.2"/>
         <synonym xml:lang="en">Agency</synonym>
         <synonym xml:lang="en">Business</synonym>
         <synonym xml:lang="en">Company</synonym>
@@ -2743,42 +3133,6 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:14662:ed-3:v1:en:term:3.24"/>
         <rdfs:comment xml:lang="en">Derived</rdfs:comment>
     </owl:Axiom>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/LandlineNumber -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/LandlineNumber">
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/TelephoneNumber"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/LandlineNumber_hasLocation"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/core/MobileNumber"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:53:50Z</dcterms:created>
-        <dcterms:description xml:lang="en">Telephone Number assigned to a fixed-line telephone subscriber station</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:959b3360-1f4a-4427-bf6b-44a754889155"/>
-        <dcterms:title xml:lang="en">Landline Number</dcterms:title>
-        <rdfs:label xml:lang="en">LandlineNumber</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/Line -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Line">
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:24:11Z</dcterms:created>
-        <dcterms:description xml:lang="en">One-dimensional Geometry</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:22797edb-b2eb-47ca-a34e-5cce25fdac86"/>
-        <dcterms:title xml:lang="en">Line</dcterms:title>
-        <rdfs:label xml:lang="en">Line</rdfs:label>
-    </owl:Class>
     
 
 
@@ -2907,14 +3261,19 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Object which has physical extension in space and time</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:3a074d33-b750-4992-8d96-5cd627b625d3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-22T19:54:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.1.1.60"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:13:04Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.60"/>
         <dcterms:title xml:lang="en">Material Object</dcterms:title>
-        <rdfs:comment xml:lang="en">See also “naturafact”, “artefact (1) &lt;man-made object&gt;; ISO 21127:2014, classes “E 18” and “E 19”.</rdfs:comment>
+        <rdfs:comment xml:lang="en">See also “naturafact”, “artefact (1) &lt;man-made object&gt;; ISO 21127:2014, classes “E 18” and “E 19”</rdfs:comment>
         <rdfs:label xml:lang="en">MaterialObject</rdfs:label>
-        <synonym xml:lang="en">Object</synonym>
         <synonym xml:lang="en">Physical Object</synonym>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">See also “naturafact”, “artefact (1) &lt;man-made object&gt;; ISO 21127:2014, classes “E 18” and “E 19”</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -2983,16 +3342,41 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:42:19Z</dcterms:created>
         <dcterms:description xml:lang="en">Quantity Value representing a Measurement Result</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:5a08adf0-0137-4351-8985-1a0cd4947ae0"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:17:50Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/2.10.html"/>
         <dcterms:title xml:lang="en">Measured Quantity Value</dcterms:title>
-        <rdfs:comment xml:lang="en">NOTE 1 For a measurement involving replicate indications, each indication can be used to provide a corresponding measured quantity value. This set of individual measured quantity values can be used to calculate a resulting measured quantity value, such as an average or median, usually with a decreased associated measurement uncertainty.
-NOTE 2 When the range of the true quantity values believed to represent the measurand is small compared with the measurement uncertainty, a measured quantity value can be considered to be an estimate of an essentially unique true quantity value and is often an average or median of individual measured quantity values obtained through replicate measurements.
-NOTE 3 In the case where the range of the true quantity values believed to represent the measurand is not small compared with the measurement uncertainty, a measured quantity value is often an estimate of an average or median of the set of true quantity values.
-NOTE 4 In the GUM, the terms “result of measurement” and “estimate of the value of the measurand” or just “estimate of the measurand” are used for ‘measured quantity value’.</rdfs:comment>
+        <rdfs:comment xml:lang="en">For a measurement involving replicate indications, each indication can be used to provide a corresponding measured quantity value. This set of individual measured quantity values can be used to calculate a resulting measured quantity value, such as an average or median, usually with a decreased associated measurement uncertainty.</rdfs:comment>
+        <rdfs:comment xml:lang="en">In the GUM, the terms “result of measurement” and “estimate of the value of the measurand” or just “estimate of the measurand” are used for ‘measured quantity value’</rdfs:comment>
+        <rdfs:comment xml:lang="en">In the case where the range of the true quantity values believed to represent the measurand is not small compared with the measurement uncertainty, a measured quantity value is often an estimate of an average or median of the set of true quantity values</rdfs:comment>
+        <rdfs:comment xml:lang="en">When the range of the true quantity values believed to represent the measurand is small compared with the measurement uncertainty, a measured quantity value can be considered to be an estimate of an essentially unique true quantity value and is often an average or median of individual measured quantity values obtained through replicate measurements</rdfs:comment>
         <rdfs:label xml:lang="en">MeasuredQuantityValue</rdfs:label>
-        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://jcgm.bipm.org/vim/en/2.10.html</rdfs:seeAlso>
         <synonym xml:lang="en">Measured value</synonym>
         <synonym xml:lang="en">Value of a measured quantity</synonym>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">For a measurement involving replicate indications, each indication can be used to provide a corresponding measured quantity value. This set of individual measured quantity values can be used to calculate a resulting measured quantity value, such as an average or median, usually with a decreased associated measurement uncertainty.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 1</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">In the GUM, the terms “result of measurement” and “estimate of the value of the measurand” or just “estimate of the measurand” are used for ‘measured quantity value’</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 4</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">In the case where the range of the true quantity values believed to represent the measurand is not small compared with the measurement uncertainty, a measured quantity value is often an estimate of an average or median of the set of true quantity values</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 3</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">When the range of the true quantity values believed to represent the measurand is small compared with the measurement uncertainty, a measured quantity value can be considered to be an estimate of an essentially unique true quantity value and is often an average or median of individual measured quantity values obtained through replicate measurements</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 2</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -3090,14 +3474,33 @@ NOTE 4 In the GUM, the terms “result of measurement” and “estimate of the 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:01:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of Quantity Values being attributed to a measurand together with any other available relevant information</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b30a4fbd-bcfb-4b02-9bdf-4f3ab77ffce3"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T23:49:40Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/2.9.html"/>
         <dcterms:title xml:lang="en">Measurement Result</dcterms:title>
-        <rdfs:comment xml:lang="en">NOTE 1 A measurement result generally contains “relevant information” about the set of quantity values, such that some may be more representative of the measurand than others. This may be expressed in the form of a probability density function (PDF).
-NOTE 2 A measurement result is generally expressed as a single measured quantity value and a measurement uncertainty. If the measurement uncertainty is considered to be negligible for some purpose, the measurement result may be expressed as a single measured quantity value. In many fields, this is the common way of expressing a measurement result.
-NOTE 3 In the traditional literature and in the previous edition of the VIM, measurement result was defined as a value attributed to a measurand and explained to mean an indication, or an uncorrected result, or a corrected result, according to the context.</rdfs:comment>
+        <rdfs:comment xml:lang="en">A measurement result generally contains “relevant information” about the set of quantity values, such that some may be more representative of the measurand than others. This may be expressed in the form of a probability density function (PDF).</rdfs:comment>
+        <rdfs:comment xml:lang="en">A measurement result is generally expressed as a single measured quantity value and a measurement uncertainty. If the measurement uncertainty is considered to be negligible for some purpose, the measurement result may be expressed as a single measured quantity value. In many fields, this is the common way of expressing a measurement result.</rdfs:comment>
+        <rdfs:comment xml:lang="en">In the traditional literature and in the previous edition of the VIM, measurement result was defined as a value attributed to a measurand and explained to mean an indication, or an uncorrected result, or a corrected result, according to the context.</rdfs:comment>
         <rdfs:label xml:lang="en">MeasurementResult</rdfs:label>
-        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://jcgm.bipm.org/vim/en/2.9.html</rdfs:seeAlso>
         <synonym xml:lang="en">Result of measurement</synonym>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasurementResult"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">A measurement result generally contains “relevant information” about the set of quantity values, such that some may be more representative of the measurand than others. This may be expressed in the form of a probability density function (PDF).</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 1</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasurementResult"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">A measurement result is generally expressed as a single measured quantity value and a measurement uncertainty. If the measurement uncertainty is considered to be negligible for some purpose, the measurement result may be expressed as a single measured quantity value. In many fields, this is the common way of expressing a measurement result.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 2</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasurementResult"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">In the traditional literature and in the previous edition of the VIM, measurement result was defined as a value attributed to a measurand and explained to mean an indication, or an uncorrected result, or a corrected result, according to the context.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 3</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -3109,12 +3512,25 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:32:43Z</dcterms:created>
         <dcterms:description xml:lang="en">Device used for making Measurements, alone or in conjunction with one or more supplementary devices</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:563eba12-7614-4736-bd76-f1a1bc929eab"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:09:22Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/3.1.html"/>
         <dcterms:title xml:lang="en">Measuring Instrument</dcterms:title>
-        <rdfs:comment xml:lang="en">1. A measuring instrument that can be used alone is a measuring system.
-2. A measuring instrument may be an indicating measuring instrument or a material measure.</rdfs:comment>
+        <rdfs:comment xml:lang="en">A measuring instrument may be an indicating measuring instrument or a material measure</rdfs:comment>
+        <rdfs:comment xml:lang="en">A measuring instrument that can be used alone is a measuring system</rdfs:comment>
         <rdfs:label xml:lang="en">MeasuringInstrument</rdfs:label>
-        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://jcgm.bipm.org/vim/en/3.1.html</rdfs:seeAlso>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuringInstrument"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">A measuring instrument may be an indicating measuring instrument or a material measure</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 2</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuringInstrument"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">A measuring instrument that can be used alone is a measuring system</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE 1</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -3126,11 +3542,18 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:38:51Z</dcterms:created>
         <dcterms:description xml:lang="en">Set of one or more Measuring Instruments and often other devices, including any reagent and supply, assembled and adapted to give information used to generate measured Quantity Values within specified intervals for Quantities of specified Kinds</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:1a423aab-253c-4b21-9dbd-19d61faa94d7"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:08:20Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/3.2.html"/>
         <dcterms:title xml:lang="en">Measuring System</dcterms:title>
-        <rdfs:comment xml:lang="en">A measuring system may consist of only one measuring instrument.</rdfs:comment>
+        <rdfs:comment xml:lang="en">A measuring system may consist of only one measuring instrument</rdfs:comment>
         <rdfs:label xml:lang="en">MeasuringSystem</rdfs:label>
-        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://jcgm.bipm.org/vim/en/3.2.html</rdfs:seeAlso>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuringSystem"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">A measuring system may consist of only one measuring instrument</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">NOTE</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -3149,43 +3572,10 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Information prepared for communication purposes</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:968544c5-f31c-4476-b946-89c2fa926998"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-02T08:55:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.1.8.02"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:42:03Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.8.02"/>
         <dcterms:title xml:lang="en">Message</dcterms:title>
         <rdfs:label xml:lang="en">Message</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/MessageThread -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/MessageThread">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/hasMessage"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/core/Message"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T13:39:48Z</dcterms:created>
-        <dcterms:description xml:lang="en">Set of Messages that has a common theme</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:ac9b5e72-1035-4502-9598-5f0d994d7ad5"/>
-        <dcterms:title xml:lang="en">Message Thread</dcterms:title>
-        <rdfs:label xml:lang="en">MessageThread</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/MobileNumber -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/MobileNumber">
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/TelephoneNumber"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:55:50Z</dcterms:created>
-        <dcterms:description xml:lang="en">Telephone Number assigned to a wireless electronic telephony Device</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:99d35578-0ecd-4acb-bcbc-99d49366445f"/>
-        <dcterms:title xml:lang="en">Mobile Number</dcterms:title>
-        <rdfs:label xml:lang="en">MobileNumber</rdfs:label>
     </owl:Class>
     
 
@@ -3222,9 +3612,44 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:46:19Z</dcterms:created>
         <dcterms:description xml:lang="en">Structure not designed for continuous human occupancy</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b9b12aca-6dbb-4d98-9869-d8c69f50d7c5"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:31:43Z</dcterms:modified>
         <dcterms:title xml:lang="en">Nonbuilding Structure</dcterms:title>
         <rdfs:label xml:lang="en">NonbuildingStructure</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/NonbuildingStructure"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Structure not designed for continuous human occupancy</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://en.wikipedia.org/wiki/List_of_non-building_structure_types"/>
+    </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/Offer -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Offer">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Offer_hasOffering"/>
+                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
+        <dcterms:description xml:lang="en">Expression of willingness to contract on certain terms, made with the intention that it shall become binding as soon as it is accepted by the person to whom it is addressed</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:270ee6a4-0c9b-4ce8-bf5a-907e872e4a3e"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T01:19:53Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:isbn:9780421634503"/>
+        <dcterms:title xml:lang="en">Offer</dcterms:title>
+        <rdfs:label xml:lang="en">Offer</rdfs:label>
+    </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Offer"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
+        <owl:annotatedTarget rdf:resource="urn:isbn:9780421634503"/>
+        <rdfs:comment xml:lang="en">Chapter 2, Section 1</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -3241,11 +3666,11 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-24T10:04:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Public, not necessarily binding, not necessarily exclusive, announcement by a business entity to provide (or seek) a certain business function for a certain product or service to a specified target audience</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:dbe0e629-c5d7-4c8a-bed1-c83c70b32a80"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-14T10:05:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="http://www.heppnetz.de/ontologies/goodrelations/v1.html#Offering"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:07:11Z</dcterms:modified>
+        <dcterms:source rdf:resource="http://www.heppnetz.de/ontologies/goodrelations/v1.html#Offering"/>
         <dcterms:title xml:lang="en">Offering</dcterms:title>
         <rdfs:label xml:lang="en">Offering</rdfs:label>
-        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Offering</rdfs:seeAlso>
+        <rdfs:seeAlso rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Offering"/>
         <synonym xml:lang="en">Invitation To Treat</synonym>
         <synonym xml:lang="en">Proposition</synonym>
     </owl:Class>
@@ -3280,25 +3705,19 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/Order -->
+    <!-- https://haddenindustries.com/ontology/universal/core/OneDimensionalGeometry -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Order">
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Order_hasOffering"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/OneDimensionalGeometry">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:description xml:lang="en">Expression of willingness to contract on certain terms, made with the intention that it shall become binding as soon as it is accepted by the person to whom it is addressed</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:270ee6a4-0c9b-4ce8-bf5a-907e872e4a3e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-28T13:35:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:isbn:9780421634503"/>
-        <dcterms:title xml:lang="en">Order</dcterms:title>
-        <rdfs:label xml:lang="en">Order</rdfs:label>
-        <synonym xml:lang="en">Offer</synonym>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:24:11Z</dcterms:created>
+        <dcterms:description xml:lang="en">Geometry with a geometric dimension of 1 (one)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:22797edb-b2eb-47ca-a34e-5cce25fdac86"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:18:16Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.2"/>
+        <dcterms:title xml:lang="en">1-Dimensional Geometry</dcterms:title>
+        <rdfs:label xml:lang="en">1-DimensionalGeometry</rdfs:label>
+        <synonym xml:lang="en">Curve</synonym>
     </owl:Class>
     
 
@@ -3306,23 +3725,30 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
     <!-- https://haddenindustries.com/ontology/universal/core/Organisation -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Organisation">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-28T16:35:44Z</dcterms:created>
         <dcterms:description xml:lang="en">Person or group of people that has its own functions with responsibilities, authorities and relationships to achieve its objectives</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:06155ec9-e8a3-4323-af0d-d6f32687bb20"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T11:38:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T23:45:42Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.2.1"/>
         <dcterms:title xml:lang="en-gb">Organisation</dcterms:title>
         <dcterms:title xml:lang="en-us">Organization</dcterms:title>
-        <rdfs:comment xml:lang="en-gb">The concept of organisation includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, whether incorporated or not, public or private</rdfs:comment>
+        <rdfs:comment xml:lang="en-gb">The concept of organisation includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, public or private, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</rdfs:comment>
         <rdfs:comment xml:lang="en">This constitutes one of the common terms and core definitions for ISO management system standards given in Annex SL of the Consolidated ISO Supplement to the ISO/IEC Directives, Part 1. The original definition has been modified by modifying Note 1 to entry.</rdfs:comment>
         <rdfs:label xml:lang="en-gb">Organisation</rdfs:label>
         <rdfs:label xml:lang="en-us">Organization</rdfs:label>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
+        <owl:annotatedTarget rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.2.1"/>
+        <rdfs:comment xml:lang="en">Modified — Note 1 to entry has had the text &quot;, whether incorporated or not&quot; removed, and the text &quot;, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)&quot; appended</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en-gb">The concept of organisation includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, whether incorporated or not, public or private</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en-gb">The concept of organisation includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, public or private, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
@@ -3360,10 +3786,11 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T19:19:54Z</dcterms:created>
-        <dcterms:description xml:lang="en">Way in which Organisations are connected</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Way in which Organisations are connected</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:9866ad03-eaa6-43f3-842d-8508d0bb0af2"/>
-        <dcterms:title xml:lang="en">Organisation Relationship</dcterms:title>
-        <rdfs:label xml:lang="en">OrganisationRelationship</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T23:51:05Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Organisation Relationship</dcterms:title>
+        <rdfs:label xml:lang="en-gb">OrganisationRelationship</rdfs:label>
     </owl:Class>
     
 
@@ -3387,10 +3814,11 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         </rdfs:subClassOf>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T17:44:12Z</dcterms:created>
-        <dcterms:description xml:lang="en">Association between an Organisation and an Organisation Type</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Association between an Organisation and an Organisation Type</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:c0983b11-14f8-4d95-9623-1f777b1d468a"/>
-        <dcterms:title xml:lang="en">Organisation To Organisation Type Relationship</dcterms:title>
-        <rdfs:label xml:lang="en">OrganisationToOrganisationTypeRelationship</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T23:51:22Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Organisation To Organisation Type Relationship</dcterms:title>
+        <rdfs:label xml:lang="en-gb">OrganisationToOrganisationTypeRelationship</rdfs:label>
     </owl:Class>
     
 
@@ -3421,10 +3849,46 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:32:16Z</dcterms:created>
-        <dcterms:description xml:lang="en">Association between an Organisation and a Person</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Association between an Organisation and a Person</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:cc86f143-d735-4717-845a-5520887a12b0"/>
-        <dcterms:title xml:lang="en">Organisation To Person Relationship</dcterms:title>
-        <rdfs:label xml:lang="en">OrganisationToPersonRelationship</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T23:51:34Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Organisation To Person Relationship</dcterms:title>
+        <rdfs:label xml:lang="en-gb">OrganisationToPersonRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship_hasOrganisation"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship_hasOrganisationToProductOrServiceRelationshipType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OrganisationToProductOrServiceRelationshipType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationToProductOrServiceRelationship_hasProductOrService"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-24T10:49:00Z</dcterms:created>
+        <dcterms:description xml:lang="en-gb">Association between an Organisation and a Product Or Service</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:39206a64-373d-48c9-a0f5-c5a211cd1ccd"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:41:16Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Organisation To Product Or Service Relationship</dcterms:title>
+        <rdfs:label xml:lang="en-gb">OrganisationToProductOrServiceRelationship</rdfs:label>
     </owl:Class>
     
 
@@ -3479,8 +3943,8 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T13:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Act of placing, transferring or withdrawing funds, irrespective of any underlying obligations between the payer and the payee</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:62a0fb4d-f5bc-457c-9c9d-c90305502d89"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-26T16:11:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso:12812:-1:ed-1:v1:en:term:3.40"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:09:07Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:12812:-1:ed-1:v1:term:3.40"/>
         <dcterms:title xml:lang="en">Payment</dcterms:title>
         <rdfs:label xml:lang="en">Payment</rdfs:label>
         <synonym xml:lang="en">Payment Transaction</synonym>
@@ -3575,6 +4039,41 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship_hasPerson"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship_hasPersonToProductOrServiceRelationshipType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonToProductOrServiceRelationshipType"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonToProductOrServiceRelationship_hasProductOrService"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-24T10:49:09Z</dcterms:created>
+        <dcterms:description xml:lang="en">Association between a Person and a Product Or Service</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:7daee8d0-0788-4fb9-b961-63a9f1af02aa"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:30:00Z</dcterms:modified>
+        <dcterms:title xml:lang="en">Person To Product Or Service Relationship</dcterms:title>
+        <rdfs:label xml:lang="en">PersonToProductOrServiceRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/Picture -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Picture">
@@ -3583,8 +4082,8 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-20T15:44:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Document giving a two-dimensional visual representation of one or more objects or shapes</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:f31c7ed8-b35a-4d27-a178-b8b075797bca"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-10T12:48:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.4.7.51"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:58:19Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.4.7.51"/>
         <dcterms:title xml:lang="en">Picture</dcterms:title>
         <rdfs:label xml:lang="en">Picture</rdfs:label>
     </owl:Class>
@@ -3606,26 +4105,17 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Detailed proposal for doing or achieving something</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:05afc059-5513-4677-bf9c-091cbc3f914f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-02-16T17:10:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.lexico.com/definition/plan"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:58:31Z</dcterms:modified>
         <dcterms:title xml:lang="en">Plan</dcterms:title>
         <rdfs:label xml:lang="en">Plan</rdfs:label>
         <synonym xml:lang="en">Campaign</synonym>
     </owl:Class>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/Point -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Point">
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T09:22:39Z</dcterms:created>
-        <dcterms:description xml:lang="en">Zero-dimensional Geometry</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:a22570be-af17-40ff-9ae1-9aecab9fdd7c"/>
-        <dcterms:title xml:lang="en">Point</dcterms:title>
-        <rdfs:label xml:lang="en">Point</rdfs:label>
-    </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Plan"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Detailed proposal for doing or achieving something</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.lexico.com/definition/plan"/>
+    </owl:Axiom>
     
 
 
@@ -3636,12 +4126,17 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-30T10:04:57Z</dcterms:created>
         <dcterms:description xml:lang="en">Detailed description of the design used to make a determination of the amount of money expected, required, or given in payment for something</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b6a67106-2394-4e06-82f2-ba8b07607277"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-25T09:23:09Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.lexico.com/definition/price"/>
-        <dcterms:references rdf:resource="https://www.lexico.com/definition/specification"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T23:52:29Z</dcterms:modified>
         <dcterms:title xml:lang="en">Price Specification</dcterms:title>
         <rdfs:label xml:lang="en">PriceSpecification</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/PriceSpecification"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Detailed description of the design used to make a determination of the amount of money expected, required, or given in payment for something</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.lexico.com/definition/price"/>
+        <dcterms:source rdf:resource="https://www.lexico.com/definition/specification"/>
+    </owl:Axiom>
     
 
 
@@ -3756,8 +4251,8 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en-gb">Output or outcome provided by an organisation to interested parties</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d3ee207a-7033-431b-a9d1-fa3cc73e7676"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T15:59:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="iso:std:iso:22300:ed-3:v1:term:3.1.191"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T23:52:46Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:22300:ed-3:v1:term:3.1.191"/>
         <dcterms:title xml:lang="en">Product Or Service</dcterms:title>
         <rdfs:comment xml:lang="en">Manufactured items, car insurance, community nursing</rdfs:comment>
         <rdfs:label xml:lang="en">ProductOrService</rdfs:label>
@@ -3774,6 +4269,14 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
     <!-- https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualMaterial"/>
+                    <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/hasProductOrService"/>
@@ -3783,9 +4286,9 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T15:08:21Z</dcterms:created>
-        <dcterms:description xml:lang="en">Single instance of a Product Or Service provided under a Contract</dcterms:description>
+        <dcterms:description xml:lang="en">Single instance of a Product Or Service</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:9a88d8f8-b72e-49d9-9340-43133d747dd0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T10:11:15Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T01:47:52Z</dcterms:modified>
         <dcterms:title xml:lang="en">Product Or Service Individual</dcterms:title>
         <rdfs:label xml:lang="en">ProductOrServiceIndividual</rdfs:label>
     </owl:Class>
@@ -3796,13 +4299,12 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualMaterial">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual"/>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:20:44Z</dcterms:created>
-        <dcterms:description xml:lang="en">Product or service individual consisting of material objects</dcterms:description>
+        <dcterms:description xml:lang="en">Product Or Service Individual consisting of Material Objects</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:81a7c4ab-95ab-48ca-92fb-4dff471c056b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-27T15:09:30Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T01:47:52Z</dcterms:modified>
         <dcterms:title xml:lang="en">Product Or Service Individual Material</dcterms:title>
         <rdfs:label xml:lang="en">ProductOrServiceIndividualMaterial</rdfs:label>
         <synonym xml:lang="en">Good</synonym>
@@ -3813,14 +4315,13 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
     <!-- https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial">
-        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:30:05Z</dcterms:created>
-        <dcterms:description xml:lang="en">Product Or Service Individual not consisting of material objects</dcterms:description>
+        <dcterms:description xml:lang="en">Product Or Service Individual not consisting of Material Objects</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:19cd521c-30ba-4024-a6c3-3d7648632e53"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-27T15:15:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T01:47:47Z</dcterms:modified>
         <dcterms:title xml:lang="en">Product Or Service Individual Non-Material</dcterms:title>
-        <rdfs:label xml:lang="en">ProductOrServiceIndividualNonMaterial</rdfs:label>
+        <rdfs:label xml:lang="en">ProductOrServiceIndividualNon-Material</rdfs:label>
     </owl:Class>
     
 
@@ -3951,11 +4452,16 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-20T13:58:45Z</dcterms:created>
         <dcterms:description xml:lang="en">Document awarded on the successful completion of a course of training or passing of an exam</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:dcd05755-afd1-4577-bdaf-ebdd0da8aba9"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-02-16T18:51:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.collinsdictionary.com/dictionary/english/qualification"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:58:44Z</dcterms:modified>
         <dcterms:title xml:lang="en">Qualification</dcterms:title>
         <rdfs:label xml:lang="en">Qualification</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Qualification"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Document awarded on the successful completion of a course of training or passing of an exam</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.collinsdictionary.com/dictionary/english/qualification"/>
+    </owl:Axiom>
     
 
 
@@ -3973,6 +4479,8 @@ NOTE 3 In the traditional literature and in the previous edition of the VIM, mea
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:43:44Z</dcterms:created>
         <dcterms:description xml:lang="en">Number and reference together expressing magnitude of a Quantity</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:4a1fe34f-9ee0-4509-92d0-f5d17383b108"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T01:28:14Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/1.19.html"/>
         <dcterms:title xml:lang="en">Quantity Value</dcterms:title>
         <rdfs:comment xml:lang="en">EXAMPLE 1 Length of a given rod:
 5.34 m or 534 cm
@@ -4005,7 +4513,6 @@ NOTE 3 A quantity value can be presented in more than one way (see Examples 1, 2
 NOTE 4 In the case of vector or tensor quantities, each component has a quantity value.
 EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; Fz) = (31.5; 43.2; 17.0) N.</rdfs:comment>
         <rdfs:label xml:lang="en">QuantityValue</rdfs:label>
-        <rdfs:seeAlso rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://jcgm.bipm.org/vim/en/1.19.html</rdfs:seeAlso>
         <synonym xml:lang="en">Dimension</synonym>
         <synonym xml:lang="en">Value</synonym>
         <synonym xml:lang="en">Value of a quantity</synonym>
@@ -4021,12 +4528,17 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-10-26T07:40:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Formal statement setting out the estimated cost for a particular job or service</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:795e0cdf-619f-4fca-849b-5309403840eb"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-02-16T18:52:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.lexico.com/definition/quotation"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:58:57Z</dcterms:modified>
         <dcterms:title xml:lang="en">Quotation</dcterms:title>
         <rdfs:label xml:lang="en">Quotation</rdfs:label>
         <synonym xml:lang="en">Quote</synonym>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Quotation"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Formal statement setting out the estimated cost for a particular job or service</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.lexico.com/definition/quotation"/>
+    </owl:Axiom>
     
 
 
@@ -4111,11 +4623,16 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:44:40Z</dcterms:created>
         <dcterms:description xml:lang="en">Building or other object constructed from several parts</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:8da5c20f-4463-49f5-b6f5-4fb2d93677cb"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-27T15:11:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.lexico.com/definition/structure"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:11:06Z</dcterms:modified>
         <dcterms:title xml:lang="en">Structure</dcterms:title>
         <rdfs:label xml:lang="en">Structure</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Structure"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Building or other object constructed from several parts</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.lexico.com/definition/structure"/>
+    </owl:Axiom>
     
 
 
@@ -4124,9 +4641,9 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/System">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:description xml:lang="en">Combination of interacting elements organised to achieve one or more stated purposes</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Combination of interacting elements organised to achieve one or more stated purposes</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:5d947e7a-3fca-405b-b14f-f74878d2201e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T11:46:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T01:27:51Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.13"/>
         <dcterms:title xml:lang="en">System</dcterms:title>
         <rdfs:label xml:lang="en">System</rdfs:label>
@@ -4200,10 +4717,32 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T15:13:31Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service providing use of a system for transmitting voices over a distance using wire or radio, by converting acoustic vibrations to electrical signals</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b4eeed79-1b84-45d7-add8-7ee8d867009e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-02-16T18:53:30Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.lexico.com/definition/telephone"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:02:43Z</dcterms:modified>
         <dcterms:title xml:lang="en">Telephony Service</dcterms:title>
         <rdfs:label xml:lang="en">TelephonyService</rdfs:label>
+    </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/TelephonyService"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Product Or Service providing use of a system for transmitting voices over a distance using wire or radio, by converting acoustic vibrations to electrical signals</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.lexico.com/definition/telephone"/>
+    </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/core/ThreeDimensionalGeometry -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ThreeDimensionalGeometry">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:33:36Z</dcterms:created>
+        <dcterms:description xml:lang="en">Geometry with a geometric dimension of 3</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:58518d83-9cd1-4b29-9c19-2443636d23cf"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:14:53Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.4"/>
+        <dcterms:title xml:lang="en">3-Dimensional Geometry</dcterms:title>
+        <rdfs:label xml:lang="en">3-DimensionalGeometry</rdfs:label>
+        <synonym xml:lang="en">Solid</synonym>
     </owl:Class>
     
 
@@ -4329,6 +4868,23 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/core/TwoDimensionalGeometry -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TwoDimensionalGeometry">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T09:09:40Z</dcterms:created>
+        <dcterms:description xml:lang="en">Geometry with a geometric dimension of 2</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:7edea946-cd80-4c64-828d-6eaa0abfe234"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:17:50Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.3"/>
+        <dcterms:title xml:lang="en">2-Dimensional Geometry</dcterms:title>
+        <rdfs:label xml:lang="en">2-DimensionalGeometry</rdfs:label>
+        <synonym xml:lang="en">Surface</synonym>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/core/ValidTime -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ValidTime">
@@ -4371,16 +4927,19 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/Volume -->
+    <!-- https://haddenindustries.com/ontology/universal/core/ZeroDimensionalGeometry -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Volume">
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ZeroDimensionalGeometry">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:33:36Z</dcterms:created>
-        <dcterms:description xml:lang="en">Three-dimensional Geometry</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:58518d83-9cd1-4b29-9c19-2443636d23cf"/>
-        <dcterms:title xml:lang="en">Volume</dcterms:title>
-        <rdfs:label xml:lang="en">Volume</rdfs:label>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T09:22:39Z</dcterms:created>
+        <dcterms:description xml:lang="en">Geometry with a geometric dimension of 0 (zero)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:a22570be-af17-40ff-9ae1-9aecab9fdd7c"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:21:17Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.1"/>
+        <dcterms:title xml:lang="en">0-Dimensional Geometry</dcterms:title>
+        <rdfs:label xml:lang="en">0-DimensionalGeometry</rdfs:label>
+        <synonym xml:lang="en">Point Set</synonym>
     </owl:Class>
     
 
@@ -4396,18 +4955,18 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/Area"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/Line"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/Point"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/Volume"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/Building"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/Machine"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/NonbuildingStructure"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/Building"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/Machine"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/NonbuildingStructure"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/OneDimensionalGeometry"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/ThreeDimensionalGeometry"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/TwoDimensionalGeometry"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/core/ZeroDimensionalGeometry"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>
