@@ -10,21 +10,24 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260419"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260507"/>
         <dcterms:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-19</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">Set of concepts and categories, applicable to metadata registries as specified in ISO/IEC 11179-3:2023, that shows their properties and the relations between them</dcterms:description>
         <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
         <dcterms:identifier rdf:resource="urn:uuid:d83f788a-3e90-4d07-b280-614532e9984e"/>
-        <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
+        <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:publisher xml:lang="en">Hadden Industries Ltd</dcterms:publisher>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-05-07</dcterms:modified>
+        <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights xml:lang="en">© 2026 Hadden Industries Ltd</dcterms:rights>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">ISO/IEC 11179-3:2023 Ontology</dcterms:title>
         <rdfs:label xml:lang="en">ISO_IEC11179-3_2023Ontology</rdfs:label>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260419"/>
+        <owl:versionInfo>2026-05-07</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -150,12 +153,6 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
-
-
-    <!-- http://purl.org/dc/terms/ISO639-3 -->
-
-    <rdfs:Datatype rdf:about="http://purl.org/dc/terms/ISO639-3"/>
     
 
 
@@ -316,7 +313,7 @@ NOTE ISO/IEC 19773 is referenced but not required.</rdfs:comment>
     <rdfs:Datatype rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/valueDatatype">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:19:57Z</dcterms:created>
-        <dcterms:description xml:lang="en">datatype that represents any instance of any other datatype.</dcterms:description>
+        <dcterms:description xml:lang="en">datatype that represents any instance of any other datatype</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:6ce690e1-6800-4bcd-a6e0-52b400dfb695"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.2.13"/>
     </rdfs:Datatype>
@@ -963,7 +960,7 @@ Registry_Specification class, then a value for this attribute shall be specified
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationState"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-07-04T08:41:14Z</dcterms:created>
-        <dcterms:description xml:lang="en">immediately prior collection of administrative information about the registration of the administered item that is the subject of the registration with this registration status.</dcterms:description>
+        <dcterms:description xml:lang="en">immediately prior collection of administrative information about the registration of the administered item that is the subject of the registration with this registration status</dcterms:description>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.4.3"/>
         <dcterms:title xml:lang="en">Previous State</dcterms:title>
         <rdfs:label xml:lang="en">previous_state</rdfs:label>
@@ -2231,7 +2228,7 @@ EXAMPLE 3: For Digital Object Identifiers use the form: doi: https:// www .doi .
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T23:31:40Z</dcterms:created>
         <dcterms:description xml:lang="en">date at which the Permissible_Value became valid</dcterms:description>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.2.7.2.2"/>
-        <rdfs:comment>NOTE By imputation, this is also considered to be date at which the Permissible_Value was bound to the associated Value_Meaning, since the permissible_value_meaning association mandates that there must be exactly one meaning (Value_Meaning) for each representation (Permissible_Value).</rdfs:comment>
+        <rdfs:comment xml:lang="en">NOTE By imputation, this is also considered to be date at which the Permissible_Value was bound to the associated Value_Meaning, since the permissible_value_meaning association mandates that there must be exactly one meaning (Value_Meaning) for each representation (Permissible_Value).</rdfs:comment>
         <rdfs:label xml:lang="en">begin_date</rdfs:label>
     </owl:DatatypeProperty>
     
@@ -2765,7 +2762,7 @@ EXAMPLE – YYYY-MM-DD for a date.</dcterms:description>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/dateDatatype"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T15:56:56Z</dcterms:created>
-        <dcterms:description xml:lang="en">date on which the Value_Meaning ceased, or will cease, to be valid.</dcterms:description>
+        <dcterms:description xml:lang="en">date on which the Value_Meaning ceased, or will cease, to be valid</dcterms:description>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.2.3.3.2"/>
         <rdfs:comment xml:lang="en">NOTE 1 The absence of the value_meaning_end_date indicates that the Value_Meaning is still valid.
 NOTE 2 A registration authority may determine whether this date is the date the value meaning becomes no longer valid in a registry, or the date the value meaning becomes no longer part of the source domain, or some other date.</rdfs:comment>
@@ -3104,7 +3101,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/textDatatype"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:24:54Z</dcterms:created>
-        <dcterms:description xml:lang="en">title of the reference document.</dcterms:description>
+        <dcterms:description xml:lang="en">title of the reference document</dcterms:description>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
         <rdfs:label xml:lang="en">title</rdfs:label>
@@ -6421,6 +6418,34 @@ Note 2 to entry: The permissible values can either be enumerated, expressed via 
     
 
 
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRatingSuperseded -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRatingSuperseded">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:30Z</dcterms:created>
+        <dcterms:description xml:lang="en">Has been replaced by another option which is used instead</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:594d5096-b30d-429f-b30c-bc24d328a3cf"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
+        <rdfs:label xml:lang="en">superseded</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Admitted -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Admitted">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:16Z</dcterms:created>
+        <dcterms:description xml:lang="en">An acceptable option but not as good as the preferred option</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:3178352e-a3e3-4a82-9fa3-95a5c45be928"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
+        <rdfs:label xml:lang="en">admitted</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Application -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Application">
@@ -6430,6 +6455,21 @@ Note 2 to entry: The permissible values can either be enumerated, expressed via 
         <dcterms:description xml:lang="en">The registration authority wishes to make the community that uses this metadata register aware of the existence of an administered item, and any associated attached items, in their local domain that is in an application system and is not specified at the logical level. This item can be very well described.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:5b60bb7d-3a0b-4f4d-8ff3-269565c639cc"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
+        <rdfs:label xml:lang="en">Application</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/BroaderThan -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/BroaderThan">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:07Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) are linked, and that the object item(s) have a broader meaning than the subject item(s). Inverse of “narrower than”.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:a367d64c-d303-459a-9c06-7755bf81a10b"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">broader than</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6443,6 +6483,123 @@ Note 2 to entry: The permissible values can either be enumerated, expressed via 
         <dcterms:description xml:lang="en">The administered item, and any associated attached items, has been proposed for progression through the registration levels</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b2bdf20e-af1c-485b-b38b-6a58bdfed0e6"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
+        <rdfs:label xml:lang="en">Candidate</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ChildOf -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ChildOf">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:25Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a hierarchical relationship, and that the object item(s) are one level below the subject item(s) in the hierarchy. Inverse of “parent of”.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:047c9297-6368-41b4-bb25-12fcfbf3155b"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">child of</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Conforming -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Conforming">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DegreeOfConformance"/>
+        <owl:differentFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/StrictlyConforming"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:49:16Z</dcterms:created>
+        <dcterms:description xml:lang="en">From 4.2.3: A conforming implementation:
+a) shall support all mandatory, optional and conditional classes, attributes, datatypes and associations;
+b) as permitted by the implementation, may use, test, access or probe for extension features or extensions to classes, attributes, datatypes, associations or any combination thereof;
+c) may recognize, act on or allow the production of classes, attributes, datatypes, associations or any combination thereof that are dependent on implementation-defined behaviour.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:908d7114-6e34-4972-96db-360f4bfd1e2e"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.1"/>
+        <rdfs:label xml:lang="en">conforming</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ContainedIn -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ContainedIn">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:57:42Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a containment relationship, and that the object item(s) are a contained in the subject item(s). Inverse of “contains”.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:d6e79cd7-42e5-48fe-9b88-6189ecbc83eb"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">contained in</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Contains -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Contains">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:57:34Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a containment relationship, and that the object item(s) contain the subject item(s). Inverse of “contained in”.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:33aa07c3-c09e-45f3-a821-6f4b5ce75a7c"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">contains</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Deprecated -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Deprecated">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:21Z</dcterms:created>
+        <dcterms:description xml:lang="en">No longer considered acceptable but is still in use</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:7889120f-dcd5-474a-b97d-4f8621513271"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
+        <rdfs:label xml:lang="en">deprecated</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DerivedFrom -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DerivedFrom">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:55:48Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) have been used in the creation of the object item(s). Inverse of “has derivation”.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:d4b186dc-ba41-412d-ad4f-1481b31e43cf"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">derived from</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/HasDerivation -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/HasDerivation">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:55:57Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the object item(s) have been used in the creation of the subject item(s). Inverse of “derived from”.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:2c3ee5a1-91dc-44c0-a3f3-d8a557a6dd14"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">has derivation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/HasInstance -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/HasInstance">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:58Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the object item(s) have an instantiation in the subject item(s). Inverse of “instance of”.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:4efe2bbb-da48-401c-8ebe-b91b8a2b0177"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">has instance</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6456,6 +6613,7 @@ Note 2 to entry: The permissible values can either be enumerated, expressed via 
         <dcterms:description xml:lang="en">The submitter wishes to make the community that uses this registry aware of the existence of an administered item, and any associated attached items, that was used in the past</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:663c773b-e4f6-4637-86b5-5b0a1c8be6f6"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
+        <rdfs:label xml:lang="en">Historical</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6469,13 +6627,84 @@ Note 2 to entry: The permissible values can either be enumerated, expressed via 
         <dcterms:description xml:lang="en">The submitter wishes to make the community that uses this registry aware of the existence of an administered item, and any associated attached items, in their local domain</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:0bc6ebbe-ab05-4665-8afc-b0d06cc795bb"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
+        <rdfs:label xml:lang="en">Incomplete</rdfs:label>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Preferred_Standard -->
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/InstanceOf -->
 
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Preferred_Standard">
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/InstanceOf">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:48Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the object item(s) are an instantiation of the subject item(s). Inverse of “has instance”.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:67cc11a1-b2f1-4568-a0c1-1f6134b66186"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">instance of</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/NarrowerThan -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/NarrowerThan">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:17Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) are linked, and that the object item(s) have a narrower meaning than the subject item(s). Inverse of “broader than”.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:234dd4b8-43f8-4af3-9fb0-49642c2eade8"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">narrower than</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Obsolete -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Obsolete">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:25Z</dcterms:created>
+        <dcterms:description xml:lang="en">No longer in use but has not been superseded</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:b6dbfb9c-11bc-49ac-9143-38f2d65f987e"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
+        <rdfs:label xml:lang="en">obsolete</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ParentOf -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ParentOf">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:38Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a hierarchical relationship, and that the object item(s) are one level above the subject item(s) in the hierarchy. Inverse of “child of”.</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:08888f8c-d443-4ff6-a243-4fc7f861a059"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">parent of</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Preferred -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Preferred">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:10Z</dcterms:created>
+        <dcterms:description xml:lang="en">The best option</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:8712990a-3f4a-436e-bed0-06527e6f2040"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
+        <rdfs:label xml:lang="en">preferred</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/PreferredStandard -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/PreferredStandard">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatus"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:51:57Z</dcterms:created>
@@ -6483,6 +6712,7 @@ Note 2 to entry: The permissible values can either be enumerated, expressed via 
 — preferred for use within the community that uses this registry</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:988a8347-a546-4978-a8f6-fd4b34842686"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
+        <rdfs:label xml:lang="en">Preferred Standard</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6499,6 +6729,7 @@ Note 2 to entry: The permissible values can either be enumerated, expressed via 
 — the mandatory metadata attributes conform to applicable quality requirements</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:87f25154-3b5f-4adb-bc31-db2f8b92ba53"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
+        <rdfs:label xml:lang="en">Qualified</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6514,6 +6745,37 @@ Note 2 to entry: The permissible values can either be enumerated, expressed via 
 — all mandatory associations have been instantiated</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d72fffe3-3210-4635-8828-3a8e69682751"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
+        <rdfs:label xml:lang="en">Recorded</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatusSuperseded -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatusSuperseded">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatus"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:52:04Z</dcterms:created>
+        <dcterms:description xml:lang="en">The registration authority determined that the administered item, and any associated attached items are:
+— no longer recommended for use by the community that uses this registry, and
+— a successor administered item is now preferred for use</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:436a27e4-d0b8-4833-821e-b1c747b31434"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
+        <rdfs:label xml:lang="en">Superseded</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RelatedTo -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RelatedTo">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:54:59Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) share some form of relationship other than those explicitly defined by the other values of Item_Mapping_Degree, and as further explained in the description</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:b91c7c00-3979-4838-9b56-e403d8d76865"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">related to</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6529,6 +6791,49 @@ Note 2 to entry: The permissible values can either be enumerated, expressed via 
 — should no longer be used</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:417b5d66-b2cf-4c01-81b2-9b7a5b67c5e1"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
+        <rdfs:label xml:lang="en">Retired</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SameAs -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SameAs">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:55:07Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) have the same semantics and syntax. (I.e., they represent the same thing, though they necessarily have different identifiers, and may have different names.)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:2a51073c-bd1a-4bf5-aab6-3a305fe100b9"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">same as</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SemanticallyEquivalent -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SemanticallyEquivalent">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:55:26Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) have the same semantics</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:eab24fde-6193-431d-a487-b5e537610afc"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">semantically equivalent</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SemanticallySimilar -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SemanticallySimilar">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:55:35Z</dcterms:created>
+        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) are semantically similar although not identical</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:a490e1e5-c94e-4efd-997e-b4d8bd3b143f"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
+        <rdfs:label xml:lang="en">semantically similar</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6545,293 +6850,14 @@ Note 2 to entry: The permissible values can either be enumerated, expressed via 
 in the community that uses this registry</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:5a66a26a-9f18-465f-9397-fa63bd1aab32"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
+        <rdfs:label xml:lang="en">Standard</rdfs:label>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Superseded -->
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/StrictlyConforming -->
 
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Superseded">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatus"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:52:04Z</dcterms:created>
-        <dcterms:description xml:lang="en">The registration authority determined that the administered item, and any associated attached items are:
-— no longer recommended for use by the community that uses this registry, and
-— a successor administered item is now preferred for use</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:436a27e4-d0b8-4833-821e-b1c747b31434"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/admitted -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/admitted">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:16Z</dcterms:created>
-        <dcterms:description xml:lang="en">An acceptable option but not as good as the preferred option</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:3178352e-a3e3-4a82-9fa3-95a5c45be928"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/broader_than -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/broader_than">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:07Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) are linked, and that the object item(s) have a broader meaning than the subject item(s). Inverse of “narrower than”.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:a367d64c-d303-459a-9c06-7755bf81a10b"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Broader Than</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/child_of -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/child_of">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:25Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a hierarchical relationship, and that the object item(s) are one level below the subject item(s) in the hierarchy. Inverse of “parent of”.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:047c9297-6368-41b4-bb25-12fcfbf3155b"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Child Of</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/conforming -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/conforming">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DegreeOfConformance"/>
-        <owl:differentFrom rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/strictly_conforming"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:49:16Z</dcterms:created>
-        <dcterms:description xml:lang="en">From 4.2.3: A conforming implementation:
-a) shall support all mandatory, optional and conditional classes, attributes, datatypes and associations;
-b) as permitted by the implementation, may use, test, access or probe for extension features or extensions to classes, attributes, datatypes, associations or any combination thereof;
-c) may recognize, act on or allow the production of classes, attributes, datatypes, associations or any combination thereof that are dependent on implementation-defined behaviour.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:908d7114-6e34-4972-96db-360f4bfd1e2e"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.1"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/contained_in -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/contained_in">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:57:42Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a containment relationship, and that the object item(s) are a contained in the subject item(s). Inverse of “contains”.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:d6e79cd7-42e5-48fe-9b88-6189ecbc83eb"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Contained In</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/contains -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/contains">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:57:34Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a containment relationship, and that the object item(s) contain the subject item(s). Inverse of “contained in”.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:33aa07c3-c09e-45f3-a821-6f4b5ce75a7c"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Contains</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/deprecated -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/deprecated">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:21Z</dcterms:created>
-        <dcterms:description xml:lang="en">No longer considered acceptable but is still in use</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:7889120f-dcd5-474a-b97d-4f8621513271"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/derived_from -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/derived_from">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:55:48Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) have been used in the creation of the object item(s). Inverse of “has derivation”.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:d4b186dc-ba41-412d-ad4f-1481b31e43cf"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Derived From</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/has_derivation -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/has_derivation">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:55:57Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the object item(s) have been used in the creation of the subject item(s). Inverse of “derived from”.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:2c3ee5a1-91dc-44c0-a3f3-d8a557a6dd14"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Has Derivation</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/has_instance -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/has_instance">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:58Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the object item(s) have an instantiation in the subject item(s). Inverse of “instance of”.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:4efe2bbb-da48-401c-8ebe-b91b8a2b0177"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Has Instance</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/instance_of -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/instance_of">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:48Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the object item(s) are an instantiation of the subject item(s). Inverse of “has instance”.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:67cc11a1-b2f1-4568-a0c1-1f6134b66186"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Instance Of</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/narrower_than -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/narrower_than">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:17Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) are linked, and that the object item(s) have a narrower meaning than the subject item(s). Inverse of “broader than”.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:234dd4b8-43f8-4af3-9fb0-49642c2eade8"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Narrower Than</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/obsolete -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/obsolete">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:25Z</dcterms:created>
-        <dcterms:description xml:lang="en">No longer in use but has not been superseded</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:b6dbfb9c-11bc-49ac-9143-38f2d65f987e"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/parent_of -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/parent_of">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:56:38Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a hierarchical relationship, and that the object item(s) are one level above the subject item(s) in the hierarchy. Inverse of “child of”.</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:08888f8c-d443-4ff6-a243-4fc7f861a059"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Parent Of</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/preferred -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/preferred">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:10Z</dcterms:created>
-        <dcterms:description xml:lang="en">The best option</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:8712990a-3f4a-436e-bed0-06527e6f2040"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/related_to -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/related_to">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:54:59Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) share some form of relationship other than those explicitly defined by the other values of Item_Mapping_Degree, and as further explained in the description</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:b91c7c00-3979-4838-9b56-e403d8d76865"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Related To</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/same_as -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/same_as">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:55:07Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) have the same semantics and syntax. (I.e., they represent the same thing, though they necessarily have different identifiers, and may have different names.)</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:2a51073c-bd1a-4bf5-aab6-3a305fe100b9"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Same As</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/semantically_equivalent -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/semantically_equivalent">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:55:26Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) have the same semantics</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:eab24fde-6193-431d-a487-b5e537610afc"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Semantically Equivalent</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/semantically_similar -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/semantically_similar">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:55:35Z</dcterms:created>
-        <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) are semantically similar although not identical</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:a490e1e5-c94e-4efd-997e-b4d8bd3b143f"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Semantically Similar</dcterms:title>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/strictly_conforming -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/strictly_conforming">
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/StrictlyConforming">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DegreeOfConformance"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:49:28Z</dcterms:created>
@@ -6841,75 +6867,63 @@ b) shall not use, test, access or probe for any extension features nor extension
 c) shall not recognize, nor act on, nor allow the production of classes, attributes, datatypes, associations or any combination thereof that are dependent on any unspecified, undefined or implementation-defined behaviour.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:1d0fb54f-3c7d-496c-aae2-4cd2ba98aef3"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.1"/>
+        <rdfs:label xml:lang="en">strictly conforming</rdfs:label>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/subset_of -->
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubsetOf -->
 
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/subset_of">
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubsetOf">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:57:14Z</dcterms:created>
         <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a superset/subset relationship, and that the object item(s) are a subset of the subject item(s). Inverse of “superset of”.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:08b55ec3-d543-463c-8f88-4521c2a17baf"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Subset Of</dcterms:title>
+        <rdfs:label xml:lang="en">subset of</rdfs:label>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/subtype_of -->
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubtypeOf -->
 
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/subtype_of">
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubtypeOf">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:57:29Z</dcterms:created>
         <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted the object item(s) are an implementation of the subject item(s) and additionally that the subject item(s) satisfy requirements for participating in computing operation(s) in some framework which will also compute on the object item(s). Inverse of “supertype of”.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:8e2a3a42-29fc-40de-ad82-bbf4a1288678"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Subtype Of</dcterms:title>
+        <rdfs:label xml:lang="en">subtype of</rdfs:label>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/superseded -->
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SupersetOf -->
 
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/superseded">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:30Z</dcterms:created>
-        <dcterms:description xml:lang="en">Has been replaced by another option which is used instead</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:594d5096-b30d-429f-b30c-bc24d328a3cf"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/superset_of -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/superset_of">
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SupersetOf">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:57:06Z</dcterms:created>
         <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a superset/subset relationship, and that the object item(s) are a superset of the subject item(s). Inverse of “subset of”.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:e660e7f2-1b05-4900-a07b-70b5cf9ebb81"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Superset Of</dcterms:title>
+        <rdfs:label xml:lang="en">superset of</rdfs:label>
     </owl:NamedIndividual>
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/supertype_of -->
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SupertypeOf -->
 
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/supertype_of">
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SupertypeOf">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:57:21Z</dcterms:created>
         <dcterms:description xml:lang="en">Indicates that the creator of the mapping has asserted the subject item(s) are an implementation of the object item(s) and additionally that the object item(s) satisfy requirements for participating in computing operation(s) in some framework which will also compute on the subject item(s). Inverse of “subtype of”.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:0b49f78c-36ef-4d0c-b180-4951347e7d18"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
-        <dcterms:title xml:lang="en">Supertype Of</dcterms:title>
+        <rdfs:label xml:lang="en">supertype of</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6925,49 +6939,49 @@ c) shall not recognize, nor act on, nor allow the production of classes, attribu
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
         <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRatingSuperseded"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Admitted"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Deprecated"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Obsolete"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Preferred"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Application"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Candidate"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Historical"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Incomplete"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Preferred_Standard"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/PreferredStandard"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Qualified"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Recorded"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatusSuperseded"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Retired"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Standard"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Superseded"/>
         </owl:distinctMembers>
     </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
         <owl:distinctMembers rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/admitted"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/deprecated"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/obsolete"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/preferred"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/superseded"/>
-        </owl:distinctMembers>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
-        <owl:distinctMembers rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/broader_than"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/child_of"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/contained_in"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/contains"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/derived_from"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/has_derivation"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/has_instance"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/instance_of"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/narrower_than"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/parent_of"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/related_to"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/same_as"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/semantically_equivalent"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/semantically_similar"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/subset_of"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/subtype_of"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/superset_of"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/supertype_of"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/BroaderThan"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ChildOf"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ContainedIn"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Contains"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DerivedFrom"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/HasDerivation"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/HasInstance"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/InstanceOf"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/NarrowerThan"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ParentOf"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RelatedTo"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SameAs"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SemanticallyEquivalent"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SemanticallySimilar"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubsetOf"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SubtypeOf"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SupersetOf"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/SupertypeOf"/>
         </owl:distinctMembers>
     </rdf:Description>
 </rdf:RDF>
