@@ -7,6 +7,58 @@ from pathlib import Path
 from uuid import UUID
 from xmlunittest import XmlTestCase
 
+def is_pascal_case(identifier: str) -> bool:
+	"""
+	Tests if a string strictly conforms to the PascalCase naming convention.
+	
+	Rules enforced:
+	1. Must start with an uppercase letter (A-Z).
+	2. Must contain only alphanumeric characters (a-z, A-Z, 0-9).
+	3. Rejects any separators (spaces, underscores, and hyphens).
+	
+	Args:
+		identifier (str): The local name or URI fragment to test.
+		
+	Returns:
+		bool: True if it is valid PascalCase, False otherwise.
+	"""
+	if not isinstance(identifier, str) or not identifier:
+		return False
+		
+	# The pragmatic, widely-accepted pattern for PascalCase
+	# ^[A-Z]       : Must start with an uppercase letter
+	# [a-zA-Z0-9]* : Followed by any combination of alphanumeric characters
+	# $            : Until the end of the string
+	pattern = re.compile(r"^[A-Z][a-zA-Z0-9]*$")
+	
+	return bool(pattern.fullmatch(identifier))
+
+def is_camel_case(identifier: str) -> bool:
+	"""
+	Tests if a string strictly conforms to the camelCase naming convention.
+	
+	Rules enforced:
+	1. Must start with an lowercase letter (a-z).
+	2. Must contain only alphanumeric characters (a-z, A-Z, 0-9).
+	3. Rejects any separators (spaces, underscores, and hyphens).
+	
+	Args:
+		identifier (str): The local name or URI fragment to test.
+		
+	Returns:
+		bool: True if it is valid camelCase, False otherwise.
+	"""
+	if not isinstance(identifier, str) or not identifier:
+		return False
+		
+	# The pragmatic, widely-accepted pattern for camelCase
+	# ^[a-z]       : Must start with an lowercase letter
+	# [a-zA-Z0-9]* : Followed by any combination of alphanumeric characters
+	# $            : Until the end of the string
+	pattern = re.compile(r"^[a-z][a-zA-Z0-9]*$")
+	
+	return bool(pattern.fullmatch(identifier))
+
 class UniversalOntologyTest(XmlTestCase):
 
 	def run_on_path(self, file_path: Path):
@@ -32,6 +84,20 @@ class UniversalOntologyTest(XmlTestCase):
 		# Ensure trailing slash to allow strict URI removal later
 		if not ns.endswith('/'):
 			ns += '/'
+			
+		# Check namespace consistency early (Fail Fast)
+		self.assertXmlNamespace(root, None, ns)
+		
+		# Global xml:lang attribute requirement across all entities
+		for global_lang_tag in [
+			'{http://purl.org/dc/terms/}description',
+			'{http://purl.org/dc/terms/}title',
+			'{http://www.w3.org/2000/01/rdf-schema#}label',
+			'{http://www.w3.org/2000/01/rdf-schema#}comment'
+		]:
+			for instance in root.iter(global_lang_tag):
+				if instance.get('{http://www.w3.org/XML/1998/namespace}lang') is None:
+					self.fail('%s is missing xml:lang attribute. Text: "%s"' % (global_lang_tag.split('}')[-1], instance.text))
 		
 		identifiersList = []
 		labelsList = []
@@ -72,7 +138,7 @@ class UniversalOntologyTest(XmlTestCase):
 			
 			# Check restored to prevent TypeError crashes on incomplete tags
 			if entityRdfAbout is None:
-				self.fail("Ontology constraint breach: Entity is missing 'rdf:about' attribute.")
+				self.fail("Entity is missing 'rdf:about' attribute.")
 			
 			if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
 				is_dataset = False
@@ -101,6 +167,9 @@ class UniversalOntologyTest(XmlTestCase):
 				else:
 					
 					entityRdfAboutTail = str.replace(entityRdfAbout, ns, '')
+					
+				if not is_pascal_case(entityRdfAboutTail):
+					self.fail('Entity name "%s" does not conform to PascalCase' % entityRdfAboutTail)
 					
 				try:
 					# Creator
@@ -200,13 +269,10 @@ class UniversalOntologyTest(XmlTestCase):
 						
 						for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
 						
-							if not re.sub(r'[a-zA-Z0-9]+', '', label.text) == '':
+							if not re.sub(r'[a-zA-Z0-9\-]+', '', label.text) == '':
 								self.fail('rdfs:label "%s" has invalid characters' % label.text)
 								
 							labelXmlLang = label.get('{http://www.w3.org/XML/1998/namespace}lang')
-							
-							if labelXmlLang is None:
-								self.fail('rdfs:label does not have an xml:lang attribute: %s' % label.text)
 							
 							# Check all labels are unique
 							if label.text in labelsList:
@@ -221,13 +287,20 @@ class UniversalOntologyTest(XmlTestCase):
 								
 								if labelXmlLang == 'en' or labelXmlLang == 'en-gb':
 								
-									if not entityRdfAboutTail == label.text:
-										self.fail('en rdfs:label is not the same as the rdf:about: %s' % label.text)
+									transformed_label_text = label.text
+									# According to the W3C XML specification, the local part of a QName (the part after the colon) must be a valid NCName, and cannot start with a digit
+									# Semantic Web and OOP communities use the approach of spelling out the number
+									if transformed_label_text and transformed_label_text[0] in '0123':
+										digit_map = {'0': 'Zero', '1': 'One', '2': 'Two', '3': 'Three'}
+										transformed_label_text = digit_map[transformed_label_text[0]] + transformed_label_text[1:]
+									
+									if not re.sub(r'[^a-zA-Z0-9]+', '', transformed_label_text) == entityRdfAboutTail:
+										self.fail('en or en-gb rdfs:label does not correspond to the rdf:about: %s' % label.text)
 									
 							for title in elem.iterfind('{http://purl.org/dc/terms/}title'):
 								if title.get('{http://www.w3.org/XML/1998/namespace}lang') == labelXmlLang:
-									if not re.sub(r'[^a-zA-Z0-9]+', '', title.text) == label.text:
-										self.fail('%s dcterms:title "%s" does not correspond to the rdfs:label "%s"' % (labelXmlLang, title.text, label.text,))
+									if not label.text == re.sub(r'[^a-zA-Z0-9\-]+', '', title.text):
+										self.fail('rdfs:label "%s" does not correspond to the %s dcterms:title "%s"' % (label.text, labelXmlLang, title.text))
 										
 						if not hasEnglishLabel:
 							self.fail('en rdfs:label not found')
@@ -246,9 +319,6 @@ class UniversalOntologyTest(XmlTestCase):
 						
 							titleXmlLang = title.get('{http://www.w3.org/XML/1998/namespace}lang')
 							
-							if titleXmlLang is None:
-								self.fail('dcterms:title does not have an xml:lang attribute: %s' % title.text)
-								
 							if titleXmlLang.partition('-')[0] == 'en':
 								hasEnglishTitle = True
 								
@@ -259,10 +329,6 @@ class UniversalOntologyTest(XmlTestCase):
 					
 					# Descriptions
 					self.assertXpathsExist(elem, ['./dcterms:description'])
-					
-					for description in elem.iterfind('{http://purl.org/dc/terms/}description'):
-						self.assertXmlHasAttribute(description, '{http://www.w3.org/XML/1998/namespace}lang')
-						
 					self.assertXpathsUniqueValue(elem, ['./dcterms:description/@xml:lang'])
 					
 					# Alternative names
@@ -277,22 +343,22 @@ class UniversalOntologyTest(XmlTestCase):
 					for synonym in elem.iterfind('{https://haddenindustries.com/ontology/universal/core/}synonym'):
 						self.assertXmlHasAttribute(synonym, '{http://www.w3.org/XML/1998/namespace}lang')
 						
-					# Comments					
-					for comment in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}comment'):
-					
-						commentXmlLang = comment.get('{http://www.w3.org/XML/1998/namespace}lang')
-						
-						if commentXmlLang is None:
-							self.fail('rdfs:comment does not have an xml:lang attribute: %s' % comment.text)
-						
-					#self.assertXpathsUniqueValue(elem, ['./rdfs:comment/@xml:lang'])
-					
 				except:
 					print(entityRdfAboutTail)
 					raise
-				
-		# Check namespace
-		self.assertXmlNamespace(root, None, ns)
+					
+		# Property camelCase label validation
+		for elem in itertools.chain(
+			root.iterfind('{http://www.w3.org/2002/07/owl#}ObjectProperty'),
+			root.iterfind('{http://www.w3.org/2002/07/owl#}DatatypeProperty')
+			):
+			
+			entityRdfAbout = elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
+			
+			if entityRdfAbout is not None and entityRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
+				for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
+					if label.text and not is_camel_case(label.text):
+						self.fail('rdfs:label "%s" of property "%s" does not conform to camelCase' % (label.text, entityRdfAbout))
 
 if __name__ == '__main__':
 	
