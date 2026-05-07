@@ -13,8 +13,8 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260504"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260419"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260507"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260507"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-10-14</dcterms:created>
@@ -23,7 +23,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:7be316dd-2ca3-437b-a9d1-cf8939e1d5c2"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-05-04</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-05-07</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights xml:lang="en">© 2026 Hadden Industries Ltd</dcterms:rights>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
@@ -32,8 +32,8 @@
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology</dcterms:title>
         <rdfs:label xml:lang="en">HaddenIndustriesUniversalReferenceDataOntology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260430"/>
-        <owl:versionInfo>2026-05-04</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260504"/>
+        <owl:versionInfo>2026-05-07</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -55,39 +55,9 @@
     
 
 
-    <!-- http://purl.org/dc/elements/1.1/creator -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
-    
-
-
-    <!-- http://purl.org/dc/elements/1.1/publisher -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/publisher"/>
-    
-
-
     <!-- http://purl.org/dc/terms/accessRights -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/accessRights"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/created -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/description -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/identifier -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/identifier"/>
     
 
 
@@ -97,33 +67,9 @@
     
 
 
-    <!-- http://purl.org/dc/terms/references -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/references"/>
-    
-
-
     <!-- http://purl.org/dc/terms/replaces -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/replaces"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/rights -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/rights"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/source -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/source"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/title -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
     
 
 
@@ -229,7 +175,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:07:00Z</dcterms:created>
-        <rdfs:label>hasCurrency</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">hasCurrency</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -326,6 +273,18 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T14:36:00Z</dcterms:created>
         <rdfs:label xml:lang="en">hasEconomicActivityClassificationSchemeType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/EmploymentStatus_hasEmploymentStateClassificationScheme -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStatus_hasEmploymentStateClassificationScheme">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStatus"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStateClassificationScheme"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:36:49Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasEmploymentStateClassificationScheme</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -535,13 +494,13 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode_hasGeographicFeature -->
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode_hasGeographicFeature -->
 
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode_hasGeographicFeature">
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode_hasGeographicFeature">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:33:00Z</dcterms:created>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:09:00Z</dcterms:created>
         <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
     </owl:ObjectProperty>
     
@@ -639,7 +598,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtag"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:28:29Z</dcterms:created>
-        <rdfs:label>hasLanguageExtensionSubtag</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">hasLanguageExtensionSubtag</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -651,7 +611,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:28:47Z</dcterms:created>
-        <rdfs:label>hasLanguageIdentification</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">hasLanguageIdentification</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -663,7 +624,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:27:00Z</dcterms:created>
-        <rdfs:label>hasLanguageIdentification</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">hasLanguageIdentification</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -675,7 +637,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguagePrivateUseSubtag"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:27:40Z</dcterms:created>
-        <rdfs:label>hasLanguagePrivateUseSubtag</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">hasLanguagePrivateUseSubtag</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1383,8 +1346,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityDimension"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-31T08:49:21Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-07-27T23:57:00Z</dcterms:modified>
-        <rdfs:label>hasDataQualityDimension</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">hasDataQualityDimension</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1408,7 +1371,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DistributionChannelLevel"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-01-23T12:59:57Z</dcterms:created>
-        <rdfs:label>hasDistributionChannelLevel</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">hasDistributionChannelLevel</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1420,7 +1384,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DistributionChannelType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-01-23T12:44:36Z</dcterms:created>
-        <rdfs:label>hasDistributionChannelType</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">hasDistributionChannelType</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -3534,6 +3499,55 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/EmploymentStateClassificationScheme -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStateClassificationScheme">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ClassificationScheme"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:20:46Z</dcterms:created>
+        <dcterms:description xml:lang="en">Descriptive information for an arrangement or division of contractual states outlining how the employee is related to the employer, which determines their rights and their employer&apos;s responsibilities in regard to them, into groups based on criteria such as characteristics, which the objects have in common</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:65e2379e-45ca-4141-ae61-a0ba1d5324fd"/>
+        <dcterms:title xml:lang="en">Employment State Classification Scheme</dcterms:title>
+        <rdfs:label xml:lang="en">EmploymentStateClassificationScheme</rdfs:label>
+    </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStateClassificationScheme"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of contractual states outlining how the employee is related to the employer, which determines their rights and their employer&apos;s responsibilities in regard to them, into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.lexisnexis.co.uk/legal/glossary/employment-status"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.5"/>
+    </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/EmploymentStatus -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStatus">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ClassificationSchemeItem"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStatus_hasEmploymentStateClassificationScheme"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStateClassificationScheme"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:34:08Z</dcterms:created>
+        <dcterms:description xml:lang="en">Contractual state outlining how the employee is related to the employer, which determines their rights and their employer&apos;s responsibilities in regard to them</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:35172d26-44b0-4e79-bece-1e0f74473de3"/>
+        <dcterms:title xml:lang="en">Employment Status</dcterms:title>
+        <rdfs:label xml:lang="en">EmploymentStatus</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://www.gov.uk/employment-status"/>
+    </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStatus"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Contractual state outlining how the employee is related to the employer, which determines their rights and their employer&apos;s responsibilities in regard to them</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.lexisnexis.co.uk/legal/glossary/employment-status"/>
+    </owl:Axiom>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/EthnicGroup -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EthnicGroup">
@@ -3597,22 +3611,6 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
         <owl:annotatedTarget xml:lang="en">See ISO/IEC 15420 for the EAN/UPC symbology specification. See also UPC-A (3.43).</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
     </owl:Axiom>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/EurostatActivityAndEmploymentStatus -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EurostatActivityAndEmploymentStatus">
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Activity And Employment Status</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Worker Status</dcterms:alternative>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T11:52:48Z</dcterms:created>
-        <dcterms:description xml:lang="en">Cetegory that describes the activity and working status of individuals, containing information on their position in relation to the labour market (employed, unemployed, or inactive), their professional status (based on the ICSE classification), their working time (full-time or part-time)</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:1cefab7f-eefa-4e08-b096-343e2cf3b755"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T14:24:13Z</dcterms:modified>
-        <dcterms:title xml:lang="en">Eurostat Activity And Employment Status</dcterms:title>
-        <rdfs:label xml:lang="en">EurostatActivityAndEmploymentStatus</rdfs:label>
-    </owl:Class>
     
 
 
@@ -4445,14 +4443,14 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode_hasGeographicFeature"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode_hasGeographicFeature"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITU-TE164CountryCode_hasGeographicFeature"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode_hasGeographicFeature"/>
                 <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
             </owl:Restriction>
@@ -4469,10 +4467,10 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:31:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Character or a sequence of characters, digits or symbols used to identify either a specific country, countries in an integrated numbering plan, a specific geographic area, a group of countries, a Network or global services</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:42ceb2ca-425f-4fd3-89b3-9eadeda6831a"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T19:53:06Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
         <dcterms:title xml:lang="en">ITU-T E.164 Country Code</dcterms:title>
-        <rdfs:label xml:lang="en">ITUTE164CountryCode</rdfs:label>
+        <rdfs:label xml:lang="en">ITU-TE164CountryCode</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.itu.int/rec/T-REC-E.101-200911-I/en"/>
     </owl:Class>
     <owl:Axiom>
@@ -4655,22 +4653,6 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
         <owl:annotatedTarget xml:lang="en">Legal Disposition that imposes temporary statutory conditions, restrictions, or rights upon an entity pending the final resolution of the matter</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/InternationalClassificationOfStatusInEmployment1993 -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InternationalClassificationOfStatusInEmployment1993">
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">ICSE-93</dcterms:alternative>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T13:22:09Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of jobs held by persons at a point in time with respect to the type of explicit or implicit contract of employment of the person with other persons or organisations</dcterms:description>
-        <dcterms:identifier rdf:resource="urn:uuid:84f83e14-fcbe-4cfc-8705-d943c36861a6"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-25T12:25:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.ilo.org/wcmsp5/groups/public/---dgreports/---stat/documents/normativeinstrument/wcms_087562.pdf"/>
-        <dcterms:title xml:lang="en">International Classification Of Status In Employment 1993</dcterms:title>
-        <rdfs:label xml:lang="en">InternationalClassificationOfStatusInEmployment1993</rdfs:label>
-    </owl:Class>
     
 
 
@@ -6423,9 +6405,9 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-12T18:59:09Z</dcterms:created>
         <dcterms:description xml:lang="en">Postcode that does not correspond to a location</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:f25a87d8-d04e-4527-aabc-66d07292c341"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-31T18:36:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T08:17:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Non-Geographic Postcode</dcterms:title>
-        <rdfs:label xml:lang="en">NonGeographicPostcode</rdfs:label>
+        <rdfs:label xml:lang="en">Non-GeographicPostcode</rdfs:label>
     </owl:Class>
     
 
@@ -8100,8 +8082,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/4e4d1c54-809e-478a-962f-a435c6b286ba"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
-        <rdfs:label xml:lang="en">Eurostat Activity And Employment Status Dataset</rdfs:label>
-        <dcat:landingPage rdf:resource="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_WSTATUS&amp;StrLanguageCode=EN&amp;IntPcKey=&amp;StrLayoutCode="/>
+        <dcterms:identifier rdf:resource="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ESTAT:WSTATUS(12.0)"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T16:56:00Z</dcterms:modified>
+        <rdfs:label xml:lang="en">Eurostat Activity And Employment Status Codelist Version 12</rdfs:label>
+        <dcat:landingPage rdf:resource="https://webgate.ec.europa.eu/fusionregistry/sdmx/v2/structure/codelist/ESTAT/WSTATUS/12.0"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EurostatActivityAndEmploymentStatus"/>
     </owl:NamedIndividual>
     
@@ -11311,9 +11295,13 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/de"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <rdfs:label xml:lang="en">Eurostat Activity And Employment Status Distribution</rdfs:label>
-        <dcat:downloadURL rdf:resource="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_WSTATUS&amp;StrLanguageCode=EN&amp;IntPcKey=45893814&amp;StrLayoutCode="/>
+        <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/fr"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T17:16:19Z</dcterms:modified>
+        <rdfs:label xml:lang="en">Eurostat Activity And Employment Status Codelist Version 12 xml zip</rdfs:label>
+        <dcat:accessURL rdf:resource="https://webgate.ec.europa.eu/fusionregistry/sdmx/v2/structure/codelist/ESTAT/WSTATUS/12.0"/>
+        <dcat:downloadURL rdf:resource="https://webgate.ec.europa.eu/fusionregistry/ws/registry/tx/transaction?txId=9467&amp;urn=urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ESTAT:WSTATUS(12.0)"/>
     </owl:NamedIndividual>
     
 
@@ -12317,6 +12305,24 @@ Note 1 to entry: Designations in the relation of equivalence are called “equiv
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/EurostatActivityAndEmploymentStatus -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EurostatActivityAndEmploymentStatus">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStatus"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:alternative xml:lang="en">Activity And Employment Status</dcterms:alternative>
+        <dcterms:alternative xml:lang="en">Worker Status</dcterms:alternative>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T11:52:48Z</dcterms:created>
+        <dcterms:description xml:lang="en">Category that describes the activity and working status of individuals, containing information on their position in relation to the labour market (employed, unemployed, or inactive), their professional status (based on the ICSE classification), their working time (full-time or part-time), also providing information on special sub-groups of the previously described population (e.g. farm labour force, retired persons, students, disabled persons, etc.)</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:1cefab7f-eefa-4e08-b096-343e2cf3b755"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T17:15:12Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://webgate.ec.europa.eu/fusionregistry/items/codelist.html?urn=urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ESTAT:WSTATUS(12.0)"/>
+        <dcterms:title xml:lang="en">Eurostat Activity And Employment Status</dcterms:title>
+        <rdfs:label xml:lang="en">EurostatActivityAndEmploymentStatus</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/FischerSallerScale -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/FischerSallerScale">
@@ -12325,9 +12331,9 @@ Note 1 to entry: Designations in the relation of equivalence are called “equiv
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T14:27:19Z</dcterms:created>
         <dcterms:description xml:lang="en">Descriptive information for an arrangement or division of perceived hues of the epidermal keratinous filaments into groups based on criteria such as characteristics, which the objects have in common, developed by Eugen Fischer and German anthropologist Karl Saller</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:3714a8d8-866c-48aa-8bbb-e35d2dfce460"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:41:46Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T08:53:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Fischer-Saller Scale</dcterms:title>
-        <rdfs:label xml:lang="en">FischerSallerScale</rdfs:label>
+        <rdfs:label xml:lang="en">Fischer-SallerScale</rdfs:label>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FischerSallerScale"/>
@@ -12498,6 +12504,35 @@ Note 1 to entry: Designations in the relation of equivalence are called “equiv
         <rdfs:comment xml:lang="en">Note 1 to entry: Each character has two wide elements and three narrow elements for a total of five elements. This is most commonly represented in the GS1 ITF-14. See ISO/IEC 16390 for the Interleaved Two of Five symbology specification.</rdfs:comment>
         <rdfs:label xml:lang="en">InterleavedTwoOfFive</rdfs:label>
     </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/InternationalClassificationOfStatusInEmployment1993 -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InternationalClassificationOfStatusInEmployment1993">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStateClassificationScheme"/>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T13:22:09Z</dcterms:created>
+        <dcterms:description xml:lang="en">Descriptive information for an arrangement or division of jobs held by persons at a point in time with respect to the type of explicit or implicit contract of employment of the person with other persons or organisations, adopted by the International Labour Organization in 1993, into groups based on criteria such as characteristics, which the objects have in common</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:84f83e14-fcbe-4cfc-8705-d943c36861a6"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T17:19:06Z</dcterms:modified>
+        <dcterms:title xml:lang="en">International Classification Of Status In Employment 1993</dcterms:title>
+        <rdfs:label xml:lang="en">InternationalClassificationOfStatusInEmployment1993</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://unstats.un.org/unsd/classifications/Family/Detail/222"/>
+    </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalClassificationOfStatusInEmployment1993"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of jobs held by persons at a point in time with respect to the type of explicit or implicit contract of employment of the person with other persons or organisations, adopted by the International Labour Organization in 1993, into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.ilo.org/wcmsp5/groups/public/---dgreports/---stat/documents/normativeinstrument/wcms_087562.pdf"/>
+        <rdfs:comment xml:lang="en">Section I 2</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalClassificationOfStatusInEmployment1993"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedTarget xml:lang="en">International Classification Of Status In Employment 1993</owl:annotatedTarget>
+        <dcterms:alternative xml:lang="en">ICSE-93</dcterms:alternative>
+    </owl:Axiom>
     
 
 
@@ -13601,11 +13636,11 @@ Note 1 to entry: Designations in the relation of synonymy are called “synonyms
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T22:17:23Z</dcterms:created>
         <dcterms:description xml:lang="en">Fixed-length, numeric 12-digit bar code symbol adopted by the retail industries, composed of a company prefix assigned by GS1, a product code assigned by the manufacturer, and a modulo 10 check digit as the right-most digit</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:cb3f013c-e9a5-4b96-9dab-51aae9e53f0c"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:50:02Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T08:54:10Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.43"/>
         <dcterms:title xml:lang="en">Universal Product Code-A</dcterms:title>
         <rdfs:comment xml:lang="en">For international compatibility with EAN-13, a 13th digit can be represented as a derived 0 in the left-most position. See ISO/IEC 15420 for the EAN/UPC symbology specification.</rdfs:comment>
-        <rdfs:label xml:lang="en">UniversalProductCodeA</rdfs:label>
+        <rdfs:label xml:lang="en">UniversalProductCode-A</rdfs:label>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UniversalProductCodeA"/>
