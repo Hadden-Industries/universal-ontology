@@ -1,19 +1,45 @@
-import csv
-import logging
 import sys
-import argparse
+import csv
 import time
+import logging
+import argparse
+import traceback
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import Dict, List, Optional, Any
 
+# CWE-611 Mitigation: Require defusedxml to prevent XML External Entity (XXE) attacks.
 try:
-    import defusedxml.ElementTree as SecureET
+    import defusedxml.ElementTree as ET
 except ImportError:
-    print("CRITICAL SECURITY FAILURE: 'defusedxml' module is required to mitigate CWE-611 (XXE).")
-    print("Execute: pip install defusedxml")
+    print("FATAL ERROR: The 'defusedxml' package is required for secure XML parsing.")
+    print("Please install it using: pip install defusedxml")
     sys.exit(1)
 
+# Enforce strict UTC Time generation for all logging events
+logging.Formatter.converter = time.gmtime
+
+def configure_logging() -> logging.Logger:
+    """Configures the root logger with ISO-8601 formatting."""
+    logger = logging.getLogger('OntologyProcessor')
+    logger.setLevel(logging.INFO)
+    
+    if not logger.handlers:
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setLevel(logging.INFO)
+        formatter = logging.Formatter(
+            '%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+            datefmt='%Y-%m-%dT%H:%M:%SZ'
+        )
+        console_handler.setFormatter(formatter)
+        logger.addHandler(console_handler)
+        
+    return logger
+
+logger = configure_logging()
+
 class OntologyConfiguration:
+    """Immutable static mapping for ontology namespaces and target structures."""
+    
     NAMESPACES: Dict[str, str] = {
         'iso': 'http://standards.iso.org/iso-iec/11179/-3/ed-4/',
         'rd': 'https://haddenindustries.com/ontology/universal/reference-data/',
@@ -25,217 +51,298 @@ class OntologyConfiguration:
         'xml': 'http://www.w3.org/XML/1998/namespace'
     }
 
-    TARGET_RECORDS: List[str] = [
+    RECORD_TAGS: List[str] = [
         '{http://www.w3.org/2002/07/owl#}Class',
         '{http://www.w3.org/2002/07/owl#}NamedIndividual'
     ]
 
     RDF_ABOUT = '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about'
     RDF_RESOURCE = '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource'
+    RDF_TYPE = '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}type'
     XML_LANG = '{http://www.w3.org/XML/1998/namespace}lang'
-    UUID_URN_PREFIX = 'urn:uuid:'
+    UUID_PREFIX = 'urn:uuid:'
 
+    # Axiom mapping targets
+    OWL_AXIOM = '{http://www.w3.org/2002/07/owl#}Axiom'
+    OWL_ANNOTATED_SOURCE = '{http://www.w3.org/2002/07/owl#}annotatedSource'
+    OWL_ANNOTATED_PROPERTY = '{http://www.w3.org/2002/07/owl#}annotatedProperty'
+    DCTERMS_SOURCE = '{http://purl.org/dc/terms/}source'
+    DCTERMS_DESCRIPTION_URI = 'http://purl.org/dc/terms/description'
+
+    # Filter constraints - Implemented as Set for O(1) lookup
+    EXCLUDED_DCAT_TYPES = {
+        'http://www.w3.org/ns/dcat#Dataset',
+        'http://www.w3.org/ns/dcat#Distribution'
+    }
+
+    # I/O Specifications
     TSV_DELIMITER = '\t'
     # Enforces UNIX (LF) terminators. Relies strictly on `newline=''` being 
-    # passed to `open()` in the processor to prevent Windows OS CRLF translation.
-    TSV_TERMINATOR = '\n'
-    DOMAIN_IDENTIFIER = 'https://haddenindustries.com/'
+    # passed to the Python open() handler to prevent Windows CRLF coercion.
+    TSV_TERMINATOR = '\n' 
 
-    FIELDS: List[Dict[str, Optional[str]]] = [
-        {'header': 'Object Type', 'tag': None},
-        {'header': 'UUID', 'tag': '{http://purl.org/dc/terms/}identifier'},
-        {'header': 'URI', 'tag': None},
-        {'header': 'Label', 'tag': '{http://www.w3.org/2000/01/rdf-schema#}label'},
-        {'header': 'Title', 'tag': '{http://purl.org/dc/terms/}title'},
-        {'header': 'Description', 'tag': '{http://purl.org/dc/terms/}description'},
-        {'header': 'References', 'tag': '{http://purl.org/dc/terms/}references'},
-        {'header': 'Creator', 'tag': '{http://purl.org/dc/elements/1.1/}creator'},
-        {'header': 'CreatedAt', 'tag': '{http://purl.org/dc/terms/}created'},
-        {'header': 'ModifiedAt', 'tag': '{http://purl.org/dc/terms/}modified'},
-        {'header': 'SubClassOf', 'tag': '{http://www.w3.org/2000/01/rdf-schema#}subClassOf'},
-        {'header': 'Type', 'tag': '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}type'}
+    FIELDS: List[Dict[str, str]] = [
+        {'header_name': 'Object Type'},
+        {'header_name': 'UUID', 'tag': '{http://purl.org/dc/terms/}identifier'},
+        {'header_name': 'URI'},
+        {'header_name': 'Label', 'tag': '{http://www.w3.org/2000/01/rdf-schema#}label'},
+        {'header_name': 'Title', 'tag': '{http://purl.org/dc/terms/}title'},
+        {'header_name': 'Description', 'tag': '{http://purl.org/dc/terms/}description'},
+        {'header_name': 'Source', 'tag': '{http://purl.org/dc/terms/}source'},
+        {'header_name': 'Creator', 'tag': '{http://purl.org/dc/elements/1.1/}creator'},
+        {'header_name': 'CreatedAt', 'tag': '{http://purl.org/dc/terms/}created'},
+        {'header_name': 'ModifiedAt', 'tag': '{http://purl.org/dc/terms/}modified'},
+        {'header_name': 'SubClassOf', 'tag': '{http://www.w3.org/2000/01/rdf-schema#}subClassOf'},
+        {'header_name': 'Type', 'tag': '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}type'}
     ]
 
 class SecuritySanitizer:
+    """Encapsulates string sterilization logic prior to I/O egress."""
+    
     @staticmethod
-    def sanitize_tsv_injection(value: str) -> str:
-        """Mitigates CWE-1236 by prefixing formula triggers with a single quote."""
-        if not value:
-            return value
-        if value[0] in ('=', '+', '-', '@'):
-            return f"'{value}"
-        return value
+    def sanitize_tsv_injection(payload: str) -> str:
+        """
+        CWE-1236 Mitigation.
+        Neutralizes macro-execution trigger characters in spreadsheet parsers.
+        """
+        if not payload:
+            return ""
+        
+        sanitized = payload.strip()
+        if sanitized.startswith(('=', '+', '-', '@')):
+            return f"'{sanitized}"
+            
+        return sanitized
 
 class OntologyExtractor:
-    def __init__(self):
-        for prefix, uri in OntologyConfiguration.NAMESPACES.items():
-            SecureET.register_namespace(prefix, uri)
+    """Strategy class executing targeted extractions against individual DOM elements."""
 
     @staticmethod
-    def extract_local_name(fully_qualified_tag: str) -> str:
-        if '}' not in fully_qualified_tag:
-            return fully_qualified_tag
-        return fully_qualified_tag.split('}', 1)[1]
+    def extract_local_name(tag: str) -> str:
+        """Strips namespace URI from an element tag."""
+        if '}' in tag:
+            return tag.split('}', 1)[1]
+        return tag
 
     @staticmethod
-    def resolve_localized_text(element: Any, tag: str, pref_lang: str = 'en-GB', fall_lang: str = 'en') -> str:
-        preferred_value, fallback_value, first_value = None, None, None
+    def extract_preferred_language(element: Any, target_tag: str, preferred: str = 'en-GB', fallback: str = 'en') -> str:
+        """Locates the text of a tag, preferring explicit language definitions."""
+        best_match = ""
+        preferred_match = None
+        fallback_match = None
+        first_match = None
 
-        for child in element.iterfind(tag, OntologyConfiguration.NAMESPACES):
+        for child in element.iterfind(target_tag, OntologyConfiguration.NAMESPACES):
             lang = child.get(OntologyConfiguration.XML_LANG)
-            text = child.text.strip() if child.text else ''
+            text_val = child.text.strip() if child.text else ""
 
-            if first_value is None:
-                first_value = text
-            if lang == pref_lang:
-                preferred_value = text
-                break
-            if lang == fall_lang:
-                fallback_value = text
+            if first_match is None:
+                first_match = text_val
 
-        resolved_value = preferred_value or fallback_value or first_value or ''
-        return SecuritySanitizer.sanitize_tsv_injection(resolved_value)
+            if lang == preferred:
+                preferred_match = text_val
+                break 
+            elif lang == fallback:
+                fallback_match = text_val
 
-    @classmethod
-    def extract_uuid(cls, element: Any, tag: str) -> str:
-        for identifier in element.iterfind(tag, OntologyConfiguration.NAMESPACES):
-            resource = identifier.get(OntologyConfiguration.RDF_RESOURCE)
-            if resource and resource.startswith(OntologyConfiguration.UUID_URN_PREFIX):
-                return SecuritySanitizer.sanitize_tsv_injection(resource[len(OntologyConfiguration.UUID_URN_PREFIX):])
-        return ''
+        if preferred_match is not None:
+            best_match = preferred_match
+        elif fallback_match is not None:
+            best_match = fallback_match
+        elif first_match is not None:
+            best_match = first_match
 
-    @classmethod
-    def extract_resource_attribute(cls, element: Any, tag: str) -> str:
-        target_node = element.find(tag, OntologyConfiguration.NAMESPACES)
-        if target_node is not None:
-            resource_val = target_node.get(OntologyConfiguration.RDF_RESOURCE)
-            if resource_val:
-                return SecuritySanitizer.sanitize_tsv_injection(resource_val.strip())
-        return ''
+        return best_match
 
-    @classmethod
-    def extract_text_node(cls, element: Any, tag: str) -> str:
-        target_node = element.find(tag, OntologyConfiguration.NAMESPACES)
-        if target_node is not None and target_node.text:
-            return SecuritySanitizer.sanitize_tsv_injection(target_node.text.strip())
-        return ''
+    @staticmethod
+    def extract_resource_attribute(element: Any, target_tag: str) -> str:
+        """Retrieves the rdf:resource attribute from a targeted child tag."""
+        child = element.find(target_tag, OntologyConfiguration.NAMESPACES)
+        if child is not None:
+            resource = child.get(OntologyConfiguration.RDF_RESOURCE)
+            if resource:
+                return resource.strip()
+        return ""
 
 class OntologyProcessor:
-    def __init__(self, output_path: Path):
-        self.output_path = output_path.resolve()
-        self.logger = logging.getLogger(self.__class__.__name__)
-        self._ensure_output_directory()
+    """Coordinates parsing, Axiom indexing, iteration, and egress stream writing."""
 
-    def _ensure_output_directory(self) -> None:
-        try:
-            self.output_path.parent.mkdir(parents=True, exist_ok=True)
-        except OSError as e:
-            self.logger.error(f"Failed to provision output directory structure. Verify permissions: {e}")
-            sys.exit(1)
+    def __init__(self, input_paths: List[Path], output_path: Path):
+        self.input_paths = input_paths
+        self.output_path = output_path
+        self.total_records = 0
+        self.failed_files = 0
+        self.processed_files = 0
 
-    def execute_pipeline(self, input_paths: List[Path]) -> None:
-        headers = [field['header'] for field in OntologyConfiguration.FIELDS]
-        total_processed = 0
-
-        try:
-            with open(self.output_path, 'w', newline='', encoding='utf-8') as tsv_file:
-                writer = csv.writer(
-                    tsv_file,
-                    delimiter=OntologyConfiguration.TSV_DELIMITER,
-                    lineterminator=OntologyConfiguration.TSV_TERMINATOR
-                )
-                writer.writerow(headers)
-
-                for file_path in input_paths:
-                    resolved_path = file_path.resolve()
-                    if not resolved_path.is_file():
-                        self.logger.warning(f"Input verification failed. Path is not a valid file: {file_path}")
-                        continue
-                    total_processed += self._process_document(file_path, writer)
+    def _build_axiom_index(self, root: Any) -> Dict[str, str]:
+        """
+        Executes an O(N) pre-processing pass mapping URI sources to multiple Axiom resources.
+        Outputs a Dictionary linking the AnnotatedSource to a \n separated string of sources.
+        """
+        axiom_map: Dict[str, str] = {}
+        
+        for axiom in root.iterfind(OntologyConfiguration.OWL_AXIOM, OntologyConfiguration.NAMESPACES):
+            annotated_source = axiom.find(OntologyConfiguration.OWL_ANNOTATED_SOURCE, OntologyConfiguration.NAMESPACES)
+            annotated_property = axiom.find(OntologyConfiguration.OWL_ANNOTATED_PROPERTY, OntologyConfiguration.NAMESPACES)
             
-            self.logger.info(f"Pipeline execution complete. Transformed {total_processed} records.")
-        except IOError as e:
-            self.logger.error(f"Fatal I/O termination during stream write to {self.output_path}: {e}")
-            sys.exit(1)
+            if annotated_source is not None and annotated_property is not None:
+                source_uri = annotated_source.get(OntologyConfiguration.RDF_RESOURCE)
+                property_uri = annotated_property.get(OntologyConfiguration.RDF_RESOURCE)
+                
+                if property_uri == OntologyConfiguration.DCTERMS_DESCRIPTION_URI and source_uri:
+                    source_resources = []
+                    for dcterms_src in axiom.iterfind(OntologyConfiguration.DCTERMS_SOURCE, OntologyConfiguration.NAMESPACES):
+                        res_val = dcterms_src.get(OntologyConfiguration.RDF_RESOURCE)
+                        if res_val:
+                            source_resources.append(res_val.strip())
+                            
+                    if source_resources:
+                        concatenated_sources = OntologyConfiguration.TSV_TERMINATOR.join(source_resources)
+                        if source_uri in axiom_map:
+                            axiom_map[source_uri] += OntologyConfiguration.TSV_TERMINATOR + concatenated_sources
+                        else:
+                            axiom_map[source_uri] = concatenated_sources
+                            
+        return axiom_map
 
-    def _process_document(self, file_path: Path, tsv_writer: Any) -> int:
-        self.logger.info(f"Initiating DOM ingestion for: {file_path}")
-        processed_count = 0
+    def _compile_record_vector(self, element: Any, object_type: str, record_uri: str, axiom_index: Dict[str, str]) -> List[str]:
+        """Extracts and serializes all requested columns for a single DOM element."""
+        row_vector = []
+        
+        for field in OntologyConfiguration.FIELDS:
+            header = field['header_name']
+            tag = field.get('tag')
+            extracted_value = ""
 
+            try:
+                if header == 'Object Type':
+                    extracted_value = object_type
+                elif header == 'URI':
+                    extracted_value = record_uri
+                elif header == 'UUID' and tag:
+                    for identifier in element.iterfind(tag, OntologyConfiguration.NAMESPACES):
+                        res = identifier.get(OntologyConfiguration.RDF_RESOURCE)
+                        if res and res.startswith(OntologyConfiguration.UUID_PREFIX):
+                            extracted_value = res[len(OntologyConfiguration.UUID_PREFIX):]
+                            break
+                elif header in ('Label', 'Title', 'Description') and tag:
+                    extracted_value = OntologyExtractor.extract_preferred_language(element, tag)
+                elif header == 'Source' and tag:
+                    extracted_value = OntologyExtractor.extract_resource_attribute(element, tag)
+                    if not extracted_value and record_uri in axiom_index:
+                        # Fallback to O(1) lookup map if direct attribute missing
+                        extracted_value = axiom_index[record_uri]
+                elif header in ('Creator', 'SubClassOf', 'Type') and tag:
+                    extracted_value = OntologyExtractor.extract_resource_attribute(element, tag)
+                else:
+                    if tag:
+                        child_node = element.find(tag, OntologyConfiguration.NAMESPACES)
+                        if child_node is not None and child_node.text:
+                            extracted_value = child_node.text.strip()
+            except Exception as ex:
+                logger.warning(f"Field extraction failure: '{header}' on URI '{record_uri}' - {str(ex)}")
+                extracted_value = ""
+
+            safe_value = SecuritySanitizer.sanitize_tsv_injection(extracted_value)
+            row_vector.append(safe_value)
+            
+        return row_vector
+
+    def _process_document(self, file_path: Path, tsv_writer: Any) -> None:
+        """Loads a single XML document into DOM, filters targets, and emits TSV rows."""
+        logger.info(f"Initiating DOM ingestion for: {file_path}")
+        
         try:
-            tree = SecureET.parse(str(file_path.resolve()))
+            # CWE-22 Mitigation / CWE-611 Mitigation 
+            resolved_path = str(file_path.resolve())
+            tree = ET.parse(resolved_path)
             root = tree.getroot()
-
+            
+            # Pre-compute relationships map to ensure O(1) query later
+            axiom_index = self._build_axiom_index(root)
+            
+            file_records = 0
             for element in root:
-                if element.tag not in OntologyConfiguration.TARGET_RECORDS:
+                if element.tag not in OntologyConfiguration.RECORD_TAGS:
                     continue
-
+                    
                 record_uri = element.get(OntologyConfiguration.RDF_ABOUT, '')
-                if not record_uri.startswith(OntologyConfiguration.DOMAIN_IDENTIFIER):
-                    continue
+                if not record_uri.startswith('https://haddenindustries.com/'):
+                    continue 
 
                 local_tag_name = OntologyExtractor.extract_local_name(element.tag)
                 object_type = 'Class' if local_tag_name == 'Class' else 'Named Individual' if local_tag_name == 'NamedIndividual' else local_tag_name
                 
-                row_vector = self._compile_record_vector(element, object_type, record_uri)
+                if local_tag_name == 'NamedIndividual':
+                    skip_entity = False
+                    for type_node in element.iterfind(OntologyConfiguration.RDF_TYPE, OntologyConfiguration.NAMESPACES):
+                        if type_node.get(OntologyConfiguration.RDF_RESOURCE) in OntologyConfiguration.EXCLUDED_DCAT_TYPES:
+                            skip_entity = True
+                            break
+                    if skip_entity:
+                        continue
+                
+                row_vector = self._compile_record_vector(element, object_type, record_uri, axiom_index)
                 tsv_writer.writerow(row_vector)
-                processed_count += 1
+                file_records += 1
 
-            return processed_count
-
-        except SecureET.ParseError as e:
-            self.logger.error(f"Document structural invalidity detected. XML Parse failure on {file_path.name}: {e}")
-            return 0
-        except Exception as e:
-            self.logger.error(f"Unhandled exception during extraction payload routing: {e}")
-            return 0
-
-    def _compile_record_vector(self, element: Any, object_type: str, uri: str) -> List[str]:
-        vector = []
-        for field in OntologyConfiguration.FIELDS:
-            header = field['header']
-            tag = field['tag']
-            value = ''
-
-            if header == 'Object Type':
-                value = object_type
-            elif header == 'URI':
-                value = SecuritySanitizer.sanitize_tsv_injection(uri)
-            elif tag:
-                if header == 'UUID':
-                    value = OntologyExtractor.extract_uuid(element, tag)
-                elif header in ('Label', 'Title', 'Description'):
-                    value = OntologyExtractor.resolve_localized_text(element, tag)
-                elif header in ('References', 'Creator', 'SubClassOf', 'Type'):
-                    value = OntologyExtractor.extract_resource_attribute(element, tag)
-                else:
-                    value = OntologyExtractor.extract_text_node(element, tag)
+            self.total_records += file_records
+            self.processed_files += 1
+            logger.info(f"Extraction successful: {file_records} records mapped.")
             
-            vector.append(value)
-        return vector
+        except ET.ParseError as e:
+            logger.error(f"Malformed XML payload detected at {file_path}. Details: {e}")
+            self.failed_files += 1
+        except Exception as e:
+            logger.error(f"Critical execution failure on {file_path}: {e}")
+            self.failed_files += 1
 
-def configure_logging() -> None:
-    logging.Formatter.converter = time.gmtime
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s [%(levelname)s] %(name)s - %(message)s',
-        datefmt='%Y-%m-%dT%H:%M:%SZ'
-    )
+    def execute_pipeline(self) -> None:
+        """Initializes the TSV stream and routes all documents through processing."""
+        output_dir = self.output_path.parent
+        if not output_dir.exists():
+            output_dir.mkdir(parents=True, exist_ok=True)
 
-def main() -> None:
-    configure_logging()
-    parser = argparse.ArgumentParser(description="Secure XML Ontology to TSV Extractor.")
-    parser.add_argument('input_file_paths', type=Path, nargs='+', help="Authorized XML source file paths.")
-    parser.add_argument('output_file_path', type=Path, help="Target destination for transformed TSV data.")
+        try:
+            headers = [f['header_name'] for f in OntologyConfiguration.FIELDS]
+            
+            # `newline=''` is mandatory to prevent Windows CRLF injection on I/O.
+            with open(self.output_path, 'w', newline='', encoding='utf-8') as tsvfile:
+                writer = csv.writer(
+                    tsvfile, 
+                    delimiter=OntologyConfiguration.TSV_DELIMITER, 
+                    lineterminator=OntologyConfiguration.TSV_TERMINATOR
+                )
+                writer.writerow(headers)
+                
+                for input_path in self.input_paths:
+                    if not input_path.exists():
+                        logger.warning(f"File unresolvable. Skipping target: {input_path}")
+                        self.failed_files += 1
+                        continue
+                        
+                    self._process_document(input_path, writer)
+                    
+            logger.info("=== Pipeline Execution Finalized ===")
+            logger.info(f"Aggregated Records Emitted: {self.total_records}")
+            logger.info(f"Completed Documents: {self.processed_files}")
+            if self.failed_files > 0:
+                logger.warning(f"Failed/Skipped Documents: {self.failed_files}")
+                
+        except Exception as e:
+            logger.error(f"Failed to initialize TSV file stream: {e}")
+            traceback.print_exc()
 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Secure XML Ontology to TSV Transformer.")
+    parser.add_argument('input_file_paths', type=Path, nargs='+', help="One or more target XML files.")
+    parser.add_argument('output_file_path', type=Path, help="Absolute or relative path to the destination TSV.")
+    
     args = parser.parse_args()
-
-    if not args.input_file_paths:
-        logging.error("Execution aborted: Precondition failed. Input source paths undefined.")
+    
+    try:
+        processor = OntologyProcessor(args.input_file_paths, args.output_file_path)
+        processor.execute_pipeline()
+    except Exception as general_ex:
+        logger.critical(f"System halt. Unhandled bootstrap exception: {general_ex}")
         sys.exit(1)
-
-    processor = OntologyProcessor(args.output_file_path)
-    processor.execute_pipeline(args.input_file_paths)
-
-if __name__ == '__main__':
-    main()
