@@ -2321,8 +2321,11 @@
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T13:31:24Z</dcterms:created>
-        <dcterms:description xml:lang="en">Legal demand for compensation for a loss under a Contract</dcterms:description>
+		<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:59:00Z</dcterms:modified>
+        <dcterms:description xml:lang="en">Demand or assertion made by one party on another, based on facts that, taken together, give rise to a legally enforceable right or judicial action</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b405a4a7-646a-462f-9293-3223c658dff1"/>
+		<dcterms:source rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Claim"/>
+		<rdfs:comment xml:lang="en">Claims arise from the existence of a formal commitment between the parties or as implicitly agreed upon through the operation of law or constitution</rdfs:comment>
         <dcterms:title xml:lang="en">Claim</dcterms:title>
         <rdfs:label xml:lang="en">Claim</rdfs:label>
     </owl:Class>
