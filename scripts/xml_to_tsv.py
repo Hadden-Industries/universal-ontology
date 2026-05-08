@@ -88,7 +88,7 @@ class OntologyConfiguration:
         {'header_name': 'Label', 'tag': '{http://www.w3.org/2000/01/rdf-schema#}label'},
         {'header_name': 'Title', 'tag': '{http://purl.org/dc/terms/}title'},
         {'header_name': 'Description', 'tag': '{http://purl.org/dc/terms/}description'},
-        {'header_name': 'Source', 'tag': '{http://purl.org/dc/terms/}source'},
+        {'header_name': 'Sources', 'tag': '{http://purl.org/dc/terms/}source'},
         {'header_name': 'Creator', 'tag': '{http://purl.org/dc/elements/1.1/}creator'},
         {'header_name': 'CreatedAt', 'tag': '{http://purl.org/dc/terms/}created'},
         {'header_name': 'ModifiedAt', 'tag': '{http://purl.org/dc/terms/}modified'},
@@ -227,7 +227,7 @@ class OntologyProcessor:
                             break
                 elif header in ('Label', 'Title', 'Description') and tag:
                     extracted_value = OntologyExtractor.extract_preferred_language(element, tag)
-                elif header == 'Source' and tag:
+                elif header == 'Sources' and tag:
                     extracted_value = OntologyExtractor.extract_resource_attribute(element, tag)
                     if not extracted_value and record_uri in axiom_index:
                         # Fallback to O(1) lookup map if direct attribute missing
