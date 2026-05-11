@@ -13,7 +13,7 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260507"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260511"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260507"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -23,7 +23,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:7be316dd-2ca3-437b-a9d1-cf8939e1d5c2"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-05-07</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-05-11</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights xml:lang="en">© 2026 Hadden Industries Ltd</dcterms:rights>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
@@ -32,8 +32,8 @@
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology</dcterms:title>
         <rdfs:label xml:lang="en">HaddenIndustriesUniversalReferenceDataOntology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260504"/>
-        <owl:versionInfo>2026-05-07</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260507"/>
+        <owl:versionInfo>2026-05-11</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -464,7 +464,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeatureToOrganisationRelationshipType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T10:35:56Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeatureToOrganisationRelationshipType</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:13:53Z</dcterms:modified>
+        <rdfs:label xml:lang="en-gb">hasGeographicFeatureToOrganisationRelationshipType</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -476,8 +477,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T10:31:55Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasOrganisation</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:13:28Z</dcterms:modified>
+        <rdfs:label xml:lang="en-gb">hasOrganisation</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1023,6 +1024,30 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:52:55Z</dcterms:created>
         <rdfs:label xml:lang="en">hasQuantity</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/NamespaceToOrganisationRelationship_hasNamespace -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/NamespaceToOrganisationRelationship_hasNamespace">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NamespaceToOrganisationRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Namespace"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:09:02Z</dcterms:created>
+        <rdfs:label xml:lang="en">hasNamespace</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/NamespaceToOrganisationRelationship_hasOrganisation -->
+
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/NamespaceToOrganisationRelationship_hasOrganisation">
+        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NamespaceToOrganisationRelationship"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:09:13Z</dcterms:created>
+        <rdfs:label xml:lang="en-gb">hasOrganisation</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1982,11 +2007,11 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/AddressToOrganisationRelationshipType">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T16:09:20Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of the way in which an Address and a Organisation are connected, having common characteristics</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Category of the way in which an Address and a Organisation are connected, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:01376fec-1b57-49f7-af7e-1899ce8df231"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
-        <dcterms:title xml:lang="en">Address To Organisation Relationship Type</dcterms:title>
-        <rdfs:label xml:lang="en">AddressToOrganisationRelationshipType</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:05:59Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Address To Organisation Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en-gb">AddressToOrganisationRelationshipType</rdfs:label>
     </owl:Class>
     
 
@@ -2857,11 +2882,17 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-31T08:45:18Z</dcterms:created>
         <dcterms:description xml:lang="en">Group of data quality dimensions in which a common type of information is used as data quality indicator</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:cea9123e-e486-4263-9cdb-a41b8215dbb8"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-07-28T00:13:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="http://ceur-ws.org/Vol-1184/ldow2014_paper_09.pdf"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:27:45Z</dcterms:modified>
         <dcterms:title xml:lang="en">Data Quality Category</dcterms:title>
         <rdfs:label xml:lang="en">DataQualityCategory</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityCategory"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Group of data quality dimensions in which a common type of information is used as data quality indicator</owl:annotatedTarget>
+        <dcterms:source rdf:resource="http://ceur-ws.org/Vol-1184/ldow2014_paper_09.pdf"/>
+        <rdfs:comment xml:lang="en">Section 1.1</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -2872,11 +2903,17 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-31T08:46:59Z</dcterms:created>
         <dcterms:description xml:lang="en">Characteristic of a dataset relevant to the consumer</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:5e193f78-deec-475b-a1d4-03bad1dc0312"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-07-28T00:13:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="http://ceur-ws.org/Vol-1184/ldow2014_paper_09.pdf"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:28:16Z</dcterms:modified>
         <dcterms:title xml:lang="en">Data Quality Dimension</dcterms:title>
         <rdfs:label xml:lang="en">DataQualityDimension</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityDimension"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Characteristic of a dataset relevant to the consumer</owl:annotatedTarget>
+        <dcterms:source rdf:resource="http://ceur-ws.org/Vol-1184/ldow2014_paper_09.pdf"/>
+        <rdfs:comment xml:lang="en">Section 1.1</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -3242,11 +3279,11 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DocumentToOrganisationRelationshipType">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-08T11:29:27Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of the way in which a Document and an Organisation are connected, having common characteristics</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Category of the way in which a Document and an Organisation are connected, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:f657a82a-5a47-4b0d-856f-2af9b023de44"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
-        <dcterms:title xml:lang="en">Document To Organisation Relationship Type</dcterms:title>
-        <rdfs:label xml:lang="en">DocumentToOrganisationRelationshipType</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:06:12Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Document To Organisation Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en-gb">DocumentToOrganisationRelationshipType</rdfs:label>
     </owl:Class>
     
 
@@ -3258,7 +3295,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T11:01:07Z</dcterms:created>
         <dcterms:description xml:lang="en">Category of the way in which a Document and a Person are connected, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:a59e5837-3c81-452a-aa91-e44c889698d9"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T21:41:35Z</dcterms:modified>
         <dcterms:title xml:lang="en">Document To Person Relationship Type</dcterms:title>
         <rdfs:label xml:lang="en">DocumentToPersonRelationshipType</rdfs:label>
     </owl:Class>
@@ -3313,13 +3350,25 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T17:09:02Z</dcterms:created>
         <dcterms:description xml:lang="en">Class of documents characterised by a specific materiality, purpose or type of content</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:1174a450-dcbb-4907-9346-20a06fc316b8"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-10T12:51:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.4.1.01"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:30:00Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.4.1.01"/>
         <dcterms:title xml:lang="en">Document Type</dcterms:title>
-        <rdfs:comment xml:lang="en">[SOURCE:ISO/IEC TR 29166:2011, definition 3.3, modified]
-Note 1 to entry: See also “general material designation” (3.7.2.03), “specific material designation” (3.7.2.04); “special collection” (3.6.1.10); ISO 10209:2012, definition 11.58; ISO 29845:2011, definition 3.1.3; ISAD (G) 1999 (“form”)</rdfs:comment>
+        <rdfs:comment xml:lang="en">ISO/IEC TR 29166:2011, definition 3.3, modified</rdfs:comment>
+        <rdfs:comment xml:lang="en">See also “general material designation” (3.7.2.03), “specific material designation” (3.7.2.04); “special collection” (3.6.1.10); ISO 10209:2012, definition 11.58; ISO 29845:2011, definition 3.1.3; ISAD (G) 1999 (“form”)</rdfs:comment>
         <rdfs:label xml:lang="en">DocumentType</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">ISO/IEC TR 29166:2011, definition 3.3, modified</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">See also “general material designation” (3.7.2.03), “specific material designation” (3.7.2.04); “special collection” (3.6.1.10); ISO 10209:2012, definition 11.58; ISO 29845:2011, definition 3.1.3; ISAD (G) 1999 (“form”)</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -3663,11 +3712,11 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EventToOrganisationRelationshipType">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T16:16:27Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of the way in which an Event and a Organisation are connected, having common characteristics</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Category of the way in which an Event and a Organisation are connected, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:8e2f1553-d816-482e-88e6-0b43f3f0518d"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
-        <dcterms:title xml:lang="en">Event To Organisation Relationship Type</dcterms:title>
-        <rdfs:label xml:lang="en">EventToOrganisationRelationshipType</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:14:39Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Event To Organisation Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en-gb">EventToOrganisationRelationshipType</rdfs:label>
     </owl:Class>
     
 
@@ -3679,7 +3728,7 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T10:54:50Z</dcterms:created>
         <dcterms:description xml:lang="en">Category of the way in which an Event and a Person are connected, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:99e98c5e-d787-4bb4-a8d9-912a58ffb45c"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:12:20Z</dcterms:modified>
         <dcterms:title xml:lang="en">Event To Person Relationship Type</dcterms:title>
         <rdfs:label xml:lang="en">EventToPersonRelationshipType</rdfs:label>
     </owl:Class>
@@ -3889,13 +3938,19 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T12:46:31Z</dcterms:created>
         <dcterms:description xml:lang="en">Category of contracts that give rise to a financial asset of one entity and a financial liability or equity instrument of another entity</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:f95d1e2b-c78e-4bfb-bedd-617803a32ad7"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T14:32:42Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.ifrs.org/content/dam/ifrs/publications/pdf-standards/english/2021/issued/part-a/ias-32-financial-instruments-presentation.pdf"/>
-        <dcterms:references rdf:resource="urn:iso:std:iso:10962"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:32:57Z</dcterms:modified>
         <dcterms:title xml:lang="en">Financial Instrument Classification</dcterms:title>
         <rdfs:label xml:lang="en">FinancialInstrumentClassification</rdfs:label>
-        <rdfs:seeAlso rdf:resource="https://www.six-group.com/en/products-services/financial-information/data-standards.html"/>
+        <rdfs:seeAlso rdf:resource="https://www.iso.org/standard/81140.html"/>
+        <rdfs:seeAlso rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FinancialInstrumentClassification"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Category of contracts that give rise to a financial asset of one entity and a financial liability or equity instrument of another entity</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.ifrs.org/content/dam/ifrs/publications/pdf-standards/english/2021/issued/part-a/ias-32-financial-instruments-presentation.pdf"/>
+        <rdfs:comment xml:lang="en">Section 11</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -4208,11 +4263,11 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
         </rdfs:subClassOf>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T10:33:28Z</dcterms:created>
-        <dcterms:description xml:lang="en">Association between a Geographic Feature and an Organisation</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Association between a Geographic Feature and an Organisation</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d27d1076-91df-41e9-8504-07c243d23beb"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
-        <dcterms:title xml:lang="en">Geographic Feature To Organisation Relationship</dcterms:title>
-        <rdfs:label xml:lang="en">GeographicFeatureToOrganisationRelationship</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:07:00Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Geographic Feature To Organisation Relationship</dcterms:title>
+        <rdfs:label xml:lang="en-gb">GeographicFeatureToOrganisationRelationship</rdfs:label>
     </owl:Class>
     
 
@@ -4222,11 +4277,11 @@ Note 1 to entry: See also “general material designation” (3.7.2.03), “spec
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeatureToOrganisationRelationshipType">
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T10:29:34Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of the way in which a Geographic Feature and an Organisation are connected, having common characteristics</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Category of the way in which a Geographic Feature and an Organisation are connected, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:2babcc53-0b92-4a00-a5d6-24cd32e820db"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
-        <dcterms:title xml:lang="en">Geographic Feature To Organisation Relationship Type</dcterms:title>
-        <rdfs:label xml:lang="en">GeographicFeatureToOrganisationRelationshipType</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:08:39Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Geographic Feature To Organisation Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en-gb">GeographicFeatureToOrganisationRelationshipType</rdfs:label>
     </owl:Class>
     
 
@@ -4750,10 +4805,10 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-11-28T10:38:50Z</dcterms:created>
         <dcterms:description xml:lang="en">Way one thinks and feels about any uncertainty with respect to one&apos;s investments that has the potential to negatively impact one&apos;s financial welfare</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:a87391b0-a2d9-449b-a4fa-07e416bb94e3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:14:38Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.finra.org/investors/investing/investing-basics/risk"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:33:45Z</dcterms:modified>
         <dcterms:title xml:lang="en">Investment Risk Attitude</dcterms:title>
         <rdfs:label xml:lang="en">InvestmentRiskAttitude</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://www.finra.org/investors/investing/investing-basics/risk"/>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InvestmentRiskAttitude"/>
@@ -5063,8 +5118,8 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-08-03T13:17:24Z</dcterms:created>
         <dcterms:description xml:lang="en">Composite datatype that serves as an identifier for a language, where the language is always defined as spoken (or written, signed or otherwise signaled) by human beings for communication of information to other human beings; computer languages such as programming languages are explicitly excluded</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:6e0e6da2-c817-49d8-bba0-46a7576c5fa5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:54:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-3:v1:en:clause:6.3.5.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:34:18Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-3:v1:clause:6.3.5.1"/>
         <dcterms:title xml:lang="en">Language Identification</dcterms:title>
         <rdfs:label xml:lang="en">LanguageIdentification</rdfs:label>
     </owl:Class>
@@ -5541,9 +5596,9 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationAuthority"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:33:00Z</dcterms:created>
-        <dcterms:description xml:lang="en">Organisation authorised to incorporate legal entities or record them on an official register</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Organisation authorised to incorporate legal entities or record them on an official register</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:f2c20642-2536-4662-adbc-63961ac3233c"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:09:09Z</dcterms:modified>
         <dcterms:title xml:lang="en">Legal Entity Registration Authority</dcterms:title>
         <rdfs:label xml:lang="en">LegalEntityRegistrationAuthority</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.gov.uk/government/publications/overseas-registries/overseas-registries"/>
@@ -5566,10 +5621,16 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:42:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Category of document with blank spaces for information to be inserted, as formalised by a Legal Entity Registration Authority, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:38bfc288-e102-4210-8865-7b771c50d8e4"/>
-        <dcterms:references rdf:resource="https://dictionary.cambridge.org/dictionary/english/form"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:34:36Z</dcterms:modified>
         <dcterms:title xml:lang="en">Legal Entity Registration Authority Form Type</dcterms:title>
         <rdfs:label xml:lang="en">LegalEntityRegistrationAuthorityFormType</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Category of document with blank spaces for information to be inserted, as formalised by a Legal Entity Registration Authority, having common characteristics</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/form"/>
+    </owl:Axiom>
     
 
 
@@ -5825,11 +5886,16 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T13:25:23Z</dcterms:created>
         <dcterms:description xml:lang="en">Market measure that consists of weighted values of the components that make up certain list of companies. A stock market tracks the performance of certain stocks by weighting them according to their prices and the number of outstanding shares by a particular formula.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:5faf589a-b5d5-4436-9408-1cfbf98ff31a"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:28:53Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.nasdaq.com/glossary/m/market-index"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:35:05Z</dcterms:modified>
         <dcterms:title xml:lang="en">Market Index</dcterms:title>
         <rdfs:label xml:lang="en">MarketIndex</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MarketIndex"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Market measure that consists of weighted values of the components that make up certain list of companies. A stock market tracks the performance of certain stocks by weighting them according to their prices and the number of outstanding shares by a particular formula.</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.nasdaq.com/glossary/m/market-index"/>
+    </owl:Axiom>
     
 
 
@@ -6246,6 +6312,33 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/NamespaceToOrganisationRelationship -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/NamespaceToOrganisationRelationship">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NamespaceToOrganisationRelationship_hasNamespace"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Namespace"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NamespaceToOrganisationRelationship_hasOrganisation"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:07:23Z</dcterms:created>
+        <dcterms:description xml:lang="en-gb">Association between a Namespace and an Organisation</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:ee4449b6-2b38-493e-b31e-26766a4c703d"/>
+        <dcterms:title xml:lang="en-gb">Namespace To Organisation Relationship</dcterms:title>
+        <rdfs:label xml:lang="en-gb">NamespaceToOrganisationRelationship</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/NationalIdentity -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/NationalIdentity">
@@ -6439,8 +6532,8 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T13:27:39Z</dcterms:created>
         <dcterms:description xml:lang="en">Integrated telephone numbering plan serving 20 North American countries that share its resources</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:4005be38-55e4-4b08-a736-9ad5aff23b98"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:46:19Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.nanpa.com/about"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:36:28Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://www.nanpa.com/about"/>
         <dcterms:title xml:lang="en">North American Numbering Plan</dcterms:title>
         <rdfs:label xml:lang="en">NorthAmericanNumberingPlan</rdfs:label>
     </owl:Class>
@@ -6697,10 +6790,11 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OrganisationRelationshipType">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T11:27:19Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of the way in which two or more organisations are connected, having common characteristics</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Category of the way in which two or more organisations are connected, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:163f29fc-84cd-4e3c-ab6b-73186041771a"/>
-        <dcterms:title xml:lang="en">Organisation Relationship Type</dcterms:title>
-        <rdfs:label xml:lang="en">OrganisationRelationshipType</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:01:29Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Organisation Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en-gb">OrganisationRelationshipType</rdfs:label>
     </owl:Class>
     
 
@@ -6710,11 +6804,11 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OrganisationToPersonRelationshipType">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T11:26:04Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of the way in which an Organisation and a Person are connected, having common characteristics</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Category of the way in which an Organisation and a Person are connected, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:24ecac55-aa57-4a89-82b4-b3634bc389c1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
-        <dcterms:title xml:lang="en">Organisation To Person Relationship Type</dcterms:title>
-        <rdfs:label xml:lang="en">OrganisationToPersonRelationshipType</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:05:19Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Organisation To Person Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en-gb">OrganisationToPersonRelationshipType</rdfs:label>
     </owl:Class>
     
 
@@ -6724,11 +6818,11 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OrganisationToProductOrServiceRelationshipType">
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T14:05:43Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of the way in which an Organisation and a Product Or Service are connected, having common characteristics</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Category of the way in which an Organisation and a Product Or Service are connected, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:8d976559-aed0-4a47-8fc1-00e68ca97125"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
-        <dcterms:title xml:lang="en">Organisation To Product Or Service Relationship Type</dcterms:title>
-        <rdfs:label xml:lang="en">OrganisationToProductOrServiceRelationshipType</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:05:33Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Organisation To Product Or Service Relationship Type</dcterms:title>
+        <rdfs:label xml:lang="en-gb">OrganisationToProductOrServiceRelationshipType</rdfs:label>
     </owl:Class>
     
 
@@ -6738,10 +6832,11 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OrganisationType">
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-03-19T10:30:59Z</dcterms:created>
-        <dcterms:description xml:lang="en">Category of Organisations having common characteristics</dcterms:description>
+        <dcterms:description xml:lang="en-gb">Category of Organisations having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d9bf350c-94eb-4a2e-bb6e-32568a3c347c"/>
-        <dcterms:title xml:lang="en">Organisation Type</dcterms:title>
-        <rdfs:label xml:lang="en">OrganisationType</rdfs:label>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:05:43Z</dcterms:modified>
+        <dcterms:title xml:lang="en-gb">Organisation Type</dcterms:title>
+        <rdfs:label xml:lang="en-gb">OrganisationType</rdfs:label>
     </owl:Class>
     
 
@@ -6919,8 +7014,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-06T12:09:37Z</dcterms:created>
         <dcterms:description xml:lang="en">Type or variety of personal pronouns named according to their typical grammatical role in a sentence</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:6ed3ddcc-9444-40f9-a671-11f6f4fc0632"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:47:55Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://en.wikipedia.org/wiki/English_personal_pronouns"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:37:42Z</dcterms:modified>
         <dcterms:title xml:lang="en">Personal Pronoun Form</dcterms:title>
         <rdfs:label xml:lang="en">PersonalPronounForm</rdfs:label>
     </owl:Class>
@@ -7405,11 +7499,17 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-22T22:48:19Z</dcterms:created>
         <dcterms:description xml:lang="en">Category of ground transport vehicles other than trains, having common characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:060a329a-2713-4ae0-a9ac-3400ba8b1af2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T16:01:07Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://apps.who.int/gb/ebwha/pdf_files/WHA58/A58_4-en.pdf"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:39:59Z</dcterms:modified>
         <dcterms:title xml:lang="en">Road Vehicle Type</dcterms:title>
         <rdfs:label xml:lang="en">RoadVehicleType</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/RoadVehicleType"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Category of ground transport vehicles other than trains, having common characteristics</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://apps.who.int/gb/ebwha/pdf_files/WHA58/A58_4-en.pdf"/>
+        <rdfs:comment xml:lang="en">Part I, Article 1</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -9001,6 +9101,20 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     
 
 
+    <!-- https://haddenindustries.com/ontology/dataset/0f000ca4-b8c4-4c1f-8770-534d66383f54 -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/dataset/0f000ca4-b8c4-4c1f-8770-534d66383f54">
+        <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Dataset"/>
+        <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/d6d753f1-d748-491f-a02a-441dd877cb40"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:20:00Z</dcterms:created>
+        <rdfs:label xml:lang="en">Personal pronouns in English</rdfs:label>
+        <dcat:landingPage rdf:resource="https://en.wikipedia.org/wiki/Personal_pronouns_in_English"/>
+        <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonalPronounForm"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- https://haddenindustries.com/ontology/dataset/00ec9975-2c73-42b2-b066-15649379f875 -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/dataset/00ec9975-2c73-42b2-b066-15649379f875">
@@ -10523,6 +10637,19 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Classification of Occupations 1980 zip</rdfs:label>
         <dcat:accessURL rdf:resource="https://webarchive.nationalarchives.gov.uk/ukgwa/20160108055058/http://www.ons.gov.uk/ons/guide-method/classifications/archived-standard-classifications/soc-and-sec-archive/index.html"/>
         <dcat:downloadURL rdf:resource="https://webarchive.nationalarchives.gov.uk/ukgwa/20160108055058mp_/http://www.ons.gov.uk/ons/guide-method/classifications/archived-standard-classifications/soc-and-sec-archive/classification-of-occupations-1980.zip"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/distribution/d6d753f1-d748-491f-a02a-441dd877cb40 -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/distribution/d6d753f1-d748-491f-a02a-441dd877cb40">
+        <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:20:00Z</dcterms:created>
+        <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
+        <rdfs:label xml:lang="en">Personal pronouns in English Wikipedia web page</rdfs:label>
+        <dcat:accessURL rdf:resource="https://en.wikipedia.org/wiki/Personal_pronouns_in_English"/>
     </owl:NamedIndividual>
     
 
@@ -12106,12 +12233,25 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-18T14:54:39Z</dcterms:created>
         <dcterms:description xml:lang="en">Relation between two designations representing two coordinate concepts viewed as opposites of each other</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:c825c393-d2db-4da1-b684-10f4666fc509"/>
-        <dcterms:references rdf:resource="urn:iso:std:iso:1087:ed-2:v1:en:term:3.4.25"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:22:13Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.4.25"/>
         <dcterms:title xml:lang="en">Antonymy</dcterms:title>
-        <rdfs:comment xml:lang="en">EXAMPLE:Antonymy exists between the terms (3.4.2) “encoding” and “decoding”, “positive” and “negative”.
-Note 1 to entry: Designations (3.4.1) in the relation of antonymy are called “antonyms”.</rdfs:comment>
+        <rdfs:comment xml:lang="en">Antonymy exists between the terms (3.4.2) “encoding” and “decoding”, “positive” and “negative”</rdfs:comment>
+        <rdfs:comment xml:lang="en">Designations (3.4.1) in the relation of antonymy are called “antonyms”.</rdfs:comment>
         <rdfs:label xml:lang="en">Antonymy</rdfs:label>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Antonymy"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Antonymy exists between the terms (3.4.2) “encoding” and “decoding”, “positive” and “negative”</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Antonymy"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Designations (3.4.1) in the relation of antonymy are called “antonyms”.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -12182,8 +12322,8 @@ Note 1 to entry: Designations (3.4.1) in the relation of antonymy are called “
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T21:09:53Z</dcterms:created>
         <dcterms:description xml:lang="en">Two-dimensional matrix symbology whose symbols are nominally square, made up of square modules on a square grid, with a square bullseye pattern at their center</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:f1d67357-e47f-4db8-8277-a84827980e13"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T22:10:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso-iec:24778:ed-1:v1:en:sec:intro"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:25:25Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:24778:ed-1:v1:sec:intro"/>
         <dcterms:title xml:lang="en">Aztec Code</dcterms:title>
         <rdfs:label xml:lang="en">AztecCode</rdfs:label>
     </owl:NamedIndividual>
@@ -12198,12 +12338,18 @@ Note 1 to entry: Designations (3.4.1) in the relation of antonymy are called “
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T10:06:19Z</dcterms:created>
         <dcterms:description xml:lang="en">Continuous, variable length, bar code symbology capable of encoding the full ASCII-128 character set, the 128 extended ASCII character set, and four non-data function characters</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:2c809e30-5c36-434e-b776-5f7cfde379b5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T22:05:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso:22742:ed-2:v1:en:term:3.2"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:26:09Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.2"/>
         <dcterms:title xml:lang="en">Code 128</dcterms:title>
-        <rdfs:comment xml:lang="en">Note 1 to entry: Code 128 allows numeric data to be represented in a compact double-density mode, with two data digits for every symbol character. Each Code 128 symbol uses two independent self-checking features, character self-checking via parity and a modulo 103 check character. Each Code 128 symbol consists of a leading quiet zone, a start pattern, characters representing data, a check character, a stop pattern, and a trailing quiet zone. Each Code 128 character consists of eleven 1X wide modules. Each symbol character is comprised of three bars alternating with three spaces, starting with a bar. Each element (bar or space) can consist of one to four modules. Code 128 has three unique character sets designated as code set A, B and C. Code set A includes all of the standard upper-case alphanumeric keyboard characters, the ASCII control characters having an ASCII value of 0 to 95, and seven special characters. Code set B includes all of the standard upper-case alphanumeric keyboard characters, lower-case alphabetic characters (specifically ASCII character values 32 to 127), and seven special characters. Code set C includes the set of 100 digit pairs from 00 to 99, inclusive, as well as three special characters. The FNC1 character in the first character position after the start code of Code 128 designates that the data that follow comply with the GS1-128 standards. See ISO/IEC 15417 for the Code 128 symbology specification.</rdfs:comment>
+        <rdfs:comment xml:lang="en">Code 128 allows numeric data to be represented in a compact double-density mode, with two data digits for every symbol character. Each Code 128 symbol uses two independent self-checking features, character self-checking via parity and a modulo 103 check character. Each Code 128 symbol consists of a leading quiet zone, a start pattern, characters representing data, a check character, a stop pattern, and a trailing quiet zone. Each Code 128 character consists of eleven 1X wide modules. Each symbol character is comprised of three bars alternating with three spaces, starting with a bar. Each element (bar or space) can consist of one to four modules. Code 128 has three unique character sets designated as code set A, B and C. Code set A includes all of the standard upper-case alphanumeric keyboard characters, the ASCII control characters having an ASCII value of 0 to 95, and seven special characters. Code set B includes all of the standard upper-case alphanumeric keyboard characters, lower-case alphabetic characters (specifically ASCII character values 32 to 127), and seven special characters. Code set C includes the set of 100 digit pairs from 00 to 99, inclusive, as well as three special characters. The FNC1 character in the first character position after the start code of Code 128 designates that the data that follow comply with the GS1-128 standards. See ISO/IEC 15417 for the Code 128 symbology specification.</rdfs:comment>
         <rdfs:label xml:lang="en">Code128</rdfs:label>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Code128"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Code 128 allows numeric data to be represented in a compact double-density mode, with two data digits for every symbol character. Each Code 128 symbol uses two independent self-checking features, character self-checking via parity and a modulo 103 check character. Each Code 128 symbol consists of a leading quiet zone, a start pattern, characters representing data, a check character, a stop pattern, and a trailing quiet zone. Each Code 128 character consists of eleven 1X wide modules. Each symbol character is comprised of three bars alternating with three spaces, starting with a bar. Each element (bar or space) can consist of one to four modules. Code 128 has three unique character sets designated as code set A, B and C. Code set A includes all of the standard upper-case alphanumeric keyboard characters, the ASCII control characters having an ASCII value of 0 to 95, and seven special characters. Code set B includes all of the standard upper-case alphanumeric keyboard characters, lower-case alphabetic characters (specifically ASCII character values 32 to 127), and seven special characters. Code set C includes the set of 100 digit pairs from 00 to 99, inclusive, as well as three special characters. The FNC1 character in the first character position after the start code of Code 128 designates that the data that follow comply with the GS1-128 standards. See ISO/IEC 15417 for the Code 128 symbology specification.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -12222,12 +12368,61 @@ Note 1 to entry: Designations (3.4.1) in the relation of antonymy are called “
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T10:11:09Z</dcterms:created>
         <dcterms:description xml:lang="en">Discrete, variable length, bar code symbology encoding the characters 0 to 9, A to Z, and the additional characters “-” (dash), “.” (period), space, “$” (dollar sign), “/” (slash), “+” (plus sign), and “%” (percent sign), as well as a special symbology character to denote the start and stop character, conventionally represented as an “*” (asterisk)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:fd9066c7-016f-4dd7-b4d3-25cb522b7e34"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T22:09:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="urn:iso:std:iso:22742:ed-2:v1:en:term:3.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:26:38Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.1"/>
         <dcterms:title xml:lang="en">Code 39</dcterms:title>
-        <rdfs:comment xml:lang="en">Note 1 to entry: Each Code 39 symbol consists of a leading quiet zone, a start symbol pattern, symbol characters representing data, a stop pattern, and a trailing quiet zone. Each Code 39 character has three wide elements out of a total of nine elements. Each symbol consists of a series of symbol characters, each represented by five bars and four intervening spaces. Characters are separated by an intercharacter gap. Each element (bar or space) is one of two widths. The values of the X-dimension (3.13) and wide-to-narrow ratio remain constant throughout the symbol. The particular pattern of wide and narrow elements determines the character being encoded. The intercharacter gaps are spaces with a minimum nominal width of 1X. See ISO/IEC 16388 for the Code 39 symbology specification.</rdfs:comment>
+        <rdfs:comment xml:lang="en">Each Code 39 symbol consists of a leading quiet zone, a start symbol pattern, symbol characters representing data, a stop pattern, and a trailing quiet zone. Each Code 39 character has three wide elements out of a total of nine elements. Each symbol consists of a series of symbol characters, each represented by five bars and four intervening spaces. Characters are separated by an intercharacter gap. Each element (bar or space) is one of two widths. The values of the X-dimension (3.13) and wide-to-narrow ratio remain constant throughout the symbol. The particular pattern of wide and narrow elements determines the character being encoded. The intercharacter gaps are spaces with a minimum nominal width of 1X. See ISO/IEC 16388 for the Code 39 symbology specification.</rdfs:comment>
         <rdfs:label xml:lang="en">Code39</rdfs:label>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Code39"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Each Code 39 symbol consists of a leading quiet zone, a start symbol pattern, symbol characters representing data, a stop pattern, and a trailing quiet zone. Each Code 39 character has three wide elements out of a total of nine elements. Each symbol consists of a series of symbol characters, each represented by five bars and four intervening spaces. Characters are separated by an intercharacter gap. Each element (bar or space) is one of two widths. The values of the X-dimension (3.13) and wide-to-narrow ratio remain constant throughout the symbol. The particular pattern of wide and narrow elements determines the character being encoded. The intercharacter gaps are spaces with a minimum nominal width of 1X. See ISO/IEC 16388 for the Code 39 symbology specification.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CreditorBeneficiary -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CreditorBeneficiary">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
+        <owl:differentFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DoneeBeneficiary"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:01:26Z</dcterms:created>
+        <dcterms:description xml:lang="en">Third-party Person whose pre-existing owed debt is satisfied through the performance of a newly formed binding commitment</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:caa91c47-8582-427d-a684-e71c43c2186a"/>
+        <dcterms:title xml:lang="en">Creditor Beneficiary</dcterms:title>
+        <rdfs:label xml:lang="en">CreditorBeneficiary</rdfs:label>
+    </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CreditorBeneficiary"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Third-party Person whose pre-existing owed debt is satisfied through the performance of a newly formed binding commitment</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://juris.nationalparalegal.edu/uploads/19Unit%2017.pdf"/>
+        <dcterms:source rdf:resource="urn:isbn:9780198829973"/>
+    </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/DoneeBeneficiary -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DoneeBeneficiary">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:01:17Z</dcterms:created>
+        <dcterms:description xml:lang="en">Third-party Person designated to receive a gratuitous gift through the performance of a binding commitment</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:6a37a522-0e1f-4944-a084-97d3a1e8da5c"/>
+        <dcterms:title xml:lang="en">Donee Beneficiary</dcterms:title>
+        <rdfs:label xml:lang="en">DoneeBeneficiary</rdfs:label>
+    </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DoneeBeneficiary"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Third-party Person designated to receive a gratuitous gift through the performance of a binding commitment</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://juris.nationalparalegal.edu/uploads/19Unit%2017.pdf"/>
+        <dcterms:source rdf:resource="urn:isbn:9780198829973"/>
+    </owl:Axiom>
     
 
 
@@ -12256,11 +12451,16 @@ Note 1 to entry: Designations (3.4.1) in the relation of antonymy are called “
         <dcterms:description xml:lang="en">Horizontal Direction towards the point of the horizon where the sun rises at the equinoxes, on the right-hand side of a person facing north, or the point on the horizon itself</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:a6ffa2dc-75db-4f35-85be-c706f53f2421"/>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">2</dcterms:identifier>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:52:11Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://www.lexico.com/definition/east"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:42:56Z</dcterms:modified>
         <dcterms:title xml:lang="en">East</dcterms:title>
         <rdfs:label xml:lang="en">East</rdfs:label>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/East"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Horizontal Direction towards the point of the horizon where the sun rises at the equinoxes, on the right-hand side of a person facing north, or the point on the horizon itself</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.lexico.com/definition/east"/>
+    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/East"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
@@ -12278,12 +12478,25 @@ Note 1 to entry: Designations (3.4.1) in the relation of antonymy are called “
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-18T14:56:24Z</dcterms:created>
         <dcterms:description xml:lang="en">Relation between designations in different natural languages representing the same concept</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:6043a082-0e0d-4911-bbeb-b6f87d1d74ee"/>
-        <dcterms:references rdf:resource="urn:iso:std:iso:1087:ed-2:v1:en:term:3.4.24"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:24:00Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.4.24"/>
         <dcterms:title xml:lang="en">Equivalence</dcterms:title>
-        <rdfs:comment xml:lang="en">EXAMPLE:The French term (3.4.2) “ordinateur” is an equivalent of the English term “computer”.
-Note 1 to entry: Designations in the relation of equivalence are called “equivalents”.</rdfs:comment>
+        <rdfs:comment xml:lang="en">Designations in the relation of equivalence are called “equivalents”</rdfs:comment>
+        <rdfs:comment xml:lang="en">The French term (3.4.2) “ordinateur” is an equivalent of the English term “computer”</rdfs:comment>
         <rdfs:label xml:lang="en">Equivalence</rdfs:label>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Equivalence"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Designations in the relation of equivalence are called “equivalents”</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Equivalence"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">The French term (3.4.2) “ordinateur” is an equivalent of the English term “computer”</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -12433,14 +12646,23 @@ Note 1 to entry: Designations in the relation of equivalence are called “equiv
     <!-- https://haddenindustries.com/ontology/universal/reference-data/IncidentalBeneficiary -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/IncidentalBeneficiary">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipType"/>
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-19T09:22:30Z</dcterms:created>
-        <dcterms:description xml:lang="en">Document To Person Relationship in which a Person unintentionally benefits from a Contract between a Promisor and Promisee</dcterms:description>
+        <dcterms:description xml:lang="en">Third-party Person that receives a factual consequence of value resulting from a binding agreement without possessing the legal entitlement to enforce that value</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:0e51d0e1-9857-4f83-9d9d-bb99146f60f6"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:03:19Z</dcterms:modified>
         <dcterms:title xml:lang="en">Incidental Beneficiary</dcterms:title>
         <rdfs:label xml:lang="en">IncidentalBeneficiary</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Beneficiary"/>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IncidentalBeneficiary"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Third-party Person that receives a factual consequence of value resulting from a binding agreement without possessing the legal entitlement to enforce that value</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://matthewminer.name/law/outlines/1L/2nd+Semester/LAW+506-002+%E2%80%93+Contracts+II/R2C+%C2%A7+302"/>
+        <dcterms:source rdf:resource="https://www.legislation.gov.uk/ukpga/1999/31/contents"/>
+    </owl:Axiom>
     
 
 
@@ -12479,14 +12701,23 @@ Note 1 to entry: Designations in the relation of equivalence are called “equiv
     <!-- https://haddenindustries.com/ontology/universal/reference-data/IntendedBeneficiary -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/IntendedBeneficiary">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipType"/>
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-19T09:22:37Z</dcterms:created>
-        <dcterms:description xml:lang="en">Document To Person Relationship in which a Person is neither a Promisor nor Promisee in a Contract, but stands to benefit from the Contract&apos;s performance by acquiring rights under it</dcterms:description>
+        <dcterms:description xml:lang="en">Third-party Person explicitly designated by the primary negotiating parties to receive the benefits of a binding commitment</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:78237bf6-25ce-4927-b42d-07ad19744144"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:03:24Z</dcterms:modified>
         <dcterms:title xml:lang="en">Intended Beneficiary</dcterms:title>
         <rdfs:label xml:lang="en">IntendedBeneficiary</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Beneficiary"/>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IntendedBeneficiary"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Third-party Person explicitly designated by the primary negotiating parties to receive the benefits of a binding commitment</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://matthewminer.name/law/outlines/1L/2nd+Semester/LAW+506-002+%E2%80%93+Contracts+II/R2C+%C2%A7+302"/>
+        <dcterms:source rdf:resource="https://www.legislation.gov.uk/ukpga/1999/31/contents"/>
+    </owl:Axiom>
     
 
 
@@ -12495,15 +12726,27 @@ Note 1 to entry: Designations in the relation of equivalence are called “equiv
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InterleavedTwoOfFive">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LinearBarcodeSymbology"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">ITF</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T13:13:37Z</dcterms:created>
         <dcterms:description xml:lang="en">Bar code symbology where two characters are paired, using bars to represent the first character and the interleaved spaces to represent the second character, encoding the ten digits 0 to 9</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:3d315de8-dfb9-4401-b547-8f090ea8fb48"/>
-        <dcterms:references rdf:resource="urn:iso:std:iso:22742:ed-2:v1:en:term:3.26"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:42:40Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.26"/>
         <dcterms:title xml:lang="en">Interleaved Two Of Five</dcterms:title>
-        <rdfs:comment xml:lang="en">Note 1 to entry: Each character has two wide elements and three narrow elements for a total of five elements. This is most commonly represented in the GS1 ITF-14. See ISO/IEC 16390 for the Interleaved Two of Five symbology specification.</rdfs:comment>
+        <rdfs:comment xml:lang="en">Each character has two wide elements and three narrow elements for a total of five elements. This is most commonly represented in the GS1 ITF-14. See ISO/IEC 16390 for the Interleaved Two of Five symbology specification.</rdfs:comment>
         <rdfs:label xml:lang="en">InterleavedTwoOfFive</rdfs:label>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InterleavedTwoOfFive"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedTarget xml:lang="en">Interleaved Two Of Five</owl:annotatedTarget>
+        <dcterms:alternative xml:lang="en">ITF</dcterms:alternative>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InterleavedTwoOfFive"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Each character has two wide elements and three narrow elements for a total of five elements. This is most commonly represented in the GS1 ITF-14. See ISO/IEC 16390 for the Interleaved Two of Five symbology specification.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -12991,6 +13234,92 @@ Note 1 to entry: Designations in the relation of equivalence are called “equiv
     
 
 
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Obligee -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Obligee">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T21:53:05Z</dcterms:created>
+        <dcterms:description xml:lang="en">Person entitled to demand and receive a specific performance or duty under a Contract</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:b70203d1-6bc7-403c-8e03-f74a41b4f811"/>
+        <dcterms:title xml:lang="en">Obligee</dcterms:title>
+        <rdfs:label xml:lang="en">Obligee</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Obligee"/>
+    </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Obligee"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Person entitled to demand and receive a specific performance or duty under a Contract</owl:annotatedTarget>
+        <dcterms:source rdf:resource="urn:isbn:9780414070714"/>
+    </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Obligor -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Obligor">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T21:52:39Z</dcterms:created>
+        <dcterms:description xml:lang="en">Person that bears the active burden to render a specific performance or duty under a Contract</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:ef736f33-a18a-4792-ac92-92566c205f86"/>
+        <dcterms:title xml:lang="en">Obligor</dcterms:title>
+        <rdfs:label xml:lang="en">Obligor</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Obligor"/>
+    </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Obligor"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Person that bears the active burden to render a specific performance or duty under a Contract</owl:annotatedTarget>
+        <dcterms:source rdf:resource="urn:isbn:9780414070714"/>
+    </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Offeree -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Offeree">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:02:27Z</dcterms:created>
+        <dcterms:description xml:lang="en">Person to whom a conditional proposal of terms for an agreement is addressed and who holds the power to accept</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:4a806fc9-1e2b-4530-88ea-4b7f27ce3bfe"/>
+        <dcterms:title xml:lang="en">Offeree</dcterms:title>
+        <rdfs:label xml:lang="en">Offeree</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Offeree"/>
+    </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Offeree"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Person to whom a conditional proposal of terms for an agreement is addressed and who holds the power to accept</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://opencasebook.org/casebooks/11720-bruckner-howard-law-contracts-2024/resources/2.5.3.3-restatement-second-of-contracts-24/"/>
+        <dcterms:source rdf:resource="urn:isbn:9780192897497"/>
+    </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Offeror -->
+
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Offeror">
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:02:22Z</dcterms:created>
+        <dcterms:description xml:lang="en">Person that initiates a negotiation process by presenting a conditional proposal of terms for an agreement</dcterms:description>
+        <dcterms:identifier rdf:resource="urn:uuid:a2df43b0-ad84-4101-b8b2-32adfc87501a"/>
+        <dcterms:title xml:lang="en">Offeror</dcterms:title>
+        <rdfs:label xml:lang="en">Offeror</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Offeror"/>
+    </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Offeror"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Person that initiates a negotiation process by presenting a conditional proposal of terms for an agreement</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://opencasebook.org/casebooks/11720-bruckner-howard-law-contracts-2024/resources/2.5.3.3-restatement-second-of-contracts-24/"/>
+        <dcterms:source rdf:resource="urn:isbn:9780192897497"/>
+    </owl:Axiom>
+    
+
+
     <!-- https://haddenindustries.com/ontology/universal/reference-data/PLC -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/PLC">
@@ -13049,10 +13378,16 @@ Note 1 to entry: Designations in the relation of equivalence are called “equiv
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-16T17:10:26Z</dcterms:created>
         <dcterms:description xml:lang="en">Village, town, city or area where a natural person was born</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b058e3bd-315b-45e4-9cf2-02636cc02687"/>
-        <dcterms:references rdf:resource="https://www.gov.uk/government/publications/place-and-country-of-birth/place-and-country-of-birth-accessible"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:41:55Z</dcterms:modified>
         <dcterms:title xml:lang="en">Place Of Birth</dcterms:title>
         <rdfs:label xml:lang="en">PlaceOfBirth</rdfs:label>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PlaceOfBirth"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Village, town, city or area where a natural person was born</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.gov.uk/government/publications/place-and-country-of-birth/place-and-country-of-birth-accessible#place-of-birth-on-the-passport"/>
+    </owl:Axiom>
     
 
 
@@ -13095,34 +13430,44 @@ Note 1 to entry: Designations in the relation of equivalence are called “equiv
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Promisee -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Promisee">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipType"/>
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Creditor</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Obligee</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-11-19T12:22:57Z</dcterms:created>
-        <dcterms:description xml:lang="en">Document To Person Relationship in which a Person is the recipient of a Contract received from the Promisor</dcterms:description>
+        <dcterms:description xml:lang="en">Person to whom a legally binding commitment to act or refrain from acting is addressed and owed</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b2807948-3545-4ff6-8165-acfccc48bf5e"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:27:48Z</dcterms:modified>
         <dcterms:title xml:lang="en">Promisee</dcterms:title>
         <rdfs:label xml:lang="en">Promisee</rdfs:label>
-        <rdfs:seeAlso rdf:resource="http://www.duhaime.org/LegalDictionary/P/Promisee.aspx"/>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Promisee"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Person to whom a legally binding commitment to act or refrain from acting is addressed and owed</owl:annotatedTarget>
+        <dcterms:source rdf:resource="urn:isbn:9780414117402"/>
+        <dcterms:source xml:lang="en">American Law Institute. Restatement (Second) of Contracts. St. Paul, MN: American Law Institute Publishers; 1981.</dcterms:source>
+    </owl:Axiom>
     
 
 
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Promisor -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Promisor">
-        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipType"/>
+        <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Debtor</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Obligor</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-11-19T12:23:12Z</dcterms:created>
-        <dcterms:description xml:lang="en">Document To Person Relationship in which a Person becomes obliged through a Contract towards another</dcterms:description>
+        <dcterms:description xml:lang="en">Person that makes a legally binding commitment to act or refrain from acting in a specified manner</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:2dbd5fb0-2f57-4621-8c98-0b8348b6ecfa"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T23:28:34Z</dcterms:modified>
         <dcterms:title xml:lang="en">Promisor</dcterms:title>
         <rdfs:label xml:lang="en">Promisor</rdfs:label>
-        <rdfs:seeAlso rdf:resource="http://www.duhaime.org/LegalDictionary/P/Promisor.aspx"/>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Promisor"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Person that makes a legally binding commitment to act or refrain from acting in a specified manner</owl:annotatedTarget>
+        <dcterms:source rdf:resource="urn:isbn:9780414117402"/>
+        <dcterms:source xml:lang="en">American Law Institute. Restatement (Second) of Contracts. St. Paul, MN: American Law Institute Publishers; 1981.</dcterms:source>
+    </owl:Axiom>
     
 
 
@@ -13319,12 +13664,25 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-18T14:49:20Z</dcterms:created>
         <dcterms:description xml:lang="en">Relation between designations in a given natural language representing the same concept</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:f06daac7-7865-4cfd-a603-5ee858a5c554"/>
-        <dcterms:references rdf:resource="urn:iso:std:iso:1087:ed-2:v1:en:term:3.4.23"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:23:12Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.4.23"/>
         <dcterms:title xml:lang="en">Synonymy</dcterms:title>
-        <rdfs:comment xml:lang="en">EXAMPLE:Synonymy exists between “deuterium” and “heavy hydrogen”, between “United Nations” and “UN”.
-Note 1 to entry: Designations in the relation of synonymy are called “synonyms”.</rdfs:comment>
+        <rdfs:comment xml:lang="en">Designations in the relation of synonymy are called “synonyms”</rdfs:comment>
+        <rdfs:comment xml:lang="en">Synonymy exists between “deuterium” and “heavy hydrogen”, between “United Nations” and “UN”</rdfs:comment>
         <rdfs:label xml:lang="en">Synonymy</rdfs:label>
     </owl:NamedIndividual>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Synonymy"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Designations in the relation of synonymy are called “synonyms”</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Synonymy"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Synonymy exists between “deuterium” and “heavy hydrogen”, between “United Nations” and “UN”</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
+    </owl:Axiom>
     
 
 
@@ -13836,6 +14194,10 @@ Note 1 to entry: Designations in the relation of synonymy are called “synonyms
         <owl:distinctMembers rdf:parseType="Collection">
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/IncidentalBeneficiary"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/IntendedBeneficiary"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Obligee"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Obligor"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Offeree"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Offeror"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Promisee"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Promisor"/>
         </owl:distinctMembers>
