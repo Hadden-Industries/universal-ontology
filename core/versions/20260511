@@ -10,14 +10,15 @@
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:dcat="http://www.w3.org/ns/dcat#"
+     xmlns:greg="http://www.w3.org/ns/time/gregorian/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:time="http://www.w3.org/2006/time#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/core/">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260511"/>
-        <owl:imports rdf:resource="http://www.w3.org/2006/time"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260507"/>
+        <owl:imports rdf:resource="http://www.w3.org/ns/time/gregorian"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260511"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-09-30</dcterms:created>
@@ -2209,8 +2210,8 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-20T14:41:07Z</dcterms:created>
         <dcterms:description xml:lang="en">Intangible asset, including but not limited to, names, terms, signs, symbols, logos and designs, or a combination of these, intended to identify goods, services or entities, or a combination of these, creating distinctive images and associations in the minds of stakeholders, thereby generating economic benefit/values</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:5e730ef6-42fd-4a65-b939-3c061c7c5d36"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:05:08Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:20671:ed-1:v1:term:3.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T19:58:56Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:20671:-1:ed-1:v1:term:3.1"/>
         <dcterms:title xml:lang="en">Brand</dcterms:title>
         <rdfs:label xml:lang="en">Brand</rdfs:label>
     </owl:Class>
@@ -2245,7 +2246,8 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Claim_hasProductOrService"/>
-                <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2259,7 +2261,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T13:31:24Z</dcterms:created>
         <dcterms:description xml:lang="en">Demand or assertion made by one party on another, based on facts that, taken together, give rise to a legally enforceable right or judicial action</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b405a4a7-646a-462f-9293-3223c658dff1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:59:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T15:55:00Z</dcterms:modified>
         <dcterms:source rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Claim"/>
         <dcterms:title xml:lang="en">Claim</dcterms:title>
         <rdfs:comment xml:lang="en">Claims arise from the existence of a formal commitment between the parties or as implicitly agreed upon through the operation of law or constitution</rdfs:comment>
