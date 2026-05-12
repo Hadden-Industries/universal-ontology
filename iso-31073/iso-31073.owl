@@ -9,23 +9,24 @@
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:dcterms="http://purl.org/dc/terms/">
-	<owl:Ontology rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/20260420"/>
+    <owl:Ontology rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/">
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/20260512"/>
         <dcterms:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-18</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">Set of concepts and categories, applicable to Risk Management as specified in ISO 31073:2022, that shows their properties and the relations between them</dcterms:description>
-        <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
+        <dcterms:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/RDF_XML"/>
         <dcterms:identifier rdf:resource="urn:uuid:0bf7af3b-21b8-4172-a26c-9e7fd4d6aae1"/>
-        <dcterms:language rdf:datatype="http://purl.org/dc/terms/ISO639-3">eng</dcterms:language>
+        <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:publisher xml:lang="en">Hadden Industries Ltd</dcterms:publisher>
-        <dcterms:rights xml:lang="en">© 2026 Hadden Industries Ltd</dcterms:rights>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-05-12</dcterms:modified>
+        <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
+        <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh2004006348"/>
-        <dcterms:title xml:lang="en">ISO 31073:2022 Ontology</dcterms:title>
-        <rdfs:label xml:lang="en">ISO_31073_2022Ontology</rdfs:label>
-		<owl:versionInfo>2026-04-20</owl:versionInfo>
+        <rdfs:label xml:lang="en">ISO 31073:2022 Ontology</rdfs:label>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/20260420"/>
+        <owl:versionInfo>2026-05-12</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -53,9 +54,21 @@
     
 
 
+    <!-- http://purl.org/dc/terms/contributor -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/contributor"/>
+    
+
+
     <!-- http://purl.org/dc/terms/created -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/creator -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/creator"/>
     
 
 
@@ -65,9 +78,45 @@
     
 
 
+    <!-- http://purl.org/dc/terms/format -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/format"/>
+    
+
+
     <!-- http://purl.org/dc/terms/identifier -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/identifier"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/language -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/language"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/license -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/license"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/modified -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/modified"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/publisher -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/publisher"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/rights -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/rights"/>
     
 
 
@@ -80,6 +129,23 @@
     <!-- http://purl.org/dc/terms/subject -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/subject"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/2001/XMLSchema#date -->
+
+    <rdfs:Datatype rdf:about="http://www.w3.org/2001/XMLSchema#date"/>
     
 
 
@@ -210,18 +276,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso/31073/ed-1/canGiveRiseTo -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/canGiveRiseTo">
-        <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSource"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:24:38Z</dcterms:created>
-        <rdfs:label xml:lang="en">can give rise to</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://haddenindustries.com/ontology/iso/31073/ed-1/canLeadto -->
 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/canLeadto">
@@ -263,7 +317,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/comparesAgainst">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskEvaluation"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskCriteria"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">compares against</rdfs:label>
     </owl:ObjectProperty>
@@ -287,7 +341,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/comprehendsTheNatureOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAnalysis"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:09:51Z</dcterms:created>
         <rdfs:label xml:lang="en">comprehends the nature of</rdfs:label>
     </owl:ObjectProperty>
@@ -323,7 +377,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/directsAndControls">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagement"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">directs and controls</rdfs:label>
     </owl:ObjectProperty>
@@ -383,7 +437,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/hasEffectOn">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">has effect on</rdfs:label>
     </owl:ObjectProperty>
@@ -419,7 +473,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/influences">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskDriver"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">influences</rdfs:label>
     </owl:ObjectProperty>
@@ -443,7 +497,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isAdaptiveCapacityOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Resilience"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">is adaptive capacity of</rdfs:label>
     </owl:ObjectProperty>
@@ -498,7 +552,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isEffectOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Uncertainty"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">is effect of</rdfs:label>
     </owl:ObjectProperty>
@@ -517,7 +571,7 @@
             </owl:Class>
         </rdfs:domain>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Exposure"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">is exposed to</rdfs:label>
     </owl:ObjectProperty>
@@ -639,7 +693,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/manages">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagement"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">manages</rdfs:label>
     </owl:ObjectProperty>
@@ -651,7 +705,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/modifies">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">modifies</rdfs:label>
     </owl:ObjectProperty>
@@ -696,6 +750,7 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:23:39Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-12T07:19:31Z</dcterms:modified>
         <rdfs:label xml:lang="en">potentially gives rise to</rdfs:label>
     </owl:ObjectProperty>
     
@@ -737,7 +792,7 @@
                 </owl:unionOf>
             </owl:Class>
         </rdfs:range>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">reports on</rdfs:label>
     </owl:ObjectProperty>
@@ -749,7 +804,7 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/resultsFrom">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Consequence"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
-		<dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">results from</rdfs:label>
     </owl:ObjectProperty>
@@ -1832,7 +1887,7 @@ Note 3 to entry: The extent to which risk is distributed can depend on the relia
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSource">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/canGiveRiseTo"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/potentiallyGivesRiseTo"/>
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -1840,6 +1895,7 @@ Note 3 to entry: The extent to which risk is distributed can depend on the relia
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:description xml:lang="en">element which alone or in combination has the potential to give rise to risk (3.1.1)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:93eafd73-83d3-4dd9-8fe4-9efb36c4a444"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-12T07:19:31Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.10"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk source</rdfs:label>
