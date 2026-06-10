@@ -182,14 +182,6 @@
     
 
 
-    <!-- http://schema.org/Message -->
-
-    <owl:Class rdf:about="http://schema.org/Message">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/Message"/>
-    </owl:Class>
-    
-
-
     <!-- http://schema.org/OpeningHoursSpecification -->
 
     <owl:Class rdf:about="http://schema.org/OpeningHoursSpecification">
@@ -200,51 +192,13 @@
 
     <!-- http://schema.org/Organization -->
 
-    <owl:Class rdf:about="http://schema.org/Organization">
-        
-    </owl:Class>
-    
-    
-
-    <!-- http://schema.org/email -->
-
-    <owl:Class rdf:about="http://schema.org/email">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/ElectronicMailAddress"/>
-    </owl:Class>
-    
-
-
-    <!-- http://schema.org/faxNumber -->
-
-    <owl:Class rdf:about="http://schema.org/faxNumber">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/FaxNumber"/>
-    </owl:Class>
-    
-
-
-    <!-- http://schema.org/telephone -->
-
-    <owl:Class rdf:about="http://schema.org/telephone">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/TelephoneNumber"/>
-    </owl:Class>
+    <owl:Class rdf:about="http://schema.org/Organization"/>
     
 
 
     <!-- https://haddenindustries.com/ontology/universal/core/Document -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Document"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/ElectronicMailAddress"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/extended/FaxNumber -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/FaxNumber"/>
     
 
 
@@ -257,24 +211,12 @@
     <!-- https://haddenindustries.com/ontology/universal/extended/File -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/File"/>
-	
-	
-	
-	<!-- https://haddenindustries.com/ontology/universal/extended/Message -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Message"/>
     
 
 
     <!-- https://haddenindustries.com/ontology/universal/extended/OpeningHours -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/OpeningHours"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/extended/TelephoneNumber -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/TelephoneNumber"/>
 </rdf:RDF>
 
 
