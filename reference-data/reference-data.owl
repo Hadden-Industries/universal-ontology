@@ -13,27 +13,27 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260511"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260507"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260610"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260610"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-10-14</dcterms:created>
         <dcterms:description xml:lang="en">Set of concepts and categories, applicable to domain and community standardised data objects that define the set of permissible values to be used to populate other data objects, that shows their properties and the relations between them</dcterms:description>
-        <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
+        <dcterms:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/RDF_XML"/>
         <dcterms:identifier rdf:resource="urn:uuid:7be316dd-2ca3-437b-a9d1-cf8939e1d5c2"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-05-11</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-10</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
-        <dcterms:rights xml:lang="en">© 2026 Hadden Industries Ltd</dcterms:rights>
+        <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85035852"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology</dcterms:title>
-        <rdfs:label xml:lang="en">HaddenIndustriesUniversalReferenceDataOntology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260507"/>
-        <owl:versionInfo>2026-05-11</owl:versionInfo>
+        <rdfs:label xml:lang="en">Hadden Industries Universal Reference Data Ontology</rdfs:label>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260511"/>
+        <owl:versionInfo>2026-06-10</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -70,6 +70,12 @@
     <!-- http://purl.org/dc/terms/replaces -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/replaces"/>
+    
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#exactMatch -->
+
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#exactMatch"/>
     
 
 
@@ -1792,22 +1798,6 @@
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemMappingDegree"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-    </rdf:Description>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Language -->
-
-    <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Language">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
-    </rdf:Description>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification -->
-
-    <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
     </rdf:Description>
     
 
@@ -5022,7 +5012,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T13:06:04Z</dcterms:created>
         <dcterms:description xml:lang="en">System of sounds, characters, symbols used for communication</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:6f901344-35a1-47ca-ab94-176e47fb1775"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:37:39Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-13T11:50:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.1.6"/>
         <dcterms:title xml:lang="en">Language</dcterms:title>
         <rdfs:label xml:lang="en">Language</rdfs:label>
@@ -5030,6 +5020,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <rdfs:seeAlso rdf:resource="https://www.iso.org/iso-639-language-codes.html"/>
         <rdfs:seeAlso rdf:resource="https://www.loc.gov/standards/iso639-2/ascii_8bits.html"/>
         <rdfs:seeAlso rdf:resource="https://www.loc.gov/standards/iso639-5/langhome5.html"/>
+        <skos:exactMatch rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Language"/>
     </owl:Class>
     
 
@@ -5118,10 +5109,11 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-08-03T13:17:24Z</dcterms:created>
         <dcterms:description xml:lang="en">Composite datatype that serves as an identifier for a language, where the language is always defined as spoken (or written, signed or otherwise signaled) by human beings for communication of information to other human beings; computer languages such as programming languages are explicitly excluded</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:6e0e6da2-c817-49d8-bba0-46a7576c5fa5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:34:18Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-13T11:50:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-3:v1:clause:6.3.5.1"/>
         <dcterms:title xml:lang="en">Language Identification</dcterms:title>
         <rdfs:label xml:lang="en">LanguageIdentification</rdfs:label>
+        <skos:exactMatch rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
     </owl:Class>
     
 
@@ -6553,9 +6545,10 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-19T23:57:04Z</dcterms:created>
         <dcterms:description xml:lang="en">Person&apos;s usual or principal work or business, especially as a means of earning a living; vocation</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:f91a65a1-af08-47b4-8e21-f15594d6b40b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:46:43Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T13:38:31Z</dcterms:modified>
         <dcterms:title xml:lang="en">Occupation</dcterms:title>
         <rdfs:label xml:lang="en">Occupation</rdfs:label>
+        <skos:exactMatch rdf:resource="http://schema.org/Occupation"/>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
@@ -6581,9 +6574,10 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T20:24:06Z</dcterms:created>
         <dcterms:description xml:lang="en">Class or division of an Occupation regarded as having particular shared characteristics</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:8bb2ba34-8f95-4b37-be96-034840b8f1dd"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T20:33:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T13:48:04Z</dcterms:modified>
         <dcterms:title xml:lang="en">Occupation Category</dcterms:title>
         <rdfs:label xml:lang="en">OccupationCategory</rdfs:label>
+        <skos:exactMatch rdf:resource="https://schema.org/occupationalCategory"/>
     </owl:Class>
     
 
