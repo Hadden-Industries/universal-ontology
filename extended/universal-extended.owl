@@ -44,23 +44,6 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
-    // Annotation properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/extended/synonym -->
-
-    <owl:AnnotationProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/synonym"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
     // Object Properties
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -3067,10 +3050,10 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-02-11T12:41:35Z</dcterms:created>
         <dcterms:description xml:lang="en">Document issued to an adopted person once the court has arranged the adoption; it proves the identity of that person and effectively replaces their original birth certificate, and broadly contains the same types of information as a birth certificate</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:9c6bbe81-ac37-4d92-b352-58ed600f7934"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-07T17:03:00Z</dcterms:modified>
-        <dcterms:references rdf:resource="https://support.vitalcertificates.co.uk/article/69-what-is-an-adoption-certificate"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:45:23Z</dcterms:modified>
         <dcterms:title xml:lang="en">Adoption Certificate</dcterms:title>
         <rdfs:label xml:lang="en">AdoptionCertificate</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://support.vitalcertificates.co.uk/article/69-what-is-an-adoption-certificate"/>
     </owl:Class>
     
 
@@ -4921,12 +4904,12 @@ Note 2 to entry: See also “recorded information” (3.1.8.26) and “to write�
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T11:44:16Z</dcterms:created>
         <dcterms:description xml:lang="en">Identifier for an Electronic Mailbox</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:a58191d7-a51b-454d-8755-b9048ebdd9d6"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:30:59Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:45:11Z</dcterms:modified>
         <dcterms:title xml:lang="en">Electronic Mail Address</dcterms:title>
         <rdfs:label xml:lang="en">ElectronicMailAddress</rdfs:label>
         <skos:exactMatch rdf:resource="http://schema.org/email"/>
-        <synonym xml:lang="en">E-Mail Address</synonym>
-        <synonym xml:lang="en">Email Address</synonym>
+        <uc:synonym xml:lang="en">E-Mail Address</uc:synonym>
+        <uc:synonym xml:lang="en">Email Address</uc:synonym>
     </owl:Class>
     
 
@@ -4939,14 +4922,14 @@ Note 2 to entry: See also “recorded information” (3.1.8.26) and “to write�
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T15:09:01Z</dcterms:created>
         <dcterms:description xml:lang="en">Electronic service to compose, store, retrieve, and transmit messages among subscribers</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:832d0fb8-c64a-4844-81fd-8d7d45116f06"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T00:01:56Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:45:11Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.9.15"/>
         <dcterms:title xml:lang="en">Electronic Mail Service</dcterms:title>
         <rdfs:label xml:lang="en">ElectronicMailService</rdfs:label>
-        <synonym xml:lang="en">E-Mail</synonym>
-        <synonym xml:lang="en">E-Mail Service</synonym>
-        <synonym xml:lang="en">Electronic Mail</synonym>
-        <synonym xml:lang="en">Email Service</synonym>
+        <uc:synonym xml:lang="en">E-Mail</uc:synonym>
+        <uc:synonym xml:lang="en">E-Mail Service</uc:synonym>
+        <uc:synonym xml:lang="en">Electronic Mail</uc:synonym>
+        <uc:synonym xml:lang="en">Email Service</uc:synonym>
     </owl:Class>
     
 
@@ -4959,11 +4942,12 @@ Note 2 to entry: See also “recorded information” (3.1.8.26) and “to write�
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-18T11:10:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of an Electronic Mail Service</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:15ddd3bd-fde8-4d79-a3c5-618acf8bc187"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:45:11Z</dcterms:modified>
         <dcterms:title xml:lang="en">Electronic Mailbox</dcterms:title>
         <rdfs:label xml:lang="en">ElectronicMailbox</rdfs:label>
-        <synonym xml:lang="en">E-Mailbox</synonym>
-        <synonym xml:lang="en">Emailbox</synonym>
-        <synonym xml:lang="en">MBX</synonym>
+        <uc:synonym xml:lang="en">E-Mailbox</uc:synonym>
+        <uc:synonym xml:lang="en">Emailbox</uc:synonym>
+        <uc:synonym xml:lang="en">MBX</uc:synonym>
     </owl:Class>
     
 
@@ -5787,10 +5771,10 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-10-26T11:46:14Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of an Internet Protocol Address Assignment</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:127c4692-7036-4bb3-8d54-d0a095c9a685"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T20:12:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:45:11Z</dcterms:modified>
         <dcterms:title xml:lang="en">Internet Protocol Address</dcterms:title>
         <rdfs:label xml:lang="en">InternetProtocolAddress</rdfs:label>
-        <synonym xml:lang="en">IP Address</synonym>
+        <uc:synonym xml:lang="en">IP Address</uc:synonym>
     </owl:Class>
     
 
@@ -5803,7 +5787,7 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-10-26T11:51:41Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service for the allocation of a unique numerical identifier to a device that is connected to a computer network and uses the Internet Protocol for communication</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:009d67de-2f51-4e76-b5ae-042707635966"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:26:09Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:46:24Z</dcterms:modified>
         <dcterms:title xml:lang="en">Internet Protocol Address Assignment</dcterms:title>
         <rdfs:label xml:lang="en">InternetProtocolAddressAssignment</rdfs:label>
     </owl:Class>
@@ -5817,7 +5801,7 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/InternetProtocolAddressAssignment"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
         <owl:annotatedTarget xml:lang="en">Internet Protocol Address Assignment</owl:annotatedTarget>
-        <uc:acronym rdf:resource="IP Address Assignment"/>
+        <uc:acronym xml:lang="en">IP Address Assignment</uc:acronym>
     </owl:Axiom>
     
 
@@ -7794,10 +7778,10 @@ Note 3 to entry: 15.06.12 (2382)
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-10-26T07:40:25Z</dcterms:created>
         <dcterms:description xml:lang="en">Formal statement setting out the estimated cost for a particular job or service</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:795e0cdf-619f-4fca-849b-5309403840eb"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:07:14Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:45:11Z</dcterms:modified>
         <dcterms:title xml:lang="en">Quotation</dcterms:title>
         <rdfs:label xml:lang="en">Quotation</rdfs:label>
-        <synonym xml:lang="en">Quote</synonym>
+        <uc:synonym xml:lang="en">Quote</uc:synonym>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Quotation"/>
@@ -8286,9 +8270,10 @@ Note 3 to entry: 01.01.08 (2382)
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-18T11:13:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Product Or Service Individual of a Telephony Service</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:c87179c0-c815-4044-992b-8a6954552380"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:45:11Z</dcterms:modified>
         <dcterms:title xml:lang="en">Telephone Line</dcterms:title>
         <rdfs:label xml:lang="en">TelephoneLine</rdfs:label>
-        <synonym xml:lang="en">Phone Line</synonym>
+        <uc:synonym xml:lang="en">Phone Line</uc:synonym>
     </owl:Class>
     
 
@@ -8314,11 +8299,11 @@ Note 3 to entry: 01.01.08 (2382)
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:52:45Z</dcterms:created>
         <dcterms:description xml:lang="en">Identifier of a Telephone Line</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:3bc7f081-f3dd-4198-abbd-6769c8d861ff"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:30:01Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T21:45:11Z</dcterms:modified>
         <dcterms:title xml:lang="en">Telephone Number</dcterms:title>
         <rdfs:label xml:lang="en">TelephoneNumber</rdfs:label>
         <skos:exactMatch rdf:resource="http://schema.org/telephone"/>
-        <synonym xml:lang="en">Phone Number</synonym>
+        <uc:synonym xml:lang="en">Phone Number</uc:synonym>
     </owl:Class>
     
 
