@@ -16,28 +16,28 @@
      xmlns:time="http://www.w3.org/2006/time#"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/core/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260511"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260610"/>
         <owl:imports rdf:resource="http://www.w3.org/ns/time/gregorian"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260511"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260610"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-09-30</dcterms:created>
         <dcterms:description xml:lang="en">Set of concepts and categories, applicable to almost all domains, that shows their properties and the relations between them</dcterms:description>
-        <dcterms:format rdf:datatype="http://www.w3.org/2001/XMLSchema#token">application/rdf+xml</dcterms:format>
+        <dcterms:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/RDF_XML"/>
         <dcterms:identifier rdf:resource="urn:uuid:478440d0-9623-45ef-973f-ab0e7f2a9dec"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-05-11</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-10</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
-        <dcterms:rights xml:lang="en">© 2026 Hadden Industries Ltd</dcterms:rights>
+        <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85035852"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh85094833"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Core Ontology</dcterms:title>
-        <rdfs:label xml:lang="en">HaddenIndustriesUniversalCoreOntology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/core/20260423"/>
-        <owl:versionInfo>2026-05-11</owl:versionInfo>
+        <rdfs:label xml:lang="en">Hadden Industries Universal Core Ontology</rdfs:label>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/core/20260511"/>
+        <owl:versionInfo>2026-06-10</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -1754,14 +1754,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Individual -->
-
-    <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Individual">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
-    </rdf:Description>
-    
-
-
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemClassification -->
 
     <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ItemClassification">
@@ -2679,13 +2671,14 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Occurrence or change of a particular set of circumstances</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:700de2be-ede3-4ec6-b031-6248e70881a1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T14:30:31Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:29:29Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.11"/>
         <dcterms:title xml:lang="en">Event</dcterms:title>
         <rdfs:comment xml:lang="en">An event can also be something that is expected which does not happen, or something that is not expected which does happen</rdfs:comment>
         <rdfs:comment xml:lang="en">An event can be a risk source (3.3.10)</rdfs:comment>
         <rdfs:comment xml:lang="en">An event can have one or more occurrences, and can have several causes and several consequences (3.3.18)</rdfs:comment>
         <rdfs:label xml:lang="en">Event</rdfs:label>
+        <skos:exactMatch rdf:resource="http://schema.org/Event"/>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
@@ -2986,11 +2979,13 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Entity, that is not a natural person, recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:075cf570-c695-42c7-9387-05766ba4e836"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T22:25:43Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:56:25Z</dcterms:modified>
         <dcterms:title xml:lang="en">Juridical Person</dcterms:title>
         <rdfs:label xml:lang="en">JuridicalPerson</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://schema.org/Corporation"/>
         <rdfs:seeAlso rdf:resource="https://www.law.cornell.edu/wex/artificial_person"/>
         <rdfs:seeAlso rdf:resource="urn:iso:std:iso:20275:ed-1:v1:term:3.2"/>
+        <skos:exactMatch rdf:resource="http://purl.org/goodrelations/v1#Business"/>
         <synonym xml:lang="en">Agency</synonym>
         <synonym xml:lang="en">Business</synonym>
         <synonym xml:lang="en">Company</synonym>
@@ -3022,12 +3017,14 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-10T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Particular place or position</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:1c8bf785-3d5d-4877-b198-f81742587eb7"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T14:57:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T15:01:17Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19112:ed-2:v1:term:3.1.3"/>
         <dcterms:title xml:lang="en">Location</dcterms:title>
         <rdfs:comment xml:lang="en">A location identifies a geographic place</rdfs:comment>
         <rdfs:comment xml:lang="en">“Madrid”, “California”</rdfs:comment>
         <rdfs:label xml:lang="en">Location</rdfs:label>
+        <skos:exactMatch rdf:resource="http://purl.org/goodrelations/v1#Location"/>
+        <skos:exactMatch rdf:resource="http://schema.org/Place"/>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
@@ -3120,11 +3117,12 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Object which has physical extension in space and time</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:3a074d33-b750-4992-8d96-5cd627b625d3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T23:13:04Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:39:50Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.60"/>
         <dcterms:title xml:lang="en">Material Object</dcterms:title>
         <rdfs:comment xml:lang="en">See also “naturafact”, “artefact (1) &lt;man-made object&gt;; ISO 21127:2014, classes “E 18” and “E 19”</rdfs:comment>
         <rdfs:label xml:lang="en">MaterialObject</rdfs:label>
+        <skos:exactMatch rdf:resource="http://purl.org/dc/terms/PhysicalResource"/>
         <synonym xml:lang="en">Physical Object</synonym>
     </owl:Class>
     <owl:Axiom>
@@ -3179,9 +3177,10 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Particular aircraft, vehicle, vessel or other device used for the transport of goods or persons</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:a6d9b70e-3a55-431f-8345-edd4389c32a6"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T17:01:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:50:02Z</dcterms:modified>
         <dcterms:title xml:lang="en">Means Of Transport</dcterms:title>
         <rdfs:label xml:lang="en">MeansOfTransport</rdfs:label>
+        <skos:exactMatch rdf:resource="http://schema.org/Vehicle"/>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeansOfTransport"/>
@@ -3424,10 +3423,12 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en">Person who is a human being, i.e., an individual, who acts as a distinct indivisible entity or is considered as such</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:ac3fa707-b0be-4a9d-915a-c43f46330a25"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T12:22:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:48:57Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:15944:-1:ed-3:v1:term:3.28"/>
         <dcterms:title xml:lang="en">Natural Person</dcterms:title>
         <rdfs:label xml:lang="en">NaturalPerson</rdfs:label>
+        <skos:exactMatch rdf:resource="http://schema.org/Person"/>
+        <skos:exactMatch rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Individual"/>
         <synonym xml:lang="en">Human</synonym>
         <synonym xml:lang="en">Individual</synonym>
     </owl:Class>
@@ -3946,9 +3947,10 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-30T10:04:57Z</dcterms:created>
         <dcterms:description xml:lang="en">Detailed description of the design used to make a determination of the amount of money expected, required, or given in payment for something</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b6a67106-2394-4e06-82f2-ba8b07607277"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T23:52:29Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:42:16Z</dcterms:modified>
         <dcterms:title xml:lang="en">Price Specification</dcterms:title>
         <rdfs:label xml:lang="en">PriceSpecification</rdfs:label>
+        <skos:exactMatch rdf:resource="http://purl.org/goodrelations/v1#PriceSpecification"/>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/PriceSpecification"/>
@@ -4027,13 +4029,14 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-20T12:22:15Z</dcterms:created>
         <dcterms:description xml:lang="en">Output of an organisation that can be produced without any transaction taking place between the organisation and the customer</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:5b8644c2-5c79-49f9-8a43-3913feb026fd"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T11:32:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:27:22Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.7.6"/>
         <dcterms:title xml:lang="en">Product</dcterms:title>
         <rdfs:comment xml:lang="en">Hardware is tangible and its amount is a countable characteristic (e.g. tyres). Processed materials are tangible and their amount is a continuous characteristic (e.g. fuel and soft drinks). Hardware and processed materials are often referred to as goods. Software consists of information regardless of delivery medium (e.g. computer programme, mobile phone app, instruction manual, dictionary content, musical composition copyright, driver&apos;s license).</rdfs:comment>
         <rdfs:comment xml:lang="en">Production of a product is achieved without any transaction necessarily taking place between provider and customer, but can often involve this service element upon its delivery to the customer</rdfs:comment>
         <rdfs:comment xml:lang="en">The dominant element of a product is that it is generally tangible</rdfs:comment>
         <rdfs:label xml:lang="en">Product</rdfs:label>
+        <skos:exactMatch rdf:resource="http://schema.org/Product"/>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Product"/>
@@ -4071,11 +4074,12 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:description xml:lang="en-gb">Output or outcome provided by an organisation to interested parties</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d3ee207a-7033-431b-a9d1-fa3cc73e7676"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-06T23:52:46Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:28:10Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22300:ed-3:v1:term:3.1.191"/>
         <dcterms:title xml:lang="en">Product Or Service</dcterms:title>
         <rdfs:comment xml:lang="en">Manufactured items, car insurance, community nursing</rdfs:comment>
         <rdfs:label xml:lang="en">ProductOrService</rdfs:label>
+        <skos:exactMatch rdf:resource="http://purl.org/goodrelations/v1#ProductOrService"/>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
@@ -4108,9 +4112,10 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T15:08:21Z</dcterms:created>
         <dcterms:description xml:lang="en">Single instance of a Product Or Service</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:9a88d8f8-b72e-49d9-9340-43133d747dd0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T01:47:52Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:41:25Z</dcterms:modified>
         <dcterms:title xml:lang="en">Product Or Service Individual</dcterms:title>
         <rdfs:label xml:lang="en">ProductOrServiceIndividual</rdfs:label>
+        <skos:exactMatch rdf:resource="http://purl.org/goodrelations/v1#Individual"/>
     </owl:Class>
     
 
@@ -4277,7 +4282,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:43:44Z</dcterms:created>
         <dcterms:description xml:lang="en">Number and reference together expressing magnitude of a Quantity</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:4a1fe34f-9ee0-4509-92d0-f5d17383b108"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T01:28:14Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T15:04:01Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/1.19.html"/>
         <dcterms:title xml:lang="en">Quantity Value</dcterms:title>
         <rdfs:comment xml:lang="en">EXAMPLE 1 Length of a given rod:
@@ -4311,6 +4316,8 @@ NOTE 3 A quantity value can be presented in more than one way (see Examples 1, 2
 NOTE 4 In the case of vector or tensor quantities, each component has a quantity value.
 EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; Fz) = (31.5; 43.2; 17.0) N.</rdfs:comment>
         <rdfs:label xml:lang="en">QuantityValue</rdfs:label>
+        <skos:exactMatch rdf:resource="http://purl.org/goodrelations/v1#QuantitativeValue"/>
+        <skos:exactMatch rdf:resource="http://schema.org/Quantity"/>
         <synonym xml:lang="en">Dimension</synonym>
         <synonym xml:lang="en">Value</synonym>
         <synonym xml:lang="en">Value of a quantity</synonym>
@@ -4375,7 +4382,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-20T12:22:42Z</dcterms:created>
         <dcterms:description xml:lang="en-gb">Output of an organisation with at least one activity necessarily performed between the organisation and the customer</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:6ab4c5f5-4dfb-4bd2-a0ad-c7cbd59bc166"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T11:33:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:28:25Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.7.7"/>
         <dcterms:title xml:lang="en">Service</dcterms:title>
         <rdfs:comment xml:lang="en">A service is generally experienced by the customer</rdfs:comment>
@@ -4383,6 +4390,7 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <rdfs:comment xml:lang="en-gb">Service often involves activities at the interface with the customer to establish customer requirements as well as upon delivery of the service and can involve a continuing relationship such as banks, accountancies or public organisations, e.g. schools or hospitals.</rdfs:comment>
         <rdfs:comment xml:lang="en">The dominant elements of a service are generally intangible</rdfs:comment>
         <rdfs:label xml:lang="en">Service</rdfs:label>
+        <skos:exactMatch rdf:resource="http://schema.org/Service"/>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Service"/>
@@ -4565,12 +4573,19 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-10T08:55:53Z</dcterms:created>
-        <dcterms:description xml:lang="en">Formal contract that is written and signed by the parties thereto</dcterms:description>
+        <dcterms:description xml:lang="en">Contract whose constituent terms and conditions are explicitly recorded using a legible, orthographic format upon a physical or electronic medium</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:3ed1126b-ccde-415c-8d54-2be6dade8abc"/>
-        <dcterms:source rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/WrittenContract"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T14:55:33Z</dcterms:modified>
         <dcterms:title xml:lang="en">Written Contract</dcterms:title>
         <rdfs:label xml:lang="en">WrittenContract</rdfs:label>
+        <skos:exactMatch rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/WrittenContract"/>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/WrittenContract"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedTarget xml:lang="en">Contract whose constituent terms and conditions are explicitly recorded using a legible, orthographic format upon a physical or electronic medium</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://gemini.google.com/gem/e54e3712435d/080912a7e6c78912"/>
+    </owl:Axiom>
     
 
 
