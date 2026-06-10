@@ -134,28 +134,15 @@
     <!-- http://purl.org/goodrelations/v1#availableAtOrFrom -->
 
     <owl:ObjectProperty rdf:about="http://purl.org/goodrelations/v1#availableAtOrFrom">
-        <owl:equivalentProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering_hasLocation"/>
+        <owl:equivalentProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/Offering_hasLocation"/>
     </owl:ObjectProperty>
     
-
-
-    <!-- http://purl.org/goodrelations/v1#hasBrand -->
-
-    <owl:ObjectProperty rdf:about="http://purl.org/goodrelations/v1#hasBrand">
-        <owl:equivalentProperty rdf:resource="https://haddenindustries.com/ontology/universal/core/hasBrand"/>
-    </owl:ObjectProperty>
     
 
 
     <!-- https://haddenindustries.com/ontology/universal/core/Offering_hasLocation -->
 
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/Offering_hasLocation"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/hasBrand -->
-
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/core/hasBrand"/>
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/Offering_hasLocation"/>
     
 
 
@@ -173,105 +160,24 @@
     <!-- http://purl.org/dc/terms/BibliographicResource -->
 
     <owl:Class rdf:about="http://purl.org/dc/terms/BibliographicResource">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
     </owl:Class>
     
-
-
-    <!-- http://purl.org/dc/terms/PhysicalResource -->
-
-    <owl:Class rdf:about="http://purl.org/dc/terms/PhysicalResource">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
-    </owl:Class>
     
-
-
-    <!-- http://purl.org/goodrelations/v1#Brand -->
-
-    <owl:Class rdf:about="http://purl.org/goodrelations/v1#Brand">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Brand"/>
-    </owl:Class>
-    
-
-
-    <!-- http://purl.org/goodrelations/v1#Business -->
-
-    <owl:Class rdf:about="http://purl.org/goodrelations/v1#Business">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/JuridicalPerson"/>
-    </owl:Class>
-    
-
-
-    <!-- http://purl.org/goodrelations/v1#Individual -->
-
-    <owl:Class rdf:about="http://purl.org/goodrelations/v1#Individual">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual"/>
-    </owl:Class>
-    
-
-
-    <!-- http://purl.org/goodrelations/v1#Offering -->
-
-    <owl:Class rdf:about="http://purl.org/goodrelations/v1#Offering">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering"/>
-    </owl:Class>
-    
-
 
     <!-- http://purl.org/goodrelations/v1#OpeningHoursSpecification -->
 
     <owl:Class rdf:about="http://purl.org/goodrelations/v1#OpeningHoursSpecification">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/OpeningHours"/>
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/OpeningHours"/>
     </owl:Class>
     
-
-
-    <!-- http://purl.org/goodrelations/v1#PriceSpecification -->
-
-    <owl:Class rdf:about="http://purl.org/goodrelations/v1#PriceSpecification">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/PriceSpecification"/>
-    </owl:Class>
     
-
-
-    <!-- http://purl.org/goodrelations/v1#ProductOrService -->
-
-    <owl:Class rdf:about="http://purl.org/goodrelations/v1#ProductOrService">
-        <owl:equivalentClass rdf:resource="http://schema.org/Product"/>
-        <owl:equivalentClass rdf:resource="http://schema.org/Service"/>
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
-    </owl:Class>
-    
-
-
-    <!-- http://schema.org/Corporation -->
-
-    <owl:Class rdf:about="http://schema.org/Corporation">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/JuridicalPerson"/>
-    </owl:Class>
-    
-
-
-    <!-- http://schema.org/Duration -->
-
-    <owl:Class rdf:about="http://schema.org/Duration">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/TimeDuration"/>
-    </owl:Class>
-    
-
-
-    <!-- http://schema.org/Event -->
-
-    <owl:Class rdf:about="http://schema.org/Event">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
-    </owl:Class>
-    
-
 
     <!-- http://schema.org/ImageObject -->
 
     <owl:Class rdf:about="http://schema.org/ImageObject">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Image"/>
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/extended/Image"/>
+		<rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/extended/File"/>
     </owl:Class>
     
 
@@ -279,7 +185,7 @@
     <!-- http://schema.org/Message -->
 
     <owl:Class rdf:about="http://schema.org/Message">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Message"/>
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/Message"/>
     </owl:Class>
     
 
@@ -287,7 +193,7 @@
     <!-- http://schema.org/OpeningHoursSpecification -->
 
     <owl:Class rdf:about="http://schema.org/OpeningHoursSpecification">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/OpeningHours"/>
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/OpeningHours"/>
     </owl:Class>
     
 
@@ -295,43 +201,15 @@
     <!-- http://schema.org/Organization -->
 
     <owl:Class rdf:about="http://schema.org/Organization">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
+        
     </owl:Class>
     
-
-
-    <!-- http://schema.org/Person -->
-
-    <owl:Class rdf:about="http://schema.org/Person">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
-    </owl:Class>
     
-
-
-    <!-- http://schema.org/Product -->
-
-    <owl:Class rdf:about="http://schema.org/Product"/>
-    
-
-
-    <!-- http://schema.org/Service -->
-
-    <owl:Class rdf:about="http://schema.org/Service"/>
-    
-
-
-    <!-- http://schema.org/Vehicle -->
-
-    <owl:Class rdf:about="http://schema.org/Vehicle">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Vehicle"/>
-    </owl:Class>
-    
-
 
     <!-- http://schema.org/email -->
 
     <owl:Class rdf:about="http://schema.org/email">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress"/>
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/ElectronicMailAddress"/>
     </owl:Class>
     
 
@@ -339,7 +217,7 @@
     <!-- http://schema.org/faxNumber -->
 
     <owl:Class rdf:about="http://schema.org/faxNumber">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/FaxNumber"/>
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/FaxNumber"/>
     </owl:Class>
     
 
@@ -347,46 +225,8 @@
     <!-- http://schema.org/telephone -->
 
     <owl:Class rdf:about="http://schema.org/telephone">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/TelephoneNumber"/>
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/TelephoneNumber"/>
     </owl:Class>
-    
-
-
-    <!-- http://www.w3.org/2006/time#Instant -->
-
-    <owl:Class rdf:about="http://www.w3.org/2006/time#Instant">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/TimeInstant"/>
-    </owl:Class>
-    
-
-
-    <!-- http://www.w3.org/2006/time#Interval -->
-
-    <owl:Class rdf:about="http://www.w3.org/2006/time#Interval">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/TimeInterval"/>
-    </owl:Class>
-    
-
-
-    <!-- http://www.w3.org/2006/time#TemporalDuration -->
-
-    <owl:Class rdf:about="http://www.w3.org/2006/time#TemporalDuration">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/TimeDuration"/>
-    </owl:Class>
-    
-
-
-    <!-- http://www.w3.org/2006/time#TemporalEntity -->
-
-    <owl:Class rdf:about="http://www.w3.org/2006/time#TemporalEntity">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/Time"/>
-    </owl:Class>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/Brand -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Brand"/>
     
 
 
@@ -398,19 +238,13 @@
 
     <!-- https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ElectronicMailAddress"/>
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/ElectronicMailAddress"/>
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/Event -->
+    <!-- https://haddenindustries.com/ontology/universal/extended/FaxNumber -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Event"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/FaxNumber -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/FaxNumber"/>
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/FaxNumber"/>
     
 
 
@@ -420,99 +254,27 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/JuridicalPerson -->
+    <!-- https://haddenindustries.com/ontology/universal/extended/File -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/JuridicalPerson"/>
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/File"/>
+	
+	
+	
+	<!-- https://haddenindustries.com/ontology/universal/extended/Message -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Message"/>
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/MaterialObject -->
+    <!-- https://haddenindustries.com/ontology/universal/extended/OpeningHours -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/OpeningHours"/>
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/Message -->
+    <!-- https://haddenindustries.com/ontology/universal/extended/TelephoneNumber -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Message"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/NaturalPerson -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/Offering -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Offering"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/OpeningHours -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/OpeningHours"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/Organisation -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Organisation"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/PriceSpecification -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/PriceSpecification"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/ProductOrService -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/TelephoneNumber -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TelephoneNumber"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/Time -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Time"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/TimeDuration -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TimeDuration"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/TimeInstant -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TimeInstant"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/TimeInterval -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TimeInterval"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/core/Vehicle -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Vehicle"/>
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/TelephoneNumber"/>
 </rdf:RDF>
 
 
