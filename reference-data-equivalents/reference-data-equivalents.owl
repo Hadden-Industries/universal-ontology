@@ -230,7 +230,6 @@
     <!-- http://schema.org/City -->
 
     <owl:Class rdf:about="http://schema.org/City">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Town"/>
     </owl:Class>
     
 
@@ -238,7 +237,6 @@
     <!-- http://schema.org/Country -->
 
     <owl:Class rdf:about="http://schema.org/Country">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
     </owl:Class>
     
 
@@ -278,7 +276,15 @@
     <!-- http://schema.org/Occupation -->
 
     <owl:Class rdf:about="http://schema.org/Occupation">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassification"/>
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
+    </owl:Class>
+	
+	
+	
+	<!-- https://schema.org/occupationalCategory -->
+
+    <owl:Class rdf:about="https://schema.org/occupationalCategory">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationCategory"/>
     </owl:Class>
     
 
@@ -294,7 +300,6 @@
     <!-- http://schema.org/State -->
 
     <owl:Class rdf:about="http://schema.org/State">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision"/>
     </owl:Class>
     
 
@@ -350,7 +355,6 @@
     <!-- http://schema.org/isicV4 -->
 
     <owl:Class rdf:about="http://schema.org/isicV4">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision4"/>
     </owl:Class>
     
 
@@ -433,16 +437,6 @@
     </owl:Class>
     
 
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/Country -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Country"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CountrySubdivision"/>
     
 
 
@@ -498,13 +492,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Gender"/>
     
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision4 -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision4"/>
-    
-
+  
 
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Language -->
 
@@ -535,10 +523,14 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffix"/>
     
 
+	<!-- https://haddenindustries.com/ontology/universal/reference-data/Occupation -->
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassification -->
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassification"/>
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/OccupationCategory -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OccupationCategory"/>
     
 
 
@@ -570,11 +562,6 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Title"/>
     
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/Town -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Town"/>
     
 
 
