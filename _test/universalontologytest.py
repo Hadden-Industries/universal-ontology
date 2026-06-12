@@ -93,7 +93,8 @@ class UniversalOntologyTest(XmlTestCase):
 			'{http://purl.org/dc/terms/}description',
 			'{http://purl.org/dc/terms/}title',
 			'{http://www.w3.org/2000/01/rdf-schema#}label',
-			'{http://www.w3.org/2000/01/rdf-schema#}comment'
+			'{http://www.w3.org/2000/01/rdf-schema#}comment',
+			'{http://www.w3.org/2004/02/skos/core#}definition'
 		]:
 			for instance in root.iter(global_lang_tag):
 				if instance.get('{http://www.w3.org/XML/1998/namespace}lang') is None:
@@ -327,9 +328,9 @@ class UniversalOntologyTest(XmlTestCase):
 							
 						self.assertXpathsUniqueValue(elem, ['./dcterms:title/@xml:lang'])
 					
-					# Descriptions
-					self.assertXpathsExist(elem, ['./dcterms:description'])
-					self.assertXpathsUniqueValue(elem, ['./dcterms:description/@xml:lang'])
+					# Definitions
+					self.assertXpathsExist(elem, ['./skos:definition'])
+					self.assertXpathsUniqueValue(elem, ['./skos:definition/@xml:lang'])
 					
 					# Alternative names
 					for alternative in elem.iterfind('{http://purl.org/dc/terms/}alternative'):
