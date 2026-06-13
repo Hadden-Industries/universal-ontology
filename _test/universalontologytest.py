@@ -95,7 +95,9 @@ class UniversalOntologyTest(XmlTestCase):
 			'{http://www.w3.org/2000/01/rdf-schema#}label',
 			'{http://www.w3.org/2000/01/rdf-schema#}comment',
 			'{http://www.w3.org/2004/02/skos/core#}definition',
-			'{http://www.w3.org/2004/02/skos/core#}prefLabel'
+			'{http://www.w3.org/2004/02/skos/core#}example',
+			'{http://www.w3.org/2004/02/skos/core#}prefLabel',
+			'{http://www.w3.org/2004/02/skos/core#}scopeNote'
 		]:
 			for instance in root.iter(global_lang_tag):
 				if instance.get('{http://www.w3.org/XML/1998/namespace}lang') is None:
