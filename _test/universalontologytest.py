@@ -94,7 +94,8 @@ class UniversalOntologyTest(XmlTestCase):
 			'{http://purl.org/dc/terms/}title',
 			'{http://www.w3.org/2000/01/rdf-schema#}label',
 			'{http://www.w3.org/2000/01/rdf-schema#}comment',
-			'{http://www.w3.org/2004/02/skos/core#}definition'
+			'{http://www.w3.org/2004/02/skos/core#}definition',
+			'{http://www.w3.org/2004/02/skos/core#}prefLabel'
 		]:
 			for instance in root.iter(global_lang_tag):
 				if instance.get('{http://www.w3.org/XML/1998/namespace}lang') is None:
@@ -260,6 +261,44 @@ class UniversalOntologyTest(XmlTestCase):
 					if not hasUuidIdentifier:
 						self.fail('dcterms:identifier of type UUID not found')				
 					
+					# Preferred Labels
+					
+					if entityRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
+					
+						self.assertXpathsExist(elem, ['./skos:prefLabel'])
+						
+						hasEnglishPrefLabel = False
+						
+						for prefLabel in elem.iterfind('{http://www.w3.org/2004/02/skos/core#}prefLabel'):
+						
+							prefLabelXmlLang = prefLabel.get('{http://www.w3.org/XML/1998/namespace}lang')
+							
+							if prefLabelXmlLang.partition('-')[0] == 'en':
+								if not hasEnglishPrefLabel:
+									hasEnglishPrefLabel = True
+							
+							if prefLabelXmlLang == 'en' or prefLabelXmlLang == 'en-gb':
+								
+									transformed_pref_label_text = prefLabel.text
+									# According to the W3C XML specification, the local part of a QName (the part after the colon) must be a valid NCName, and cannot start with a digit
+									# Semantic Web and OOP communities use the approach of spelling out the number
+									if transformed_pref_label_text and transformed_pref_label_text[0] in '0123456789':
+										digit_map = {'0': 'Zero', '1': 'One', '2': 'Two', '3': 'Three', '4': 'Four', '5': 'Five', '6': 'Six', '7': 'Seven', '8': 'Eight', '9': 'Nine'}
+										transformed_pref_label_text = digit_map[transformed_pref_label_text[0]] + transformed_pref_label_text[1:]
+									
+									if not re.sub(r'[^a-zA-Z0-9]+', '', transformed_pref_label_text) == entityRdfAboutTail:
+										self.fail('en or en-gb skos:prefLabel does not correspond to the rdf:about: %s' % prefLabel.text)
+							
+							for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
+								if label.get('{http://www.w3.org/XML/1998/namespace}lang') == prefLabelXmlLang:
+									if not prefLabel.text == label.text:
+										self.fail('skos:prefLabel "%s" is not the same as the %s rdfs:label "%s"' % (prefLabel.text, prefLabelXmlLang, label.text))
+								
+						if not hasEnglishPrefLabel:
+							self.fail('English skos:prefLabel not found')
+							
+						self.assertXpathsUniqueValue(elem, ['./skos:prefLabel/@xml:lang'])
+					
 					# Labels
 					
 					if entityRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
@@ -269,64 +308,22 @@ class UniversalOntologyTest(XmlTestCase):
 						hasEnglishLabel = False
 						
 						for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
-						
-							if not re.sub(r'[a-zA-Z0-9\-]+', '', label.text) == '':
-								self.fail('rdfs:label "%s" has invalid characters' % label.text)
 								
 							labelXmlLang = label.get('{http://www.w3.org/XML/1998/namespace}lang')
 							
-							# Check all labels are unique
-							if label.text in labelsList:
+							# Check all labels are unique by text and language
+							if (label.text, labelXmlLang) in labelsList:
 								
-								self.fail('another element with rdfs:label "%s" already exists' % label.text)
+								self.fail('another element with rdfs:label "%s" and xml:lang "%s" already exists' % (label.text, labelXmlLang))
 							
-							labelsList.append(label.text)
+							labelsList.append((label.text, labelXmlLang))
 							
 							if labelXmlLang.partition('-')[0] == 'en':
 								if not hasEnglishLabel:
 									hasEnglishLabel = True
-								
-								if labelXmlLang == 'en' or labelXmlLang == 'en-gb':
-								
-									transformed_label_text = label.text
-									# According to the W3C XML specification, the local part of a QName (the part after the colon) must be a valid NCName, and cannot start with a digit
-									# Semantic Web and OOP communities use the approach of spelling out the number
-									if transformed_label_text and transformed_label_text[0] in '0123':
-										digit_map = {'0': 'Zero', '1': 'One', '2': 'Two', '3': 'Three'}
-										transformed_label_text = digit_map[transformed_label_text[0]] + transformed_label_text[1:]
-									
-									if not re.sub(r'[^a-zA-Z0-9]+', '', transformed_label_text) == entityRdfAboutTail:
-										self.fail('en or en-gb rdfs:label does not correspond to the rdf:about: %s' % label.text)
-									
-							for title in elem.iterfind('{http://purl.org/dc/terms/}title'):
-								if title.get('{http://www.w3.org/XML/1998/namespace}lang') == labelXmlLang:
-									if not label.text == re.sub(r'[^a-zA-Z0-9\-]+', '', title.text):
-										self.fail('rdfs:label "%s" does not correspond to the %s dcterms:title "%s"' % (label.text, labelXmlLang, title.text))
 										
 						if not hasEnglishLabel:
 							self.fail('en rdfs:label not found')
-							
-						self.assertXpathsUniqueValue(elem, ['./rdfs:label/@xml:lang'])
-					
-					# Names
-					
-					if entityRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
-					
-						self.assertXpathsExist(elem, ['./dcterms:title'])
-						
-						hasEnglishTitle = False
-						
-						for title in elem.iterfind('{http://purl.org/dc/terms/}title'):
-						
-							titleXmlLang = title.get('{http://www.w3.org/XML/1998/namespace}lang')
-							
-							if titleXmlLang.partition('-')[0] == 'en':
-								hasEnglishTitle = True
-								
-						if not hasEnglishTitle:
-							self.fail('English dcterms:title not found')
-							
-						self.assertXpathsUniqueValue(elem, ['./dcterms:title/@xml:lang'])
 					
 					# Definitions
 					self.assertXpathsExist(elem, ['./skos:definition'])
