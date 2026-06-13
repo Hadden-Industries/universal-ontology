@@ -118,24 +118,28 @@ def apply_xslt_in_place(xml_file_path: str, xslt_file_path: str) -> None:
 
     try:
         xml_dom = etree.parse(xml_file_path, parser=secure_parser)
-    except etree.XMLSyntaxError:
-        logging.error("Syntax error encountered during XML parsing. Processing aborted.")
+    except etree.XMLSyntaxError as error:
+        logging.error(f"Syntax error encountered during XML parsing: {error}")
         sys.exit(1)
 
     try:
         xslt_dom = etree.parse(xslt_file_path, parser=secure_parser)
         xslt_processor = etree.XSLT(xslt_dom)
-    except etree.XMLSyntaxError:
-        logging.error("Syntax error encountered during XSLT parsing. Processing aborted.")
+    except etree.XMLSyntaxError as error:
+        logging.error(f"Syntax error encountered during XSLT parsing: {error}")
         sys.exit(1)
-    except etree.XSLTParseError:
-        logging.error("Invalid XSLT structure provided. Processing aborted.")
+    except etree.XSLTParseError as error:
+        logging.error("Invalid XSLT structure provided. Parse Error Traceback:")
+        for log_entry in error.error_log:
+            logging.error(f"Line {log_entry.line}: {log_entry.message}")
         sys.exit(1)
 
     try:
         transformed_xml_dom = xslt_processor(xml_dom)
     except etree.XSLTApplyError:
-        logging.error("XSLT application failed due to incompatible logic or structures.")
+        logging.error("XSLT application failed. Engine Error Traceback:")
+        for log_entry in xslt_processor.error_log:
+            logging.error(f"Line {log_entry.line}: {log_entry.message}")
         sys.exit(1)
 
     try:
