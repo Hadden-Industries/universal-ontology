@@ -12,6 +12,7 @@
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260610"/>
+        <owl:imports rdf:resource="http://www.w3.org/2004/02/skos/core"/>
         <dcterms:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-19</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -152,30 +153,6 @@
     
 
 
-    <!-- http://www.w3.org/2004/02/skos/core#definition -->
-
-    <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#definition"/>
-    
-
-
-    <!-- http://www.w3.org/2004/02/skos/core#example -->
-
-    <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#example"/>
-    
-
-
-    <!-- http://www.w3.org/2004/02/skos/core#prefLabel -->
-
-    <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-    
-
-
-    <!-- http://www.w3.org/2004/02/skos/core#scopeNote -->
-
-    <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-    
-
-
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -286,9 +263,9 @@ The notation and semantics for Integer shall be in accordance with ISO/IEC 11404
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:18:08Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.2.8"/>
         <dcterms:identifier rdf:resource="urn:uuid:b48d17cf-d0ba-4278-b154-a581a8d32334"/>
-        <rdfs:comment xml:lang="en">NOTE ISO/IEC 19773 is referenced but not required.</rdfs:comment>
         <rdfs:label xml:lang="en">Phone_Number</rdfs:label>
         <skos:definition xml:lang="en">datatype that denotes a phone number. A phone number uniquely identifies a telephone line within a telephone network. The data structure of the Phone_Number datatype shall conform to ITU-T Recommendation E 164[35] and may conform to ISO/IEC 19773[30] Module 17: Data structure for ITU-T E.164 phone number data.</skos:definition>
+        <skos:scopeNote xml:lang="en">ISO/IEC 19773 is referenced but not required</skos:scopeNote>
     </rdfs:Datatype>
     
 
@@ -300,9 +277,9 @@ The notation and semantics for Integer shall be in accordance with ISO/IEC 11404
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:19:01Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.2.9"/>
         <dcterms:identifier rdf:resource="urn:uuid:9dd7c0c6-05a6-46b1-8b52-9fdd8d8c9c80"/>
-        <rdfs:comment xml:lang="en">NOTE ISO/IEC 19773 is referenced but not required.</rdfs:comment>
         <rdfs:label xml:lang="en">Postal_Address</rdfs:label>
         <skos:definition xml:lang="en">datatype that denotes a postal address. A postal address enables the unambiguous determination of an actual or potential delivery point, usually combined with the specification of an addressee or a mailee. The data structure of Postal_Address may conform to ISO/IEC 19773[30] Module 16: Data Structure for UPU postal data[38].</skos:definition>
+        <skos:scopeNote xml:lang="en">ISO/IEC 19773 is referenced but not required</skos:scopeNote>
     </rdfs:Datatype>
     
 
@@ -314,9 +291,9 @@ The notation and semantics for Integer shall be in accordance with ISO/IEC 11404
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:19:15Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.2.10"/>
         <dcterms:identifier rdf:resource="urn:uuid:4172bcd9-7a2b-467f-8aaa-c97d16d6d2b5"/>
-        <rdfs:comment xml:lang="en">NOTE ISO/IEC 19773 is referenced but not required.</rdfs:comment>
         <rdfs:label xml:lang="en">Sign</rdfs:label>
         <skos:definition xml:lang="en">datatype that denotes a sign. A sign can be a character string, graphic image, sound clip or other symbol that can be used to denote or designate a concept. The Sign datatype can be implemented using the Reflit(of_type) data structure of ISO/IEC 19773:2011[30], 10.4.2, where the list of supported types is implementation defined. At a minimum, datatype String (6.2.11) shall be supported.</skos:definition>
+        <skos:scopeNote xml:lang="en">ISO/IEC 19773 is referenced but not required</skos:scopeNote>
     </rdfs:Datatype>
     
 
@@ -644,7 +621,6 @@ Registry_Specification class (9.4.10).
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/IdentifiedItem"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-08T11:29:47Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-23T11:32:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">identified_item</rdfs:label>
     </owl:ObjectProperty>
     
@@ -851,7 +827,6 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:10:55Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.2.1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T12:24:46Z</dcterms:modified>
         <rdfs:label xml:lang="en">item</rdfs:label>
     </owl:ObjectProperty>
     
@@ -865,7 +840,6 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:10:31Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.2.1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T12:24:46Z</dcterms:modified>
         <rdfs:label xml:lang="en">item_mapping</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1175,7 +1149,6 @@ Condition: applies only if standard is specified.</skos:definition>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:10:47Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.1.1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T12:24:46Z</dcterms:modified>
         <rdfs:label xml:lang="en">item</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1189,7 +1162,6 @@ Condition: applies only if standard is specified.</skos:definition>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:10:25Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.1.1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T12:24:46Z</dcterms:modified>
         <rdfs:label xml:lang="en">item_mapping</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1280,7 +1252,6 @@ Condition: applies only if standard is specified.</skos:definition>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/NamingConvention"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:23:12Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">acceptable_convention</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1308,7 +1279,6 @@ Condition: applies only if standard is specified.</skos:definition>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Designation"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:16:47Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">binding</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1359,7 +1329,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Designation"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:35:29Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">conformant_designation</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1372,7 +1341,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ScopedIdentifier"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:41:10Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">contained_identifier</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1394,7 +1362,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/NamingConvention"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:34:57Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">convention</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1416,7 +1383,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ConceptualDomain"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:39:57Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.1.3.4"/>
         <rdfs:label xml:lang="en">data_element_concept_domain</rdfs:label>
     </owl:ObjectProperty>
@@ -1430,7 +1396,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ObjectClass"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:36:04Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.2.3.3"/>
         <rdfs:label xml:lang="en">data_element_concept_object_class</rdfs:label>
     </owl:ObjectProperty>
@@ -1444,7 +1409,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Property"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:31:36Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.2.3.1"/>
         <rdfs:label xml:lang="en">data_element_concept_property</rdfs:label>
     </owl:ObjectProperty>
@@ -1458,7 +1422,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ValueDomain"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:46:01Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.5.3.1"/>
         <rdfs:label xml:lang="en">data_element_domain</rdfs:label>
     </owl:ObjectProperty>
@@ -1472,7 +1435,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElementConcept"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:42:29Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.5.3.2"/>
         <rdfs:label xml:lang="en">data_element_meaning</rdfs:label>
     </owl:ObjectProperty>
@@ -1495,7 +1457,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Definition"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:26:22Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">definition</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1517,7 +1478,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Designation"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:28:44Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">designation</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1615,7 +1575,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Namespace"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:15:37Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">namespace</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1628,7 +1587,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Definition"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:15:36Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">paired_definition</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1641,7 +1599,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Designation"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:15:01Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">paired_designation</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1654,7 +1611,6 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ValueMeaning"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T23:26:55Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.3.4"/>
         <rdfs:label xml:lang="en">permissible_value_meaning</rdfs:label>
     </owl:ObjectProperty>
@@ -1669,7 +1625,6 @@ This association records the categorization, as modelled by the instance of the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:27:01Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">provider</rdfs:label>
         <skos:definition xml:lang="en">organization that maintains or carries an official copy of the reference document</skos:definition>
     </owl:ObjectProperty>
@@ -1753,7 +1708,6 @@ This association records the namespace that provides the scope for the registrat
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Definition"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-27T20:13:57Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">relevant_definition</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1766,7 +1720,6 @@ This association records the namespace that provides the scope for the registrat
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Designation"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-27T20:08:10Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">relevant_designation</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1806,7 +1759,6 @@ This association records the namespace that provides the scope for the registrat
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Slot"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:34:18Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">slot</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1844,7 +1796,6 @@ This association records the stewardship record for the administered item, where
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:51:58Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">type_description</rdfs:label>
         <skos:definition xml:lang="en">description of the type of reference document</skos:definition>
     </owl:ObjectProperty>
@@ -1867,7 +1818,6 @@ This association records the stewardship record for the administered item, where
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Namespace"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:22:52Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <rdfs:label xml:lang="en-us">utilization</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1880,7 +1830,6 @@ This association records the stewardship record for the administered item, where
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ConceptualDomain"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:49:22Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:07:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.1.3.1"/>
         <rdfs:label xml:lang="en">value_domain_meaning</rdfs:label>
     </owl:ObjectProperty>
@@ -2132,9 +2081,7 @@ Condition: Required if transformation_rule is present.</rdfs:comment>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:7.3.3.4"/>
         <rdfs:comment xml:lang="en">Constraint: If the value of this attribute is TRUE:
 (a) there shall be at least one instance of the Naming_Convention class (8.4.4) linked to this instance of the Namespace class (7.3.3) via the naming_convention_utilization association (8.6.6);
-(b) every instance of the Designation class (8.4.1) shall be linked via the naming_
-convention_conformance association (8.6.5) with one of the same instances of the
-Naming_Convention class used in part (a) above.
+(b) every instance of the Designation class (8.4.1) shall be linked via the naming_convention_conformance association (8.6.5) with one of the same instances of the Naming_Convention class used in part (a) above.
 If the value of this attribute is FALSE, it is possible for a namespace to be associated with zero, one or more naming conventions, for a designation to conform to more than one convention, or both.</rdfs:comment>
         <rdfs:label xml:lang="en">mandatory_naming_convention_indicator</rdfs:label>
         <skos:definition xml:lang="en">indicator specifying whether all designations in this namespace shall conform to a naming convention</skos:definition>
@@ -2288,9 +2235,9 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T23:31:40Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.2.7.2.2"/>
-        <rdfs:comment xml:lang="en">NOTE By imputation, this is also considered to be date at which the Permissible_Value was bound to the associated Value_Meaning, since the permissible_value_meaning association mandates that there must be exactly one meaning (Value_Meaning) for each representation (Permissible_Value).</rdfs:comment>
         <rdfs:label xml:lang="en">begin_date</rdfs:label>
         <skos:definition xml:lang="en">date at which the Permissible_Value became valid</skos:definition>
+        <skos:note xml:lang="en">By imputation, this is also considered to be date at which the Permissible_Value was bound to the associated Value_Meaning, since the permissible_value_meaning association mandates that there must be exactly one meaning (Value_Meaning) for each representation (Permissible_Value).</skos:note>
     </owl:DatatypeProperty>
     
 
@@ -2303,11 +2250,23 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T23:31:44Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.2.7.2.3"/>
-        <rdfs:comment xml:lang="en">NOTE 1 By imputation, this is also considered to be date at which the Permissible_Value ceased to be bound to its associated meaning (Value_Meaning) via the permissible_value_meaning association.
-NOTE 2 The absence of the permissible_value_end_date attribute indicates that the Permissible_Value is still valid and (by imputation) still bound to its Value_Meaning via the value_meaning association.</rdfs:comment>
         <rdfs:label xml:lang="en">end_date</rdfs:label>
         <skos:definition xml:lang="en">date at which the Permissible_Value ceased to be valid</skos:definition>
+        <skos:note xml:lang="en">By imputation, this is also considered to be date at which the Permissible_Value ceased to be bound to its associated meaning (Value_Meaning) via the permissible_value_meaning association.</skos:note>
+        <skos:note xml:lang="en">The absence of the permissible_value_end_date attribute indicates that the Permissible_Value is still valid and (by imputation) still bound to its Value_Meaning via the value_meaning association</skos:note>
     </owl:DatatypeProperty>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/PermissibleValue_end_date"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+        <owl:annotatedTarget xml:lang="en">By imputation, this is also considered to be date at which the Permissible_Value ceased to be bound to its associated meaning (Value_Meaning) via the permissible_value_meaning association.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/PermissibleValue_end_date"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+        <owl:annotatedTarget xml:lang="en">The absence of the permissible_value_end_date attribute indicates that the Permissible_Value is still valid and (by imputation) still bound to its Value_Meaning via the value_meaning association</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
     
 
 
@@ -2496,8 +2455,8 @@ The values, and their associated meanings, to be applied to this attribute are d
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:30Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
         <rdfs:label xml:lang="en">character_repertoire</rdfs:label>
-        <skos:definition xml:lang="en">The character repertoire that is used by the registry for internal operation
-Example: ISO/IEC 646[3] or ISO/IEC 10646[10]</skos:definition>
+        <skos:definition xml:lang="en">The character repertoire that is used by the registry for internal operation</skos:definition>
+        <skos:example xml:lang="en">ISO/IEC 646[3] or ISO/IEC 10646[10]</skos:example>
     </owl:DatatypeProperty>
     
 
@@ -2526,8 +2485,8 @@ Example: ISO/IEC 646[3] or ISO/IEC 10646[10]</skos:definition>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
         <rdfs:label xml:lang="en">conformance_label</rdfs:label>
         <skos:definition xml:lang="en">The conformance label of the registry as described in the standard
-Example: ISO/IEC 11179-3:2023 Basic Registry (see 4.4.3).
 Condition: applies only if standard is specified, and the specified standard uses conformance labels.</skos:definition>
+        <skos:example xml:lang="en">ISO/IEC 11179-3:2023 Basic Registry (see 4.4.3)</skos:example>
     </owl:DatatypeProperty>
     
 
@@ -2542,9 +2501,9 @@ Condition: applies only if standard is specified, and the specified standard use
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
         <rdfs:label xml:lang="en">conformance_level</rdfs:label>
         <skos:definition xml:lang="en">The conformance level of the registry as described in the standard
-Example: Conformance Level 2 (where standard is specified as ISO/IEC 11179-3:2003).
-Condition: applies only if standard is specified, and the specified standard uses conformance levels.
-Note: This document specifies conformance labels instead of conformance levels.</skos:definition>
+Condition: applies only if standard is specified, and the specified standard uses conformance levels.</skos:definition>
+        <skos:example xml:lang="en">Conformance Level 2 (where standard is specified as ISO/IEC 11179-3:2003)</skos:example>
+        <skos:note xml:lang="en">This document specifies conformance labels instead of conformance levels</skos:note>
     </owl:DatatypeProperty>
     
 
@@ -2559,8 +2518,8 @@ Note: This document specifies conformance labels instead of conformance levels.<
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
         <rdfs:label xml:lang="en">default_time_zone</rdfs:label>
         <skos:definition xml:lang="en">time zone to be assumed for any datetime instance that does not explicitly specify its own time zone.
-Specified as the number of hours offset from UTC, with no separator between hours and minutes, with a leading zero if the hour is less then 9, and a leading minus sign if applicable.
-Example: For Newfoundland Daylight Time: -0230</skos:definition>
+Specified as the number of hours offset from UTC, with no separator between hours and minutes, with a leading zero if the hour is less then 9, and a leading minus sign if applicable.</skos:definition>
+        <skos:example xml:lang="en">For Newfoundland Daylight Time: -0230</skos:example>
     </owl:DatatypeProperty>
     
 
@@ -2604,8 +2563,8 @@ Condition: applies only if standard is specified, and the specified standard all
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:52:55Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
         <rdfs:label xml:lang="en">name</rdfs:label>
-        <skos:definition xml:lang="en">name by which the registry is commonly known
-Example: Australian Institute of Health and Welfare (AIHW) Metadata Online Registry (METeOR)[39]</skos:definition>
+        <skos:definition xml:lang="en">name by which the registry is commonly known</skos:definition>
+        <skos:example xml:lang="en">Australian Institute of Health and Welfare (AIHW) Metadata Online Registry (METeOR)[39]</skos:example>
     </owl:DatatypeProperty>
     
 
@@ -2619,8 +2578,8 @@ Example: Australian Institute of Health and Welfare (AIHW) Metadata Online Regis
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:40Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
         <rdfs:label xml:lang="en">reference_document_identifier_kind</rdfs:label>
-        <skos:definition xml:lang="en">Specification of the kind of identifier used for identifying reference documents in the registry
-Examples: Some registries use URIs. Other registries use an external document management system which provides unstructured, opaque identifiers. Yet other registries define a structured identifier form which embeds an identifier type within each identifier in the registry. This attribute specifies the form of identifiers used for reference documents in this particular registry.</skos:definition>
+        <skos:definition xml:lang="en">Specification of the kind of identifier used for identifying reference documents in the registry</skos:definition>
+        <skos:example xml:lang="en">Some registries use URIs. Other registries use an external document management system which provides unstructured, opaque identifiers. Yet other registries define a structured identifier form which embeds an identifier type within each identifier in the registry. This attribute specifies the form of identifiers used for reference documents in this particular registry.</skos:example>
     </owl:DatatypeProperty>
     
 
@@ -2634,8 +2593,8 @@ Examples: Some registries use URIs. Other registries use an external document ma
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:49Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
         <rdfs:label xml:lang="en">representation_class_scheme_id</rdfs:label>
-        <skos:definition xml:lang="en">identifier of the classification scheme used by the registry to capture representation classes
-Changes from previous editions: Edition 2 (ISO/IEC 11179-3:2003[12]) had a separate structure to record “representation classes”. In edition 3 (ISO/IEC 11179-3:2013[13]) and edition 4 (this document), these are considered to be just another classification scheme, which in edition 3 was considered a kind of concept system. This document has restored a Classification_Scheme class independent of the Concept_System class specified in ISO/IEC 11179-32. This attribute allows the registration authority to specify which classification scheme is used for this purpose. This document uses just the identifier of the classification scheme for this attribute. Edition 3 embedded a whole concept system.</skos:definition>
+        <skos:changeNote xml:lang="en">Edition 2 (ISO/IEC 11179-3:2003[12]) had a separate structure to record “representation classes”. In edition 3 (ISO/IEC 11179-3:2013[13]) and edition 4 (this document), these are considered to be just another classification scheme, which in edition 3 was considered a kind of concept system. This document has restored a Classification_Scheme class independent of the Concept_System class specified in ISO/IEC 11179-32. This attribute allows the registration authority to specify which classification scheme is used for this purpose. This document uses just the identifier of the classification scheme for this attribute. Edition 3 embedded a whole concept system.</skos:changeNote>
+        <skos:definition xml:lang="en">identifier of the classification scheme used by the registry to capture representation classes</skos:definition>
     </owl:DatatypeProperty>
     
 
@@ -2649,8 +2608,8 @@ Changes from previous editions: Edition 2 (ISO/IEC 11179-3:2003[12]) had a separ
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:58Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
         <rdfs:label xml:lang="en">standard</rdfs:label>
-        <skos:definition xml:lang="en">Identifier for the standard to which this registry complies.
-Example: ISO/IEC 11179-3:2023</skos:definition>
+        <skos:definition xml:lang="en">Identifier for the standard to which this registry complies</skos:definition>
+        <skos:example xml:lang="en">ISO/IEC 11179-3:2023</skos:example>
     </owl:DatatypeProperty>
     
 
@@ -2664,8 +2623,8 @@ Example: ISO/IEC 11179-3:2023</skos:definition>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:53:13Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
         <rdfs:label xml:lang="en">web_address</rdfs:label>
-        <skos:definition xml:lang="en">The World Wide Web uniform resource locator (URL) for the registry
-Example: https:// meteor .aihw .gov .au/</skos:definition>
+        <skos:definition xml:lang="en">The World Wide Web uniform resource locator (URL) for the registry</skos:definition>
+        <skos:example xml:lang="en">https:// meteor .aihw .gov .au/</skos:example>
     </owl:DatatypeProperty>
     
 
@@ -2735,7 +2694,7 @@ Example: https:// meteor .aihw .gov .au/</skos:definition>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-04T13:17:30Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.4.2.4.3"/>
-        <rdfs:comment xml:lang="en">type can be used to categorize slot values in some way, including but not limited to specifying the datatype of the value.</rdfs:comment>
+        <rdfs:comment xml:lang="en">type can be used to categorize slot values in some way, including but not limited to specifying the datatype of the value</rdfs:comment>
         <rdfs:label xml:lang="en">type</rdfs:label>
         <skos:definition xml:lang="en">categorization of the value of the slot</skos:definition>
     </owl:DatatypeProperty>
@@ -2780,8 +2739,8 @@ Example: https:// meteor .aihw .gov .au/</skos:definition>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T16:13:27Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.2.5.2.2"/>
         <rdfs:label xml:lang="en">format</rdfs:label>
-        <skos:definition xml:lang="en">template for the structure of the presentation of the value(s)
-EXAMPLE – YYYY-MM-DD for a date.</skos:definition>
+        <skos:definition xml:lang="en">template for the structure of the presentation of the value(s)</skos:definition>
+        <skos:example xml:lang="en">YYYY-MM-DD for a date</skos:example>
     </owl:DatatypeProperty>
     
 
@@ -2794,9 +2753,9 @@ EXAMPLE – YYYY-MM-DD for a date.</skos:definition>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T16:17:49Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.2.5.2.3"/>
-        <rdfs:comment xml:lang="en">NOTE Applicable only to character datatypes.</rdfs:comment>
         <rdfs:label xml:lang="en">maximum_character_quantity</rdfs:label>
         <skos:definition xml:lang="en">maximum number of characters available to represent the Data_Element value</skos:definition>
+        <skos:note xml:lang="en">Applicable only to character datatypes</skos:note>
     </owl:DatatypeProperty>
     
 
@@ -2809,9 +2768,9 @@ EXAMPLE – YYYY-MM-DD for a date.</skos:definition>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T15:52:01Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.2.3.3.1"/>
-        <rdfs:comment xml:lang="en">NOTE A registration authority may determine whether this date is the date the value meaning becomes valid in a registry, or the date the value meaning becomes part of the source domain, or some other date.</rdfs:comment>
         <rdfs:label xml:lang="en">begin_date</rdfs:label>
         <skos:definition xml:lang="en">date at which this Value_Meaning became, or will become, a valid Value_Meaning</skos:definition>
+        <skos:note xml:lang="en">A registration authority may determine whether this date is the date the value meaning becomes valid in a registry, or the date the value meaning becomes part of the source domain, or some other date.</skos:note>
     </owl:DatatypeProperty>
     
 
@@ -2824,11 +2783,23 @@ EXAMPLE – YYYY-MM-DD for a date.</skos:definition>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T15:56:56Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.2.3.3.2"/>
-        <rdfs:comment xml:lang="en">NOTE 1 The absence of the value_meaning_end_date indicates that the Value_Meaning is still valid.
-NOTE 2 A registration authority may determine whether this date is the date the value meaning becomes no longer valid in a registry, or the date the value meaning becomes no longer part of the source domain, or some other date.</rdfs:comment>
         <rdfs:label xml:lang="en">end_date</rdfs:label>
         <skos:definition xml:lang="en">date on which the Value_Meaning ceased, or will cease, to be valid</skos:definition>
+        <skos:note xml:lang="en">A registration authority may determine whether this date is the date the value meaning becomes no longer valid in a registry, or the date the value meaning becomes no longer part of the source domain, or some other date</skos:note>
+        <skos:note xml:lang="en">The absence of the value_meaning_end_date indicates that the Value_Meaning is still valid</skos:note>
     </owl:DatatypeProperty>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ValueMeaning_end_date"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+        <owl:annotatedTarget xml:lang="en">A registration authority may determine whether this date is the date the value meaning becomes no longer valid in a registry, or the date the value meaning becomes no longer part of the source domain, or some other date</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ValueMeaning_end_date"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+        <owl:annotatedTarget xml:lang="en">The absence of the value_meaning_end_date indicates that the Value_Meaning is still valid</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
@@ -2840,7 +2811,6 @@ NOTE 2 A registration authority may determine whether this date is the date the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T17:59:37Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.4.4"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:label xml:lang="en">authority_rule</rdfs:label>
         <skos:definition xml:lang="en">rule identifying the authority that assigns names or enforces naming conventions, or both</skos:definition>
         <skos:example xml:lang="en">Information technology standards committees or nomenclature standardization bodies (e.g. in biology)</skos:example>
@@ -2884,7 +2854,6 @@ NOTE 2 A registration authority may determine whether this date is the date the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:20:37Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.6.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:label xml:lang="en">description</rdfs:label>
         <skos:definition xml:lang="en">describes the type of document</skos:definition>
     </owl:DatatypeProperty>
@@ -2899,12 +2868,11 @@ NOTE 2 A registration authority may determine whether this date is the date the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:47:49Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.7.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:comment xml:lang="en">Recommendation: Use of RFC 5646[33] is recommended but not required.
-Constraint: In RFC 5646, extension identifiers are ordered and consist of key-value pairs, separated by the EQUALS SIGN (=). The values shall be alphanumeric with no embedded whitespace. Whitespace separates the identifiers.
-NOTE The u- extension is defined in RFC 6067[34], which points to the Unicode Consortium&apos;s Common Locale Data Repository (CLDR) for details on the subtags that follow it.</rdfs:comment>
+Constraint: In RFC 5646, extension identifiers are ordered and consist of key-value pairs, separated by the EQUALS SIGN (=). The values shall be alphanumeric with no embedded whitespace. Whitespace separates the identifiers.</rdfs:comment>
         <rdfs:label xml:lang="en">extension_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for an extension to a language_identifier</skos:definition>
+        <skos:note xml:lang="en">The u- extension is defined in RFC 6067[34], which points to the Unicode Consortium&apos;s Common Locale Data Repository (CLDR) for details on the subtags that follow it</skos:note>
     </owl:DatatypeProperty>
     
 
@@ -2917,7 +2885,6 @@ NOTE The u- extension is defined in RFC 6067[34], which points to the Unicode Co
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:02:36Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:7.3.2.3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:comment xml:lang="en">Conditional, derived.
 Condition: full_expansion is defined only when Namespace has exactly one identifier.
 Derivation: The precise manner of derivation can vary depending on the type of namespace.</rdfs:comment>
@@ -2935,7 +2902,6 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:47:33Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.7.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:comment xml:lang="en">Recommendation: Use of the three-digit numeric codes from ISO 3166-1[6], with extensions if needed, is recommended but not required.</rdfs:comment>
         <rdfs:label xml:lang="en">geopolitical_territory_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for a specific country, territory or region whose linguistic variations apply</skos:definition>
@@ -2966,8 +2932,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:23:49Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.5.4"/>
         <rdfs:label xml:lang="en">item_shall_be_classified_indicator</rdfs:label>
-        <skos:definition xml:lang="en">indicator as to whether the linked registered item is required to be a classified item when its registration status is ‘Recorded’ or higher. That is, whether the parent instance of the Item (8.2.1) class has a linked instance of the Classification_Scheme_Item (10.3.2) class via the item_classification (10.4.1) association when the value of the
-Registration_State.registration_status (9.4.4.3) is ‘Recorded’ or higher.</skos:definition>
+        <skos:definition xml:lang="en">indicator as to whether the linked registered item is required to be a classified item when its registration status is ‘Recorded’ or higher. That is, whether the parent instance of the Item (8.2.1) class has a linked instance of the Classification_Scheme_Item (10.3.2) class via the item_classification (10.4.1) association when the value of the Registration_State.registration_status (9.4.4.3) is ‘Recorded’ or higher.</skos:definition>
     </owl:DatatypeProperty>
     
 
@@ -2981,10 +2946,7 @@ Registration_State.registration_status (9.4.4.3) is ‘Recorded’ or higher.</s
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:23:25Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.5.4"/>
         <rdfs:label xml:lang="en">item_shall_be_defined_indicator</rdfs:label>
-        <skos:definition xml:lang="en">indicator as to whether the linked registered item is required to have a definition when its registration status is ‘Recorded’ or higher. That is, whether the parent instance of the Item (8.2.1) class has a linked instance of the
-Definition (8.4.2) class via the
-item_definition (8.6.3) association when the value of the
-Registration_State.registration_status (9.4.4.3) is ‘Recorded’ or higher.
+        <skos:definition xml:lang="en">indicator as to whether the linked registered item is required to have a definition when its registration status is ‘Recorded’ or higher. That is, whether the parent instance of the Item (8.2.1) class has a linked instance of the Definition (8.4.2) class via the item_definition (8.6.3) association when the value of the Registration_State.registration_status (9.4.4.3) is ‘Recorded’ or higher.
 Best practice is to set this to TRUE.</skos:definition>
     </owl:DatatypeProperty>
     
@@ -2999,10 +2961,7 @@ Best practice is to set this to TRUE.</skos:definition>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:22:12Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.5.4"/>
         <rdfs:label xml:lang="en">item_shall_be_designated_indicator</rdfs:label>
-        <skos:definition xml:lang="en">indicator as to whether the linked registered item is required to have a designation when its registration status is ‘Recorded’ or higher. That is, whether the parent instance of the Item (8.2.1) class has a linked instance of the
-Designation (8.4.1) class via the
-item_designation (8.6.4) association when the value of the
-Registration_State.registration_status (9.4.4.3) is ‘Recorded’ or higher.
+        <skos:definition xml:lang="en">indicator as to whether the linked registered item is required to have a designation when its registration status is ‘Recorded’ or higher. That is, whether the parent instance of the Item (8.2.1) class has a linked instance of the Designation (8.4.1) class via the item_designation (8.6.4) association when the value of the Registration_State.registration_status (9.4.4.3) is ‘Recorded’ or higher.
 Best practice is to set this to TRUE.</skos:definition>
     </owl:DatatypeProperty>
     
@@ -3016,7 +2975,6 @@ Best practice is to set this to TRUE.</skos:definition>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:47:14Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.7.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:comment xml:lang="en">Recommendation: Use of the three-character alphabetic codes from ISO 639-2/Terminology[1], with extensions if needed, is recommended but not required.</rdfs:comment>
         <rdfs:label xml:lang="en">language_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for the language</skos:definition>
@@ -3032,16 +2990,15 @@ Best practice is to set this to TRUE.</skos:definition>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T18:01:29Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.4.4"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-5[15]</dcterms:source>
-        <rdfs:comment xml:lang="en">The result of applying lexical rules should be that all names governed by a specific naming convention have a consistent appearance. An example lexical principle is the specification of the use of camelCase capitalization of words in a phrase which are concatenated together.</rdfs:comment>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-5:ed-3:v1"/>
         <rdfs:label xml:lang="en">lexical_rule</rdfs:label>
         <skos:definition xml:lang="en">rule specifying the appearance of names: preferred and non-preferred terms, synonyms, abbreviations, part length, spelling, permissible character set, case sensitivity, etc.</skos:definition>
+        <skos:note xml:lang="en">The result of applying lexical rules should be that all names governed by a specific naming convention have a consistent appearance. An example lexical principle is the specification of the use of camelCase capitalization of words in a phrase which are concatenated together.</skos:note>
     </owl:DatatypeProperty>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/lexical_rule"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
-        <owl:annotatedTarget xml:lang="en">ISO/IEC 11179-5[15]</owl:annotatedTarget>
+        <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:11179:-5:ed-3:v1"/>
         <rdfs:comment xml:lang="en">Derived</rdfs:comment>
     </owl:Axiom>
     
@@ -3055,12 +3012,17 @@ Best practice is to set this to TRUE.</skos:definition>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:47:55Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.7.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
-        <rdfs:comment xml:lang="en">Recommendation: Use of RFC 5646[33] is recommended but not required.
-NOTE The definition has been derived from IETF RFC 5646.</rdfs:comment>
+        <rdfs:comment xml:lang="en">Recommendation: Use of RFC 5646[33] is recommended but not required</rdfs:comment>
         <rdfs:label xml:lang="en">private_use_qualifier</rdfs:label>
         <skos:definition xml:lang="en">qualifier whose meaning is defined solely by private agreement</skos:definition>
     </owl:DatatypeProperty>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/private_use_qualifier"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
+        <owl:annotatedTarget xml:lang="en">qualifier whose meaning is defined solely by private agreement</owl:annotatedTarget>
+        <dcterms:source rdf:resource="urn:ietf:rfc:5646"/>
+        <skos:note xml:lang="en">Derived</skos:note>
+    </owl:Axiom>
     
 
 
@@ -3072,7 +3034,6 @@ NOTE The definition has been derived from IETF RFC 5646.</rdfs:comment>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T17:58:49Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.4.4"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:comment xml:lang="en">RULE: In terms of the metadata registry, the scope of a naming convention may be as broad or narrow as the registration authority, or other authority, determines is appropriate. The scope should document whether the naming convention is descriptive or prescriptive.</rdfs:comment>
         <rdfs:label xml:lang="en">scope_rule</rdfs:label>
         <skos:definition xml:lang="en">rule specifying the range within which the naming convention is in effect</skos:definition>
@@ -3088,7 +3049,6 @@ NOTE The definition has been derived from IETF RFC 5646.</rdfs:comment>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:47:27Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.7.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:comment xml:lang="en">Recommendation: Use of the four-character codes from ISO 15924[23] codes for the representation of the names of scripts is recommended but not required.</rdfs:comment>
         <rdfs:label xml:lang="en">script_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for the set of graphic characters used for the written form of one or more languages</skos:definition>
@@ -3104,8 +3064,7 @@ NOTE The definition has been derived from IETF RFC 5646.</rdfs:comment>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T18:00:12Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.4.4"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
-        <rdfs:comment xml:lang="en">The rule should specify whether or not names convey meaning and if so how.</rdfs:comment>
+        <rdfs:comment xml:lang="en">The rule should specify whether or not names convey meaning and if so how</rdfs:comment>
         <rdfs:label xml:lang="en">semantic_rule</rdfs:label>
         <skos:definition xml:lang="en">rule specifying the meanings of parts of a name and possibly separators that delimit them in a naming convention</skos:definition>
     </owl:DatatypeProperty>
@@ -3120,7 +3079,6 @@ NOTE The definition has been derived from IETF RFC 5646.</rdfs:comment>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:02:52Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:7.3.2.3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:comment xml:lang="en">Conditional, derived.
 Condition: shorthand_expansion shall exist if and only if the corresponding shorthand_prefix exists.
 Derivation: The precise manner of derivation can vary depending on the type of namespace.</rdfs:comment>
@@ -3138,7 +3096,6 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T18:00:51Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.4.4"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:comment xml:lang="en">The arrangement may be specified as relative or absolute, or some combination of the two. Relative arrangement specifies parts in terms of other parts, e.g. a rule within a convention that requires a qualifier term always appear before the part being qualified appears. Absolute arrangement specifies a fixed occurrence of the part, e.g. a rule that requires the property term be always the last part of a name. The syntactic principle can also specify the syntactic forms of the name (noun phrase or verb phrase) and the parts of speech used to construct a name.</rdfs:comment>
         <rdfs:label xml:lang="en">syntactic_rule</rdfs:label>
         <skos:definition xml:lang="en">rule specifying the arrangement of parts of a name and the separators that delimit them in a naming convention</skos:definition>
@@ -3154,7 +3111,6 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T19:04:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.2.3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:label xml:lang="en">text</rdfs:label>
         <skos:definition xml:lang="en">text of the definition</skos:definition>
     </owl:DatatypeProperty>
@@ -3169,7 +3125,6 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:24:54Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:label xml:lang="en">title</rdfs:label>
         <skos:definition xml:lang="en">title of the reference document</skos:definition>
     </owl:DatatypeProperty>
@@ -3184,7 +3139,6 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:26:02Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:label xml:lang="en">uri</rdfs:label>
         <skos:definition xml:lang="en">URI where the reference document is available</skos:definition>
     </owl:DatatypeProperty>
@@ -3199,7 +3153,6 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:47:41Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.7.2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:comment xml:lang="en">Recommendation: Use of RFC 5646[33] is recommended but not required. In RFC 5646, variant identifiers are typically represented as dates and are used to distinguish events such as spelling reforms. Variant identifiers can be order dependent. String Numeric variant identifiers are interpreted to be Gregorian calendar year numbers. Alphanumeric tags reference IANA variant subtags.</rdfs:comment>
         <rdfs:label xml:lang="en">variant_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for a language variant, which indicates additional, well-recognized variations that define a language or its dialects that are not covered by other available identifiers</skos:definition>
@@ -3215,7 +3168,6 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:02:19Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:7.3.2.3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:29:31Z</dcterms:modified>
         <rdfs:label xml:lang="en">version</rdfs:label>
         <skos:definition xml:lang="en">string used to uniquely identify the version of this scoped identifier which has been used to identify the linked identified item</skos:definition>
     </owl:DatatypeProperty>
@@ -3240,15 +3192,15 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:36:55Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.14"/>
         <dcterms:identifier rdf:resource="urn:uuid:54a7852d-e943-49f9-9035-d5f1f151a158"/>
-        <rdfs:comment xml:lang="en">Subclause 8.7.1 specifies the values to be used</rdfs:comment>
         <rdfs:label xml:lang="en">Acceptability Rating</rdfs:label>
         <skos:definition xml:lang="en">scale of acceptability</skos:definition>
+        <skos:scopeNote xml:lang="en">Subclause 8.7.1 specifies the values to be used</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Subclause 8.7.1 specifies the values to be used</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -3346,7 +3298,6 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:57:31Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.66"/>
         <dcterms:identifier rdf:resource="urn:uuid:252a8fa0-65b9-486d-be5c-159d8acc066b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:46:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.2"/>
         <rdfs:label xml:lang="en">Administered Item</rdfs:label>
         <skos:definition xml:lang="en">registered item (3.2.65) for which administrative information (3.2.67) is recorded</skos:definition>
@@ -3369,7 +3320,6 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:59:15Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.68"/>
         <dcterms:identifier rdf:resource="urn:uuid:8c3c3e9c-aae0-4862-98f5-2d73fcd85632"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:47:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.3"/>
         <rdfs:label xml:lang="en">Attached Item</rdfs:label>
         <skos:definition xml:lang="en">registered item (3.2.65) for which administrative information (3.2.67) is recorded in another registered item</skos:definition>
@@ -3568,7 +3518,6 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-04T11:27:44Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.59"/>
         <dcterms:identifier rdf:resource="urn:uuid:3451dfc6-2ae9-4602-89ef-6b660a4500a6"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:35:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Classified Item</rdfs:label>
         <skos:definition xml:lang="en">registry item (3.2.54) classified in a classification scheme (3.2.5)</skos:definition>
     </owl:Class>
@@ -3603,7 +3552,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:10:10Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.7"/>
         <dcterms:identifier rdf:resource="urn:uuid:3b3aa4a2-5d92-431a-b70b-2d8d8e158682"/>
-        <dcterms:source xml:lang="en">ISO 1087:2019, 3.2.7</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.2.7"/>
         <rdfs:label xml:lang="en">Concept</rdfs:label>
         <skos:definition xml:lang="en">unit of knowledge created by a unique combination of characteristics (3.2.4)</skos:definition>
         <skos:scopeNote xml:lang="en">A concept is independent of its representation</skos:scopeNote>
@@ -3612,7 +3561,7 @@ This association records the classification scheme items that are members of a c
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Concept"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
-        <owl:annotatedTarget xml:lang="en">ISO 1087:2019, 3.2.7</owl:annotatedTarget>
+        <owl:annotatedTarget rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.2.7"/>
         <rdfs:comment xml:lang="en">modified — Note 2 to entry changed</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
@@ -3638,7 +3587,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T11:57:14Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.33"/>
         <dcterms:identifier rdf:resource="urn:uuid:e4bafe9c-f387-4f52-8c34-4c39ac73d6d9"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-1:2023, 3.2.25</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.25"/>
         <rdfs:label xml:lang="en">Conceptual Data Model</rdfs:label>
         <skos:definition xml:lang="en">data model (3.2.32) that represents an abstract view of the real world</skos:definition>
         <skos:scopeNote xml:lang="en">A conceptual model represents the human understanding of a system, which can be anywhere from a paper-based system to a complex database in an IT system</skos:scopeNote>
@@ -3661,7 +3610,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:38:36Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.45"/>
         <dcterms:identifier rdf:resource="urn:uuid:1c3d494f-ad3a-4376-b6ab-d2c790443c3c"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-31:2023, 3.5</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.5"/>
         <rdfs:label xml:lang="en">Conceptual Domain</rdfs:label>
         <skos:definition xml:lang="en">concept (3.2.7) whose meaning is expressed as an enumerated set, a description or both of subordinate concepts, which are value meanings (3.2.46)</skos:definition>
     </owl:Class>
@@ -3745,7 +3694,6 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:42:29Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.78"/>
         <dcterms:identifier rdf:resource="urn:uuid:3cb479df-33ff-4f07-bcef-19ef93ce3fab"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:40:44Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.2.1"/>
         <rdfs:label xml:lang="en">Contact</rdfs:label>
         <skos:definition xml:lang="en">instance of a role (3.2.83), an individual (3.2.82) or both within an organization (3.2.84) to or from whom an information item(s), a material object(s), person(s) or some combination can be sent in a specified context</skos:definition>
@@ -3774,7 +3722,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:07:22Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.29"/>
         <dcterms:identifier rdf:resource="urn:uuid:53088597-736f-42c8-9bb1-387969a6ca91"/>
-        <dcterms:source xml:lang="en">ISO/IEC 2382:2015, 2121272</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2121272"/>
         <rdfs:label xml:lang="en">Data</rdfs:label>
         <skos:definition xml:lang="en">re-interpretable representation of information in a formalized manner suitable for communication, interpretation, or processing</skos:definition>
         <skos:scopeNote xml:lang="en">Data can be processed by humans or by automatic means</skos:scopeNote>
@@ -3782,7 +3730,7 @@ This association records the classification scheme items that are members of a c
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Data"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
-        <owl:annotatedTarget xml:lang="en">ISO/IEC 2382:2015, 2121272</owl:annotatedTarget>
+        <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2121272"/>
         <rdfs:comment xml:lang="en">modified — Notes to entry 2 and 3 deleted</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
@@ -3935,7 +3883,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T11:56:28Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.32"/>
         <dcterms:identifier rdf:resource="urn:uuid:662964e9-a489-4fad-a281-e514d3e4c4b8"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-1:2023, 3.2.24</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.24"/>
         <rdfs:label xml:lang="en">Data Model</rdfs:label>
         <skos:definition xml:lang="en">graphical, lexical or combined representation of data (3.2.29), specifying their properties (3.2.3), structure and inter-relationships</skos:definition>
     </owl:Class>
@@ -3949,7 +3897,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T21:39:16Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.1.13"/>
         <dcterms:identifier rdf:resource="urn:uuid:8f133ec8-1e43-4588-9b35-64141d139385"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11404:2007, 3.12</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11404:ed-2:v1:term:3.12"/>
         <rdfs:label xml:lang="en">Datatype</rdfs:label>
         <skos:definition xml:lang="en">set of distinct values, characterized by properties of those values and by operations on those values</skos:definition>
     </owl:Class>
@@ -3998,7 +3946,6 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:28Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.23"/>
         <dcterms:identifier rdf:resource="urn:uuid:de8b84b9-e38c-46cb-87f4-3959232402ba"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:54:00Z</dcterms:modified>
         <dcterms:subject xml:lang="en">registry</dcterms:subject>
         <rdfs:label xml:lang="en">Definition</rdfs:label>
         <skos:definition xml:lang="en">representation of a registry item (3.2.54) by a descriptive statement which, in a given language (3.2.16) and context(s) (3.2.15), serves to differentiate it from other registry items</skos:definition>
@@ -4068,7 +4015,6 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T18:56:26Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.28"/>
         <dcterms:identifier rdf:resource="urn:uuid:d396362c-ef48-4708-9b62-e964f2aaa168"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Definition Source Reference</rdfs:label>
         <skos:definition xml:lang="en">reference to the source from which the definition (3.2.23) is taken</skos:definition>
     </owl:Class>
@@ -4305,7 +4251,6 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:45:34Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.6"/>
         <dcterms:identifier rdf:resource="urn:uuid:13c73ad9-39dd-4f6d-860c-30b62b1632bc"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:15:05Z</dcterms:modified>
         <rdfs:label xml:lang="en">Document Type</rdfs:label>
         <skos:definition xml:lang="en">class used to specify the document type of a Reference_Document (6.3.8). The document type can be specified using an identifier or a description.</skos:definition>
     </owl:Class>
@@ -4387,7 +4332,6 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:50:34Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.61"/>
         <dcterms:identifier rdf:resource="urn:uuid:658b2c19-ed69-48a6-a5de-a0ac6b394602"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:44:30Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.3.1"/>
         <rdfs:label xml:lang="en">Identified Item</rdfs:label>
         <skos:definition xml:lang="en">registry item (3.2.54) identified in a registry (3.2.49)</skos:definition>
@@ -4436,7 +4380,6 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:38:23Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:7.4.3"/>
         <dcterms:identifier rdf:resource="urn:uuid:402f0b90-81ab-47de-a810-216f5a270b4d"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:41:00Z</dcterms:modified>
         <rdfs:comment xml:lang="en">See Constraint on Scoped_Identifier (7.3.2.4)</rdfs:comment>
         <rdfs:label xml:lang="en">Identifier Scope</rdfs:label>
         <skos:definition xml:lang="en">association that records the binding of zero, one or more instances of the Scoped_Identifier (7.3.2) class with exactly one instance of the Namespace (7.3.3) class which provides the scope for the instance of the Scoped_Identifier. The association records the namespace that provides the scope for the scoped identifiers.</skos:definition>
@@ -4513,7 +4456,6 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-04T12:29:46Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.4.2.1"/>
         <dcterms:identifier rdf:resource="urn:uuid:bde43ac8-4588-4f64-9b89-7a5bf90c6922"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:57:05Z</dcterms:modified>
         <rdfs:label xml:lang="en">Item</rdfs:label>
         <skos:definition xml:lang="en">abstract superclass, each instance of which models a registry item, but which, as an abstract class, shall also be instantiated as a specific subclass [e.g. Concept (6.4.2.2), Data_Element (ISO/IEC 11179-31:2023, 7.6.2.1), etc.]. Item provides the basis for all registry items entered into a metadata registry that conforms to the specifications contained in the appropriate parts of ISO/IEC 11179. Additional facilities defined later allow any Item to be: identified (see Clause 7), named and defined (see Clause 8), registered and administered (see Clause 9), classified (see Clause 10) and mapped to other registry items (see Clause 11).</skos:definition>
     </owl:Class>
@@ -4569,7 +4511,6 @@ This association records the registry items that are to be classified as classif
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:21:47Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.6.3"/>
         <dcterms:identifier rdf:resource="urn:uuid:ce13b4a3-98fb-49d2-bfeb-8dcbe17014f2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Item Definition</rdfs:label>
         <skos:definition xml:lang="en">association that records the binding of exactly one instance of the Item (8.2.1) class to zero, one or more instances of the Definition (8.4.2) class. The association records all of the definitions for a specific registry item.
 A definition shall be used for exactly one registry item. Definitions shall not be reused across multiple registry items because each such item should be distinct and distinguishable, and this should be reflected in the definition, if not in the text itself, then in the associated context.</skos:definition>
@@ -4598,7 +4539,6 @@ A definition shall be used for exactly one registry item. Definitions shall not 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:22:14Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.6.4"/>
         <dcterms:identifier rdf:resource="urn:uuid:478ead10-057e-4d8d-89e1-f214edb741d0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Item Designation</rdfs:label>
         <skos:definition xml:lang="en">association that records the binding of exactly one instance of the Item (8.2.1) class to zero, one or more instances of the Designations (8.4.1) class.
 This association records that the registry item is designated by the designation(s) by recording all the designations (sign plus language pairs) for a registry item.
@@ -4664,7 +4604,6 @@ A designation shall be used for exactly one registry item. Designations shall no
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T10:27:56Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.3.1"/>
         <dcterms:identifier rdf:resource="urn:uuid:6b274025-a5ee-4242-8476-cfbbc686fff3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:58:05Z</dcterms:modified>
         <rdfs:label xml:lang="en">Item Mapping</rdfs:label>
         <skos:definition xml:lang="en">class each instance of which models some part of a mapping of registry items. Each instance of the Item_Mapping class comprises a Subject_Mapping (11.4.1) set of instances of the Item class (11.2.1) and an Object_Mapping (11.4.2) set of instances of the Item class that model similar real-world requirements.</skos:definition>
     </owl:Class>
@@ -4707,7 +4646,6 @@ A conforming implementation may extend the above list of values.</rdfs:comment>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:32:28Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.4.3.1"/>
         <dcterms:identifier rdf:resource="urn:uuid:9f6f6a70-f91f-434e-b61f-d70e76c10511"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:40:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Item Slot</rdfs:label>
         <skos:definition xml:lang="en">association that records the binding of exactly one instance of the Item (6.4.2.1) class with zero, one or more instances of the Slot (6.4.2.4) class.
 This association registers the slots that are used to extend the registry item.</skos:definition>
@@ -4728,7 +4666,7 @@ This association registers the slots that are used to extend the registry item.<
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T21:40:04Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.16"/>
         <dcterms:identifier rdf:resource="urn:uuid:70e197bc-7471-4fc9-b9f0-352394736597"/>
-        <dcterms:source xml:lang="en">ISO 5127:2017, 3.1.5.01</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.5.01"/>
         <rdfs:label xml:lang="en">Language</rdfs:label>
         <skos:definition xml:lang="en">systematic use of sounds, characters, symbols or signs (3.2.10) to express meaning or communicate meaning or a message</skos:definition>
     </owl:Class>
@@ -4874,7 +4812,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:08:55Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.30"/>
         <dcterms:identifier rdf:resource="urn:uuid:18dc00d0-8fdc-475e-bed1-143780e96de5"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-1:2023, 3.2.26</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.26"/>
         <rdfs:label xml:lang="en">Metadata</rdfs:label>
         <skos:definition xml:lang="en">data (3.2.29) that defines and describe other data</skos:definition>
     </owl:Class>
@@ -4974,7 +4912,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:51:31Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.55"/>
         <dcterms:identifier rdf:resource="urn:uuid:577e16a9-d67d-4d69-9681-f5c58feecba1"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-1:2023, 3.2.31</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.31"/>
         <rdfs:label xml:lang="en">Metadata Registry</rdfs:label>
         <skos:definition xml:lang="en">information system for registering metadata (3.2.30)</skos:definition>
         <skos:scopeNote xml:lang="en">The associated information store or database is known as a metadata register (3.2.56)</skos:scopeNote>
@@ -4982,7 +4920,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/MetadataRegistry"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
-        <owl:annotatedTarget xml:lang="en">ISO/IEC 11179-1:2023, 3.2.31</owl:annotatedTarget>
+        <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.31"/>
         <rdfs:comment xml:lang="en">modified — Note 1 to entry added</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
@@ -5002,22 +4940,22 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:06:02Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.34"/>
         <dcterms:identifier rdf:resource="urn:uuid:ce409c82-7bb3-4cc6-b877-349364c4448a"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-1:2023, 3.2.27</dcterms:source>
-        <rdfs:comment xml:lang="en">The metamodel in this document is expressed as a conceptual data model (3.2.33) using UML class diagram notation (3.2.36)</rdfs:comment>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.27"/>
         <rdfs:label xml:lang="en">Metamodel</rdfs:label>
         <skos:definition xml:lang="en">data model (3.2.32) that specifies one or more other models, such as data models, process models, ontologies, etc.</skos:definition>
+        <skos:scopeNote xml:lang="en">The metamodel in this document is expressed as a conceptual data model (3.2.33) using UML class diagram notation (3.2.36)</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Metamodel"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
-        <owl:annotatedTarget xml:lang="en">ISO/IEC 11179-1:2023, 3.2.27</owl:annotatedTarget>
+        <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.27"/>
         <rdfs:comment xml:lang="en">modified — Note 1 to entry added</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Metamodel"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">The metamodel in this document is expressed as a conceptual data model (3.2.33) using UML class diagram notation (3.2.36)</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -5030,7 +4968,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T08:21:38Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.12"/>
         <dcterms:identifier rdf:resource="urn:uuid:7c98584b-bd26-4cca-9a22-e71a97bef153"/>
-        <dcterms:source xml:lang="en">ISO/IEC 15944-1:2011, 3.35</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:15944:-1:ed-2:v1:term:3.35"/>
         <rdfs:label xml:lang="en">Name</rdfs:label>
         <skos:definition xml:lang="en">designation of an object (3.2.1) by a linguistic expression</skos:definition>
     </owl:Class>
@@ -5129,7 +5067,6 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:45Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.13"/>
         <dcterms:identifier rdf:resource="urn:uuid:4445982a-301f-4a32-be42-d454cad2baf5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:45:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.3.2"/>
         <rdfs:label xml:lang="en">Namespace</rdfs:label>
         <skos:definition xml:lang="en">set of designations (3.2.11), scoped identifiers (3.2.62) or both for a particular business need</skos:definition>
@@ -5221,7 +5158,6 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:34:27Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.6.5"/>
         <dcterms:identifier rdf:resource="urn:uuid:a7231da9-33a1-443f-a969-cc9563ba00e1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:43:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Naming Convention Conformance</rdfs:label>
         <skos:definition xml:lang="en">association that records the binding of zero, one or more instances of the Designation (8.4.1) class to zero, one or more instances of the Naming_Convention (8.4.4)class.
 This association records the naming convention to which a designation conforms.</skos:definition>
@@ -5250,7 +5186,6 @@ This association records the naming convention to which a designation conforms.<
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:19:43Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.6.6"/>
         <dcterms:identifier rdf:resource="urn:uuid:d557677c-46b2-4515-ac0a-ff94ea9a2465"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:43:30Z</dcterms:modified>
         <rdfs:label xml:lang="en-us">Naming Convention Utilization</rdfs:label>
         <skos:definition xml:lang="en">association records the binding of zero, one or more instances of the Namespace (8.3.1) class to zero, one or more instances of the Naming_Convention (8.4.4) class.
 This association records the naming convention used by the namespace.</skos:definition>
@@ -5293,7 +5228,7 @@ This association records the naming convention used by the namespace.</skos:defi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:11:44Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.1"/>
         <dcterms:identifier rdf:resource="urn:uuid:542ced23-e605-484d-b603-e8bcfffd5d49"/>
-        <dcterms:source xml:lang="en">ISO 1087:2019, 3.1.1</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.1.1"/>
         <rdfs:label xml:lang="en">Object</rdfs:label>
         <skos:definition xml:lang="en">anything perceivable or conceivable</skos:definition>
         <skos:scopeNote xml:lang="en">Objects can be material (e.g. &apos;engine&apos;, &apos;sheet of paper&apos;, &apos;diamond&apos;), immaterial (e.g. &apos;conversion ratio&apos;, &apos;project plan&apos;) or imagined (e.g. &apos;unicorn&apos;, &apos;scientific hypothesis&apos;)</skos:scopeNote>
@@ -5320,7 +5255,7 @@ This association records the naming convention used by the namespace.</skos:defi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:11:21Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.2"/>
         <dcterms:identifier rdf:resource="urn:uuid:bd761172-d1ed-4162-b3e3-40c032f84c80"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-31:2023, 3.1</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.1"/>
         <rdfs:label xml:lang="en">Object Class</rdfs:label>
         <skos:definition xml:lang="en">set of ideas, abstractions or things in the real world that are identified with explicit boundaries and meaning and whose properties and behaviour follow the same rules</skos:definition>
     </owl:Class>
@@ -5390,7 +5325,6 @@ This association records that the set of classification scheme items are the obj
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:17:27Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.2"/>
         <dcterms:identifier rdf:resource="urn:uuid:ac307cad-abc8-427e-9c22-9b8cf06c111a"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:59:05Z</dcterms:modified>
         <rdfs:label xml:lang="en">Object Mapping</rdfs:label>
         <skos:definition xml:lang="en">association which records the binding of zero, one or more instances of the Item_Mapping class (11.3.1) with one or more instances of the Item class (6.4.2.1) which are the object of the mapping</skos:definition>
     </owl:Class>
@@ -5460,7 +5394,7 @@ This association records that the set of classification scheme items are the obj
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.84"/>
         <dcterms:identifier rdf:resource="urn:uuid:e39c34c8-9678-4cbc-8934-9304acac9831"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.2.2"/>
-        <dcterms:source xml:lang="en">ISO/IEC 6523-1:1998, 3.1</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:6523:-1:ed-1:v1:term:3.1"/>
         <rdfs:label xml:lang="en-us">Organization</rdfs:label>
         <skos:definition xml:lang="en">unique framework of authority within which individuals (3.2.82) act, or are designated to act, towards some purpose</skos:definition>
         <skos:scopeNote xml:lang="en">The kinds of organizations covered by ISO/IEC 6523-1[8] include the following examples:
@@ -5475,7 +5409,7 @@ c) groupings of the above types of organizations where there is a need to identi
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
-        <owl:annotatedTarget xml:lang="en">ISO/IEC 6523-1:1998, 3.1</owl:annotatedTarget>
+        <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:6523:-1:ed-1:v1:term:3.1"/>
         <rdfs:comment xml:lang="en">modified — ‘goods and/or services’ changed to ‘goods, services or both’, &apos;person or persons&apos; changed to &apos;individuals&apos;, leading article deleted, trailing fullstop deleted, NOTE converted to Note 1 to entry</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
@@ -5537,7 +5471,7 @@ c) groupings of the above types of organizations where there is a need to identi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:44:20Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.48"/>
         <dcterms:identifier rdf:resource="urn:uuid:100011b6-7476-4acf-98a2-1dfb7b985b7b"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-31:2023, 3.19</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.19"/>
         <rdfs:label xml:lang="en">Permissible Value</rdfs:label>
         <skos:definition xml:lang="en">designation (3.2.11) of a value meaning (3.2.46)</skos:definition>
         <skos:scopeNote xml:lang="en">Explicit mapping of a single permissible value to a single value meaning is possible only when both the value meaning and permissible value are enumerated, e.g. for code sets. For described permissible values, it is possible for the described meaning to be associated with a range of values, e.g. weight in kilograms.</skos:scopeNote>
@@ -5619,7 +5553,7 @@ c) groupings of the above types of organizations where there is a need to identi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:11:02Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.3"/>
         <dcterms:identifier rdf:resource="urn:uuid:efdc4be0-730e-4064-a8cd-694aa26e400c"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-31:2023, 3.2</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.2"/>
         <rdfs:label xml:lang="en">Property</rdfs:label>
         <skos:definition xml:lang="en">quality common to all members of an object class (3.2.2)</skos:definition>
     </owl:Class>
@@ -5731,7 +5665,6 @@ This association records the reference documents that provide additional informa
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:43:20Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.101"/>
         <dcterms:identifier rdf:resource="urn:uuid:707179f7-3c7b-4178-b0f5-d90a63a283be"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:44:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.2.3"/>
         <rdfs:label xml:lang="en">Reference Document</rdfs:label>
         <skos:definition xml:lang="en">document that provides pertinent details for consultation about a subject</skos:definition>
@@ -5786,7 +5719,6 @@ This association records the reference documents that provide additional informa
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:55:53Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.65"/>
         <dcterms:identifier rdf:resource="urn:uuid:ef252164-d0cf-4909-8237-df01cac516f8"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:45:30Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.1"/>
         <rdfs:label xml:lang="en">Registered Item</rdfs:label>
         <skos:definition xml:lang="en">identified item (3.2.61) that is recorded and managed in a registry (3.2.49)</skos:definition>
@@ -5856,7 +5788,7 @@ This association records the reference documents that provide additional informa
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:48:45Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.64"/>
         <dcterms:identifier rdf:resource="urn:uuid:92a510ad-ca1d-4d78-a9c8-c23b35c8a118"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-1:2023, 3.3.33</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.3.33"/>
         <rdfs:label xml:lang="en">Registration</rdfs:label>
         <skos:definition xml:lang="en">set of rules, operations and procedures for the management of an item in a registry (3.2.49)</skos:definition>
         <skos:scopeNote xml:lang="en">A detailed description of registration as it applies in ISO/IEC 11179 is found in ISO/IEC 11179-6</skos:scopeNote>
@@ -5866,7 +5798,7 @@ This association records the reference documents that provide additional informa
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Registration"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
-        <owl:annotatedTarget xml:lang="en">ISO/IEC 11179-1:2023, 3.3.33</owl:annotatedTarget>
+        <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.3.33"/>
         <rdfs:comment xml:lang="en">modified — Notes 2 and 3 to entry added</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
@@ -5933,7 +5865,6 @@ This association records the reference documents that provide additional informa
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:45:01Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.92"/>
         <dcterms:identifier rdf:resource="urn:uuid:31242075-de2b-4d91-b22e-c5d10d3bd432"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:48:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.6"/>
         <rdfs:label xml:lang="en">Registration Authority</rdfs:label>
         <skos:definition xml:lang="en">organization (3.2.84) responsible for maintaining a register (3.2.50)</skos:definition>
@@ -5991,7 +5922,6 @@ This association records the reference documents that provide additional informa
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:42:57Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.93"/>
         <dcterms:identifier rdf:resource="urn:uuid:688b4323-abbc-4bc1-aad1-f0e833616671"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:25:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.9"/>
         <rdfs:label xml:lang="en">Registration Authority Identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier (3.1.16) assigned to a registration authority (3.2.92)</skos:definition>
@@ -6111,7 +6041,6 @@ This association records the registrars that represent the registration authorit
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-07-04T08:26:27Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.4"/>
         <dcterms:identifier rdf:resource="urn:uuid:b4701e4b-b51d-4677-8c31-f6d88a2fdf84"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:51:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Registration State</dcterms:title>
         <rdfs:label xml:lang="en">Registration State</rdfs:label>
         <skos:definition xml:lang="en">class, each instance of which models a registration state, a collection of information about the registration of an administered item. The Registration_State class is used as a datatype for the registration_state attribute of the Administered_Item class (9.4.2).</skos:definition>
@@ -6126,7 +6055,6 @@ This association records the registrars that represent the registration authorit
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:43:21Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.70"/>
         <dcterms:identifier rdf:resource="urn:uuid:7d396c94-40f4-4ed5-aea7-7761a0e99ccf"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:51:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Registration Status</dcterms:title>
         <rdfs:label xml:lang="en">Registration Status</rdfs:label>
         <skos:definition xml:lang="en">designation (3.2.11) of the status in the registration (3.2.64) life-cycle of an administered item (3.2.66)</skos:definition>
@@ -6155,7 +6083,7 @@ This association records the registrars that represent the registration authorit
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:47:43Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.49"/>
         <dcterms:identifier rdf:resource="urn:uuid:d7190407-4294-446a-8591-f0a74d89f410"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-1:2023, 3.2.34</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.34"/>
         <rdfs:label xml:lang="en">Registry</rdfs:label>
         <skos:definition xml:lang="en">information system for registration (3.2.64)</skos:definition>
     </owl:Class>
@@ -6667,7 +6595,6 @@ This association records that the set of classification scheme items are the sub
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T11:17:21Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.1"/>
         <dcterms:identifier rdf:resource="urn:uuid:d8abe96b-5b29-480e-82e6-d069adab761f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Subject Mapping</rdfs:label>
         <skos:definition xml:lang="en">association which records the binding of zero, one or more instances of the Item_Mapping class (11.3.1) with one or more instances of the Item class (6.4.2.1) which are the subject of the mapping</skos:definition>
     </owl:Class>
@@ -6738,7 +6665,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T10:56:05Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.100"/>
         <dcterms:identifier rdf:resource="urn:uuid:19baa4e2-1ae2-4438-a9f6-c027af4adef4"/>
-        <dcterms:source xml:lang="en">ISO/IEC 2382:2015(en), 2121273</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2121273"/>
         <rdfs:comment xml:lang="en">See also the Text datatype (6.2.12)</rdfs:comment>
         <rdfs:label xml:lang="en">Text</rdfs:label>
         <skos:definition xml:lang="en">data (3.2.29) in the form of characters, symbols, words, phrases, paragraphs, sentences, tables, or other character arrangements, intended to convey a meaning, and whose interpretation is essentially based upon the reader&apos;s knowledge of some natural language or artificial language</skos:definition>
@@ -6746,7 +6673,7 @@ This association records that the set of classification scheme items are the sub
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Text"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
-        <owl:annotatedTarget xml:lang="en">ISO/IEC 2382:2015(en), 2121273</owl:annotatedTarget>
+        <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2121273"/>
         <rdfs:comment xml:lang="en">modified — Note 1 to entry added</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
@@ -6814,7 +6741,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:43:57Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.47"/>
         <dcterms:identifier rdf:resource="urn:uuid:4b417f18-86b4-43de-aff5-d8ee63f5b34f"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-31:2023, 3.13</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.13"/>
         <rdfs:label xml:lang="en">Value Domain</rdfs:label>
         <skos:definition xml:lang="en">set of permissible values (3.2.48)</skos:definition>
         <skos:scopeNote xml:lang="en">The permissible values can either be enumerated, expressed via a description, or a combination of the two</skos:scopeNote>
@@ -6864,7 +6791,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:56:45Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.46"/>
         <dcterms:identifier rdf:resource="urn:uuid:998a183b-a258-4dc1-8d00-2fe60d2ec3d6"/>
-        <dcterms:source xml:lang="en">ISO/IEC 11179-31:2023, 3.10</dcterms:source>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.10"/>
         <rdfs:label xml:lang="en">Value Meaning</rdfs:label>
         <skos:definition xml:lang="en">semantic content of a value</skos:definition>
         <skos:scopeNote xml:lang="en">The representation of value meanings in a registry (3.2.49) are independent of (and do not constrain) their representation in any corresponding value domain (3.2.47)</skos:scopeNote>
