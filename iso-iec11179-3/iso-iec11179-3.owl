@@ -3946,7 +3946,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:28Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.23"/>
         <dcterms:identifier rdf:resource="urn:uuid:de8b84b9-e38c-46cb-87f4-3959232402ba"/>
-        <dcterms:subject xml:lang="en">registry</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.49"/>
         <rdfs:label xml:lang="en">Definition</rdfs:label>
         <skos:definition xml:lang="en">representation of a registry item (3.2.54) by a descriptive statement which, in a given language (3.2.16) and context(s) (3.2.15), serves to differentiate it from other registry items</skos:definition>
     </owl:Class>
@@ -4079,7 +4079,7 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:28:21Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.11"/>
         <dcterms:identifier rdf:resource="urn:uuid:fc458e74-b84a-4ef9-bcae-5ca958340077"/>
-        <dcterms:subject xml:lang="en">registry</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.49"/>
         <rdfs:label xml:lang="en">Designation</rdfs:label>
         <skos:definition xml:lang="en">representation of a registry item (3.2.54) by a sign (3.2.10) which denotes it</skos:definition>
     </owl:Class>
