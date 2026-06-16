@@ -95,17 +95,24 @@ class UniversalOntologyTest(XmlTestCase):
 			'{http://www.w3.org/2000/01/rdf-schema#}label',
 			'{http://www.w3.org/2000/01/rdf-schema#}comment',
 			'{http://www.w3.org/2004/02/skos/core#}definition',
-			'{http://www.w3.org/2004/02/skos/core#}example',
 			'{http://www.w3.org/2004/02/skos/core#}prefLabel',
-			'{http://www.w3.org/2004/02/skos/core#}scopeNote',
-			'{http://www.w3.org/2004/02/skos/core#}note',
-			'{http://www.w3.org/2004/02/skos/core#}changeNote'
+			'{http://purl.org/dc/terms/}alternative',
+			'{https://haddenindustries.com/ontology/universal/core/}acronym',
+			'{https://haddenindustries.com/ontology/universal/core/}synonym'
 		]:
 			for instance in root.iter(global_lang_tag):
 				if instance.get('{http://www.w3.org/XML/1998/namespace}lang') is None:
 					self.fail('%s is missing xml:lang attribute. Text: "%s"' % (global_lang_tag.split('}')[-1], instance.text))
 		
+		# Global uniqueness for dcterms:identifier
 		identifiersList = []
+		for identifier in root.iter('{http://purl.org/dc/terms/}identifier'):
+			identifierRdfResource = identifier.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
+			if identifierRdfResource is not None:
+				if identifierRdfResource in identifiersList:
+					self.fail('another element with dcterms:identifier "%s" already exists' % identifierRdfResource)
+				identifiersList.append(identifierRdfResource)
+		
 		labelsList = []
 
 		if ontologyElement is not None:
@@ -246,13 +253,6 @@ class UniversalOntologyTest(XmlTestCase):
 						
 						if identifierRdfResource is not None:
 							
-							# Check all identifiers are unique
-							if identifierRdfResource in identifiersList:
-								
-								self.fail('another element with dcterms:identifier "%s" already exists' % identifierRdfResource)
-							
-							identifiersList.append(identifierRdfResource)
-							
 							if identifierRdfResource.startswith('urn:uuid:'):
 								
 								if not hasUuidIdentifier:
@@ -338,17 +338,8 @@ class UniversalOntologyTest(XmlTestCase):
 					self.assertXpathsExist(elem, ['./skos:definition'])
 					self.assertXpathsUniqueValue(elem, ['./skos:definition/@xml:lang'])
 					
-					# Alternative names
-					for alternative in elem.iterfind('{http://purl.org/dc/terms/}alternative'):
-						self.assertXmlHasAttribute(alternative, '{http://www.w3.org/XML/1998/namespace}lang')
-					
-					# Acronyms
-					for acronym in elem.iterfind('{https://haddenindustries.com/ontology/universal/core/}acronym'):
-						self.assertXmlHasAttribute(acronym, '{http://www.w3.org/XML/1998/namespace}lang')
-						
-					# Synonyms
-					for synonym in elem.iterfind('{https://haddenindustries.com/ontology/universal/core/}synonym'):
-						self.assertXmlHasAttribute(synonym, '{http://www.w3.org/XML/1998/namespace}lang')
+					# Descriptions
+					self.assertXpathsUniqueValue(elem, ['./dcterms:description/@xml:lang'])
 						
 				except:
 					print(entityRdfAboutTail)
