@@ -97,7 +97,9 @@ class UniversalOntologyTest(XmlTestCase):
 			'{http://www.w3.org/2004/02/skos/core#}definition',
 			'{http://www.w3.org/2004/02/skos/core#}example',
 			'{http://www.w3.org/2004/02/skos/core#}prefLabel',
-			'{http://www.w3.org/2004/02/skos/core#}scopeNote'
+			'{http://www.w3.org/2004/02/skos/core#}scopeNote',
+			'{http://www.w3.org/2004/02/skos/core#}note',
+			'{http://www.w3.org/2004/02/skos/core#}changeNote'
 		]:
 			for instance in root.iter(global_lang_tag):
 				if instance.get('{http://www.w3.org/XML/1998/namespace}lang') is None:
