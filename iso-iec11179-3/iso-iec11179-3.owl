@@ -2723,9 +2723,9 @@ Condition: applies only if standard is specified, and the specified standard all
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_reference_document__identifier_kind -->
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_reference_document_identifier_kind -->
 
-    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_reference_document__identifier_kind">
+    <owl:DatatypeProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_reference_document_identifier_kind">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrySpecification"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
@@ -6486,7 +6486,7 @@ This association records the registrars that represent the registration authorit
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_reference_document__identifier_kind"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/RegistrySpecification_reference_document_identifier_kind"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
             </owl:Restriction>
@@ -7108,9 +7108,9 @@ This association records that the set of classification scheme items are the sub
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRatingSuperseded -->
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating_Superseded -->
 
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRatingSuperseded">
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating_Superseded">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T18:11:30Z</dcterms:created>
@@ -7463,9 +7463,9 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatusSuperseded -->
+    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatus_Superseded -->
 
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatusSuperseded">
+    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatus_Superseded">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatus"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:52:04Z</dcterms:created>
@@ -7664,7 +7664,7 @@ c) shall not recognize, nor act on, nor allow the production of classes, attribu
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
         <owl:distinctMembers rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRatingSuperseded"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating_Superseded"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Admitted"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Deprecated"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Obsolete"/>
@@ -7681,7 +7681,7 @@ c) shall not recognize, nor act on, nor allow the production of classes, attribu
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/PreferredStandard"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Qualified"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Recorded"/>
-            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatusSuperseded"/>
+            <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/RegistrationStatus_Superseded"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Retired"/>
             <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Standard"/>
         </owl:distinctMembers>
