@@ -44,8 +44,11 @@
       <!-- Replicate existing attributes and child nodes unmodified, EXCLUDING the trailing whitespace text node -->
       <xsl:apply-templates select="@* | node()[not(position() = last() and self::text() and normalize-space(.) = '')]"/>
       
-      <!-- Guard clause: Ensure skos:prefLabel does not already exist -->
-      <xsl:if test="not(skos:prefLabel)">
+      <!-- Guard clause: 
+           1. Ensure skos:prefLabel does not already exist.
+           2. Ensure rdf:about belongs to the target domain whitelist.
+           3. Exclude NamedIndividuals originating from the dataset or distribution namespaces. -->
+      <xsl:if test="not(skos:prefLabel) and starts-with(@rdf:about, 'https://haddenindustries.com/ontology/') and not(self::owl:NamedIndividual and (starts-with(@rdf:about, 'https://haddenindustries.com/ontology/dataset/') or starts-with(@rdf:about, 'https://haddenindustries.com/ontology/distribution/')))">
         <xsl:choose>
           
           <!-- Condition 1: Inherit from first sibling rdfs:label -->
