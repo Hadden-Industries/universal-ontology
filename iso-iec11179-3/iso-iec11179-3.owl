@@ -361,6 +361,7 @@ Where multilingual text is required, the Text datatype can be implemented using 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.2.4"/>
         <rdfs:label xml:lang="en">registration_state</rdfs:label>
         <skos:definition xml:lang="en">current collection of administrative information about the registration of this administered item</skos:definition>
+        <skos:prefLabel xml:lang="en">registration_state</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -373,6 +374,7 @@ Where multilingual text is required, the Text datatype can be implemented using 
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:55:13Z</dcterms:created>
         <rdfs:label xml:lang="en">classification_scheme</rdfs:label>
+        <skos:prefLabel xml:lang="en">classification_scheme</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -385,6 +387,7 @@ Where multilingual text is required, the Text datatype can be implemented using 
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T11:54:53Z</dcterms:created>
         <rdfs:label xml:lang="en">classification_scheme_item</rdfs:label>
+        <skos:prefLabel xml:lang="en">classification_scheme_item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -399,6 +402,7 @@ Where multilingual text is required, the Text datatype can be implemented using 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.5.2"/>
         <rdfs:label xml:lang="en">individual</rdfs:label>
         <skos:definition xml:lang="en">individual that is the contact, represented by this instance of the Contact class, within the organisation</skos:definition>
+        <skos:prefLabel xml:lang="en">individual</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -413,6 +417,7 @@ Where multilingual text is required, the Text datatype can be implemented using 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.5.2"/>
         <rdfs:label xml:lang="en-us">organization</rdfs:label>
         <skos:definition xml:lang="en">organisation for which the contact, represented by this instance of the Contact class, acts as a representative</skos:definition>
+        <skos:prefLabel xml:lang="en-us">organization</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -427,6 +432,7 @@ Where multilingual text is required, the Text datatype can be implemented using 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.5.2"/>
         <rdfs:label xml:lang="en">role</rdfs:label>
         <skos:definition xml:lang="en">role undertaken by the contact, represented by this instance of the Contact class, within the organisation</skos:definition>
+        <skos:prefLabel xml:lang="en">role</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -441,6 +447,7 @@ Where multilingual text is required, the Text datatype can be implemented using 
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.5.1.2"/>
         <rdfs:label xml:lang="en">acceptability</rdfs:label>
         <skos:definition xml:lang="en">acceptability rating of the definition in the specified context</skos:definition>
+        <skos:prefLabel xml:lang="en">acceptability</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -453,6 +460,7 @@ Where multilingual text is required, the Text datatype can be implemented using 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-27T20:14:16Z</dcterms:created>
         <rdfs:label xml:lang="en">scope</rdfs:label>
+        <skos:prefLabel xml:lang="en">scope</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -465,6 +473,7 @@ Where multilingual text is required, the Text datatype can be implemented using 
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:34:47Z</dcterms:created>
         <rdfs:label xml:lang="en">definition</rdfs:label>
+        <skos:prefLabel xml:lang="en">definition</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -477,6 +486,7 @@ Where multilingual text is required, the Text datatype can be implemented using 
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T18:35:05Z</dcterms:created>
         <rdfs:label xml:lang="en">reference_document</rdfs:label>
+        <skos:prefLabel xml:lang="en">reference_document</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -496,6 +506,7 @@ default_language attribute of the
 Registry_Specification class, a value shall be specified for this attribute.</rdfs:comment>
         <rdfs:label xml:lang="en">language</rdfs:label>
         <skos:definition xml:lang="en">language used to write the text of the definition, that is the language used for the value of the text attribute</skos:definition>
+        <skos:prefLabel xml:lang="en">language</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -510,6 +521,7 @@ Registry_Specification class, a value shall be specified for this attribute.</rd
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.2.3"/>
         <rdfs:label xml:lang="en">source</rdfs:label>
         <skos:definition xml:lang="en">reference to the source from which the definition text is taken</skos:definition>
+        <skos:prefLabel xml:lang="en">source</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -524,6 +536,7 @@ Registry_Specification class, a value shall be specified for this attribute.</rd
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.5.2.2"/>
         <rdfs:label xml:lang="en">acceptability</rdfs:label>
         <skos:definition xml:lang="en">acceptability rating of the designation in the specified context</skos:definition>
+        <skos:prefLabel xml:lang="en">acceptability</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -536,6 +549,7 @@ Registry_Specification class, a value shall be specified for this attribute.</rd
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-27T20:12:10Z</dcterms:created>
         <rdfs:label xml:lang="en">scope</rdfs:label>
+        <skos:prefLabel xml:lang="en">scope</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -550,6 +564,7 @@ Registry_Specification class, a value shall be specified for this attribute.</rd
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.3.3"/>
         <rdfs:label xml:lang="en">acceptability</rdfs:label>
         <skos:definition xml:lang="en">acceptability rating of the designation and definition in the specified context</skos:definition>
+        <skos:prefLabel xml:lang="en">acceptability</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -564,6 +579,7 @@ Registry_Specification class, a value shall be specified for this attribute.</rd
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.6.1"/>
         <rdfs:label xml:lang="en">context_for_pairing</rdfs:label>
         <skos:definition xml:lang="en">association records the binding of exactly one instance of the Context (8.2.2) class to zero, one or more instances of the Designation_Definition_Pairings (8.4.3) class. The association records the context in which a designation and definition are paired</skos:definition>
+        <skos:prefLabel xml:lang="en">context_for_pairing</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -584,6 +600,7 @@ Registry_Specification class (9.4.10).
 2) If a language is applicable and a value has not been specified for the default_language attribute of the Registry_Specification class, a value shall be specified for this attribute.</rdfs:comment>
         <rdfs:label xml:lang="en">language</rdfs:label>
         <skos:definition xml:lang="en">language or dialect in which the sign (usually a name) is expressed</skos:definition>
+        <skos:prefLabel xml:lang="en">language</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -598,6 +615,7 @@ Registry_Specification class (9.4.10).
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.1.3"/>
         <rdfs:label xml:lang="en">source</rdfs:label>
         <skos:definition xml:lang="en">reference to the source from which the sign of the designation is taken</skos:definition>
+        <skos:prefLabel xml:lang="en">source</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -610,6 +628,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:08:04Z</dcterms:created>
         <rdfs:label xml:lang="en">language_identification</rdfs:label>
+        <skos:prefLabel xml:lang="en">language_identification</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -622,6 +641,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-08T11:29:47Z</dcterms:created>
         <rdfs:label xml:lang="en">identified_item</rdfs:label>
+        <skos:prefLabel xml:lang="en">identified_item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -634,6 +654,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-08T11:30:48Z</dcterms:created>
         <rdfs:label xml:lang="en">identifier</rdfs:label>
+        <skos:prefLabel xml:lang="en">identifier</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -646,6 +667,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:40:43Z</dcterms:created>
         <rdfs:label xml:lang="en">scope</rdfs:label>
+        <skos:prefLabel xml:lang="en">scope</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -660,6 +682,7 @@ Registry_Specification class (9.4.10).
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.2.2"/>
         <rdfs:label xml:lang="en">mail_address</rdfs:label>
         <skos:definition xml:lang="en">postal address for the individual</skos:definition>
+        <skos:prefLabel xml:lang="en">mail_address</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -674,6 +697,7 @@ Registry_Specification class (9.4.10).
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.2.2"/>
         <rdfs:label xml:lang="en">phone_number</rdfs:label>
         <skos:definition xml:lang="en">phone numbers for the individual</skos:definition>
+        <skos:prefLabel xml:lang="en">phone_number</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -686,6 +710,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T09:56:30Z</dcterms:created>
         <rdfs:label xml:lang="en">classification_scheme_item</rdfs:label>
+        <skos:prefLabel xml:lang="en">classification_scheme_item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -698,6 +723,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T09:54:34Z</dcterms:created>
         <rdfs:label xml:lang="en">item</rdfs:label>
+        <skos:prefLabel xml:lang="en">item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -710,6 +736,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:25:39Z</dcterms:created>
         <rdfs:label xml:lang="en">item</rdfs:label>
+        <skos:prefLabel xml:lang="en">item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -722,6 +749,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:28:10Z</dcterms:created>
         <rdfs:label xml:lang="en">item</rdfs:label>
+        <skos:prefLabel xml:lang="en">item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -736,6 +764,7 @@ Registry_Specification class (9.4.10).
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.3.1.4"/>
         <rdfs:label xml:lang="en">degree</rdfs:label>
         <skos:definition xml:lang="en">specification of the kind of mapping between sets of registry items linked to this instance of Item_Mapping</skos:definition>
+        <skos:prefLabel xml:lang="en">degree</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -748,6 +777,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:33:16Z</dcterms:created>
         <rdfs:label xml:lang="en">item</rdfs:label>
+        <skos:prefLabel xml:lang="en">item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -761,6 +791,7 @@ Registry_Specification class (9.4.10).
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:01:13Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.5.1"/>
         <rdfs:label xml:lang="en">subset_mapping</rdfs:label>
+        <skos:prefLabel xml:lang="en">subset_mapping</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -774,6 +805,7 @@ Registry_Specification class (9.4.10).
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:01:21Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.5.1"/>
         <rdfs:label xml:lang="en">superset_mapping</rdfs:label>
+        <skos:prefLabel xml:lang="en">superset_mapping</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -788,6 +820,7 @@ Registry_Specification class (9.4.10).
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:7.3.3.4"/>
         <rdfs:label xml:lang="en">naming_authority</rdfs:label>
         <skos:definition xml:lang="en-us">organization that has the authority for naming in this namespace</skos:definition>
+        <skos:prefLabel xml:lang="en">naming_authority</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -800,6 +833,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T12:20:09Z</dcterms:created>
         <rdfs:label xml:lang="en">classification_scheme_item</rdfs:label>
+        <skos:prefLabel xml:lang="en">classification_scheme_item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -812,6 +846,7 @@ Registry_Specification class (9.4.10).
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T12:21:15Z</dcterms:created>
         <rdfs:label xml:lang="en">classification_scheme_item_relationship</rdfs:label>
+        <skos:prefLabel xml:lang="en">classification_scheme_item_relationship</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -825,6 +860,7 @@ Registry_Specification class (9.4.10).
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:10:55Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.2.1"/>
         <rdfs:label xml:lang="en">item</rdfs:label>
+        <skos:prefLabel xml:lang="en">item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -838,6 +874,7 @@ Registry_Specification class (9.4.10).
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:10:31Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.2.1"/>
         <rdfs:label xml:lang="en">item_mapping</rdfs:label>
+        <skos:prefLabel xml:lang="en">item_mapping</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -852,6 +889,7 @@ Registry_Specification class (9.4.10).
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.3.2"/>
         <rdfs:label xml:lang="en">mail_address</rdfs:label>
         <skos:definition xml:lang="en">postal address for the organization</skos:definition>
+        <skos:prefLabel xml:lang="en">mail_address</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -866,6 +904,7 @@ Registry_Specification class (9.4.10).
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.3.2"/>
         <rdfs:label xml:lang="en">phone_number</rdfs:label>
         <skos:definition xml:lang="en">phone numbers for the organization</skos:definition>
+        <skos:prefLabel xml:lang="en">phone_number</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -887,6 +926,7 @@ Registry_Specification class.
 Registry_Specification class, then a value for this attribute shall be specified.</rdfs:comment>
         <rdfs:label xml:lang="en">language</rdfs:label>
         <skos:definition xml:lang="en">identifier of the natural language used in the reference document</skos:definition>
+        <skos:prefLabel xml:lang="en">language</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -901,6 +941,7 @@ Registry_Specification class, then a value for this attribute shall be specified
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
         <rdfs:label xml:lang="en">notation</rdfs:label>
         <skos:definition xml:lang="en">notation used within the reference document</skos:definition>
+        <skos:prefLabel xml:lang="en">notation</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -913,6 +954,7 @@ Registry_Specification class, then a value for this attribute shall be specified
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:40:39Z</dcterms:created>
         <rdfs:label xml:lang="en">reference_document</rdfs:label>
+        <skos:prefLabel xml:lang="en">reference_document</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -925,6 +967,7 @@ Registry_Specification class, then a value for this attribute shall be specified
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T13:40:58Z</dcterms:created>
         <rdfs:label xml:lang="en">registered_item</rdfs:label>
+        <skos:prefLabel xml:lang="en">registered_item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -938,6 +981,7 @@ Registry_Specification class, then a value for this attribute shall be specified
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:34:20Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.6"/>
         <rdfs:label xml:lang="en">registration_authority_registrar</rdfs:label>
+        <skos:prefLabel xml:lang="en">registration_authority_registrar</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -951,6 +995,7 @@ Registry_Specification class, then a value for this attribute shall be specified
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:32:43Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.6"/>
         <rdfs:label xml:lang="en">registration_authority</rdfs:label>
+        <skos:prefLabel xml:lang="en">registration_authority</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -963,6 +1008,7 @@ Registry_Specification class, then a value for this attribute shall be specified
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:09:27Z</dcterms:created>
         <rdfs:label xml:lang="en">documentation_language_identifier</rdfs:label>
+        <skos:prefLabel xml:lang="en">documentation_language_identifier</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1009,6 +1055,7 @@ Permitted values for registration_status are specified in 9.6.1.</skos:definitio
         <rdfs:label xml:lang="en">alternative_language</rdfs:label>
         <skos:definition xml:lang="en">Any other language that is used in the registry
 Examples: eng-840, en-US</skos:definition>
+        <skos:prefLabel xml:lang="en">alternative_language</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1024,6 +1071,7 @@ Examples: eng-840, en-US</skos:definition>
         <rdfs:label xml:lang="en">context</rdfs:label>
         <skos:definition xml:lang="en">context which represents the registry itself
 It is sometimes useful to reference a default context, rather than create a new one. This attribute is one possible choice for such a default.</skos:definition>
+        <skos:prefLabel xml:lang="en">context</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1039,6 +1087,7 @@ It is sometimes useful to reference a default context, rather than create a new 
         <rdfs:label xml:lang="en">default_language</rdfs:label>
         <skos:definition xml:lang="en">The language that is used as the default in the registry for designations, definitions and reference documents.
 Examples: eng-840, en-US</skos:definition>
+        <skos:prefLabel xml:lang="en">default_language</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1054,6 +1103,7 @@ Examples: eng-840, en-US</skos:definition>
         <rdfs:label xml:lang="en">degree_of_conformance</rdfs:label>
         <skos:definition xml:lang="en">‘conforming’ or ‘strictly conforming’. See 4.2.
 Condition: applies only if standard is specified.</skos:definition>
+        <skos:prefLabel xml:lang="en">degree_of_conformance</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1068,6 +1118,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.4.2"/>
         <rdfs:label xml:lang="en">mail_address</rdfs:label>
         <skos:definition xml:lang="en">postal address for the role</skos:definition>
+        <skos:prefLabel xml:lang="en">mail_address</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1082,6 +1133,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.4.2"/>
         <rdfs:label xml:lang="en">phone_number</rdfs:label>
         <skos:definition xml:lang="en">phone numbers for the role</skos:definition>
+        <skos:prefLabel xml:lang="en">phone_number</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1096,6 +1148,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.8.3"/>
         <rdfs:label xml:lang="en">contact</rdfs:label>
         <skos:definition xml:lang="en">information about the contact that is responsible for the stewardship of the administered items that are linked to this stewardship record</skos:definition>
+        <skos:prefLabel xml:lang="en">contact</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1110,6 +1163,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.8.3"/>
         <rdfs:label xml:lang="en-us">organization</rdfs:label>
         <skos:definition xml:lang="en">information about the organization that is responsible for the stewardship of the administered items that are linked to this stewardship record</skos:definition>
+        <skos:prefLabel xml:lang="en-us">organization</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1122,6 +1176,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T12:20:28Z</dcterms:created>
         <rdfs:label xml:lang="en">classification_scheme_item</rdfs:label>
+        <skos:prefLabel xml:lang="en">classification_scheme_item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1134,6 +1189,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T12:21:27Z</dcterms:created>
         <rdfs:label xml:lang="en">classification_scheme_item_relationship</rdfs:label>
+        <skos:prefLabel xml:lang="en">classification_scheme_item_relationship</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1147,6 +1203,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:10:47Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.1.1"/>
         <rdfs:label xml:lang="en">item</rdfs:label>
+        <skos:prefLabel xml:lang="en">item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1160,6 +1217,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:10:25Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.4.1.1"/>
         <rdfs:label xml:lang="en">item_mapping</rdfs:label>
+        <skos:prefLabel xml:lang="en">item_mapping</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1174,6 +1232,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.9.3"/>
         <rdfs:label xml:lang="en">contact</rdfs:label>
         <skos:definition xml:lang="en">information about the contact that is responsible for the submission of the registered items that are linked to this submission record</skos:definition>
+        <skos:prefLabel xml:lang="en">contact</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1188,6 +1247,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.9.3"/>
         <rdfs:label xml:lang="en-us">organization</rdfs:label>
         <skos:definition xml:lang="en">information about the organization that is responsible for the submission of the registered items that are linked to this submission record</skos:definition>
+        <skos:prefLabel xml:lang="en-us">organization</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1201,6 +1261,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:46:24Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.8"/>
         <rdfs:label xml:lang="en">registered_item</rdfs:label>
+        <skos:prefLabel xml:lang="en">registered_item</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1214,6 +1275,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T17:46:12Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.8"/>
         <rdfs:label xml:lang="en">submission_record</rdfs:label>
+        <skos:prefLabel xml:lang="en">submission_record</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1229,6 +1291,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <rdfs:comment xml:lang="en">NOTE applies to all values in the Value_Domain.</rdfs:comment>
         <rdfs:label xml:lang="en">datatype</rdfs:label>
         <skos:definition xml:lang="en">Datatype used in a Value_Domain</skos:definition>
+        <skos:prefLabel xml:lang="en">datatype</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1238,6 +1301,7 @@ Condition: applies only if standard is specified.</skos:definition>
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/abstractionOf">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:18:17Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">abstraction of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1250,6 +1314,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:23:12Z</dcterms:created>
         <rdfs:label xml:lang="en">acceptable_convention</rdfs:label>
+        <skos:prefLabel xml:lang="en">acceptable_convention</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1265,6 +1330,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <rdfs:comment xml:lang="en">NOTE Attached items can share the same administered item and still have different submission organizations.</rdfs:comment>
         <rdfs:label xml:lang="en">attachment</rdfs:label>
         <skos:definition xml:lang="en">records the binding of exactly one instance of the Administered_Item (9.4.2) class with zero, one or more instances of the Attached_Item (9.4.3) class. This association records that the attached items share all of the administrative information of the linked administered item, enabling collections of registered items to be administered collectively as a block.</skos:definition>
+        <skos:prefLabel xml:lang="en">attachment</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1277,6 +1343,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:16:47Z</dcterms:created>
         <rdfs:label xml:lang="en">binding</rdfs:label>
+        <skos:prefLabel xml:lang="en">binding</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1291,6 +1358,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:10.3.2.4"/>
         <rdfs:label xml:lang="en">classification_scheme_item_concept</rdfs:label>
         <skos:definition xml:lang="en">concept used as a classifier for this classification scheme item in this classification scheme</skos:definition>
+        <skos:prefLabel xml:lang="en">classification_scheme_item_concept</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1306,6 +1374,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <rdfs:label xml:lang="en-us">classification_scheme_item_relationship_categorization</rdfs:label>
         <skos:definition xml:lang="en">records the bindings of zero, one or more instances of the Classification_Scheme_Item_Relationships (10.3.3) class with exactly one instance of the Classification_Scheme_Item_Relationship_Type class.
 This association records the categorization, as modelled by the instance of the Classification_Scheme_Item_Relationship_Type class, of the relationship between the subject and object sets of classification scheme items that is modelled by the instance of the Classification_Scheme_Item_Relationship class.</skos:definition>
+        <skos:prefLabel xml:lang="en-us">classification_scheme_item_relationship_categorization</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1315,6 +1384,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/classifiedIn">
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T09:45:58Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">classified in</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1327,6 +1397,7 @@ This association records the categorization, as modelled by the instance of the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:35:29Z</dcterms:created>
         <rdfs:label xml:lang="en">conformant_designation</rdfs:label>
+        <skos:prefLabel xml:lang="en">conformant_designation</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1339,6 +1410,7 @@ This association records the categorization, as modelled by the instance of the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:41:10Z</dcterms:created>
         <rdfs:label xml:lang="en">contained_identifier</rdfs:label>
+        <skos:prefLabel xml:lang="en">contained_identifier</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1348,6 +1420,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/containerFor">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T15:21:56Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">container for</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1360,6 +1433,7 @@ This association records the categorization, as modelled by the instance of the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T21:34:57Z</dcterms:created>
         <rdfs:label xml:lang="en">convention</rdfs:label>
+        <skos:prefLabel xml:lang="en">convention</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1369,6 +1443,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/createdByAUniqueCombinationOf">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:20:41Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">created by a unique combination of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1382,6 +1457,7 @@ This association records the categorization, as modelled by the instance of the 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:39:57Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.1.3.4"/>
         <rdfs:label xml:lang="en">data_element_concept_domain</rdfs:label>
+        <skos:prefLabel xml:lang="en">data_element_concept_domain</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1395,6 +1471,7 @@ This association records the categorization, as modelled by the instance of the 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:36:04Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.2.3.3"/>
         <rdfs:label xml:lang="en">data_element_concept_object_class</rdfs:label>
+        <skos:prefLabel xml:lang="en">data_element_concept_object_class</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1408,6 +1485,7 @@ This association records the categorization, as modelled by the instance of the 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:31:36Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.2.3.1"/>
         <rdfs:label xml:lang="en">data_element_concept_property</rdfs:label>
+        <skos:prefLabel xml:lang="en">data_element_concept_property</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1421,6 +1499,7 @@ This association records the categorization, as modelled by the instance of the 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:46:01Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.5.3.1"/>
         <rdfs:label xml:lang="en">data_element_domain</rdfs:label>
+        <skos:prefLabel xml:lang="en">data_element_domain</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1434,6 +1513,7 @@ This association records the categorization, as modelled by the instance of the 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:42:29Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.5.3.2"/>
         <rdfs:label xml:lang="en">data_element_meaning</rdfs:label>
+        <skos:prefLabel xml:lang="en">data_element_meaning</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1443,6 +1523,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/definedBy">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:15:08Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">defined by</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1455,6 +1536,7 @@ This association records the categorization, as modelled by the instance of the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:26:22Z</dcterms:created>
         <rdfs:label xml:lang="en">definition</rdfs:label>
+        <skos:prefLabel xml:lang="en">definition</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1464,6 +1546,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/denotesA">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:53:13Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">denotes a</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1476,6 +1559,7 @@ This association records the categorization, as modelled by the instance of the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:28:44Z</dcterms:created>
         <rdfs:label xml:lang="en">designation</rdfs:label>
+        <skos:prefLabel xml:lang="en">designation</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1485,6 +1569,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/for">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:49:41Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">for</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1494,6 +1579,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/forRegistering">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:14:44Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">for registering</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1503,6 +1589,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/forThe">
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T16:54:50Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">for the</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1514,6 +1601,7 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Registry"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:51:15Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">identified in</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1523,6 +1611,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/identifierFor">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T18:18:24Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">identifier for</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1534,6 +1623,7 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/MetadataRegistry"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-04T11:23:53Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">in a</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1543,6 +1633,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/instanceOf">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:48:17Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">instance of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1552,6 +1643,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/isCommonToAllMembersOf">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:21:08Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">is common to all members of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1561,6 +1653,7 @@ This association records the categorization, as modelled by the instance of the 
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/maintainedBy">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:50:18Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">maintained by</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1573,6 +1666,7 @@ This association records the categorization, as modelled by the instance of the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:15:37Z</dcterms:created>
         <rdfs:label xml:lang="en">namespace</rdfs:label>
+        <skos:prefLabel xml:lang="en">namespace</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1585,6 +1679,7 @@ This association records the categorization, as modelled by the instance of the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:15:36Z</dcterms:created>
         <rdfs:label xml:lang="en">paired_definition</rdfs:label>
+        <skos:prefLabel xml:lang="en">paired_definition</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1597,6 +1692,7 @@ This association records the categorization, as modelled by the instance of the 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T11:15:01Z</dcterms:created>
         <rdfs:label xml:lang="en">paired_designation</rdfs:label>
+        <skos:prefLabel xml:lang="en">paired_designation</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1610,6 +1706,7 @@ This association records the categorization, as modelled by the instance of the 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T23:26:55Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.3.4"/>
         <rdfs:label xml:lang="en">permissible_value_meaning</rdfs:label>
+        <skos:prefLabel xml:lang="en">permissible_value_meaning</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1624,6 +1721,7 @@ This association records the categorization, as modelled by the instance of the 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
         <rdfs:label xml:lang="en">provider</rdfs:label>
         <skos:definition xml:lang="en">organization that maintains or carries an official copy of the reference document</skos:definition>
+        <skos:prefLabel xml:lang="en">provider</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1635,6 +1733,7 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Registry"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:56:33Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">recorded and managed in</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1650,6 +1749,7 @@ This association records the categorization, as modelled by the instance of the 
         <rdfs:label xml:lang="en">registered_item_constraint_set</rdfs:label>
         <skos:definition xml:lang="en">records the binding of zero, one or more instances of the Registered_Item (9.4.1) class with zero or one instance of the Constraint_Set (9.4.5) class.
 This association records the set of constraints that the registration authority deems appropriate for the linked registered items.</skos:definition>
+        <skos:prefLabel xml:lang="en">registered_item_constraint_set</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1665,6 +1765,7 @@ This association records the set of constraints that the registration authority 
         <rdfs:label xml:lang="en">registration</rdfs:label>
         <skos:definition xml:lang="en">records the binding of exactly one instance of the Registration_Authority (9.4.6) class with zero, one or more instances of the Administered_Item (9.4.2) class.
 This association records the registration authority responsible for the register in which the linked administered items are registered.</skos:definition>
+        <skos:prefLabel xml:lang="en">registration</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1679,6 +1780,7 @@ This association records the registration authority responsible for the register
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.6.4"/>
         <rdfs:label xml:lang="en">registration_authority_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier of a registration authority</skos:definition>
+        <skos:prefLabel xml:lang="en">registration_authority_identifier</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1694,6 +1796,7 @@ This association records the registration authority responsible for the register
         <rdfs:label xml:lang="en">registration_authority_namespace</rdfs:label>
         <skos:definition xml:lang="en">records the binding of zero or one instances of the Registration_Authority (9.4.6) class with zero or one instance of the Namespace (9.3.1) class.
 This association records the namespace that provides the scope for the registration authority identifier, represented by the instance of the Registration_Authority_Identifier (6.3.9) class used as the value for the registration_authority_identifier attribute, for the registration authority.</skos:definition>
+        <skos:prefLabel xml:lang="en">registration_authority_namespace</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1706,6 +1809,7 @@ This association records the namespace that provides the scope for the registrat
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-27T20:13:57Z</dcterms:created>
         <rdfs:label xml:lang="en">relevant_definition</rdfs:label>
+        <skos:prefLabel xml:lang="en">relevant_definition</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1718,6 +1822,7 @@ This association records the namespace that provides the scope for the registrat
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-27T20:08:10Z</dcterms:created>
         <rdfs:label xml:lang="en">relevant_designation</rdfs:label>
+        <skos:prefLabel xml:lang="en">relevant_designation</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1727,6 +1832,7 @@ This association records the namespace that provides the scope for the registrat
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/representationOf">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-06T11:57:57Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">representation of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1736,6 +1842,7 @@ This association records the namespace that provides the scope for the registrat
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/responsibleForMaintaining">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:51:01Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">responsible for maintaining</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1745,6 +1852,7 @@ This association records the namespace that provides the scope for the registrat
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/setOf">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:33:55Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">set of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1757,6 +1865,7 @@ This association records the namespace that provides the scope for the registrat
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:34:18Z</dcterms:created>
         <rdfs:label xml:lang="en">slot</rdfs:label>
+        <skos:prefLabel xml:lang="en">slot</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1772,6 +1881,7 @@ This association records the namespace that provides the scope for the registrat
         <rdfs:label xml:lang="en">stewardship</rdfs:label>
         <skos:definition xml:lang="en">records the binding of exactly one instance of the Stewardship_Record (9.4.8) class with one or more instances of the Administered_Item (9.4.2) class.
 This association records the stewardship record for the administered item, where the stewardship record identifies the stewardship organization, represented by an instance of the Organization (6.3.3) class, and the stewardship contact, represented by an instance of the Contact (6.3.5) class, who are responsible for maintaining the administrative information for the administered item.</skos:definition>
+        <skos:prefLabel xml:lang="en">stewardship</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1781,6 +1891,7 @@ This association records the stewardship record for the administered item, where
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/systemOf">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T21:40:23Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">system of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1795,6 +1906,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
         <rdfs:label xml:lang="en">type_description</rdfs:label>
         <skos:definition xml:lang="en">description of the type of reference document</skos:definition>
+        <skos:prefLabel xml:lang="en">type_description</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1804,6 +1916,7 @@ This association records the stewardship record for the administered item, where
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/unitOf">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T12:15:42Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">unit of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1816,6 +1929,7 @@ This association records the stewardship record for the administered item, where
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:22:52Z</dcterms:created>
         <rdfs:label xml:lang="en-us">utilization</rdfs:label>
+        <skos:prefLabel xml:lang="en-us">utilization</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1829,6 +1943,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:49:22Z</dcterms:created>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.1.3.1"/>
         <rdfs:label xml:lang="en">value_domain_meaning</rdfs:label>
+        <skos:prefLabel xml:lang="en">value_domain_meaning</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1838,6 +1953,7 @@ This association records the stewardship record for the administered item, where
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/withinWhichAct">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-07-09T17:29:30Z</dcterms:created>
+        <skos:prefLabel xml:lang="en">within which act</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1864,6 +1980,7 @@ This association records the stewardship record for the administered item, where
         <rdfs:comment xml:lang="en">Previous versions of the administered item can be maintained in the registry, or not</rdfs:comment>
         <rdfs:label xml:lang="en">change_description</rdfs:label>
         <skos:definition xml:lang="en">description of what has changed since the prior version of the administered item</skos:definition>
+        <skos:prefLabel xml:lang="en">change_description</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -1878,6 +1995,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.2.4"/>
         <rdfs:label xml:lang="en">creation_datetime</rdfs:label>
         <skos:definition xml:lang="en">date and time the administered item was created</skos:definition>
+        <skos:prefLabel xml:lang="en">creation_datetime</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -1892,6 +2010,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.2.4"/>
         <rdfs:label xml:lang="en">explanatory_comment</rdfs:label>
         <skos:definition xml:lang="en">descriptive comments about the administered item</skos:definition>
+        <skos:prefLabel xml:lang="en">explanatory_comment</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -1906,6 +2025,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.2.4"/>
         <rdfs:label xml:lang="en">last_change_datetime</rdfs:label>
         <skos:definition xml:lang="en">date and time the administered item was last changed</skos:definition>
+        <skos:prefLabel xml:lang="en">last_change_datetime</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -1920,6 +2040,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.2.4"/>
         <rdfs:label xml:lang="en">origin</rdfs:label>
         <skos:definition xml:lang="en">the source (e.g. document, project, discipline or model) for the administered item</skos:definition>
+        <skos:prefLabel xml:lang="en">origin</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -1935,6 +2056,7 @@ This association records the stewardship record for the administered item, where
         <rdfs:comment xml:lang="en">To be used when the Concept_System is external to the registry. If the Concept_System is in the registry, use the association concept_source (ISO/IEC 11179-32:2023, 7.1.3.2) instead.</rdfs:comment>
         <rdfs:label xml:lang="en">source_uri</rdfs:label>
         <skos:definition xml:lang="en">URI that enables access to the concept system which includes this concept</skos:definition>
+        <skos:prefLabel xml:lang="en">source_uri</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -1949,6 +2071,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.1.3"/>
         <rdfs:label xml:lang="en">sign</rdfs:label>
         <skos:definition xml:lang="en">sign of the designation</skos:definition>
+        <skos:prefLabel xml:lang="en">sign</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -1963,6 +2086,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.6.2"/>
         <rdfs:label xml:lang="en">identifier</rdfs:label>
         <skos:definition xml:lang="en">identifies the type of document</skos:definition>
+        <skos:prefLabel xml:lang="en">identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -1977,6 +2101,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.6.2"/>
         <rdfs:label xml:lang="en">scheme_reference</rdfs:label>
         <skos:definition xml:lang="en">identification scheme from which the identifier is drawn</skos:definition>
+        <skos:prefLabel xml:lang="en">scheme_reference</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -1991,6 +2116,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.2.2"/>
         <rdfs:label xml:lang="en">email_address</rdfs:label>
         <skos:definition xml:lang="en">email addresses of the individual</skos:definition>
+        <skos:prefLabel xml:lang="en">email_address</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2005,6 +2131,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.2.2"/>
         <rdfs:label xml:lang="en">name</rdfs:label>
         <skos:definition xml:lang="en">sign that designates the individual</skos:definition>
+        <skos:prefLabel xml:lang="en">name</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2019,6 +2146,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.2.2"/>
         <rdfs:label xml:lang="en">title</rdfs:label>
         <skos:definition xml:lang="en">name of the position held by the individual (e.g. database administrator)</skos:definition>
+        <skos:prefLabel xml:lang="en">title</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2033,6 +2161,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.3.1.4"/>
         <rdfs:label xml:lang="en">description</rdfs:label>
         <skos:definition xml:lang="en">additional explanation of the kind of mapping between sets of registry items linked to this instance of Item_Mapping, for use especially the value of the degree attribute is specified as ‘related to’</skos:definition>
+        <skos:prefLabel xml:lang="en">description</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2047,6 +2176,7 @@ This association records the stewardship record for the administered item, where
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.3.1.4"/>
         <rdfs:label xml:lang="en">transformation_rule</rdfs:label>
         <skos:definition xml:lang="en">rule for transforming the subject items into the object items</skos:definition>
+        <skos:prefLabel xml:lang="en">transformation_rule</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2064,6 +2194,7 @@ Condition: Required if transformation_rule is present.</rdfs:comment>
         <rdfs:label xml:lang="en">transformation_rule_notation</rdfs:label>
         <skos:definition xml:lang="en">specification of the notation used to specify the transformation rule</skos:definition>
         <skos:example xml:lang="en">EBNF[22], XCL[31]</skos:example>
+        <skos:prefLabel xml:lang="en">transformation_rule_notation</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2082,6 +2213,7 @@ Condition: Required if transformation_rule is present.</rdfs:comment>
 If the value of this attribute is FALSE, it is possible for a namespace to be associated with zero, one or more naming conventions, for a designation to conform to more than one convention, or both.</rdfs:comment>
         <rdfs:label xml:lang="en">mandatory_naming_convention_indicator</rdfs:label>
         <skos:definition xml:lang="en">indicator specifying whether all designations in this namespace shall conform to a naming convention</skos:definition>
+        <skos:prefLabel xml:lang="en">mandatory_naming_convention_indicator</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2098,6 +2230,7 @@ If the value of this attribute is FALSE, it is possible for a namespace to be as
 Constraints: The metamodel constrains each scoped identifier and designation to be associated with only one item. This indicator can be used to require that the value of the associated sign be unique within the namespace.</rdfs:comment>
         <rdfs:label xml:lang="en">one_item_per_name_indicator</rdfs:label>
         <skos:definition xml:lang="en">indicator that denotes whether this namespace may contain more than one designation or scoped identifier having the same sign or identifier. If the indicator is TRUE, then at most one designation or scoped identifier having the same sign or identifier is permitted within the namespace.</skos:definition>
+        <skos:prefLabel xml:lang="en">one_item_per_name_indicator</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2113,6 +2246,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <rdfs:comment xml:lang="en">Rule: If the indicator is TRUE, then the registry shall enforce the rule for the namespace.</rdfs:comment>
         <rdfs:label xml:lang="en">one_name_per_item_indicator</rdfs:label>
         <skos:definition xml:lang="en">indicator that denotes whether more than one designation or scoped identifier within this namespace may be associated with any single registry item, represented by an instance of the Item class (6.4.2.1). If the indicator is TRUE, then at most one designation or scoped identifier within this namespace may be associated with any single registry item.</skos:definition>
+        <skos:prefLabel xml:lang="en">one_name_per_item_indicator</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2130,6 +2264,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <skos:example xml:lang="en">For Digital Object Identifiers use the form: doi: https:// www .doi .org/ 10 .1000/ 182[32]</skos:example>
         <skos:example xml:lang="en">For UML Namespaces, specify: http:// www .omg .org/ spec/ UML/ 2 .4 .1/ Core/ Namespace</skos:example>
         <skos:example xml:lang="en">For XML Namespaces, specify: http:// www .w3 .org/ TR/ 1999/ REC -xml -names -19990114/</skos:example>
+        <skos:prefLabel xml:lang="en">scheme_reference</skos:prefLabel>
     </owl:DatatypeProperty>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Namespace_scheme_reference"/>
@@ -2163,6 +2298,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <rdfs:comment xml:lang="en">Rule: In the case of URL prefixes as defined in XML, a final colon (:) should be included here as part of the shorthand prefix.</rdfs:comment>
         <rdfs:label xml:lang="en">shorthand_prefix</rdfs:label>
         <skos:definition xml:lang="en">prefix conventionally used as shorthand for a namespace, for greater readability, in text for human consumption</skos:definition>
+        <skos:prefLabel xml:lang="en">shorthand_prefix</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2178,6 +2314,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <rdfs:label xml:lang="en">mapping_variable_name</rdfs:label>
         <skos:definition xml:lang="en">name of the variable used in the Object_Mapping in the transformation_rule</skos:definition>
         <skos:example xml:lang="en">See B.3.3 which illustrates the variables: ‘day’, ‘month’ and ‘year’ in the mapping of a date to its component data elements</skos:example>
+        <skos:prefLabel xml:lang="en">mapping_variable_name</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2192,6 +2329,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.3.2"/>
         <rdfs:label xml:lang="en">email_address</rdfs:label>
         <skos:definition xml:lang="en">contact email addresses of the organization that are not tied to a specific individual or role</skos:definition>
+        <skos:prefLabel xml:lang="en">email_address</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2206,6 +2344,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.3.2"/>
         <rdfs:label xml:lang="en">name</rdfs:label>
         <skos:definition xml:lang="en">sign that designates the organization</skos:definition>
+        <skos:prefLabel xml:lang="en">name</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2220,6 +2359,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.3.2"/>
         <rdfs:label xml:lang="en">web_address</rdfs:label>
         <skos:definition xml:lang="en">URL for the organization’s website</skos:definition>
+        <skos:prefLabel xml:lang="en">web_address</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2235,6 +2375,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <rdfs:label xml:lang="en">begin_date</rdfs:label>
         <skos:definition xml:lang="en">date at which the Permissible_Value became valid</skos:definition>
         <skos:note xml:lang="en">By imputation, this is also considered to be date at which the Permissible_Value was bound to the associated Value_Meaning, since the permissible_value_meaning association mandates that there must be exactly one meaning (Value_Meaning) for each representation (Permissible_Value).</skos:note>
+        <skos:prefLabel xml:lang="en">begin_date</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2251,6 +2392,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <skos:definition xml:lang="en">date at which the Permissible_Value ceased to be valid</skos:definition>
         <skos:note xml:lang="en">By imputation, this is also considered to be date at which the Permissible_Value ceased to be bound to its associated meaning (Value_Meaning) via the permissible_value_meaning association.</skos:note>
         <skos:note xml:lang="en">The absence of the permissible_value_end_date attribute indicates that the Permissible_Value is still valid and (by imputation) still bound to its Value_Meaning via the value_meaning association</skos:note>
+        <skos:prefLabel xml:lang="en">end_date</skos:prefLabel>
     </owl:DatatypeProperty>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/PermissibleValue_end_date"/>
@@ -2277,6 +2419,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.3.2.7.2.1"/>
         <rdfs:label xml:lang="en">permitted_value</rdfs:label>
         <skos:definition xml:lang="en">the actual value of the Permissible_Value</skos:definition>
+        <skos:prefLabel xml:lang="en">permitted_value</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2291,6 +2434,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
         <rdfs:label xml:lang="en">identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for the reference document</skos:definition>
+        <skos:prefLabel xml:lang="en">identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2305,6 +2449,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.7.4"/>
         <rdfs:label xml:lang="en">identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for this registrar</skos:definition>
+        <skos:prefLabel xml:lang="en">identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2320,6 +2465,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <rdfs:comment xml:lang="en">Condition: If organization_part_identifier is present, then OPI_source shall be present</rdfs:comment>
         <rdfs:label xml:lang="en">OPI_source</rdfs:label>
         <skos:definition xml:lang="en">source for the organization_part_identifier</skos:definition>
+        <skos:prefLabel xml:lang="en">OPI_source</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2334,6 +2480,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.9.2"/>
         <rdfs:label xml:lang="en">international_code_designator</rdfs:label>
         <skos:definition xml:lang="en">identifier of the organization identification scheme used in the identification of the organization providing this registration authority</skos:definition>
+        <skos:prefLabel xml:lang="en">international_code_designator</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2348,6 +2495,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.9.2"/>
         <rdfs:label xml:lang="en-us">organization_identifier</rdfs:label>
         <skos:definition xml:lang="en-us">identifier within the organization identification scheme used in the identification of the organization providing this registration authority that uniquely identifies this organization within this organization identification scheme</skos:definition>
+        <skos:prefLabel xml:lang="en-us">organization_identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2363,6 +2511,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <rdfs:label xml:lang="en-us">organization_part_identifier</rdfs:label>
         <skos:definition xml:lang="en-us">identifier allocated to the organization part providing this registration authority within this organization
 organization part identifier is often abbreviated as OPI</skos:definition>
+        <skos:prefLabel xml:lang="en-us">organization_part_identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2454,6 +2603,7 @@ The values, and their associated meanings, to be applied to this attribute are d
         <rdfs:label xml:lang="en">character_repertoire</rdfs:label>
         <skos:definition xml:lang="en">The character repertoire that is used by the registry for internal operation</skos:definition>
         <skos:example xml:lang="en">ISO/IEC 646[3] or ISO/IEC 10646[10]</skos:example>
+        <skos:prefLabel xml:lang="en">character_repertoire</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2468,6 +2618,7 @@ The values, and their associated meanings, to be applied to this attribute are d
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.10.3"/>
         <rdfs:label xml:lang="en">comment</rdfs:label>
         <skos:definition xml:lang="en">any comment that should be noted about the registry</skos:definition>
+        <skos:prefLabel xml:lang="en">comment</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2484,6 +2635,7 @@ The values, and their associated meanings, to be applied to this attribute are d
         <skos:definition xml:lang="en">The conformance label of the registry as described in the standard
 Condition: applies only if standard is specified, and the specified standard uses conformance labels.</skos:definition>
         <skos:example xml:lang="en">ISO/IEC 11179-3:2023 Basic Registry (see 4.4.3)</skos:example>
+        <skos:prefLabel xml:lang="en">conformance_label</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2501,6 +2653,7 @@ Condition: applies only if standard is specified, and the specified standard use
 Condition: applies only if standard is specified, and the specified standard uses conformance levels.</skos:definition>
         <skos:example xml:lang="en">Conformance Level 2 (where standard is specified as ISO/IEC 11179-3:2003)</skos:example>
         <skos:note xml:lang="en">This document specifies conformance labels instead of conformance levels</skos:note>
+        <skos:prefLabel xml:lang="en">conformance_level</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2517,6 +2670,7 @@ Condition: applies only if standard is specified, and the specified standard use
         <skos:definition xml:lang="en">time zone to be assumed for any datetime instance that does not explicitly specify its own time zone.
 Specified as the number of hours offset from UTC, with no separator between hours and minutes, with a leading zero if the hour is less then 9, and a leading minus sign if applicable.</skos:definition>
         <skos:example xml:lang="en">For Newfoundland Daylight Time: -0230</skos:example>
+        <skos:prefLabel xml:lang="en">default_time_zone</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2532,6 +2686,7 @@ Specified as the number of hours offset from UTC, with no separator between hour
         <rdfs:label xml:lang="en">excluded_features</rdfs:label>
         <skos:definition xml:lang="en">Freeform specification of the features of the standard that this implementation does not support.
 Condition: applies only if standard is specified, and the specified standard allows conformance by feature (see 4.3).</skos:definition>
+        <skos:prefLabel xml:lang="en">excluded_features</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2547,6 +2702,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">included_features</rdfs:label>
         <skos:definition xml:lang="en">Freeform specification of the features of the standard that this implementation supports.
 Condition: applies only if standard is specified, and the specified standard allows conformance by feature (see 4.3).</skos:definition>
+        <skos:prefLabel xml:lang="en">included_features</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2562,6 +2718,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">name</rdfs:label>
         <skos:definition xml:lang="en">name by which the registry is commonly known</skos:definition>
         <skos:example xml:lang="en">Australian Institute of Health and Welfare (AIHW) Metadata Online Registry (METeOR)[39]</skos:example>
+        <skos:prefLabel xml:lang="en">name</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2577,6 +2734,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">reference_document_identifier_kind</rdfs:label>
         <skos:definition xml:lang="en">Specification of the kind of identifier used for identifying reference documents in the registry</skos:definition>
         <skos:example xml:lang="en">Some registries use URIs. Other registries use an external document management system which provides unstructured, opaque identifiers. Yet other registries define a structured identifier form which embeds an identifier type within each identifier in the registry. This attribute specifies the form of identifiers used for reference documents in this particular registry.</skos:example>
+        <skos:prefLabel xml:lang="en">reference_document_identifier_kind</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2592,6 +2750,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">representation_class_scheme_id</rdfs:label>
         <skos:changeNote xml:lang="en">Edition 2 (ISO/IEC 11179-3:2003[12]) had a separate structure to record “representation classes”. In edition 3 (ISO/IEC 11179-3:2013[13]) and edition 4 (this document), these are considered to be just another classification scheme, which in edition 3 was considered a kind of concept system. This document has restored a Classification_Scheme class independent of the Concept_System class specified in ISO/IEC 11179-32. This attribute allows the registration authority to specify which classification scheme is used for this purpose. This document uses just the identifier of the classification scheme for this attribute. Edition 3 embedded a whole concept system.</skos:changeNote>
         <skos:definition xml:lang="en">identifier of the classification scheme used by the registry to capture representation classes</skos:definition>
+        <skos:prefLabel xml:lang="en">representation_class_scheme_id</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2607,6 +2766,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">standard</rdfs:label>
         <skos:definition xml:lang="en">Identifier for the standard to which this registry complies</skos:definition>
         <skos:example xml:lang="en">ISO/IEC 11179-3:2023</skos:example>
+        <skos:prefLabel xml:lang="en">standard</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2622,6 +2782,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">web_address</rdfs:label>
         <skos:definition xml:lang="en">The World Wide Web uniform resource locator (URL) for the registry</skos:definition>
         <skos:example xml:lang="en">https:// meteor .aihw .gov .au/</skos:example>
+        <skos:prefLabel xml:lang="en">web_address</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2636,6 +2797,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.4.2"/>
         <rdfs:label xml:lang="en">email_address</rdfs:label>
         <skos:definition xml:lang="en">email addresses of the role</skos:definition>
+        <skos:prefLabel xml:lang="en">email_address</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2650,6 +2812,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.4.2"/>
         <rdfs:label xml:lang="en">role_name</rdfs:label>
         <skos:definition xml:lang="en">name of the position that fulfils the role</skos:definition>
+        <skos:prefLabel xml:lang="en">role_name</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2664,6 +2827,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:7.3.2.3"/>
         <rdfs:label xml:lang="en">identifier</rdfs:label>
         <skos:definition xml:lang="en">string used to unambiguously identify this scoped identifier which has been used to denote the linked identified item within the scope of the linked namespace</skos:definition>
+        <skos:prefLabel xml:lang="en">identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2679,6 +2843,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:comment xml:lang="en">Constraint: All Slot instances associated with a particular Item instance shall have a distinct name to allow each Slot instance to be unambiguously identified</rdfs:comment>
         <rdfs:label xml:lang="en">name</rdfs:label>
         <skos:definition xml:lang="en">name of the slot</skos:definition>
+        <skos:prefLabel xml:lang="en">name</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2694,6 +2859,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:comment xml:lang="en">type can be used to categorize slot values in some way, including but not limited to specifying the datatype of the value</rdfs:comment>
         <rdfs:label xml:lang="en">type</rdfs:label>
         <skos:definition xml:lang="en">categorization of the value of the slot</skos:definition>
+        <skos:prefLabel xml:lang="en">type</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2708,6 +2874,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.4.2.4.3"/>
         <rdfs:label xml:lang="en">value</rdfs:label>
         <skos:definition xml:lang="en">value assigned to the slot</skos:definition>
+        <skos:prefLabel xml:lang="en">value</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2723,6 +2890,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">mapping_variable_name</rdfs:label>
         <skos:definition xml:lang="en">name of the variable used in the Subject_Mapping in the transformation_rule</skos:definition>
         <skos:example xml:lang="en">See B.3.3 which illustrates the variables: ‘day’, ‘month’ and ‘year’ in the mapping of a date to its component data elements</skos:example>
+        <skos:prefLabel xml:lang="en">mapping_variable_name</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2738,6 +2906,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">format</rdfs:label>
         <skos:definition xml:lang="en">template for the structure of the presentation of the value(s)</skos:definition>
         <skos:example xml:lang="en">YYYY-MM-DD for a date</skos:example>
+        <skos:prefLabel xml:lang="en">format</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2753,6 +2922,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">maximum_character_quantity</rdfs:label>
         <skos:definition xml:lang="en">maximum number of characters available to represent the Data_Element value</skos:definition>
         <skos:note xml:lang="en">Applicable only to character datatypes</skos:note>
+        <skos:prefLabel xml:lang="en">maximum_character_quantity</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2768,6 +2938,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">begin_date</rdfs:label>
         <skos:definition xml:lang="en">date at which this Value_Meaning became, or will become, a valid Value_Meaning</skos:definition>
         <skos:note xml:lang="en">A registration authority may determine whether this date is the date the value meaning becomes valid in a registry, or the date the value meaning becomes part of the source domain, or some other date.</skos:note>
+        <skos:prefLabel xml:lang="en">begin_date</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2784,6 +2955,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <skos:definition xml:lang="en">date on which the Value_Meaning ceased, or will cease, to be valid</skos:definition>
         <skos:note xml:lang="en">A registration authority may determine whether this date is the date the value meaning becomes no longer valid in a registry, or the date the value meaning becomes no longer part of the source domain, or some other date</skos:note>
         <skos:note xml:lang="en">The absence of the value_meaning_end_date indicates that the Value_Meaning is still valid</skos:note>
+        <skos:prefLabel xml:lang="en">end_date</skos:prefLabel>
     </owl:DatatypeProperty>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/ValueMeaning_end_date"/>
@@ -2811,6 +2983,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <rdfs:label xml:lang="en">authority_rule</rdfs:label>
         <skos:definition xml:lang="en">rule identifying the authority that assigns names or enforces naming conventions, or both</skos:definition>
         <skos:example xml:lang="en">Information technology standards committees or nomenclature standardization bodies (e.g. in biology)</skos:example>
+        <skos:prefLabel xml:lang="en">authority_rule</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2825,6 +2998,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:10.3.2.4"/>
         <rdfs:label xml:lang="en">classification_scheme_item_sign</rdfs:label>
         <skos:definition xml:lang="en">sign used as a classifier for this classification scheme item in this classification scheme</skos:definition>
+        <skos:prefLabel xml:lang="en">classification_scheme_item_sign</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2839,6 +3013,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-3:v1:term:11.5.2.1.2.1"/>
         <rdfs:label xml:lang="en">data_element_precision</rdfs:label>
         <skos:definition xml:lang="en">number of decimal places permitted in any associated data element values</skos:definition>
+        <skos:prefLabel xml:lang="en">data_element_precision</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2853,6 +3028,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.6.2"/>
         <rdfs:label xml:lang="en">description</rdfs:label>
         <skos:definition xml:lang="en">describes the type of document</skos:definition>
+        <skos:prefLabel xml:lang="en">description</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2870,6 +3046,7 @@ Constraint: In RFC 5646, extension identifiers are ordered and consist of key-va
         <rdfs:label xml:lang="en">extension_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for an extension to a language_identifier</skos:definition>
         <skos:note xml:lang="en">The u- extension is defined in RFC 6067[34], which points to the Unicode Consortium&apos;s Common Locale Data Repository (CLDR) for details on the subtags that follow it</skos:note>
+        <skos:prefLabel xml:lang="en">extension_identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2887,6 +3064,7 @@ Condition: full_expansion is defined only when Namespace has exactly one identif
 Derivation: The precise manner of derivation can vary depending on the type of namespace.</rdfs:comment>
         <rdfs:label xml:lang="en">full_expansion</rdfs:label>
         <skos:definition xml:lang="en">string providing a representation of this scoped identifier, in which the unique identifier of the linked namespace is combined in some way with the identifier of this scoped identifier to fully specify the scope</skos:definition>
+        <skos:prefLabel xml:lang="en">full_expansion</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2902,6 +3080,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <rdfs:comment xml:lang="en">Recommendation: Use of the three-digit numeric codes from ISO 3166-1[6], with extensions if needed, is recommended but not required.</rdfs:comment>
         <rdfs:label xml:lang="en">geopolitical_territory_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for a specific country, territory or region whose linguistic variations apply</skos:definition>
+        <skos:prefLabel xml:lang="en">geopolitical_territory_identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2916,6 +3095,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:10.3.2.4"/>
         <rdfs:label xml:lang="en">hierarchy_level</rdfs:label>
         <skos:definition xml:lang="en">level of this classification scheme item in the hierarchy of the classification scheme, where the top level is level 1 and each lower level increments by 1 (2, 3, etc)”</skos:definition>
+        <skos:prefLabel xml:lang="en">hierarchy_level</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2930,6 +3110,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.5.4"/>
         <rdfs:label xml:lang="en">item_shall_be_classified_indicator</rdfs:label>
         <skos:definition xml:lang="en">indicator as to whether the linked registered item is required to be a classified item when its registration status is ‘Recorded’ or higher. That is, whether the parent instance of the Item (8.2.1) class has a linked instance of the Classification_Scheme_Item (10.3.2) class via the item_classification (10.4.1) association when the value of the Registration_State.registration_status (9.4.4.3) is ‘Recorded’ or higher.</skos:definition>
+        <skos:prefLabel xml:lang="en">item_shall_be_classified_indicator</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2945,6 +3126,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <rdfs:label xml:lang="en">item_shall_be_defined_indicator</rdfs:label>
         <skos:definition xml:lang="en">indicator as to whether the linked registered item is required to have a definition when its registration status is ‘Recorded’ or higher. That is, whether the parent instance of the Item (8.2.1) class has a linked instance of the Definition (8.4.2) class via the item_definition (8.6.3) association when the value of the Registration_State.registration_status (9.4.4.3) is ‘Recorded’ or higher.
 Best practice is to set this to TRUE.</skos:definition>
+        <skos:prefLabel xml:lang="en">item_shall_be_defined_indicator</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2960,6 +3142,7 @@ Best practice is to set this to TRUE.</skos:definition>
         <rdfs:label xml:lang="en">item_shall_be_designated_indicator</rdfs:label>
         <skos:definition xml:lang="en">indicator as to whether the linked registered item is required to have a designation when its registration status is ‘Recorded’ or higher. That is, whether the parent instance of the Item (8.2.1) class has a linked instance of the Designation (8.4.1) class via the item_designation (8.6.4) association when the value of the Registration_State.registration_status (9.4.4.3) is ‘Recorded’ or higher.
 Best practice is to set this to TRUE.</skos:definition>
+        <skos:prefLabel xml:lang="en">item_shall_be_designated_indicator</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2975,6 +3158,7 @@ Best practice is to set this to TRUE.</skos:definition>
         <rdfs:comment xml:lang="en">Recommendation: Use of the three-character alphabetic codes from ISO 639-2/Terminology[1], with extensions if needed, is recommended but not required.</rdfs:comment>
         <rdfs:label xml:lang="en">language_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for the language</skos:definition>
+        <skos:prefLabel xml:lang="en">language_identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -2991,6 +3175,7 @@ Best practice is to set this to TRUE.</skos:definition>
         <rdfs:label xml:lang="en">lexical_rule</rdfs:label>
         <skos:definition xml:lang="en">rule specifying the appearance of names: preferred and non-preferred terms, synonyms, abbreviations, part length, spelling, permissible character set, case sensitivity, etc.</skos:definition>
         <skos:note xml:lang="en">The result of applying lexical rules should be that all names governed by a specific naming convention have a consistent appearance. An example lexical principle is the specification of the use of camelCase capitalization of words in a phrase which are concatenated together.</skos:note>
+        <skos:prefLabel xml:lang="en">lexical_rule</skos:prefLabel>
     </owl:DatatypeProperty>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/lexical_rule"/>
@@ -3012,6 +3197,7 @@ Best practice is to set this to TRUE.</skos:definition>
         <rdfs:comment xml:lang="en">Recommendation: Use of RFC 5646[33] is recommended but not required</rdfs:comment>
         <rdfs:label xml:lang="en">private_use_qualifier</rdfs:label>
         <skos:definition xml:lang="en">qualifier whose meaning is defined solely by private agreement</skos:definition>
+        <skos:prefLabel xml:lang="en">private_use_qualifier</skos:prefLabel>
     </owl:DatatypeProperty>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/private_use_qualifier"/>
@@ -3034,6 +3220,7 @@ Best practice is to set this to TRUE.</skos:definition>
         <rdfs:comment xml:lang="en">RULE: In terms of the metadata registry, the scope of a naming convention may be as broad or narrow as the registration authority, or other authority, determines is appropriate. The scope should document whether the naming convention is descriptive or prescriptive.</rdfs:comment>
         <rdfs:label xml:lang="en">scope_rule</rdfs:label>
         <skos:definition xml:lang="en">rule specifying the range within which the naming convention is in effect</skos:definition>
+        <skos:prefLabel xml:lang="en">scope_rule</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -3049,6 +3236,7 @@ Best practice is to set this to TRUE.</skos:definition>
         <rdfs:comment xml:lang="en">Recommendation: Use of the four-character codes from ISO 15924[23] codes for the representation of the names of scripts is recommended but not required.</rdfs:comment>
         <rdfs:label xml:lang="en">script_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for the set of graphic characters used for the written form of one or more languages</skos:definition>
+        <skos:prefLabel xml:lang="en">script_identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -3064,6 +3252,7 @@ Best practice is to set this to TRUE.</skos:definition>
         <rdfs:comment xml:lang="en">The rule should specify whether or not names convey meaning and if so how</rdfs:comment>
         <rdfs:label xml:lang="en">semantic_rule</rdfs:label>
         <skos:definition xml:lang="en">rule specifying the meanings of parts of a name and possibly separators that delimit them in a naming convention</skos:definition>
+        <skos:prefLabel xml:lang="en">semantic_rule</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -3081,6 +3270,7 @@ Condition: shorthand_expansion shall exist if and only if the corresponding shor
 Derivation: The precise manner of derivation can vary depending on the type of namespace.</rdfs:comment>
         <rdfs:label xml:lang="en">shorthand_expansion</rdfs:label>
         <skos:definition xml:lang="en">string providing a representation of this scoped identifier in which the shorthand prefix of the linked namespace, represented by the value assigned to the Namespace.shorthand_prefix attribute, is prepended to the identifier of this scoped identifier to indicate the scope</skos:definition>
+        <skos:prefLabel xml:lang="en">shorthand_expansion</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -3096,6 +3286,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <rdfs:comment xml:lang="en">The arrangement may be specified as relative or absolute, or some combination of the two. Relative arrangement specifies parts in terms of other parts, e.g. a rule within a convention that requires a qualifier term always appear before the part being qualified appears. Absolute arrangement specifies a fixed occurrence of the part, e.g. a rule that requires the property term be always the last part of a name. The syntactic principle can also specify the syntactic forms of the name (noun phrase or verb phrase) and the parts of speech used to construct a name.</rdfs:comment>
         <rdfs:label xml:lang="en">syntactic_rule</rdfs:label>
         <skos:definition xml:lang="en">rule specifying the arrangement of parts of a name and the separators that delimit them in a naming convention</skos:definition>
+        <skos:prefLabel xml:lang="en">syntactic_rule</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -3110,6 +3301,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.4.2.3"/>
         <rdfs:label xml:lang="en">text</rdfs:label>
         <skos:definition xml:lang="en">text of the definition</skos:definition>
+        <skos:prefLabel xml:lang="en">text</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -3124,6 +3316,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
         <rdfs:label xml:lang="en">title</rdfs:label>
         <skos:definition xml:lang="en">title of the reference document</skos:definition>
+        <skos:prefLabel xml:lang="en">title</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -3138,6 +3331,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
         <rdfs:label xml:lang="en">uri</rdfs:label>
         <skos:definition xml:lang="en">URI where the reference document is available</skos:definition>
+        <skos:prefLabel xml:lang="en">uri</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -3153,6 +3347,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <rdfs:comment xml:lang="en">Recommendation: Use of RFC 5646[33] is recommended but not required. In RFC 5646, variant identifiers are typically represented as dates and are used to distinguish events such as spelling reforms. Variant identifiers can be order dependent. String Numeric variant identifiers are interpreted to be Gregorian calendar year numbers. Alphanumeric tags reference IANA variant subtags.</rdfs:comment>
         <rdfs:label xml:lang="en">variant_identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier for a language variant, which indicates additional, well-recognized variations that define a language or its dialects that are not covered by other available identifiers</skos:definition>
+        <skos:prefLabel xml:lang="en">variant_identifier</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -3167,6 +3362,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:7.3.2.3"/>
         <rdfs:label xml:lang="en">version</rdfs:label>
         <skos:definition xml:lang="en">string used to uniquely identify the version of this scoped identifier which has been used to identify the linked identified item</skos:definition>
+        <skos:prefLabel xml:lang="en">version</skos:prefLabel>
     </owl:DatatypeProperty>
     
 
@@ -3191,6 +3387,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:identifier rdf:resource="urn:uuid:54a7852d-e943-49f9-9035-d5f1f151a158"/>
         <rdfs:label xml:lang="en">Acceptability Rating</rdfs:label>
         <skos:definition xml:lang="en">scale of acceptability</skos:definition>
+        <skos:prefLabel xml:lang="en">Acceptability Rating</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Subclause 8.7.1 specifies the values to be used</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -3298,6 +3495,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.2"/>
         <rdfs:label xml:lang="en">Administered Item</rdfs:label>
         <skos:definition xml:lang="en">registered item (3.2.65) for which administrative information (3.2.67) is recorded</skos:definition>
+        <skos:prefLabel xml:lang="en">Administered Item</skos:prefLabel>
     </owl:Class>
     
 
@@ -3320,6 +3518,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.3"/>
         <rdfs:label xml:lang="en">Attached Item</rdfs:label>
         <skos:definition xml:lang="en">registered item (3.2.65) for which administrative information (3.2.67) is recorded in another registered item</skos:definition>
+        <skos:prefLabel xml:lang="en">Attached Item</skos:prefLabel>
         <skos:scopeNote xml:lang="en">This is often a member of a group of registered items that is managed as a whole</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -3348,6 +3547,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <rdfs:label xml:lang="en">Characteristic</rdfs:label>
         <skos:definition xml:lang="en">abstraction of a property (3.2.3)</skos:definition>
         <skos:example xml:lang="en">&apos;Having a cable for connecting with a computer&apos; as a characteristic of the concept &apos;cord mouse&apos;</skos:example>
+        <skos:prefLabel xml:lang="en">Characteristic</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Characteristics are used for describing concepts (3.2.7)</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -3370,6 +3570,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <rdfs:label xml:lang="en">Classification Scheme</rdfs:label>
         <skos:definition xml:lang="en">descriptive information for an arrangement or division of objects (3.2.1) into groups based on criteria such as characteristics (3.2.4), which the objects have in common</skos:definition>
         <skos:example xml:lang="en">Origin, composition, structure, application, function, etc.</skos:example>
+        <skos:prefLabel xml:lang="en">Classification Scheme</skos:prefLabel>
     </owl:Class>
     
 
@@ -3426,6 +3627,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:identifier rdf:resource="urn:uuid:c6cec576-e424-4bef-a913-0bfcd779712e"/>
         <rdfs:label xml:lang="en">Classification Scheme Item</rdfs:label>
         <skos:definition xml:lang="en">item of content in a classification scheme (3.2.5)</skos:definition>
+        <skos:prefLabel xml:lang="en">Classification Scheme Item</skos:prefLabel>
         <skos:scopeNote xml:lang="en">This can be a node in a taxonomy or ontology, a term in a thesaurus, etc.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -3454,6 +3656,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <dcterms:identifier rdf:resource="urn:uuid:a98fbb04-53cb-47f4-a971-a0c78bc9d0ac"/>
         <rdfs:label xml:lang="en">Classification Scheme Item Relationship</rdfs:label>
         <skos:definition xml:lang="en">class each instance of which models a relationship among classification scheme items</skos:definition>
+        <skos:prefLabel xml:lang="en">Classification Scheme Item Relationship</skos:prefLabel>
     </owl:Class>
     
 
@@ -3469,6 +3672,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <rdfs:label xml:lang="en">Classification Scheme Item Relationship Type</rdfs:label>
         <skos:definition xml:lang="en">class each instance of which models a type of relationship among classification_scheme_items</skos:definition>
         <skos:example xml:lang="en">Parent, sibling, child</skos:example>
+        <skos:prefLabel xml:lang="en">Classification Scheme Item Relationship Type</skos:prefLabel>
     </owl:Class>
     
 
@@ -3497,6 +3701,7 @@ Derivation: The precise manner of derivation can vary depending on the type of n
         <rdfs:label xml:lang="en">Classification Scheme Membership</rdfs:label>
         <skos:definition xml:lang="en">records the binding of zero, one or more instances of the Classification_Scheme_Item (10.3.2) class with one or more instances of the Classification_Scheme (10.3.1) class.
 This association records the classification scheme items that are members of a classification scheme.</skos:definition>
+        <skos:prefLabel xml:lang="en">Classification Scheme Membership</skos:prefLabel>
     </owl:Class>
     
 
@@ -3517,6 +3722,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:identifier rdf:resource="urn:uuid:3451dfc6-2ae9-4602-89ef-6b660a4500a6"/>
         <rdfs:label xml:lang="en">Classified Item</rdfs:label>
         <skos:definition xml:lang="en">registry item (3.2.54) classified in a classification scheme (3.2.5)</skos:definition>
+        <skos:prefLabel xml:lang="en">Classified Item</skos:prefLabel>
     </owl:Class>
     
 
@@ -3559,6 +3765,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.2.7"/>
         <rdfs:label xml:lang="en">Concept</rdfs:label>
         <skos:definition xml:lang="en">unit of knowledge created by a unique combination of characteristics (3.2.4)</skos:definition>
+        <skos:prefLabel xml:lang="en">Concept</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A concept is independent of its representation</skos:scopeNote>
         <skos:scopeNote xml:lang="en">Concepts are not necessarily bound to particular natural languages. They are, however, influenced by the social or cultural background which often leads to different categorizations.</skos:scopeNote>
     </owl:Class>
@@ -3594,6 +3801,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.25"/>
         <rdfs:label xml:lang="en">Conceptual Data Model</rdfs:label>
         <skos:definition xml:lang="en">data model (3.2.32) that represents an abstract view of the real world</skos:definition>
+        <skos:prefLabel xml:lang="en">Conceptual Data Model</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A conceptual model represents the human understanding of a system, which can be anywhere from a paper-based system to a complex database in an IT system</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -3617,6 +3825,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.5"/>
         <rdfs:label xml:lang="en">Conceptual Domain</rdfs:label>
         <skos:definition xml:lang="en">concept (3.2.7) whose meaning is expressed as an enumerated set, a description or both of subordinate concepts, which are value meanings (3.2.46)</skos:definition>
+        <skos:prefLabel xml:lang="en">Conceptual Domain</skos:prefLabel>
     </owl:Class>
     
 
@@ -3652,6 +3861,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:identifier rdf:resource="urn:uuid:a131ffd8-122d-4990-8122-b7a739d2c542"/>
         <rdfs:label xml:lang="en">Constraint Set</rdfs:label>
         <skos:definition xml:lang="en">set of constraints about zero, one or more registered items. A registration authority can apply a Constraint_Set to a Registered_Item (9.4.1) to specify the constraints that should be enforced when its Administered_Item.registration_state.registration_status (9.4.4.3) is “Recorded” or higher.</skos:definition>
+        <skos:prefLabel xml:lang="en">Constraint Set</skos:prefLabel>
     </owl:Class>
     
 
@@ -3701,6 +3911,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.2.1"/>
         <rdfs:label xml:lang="en">Contact</rdfs:label>
         <skos:definition xml:lang="en">instance of a role (3.2.83), an individual (3.2.82) or both within an organization (3.2.84) to or from whom an information item(s), a material object(s), person(s) or some combination can be sent in a specified context</skos:definition>
+        <skos:prefLabel xml:lang="en">Contact</skos:prefLabel>
     </owl:Class>
     
 
@@ -3715,6 +3926,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:identifier rdf:resource="urn:uuid:bf046a01-0c7e-4d32-81c8-eeba2e520bee"/>
         <rdfs:label xml:lang="en">Context</rdfs:label>
         <skos:definition xml:lang="en">circumstance, purpose, and perspective under which an object (3.2.1) is defined or used</skos:definition>
+        <skos:prefLabel xml:lang="en">Context</skos:prefLabel>
     </owl:Class>
     
 
@@ -3729,6 +3941,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2121272"/>
         <rdfs:label xml:lang="en">Data</rdfs:label>
         <skos:definition xml:lang="en">re-interpretable representation of information in a formalized manner suitable for communication, interpretation, or processing</skos:definition>
+        <skos:prefLabel xml:lang="en">Data</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Data can be processed by humans or by automatic means</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -3793,6 +4006,7 @@ This association records the classification scheme items that are members of a c
         <rdfs:label xml:lang="en">Data Element</rdfs:label>
         <skos:definition xml:lang="en">unit of data (3.2.29) that is considered in context to be indivisible</skos:definition>
         <skos:example xml:lang="en">The data element “age of a person” with values consisting of all combinations of 3 decimal digits</skos:example>
+        <skos:prefLabel xml:lang="en">Data Element</skos:prefLabel>
         <skos:scopeNote xml:lang="en">The definition states that a data element is “indivisible” in some context. This means that it is possible that a data element considered indivisible in one context (e.g. telephone number) can be divisible in another context, (e.g. country code, area code, local number).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -3857,6 +4071,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.25"/>
         <rdfs:label xml:lang="en">Data Element Concept</rdfs:label>
         <skos:definition xml:lang="en">concept (3.2.7) that can be represented in the form of a data element (3.2.43), described independently of any particular representation</skos:definition>
+        <skos:prefLabel xml:lang="en">Data Element Concept</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A data element concept is implicitly associated with both the property and the object class whose combination it expresses</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -3890,6 +4105,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.24"/>
         <rdfs:label xml:lang="en">Data Model</rdfs:label>
         <skos:definition xml:lang="en">graphical, lexical or combined representation of data (3.2.29), specifying their properties (3.2.3), structure and inter-relationships</skos:definition>
+        <skos:prefLabel xml:lang="en">Data Model</skos:prefLabel>
     </owl:Class>
     
 
@@ -3904,6 +4120,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11404:ed-2:v1:term:3.12"/>
         <rdfs:label xml:lang="en">Datatype</rdfs:label>
         <skos:definition xml:lang="en">set of distinct values, characterized by properties of those values and by operations on those values</skos:definition>
+        <skos:prefLabel xml:lang="en">Datatype</skos:prefLabel>
     </owl:Class>
     
 
@@ -3953,6 +4170,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:subject rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.49"/>
         <rdfs:label xml:lang="en">Definition</rdfs:label>
         <skos:definition xml:lang="en">representation of a registry item (3.2.54) by a descriptive statement which, in a given language (3.2.16) and context(s) (3.2.15), serves to differentiate it from other registry items</skos:definition>
+        <skos:prefLabel xml:lang="en">Definition</skos:prefLabel>
     </owl:Class>
     
 
@@ -3994,6 +4212,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:identifier rdf:resource="urn:uuid:6d813f00-7df0-4d16-bf61-d8a267ac7df5"/>
         <rdfs:label xml:lang="en">Definition Context</rdfs:label>
         <skos:definition xml:lang="en">context (3.2.15) in which the definition (3.2.23) is applicable</skos:definition>
+        <skos:prefLabel xml:lang="en">Definition Context</skos:prefLabel>
     </owl:Class>
     
 
@@ -4021,6 +4240,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:identifier rdf:resource="urn:uuid:d396362c-ef48-4708-9b62-e964f2aaa168"/>
         <rdfs:label xml:lang="en">Definition Source Reference</rdfs:label>
         <skos:definition xml:lang="en">reference to the source from which the definition (3.2.23) is taken</skos:definition>
+        <skos:prefLabel xml:lang="en">Definition Source Reference</skos:prefLabel>
     </owl:Class>
     
 
@@ -4037,6 +4257,7 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <rdfs:label xml:lang="en">Degree Of Conformance</rdfs:label>
         <rdfs:seeAlso rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:4.2"/>
         <skos:definition xml:lang="en">models degree of conformance (4.2). See Table 29 for possible values.</skos:definition>
+        <skos:prefLabel xml:lang="en">Degree Of Conformance</skos:prefLabel>
     </owl:Class>
     
 
@@ -4086,6 +4307,7 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <dcterms:subject rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.49"/>
         <rdfs:label xml:lang="en">Designation</rdfs:label>
         <skos:definition xml:lang="en">representation of a registry item (3.2.54) by a sign (3.2.10) which denotes it</skos:definition>
+        <skos:prefLabel xml:lang="en">Designation</skos:prefLabel>
     </owl:Class>
     
 
@@ -4127,6 +4349,7 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <dcterms:identifier rdf:resource="urn:uuid:e45723fc-5d38-4ecf-a7dc-09525286c333"/>
         <rdfs:label xml:lang="en">Designation Context</rdfs:label>
         <skos:definition xml:lang="en">context (3.2.15) in which a designation (3.2.11) is applicable</skos:definition>
+        <skos:prefLabel xml:lang="en">Designation Context</skos:prefLabel>
     </owl:Class>
     
 
@@ -4175,6 +4398,7 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <dcterms:identifier rdf:resource="urn:uuid:201d4aac-0779-4a7a-ad7d-22a6ad604177"/>
         <rdfs:label xml:lang="en">Designation Definition Pairing</rdfs:label>
         <skos:definition xml:lang="en">class, each instance of which models the pairing of a designation with a definition in a particular context</skos:definition>
+        <skos:prefLabel xml:lang="en">Designation Definition Pairing</skos:prefLabel>
     </owl:Class>
     
 
@@ -4202,6 +4426,7 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <dcterms:identifier rdf:resource="urn:uuid:2b22fff8-aa6f-4ecb-aa94-6ae35515d38b"/>
         <rdfs:label xml:lang="en">Designation Namespace</rdfs:label>
         <skos:definition xml:lang="en">namespace (3.2.13) to which a designation (3.2.11) is bound</skos:definition>
+        <skos:prefLabel xml:lang="en">Designation Namespace</skos:prefLabel>
     </owl:Class>
     
 
@@ -4257,6 +4482,7 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <dcterms:identifier rdf:resource="urn:uuid:13c73ad9-39dd-4f6d-860c-30b62b1632bc"/>
         <rdfs:label xml:lang="en">Document Type</rdfs:label>
         <skos:definition xml:lang="en">class used to specify the document type of a Reference_Document (6.3.8). The document type can be specified using an identifier or a description.</skos:definition>
+        <skos:prefLabel xml:lang="en">Document Type</skos:prefLabel>
     </owl:Class>
     
 
@@ -4277,6 +4503,7 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <dcterms:identifier rdf:resource="urn:uuid:ed3f38ff-746c-4505-9660-8d4d617ab398"/>
         <rdfs:label xml:lang="en">Documentation Language Identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier of the language used for documentation by the registration authority</skos:definition>
+        <skos:prefLabel xml:lang="en">Documentation Language Identifier</skos:prefLabel>
     </owl:Class>
     
 
@@ -4290,6 +4517,7 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <dcterms:identifier rdf:resource="urn:uuid:737dae47-be06-4e1d-a81c-6e8d9f76c0a7"/>
         <rdfs:label xml:lang="en">Extension</rdfs:label>
         <skos:definition xml:lang="en">feature not defined by this document</skos:definition>
+        <skos:prefLabel xml:lang="en">Extension</skos:prefLabel>
     </owl:Class>
     
 
@@ -4318,6 +4546,7 @@ The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comm
         <rdfs:label xml:lang="en">Identification</rdfs:label>
         <skos:definition xml:lang="en">association records the binding of one or more instances of the Scoped_Identifier (7.3.2) class with zero or one instance of the Identified_Item (7.3.1) class that they identify. The association records all the scoped identifiers for an identified item.
 Every instance of the Identified_Item class shall have links via one or more instances of the identification association with the instance of the Scoped_identifier class that provides an identifier for the instance of the Identified_Item class.</skos:definition>
+        <skos:prefLabel xml:lang="en">Identification</skos:prefLabel>
     </owl:Class>
     
 
@@ -4339,6 +4568,7 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.3.1"/>
         <rdfs:label xml:lang="en">Identified Item</rdfs:label>
         <skos:definition xml:lang="en">registry item (3.2.54) identified in a registry (3.2.49)</skos:definition>
+        <skos:prefLabel xml:lang="en">Identified Item</skos:prefLabel>
     </owl:Class>
     
 
@@ -4352,6 +4582,7 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <dcterms:identifier rdf:resource="urn:uuid:69405cfe-fee5-4f82-8f8a-67da39b84d31"/>
         <rdfs:label xml:lang="en">Identifier</rdfs:label>
         <skos:definition xml:lang="en">sequence of characters, capable of uniquely identifying that with which it is associated, within a specified context (3.2.15)</skos:definition>
+        <skos:prefLabel xml:lang="en">Identifier</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Unlike a name (3.2.12), an identifier is linguistically neutral</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -4387,6 +4618,7 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <rdfs:comment xml:lang="en">See Constraint on Scoped_Identifier (7.3.2.4)</rdfs:comment>
         <rdfs:label xml:lang="en">Identifier Scope</rdfs:label>
         <skos:definition xml:lang="en">association that records the binding of zero, one or more instances of the Scoped_Identifier (7.3.2) class with exactly one instance of the Namespace (7.3.3) class which provides the scope for the instance of the Scoped_Identifier. The association records the namespace that provides the scope for the scoped identifiers.</skos:definition>
+        <skos:prefLabel xml:lang="en">Identifier Scope</skos:prefLabel>
     </owl:Class>
     
 
@@ -4449,6 +4681,7 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <dcterms:identifier rdf:resource="urn:uuid:abe8371f-74aa-4fbe-a030-75b12f17a613"/>
         <rdfs:label xml:lang="en">Individual</rdfs:label>
         <skos:definition xml:lang="en">single human being</skos:definition>
+        <skos:prefLabel xml:lang="en">Individual</skos:prefLabel>
     </owl:Class>
     
 
@@ -4462,6 +4695,7 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <dcterms:identifier rdf:resource="urn:uuid:bde43ac8-4588-4f64-9b89-7a5bf90c6922"/>
         <rdfs:label xml:lang="en">Item</rdfs:label>
         <skos:definition xml:lang="en">abstract superclass, each instance of which models a registry item, but which, as an abstract class, shall also be instantiated as a specific subclass [e.g. Concept (6.4.2.2), Data_Element (ISO/IEC 11179-31:2023, 7.6.2.1), etc.]. Item provides the basis for all registry items entered into a metadata registry that conforms to the specifications contained in the appropriate parts of ISO/IEC 11179. Additional facilities defined later allow any Item to be: identified (see Clause 7), named and defined (see Clause 8), registered and administered (see Clause 9), classified (see Clause 10) and mapped to other registry items (see Clause 11).</skos:definition>
+        <skos:prefLabel xml:lang="en">Item</skos:prefLabel>
     </owl:Class>
     
 
@@ -4490,6 +4724,7 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <rdfs:label xml:lang="en">Item Classification</rdfs:label>
         <skos:definition xml:lang="en">records the binding of zero, one or more instances of the Classification_Scheme_Item (10.3.2) class with zero, one or more instances of the Item (10.2.1) class.
 This association records the registry items that are to be classified as classification scheme items within a classification scheme.</skos:definition>
+        <skos:prefLabel xml:lang="en">Item Classification</skos:prefLabel>
     </owl:Class>
     
 
@@ -4518,6 +4753,7 @@ This association records the registry items that are to be classified as classif
         <rdfs:label xml:lang="en">Item Definition</rdfs:label>
         <skos:definition xml:lang="en">association that records the binding of exactly one instance of the Item (8.2.1) class to zero, one or more instances of the Definition (8.4.2) class. The association records all of the definitions for a specific registry item.
 A definition shall be used for exactly one registry item. Definitions shall not be reused across multiple registry items because each such item should be distinct and distinguishable, and this should be reflected in the definition, if not in the text itself, then in the associated context.</skos:definition>
+        <skos:prefLabel xml:lang="en">Item Definition</skos:prefLabel>
     </owl:Class>
     
 
@@ -4547,6 +4783,7 @@ A definition shall be used for exactly one registry item. Definitions shall not 
         <skos:definition xml:lang="en">association that records the binding of exactly one instance of the Item (8.2.1) class to zero, one or more instances of the Designations (8.4.1) class.
 This association records that the registry item is designated by the designation(s) by recording all the designations (sign plus language pairs) for a registry item.
 A designation shall be used for exactly one registry item. Designations shall not be reused across multiple registry items because each such registry item should be distinct and distinguishable, and this should be reflected in the designations, if not in sign of the designation itself, then in the associated context or namespace.</skos:definition>
+        <skos:prefLabel xml:lang="en">Item Designation</skos:prefLabel>
     </owl:Class>
     
 
@@ -4610,6 +4847,7 @@ A designation shall be used for exactly one registry item. Designations shall no
         <dcterms:identifier rdf:resource="urn:uuid:6b274025-a5ee-4242-8476-cfbbc686fff3"/>
         <rdfs:label xml:lang="en">Item Mapping</rdfs:label>
         <skos:definition xml:lang="en">class each instance of which models some part of a mapping of registry items. Each instance of the Item_Mapping class comprises a Subject_Mapping (11.4.1) set of instances of the Item class (11.2.1) and an Object_Mapping (11.4.2) set of instances of the Item class that model similar real-world requirements.</skos:definition>
+        <skos:prefLabel xml:lang="en">Item Mapping</skos:prefLabel>
     </owl:Class>
     
 
@@ -4625,6 +4863,7 @@ A designation shall be used for exactly one registry item. Designations shall no
 A conforming implementation may extend the above list of values.</rdfs:comment>
         <rdfs:label xml:lang="en">Item Mapping Degree</rdfs:label>
         <skos:definition xml:lang="en">an enumerated datatype with values as shown in Table 35</skos:definition>
+        <skos:prefLabel xml:lang="en">Item Mapping Degree</skos:prefLabel>
     </owl:Class>
     
 
@@ -4653,6 +4892,7 @@ A conforming implementation may extend the above list of values.</rdfs:comment>
         <rdfs:label xml:lang="en">Item Slot</rdfs:label>
         <skos:definition xml:lang="en">association that records the binding of exactly one instance of the Item (6.4.2.1) class with zero, one or more instances of the Slot (6.4.2.4) class.
 This association registers the slots that are used to extend the registry item.</skos:definition>
+        <skos:prefLabel xml:lang="en">Item Slot</skos:prefLabel>
     </owl:Class>
     
 
@@ -4673,6 +4913,7 @@ This association registers the slots that are used to extend the registry item.<
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.5.01"/>
         <rdfs:label xml:lang="en">Language</rdfs:label>
         <skos:definition xml:lang="en">systematic use of sounds, characters, symbols or signs (3.2.10) to express meaning or communicate meaning or a message</skos:definition>
+        <skos:prefLabel xml:lang="en">Language</skos:prefLabel>
     </owl:Class>
     
 
@@ -4759,6 +5000,7 @@ This association registers the slots that are used to extend the registry item.<
         <rdfs:label xml:lang="en">Language Identification</rdfs:label>
         <skos:definition xml:lang="en">class which serves as an identifier for a language. Each instance of the Language_Identification class represents a language as spoken (or written, signed or otherwise signalled) by human beings for communication of information to other human beings. Computer languages such as programming languages are explicitly excluded.
 The identifier is comprised of the following parts, or attributes, which are based on IETF RFC 5646[33]. IETF RFC 5646 refers to these attributes as ‘language subtags’:</skos:definition>
+        <skos:prefLabel xml:lang="en">Language Identification</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
@@ -4804,6 +5046,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:identifier rdf:resource="urn:uuid:4a8e525b-45e6-48dc-adb1-880245eeee47"/>
         <rdfs:label xml:lang="en">Mapping Hierarchy</rdfs:label>
         <skos:definition xml:lang="en">reflexive association which records the binding of zero or one instance of the Item_Mapping (11.3.1) class, each of which represents a superset mapping, to zero, one or more other instances of the Item_Mapping class, each of which represents a subset mapping. This association registers any superset-subset hierarchy that exists within a group of the mappings, e.g. when two models and their model elements are mapped together, the instance of the Item_Mapping class that represents the top-level mapping of the models will be at the superset end of this association and the instances of the Item_Mapping class that represent the lower-level mappings of sets of model elements be at the subset end of this association.</skos:definition>
+        <skos:prefLabel xml:lang="en">Mapping Hierarchy</skos:prefLabel>
     </owl:Class>
     
 
@@ -4819,6 +5062,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.26"/>
         <rdfs:label xml:lang="en">Metadata</rdfs:label>
         <skos:definition xml:lang="en">data (3.2.29) that defines and describe other data</skos:definition>
+        <skos:prefLabel xml:lang="en">Metadata</skos:prefLabel>
     </owl:Class>
     
 
@@ -4844,6 +5088,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:identifier rdf:resource="urn:uuid:a1968ad1-710f-497f-9302-647273f7be27"/>
         <rdfs:label xml:lang="en">Metadata Item</rdfs:label>
         <skos:definition xml:lang="en">instance of a metadata object (3.2.31) in a metadata registry (3.2.55)</skos:definition>
+        <skos:prefLabel xml:lang="en">Metadata Item</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A metadata item has associated attributes (3.1.11), as appropriate for the metadata object it instantiates</skos:scopeNote>
         <skos:scopeNote xml:lang="en">In all parts of ISO/IEC 11179, this term is applied only to instances of metadata objects described by the metamodels in parts of ISO/IEC 11179 which specify potential registry content, including data elements (3.2.43) in ISO/IEC 11179-31[17], concept systems (3.2.9) in ISO/IEC 11179-32[18], data sets in ISO/IEC 11179-33[19], computable objects in ISO/IEC 11179-34[20], and models in ISO/IEC 11179-35[21]</skos:scopeNote>
         <skos:scopeNote xml:lang="en">The term also applies to instances of metadata objects described by the metamodels in the various parts of ISO/IEC 19763[29], which build upon the metamodel in this document</skos:scopeNote>
@@ -4884,6 +5129,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:identifier rdf:resource="urn:uuid:6ed0b546-d23c-494b-bc77-8c141fd5b95b"/>
         <rdfs:label xml:lang="en">Metadata Object</rdfs:label>
         <skos:definition xml:lang="en">object type defined by a metamodel (3.2.34)</skos:definition>
+        <skos:prefLabel xml:lang="en">Metadata Object</skos:prefLabel>
         <skos:scopeNote xml:lang="en">In all parts of ISO/IEC 11179, this term is applied only to metadata objects described by the metamodels in those parts of ISO/IEC 11179 which specify potential registry content, including data elements (3.2.43) in ISO/IEC 11179-31[17], concept systems (3.2.9) in ISO/IEC 11179-32[18], data sets in ISO/IEC 11179-33[19], computable data in ISO/IEC 11179-34[20], and models in ISO/IEC 11179-35[21]</skos:scopeNote>
         <skos:scopeNote xml:lang="en">The term also applies to metadata objects described by the metamodels in the various parts of ISO/IEC 19763[29], which build upon the metamodel in this document</skos:scopeNote>
     </owl:Class>
@@ -4919,6 +5165,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.31"/>
         <rdfs:label xml:lang="en">Metadata Registry</rdfs:label>
         <skos:definition xml:lang="en">information system for registering metadata (3.2.30)</skos:definition>
+        <skos:prefLabel xml:lang="en">Metadata Registry</skos:prefLabel>
         <skos:scopeNote xml:lang="en">The associated information store or database is known as a metadata register (3.2.56)</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -4947,6 +5194,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.27"/>
         <rdfs:label xml:lang="en">Metamodel</rdfs:label>
         <skos:definition xml:lang="en">data model (3.2.32) that specifies one or more other models, such as data models, process models, ontologies, etc.</skos:definition>
+        <skos:prefLabel xml:lang="en">Metamodel</skos:prefLabel>
         <skos:scopeNote xml:lang="en">The metamodel in this document is expressed as a conceptual data model (3.2.33) using UML class diagram notation (3.2.36)</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -4975,6 +5223,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:15944:-1:ed-2:v1:term:3.35"/>
         <rdfs:label xml:lang="en">Name</rdfs:label>
         <skos:definition xml:lang="en">designation of an object (3.2.1) by a linguistic expression</skos:definition>
+        <skos:prefLabel xml:lang="en">Name</skos:prefLabel>
     </owl:Class>
     
 
@@ -5074,6 +5323,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.3.2"/>
         <rdfs:label xml:lang="en">Namespace</rdfs:label>
         <skos:definition xml:lang="en">set of designations (3.2.11), scoped identifiers (3.2.62) or both for a particular business need</skos:definition>
+        <skos:prefLabel xml:lang="en">Namespace</skos:prefLabel>
         <skos:scopeNote xml:lang="en">The term namespace is used in this document because it is in common use, even though the concept is being applied to identifiers as well as names</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -5130,6 +5380,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <dcterms:identifier rdf:resource="urn:uuid:f24d09d4-3912-4042-9df3-3e76a9733321"/>
         <rdfs:label xml:lang="en">Naming Convention</rdfs:label>
         <skos:definition xml:lang="en">specification of how signs (3.2.10) of designations (3.2.11), scoped identifiers (3.2.62) or both are formulated</skos:definition>
+        <skos:prefLabel xml:lang="en">Naming Convention</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A naming convention can apply to scoped identifiers when they are included in the associated namespace (3.2.13)</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -5165,6 +5416,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <rdfs:label xml:lang="en">Naming Convention Conformance</rdfs:label>
         <skos:definition xml:lang="en">association that records the binding of zero, one or more instances of the Designation (8.4.1) class to zero, one or more instances of the Naming_Convention (8.4.4)class.
 This association records the naming convention to which a designation conforms.</skos:definition>
+        <skos:prefLabel xml:lang="en">Naming Convention Conformance</skos:prefLabel>
     </owl:Class>
     
 
@@ -5193,6 +5445,7 @@ This association records the naming convention to which a designation conforms.<
         <rdfs:label xml:lang="en-us">Naming Convention Utilization</rdfs:label>
         <skos:definition xml:lang="en">association records the binding of zero, one or more instances of the Namespace (8.3.1) class to zero, one or more instances of the Naming_Convention (8.4.4) class.
 This association records the naming convention used by the namespace.</skos:definition>
+        <skos:prefLabel xml:lang="en-us">Naming Convention Utilization</skos:prefLabel>
     </owl:Class>
     
 
@@ -5207,6 +5460,7 @@ This association records the naming convention used by the namespace.</skos:defi
         <rdfs:label xml:lang="en">Notation</rdfs:label>
         <skos:definition xml:lang="en">formal syntax and associated semantics for the representation of information</skos:definition>
         <skos:example xml:lang="en">UML, MOF, OCL, OWL/RDF, SKOS, CGIF, XCL, XTM or ISO/IEC 11404</skos:example>
+        <skos:prefLabel xml:lang="en">Notation</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A formal syntax consists of a set of symbols and the rules for their use</skos:scopeNote>
         <skos:scopeNote xml:lang="en">A formal syntax is often intended for machine processing</skos:scopeNote>
     </owl:Class>
@@ -5235,6 +5489,7 @@ This association records the naming convention used by the namespace.</skos:defi
         <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.1.1"/>
         <rdfs:label xml:lang="en">Object</rdfs:label>
         <skos:definition xml:lang="en">anything perceivable or conceivable</skos:definition>
+        <skos:prefLabel xml:lang="en">Object</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Objects can be material (e.g. &apos;engine&apos;, &apos;sheet of paper&apos;, &apos;diamond&apos;), immaterial (e.g. &apos;conversion ratio&apos;, &apos;project plan&apos;) or imagined (e.g. &apos;unicorn&apos;, &apos;scientific hypothesis&apos;)</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -5262,6 +5517,7 @@ This association records the naming convention used by the namespace.</skos:defi
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.1"/>
         <rdfs:label xml:lang="en">Object Class</rdfs:label>
         <skos:definition xml:lang="en">set of ideas, abstractions or things in the real world that are identified with explicit boundaries and meaning and whose properties and behaviour follow the same rules</skos:definition>
+        <skos:prefLabel xml:lang="en">Object Class</skos:prefLabel>
     </owl:Class>
     
 
@@ -5290,6 +5546,7 @@ This association records the naming convention used by the namespace.</skos:defi
         <rdfs:label xml:lang="en">Object Classification Scheme Item</rdfs:label>
         <skos:definition xml:lang="en">records the bindings of zero, one or more instances of the Classification_Scheme_Item_Relationships (10.3.3) class with one or more instances of the Classification_Scheme_Items (10.3.2) class.
 This association records that the set of classification scheme items are the object of the relationship modelled by the instance of the Classification_Scheme_Item_Relationship class.</skos:definition>
+        <skos:prefLabel xml:lang="en">Object Classification Scheme Item</skos:prefLabel>
     </owl:Class>
     
 
@@ -5331,6 +5588,7 @@ This association records that the set of classification scheme items are the obj
         <dcterms:identifier rdf:resource="urn:uuid:ac307cad-abc8-427e-9c22-9b8cf06c111a"/>
         <rdfs:label xml:lang="en">Object Mapping</rdfs:label>
         <skos:definition xml:lang="en">association which records the binding of zero, one or more instances of the Item_Mapping class (11.3.1) with one or more instances of the Item class (6.4.2.1) which are the object of the mapping</skos:definition>
+        <skos:prefLabel xml:lang="en">Object Mapping</skos:prefLabel>
     </owl:Class>
     
 
@@ -5401,6 +5659,7 @@ This association records that the set of classification scheme items are the obj
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:6523:-1:ed-1:v1:term:3.1"/>
         <rdfs:label xml:lang="en-us">Organization</rdfs:label>
         <skos:definition xml:lang="en">unique framework of authority within which individuals (3.2.82) act, or are designated to act, towards some purpose</skos:definition>
+        <skos:prefLabel xml:lang="en-us">Organization</skos:prefLabel>
         <skos:scopeNote xml:lang="en">The kinds of organizations covered by ISO/IEC 6523-1[8] include the following examples:
 a) an organization incorporated under law;
 b) an unincorporated organization or activity providing goods, services or both including:
@@ -5478,6 +5737,7 @@ c) groupings of the above types of organizations where there is a need to identi
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.19"/>
         <rdfs:label xml:lang="en">Permissible Value</rdfs:label>
         <skos:definition xml:lang="en">designation (3.2.11) of a value meaning (3.2.46)</skos:definition>
+        <skos:prefLabel xml:lang="en">Permissible Value</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Explicit mapping of a single permissible value to a single value meaning is possible only when both the value meaning and permissible value are enumerated, e.g. for code sets. For described permissible values, it is possible for the described meaning to be associated with a range of values, e.g. weight in kilograms.</skos:scopeNote>
         <skos:scopeNote xml:lang="en">Permissible values may be specified either as part of a value domain (3.2.47) or only associated with a value meaning (3.2.46)</skos:scopeNote>
         <skos:scopeNote xml:lang="en">Within a value domain, permissible values can either be enumerated, expressed via a description, or a combination of the two</skos:scopeNote>
@@ -5512,6 +5772,7 @@ c) groupings of the above types of organizations where there is a need to identi
         <dcterms:identifier rdf:resource="urn:uuid:e647c8ac-c17c-4a3c-b25e-c620c2558904"/>
         <rdfs:label xml:lang="en">Phone Number</rdfs:label>
         <skos:definition xml:lang="en">telephone number</skos:definition>
+        <skos:prefLabel xml:lang="en">Phone Number</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Specified by ITU-T Recommendation E.164 (2005-02)[35], the international public telecommunications numbering plan</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -5533,6 +5794,7 @@ c) groupings of the above types of organizations where there is a need to identi
         <dcterms:source xml:lang="en">UPU S42,[38]</dcterms:source>
         <rdfs:label xml:lang="en">Postal Address</rdfs:label>
         <skos:definition xml:lang="en">set of information which, for a postal item, allows the unambiguous determination of an actual or potential delivery point, usually combined with the specification of an addressee or a mailee</skos:definition>
+        <skos:prefLabel xml:lang="en">Postal Address</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/PostalAddress"/>
@@ -5560,6 +5822,7 @@ c) groupings of the above types of organizations where there is a need to identi
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.2"/>
         <rdfs:label xml:lang="en">Property</rdfs:label>
         <skos:definition xml:lang="en">quality common to all members of an object class (3.2.2)</skos:definition>
+        <skos:prefLabel xml:lang="en">Property</skos:prefLabel>
     </owl:Class>
     
 
@@ -5588,6 +5851,7 @@ c) groupings of the above types of organizations where there is a need to identi
         <rdfs:label xml:lang="en">Reference</rdfs:label>
         <skos:definition xml:lang="en">records the binding of zero, one or more instances of the Reference_Document (9.2.3) class with zero, one or more instances of the Registered_Item (9.4.1) class.
 This association records the reference documents that provide additional information about the linked registered items.</skos:definition>
+        <skos:prefLabel xml:lang="en">Reference</skos:prefLabel>
     </owl:Class>
     
 
@@ -5672,6 +5936,7 @@ This association records the reference documents that provide additional informa
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.2.3"/>
         <rdfs:label xml:lang="en">Reference Document</rdfs:label>
         <skos:definition xml:lang="en">document that provides pertinent details for consultation about a subject</skos:definition>
+        <skos:prefLabel xml:lang="en">Reference Document</skos:prefLabel>
     </owl:Class>
     
 
@@ -5691,6 +5956,7 @@ This association records the reference documents that provide additional informa
         <dcterms:identifier rdf:resource="urn:uuid:8ef3558f-5896-4f14-9984-84e38af7b60a"/>
         <rdfs:label xml:lang="en">Register</rdfs:label>
         <skos:definition xml:lang="en">information store or database maintained by a registry (3.2.49)</skos:definition>
+        <skos:prefLabel xml:lang="en">Register</skos:prefLabel>
     </owl:Class>
     
 
@@ -5726,6 +5992,7 @@ This association records the reference documents that provide additional informa
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.1"/>
         <rdfs:label xml:lang="en">Registered Item</rdfs:label>
         <skos:definition xml:lang="en">identified item (3.2.61) that is recorded and managed in a registry (3.2.49)</skos:definition>
+        <skos:prefLabel xml:lang="en">Registered Item</skos:prefLabel>
     </owl:Class>
     
 
@@ -5761,6 +6028,7 @@ This association records the reference documents that provide additional informa
         <dcterms:identifier rdf:resource="urn:uuid:3907e822-6b1c-4f6c-a56e-e1ad529cc34a"/>
         <rdfs:label xml:lang="en">Registrar</rdfs:label>
         <skos:definition xml:lang="en">representative of a registration authority (3.2.92)</skos:definition>
+        <skos:prefLabel xml:lang="en">Registrar</skos:prefLabel>
     </owl:Class>
     
 
@@ -5781,6 +6049,7 @@ This association records the reference documents that provide additional informa
         <dcterms:identifier rdf:resource="urn:uuid:f97ad99c-ced8-457e-8ad9-f62222c8c0eb"/>
         <rdfs:label xml:lang="en">Registrar Identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier (3.1.16) for the registrar (3.2.90)</skos:definition>
+        <skos:prefLabel xml:lang="en">Registrar Identifier</skos:prefLabel>
     </owl:Class>
     
 
@@ -5795,6 +6064,7 @@ This association records the reference documents that provide additional informa
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.3.33"/>
         <rdfs:label xml:lang="en">Registration</rdfs:label>
         <skos:definition xml:lang="en">set of rules, operations and procedures for the management of an item in a registry (3.2.49)</skos:definition>
+        <skos:prefLabel xml:lang="en">Registration</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A detailed description of registration as it applies in ISO/IEC 11179 is found in ISO/IEC 11179-6</skos:scopeNote>
         <skos:scopeNote xml:lang="en">A registry item is recorded in the registry, but is not necessarily identified, named, defined, classified, registered or administered. Specific information needs to be provided for each of these categories which can be provided when the item is initially recorded, or later. See also classified item (3.2.55), identified item (3.2.61), registered item (3.2.62), administered item (3.2.66) and attached item (3.2.68).</skos:scopeNote>
         <skos:scopeNote xml:lang="en">In this document, registration requires that a minimum set of administrative information (3.2.67) about the registry item (3.2.54) be specified, such that it becomes a registered item (3.2.65)</skos:scopeNote>
@@ -5872,6 +6142,7 @@ This association records the reference documents that provide additional informa
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.6"/>
         <rdfs:label xml:lang="en">Registration Authority</rdfs:label>
         <skos:definition xml:lang="en">organization (3.2.84) responsible for maintaining a register (3.2.50)</skos:definition>
+        <skos:prefLabel xml:lang="en">Registration Authority</skos:prefLabel>
     </owl:Class>
     
 
@@ -5929,6 +6200,7 @@ This association records the reference documents that provide additional informa
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.9"/>
         <rdfs:label xml:lang="en">Registration Authority Identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier (3.1.16) assigned to a registration authority (3.2.92)</skos:definition>
+        <skos:prefLabel xml:lang="en">Registration Authority Identifier</skos:prefLabel>
     </owl:Class>
     
 
@@ -5950,6 +6222,7 @@ This association records the reference documents that provide additional informa
         <rdfs:label xml:lang="en">Registration Authority Registrar</rdfs:label>
         <skos:definition xml:lang="en">records the binding of exactly one instance of the Registration_Authority (9.4.6) class with one or more instances of the Registrar (9.4.7) class.
 This association records the registrars that represent the registration authority.</skos:definition>
+        <skos:prefLabel xml:lang="en">Registration Authority Registrar</skos:prefLabel>
     </owl:Class>
     
 
@@ -6090,6 +6363,7 @@ This association records the registrars that represent the registration authorit
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.34"/>
         <rdfs:label xml:lang="en">Registry</rdfs:label>
         <skos:definition xml:lang="en">information system for registration (3.2.64)</skos:definition>
+        <skos:prefLabel xml:lang="en">Registry</skos:prefLabel>
     </owl:Class>
     
 
@@ -6104,6 +6378,7 @@ This association records the registrars that represent the registration authorit
         <dcterms:identifier rdf:resource="urn:uuid:bfa88772-53c3-4eee-b521-1f2281885543"/>
         <rdfs:label xml:lang="en">Registry Item</rdfs:label>
         <skos:definition xml:lang="en">item recorded in a registry (3.2.49)</skos:definition>
+        <skos:prefLabel xml:lang="en">Registry Item</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A registry item is recorded in the registry, but is not necessarily identified, named, defined, classified, registered or administered. Specific information needs to be provided for each of these categories which can be provided when the item is initially recorded, or later. See also classified item (3.2.59), identified item (3.2.61), registered item (3.2.65), administered item (3.2.66) and attached item (3.2.68).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -6320,6 +6595,7 @@ This association records the registrars that represent the registration authorit
         <dcterms:identifier rdf:resource="urn:uuid:1cd3eda7-77d7-4cdc-b74c-4d1ef57cdbff"/>
         <rdfs:label xml:lang="en">Registry Specification</rdfs:label>
         <skos:definition xml:lang="en">describes the environment in which a registry operates. If this document is being applied in an environment that does not use a registry, then Registry_Specification is not required. In an environment with multiple registries, there should be one Registry_Specification per registry.</skos:definition>
+        <skos:prefLabel xml:lang="en">Registry Specification</skos:prefLabel>
     </owl:Class>
     
 
@@ -6375,6 +6651,7 @@ This association records the registrars that represent the registration authorit
         <dcterms:identifier rdf:resource="urn:uuid:33e09ed2-6efb-4c94-b4fb-a0307db5b974"/>
         <rdfs:label xml:lang="en">Role</rdfs:label>
         <skos:definition xml:lang="en">specified responsibilities</skos:definition>
+        <skos:prefLabel xml:lang="en">Role</skos:prefLabel>
     </owl:Class>
     
 
@@ -6431,6 +6708,7 @@ This association records the registrars that represent the registration authorit
         <dcterms:identifier rdf:resource="urn:uuid:6b42b05b-6244-49e5-8925-a9895e03429b"/>
         <rdfs:label xml:lang="en">Scoped Identifier</rdfs:label>
         <skos:definition xml:lang="en">identifier (3.1.16) of an identified item (3.2.61) within a specified namespace (3.2.13)</skos:definition>
+        <skos:prefLabel xml:lang="en">Scoped Identifier</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A namespace provides the scope within which the scoped identifier uniquely identifies the identified item</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -6457,6 +6735,7 @@ This association records the registrars that represent the registration authorit
         <dcterms:identifier rdf:resource="urn:uuid:933db32b-2d55-4da6-95bb-98baf212749e"/>
         <rdfs:label xml:lang="en">Sign</rdfs:label>
         <skos:definition xml:lang="en">textual string or symbol that can be used to denote a concept (3.2.7)</skos:definition>
+        <skos:prefLabel xml:lang="en">Sign</skos:prefLabel>
     </owl:Class>
     
 
@@ -6504,6 +6783,7 @@ This association records the registrars that represent the registration authorit
         <dcterms:identifier rdf:resource="urn:uuid:f1f5bc3f-0438-48cc-9d31-d2a87bfae9a8"/>
         <rdfs:label xml:lang="en">Slot</rdfs:label>
         <skos:definition xml:lang="en">container for an extension (3.2.40) to a registry item (3.2.54)</skos:definition>
+        <skos:prefLabel xml:lang="en">Slot</skos:prefLabel>
     </owl:Class>
     
 
@@ -6532,6 +6812,7 @@ This association records the registrars that represent the registration authorit
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.8"/>
         <rdfs:label xml:lang="en">Stewardship Record</rdfs:label>
         <skos:definition xml:lang="en">record of a stewardship organization (3.2.104) and a stewardship contact (3.2.103) involved in the stewardship (3.2.102) of an administered item (3.2.66)</skos:definition>
+        <skos:prefLabel xml:lang="en">Stewardship Record</skos:prefLabel>
     </owl:Class>
     
 
@@ -6560,6 +6841,7 @@ This association records the registrars that represent the registration authorit
         <rdfs:label xml:lang="en">Subject Classification Scheme Item</rdfs:label>
         <skos:definition xml:lang="en">records the bindings of zero, one or more instances of the Classification_Scheme_Item_Relationships (10.3.3) class with one or more instances of the Classification_Scheme_Items (10.3.2) class.
 This association records that the set of classification scheme items are the subject of the relationship modelled by the instance of the Classification_Scheme_Item_Relationship class.</skos:definition>
+        <skos:prefLabel xml:lang="en">Subject Classification Scheme Item</skos:prefLabel>
     </owl:Class>
     
 
@@ -6601,6 +6883,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:identifier rdf:resource="urn:uuid:d8abe96b-5b29-480e-82e6-d069adab761f"/>
         <rdfs:label xml:lang="en">Subject Mapping</rdfs:label>
         <skos:definition xml:lang="en">association which records the binding of zero, one or more instances of the Item_Mapping class (11.3.1) with one or more instances of the Item class (6.4.2.1) which are the subject of the mapping</skos:definition>
+        <skos:prefLabel xml:lang="en">Subject Mapping</skos:prefLabel>
     </owl:Class>
     
 
@@ -6629,6 +6912,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.8"/>
         <rdfs:label xml:lang="en">Submission</rdfs:label>
         <skos:definition xml:lang="en">act of submitting a registry item (3.2.54) for registration (3.2.55) in a registry (3.2.49)</skos:definition>
+        <skos:prefLabel xml:lang="en">Submission</skos:prefLabel>
     </owl:Class>
     
 
@@ -6657,6 +6941,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.9"/>
         <rdfs:label xml:lang="en">Submission Record</rdfs:label>
         <skos:definition xml:lang="en">record of a submission organization (3.2.108) and a submission contact (3.2.107) involved in the submission (3.2.106) of a registry item (3.2.54) for registration (3.2.55)</skos:definition>
+        <skos:prefLabel xml:lang="en">Submission Record</skos:prefLabel>
     </owl:Class>
     
 
@@ -6673,6 +6958,7 @@ This association records that the set of classification scheme items are the sub
         <rdfs:comment xml:lang="en">See also the Text datatype (6.2.12)</rdfs:comment>
         <rdfs:label xml:lang="en">Text</rdfs:label>
         <skos:definition xml:lang="en">data (3.2.29) in the form of characters, symbols, words, phrases, paragraphs, sentences, tables, or other character arrangements, intended to convey a meaning, and whose interpretation is essentially based upon the reader&apos;s knowledge of some natural language or artificial language</skos:definition>
+        <skos:prefLabel xml:lang="en">Text</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Text"/>
@@ -6748,6 +7034,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.13"/>
         <rdfs:label xml:lang="en">Value Domain</rdfs:label>
         <skos:definition xml:lang="en">set of permissible values (3.2.48)</skos:definition>
+        <skos:prefLabel xml:lang="en">Value Domain</skos:prefLabel>
         <skos:scopeNote xml:lang="en">The permissible values can either be enumerated, expressed via a description, or a combination of the two</skos:scopeNote>
         <skos:scopeNote xml:lang="en">The value domain provides representation but has no implication as to what data element concept (3.2.44) the values are associated with nor what the values mean</skos:scopeNote>
     </owl:Class>
@@ -6798,6 +7085,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.10"/>
         <rdfs:label xml:lang="en">Value Meaning</rdfs:label>
         <skos:definition xml:lang="en">semantic content of a value</skos:definition>
+        <skos:prefLabel xml:lang="en">Value Meaning</skos:prefLabel>
         <skos:scopeNote xml:lang="en">The representation of value meanings in a registry (3.2.49) are independent of (and do not constrain) their representation in any corresponding value domain (3.2.47)</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -6830,6 +7118,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
         <rdfs:label xml:lang="en">superseded</rdfs:label>
         <skos:definition xml:lang="en">Has been replaced by another option which is used instead</skos:definition>
+        <skos:prefLabel xml:lang="en">superseded</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6844,6 +7133,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
         <rdfs:label xml:lang="en">admitted</rdfs:label>
         <skos:definition xml:lang="en">An acceptable option but not as good as the preferred option</skos:definition>
+        <skos:prefLabel xml:lang="en">admitted</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6858,6 +7148,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
         <rdfs:label xml:lang="en">Application</rdfs:label>
         <skos:definition xml:lang="en">The registration authority wishes to make the community that uses this metadata register aware of the existence of an administered item, and any associated attached items, in their local domain that is in an application system and is not specified at the logical level. This item can be very well described.</skos:definition>
+        <skos:prefLabel xml:lang="en">Application</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6872,6 +7163,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">broader than</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) are linked, and that the object item(s) have a broader meaning than the subject item(s). Inverse of “narrower than”.</skos:definition>
+        <skos:prefLabel xml:lang="en">broader than</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6886,6 +7178,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
         <rdfs:label xml:lang="en">Candidate</rdfs:label>
         <skos:definition xml:lang="en">The administered item, and any associated attached items, has been proposed for progression through the registration levels</skos:definition>
+        <skos:prefLabel xml:lang="en">Candidate</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6900,6 +7193,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">child of</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a hierarchical relationship, and that the object item(s) are one level below the subject item(s) in the hierarchy. Inverse of “parent of”.</skos:definition>
+        <skos:prefLabel xml:lang="en">child of</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6918,6 +7212,7 @@ This association records that the set of classification scheme items are the sub
 a) shall support all mandatory, optional and conditional classes, attributes, datatypes and associations;
 b) as permitted by the implementation, may use, test, access or probe for extension features or extensions to classes, attributes, datatypes, associations or any combination thereof;
 c) may recognize, act on or allow the production of classes, attributes, datatypes, associations or any combination thereof that are dependent on implementation-defined behaviour.</skos:definition>
+        <skos:prefLabel xml:lang="en">conforming</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6932,6 +7227,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">contained in</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a containment relationship, and that the object item(s) are a contained in the subject item(s). Inverse of “contains”.</skos:definition>
+        <skos:prefLabel xml:lang="en">contained in</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6946,6 +7242,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">contains</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a containment relationship, and that the object item(s) contain the subject item(s). Inverse of “contained in”.</skos:definition>
+        <skos:prefLabel xml:lang="en">contains</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6960,6 +7257,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
         <rdfs:label xml:lang="en">deprecated</rdfs:label>
         <skos:definition xml:lang="en">No longer considered acceptable but is still in use</skos:definition>
+        <skos:prefLabel xml:lang="en">deprecated</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6974,6 +7272,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">derived from</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) have been used in the creation of the object item(s). Inverse of “has derivation”.</skos:definition>
+        <skos:prefLabel xml:lang="en">derived from</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -6988,6 +7287,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">has derivation</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the object item(s) have been used in the creation of the subject item(s). Inverse of “derived from”.</skos:definition>
+        <skos:prefLabel xml:lang="en">has derivation</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7002,6 +7302,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">has instance</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the object item(s) have an instantiation in the subject item(s). Inverse of “instance of”.</skos:definition>
+        <skos:prefLabel xml:lang="en">has instance</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7016,6 +7317,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
         <rdfs:label xml:lang="en">Historical</rdfs:label>
         <skos:definition xml:lang="en">The submitter wishes to make the community that uses this registry aware of the existence of an administered item, and any associated attached items, that was used in the past</skos:definition>
+        <skos:prefLabel xml:lang="en">Historical</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7030,6 +7332,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.2"/>
         <rdfs:label xml:lang="en">Incomplete</rdfs:label>
         <skos:definition xml:lang="en">The submitter wishes to make the community that uses this registry aware of the existence of an administered item, and any associated attached items, in their local domain</skos:definition>
+        <skos:prefLabel xml:lang="en">Incomplete</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7044,6 +7347,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">instance of</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the object item(s) are an instantiation of the subject item(s). Inverse of “has instance”.</skos:definition>
+        <skos:prefLabel xml:lang="en">instance of</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7058,6 +7362,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">narrower than</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) are linked, and that the object item(s) have a narrower meaning than the subject item(s). Inverse of “broader than”.</skos:definition>
+        <skos:prefLabel xml:lang="en">narrower than</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7072,6 +7377,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
         <rdfs:label xml:lang="en">obsolete</rdfs:label>
         <skos:definition xml:lang="en">No longer in use but has not been superseded</skos:definition>
+        <skos:prefLabel xml:lang="en">obsolete</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7086,6 +7392,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">parent of</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a hierarchical relationship, and that the object item(s) are one level above the subject item(s) in the hierarchy. Inverse of “child of”.</skos:definition>
+        <skos:prefLabel xml:lang="en">parent of</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7100,6 +7407,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:8.7.1.2"/>
         <rdfs:label xml:lang="en">preferred</rdfs:label>
         <skos:definition xml:lang="en">The best option</skos:definition>
+        <skos:prefLabel xml:lang="en">preferred</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7115,6 +7423,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <rdfs:label xml:lang="en">Preferred Standard</rdfs:label>
         <skos:definition xml:lang="en">The registration authority confirms that the administered item, and any associated attached items are:
 — preferred for use within the community that uses this registry</skos:definition>
+        <skos:prefLabel xml:lang="en">Preferred Standard</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7132,6 +7441,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
 — the mandatory metadata attributes have been complete;
 — all mandatory associations have been instantiated; and
 — the mandatory metadata attributes conform to applicable quality requirements</skos:definition>
+        <skos:prefLabel xml:lang="en">Qualified</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7148,6 +7458,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <skos:definition xml:lang="en">The registration authority has confirmed that for the administered item, and any associated attached items:
 — all mandatory metadata attributes have been completed;
 — all mandatory associations have been instantiated</skos:definition>
+        <skos:prefLabel xml:lang="en">Recorded</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7164,6 +7475,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <skos:definition xml:lang="en">The registration authority determined that the administered item, and any associated attached items are:
 — no longer recommended for use by the community that uses this registry, and
 — a successor administered item is now preferred for use</skos:definition>
+        <skos:prefLabel xml:lang="en">Superseded</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7178,6 +7490,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">related to</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) share some form of relationship other than those explicitly defined by the other values of Item_Mapping_Degree, and as further explained in the description</skos:definition>
+        <skos:prefLabel xml:lang="en">related to</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7194,6 +7507,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <skos:definition xml:lang="en">The registration authority has approved the administered item, and any associated attached items as:
 — no longer recommended for use in the community that uses this registry and
 — should no longer be used</skos:definition>
+        <skos:prefLabel xml:lang="en">Retired</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7208,6 +7522,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">same as</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) have the same semantics and syntax. (I.e., they represent the same thing, though they necessarily have different identifiers, and may have different names.)</skos:definition>
+        <skos:prefLabel xml:lang="en">same as</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7222,6 +7537,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">semantically equivalent</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) have the same semantics</skos:definition>
+        <skos:prefLabel xml:lang="en">semantically equivalent</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7236,6 +7552,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">semantically similar</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) are semantically similar although not identical</skos:definition>
+        <skos:prefLabel xml:lang="en">semantically similar</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7253,6 +7570,7 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
 — of sufficient quality and
 — of broad interest for use
 in the community that uses this registry</skos:definition>
+        <skos:prefLabel xml:lang="en">Standard</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7270,6 +7588,7 @@ in the community that uses this registry</skos:definition>
 a) shall support all mandatory, optional and conditional classes, attributes, datatypes and associations;
 b) shall not use, test, access or probe for any extension features nor extensions to classes, attributes, datatypes, associations or any combination thereof;
 c) shall not recognize, nor act on, nor allow the production of classes, attributes, datatypes, associations or any combination thereof that are dependent on any unspecified, undefined or implementation-defined behaviour.</skos:definition>
+        <skos:prefLabel xml:lang="en">strictly conforming</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7284,6 +7603,7 @@ c) shall not recognize, nor act on, nor allow the production of classes, attribu
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">subset of</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a superset/subset relationship, and that the object item(s) are a subset of the subject item(s). Inverse of “superset of”.</skos:definition>
+        <skos:prefLabel xml:lang="en">subset of</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7298,6 +7618,7 @@ c) shall not recognize, nor act on, nor allow the production of classes, attribu
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">subtype of</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted the object item(s) are an implementation of the subject item(s) and additionally that the subject item(s) satisfy requirements for participating in computing operation(s) in some framework which will also compute on the object item(s). Inverse of “supertype of”.</skos:definition>
+        <skos:prefLabel xml:lang="en">subtype of</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7312,6 +7633,7 @@ c) shall not recognize, nor act on, nor allow the production of classes, attribu
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">superset of</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted that the subject item(s) and the object item(s) participate in a superset/subset relationship, and that the object item(s) are a superset of the subject item(s). Inverse of “subset of”.</skos:definition>
+        <skos:prefLabel xml:lang="en">superset of</skos:prefLabel>
     </owl:NamedIndividual>
     
 
@@ -7326,6 +7648,7 @@ c) shall not recognize, nor act on, nor allow the production of classes, attribu
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <rdfs:label xml:lang="en">supertype of</rdfs:label>
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted the subject item(s) are an implementation of the object item(s) and additionally that the object item(s) satisfy requirements for participating in computing operation(s) in some framework which will also compute on the subject item(s). Inverse of “subtype of”.</skos:definition>
+        <skos:prefLabel xml:lang="en">supertype of</skos:prefLabel>
     </owl:NamedIndividual>
     
 
