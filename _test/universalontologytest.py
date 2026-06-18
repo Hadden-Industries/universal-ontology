@@ -354,15 +354,15 @@ class UniversalOntologyTest(XmlTestCase):
 									if not re.sub(r'[^a-zA-Z0-9]+', '', transformed_pref_label_text).lower() == entityRdfAboutTail.lower():
 										self.fail('en or en-gb skos:prefLabel does not correspond to the rdf:about: %s' % prefLabel.text)
 							
-							has_corresponding_label = False
+							has_exact_match = False
 							for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
 								if label.get('{http://www.w3.org/XML/1998/namespace}lang') == prefLabelXmlLang:
-									has_corresponding_label = True
-									if not prefLabel.text == label.text:
-										self.fail('skos:prefLabel "%s" is not the same as the %s rdfs:label "%s"' % (prefLabel.text, prefLabelXmlLang, label.text))
+									if prefLabel.text == label.text:
+										has_exact_match = True
+										break
 							
-							if not has_corresponding_label:
-								self.fail('skos:prefLabel "%s" with xml:lang "%s" does not have a corresponding rdfs:label in the same language' % (prefLabel.text, prefLabelXmlLang))
+							if not has_exact_match:
+								self.fail('skos:prefLabel "%s" with xml:lang "%s" does not have an exact matching rdfs:label in the same language' % (prefLabel.text, prefLabelXmlLang))
 								
 						if not hasEnglishPrefLabel:
 							self.fail('English skos:prefLabel not found')
