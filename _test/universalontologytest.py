@@ -364,7 +364,7 @@ class UniversalOntologyTest(XmlTestCase):
 					print(entityRdfAboutTail)
 					raise
 					
-		# Property camelCase label validation
+		# Property camelCase rdf:about validation
 		for elem in itertools.chain(
 			root.iterfind('{http://www.w3.org/2002/07/owl#}ObjectProperty'),
 			root.iterfind('{http://www.w3.org/2002/07/owl#}DatatypeProperty')
@@ -372,10 +372,15 @@ class UniversalOntologyTest(XmlTestCase):
 			
 			entityRdfAbout = elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
 			
-			if entityRdfAbout is not None and entityRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
-				for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
-					if label.text and not is_camel_case(label.text):
-						self.fail('rdfs:label "%s" of property "%s" does not conform to camelCase' % (label.text, entityRdfAbout))
+			if entityRdfAbout is not None and entityRdfAbout.startswith(ns):
+				
+				entityRdfAboutTail = str.replace(entityRdfAbout, ns, '')
+				
+				# Remove prefix up to and including the first underscore for camelCase testing
+				camel_case_test_string = entityRdfAboutTail.split('_', 1)[-1]
+					
+				if not is_camel_case(camel_case_test_string):
+					self.fail('Entity name "%s" does not conform to lower camelCase' % entityRdfAboutTail)
 
 if __name__ == '__main__':
 	
