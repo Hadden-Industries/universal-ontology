@@ -78,13 +78,13 @@
       <xsl:variable name="matched-pref" select="../skos:prefLabel[@xml:lang = $current-lang]"/>
       
       <xsl:choose>
-        <!-- If a matching sibling is found, inject its text safely through the entity preserver -->
-        <xsl:when test="$matched-pref">
+        <!-- Overwrite ONLY the final rdfs:label in the sequence IF no perfect match currently exists -->
+        <xsl:when test="$matched-pref and not(../rdfs:label[@xml:lang = $current-lang][. = $matched-pref]) and generate-id(.) = generate-id(../rdfs:label[@xml:lang = $current-lang][last()])">
           <xsl:call-template name="escape-apos">
             <xsl:with-param name="text" select="$matched-pref"/>
           </xsl:call-template>
         </xsl:when>
-        <!-- Fallback behaviour: preserve the original text if no match exists -->
+        <!-- Fallback behaviour: preserve the original text if a match exists or if it is not the target label to overwrite -->
         <xsl:otherwise>
           <xsl:apply-templates select="node()"/>
         </xsl:otherwise>
