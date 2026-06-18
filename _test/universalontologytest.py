@@ -245,7 +245,9 @@ class UniversalOntologyTest(XmlTestCase):
 
 		for elem in itertools.chain(
 			root.iterfind('{http://www.w3.org/2002/07/owl#}Class'),
-			root.iterfind('{http://www.w3.org/2002/07/owl#}NamedIndividual')
+			root.iterfind('{http://www.w3.org/2002/07/owl#}NamedIndividual'),
+			root.iterfind('{http://www.w3.org/2002/07/owl#}ObjectProperty'),
+			root.iterfind('{http://www.w3.org/2002/07/owl#}DatatypeProperty')
 			):
 			
 			entityRdfAbout = elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
@@ -282,17 +284,18 @@ class UniversalOntologyTest(XmlTestCase):
 					
 					entityRdfAboutTail = str.replace(entityRdfAbout, ns, '')
 				
-				if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
+				if elem.tag in ['{http://www.w3.org/2002/07/owl#}Class', '{http://www.w3.org/2002/07/owl#}NamedIndividual']:
+					if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
+						
+						# Remove prefix up to and including the first underscore for PascalCase testing
+						pascal_case_test_string = entityRdfAboutTail.split('_', 1)[-1]
 					
-					# Remove prefix up to and including the first underscore for PamelCase testing
-					pascal_case_test_string = entityRdfAboutTail.split('_', 1)[-1]
-				
-				else:
-				
-					pascal_case_test_string = entityRdfAboutTail
-				
-				if not is_pascal_case(pascal_case_test_string):
-					self.fail('Entity name "%s" does not conform to PascalCase' % entityRdfAboutTail)
+					else:
+					
+						pascal_case_test_string = entityRdfAboutTail
+					
+					if not is_pascal_case(pascal_case_test_string):
+						self.fail('Entity name "%s" does not conform to PascalCase' % entityRdfAboutTail)
 					
 				try:
 					# Creator
@@ -319,8 +322,8 @@ class UniversalOntologyTest(XmlTestCase):
 					
 					# Modified at date and time
 					if len(elem.findall('{http://purl.org/dc/terms/}modified')) > 1:
-						entity_type = "owl:NamedIndividual" if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual' else "owl:Class"
-						self.fail('%s "%s" has more than one dcterms:modified' % (entity_type, entityRdfAbout))
+						entity_type_name = "owl:" + elem.tag.split('}')[-1]
+						self.fail('%s "%s" has more than one dcterms:modified' % (entity_type_name, entityRdfAbout))
 
 					modifiedFirstElement = elem.find('{http://purl.org/dc/terms/}modified')
 					
@@ -352,61 +355,62 @@ class UniversalOntologyTest(XmlTestCase):
 						if not (contributorResourceValue.startswith('http://orcid.org/') or contributorResourceValue.startswith('https://orcid.org/')):
 							self.fail('dc:contributor "%s" is not an ORCID iD' % contributorResourceValue)
 					
-					# Identifiers
-					self.assertXpathsExist(elem, ['./dcterms:identifier'])
-					
-					hasUuidIdentifier = False
-					
-					for identifier in elem.iterfind('{http://purl.org/dc/terms/}identifier'):
+					if elem.tag in ['{http://www.w3.org/2002/07/owl#}Class', '{http://www.w3.org/2002/07/owl#}NamedIndividual']:
+						# Identifiers
+						self.assertXpathsExist(elem, ['./dcterms:identifier'])
 						
-						identifierRdfResource = identifier.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
+						hasUuidIdentifier = False
 						
-						if identifierRdfResource is not None:
+						for identifier in elem.iterfind('{http://purl.org/dc/terms/}identifier'):
 							
-							if identifierRdfResource.startswith('urn:uuid:'):
+							identifierRdfResource = identifier.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
+							
+							if identifierRdfResource is not None:
 								
-								if not hasUuidIdentifier:
-									hasUuidIdentifier = True
-								try:
-									UuidValue = UUID(identifierRdfResource[len('urn:uuid:'):], version = 4)
-								except ValueError:
-									self.fail('dcterms:identifier "%s" is not a valid version 4 UUID' % identifierRdfResource[len('urn:uuid:'):])
-								
-					if not hasUuidIdentifier:
-						self.fail('dcterms:identifier of type UUID not found')				
-					
-					# Labels
-					
-					if entityRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
-					
-						self.assertXpathsExist(elem, ['./rdfs:label'])
+								if identifierRdfResource.startswith('urn:uuid:'):
+									
+									if not hasUuidIdentifier:
+										hasUuidIdentifier = True
+									try:
+										UuidValue = UUID(identifierRdfResource[len('urn:uuid:'):], version = 4)
+									except ValueError:
+										self.fail('dcterms:identifier "%s" is not a valid version 4 UUID' % identifierRdfResource[len('urn:uuid:'):])
+									
+						if not hasUuidIdentifier:
+							self.fail('dcterms:identifier of type UUID not found')				
 						
-						hasEnglishLabel = False
+						# Labels
 						
-						for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
+						if entityRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
+						
+							self.assertXpathsExist(elem, ['./rdfs:label'])
+							
+							hasEnglishLabel = False
+							
+							for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
+									
+								labelXmlLang = label.get('{http://www.w3.org/XML/1998/namespace}lang')
 								
-							labelXmlLang = label.get('{http://www.w3.org/XML/1998/namespace}lang')
-							
-							# Check all labels are unique by text and language
-							if (label.text, labelXmlLang) in labelsList:
+								# Check all labels are unique by text and language
+								if (label.text, labelXmlLang) in labelsList:
+									
+									self.fail('another element with rdfs:label "%s" and xml:lang "%s" already exists' % (label.text, labelXmlLang))
 								
-								self.fail('another element with rdfs:label "%s" and xml:lang "%s" already exists' % (label.text, labelXmlLang))
-							
-							labelsList.append((label.text, labelXmlLang))
-							
-							if labelXmlLang.partition('-')[0] == 'en':
-								if not hasEnglishLabel:
-									hasEnglishLabel = True
-										
-						if not hasEnglishLabel:
-							self.fail('en rdfs:label not found')
-					
-					# Definitions
-					self.assertXpathsExist(elem, ['./skos:definition'])
-					self.assertXpathsUniqueValue(elem, ['./skos:definition/@xml:lang'])
-					
-					# Descriptions
-					self.assertXpathsUniqueValue(elem, ['./dcterms:description/@xml:lang'])
+								labelsList.append((label.text, labelXmlLang))
+								
+								if labelXmlLang.partition('-')[0] == 'en':
+									if not hasEnglishLabel:
+										hasEnglishLabel = True
+											
+							if not hasEnglishLabel:
+								self.fail('en rdfs:label not found')
+						
+						# Definitions
+						self.assertXpathsExist(elem, ['./skos:definition'])
+						self.assertXpathsUniqueValue(elem, ['./skos:definition/@xml:lang'])
+						
+						# Descriptions
+						self.assertXpathsUniqueValue(elem, ['./dcterms:description/@xml:lang'])
 						
 				except:
 					print(entityRdfAboutTail)
