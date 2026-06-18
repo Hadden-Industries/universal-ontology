@@ -195,7 +195,8 @@ class UniversalOntologyTest(XmlTestCase):
 									'{http://www.w3.org/2002/07/owl#}DatatypeProperty'
 								]:
 									# Remove prefix up to and including the first underscore for testing
-									test_about_tail = test_about_tail.split('_', 1)[-1]
+									if test_about_tail and test_about_tail[0].isupper():
+										test_about_tail = test_about_tail.split('_', 1)[-1]
 								
 								if not re.sub(r'[^a-zA-Z0-9]+', '', transformed_pref_label_text).lower() == re.sub(r'[^a-zA-Z0-9]+', '', test_about_tail).lower():
 									self.fail('en or en-gb skos:prefLabel does not correspond to the rdf:about: %s' % prefLabel.text)
