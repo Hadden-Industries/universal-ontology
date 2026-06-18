@@ -2273,7 +2273,7 @@
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicLandAndPropertyUnit"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Basic Land And Property Unit</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">BLPU</dcterms:alternative>
     </owl:Axiom>
@@ -2295,7 +2295,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicPropertyUnit"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Basic Property Unit</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">BPU</dcterms:alternative>
     </owl:Axiom>
@@ -2322,7 +2322,7 @@
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BodyMassIndexRange"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Body Mass Index Range</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">BMI Range</dcterms:alternative>
         <dcterms:alternative xml:lang="en">Quetelet Index Range</dcterms:alternative>
@@ -2460,7 +2460,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CentralProductClassification"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Central Product Classification</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">CPC</dcterms:alternative>
     </owl:Axiom>
@@ -2482,7 +2482,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ClassificationByBroadEconomicCategories"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Classification By Broad Economic Categories</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">Classification By BEC</dcterms:alternative>
     </owl:Axiom>
@@ -2504,7 +2504,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ClassificationOfProductsByActivity"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Classification Of Products By Activity</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">CPA</dcterms:alternative>
     </owl:Axiom>
@@ -2526,7 +2526,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CommonProcurementVocabulary"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Common Procurement Vocabulary</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">CPV</dcterms:alternative>
     </owl:Axiom>
@@ -2644,7 +2644,7 @@
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateReferenceSystem"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Coordinate Reference System</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">CRS</dcterms:alternative>
     </owl:Axiom>
@@ -3130,7 +3130,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DatabaseManagementSystem"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Database Management System</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">DBMS</dcterms:alternative>
     </owl:Axiom>
@@ -3543,7 +3543,7 @@
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Domain Name System Domain</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">DNS Domain</dcterms:alternative>
     </owl:Axiom>
@@ -3563,7 +3563,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomainType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Domain Name System Domain Type</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">DNS Domain Type</dcterms:alternative>
     </owl:Axiom>
@@ -4123,7 +4123,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GS1GlobalProductClassification"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">GS1 Global Product Classification</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">GPC</dcterms:alternative>
     </owl:Axiom>
@@ -4465,7 +4465,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GlobalIndustryClassificationStandard"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Global Industry Classification Standard</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">GICS</dcterms:alternative>
     </owl:Axiom>
@@ -4583,7 +4583,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/HarmonizedSystemCode"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Harmonized System Code</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">HS Code</dcterms:alternative>
     </owl:Axiom>
@@ -4859,7 +4859,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">International E.164 Number National Destination Code</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">International E.164 Number NDC</dcterms:alternative>
     </owl:Axiom>
@@ -6658,7 +6658,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanNumberingPlan"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">North American Numbering Plan</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">NANP</dcterms:alternative>
     </owl:Axiom>
@@ -7941,7 +7941,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/StandardInternationalTradeClassification"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Standard International Trade Classification</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">SITC</dcterms:alternative>
     </owl:Axiom>
@@ -8176,7 +8176,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedNationsStandardProductsAndServicesCode"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">United Nations Standard Products And Services Code</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">UNSPSC</dcterms:alternative>
     </owl:Axiom>
@@ -12585,7 +12585,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/East"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">East</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">E</dcterms:alternative>
     </owl:Axiom>
@@ -12859,7 +12859,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InterleavedTwoOfFive"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Interleaved Two Of Five</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">ITF</dcterms:alternative>
     </owl:Axiom>
@@ -12894,7 +12894,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalClassificationOfStatusInEmployment1993"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">International Classification Of Status In Employment 1993</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">ICSE-93</dcterms:alternative>
     </owl:Axiom>
@@ -12916,7 +12916,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardClassificationOfEducationAttainment2011"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">International Standard Classification Of Education Attainment 2011</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">ISCED-A 2011</dcterms:alternative>
     </owl:Axiom>
@@ -12937,7 +12937,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardClassificationOfOccupations2008"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">International Standard Classification Of Occupations 2008</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">ISCO-08</dcterms:alternative>
     </owl:Axiom>
@@ -12960,7 +12960,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision4"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">International Standard Industrial Classification Revision 4</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">ISIC Rev. 4</dcterms:alternative>
     </owl:Axiom>
@@ -12983,7 +12983,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision5"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">International Standard Industrial Classification Revision 5</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">ISIC Rev. 5</dcterms:alternative>
     </owl:Axiom>
@@ -13188,7 +13188,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/North"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">North</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">N</dcterms:alternative>
     </owl:Axiom>
@@ -13211,7 +13211,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem1997"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">North American Industry Classification System 1997</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">NAICS 1997</dcterms:alternative>
     </owl:Axiom>
@@ -13234,7 +13234,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2002"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">North American Industry Classification System 2002</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">NAICS 2002</dcterms:alternative>
     </owl:Axiom>
@@ -13257,7 +13257,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2007"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">North American Industry Classification System 2007</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">NAICS 2007</dcterms:alternative>
     </owl:Axiom>
@@ -13280,7 +13280,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2012"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">North American Industry Classification System 2012</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">NAICS 2012</dcterms:alternative>
     </owl:Axiom>
@@ -13303,7 +13303,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2017"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">North American Industry Classification System 2017</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">NAICS 2017</dcterms:alternative>
     </owl:Axiom>
@@ -13325,7 +13325,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2022"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">North American Industry Classification System 2022</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">NAICS 2022</dcterms:alternative>
     </owl:Axiom>
@@ -13530,7 +13530,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PortableDataFile417"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Portable Data File 417</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">PDF417</dcterms:alternative>
     </owl:Axiom>
@@ -13611,7 +13611,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/QuickResponseCode"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Quick Response Code</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">QR Code</dcterms:alternative>
     </owl:Axiom>
@@ -13690,7 +13690,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/South"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">South</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">S</dcterms:alternative>
     </owl:Axiom>
@@ -14124,7 +14124,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UniversalProductCodeA"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Universal Product Code-A</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">UPC-A</dcterms:alternative>
     </owl:Axiom>
@@ -14153,7 +14153,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/VonLuschansChromaticScale"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Von Luschan&apos;s Chromatic Scale</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">VLS</dcterms:alternative>
     </owl:Axiom>
@@ -14229,7 +14229,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/West"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">West</owl:annotatedTarget>
         <dcterms:alternative xml:lang="en">W</dcterms:alternative>
     </owl:Axiom>
