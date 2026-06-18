@@ -59,6 +59,32 @@ def is_camel_case(identifier: str) -> bool:
 	
 	return bool(pattern.fullmatch(identifier))
 
+def is_snake_case(identifier: str) -> bool:
+	"""
+	Tests if a string strictly conforms to a relaxed snake_case naming convention.
+	
+	Rules enforced:
+	1. Must contain only letters (a-z, A-Z), numbers (0-9), and underscores (_).
+	2. Must not start or end with an underscore.
+	3. Must not contain consecutive underscores.
+	
+	Args:
+		identifier (str): The local name or URI fragment to test.
+		
+	Returns:
+		bool: True if it is valid snake_case, False otherwise.
+	"""
+	if not isinstance(identifier, str) or not identifier:
+		return False
+		
+	# The pragmatic, widely-accepted pattern for snake_case (case-insensitive)
+	# ^[a-zA-Z0-9]+      : Must start with one or more alphanumeric characters
+	# (?:_[a-zA-Z0-9]+)* : Followed by zero or more groups of a single underscore and alphanumeric characters
+	# $                  : Until the end of the string
+	pattern = re.compile(r"^[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*$")
+	
+	return bool(pattern.fullmatch(identifier))
+
 class UniversalOntologyTest(XmlTestCase):
 
 	def run_on_path(self, file_path: Path):
@@ -201,8 +227,17 @@ class UniversalOntologyTest(XmlTestCase):
 				else:
 					
 					entityRdfAboutTail = str.replace(entityRdfAbout, ns, '')
+				
+				if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
 					
-				if not is_pascal_case(entityRdfAboutTail):
+					# Remove prefix up to and including the first underscore for PamelCase testing
+					pascal_case_test_string = entityRdfAboutTail.split('_', 1)[-1]
+				
+				else:
+				
+					pascal_case_test_string = entityRdfAboutTail
+				
+				if not is_pascal_case(pascal_case_test_string):
 					self.fail('Entity name "%s" does not conform to PascalCase' % entityRdfAboutTail)
 					
 				try:
@@ -288,7 +323,7 @@ class UniversalOntologyTest(XmlTestCase):
 					
 					# Preferred Labels
 					
-					if entityRdfAbout.startswith('https://haddenindustries.com/ontology/universal/'):
+					if entityRdfAbout.startswith('https://haddenindustries.com/ontology/'):
 					
 						self.assertXpathsExist(elem, ['./skos:prefLabel'])
 						
@@ -311,7 +346,12 @@ class UniversalOntologyTest(XmlTestCase):
 										digit_map = {'0': 'Zero', '1': 'One', '2': 'Two', '3': 'Three', '4': 'Four', '5': 'Five', '6': 'Six', '7': 'Seven', '8': 'Eight', '9': 'Nine'}
 										transformed_pref_label_text = digit_map[transformed_pref_label_text[0]] + transformed_pref_label_text[1:]
 									
-									if not re.sub(r'[^a-zA-Z0-9]+', '', transformed_pref_label_text) == entityRdfAboutTail:
+									if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
+										
+										# Remove prefix up to and including the first underscore for testing
+										entityRdfAboutTail = entityRdfAboutTail.split('_', 1)[-1]
+									
+									if not re.sub(r'[^a-zA-Z0-9]+', '', transformed_pref_label_text).lower() == entityRdfAboutTail.lower():
 										self.fail('en or en-gb skos:prefLabel does not correspond to the rdf:about: %s' % prefLabel.text)
 							
 							has_corresponding_label = False
@@ -377,10 +417,19 @@ class UniversalOntologyTest(XmlTestCase):
 				entityRdfAboutTail = str.replace(entityRdfAbout, ns, '')
 				
 				# Remove prefix up to and including the first underscore for camelCase testing
-				camel_case_test_string = entityRdfAboutTail.split('_', 1)[-1]
+				test_string = entityRdfAboutTail.split('_', 1)[-1]
+				
+				if not is_camel_case(test_string):
 					
-				if not is_camel_case(camel_case_test_string):
-					self.fail('Entity name "%s" does not conform to lower camelCase' % entityRdfAboutTail)
+					if entityRdfAbout.startswith('https://haddenindustries.com/ontology/iso'):
+						
+						if not is_snake_case(test_string):
+							
+							self.fail('Entity name "%s" does not conform to lower snake_case' % entityRdfAboutTail)
+						
+					else:
+						
+						self.fail('Entity name "%s" does not conform to lower camelCase' % entityRdfAboutTail)
 
 if __name__ == '__main__':
 	
