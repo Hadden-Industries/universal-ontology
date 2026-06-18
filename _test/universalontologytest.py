@@ -161,13 +161,7 @@ class UniversalOntologyTest(XmlTestCase):
 						self.assertXpathsUniqueValue(elem, ['./skos:prefLabel/@xml:lang'])
 						
 						# Determine expected tail for label matching
-						if ns.startswith('https://haddenindustries.com/ontology/iso') and entity_tag in [
-							'{http://www.w3.org/2002/07/owl#}Class', 
-							'{http://www.w3.org/2002/07/owl#}NamedIndividual'
-						]:
-							entity_about_tail = str.replace(entity_about, ns + 'term/', '')
-						else:
-							entity_about_tail = str.replace(entity_about, ns, '')
+						entity_about_tail = entity_about.split('/')[-1].split('#')[-1]
 							
 						hasEnglishPrefLabel = False
 						
@@ -199,7 +193,7 @@ class UniversalOntologyTest(XmlTestCase):
 										test_about_tail = test_about_tail.split('_', 1)[-1]
 								
 								if not re.sub(r'[^a-zA-Z0-9]+', '', transformed_pref_label_text).lower() == re.sub(r'[^a-zA-Z0-9]+', '', test_about_tail).lower():
-									self.fail('en or en-gb skos:prefLabel does not correspond to the rdf:about: %s' % prefLabel.text)
+									self.fail('en or en-gb skos:prefLabel "%s" does not correspond to the rdf:about: %s' % (prefLabel.text, entity_about))
 							
 							has_exact_match = False
 							for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
@@ -209,10 +203,10 @@ class UniversalOntologyTest(XmlTestCase):
 										break
 							
 							if not has_exact_match:
-								self.fail('skos:prefLabel "%s" with xml:lang "%s" does not have an exact matching rdfs:label in the same language' % (prefLabel.text, prefLabelXmlLang))
+								self.fail('skos:prefLabel "%s" with xml:lang "%s" does not have an exact matching rdfs:label in the same language for entity: %s' % (prefLabel.text, prefLabelXmlLang, entity_about))
 								
 						if not hasEnglishPrefLabel:
-							self.fail('English skos:prefLabel not found')
+							self.fail('English skos:prefLabel not found for entity: %s' % entity_about)
 		
 		labelsList = []
 
@@ -276,13 +270,7 @@ class UniversalOntologyTest(XmlTestCase):
 			
 			if entityRdfAbout.startswith(ns):
 				
-				if ns.startswith('https://haddenindustries.com/ontology/iso'):
-					
-					entityRdfAboutTail = str.replace(entityRdfAbout, ns + 'term/', '')
-					
-				else:
-					
-					entityRdfAboutTail = str.replace(entityRdfAbout, ns, '')
+				entityRdfAboutTail = entityRdfAbout.split('/')[-1].split('#')[-1]
 				
 				if elem.tag in ['{http://www.w3.org/2002/07/owl#}Class', '{http://www.w3.org/2002/07/owl#}NamedIndividual']:
 					if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
@@ -426,7 +414,7 @@ class UniversalOntologyTest(XmlTestCase):
 			
 			if entityRdfAbout is not None and entityRdfAbout.startswith(ns):
 				
-				entityRdfAboutTail = str.replace(entityRdfAbout, ns, '')
+				entityRdfAboutTail = entityRdfAbout.split('/')[-1].split('#')[-1]
 				
 				# Remove prefix up to and including the first underscore for camelCase testing
 				test_string = entityRdfAboutTail.split('_', 1)[-1]
