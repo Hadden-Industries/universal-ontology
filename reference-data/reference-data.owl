@@ -896,9 +896,9 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType_hasCompanyRegister -->
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType_hasLegalEntityRegistrationAuthority -->
 
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType_hasCompanyRegister">
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType_hasLegalEntityRegistrationAuthority">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthority"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -5746,7 +5746,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType_hasCompanyRegister"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType_hasLegalEntityRegistrationAuthority"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthority"/>
             </owl:Restriction>
