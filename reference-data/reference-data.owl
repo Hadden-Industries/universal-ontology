@@ -14,7 +14,7 @@
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data/">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260610"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260610"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260618"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-10-14</dcterms:created>
@@ -73,12 +73,6 @@
     
 
 
-    <!-- http://www.w3.org/2004/02/skos/core#exactMatch -->
-
-    <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#exactMatch"/>
-    
-
-
     <!-- http://www.w3.org/ns/dcat#accessURL -->
 
     <owl:AnnotationProperty rdf:about="http://www.w3.org/ns/dcat#accessURL"/>
@@ -133,7 +127,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ActivityClassificationScheme"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T14:04:04Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasActivityClassificationScheme</rdfs:label>
+        <rdfs:label xml:lang="en">has activity classification scheme</rdfs:label>
+	<skos:prefLabel xml:lang="en">has activity classification scheme</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -145,7 +140,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MonetaryAuthority"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:42:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMonetaryAuthority</rdfs:label>
+        <rdfs:label xml:lang="en">has monetary authority</rdfs:label>
+	<skos:prefLabel xml:lang="en">has monetary authority</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -157,7 +153,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CourtType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T20:41:03Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasCourtType</rdfs:label>
+        <rdfs:label xml:lang="en">has court type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has court type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -169,7 +166,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T18:34:29Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguage</rdfs:label>
+        <rdfs:label xml:lang="en">has language</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -182,7 +180,8 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:07:00Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasCurrency</rdfs:label>
+        <rdfs:label xml:lang="en">has currency</rdfs:label>
+	<skos:prefLabel xml:lang="en">has currency</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -194,7 +193,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:06:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -206,7 +206,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-14T13:25:43Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasDataType</rdfs:label>
+        <rdfs:label xml:lang="en">has data type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has data type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -218,7 +219,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceProperty"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-14T13:26:25Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasProductOrServiceProperty</rdfs:label>
+        <rdfs:label xml:lang="en">has product or service property</rdfs:label>
+	<skos:prefLabel xml:lang="en">has product or service property</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -230,7 +232,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:48:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -242,7 +245,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T16:09:05Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasDocumentToPersonRelationshipType</rdfs:label>
+        <rdfs:label xml:lang="en">has document to person relationship type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has document to person relationship type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -254,7 +258,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T16:09:15Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasDocumentType</rdfs:label>
+        <rdfs:label xml:lang="en">has document type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has document type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -266,7 +271,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:46:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -278,7 +284,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EconomicActivityClassificationSchemeType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T14:36:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasEconomicActivityClassificationSchemeType</rdfs:label>
+        <rdfs:label xml:lang="en">has economic activity classification scheme type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has economic activity classification scheme type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -290,7 +297,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStateClassificationScheme"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:36:49Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasEmploymentStateClassificationScheme</rdfs:label>
+        <rdfs:label xml:lang="en">has employment state classification scheme</rdfs:label>
+	<skos:prefLabel xml:lang="en">has employment state classification scheme</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -302,7 +310,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T16:13:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasEventToPersonRelationshipType</rdfs:label>
+        <rdfs:label xml:lang="en">has event to person relationship type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has event to person relationship type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -314,7 +323,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-15T16:13:08Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasEventType</rdfs:label>
+        <rdfs:label xml:lang="en">has event type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has event type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -326,7 +336,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Sex"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-19T18:11:59Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasSex</rdfs:label>
+        <rdfs:label xml:lang="en">has sex</rdfs:label>
+	<skos:prefLabel xml:lang="en">has sex</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -338,7 +349,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:01:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeatureIs</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature is</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature is</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -350,7 +362,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:02:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeatureOf</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature of</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -362,7 +375,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:04:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -374,7 +388,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T20:54:33Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -386,7 +401,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeatureToGeographicFeatureTypeRelationshipType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:22:13Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeatureToGeographicFeatureTypeRelationshipType</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature to geographic feature type relationship type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature to geographic feature type relationship type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -398,7 +414,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeatureType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T20:55:30Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeatureType</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -410,7 +427,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T22:04:52Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -422,7 +440,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageRegion"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T22:05:14Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageRegion</rdfs:label>
+        <rdfs:label xml:lang="en">has language region</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language region</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -434,7 +453,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:15:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -446,7 +466,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:14:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguage</rdfs:label>
+        <rdfs:label xml:lang="en">has language</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -458,7 +479,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T10:31:32Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -471,7 +493,8 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T10:35:56Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:13:53Z</dcterms:modified>
-        <rdfs:label xml:lang="en-gb">hasGeographicFeatureToOrganisationRelationshipType</rdfs:label>
+        <rdfs:label xml:lang="en-gb">has geographic feature to organisation relationship type</rdfs:label>
+	<skos:prefLabel xml:lang="en-gb">has geographic feature to organisation relationship type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -484,7 +507,8 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T10:31:55Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:13:28Z</dcterms:modified>
-        <rdfs:label xml:lang="en-gb">hasOrganisation</rdfs:label>
+        <rdfs:label xml:lang="en-gb">has organisation</rdfs:label>
+	<skos:prefLabel xml:lang="en-gb">has organisation</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -496,7 +520,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Sex"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-16T23:09:12Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasSex</rdfs:label>
+        <rdfs:label xml:lang="en">has sex</rdfs:label>
+	<skos:prefLabel xml:lang="en">has sex</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -508,7 +533,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:09:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -520,7 +546,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InsuranceClaimLossCauseClassificationScheme"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-13T12:44:15Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasInsuranceClaimLossCauseClassificationScheme</rdfs:label>
+        <rdfs:label xml:lang="en">has insurance claim loss cause classification scheme</rdfs:label>
+	<skos:prefLabel xml:lang="en">has insurance claim loss cause classification scheme</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -532,7 +559,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OffenceRemandStatus"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T16:17:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasOffenceRemandStatus</rdfs:label>
+        <rdfs:label xml:lang="en">has offence remand status</rdfs:label>
+	<skos:prefLabel xml:lang="en">has offence remand status</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -544,7 +572,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:36:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasITUTE164CountryCode</rdfs:label>
+        <rdfs:label xml:lang="en">has itu-t e.164 country code</rdfs:label>
+	<skos:prefLabel xml:lang="en">has itu-t e.164 country code</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -556,7 +585,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:20:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -569,7 +599,8 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:20:16Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasInverseItemMappingDegree</rdfs:label>
+        <rdfs:label xml:lang="en">has inverse item mapping degree</rdfs:label>
+	<skos:prefLabel xml:lang="en">has inverse item mapping degree</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -581,7 +612,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthority"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:38:30Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLegalEntityRegistrationAuthority</rdfs:label>
+        <rdfs:label xml:lang="en">has legal entity registration authority</rdfs:label>
+	<skos:prefLabel xml:lang="en">has legal entity registration authority</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -593,7 +625,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:19:24Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasQuantity</rdfs:label>
+        <rdfs:label xml:lang="en">has quantity</rdfs:label>
+	<skos:prefLabel xml:lang="en">has quantity</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -606,7 +639,8 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:28:29Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasLanguageExtensionSubtag</rdfs:label>
+        <rdfs:label xml:lang="en">has language extension subtag</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language extension subtag</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -619,7 +653,8 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:28:47Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasLanguageIdentification</rdfs:label>
+        <rdfs:label xml:lang="en">has language identification</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language identification</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -632,7 +667,8 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:27:00Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasLanguageIdentification</rdfs:label>
+        <rdfs:label xml:lang="en">has language identification</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language identification</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -645,7 +681,8 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:27:40Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasLanguagePrivateUseSubtag</rdfs:label>
+        <rdfs:label xml:lang="en">has language private use subtag</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language private use subtag</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -657,7 +694,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T14:25:53Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageIdentification</rdfs:label>
+        <rdfs:label xml:lang="en">has language identification</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language identification</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -669,7 +707,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageVariant"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T14:25:26Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageVariant</rdfs:label>
+        <rdfs:label xml:lang="en">has language variant</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language variant</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -681,7 +720,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-08-03T13:31:34Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguage</rdfs:label>
+        <rdfs:label xml:lang="en">has language</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -693,7 +733,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T10:00:36Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -705,7 +746,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:07:31Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageIs</rdfs:label>
+        <rdfs:label xml:lang="en">has language is</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language is</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -717,7 +759,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:07:39Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageOf</rdfs:label>
+        <rdfs:label xml:lang="en">has language of</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -729,7 +772,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScript"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:41:33Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageScript</rdfs:label>
+        <rdfs:label xml:lang="en">has language script</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language script</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -741,7 +785,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TransliterationSystem"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:41:52Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasTransliterationSystem</rdfs:label>
+        <rdfs:label xml:lang="en">has transliteration system</rdfs:label>
+	<skos:prefLabel xml:lang="en">has transliteration system</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -753,7 +798,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:37:23Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguage</rdfs:label>
+        <rdfs:label xml:lang="en">has language</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -765,7 +811,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScript"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:37:48Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageScript</rdfs:label>
+        <rdfs:label xml:lang="en">has language script</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language script</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -777,7 +824,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalAdjudicationResult"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T16:38:01Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLegalAdjudicationResult</rdfs:label>
+        <rdfs:label xml:lang="en">has legal adjudication result</rdfs:label>
+	<skos:prefLabel xml:lang="en">has legal adjudication result</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -789,7 +837,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterOutcomeQualifier"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T16:38:39Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLegalMatterOutcomeQualifier</rdfs:label>
+        <rdfs:label xml:lang="en">has legal matter outcome qualifier</rdfs:label>
+	<skos:prefLabel xml:lang="en">has legal matter outcome qualifier</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -801,7 +850,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterOutcomeType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T16:43:15Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLegalMatterOutcomeType</rdfs:label>
+        <rdfs:label xml:lang="en">has legal matter outcome type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has legal matter outcome type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -813,7 +863,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthority"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:37:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLegalEntityRegistrationAuthority</rdfs:label>
+        <rdfs:label xml:lang="en">has legal entity registration authority</rdfs:label>
+	<skos:prefLabel xml:lang="en">has legal entity registration authority</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -825,7 +876,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:51:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -837,7 +889,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthority"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:37:30Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLegalEntityRegistrationAuthority</rdfs:label>
+        <rdfs:label xml:lang="en">has legal entity registration authority</rdfs:label>
+	<skos:prefLabel xml:lang="en">has legal entity registration authority</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -849,7 +902,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthority"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:38:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLegalEntityRegistrationAuthority</rdfs:label>
+        <rdfs:label xml:lang="en">has legal entity registration authority</rdfs:label>
+	<skos:prefLabel xml:lang="en">has legal entity registration authority</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -861,7 +915,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T08:36:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -873,7 +928,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterAdministrativeOutcome"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T16:32:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLegalMatterAdministrativeOutcome</rdfs:label>
+        <rdfs:label xml:lang="en">has legal matter administrative outcome</rdfs:label>
+	<skos:prefLabel xml:lang="en">has legal matter administrative outcome</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -885,7 +941,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterOutcomeQualifier"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T16:28:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLegalMatterOutcomeQualifier</rdfs:label>
+        <rdfs:label xml:lang="en">has legal matter outcome qualifier</rdfs:label>
+	<skos:prefLabel xml:lang="en">has legal matter outcome qualifier</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -897,7 +954,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterOutcomeType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T16:43:46Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLegalMatterOutcomeType</rdfs:label>
+        <rdfs:label xml:lang="en">has legal matter outcome type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has legal matter outcome type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -909,7 +967,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MarketIndex"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-21T15:57:11Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMarketIndex</rdfs:label>
+        <rdfs:label xml:lang="en">has market index</rdfs:label>
+	<skos:prefLabel xml:lang="en">has market index</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -921,7 +980,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MarketListing"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-21T15:58:10Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMarketListing</rdfs:label>
+        <rdfs:label xml:lang="en">has market listing</rdfs:label>
+	<skos:prefLabel xml:lang="en">has market listing</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -933,7 +993,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Market"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T18:26:01Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMarket</rdfs:label>
+        <rdfs:label xml:lang="en">has market</rdfs:label>
+	<skos:prefLabel xml:lang="en">has market</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -945,7 +1006,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MarketListing"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-21T12:20:44Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMarketListing</rdfs:label>
+        <rdfs:label xml:lang="en">has market listing</rdfs:label>
+	<skos:prefLabel xml:lang="en">has market listing</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -957,7 +1019,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TickerSymbol"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-21T12:21:12Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasTickerSymbol</rdfs:label>
+        <rdfs:label xml:lang="en">has ticker symbol</rdfs:label>
+	<skos:prefLabel xml:lang="en">has ticker symbol</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -969,7 +1032,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-20T15:24:58Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasCurrency</rdfs:label>
+        <rdfs:label xml:lang="en">has currency</rdfs:label>
+	<skos:prefLabel xml:lang="en">has currency</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -981,7 +1045,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Market"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-11-28T11:06:52Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMarket</rdfs:label>
+        <rdfs:label xml:lang="en">has market</rdfs:label>
+	<skos:prefLabel xml:lang="en">has market</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -993,7 +1058,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MarketCategory"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:26:14Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMarketCategory</rdfs:label>
+        <rdfs:label xml:lang="en">has market category</rdfs:label>
+	<skos:prefLabel xml:lang="en">has market category</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1005,7 +1071,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ModeOfTransport"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-13T19:44:34Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasModeOfTransport</rdfs:label>
+        <rdfs:label xml:lang="en">has mode of transport</rdfs:label>
+	<skos:prefLabel xml:lang="en">has mode of transport</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1017,7 +1084,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:52:33Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMeasurementUnit</rdfs:label>
+        <rdfs:label xml:lang="en">has measurement unit</rdfs:label>
+	<skos:prefLabel xml:lang="en">has measurement unit</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1029,7 +1097,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:52:55Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasQuantity</rdfs:label>
+        <rdfs:label xml:lang="en">has quantity</rdfs:label>
+	<skos:prefLabel xml:lang="en">has quantity</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1041,7 +1110,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Namespace"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:09:02Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasNamespace</rdfs:label>
+        <rdfs:label xml:lang="en">has namespace</rdfs:label>
+	<skos:prefLabel xml:lang="en">has namespace</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1053,7 +1123,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T22:09:13Z</dcterms:created>
-        <rdfs:label xml:lang="en-gb">hasOrganisation</rdfs:label>
+        <rdfs:label xml:lang="en-gb">has organisation</rdfs:label>
+	<skos:prefLabel xml:lang="en-gb">has organisation</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1065,7 +1136,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Sex"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-06T17:48:13Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasSex</rdfs:label>
+        <rdfs:label xml:lang="en">has sex</rdfs:label>
+	<skos:prefLabel xml:lang="en">has sex</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1077,7 +1149,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfNominalProperty"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-08T07:29:13Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasKindOfNominalProperty</rdfs:label>
+        <rdfs:label xml:lang="en">has kind of nominal property</rdfs:label>
+	<skos:prefLabel xml:lang="en">has kind of nominal property</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1089,7 +1162,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfNominalProperty"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-08T08:21:52Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasKindOfNominalProperty</rdfs:label>
+        <rdfs:label xml:lang="en">has kind of nominal property</rdfs:label>
+	<skos:prefLabel xml:lang="en">has kind of nominal property</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1101,7 +1175,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:53:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1113,7 +1188,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T20:29:43Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasOccupationalClassificationScheme</rdfs:label>
+        <rdfs:label xml:lang="en">has occupational classification scheme</rdfs:label>
+	<skos:prefLabel xml:lang="en">has occupational classification scheme</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1125,7 +1201,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationSchemeType"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T20:15:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasOccupationalClassificationSchemeType</rdfs:label>
+        <rdfs:label xml:lang="en">has occupational classification scheme type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has occupational classification scheme type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1137,7 +1214,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T20:27:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasOccupation</rdfs:label>
+        <rdfs:label xml:lang="en">has occupation</rdfs:label>
+	<skos:prefLabel xml:lang="en">has occupation</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1149,7 +1227,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationCategory"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T20:26:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasOccupationCategory</rdfs:label>
+        <rdfs:label xml:lang="en">has occupation category</rdfs:label>
+	<skos:prefLabel xml:lang="en">has occupation category</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1161,7 +1240,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OffenceClassificationScheme"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T14:47:20Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasOffenceClassificationScheme</rdfs:label>
+        <rdfs:label xml:lang="en">has offence classification scheme</rdfs:label>
+	<skos:prefLabel xml:lang="en">has offence classification scheme</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1173,7 +1253,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Offence"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T14:43:11Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasOffence</rdfs:label>
+        <rdfs:label xml:lang="en">has offence</rdfs:label>
+	<skos:prefLabel xml:lang="en">has offence</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1185,7 +1266,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OffenceCategory"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T14:42:57Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasOffenceCategory</rdfs:label>
+        <rdfs:label xml:lang="en">has offence category</rdfs:label>
+	<skos:prefLabel xml:lang="en">has offence category</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1197,7 +1279,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:47:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1209,7 +1292,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceCategory"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T08:13:06Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasProductOrServiceCategory</rdfs:label>
+        <rdfs:label xml:lang="en">has product or service category</rdfs:label>
+	<skos:prefLabel xml:lang="en">has product or service category</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1221,7 +1305,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceProperty"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T08:13:16Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasProductOrServiceProperty</rdfs:label>
+        <rdfs:label xml:lang="en">has product or service property</rdfs:label>
+	<skos:prefLabel xml:lang="en">has product or service property</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1233,7 +1318,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceCategory"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T08:13:33Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasProductOrServiceCategory</rdfs:label>
+        <rdfs:label xml:lang="en">has product or service category</rdfs:label>
+	<skos:prefLabel xml:lang="en">has product or service category</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1245,7 +1331,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TaxRate"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T08:13:41Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasTaxRate</rdfs:label>
+        <rdfs:label xml:lang="en">has tax rate</rdfs:label>
+	<skos:prefLabel xml:lang="en">has tax rate</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1257,7 +1344,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceClassificationScheme"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-14T09:12:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasProductOrServiceClassificationScheme</rdfs:label>
+        <rdfs:label xml:lang="en">has product or service classification scheme</rdfs:label>
+	<skos:prefLabel xml:lang="en">has product or service classification scheme</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1269,7 +1357,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceProperty"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-24T08:00:40Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasProductOrServiceProperty</rdfs:label>
+        <rdfs:label xml:lang="en">has product or service property</rdfs:label>
+	<skos:prefLabel xml:lang="en">has product or service property</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1281,7 +1370,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SkinColourClassificationScheme"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-29T23:00:48Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasSkinColourClassificationScheme</rdfs:label>
+        <rdfs:label xml:lang="en">has skin colour classification scheme</rdfs:label>
+	<skos:prefLabel xml:lang="en">has skin colour classification scheme</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1293,7 +1383,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:41:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeature</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1305,7 +1396,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-16T11:23:43Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageIdentificationFrom</rdfs:label>
+        <rdfs:label xml:lang="en">has language identification from</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language identification from</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1317,7 +1409,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-16T11:24:11Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageIdentificationTo</rdfs:label>
+        <rdfs:label xml:lang="en">has language identification to</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language identification to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1329,7 +1422,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateSystem"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T10:04:11Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasCoordinateSystem</rdfs:label>
+        <rdfs:label xml:lang="en">has coordinate system</rdfs:label>
+	<skos:prefLabel xml:lang="en">has coordinate system</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1341,7 +1435,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T09:21:17Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasCurrencyFrom</rdfs:label>
+        <rdfs:label xml:lang="en">has currency from</rdfs:label>
+	<skos:prefLabel xml:lang="en">has currency from</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1353,7 +1448,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T09:21:35Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasCurrencyTo</rdfs:label>
+        <rdfs:label xml:lang="en">has currency to</rdfs:label>
+	<skos:prefLabel xml:lang="en">has currency to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1365,7 +1461,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CustomerVulnerabilityCharacteristic"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-01-27T12:45:29Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasCustomerVulnerabilityCharacteristic</rdfs:label>
+        <rdfs:label xml:lang="en">has customer vulnerability characteristic</rdfs:label>
+	<skos:prefLabel xml:lang="en">has customer vulnerability characteristic</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1378,7 +1475,8 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-31T08:49:21Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasDataQualityDimension</rdfs:label>
+        <rdfs:label xml:lang="en">has data quality dimension</rdfs:label>
+	<skos:prefLabel xml:lang="en">has data quality dimension</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1390,7 +1488,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Datum"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T10:23:30Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasDatum</rdfs:label>
+        <rdfs:label xml:lang="en">has datum</rdfs:label>
+	<skos:prefLabel xml:lang="en">has datum</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1403,7 +1502,8 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-01-23T12:59:57Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasDistributionChannelLevel</rdfs:label>
+        <rdfs:label xml:lang="en">has distribution channel level</rdfs:label>
+	<skos:prefLabel xml:lang="en">has distribution channel level</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1416,7 +1516,8 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-01-23T12:44:36Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:12:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasDistributionChannelType</rdfs:label>
+        <rdfs:label xml:lang="en">has distribution channel type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has distribution channel type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1428,7 +1529,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-04-24T21:58:26Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasDomainNameSystemDomain</rdfs:label>
+        <rdfs:label xml:lang="en">has domain name system domain</rdfs:label>
+	<skos:prefLabel xml:lang="en">has domain name system domain</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1440,7 +1542,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomainType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-04-24T21:53:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasDomainNameSystemDomainType</rdfs:label>
+        <rdfs:label xml:lang="en">has domain name system domain type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has domain name system domain type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1452,7 +1555,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EthnicGroup"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-11-22T14:13:55Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasEthnicGroup</rdfs:label>
+        <rdfs:label xml:lang="en">has ethnic group</rdfs:label>
+	<skos:prefLabel xml:lang="en">has ethnic group</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1465,7 +1569,8 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-31T09:57:49Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-23T22:55:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">hasExerciseType</rdfs:label>
+        <rdfs:label xml:lang="en">has exercise type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has exercise type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1477,7 +1582,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeatureAssociationType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-12-04T21:00:30Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGeographicFeatureAssociationType</rdfs:label>
+        <rdfs:label xml:lang="en">has geographic feature association type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has geographic feature association type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1489,7 +1595,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GrammaticalGender"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-06T18:10:46Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGrammaticalGender</rdfs:label>
+        <rdfs:label xml:lang="en">has grammatical gender</rdfs:label>
+	<skos:prefLabel xml:lang="en">has grammatical gender</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1501,7 +1608,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GrammaticalPerson"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-06T12:24:48Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasGrammaticalPerson</rdfs:label>
+        <rdfs:label xml:lang="en">has grammatical person</rdfs:label>
+	<skos:prefLabel xml:lang="en">has grammatical person</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1513,7 +1621,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T15:26:33Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasKindOfQuantity</rdfs:label>
+        <rdfs:label xml:lang="en">has kind of quantity</rdfs:label>
+	<skos:prefLabel xml:lang="en">has kind of quantity</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1525,7 +1634,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T13:39:12Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguage</rdfs:label>
+        <rdfs:label xml:lang="en">has language</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1537,7 +1647,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageRegion"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-08-03T13:42:35Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageRegion</rdfs:label>
+        <rdfs:label xml:lang="en">has language region</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language region</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1549,7 +1660,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageRelationshipType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:44:07Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageRelationshipType</rdfs:label>
+        <rdfs:label xml:lang="en">has language relationship type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language relationship type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1561,7 +1673,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScope"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T10:25:36Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageScope</rdfs:label>
+        <rdfs:label xml:lang="en">has language scope</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language scope</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1573,7 +1686,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScript"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-08-03T13:33:15Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageScript</rdfs:label>
+        <rdfs:label xml:lang="en">has language script</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language script</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1585,7 +1699,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T11:06:47Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasLanguageType</rdfs:label>
+        <rdfs:label xml:lang="en">has language type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has language type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1597,7 +1712,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Market"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T18:28:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMarketIs</rdfs:label>
+        <rdfs:label xml:lang="en">has market is</rdfs:label>
+	<skos:prefLabel xml:lang="en">has market is</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1609,7 +1725,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Market"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T18:28:23Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMarketOf</rdfs:label>
+        <rdfs:label xml:lang="en">has market of</rdfs:label>
+	<skos:prefLabel xml:lang="en">has market of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1621,7 +1738,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MarketRelationshipType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T18:26:54Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMarketRelationshipType</rdfs:label>
+        <rdfs:label xml:lang="en">has market relationship type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has market relationship type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1633,7 +1751,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitLevelOrCategory"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-19T17:43:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMeasurementUnitLevelOrCategory</rdfs:label>
+        <rdfs:label xml:lang="en">has measurement unit level or category</rdfs:label>
+	<skos:prefLabel xml:lang="en">has measurement unit level or category</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1645,7 +1764,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitStatus"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-19T17:28:37Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMeasurementUnitStatus</rdfs:label>
+        <rdfs:label xml:lang="en">has measurement unit status</rdfs:label>
+	<skos:prefLabel xml:lang="en">has measurement unit status</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1657,7 +1777,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MonetaryAuthority"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T21:35:23Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMonetaryAuthority</rdfs:label>
+        <rdfs:label xml:lang="en">has monetary authority</rdfs:label>
+	<skos:prefLabel xml:lang="en">has monetary authority</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1669,7 +1790,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Muscle"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T23:26:45Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasMuscle</rdfs:label>
+        <rdfs:label xml:lang="en">has muscle</rdfs:label>
+	<skos:prefLabel xml:lang="en">has muscle</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1681,7 +1803,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffixType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-04T19:59:02Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasNaturalPersonNameSuffixType</rdfs:label>
+        <rdfs:label xml:lang="en">has natural person name suffix type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has natural person name suffix type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1693,7 +1816,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanNumberingPlan"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-19T16:54:57Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasNorthAmericanNumberingPlan</rdfs:label>
+        <rdfs:label xml:lang="en">has north american numbering plan</rdfs:label>
+	<skos:prefLabel xml:lang="en">has north american numbering plan</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1705,7 +1829,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonalPronounForm"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-06T12:23:43Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasPersonalPronounForm</rdfs:label>
+        <rdfs:label xml:lang="en">has personal pronoun form</rdfs:label>
+	<skos:prefLabel xml:lang="en">has personal pronoun form</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1717,7 +1842,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Sex"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-06-06T17:46:12Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasSex</rdfs:label>
+        <rdfs:label xml:lang="en">has sex</rdfs:label>
+	<skos:prefLabel xml:lang="en">has sex</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1729,7 +1855,8 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TaxType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:40:00Z</dcterms:created>
-        <rdfs:label xml:lang="en">hasTaxType</rdfs:label>
+        <rdfs:label xml:lang="en">has tax type</rdfs:label>
+	<skos:prefLabel xml:lang="en">has tax type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -5022,7 +5149,6 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <rdfs:seeAlso rdf:resource="https://www.iso.org/iso-639-language-codes.html"/>
         <rdfs:seeAlso rdf:resource="https://www.loc.gov/standards/iso639-2/ascii_8bits.html"/>
         <rdfs:seeAlso rdf:resource="https://www.loc.gov/standards/iso639-5/langhome5.html"/>
-        <skos:exactMatch rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Language"/>
     </owl:Class>
     
 
@@ -5115,7 +5241,6 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-3:v1:clause:6.3.5.1"/>
         <skos:prefLabel xml:lang="en">Language Identification</skos:prefLabel>
         <rdfs:label xml:lang="en">Language Identification</rdfs:label>
-        <skos:exactMatch rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
     </owl:Class>
     
 
@@ -6550,7 +6675,6 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T13:38:31Z</dcterms:modified>
         <skos:prefLabel xml:lang="en">Occupation</skos:prefLabel>
         <rdfs:label xml:lang="en">Occupation</rdfs:label>
-        <skos:exactMatch rdf:resource="http://schema.org/Occupation"/>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
@@ -6579,7 +6703,6 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T13:48:04Z</dcterms:modified>
         <skos:prefLabel xml:lang="en">Occupation Category</skos:prefLabel>
         <rdfs:label xml:lang="en">Occupation Category</rdfs:label>
-        <skos:exactMatch rdf:resource="https://schema.org/occupationalCategory"/>
     </owl:Class>
     
 
@@ -8055,7 +8178,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedNationsStandardProductsAndServicesCode"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/title"/>
         <owl:annotatedTarget xml:lang="en">United Nations Standard Products And Services Code</owl:annotatedTarget>
-        <dcterms:alternative rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UNSPSC"/>
+        <dcterms:alternative xml:lang="en">UNSPSC</dcterms:alternative>
     </owl:Axiom>
     
 
