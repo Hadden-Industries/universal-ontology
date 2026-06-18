@@ -159,6 +159,59 @@ class UniversalOntologyTest(XmlTestCase):
 							self.fail('Ontology constraint breach: %s "%s" is missing a skos:prefLabel child element' % (entity_tag.split('}')[-1], entity_about))
 							
 						self.assertXpathsUniqueValue(elem, ['./skos:prefLabel/@xml:lang'])
+						
+						# Determine expected tail for label matching
+						if ns.startswith('https://haddenindustries.com/ontology/iso') and entity_tag in [
+							'{http://www.w3.org/2002/07/owl#}Class', 
+							'{http://www.w3.org/2002/07/owl#}NamedIndividual'
+						]:
+							entity_about_tail = str.replace(entity_about, ns + 'term/', '')
+						else:
+							entity_about_tail = str.replace(entity_about, ns, '')
+							
+						hasEnglishPrefLabel = False
+						
+						for prefLabel in elem.iterfind('{http://www.w3.org/2004/02/skos/core#}prefLabel'):
+						
+							prefLabelXmlLang = prefLabel.get('{http://www.w3.org/XML/1998/namespace}lang')
+							
+							if prefLabelXmlLang.partition('-')[0] == 'en':
+								if not hasEnglishPrefLabel:
+									hasEnglishPrefLabel = True
+							
+							if prefLabelXmlLang == 'en' or prefLabelXmlLang == 'en-gb':
+								
+								transformed_pref_label_text = prefLabel.text
+								# According to the W3C XML specification, the local part of a QName (the part after the colon) must be a valid NCName, and cannot start with a digit
+								# Semantic Web and OOP communities use the approach of spelling out the number
+								if transformed_pref_label_text and transformed_pref_label_text[0] in '0123456789':
+									digit_map = {'0': 'Zero', '1': 'One', '2': 'Two', '3': 'Three', '4': 'Four', '5': 'Five', '6': 'Six', '7': 'Seven', '8': 'Eight', '9': 'Nine'}
+									transformed_pref_label_text = digit_map[transformed_pref_label_text[0]] + transformed_pref_label_text[1:]
+								
+								test_about_tail = entity_about_tail
+								if entity_tag in [
+									'{http://www.w3.org/2002/07/owl#}NamedIndividual',
+									'{http://www.w3.org/2002/07/owl#}ObjectProperty',
+									'{http://www.w3.org/2002/07/owl#}DatatypeProperty'
+								]:
+									# Remove prefix up to and including the first underscore for testing
+									test_about_tail = test_about_tail.split('_', 1)[-1]
+								
+								if not re.sub(r'[^a-zA-Z0-9]+', '', transformed_pref_label_text).lower() == re.sub(r'[^a-zA-Z0-9]+', '', test_about_tail).lower():
+									self.fail('en or en-gb skos:prefLabel does not correspond to the rdf:about: %s' % prefLabel.text)
+							
+							has_exact_match = False
+							for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
+								if label.get('{http://www.w3.org/XML/1998/namespace}lang') == prefLabelXmlLang:
+									if prefLabel.text == label.text:
+										has_exact_match = True
+										break
+							
+							if not has_exact_match:
+								self.fail('skos:prefLabel "%s" with xml:lang "%s" does not have an exact matching rdfs:label in the same language' % (prefLabel.text, prefLabelXmlLang))
+								
+						if not hasEnglishPrefLabel:
+							self.fail('English skos:prefLabel not found')
 		
 		labelsList = []
 
@@ -320,52 +373,6 @@ class UniversalOntologyTest(XmlTestCase):
 								
 					if not hasUuidIdentifier:
 						self.fail('dcterms:identifier of type UUID not found')				
-					
-					# Preferred Labels
-					
-					if entityRdfAbout.startswith('https://haddenindustries.com/ontology/'):
-					
-						self.assertXpathsExist(elem, ['./skos:prefLabel'])
-						
-						hasEnglishPrefLabel = False
-						
-						for prefLabel in elem.iterfind('{http://www.w3.org/2004/02/skos/core#}prefLabel'):
-						
-							prefLabelXmlLang = prefLabel.get('{http://www.w3.org/XML/1998/namespace}lang')
-							
-							if prefLabelXmlLang.partition('-')[0] == 'en':
-								if not hasEnglishPrefLabel:
-									hasEnglishPrefLabel = True
-							
-							if prefLabelXmlLang == 'en' or prefLabelXmlLang == 'en-gb':
-								
-									transformed_pref_label_text = prefLabel.text
-									# According to the W3C XML specification, the local part of a QName (the part after the colon) must be a valid NCName, and cannot start with a digit
-									# Semantic Web and OOP communities use the approach of spelling out the number
-									if transformed_pref_label_text and transformed_pref_label_text[0] in '0123456789':
-										digit_map = {'0': 'Zero', '1': 'One', '2': 'Two', '3': 'Three', '4': 'Four', '5': 'Five', '6': 'Six', '7': 'Seven', '8': 'Eight', '9': 'Nine'}
-										transformed_pref_label_text = digit_map[transformed_pref_label_text[0]] + transformed_pref_label_text[1:]
-									
-									if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
-										
-										# Remove prefix up to and including the first underscore for testing
-										entityRdfAboutTail = entityRdfAboutTail.split('_', 1)[-1]
-									
-									if not re.sub(r'[^a-zA-Z0-9]+', '', transformed_pref_label_text).lower() == entityRdfAboutTail.lower():
-										self.fail('en or en-gb skos:prefLabel does not correspond to the rdf:about: %s' % prefLabel.text)
-							
-							has_exact_match = False
-							for label in elem.iterfind('{http://www.w3.org/2000/01/rdf-schema#}label'):
-								if label.get('{http://www.w3.org/XML/1998/namespace}lang') == prefLabelXmlLang:
-									if prefLabel.text == label.text:
-										has_exact_match = True
-										break
-							
-							if not has_exact_match:
-								self.fail('skos:prefLabel "%s" with xml:lang "%s" does not have an exact matching rdfs:label in the same language' % (prefLabel.text, prefLabelXmlLang))
-								
-						if not hasEnglishPrefLabel:
-							self.fail('English skos:prefLabel not found')
 					
 					# Labels
 					
