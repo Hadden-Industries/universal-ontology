@@ -51,12 +51,6 @@
     
 
 
-    <!-- http://purl.org/dc/terms/alternative -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/alternative"/>
-    
-
-
     <!-- http://purl.org/dc/terms/contributor -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/contributor"/>
@@ -72,12 +66,6 @@
     <!-- http://purl.org/dc/terms/creator -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/creator"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/description -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
     
 
 
@@ -138,12 +126,6 @@
     <!-- http://purl.org/dc/terms/subject -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/subject"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/title -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
     
 
 
@@ -3773,7 +3755,7 @@ This association records the classification scheme items that are members of a c
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Concept"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.2.7"/>
-        <rdfs:comment xml:lang="en">modified — Note 2 to entry changed</rdfs:comment>
+        <skos:note xml:lang="en">modified — Note 2 to entry changed</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Concept"/>
@@ -3818,11 +3800,11 @@ This association records the classification scheme items that are members of a c
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ConceptualDomain">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Concept"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">CD</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:38:36Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.45"/>
         <dcterms:identifier rdf:resource="urn:uuid:1c3d494f-ad3a-4376-b6ab-d2c790443c3c"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.5"/>
+        <rdfs:label xml:lang="en">CD</rdfs:label>
         <rdfs:label xml:lang="en">Conceptual Domain</rdfs:label>
         <skos:definition xml:lang="en">concept (3.2.7) whose meaning is expressed as an enumerated set, a description or both of subordinate concepts, which are value meanings (3.2.46)</skos:definition>
         <skos:prefLabel xml:lang="en">Conceptual Domain</skos:prefLabel>
@@ -3948,7 +3930,7 @@ This association records the classification scheme items that are members of a c
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Data"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2121272"/>
-        <rdfs:comment xml:lang="en">modified — Notes to entry 2 and 3 deleted</rdfs:comment>
+        <skos:note xml:lang="en">modified — Notes to entry 2 and 3 deleted</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Data"/>
@@ -4013,7 +3995,7 @@ This association records the classification scheme items that are members of a c
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElement"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2121599"/>
-        <rdfs:comment xml:lang="en">modified — Note 1 to entry label removed from the example. Note 2 to entry replaced and renumbered as Note 1, Note 3 to entry deleted.</rdfs:comment>
+        <skos:note xml:lang="en">modified — Note 1 to entry label removed from the example. Note 2 to entry replaced and renumbered as Note 1, Note 3 to entry deleted.</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElement"/>
@@ -4064,11 +4046,11 @@ This association records the classification scheme items that are members of a c
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">DEC</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:45:14Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.44"/>
         <dcterms:identifier rdf:resource="urn:uuid:bcc043e4-da45-479e-825d-bfe98f34054b"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.25"/>
+        <rdfs:label xml:lang="en">DEC</rdfs:label>
         <rdfs:label xml:lang="en">Data Element Concept</rdfs:label>
         <skos:definition xml:lang="en">concept (3.2.7) that can be represented in the form of a data element (3.2.43), described independently of any particular representation</skos:definition>
         <skos:prefLabel xml:lang="en">Data Element Concept</skos:prefLabel>
@@ -4078,7 +4060,7 @@ This association records the classification scheme items that are members of a c
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElementConcept"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.25"/>
-        <rdfs:comment xml:lang="en">modified — Notes 2 and 3 to entry deleted</rdfs:comment>
+        <skos:note xml:lang="en">modified — Notes 2 and 3 to entry deleted</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElementConcept"/>
@@ -4252,12 +4234,12 @@ This association records the classification scheme items that are members of a c
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T13:43:33Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.6.1"/>
         <dcterms:identifier rdf:resource="urn:uuid:5b6149ff-6f02-4a1d-bb0c-c2b34e434deb"/>
-        <rdfs:comment xml:lang="en">All strictly conforming implementations are also conforming implementations.
-The use of extensions to the metamodel can cause undefined behaviour.</rdfs:comment>
         <rdfs:label xml:lang="en">Degree Of Conformance</rdfs:label>
         <rdfs:seeAlso rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:4.2"/>
         <skos:definition xml:lang="en">models degree of conformance (4.2). See Table 29 for possible values.</skos:definition>
         <skos:prefLabel xml:lang="en">Degree Of Conformance</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">All strictly conforming implementations are also conforming implementations.
+The use of extensions to the metamodel can cause undefined behaviour.</skos:scopeNote>
     </owl:Class>
     
 
@@ -4615,10 +4597,10 @@ Every instance of the Identified_Item class shall have links via one or more ins
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-10T13:38:23Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:7.4.3"/>
         <dcterms:identifier rdf:resource="urn:uuid:402f0b90-81ab-47de-a810-216f5a270b4d"/>
-        <rdfs:comment xml:lang="en">See Constraint on Scoped_Identifier (7.3.2.4)</rdfs:comment>
         <rdfs:label xml:lang="en">Identifier Scope</rdfs:label>
         <skos:definition xml:lang="en">association that records the binding of zero, one or more instances of the Scoped_Identifier (7.3.2) class with exactly one instance of the Namespace (7.3.3) class which provides the scope for the instance of the Scoped_Identifier. The association records the namespace that provides the scope for the scoped identifiers.</skos:definition>
         <skos:prefLabel xml:lang="en">Identifier Scope</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">See Constraint on Scoped_Identifier (7.3.2.4)</skos:scopeNote>
     </owl:Class>
     
 
@@ -4859,11 +4841,11 @@ A designation shall be used for exactly one registry item. Designations shall no
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-04-07T10:30:34Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:11.6.1"/>
         <dcterms:identifier rdf:resource="urn:uuid:170f2178-bd70-44af-8dd1-fb0e1c30aeb9"/>
-        <rdfs:comment xml:lang="en">used as the datatype of the degree attribute of Item_Mapping (11.3.1).
-A conforming implementation may extend the above list of values.</rdfs:comment>
         <rdfs:label xml:lang="en">Item Mapping Degree</rdfs:label>
         <skos:definition xml:lang="en">an enumerated datatype with values as shown in Table 35</skos:definition>
         <skos:prefLabel xml:lang="en">Item Mapping Degree</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">used as the datatype of the degree attribute of Item_Mapping (11.3.1).
+A conforming implementation may extend the above list of values.</skos:scopeNote>
     </owl:Class>
     
 
@@ -4994,29 +4976,29 @@ This association registers the slots that are used to extend the registry item.<
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T17:10:10Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.7"/>
         <dcterms:identifier rdf:resource="urn:uuid:143b32bb-d1d2-4795-97e1-c1a57a286de3"/>
-        <rdfs:comment xml:lang="en">IANA maintains a registry of language subtags at: http:// www .iana .org/ assignments/ language -subtag -registry</rdfs:comment>
-        <rdfs:comment xml:lang="en">RFC 5646 requires the extension identifiers to be prefixed by a single character that identifies the registration authority that has registered the extension</rdfs:comment>
-        <rdfs:comment xml:lang="en">The W3C has a description of the use of the IETF language subtags at: http:// www .w3 .org/ International/ articles/ language -tags/ Overview .en .php</rdfs:comment>
         <rdfs:label xml:lang="en">Language Identification</rdfs:label>
         <skos:definition xml:lang="en">class which serves as an identifier for a language. Each instance of the Language_Identification class represents a language as spoken (or written, signed or otherwise signalled) by human beings for communication of information to other human beings. Computer languages such as programming languages are explicitly excluded.
 The identifier is comprised of the following parts, or attributes, which are based on IETF RFC 5646[33]. IETF RFC 5646 refers to these attributes as ‘language subtags’:</skos:definition>
         <skos:prefLabel xml:lang="en">Language Identification</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">IANA maintains a registry of language subtags at: http:// www .iana .org/ assignments/ language -subtag -registry</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">RFC 5646 requires the extension identifiers to be prefixed by a single character that identifies the registration authority that has registered the extension</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The W3C has a description of the use of the IETF language subtags at: http:// www .w3 .org/ International/ articles/ language -tags/ Overview .en .php</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">IANA maintains a registry of language subtags at: http:// www .iana .org/ assignments/ language -subtag -registry</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">RFC 5646 requires the extension identifiers to be prefixed by a single character that identifies the registration authority that has registered the extension</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">The W3C has a description of the use of the IETF language subtags at: http:// www .w3 .org/ International/ articles/ language -tags/ Overview .en .php</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
@@ -5158,11 +5140,11 @@ The identifier is comprised of the following parts, or attributes, which are bas
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">MDR</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:51:31Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.55"/>
         <dcterms:identifier rdf:resource="urn:uuid:577e16a9-d67d-4d69-9681-f5c58feecba1"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.31"/>
+        <rdfs:label xml:lang="en">MDR</rdfs:label>
         <rdfs:label xml:lang="en">Metadata Registry</rdfs:label>
         <skos:definition xml:lang="en">information system for registering metadata (3.2.30)</skos:definition>
         <skos:prefLabel xml:lang="en">Metadata Registry</skos:prefLabel>
@@ -5172,7 +5154,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/MetadataRegistry"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.31"/>
-        <rdfs:comment xml:lang="en">modified — Note 1 to entry added</rdfs:comment>
+        <skos:note xml:lang="en">modified — Note 1 to entry added</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/MetadataRegistry"/>
@@ -5201,7 +5183,7 @@ The identifier is comprised of the following parts, or attributes, which are bas
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Metamodel"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.2.27"/>
-        <rdfs:comment xml:lang="en">modified — Note 1 to entry added</rdfs:comment>
+        <skos:note xml:lang="en">modified — Note 1 to entry added</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Metamodel"/>
@@ -5673,7 +5655,7 @@ c) groupings of the above types of organizations where there is a need to identi
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:6523:-1:ed-1:v1:term:3.1"/>
-        <rdfs:comment xml:lang="en">modified — ‘goods and/or services’ changed to ‘goods, services or both’, &apos;person or persons&apos; changed to &apos;individuals&apos;, leading article deleted, trailing fullstop deleted, NOTE converted to Note 1 to entry</rdfs:comment>
+        <skos:note xml:lang="en">modified — ‘goods and/or services’ changed to ‘goods, services or both’, &apos;person or persons&apos; changed to &apos;individuals&apos;, leading article deleted, trailing fullstop deleted, NOTE converted to Note 1 to entry</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
@@ -5800,7 +5782,7 @@ c) groupings of the above types of organizations where there is a need to identi
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/PostalAddress"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget xml:lang="en">UPU S42,[38]</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">modified — Replaced “and/or” by “or”</rdfs:comment>
+        <skos:note xml:lang="en">modified — Replaced “and/or” by “or”</skos:note>
     </owl:Axiom>
     
 
@@ -6073,7 +6055,7 @@ This association records the reference documents that provide additional informa
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Registration"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.3.33"/>
-        <rdfs:comment xml:lang="en">modified — Notes 2 and 3 to entry added</rdfs:comment>
+        <skos:note xml:lang="en">modified — Notes 2 and 3 to entry added</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Registration"/>
@@ -6135,11 +6117,11 @@ This association records the reference documents that provide additional informa
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">RA</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-05T13:45:01Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.92"/>
         <dcterms:identifier rdf:resource="urn:uuid:31242075-de2b-4d91-b22e-c5d10d3bd432"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.6"/>
+        <rdfs:label xml:lang="en">RA</rdfs:label>
         <rdfs:label xml:lang="en">Registration Authority</rdfs:label>
         <skos:definition xml:lang="en">organization (3.2.84) responsible for maintaining a register (3.2.50)</skos:definition>
         <skos:prefLabel xml:lang="en">Registration Authority</skos:prefLabel>
@@ -6342,7 +6324,7 @@ This association records the registrars that represent the registration authorit
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Designation values are specified in 9.6.2 and described more fully in ISO/IEC 11179-6:2023, 4.3.2</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
-        <rdfs:comment xml:lang="en">Amended incorrect reference to section that specifies the designation values</rdfs:comment>
+        <skos:note xml:lang="en">Amended incorrect reference to section that specifies the designation values</skos:note>
     </owl:Axiom>
     
 
@@ -6955,22 +6937,22 @@ This association records that the set of classification scheme items are the sub
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.100"/>
         <dcterms:identifier rdf:resource="urn:uuid:19baa4e2-1ae2-4438-a9f6-c027af4adef4"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2121273"/>
-        <rdfs:comment xml:lang="en">See also the Text datatype (6.2.12)</rdfs:comment>
         <rdfs:label xml:lang="en">Text</rdfs:label>
         <skos:definition xml:lang="en">data (3.2.29) in the form of characters, symbols, words, phrases, paragraphs, sentences, tables, or other character arrangements, intended to convey a meaning, and whose interpretation is essentially based upon the reader&apos;s knowledge of some natural language or artificial language</skos:definition>
         <skos:prefLabel xml:lang="en">Text</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">See also the Text datatype (6.2.12)</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Text"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2121273"/>
-        <rdfs:comment xml:lang="en">modified — Note 1 to entry added</rdfs:comment>
+        <skos:note xml:lang="en">modified — Note 1 to entry added</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Text"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">See also the Text datatype (6.2.12)</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -7027,11 +7009,11 @@ This association records that the set of classification scheme items are the sub
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">VD</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-11-04T14:43:57Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.47"/>
         <dcterms:identifier rdf:resource="urn:uuid:4b417f18-86b4-43de-aff5-d8ee63f5b34f"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.13"/>
+        <rdfs:label xml:lang="en">VD</rdfs:label>
         <rdfs:label xml:lang="en">Value Domain</rdfs:label>
         <skos:definition xml:lang="en">set of permissible values (3.2.48)</skos:definition>
         <skos:prefLabel xml:lang="en">Value Domain</skos:prefLabel>
