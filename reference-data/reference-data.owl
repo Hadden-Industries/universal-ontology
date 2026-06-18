@@ -1942,7 +1942,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AcceptabilityRating"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Scale of quality of being satisfactory and able to be agreed to or approved of</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/acceptability"/>
     </owl:Axiom>
@@ -1971,7 +1971,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ActivityClass"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Concept defining a set of deeds, actions, or functions that a person or group does or has done, based on specific shared characteristics and rules</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/52fadd764940bfc0"/>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/activity"/>
@@ -1995,7 +1995,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ActivityClassRelationshipType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of the way in which two or more Activity Classes are connected, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/relationship"/>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/type"/>
@@ -2045,7 +2045,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ActivityClassificationScheme"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of Activities into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.5"/>
     </owl:Axiom>
@@ -2165,7 +2165,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AgeRange"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Area of variation between upper and lower limits on the length of time that a person has lived or a thing has existed</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/age"/>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/range"/>
@@ -2267,7 +2267,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicLandAndPropertyUnit"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Area of land in uniform property rights or, in the absence of such ownership evidence or where required for administrative purposes, inferred from physical features, occupation or use</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:isbn:978-0-580-48723-1"/>
     </owl:Axiom>
@@ -2315,7 +2315,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BodyMassIndexRange"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Area of variation between upper and lower limits on a simple index of weight-for-height that is commonly used to classify underweight, overweight and obesity in adults and defined as the weight in kilograms divided by the square of the height in meters (kg/m2)</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/range"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:21856:ed-1:v1:en:term:3.7"/>
@@ -2546,7 +2546,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CommunicationType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of processes by which information is exchanged between individuals or systems using a common system of symbols, signs, or behaviour, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.1.8.04"/>
     </owl:Axiom>
@@ -2567,7 +2567,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ConfidentialityClass"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Concept defining a set of things regarding the state of keeping or being kept secret or private, based on specific shared characteristics and rules</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/confidentiality"/>
     </owl:Axiom>
@@ -2587,7 +2587,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ContractStatus"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Situation at a particular time during the process following the creation of a contract</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/status"/>
     </owl:Axiom>
@@ -2716,7 +2716,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Court"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Body of persons presided over by judges or magistrates, and acting as a tribunal in civil and criminal cases</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/court"/>
     </owl:Axiom>
@@ -2749,7 +2749,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CourtStage"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Point, period, or step in a process of court proceedings</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/stage"/>
     </owl:Axiom>
@@ -2868,7 +2868,7 @@
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Value of one currency for the purpose of conversion to another</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/exchange_rate"/>
     </owl:Axiom>
@@ -2923,7 +2923,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CustomerVulnerabilityCharacteristic"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Quality or feature of vulnerable customers which is often seen in them and seems typical of them</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.collinsdictionary.com/dictionary/english/characteristic"/>
     </owl:Axiom>
@@ -2949,7 +2949,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CustomerVulnerabilityDriver"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of things that give force or impetus to a customer&apos;s vulnerability</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.collinsdictionary.com/dictionary/english/driver"/>
     </owl:Axiom>
@@ -3005,7 +3005,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityCategory"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Group of data quality dimensions in which a common type of information is used as data quality indicator</owl:annotatedTarget>
         <dcterms:source rdf:resource="http://ceur-ws.org/Vol-1184/ldow2014_paper_09.pdf"/>
         <rdfs:comment xml:lang="en">Section 1.1</rdfs:comment>
@@ -3026,7 +3026,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataQualityDimension"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Characteristic of a dataset relevant to the consumer</owl:annotatedTarget>
         <dcterms:source rdf:resource="http://ceur-ws.org/Vol-1184/ldow2014_paper_09.pdf"/>
         <rdfs:comment xml:lang="en">Section 1.1</rdfs:comment>
@@ -3284,7 +3284,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DistributionChannel"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Path that products and services take on their way from the manufacturer or service provider to the end consumer</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.salesforce.com/uk/learning-centre/sales/distribution-channels/"/>
     </owl:Axiom>
@@ -3304,7 +3304,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DistributionChannelLevel"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Position within a system in which distribution channels are arranged according to the number of steps required to reach the end consumer</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/level"/>
     </owl:Axiom>
@@ -3537,7 +3537,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Common address suffix shared by a distinct subset of the Internet in the hierarchical Domain Name System</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/domain"/>
     </owl:Axiom>
@@ -3600,7 +3600,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EconomicActivityClass"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Activity Class relating to activity carried out under the control and responsibility of an institutional unit that uses inputs of labour, capital, and goods and services to produce outputs of goods or services</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://unstats.un.org/unsd/nationalaccount/docs/sna2008.pdf"/>
         <rdfs:comment xml:lang="en">Section 6.24</rdfs:comment>
@@ -3629,7 +3629,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EconomicActivityClassificationScheme"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Activity Classification Scheme grouping activity carried out under the control and responsibility of an institutional unit that uses inputs of labour, capital, and goods and services to produce outputs of goods or services</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://unstats.un.org/unsd/nationalaccount/docs/sna2008.pdf"/>
         <rdfs:comment xml:lang="en">Section 6.24</rdfs:comment>
@@ -3678,7 +3678,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStateClassificationScheme"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of contractual states outlining how the employee is related to the employer, which determines their rights and their employer&apos;s responsibilities in regard to them, into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexisnexis.co.uk/legal/glossary/employment-status"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.5"/>
@@ -3707,7 +3707,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStatus"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Contractual state outlining how the employee is related to the employer, which determines their rights and their employer&apos;s responsibilities in regard to them</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexisnexis.co.uk/legal/glossary/employment-status"/>
     </owl:Axiom>
@@ -3729,7 +3729,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EthnicGroup"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Fact or state of belonging to a social group that has a common national or cultural tradition</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/ethnicity"/>
     </owl:Axiom>
@@ -3930,7 +3930,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ExerciseClass"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Activity Class requiring physical effort, carried out to sustain or improve health and fitness</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/exercise"/>
     </owl:Axiom>
@@ -3950,7 +3950,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ExerciseMotionType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of actions or processes of moving or being moved during exercise, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/motion"/>
     </owl:Axiom>
@@ -3992,7 +3992,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EyeColourClass"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Concept defining a set of perceived hues of the iris, based on specific shared characteristics and rules</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/52fadd764940bfc0"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:en"/>
@@ -4042,7 +4042,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FinalLegalDisposition"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Legal Disposition that permanently resolves the statutory status or penal consequences for an entity, thereby terminating the matter</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
@@ -4064,7 +4064,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FinancialInstrumentClassification"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of contracts that give rise to a financial asset of one entity and a financial liability or equity instrument of another entity</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.ifrs.org/content/dam/ifrs/publications/pdf-standards/english/2021/issued/part-a/ias-32-financial-instruments-presentation.pdf"/>
         <rdfs:comment xml:lang="en">Section 11</rdfs:comment>
@@ -4086,7 +4086,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FlotationType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of processes of offering a company&apos;s shares for sale on the stock market for the first time, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/flotation"/>
     </owl:Axiom>
@@ -4501,7 +4501,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GrammaticalGender"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Gender based on arbitrary assignment, without regard to the referent of a noun, as in French le livre (masculine), “the book,” and German das Mädchen (neuter), “the girl”</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.collinsdictionary.com/dictionary/english/grammatical-gender"/>
     </owl:Axiom>
@@ -4536,7 +4536,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GrammaticalPerson"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Linguistic category used to distinguish between the speaker of an utterance and those to whom or about whom he is referring; implemented in most languages by a variety of pronouns, and in inflected languages by variation in word endings</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://en.wiktionary.org/wiki/grammatical_person"/>
     </owl:Axiom>
@@ -4560,7 +4560,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/HairColourClass"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Concept defining a set of perceived perceived hues of the epidermal keratinous filaments, based on specific shared characteristics and rules</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/52fadd764940bfc0"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:en"/>
@@ -4605,7 +4605,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/HorizontalDirection"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Cardinal Direction parallel to the plane of the horizon; at right angles to the vertical</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/horizontal"/>
     </owl:Axiom>
@@ -4670,7 +4670,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IndoorActivity"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Activity conducted within a building or under cover</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/indoor"/>
     </owl:Axiom>
@@ -4698,7 +4698,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InsuranceClaimLossCause"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Specific condition, incident, or physical phenomenon that directly precipitates a physical or financial impairment to an insured asset, forming the fundamental basis for a request for contractual indemnification</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/8923a8fe22ac3729"/>
     </owl:Axiom>
@@ -4719,7 +4719,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InsuranceClaimLossCauseClassificationScheme"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of Insurance Claim Loss Causes into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.5"/>
     </owl:Axiom>
@@ -4739,7 +4739,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InsuranceClaimStatus"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Situation at a particular time during the process following the creation of an insurance claim</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/status"/>
     </owl:Axiom>
@@ -4772,7 +4772,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InsurancePolicyCancellationReasonCategory"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Class of statements that explain why an insurance policy is stopped from being effective or valid, regarded as having particular shared characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.britannica.com/dictionary/cancel"/>
         <dcterms:source rdf:resource="https://www.britannica.com/dictionary/reason"/>
@@ -4823,7 +4823,7 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InterimLegalDisposition"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Legal Disposition that imposes temporary statutory conditions, restrictions, or rights upon an entity pending the final resolution of the matter</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
@@ -4931,7 +4931,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InvestmentRiskAttitude"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Way one thinks and feels about any uncertainty with respect to one&apos;s investments that has the potential to negatively impact one&apos;s financial welfare</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.britannica.com/dictionary/attitude"/>
     </owl:Axiom>
@@ -4965,7 +4965,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/JudicialCaseStage"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Defined procedural or operational phase within the lifecycle of a Judicial Case that identifies the specific legal, administrative, or supervisory activities currently being executed</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
@@ -4985,7 +4985,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/JudicialCaseType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of legal actions, especially those to be decided in a court of law, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/case"/>
     </owl:Axiom>
@@ -5027,7 +5027,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/JuridicalPersonStatus"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Situation at a particular time during the process following the creation of a juridical person</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/status"/>
     </owl:Axiom>
@@ -5577,7 +5577,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalAdjudicationResult"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Binding determination issued by a competent judicial or statutory authority resolving a specific matter of fact, evidence, procedure, or law regarding an Offence Event</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
@@ -5624,7 +5624,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalDisposition"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Legal Adjudication Result that applies a settlement or order establishing the statutory status, rights, or penal consequences for an entity</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
@@ -5746,7 +5746,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthorityFormType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of document with blank spaces for information to be inserted, as formalised by a Legal Entity Registration Authority, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/form"/>
     </owl:Axiom>
@@ -5779,7 +5779,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterAdministrativeOutcome"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Routing, scheduling, or logistical action applied to a Law Enforcement Investigation or Judicial Case that does not alter the statutory rights of any entity or settle the offence</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
@@ -5819,7 +5819,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterOutcomeQualifier"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Legally necessary specifics regarding how a Legal Matter Administrative Outcome or a Legal Adjudication Result is applied or why it was issued</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://assets.publishing.service.gov.uk/media/5e3853baed915d095784f4e4/cjs-data-standards-catalogue-6.pdf"/>
         <rdfs:comment xml:lang="en">Section 3.123, with modifications</rdfs:comment>
@@ -5840,7 +5840,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterOutcomeType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Specific category or structural type of a Legal Matter Administrative Outcome or a Legal Adjudication Result being recorded</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://assets.publishing.service.gov.uk/media/5e3853baed915d095784f4e4/cjs-data-standards-catalogue-6.pdf"/>
         <rdfs:comment xml:lang="en">Section 3.126, with modifications</rdfs:comment>
@@ -5936,7 +5936,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MaritalStatus"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">One&apos;s situation with regard to whether one is single, married, separated, divorced, or widowed</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/marital_status"/>
     </owl:Axiom>
@@ -6011,7 +6011,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MarketIndex"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Market measure that consists of weighted values of the components that make up certain list of companies. A stock market tracks the performance of certain stocks by weighting them according to their prices and the number of outstanding shares by a particular formula.</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.nasdaq.com/glossary/m/market-index"/>
     </owl:Axiom>
@@ -6310,7 +6310,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitStatus"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Situation at a particular time during the process following publication of the measurement unit</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/status"/>
     </owl:Axiom>
@@ -6359,7 +6359,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ModeOfTransport"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Method of transport used for the carriage of goods</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://unece.org/sites/default/files/2023-10/rec19_ece-trd-138E.pdf"/>
         <rdfs:comment xml:lang="en">Section IV. 11.</rdfs:comment>
@@ -6424,7 +6424,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Muscle"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Band or bundle of fibrous tissue in a human or animal body that has the ability to contract, producing movement in or maintaining the position of parts of the body</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/muscle"/>
     </owl:Axiom>
@@ -6472,7 +6472,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NationalIdentity"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Sense of a nation as a cohesive whole, as represented by distinctive traditions, culture, and language</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/national_identity"/>
     </owl:Axiom>
@@ -6543,7 +6543,7 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonRace"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Each of the major groupings into which humankind is considered (in various theories or contexts) to be divided on the basis of physical characteristics or shared ancestry</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/race#h70133529450320"/>
     </owl:Axiom>
@@ -6678,7 +6678,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Person&apos;s usual or principal work or business, especially as a means of earning a living; vocation</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.dictionary.com/browse/occupation"/>
     </owl:Axiom>
@@ -6758,7 +6758,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of Occupations into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.5"/>
     </owl:Axiom>
@@ -6791,7 +6791,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Offence"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Act, omission, or formal application that constitutes a violation of criminal, civil, or administrative law, or establishes a statutory cause of action requiring processing, recording, or adjudication by the justice system</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/45ec130e0fb5fc8d"/>
     </owl:Axiom>
@@ -6863,7 +6863,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OffenceClassificationScheme"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of Offences into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.5"/>
     </owl:Axiom>
@@ -6882,7 +6882,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OffenceRemandStatus"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Legally mandated state of custody or bail that accompanies a court hearing result for a specific offence</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://assets.publishing.service.gov.uk/media/5e3853baed915d095784f4e4/cjs-data-standards-catalogue-6.pdf"/>
         <rdfs:comment xml:lang="en">Section 3.83, with modifications</rdfs:comment>
@@ -6973,7 +6973,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OutdoorActivity"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Activity done out of doors</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/outdoor"/>
     </owl:Axiom>
@@ -6995,7 +6995,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PaymentMethod"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Way of paying for something, such as cash</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/mode-of-payment?q=payment+method"/>
     </owl:Axiom>
@@ -7015,7 +7015,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PeriodicTable"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Table of the chemical elements arranged in order of atomic number, usually in rows, so that elements with similar atomic structure (and hence similar chemical properties) appear in vertical columns</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/periodic_table"/>
     </owl:Axiom>
@@ -7119,7 +7119,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonalPronoun"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Each of the pronouns comprising a set that shows contrasts of person, gender, number, and case</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/personal_pronoun"/>
     </owl:Axiom>
@@ -7139,7 +7139,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonalPronounForm"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Type or variety of personal pronouns named according to their typical grammatical role in a sentence</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/form"/>
     </owl:Axiom>
@@ -7161,7 +7161,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PhysicalActivityClass"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Activity Class relating to the body as opposed to the mind</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/physical"/>
     </owl:Axiom>
@@ -7181,7 +7181,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PoliticalAffiliation"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Official attachment or connection to the government or public affairs of a country</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/affiliate"/>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/political"/>
@@ -7215,7 +7215,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PopulationProjectionVariant"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Form or version of what the future size and structure of the population by sex and age might look like, that differs in some respect from other forms of the same thing or from a standard</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.insee.fr/en/metadonnees/definition/c1235"/>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/variant"/>
@@ -7270,7 +7270,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PriorityClass"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Concept defining a set of things regarding the fact or condition of being regarded or treated as more important than others, based on specific shared characteristics and rules</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/priority"/>
     </owl:Axiom>
@@ -7368,7 +7368,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceClassificationScheme"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of Products Or Services into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.5"/>
     </owl:Axiom>
@@ -7476,7 +7476,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceRelationshipType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of the way in which two or more products or services are connected, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/relationship"/>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/type"/>
@@ -7510,7 +7510,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceStatus"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Situation at a particular time during the process following the creation of a product or service</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/status"/>
     </owl:Axiom>
@@ -7530,7 +7530,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceUsageSetting"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Place or type of surroundings where the use of a product or service takes place</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/setting"/>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/usage"/>
@@ -7582,7 +7582,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/QuotationStatus"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Situation at a particular time during the process following the creation of a quotation</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/status"/>
     </owl:Axiom>
@@ -7603,7 +7603,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ReligiousAffiliation"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Official attachment or connection to a belief in and worship of a superhuman controlling power, especially a personal God or gods</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/affiliate"/>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/religion"/>
@@ -7624,7 +7624,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/RoadVehicleType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of ground transport vehicles other than trains, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://apps.who.int/gb/ebwha/pdf_files/WHA58/A58_4-en.pdf"/>
         <rdfs:comment xml:lang="en">Part I, Article 1</rdfs:comment>
@@ -7694,7 +7694,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SentenceType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of punishments assigned to defendants found guilty by a court, or fixed by law for particular offences, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/sentence"/>
     </owl:Axiom>
@@ -7762,7 +7762,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SexualOrientation"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Person&apos;s identity in relation to the gender or genders to which they are sexually attracted; the fact of being heterosexual, homosexual, etc.</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/sexual_orientation"/>
     </owl:Axiom>
@@ -7783,7 +7783,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Side"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Position to the left or right of an object, place, or central point</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/side"/>
     </owl:Axiom>
@@ -7834,7 +7834,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SkinColourClass"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Concept defining a set of perceived hues of the epidermis, based on specific shared characteristics and rules</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/52fadd764940bfc0"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:en"/>
@@ -7857,7 +7857,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SkinColourClassificationScheme"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of perceived hues of the epidermis into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.5"/>
     </owl:Axiom>
@@ -7877,7 +7877,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SmokingStatus"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">State or condition at a particular time of a person&apos;s smoking behaviour</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/status"/>
     </owl:Axiom>
@@ -7897,7 +7897,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SourceOfFunds"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Origin of the funds involved in a business relationship or occasional transaction. It includes both the activity that generated the funds used in the business relationship, for example the customer’s salary, as well as the means through which the customer’s funds were transferred.</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.eba.europa.eu/sites/default/files/documents/10180/1240374/c1d03800-2a50-4fbe-bf69-f0018c6e6157/JC%202015%20061%20(Joint%20Draft%20Guidelines%20on%20AML_CFT%20RFWG%20Art%2017%20and%2018).pdf"/>
         <rdfs:comment xml:lang="en">Title I 8.</rdfs:comment>
@@ -7918,7 +7918,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SourceOfWealth"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Origin of a person’s total wealth, for example inheritance or savings</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.eba.europa.eu/sites/default/files/documents/10180/1240374/c1d03800-2a50-4fbe-bf69-f0018c6e6157/JC%202015%20061%20(Joint%20Draft%20Guidelines%20on%20AML_CFT%20RFWG%20Art%2017%20and%2018).pdf"/>
         <rdfs:comment xml:lang="en">Title I 8.</rdfs:comment>
@@ -7975,7 +7975,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TaxRate"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Percentage of income, property value, etc. assessed as tax per geographic feature</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.collinsdictionary.com/dictionary/english/tax-rate"/>
     </owl:Axiom>
@@ -8008,7 +8008,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TickerSymbol"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Letters that are used to refer to a company&apos;s shares on a stock market</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/ticker?q=ticker+symbol"/>
     </owl:Axiom>
@@ -8031,7 +8031,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TimeFrequency"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Rate at which something occurs over a particular period of time</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/frequency"/>
     </owl:Axiom>
@@ -8053,7 +8053,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TimeZone"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">One of the areas into which the world is divided where the time is calculated as being a particular number of hours behind or ahead of Greenwich Mean Time</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.collinsdictionary.com/dictionary/english/time-zone"/>
     </owl:Axiom>
@@ -8089,7 +8089,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Title"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Word such as Lord or Dame that is used before someone&apos;s name, or a form that is used instead of someone&apos;s name, to indicate high social or official rank</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/title"/>
     </owl:Axiom>
@@ -8195,7 +8195,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/VehicleCategory"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Classification of a power-driven vehicle or trailer</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://unece.org/sites/default/files/2023-12/ECE_TRANS_WP.29_78_Rev.7e.docx"/>
         <rdfs:comment xml:lang="en">Section 2</rdfs:comment>
@@ -8216,7 +8216,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/VerificationResultType"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of outcomes of processes of establishing the truth, accuracy, or validity of something, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/verification"/>
     </owl:Axiom>
@@ -8237,7 +8237,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/VerticalDirection"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Cardinal Direction at right angles to a horizontal plane; in a direction, or having an alignment, such that the top is directly above the bottom</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/vertical"/>
     </owl:Axiom>
@@ -9687,7 +9687,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/319265c9-5ae8-49c9-9d8a-75441bfc70fb"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Harmonised framework to be used in the collection, processing, and outputs of statistical data on countries in both social and economic statistical collections</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/otherclassifications/nationalstatisticscountryclassification/explanatorynotesandcodingguidelines"/>
     </owl:Axiom>
@@ -12340,7 +12340,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ActivityClassInterest"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Activity Class To Person Relationship Type in which a Person enjoys doing or studying an Activity Class</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/interest"/>
     </owl:Axiom>
@@ -12391,7 +12391,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Author"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Writer of a Document</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/author"/>
     </owl:Axiom>
@@ -12429,7 +12429,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Avonymic"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Name acquired from one&apos;s grandfather</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://en.wiktionary.org/wiki/avonymic"/>
     </owl:Axiom>
@@ -12519,7 +12519,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CreditorBeneficiary"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Third-party Person whose pre-existing owed debt is satisfied through the performance of a newly formed binding commitment</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://juris.nationalparalegal.edu/uploads/19Unit%2017.pdf"/>
         <dcterms:source rdf:resource="urn:isbn:9780198829973"/>
@@ -12540,7 +12540,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DoneeBeneficiary"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Third-party Person designated to receive a gratuitous gift through the performance of a binding commitment</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://juris.nationalparalegal.edu/uploads/19Unit%2017.pdf"/>
         <dcterms:source rdf:resource="urn:isbn:9780198829973"/>
@@ -12579,7 +12579,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/East"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Horizontal Direction towards the point of the horizon where the sun rises at the equinoxes, on the right-hand side of a person facing north, or the point on the horizon itself</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/east"/>
     </owl:Axiom>
@@ -12672,7 +12672,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FischerSallerScale"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of perceived hues of the epidermal keratinous filaments into groups based on criteria such as characteristics, which the objects have in common, developed by Eugen Fischer and German anthropologist Karl Saller</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/52fadd764940bfc0"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.5"/>
@@ -12713,7 +12713,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Friday"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Day Of Week before Saturday and following Thursday</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/friday"/>
     </owl:Axiom>
@@ -12740,7 +12740,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GivenName"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Name given to one, as distinguished from an inherited family name</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.dictionary.com/browse/given-name"/>
     </owl:Axiom>
@@ -12780,7 +12780,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IncidentalBeneficiary"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Third-party Person that receives a factual consequence of value resulting from a binding agreement without possessing the legal entitlement to enforce that value</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://matthewminer.name/law/outlines/1L/2nd+Semester/LAW+506-002+%E2%80%93+Contracts+II/R2C+%C2%A7+302"/>
         <dcterms:source rdf:resource="https://www.legislation.gov.uk/ukpga/1999/31/contents"/>
@@ -12835,7 +12835,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IntendedBeneficiary"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Third-party Person explicitly designated by the primary negotiating parties to receive the benefits of a binding commitment</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://matthewminer.name/law/outlines/1L/2nd+Semester/LAW+506-002+%E2%80%93+Contracts+II/R2C+%C2%A7+302"/>
         <dcterms:source rdf:resource="https://www.legislation.gov.uk/ukpga/1999/31/contents"/>
@@ -12887,7 +12887,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalClassificationOfStatusInEmployment1993"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of jobs held by persons at a point in time with respect to the type of explicit or implicit contract of employment of the person with other persons or organisations, adopted by the International Labour Organization in 1993, into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.ilo.org/wcmsp5/groups/public/---dgreports/---stat/documents/normativeinstrument/wcms_087562.pdf"/>
         <rdfs:comment xml:lang="en">Section I 2</rdfs:comment>
@@ -13007,7 +13007,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Left"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">On, towards, or relating to the side of a human body or of a thing that is to the west when the person or thing is facing north</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/left"/>
     </owl:Axiom>
@@ -13058,7 +13058,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MartinSchultzScale"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of perceived hues of the iris into groups based on criteria such as characteristics, which the objects have in common, created by the anthropologists Rudolf Martin and Bruno K Schultz in the first half of the 20th century</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/52fadd764940bfc0"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.5"/>
@@ -13080,7 +13080,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Matronymic"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Name that is based on the given name of someone&apos;s mother or one of their mother&apos;s ancestors</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/matronymic"/>
     </owl:Axiom>
@@ -13118,7 +13118,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Monday"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Day Of Week before Tuesday and following Sunday</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/monday"/>
     </owl:Axiom>
@@ -13159,7 +13159,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Nickname"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Name (such as “Moose” or “Lady Bird”) that is different from your real name but is what your family, friends, etc., call you when they are talking to you or about you</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.britannica.com/dictionary/nickname"/>
     </owl:Axiom>
@@ -13182,7 +13182,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/North"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Vertical Direction in which a compass needle normally points, towards the horizon on the left-hand side of a person facing east, or the part of the horizon lying in this direction</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/north"/>
     </owl:Axiom>
@@ -13370,7 +13370,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Obligee"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Person entitled to demand and receive a specific performance or duty under a Contract</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:isbn:9780414070714"/>
     </owl:Axiom>
@@ -13391,7 +13391,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Obligor"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Person that bears the active burden to render a specific performance or duty under a Contract</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:isbn:9780414070714"/>
     </owl:Axiom>
@@ -13412,7 +13412,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Offeree"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Person to whom a conditional proposal of terms for an agreement is addressed and who holds the power to accept</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://opencasebook.org/casebooks/11720-bruckner-howard-law-contracts-2024/resources/2.5.3.3-restatement-second-of-contracts-24/"/>
         <dcterms:source rdf:resource="urn:isbn:9780192897497"/>
@@ -13434,7 +13434,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Offeror"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Person that initiates a negotiation process by presenting a conditional proposal of terms for an agreement</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://opencasebook.org/casebooks/11720-bruckner-howard-law-contracts-2024/resources/2.5.3.3-restatement-second-of-contracts-24/"/>
         <dcterms:source rdf:resource="urn:isbn:9780192897497"/>
@@ -13471,7 +13471,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Patronymic"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Name that is based on the given name of someone&apos;s father or one of their father&apos;s ancestors</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/patronymic"/>
     </owl:Axiom>
@@ -13506,7 +13506,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PlaceOfBirth"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Village, town, city or area where a natural person was born</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.gov.uk/government/publications/place-and-country-of-birth/place-and-country-of-birth-accessible#place-of-birth-on-the-passport"/>
     </owl:Axiom>
@@ -13563,7 +13563,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Promisee"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Person to whom a legally binding commitment to act or refrain from acting is addressed and owed</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:isbn:9780414117402"/>
         <dcterms:source xml:lang="en">American Law Institute. Restatement (Second) of Contracts. St. Paul, MN: American Law Institute Publishers; 1981.</dcterms:source>
@@ -13585,7 +13585,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Promisor"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Person that makes a legally binding commitment to act or refrain from acting in a specified manner</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:isbn:9780414117402"/>
         <dcterms:source xml:lang="en">American Law Institute. Restatement (Second) of Contracts. St. Paul, MN: American Law Institute Publishers; 1981.</dcterms:source>
@@ -13634,7 +13634,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Right"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">On, towards, or relating to the side of a human body or of a thing that is to the east when the person or thing is facing north</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/right"/>
     </owl:Axiom>
@@ -13656,7 +13656,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Saturday"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Day Of Week before Sunday and following Friday, and (together with Sunday) forming part of the weekend</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/saturday"/>
     </owl:Axiom>
@@ -13684,7 +13684,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/South"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Vertical Direction towards the point of the horizon 90° clockwise from east, or the point on the horizon itself</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/south"/>
     </owl:Axiom>
@@ -13744,7 +13744,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Sunday"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Day Of Week before Monday and following Saturday, observed by Christians as a day of rest and religious worship and (together with Saturday) forming part of the weekend</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/sunday"/>
     </owl:Axiom>
@@ -13771,7 +13771,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Surname"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Name that is shared by the people in a family</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.britannica.com/dictionary/surname"/>
     </owl:Axiom>
@@ -13823,7 +13823,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Thursday"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Day Of Week before Friday and following Wednesday</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/thursday"/>
     </owl:Axiom>
@@ -13851,7 +13851,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Tuesday"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Day Of Week before Wednesday and following Monday</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/tuesday"/>
     </owl:Axiom>
@@ -14195,7 +14195,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Wednesday"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Day Of Week before Thursday and following Tuesday</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/wednesday"/>
     </owl:Axiom>
@@ -14223,7 +14223,7 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/West"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Horizontal Direction towards the point of the horizon where the sun sets at the equinoxes, on the left-hand side of a person facing north, or the part of the horizon lying in this direction</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/west"/>
     </owl:Axiom>
