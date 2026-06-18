@@ -43,7 +43,29 @@
     </xsl:choose>
   </xsl:template>
 
-  <!-- Targeted transformation: Sync rdfs:label value with sibling skos:prefLabel -->
+  <!-- Targeted transformation 1: Generate missing rdfs:label based on skos:prefLabel -->
+  <xsl:template match="skos:prefLabel">
+    <!-- Replicate the existing skos:prefLabel perfectly -->
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
+    
+    <!-- Capture the current xml:lang attribute for sibling evaluation -->
+    <xsl:variable name="current-lang" select="@xml:lang"/>
+    
+    <!-- If no sibling rdfs:label exists with the same language tag, generate it -->
+    <xsl:if test="not(../rdfs:label[@xml:lang = $current-lang])">
+      <xsl:text>&#10;&#9;</xsl:text>
+      <rdfs:label>
+        <xsl:copy-of select="@xml:lang"/>
+        <xsl:call-template name="escape-apos">
+          <xsl:with-param name="text" select="."/>
+        </xsl:call-template>
+      </rdfs:label>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Targeted transformation 2: Sync existing rdfs:label value with sibling skos:prefLabel -->
   <xsl:template match="rdfs:label">
     <xsl:copy>
       <!-- Replicate existing attributes (e.g., xml:lang) perfectly -->
