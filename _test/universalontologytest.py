@@ -252,10 +252,13 @@ class UniversalOntologyTest(XmlTestCase):
 			
 			if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
 				is_dataset = False
+				is_distribution = False
 				for rdf_type in elem.iterfind('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}type'):
-					if rdf_type.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource') == 'http://www.w3.org/ns/dcat#Dataset':
+					type_resource = rdf_type.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
+					if type_resource == 'http://www.w3.org/ns/dcat#Dataset':
 						is_dataset = True
-						break
+					elif type_resource == 'http://www.w3.org/ns/dcat#Distribution':
+						is_distribution = True
 				
 				if is_dataset:
 					has_valid_theme = False
@@ -267,6 +270,31 @@ class UniversalOntologyTest(XmlTestCase):
 					
 					if not has_valid_theme:
 						self.fail('owl:NamedIndividual Dataset "%s" is missing a dcat:theme with a non-empty rdf:resource' % entityRdfAbout)
+						
+					title_elem = elem.find('{http://purl.org/dc/terms/}title')
+					if title_elem is None or not title_elem.text or not title_elem.text.strip():
+						self.fail('owl:NamedIndividual Dataset "%s" is missing a dcterms:title child element with a non-empty value' % entityRdfAbout)
+						
+					label_elem = elem.find('{http://www.w3.org/2000/01/rdf-schema#}label')
+					if label_elem is None or not label_elem.text or not label_elem.text.strip():
+						self.fail('owl:NamedIndividual Dataset "%s" is missing a rdfs:label child element with a non-empty value' % entityRdfAbout)
+						
+					desc_elem = elem.find('{http://purl.org/dc/terms/}description')
+					if desc_elem is None or not desc_elem.text or not desc_elem.text.strip():
+						self.fail('owl:NamedIndividual Dataset "%s" is missing a dcterms:description child element with a non-empty value' % entityRdfAbout)
+						
+				if is_distribution:
+					access_url_elem = elem.find('{http://www.w3.org/ns/dcat#}accessURL')
+					if access_url_elem is None:
+						self.fail('owl:NamedIndividual Distribution "%s" is missing a dcat:accessURL child element' % entityRdfAbout)
+					else:
+						resource_attr = access_url_elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
+						if not resource_attr or not resource_attr.strip():
+							self.fail('owl:NamedIndividual Distribution "%s" has a dcat:accessURL with an empty or missing rdf:resource attribute' % entityRdfAbout)
+							
+					label_elem = elem.find('{http://www.w3.org/2000/01/rdf-schema#}label')
+					if label_elem is None or not label_elem.text or not label_elem.text.strip():
+						self.fail('owl:NamedIndividual Distribution "%s" is missing a rdfs:label child element with a non-empty value' % entityRdfAbout)
 			
 			if entityRdfAbout.startswith(ns):
 				
