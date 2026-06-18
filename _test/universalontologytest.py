@@ -88,6 +88,9 @@ class UniversalOntologyTest(XmlTestCase):
 		# Check namespace consistency early (Fail Fast)
 		self.assertXmlNamespace(root, None, ns)
 		
+		# Build a map of children to parents to resolve parent attributes in global checks
+		parent_map = {c: p for p in root.iter() for c in p}
+		
 		# Global xml:lang attribute requirement across all entities
 		for global_lang_tag in [
 			'{http://purl.org/dc/terms/}description',
@@ -102,7 +105,9 @@ class UniversalOntologyTest(XmlTestCase):
 		]:
 			for instance in root.iter(global_lang_tag):
 				if instance.get('{http://www.w3.org/XML/1998/namespace}lang') is None:
-					self.fail('%s is missing xml:lang attribute. Text: "%s"' % (global_lang_tag.split('}')[-1], instance.text))
+					parent = parent_map.get(instance)
+					parent_about = parent.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about', 'Unknown') if parent is not None else 'Unknown'
+					self.fail('%s is missing xml:lang attribute on parent "%s". Text: "%s"' % (global_lang_tag.split('}')[-1], parent_about, instance.text))
 		
 		# Global uniqueness for dcterms:identifier
 		identifiersList = []
@@ -112,6 +117,22 @@ class UniversalOntologyTest(XmlTestCase):
 				if identifierRdfResource in identifiersList:
 					self.fail('another element with dcterms:identifier "%s" already exists' % identifierRdfResource)
 				identifiersList.append(identifierRdfResource)
+		
+		# Global skos:prefLabel requirement for core entity types
+		for entity_tag in [
+			'{http://www.w3.org/2002/07/owl#}Class',
+			'{http://www.w3.org/2002/07/owl#}NamedIndividual',
+			'{http://www.w3.org/2002/07/owl#}ObjectProperty',
+			'{http://www.w3.org/2002/07/owl#}DatatypeProperty'
+		]:
+			for elem in root.iter(entity_tag):
+				entity_about = elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
+				if entity_about is not None and entity_about.startswith('https://haddenindustries.com/ontology/'):
+					if not entity_about.startswith('https://haddenindustries.com/ontology/dataset/') and not entity_about.startswith('https://haddenindustries.com/ontology/distribution/'):
+						if elem.find('{http://www.w3.org/2004/02/skos/core#}prefLabel') is None:
+							self.fail('Ontology constraint breach: %s "%s" is missing a skos:prefLabel child element' % (entity_tag.split('}')[-1], entity_about))
+							
+						self.assertXpathsUniqueValue(elem, ['./skos:prefLabel/@xml:lang'])
 		
 		labelsList = []
 
@@ -305,8 +326,6 @@ class UniversalOntologyTest(XmlTestCase):
 								
 						if not hasEnglishPrefLabel:
 							self.fail('English skos:prefLabel not found')
-							
-						self.assertXpathsUniqueValue(elem, ['./skos:prefLabel/@xml:lang'])
 					
 					# Labels
 					
