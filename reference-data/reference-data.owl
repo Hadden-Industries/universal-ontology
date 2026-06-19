@@ -8344,6 +8344,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Eurostat Activity And Employment Status Codelist Version 12</rdfs:label>
         <dcat:landingPage rdf:resource="https://webgate.ec.europa.eu/fusionregistry/sdmx/v2/structure/codelist/ESTAT/WSTATUS/12.0"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EurostatActivityAndEmploymentStatus"/>
+	<dcterms:title xml:lang="en">Eurostat Activity And Employment Status Codelist Version 12</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8355,8 +8357,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/bafe51e6-c8a9-4576-b214-6fd7de5c0a6f"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+		<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:31:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United Nations Standard Products And Services Code Dataset</rdfs:label>
+		<dcat:landingPage rdf:resource="https://www.undp.org/unspsc"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedNationsStandardProductsAndServicesCode"/>
+	<dcterms:title xml:lang="en">United Nations Standard Products And Services Code Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8371,6 +8377,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Physical Activity Class Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://pubmed.ncbi.nlm.nih.gov/8292105/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PhysicalActivityClass"/>
+	<dcterms:title xml:lang="en">Physical Activity Class Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8389,6 +8397,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">SIX Historical (Currencies &amp; Funds)</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+	<dcterms:title xml:lang="en">SIX Historical (Currencies &amp; Funds)</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8403,6 +8413,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">ISO Geodetic Registry - Datums</rdfs:label>
         <dcat:landingPage rdf:resource="https://geodetic.isotc211.org/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Datum"/>
+	<dcterms:title xml:lang="en">ISO Geodetic Registry - Datums</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8417,6 +8429,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Industry Classification Benchmark 2005 structure</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.lseg.com/en/ftse-russell/industry-classification-benchmark-icb"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IndustryClassificationBenchmark2005"/>
+	<dcterms:title xml:lang="en">Industry Classification Benchmark 2005 structure</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8433,6 +8447,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Criminal Justice System Case Stage</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/JudicialCaseStage"/>
+	<dcterms:title xml:lang="en">Criminal Justice System Case Stage</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/ab70b4cc-8daa-4b79-aeb0-1a494ccee535"/>
@@ -8456,6 +8472,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Codes for Types of Means of Transport</rdfs:label>
         <dcat:landingPage rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeansOfTransportType"/>
+	<dcterms:title xml:lang="en">United Nations Economic Commission for Europe - Codes for Types of Means of Transport</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/ac3c2fd1-5a9d-4080-9ceb-8eef138fd636"/>
@@ -8478,6 +8496,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Criminal Justice System Offence Remand Status</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OffenceRemandStatus"/>
+	<dcterms:title xml:lang="en">Criminal Justice System Offence Remand Status</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/b09c0d57-a966-4d74-a97a-dda68b763eb9"/>
@@ -8502,6 +8522,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalAdjudicationResult"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterAdministrativeOutcome"/>
+	<dcterms:title xml:lang="en">Criminal Justice System Result Codes</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/b12769ab-e9f1-4fac-9d1a-e3f1b9fba939"/>
@@ -8522,6 +8544,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">ISO 15924 Registration Authority - Codes for the representation of names of scripts</rdfs:label>
         <dcat:landingPage rdf:resource="https://unicode.org/iso15924/codelists.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScript"/>
+	<dcterms:title xml:lang="en">ISO 15924 Registration Authority - Codes for the representation of names of scripts</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8536,6 +8560,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">IUPAC Commission on Isotopic Abundances and Atomic Weights - Atomic Weights Of The Elements</rdfs:label>
         <dcat:landingPage rdf:resource="https://iupac.qmul.ac.uk/AtWt/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PeriodicTable"/>
+	<dcterms:title xml:lang="en">IUPAC Commission on Isotopic Abundances and Atomic Weights - Atomic Weights Of The Elements</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8549,6 +8575,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Federal Information Processing System Codes for (United States of America) States and Counties</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
+	<dcterms:title xml:lang="en">Federal Information Processing System Codes for (United States of America) States and Counties</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8563,6 +8591,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Government Publications - Nationalities</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gov.uk/government/publications/nationalities"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Demonym"/>
+	<dcterms:title xml:lang="en">United Kingdom Government Publications - Nationalities</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8577,6 +8607,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">ITU-T : International Numbering Resources : National Numbering Plans</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.itu.int/oth/T0202.aspx?parent=T0202"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode"/>
+	<dcterms:title xml:lang="en">ITU-T : International Numbering Resources : National Numbering Plans</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8591,6 +8623,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">International Standard Classification Of Occupations 2008 structure and definitions</rdfs:label>
         <dcat:landingPage rdf:resource="https://ilostat.ilo.org/methods/concepts-and-definitions/classification-occupation/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardClassificationOfOccupations2008"/>
+	<dcterms:title xml:lang="en">International Standard Classification Of Occupations 2008 structure and definitions</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8605,6 +8639,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Classification Of Products By Activity Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://showvoc.op.europa.eu/#/datasets/ESTAT_Statistical_classification_of_products_by_activity,_2.2_%28CPA_2.2%29/downloads"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ClassificationOfProductsByActivity"/>
+	<dcterms:title xml:lang="en">Classification Of Products By Activity Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8619,6 +8655,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">List of post-nominal letters (United Kingdom)</rdfs:label>
         <dcat:landingPage rdf:resource="https://en.wikipedia.org/wiki/List_of_post-nominal_letters_(United_Kingdom)"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffix"/>
+	<dcterms:title xml:lang="en">List of post-nominal letters (United Kingdom)</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8632,6 +8670,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Quantity Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+	<dcterms:title xml:lang="en">Quantity Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8646,6 +8686,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">International Standard Industrial Classification Revision 4 Microsoft Access Database</rdfs:label>
         <dcat:landingPage rdf:resource="https://unstats.un.org/unsd/classifications/Econ"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision4"/>
+	<dcterms:title xml:lang="en">International Standard Industrial Classification Revision 4 Microsoft Access Database</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8657,9 +8699,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/e5933880-3276-42dc-b9c7-5e85fa3957a9"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T13:44:38Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:32:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United Kingdom Financial Conduct Authority - Guidance for firms on the fair treatment of vulnerable customers - Drivers</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CustomerVulnerabilityDriver"/>
+		<dcat:landingPage rdf:resource="https://www.fca.org.uk/publications/finalised-guidance/guidance-firms-fair-treatment-vulnerable-customers"/>
+	<dcterms:title xml:lang="en">United Kingdom Financial Conduct Authority - Guidance for firms on the fair treatment of vulnerable customers - Drivers</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/bdc9ab1e-8c57-4b8a-87b5-3420f7377f00"/>
@@ -8682,6 +8727,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Criminal Justice System Court Type</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CourtType"/>
+	<dcterms:title xml:lang="en">Criminal Justice System Court Type</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/beecff46-eb63-4e0e-9e37-8b1633d08bc7"/>
@@ -8699,8 +8746,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/d0c3683a-b6df-4e68-8e70-b2dc991fd1cc"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:32:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Classification By Broad Economic Categories Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ClassificationByBroadEconomicCategories"/>
+		<dcat:landingPage rdf:resource="https://unstats.un.org/unsd/trade/classifications/bec.asp"/>
+	<dcterms:title xml:lang="en">Classification By Broad Economic Categories Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8715,6 +8766,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Common Procurement Vocabulary Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://ted.europa.eu/documents/d/ted/cpv_2008_xls"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CommonProcurementVocabulary"/>
+	<dcterms:title xml:lang="en">Common Procurement Vocabulary Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8729,6 +8782,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Classification of Occupations 1980</rdfs:label>
         <dcat:landingPage rdf:resource="https://webarchive.nationalarchives.gov.uk/ukgwa/20160108055058/http://www.ons.gov.uk/ons/guide-method/classifications/archived-standard-classifications/soc-and-sec-archive/index.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomClassificationOfOccupations1980"/>
+	<dcterms:title xml:lang="en">United Kingdom Classification of Occupations 1980</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8743,6 +8798,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Oracle Database 26ai Data Types</rdfs:label>
         <dcat:landingPage rdf:resource="https://docs.oracle.com/en/database/oracle/oracle-database/26/lnoci/data-types.html#GUID-7DA48B90-07C7-41A7-BC57-D8F358A4EEBE"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataType"/>
+	<dcterms:title xml:lang="en">Oracle Database 26ai Data Types</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8756,6 +8813,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Measurement Unit Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
+	<dcterms:title xml:lang="en">Measurement Unit Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8770,6 +8829,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Global Legal Entity Identifier Foundation - Official Organizational Roles Code List</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gleif.org/en/lei-data/code-lists/iso-5009-official-organizational-roles-code-list"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonRelationshipType"/>
+	<dcterms:title xml:lang="en">Global Legal Entity Identifier Foundation - Official Organizational Roles Code List</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8784,6 +8845,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Physical Activity Class Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://pubmed.ncbi.nlm.nih.gov/21681120/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PhysicalActivityClass"/>
+	<dcterms:title xml:lang="en">Physical Activity Class Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8800,6 +8863,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Criminal Justice System Offence Index</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Offence"/>
+	<dcterms:title xml:lang="en">Criminal Justice System Offence Index</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/cb182a43-2cd7-44d9-9b34-cf4fb2319794"/>
@@ -8820,6 +8885,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">SIX Financial Instrument Classification Tool</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/cfi/cfi-tool.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FinancialInstrumentClassification"/>
+	<dcterms:title xml:lang="en">SIX Financial Instrument Classification Tool</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8836,6 +8903,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">European Central Bank - Euro foreign exchange reference rates</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
+	<dcterms:title xml:lang="en">European Central Bank - Euro foreign exchange reference rates</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8850,6 +8919,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">MeSH Descriptor Data 2026 - Age Groups</rdfs:label>
         <dcat:landingPage rdf:resource="https://meshb.nlm.nih.gov/record/ui?ui=D009273"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AgeRange"/>
+	<dcterms:title xml:lang="en">MeSH Descriptor Data 2026 - Age Groups</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8864,6 +8935,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Composition of Foods Raw, Processed, Prepared USDA National Nutrient Database for Standard Reference, Release 28</rdfs:label>
         <dcat:landingPage rdf:resource="https://doi.org/10.15482/USDA.ADC/1324304"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FoodComponent"/>
+	<dcterms:title xml:lang="en">Composition of Foods Raw, Processed, Prepared USDA National Nutrient Database for Standard Reference, Release 28</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8877,6 +8950,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Measurement Unit Level Or Category Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitLevelOrCategory"/>
+	<dcterms:title xml:lang="en">Measurement Unit Level Or Category Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8891,6 +8966,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Bank Of England Official Bank Rate history</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.bankofengland.co.uk/boeapps/database/Bank-Rate.asp"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BaseRate"/>
+	<dcterms:title xml:lang="en">Bank Of England Official Bank Rate history</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8905,6 +8982,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Sex Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="urn:iso:std:iso-iec:5218:en"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Sex"/>
+	<dcterms:title xml:lang="en">Sex Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8923,6 +9002,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">International Network of Food Data Systems - Tagnames for Food Components</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.fao.org/infoods/infoods/standards-guidelines/food-component-identifiers-tagnames/en/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FoodComponent"/>
+	<dcterms:title xml:lang="en">International Network of Food Data Systems - Tagnames for Food Components</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8940,6 +9021,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">SIX Current Funds Codes</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
+	<dcterms:title xml:lang="en">SIX Current Funds Codes</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8951,8 +9034,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/de833093-c1d7-47de-afd7-0bcc909c53e3"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:33:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Market Relationship Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MarketRelationship"/>
+		<dcat:landingPage rdf:resource="https://www.iso20022.org/market-identifier-codes"/>
+	<dcterms:title xml:lang="en">Market Relationship Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8964,8 +9051,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/113ebe1f-91e4-4eb9-b25b-61d3b902e980"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:34:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Central Product Classification Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CentralProductClassification"/>
+		<dcat:landingPage rdf:resource="https://unstats.un.org/unsd/classifications/Econ/cpc"/>
+	<dcterms:title xml:lang="en">Central Product Classification Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8977,8 +9068,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/30c98a32-2886-4fa8-ab94-f1ad2dd08d7d"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:34:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Market Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Market"/>
+		<dcat:landingPage rdf:resource="https://www.iso20022.org/market-identifier-codes"/>
+	<dcterms:title xml:lang="en">Market Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -8993,6 +9088,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 2020 Volume 2: The coding index and coding rules and conventions</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/standardoccupationalclassificationsoc/soc2020/soc2020volume2codingrulesandconventions"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2020"/>
+	<dcterms:title xml:lang="en">United Kingdom Standard Occupational Classification 2020 Volume 2: The coding index and coding rules and conventions</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9007,6 +9104,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Product Or Service Property Operating Range Type Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://eclass.eu/support/technical-specification/structure-and-elements/level-type"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServicePropertyOperatingRangeType"/>
+	<dcterms:title xml:lang="en">Product Or Service Property Operating Range Type Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9021,6 +9120,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Physical Activity Compendium</rdfs:label>
         <dcat:landingPage rdf:resource="https://pacompendium.com/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PhysicalActivityClass"/>
+	<dcterms:title xml:lang="en">Physical Activity Compendium</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9035,6 +9136,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Australian Queensland Government Corporate Organisation Statuses</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.confirm.com.au/support/corporate/company-and-business-searches/codes/#organisation-status"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/JuridicalPersonStatus"/>
+	<dcterms:title xml:lang="en">Australian Queensland Government Corporate Organisation Statuses</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9049,6 +9152,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Physical Activity Class Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://pubmed.ncbi.nlm.nih.gov/10993420/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PhysicalActivityClass"/>
+	<dcterms:title xml:lang="en">Physical Activity Class Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9063,6 +9168,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Martin–Schultz Scale Wikipedia page table</rdfs:label>
         <dcat:landingPage rdf:resource="https://en.wikipedia.org/wiki/Martin%E2%80%93Schultz_scale"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MartinSchultzScale"/>
+	<dcterms:title xml:lang="en">Martin–Schultz Scale Wikipedia page table</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9077,6 +9184,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">ISO 639-3 Scope of denotation for language identifiers</rdfs:label>
         <dcat:landingPage rdf:resource="https://iso639-3.sil.org/about/scope"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScope"/>
+	<dcterms:title xml:lang="en">ISO 639-3 Scope of denotation for language identifiers</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9091,6 +9200,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 2020 Volume 1: Structure and descriptions of unit groups</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/standardoccupationalclassificationsoc/soc2020/soc2020volume1structureanddescriptionsofunitgroups"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2020"/>
+	<dcterms:title xml:lang="en">United Kingdom Standard Occupational Classification 2020 Volume 1: Structure and descriptions of unit groups</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9105,6 +9216,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">North American Industry Classification System 2002 definition file</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.census.gov/naics/?48967"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2002"/>
+	<dcterms:title xml:lang="en">North American Industry Classification System 2002 definition file</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9119,6 +9232,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">ECLASS Data Types</rdfs:label>
         <dcat:landingPage rdf:resource="https://eclass.eu/support/technical-specification/structure-and-elements/property"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataType"/>
+	<dcterms:title xml:lang="en">ECLASS Data Types</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9133,6 +9248,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Road Vehicle Type Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iso.org/obp/ui/#iso:std:iso:3833:ed-2:v1:en"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/RoadVehicleType"/>
+	<dcterms:title xml:lang="en">Road Vehicle Type Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9147,6 +9264,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Internet Assigned Numbers Authority Time Zones</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iana.org/time-zones"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TimeZone"/>
+	<dcterms:title xml:lang="en">Internet Assigned Numbers Authority Time Zones</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9158,8 +9277,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/1859774c-4471-4f2c-bcb7-c0906c37d852"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:35:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Legal Entity Legal Form Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityLegalForm"/>
+		<dcat:landingPage rdf:resource="https://github.com/companieshouse/api-enumerations/tree/master"/>
+	<dcterms:title xml:lang="en">Legal Entity Legal Form Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9171,8 +9294,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/bd92edec-3a56-4d0d-ab53-3ceaa52467e4"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:35:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Market Category Dataset</rdfs:label>
+		<dcat:landingPage rdf:resource="https://www.iso20022.org/market-identifier-codes"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MarketCategory"/>
+	<dcterms:title xml:lang="en">Market Category Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9186,6 +9313,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Investopedia - Distribution Channel Level</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DistributionChannelLevel"/>
+	<dcterms:title xml:lang="en">Investopedia - Distribution Channel Level</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9199,6 +9328,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Mode Of Transport Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ModeOfTransport"/>
+	<dcterms:title xml:lang="en">Mode Of Transport Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9213,6 +9344,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Population Projection Variant Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="http://esa.un.org/unpd/wpp/Download/Standard/ASCII/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PopulationProjectionVariant"/>
+	<dcterms:title xml:lang="en">Population Projection Variant Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9224,8 +9357,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/31b0f459-684e-49d2-9d2f-077270ee1e41"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:35:30Z</dcterms:modified>
         <rdfs:label xml:lang="en">United Kingdom Government Uniform Resource Identifiers Customer Guide</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/JuridicalPersonStatus"/>
+		<dcat:landingPage rdf:resource="https://www.gov.uk/guidance/companies-house-data-products"/>
+	<dcterms:title xml:lang="en">United Kingdom Government Uniform Resource Identifiers Customer Guide</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9240,6 +9377,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Legal Entity Legal Form Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.confirm.com.au/support/corporate/company-and-business-searches/codes/#organisation-type"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityLegalForm"/>
+	<dcterms:title xml:lang="en">Legal Entity Legal Form Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9254,6 +9393,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Legal Entity Legal Form Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gleif.org/en/about-lei/code-lists/iso-20275-entity-legal-forms-code-list"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityLegalForm"/>
+	<dcterms:title xml:lang="en">Legal Entity Legal Form Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9268,6 +9409,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Personal pronouns in English</rdfs:label>
         <dcat:landingPage rdf:resource="https://en.wikipedia.org/wiki/Personal_pronouns_in_English"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonalPronounForm"/>
+	<dcterms:title xml:lang="en">Personal pronouns in English</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9282,6 +9425,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">The Company and Business Names (Miscellaneous Provisions) Regulations 2009 - Schedule 1</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.legislation.gov.uk/uksi/2009/1085/schedule/1/made"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityNameCharacter"/>
+	<dcterms:title xml:lang="en">The Company and Business Names (Miscellaneous Provisions) Regulations 2009 - Schedule 1</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9296,6 +9441,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 1990 Volume 3: Social classifications and coding methodology </rdfs:label>
         <dcat:landingPage rdf:resource="https://webarchive.nationalarchives.gov.uk/ukgwa/20160108055058/http://www.ons.gov.uk/ons/guide-method/classifications/archived-standard-classifications/soc-and-sec-archive/index.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification1990"/>
+	<dcterms:title xml:lang="en">United Kingdom Standard Occupational Classification 1990 Volume 3: Social classifications and coding methodology </dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9310,6 +9457,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">National Institute of Standards and Technology - Physical Measurement Laboratory - Office of Weights and Measures - Metric (SI) Prefixes</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.nist.gov/pml/owm/metric-si-prefixes"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalSystemOfUnitsPrefix"/>
+	<dcterms:title xml:lang="en">National Institute of Standards and Technology - Physical Measurement Laboratory - Office of Weights and Measures - Metric (SI) Prefixes</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9324,6 +9473,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Sexual Orientation Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://analysisfunction.civilservice.gov.uk/policy-store/sexual-orientation/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SexualOrientation"/>
+	<dcterms:title xml:lang="en">Sexual Orientation Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9338,6 +9489,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Language Region Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageRegion"/>
+	<dcterms:title xml:lang="en">Language Region Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9352,6 +9505,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Time Frequency Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Ffrequency%2F20250924-0%2Fxml%2Fcat%2Ffrequencies.xml&amp;fileName=frequencies.xml"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TimeFrequency"/>
+	<dcterms:title xml:lang="en">Time Frequency Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9365,6 +9520,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Sex Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Sex"/>
+	<dcterms:title xml:lang="en">Sex Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9376,9 +9533,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/e5933880-3276-42dc-b9c7-5e85fa3957a9"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T13:42:36Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:36:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United Kingdom Financial Conduct Authority - Guidance for firms on the fair treatment of vulnerable customers - Characteristics</rdfs:label>
+		<dcat:landingPage rdf:resource="https://www.fca.org.uk/publications/finalised-guidance/guidance-firms-fair-treatment-vulnerable-customers"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CustomerVulnerabilityCharacteristic"/>
+	<dcterms:title xml:lang="en">United Kingdom Financial Conduct Authority - Guidance for firms on the fair treatment of vulnerable customers - Characteristics</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/0779146c-7981-4f39-a638-35aeb1186e20"/>
@@ -9399,6 +9559,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Classification of adults according to BMI</rdfs:label>
         <dcat:landingPage rdf:resource="https://iris.who.int/handle/10665/42330"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BodyMassIndexRange"/>
+	<dcterms:title xml:lang="en">Classification of adults according to BMI</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9415,6 +9577,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Criminal Justice System Result Qualifiers</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterOutcomeQualifier"/>
+	<dcterms:title xml:lang="en">Criminal Justice System Result Qualifiers</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/1c1374b4-5b3f-48ad-ae9c-f39764ad8aa0"/>
@@ -9432,8 +9596,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/899cf9c9-2201-4637-ab54-1febf7aa7003"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:36:30Z</dcterms:modified>
         <rdfs:label xml:lang="en">Library of Congress - Language Coding Agency - Codes for the Representation of Names of Languages - ISO 639-3</rdfs:label>
+		<dcat:landingPage rdf:resource="https://iso639-3.sil.org/code_tables/download_tables"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
+	<dcterms:title xml:lang="en">Library of Congress - Language Coding Agency - Codes for the Representation of Names of Languages - ISO 639-3</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9448,6 +9616,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">North American Numbering Plan Search Area Codes</rdfs:label>
         <dcat:landingPage rdf:resource="https://secure.nanpa.com/public-report/npa/search-area-codes/section/query"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanNumberingPlan"/>
+	<dcterms:title xml:lang="en">North American Numbering Plan Search Area Codes</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9462,6 +9632,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">North American Industry Classification System 2017 descriptions</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.census.gov/naics/?48967"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2017"/>
+	<dcterms:title xml:lang="en">North American Industry Classification System 2017 descriptions</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9475,6 +9647,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Kind Of Quantity Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity"/>
+	<dcterms:title xml:lang="en">Kind Of Quantity Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9487,8 +9661,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/4480c1b5-af7a-4f56-a2be-42cec63dfb1f"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:36:45Z</dcterms:modified>
         <rdfs:label xml:lang="en">Library of Congress - Language Coding Agency - Codes for the Representation of Names of Languages - ISO 639-2</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
+		<dcat:landingPage rdf:resource="https://www.loc.gov/standards/iso639-2/ascii_8bits.html"/>
+	<dcterms:title xml:lang="en">Library of Congress - Language Coding Agency - Codes for the Representation of Names of Languages - ISO 639-2</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9503,6 +9681,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">American Standard Code For Information Interchange RFC</rdfs:label>
         <dcat:landingPage rdf:resource="https://datatracker.ietf.org/doc/rfc20/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AmericanStandardCodeForInformationInterchange"/>
+	<dcterms:title xml:lang="en">American Standard Code For Information Interchange RFC</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9517,6 +9697,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Handling Age Specification in the SNOMED CT to ICD-10-CM Cross-map Table 1</rdfs:label>
         <dcat:landingPage rdf:resource="https://pmc.ncbi.nlm.nih.gov/articles/PMC3540567/#t1-amia_2012_symp_1014"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AgeRange"/>
+	<dcterms:title xml:lang="en">Handling Age Specification in the SNOMED CT to ICD-10-CM Cross-map Table 1</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9531,6 +9713,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Language Variant Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageVariant"/>
+	<dcterms:title xml:lang="en">Language Variant Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9545,6 +9729,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">EPSG Dataset using the ISO 19111:2019 data model</rdfs:label>
         <dcat:landingPage rdf:resource="https://epsg.org/download-dataset.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateReferenceSystem"/>
+	<dcterms:title xml:lang="en">EPSG Dataset using the ISO 19111:2019 data model</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9559,6 +9745,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Marital Status Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://analysisfunction.civilservice.gov.uk/policy-store/demographic-information-harmonised-principle/#marital-or-partnership-status-and-living-arrangements"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MaritalStatus"/>
+	<dcterms:title xml:lang="en">Marital Status Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9573,6 +9761,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Internet Assigned Numbers Authority Media Types</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iana.org/assignments/media-types/media-types.xhtml"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FileFormat"/>
+	<dcterms:title xml:lang="en">Internet Assigned Numbers Authority Media Types</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9587,6 +9777,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">North American Industry Classification System 2012 definition file</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.census.gov/naics/?48967"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2012"/>
+	<dcterms:title xml:lang="en">North American Industry Classification System 2012 definition file</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9603,6 +9795,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Driver and Vehicle Licensing Agency Endorsements</rdfs:label>
         <dcat:landingPage rdf:resource="https://developer-portal.driver-vehicle-licensing.api.gov.uk/apis/driver-view/reference-data.html#endorsements"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Offence"/>
+	<dcterms:title xml:lang="en">Driver and Vehicle Licensing Agency Endorsements</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/24ea699a-3adf-474c-9efc-6f0ba2702a6a"/>
@@ -9625,6 +9819,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015 - Schedule 1</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/schedule/1/made"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityNameCharacter"/>
+	<dcterms:title xml:lang="en">The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015 - Schedule 1</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9638,6 +9834,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Measurement Unit To Quantity Relationship Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitToQuantityRelationship"/>
+	<dcterms:title xml:lang="en">Measurement Unit To Quantity Relationship Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9655,6 +9853,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Codes for Modes of Transport</rdfs:label>
         <dcat:landingPage rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ModeOfTransport"/>
+	<dcterms:title xml:lang="en">United Nations Economic Commission for Europe - Codes for Modes of Transport</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/29bbd2b4-2086-43c8-af46-ba3f0f4f3f5b"/>
@@ -9675,6 +9875,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United States Standard Occupational Classification 2010 Definitions</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.bls.gov/soc/2010/home.htm"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardOccupationalClassification2010"/>
+	<dcterms:title xml:lang="en">United States Standard Occupational Classification 2010 Definitions</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9689,6 +9891,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">GLEIF Registration Authorities List</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gleif.org/en/lei-data/code-lists/gleif-registration-authorities-list"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityRegistrationAuthority"/>
+	<dcterms:title xml:lang="en">GLEIF Registration Authorities List</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9703,6 +9907,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Legal Entity Legal Form Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://ec.europa.eu/taxation_customs/vies/#/faq"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityLegalForm"/>
+	<dcterms:title xml:lang="en">Legal Entity Legal Form Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9719,6 +9925,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <skos:definition xml:lang="en">Harmonised framework to be used in the collection, processing, and outputs of statistical data on countries in both social and economic statistical collections</skos:definition>
         <dcat:landingPage rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/otherclassifications/nationalstatisticscountryclassification"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
+	<dcterms:title xml:lang="en">National Statistics Country Classification</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/319265c9-5ae8-49c9-9d8a-75441bfc70fb"/>
@@ -9745,6 +9953,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 1990 Volume 1: Structure</rdfs:label>
         <dcat:landingPage rdf:resource="https://webarchive.nationalarchives.gov.uk/ukgwa/20160108055058/http://www.ons.gov.uk/ons/guide-method/classifications/archived-standard-classifications/soc-and-sec-archive/index.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification1990"/>
+	<dcterms:title xml:lang="en">United Kingdom Standard Occupational Classification 1990 Volume 1: Structure</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9759,6 +9969,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Internet Assigned Numbers Authority Root Zone Database Domain Type</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iana.org/domains/root/db"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomainType"/>
+	<dcterms:title xml:lang="en">Internet Assigned Numbers Authority Root Zone Database Domain Type</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9774,6 +9986,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:landingPage rdf:resource="https://unstats.un.org/unsd/methodology/m49/overview/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeatureAssociation"/>
+	<dcterms:title xml:lang="en">United Nations Statistics Division M49 Geo-regions</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9787,6 +10001,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">NHS Data Dictionary Person Relationship Type</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonRelationshipType"/>
+	<dcterms:title xml:lang="en">NHS Data Dictionary Person Relationship Type</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9801,6 +10017,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Bank Of England - Daily spot exchange rates against Sterling</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.bankofengland.co.uk/boeapps/database/Rates.asp?Travel=NIxSSx&amp;into=GBP"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
+	<dcterms:title xml:lang="en">Bank Of England - Daily spot exchange rates against Sterling</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9815,6 +10033,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Industry Classification Benchmark 2019 structure and definitions</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.lseg.com/en/ftse-russell/industry-classification-benchmark-icb"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IndustryClassificationBenchmark2019"/>
+	<dcterms:title xml:lang="en">Industry Classification Benchmark 2019 structure and definitions</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9829,6 +10049,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015 - Schedule 2</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/schedule/2"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/JuridicalPersonNameSuffix"/>
+	<dcterms:title xml:lang="en">The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015 - Schedule 2</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9843,6 +10065,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">List of Recommendation ITU-T E.164 assigned country codes</rdfs:label>
         <dcat:landingPage rdf:resource="http://handle.itu.int/11.1002/pub/80eefa4f-en"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode"/>
+	<dcterms:title xml:lang="en">List of Recommendation ITU-T E.164 assigned country codes</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9854,8 +10078,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/173e4ba0-2b49-4cfa-9b5d-8e96a4fe39c0"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:37:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Time Frequency Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TimeFrequency"/>
+		<dcat:landingPage rdf:resource="https://registry.sdmx.io/items/codelist.html"/>
+	<dcterms:title xml:lang="en">Time Frequency Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9869,6 +10097,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Measurement Unit Status Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnitStatus"/>
+	<dcterms:title xml:lang="en">Measurement Unit Status Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9883,6 +10113,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Lists Of Database Management Systems</rdfs:label>
         <dcat:landingPage rdf:resource="https://en.wikipedia.org/wiki/Lists_of_database_management_systems"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DatabaseManagementSystem"/>
+	<dcterms:title xml:lang="en">Lists Of Database Management Systems</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9902,6 +10134,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:landingPage rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyToGeographicFeatureRelationship"/>
+	<dcterms:title xml:lang="en">SIX Current Currency &amp; Funds</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9913,8 +10147,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/69a8dc19-138a-455d-9bdb-935b593650cf"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:37:30Z</dcterms:modified>
         <rdfs:label xml:lang="en">Library of Congress - Language Coding Agency - Codes for the Representation of Names of Languages - Part 5: Alpha-3 code for language families and groups</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
+		<dcat:landingPage rdf:resource="https://www.loc.gov/standards/iso639-5/langhome5.html"/>
+	<dcterms:title xml:lang="en">Library of Congress - Language Coding Agency - Codes for the Representation of Names of Languages - Part 5: Alpha-3 code for language families and groups</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9928,6 +10166,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <rdfs:label xml:lang="en">Legal Entity Identifier Prefix Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalEntityIdentifierPrefix"/>
+	<dcterms:title xml:lang="en">Legal Entity Identifier Prefix Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9942,6 +10182,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Fitzpatrick Phototyping Scale Wikipedia page</rdfs:label>
         <dcat:landingPage rdf:resource="https://en.wikipedia.org/wiki/Fitzpatrick_scale"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FitzpatrickPhototypingScale"/>
+	<dcterms:title xml:lang="en">Fitzpatrick Phototyping Scale Wikipedia page</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9956,6 +10198,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Market Index Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.lseg.com/en/ftse-russell/indices/uk"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MarketIndex"/>
+	<dcterms:title xml:lang="en">Market Index Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9970,6 +10214,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Internet Assigned Numbers Authority Root Zone Database</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iana.org/domains/root/db"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain"/>
+	<dcterms:title xml:lang="en">Internet Assigned Numbers Authority Root Zone Database</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9984,6 +10230,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Activity coding list for harmonised European time use surveys</rdfs:label>
         <dcat:landingPage rdf:resource="https://showvoc.op.europa.eu/#/datasets/ESTAT_Activity_coding_list_for_harmonised_European_time_use_surveys_%28ACL_2018%29/downloads"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ActivityClass"/>
+	<dcterms:title xml:lang="en">Activity coding list for harmonised European time use surveys</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -9998,6 +10246,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">ISO 8601 The Week Calendar - Calendar Days</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iso.org/obp/ui/#iso:std:iso:8601:-1:ed-1:v1:en:sec:4.2.2"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CalendarDayOfWeek"/>
+	<dcterms:title xml:lang="en">ISO 8601 The Week Calendar - Calendar Days</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10012,6 +10262,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Government Bank Holidays</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gov.uk/bank-holidays"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Calendar"/>
+	<dcterms:title xml:lang="en">United Kingdom Government Bank Holidays</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10026,6 +10278,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 1990 Volume 2: Index</rdfs:label>
         <dcat:landingPage rdf:resource="https://webarchive.nationalarchives.gov.uk/ukgwa/20160108055058/http://www.ons.gov.uk/ons/guide-method/classifications/archived-standard-classifications/soc-and-sec-archive/index.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification1990"/>
+	<dcterms:title xml:lang="en">United Kingdom Standard Occupational Classification 1990 Volume 2: Index</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10040,6 +10294,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 2010 The coding index</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/standardoccupationalclassificationsoc/soc2010/soc2010volume2thestructureandcodingindex"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2010"/>
+	<dcterms:title xml:lang="en">United Kingdom Standard Occupational Classification 2010 The coding index</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10054,6 +10310,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">International Standard Industrial Classification Revision 5 Structure &amp; Explanatory Notes</rdfs:label>
         <dcat:landingPage rdf:resource="https://unstats.un.org/unsd/classifications/Econ"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision5"/>
+	<dcterms:title xml:lang="en">International Standard Industrial Classification Revision 5 Structure &amp; Explanatory Notes</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10068,6 +10326,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 2010 Volume 1: Structure and descriptions of unit groups</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/standardoccupationalclassificationsoc/soc2010/soc2010volume1structureanddescriptionsofunitgroups"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2010"/>
+	<dcterms:title xml:lang="en">United Kingdom Standard Occupational Classification 2010 Volume 1: Structure and descriptions of unit groups</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10082,6 +10342,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">ISO 639-3 Types of individual languages</rdfs:label>
         <dcat:landingPage rdf:resource="https://iso639-3.sil.org/about/types"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageType"/>
+	<dcterms:title xml:lang="en">ISO 639-3 Types of individual languages</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10096,6 +10358,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 2000 Volume 1: Structure and descriptions of unit groups</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/standardoccupationalclassificationsoc/socarchive"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2000"/>
+	<dcterms:title xml:lang="en">United Kingdom Standard Occupational Classification 2000 Volume 1: Structure and descriptions of unit groups</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10110,6 +10374,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Fischer-Saller Scale Wikipedia page</rdfs:label>
         <dcat:landingPage rdf:resource="https://en.wikipedia.org/wiki/Fischer%E2%80%93Saller_scale"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FischerSallerScale"/>
+	<dcterms:title xml:lang="en">Fischer-Saller Scale Wikipedia page</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10124,6 +10390,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">North American Industry Classification System 2022 descriptions</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.census.gov/naics/?48967"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2022"/>
+	<dcterms:title xml:lang="en">North American Industry Classification System 2022 descriptions</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10138,6 +10406,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United States Standard Occupational Classification 2018 Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.bls.gov/soc/2018/home.htm"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardOccupationalClassification2018"/>
+	<dcterms:title xml:lang="en">United States Standard Occupational Classification 2018 Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10152,6 +10422,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Dialling procedures (international prefix, national (trunk) prefix and national (significant) number) (in accordance with ITU-T Recommendation E.164 (11/2010))</rdfs:label>
         <dcat:landingPage rdf:resource="http://handle.itu.int/11.1002/pub/8056d56c-en"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalPrefix"/>
+	<dcterms:title xml:lang="en">Dialling procedures (international prefix, national (trunk) prefix and national (significant) number) (in accordance with ITU-T Recommendation E.164 (11/2010))</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10169,6 +10441,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Inland Transport Committee - World Forum for Harmonization of Vehicle Regulations - Consolidated Resolution on the Construction of Vehicles - Revision 7</rdfs:label>
         <dcat:landingPage rdf:resource="https://unece.org/transport/documents/2023/05/standards/consolidated-resolution-construction-vehicles-re3-revision-7"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/VehicleCategory"/>
+	<dcterms:title xml:lang="en">United Nations Economic Commission for Europe - Inland Transport Committee - World Forum for Harmonization of Vehicle Regulations - Consolidated Resolution on the Construction of Vehicles - Revision 7</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/7f7b5cb4-05f2-4745-9ceb-50633f9e11c4"/>
@@ -10186,8 +10460,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/9761a35a-24f0-493e-bd72-55d9e24eb2f5"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:37:45Z</dcterms:modified>
         <rdfs:label xml:lang="en">Marital Status Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MaritalStatus"/>
+		<dcat:landingPage rdf:resource="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_MARSTA&amp;StrLanguageCode=EN&amp;IntPcKey=37388895&amp;StrLayoutCode=HIERARCHIC"/>
+	<dcterms:title xml:lang="en">Marital Status Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10202,6 +10480,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Classification of Occupations 1970</rdfs:label>
         <dcat:landingPage rdf:resource="https://webarchive.nationalarchives.gov.uk/ukgwa/20160108055058/http://www.ons.gov.uk/ons/guide-method/classifications/archived-standard-classifications/soc-and-sec-archive/index.html"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomClassificationOfOccupations1970"/>
+	<dcterms:title xml:lang="en">United Kingdom Classification of Occupations 1970</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10216,6 +10496,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Bureau International des Poids et Mesures - The International System of Units (SI): Prefixes</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.bipm.org/en/measurement-units/si-prefixes"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalSystemOfUnitsPrefix"/>
+	<dcterms:title xml:lang="en">Bureau International des Poids et Mesures - The International System of Units (SI): Prefixes</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10230,6 +10512,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">ISO Geodetic Registry - Coordinate Reference Systems</rdfs:label>
         <dcat:landingPage rdf:resource="https://geodetic.isotc211.org/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateReferenceSystem"/>
+	<dcterms:title xml:lang="en">ISO Geodetic Registry - Coordinate Reference Systems</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10244,6 +10528,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">ISO Codes Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iso.org/obp/ui/#search/code/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
+	<dcterms:title xml:lang="en">ISO Codes Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10258,6 +10544,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Smoking Status Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://discover.ukdataservice.ac.uk//variables/?q=VariableName:cigsmk1"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SmokingStatus"/>
+	<dcterms:title xml:lang="en">Smoking Status Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10272,6 +10560,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">North American Industry Classification System 2007 definition file</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.census.gov/naics/?48967"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2007"/>
+	<dcterms:title xml:lang="en">North American Industry Classification System 2007 definition file</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10285,6 +10575,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:created>
         <rdfs:label xml:lang="en">Von Luschan&apos;s Chromatic Scale Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/VonLuschansChromaticScale"/>
+	<dcterms:title xml:lang="en">Von Luschan&apos;s Chromatic Scale Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10296,8 +10588,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcat:distribution rdf:resource="https://haddenindustries.com/ontology/distribution/719121eb-0ac8-40c4-b611-01a8bf57ba97"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:38:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Time Frequency Dataset</rdfs:label>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TimeFrequency"/>
+		<dcat:landingPage rdf:resource="https://webgate.ec.europa.eu/fusionregistry/items/codelist.html?urn=urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ESTAT:CL_FREQ(20240503.0)"/>
+	<dcterms:title xml:lang="en">Time Frequency Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10312,6 +10608,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">ISO Geodetic Registry - Coordinate Systems</rdfs:label>
         <dcat:landingPage rdf:resource="https://geodetic.isotc211.org/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateSystem"/>
+	<dcterms:title xml:lang="en">ISO Geodetic Registry - Coordinate Systems</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10326,6 +10624,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">European Union Interinstitutional Style Guide - Rules For Expressing Monetary Units</rdfs:label>
         <dcat:landingPage rdf:resource="https://style-guide.europa.eu/en/content/-/isg/topic?identifier=7.3.3-rules-for-expressing-monetary-units"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyCodePosition"/>
+	<dcterms:title xml:lang="en">European Union Interinstitutional Style Guide - Rules For Expressing Monetary Units</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10340,6 +10640,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Language Extension Subtag Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageExtensionSubtag"/>
+	<dcterms:title xml:lang="en">Language Extension Subtag Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10354,6 +10656,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Skill Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://esco.ec.europa.eu/en/use-esco/download"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Skill"/>
+	<dcterms:title xml:lang="en">Skill Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10368,6 +10672,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 2000 Volume 2: The coding index</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/standardoccupationalclassificationsoc/socarchive"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2000"/>
+	<dcterms:title xml:lang="en">United Kingdom Standard Occupational Classification 2000 Volume 2: The coding index</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10382,6 +10688,8 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdfs:label xml:lang="en">Geographic Feature To Language Relationship Dataset</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.iso.org/obp/ui/#search/code/"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeatureToLanguageRelationship"/>
+	<dcterms:title xml:lang="en">Geographic Feature To Language Relationship Dataset</dcterms:title>
+	<dcterms:description xml:lang="en">N/A</dcterms:description>
     </owl:NamedIndividual>
     
 
@@ -10406,8 +10714,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:38:20Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Sex Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.iso.org/standard/81682.html"/>
         <dcat:downloadURL rdf:resource="https://standards.iso.org/ittf/PubliclyAvailableStandards/c036266_ISO_IEC_5218_2004(E_F).zip"/>
     </owl:NamedIndividual>
     
@@ -10433,8 +10743,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:38:30Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">International Standard Industrial Classification Revision 5 Excel (structure and explanatory notes) En [2024-03-11] xlsx</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unstats.un.org/unsd/classifications/Econ"/>
         <dcat:downloadURL rdf:resource="https://unstats.un.org/unsd/classifications/Econ/Download/In%20Text/ISIC5_Exp_Notes_11Mar2024.xlsx"/>
     </owl:NamedIndividual>
     
@@ -10446,9 +10758,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Investopedia - Distribution Channel web page</rdfs:label>
-        <dcat:downloadURL rdf:resource="https://www.investopedia.com/terms/d/distribution-channel.asp"/>
+        <dcat:accessURL rdf:resource="https://www.investopedia.com/terms/d/distribution-channel.asp"/>
     </owl:NamedIndividual>
     
 
@@ -10473,8 +10786,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-13T19:37:13Z</dcterms:created>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Codes for Modes of Transport - Presented by the CDWG - 2001 - English - pdf</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-10/Rec19-ECE_TRADE_C_CEFACT_2001_09E.pdf"/>
     </owl:NamedIndividual>
     
@@ -10500,8 +10814,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T20:47:46Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">CJS Data Standards Catalogue Version 4.3 pdf, Court Type</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:downloadURL rdf:resource="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/360583/cjs-data-standards-catalogue-4.3.pdf"/>
     </owl:NamedIndividual>
     <owl:Axiom>
@@ -10545,8 +10860,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T20:56:47Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">CJS Data Standards Catalogue Version 6 pdf, Remand Status v5</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:downloadURL rdf:resource="https://assets.publishing.service.gov.uk/media/5e3853baed915d095784f4e4/cjs-data-standards-catalogue-6.pdf"/>
     </owl:NamedIndividual>
     <owl:Axiom>
@@ -10590,8 +10906,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">United Nations Standard Products And Services Code Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.undp.org/unspsc"/>
         <dcat:downloadURL rdf:resource="https://www.undp.org/sites/g/files/zskgke326/files/2025-03/unspsc-english-v260801.1.xlsx"/>
     </owl:NamedIndividual>
     
@@ -10603,8 +10921,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Market Category Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.iso20022.org/market-identifier-codes"/>
         <dcat:downloadURL rdf:resource="https://www.iso20022.org/sites/default/files/media/file/ISO10383_MIC_Release_2_0_Factsheet_v2.pdf"/>
     </owl:NamedIndividual>
     
@@ -10643,9 +10963,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">ISO 15924 Registration Authority - Codes for the representation of names of scripts - Alphabetical list of four-letter script names - Normative plain-text version (UTF-8)</rdfs:label>
-        <dcat:downloadURL rdf:resource="https://unicode.org/iso15924/iso15924.txt"/>
+        <dcat:accessURL rdf:resource="https://unicode.org/iso15924/codelists.html"/>
+		<dcat:downloadURL rdf:resource="https://unicode.org/iso15924/iso15924.txt"/>
     </owl:NamedIndividual>
     
 
@@ -10683,8 +11005,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T18:12:44Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">CJS result qualifiers v8 (MS Excel Spreadsheet, 34.2 KB)</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:downloadURL rdf:resource="https://assets.publishing.service.gov.uk/media/5f1eea2dd3bf7f596b135aec/cjs-result-qualifiers-v8.xlsx"/>
     </owl:NamedIndividual>
     
@@ -10722,8 +11045,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Classification By Broad Economic Categories Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unstats.un.org/unsd/trade/classifications/bec.asp"/>
         <dcat:downloadURL rdf:resource="https://unstats.un.org/unsd/trade/classifications/SeriesM_53_Rev.5_17-01722-E-Classification-by-Broad-Economic-Categories_PRINT.pdf"/>
     </owl:NamedIndividual>
     
@@ -10858,8 +11183,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Market Relationship Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.iso20022.org/market-identifier-codes"/>
         <dcat:downloadURL rdf:resource="https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.xml"/>
     </owl:NamedIndividual>
     
@@ -10897,8 +11224,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T12:58:18Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">SIX Historical (Currencies &amp; Funds) List Three (XML)</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:downloadURL rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-three.xml"/>
     </owl:NamedIndividual>
     
@@ -10911,8 +11239,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T13:44:38Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United Kingdom Financial Conduct Authority - Guidance for firms on the fair treatment of vulnerable customers 2021-01 pdf</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.fca.org.uk/publications/finalised-guidance/guidance-firms-fair-treatment-vulnerable-customers"/>
         <dcat:downloadURL rdf:resource="https://www.fca.org.uk/publication/finalised-guidance/fg21-1.pdf"/>
     </owl:NamedIndividual>
     
@@ -10951,9 +11280,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">NHS Data Dictionary Person Relationship Type web page</rdfs:label>
-        <dcat:downloadURL rdf:resource="https://webarchive.nationalarchives.gov.uk/ukgwa/20231103214253/https://data.developer.nhs.uk/dms/mim/6.3.01/Vocabulary/PersonRelationshipType.htm"/>
+        <dcat:accessURL rdf:resource="https://webarchive.nationalarchives.gov.uk/ukgwa/20231103214253/https://data.developer.nhs.uk/dms/mim/6.3.01/Vocabulary/PersonRelationshipType.htm"/>
     </owl:NamedIndividual>
     
 
@@ -10964,8 +11294,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T12:58:05Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">SIX Historical (Currencies &amp; Funds) List Three (XLS)</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:downloadURL rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-three.xls"/>
     </owl:NamedIndividual>
     
@@ -11017,8 +11348,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Kind Of Quantity Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-10/rec20_Rev17e-2021.xlsx"/>
     </owl:NamedIndividual>
     
@@ -11057,8 +11390,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">GLEIF Registration Authorities List v1.8.1 csv</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.gleif.org/en/lei-data/code-lists/gleif-registration-authorities-list"/>
         <dcat:downloadURL rdf:resource="https://www.gleif.org/lei-data/code-lists/gleif-registration-authorities-list/2024-11-20_ra-list-v1.8.1.csv"/>
     </owl:NamedIndividual>
     
@@ -11070,8 +11405,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Industry Classification Benchmark 2005 structure eng pdf</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.lseg.com/en/ftse-russell/industry-classification-benchmark-icb"/>
         <dcat:downloadURL rdf:resource="https://research.ftserussell.com/products/downloads/ICBStructure-Eng.pdf?_ga=2.212156503.2108512420.1561509060-1968584676.1548988834"/>
     </owl:NamedIndividual>
     
@@ -11097,9 +11434,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T18:37:33Z</dcterms:created>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Inland Transport Committee - World Forum for Harmonization of Vehicle Regulations - Consolidated Resolution on the Construction of Vehicles - Revision 7 - docx</rdfs:label>
-        <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-12/ECE_TRANS_WP.29_78_Rev.7e.docx"/>
+		<dcat:accessURL rdf:resource="https://unece.org/transport/documents/2023/05/standards/consolidated-resolution-construction-vehicles-re3-revision-7"/>
+		<dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-12/ECE_TRANS_WP.29_78_Rev.7e.docx"/>
     </owl:NamedIndividual>
     
 
@@ -11123,8 +11461,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015 - Schedule Table 1 image</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/schedule/1/made"/>
         <dcat:downloadURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/images/uksi_20150017_en_001"/>
         <dcat:mediaType rdf:resource="https://www.iana.org/assignments/media-types/image/gif"/>
     </owl:NamedIndividual>
@@ -11202,8 +11542,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">The Company and Business Names (Miscellaneous Provisions) Regulations 2009 - Schedule 1 image</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.legislation.gov.uk/uksi/2009/1085/schedule/1/made"/>
         <dcat:downloadURL rdf:resource="https://www.legislation.gov.uk/uksi/2009/1085/images/uksi_20091085_en_001"/>
         <dcat:mediaType rdf:resource="https://www.iana.org/assignments/media-types/image/gif"/>
     </owl:NamedIndividual>
@@ -11216,8 +11558,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Measurement Unit Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-10/rec20_Rev17e-2021.xlsx"/>
     </owl:NamedIndividual>
     
@@ -11229,8 +11573,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T17:20:53Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">CJS result codes v.10 (ODS, 63.6 KB)</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:downloadURL rdf:resource="https://assets.publishing.service.gov.uk/media/60e5d07f8fa8f50c70bc6587/cjs-result-codes-10.ods"/>
     </owl:NamedIndividual>
     
@@ -11255,8 +11600,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Central Product Classification Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unstats.un.org/unsd/classifications/Econ/cpc"/>
         <dcat:downloadURL rdf:resource="https://unstats.un.org/unsd/classifications/Econ/Download/In%20Text/CPC_Ver_3.0_Exp_Notes_30Jun2025.xlsx"/>
     </owl:NamedIndividual>
     
@@ -11282,8 +11629,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Time Frequency Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://registry.sdmx.io/items/codelist.html"/>
         <dcat:downloadURL rdf:resource="https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_FREQ/2.1"/>
     </owl:NamedIndividual>
     
@@ -11295,8 +11644,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Legal Entity Legal Form Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://github.com/companieshouse/api-enumerations/tree/master"/>
         <dcat:downloadURL rdf:resource="https://github.com/companieshouse/api-enumerations/blob/master/constants.yml"/>
     </owl:NamedIndividual>
     
@@ -11361,8 +11712,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-29T16:36:52Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">CJS Data Standards Catalogue Version 6 pdf, Case Stage</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:downloadURL rdf:resource="https://assets.publishing.service.gov.uk/media/5e3853baed915d095784f4e4/cjs-data-standards-catalogue-6.pdf"/>
     </owl:NamedIndividual>
     <owl:Axiom>
@@ -11380,8 +11732,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T17:04:03Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Driver and Vehicle Licensing Agency Endorsements csv</rdfs:label>
+		<dcat:accessURL rdf:resource="https://developer-portal.driver-vehicle-licensing.api.gov.uk/apis/driver-view/reference-data.html#endorsements"/>
         <dcat:downloadURL rdf:resource="https://developer-portal.driver-vehicle-licensing.api.gov.uk/apis/driver-view/assets/endorsements.csv"/>
     </owl:NamedIndividual>
     
@@ -11471,8 +11824,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Market Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.iso20022.org/market-identifier-codes"/>
         <dcat:downloadURL rdf:resource="https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.xml"/>
     </owl:NamedIndividual>
     
@@ -11497,8 +11852,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T12:12:39Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">SIX Current Currency &amp; Funds List One (XLS)</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:downloadURL rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xls"/>
     </owl:NamedIndividual>
     
@@ -11510,9 +11866,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <rdfs:label xml:lang="en">United Kingdom Government Uniform Resource Identifiers Customer Guide pdf</rdfs:label>
-        <dcat:downloadURL rdf:resource="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/809682/uniformResourceIdentifiersCustomerGuide.pdf"/>
+        <rdfs:label xml:lang="en">United Kingdom Government Uniform Resource Identifiers Customer Guide v1.1 pdf</rdfs:label>
+        <dcat:accessURL rdf:resource="https://www.gov.uk/guidance/companies-house-data-products"/>
+		<dcat:downloadURL rdf:resource="https://assets.publishing.service.gov.uk/media/5d08c0f340f0b6094a379078/uniformResourceIdentifiersCustomerGuide.pdf"/>
     </owl:NamedIndividual>
     
 
@@ -11651,8 +12009,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Library of Congress - Language Coding Agency - Codes for the Representation of Names of Languages - ISO 639-2 UTF-8 txt</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.loc.gov/standards/iso639-2/ascii_8bits.html"/>
         <dcat:downloadURL rdf:resource="https://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt"/>
     </owl:NamedIndividual>
     
@@ -11664,8 +12024,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T12:28:29Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">SIX Current Currency &amp; Funds List One (XML)</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:downloadURL rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml"/>
     </owl:NamedIndividual>
     
@@ -11691,8 +12052,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Internet Assigned Numbers Authority Media Types web page</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.iana.org/assignments/media-types/media-types.xhtml"/>
         <dcat:downloadURL rdf:resource="https://www.iana.org/assignments/media-types/media-types.xhtml"/>
     </owl:NamedIndividual>
     
@@ -11743,8 +12106,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T16:50:24Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">CJS Offence Index: March 2026 (CSV, 3 MB)</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:downloadURL rdf:resource="https://assets.publishing.service.gov.uk/media/69b982fa635612b767a46688/Offences_-_Active_CJS_Index__PUBLIC__March_2026.csv"/>
     </owl:NamedIndividual>
     
@@ -11756,9 +12120,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:comment xml:lang="en">Section 6</rdfs:comment>
         <rdfs:label xml:lang="en">Industry Classification Benchmark 2019 structure and definitions pdf</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.lseg.com/en/ftse-russell/industry-classification-benchmark-icb"/>
         <dcat:downloadURL rdf:resource="https://www.lseg.com/content/dam/ftse-russell/en_us/documents/ground-rules/icb-ground-rules.pdf"/>
     </owl:NamedIndividual>
     
@@ -11811,8 +12177,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">International Standard Industrial Classification Revision 4 Microsoft Access Database zip</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unstats.un.org/unsd/classifications/Econ"/>
         <dcat:downloadURL rdf:resource="https://unstats.un.org/unsd/classifications/Econ/Download/In%20Text/ISIC_Rev_4_english_database.zip"/>
     </owl:NamedIndividual>
     
@@ -11837,8 +12205,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T12:56:59Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">SIX Current Funds Codes List Two: Fund Codes Registered with Agency doc</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:downloadURL rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-two.doc"/>
     </owl:NamedIndividual>
     
@@ -11876,8 +12245,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Measurement Unit Status Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-10/rec20_Rev17e-2021.xlsx"/>
     </owl:NamedIndividual>
     
@@ -11903,8 +12274,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015 - Schedule Table 3 image</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/schedule/1/made"/>
         <dcat:downloadURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/images/uksi_20150017_en_003"/>
         <dcat:mediaType rdf:resource="https://www.iana.org/assignments/media-types/image/gif"/>
     </owl:NamedIndividual>
@@ -11930,9 +12303,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+		<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:16:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Legal Entity Identifier Prefix Distribution</rdfs:label>
-        <dcat:downloadURL rdf:resource="http://www.hmrc.gov.uk/manuals/commanual/attachments/coy_reg_no_formats.doc"/>
+		<dcat:accessURL rdf:resource="https://www.hmrc.gov.uk/gds/com/attachments/coy_reg_no_formats.doc"/>
+        <dcat:downloadURL rdf:resource="https://www.hmrc.gov.uk/gds/com/attachments/coy_reg_no_formats.doc"/>
     </owl:NamedIndividual>
     
 
@@ -11943,8 +12318,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Measurement Unit To Quantity Relationship Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-10/rec20_Rev17e-2021.xlsx"/>
     </owl:NamedIndividual>
     
@@ -11983,8 +12360,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-13T19:51:04Z</dcterms:created>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Codes for Types of Means of Transport - Revision 4.2 of code list - English - xls</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unece.org/code-list-recommendations#accordion_13"/>
         <dcat:downloadURL rdf:resource="https://unece.org/DAM/cefact/recommendations/rec28/Rec28_Rev4.2e_2018.xls"/>
     </owl:NamedIndividual>
     
@@ -12022,9 +12400,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Library of Congress - Language Coding Agency - Codes for the Representation of Names of Languages - Part 5: Alpha-3 code for language families and groups web page</rdfs:label>
-        <dcat:downloadURL rdf:resource="https://www.loc.gov/standards/iso639-5/id.php"/>
+        <dcat:accessURL rdf:resource="https://www.loc.gov/standards/iso639-5/langhome5.html"/>
+		<dcat:downloadURL rdf:resource="https://www.loc.gov/standards/iso639-5/id.php"/>
     </owl:NamedIndividual>
     
 
@@ -12035,8 +12415,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T17:23:31Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">CJS result codes v.10 (MS Excel Spreadsheet, 96.5 KB)</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:downloadURL rdf:resource="https://assets.publishing.service.gov.uk/media/60e5d091e90e0764c7950b73/cjs-result-codes-10.xlsx"/>
     </owl:NamedIndividual>
     
@@ -12061,8 +12442,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Time Frequency Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://webgate.ec.europa.eu/fusionregistry/items/codelist.html?urn=urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ESTAT:CL_FREQ(20240503.0)"/>
         <dcat:downloadURL rdf:resource="https://webgate.ec.europa.eu/fusionregistry/sdmx/v2/structure/codelist/ESTAT/CL_FREQ/20240503.0"/>
     </owl:NamedIndividual>
     
@@ -12087,8 +12470,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Global Legal Entity Identifier Foundation - Official Organizational Roles Code List (version 1.0) en csv</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.gleif.org/en/lei-data/code-lists/iso-5009-official-organizational-roles-code-list"/>
         <dcat:downloadURL rdf:resource="https://www.gleif.org/lei-data/code-lists/iso-5009-official-organizational-roles-code-list/officialorganizationalroles_v1.0.0.csv"/>
     </owl:NamedIndividual>
     
@@ -12114,8 +12499,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Mode Of Transport Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-10/rec19_ece-trd-138E.pdf"/>
     </owl:NamedIndividual>
     
@@ -12127,8 +12514,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Quantity Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-10/rec20_Rev17e-2021.xlsx"/>
     </owl:NamedIndividual>
     
@@ -12168,8 +12557,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Dialling procedures (international prefix, national (trunk) prefix and national (significant) number) (in accordance with ITU-T Recommendation E.164 (11/2010)) doc</rdfs:label>
+		<dcat:accessURL rdf:resource="http://handle.itu.int/11.1002/pub/8056d56c-en"/>
         <dcat:downloadURL rdf:resource="https://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.164C-2011-MSW-E.doc"/>
     </owl:NamedIndividual>
     
@@ -12181,8 +12572,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Federal Information Processing System Codes for (United States of America) States and Counties txt</rdfs:label>
+		<dcat:accessURL rdf:resource="https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt"/>
         <dcat:downloadURL rdf:resource="https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt"/>
     </owl:NamedIndividual>
     
@@ -12233,8 +12626,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Library of Congress - Language Coding Agency - Codes for the Representation of Names of Languages - ISO 639-3 tsv</rdfs:label>
+		<dcat:accessURL rdf:resource="https://iso639-3.sil.org/code_tables/download_tables"/>
         <dcat:downloadURL rdf:resource="https://iso639-3.sil.org/sites/iso639-3/files/downloads/iso-639-3.tab"/>
     </owl:NamedIndividual>
     
@@ -12300,8 +12695,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015 - Schedule Table 2 image</rdfs:label>
+		<dcat:accessURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/schedule/1/made"/>
         <dcat:downloadURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/images/uksi_20150017_en_002"/>
         <dcat:mediaType rdf:resource="https://www.iana.org/assignments/media-types/image/gif"/>
     </owl:NamedIndividual>
@@ -12328,8 +12725,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Measurement Unit Level Or Category Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-10/rec20_Rev17e-2021.xlsx"/>
     </owl:NamedIndividual>
     
@@ -12354,8 +12753,10 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <rdfs:label xml:lang="en">Marital Status Distribution</rdfs:label>
+		<dcat:accessURL rdf:resource="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_MARSTA&amp;StrLanguageCode=EN&amp;IntPcKey=37388895&amp;StrLayoutCode=HIERARCHIC"/>
         <dcat:downloadURL rdf:resource="https://ec.europa.eu/eurostat/ramon/nomenclatures/index.cfm?TargetUrl=LST_NOM_DTL&amp;StrNom=CL_MARSTA&amp;StrLanguageCode=EN&amp;IntPcKey=37388895&amp;StrLayoutCode=HIERARCHIC"/>
     </owl:NamedIndividual>
     
