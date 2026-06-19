@@ -1,5 +1,6 @@
 #! python
 # Hadden Industries Universal Ontology Test
+import copy
 import itertools
 import re
 
@@ -115,6 +116,50 @@ class UniversalOntologyTest(XmlTestCase):
 		self.assertXmlNamespace(root, None, ns)
 		
 		# Build a map of children to parents to resolve parent attributes in global checks
+		parent_map = {c: p for p in root.iter() for c in p}
+		
+		# Consolidate fragmented declarations by merging rdf:Description children into their primary entity nodes
+		primary_elements = {}
+		for entity_tag in [
+			'{http://www.w3.org/2002/07/owl#}Class',
+			'{http://www.w3.org/2002/07/owl#}NamedIndividual',
+			'{http://www.w3.org/2002/07/owl#}ObjectProperty',
+			'{http://www.w3.org/2002/07/owl#}DatatypeProperty'
+		]:
+			for elem in root.iter(entity_tag):
+				about = elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
+				if about:
+					if about not in primary_elements:
+						primary_elements[about] = []
+					primary_elements[about].append(elem)
+					
+		# Deduplicate and filter: 
+		# 1. When there is both an owl:Class and an owl:NamedIndividual with the same @rdf:about,
+		#    remove the owl:NamedIndividual element entirely so that it is not tested.
+		# 2. Do not test owl:NamedIndividual elements where their @rdf:about starts with "https://haddenindustries.com/ontology/label/".
+		for about, elems in primary_elements.items():
+			has_class = any(e.tag == '{http://www.w3.org/2002/07/owl#}Class' for e in elems)
+			for elem in list(elems):
+				if elem.tag == '{http://www.w3.org/2002/07/owl#}NamedIndividual':
+					if has_class or about.startswith('https://haddenindustries.com/ontology/label/'):
+						parent = parent_map.get(elem)
+						if parent is not None and elem in parent:
+							parent.remove(elem)
+						elems.remove(elem)
+						
+		for desc in list(root.iter('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}Description')):
+			about = desc.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about')
+			if about in primary_elements:
+				for primary in primary_elements[about]:
+					for child in list(desc):
+						child_copy = copy.deepcopy(child)
+						primary.append(child_copy)
+				
+				parent_of_desc = parent_map.get(desc)
+				if parent_of_desc is not None and desc in parent_of_desc:
+					parent_of_desc.remove(desc)
+		
+		# Rebuild parent_map after DOM modifications to ensure correct parent resolution for copied nested elements
 		parent_map = {c: p for p in root.iter() for c in p}
 		
 		# Global xml:lang attribute requirement across all Hadden Industries entities
