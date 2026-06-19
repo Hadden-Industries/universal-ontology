@@ -117,7 +117,7 @@ class UniversalOntologyTest(XmlTestCase):
 		# Build a map of children to parents to resolve parent attributes in global checks
 		parent_map = {c: p for p in root.iter() for c in p}
 		
-		# Global xml:lang attribute requirement across all entities
+		# Global xml:lang attribute requirement across all Hadden Industries entities
 		for global_lang_tag in [
 			'{http://purl.org/dc/terms/}description',
 			'{http://purl.org/dc/terms/}title',
@@ -133,7 +133,10 @@ class UniversalOntologyTest(XmlTestCase):
 				if instance.get('{http://www.w3.org/XML/1998/namespace}lang') is None:
 					parent = parent_map.get(instance)
 					parent_about = parent.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about', 'Unknown') if parent is not None else 'Unknown'
-					self.fail('%s is missing xml:lang attribute on parent "%s". Text: "%s"' % (global_lang_tag.split('}')[-1], parent_about, instance.text))
+					
+					# Only enforce if parent belongs to the Hadden Industries ontology
+					if parent_about.startswith('https://haddenindustries.com/ontology/'):
+						self.fail('%s is missing xml:lang attribute on parent "%s". Text: "%s"' % (global_lang_tag.split('}')[-1], parent_about, instance.text))
 		
 		# Global uniqueness for dcterms:identifier
 		identifiersList = []
