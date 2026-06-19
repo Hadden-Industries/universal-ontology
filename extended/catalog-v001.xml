@@ -3,6 +3,7 @@
     <uri id="Imports Wizard Entry" name="http://purl.org/dc/elements/1.1/" uri="../iso-iec11179-3/dc.rdf"/>
     <uri id="Imports Wizard Entry" name="http://purl.org/dc/terms/" uri="../iso-iec11179-3/dcterms.rdf"/>
     <uri id="Imports Wizard Entry" name="http://www.w3.org/2004/02/skos/core" uri="../iso-iec11179-3/skos.rdf"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/2008/05/skos-xl" uri="../iso-iec11179-3/skos-xl.rdf"/>
     <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260610" uri="../iso-iec11179-3/versions/20260610"/>
     <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/dcat" uri="dcat3.rdf"/>
     <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/reference-data/20260610" uri="../reference-data/versions/20260610"/>
