@@ -14,7 +14,7 @@
      xmlns:schema="http://schema.org/"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260618"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260619"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260618"/>
         <dc:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
@@ -24,7 +24,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:7be316dd-2ca3-437b-a9d1-cf8939e1d5c2"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-18</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-19</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
@@ -34,7 +34,7 @@
         <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology</dcterms:title>
         <rdfs:label xml:lang="en">Hadden Industries Universal Reference Data Ontology</rdfs:label>
         <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260610"/>
-        <owl:versionInfo>2026-06-18</owl:versionInfo>
+        <owl:versionInfo>2026-06-19</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -59,6 +59,12 @@
     <!-- http://purl.org/dc/terms/accessRights -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/accessRights"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/alternative -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/alternative"/>
     
 
 
@@ -2184,10 +2190,9 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/AmericanStandardCodeForInformationInterchange">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">ASCII</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T17:21:30Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:f3b33f73-7fb2-45a2-b9df-45946aeb1ef5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T12:11:19Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T06:56:37Z</dcterms:modified>
         <rdfs:label xml:lang="en">American Standard Code For Information Interchange</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.iso.org/standard/28245.html"/>
         <rdfs:seeAlso rdf:resource="https://www.iso.org/standard/4777.html"/>
@@ -2195,6 +2200,12 @@
         <skos:definition xml:lang="en">Character encoding standard for electronic communication</skos:definition>
         <skos:prefLabel xml:lang="en">American Standard Code For Information Interchange</skos:prefLabel>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AmericanStandardCodeForInformationInterchange"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
+        <owl:annotatedTarget xml:lang="en">American Standard Code For Information Interchange</owl:annotatedTarget>
+        <skos:altLabel xml:lang="en">ASCII</skos:altLabel>
+    </owl:Axiom>
     
 
 
@@ -2202,13 +2213,13 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/AssetType">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Asset Class</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-02T09:27:23Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:53164810-914a-4fc7-9c1f-ec5b19279d69"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T12:13:15Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:56:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:55000:ed-1:v2:term:3.2.6"/>
         <rdfs:comment xml:lang="en">Physical assets, information assets, intangible assets, critical assets (3.2.7), enabling assets, linear assets, information and communications technology (ICT) assets, infrastructure assets, moveable assets</rdfs:comment>
         <rdfs:label xml:lang="en">Asset Type</rdfs:label>
+        <skos:altLabel xml:lang="en">Asset Class</skos:altLabel>
         <skos:definition xml:lang="en">Grouping of assets having common characteristics that distinguish those assets as a group or class</skos:definition>
         <skos:prefLabel xml:lang="en">Asset Type</skos:prefLabel>
     </owl:Class>
@@ -2337,50 +2348,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/Calendar -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Calendar">
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Calendar System</dcterms:alternative>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:uuid:3e5ee9bf-cf4e-4252-a9d7-4116bc797a23"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T12:38:59Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:34000:ed-1:v1:term:6.1"/>
-        <rdfs:comment xml:lang="en">Calendar month, calendar year, calendar day are time scale units often included in a calendar system</rdfs:comment>
-        <rdfs:comment xml:lang="en">Calendar systems are defined by various authorities. Usage of particular calendar systems at a point in time or geographic location may be driven by culture or regulations.</rdfs:comment>
-        <rdfs:comment xml:lang="en">The Gregorian calendar is a type of calendar system</rdfs:comment>
-        <rdfs:comment xml:lang="en">The document uses the term “calendar system” to distinguish a calendar system from a calendar instance that someone may hang on their wall</rdfs:comment>
-        <rdfs:label xml:lang="en">Calendar</rdfs:label>
-        <skos:definition xml:lang="en">Time scale that uses the time scale unit of calendar day as its basic unit</skos:definition>
-        <skos:prefLabel xml:lang="en">Calendar</skos:prefLabel>
-    </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Calendar"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Calendar month, calendar year, calendar day are time scale units often included in a calendar system</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Calendar"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Calendar systems are defined by various authorities. Usage of particular calendar systems at a point in time or geographic location may be driven by culture or regulations.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Calendar"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">The Gregorian calendar is a type of calendar system</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Calendar"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">The document uses the term “calendar system” to distinguish a calendar system from a calendar instance that someone may hang on their wall</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
-    </owl:Axiom>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/reference-data/CalendarDayOfWeek -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CalendarDayOfWeek">
@@ -2407,13 +2374,13 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CalendarMonth">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Month Of Year</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T12:15:36Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:4da3f0b9-291c-4109-9859-9f9cefbb530b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T12:57:47Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T01:03:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:34000:ed-1:v1:term:7.21"/>
         <rdfs:comment xml:lang="en">A calendar month is in common parlance often referred to as month, however in this document calendar month and month have different definitions</rdfs:comment>
         <rdfs:label xml:lang="en">Calendar Month</rdfs:label>
+        <skos:altLabel xml:lang="en">Month Of Year</skos:altLabel>
         <skos:definition xml:lang="en">Time scale unit resulting from a defined division of a calendar year, each containing a specific number of calendar days</skos:definition>
         <skos:prefLabel xml:lang="en">Calendar Month</skos:prefLabel>
     </owl:Class>
@@ -2422,6 +2389,50 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
         <owl:annotatedTarget xml:lang="en">A calendar month is in common parlance often referred to as month, however in this document calendar month and month have different definitions</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/CalendarSystem -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CalendarSystem">
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
+        <dcterms:identifier rdf:resource="urn:uuid:3e5ee9bf-cf4e-4252-a9d7-4116bc797a23"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T01:00:00Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:34000:ed-1:v1:term:6.1"/>
+        <rdfs:comment xml:lang="en">Calendar month, calendar year, calendar day are time scale units often included in a calendar system</rdfs:comment>
+        <rdfs:comment xml:lang="en">Calendar systems are defined by various authorities. Usage of particular calendar systems at a point in time or geographic location may be driven by culture or regulations.</rdfs:comment>
+        <rdfs:comment xml:lang="en">The Gregorian calendar is a type of calendar system</rdfs:comment>
+        <rdfs:comment xml:lang="en">The document uses the term “calendar system” to distinguish a calendar system from a calendar instance that someone may hang on their wall</rdfs:comment>
+        <rdfs:label xml:lang="en">Calendar</rdfs:label>
+        <rdfs:label xml:lang="en">Calendar System</rdfs:label>
+        <skos:definition xml:lang="en">Time scale that uses the time scale unit of calendar day as its basic unit</skos:definition>
+        <skos:prefLabel xml:lang="en">Calendar System</skos:prefLabel>
+    </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CalendarSystem"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Calendar month, calendar year, calendar day are time scale units often included in a calendar system</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CalendarSystem"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">Calendar systems are defined by various authorities. Usage of particular calendar systems at a point in time or geographic location may be driven by culture or regulations.</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CalendarSystem"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">The Gregorian calendar is a type of calendar system</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CalendarSystem"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedTarget xml:lang="en">The document uses the term “calendar system” to distinguish a calendar system from a calendar instance that someone may hang on their wall</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
     </owl:Axiom>
     
 
@@ -2459,7 +2470,7 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:34:29Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:3c6720d2-5d3a-4033-b8e6-5c4118ffd381"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T16:06:18Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T06:57:44Z</dcterms:modified>
         <rdfs:label xml:lang="en">Central Product Classification</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://unstats.un.org/unsd/classifications/Econ/cpc"/>
         <skos:definition xml:lang="en">United Nations international standard classification for all products that are an output of economic activity, encompassing both goods and services, which groups products based on the physical characteristics of the goods or on the nature of the services rendered</skos:definition>
@@ -2469,7 +2480,7 @@
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CentralProductClassification"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
         <owl:annotatedTarget xml:lang="en">Central Product Classification</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">CPC</dcterms:alternative>
+        <skos:altLabel xml:lang="en">CPC</skos:altLabel>
     </owl:Axiom>
     
 
@@ -10263,7 +10274,7 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:title xml:lang="en">United Kingdom Government Bank Holidays</dcterms:title>
         <rdfs:label xml:lang="en">United Kingdom Government Bank Holidays</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.gov.uk/bank-holidays"/>
-        <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Calendar"/>
+        <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CalendarSystem"/>
     </owl:NamedIndividual>
     
 
