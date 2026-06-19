@@ -6,14 +6,14 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:olia="http://purl.org/olia/olia.owl#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-     xmlns:schema="http://schema.org/"
      xmlns:skosxl="http://www.w3.org/2008/05/skos-xl#"
+     xmlns:schema="http://schema.org/"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260619"/>
+        <owl:imports rdf:resource="http://www.w3.org/2004/02/skos/core"/>
         <owl:imports rdf:resource="http://www.w3.org/2008/05/skos-xl"/>
         <dcterms:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-19</dcterms:created>
@@ -3379,69 +3379,6 @@ Derivation: The precise manner of derivation can vary depending on the type of n
     
 
 
-    <!-- http://purl.org/olia/olia.owl#Abbreviation -->
-
-    <owl:Class rdf:about="http://purl.org/olia/olia.owl#Abbreviation">
-        <rdfs:comment>
-		 Abbreviation (from Latin brevis &quot;short&quot;) is strictly speaking a shorter form of a word, but more 
-		 particularly, an abbreviation is a letter or group of letters, taken from a word or words, 
-		 and employed to represent them for the sake of brevity. For example, the word &quot;abbreviation&quot; 
-		 can be abbreviated as &quot;abbr.&quot; or &quot;abbrev.&quot;
-		 (http://en.wikipedia.org/wiki/Abbreviation 19.09.06)</rdfs:comment>
-        <rdfs:label xml:lang="en">abbreviation</rdfs:label>
-        <rdfs:label xml:lang="fr">abreviation</rdfs:label>
-        <owl:versionInfo>EAGLES Category Abbreviations with Type=&quot;Abbreviation&quot;.</owl:versionInfo>
-    </owl:Class>
-    
-
-
-    <!-- http://purl.org/olia/olia.owl#Acronym -->
-
-    <owl:Class rdf:about="http://purl.org/olia/olia.owl#Acronym">
-        <rdfs:comment>
-		  An acronym is an abbreviation, such as NATO, laser, and ABC, written as the initial 
-		  letter or letters of words, and pronounced on the basis of this abbreviated written 
-		  form. Acronyms are used most often to abbreviate names of organizations and long or 
-		  frequently referenced terms. 
-		  (http://en.wikipedia.org/wiki/Acronym 19.09.06)</rdfs:comment>
-        <owl:versionInfo>EAGLES category Residual with Type=&quot;Acronym&quot;.</owl:versionInfo>
-    </owl:Class>
-    
-
-
-    <!-- http://purl.org/olia/olia.owl#ClippedTerm -->
-
-    <owl:Class rdf:about="http://purl.org/olia/olia.owl#ClippedTerm">
-        <rdfs:subClassOf rdf:resource="http://purl.org/olia/olia.owl#Abbreviation"/>
-        <rdfs:comment>An abbreviation formed by truncating a part of a simple term. (Sue Ellen Wright, http://www.isocat.org/datcat/DC-335)</rdfs:comment>
-        <rdfs:isDefinedBy>http://www.isocat.org/datcat/DC-335</rdfs:isDefinedBy>
-        <rdfs:label>clipped term</rdfs:label>
-        <owl:versionInfo>from lexinfo</owl:versionInfo>
-    </owl:Class>
-    
-
-
-    <!-- http://purl.org/olia/olia.owl#Contraction -->
-
-    <owl:Class rdf:about="http://purl.org/olia/olia.owl#Contraction">
-        <rdfs:subClassOf rdf:resource="http://purl.org/olia/olia.owl#Abbreviation"/>
-        <rdfs:comment>A lexical unit formed by a shortening of a word, syllable, or word group by omission of a sound or letter. (Sue Ellen Wright, http://www.isocat.org/datcat/DC-354)</rdfs:comment>
-        <rdfs:label>contraction</rdfs:label>
-        <owl:versionInfo>http://www.isocat.org/datcat/DC-354</owl:versionInfo>
-    </owl:Class>
-    
-
-
-    <!-- http://purl.org/olia/olia.owl#Initialism -->
-
-    <owl:Class rdf:about="http://purl.org/olia/olia.owl#Initialism">
-        <rdfs:subClassOf rdf:resource="http://purl.org/olia/olia.owl#Abbreviation"/>
-        <rdfs:isDefinedBy>http://www.isocat.org/datcat/DC-333</rdfs:isDefinedBy>
-        <owl:versionInfo>adopted from ubyPos.owl</owl:versionInfo>
-    </owl:Class>
-    
-
-
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/AcceptabilityRating">
@@ -4127,7 +4064,29 @@ This association records the classification scheme items that are members of a c
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Property"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:45:14Z</dcterms:created>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.44"/>
+        <dcterms:identifier rdf:resource="urn:uuid:bcc043e4-da45-479e-825d-bfe98f34054b"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.25"/>
+        <rdfs:label xml:lang="en">DEC</rdfs:label>
+        <rdfs:label xml:lang="en">Data Element Concept</rdfs:label>
+        <skos:definition xml:lang="en">concept (3.2.7) that can be represented in the form of a data element (3.2.43), described independently of any particular representation</skos:definition>
+        <skos:prefLabel xml:lang="en">Data Element Concept</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A data element concept is implicitly associated with both the property and the object class whose combination it expresses</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElementConcept"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
+        <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.25"/>
+        <skos:note xml:lang="en">modified — Notes 2 and 3 to entry deleted</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElementConcept"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">A data element concept is implicitly associated with both the property and the object class whose combination it expresses</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
@@ -7289,14 +7248,6 @@ c) may recognize, act on or allow the production of classes, attributes, datatyp
     
 
 
-    <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElementConcept -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElementConcept">
-        <skosxl:prefLabel rdf:resource="https://haddenindustries.com/ontology/label/3df59758-6472-4af3-bfa3-1ff994f7fffa"/>
-    </owl:NamedIndividual>
-    
-
-
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Deprecated -->
 
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Deprecated">
@@ -7700,63 +7651,6 @@ c) shall not recognize, nor act on, nor allow the production of classes, attribu
         <skos:definition xml:lang="en">Indicates that the creator of the mapping has asserted the subject item(s) are an implementation of the object item(s) and additionally that the object item(s) satisfy requirements for participating in computing operation(s) in some framework which will also compute on the subject item(s). Inverse of “subtype of”.</skos:definition>
         <skos:prefLabel xml:lang="en">supertype of</skos:prefLabel>
     </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/label/3df59758-6472-4af3-bfa3-1ff994f7fffa -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/label/3df59758-6472-4af3-bfa3-1ff994f7fffa">
-        <rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
-        <skosxl:labelRelation rdf:resource="https://haddenindustries.com/ontology/label/3dfb63cd-9494-4c96-a85e-0fff40605c69"/>
-        <skosxl:literalForm xml:lang="en">Data Element Concept</skosxl:literalForm>
-        <rdfs:label xml:lang="en">Data Element Concept</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/label/3dfb63cd-9494-4c96-a85e-0fff40605c69 -->
-
-    <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/label/3dfb63cd-9494-4c96-a85e-0fff40605c69">
-        <rdf:type rdf:resource="http://purl.org/olia/olia.owl#Initialism"/>
-        <rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
-        <skosxl:literalForm xml:lang="en">DEC</skosxl:literalForm>
-        <rdfs:label xml:lang="en">DEC</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Annotations
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    <rdf:Description rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElementConcept">
-        <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-05-21T11:45:14Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:term:3.2.44"/>
-        <dcterms:identifier rdf:resource="urn:uuid:bcc043e4-da45-479e-825d-bfe98f34054b"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.25"/>
-        <rdfs:label xml:lang="en">DEC</rdfs:label>
-        <rdfs:label xml:lang="en">Data Element Concept</rdfs:label>
-        <skos:definition xml:lang="en">concept (3.2.7) that can be represented in the form of a data element (3.2.43), described independently of any particular representation</skos:definition>
-        <skos:prefLabel xml:lang="en">Data Element Concept</skos:prefLabel>
-        <skos:scopeNote xml:lang="en">A data element concept is implicitly associated with both the property and the object class whose combination it expresses</skos:scopeNote>
-    </rdf:Description>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElementConcept"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
-        <owl:annotatedTarget rdf:resource="urn:iso:std:iso-iec:11179:-31:ed-1:v1:term:3.25"/>
-        <skos:note xml:lang="en">modified — Notes 2 and 3 to entry deleted</skos:note>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/DataElementConcept"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">A data element concept is implicitly associated with both the property and the object class whose combination it expresses</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
-    </owl:Axiom>
     
 
 
