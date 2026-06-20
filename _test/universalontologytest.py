@@ -86,6 +86,29 @@ def is_snake_case(identifier: str) -> bool:
 	
 	return bool(pattern.fullmatch(identifier))
 
+def get_parent_about(element, parent_map) -> str:
+	"""
+	Helper to resolve the rdf:about or rdf:resource of an element's parent.
+	Specially handles owl:Axiom parents by resolving their owl:annotatedSource.
+	
+	Args:
+		element: The XML element whose parent URI is needed.
+		parent_map: A dictionary mapping elements to their parent elements.
+		
+	Returns:
+		str: The resolved parent URI or 'Unknown'.
+	"""
+	parent = parent_map.get(element)
+	parent_about = 'Unknown'
+	if parent is not None:
+		if parent.tag == '{http://www.w3.org/2002/07/owl#}Axiom':
+			annotated_source = parent.find('{http://www.w3.org/2002/07/owl#}annotatedSource')
+			if annotated_source is not None:
+				parent_about = annotated_source.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource', 'Unknown')
+		else:
+			parent_about = parent.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about', 'Unknown')
+	return parent_about
+
 class UniversalOntologyTest(XmlTestCase):
 
 	def run_on_path(self, file_path: Path):
@@ -176,8 +199,7 @@ class UniversalOntologyTest(XmlTestCase):
 		]:
 			for instance in root.iter(global_lang_tag):
 				if instance.get('{http://www.w3.org/XML/1998/namespace}lang') is None:
-					parent = parent_map.get(instance)
-					parent_about = parent.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about', 'Unknown') if parent is not None else 'Unknown'
+					parent_about = get_parent_about(instance, parent_map)
 					
 					# Only enforce if parent belongs to the Hadden Industries ontology
 					if parent_about.startswith('https://haddenindustries.com/ontology/'):
@@ -191,6 +213,13 @@ class UniversalOntologyTest(XmlTestCase):
 				if identifierRdfResource in identifiersList:
 					self.fail('another element with dcterms:identifier "%s" already exists' % identifierRdfResource)
 				identifiersList.append(identifierRdfResource)
+		
+		# Global schema:position datatype requirement
+		for position_elem in root.iter('{http://schema.org/}position'):
+			datatype = position_elem.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}datatype')
+			if datatype != 'http://www.w3.org/2001/XMLSchema#integer':
+				parent_about = get_parent_about(position_elem, parent_map)
+				self.fail('schema:position on parent "%s" has invalid or missing rdf:datatype. Expected "http://www.w3.org/2001/XMLSchema#integer", got "%s"' % (parent_about, datatype))
 		
 		# Global skos:prefLabel requirement for core entity types
 		for entity_tag in [
