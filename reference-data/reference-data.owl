@@ -2215,20 +2215,14 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-02T09:27:23Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:53164810-914a-4fc7-9c1f-ec5b19279d69"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:56:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:10:03Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:55000:ed-1:v2:term:3.2.6"/>
-        <rdfs:comment xml:lang="en">Physical assets, information assets, intangible assets, critical assets (3.2.7), enabling assets, linear assets, information and communications technology (ICT) assets, infrastructure assets, moveable assets</rdfs:comment>
         <rdfs:label xml:lang="en">Asset Type</rdfs:label>
-        <skos:altLabel xml:lang="en">Asset Class</skos:altLabel>
         <skos:definition xml:lang="en">Grouping of assets having common characteristics that distinguish those assets as a group or class</skos:definition>
+        <skos:example xml:lang="en">Physical assets, information assets, intangible assets, critical assets (3.2.7), enabling assets, linear assets, information and communications technology (ICT) assets, infrastructure assets, moveable assets</skos:example>
+        <skos:hiddenLabel xml:lang="en">Asset Class</skos:hiddenLabel>
         <skos:prefLabel xml:lang="en">Asset Type</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AssetType"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Physical assets, information assets, intangible assets, critical assets (3.2.7), enabling assets, linear assets, information and communications technology (ICT) assets, infrastructure assets, moveable assets</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
-    </owl:Axiom>
     
 
 
@@ -2256,16 +2250,16 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">BBR</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Bank Base Rate</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T13:19:33Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:5be1c0c7-99b1-4c40-ac54-d0b87ef3cdfc"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T12:17:01Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T06:44:57Z</dcterms:modified>
         <dcterms:source rdf:resource="https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/BaseRate"/>
-        <rdfs:comment xml:lang="en">Typically, the bank base rate is a reference rate set by a central bank. Banks that are regulated by a given central bank cannot lend below the base rate to their customers. The bank base rate is determined on an ongoing basis and represents the central bank&apos;s judgement of the price of short-term funds on their interbank market.</rdfs:comment>
         <rdfs:label xml:lang="en">Base Rate</rdfs:label>
+        <skos:altLabel xml:lang="en">BBR</skos:altLabel>
+        <skos:altLabel xml:lang="en">Bank Base Rate</skos:altLabel>
         <skos:definition xml:lang="en">Basic rate of interest on which the actual rate a bank charges on loans to its customers is calculated</skos:definition>
         <skos:prefLabel xml:lang="en">Base Rate</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Typically, the bank base rate is a reference rate set by a central bank. Banks that are regulated by a given central bank cannot lend below the base rate to their customers. The bank base rate is determined on an ongoing basis and represents the central bank&apos;s judgement of the price of short-term funds on their interbank market.</skos:scopeNote>
     </owl:Class>
     
 
@@ -2277,23 +2271,18 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T11:36:06Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:cc28d198-367c-4f99-ab3c-63a16405c6bd"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T12:33:00Z</dcterms:modified>
-        <rdfs:comment xml:lang="en">Basic Property Unit in the United Kingdom as defined under British Standard 7666-2</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T06:47:14Z</dcterms:modified>
         <rdfs:label xml:lang="en">Basic Land And Property Unit</rdfs:label>
+        <skos:altLabel xml:lang="en">BLPU</skos:altLabel>
         <skos:definition xml:lang="en">Area of land in uniform property rights or, in the absence of such ownership evidence or where required for administrative purposes, inferred from physical features, occupation or use</skos:definition>
         <skos:prefLabel xml:lang="en">Basic Land And Property Unit</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Basic Property Unit in the United Kingdom as defined under British Standard 7666-2</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicLandAndPropertyUnit"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Area of land in uniform property rights or, in the absence of such ownership evidence or where required for administrative purposes, inferred from physical features, occupation or use</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:isbn:978-0-580-48723-1"/>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicLandAndPropertyUnit"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Basic Land And Property Unit</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">BLPU</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -2376,12 +2365,12 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T12:15:36Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:4da3f0b9-291c-4109-9859-9f9cefbb530b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T01:03:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:08:29Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:34000:ed-1:v1:term:7.21"/>
         <rdfs:comment xml:lang="en">A calendar month is in common parlance often referred to as month, however in this document calendar month and month have different definitions</rdfs:comment>
         <rdfs:label xml:lang="en">Calendar Month</rdfs:label>
-        <skos:altLabel xml:lang="en">Month Of Year</skos:altLabel>
         <skos:definition xml:lang="en">Time scale unit resulting from a defined division of a calendar year, each containing a specific number of calendar days</skos:definition>
+        <skos:hiddenLabel xml:lang="en">Month Of Year</skos:hiddenLabel>
         <skos:prefLabel xml:lang="en">Calendar Month</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
@@ -2399,15 +2388,15 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:3e5ee9bf-cf4e-4252-a9d7-4116bc797a23"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T01:00:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:31:44Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:34000:ed-1:v1:term:6.1"/>
         <rdfs:comment xml:lang="en">Calendar month, calendar year, calendar day are time scale units often included in a calendar system</rdfs:comment>
         <rdfs:comment xml:lang="en">Calendar systems are defined by various authorities. Usage of particular calendar systems at a point in time or geographic location may be driven by culture or regulations.</rdfs:comment>
-        <rdfs:comment xml:lang="en">The Gregorian calendar is a type of calendar system</rdfs:comment>
         <rdfs:comment xml:lang="en">The document uses the term “calendar system” to distinguish a calendar system from a calendar instance that someone may hang on their wall</rdfs:comment>
         <rdfs:label xml:lang="en">Calendar</rdfs:label>
         <rdfs:label xml:lang="en">Calendar System</rdfs:label>
         <skos:definition xml:lang="en">Time scale that uses the time scale unit of calendar day as its basic unit</skos:definition>
+        <skos:example xml:lang="en">The Gregorian calendar is a type of calendar system</skos:example>
         <skos:prefLabel xml:lang="en">Calendar System</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
@@ -2421,12 +2410,6 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
         <owl:annotatedTarget xml:lang="en">Calendar systems are defined by various authorities. Usage of particular calendar systems at a point in time or geographic location may be driven by culture or regulations.</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CalendarSystem"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">The Gregorian calendar is a type of calendar system</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CalendarSystem"/>
@@ -2447,19 +2430,13 @@
         <dcterms:alternative xml:lang="en">Cardinal Point</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-28T11:15:54Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:935940c9-3049-4478-a580-8c97b0d2e06f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:20:21Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:11:35Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22932:-1:ed-1:v1:term:3.2.2.3"/>
-        <rdfs:comment xml:lang="en">Glossary of BLM surveying and mapping terms, 1980</rdfs:comment>
+        <dcterms:source xml:lang="en">Glossary of BLM surveying and mapping terms, 1980</dcterms:source>
         <rdfs:label xml:lang="en">Cardinal Direction</rdfs:label>
         <skos:definition xml:lang="en">Direction north, south, east and west</skos:definition>
         <skos:prefLabel xml:lang="en">Cardinal Direction</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CardinalDirection"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Glossary of BLM surveying and mapping terms, 1980</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
-    </owl:Axiom>
     
 
 
@@ -2643,23 +2620,19 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Spatial Reference System</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T17:33:56Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:caa7d84d-236d-4c10-a46f-893b6189b814"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T13:10:57Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:03:54Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19111:ed-3:v1:term:3.1.9"/>
         <rdfs:comment xml:lang="en">For geodetic and vertical reference frames, the object will be the Earth. In planetary applications, geodetic and vertical reference frames may be applied to other celestial bodies.</rdfs:comment>
         <rdfs:comment xml:lang="en">Geodetic and vertical datums are referred to as reference frames</rdfs:comment>
         <rdfs:label xml:lang="en">Coordinate Reference System</rdfs:label>
         <skos:definition xml:lang="en">Coordinate System that is related to an object by a Datum</skos:definition>
+        <skos:hiddenLabel xml:lang="en">CRS</skos:hiddenLabel>
+        <skos:hiddenLabel xml:lang="en">SRS</skos:hiddenLabel>
+        <skos:hiddenLabel xml:lang="en">Spatial Reference System</skos:hiddenLabel>
         <skos:prefLabel xml:lang="en">Coordinate Reference System</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateReferenceSystem"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/alternative"/>
-        <owl:annotatedTarget xml:lang="en">Spatial Reference System</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">SRS</dcterms:alternative>
-    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateReferenceSystem"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
@@ -2671,12 +2644,6 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
         <owl:annotatedTarget xml:lang="en">Geodetic and vertical datums are referred to as reference frames</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateReferenceSystem"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Coordinate Reference System</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">CRS</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -2703,12 +2670,12 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T12:54:37Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:7e869249-9f03-4e12-94ea-d405f7896a4f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T14:24:55Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:02:46Z</dcterms:modified>
         <dcterms:source rdf:resource="https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ActionClassifier"/>
-        <rdfs:comment xml:lang="en">ISO 15022 classifies events as impacting income vs. others. Other classification schemes distinguish between actions that return profits to shareholders, actions that are designed to influence the share price, and actions involving a change in structure to the issuer organisation.</rdfs:comment>
         <rdfs:label xml:lang="en">Corporate Action Classifier</rdfs:label>
         <skos:definition xml:lang="en">Classifier that distinguishes the kinds of actions and events that may be announced, initiated or carried out by an organisation that affects a legal entity or the securities it issues, such as income-oriented events</skos:definition>
         <skos:prefLabel xml:lang="en">Corporate Action Classifier</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">ISO 15022 classifies events as impacting income vs. others. Other classification schemes distinguish between actions that return profits to shareholders, actions that are designed to influence the share price, and actions involving a change in structure to the issuer organisation.</skos:scopeNote>
     </owl:Class>
     
 
@@ -2869,21 +2836,16 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Foreign Exchange Rate</dcterms:alternative>
         <dcterms:alternative xml:lang="en">Foreign Exchange Reference Rate</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T08:40:57Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:e12e471d-ad7b-4968-b213-5c89b81ca254"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T13:26:25Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:44:01Z</dcterms:modified>
         <rdfs:label xml:lang="en">Currency Exchange Rate</rdfs:label>
+        <skos:altLabel xml:lang="en">FX Rate</skos:altLabel>
+        <skos:altLabel xml:lang="en">Foreign Exchange Rate</skos:altLabel>
         <skos:definition xml:lang="en">Value of one currency for the purpose of conversion to another</skos:definition>
         <skos:prefLabel xml:lang="en">Currency Exchange Rate</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/alternative"/>
-        <owl:annotatedTarget xml:lang="en">Foreign Exchange Rate</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">FX Rate</dcterms:alternative>
-    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
@@ -2981,26 +2943,12 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:14:38Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:0af82168-823c-4cab-a1ba-0fd41a5cbded"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T12:15:52Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.8"/>
-        <rdfs:comment xml:lang="en">International Data Matrix developed Data Matrix in 1989 with finalized design in 1995</rdfs:comment>
-        <rdfs:comment xml:lang="en">The symbology has error detection (3.16) and error correction (3.15) features. Each Data Matrix symbol consists of data regions that contain nominally square modules set out in a regular array. A dark module is a binary 1 and a light module is a binary 0. There is no specified minimum or maximum for the X or Y dimension. The data region is surrounded by a finder pattern that is surrounded by a quiet zone on all four sides of the symbol. The finder pattern is a perimeter to the data region and is one module wide. Two adjacent sides are solid dark lines used primarily to define physical size, orientation and symbol distortion. The two opposite sides are made up of alternating dark and light modules. These are used primarily to define the cell structure but can also assist in determining physical size and distortion. The intellectual property rights associated with Data Matrix have been committed to the public domain. See ISO/IEC 16022 for the Data Matrix symbology specification.</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:19:39Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-3:v1:term:3.5"/>
         <rdfs:label xml:lang="en">Data Matrix</rdfs:label>
-        <skos:definition xml:lang="en">Error correcting two-dimensional matrix symbology, capable of encoding various character sets including strictly numeric data, alphanumeric data and all ISO/IEC 646 (ASCII) characters, as well as special character sets</skos:definition>
+        <skos:definition xml:lang="en">Error correcting two-dimensional matrix symbology defined by ISO/IEC 16022</skos:definition>
         <skos:prefLabel xml:lang="en">Data Matrix</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataMatrix"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">International Data Matrix developed Data Matrix in 1989 with finalized design in 1995</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataMatrix"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">The symbology has error detection (3.16) and error correction (3.15) features. Each Data Matrix symbol consists of data regions that contain nominally square modules set out in a regular array. A dark module is a binary 1 and a light module is a binary 0. There is no specified minimum or maximum for the X or Y dimension. The data region is surrounded by a finder pattern that is surrounded by a quiet zone on all four sides of the symbol. The finder pattern is a perimeter to the data region and is one module wide. Two adjacent sides are solid dark lines used primarily to define physical size, orientation and symbol distortion. The two opposite sides are made up of alternating dark and light modules. These are used primarily to define the cell structure but can also assist in determining physical size and distortion. The intellectual property rights associated with Data Matrix have been committed to the public domain. See ISO/IEC 16022 for the Data Matrix symbology specification.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
-    </owl:Axiom>
     
 
 
@@ -3056,17 +3004,17 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DataType">
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Datatype</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-14T11:20:42Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:fb10978f-dcf1-432d-b1a7-69e681b84c25"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T13:52:14Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:02:08Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2122374"/>
+        <dcterms:source xml:lang="en">ISO-IEC-2382-15 * 1999 * * * </dcterms:source>
         <rdfs:comment xml:lang="en">15.04.01 (17.05.08) (2382)</rdfs:comment>
         <rdfs:comment xml:lang="en">Example: An integer type has a very simple structure, each occurrence of which, usually called value, is a representation of a member of a specified range of whole numbers and the permissible operations include the usual arithmetic operations on these integers</rdfs:comment>
-        <rdfs:comment xml:lang="en">ISO-IEC-2382-15 * 1999 * * * </rdfs:comment>
         <rdfs:comment xml:lang="en">The term &quot;type&quot; may be used instead of &quot;data type&quot; when there is no ambiguity</rdfs:comment>
         <rdfs:comment xml:lang="en-us">data type; datatype: terms and definition standardized by ISO/IEC [ISO/IEC 2382-15:1999]</rdfs:comment>
         <rdfs:label xml:lang="en">Data Type</rdfs:label>
+        <skos:altLabel xml:lang="en">Datatype</skos:altLabel>
         <skos:definition xml:lang="en">Defined set of data objects of a specified data structure and a set of permissible operations, such that these data objects act as operands in the execution of any one of these operations</skos:definition>
         <skos:prefLabel xml:lang="en">Data Type</skos:prefLabel>
     </owl:Class>
@@ -3081,12 +3029,6 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
         <owl:annotatedTarget xml:lang="en">Example: An integer type has a very simple structure, each occurrence of which, usually called value, is a representation of a member of a specified range of whole numbers and the permissible operations include the usual arithmetic operations on these integers</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataType"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">ISO-IEC-2382-15 * 1999 * * * </owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DataType"/>
@@ -3136,14 +3078,15 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T10:04:01Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:36a3ee47-fc6d-4d86-907e-25972a882479"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T14:03:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:01:41Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v2:term:2121417"/>
+        <dcterms:source xml:lang="en">ISO-IEC-2382-17 * 1999 * * * </dcterms:source>
         <rdfs:comment xml:lang="en">17.01.03 (2382)</rdfs:comment>
         <rdfs:comment xml:lang="en-us">Database management system; DBMS: term, abbreviation and definition standardized by ISO/IEC [ISO/IEC 2382-17:1999]</rdfs:comment>
-        <rdfs:comment xml:lang="en">ISO-IEC-2382-17 * 1999 * * * </rdfs:comment>
         <rdfs:comment xml:lang="en">The software for using a database may be part of the database management system or may be stand-alone</rdfs:comment>
         <rdfs:label xml:lang="en">Database Management System</rdfs:label>
         <skos:definition xml:lang="en">System, based on hardware and software, for defining, creating, manipulating, controlling, managing, and using databases</skos:definition>
+        <skos:hiddenLabel xml:lang="en">DBMS</skos:hiddenLabel>
         <skos:prefLabel xml:lang="en">Database Management System</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
@@ -3161,20 +3104,8 @@
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DatabaseManagementSystem"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">ISO-IEC-2382-17 * 1999 * * * </owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DatabaseManagementSystem"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
         <owl:annotatedTarget xml:lang="en">The software for using a database may be part of the database management system or may be stand-alone</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DatabaseManagementSystem"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Database Management System</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">DBMS</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -3183,12 +3114,12 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Datum">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Reference Frame</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T10:19:23Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:a948f9f3-e5dc-4aec-9598-61d39574a321"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T13:53:16Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:10:59Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19111:ed-3:v1:term:3.1.15"/>
         <rdfs:label xml:lang="en">Datum</rdfs:label>
+        <skos:altLabel xml:lang="en">Reference Frame</skos:altLabel>
         <skos:definition xml:lang="en">Parameter or set of parameters that realize the position of the origin, the scale, and the orientation of a Coordinate System</skos:definition>
         <skos:prefLabel xml:lang="en">Datum</skos:prefLabel>
     </owl:Class>
@@ -3484,9 +3415,9 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T17:09:02Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:1174a450-dcbb-4907-9346-20a06fc316b8"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:30:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:00:51Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.4.1.01"/>
-        <rdfs:comment xml:lang="en">ISO/IEC TR 29166:2011, definition 3.3, modified</rdfs:comment>
+        <dcterms:source xml:lang="en">ISO/IEC TR 29166:2011, definition 3.3</dcterms:source>
         <rdfs:comment xml:lang="en">See also “general material designation” (3.7.2.03), “specific material designation” (3.7.2.04); “special collection” (3.6.1.10); ISO 10209:2012, definition 11.58; ISO 29845:2011, definition 3.1.3; ISAD (G) 1999 (“form”)</rdfs:comment>
         <rdfs:label xml:lang="en">Document Type</rdfs:label>
         <skos:definition xml:lang="en">Class of documents characterised by a specific materiality, purpose or type of content</skos:definition>
@@ -3494,9 +3425,9 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">ISO/IEC TR 29166:2011, definition 3.3, modified</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
+        <owl:annotatedTarget xml:lang="en">ISO/IEC TR 29166:2011, definition 3.3</owl:annotatedTarget>
+        <skos:note xml:lang="en">modified</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
@@ -3779,21 +3710,26 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EuropeanArticleNumberUniversalProductCode">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LinearBarcodeSymbology"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">EAN/UPC</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T21:59:42Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:e0312de0-cce1-43eb-b542-7b30f20cca47"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T12:14:36Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.12"/>
-        <rdfs:comment xml:lang="en">See ISO/IEC 15420 for the EAN/UPC symbology specification. See also UPC-A (3.43).</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:26:06Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-3:v1:term:3.8"/>
+        <rdfs:label xml:lang="en">EAN/UPC</rdfs:label>
         <rdfs:label xml:lang="en">European Article Number/Universal Product Code</rdfs:label>
-        <skos:definition xml:lang="en">Family of bar code symbols including EAN-8, EAN-13, UPC-A, and UPC-E bar code symbols, which are a fixed-length, numeric 8, 12, and 13-digit bar code symbol adopted by retail and some other industries, composed of a company prefix assigned by GS1 member organizations, a product code assigned by the manufacturer, and a modulo 10 check digit as the right-most digit</skos:definition>
+        <skos:definition xml:lang="en">Family of bar code symbols including EAN-8, EAN-13, UPC-A, and UPC-E bar code symbols as defined by ISO/IEC 15420</skos:definition>
         <skos:prefLabel xml:lang="en">European Article Number/Universal Product Code</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EuropeanArticleNumberUniversalProductCode"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">See ISO/IEC 15420 for the EAN/UPC symbology specification. See also UPC-A (3.43).</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <owl:annotatedTarget xml:lang="en">EAN/UPC</owl:annotatedTarget>
+        <skos:note xml:lang="en">This is the preferred label in ISO 22742:2026</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EuropeanArticleNumberUniversalProductCode"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <owl:annotatedTarget xml:lang="en">European Article Number/Universal Product Code</owl:annotatedTarget>
+        <skos:note xml:lang="en">Not specified in ISO 22742:2026</skos:note>
     </owl:Axiom>
     
 
@@ -4024,10 +3960,10 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-03T16:20:14Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:cd23baa0-5d4b-41d7-af15-014961077a78"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T14:26:33Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:28:13Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:13008:ed-2:v1:term:3.8"/>
+        <dcterms:source xml:lang="en">PRONOM Vocabulary Specification, The National Archives UK, 2011</dcterms:source>
         <rdfs:comment xml:lang="en">A file may (or may not) be a container containing zero or more files of various formats. File formats may be defined by a specification, or by a reference software system. Many file formats exist in forms with minor variations and many also in more than one version. Typing of file formats should be interpreted generously rather than strictly, but sufficiently precisely to distinguish versions where such distinctions have significant interpretive consequences</rdfs:comment>
-        <rdfs:comment xml:lang="en">PRONOM Vocabulary Specification, The National Archives UK, 2011</rdfs:comment>
         <rdfs:label xml:lang="en">File Format</rdfs:label>
         <skos:definition xml:lang="en">Encoding of a file type that can be rendered or interpreted in a consistent, expected and meaningful way through the intervention of a particular piece of software or hardware which has been designed to handle that format</skos:definition>
         <skos:prefLabel xml:lang="en">File Format</skos:prefLabel>
@@ -4037,12 +3973,6 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
         <owl:annotatedTarget xml:lang="en">A file may (or may not) be a container containing zero or more files of various formats. File formats may be defined by a specification, or by a reference software system. Many file formats exist in forms with minor variations and many also in more than one version. Typing of file formats should be interpreted generously rather than strictly, but sufficiently precisely to distinguish versions where such distinctions have significant interpretive consequences</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/FileFormat"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">PRONOM Vocabulary Specification, The National Archives UK, 2011</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
     </owl:Axiom>
     
 
@@ -4658,7 +4588,7 @@
         <dcterms:alternative xml:lang="en">International Telephone Number Country Code</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:31:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:42ceb2ca-425f-4fd3-89b3-9eadeda6831a"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T14:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:28:58Z</dcterms:modified>
         <dcterms:source rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
         <rdfs:label xml:lang="en">ITU-T E.164 Country Code</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.itu.int/rec/T-REC-E.101-200911-I/en"/>
@@ -4669,7 +4599,7 @@
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ITUTE164CountryCode"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
-        <rdfs:comment xml:lang="en">Section 5.2</rdfs:comment>
+        <skos:note xml:lang="en">Section 5.2</skos:note>
     </owl:Axiom>
     
 
@@ -4803,11 +4733,12 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/IntercardinalDirection">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Direction"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Intermediate Direction</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Ordinal Direction</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-28T11:33:07Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:a52507dd-0a9c-4a93-a872-3cb0410bb06f"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T06:51:10Z</dcterms:modified>
         <rdfs:label xml:lang="en">Intercardinal Direction</rdfs:label>
+        <skos:altLabel xml:lang="en">Intermediate Direction</skos:altLabel>
+        <skos:altLabel xml:lang="en">Ordinal Direction</skos:altLabel>
         <skos:definition xml:lang="en">Intermediate Direction located halfway between sets of two neighbouring Cardinal Directions</skos:definition>
         <skos:prefLabel xml:lang="en">Intercardinal Direction</skos:prefLabel>
     </owl:Class>
@@ -4903,7 +4834,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
         <dcterms:alternative xml:lang="en">International Direct Dialing Prefix</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-06T09:39:10Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:687c0395-6653-4a34-b46c-f0b356e4dff4"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T19:52:07Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:30:22Z</dcterms:modified>
         <dcterms:source rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
         <rdfs:label xml:lang="en">International Prefix</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.itu.int/rec/T-REC-E.101-200911-I/en"/>
@@ -4914,7 +4845,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalPrefix"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
-        <rdfs:comment xml:lang="en">Section 5.3</rdfs:comment>
+        <skos:note xml:lang="en">Section 5.3</skos:note>
     </owl:Axiom>
     
 
@@ -5113,22 +5044,48 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Kind</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:35:21Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:15e770c8-d8b7-44de-adcb-dd4df154e03b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:23:50Z</dcterms:modified>
-        <dcterms:source rdf:resource="http://jcgm.bipm.org/vim/en/1.2.html"/>
-        <rdfs:comment xml:lang="en">NOTE 1 The division of ‘quantity’ according to ‘kind of quantity’ is to some extent arbitrary.
-EXAMPLE 1 The quantities diameter, circumference, and wavelength are generally considered to be quantities of the same kind, namely of the kind of quantity called length.
-EXAMPLE 2 The quantities heat, kinetic energy, and potential energy are generally considered to be quantities of the same kind, namely of the kind of quantity called energy.
-NOTE 2 Quantities of the same kind within a given system of quantities have the same quantity dimension. However, quantities of the same dimension are not necessarily of the same kind.
-EXAMPLE The quantities moment of force and energy are, by convention, not regarded as being of the same kind, although they have the same dimension. Similarly for heat capacity and entropy, as well as for number of entities, relative permeability, and mass fraction.
-NOTE 3 In English, the terms for quantities in the left half of the table in 1.1, Note 1, are often used for the corresponding ‘kinds of quantity’. In French, the term “nature” is only used in expressions such as “grandeurs de même nature” (in English, “quantities of the same kind”).</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:49:03Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/1.2.html"/>
         <rdfs:label xml:lang="en">Kind Of Quantity</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
+        <skos:altLabel xml:lang="en">Kind</skos:altLabel>
         <skos:definition xml:lang="en">Aspect common to mutually comparable quantities</skos:definition>
+        <skos:note xml:lang="en">The term &quot;kind&quot; is mainly used in expressions such as &quot;quantities of the same kind.&quot; Two quantities of the same kind are mutually comparable, so that they can be placed in order of magnitude. Length and mass are quantities of different kinds because they are not mutually comparable.</skos:note>
         <skos:prefLabel xml:lang="en">Kind Of Quantity</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">In English, the terms for quantities in the left half of the table in 1.1, Note 1, are often used for the corresponding ‘kinds of quantity’. In French, the term “nature” is only used in expressions such as “grandeurs de même nature” (in English, “quantities of the same kind”).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Quantities of the same kind within a given system of quantities have the same quantity dimension. However, quantities of the same dimension are not necessarily of the same kind.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The division of ‘quantity’ according to ‘kind of quantity’ is to some extent arbitrary</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+        <owl:annotatedTarget xml:lang="en">The term &quot;kind&quot; is mainly used in expressions such as &quot;quantities of the same kind.&quot; Two quantities of the same kind are mutually comparable, so that they can be placed in order of magnitude. Length and mass are quantities of different kinds because they are not mutually comparable.</owl:annotatedTarget>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-12-03</dcterms:modified>
+        <skos:note xml:lang="en">informative</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">In English, the terms for quantities in the left half of the table in 1.1, Note 1, are often used for the corresponding ‘kinds of quantity’. In French, the term “nature” is only used in expressions such as “grandeurs de même nature” (in English, “quantities of the same kind”).</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Quantities of the same kind within a given system of quantities have the same quantity dimension. However, quantities of the same dimension are not necessarily of the same kind.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+        <skos:example xml:lang="en">The quantities moment of force and energy are, by convention, not regarded as being of the same kind, although they have the same dimension. Similarly for heat capacity and entropy, as well as for number of entities, relative permeability, and mass fraction.</skos:example>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/KindOfQuantity"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The division of ‘quantity’ according to ‘kind of quantity’ is to some extent arbitrary</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+        <skos:example xml:lang="en">The quantities diameter, circumference, and wavelength are generally considered to be quantities of the same kind, namely of the kind of quantity called length</skos:example>
+        <skos:example xml:lang="en">The quantities heat, kinetic energy, and potential energy are generally considered to be quantities of the same kind, namely of the kind of quantity called energy</skos:example>
+    </owl:Axiom>
     
 
 
@@ -5444,15 +5401,15 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Script</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T13:34:37Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:6b38ee2a-65c8-4302-866c-a0a3bc9e33d7"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:33:16Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:15924:ed-1:v1:term:3.7"/>
-        <rdfs:comment xml:lang="en">A script, as opposed to an arbitrary subset of characters, is defined in distinction to other scripts; in general, readers of one script may be unable to read the glyphs of another script easily, even where there is a historic relation between them</rdfs:comment>
-        <rdfs:comment xml:lang="en">ISO/IEC 10646-1, 4.14</rdfs:comment>
-        <rdfs:comment xml:lang="en">In certain cases, ISO 15924 provides codes which are not subsumed under this definition, such as the codes for aliases and the variant codes</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:37:20Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:15924:ed-2:v1:term:3.7"/>
+        <dcterms:source xml:lang="en">ISO/IEC 10646:2020, 3.48</dcterms:source>
+        <rdfs:comment xml:lang="en">A script, as opposed to an arbitrary subset of characters, is defined in distinction to other scripts; in general, readers of one script may be unable to read another script easily, even where there is a historic relation between them (see 3.9)</rdfs:comment>
+        <rdfs:comment xml:lang="en">In certain cases, ISO 15924 provides codes which are not subsumed under this definition. Examples: the codes for aliases and the variant codes</rdfs:comment>
         <rdfs:label xml:lang="en">Language Script</rdfs:label>
+        <rdfs:label xml:lang="en">Script</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://unicode.org/iso15924/codelists.html"/>
         <skos:definition xml:lang="en">Set of graphic characters used for the written form of one or more languages</skos:definition>
         <skos:prefLabel xml:lang="en">Language Script</skos:prefLabel>
@@ -5460,20 +5417,26 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScript"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">A script, as opposed to an arbitrary subset of characters, is defined in distinction to other scripts; in general, readers of one script may be unable to read the glyphs of another script easily, even where there is a historic relation between them</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">A script, as opposed to an arbitrary subset of characters, is defined in distinction to other scripts; in general, readers of one script may be unable to read another script easily, even where there is a historic relation between them (see 3.9)</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScript"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">ISO/IEC 10646-1, 4.14</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
+        <owl:annotatedTarget xml:lang="en">In certain cases, ISO 15924 provides codes which are not subsumed under this definition. Examples: the codes for aliases and the variant codes</owl:annotatedTarget>
+        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScript"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">In certain cases, ISO 15924 provides codes which are not subsumed under this definition, such as the codes for aliases and the variant codes</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <owl:annotatedTarget xml:lang="en">Language Script</owl:annotatedTarget>
+        <skos:note xml:lang="en">Not specified in ISO 15924:2022</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScript"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <owl:annotatedTarget xml:lang="en">Script</owl:annotatedTarget>
+        <skos:note xml:lang="en">This is the preferred label in ISO 15924:2022</skos:note>
     </owl:Axiom>
     
 
@@ -5838,7 +5801,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T18:01:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:04041a36-cd1e-4c4c-a94d-3bad0fc07806"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T16:35:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:38:29Z</dcterms:modified>
         <rdfs:label xml:lang="en">Legal Matter Outcome Qualifier</rdfs:label>
         <skos:definition xml:lang="en">Legally necessary specifics regarding how a Legal Matter Administrative Outcome or a Legal Adjudication Result is applied or why it was issued</skos:definition>
         <skos:prefLabel xml:lang="en">Legal Matter Outcome Qualifier</skos:prefLabel>
@@ -5848,7 +5811,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Legally necessary specifics regarding how a Legal Matter Administrative Outcome or a Legal Adjudication Result is applied or why it was issued</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://assets.publishing.service.gov.uk/media/5e3853baed915d095784f4e4/cjs-data-standards-catalogue-6.pdf"/>
-        <rdfs:comment xml:lang="en">Section 3.123, with modifications</rdfs:comment>
+        <skos:note xml:lang="en">Section 3.123, with modifications</skos:note>
     </owl:Axiom>
     
 
@@ -5859,7 +5822,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T17:12:27Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:2156633b-bfd6-455d-8cf9-73e2ba76726f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T16:41:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:38:37Z</dcterms:modified>
         <rdfs:label xml:lang="en">Legal Matter Outcome Type</rdfs:label>
         <skos:definition xml:lang="en">Specific category or structural type of a Legal Matter Administrative Outcome or a Legal Adjudication Result being recorded</skos:definition>
         <skos:prefLabel xml:lang="en">Legal Matter Outcome Type</skos:prefLabel>
@@ -5869,7 +5832,7 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Specific category or structural type of a Legal Matter Administrative Outcome or a Legal Adjudication Result being recorded</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://assets.publishing.service.gov.uk/media/5e3853baed915d095784f4e4/cjs-data-standards-catalogue-6.pdf"/>
-        <rdfs:comment xml:lang="en">Section 3.126, with modifications</rdfs:comment>
+        <skos:note xml:lang="en">Section 3.126, with modifications</skos:note>
     </owl:Axiom>
     
 
@@ -6243,23 +6206,41 @@ NOTE 3 In English, the terms for quantities in the left half of the table in 1.1
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Method of measurement</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:12:38Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:a15bef2b-44ff-491a-8f5d-8c72ac91033f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:40:37Z</dcterms:modified>
-        <dcterms:source rdf:resource="http://jcgm.bipm.org/vim/en/2.5.html"/>
-        <rdfs:comment xml:lang="en">NOTE Measurement methods may be qualified in various ways such as:
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:48:37Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/2.5.html"/>
+        <rdfs:label xml:lang="en">Measurement Method</rdfs:label>
+        <rdfs:seeAlso xml:lang="en">IEC 60050-300:2001</rdfs:seeAlso>
+        <skos:altLabel xml:lang="en">Method Of Measurement</skos:altLabel>
+        <skos:definition xml:lang="en-gb">Generic description of a logical organisation of operations used in a measurement</skos:definition>
+        <skos:definition xml:lang="en-us">Generic description of a logical organization of operations used in a measurement</skos:definition>
+        <skos:note xml:lang="en">The terms &quot;primary method&quot;, &quot;primary method of measurement&quot;, and &quot;primary measurement method&quot; are generally used for a method adopted to obtain a measurement result without relation to a measurement standard for a quantity of the same kind</skos:note>
+        <skos:note xml:lang="en">The use of the terms &quot;measurement method&quot; and &quot;measurement procedure&quot; differs, for historical reasons, between different areas of metrology. In general, a measurement method delimits a broader category of operations than does a measurement procedure, which requires a detailed set of instructions.</skos:note>
+        <skos:prefLabel xml:lang="en">Measurement Method</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Measurement methods may be qualified in various ways such as:
 — substitution measurement method,
 — differential measurement method, and
 — null measurement method;
+
 or
 — direct measurement method, and
-— indirect measurement method.
-See IEC 60050-300:2001.</rdfs:comment>
-        <rdfs:label xml:lang="en">Measurement Method</rdfs:label>
-        <skos:definition xml:lang="en">Generic description of a logical organisation of operations used in a measurement</skos:definition>
-        <skos:prefLabel xml:lang="en">Measurement Method</skos:prefLabel>
+— indirect measurement method.</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+        <owl:annotatedTarget xml:lang="en">The terms &quot;primary method&quot;, &quot;primary method of measurement&quot;, and &quot;primary measurement method&quot; are generally used for a method adopted to obtain a measurement result without relation to a measurement standard for a quantity of the same kind</owl:annotatedTarget>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-06-09</dcterms:modified>
+        <skos:note xml:lang="en">informative</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+        <owl:annotatedTarget xml:lang="en">The use of the terms &quot;measurement method&quot; and &quot;measurement procedure&quot; differs, for historical reasons, between different areas of metrology. In general, a measurement method delimits a broader category of operations than does a measurement procedure, which requires a detailed set of instructions.</owl:annotatedTarget>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2015-07-11</dcterms:modified>
+        <skos:note xml:lang="en">informative</skos:note>
+    </owl:Axiom>
     
 
 
@@ -6288,22 +6269,46 @@ See IEC 60050-300:2001.</rdfs:comment>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Unit</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Unit of measurement</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:37:30Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:7d0079f9-c0b7-4726-a1db-d6b388eb3389"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:40:50Z</dcterms:modified>
-        <dcterms:source rdf:resource="http://jcgm.bipm.org/vim/en/1.9.html"/>
-        <rdfs:comment xml:lang="en">NOTE 1 Measurement units are designated by conventionally assigned names and symbols.
-NOTE 2 Measurement units of quantities of the same quantity dimension may be designated by the same name and symbol even when the quantities are not of the same kind. For example, joule per kelvin and J/K are respectively the name and symbol of both a measurement unit of heat capacity and a measurement unit of entropy, which are generally not considered to be quantities of the same kind. However, in some cases special measurement unit names are restricted to be used with quantities of a specific kind only. For example, the measurement unit ‘second to the power minus one’ (1/s) is called hertz (Hz) when used for frequencies and becquerel (Bq) when used for activities of radionuclides.
-NOTE 3 Measurement units of quantities of dimension one are numbers. In some cases these measurement units are given special names, e.g. radian, steradian, and decibel, or are expressed by quotients such as millimole per mole equal to 10–3 and microgram per kilogram equal to 10–9.
-NOTE 4 For a given quantity, the short term “unit” is often combined with the quantity name, such as “mass unit” or “unit of mass”.</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:45:53Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/1.9.html"/>
         <rdfs:label xml:lang="en">Measurement Unit</rdfs:label>
         <rdfs:seeAlso rdf:resource="http://schema.org/unitText"/>
         <rdfs:seeAlso rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
+        <skos:altLabel xml:lang="en">Unit</skos:altLabel>
+        <skos:altLabel xml:lang="en">Unit Of Measurement</skos:altLabel>
         <skos:definition xml:lang="en">Real scalar quantity, defined and adopted by convention, with which any other quantity of the same kind can be compared to express the ratio of the two quantities as a number</skos:definition>
         <skos:prefLabel xml:lang="en">Measurement Unit</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">For a given quantity, the short term “unit” is often combined with the quantity name, such as “mass unit” or “unit of mass”</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Measurement units are designated by conventionally assigned names and symbols</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Measurement units of quantities of dimension one are numbers. In some cases these measurement units are given special names, e.g. radian, steradian, and decibel, or are expressed by quotients such as millimole per mole equal to 10–3 and microgram per kilogram equal to 10–9.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Measurement units of quantities of the same quantity dimension may be designated by the same name and symbol even when the quantities are not of the same kind. For example, joule per kelvin and J/K are respectively the name and symbol of both a measurement unit of heat capacity and a measurement unit of entropy, which are generally not considered to be quantities of the same kind. However, in some cases special measurement unit names are restricted to be used with quantities of a specific kind only. For example, the measurement unit ‘second to the power minus one’ (1/s) is called hertz (Hz) when used for frequencies and becquerel (Bq) when used for activities of radionuclides.</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">For a given quantity, the short term “unit” is often combined with the quantity name, such as “mass unit” or “unit of mass”</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Measurement units are designated by conventionally assigned names and symbols</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Measurement units of quantities of dimension one are numbers. In some cases these measurement units are given special names, e.g. radian, steradian, and decibel, or are expressed by quotients such as millimole per mole equal to 10–3 and microgram per kilogram equal to 10–9.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Measurement units of quantities of the same quantity dimension may be designated by the same name and symbol even when the quantities are not of the same kind. For example, joule per kelvin and J/K are respectively the name and symbol of both a measurement unit of heat capacity and a measurement unit of entropy, which are generally not considered to be quantities of the same kind. However, in some cases special measurement unit names are restricted to be used with quantities of a specific kind only. For example, the measurement unit ‘second to the power minus one’ (1/s) is called hertz (Hz) when used for frequencies and becquerel (Bq) when used for activities of radionuclides.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
     
 
 
@@ -6531,11 +6536,11 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Honorific Suffix</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-01T13:19:56Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:0c735795-344d-407e-ae2b-2ff04a17935b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:38:03Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:12:58Z</dcterms:modified>
         <rdfs:label xml:lang="en">Natural Person Name Suffix</rdfs:label>
+        <skos:altLabel xml:lang="en">Honorific Suffix</skos:altLabel>
         <skos:definition xml:lang="en">Word that is used after a natural person&apos;s name</skos:definition>
         <skos:prefLabel xml:lang="en">Natural Person Name Suffix</skos:prefLabel>
     </owl:Class>
@@ -6559,11 +6564,11 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonRace">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Race</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T11:07:35Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:f709cc70-fabe-4e69-813c-4a6eec554f82"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:45:37Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:13:09Z</dcterms:modified>
         <rdfs:label xml:lang="en">Natural Person Race</rdfs:label>
+        <skos:altLabel xml:lang="en">Race</skos:altLabel>
         <skos:definition xml:lang="en">Each of the major groupings into which humankind is considered (in various theories or contexts) to be divided on the basis of physical characteristics or shared ancestry</skos:definition>
         <skos:prefLabel xml:lang="en">Natural Person Race</skos:prefLabel>
     </owl:Class>
@@ -6589,19 +6594,78 @@ NOTE 4 For a given quantity, the short term “unit” is often combined with th
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-10-08T07:01:36Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:7d240c6b-5e75-4395-9e52-8f8465fb4184"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:55:55Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:54:00Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/1.30.html"/>
-        <rdfs:comment xml:lang="en">EXAMPLE 1 Sex of a human being.
-EXAMPLE 2 Colour of a paint sample.
-EXAMPLE 3 Colour of a spot test in chemistry.
-EXAMPLE 4 ISO two-letter country code.
-EXAMPLE 5 Sequence of amino acids in a polypeptide.
-NOTE 1 A nominal property has a value, which can be expressed in words, by alphanumerical codes, or by other means.
-NOTE 2 ‘Nominal property value’ is not to be confused with nominal quantity value.</rdfs:comment>
         <rdfs:label xml:lang="en">Nominal Property</rdfs:label>
         <skos:definition xml:lang="en">Property of a phenomenon, body, or substance, where the property has no magnitude</skos:definition>
+        <skos:example xml:lang="en">Colour of a paint sample</skos:example>
+        <skos:example xml:lang="en">Colour of a spot test in chemistry</skos:example>
+        <skos:example xml:lang="en">ISO two-letter country code</skos:example>
+        <skos:example xml:lang="en">Sequence of amino acids in a polypeptide</skos:example>
+        <skos:example xml:lang="en">Sex of a human being</skos:example>
+        <skos:note xml:lang="en">Nominal properties are distinguished from quantities, which are properties that have a magnitude, that is, they can be compared in terms of greater or lesser</skos:note>
+        <skos:note xml:lang="en">While colour of a paint sample is sometimes considered to be a nominal property, it is also recognized that a pure colour can be characterized by the wavelength of electromagnetic radiation, which is a quantity that can be measured</skos:note>
         <skos:prefLabel xml:lang="en">Nominal Property</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">&apos;Nominal property value&apos; is not to be confused with nominal quantity value</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">A nominal property has a value, which can be expressed in words, by alphanumerical codes, or by other means</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NominalProperty"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Colour of a paint sample</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NominalProperty"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Colour of a spot test in chemistry</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NominalProperty"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">ISO two-letter country code</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NominalProperty"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Sequence of amino acids in a polypeptide</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NominalProperty"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Sex of a human being</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NominalProperty"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+        <owl:annotatedTarget xml:lang="en">Nominal properties are distinguished from quantities, which are properties that have a magnitude, that is, they can be compared in terms of greater or lesser</owl:annotatedTarget>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-12-03</dcterms:modified>
+        <skos:note xml:lang="en">informative</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NominalProperty"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+        <owl:annotatedTarget xml:lang="en">While colour of a paint sample is sometimes considered to be a nominal property, it is also recognized that a pure colour can be characterized by the wavelength of electromagnetic radiation, which is a quantity that can be measured</owl:annotatedTarget>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-12-03</dcterms:modified>
+        <skos:note xml:lang="en">informative</skos:note>
+        <skos:scopeNote xml:lang="en">for Examples 2 and 3</skos:scopeNote>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NominalProperty"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">&apos;Nominal property value&apos; is not to be confused with nominal quantity value</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NominalProperty"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">A nominal property has a value, which can be expressed in words, by alphanumerical codes, or by other means</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
@@ -7589,23 +7653,60 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Dimension</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:b170a42e-271a-4fdd-a8cf-4072261dc739"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T16:02:07Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:06:23Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/1.1.html"/>
-        <rdfs:comment xml:lang="en">NOTE 1 The generic concept ‘quantity’ can be divided into several levels of specific concepts, as shown in the following table. The left hand side of the table shows specific concepts under ‘quantity’. These are generic concepts for the individual quantities in the right hand column.
-NOTE 2 A reference can be a measurement unit, a measurement procedure, a reference material, or a combination of such.
-NOTE 3 Symbols for quantities are given in the ISO 80000 and IEC 80000 series Quantities and units. The symbols for quantities are written in italics. A given symbol can indicate different quantities.
-NOTE 4 The preferred IUPAC-IFCC format for designations of quantities in laboratory medicine is “System—Component; kind-of-quantity”.
-EXAMPLE “Plasma (Blood)Sodium ion; amount-of-substance concentration equal to 143 mmol/l in a given person at a given time”.
-NOTE 5 A quantity as defined here is a scalar. However, a vector or a tensor, the components of which are quantities, is also considered to be a quantity.
-NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physical quantity’, ‘chemical quantity’, and ‘biological quantity’, or base quantity and derived quantity.</rdfs:comment>
         <rdfs:label xml:lang="en">Quantity</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <skos:definition xml:lang="en">Property of a phenomenon, body, or substance, where the property has a magnitude that can be expressed as a number and a reference</skos:definition>
+        <skos:hiddenLabel xml:lang="en">Dimension</skos:hiddenLabel>
         <skos:prefLabel xml:lang="en">Quantity</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A quantity as defined here is a scalar. However, a vector or a tensor, the components of which are quantities, is also considered to be a quantity.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">A reference can be a measurement unit, a measurement procedure, a reference material, or a combination of such</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Symbols for quantities are given in the ISO 80000 and IEC 80000 series Quantities and units. The symbols for quantities are written in italics. A given symbol can indicate different quantities.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The concept &apos;quantity&apos; may be generically divided into, e.g. &apos;physical quantity&apos;, &apos;chemical quantity&apos;, and &apos;biological quantity&apos;, or base quantity and derived quantity</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The generic concept ‘quantity’ can be divided into several levels of specific concepts, as shown in the following table. The left hand side of the table shows specific concepts under ‘quantity’. These are generic concepts for the individual quantities in the right hand column.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The preferred IUPAC-IFCC format for designations of quantities in laboratory medicine is “System—Component; kind-of-quantity”</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">A quantity as defined here is a scalar. However, a vector or a tensor, the components of which are quantities, is also considered to be a quantity.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">A reference can be a measurement unit, a measurement procedure, a reference material, or a combination of such</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Symbols for quantities are given in the ISO 80000 and IEC 80000 series Quantities and units. The symbols for quantities are written in italics. A given symbol can indicate different quantities.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The concept &apos;quantity&apos; may be generically divided into, e.g. &apos;physical quantity&apos;, &apos;chemical quantity&apos;, and &apos;biological quantity&apos;, or base quantity and derived quantity</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The generic concept ‘quantity’ can be divided into several levels of specific concepts, as shown in the following table. The left hand side of the table shows specific concepts under ‘quantity’. These are generic concepts for the individual quantities in the right hand column.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+        <skos:note>&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td rowspan=&quot;2&quot;&gt;&lt;p&gt;length, &lt;span class=&quot;NoteExItalic&quot;&gt;l&lt;/span&gt;&lt;br/&gt; longueur, &lt;span class=&quot;NoteExItalic&quot;&gt;l&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;radius, &lt;span class=&quot;NoteExItalic&quot;&gt;r&lt;/span&gt;&lt;br/&gt; rayon, &lt;span class=&quot;NoteExItalic&quot;&gt;r&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;radius of circle A, &lt;span class=&quot;NoteExItalic&quot;&gt;r&lt;/span&gt;&lt;sub&gt;A&lt;/sub&gt; or &lt;span class=&quot;NoteExItalic&quot;&gt;r&lt;/span&gt;(A)&lt;br/&gt; rayon du cercle A, &lt;span class=&quot;NoteExItalic&quot;&gt;r&lt;/span&gt;&lt;sub&gt;A&lt;/sub&gt; ou &lt;span class=&quot;NoteExItalic&quot;&gt;r&lt;/span&gt;(A)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;wavelength, &lt;span class=&quot;NoteExItalic&quot;&gt;λ&lt;/span&gt;&lt;br/&gt; longueur d&apos;onde, &lt;span class=&quot;NoteExItalic&quot;&gt;λ&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;wavelength of the sodium D radiation, &lt;span class=&quot;NoteExItalic&quot;&gt;λ&lt;/span&gt;&lt;sub&gt;D&lt;/sub&gt; or &lt;span class=&quot;NoteExItalic&quot;&gt;λ&lt;/span&gt;(D; Na)&lt;br/&gt; longueur d&apos;onde de la radiation D du sodium, &lt;span class=&quot;NoteExItalic&quot;&gt;λ&lt;/span&gt;&lt;sub&gt;D&lt;/sub&gt; ou &lt;span class=&quot;NoteExItalic&quot;&gt;λ&lt;/span&gt;(D; Na)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td rowspan=&quot;2&quot;&gt;&lt;p&gt;energy, &lt;span class=&quot;NoteExItalic&quot;&gt;E&lt;/span&gt;&lt;br/&gt; énergie, &lt;span class=&quot;NoteExItalic&quot;&gt;E&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;kinetic energy, &lt;span class=&quot;NoteExItalic&quot;&gt;T&lt;/span&gt;&lt;br/&gt; énergie cinétique, &lt;span class=&quot;NoteExItalic&quot;&gt;T&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;kinetic energy of particle &lt;span class=&quot;NoteExItalic&quot;&gt;i &lt;/span&gt;in a given system, &lt;span class=&quot;NoteExItalic&quot;&gt;T&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;&lt;br/&gt; énergie cinétique de la particule &lt;span class=&quot;NoteExItalic&quot;&gt;i &lt;/span&gt;dans un système donné, &lt;span class=&quot;NoteExItalic&quot;&gt;T&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;heat, &lt;span class=&quot;NoteExItalic&quot;&gt;Q&lt;/span&gt;&lt;br/&gt; chaleur, &lt;span class=&quot;NoteExItalic&quot;&gt;Q&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;heat of vaporization of sample &lt;span class=&quot;NoteExItalic&quot;&gt;i &lt;/span&gt;of water, &lt;span class=&quot;NoteExItalic&quot;&gt;Q&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;&lt;br/&gt;chaleur de vaporisation du spécimen &lt;span class=&quot;NoteExItalic&quot;&gt;i&lt;/span&gt; d&apos;eau, &lt;span class=&quot;NoteExItalic&quot;&gt;Q&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;p&gt;electric charge, &lt;span class=&quot;NoteExItalic&quot;&gt;Q&lt;/span&gt;&lt;br/&gt;charge électrique, &lt;span class=&quot;NoteExItalic&quot;&gt;Q&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;electric charge of the proton, &lt;span class=&quot;NoteExItalic&quot;&gt;e&lt;/span&gt;&lt;br/&gt; charge électrique du proton, &lt;span class=&quot;NoteExItalic&quot;&gt;e&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;p&gt;electric resistance, &lt;span class=&quot;NoteExItalic&quot;&gt;R&lt;/span&gt;&lt;br/&gt; résistance électrique, &lt;span class=&quot;NoteExItalic&quot;&gt;R&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;electric resistance of resistor &lt;span class=&quot;NoteExItalic&quot;&gt;i&lt;/span&gt; in a given circuit, &lt;span class=&quot;NoteExItalic&quot;&gt;R&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;&lt;br/&gt; résistance électrique de la résistance &lt;span class=&quot;NoteExItalic&quot;&gt;i&lt;/span&gt; dans un circuit donné, &lt;span class=&quot;NoteExItalic&quot;&gt;R&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;p&gt;amount-of-substance concentration of entity B, &lt;span class=&quot;NoteExItalic&quot;&gt;c&lt;/span&gt;&lt;sub&gt;B&lt;/sub&gt;&lt;br/&gt;concentration en quantité de matière du constituant B, &lt;span class=&quot;NoteExItalic&quot;&gt;c&lt;/span&gt;&lt;sub&gt;B&lt;/sub&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;amount-of-substance concentration of ethanol in wine sample &lt;span class=&quot;NoteExItalic&quot;&gt;i&lt;/span&gt;, &lt;span class=&quot;NoteExItalic&quot;&gt;c&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;(C&lt;sub&gt;2&lt;/sub&gt;H&lt;sub&gt;5&lt;/sub&gt;OH)&lt;br/&gt; concentration en quantité de matière d&apos;éthanol dans le spécimen &lt;span class=&quot;NoteExItalic&quot;&gt;i &lt;/span&gt;de vin, &lt;span class=&quot;NoteExItalic&quot;&gt;c&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;(C&lt;sub&gt;2&lt;/sub&gt;H&lt;sub&gt;5&lt;/sub&gt;OH)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;p&gt;number concentration of entity B, &lt;span class=&quot;NoteExItalic&quot;&gt;C&lt;/span&gt;&lt;sub&gt;B&lt;/sub&gt;&lt;br/&gt; nombre volumique du constituant B, &lt;span class=&quot;NoteExItalic&quot;&gt;C&lt;/span&gt;&lt;sub&gt;B&lt;/sub&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;number concentration of erythrocytes in blood sample &lt;span class=&quot;NoteExItalic&quot;&gt;i&lt;/span&gt;, &lt;span class=&quot;NoteExItalic&quot;&gt;C&lt;/span&gt;(Erys; B&lt;span class=&quot;NoteExItalic&quot;&gt;&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;)&lt;br/&gt; nombre volumique d&apos;érythrocytes dans le spécimen &lt;span class=&quot;NoteExItalic&quot;&gt;i &lt;/span&gt;de sang, &lt;span class=&quot;NoteExItalic&quot;&gt;C&lt;/span&gt;(Erc; Sg&lt;span class=&quot;NoteExItalic&quot;&gt;&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;p&gt;Rockwell C hardness, HRC&lt;br/&gt; dureté C de Rockwell, HRC&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Rockwell C hardness of steel sample &lt;span class=&quot;NoteExItalic&quot;&gt;i&lt;/span&gt;, HRC&lt;span class=&quot;NoteExItalic&quot;&gt;&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;&lt;br/&gt; dureté C de Rockwell du spécimen &lt;span class=&quot;NoteExItalic&quot;&gt;i &lt;/span&gt;d&apos;acier, HRC&lt;span class=&quot;NoteExItalic&quot;&gt;&lt;sub&gt;i&lt;/sub&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The preferred IUPAC-IFCC format for designations of quantities in laboratory medicine is “System—Component; kind-of-quantity”</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
+        <skos:example xml:lang="en">“Plasma (Blood)-Sodium ion; amount-of-substance concentration equal to 143 mmol/l in a given person at a given time”</skos:example>
+    </owl:Axiom>
     
 
 
@@ -7681,14 +7782,20 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dcterms:alternative xml:lang="en-us">Romanization System</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T12:30:21Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:af1ea1c4-335b-40c7-ad52-12dc0451bd6d"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:53:33Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.6.14"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:26:28Z</dcterms:modified>
         <rdfs:label xml:lang="en-gb">Romanisation Transliteration System</rdfs:label>
         <rdfs:label xml:lang="en-us">Romanization Transliteration System</rdfs:label>
         <skos:definition xml:lang="en">System of script conversion from non-Roman to Roman script by means of transliteration</skos:definition>
         <skos:prefLabel xml:lang="en-gb">Romanisation Transliteration System</skos:prefLabel>
         <skos:prefLabel xml:lang="en-us">Romanization Transliteration System</skos:prefLabel>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/RomanisationTransliterationSystem"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
+        <owl:annotatedTarget xml:lang="en">System of script conversion from non-Roman to Roman script by means of transliteration</owl:annotatedTarget>
+        <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.6.14"/>
+        <skos:note xml:lang="en">Modified - &quot;, transcription (2) &lt;activity&gt;  (3.1.6.10) or both&quot; removed</skos:note>
+    </owl:Axiom>
     
 
 
@@ -7834,14 +7941,14 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Skill">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Ability</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Expertise</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-07-29T10:12:43Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:838ff1d7-077e-450b-b7ea-4fedff3b8f7d"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:58:56Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:27:37Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:30400:ed-2:v1:term:3.14.12"/>
         <rdfs:label xml:lang="en">Skill</rdfs:label>
         <skos:definition xml:lang="en">Learned capacity to perform a task to a specified expectation</skos:definition>
+        <skos:hiddenLabel xml:lang="en">Ability</skos:hiddenLabel>
+        <skos:hiddenLabel xml:lang="en">Expertise</skos:hiddenLabel>
         <skos:prefLabel xml:lang="en">Skill</skos:prefLabel>
     </owl:Class>
     
@@ -8141,20 +8248,15 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/TrafficLightRating">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NominalProperty"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">Red Amber Green Status</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T09:59:31Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:b4433dd5-04e5-4569-a0f3-94fac5df9a8e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:55:55Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:44:43Z</dcterms:modified>
         <rdfs:label xml:lang="en">Traffic Light Rating</rdfs:label>
+        <skos:altLabel xml:lang="en">RAG Status</skos:altLabel>
+        <skos:altLabel xml:lang="en">Red Amber Green Status</skos:altLabel>
         <skos:definition xml:lang="en-gb">Class of status of a variable according to the colour of traffic lights; Red, Amber, or Green</skos:definition>
         <skos:prefLabel xml:lang="en">Traffic Light Rating</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TrafficLightRating"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/alternative"/>
-        <owl:annotatedTarget xml:lang="en">Red Amber Green Status</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">RAG Status</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -12132,9 +12234,9 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
-        <rdfs:comment xml:lang="en">Section 6</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:29:58Z</dcterms:modified>
         <rdfs:label xml:lang="en">Industry Classification Benchmark 2019 structure and definitions pdf</rdfs:label>
+        <skos:note xml:lang="en">Section 6</skos:note>
         <dcat:accessURL rdf:resource="https://www.lseg.com/en/ftse-russell/industry-classification-benchmark-icb"/>
         <dcat:downloadURL rdf:resource="https://www.lseg.com/content/dam/ftse-russell/en_us/documents/ground-rules/icb-ground-rules.pdf"/>
     </owl:NamedIndividual>
@@ -12801,20 +12903,14 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-18T14:54:39Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:c825c393-d2db-4da1-b684-10f4666fc509"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:22:13Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:31:29Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.4.25"/>
-        <rdfs:comment xml:lang="en">Antonymy exists between the terms (3.4.2) “encoding” and “decoding”, “positive” and “negative”</rdfs:comment>
         <rdfs:comment xml:lang="en">Designations (3.4.1) in the relation of antonymy are called “antonyms”.</rdfs:comment>
         <rdfs:label xml:lang="en">Antonymy</rdfs:label>
         <skos:definition xml:lang="en">Relation between two designations representing two coordinate concepts viewed as opposites of each other</skos:definition>
+        <skos:example xml:lang="en">Antonymy exists between the terms (3.4.2) “encoding” and “decoding”, “positive” and “negative”</skos:example>
         <skos:prefLabel xml:lang="en">Antonymy</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Antonymy"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Antonymy exists between the terms (3.4.2) “encoding” and “decoding”, “positive” and “negative”</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
-    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Antonymy"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
@@ -12906,18 +13002,18 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T10:06:19Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:2c809e30-5c36-434e-b776-5f7cfde379b5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:26:09Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.2"/>
-        <rdfs:comment xml:lang="en">Code 128 allows numeric data to be represented in a compact double-density mode, with two data digits for every symbol character. Each Code 128 symbol uses two independent self-checking features, character self-checking via parity and a modulo 103 check character. Each Code 128 symbol consists of a leading quiet zone, a start pattern, characters representing data, a check character, a stop pattern, and a trailing quiet zone. Each Code 128 character consists of eleven 1X wide modules. Each symbol character is comprised of three bars alternating with three spaces, starting with a bar. Each element (bar or space) can consist of one to four modules. Code 128 has three unique character sets designated as code set A, B and C. Code set A includes all of the standard upper-case alphanumeric keyboard characters, the ASCII control characters having an ASCII value of 0 to 95, and seven special characters. Code set B includes all of the standard upper-case alphanumeric keyboard characters, lower-case alphabetic characters (specifically ASCII character values 32 to 127), and seven special characters. Code set C includes the set of 100 digit pairs from 00 to 99, inclusive, as well as three special characters. The FNC1 character in the first character position after the start code of Code 128 designates that the data that follow comply with the GS1-128 standards. See ISO/IEC 15417 for the Code 128 symbology specification.</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:21:03Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-3:v1:term:3.1"/>
         <rdfs:label xml:lang="en">Code 128</rdfs:label>
-        <skos:definition xml:lang="en">Continuous, variable length, bar code symbology capable of encoding the full ASCII-128 character set, the 128 extended ASCII character set, and four non-data function characters</skos:definition>
+        <skos:definition xml:lang="en">Continuous, variable length, bar code symbology capable of encoding all 128 (code 0-127) ISO/IEC 646[1]IRV characters, the 128 upper characters of ISO/IEC 8859-1[14] (codes 128-255), and four non-data function characters</skos:definition>
         <skos:prefLabel xml:lang="en">Code 128</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">See ISO/IEC 15417[3] for the Code 128 symbology specification</skos:scopeNote>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Code128"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Code 128 allows numeric data to be represented in a compact double-density mode, with two data digits for every symbol character. Each Code 128 symbol uses two independent self-checking features, character self-checking via parity and a modulo 103 check character. Each Code 128 symbol consists of a leading quiet zone, a start pattern, characters representing data, a check character, a stop pattern, and a trailing quiet zone. Each Code 128 character consists of eleven 1X wide modules. Each symbol character is comprised of three bars alternating with three spaces, starting with a bar. Each element (bar or space) can consist of one to four modules. Code 128 has three unique character sets designated as code set A, B and C. Code set A includes all of the standard upper-case alphanumeric keyboard characters, the ASCII control characters having an ASCII value of 0 to 95, and seven special characters. Code set B includes all of the standard upper-case alphanumeric keyboard characters, lower-case alphabetic characters (specifically ASCII character values 32 to 127), and seven special characters. Code set C includes the set of 100 digit pairs from 00 to 99, inclusive, as well as three special characters. The FNC1 character in the first character position after the start code of Code 128 designates that the data that follow comply with the GS1-128 standards. See ISO/IEC 15417 for the Code 128 symbology specification.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">See ISO/IEC 15417[3] for the Code 128 symbology specification</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -12927,20 +13023,20 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Code39">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LinearBarcodeSymbology"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">3 of 9 Code</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Alpha39</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Code 3 of 9</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Code 3/9</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Type 39</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">USD-3</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">USS Code 39</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-05T10:11:09Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:fd9066c7-016f-4dd7-b4d3-25cb522b7e34"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:26:38Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:07:43Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.1"/>
         <rdfs:comment xml:lang="en">Each Code 39 symbol consists of a leading quiet zone, a start symbol pattern, symbol characters representing data, a stop pattern, and a trailing quiet zone. Each Code 39 character has three wide elements out of a total of nine elements. Each symbol consists of a series of symbol characters, each represented by five bars and four intervening spaces. Characters are separated by an intercharacter gap. Each element (bar or space) is one of two widths. The values of the X-dimension (3.13) and wide-to-narrow ratio remain constant throughout the symbol. The particular pattern of wide and narrow elements determines the character being encoded. The intercharacter gaps are spaces with a minimum nominal width of 1X. See ISO/IEC 16388 for the Code 39 symbology specification.</rdfs:comment>
+        <rdfs:label xml:lang="en">3 of 9 Code</rdfs:label>
         <rdfs:label xml:lang="en">Code 39</rdfs:label>
         <skos:definition xml:lang="en">Discrete, variable length, bar code symbology encoding the characters 0 to 9, A to Z, and the additional characters “-” (dash), “.” (period), space, “$” (dollar sign), “/” (slash), “+” (plus sign), and “%” (percent sign), as well as a special symbology character to denote the start and stop character, conventionally represented as an “*” (asterisk)</skos:definition>
+        <skos:hiddenLabel xml:lang="en">Alpha39</skos:hiddenLabel>
+        <skos:hiddenLabel xml:lang="en">Code 3 of 9</skos:hiddenLabel>
+        <skos:hiddenLabel xml:lang="en">Code 3/9</skos:hiddenLabel>
+        <skos:hiddenLabel xml:lang="en">Type 39</skos:hiddenLabel>
+        <skos:hiddenLabel xml:lang="en">USD-3</skos:hiddenLabel>
+        <skos:hiddenLabel xml:lang="en">USS Code 39</skos:hiddenLabel>
         <skos:prefLabel xml:lang="en">Code 39</skos:prefLabel>
     </owl:NamedIndividual>
     <owl:Axiom>
@@ -12948,6 +13044,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
         <owl:annotatedTarget xml:lang="en">Each Code 39 symbol consists of a leading quiet zone, a start symbol pattern, symbol characters representing data, a stop pattern, and a trailing quiet zone. Each Code 39 character has three wide elements out of a total of nine elements. Each symbol consists of a series of symbol characters, each represented by five bars and four intervening spaces. Characters are separated by an intercharacter gap. Each element (bar or space) is one of two widths. The values of the X-dimension (3.13) and wide-to-narrow ratio remain constant throughout the symbol. The particular pattern of wide and narrow elements determines the character being encoded. The intercharacter gaps are spaces with a minimum nominal width of 1X. See ISO/IEC 16388 for the Code 39 symbology specification.</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Code39"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <owl:annotatedTarget xml:lang="en">3 of 9 Code</owl:annotatedTarget>
+        <owl:deprecated rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</owl:deprecated>
     </owl:Axiom>
     
 
@@ -13046,12 +13148,12 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-18T14:56:24Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:6043a082-0e0d-4911-bbeb-b6f87d1d74ee"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:24:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:32:04Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.4.24"/>
         <rdfs:comment xml:lang="en">Designations in the relation of equivalence are called “equivalents”</rdfs:comment>
-        <rdfs:comment xml:lang="en">The French term (3.4.2) “ordinateur” is an equivalent of the English term “computer”</rdfs:comment>
         <rdfs:label xml:lang="en">Equivalence</rdfs:label>
         <skos:definition xml:lang="en">Relation between designations in different natural languages representing the same concept</skos:definition>
+        <skos:example xml:lang="en">The French term (3.4.2) “ordinateur” is an equivalent of the English term “computer”</skos:example>
         <skos:prefLabel xml:lang="en">Equivalence</skos:prefLabel>
     </owl:NamedIndividual>
     <owl:Axiom>
@@ -13059,12 +13161,6 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
         <owl:annotatedTarget xml:lang="en">Designations in the relation of equivalence are called “equivalents”</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Equivalence"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">The French term (3.4.2) “ordinateur” is an equivalent of the English term “computer”</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
     </owl:Axiom>
     
 
@@ -13297,10 +13393,11 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T13:13:37Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:3d315de8-dfb9-4401-b547-8f090ea8fb48"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:42:40Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:27:12Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.26"/>
         <rdfs:comment xml:lang="en">Each character has two wide elements and three narrow elements for a total of five elements. This is most commonly represented in the GS1 ITF-14. See ISO/IEC 16390 for the Interleaved Two of Five symbology specification.</rdfs:comment>
         <rdfs:label xml:lang="en">Interleaved Two Of Five</rdfs:label>
+        <skos:altLabel xml:lang="en">ITF</skos:altLabel>
         <skos:definition xml:lang="en">Bar code symbology where two characters are paired, using bars to represent the first character and the interleaved spaces to represent the second character, encoding the ten digits 0 to 9</skos:definition>
         <skos:prefLabel xml:lang="en">Interleaved Two Of Five</skos:prefLabel>
     </owl:NamedIndividual>
@@ -13309,12 +13406,6 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
         <owl:annotatedTarget xml:lang="en">Each character has two wide elements and three narrow elements for a total of five elements. This is most commonly represented in the GS1 ITF-14. See ISO/IEC 16390 for the Interleaved Two of Five symbology specification.</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InterleavedTwoOfFive"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Interleaved Two Of Five</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">ITF</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -13784,22 +13875,17 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OSGB1936BritishNationalGrid">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateReferenceSystem"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:alternative xml:lang="en">British National Grid</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Ordnance Survey National Grid</dcterms:alternative>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T17:59:42Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:ogc:def:crs:EPSG::27700"/>
         <dcterms:identifier rdf:resource="urn:uuid:de3f851f-42ee-4faf-8a7f-30e9146eb9c7"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:53:59Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:45:32Z</dcterms:modified>
         <rdfs:label xml:lang="en">OSGB 1936 British National Grid</rdfs:label>
+        <skos:altLabel xml:lang="en">BNG</skos:altLabel>
+        <skos:altLabel xml:lang="en">British National Grid</skos:altLabel>
+        <skos:altLabel xml:lang="en">Ordnance Survey National Grid</skos:altLabel>
         <skos:definition xml:lang="en">Coordinate Reference System used in Great Britain</skos:definition>
         <skos:prefLabel xml:lang="en">OSGB 1936 British National Grid</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OSGB1936BritishNationalGrid"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/alternative"/>
-        <owl:annotatedTarget xml:lang="en">British National Grid</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">BNG</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -13967,31 +14053,24 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T13:17:09Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:58e6e1ee-1473-4f2a-94c5-7c196b4da1ef"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:53:28Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.31"/>
-        <rdfs:comment xml:lang="en">Developed in 1992 by Symbol Technologies, PDF417 symbols are constructed from 4 bars and 4 spaces over 17 modules.</rdfs:comment>
-        <rdfs:comment xml:lang="en">The symbol size is from 3 to 90 rows. There is no specified minimum or maximum for X or Y dimension. With at least the recommended minimum level of error correction (3.15), the recommended Y dimension is 3X. With less than the minimum recommended level of error correction, the recommended Y dimension is 4X. A quiet zone of 2X is specified on each side of a symbol. Because of delta decode techniques, the symbology is immune from uniform bar width growth. PDF417 supports cross-row scanning. The intellectual property rights associated with PDF417 have been committed to the public domain. See ISO/IEC 15438 for the PDF417 symbology specification.</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:18:39Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-3:v1:term:3.12"/>
+        <rdfs:label xml:lang="en">PDF417</rdfs:label>
         <rdfs:label xml:lang="en">Portable Data File 417</rdfs:label>
-        <skos:definition xml:lang="en">Error correcting two-dimensional multi-row symbol</skos:definition>
+        <skos:definition xml:lang="en">Error correcting two-dimensional multi row symbology defined by ISO/IEC 15438</skos:definition>
         <skos:prefLabel xml:lang="en">Portable Data File 417</skos:prefLabel>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PortableDataFile417"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Developed in 1992 by Symbol Technologies, PDF417 symbols are constructed from 4 bars and 4 spaces over 17 modules.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <owl:annotatedTarget xml:lang="en">PDF417</owl:annotatedTarget>
+        <skos:note xml:lang="en">This is the preferred label in ISO 22742:2026</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PortableDataFile417"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">The symbol size is from 3 to 90 rows. There is no specified minimum or maximum for X or Y dimension. With at least the recommended minimum level of error correction (3.15), the recommended Y dimension is 3X. With less than the minimum recommended level of error correction, the recommended Y dimension is 4X. A quiet zone of 2X is specified on each side of a symbol. Because of delta decode techniques, the symbology is immune from uniform bar width growth. PDF417 supports cross-row scanning. The intellectual property rights associated with PDF417 have been committed to the public domain. See ISO/IEC 15438 for the PDF417 symbology specification.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PortableDataFile417"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
         <owl:annotatedTarget xml:lang="en">Portable Data File 417</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">PDF417</dcterms:alternative>
+        <skos:note xml:lang="en">Not specified in ISO 22742:2026</skos:note>
     </owl:Axiom>
     
 
@@ -14047,20 +14126,45 @@ NOTE 6 The concept ‘quantity’ may be generically divided into, e.g. ‘physi
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T13:05:49Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:0ba089d7-683b-47d8-baa8-8d8b16d772e6"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:48:20Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:16:13Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.33"/>
-        <rdfs:comment xml:lang="en">Note 1 to entry: Introduced in 1994 by Denso Corporation.
-Note 2 to entry: A wide range of sizes of symbol is provided for together with four levels of error correction (3.15). Module dimensions are user specified to enable symbol production by a wide variety of techniques. The symbol size (not including the quiet zone) is 21 by 21 modules to 177 by 177 modules. The symbology efficiently encodes kanji and kana as well as encoding numeric, alphanumeric, and 8-bit byte data. See ISO/IEC 18004 for the QR Code symbology specification.
-Note 3 to entry: The 2005 revision of the QR Code specification can be found in ISO/IEC 18004.</rdfs:comment>
+        <rdfs:label xml:lang="en">QR Code</rdfs:label>
         <rdfs:label xml:lang="en">Quick Response Code</rdfs:label>
         <skos:definition xml:lang="en">Error correcting matrix symbology, consisting of an array of nominally square modules arranged in an overall square pattern, including a unique finder pattern located at three corners of the symbol and intended to assist in easy location of its position, size and inclination</skos:definition>
         <skos:prefLabel xml:lang="en">Quick Response Code</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A wide range of sizes of symbol is provided for together with four levels of error correction (3.15). Module dimensions are user specified to enable symbol production by a wide variety of techniques. The symbol size (not including the quiet zone) is 21 by 21 modules to 177 by 177 modules. The symbology efficiently encodes kanji and kana as well as encoding numeric, alphanumeric, and 8-bit byte data. See ISO/IEC 18004 for the QR Code symbology specification.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Introduced in 1994 by Denso Corporation</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The 2005 revision of the QR Code specification can be found in ISO/IEC 18004</skos:scopeNote>
     </owl:NamedIndividual>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/QuickResponseCode"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <owl:annotatedTarget xml:lang="en">QR Code</owl:annotatedTarget>
+        <skos:note xml:lang="en">This is the preferred label in ISO 22742:2010</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/QuickResponseCode"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
         <owl:annotatedTarget xml:lang="en">Quick Response Code</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">QR Code</dcterms:alternative>
+        <skos:note xml:lang="en">Not specified in ISO 22742:2010</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/QuickResponseCode"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">A wide range of sizes of symbol is provided for together with four levels of error correction (3.15). Module dimensions are user specified to enable symbol production by a wide variety of techniques. The symbol size (not including the quiet zone) is 21 by 21 modules to 177 by 177 modules. The symbology efficiently encodes kanji and kana as well as encoding numeric, alphanumeric, and 8-bit byte data. See ISO/IEC 18004 for the QR Code symbology specification.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/QuickResponseCode"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Introduced in 1994 by Denso Corporation</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/QuickResponseCode"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The 2005 revision of the QR Code specification can be found in ISO/IEC 18004</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     
 
@@ -14232,12 +14336,12 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-18T14:49:20Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:f06daac7-7865-4cfd-a603-5ee858a5c554"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:23:12Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:32:15Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.4.23"/>
         <rdfs:comment xml:lang="en">Designations in the relation of synonymy are called “synonyms”</rdfs:comment>
-        <rdfs:comment xml:lang="en">Synonymy exists between “deuterium” and “heavy hydrogen”, between “United Nations” and “UN”</rdfs:comment>
         <rdfs:label xml:lang="en">Synonymy</rdfs:label>
         <skos:definition xml:lang="en">Relation between designations in a given natural language representing the same concept</skos:definition>
+        <skos:example xml:lang="en">Synonymy exists between “deuterium” and “heavy hydrogen”, between “United Nations” and “UN”</skos:example>
         <skos:prefLabel xml:lang="en">Synonymy</skos:prefLabel>
     </owl:NamedIndividual>
     <owl:Axiom>
@@ -14245,12 +14349,6 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
         <owl:annotatedTarget xml:lang="en">Designations in the relation of synonymy are called “synonyms”</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Synonymy"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Synonymy exists between “deuterium” and “heavy hydrogen”, between “United Nations” and “UN”</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
     </owl:Axiom>
     
 
@@ -14562,10 +14660,12 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T22:17:23Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:cb3f013c-e9a5-4b96-9dab-51aae9e53f0c"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T08:54:10Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T07:22:57Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22742:ed-2:v1:term:3.43"/>
         <rdfs:comment xml:lang="en">For international compatibility with EAN-13, a 13th digit can be represented as a derived 0 in the left-most position. See ISO/IEC 15420 for the EAN/UPC symbology specification.</rdfs:comment>
+        <rdfs:label xml:lang="en">UPC-A</rdfs:label>
         <rdfs:label xml:lang="en">Universal Product Code-A</rdfs:label>
+        <skos:altLabel xml:lang="en">Universal Product Code</skos:altLabel>
         <skos:definition xml:lang="en">Fixed-length, numeric 12-digit bar code symbol adopted by the retail industries, composed of a company prefix assigned by GS1, a product code assigned by the manufacturer, and a modulo 10 check digit as the right-most digit</skos:definition>
         <skos:prefLabel xml:lang="en">Universal Product Code-A</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14577,9 +14677,15 @@ Note 3 to entry: The 2005 revision of the QR Code specification can be found in 
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UniversalProductCodeA"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <owl:annotatedTarget xml:lang="en">UPC-A</owl:annotatedTarget>
+        <skos:note xml:lang="en">This is the preferred label in ISO 22742:2010</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UniversalProductCodeA"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
         <owl:annotatedTarget xml:lang="en">Universal Product Code-A</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">UPC-A</dcterms:alternative>
+        <skos:note xml:lang="en">Not specified in ISO 22742:2010</skos:note>
     </owl:Axiom>
     
 
