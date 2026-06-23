@@ -11,7 +11,7 @@
      xmlns:schema="http://schema.org/"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260618"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260623"/>
         <owl:imports rdf:resource="http://www.w3.org/2004/02/skos/core"/>
         <dcterms:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-19</dcterms:created>
@@ -22,14 +22,14 @@
         <dcterms:identifier rdf:resource="urn:uuid:d83f788a-3e90-4d07-b280-614532e9984e"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-18</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-23</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">ISO/IEC 11179-3:2023 Ontology</dcterms:title>
         <rdfs:label xml:lang="en">ISO/IEC 11179-3:2023 Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260610"/>
-        <owl:versionInfo>2026-06-18</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260618"/>
+        <owl:versionInfo>2026-06-23</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -874,7 +874,7 @@ Conditions:
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.3.2"/>
         <rdfs:label xml:lang="en">mail_address</rdfs:label>
-        <skos:definition xml:lang="en">postal address for the organization</skos:definition>
+        <skos:definition xml:lang="en-us">postal address for the organization</skos:definition>
         <skos:prefLabel xml:lang="en">mail_address</skos:prefLabel>
     </owl:ObjectProperty>
     
@@ -889,7 +889,7 @@ Conditions:
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.3.2"/>
         <rdfs:label xml:lang="en">phone_number</rdfs:label>
-        <skos:definition xml:lang="en">phone numbers for the organization</skos:definition>
+        <skos:definition xml:lang="en-us">phone numbers for the organization</skos:definition>
         <skos:prefLabel xml:lang="en">phone_number</skos:prefLabel>
     </owl:ObjectProperty>
     
@@ -1145,7 +1145,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.8.3"/>
         <rdfs:label xml:lang="en-us">organization</rdfs:label>
-        <skos:definition xml:lang="en">information about the organization that is responsible for the stewardship of the administered items that are linked to this stewardship record</skos:definition>
+        <skos:definition xml:lang="en-us">information about the organization that is responsible for the stewardship of the administered items that are linked to this stewardship record</skos:definition>
         <skos:prefLabel xml:lang="en-us">organization</skos:prefLabel>
     </owl:ObjectProperty>
     
@@ -1229,7 +1229,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.9.3"/>
         <rdfs:label xml:lang="en-us">organization</rdfs:label>
-        <skos:definition xml:lang="en">information about the organization that is responsible for the submission of the registered items that are linked to this submission record</skos:definition>
+        <skos:definition xml:lang="en-us">information about the organization that is responsible for the submission of the registered items that are linked to this submission record</skos:definition>
         <skos:prefLabel xml:lang="en-us">organization</skos:prefLabel>
     </owl:ObjectProperty>
     
@@ -1356,7 +1356,7 @@ Condition: applies only if standard is specified.</skos:definition>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:10.4.5"/>
         <rdfs:label xml:lang="en-us">classification_scheme_item_relationship_categorization</rdfs:label>
-        <skos:definition xml:lang="en">records the bindings of zero, one or more instances of the Classification_Scheme_Item_Relationships (10.3.3) class with exactly one instance of the Classification_Scheme_Item_Relationship_Type class.
+        <skos:definition xml:lang="en-us">records the bindings of zero, one or more instances of the Classification_Scheme_Item_Relationships (10.3.3) class with exactly one instance of the Classification_Scheme_Item_Relationship_Type class.
 This association records the categorization, as modelled by the instance of the Classification_Scheme_Item_Relationship_Type class, of the relationship between the subject and object sets of classification scheme items that is modelled by the instance of the Classification_Scheme_Item_Relationship class.</skos:definition>
         <skos:prefLabel xml:lang="en-us">classification_scheme_item_relationship_categorization</skos:prefLabel>
     </owl:ObjectProperty>
@@ -1718,7 +1718,7 @@ This association records the categorization, as modelled by the instance of the 
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.8.2"/>
         <rdfs:label xml:lang="en">provider</rdfs:label>
-        <skos:definition xml:lang="en">organization that maintains or carries an official copy of the reference document</skos:definition>
+        <skos:definition xml:lang="en-us">organization that maintains or carries an official copy of the reference document</skos:definition>
         <skos:prefLabel xml:lang="en">provider</skos:prefLabel>
     </owl:ObjectProperty>
     
@@ -1881,7 +1881,7 @@ This association records the namespace that provides the scope for the registrat
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.5.7"/>
         <rdfs:label xml:lang="en">stewardship</rdfs:label>
-        <skos:definition xml:lang="en">records the binding of exactly one instance of the Stewardship_Record (9.4.8) class with one or more instances of the Administered_Item (9.4.2) class.
+        <skos:definition xml:lang="en-us">records the binding of exactly one instance of the Stewardship_Record (9.4.8) class with one or more instances of the Administered_Item (9.4.2) class.
 This association records the stewardship record for the administered item, where the stewardship record identifies the stewardship organization, represented by an instance of the Organization (6.3.3) class, and the stewardship contact, represented by an instance of the Contact (6.3.5) class, who are responsible for maintaining the administrative information for the administered item.</skos:definition>
         <skos:prefLabel xml:lang="en">stewardship</skos:prefLabel>
     </owl:ObjectProperty>
@@ -2333,7 +2333,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.3.2"/>
         <rdfs:label xml:lang="en">email_address</rdfs:label>
-        <skos:definition xml:lang="en">contact email addresses of the organization that are not tied to a specific individual or role</skos:definition>
+        <skos:definition xml:lang="en-us">contact email addresses of the organization that are not tied to a specific individual or role</skos:definition>
         <skos:prefLabel xml:lang="en">email_address</skos:prefLabel>
     </owl:DatatypeProperty>
     
@@ -2348,7 +2348,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.3.2"/>
         <rdfs:label xml:lang="en">name</rdfs:label>
-        <skos:definition xml:lang="en">sign that designates the organization</skos:definition>
+        <skos:definition xml:lang="en-us">sign that designates the organization</skos:definition>
         <skos:prefLabel xml:lang="en">name</skos:prefLabel>
     </owl:DatatypeProperty>
     
@@ -2363,7 +2363,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.3.2"/>
         <rdfs:label xml:lang="en">web_address</rdfs:label>
-        <skos:definition xml:lang="en">URL for the organization’s website</skos:definition>
+        <skos:definition xml:lang="en-us">URL for the organization’s website</skos:definition>
         <skos:prefLabel xml:lang="en">web_address</skos:prefLabel>
     </owl:DatatypeProperty>
     
@@ -2484,7 +2484,7 @@ Constraints: The metamodel constrains each scoped identifier and designation to 
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.3.9.2"/>
         <rdfs:label xml:lang="en">international_code_designator</rdfs:label>
-        <skos:definition xml:lang="en">identifier of the organization identification scheme used in the identification of the organization providing this registration authority</skos:definition>
+        <skos:definition xml:lang="en-us">identifier of the organization identification scheme used in the identification of the organization providing this registration authority</skos:definition>
         <skos:prefLabel xml:lang="en">international_code_designator</skos:prefLabel>
     </owl:DatatypeProperty>
     
@@ -2862,7 +2862,7 @@ Condition: applies only if standard is specified, and the specified standard all
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:6.4.2.4.3"/>
         <rdfs:label xml:lang="en">type</rdfs:label>
-        <skos:definition xml:lang="en">categorization of the value of the slot</skos:definition>
+        <skos:definition xml:lang="en-us">categorization of the value of the slot</skos:definition>
         <skos:note xml:lang="en-us">type can be used to categorize slot values in some way, including but not limited to specifying the datatype of the value</skos:note>
         <skos:prefLabel xml:lang="en">type</skos:prefLabel>
     </owl:DatatypeProperty>
@@ -3744,13 +3744,6 @@ This association records the classification scheme items that are members of a c
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.w3.org/2004/02/skos/core#exactMatch"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/Concept_source_uri"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onDataRange rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/stringDatatype"/>
@@ -3772,7 +3765,7 @@ This association records the classification scheme items that are members of a c
         <skos:definition xml:lang="en">unit of knowledge created by a unique combination of characteristics (3.2.4)</skos:definition>
         <skos:prefLabel xml:lang="en">Concept</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A concept is independent of its representation</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Concepts are not necessarily bound to particular natural languages. They are, however, influenced by the social or cultural background which often leads to different categorizations.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en-us">Concepts are not necessarily bound to particular natural languages. They are, however, influenced by the social or cultural background which often leads to different categorizations.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Concept"/>
@@ -3789,7 +3782,7 @@ This association records the classification scheme items that are members of a c
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Concept"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Concepts are not necessarily bound to particular natural languages. They are, however, influenced by the social or cultural background which often leads to different categorizations.</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en-us">Concepts are not necessarily bound to particular natural languages. They are, however, influenced by the social or cultural background which often leads to different categorizations.</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
@@ -3915,7 +3908,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:identifier rdf:resource="urn:uuid:3cb479df-33ff-4f07-bcef-19ef93ce3fab"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.2.1"/>
         <rdfs:label xml:lang="en">Contact</rdfs:label>
-        <skos:definition xml:lang="en">instance of a role (3.2.83), an individual (3.2.82) or both within an organization (3.2.84) to or from whom an information item(s), a material object(s), person(s) or some combination can be sent in a specified context</skos:definition>
+        <skos:definition xml:lang="en-us">instance of a role (3.2.83), an individual (3.2.82) or both within an organization (3.2.84) to or from whom an information item(s), a material object(s), person(s) or some combination can be sent in a specified context</skos:definition>
         <skos:prefLabel xml:lang="en">Contact</skos:prefLabel>
     </owl:Class>
     
@@ -4124,7 +4117,7 @@ This association records the classification scheme items that are members of a c
         <dcterms:identifier rdf:resource="urn:uuid:8f133ec8-1e43-4588-9b35-64141d139385"/>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:11404:ed-2:v1:term:3.12"/>
         <rdfs:label xml:lang="en">Datatype</rdfs:label>
-        <skos:definition xml:lang="en">set of distinct values, characterized by properties of those values and by operations on those values</skos:definition>
+        <skos:definition xml:lang="en-us">set of distinct values, characterized by properties of those values and by operations on those values</skos:definition>
         <skos:prefLabel xml:lang="en">Datatype</skos:prefLabel>
     </owl:Class>
     
@@ -5665,7 +5658,7 @@ This association records that the set of classification scheme items are the obj
         <rdfs:label xml:lang="en-us">Organization</rdfs:label>
         <skos:definition xml:lang="en">unique framework of authority within which individuals (3.2.82) act, or are designated to act, towards some purpose</skos:definition>
         <skos:prefLabel xml:lang="en-us">Organization</skos:prefLabel>
-        <skos:scopeNote xml:lang="en">The kinds of organizations covered by ISO/IEC 6523-1[8] include the following examples:
+        <skos:scopeNote xml:lang="en-us">The kinds of organizations covered by ISO/IEC 6523-1[8] include the following examples:
 a) an organization incorporated under law;
 b) an unincorporated organization or activity providing goods, services or both including:
 1) partnerships;
@@ -5683,7 +5676,7 @@ c) groupings of the above types of organizations where there is a need to identi
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">The kinds of organizations covered by ISO/IEC 6523-1[8] include the following examples:
+        <owl:annotatedTarget xml:lang="en-us">The kinds of organizations covered by ISO/IEC 6523-1[8] include the following examples:
 a) an organization incorporated under law;
 b) an unincorporated organization or activity providing goods, services or both including:
 1) partnerships;
@@ -6146,7 +6139,7 @@ This association records the reference documents that provide additional informa
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.6"/>
         <rdfs:label xml:lang="en">RA</rdfs:label>
         <rdfs:label xml:lang="en">Registration Authority</rdfs:label>
-        <skos:definition xml:lang="en">organization (3.2.84) responsible for maintaining a register (3.2.50)</skos:definition>
+        <skos:definition xml:lang="en-us">organization (3.2.84) responsible for maintaining a register (3.2.50)</skos:definition>
         <skos:prefLabel xml:lang="en">Registration Authority</skos:prefLabel>
     </owl:Class>
     
@@ -6816,7 +6809,7 @@ This association records the registrars that represent the registration authorit
         <dcterms:identifier rdf:resource="urn:uuid:e4cdc8e1-40e3-41a7-8d3a-56c9544f2655"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.8"/>
         <rdfs:label xml:lang="en">Stewardship Record</rdfs:label>
-        <skos:definition xml:lang="en">record of a stewardship organization (3.2.104) and a stewardship contact (3.2.103) involved in the stewardship (3.2.102) of an administered item (3.2.66)</skos:definition>
+        <skos:definition xml:lang="en-us">record of a stewardship organization (3.2.104) and a stewardship contact (3.2.103) involved in the stewardship (3.2.102) of an administered item (3.2.66)</skos:definition>
         <skos:prefLabel xml:lang="en">Stewardship Record</skos:prefLabel>
     </owl:Class>
     
@@ -6945,7 +6938,7 @@ This association records that the set of classification scheme items are the sub
         <dcterms:identifier rdf:resource="urn:uuid:7d8b9412-39f5-4913-bb14-a059899baff2"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4:v1:clause:9.4.9"/>
         <rdfs:label xml:lang="en">Submission Record</rdfs:label>
-        <skos:definition xml:lang="en">record of a submission organization (3.2.108) and a submission contact (3.2.107) involved in the submission (3.2.106) of a registry item (3.2.54) for registration (3.2.55)</skos:definition>
+        <skos:definition xml:lang="en-us">record of a submission organization (3.2.108) and a submission contact (3.2.107) involved in the submission (3.2.106) of a registry item (3.2.54) for registration (3.2.55)</skos:definition>
         <skos:prefLabel xml:lang="en">Submission Record</skos:prefLabel>
     </owl:Class>
     
