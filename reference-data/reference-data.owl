@@ -62,12 +62,6 @@
     
 
 
-    <!-- http://purl.org/dc/terms/alternative -->
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/alternative"/>
-    
-
-
     <!-- http://purl.org/dc/terms/isReplacedBy -->
 
     <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/isReplacedBy"/>
@@ -2192,20 +2186,15 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T17:21:30Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:f3b33f73-7fb2-45a2-b9df-45946aeb1ef5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T06:56:37Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T12:14:25Z</dcterms:modified>
         <rdfs:label xml:lang="en">American Standard Code For Information Interchange</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.iso.org/standard/28245.html"/>
         <rdfs:seeAlso rdf:resource="https://www.iso.org/standard/4777.html"/>
         <rdfs:seeAlso rdf:resource="https://www.unicode.org/charts/PDF/U2400.pdf"/>
+        <skos:altLabel xml:lang="en">ASCII</skos:altLabel>
         <skos:definition xml:lang="en">Character encoding standard for electronic communication</skos:definition>
         <skos:prefLabel xml:lang="en">American Standard Code For Information Interchange</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AmericanStandardCodeForInformationInterchange"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">American Standard Code For Information Interchange</owl:annotatedTarget>
-        <skos:altLabel xml:lang="en">ASCII</skos:altLabel>
-    </owl:Axiom>
     
 
 
@@ -2437,18 +2426,13 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:34:29Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:3c6720d2-5d3a-4033-b8e6-5c4118ffd381"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T06:57:44Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T12:17:23Z</dcterms:modified>
         <rdfs:label xml:lang="en">Central Product Classification</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://unstats.un.org/unsd/classifications/Econ/cpc"/>
+        <skos:altLabel xml:lang="en">CPC</skos:altLabel>
         <skos:definition xml:lang="en">United Nations international standard classification for all products that are an output of economic activity, encompassing both goods and services, which groups products based on the physical characteristics of the goods or on the nature of the services rendered</skos:definition>
         <skos:prefLabel xml:lang="en">Central Product Classification</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CentralProductClassification"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Central Product Classification</owl:annotatedTarget>
-        <skos:altLabel xml:lang="en">CPC</skos:altLabel>
-    </owl:Axiom>
     
 
 
