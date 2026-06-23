@@ -187,13 +187,21 @@ class UniversalOntologyTest(XmlTestCase):
 		
 		# Global xml:lang attribute requirement across all Hadden Industries entities
 		for global_lang_tag in [
+			'{http://purl.org/dc/terms/}alternative',
 			'{http://purl.org/dc/terms/}description',
 			'{http://purl.org/dc/terms/}title',
-			'{http://www.w3.org/2000/01/rdf-schema#}label',
 			'{http://www.w3.org/2000/01/rdf-schema#}comment',
+			'{http://www.w3.org/2000/01/rdf-schema#}label',
+			'{http://www.w3.org/2004/02/skos/core#}altLabel',
+			'{http://www.w3.org/2004/02/skos/core#}changeNote',
 			'{http://www.w3.org/2004/02/skos/core#}definition',
+			'{http://www.w3.org/2004/02/skos/core#}editorialNote',
+			'{http://www.w3.org/2004/02/skos/core#}example',
+			'{http://www.w3.org/2004/02/skos/core#}hiddenLabel',
+			'{http://www.w3.org/2004/02/skos/core#}historyNote',
+			'{http://www.w3.org/2004/02/skos/core#}note',
 			'{http://www.w3.org/2004/02/skos/core#}prefLabel',
-			'{http://purl.org/dc/terms/}alternative',
+			'{http://www.w3.org/2004/02/skos/core#}scopeNote',
 			'{https://haddenindustries.com/ontology/universal/core/}acronym',
 			'{https://haddenindustries.com/ontology/universal/core/}synonym'
 		]:
@@ -392,16 +400,16 @@ class UniversalOntologyTest(XmlTestCase):
 					
 				try:
 					# Creator
-					self.assertXpathsOnlyOne(elem, ['./dc:creator'])
+					self.assertXpathsOnlyOne(elem, ['./dcterms:creator'])
 					
-					if elem.find('{http://purl.org/dc/elements/1.1/}creator') is None:
+					if elem.find('{http://purl.org/dc/terms/}creator') is None:
 						
-						self.fail('dc:creator does not exist')
+						self.fail('dcterms:creator does not exist')
 					
-					creatorResourceValue = elem.find('{http://purl.org/dc/elements/1.1/}creator').get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
+					creatorResourceValue = elem.find('{http://purl.org/dc/terms/}creator').get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
 					
 					if not (creatorResourceValue.startswith('http://orcid.org/') or creatorResourceValue.startswith('https://orcid.org/')):
-						self.fail('dc:creator "%s" is not an ORCID iD' % creatorResourceValue)
+						self.fail('dcterms:creator "%s" is not an ORCID iD' % creatorResourceValue)
 					
 					# Created at date and time
 					self.assertXpathsOnlyOne(elem, ['./dcterms:created'])
@@ -438,15 +446,15 @@ class UniversalOntologyTest(XmlTestCase):
 							self.fail('dcterms:modified has no rdf:datatype')
 					
 					# Contributors
-					contributorFirstElement = elem.find('{http://purl.org/dc/elements/1.1/}contributor')
+					contributorFirstElement = elem.find('{http://purl.org/dc/terms/}contributor')
 					
 					if contributorFirstElement is not None:
-						self.assertXpathsUniqueValue(elem, ['./dc:contributor/@rdf:resource'])
+						self.assertXpathsUniqueValue(elem, ['./dcterms:contributor/@rdf:resource'])
 						
-					for contributor in elem.iterfind('{http://purl.org/dc/elements/1.1/}contributor'):
+					for contributor in elem.iterfind('{http://purl.org/dc/terms/}contributor'):
 						contributorResourceValue = contributor.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
 						if not (contributorResourceValue.startswith('http://orcid.org/') or contributorResourceValue.startswith('https://orcid.org/')):
-							self.fail('dc:contributor "%s" is not an ORCID iD' % contributorResourceValue)
+							self.fail('dcterms:contributor "%s" is not an ORCID iD' % contributorResourceValue)
 					
 					if elem.tag in ['{http://www.w3.org/2002/07/owl#}Class', '{http://www.w3.org/2002/07/owl#}NamedIndividual']:
 						# Identifiers
