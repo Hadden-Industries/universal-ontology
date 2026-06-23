@@ -2254,9 +2254,9 @@
         <dcterms:identifier rdf:resource="urn:uuid:5be1c0c7-99b1-4c40-ac54-d0b87ef3cdfc"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T08:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/BaseRate"/>
-        <rdfs:label xml:lang="en">Base Rate</rdfs:label>
         <rdfs:label xml:lang="en">BBR</rdfs:label>
         <rdfs:label xml:lang="en">Bank Base Rate</rdfs:label>
+        <rdfs:label xml:lang="en">Base Rate</rdfs:label>
         <skos:definition xml:lang="en">Basic rate of interest on which the actual rate a bank charges on loans to its customers is calculated</skos:definition>
         <skos:prefLabel xml:lang="en">Base Rate</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Typically, the bank base rate is a reference rate set by a central bank. Banks that are regulated by a given central bank cannot lend below the base rate to their customers. The bank base rate is determined on an ongoing basis and represents the central bank&apos;s judgement of the price of short-term funds on their interbank market.</skos:scopeNote>
@@ -2294,18 +2294,13 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-11T10:18:30Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:5206582f-69e1-4190-963b-7a1ac1a2a583"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T07:53:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:source rdf:resource="http://inspire.ec.europa.eu/featureconcept/BasicPropertyUnit"/>
         <rdfs:label xml:lang="en">Basic Property Unit</rdfs:label>
+        <skos:altLabel xml:lang="en">BPU</skos:altLabel>
         <skos:definition xml:lang="en">Basic unit of ownership that is recorded in the land books, land registers or equivalent. It is defined by unique ownership and homogeneous real property rights, and may consist of one or more adjacent or geographically separate parcels.</skos:definition>
         <skos:prefLabel xml:lang="en">Basic Property Unit</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicPropertyUnit"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Basic Property Unit</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">BPU</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -2315,8 +2310,10 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T12:52:07Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:84f70b5f-9f20-4de5-97be-a927818fdfa0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T12:34:58Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Body Mass Index Range</rdfs:label>
+        <skos:altLabel xml:lang="en">BMI Range</skos:altLabel>
+        <skos:altLabel xml:lang="en">Quetelet Index Range</skos:altLabel>
         <skos:definition xml:lang="en">Area of variation between upper and lower limits on a simple index of weight-for-height that is commonly used to classify underweight, overweight and obesity in adults and defined as the weight in kilograms divided by the square of the height in meters (kg/m2)</skos:definition>
         <skos:prefLabel xml:lang="en">Body Mass Index Range</skos:prefLabel>
     </owl:Class>
@@ -2326,13 +2323,6 @@
         <owl:annotatedTarget xml:lang="en">Area of variation between upper and lower limits on a simple index of weight-for-height that is commonly used to classify underweight, overweight and obesity in adults and defined as the weight in kilograms divided by the square of the height in meters (kg/m2)</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/range"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:21856:ed-1:v1:en:term:3.7"/>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BodyMassIndexRange"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Body Mass Index Range</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">BMI Range</dcterms:alternative>
-        <dcterms:alternative xml:lang="en">Quetelet Index Range</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -2427,13 +2417,13 @@
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IntercardinalDirection"/>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SecondaryIntercardinalDirection"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Cardinal Point</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-28T11:15:54Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:935940c9-3049-4478-a580-8c97b0d2e06f"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22932:-1:ed-1:v1:term:3.2.2.3"/>
         <dcterms:source xml:lang="en">Glossary of BLM surveying and mapping terms, 1980</dcterms:source>
         <rdfs:label xml:lang="en">Cardinal Direction</rdfs:label>
+        <skos:altLabel xml:lang="en">Cardinal Point</skos:altLabel>
         <skos:definition xml:lang="en">Direction north, south, east and west</skos:definition>
         <skos:prefLabel xml:lang="en">Cardinal Direction</skos:prefLabel>
     </owl:Class>
@@ -2469,18 +2459,13 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T15:53:47Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:e646076b-cbc4-4ae4-aef4-c4ac4fd2541a"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T16:06:06Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Classification By Broad Economic Categories</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://unstats.un.org/unsd/trade/classifications/bec.asp"/>
+        <skos:altLabel xml:lang="en">Classification By BEC</skos:altLabel>
         <skos:definition xml:lang="en">United Nations international classification that regroups traded goods and services into broad categories according to their main end-use</skos:definition>
         <skos:prefLabel xml:lang="en">Classification By Broad Economic Categories</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ClassificationByBroadEconomicCategories"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Classification By Broad Economic Categories</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">Classification By BEC</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -2491,18 +2476,13 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:36:08Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:89c2977e-58c5-492f-b429-c40180788b60"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T16:05:47Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Classification Of Products By Activity</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://ec.europa.eu/eurostat/web/cpa"/>
+        <skos:altLabel xml:lang="en">CPA</skos:altLabel>
         <skos:definition xml:lang="en">European Union statistical classification for products, encompassing goods and services, where each product is assigned to the economic activity that produces it as defined by the NACE classification</skos:definition>
         <skos:prefLabel xml:lang="en">Classification Of Products By Activity</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ClassificationOfProductsByActivity"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Classification Of Products By Activity</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">CPA</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -2513,18 +2493,13 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:27:30Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:3adb0665-0513-414b-b6af-c721965af692"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T16:05:31Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Common Procurement Vocabulary</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://ted.europa.eu/en/simap/cpv"/>
+        <skos:altLabel xml:lang="en">CPV</skos:altLabel>
         <skos:definition xml:lang="en">Single classification system, established by European Union regulation, for standardising the description of the subject of a public procurement contract</skos:definition>
         <skos:prefLabel xml:lang="en">Common Procurement Vocabulary</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CommonProcurementVocabulary"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Common Procurement Vocabulary</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">CPV</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -2836,13 +2811,13 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Foreign Exchange Reference Rate</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T08:40:57Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:e12e471d-ad7b-4968-b213-5c89b81ca254"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Currency Exchange Rate</rdfs:label>
         <skos:altLabel xml:lang="en">FX Rate</skos:altLabel>
         <skos:altLabel xml:lang="en">Foreign Exchange Rate</skos:altLabel>
+        <skos:altLabel xml:lang="en">Foreign Exchange Reference Rate</skos:altLabel>
         <skos:definition xml:lang="en">Value of one currency for the purpose of conversion to another</skos:definition>
         <skos:prefLabel xml:lang="en">Currency Exchange Rate</skos:prefLabel>
     </owl:Class>
@@ -2893,11 +2868,11 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CustomerVulnerabilityCharacteristic">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Consumer Vulnerability Characteristic</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-01-27T12:39:44Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:23cc2150-766d-422a-a816-b75653da8d2d"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Customer Vulnerability Characteristic</rdfs:label>
+        <skos:altLabel xml:lang="en">Consumer Vulnerability Characteristic</skos:altLabel>
         <skos:definition xml:lang="en">Quality or feature of vulnerable customers which is often seen in them and seems typical of them</skos:definition>
         <skos:prefLabel xml:lang="en">Customer Vulnerability Characteristic</skos:prefLabel>
     </owl:Class>
@@ -3479,8 +3454,9 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-04-24T21:54:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:03dc4242-2d88-4b7e-bde6-d617d01833c8"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T14:18:48Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Domain Name System Domain</rdfs:label>
+        <skos:altLabel xml:lang="en">DNS Domain</skos:altLabel>
         <skos:definition xml:lang="en">Common address suffix shared by a distinct subset of the Internet in the hierarchical Domain Name System</skos:definition>
         <skos:prefLabel xml:lang="en">Domain Name System Domain</skos:prefLabel>
     </owl:Class>
@@ -3489,12 +3465,6 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Common address suffix shared by a distinct subset of the Internet in the hierarchical Domain Name System</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/domain"/>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomain"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Domain Name System Domain</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">DNS Domain</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -3505,17 +3475,12 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-04-24T21:52:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:1bbc23b8-58ec-4b3e-aaee-5e619ebd7100"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T14:19:22Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Domain Name System Domain Type</rdfs:label>
+        <skos:altLabel xml:lang="en">DNS Domain Type</skos:altLabel>
         <skos:definition xml:lang="en">Category of Domain Name System domains, having common characteristics</skos:definition>
         <skos:prefLabel xml:lang="en">Domain Name System Domain Type</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DomainNameSystemDomainType"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Domain Name System Domain Type</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">DNS Domain Type</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -3524,12 +3489,12 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ECLASS">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceClassificationScheme"/>
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">eCl@ss</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:33:50Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:a02ba317-b14f-4eab-a987-4d249913e817"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">ECLASS</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://eclass.eu/en/"/>
+        <skos:altLabel xml:lang="en">eCl@ss</skos:altLabel>
         <skos:definition xml:lang="en">Cross-industry data standard for the classification and unambiguous description of products or services, which groups items into a four-level hierarchy and defines their characteristics using a system of standardised, ISO-compliant properties</skos:definition>
         <skos:prefLabel xml:lang="en">ECLASS</skos:prefLabel>
     </owl:Class>
@@ -3667,12 +3632,12 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EthnicGroup">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Ethnicity</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T11:09:46Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:b21f94ff-c275-439c-8f44-3effd84f1567"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Ethnic Group</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/measuringequality/ethnicgroupnationalidentityandreligion"/>
+        <skos:altLabel xml:lang="en">Ethnicity</skos:altLabel>
         <skos:definition xml:lang="en">Fact or state of belonging to a social group that has a common national or cultural tradition</skos:definition>
         <skos:prefLabel xml:lang="en">Ethnic Group</skos:prefLabel>
     </owl:Class>
@@ -3873,12 +3838,12 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Physical Exercise Class</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-02-10T21:23:51Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:b0cabad7-dfec-4c37-9aac-9de20e3e2a83"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Exercise Class</rdfs:label>
         <rdfs:seeAlso rdf:resource="http://snomed.info/id/61686008"/>
+        <skos:altLabel xml:lang="en">Physical Exercise Class</skos:altLabel>
         <skos:definition xml:lang="en">Activity Class requiring physical effort, carried out to sustain or improve health and fitness</skos:definition>
         <skos:prefLabel xml:lang="en">Exercise Class</skos:prefLabel>
     </owl:Class>
@@ -3930,16 +3895,16 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EyeColourClass">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ClassificationSchemeItem"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en-us">Color Of Iris Class</skos:altLabel>
-        <skos:altLabel xml:lang="en-gb">Colour Of Iris Class</skos:altLabel>
-        <skos:altLabel xml:lang="en-us">Iris Color Class</skos:altLabel>
-        <skos:altLabel xml:lang="en-gb">Iris Colour Class</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T14:23:32Z</dcterms:created>
         <dcterms:identifier rdf:resource="http://snomed.info/id/247030006"/>
         <dcterms:identifier rdf:resource="urn:uuid:3786fee0-2512-4a4b-a267-79bc14eb7642"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en-us">Eye Color Class</rdfs:label>
         <rdfs:label xml:lang="en-gb">Eye Colour Class</rdfs:label>
+        <skos:altLabel xml:lang="en-us">Color Of Iris Class</skos:altLabel>
+        <skos:altLabel xml:lang="en-gb">Colour Of Iris Class</skos:altLabel>
+        <skos:altLabel xml:lang="en-us">Iris Color Class</skos:altLabel>
+        <skos:altLabel xml:lang="en-gb">Iris Colour Class</skos:altLabel>
         <skos:definition xml:lang="en">Concept defining a set of perceived hues of the iris, based on specific shared characteristics and rules</skos:definition>
         <skos:prefLabel xml:lang="en-us">Eye Color Class</skos:prefLabel>
         <skos:prefLabel xml:lang="en-gb">Eye Colour Class</skos:prefLabel>
@@ -4063,18 +4028,13 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:28:38Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:6e9e5604-ac56-463c-b4c4-fa1f23ee97f9"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T16:04:58Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">GS1 Global Product Classification</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://gpc-browser.gs1.org/"/>
+        <skos:altLabel xml:lang="en">GPC</skos:altLabel>
         <skos:definition xml:lang="en">Rules-based standard that provides a universal system for grouping products into a four-tier hierarchy, establishing a common language to ensure that trade items are categorised uniformly by trading partners across the global supply chain</skos:definition>
         <skos:prefLabel xml:lang="en">GS1 Global Product Classification</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GS1GlobalProductClassification"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">GS1 Global Product Classification</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">GPC</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -4404,19 +4364,14 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T13:08:42Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:0d414aa4-5c6a-4b0f-ad60-22389167b474"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-29T15:47:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:references rdf:resource="https://www.msci.com/index/methodology/latest/GICS"/>
         <rdfs:label xml:lang="en">Global Industry Classification Standard</rdfs:label>
         <rdfs:seeAlso rdf:resource="http://www.msci.com/gics"/>
+        <skos:altLabel xml:lang="en">GICS</skos:altLabel>
         <skos:definition xml:lang="en">Four-tiered, hierarchical Economic Activity Classification Scheme developed in 1999 by MSCI and S&amp;P Dow Jones Indices, seeking to offer an efficient investment tool to capture the breadth, depth and evolution of industry sectors</skos:definition>
         <skos:prefLabel xml:lang="en">Global Industry Classification Standard</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GlobalIndustryClassificationStandard"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Global Industry Classification Standard</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">GICS</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -4523,18 +4478,13 @@
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:24:02Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:07d0e495-e0f5-4e4d-8211-510064fa1bd2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T16:04:45Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Harmonized System Code</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.wcotradetools.org/en/harmonized-system"/>
+        <skos:altLabel xml:lang="en">HS Code</skos:altLabel>
         <skos:definition xml:lang="en">Six-digit numerical code that identifies a specific commodity group within the international, multipurpose product nomenclature administered by the World Customs Organization, structured hierarchically to classify traded goods</skos:definition>
         <skos:prefLabel xml:lang="en">Harmonized System Code</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/HarmonizedSystemCode"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Harmonized System Code</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">HS Code</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -4578,6 +4528,12 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:31:00Z</dcterms:created>
+        <dcterms:identifier rdf:resource="urn:uuid:42ceb2ca-425f-4fd3-89b3-9eadeda6831a"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
+        <dcterms:source rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
+        <rdfs:label xml:lang="en">ITU-T E.164 Country Code</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://www.itu.int/rec/T-REC-E.101-200911-I/en"/>
         <skos:altLabel xml:lang="en">CC</skos:altLabel>
         <skos:altLabel xml:lang="en">Country Calling Code</skos:altLabel>
         <skos:altLabel xml:lang="en">Country Dial-In Code</skos:altLabel>
@@ -4586,12 +4542,6 @@
         <skos:altLabel xml:lang="en">International Direct Dialing Country Code</skos:altLabel>
         <skos:altLabel xml:lang="en">International Subscriber Dialling Country Code</skos:altLabel>
         <skos:altLabel xml:lang="en">International Telephone Number Country Code</skos:altLabel>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T09:31:00Z</dcterms:created>
-        <dcterms:identifier rdf:resource="urn:uuid:42ceb2ca-425f-4fd3-89b3-9eadeda6831a"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
-        <rdfs:label xml:lang="en">ITU-T E.164 Country Code</rdfs:label>
-        <rdfs:seeAlso rdf:resource="https://www.itu.int/rec/T-REC-E.101-200911-I/en"/>
         <skos:definition xml:lang="en">Character or a sequence of characters, digits or symbols used to identify either a specific country, countries in an integrated numbering plan, a specific geographic area, a group of countries, a Network or global services</skos:definition>
         <skos:prefLabel xml:lang="en">ITU-T E.164 Country Code</skos:prefLabel>
     </owl:Class>
@@ -4792,10 +4742,11 @@
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-20T22:10:39Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:fb8e3b52-8171-4b3e-a438-a61e0b5cd5b0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T19:51:40Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:source rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
         <rdfs:label xml:lang="en">International E.164 Number National Destination Code</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.itu.int/rec/T-REC-E.101-200911-I/en"/>
+        <skos:altLabel xml:lang="en">International E.164 Number NDC</skos:altLabel>
         <skos:definition xml:lang="en">Nationally optional code field, within the international public telecommunication numbering plan (hereafter referred to as the &quot;international E.164-numbering plan&quot;), which – combined with the subscriber&apos;s number (SN) – will constitute the national (significant) number of the international E.164-number for geographic areas.
 The NDC can be a decimal digit or a combination of decimal digits (not including any prefix) identifying a numbering area within a country (or group of countries included in one integrated numbering plan or a specific geographic area) and/or network/services.</skos:definition>
         <skos:prefLabel xml:lang="en">International E.164 Number National Destination Code</skos:prefLabel>
@@ -4805,12 +4756,6 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
         <rdfs:comment xml:lang="en">Section 5.5</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">International E.164 Number National Destination Code</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">International E.164 Number NDC</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -4826,18 +4771,18 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Dial Out Code</skos:altLabel>
-        <skos:altLabel xml:lang="en">Exit Code</skos:altLabel>
-        <skos:altLabel xml:lang="en">IDD Prefix</skos:altLabel>
-        <skos:altLabel xml:lang="en">International Access Code</skos:altLabel>
-        <skos:altLabel xml:lang="en">International Call Prefix</skos:altLabel>
-        <skos:altLabel xml:lang="en">International Direct Dialing Prefix</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-06T09:39:10Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:687c0395-6653-4a34-b46c-f0b356e4dff4"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:source rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
         <rdfs:label xml:lang="en">International Prefix</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.itu.int/rec/T-REC-E.101-200911-I/en"/>
+        <skos:altLabel xml:lang="en">Dial Out Code</skos:altLabel>
+        <skos:altLabel xml:lang="en">Exit Code</skos:altLabel>
+        <skos:altLabel xml:lang="en">IDD Prefix</skos:altLabel>
+        <skos:altLabel xml:lang="en">International Access Code</skos:altLabel>
+        <skos:altLabel xml:lang="en">International Call Prefix</skos:altLabel>
+        <skos:altLabel xml:lang="en">International Direct Dialing Prefix</skos:altLabel>
         <skos:definition xml:lang="en">Digit or combination of digits used to indicate that the number following is an international E.164-number</skos:definition>
         <skos:prefLabel xml:lang="en">International Prefix</skos:prefLabel>
     </owl:Class>
@@ -4854,12 +4799,12 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/InternationalSystemOfUnitsPrefix">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">SI Prefix</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T12:45:08Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:916c8b72-df78-479a-b2b7-bc4832523876"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:isbn:978-92-822-2272-0"/>
         <rdfs:label xml:lang="en">International System Of Units Prefix</rdfs:label>
+        <skos:altLabel xml:lang="en">SI Prefix</skos:altLabel>
         <skos:definition xml:lang="en">Symbol specified by the Bureau International des Poids et Mesures (BIPM) for use in the International System of Units (SI), where designations of decimal multiples and subdivision of any unit may be arrived at by combining the symbol with the name of the unit</skos:definition>
         <skos:prefLabel xml:lang="en">International System Of Units Prefix</skos:prefLabel>
     </owl:Class>
@@ -5377,14 +5322,14 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageScope">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Language Scope Of Denotation</skos:altLabel>
-        <skos:altLabel xml:lang="en">Languoid Type</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T10:16:09Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:91d4bd6d-7c50-48e8-afa1-3c4dfde613e8"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:639:ed-2:v1"/>
         <rdfs:label xml:lang="en">Language Scope</rdfs:label>
         <rdfs:seeAlso rdf:resource="http://www.glottopedia.org/index.php/Languoid"/>
+        <skos:altLabel xml:lang="en">Language Scope Of Denotation</skos:altLabel>
+        <skos:altLabel xml:lang="en">Languoid Type</skos:altLabel>
         <skos:definition xml:lang="en">Category of sets of any type of lingual entity: language, dialect, family, language area, etc., having common characteristics</skos:definition>
         <skos:prefLabel xml:lang="en">Language Scope</skos:prefLabel>
     </owl:Class>
@@ -5859,14 +5804,14 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BarcodeSymbology"/>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MatrixBarcodeSymbology"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">1D barcode symbology</skos:altLabel>
-        <skos:altLabel xml:lang="en">One-dimensional barcode symbology</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:05:31Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:9be59c46-2c98-4c46-9e60-43fad686ad78"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Linear Barcode Symbology</rdfs:label>
+        <skos:altLabel xml:lang="en">1D barcode symbology</skos:altLabel>
+        <skos:altLabel xml:lang="en">One-dimensional barcode symbology</skos:altLabel>
         <skos:definition xml:lang="en">Barcode Symbology encoded in lines and spaces of various widths</skos:definition>
         <skos:prefLabel xml:lang="en">Linear Barcode Symbology</skos:prefLabel>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
     </owl:Class>
     
 
@@ -5915,12 +5860,12 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MaritalStatus">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Partnership Status</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T11:36:45Z</dcterms:created>
         <dcterms:identifier rdf:resource="http://snomed.info/id/125680007"/>
         <dcterms:identifier rdf:resource="urn:uuid:ae78c756-efc3-4308-a363-6633a138acb8"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Marital Status</rdfs:label>
+        <skos:altLabel xml:lang="en">Partnership Status</skos:altLabel>
         <skos:definition xml:lang="en">One&apos;s situation with regard to whether one is single, married, separated, divorced, or widowed</skos:definition>
         <skos:prefLabel xml:lang="en">Marital Status</skos:prefLabel>
     </owl:Class>
@@ -5990,12 +5935,12 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Stock Index</skos:altLabel>
-        <skos:altLabel xml:lang="en">Stock Market Index</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T13:25:23Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:5faf589a-b5d5-4436-9408-1cfbf98ff31a"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Market Index</rdfs:label>
+        <skos:altLabel xml:lang="en">Stock Index</skos:altLabel>
+        <skos:altLabel xml:lang="en">Stock Market Index</skos:altLabel>
         <skos:definition xml:lang="en">Market measure that consists of weighted values of the components that make up certain list of companies. A stock market tracks the performance of certain stocks by weighting them according to their prices and the number of outstanding shares by a particular formula.</skos:definition>
         <skos:prefLabel xml:lang="en">Market Index</skos:prefLabel>
     </owl:Class>
@@ -6172,14 +6117,14 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MatrixBarcodeSymbology">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BarcodeSymbology"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">2D barcode symbology</skos:altLabel>
-        <skos:altLabel xml:lang="en">Two-dimensional barcode symbology</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-08T11:12:38Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:ee5861b3-637a-438e-ba8f-b96a26767248"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Matrix Barcode Symbology</rdfs:label>
+        <skos:altLabel xml:lang="en">2D barcode symbology</skos:altLabel>
+        <skos:altLabel xml:lang="en">Two-dimensional barcode symbology</skos:altLabel>
         <skos:definition xml:lang="en">Barcode Symbology encoded in two dimensions</skos:definition>
         <skos:prefLabel xml:lang="en">Matrix Barcode Symbology</skos:prefLabel>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
     </owl:Class>
     
 
@@ -6742,18 +6687,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T13:27:39Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:4005be38-55e4-4b08-a736-9ad5aff23b98"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:36:28Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:source rdf:resource="https://www.nanpa.com/about"/>
         <rdfs:label xml:lang="en">North American Numbering Plan</rdfs:label>
+        <skos:altLabel xml:lang="en">NANP</skos:altLabel>
         <skos:definition xml:lang="en">Integrated telephone numbering plan serving 20 North American countries that share its resources</skos:definition>
         <skos:prefLabel xml:lang="en">North American Numbering Plan</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanNumberingPlan"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">North American Numbering Plan</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">NANP</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -6854,11 +6794,11 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Standard Occupational Classification Scheme</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-21T20:00:57Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:15e24004-fd4c-48d3-ac93-c7fb607b577f"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Occupational Classification Scheme</rdfs:label>
+        <skos:altLabel xml:lang="en">Standard Occupational Classification Scheme</skos:altLabel>
         <skos:definition xml:lang="en">Descriptive information for an arrangement or division of Occupations into groups based on criteria such as characteristics, which the objects have in common</skos:definition>
         <skos:prefLabel xml:lang="en">Occupational Classification Scheme</skos:prefLabel>
     </owl:Class>
@@ -7090,12 +7030,12 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/PaymentMethod">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Method Of Payment</skos:altLabel>
-        <skos:altLabel xml:lang="en">Mode Of Payment</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-02T22:55:37Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:128d3006-85e6-4803-a4f7-594451d313d4"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Payment Method</rdfs:label>
+        <skos:altLabel xml:lang="en">Method Of Payment</skos:altLabel>
+        <skos:altLabel xml:lang="en">Mode Of Payment</skos:altLabel>
         <skos:definition xml:lang="en">Way of paying for something, such as cash</skos:definition>
         <skos:prefLabel xml:lang="en">Payment Method</skos:prefLabel>
     </owl:Class>
@@ -7348,14 +7288,14 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Post Code</skos:altLabel>
-        <skos:altLabel xml:lang="en">Postal Code</skos:altLabel>
-        <skos:altLabel xml:lang="en">Zip Code</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:3df2013b-7938-45c3-b74c-f745889d0936"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:isbn:978-92-95025-42-4"/>
         <rdfs:label xml:lang="en">Postcode</rdfs:label>
+        <skos:altLabel xml:lang="en">Post Code</skos:altLabel>
+        <skos:altLabel xml:lang="en">Postal Code</skos:altLabel>
+        <skos:altLabel xml:lang="en">Zip Code</skos:altLabel>
         <skos:definition xml:lang="en">Identifier for a given postal delivery point or collection of postal delivery points, normally comprising a string of numerical or alphanumerical characters</skos:definition>
         <skos:prefLabel xml:lang="en">Postcode</skos:prefLabel>
     </owl:Class>
@@ -7780,13 +7720,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/RomanisationTransliterationSystem">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TransliterationSystem"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en-gb">Romanisation System</skos:altLabel>
-        <skos:altLabel xml:lang="en-us">Romanization System</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T12:30:21Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:af1ea1c4-335b-40c7-ad52-12dc0451bd6d"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en-gb">Romanisation Transliteration System</rdfs:label>
         <rdfs:label xml:lang="en-us">Romanization Transliteration System</rdfs:label>
+        <skos:altLabel xml:lang="en-gb">Romanisation System</skos:altLabel>
+        <skos:altLabel xml:lang="en-us">Romanization System</skos:altLabel>
         <skos:definition xml:lang="en">System of script conversion from non-Roman to Roman script by means of transliteration</skos:definition>
         <skos:prefLabel xml:lang="en-gb">Romanisation Transliteration System</skos:prefLabel>
         <skos:prefLabel xml:lang="en-us">Romanization Transliteration System</skos:prefLabel>
@@ -7899,13 +7839,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/SexualOrientation">
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Sexual Identity</skos:altLabel>
-        <skos:altLabel xml:lang="en">Sexual Preference</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T11:29:25Z</dcterms:created>
         <dcterms:identifier rdf:resource="http://snomed.info/id/66621004"/>
         <dcterms:identifier rdf:resource="urn:uuid:0c72bd90-c073-48d5-bfaa-4541913d0788"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Sexual Orientation</rdfs:label>
+        <skos:altLabel xml:lang="en">Sexual Identity</skos:altLabel>
+        <skos:altLabel xml:lang="en">Sexual Preference</skos:altLabel>
         <skos:definition xml:lang="en">Person&apos;s identity in relation to the gender or genders to which they are sexually attracted; the fact of being heterosexual, homosexual, etc.</skos:definition>
         <skos:prefLabel xml:lang="en">Sexual Orientation</skos:prefLabel>
     </owl:Class>
@@ -7968,8 +7908,6 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en-us">Color Of Skin Class</skos:altLabel>
-        <skos:altLabel xml:lang="en-gb">Colour Of Skin Class</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T13:42:02Z</dcterms:created>
         <dcterms:identifier rdf:resource="http://snomed.info/id/364533002"/>
         <dcterms:identifier rdf:resource="urn:uuid:9e13f3c5-7ced-4300-af75-f0261065361a"/>
@@ -7977,6 +7915,8 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <rdfs:label xml:lang="en-us">Skin Color Class</rdfs:label>
         <rdfs:label xml:lang="en-gb">Skin Colour Class</rdfs:label>
         <rdfs:seeAlso rdf:resource="http://snomed.info/id/443708004"/>
+        <skos:altLabel xml:lang="en-us">Color Of Skin Class</skos:altLabel>
+        <skos:altLabel xml:lang="en-gb">Colour Of Skin Class</skos:altLabel>
         <skos:definition xml:lang="en">Concept defining a set of perceived hues of the epidermis, based on specific shared characteristics and rules</skos:definition>
         <skos:prefLabel xml:lang="en-us">Skin Color Class</skos:prefLabel>
         <skos:prefLabel xml:lang="en-gb">Skin Colour Class</skos:prefLabel>
@@ -8082,18 +8022,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:25:13Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:23748d43-cfd9-494a-9b7a-f51244e5534d"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T16:04:29Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Standard International Trade Classification</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://unstats.un.org/unsd/trade/sitcrev4.htm"/>
+        <skos:altLabel xml:lang="en">SITC</skos:altLabel>
         <skos:definition xml:lang="en">United Nations statistical classification that groups merchandise for the analytical comparison of international trade statistics, based on criteria such as the material of production, processing stage, and market use</skos:definition>
         <skos:prefLabel xml:lang="en">Standard International Trade Classification</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/StandardInternationalTradeClassification"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Standard International Trade Classification</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">SITC</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -8228,11 +8163,11 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Honorific Prefix</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T13:45:24Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:e1a16608-0366-407a-8978-564539a58832"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Title</rdfs:label>
+        <skos:altLabel xml:lang="en">Honorific Prefix</skos:altLabel>
         <skos:definition xml:lang="en">Word such as Lord or Dame that is used before someone&apos;s name, or a form that is used instead of someone&apos;s name, to indicate high social or official rank</skos:definition>
         <skos:prefLabel xml:lang="en">Title</skos:prefLabel>
     </owl:Class>
@@ -8312,18 +8247,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-09-22T13:21:22Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:dcee75f7-b445-4ace-b891-74450747a55f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T16:04:10Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United Nations Standard Products And Services Code</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.undp.org/unspsc"/>
+        <skos:altLabel xml:lang="en">UNSPSC</skos:altLabel>
         <skos:definition xml:lang="en">Open, global, multi-sector taxonomy that classifies products or services using a four-level hierarchy composed of Segment, Family, Class, and Commodity</skos:definition>
         <skos:prefLabel xml:lang="en">United Nations Standard Products And Services Code</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedNationsStandardProductsAndServicesCode"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">United Nations Standard Products And Services Code</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">UNSPSC</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -8559,18 +8489,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-29T16:34:50Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:license rdf:resource="https://spdx.org/licenses/OGL-UK-3.0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Criminal Justice System Case Stage</dcterms:title>
         <rdfs:label xml:lang="en">Criminal Justice System Case Stage</rdfs:label>
+        <skos:altLabel xml:lang="en">CJS Case Stage</skos:altLabel>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/JudicialCaseStage"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/ab70b4cc-8daa-4b79-aeb0-1a494ccee535"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">Criminal Justice System Case Stage</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">CJS Case Stage</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -8583,19 +8508,14 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:accessRights rdf:resource="http://publications.europa.eu/resource/authority/access-right/PUBLIC"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-13T19:47:31Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:rights rdf:resource="https://unece.org/terms-and-conditions-use-united-nations-websites"/>
         <dcterms:title xml:lang="en">United Nations Economic Commission for Europe - Codes for Types of Means of Transport</dcterms:title>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Codes for Types of Means of Transport</rdfs:label>
+        <skos:altLabel xml:lang="en">UNECE - Codes for Types of Means of Transport</skos:altLabel>
         <dcat:landingPage rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeansOfTransportType"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/ac3c2fd1-5a9d-4080-9ceb-8eef138fd636"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">United Nations Economic Commission for Europe - Codes for Types of Means of Transport</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">UNECE - Codes for Types of Means of Transport</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -8608,18 +8528,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T20:54:28Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:license rdf:resource="https://spdx.org/licenses/OGL-UK-3.0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Criminal Justice System Offence Remand Status</dcterms:title>
         <rdfs:label xml:lang="en">Criminal Justice System Offence Remand Status</rdfs:label>
+        <skos:altLabel xml:lang="en">CJS Offence Remand Status</skos:altLabel>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OffenceRemandStatus"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/b09c0d57-a966-4d74-a97a-dda68b763eb9"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">Criminal Justice System Offence Remand Status</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">CJS Offence Remand Status</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -8633,19 +8548,14 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T17:16:42Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:license rdf:resource="https://spdx.org/licenses/OGL-UK-3.0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Criminal Justice System Result Codes</dcterms:title>
         <rdfs:label xml:lang="en">Criminal Justice System Result Codes</rdfs:label>
+        <skos:altLabel xml:lang="en">CJS Result Codes</skos:altLabel>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalAdjudicationResult"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterAdministrativeOutcome"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/b12769ab-e9f1-4fac-9d1a-e3f1b9fba939"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">Criminal Justice System Result Codes</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">CJS Result Codes</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -8839,18 +8749,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T20:45:22Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:license rdf:resource="https://spdx.org/licenses/OGL-UK-3.0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Criminal Justice System Court Type</dcterms:title>
         <rdfs:label xml:lang="en">Criminal Justice System Court Type</rdfs:label>
+        <skos:altLabel xml:lang="en">CJS Court Type</skos:altLabel>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CourtType"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/beecff46-eb63-4e0e-9e37-8b1633d08bc7"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">Criminal Justice System Court Type</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">CJS Court Type</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -8975,18 +8880,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T16:48:36Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:license rdf:resource="https://spdx.org/licenses/OGL-UK-3.0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Criminal Justice System Offence Index</dcterms:title>
         <rdfs:label xml:lang="en">Criminal Justice System Offence Index</rdfs:label>
+        <skos:altLabel xml:lang="en">CJS Offence Index</skos:altLabel>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Offence"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/cb182a43-2cd7-44d9-9b34-cf4fb2319794"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">Criminal Justice System Offence Index</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">CJS Offence Index</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -9689,18 +9589,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T18:13:34Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:license rdf:resource="https://spdx.org/licenses/OGL-UK-3.0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Criminal Justice System Result Qualifiers</dcterms:title>
         <rdfs:label xml:lang="en">Criminal Justice System Result Qualifiers</rdfs:label>
+        <skos:altLabel xml:lang="en">CJS Result Qualifiers</skos:altLabel>
         <dcat:landingPage rdf:resource="https://www.gov.uk/guidance/criminal-justice-system-data-standards-forum-guidance"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LegalMatterOutcomeQualifier"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/1c1374b4-5b3f-48ad-ae9c-f39764ad8aa0"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">Criminal Justice System Result Qualifiers</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">CJS Result Qualifiers</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -9907,18 +9802,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T17:00:20Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:license rdf:resource="https://spdx.org/licenses/OGL-UK-3.0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">Driver and Vehicle Licensing Agency Endorsements</dcterms:title>
         <rdfs:label xml:lang="en">Driver and Vehicle Licensing Agency Endorsements</rdfs:label>
+        <skos:altLabel xml:lang="en">DVLA Endorsements</skos:altLabel>
         <dcat:landingPage rdf:resource="https://developer-portal.driver-vehicle-licensing.api.gov.uk/apis/driver-view/reference-data.html#endorsements"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Offence"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/24ea699a-3adf-474c-9efc-6f0ba2702a6a"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">Driver and Vehicle Licensing Agency Endorsements</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">DVLA Endorsements</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -9964,19 +9854,14 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:accessRights rdf:resource="http://publications.europa.eu/resource/authority/access-right/PUBLIC"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-13T19:31:08Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:rights rdf:resource="https://unece.org/terms-and-conditions-use-united-nations-websites"/>
         <dcterms:title xml:lang="en">United Nations Economic Commission for Europe - Codes for Modes of Transport</dcterms:title>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Codes for Modes of Transport</rdfs:label>
+        <skos:altLabel xml:lang="en">UNECE - Codes for Modes of Transport</skos:altLabel>
         <dcat:landingPage rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ModeOfTransport"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/29bbd2b4-2086-43c8-af46-ba3f0f4f3f5b"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">United Nations Economic Commission for Europe - Codes for Modes of Transport</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">UNECE - Codes for Modes of Transport</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -10037,18 +9922,14 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dc:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T16:00:26Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:title xml:lang="en">National Statistics Country Classification</dcterms:title>
         <rdfs:label xml:lang="en">National Statistics Country Classification</rdfs:label>
+        <skos:altLabel xml:lang="en">NSCC</skos:altLabel>
         <skos:definition xml:lang="en">Harmonised framework to be used in the collection, processing, and outputs of statistical data on countries in both social and economic statistical collections</skos:definition>
         <dcat:landingPage rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/otherclassifications/nationalstatisticscountryclassification"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/GeographicFeature"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/319265c9-5ae8-49c9-9d8a-75441bfc70fb"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">National Statistics Country Classification</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">NSCC</dcterms:alternative>
-    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/319265c9-5ae8-49c9-9d8a-75441bfc70fb"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
@@ -10552,19 +10433,14 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:accessRights rdf:resource="http://publications.europa.eu/resource/authority/access-right/PUBLIC"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T18:35:03Z</dcterms:created>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:rights rdf:resource="https://unece.org/terms-and-conditions-use-united-nations-websites"/>
         <dcterms:title xml:lang="en">United Nations Economic Commission for Europe - Inland Transport Committee - World Forum for Harmonization of Vehicle Regulations - Consolidated Resolution on the Construction of Vehicles - Revision 7</dcterms:title>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Inland Transport Committee - World Forum for Harmonization of Vehicle Regulations - Consolidated Resolution on the Construction of Vehicles - Revision 7</rdfs:label>
+        <skos:altLabel xml:lang="en">ECE/TRANS/WP.29/78/Rev.7</skos:altLabel>
         <dcat:landingPage rdf:resource="https://unece.org/transport/documents/2023/05/standards/consolidated-resolution-construction-vehicles-re3-revision-7"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/VehicleCategory"/>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/7f7b5cb4-05f2-4745-9ceb-50633f9e11c4"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <owl:annotatedTarget xml:lang="en">United Nations Economic Commission for Europe - Inland Transport Committee - World Forum for Harmonization of Vehicle Regulations - Consolidated Resolution on the Construction of Vehicles - Revision 7</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">ECE/TRANS/WP.29/78/Rev.7</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -12964,11 +12840,11 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Avonymic">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ItemDesignationType"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Papponymic</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-16T15:00:44Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:bb23fd2b-09bc-4e1f-97b0-5612b03d50bd"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Avonymic</rdfs:label>
+        <skos:altLabel xml:lang="en">Papponymic</skos:altLabel>
         <skos:definition xml:lang="en">Name acquired from one&apos;s grandfather</skos:definition>
         <skos:prefLabel xml:lang="en">Avonymic</skos:prefLabel>
     </owl:NamedIndividual>
@@ -13123,8 +12999,9 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-28T11:52:41Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:a6ffa2dc-75db-4f35-85be-c706f53f2421"/>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">2</dcterms:identifier>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T20:42:56Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">East</rdfs:label>
+        <skos:altLabel xml:lang="en">E</skos:altLabel>
         <skos:definition xml:lang="en">Horizontal Direction towards the point of the horizon where the sun rises at the equinoxes, on the right-hand side of a person facing north, or the point on the horizon itself</skos:definition>
         <skos:prefLabel xml:lang="en">East</skos:prefLabel>
     </owl:NamedIndividual>
@@ -13133,12 +13010,6 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Horizontal Direction towards the point of the horizon where the sun rises at the equinoxes, on the right-hand side of a person facing north, or the point on the horizon itself</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/east"/>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/East"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">East</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">E</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -13190,13 +13061,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/EurostatActivityAndEmploymentStatus">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EmploymentStatus"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Activity And Employment Status</skos:altLabel>
-        <skos:altLabel xml:lang="en">Worker Status</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T11:52:48Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:1cefab7f-eefa-4e08-b096-343e2cf3b755"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:source rdf:resource="https://webgate.ec.europa.eu/fusionregistry/items/codelist.html?urn=urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ESTAT:WSTATUS(12.0)"/>
         <rdfs:label xml:lang="en">Eurostat Activity And Employment Status</rdfs:label>
+        <skos:altLabel xml:lang="en">Activity And Employment Status</skos:altLabel>
+        <skos:altLabel xml:lang="en">Worker Status</skos:altLabel>
         <skos:definition xml:lang="en">Category that describes the activity and working status of individuals, containing information on their position in relation to the labour market (employed, unemployed, or inactive), their professional status (based on the ICSE classification), their working time (full-time or part-time), also providing information on special sub-groups of the previously described population (e.g. farm labour force, retired persons, students, disabled persons, etc.)</skos:definition>
         <skos:prefLabel xml:lang="en">Eurostat Activity And Employment Status</skos:prefLabel>
     </owl:NamedIndividual>
@@ -13231,12 +13102,12 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SkinColourClassificationScheme"/>
         <owl:differentFrom rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/VonLuschansChromaticScale"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">Fitzpatrick Scale</skos:altLabel>
-        <skos:altLabel xml:lang="en">Fitzpatrick Skin Typing Test</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T13:53:35Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:8d5b1e1d-50b3-4b1b-9997-77fa3b2817e4"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Fitzpatrick Phototyping Scale</rdfs:label>
+        <skos:altLabel xml:lang="en">Fitzpatrick Scale</skos:altLabel>
+        <skos:altLabel xml:lang="en">Fitzpatrick Skin Typing Test</skos:altLabel>
         <skos:definition xml:lang="en">Skin Colour Classification Scheme developed by Thomas B. Fitzpatrick in 1975 as a way to estimate the response of different types of skin to ultraviolet light</skos:definition>
         <skos:prefLabel xml:lang="en">Fitzpatrick Phototyping Scale</skos:prefLabel>
     </owl:NamedIndividual>
@@ -13297,13 +13168,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/IRENET95IrishTransverseMercator">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateReferenceSystem"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">ITM</skos:altLabel>
-        <skos:altLabel xml:lang="en">Irish Transverse Mercator</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T23:26:34Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:ogc:def:crs:EPSG::2157"/>
         <dcterms:identifier rdf:resource="urn:uuid:d9ae9eca-0599-46aa-bca3-740716e514b7"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">IRENET95 Irish Transverse Mercator</rdfs:label>
+        <skos:altLabel xml:lang="en">ITM</skos:altLabel>
+        <skos:altLabel xml:lang="en">Irish Transverse Mercator</skos:altLabel>
         <skos:definition xml:lang="en">Coordinate Reference System used in Ireland</skos:definition>
         <skos:prefLabel xml:lang="en">IRENET95 Irish Transverse Mercator</skos:prefLabel>
     </owl:NamedIndividual>
@@ -13419,9 +13290,10 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T13:22:09Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:84f83e14-fcbe-4cfc-8705-d943c36861a6"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T17:19:06Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">International Classification Of Status In Employment 1993</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://unstats.un.org/unsd/classifications/Family/Detail/222"/>
+        <skos:altLabel xml:lang="en">ICSE-93</skos:altLabel>
         <skos:definition xml:lang="en">Descriptive information for an arrangement or division of jobs held by persons at a point in time with respect to the type of explicit or implicit contract of employment of the person with other persons or organisations, adopted by the International Labour Organization in 1993, into groups based on criteria such as characteristics, which the objects have in common</skos:definition>
         <skos:prefLabel xml:lang="en">International Classification Of Status In Employment 1993</skos:prefLabel>
     </owl:NamedIndividual>
@@ -13431,12 +13303,6 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of jobs held by persons at a point in time with respect to the type of explicit or implicit contract of employment of the person with other persons or organisations, adopted by the International Labour Organization in 1993, into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.ilo.org/wcmsp5/groups/public/---dgreports/---stat/documents/normativeinstrument/wcms_087562.pdf"/>
         <rdfs:comment xml:lang="en">Section I 2</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalClassificationOfStatusInEmployment1993"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">International Classification Of Status In Employment 1993</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">ICSE-93</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -13448,18 +13314,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T14:19:42Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:e978d0d7-7ddd-497f-9608-41965d6f1dfe"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:40:37Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:isbn:978-92-9189-123-8"/>
         <rdfs:label xml:lang="en">International Standard Classification Of Education Attainment 2011</rdfs:label>
+        <skos:altLabel xml:lang="en">ISCED-A 2011</skos:altLabel>
         <skos:definition xml:lang="en">Internationally agreed category of educational activities as defined in programmes and the resulting qualifications</skos:definition>
         <skos:prefLabel xml:lang="en">International Standard Classification Of Education Attainment 2011</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardClassificationOfEducationAttainment2011"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">International Standard Classification Of Education Attainment 2011</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">ISCED-A 2011</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -13470,17 +13331,12 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T14:57:42Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:b8c027e5-8fa0-452d-af84-b1781bd67ca0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T21:48:08Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">International Standard Classification Of Occupations 2008</rdfs:label>
+        <skos:altLabel xml:lang="en">ISCO-08</skos:altLabel>
         <skos:definition xml:lang="en">Occupational Classification Scheme endorsed by the International Labour Organization in 2008</skos:definition>
         <skos:prefLabel xml:lang="en">International Standard Classification Of Occupations 2008</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardClassificationOfOccupations2008"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">International Standard Classification Of Occupations 2008</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">ISCO-08</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -13492,18 +13348,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:18:36Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:af79f767-225a-4de0-a0af-1442f9c703bf"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:34:09Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">International Standard Industrial Classification Revision 4</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://unstats.un.org/unsd/classifications/Family/Detail/27"/>
+        <skos:altLabel xml:lang="en">ISIC Rev. 4</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme developed by the International Labour Organization, adopted in 2006</skos:definition>
         <skos:prefLabel xml:lang="en">International Standard Industrial Classification Revision 4</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision4"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">International Standard Industrial Classification Revision 4</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">ISIC Rev. 4</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -13514,19 +13365,14 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-29T15:52:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:98c2cdb0-af21-4840-abbc-5eec2979c0f5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:38:39Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision4"/>
         <rdfs:label xml:lang="en">International Standard Industrial Classification Revision 5</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://unstats.un.org/unsd/classifications/Family/Detail/2095"/>
+        <skos:altLabel xml:lang="en">ISIC Rev. 5</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme developed by the International Labour Organization, adopted in 2024</skos:definition>
         <skos:prefLabel xml:lang="en">International Standard Industrial Classification Revision 5</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalStandardIndustrialClassificationRevision5"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">International Standard Industrial Classification Revision 5</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">ISIC Rev. 5</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -13715,8 +13561,9 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-28T11:47:20Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:10d14a0f-4b55-4c65-b697-68d8577dbd6e"/>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">1</dcterms:identifier>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:46:47Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">North</rdfs:label>
+        <skos:altLabel xml:lang="en">N</skos:altLabel>
         <skos:definition xml:lang="en">Vertical Direction in which a compass needle normally points, towards the horizon on the left-hand side of a person facing east, or the part of the horizon lying in this direction</skos:definition>
         <skos:prefLabel xml:lang="en">North</skos:prefLabel>
     </owl:NamedIndividual>
@@ -13725,12 +13572,6 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Vertical Direction in which a compass needle normally points, towards the horizon on the left-hand side of a person facing east, or the part of the horizon lying in this direction</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/north"/>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/North"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">North</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">N</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -13743,18 +13584,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:24:05Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:c70c7147-66c8-4f47-9b60-d07897f9bfff"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2002"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:31:56Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardIndustrialClassification1987"/>
         <rdfs:label xml:lang="en">North American Industry Classification System 1997</rdfs:label>
+        <skos:altLabel xml:lang="en">NAICS 1997</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme developed jointly by the U.S. Economic Classification Policy Committee, Statistics Canada, and Mexico&apos;s Instituto Nacional de Estadistica y Geografia, adopted in 1997</skos:definition>
         <skos:prefLabel xml:lang="en">North American Industry Classification System 1997</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem1997"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">North American Industry Classification System 1997</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">NAICS 1997</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -13766,18 +13602,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:23:54Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:23940baf-3773-4d0a-879d-c1c2c896b3db"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2007"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:31:35Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem1997"/>
         <rdfs:label xml:lang="en">North American Industry Classification System 2002</rdfs:label>
+        <skos:altLabel xml:lang="en">NAICS 2002</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme developed jointly by the U.S. Economic Classification Policy Committee, Statistics Canada, and Mexico&apos;s Instituto Nacional de Estadistica y Geografia, adopted in 2002</skos:definition>
         <skos:prefLabel xml:lang="en">North American Industry Classification System 2002</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2002"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">North American Industry Classification System 2002</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">NAICS 2002</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -13789,18 +13620,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:23:44Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:73bd8bb1-304d-4df8-8dc8-c6548ded4a04"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2012"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:31:15Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2002"/>
         <rdfs:label xml:lang="en">North American Industry Classification System 2007</rdfs:label>
+        <skos:altLabel xml:lang="en">NAICS 2007</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme developed jointly by the U.S. Economic Classification Policy Committee, Statistics Canada, and Mexico&apos;s Instituto Nacional de Estadistica y Geografia, adopted in 2007</skos:definition>
         <skos:prefLabel xml:lang="en">North American Industry Classification System 2007</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2007"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">North American Industry Classification System 2007</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">NAICS 2007</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -13812,18 +13638,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:23:38Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:6ccea445-dac4-4155-83c6-585605f0d0ec"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2017"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:31:01Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2007"/>
         <rdfs:label xml:lang="en">North American Industry Classification System 2012</rdfs:label>
+        <skos:altLabel xml:lang="en">NAICS 2012</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme developed jointly by the U.S. Economic Classification Policy Committee, Statistics Canada, and Mexico&apos;s Instituto Nacional de Estadistica y Geografia, adopted in 2012</skos:definition>
         <skos:prefLabel xml:lang="en">North American Industry Classification System 2012</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2012"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">North American Industry Classification System 2012</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">NAICS 2012</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -13835,18 +13656,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:21:31Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:13e128b8-94c8-4a03-9dba-b5b24f3a1105"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2022"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:30:28Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2012"/>
         <rdfs:label xml:lang="en">North American Industry Classification System 2017</rdfs:label>
+        <skos:altLabel xml:lang="en">NAICS 2017</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme developed jointly by the U.S. Economic Classification Policy Committee, Statistics Canada, and Mexico&apos;s Instituto Nacional de Estadistica y Geografia, adopted in 2017</skos:definition>
         <skos:prefLabel xml:lang="en">North American Industry Classification System 2017</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2017"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">North American Industry Classification System 2017</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">NAICS 2017</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -13857,18 +13673,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T10:20:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:0f83f5aa-6408-4fbf-85a4-ae5206f57b2b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:30:39Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2017"/>
         <rdfs:label xml:lang="en">North American Industry Classification System 2022</rdfs:label>
+        <skos:altLabel xml:lang="en">NAICS 2022</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme developed jointly by the U.S. Economic Classification Policy Committee, Statistics Canada, and Mexico&apos;s Instituto Nacional de Estadistica y Geografia, adopted in 2022</skos:definition>
         <skos:prefLabel xml:lang="en">North American Industry Classification System 2022</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem2022"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">North American Industry Classification System 2022</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">NAICS 2022</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -14230,8 +14041,9 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-28T11:52:45Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:b2fd2529-2011-4b21-b01a-6bd4781a1188"/>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">3</dcterms:identifier>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:52:28Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">South</rdfs:label>
+        <skos:altLabel xml:lang="en">S</skos:altLabel>
         <skos:definition xml:lang="en">Vertical Direction towards the point of the horizon 90° clockwise from east, or the point on the horizon itself</skos:definition>
         <skos:prefLabel xml:lang="en">South</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14240,12 +14052,6 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Vertical Direction towards the point of the horizon 90° clockwise from east, or the point on the horizon itself</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/south"/>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/South"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">South</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">S</dcterms:alternative>
     </owl:Axiom>
     
 
@@ -14416,13 +14222,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomClassificationOfOccupations1970">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">CO 70</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T11:05:00Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:bb6b5210-98cf-4f3f-bbc1-7c0938a0b49e"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomClassificationOfOccupations1980"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomClassificationOfOccupations1970"/>
         <rdfs:label xml:lang="en">United Kingdom Classification Of Occupations 1970</rdfs:label>
+        <skos:altLabel xml:lang="en">CO 70</skos:altLabel>
         <skos:definition xml:lang="en">Occupational Classification Scheme adopted by the United Kingdom of Great Britain and Northern Ireland&apos;s Office for Population Census and Surveys in 1970</skos:definition>
         <skos:prefLabel xml:lang="en">United Kingdom Classification Of Occupations 1970</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14434,12 +14240,12 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomClassificationOfOccupations1980">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">CO 80</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T14:59:13Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:6c39654a-bf5c-482c-a3a4-1b432ade8732"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification1990"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United Kingdom Classification Of Occupations 1980</rdfs:label>
+        <skos:altLabel xml:lang="en">CO 80</skos:altLabel>
         <skos:definition xml:lang="en">Occupational Classification Scheme adopted by the United Kingdom of Great Britain and Northern Ireland&apos;s Office for Population Census and Surveys in 1980</skos:definition>
         <skos:prefLabel xml:lang="en">United Kingdom Classification Of Occupations 1980</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14500,13 +14306,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification1990">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">SOC 90</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:01:20Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:02408877-8b7a-43da-9907-ceb2e1ee6e47"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2000"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomClassificationOfOccupations1980"/>
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 1990</rdfs:label>
+        <skos:altLabel xml:lang="en">SOC 90</skos:altLabel>
         <skos:definition xml:lang="en">Occupational Classification Scheme adopted by the United Kingdom of Great Britain and Northern Ireland&apos;s Central Statistical Office in 1990</skos:definition>
         <skos:prefLabel xml:lang="en">United Kingdom Standard Occupational Classification 1990</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14518,13 +14324,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2000">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">SOC 2000</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T14:44:48Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:354b941a-30f4-441c-a621-fff1717aaf57"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2010"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification1990"/>
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 2000</rdfs:label>
+        <skos:altLabel xml:lang="en">SOC 2000</skos:altLabel>
         <skos:definition xml:lang="en">Occupational Classification Scheme adopted by the United Kingdom of Great Britain and Northern Ireland&apos;s Office for National Statistics in 2000</skos:definition>
         <skos:prefLabel xml:lang="en">United Kingdom Standard Occupational Classification 2000</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14536,7 +14342,6 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2010">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">SOC 2010</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T14:39:02Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:c9b8225a-598a-4a6a-839f-f9c406b4bbc6"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2020"/>
@@ -14544,6 +14349,7 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2000"/>
         <dcterms:source rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/standardoccupationalclassificationsoc/soc2010"/>
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 2010</rdfs:label>
+        <skos:altLabel xml:lang="en">SOC 2010</skos:altLabel>
         <skos:definition xml:lang="en">Occupational Classification Scheme adopted by the United Kingdom of Great Britain and Northern Ireland&apos;s Office for National Statistics in 2010</skos:definition>
         <skos:prefLabel xml:lang="en">United Kingdom Standard Occupational Classification 2010</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14555,13 +14361,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2020">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">SOC 2020</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T14:42:14Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:d893b098-2413-487d-8e0c-ba2ad38e5df6"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedKingdomStandardOccupationalClassification2010"/>
         <dcterms:source rdf:resource="https://www.ons.gov.uk/methodology/classificationsandstandards/standardoccupationalclassificationsoc/soc2020"/>
         <rdfs:label xml:lang="en">United Kingdom Standard Occupational Classification 2020</rdfs:label>
+        <skos:altLabel xml:lang="en">SOC 2020</skos:altLabel>
         <skos:definition xml:lang="en">Occupational Classification Scheme adopted by the United Kingdom of Great Britain and Northern Ireland&apos;s Office for National Statistics in 2020</skos:definition>
         <skos:prefLabel xml:lang="en">United Kingdom Standard Occupational Classification 2020</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14573,12 +14379,12 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardIndustrialClassification1972">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EconomicActivityClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">1972 SIC</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:37:42Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:434cc0d5-caa4-4b11-a450-523e918f9696"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardIndustrialClassification1977"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United States Standard Industrial Classification 1972</rdfs:label>
+        <skos:altLabel xml:lang="en">1972 SIC</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme used by United States government agencies, adopted in 1972</skos:definition>
         <skos:prefLabel xml:lang="en">United States Standard Industrial Classification 1972</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14590,13 +14396,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardIndustrialClassification1977">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EconomicActivityClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">1977 SIC</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:39:19Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:42f32af2-16c4-4206-b169-097fcc36c863"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardIndustrialClassification1987"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardIndustrialClassification1972"/>
         <rdfs:label xml:lang="en">United States Standard Industrial Classification 1977</rdfs:label>
+        <skos:altLabel xml:lang="en">1977 SIC</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme used by United States government agencies, adopted in 1977</skos:definition>
         <skos:prefLabel xml:lang="en">United States Standard Industrial Classification 1977</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14608,13 +14414,13 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardIndustrialClassification1987">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EconomicActivityClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">1987 SIC</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:33:59Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:4c78330a-b0de-4745-9e48-a0b5b21fda97"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NorthAmericanIndustryClassificationSystem1997"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardIndustrialClassification1977"/>
         <rdfs:label xml:lang="en">United States Standard Industrial Classification 1987</rdfs:label>
+        <skos:altLabel xml:lang="en">1987 SIC</skos:altLabel>
         <skos:definition xml:lang="en">Economic Activity Classification Scheme used by United States government agencies, adopted in 1987</skos:definition>
         <skos:prefLabel xml:lang="en">United States Standard Industrial Classification 1987</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14626,12 +14432,12 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardOccupationalClassification2010">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">2010 SOC</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:05:57Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:e142291c-ba30-40d0-b5f9-9968bd86e163"/>
         <dcterms:isReplacedBy rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardOccupationalClassification2018"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">United States Standard Occupational Classification 2010</rdfs:label>
+        <skos:altLabel xml:lang="en">2010 SOC</skos:altLabel>
         <skos:definition xml:lang="en">Occupational Classification Scheme adopted by the United States Bureau of Labor Statistics in 2010</skos:definition>
         <skos:prefLabel xml:lang="en">United States Standard Occupational Classification 2010</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14643,12 +14449,12 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardOccupationalClassification2018">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">2018 SOC</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-03T15:07:17Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:f9c589ba-d42d-4a32-b471-dbbe1e59a9d4"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <dcterms:replaces rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/UnitedStatesStandardOccupationalClassification2010"/>
         <rdfs:label xml:lang="en">United States Standard Occupational Classification 2018</rdfs:label>
+        <skos:altLabel xml:lang="en">2018 SOC</skos:altLabel>
         <skos:definition xml:lang="en">Occupational Classification Scheme adopted by the United States Bureau of Labor Statistics in 2018</skos:definition>
         <skos:prefLabel xml:lang="en">United States Standard Occupational Classification 2018</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14697,21 +14503,16 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/VonLuschansChromaticScale">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/SkinColourClassificationScheme"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">von Luschan scale</skos:altLabel>
-        <skos:altLabel xml:lang="en">von Luschan&apos;s scale</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-02T13:50:53Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:d3d5b378-761c-4191-946b-8747b3565690"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Von Luschan&apos;s Chromatic Scale</rdfs:label>
+        <skos:altLabel xml:lang="en">VLS</skos:altLabel>
+        <skos:altLabel xml:lang="en">von Luschan scale</skos:altLabel>
+        <skos:altLabel xml:lang="en">von Luschan&apos;s scale</skos:altLabel>
         <skos:definition xml:lang="en">Skin Colour Classification Scheme named after its inventor, Felix von Luschan</skos:definition>
         <skos:prefLabel xml:lang="en">Von Luschan&apos;s Chromatic Scale</skos:prefLabel>
     </owl:NamedIndividual>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/VonLuschansChromaticScale"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">Von Luschan&apos;s Chromatic Scale</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">VLS</dcterms:alternative>
-    </owl:Axiom>
     
 
 
@@ -14720,15 +14521,15 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
     <owl:NamedIndividual rdf:about="https://haddenindustries.com/ontology/universal/reference-data/WGS84">
         <rdf:type rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateReferenceSystem"/>
         <dc:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">EPSG:4326</skos:altLabel>
-        <skos:altLabel xml:lang="en">WGS 1984</skos:altLabel>
-        <skos:altLabel xml:lang="en">World Geodetic System 1984</skos:altLabel>
-        <skos:altLabel xml:lang="en">World Geodetic System 84</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T17:53:35Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:ogc:def:crs:EPSG::4326"/>
         <dcterms:identifier rdf:resource="urn:uuid:61d07bff-b551-40d9-89fe-d61793547372"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">WGS84</rdfs:label>
+        <skos:altLabel xml:lang="en">EPSG:4326</skos:altLabel>
+        <skos:altLabel xml:lang="en">WGS 1984</skos:altLabel>
+        <skos:altLabel xml:lang="en">World Geodetic System 1984</skos:altLabel>
+        <skos:altLabel xml:lang="en">World Geodetic System 84</skos:altLabel>
         <skos:definition xml:lang="en">Coordinate Reference System used in cartography, geodesy, and navigation including the Global Positioning System</skos:definition>
         <skos:prefLabel xml:lang="en">WGS84</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14771,8 +14572,9 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-28T11:52:50Z</dcterms:created>
         <dcterms:identifier rdf:resource="urn:uuid:afdc7559-ee68-4197-baab-416a13fa8810"/>
         <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">4</dcterms:identifier>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T20:50:42Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">West</rdfs:label>
+        <skos:altLabel xml:lang="en">W</skos:altLabel>
         <skos:definition xml:lang="en">Horizontal Direction towards the point of the horizon where the sun sets at the equinoxes, on the left-hand side of a person facing north, or the part of the horizon lying in this direction</skos:definition>
         <skos:prefLabel xml:lang="en">West</skos:prefLabel>
     </owl:NamedIndividual>
@@ -14781,12 +14583,6 @@ Note 3 to entry: The term “nominal quantity value” and its short form “nom
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Horizontal Direction towards the point of the horizon where the sun sets at the equinoxes, on the left-hand side of a person facing north, or the part of the horizon lying in this direction</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/west"/>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/West"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#prefLabel"/>
-        <owl:annotatedTarget xml:lang="en">West</owl:annotatedTarget>
-        <dcterms:alternative xml:lang="en">W</dcterms:alternative>
     </owl:Axiom>
     
 
