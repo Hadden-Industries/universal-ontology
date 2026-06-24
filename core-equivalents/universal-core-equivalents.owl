@@ -217,6 +217,36 @@
     <!-- https://haddenindustries.com/ontology/universal/extended/OpeningHours -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/OpeningHours"/>
+    
+
+
+    <!-- http://schema.org/Quantity -->
+
+    <owl:Class rdf:about="http://schema.org/Quantity">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+    </owl:Class>
+	
+	
+	
+	<!-- http://schema.org/measurementTechnique -->
+
+    <owl:Class rdf:about="http://schema.org/measurementTechnique">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/hasMeasurementMethod"/>
+    </owl:Class>
+	
+	
+	
+	<!-- http://schema.org/unitCode -->
+
+    <owl:Class rdf:about="http://schema.org/unitCode">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/core/hasMeasurementUnit"/>
+		<skos:note xml:lang="en">Broader, as applies to e.g. UnitPriceSpecification</skos:note>
+    </owl:Class>
+    
+
+
+    
+	
 </rdf:RDF>
 
 
