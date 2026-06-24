@@ -32,7 +32,7 @@
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology</dcterms:title>
         <rdfs:label xml:lang="en">Hadden Industries Universal Reference Data Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260623"/>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260610"/>
         <owl:versionInfo>2026-06-24</owl:versionInfo>
     </owl:Ontology>
     
@@ -2433,14 +2433,26 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-28T11:15:54Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:935940c9-3049-4478-a580-8c97b0d2e06f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T11:28:23Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22932:-1:ed-1:v1:term:3.2.2.3"/>
         <dcterms:source xml:lang="en">Glossary of BLM surveying and mapping terms, 1980</dcterms:source>
+        <rdfs:label xml:lang="en">Cardinal</rdfs:label>
         <rdfs:label xml:lang="en">Cardinal Direction</rdfs:label>
-        <skos:altLabel xml:lang="en">Cardinal Point</skos:altLabel>
         <skos:definition xml:lang="en">Direction north, south, east and west</skos:definition>
         <skos:prefLabel xml:lang="en">Cardinal Direction</skos:prefLabel>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CardinalDirection"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <owl:annotatedTarget xml:lang="en">Cardinal</owl:annotatedTarget>
+        <skos:note xml:lang="en">This is the preferred label in ISO 22932-1:2020</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CardinalDirection"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <owl:annotatedTarget xml:lang="en">Cardinal Direction</owl:annotatedTarget>
+        <skos:note xml:lang="en">Not specified in ISO 22932-1:2020</skos:note>
+    </owl:Axiom>
     
 
 
