@@ -8,8 +8,8 @@
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no"/>
   <xsl:preserve-space elements="*"/>
 
-  <!-- Cross-reference key linking elements containing dcterms:title by their URI -->
-  <xsl:key name="title-parents" match="*[starts-with(@rdf:about, 'https://haddenindustries.com/ontology/') and dcterms:title]" use="@rdf:about"/>
+  <!-- Cross-reference key linking elements containing dcterms:title by their URI, excluding owl:Ontology -->
+  <xsl:key name="title-parents" match="*[starts-with(@rdf:about, 'https://haddenindustries.com/ontology/') and dcterms:title and not(self::owl:Ontology)]" use="@rdf:about"/>
 
   <!-- Identity Transform -->
   <xsl:template match="@* | node()">
@@ -63,8 +63,8 @@
     </xsl:choose>
   </xsl:template>
 
-  <!-- Targeted transformation: Parent elements possessing a dcterms:title -->
-  <xsl:template match="*[starts-with(@rdf:about, 'https://haddenindustries.com/ontology/') and dcterms:title]">
+  <!-- Targeted transformation: Parent elements possessing a dcterms:title, excluding owl:Ontology -->
+  <xsl:template match="*[starts-with(@rdf:about, 'https://haddenindustries.com/ontology/') and dcterms:title and not(self::owl:Ontology)]">
     <xsl:copy>
       <!-- Replicate existing attributes and process child nodes, deferring trailing whitespace -->
       <xsl:apply-templates select="@* | node()[not(position() = last() and self::text() and normalize-space(.) = '')]"/>
@@ -81,14 +81,14 @@
   </xsl:template>
 
   <!-- Targeted transformation: Convert matching parent's dcterms:title to skos:prefLabel -->
-  <xsl:template match="*[starts-with(@rdf:about, 'https://haddenindustries.com/ontology/') and dcterms:title]/dcterms:title">
+  <xsl:template match="*[starts-with(@rdf:about, 'https://haddenindustries.com/ontology/') and dcterms:title and not(self::owl:Ontology)]/dcterms:title">
     <skos:prefLabel>
       <xsl:apply-templates select="@* | node()"/>
     </skos:prefLabel>
   </xsl:template>
 
   <!-- Targeted transformation: Overwrite matching parent's existing dcterms:modified -->
-  <xsl:template match="*[starts-with(@rdf:about, 'https://haddenindustries.com/ontology/') and dcterms:title]/dcterms:modified">
+  <xsl:template match="*[starts-with(@rdf:about, 'https://haddenindustries.com/ontology/') and dcterms:title and not(self::owl:Ontology)]/dcterms:modified">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:text>2026-06-24T18:25:00Z</xsl:text>
