@@ -195,14 +195,6 @@
     
 
 
-    <!-- http://purl.org/dc/terms/Frequency -->
-
-    <owl:Class rdf:about="http://purl.org/dc/terms/Frequency">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Frequency"/>
-    </owl:Class>
-    
-
-
     <!-- http://purl.org/eis/vocab/daq#Category -->
 
     <owl:Class rdf:about="http://purl.org/eis/vocab/daq#Category">
@@ -245,6 +237,7 @@
 
     <owl:Class rdf:about="http://schema.org/Courthouse">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Court"/>
+		<skos:note xml:lang="en">This refers to the building's location (Thing > Place > CivicStructure > GovernmentBuilding > Courthouse), so not equivalent</skos:note>
     </owl:Class>
     
 
@@ -253,30 +246,19 @@
 
     <owl:Class rdf:about="http://schema.org/DayOfWeek">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CalendarDayOfWeek"/>
+		<skos:note xml:lang="en">This is the enumeration of the values as opposed to the concept, so not equivalent</skos:note>
     </owl:Class>
     
 
 
-    <!-- http://schema.org/ExchangeRateSpecification -->
+	<!-- http://schema.org/State -->
 
-    <owl:Class rdf:about="http://schema.org/ExchangeRateSpecification">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
+    <owl:Class rdf:about="http://schema.org/State">
     </owl:Class>
     
 
 
-    <!-- http://schema.org/Language -->
 
-    <owl:Class rdf:about="http://schema.org/Language">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
-    </owl:Class>
-    
-
-
-    <!-- http://schema.org/Occupation -->
-
-    <owl:Class rdf:about="http://schema.org/Occupation">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
     </owl:Class>
 	
 	
@@ -285,37 +267,16 @@
 
     <owl:Class rdf:about="https://schema.org/occupationalCategory">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationCategory"/>
+		<skos:note xml:lang="en">This is the classification as opposed to the category, so not equivalent</skos:note>
     </owl:Class>
     
-
-
-    <!-- http://schema.org/Quantity -->
-
-    <owl:Class rdf:about="http://schema.org/Quantity">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
-    </owl:Class>
     
-
-
-    <!-- http://schema.org/State -->
-
-    <owl:Class rdf:about="http://schema.org/State">
-    </owl:Class>
     
-
-
     <!-- http://schema.org/currency -->
 
     <owl:Class rdf:about="http://schema.org/currency">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
-    </owl:Class>
-    
-
-
-    <!-- http://schema.org/exerciseType -->
-
-    <owl:Class rdf:about="http://schema.org/exerciseType">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ExerciseType"/>
+		<skos:note xml:lang="en">This is the relationship from e.g. ExchangeRateSpecification, LoanOrCredit, MonetaryAmount, MonetaryAmountDistribution as opposed to the concept, so not equivalent</skos:note>
     </owl:Class>
     
 
@@ -324,6 +285,7 @@
 
     <owl:Class rdf:about="http://schema.org/frequency">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Frequency"/>
+		<skos:note xml:lang="en">This is the relationship as opposed to the category, so not equivalent</skos:note>
     </owl:Class>
     
 
@@ -332,6 +294,16 @@
 
     <owl:Class rdf:about="http://schema.org/gender">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Gender"/>
+		<skos:note xml:lang="en">This is the relationship, not the concept (that is also broader than https://haddenindustries.com/ontology/universal/extended/NaturalPersonGender), so not equivalent</skos:note>
+    </owl:Class>
+	
+	
+	
+	<!-- http://schema.org/GenderType -->
+
+    <owl:Class rdf:about="http://schema.org/GenderType">
+        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Gender"/>
+		<skos:note xml:lang="en">This is the enumeration of the values as opposed to the concept, so not equivalent</skos:note>
     </owl:Class>
     
 
@@ -340,6 +312,7 @@
 
     <owl:Class rdf:about="http://schema.org/honorificPrefix">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Title"/>
+		<skos:note xml:lang="en">This is the relationship of a Text honorific prefix to a Person, so not equivalent</skos:note>
     </owl:Class>
     
 
@@ -348,6 +321,7 @@
 
     <owl:Class rdf:about="http://schema.org/honorificSuffix">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffix"/>
+		<skos:note xml:lang="en">This is the relationship of a Text honorific suffix to a Person, so not equivalent</skos:note>
     </owl:Class>
     
 
@@ -359,34 +333,11 @@
     
 
 
-    <!-- http://schema.org/measurementTechnique -->
-
-    <owl:Class rdf:about="http://schema.org/measurementTechnique">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod"/>
-    </owl:Class>
-    
-
-
     <!-- http://schema.org/postalCode -->
 
     <owl:Class rdf:about="http://schema.org/postalCode">
         <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Postcode"/>
-    </owl:Class>
-    
-
-
-    <!-- http://schema.org/skills -->
-
-    <owl:Class rdf:about="http://schema.org/skills">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Skill"/>
-    </owl:Class>
-    
-
-
-    <!-- http://schema.org/unitCode -->
-
-    <owl:Class rdf:about="http://schema.org/unitCode">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
+		<skos:note xml:lang="en">This is the relationship of a postcode to something, so not equivalent</skos:note>
     </owl:Class>
     
 
@@ -452,12 +403,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
-    
-
-
     <!-- https://haddenindustries.com/ontology/universal/reference-data/DataQualityCategory -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/DataQualityCategory"/>
@@ -476,9 +421,9 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/ExerciseType -->
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/Currency -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ExerciseType"/>
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Currency"/>
     
 
 
@@ -491,24 +436,6 @@
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Gender -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Gender"/>
-    
-  
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/Language -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Language"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
     
 
 
@@ -523,10 +450,6 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/NaturalPersonNameSuffix"/>
     
 
-	<!-- https://haddenindustries.com/ontology/universal/reference-data/Occupation -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
-
 
     <!-- https://haddenindustries.com/ontology/universal/reference-data/OccupationCategory -->
 
@@ -537,18 +460,6 @@
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Postcode -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Postcode"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/Quantity -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/Skill -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Skill"/>
     
 
 

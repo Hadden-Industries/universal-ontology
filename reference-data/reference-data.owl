@@ -108,6 +108,14 @@
     
 
 
+    <!-- http://schema.org/exerciseType -->
+
+    <owl:ObjectProperty rdf:about="http://schema.org/exerciseType">
+        <rdfs:subPropertyOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasExerciseClassType"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://www.w3.org/ns/dcat#distribution -->
 
     <owl:ObjectProperty rdf:about="http://www.w3.org/ns/dcat#distribution"/>
@@ -1555,16 +1563,16 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasExerciseType -->
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/hasExerciseClassType -->
 
-    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasExerciseType">
+    <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/reference-data/hasExerciseClassType">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ExerciseClass"/>
-        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ExerciseType"/>
+        <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ExerciseClassType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-31T09:57:49Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-23T22:55:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">has exercise type</rdfs:label>
-        <skos:prefLabel xml:lang="en">has exercise type</skos:prefLabel>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T10:55:20Z</dcterms:modified>
+        <rdfs:label xml:lang="en">has exercise class type</rdfs:label>
+        <skos:prefLabel xml:lang="en">has exercise class type</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -1866,9 +1874,33 @@
     
 
 
+    <!-- http://purl.org/dc/terms/Frequency -->
+
+    <owl:Class rdf:about="http://purl.org/dc/terms/Frequency"/>
+    
+
+
+    <!-- http://schema.org/ExchangeRateSpecification -->
+
+    <owl:Class rdf:about="http://schema.org/ExchangeRateSpecification">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CurrencyExchangeRate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Language -->
+
+    <owl:Class rdf:about="http://schema.org/Language">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Language"/>
+    </owl:Class>
+    
+
+
     <!-- http://schema.org/Occupation -->
 
-    <owl:Class rdf:about="http://schema.org/Occupation"/>
+    <owl:Class rdf:about="http://schema.org/Occupation">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Occupation"/>
+    </owl:Class>
     
 
 
@@ -2790,7 +2822,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T08:40:57Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:e12e471d-ad7b-4968-b213-5c89b81ca254"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T10:01:37Z</dcterms:modified>
         <rdfs:label xml:lang="en">Currency Exchange Rate</rdfs:label>
         <skos:altLabel xml:lang="en">FX Rate</skos:altLabel>
         <skos:altLabel xml:lang="en">Foreign Exchange Rate</skos:altLabel>
@@ -2926,7 +2958,7 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Group of data quality dimensions in which a common type of information is used as data quality indicator</owl:annotatedTarget>
         <dcterms:source rdf:resource="http://ceur-ws.org/Vol-1184/ldow2014_paper_09.pdf"/>
-        <rdfs:comment xml:lang="en">Section 1.1</rdfs:comment>
+        <skos:note xml:lang="en">Section 1.1</skos:note>
     </owl:Axiom>
     
 
@@ -2947,7 +2979,7 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Characteristic of a dataset relevant to the consumer</owl:annotatedTarget>
         <dcterms:source rdf:resource="http://ceur-ws.org/Vol-1184/ldow2014_paper_09.pdf"/>
-        <rdfs:comment xml:lang="en">Section 1.1</rdfs:comment>
+        <skos:note xml:lang="en">Section 1.1</skos:note>
     </owl:Axiom>
     
 
@@ -3488,7 +3520,7 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Activity Class relating to activity carried out under the control and responsibility of an institutional unit that uses inputs of labour, capital, and goods and services to produce outputs of goods or services</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://unstats.un.org/unsd/nationalaccount/docs/sna2008.pdf"/>
-        <rdfs:comment xml:lang="en">Section 6.24</rdfs:comment>
+        <skos:note xml:lang="en">Section 6.24</skos:note>
     </owl:Axiom>
     
 
@@ -3517,7 +3549,7 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Activity Classification Scheme grouping activity carried out under the control and responsibility of an institutional unit that uses inputs of labour, capital, and goods and services to produce outputs of goods or services</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://unstats.un.org/unsd/nationalaccount/docs/sna2008.pdf"/>
-        <rdfs:comment xml:lang="en">Section 6.24</rdfs:comment>
+        <skos:note xml:lang="en">Section 6.24</skos:note>
     </owl:Axiom>
     
 
@@ -3803,15 +3835,15 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PhysicalActivityClass"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasExerciseType"/>
+                <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasExerciseClassType"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ExerciseType"/>
+                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ExerciseClassType"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-02-10T21:23:51Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b0cabad7-dfec-4c37-9aac-9de20e3e2a83"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:00:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T10:54:58Z</dcterms:modified>
         <rdfs:label xml:lang="en">Exercise Class</rdfs:label>
         <rdfs:seeAlso rdf:resource="http://snomed.info/id/61686008"/>
         <skos:altLabel xml:lang="en">Physical Exercise Class</skos:altLabel>
@@ -3824,6 +3856,20 @@
         <owl:annotatedTarget xml:lang="en">Activity Class requiring physical effort, carried out to sustain or improve health and fitness</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/exercise"/>
     </owl:Axiom>
+    
+
+
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/ExerciseClassType -->
+
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ExerciseClassType">
+        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-31T09:16:27Z</dcterms:created>
+        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:uuid:553a6707-ae0b-4888-b3bb-cf92cab74238"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T10:18:26Z</dcterms:modified>
+        <rdfs:label xml:lang="en">Exercise Class Type</rdfs:label>
+        <skos:definition xml:lang="en">Category of Exercise Classes having common characteristics</skos:definition>
+        <skos:prefLabel xml:lang="en">Exercise Class Type</skos:prefLabel>
+    </owl:Class>
     
 
 
@@ -3844,20 +3890,6 @@
         <owl:annotatedTarget xml:lang="en">Category of actions or processes of moving or being moved during exercise, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/motion"/>
     </owl:Axiom>
-    
-
-
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/ExerciseType -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/ExerciseType">
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-31T09:16:27Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:identifier rdf:resource="urn:uuid:553a6707-ae0b-4888-b3bb-cf92cab74238"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-07-28T00:16:00Z</dcterms:modified>
-        <rdfs:label xml:lang="en">Exercise Type</rdfs:label>
-        <skos:definition xml:lang="en">Category of Exercises having common characteristics</skos:definition>
-        <skos:prefLabel xml:lang="en">Exercise Type</skos:prefLabel>
-    </owl:Class>
     
 
 
@@ -3951,7 +3983,7 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of contracts that give rise to a financial asset of one entity and a financial liability or equity instrument of another entity</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.ifrs.org/content/dam/ifrs/publications/pdf-standards/english/2021/issued/part-a/ias-32-financial-instruments-presentation.pdf"/>
-        <rdfs:comment xml:lang="en">Section 11</rdfs:comment>
+        <skos:note xml:lang="en">Section 11</skos:note>
     </owl:Axiom>
     
 
@@ -4726,7 +4758,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/InternationalE164NumberNationalDestinationCode"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="https://www.itu.int/rec/dologin_pub.asp?lang=e&amp;id=T-REC-E.101-200911-I!!PDF-E&amp;type=items"/>
-        <rdfs:comment xml:lang="en">Section 5.5</rdfs:comment>
+        <skos:note xml:lang="en">Section 5.5</skos:note>
     </owl:Axiom>
     
 
@@ -5008,13 +5040,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Language -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Language">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.w3.org/2004/02/skos/core#exactMatch"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Language"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Language"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageScope"/>
@@ -5032,7 +5058,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-30T13:06:04Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:6f901344-35a1-47ca-ab94-176e47fb1775"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-13T11:50:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T09:11:20Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:1087:ed-2:v1:term:3.1.6"/>
         <rdfs:label xml:lang="en">Language</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://iso639-3.sil.org/code_tables/download_tables"/>
@@ -5090,6 +5116,7 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
     <!-- https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageRegion"/>
@@ -5102,13 +5129,6 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/hasLanguageScript"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageScript"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.w3.org/2004/02/skos/core#exactMatch"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/LanguageIdentification"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -5135,12 +5155,17 @@ The NDC can be a decimal digit or a combination of decimal digits (not including
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-08-03T13:17:24Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:6e0e6da2-c817-49d8-bba0-46a7576c5fa5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-13T11:50:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-3:v1:clause:6.3.5.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T09:34:32Z</dcterms:modified>
         <rdfs:label xml:lang="en">Language Identification</rdfs:label>
         <skos:definition xml:lang="en">Composite datatype that serves as an identifier for a language, where the language is always defined as spoken (or written, signed or otherwise signaled) by human beings for communication of information to other human beings; computer languages such as programming languages are explicitly excluded</skos:definition>
         <skos:prefLabel xml:lang="en">Language Identification</skos:prefLabel>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LanguageIdentification"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
+        <owl:annotatedTarget xml:lang="en">Composite datatype that serves as an identifier for a language, where the language is always defined as spoken (or written, signed or otherwise signaled) by human beings for communication of information to other human beings; computer languages such as programming languages are explicitly excluded</owl:annotatedTarget>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-1:ed-3:v1:clause:6.3.5.1"/>
+    </owl:Axiom>
     
 
 
@@ -6311,7 +6336,7 @@ or
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Method of transport used for the carriage of goods</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://unece.org/sites/default/files/2023-10/rec19_ece-trd-138E.pdf"/>
-        <rdfs:comment xml:lang="en">Section IV. 11.</rdfs:comment>
+        <skos:note xml:lang="en">Section IV. 11.</skos:note>
     </owl:Axiom>
     
 
@@ -6714,17 +6739,10 @@ or
     <!-- https://haddenindustries.com/ontology/universal/reference-data/Occupation -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/Occupation">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.w3.org/2004/02/skos/core#exactMatch"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://schema.org/Occupation"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-19T23:57:04Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:f91a65a1-af08-47b4-8e21-f15594d6b40b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T13:38:31Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T09:20:51Z</dcterms:modified>
         <rdfs:label xml:lang="en">Occupation</rdfs:label>
         <skos:definition xml:lang="en">Person&apos;s usual or principal work or business, especially as a means of earning a living; vocation</skos:definition>
         <skos:prefLabel xml:lang="en">Occupation</skos:prefLabel>
@@ -6744,13 +6762,6 @@ or
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/ClassificationSchemeItem"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.w3.org/2004/02/skos/core#exactMatch"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="https://schema.org/occupationalCategory"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationCategory_hasOccupationalClassificationScheme"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OccupationalClassificationScheme"/>
@@ -6759,7 +6770,7 @@ or
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T20:24:06Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:8bb2ba34-8f95-4b37-be96-034840b8f1dd"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-10T13:48:04Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T10:49:25Z</dcterms:modified>
         <rdfs:label xml:lang="en">Occupation Category</rdfs:label>
         <skos:definition xml:lang="en">Class or division of an Occupation regarded as having particular shared characteristics</skos:definition>
         <skos:prefLabel xml:lang="en">Occupation Category</skos:prefLabel>
@@ -6945,7 +6956,7 @@ or
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Legally mandated state of custody or bail that accompanies a court hearing result for a specific offence</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://assets.publishing.service.gov.uk/media/5e3853baed915d095784f4e4/cjs-data-standards-catalogue-6.pdf"/>
-        <rdfs:comment xml:lang="en">Section 3.83, with modifications</rdfs:comment>
+        <skos:note xml:lang="en">Section 3.83, with modifications</skos:note>
     </owl:Axiom>
     
 
@@ -7724,7 +7735,7 @@ or
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Category of ground transport vehicles other than trains, having common characteristics</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://apps.who.int/gb/ebwha/pdf_files/WHA58/A58_4-en.pdf"/>
-        <rdfs:comment xml:lang="en">Part I, Article 1</rdfs:comment>
+        <skos:note xml:lang="en">Part I, Article 1</skos:note>
     </owl:Axiom>
     
 
@@ -8003,7 +8014,7 @@ or
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Origin of the funds involved in a business relationship or occasional transaction. It includes both the activity that generated the funds used in the business relationship, for example the customer’s salary, as well as the means through which the customer’s funds were transferred.</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.eba.europa.eu/sites/default/files/documents/10180/1240374/c1d03800-2a50-4fbe-bf69-f0018c6e6157/JC%202015%20061%20(Joint%20Draft%20Guidelines%20on%20AML_CFT%20RFWG%20Art%2017%20and%2018).pdf"/>
-        <rdfs:comment xml:lang="en">Title I 8.</rdfs:comment>
+        <skos:note xml:lang="en">Title I 8.</skos:note>
     </owl:Axiom>
     
 
@@ -8024,7 +8035,7 @@ or
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Origin of a person’s total wealth, for example inheritance or savings</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.eba.europa.eu/sites/default/files/documents/10180/1240374/c1d03800-2a50-4fbe-bf69-f0018c6e6157/JC%202015%20061%20(Joint%20Draft%20Guidelines%20on%20AML_CFT%20RFWG%20Art%2017%20and%2018).pdf"/>
-        <rdfs:comment xml:lang="en">Title I 8.</rdfs:comment>
+        <skos:note xml:lang="en">Title I 8.</skos:note>
     </owl:Axiom>
     
 
@@ -8116,14 +8127,12 @@ or
     <!-- https://haddenindustries.com/ontology/universal/reference-data/TimeFrequency -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/TimeFrequency">
+        <rdfs:subClassOf rdf:resource="http://purl.org/dc/terms/Frequency"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-03-30T09:55:31Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:cd306084-dd7c-4b52-9dda-506eaa20f605"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:57:51Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T10:51:10Z</dcterms:modified>
         <rdfs:label xml:lang="en">Time Frequency</rdfs:label>
-        <rdfs:seeAlso rdf:resource="https://op.europa.eu/en/web/eu-vocabularies/concept-scheme/-/resource?uri=http://publications.europa.eu/resource/authority/frequency"/>
-        <rdfs:seeAlso rdf:resource="https://registry.sdmx.org/items/codelist.html?urn=urn:sdmx:org.sdmx.infomodel.codelist.Codelist=SDMX:CL_FREQ(2.1)"/>
-        <rdfs:seeAlso rdf:resource="https://webgate.ec.europa.eu/fusionregistry/items/codelist.html?urn=urn:sdmx:org.sdmx.infomodel.codelist.Codelist=ESTAT:CL_FREQ(20240503.0)"/>
         <skos:definition xml:lang="en">Rate at which something occurs over a particular period of time</skos:definition>
         <skos:prefLabel xml:lang="en">Time Frequency</skos:prefLabel>
     </owl:Class>
@@ -8280,7 +8289,7 @@ or
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Classification of a power-driven vehicle or trailer</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://unece.org/sites/default/files/2023-12/ECE_TRANS_WP.29_78_Rev.7e.docx"/>
-        <rdfs:comment xml:lang="en">Section 2</rdfs:comment>
+        <skos:note xml:lang="en">Section 2</skos:note>
     </owl:Axiom>
     
 
@@ -8323,12 +8332,6 @@ or
         <owl:annotatedTarget xml:lang="en">Cardinal Direction at right angles to a horizontal plane; in a direction, or having an alignment, such that the top is directly above the bottom</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/vertical"/>
     </owl:Axiom>
-    
-
-
-    <!-- https://schema.org/occupationalCategory -->
-
-    <owl:Class rdf:about="https://schema.org/occupationalCategory"/>
     
 
 
@@ -8743,7 +8746,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/bdc9ab1e-8c57-4b8a-87b5-3420f7377f00"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/ns/dcat#distribution"/>
         <owl:annotatedTarget rdf:resource="https://haddenindustries.com/ontology/distribution/e5933880-3276-42dc-b9c7-5e85fa3957a9"/>
-        <rdfs:comment xml:lang="en">Section 2.5</rdfs:comment>
+        <skos:note xml:lang="en">Section 2.5</skos:note>
     </owl:Axiom>
     
 
@@ -9526,9 +9529,10 @@ or
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T09:42:13Z</dcterms:modified>
         <dcterms:title xml:lang="en">Time Frequency Dataset</dcterms:title>
         <rdfs:label xml:lang="en">Time Frequency Dataset</rdfs:label>
-        <dcat:landingPage rdf:resource="https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Ffrequency%2F20250924-0%2Fxml%2Fcat%2Ffrequencies.xml&amp;fileName=frequencies.xml"/>
+        <dcat:landingPage rdf:resource="https://op.europa.eu/en/web/eu-vocabularies/concept-scheme/-/resource?uri=http://publications.europa.eu/resource/authority/frequency"/>
         <dcat:theme rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/TimeFrequency"/>
     </owl:NamedIndividual>
     
@@ -9567,7 +9571,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/dataset/0779146c-7981-4f39-a638-35aeb1186e20"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/ns/dcat#distribution"/>
         <owl:annotatedTarget rdf:resource="https://haddenindustries.com/ontology/distribution/e5933880-3276-42dc-b9c7-5e85fa3957a9"/>
-        <rdfs:comment xml:lang="en">Section 2.9, Table 1</rdfs:comment>
+        <skos:note xml:lang="en">Section 2.9, Table 1</skos:note>
     </owl:Axiom>
     
 
@@ -10822,7 +10826,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/distribution/ad7c5eab-7c0e-4ae1-9441-a4b095775cc6"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/ns/dcat#downloadURL"/>
         <owl:annotatedTarget rdf:resource="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/360583/cjs-data-standards-catalogue-4.3.pdf"/>
-        <rdfs:comment xml:lang="en">Section 3.88</rdfs:comment>
+        <skos:note xml:lang="en">Section 3.88</skos:note>
     </owl:Axiom>
     
 
@@ -10868,7 +10872,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/distribution/b0e081f0-f2cf-4ee7-9bec-34cbe7601553"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/ns/dcat#downloadURL"/>
         <owl:annotatedTarget rdf:resource="https://assets.publishing.service.gov.uk/media/5e3853baed915d095784f4e4/cjs-data-standards-catalogue-6.pdf"/>
-        <rdfs:comment xml:lang="en">Section 3.83</rdfs:comment>
+        <skos:note xml:lang="en">Section 3.83</skos:note>
     </owl:Axiom>
     
 
@@ -11101,8 +11105,8 @@ or
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <rdfs:comment xml:lang="en">Table 1</rdfs:comment>
         <rdfs:label xml:lang="en">Handling Age Specification in the SNOMED CT to ICD-10-CM Cross-map Table 1 html</rdfs:label>
+        <skos:note xml:lang="en">Table 1</skos:note>
         <dcat:accessURL rdf:resource="https://pmc.ncbi.nlm.nih.gov/articles/PMC3540567/#t1-amia_2012_symp_1014"/>
     </owl:NamedIndividual>
     
@@ -11198,8 +11202,10 @@ or
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-01T11:13:42Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T09:43:41Z</dcterms:modified>
         <rdfs:label xml:lang="en">Time Frequency Distribution</rdfs:label>
-        <dcat:accessURL rdf:resource="https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Ffrequency%2F20250924-0%2Fxml%2Fcat%2Ffrequencies.xml&amp;fileName=frequencies.xml"/>
+        <dcat:accessURL rdf:resource="https://op.europa.eu/en/web/eu-vocabularies/concept-scheme/-/resource?uri=http://publications.europa.eu/resource/authority/frequency"/>
+        <dcat:downloadURL rdf:resource="https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http%3A%2F%2Fpublications.europa.eu%2Fresource%2Fdistribution%2Ffrequency%2F20250924-0%2Fxml%2Fcat%2Ffrequencies.xml&amp;fileName=frequencies.xml"/>
     </owl:NamedIndividual>
     
 
@@ -11720,7 +11726,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/distribution/27a267f9-1a40-4ab8-be8a-5a57a90d7e6f"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/ns/dcat#downloadURL"/>
         <owl:annotatedTarget rdf:resource="https://assets.publishing.service.gov.uk/media/5e3853baed915d095784f4e4/cjs-data-standards-catalogue-6.pdf"/>
-        <rdfs:comment xml:lang="en">Section 3.10</rdfs:comment>
+        <skos:note xml:lang="en">Section 3.10</skos:note>
     </owl:Axiom>
     
 
@@ -13139,7 +13145,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Friday"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/identifier"/>
         <owl:annotatedTarget rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">5</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">ISO 8601:2019 Ordinal day number in the week</rdfs:comment>
+        <skos:note xml:lang="en">ISO 8601:2019 Ordinal day number in the week</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Friday"/>
@@ -13310,7 +13316,7 @@ or
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Descriptive information for an arrangement or division of jobs held by persons at a point in time with respect to the type of explicit or implicit contract of employment of the person with other persons or organisations, adopted by the International Labour Organization in 1993, into groups based on criteria such as characteristics, which the objects have in common</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.ilo.org/wcmsp5/groups/public/---dgreports/---stat/documents/normativeinstrument/wcms_087562.pdf"/>
-        <rdfs:comment xml:lang="en">Section I 2</rdfs:comment>
+        <skos:note xml:lang="en">Section I 2</skos:note>
     </owl:Axiom>
     
 
@@ -13514,7 +13520,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Monday"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/identifier"/>
         <owl:annotatedTarget rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">1</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">ISO 8601:2019 Ordinal day number in the week</rdfs:comment>
+        <skos:note xml:lang="en">ISO 8601:2019 Ordinal day number in the week</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Monday"/>
@@ -14030,7 +14036,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Saturday"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/identifier"/>
         <owl:annotatedTarget rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">6</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">ISO 8601:2019 Ordinal day number in the week</rdfs:comment>
+        <skos:note xml:lang="en">ISO 8601:2019 Ordinal day number in the week</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Saturday"/>
@@ -14113,7 +14119,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Sunday"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/identifier"/>
         <owl:annotatedTarget rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">7</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">ISO 8601:2019 Ordinal day number in the week</rdfs:comment>
+        <skos:note xml:lang="en">ISO 8601:2019 Ordinal day number in the week</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Sunday"/>
@@ -14186,7 +14192,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Thursday"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/identifier"/>
         <owl:annotatedTarget rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">4</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">ISO 8601:2019 Ordinal day number in the week</rdfs:comment>
+        <skos:note xml:lang="en">ISO 8601:2019 Ordinal day number in the week</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Thursday"/>
@@ -14214,7 +14220,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Tuesday"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/identifier"/>
         <owl:annotatedTarget rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">2</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">ISO 8601:2019 Ordinal day number in the week</rdfs:comment>
+        <skos:note xml:lang="en">ISO 8601:2019 Ordinal day number in the week</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Tuesday"/>
@@ -14561,7 +14567,7 @@ or
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Wednesday"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/identifier"/>
         <owl:annotatedTarget rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">3</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">ISO 8601:2019 Ordinal day number in the week</rdfs:comment>
+        <skos:note xml:lang="en">ISO 8601:2019 Ordinal day number in the week</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Wednesday"/>
