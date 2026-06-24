@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/"
      xml:base="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/"
-     xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
@@ -11,7 +10,7 @@
      xmlns:schema="http://schema.org/"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260623"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260624"/>
         <owl:imports rdf:resource="http://www.w3.org/2004/02/skos/core"/>
         <dcterms:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-19</dcterms:created>
@@ -22,14 +21,14 @@
         <dcterms:identifier rdf:resource="urn:uuid:d83f788a-3e90-4d07-b280-614532e9984e"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-23</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-24</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">ISO/IEC 11179-3:2023 Ontology</dcterms:title>
         <rdfs:label xml:lang="en">ISO/IEC 11179-3:2023 Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260618"/>
-        <owl:versionInfo>2026-06-23</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260623"/>
+        <owl:versionInfo>2026-06-24</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -3735,6 +3734,7 @@ This association records the classification scheme items that are members of a c
     <!-- https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Concept -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Concept">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Item"/>
         <rdfs:subClassOf>
             <owl:Restriction>
