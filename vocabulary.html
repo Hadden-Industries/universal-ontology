@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ontology Vocabulary</title>
+    <style>
+        :root {
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --row-hover: #f1f5f9;
+            --header-bg: #f8fafc;
+            --badge-bg: #e0e7ff;
+            --badge-text: #4338ca;
+            --btn-bg: #2563eb;
+            --btn-hover: #1d4ed8;
+            --btn-text: #ffffff;
+        }
+        body {
+            margin: 0;
+            background-color: var(--background);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: var(--text-main);
+        }
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+        }
+        button {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: background-color 0.15s;
+        }
+        button:hover {
+            background-color: var(--btn-hover);
+        }
+        button:disabled {
+            background-color: var(--text-muted);
+            cursor: not-allowed;
+        }
+        .table-container {
+            background: var(--surface);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.75rem;
+        }
+        th, td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        th {
+            background-color: var(--header-bg);
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+            box-shadow: 0 1px 0 var(--border);
+        }
+        /* Help cursor for elements with a title attribute */
+        th[title] {
+            cursor: help;
+            text-decoration: underline dotted var(--text-muted);
+            text-underline-offset: 3px;
+        }
+        tbody tr:hover { background-color: var(--row-hover); }
+        tbody tr:last-child td { border-bottom: none; }
+        .wrap-text {
+            min-width: 250px;
+            max-width: 400px;
+            white-space: normal;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+        .code-text {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            color: var(--text-muted);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            border-radius: 9999px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        #status-message {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        a {
+            color: var(--btn-bg);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-controls">
+        <h2 id="page-title" style="margin: 0;">Ontology Vocabulary</h2>
+        <div>
+            <span id="status-message">Loading data...</span>
+            <button id="export-csv-btn" disabled onclick="exportCSV()">Export to CSV</button>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Entity Type</th>
+                    <th title="Universally Unique Identifier">UUID</th>
+                    <th title="Uniform Resource Identifier">URI</th>
+                    <th>Preferred Label</th>
+                    <th>Definition</th>
+                    <th>Sources</th>
+                    <th>Creator</th>
+                    <th>Created At</th>
+                    <th>Modified At</th>
+                    <th>Superclasses</th>
+                    <th>Class of Named Individual</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Rows injected via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://haddenindustries.com/ontology/ontology_processor.js"></script>
+    <script>
+        function renderTable(data) {
+            const tbody = document.getElementById("table-body");
+            tbody.innerHTML = "";
+
+            data.forEach(row => {
+                const tr = document.createElement("tr");
+                
+                tr.innerHTML = `
+                    <td><span class="badge">${escapeHTML(row.objectType)}</span></td>
+                    <td class="code-text">${escapeHTML(row.uuid)}</td>
+                    <td class="code-text">${createLink(row.uri, true)}</td>
+                    <td style="font-weight: 500;">${escapeHTML(row.preferredLabel)}</td>
+                    <td class="wrap-text">${escapeHTML(row.definition)}</td>
+                    <td class="code-text">${row.sources.map(src => createLink(src, false)).join('<br>')}</td>
+                    <td class="code-text">${createLink(row.creator, true)}</td>
+                    <td>${escapeHTML(row.createdAt).replace('T', '<wbr>T')}</td>
+                    <td>${escapeHTML(row.modifiedAt).replace('T', '<wbr>T')}</td>
+                    <td class="code-text wrap-text">${row.subClassOf.map(sc => createLink(sc, false)).join('<br>')}</td>
+                    <td class="code-text">${createLink(row.classOfNamedIndividual, true)}</td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const pathname = window.location.pathname;
+            const basePath = pathname.endsWith('/') ? pathname : pathname.substring(0, pathname.lastIndexOf('/') + 1);
+            const targetUrl = window.location.origin + basePath + 'latest';
+            
+            loadAndProcessXML(targetUrl);
+        });
+    </script>
+</body>
+</html>
