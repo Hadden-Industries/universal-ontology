@@ -18,9 +18,9 @@
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260625"/>
         <owl:imports rdf:resource="http://www.w3.org/ns/time/gregorian"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260625"/>
-        <dcterms:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:contributor rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-09-30</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">Set of concepts and categories, applicable to almost all domains, that shows their properties and the relations between them</dcterms:description>
         <dcterms:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/RDF_XML"/>
         <dcterms:identifier rdf:resource="urn:uuid:478440d0-9623-45ef-973f-ab0e7f2a9dec"/>
@@ -56,7 +56,7 @@
 
     <owl:AnnotationProperty rdf:about="https://haddenindustries.com/ontology/universal/core/acronym">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T09:42:54Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:11:47Z</dcterms:modified>
         <rdfs:label xml:lang="en">acronym</rdfs:label>
         <skos:definition xml:lang="en">Abbreviation made up of the initial letters of the components of the full form of the designation or from syllables of the full form and pronounced syllabically</skos:definition>
@@ -87,7 +87,7 @@
 
     <rdfs:Datatype rdf:about="https://haddenindustries.com/ontology/universal/core/Position">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-11T16:42:16Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b36ab6fb-3317-47c8-87c1-8451ebeaf45a"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19133:ed-1:v1:term:4.18"/>
@@ -150,7 +150,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Resource"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T16:52:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has resource</rdfs:label>
         <skos:prefLabel xml:lang="en">has resource</skos:prefLabel>
@@ -290,7 +290,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToLocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T09:34:19Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has address</rdfs:label>
         <skos:prefLabel xml:lang="en">has address</skos:prefLabel>
@@ -304,7 +304,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToLocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T09:36:04Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has location</rdfs:label>
         <skos:prefLabel xml:lang="en">has location</skos:prefLabel>
@@ -318,7 +318,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:47:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has address</rdfs:label>
         <skos:prefLabel xml:lang="en">has address</skos:prefLabel>
@@ -332,7 +332,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:47:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has organisation</rdfs:label>
         <skos:prefLabel xml:lang="en">has organisation</skos:prefLabel>
@@ -346,7 +346,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:33:34Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has address</rdfs:label>
         <skos:prefLabel xml:lang="en">has address</skos:prefLabel>
@@ -360,7 +360,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:33:07Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has person</rdfs:label>
         <skos:prefLabel xml:lang="en">has person</skos:prefLabel>
@@ -408,7 +408,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Brand"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-03-18T12:37:52Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has person</rdfs:label>
         <skos:prefLabel xml:lang="en">has person</skos:prefLabel>
@@ -422,7 +422,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Claim"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T13:42:06Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has product or service</rdfs:label>
         <skos:prefLabel xml:lang="en">has product or service</skos:prefLabel>
@@ -436,7 +436,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Complaint"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T12:56:25Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has product or service</rdfs:label>
         <skos:prefLabel xml:lang="en">has product or service</skos:prefLabel>
@@ -450,7 +450,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToEventRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:41:15Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document</rdfs:label>
         <skos:prefLabel xml:lang="en">has document</skos:prefLabel>
@@ -464,7 +464,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToEventRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:41:44Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event</rdfs:label>
         <skos:prefLabel xml:lang="en">has event</skos:prefLabel>
@@ -478,7 +478,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToLocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-19T22:01:37Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document</rdfs:label>
         <skos:prefLabel xml:lang="en">has document</skos:prefLabel>
@@ -492,7 +492,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToLocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-19T22:01:50Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has location</rdfs:label>
         <skos:prefLabel xml:lang="en">has location</skos:prefLabel>
@@ -506,7 +506,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToOrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-09T12:46:47Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document</rdfs:label>
         <skos:prefLabel xml:lang="en">has document</skos:prefLabel>
@@ -520,7 +520,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToOrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-09T12:47:08Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has organisation</rdfs:label>
         <skos:prefLabel xml:lang="en">has organisation</skos:prefLabel>
@@ -534,7 +534,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T10:45:22Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document</rdfs:label>
         <skos:prefLabel xml:lang="en">has document</skos:prefLabel>
@@ -548,7 +548,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T10:46:47Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has person</rdfs:label>
         <skos:prefLabel xml:lang="en">has person</skos:prefLabel>
@@ -604,7 +604,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToLocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:47:06Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event</rdfs:label>
         <skos:prefLabel xml:lang="en">has event</skos:prefLabel>
@@ -618,7 +618,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToLocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:47:28Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has location</rdfs:label>
         <skos:prefLabel xml:lang="en">has location</skos:prefLabel>
@@ -632,7 +632,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToMaterialObjectRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:00:30Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event</rdfs:label>
         <skos:prefLabel xml:lang="en">has event</skos:prefLabel>
@@ -646,7 +646,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToMaterialObjectRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:00:55Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has material object</rdfs:label>
         <skos:prefLabel xml:lang="en">has material object</skos:prefLabel>
@@ -660,7 +660,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:54:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event</rdfs:label>
         <skos:prefLabel xml:lang="en">has event</skos:prefLabel>
@@ -674,7 +674,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T19:54:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has organisation</rdfs:label>
         <skos:prefLabel xml:lang="en">has organisation</skos:prefLabel>
@@ -688,7 +688,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:02:32Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event</rdfs:label>
         <skos:prefLabel xml:lang="en">has event</skos:prefLabel>
@@ -702,7 +702,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:02:58Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has person</rdfs:label>
         <skos:prefLabel xml:lang="en">has person</skos:prefLabel>
@@ -758,7 +758,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <rdfs:range rdf:resource="http://www.w3.org/2006/time#TemporalEntity"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T13:47:26Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has temporal entity</rdfs:label>
         <skos:prefLabel xml:lang="en">has temporal entity</skos:prefLabel>
@@ -814,7 +814,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T10:08:35Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document</rdfs:label>
         <skos:prefLabel xml:lang="en">has document</skos:prefLabel>
@@ -828,7 +828,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T10:19:34Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has location</rdfs:label>
         <skos:prefLabel xml:lang="en">has location</skos:prefLabel>
@@ -842,7 +842,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-04-11T11:59:42Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has quantity value</rdfs:label>
         <skos:prefLabel xml:lang="en">has quantity value</skos:prefLabel>
@@ -870,7 +870,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Offer"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T09:45:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has offering</rdfs:label>
         <skos:prefLabel xml:lang="en">has offering</skos:prefLabel>
@@ -884,7 +884,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OfferingToProductOrServiceRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:43:06Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has offering</rdfs:label>
         <skos:prefLabel xml:lang="en">has offering</skos:prefLabel>
@@ -898,7 +898,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OfferingToProductOrServiceRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:43:48Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has product or service</rdfs:label>
         <skos:prefLabel xml:lang="en">has product or service</skos:prefLabel>
@@ -940,7 +940,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:34:54Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has organisation</rdfs:label>
         <skos:prefLabel xml:lang="en">has organisation</skos:prefLabel>
@@ -954,7 +954,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:35:23Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has person</rdfs:label>
         <skos:prefLabel xml:lang="en">has person</skos:prefLabel>
@@ -1080,7 +1080,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Plan"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Task"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T07:39:36Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has task</rdfs:label>
         <skos:prefLabel xml:lang="en">has task</skos:prefLabel>
@@ -1094,7 +1094,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServicePreference"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-03-18T12:30:04Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has person</rdfs:label>
         <skos:prefLabel xml:lang="en">has person</skos:prefLabel>
@@ -1108,7 +1108,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServicePreference"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-18T13:51:30Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has product or service</rdfs:label>
         <skos:prefLabel xml:lang="en">has product or service</skos:prefLabel>
@@ -1150,7 +1150,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceProvision"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T19:47:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has product or service</rdfs:label>
         <skos:prefLabel xml:lang="en">has product or service</skos:prefLabel>
@@ -1164,7 +1164,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceProvision"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T19:48:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has product or service individual</rdfs:label>
         <skos:prefLabel xml:lang="en">has product or service individual</skos:prefLabel>
@@ -1178,7 +1178,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Task"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T18:25:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has activity</rdfs:label>
         <skos:prefLabel xml:lang="en">has activity</skos:prefLabel>
@@ -1192,7 +1192,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T22:33:30Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has address is</rdfs:label>
         <skos:prefLabel xml:lang="en">has address is</skos:prefLabel>
@@ -1206,7 +1206,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T22:33:42Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has address of</rdfs:label>
         <skos:prefLabel xml:lang="en">has address of</skos:prefLabel>
@@ -1220,7 +1220,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AddressRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T22:32:34Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has address relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has address relationship type</skos:prefLabel>
@@ -1234,7 +1234,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToLocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AddressToLocationRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T09:36:47Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has address to location relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has address to location relationship type</skos:prefLabel>
@@ -1248,7 +1248,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToOrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AddressToOrganisationRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T22:57:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has address to organisation relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has address to organisation relationship type</skos:prefLabel>
@@ -1262,7 +1262,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/AddressToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/AddressToPersonRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:29:19Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has address to person relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has address to person relationship type</skos:prefLabel>
@@ -1276,7 +1276,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Claim"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Complaint"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T13:59:35Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has complaint</rdfs:label>
         <skos:prefLabel xml:lang="en">has complaint</skos:prefLabel>
@@ -1290,7 +1290,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Contract"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ContractType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-09T12:43:32Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has contract type</rdfs:label>
         <skos:prefLabel xml:lang="en">has contract type</skos:prefLabel>
@@ -1304,7 +1304,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/CoordinateReferenceSystem"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-10T20:38:23Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has coordinate reference system</rdfs:label>
         <skos:prefLabel xml:lang="en">has coordinate reference system</skos:prefLabel>
@@ -1318,7 +1318,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:26:01Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document is</rdfs:label>
         <skos:prefLabel xml:lang="en">has document is</skos:prefLabel>
@@ -1332,7 +1332,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:26:27Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document of</rdfs:label>
         <skos:prefLabel xml:lang="en">has document of</skos:prefLabel>
@@ -1346,7 +1346,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:24:18Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has document relationship type</skos:prefLabel>
@@ -1360,7 +1360,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToEventRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToEventRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:40:39Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document to event relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has document to event relationship type</skos:prefLabel>
@@ -1374,7 +1374,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToLocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToLocationRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-19T22:02:44Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document to location relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has document to location relationship type</skos:prefLabel>
@@ -1388,7 +1388,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToOrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToOrganisationRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-09T12:47:30Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document to organisation relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has document to organisation relationship type</skos:prefLabel>
@@ -1402,7 +1402,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/DocumentToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentToPersonRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:36:19Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document to person relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has document to person relationship type</skos:prefLabel>
@@ -1416,7 +1416,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/DocumentType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T18:01:53Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has document type</rdfs:label>
         <skos:prefLabel xml:lang="en">has document type</skos:prefLabel>
@@ -1430,7 +1430,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:34:19Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event is</rdfs:label>
         <skos:prefLabel xml:lang="en">has event is</skos:prefLabel>
@@ -1444,7 +1444,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:34:35Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event of</rdfs:label>
         <skos:prefLabel xml:lang="en">has event of</skos:prefLabel>
@@ -1458,7 +1458,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:35:13Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has event relationship type</skos:prefLabel>
@@ -1472,7 +1472,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToLocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToLocationRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:45:37Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event to location relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has event to location relationship type</skos:prefLabel>
@@ -1486,7 +1486,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToMaterialObjectRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToMaterialObjectRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:00:04Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event to material object relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has event to material object relationship type</skos:prefLabel>
@@ -1500,7 +1500,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToOrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToOrganisationRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-07T22:58:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event to organisation relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has event to organisation relationship type</skos:prefLabel>
@@ -1514,7 +1514,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/EventToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventToPersonRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:02:08Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event to person relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has event to person relationship type</skos:prefLabel>
@@ -1528,7 +1528,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/EventType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T10:52:03Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has event type</rdfs:label>
         <skos:prefLabel xml:lang="en">has event type</skos:prefLabel>
@@ -1542,7 +1542,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-25T10:57:04Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has geometry</rdfs:label>
         <skos:prefLabel xml:lang="en">has geometry</skos:prefLabel>
@@ -1556,7 +1556,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/LocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:37:12Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has location is</rdfs:label>
         <skos:prefLabel xml:lang="en">has location is</skos:prefLabel>
@@ -1570,7 +1570,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/LocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:37:31Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has location of</rdfs:label>
         <skos:prefLabel xml:lang="en">has location of</skos:prefLabel>
@@ -1584,7 +1584,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/LocationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/LocationRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:38:06Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has location relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has location relationship type</skos:prefLabel>
@@ -1598,7 +1598,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObjectRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:45:12Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has material object is</rdfs:label>
         <skos:prefLabel xml:lang="en">has material object is</skos:prefLabel>
@@ -1612,7 +1612,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObjectRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:45:53Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has material object of</rdfs:label>
         <skos:prefLabel xml:lang="en">has material object of</skos:prefLabel>
@@ -1626,7 +1626,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObjectRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MaterialObjectRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:46:18Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has material object relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has material object relationship type</skos:prefLabel>
@@ -1640,7 +1640,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MaterialObjectType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-22T19:53:50Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has material object type</rdfs:label>
         <skos:prefLabel xml:lang="en">has material object type</skos:prefLabel>
@@ -1654,7 +1654,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasurementResult"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:05:06Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has measured quantity value</rdfs:label>
         <skos:prefLabel xml:lang="en">has measured quantity value</skos:prefLabel>
@@ -1668,7 +1668,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementMethod"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:25:38Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has measurement method</rdfs:label>
         <skos:prefLabel xml:lang="en">has measurement method</skos:prefLabel>
@@ -1682,7 +1682,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasurementResult"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:03:58Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has measurement result</rdfs:label>
         <skos:prefLabel xml:lang="en">has measurement result</skos:prefLabel>
@@ -1696,7 +1696,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/MeasurementUnit"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:23:49Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has measurement unit</rdfs:label>
         <skos:prefLabel xml:lang="en">has measurement unit</skos:prefLabel>
@@ -1710,7 +1710,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T19:21:17Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has organisation is</rdfs:label>
         <skos:prefLabel xml:lang="en">has organisation is</skos:prefLabel>
@@ -1724,7 +1724,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T19:21:36Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has organisation of</rdfs:label>
         <skos:prefLabel xml:lang="en">has organisation of</skos:prefLabel>
@@ -1738,7 +1738,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OrganisationRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T19:21:55Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has organisation relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has organisation relationship type</skos:prefLabel>
@@ -1752,7 +1752,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/OrganisationToPersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OrganisationToPersonRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:34:27Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has organisation to person relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has organisation to person relationship type</skos:prefLabel>
@@ -1766,7 +1766,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:20:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:25:55Z</dcterms:modified>
         <rdfs:label xml:lang="en">has person is</rdfs:label>
         <skos:prefLabel xml:lang="en">has person is</skos:prefLabel>
@@ -1780,7 +1780,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:20:30Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:25:55Z</dcterms:modified>
         <rdfs:label xml:lang="en">has person of</rdfs:label>
         <skos:prefLabel xml:lang="en">has person of</skos:prefLabel>
@@ -1794,7 +1794,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/PersonRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:20:42Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has person relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has person relationship type</skos:prefLabel>
@@ -1808,7 +1808,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/PersonType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-22T19:46:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has person type</rdfs:label>
         <skos:prefLabel xml:lang="en">has person type</skos:prefLabel>
@@ -1822,7 +1822,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Offering"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/PriceSpecification"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-30T10:05:27Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has price specification</rdfs:label>
         <skos:prefLabel xml:lang="en">has price specification</skos:prefLabel>
@@ -1836,7 +1836,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividual"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-18T11:36:12Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has product or service</rdfs:label>
         <skos:prefLabel xml:lang="en">has product or service</skos:prefLabel>
@@ -1850,7 +1850,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T12:12:58Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has product or service is</rdfs:label>
         <skos:prefLabel xml:lang="en">has product or service is</skos:prefLabel>
@@ -1864,7 +1864,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T12:13:26Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has product or service of</rdfs:label>
         <skos:prefLabel xml:lang="en">has product or service of</skos:prefLabel>
@@ -1878,7 +1878,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceRelationship"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ProductOrServiceRelationshipType"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T12:14:27Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has product or service relationship type</rdfs:label>
         <skos:prefLabel xml:lang="en">has product or service relationship type</skos:prefLabel>
@@ -1892,7 +1892,7 @@
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/Quantity"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:18:09Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has quantity</rdfs:label>
         <skos:prefLabel xml:lang="en">has quantity</skos:prefLabel>
@@ -1906,7 +1906,7 @@
         <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/TransactionTime"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:25:55Z</dcterms:modified>
         <rdfs:label xml:lang="en">has transaction time</rdfs:label>
         <skos:prefLabel xml:lang="en">has transaction time</skos:prefLabel>
@@ -1920,7 +1920,7 @@
         <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/ValidTime"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:25:55Z</dcterms:modified>
         <rdfs:label xml:lang="en">has valid time</rdfs:label>
         <skos:prefLabel xml:lang="en">has valid time</skos:prefLabel>
@@ -2010,7 +2010,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T16:49:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="http://snomed.info/id/257733005"/>
         <dcterms:identifier rdf:resource="urn:uuid:de266b65-ae3e-4fca-9d85-e131471584de"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
@@ -2067,7 +2067,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Address">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:623ea210-aed1-4788-b0c1-55a970288274"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19160:-1:ed-1:v1:term:4.1"/>
@@ -2173,7 +2173,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T22:31:29Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:5c5e6851-34ed-49dd-b45d-6bf3db156690"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Address Relationship</rdfs:label>
@@ -2313,7 +2313,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T09:33:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:8de8af66-d938-452d-8168-f6c319af2017"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Address To Location Relationship</rdfs:label>
@@ -2348,7 +2348,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T16:04:35Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:83c1f822-741e-44af-b011-799e4090e139"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en-gb">Address To Organisation Relationship</rdfs:label>
@@ -2383,7 +2383,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:29:39Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:7d74e9b5-bb68-47ee-b8d1-aeda2369da67"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Address To Person Relationship</rdfs:label>
@@ -2435,7 +2435,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-20T14:41:07Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:5e730ef6-42fd-4a65-b939-3c061c7c5d36"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:20671:-1:ed-1:v1:term:3.1"/>
@@ -2451,7 +2451,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Building">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Structure"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:47:15Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:4f274149-80a2-4d5b-9749-79b591fa2cfd"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Building</rdfs:label>
@@ -2486,7 +2486,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T13:31:24Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b405a4a7-646a-462f-9293-3223c658dff1"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:12:11Z</dcterms:modified>
         <dcterms:source rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Claim"/>
@@ -2527,7 +2527,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T12:55:25Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:42fd815e-cd83-4d46-a489-9d9c72ec2eb1"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:10002:ed-3:v1:term:3.2"/>
@@ -2571,7 +2571,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:41cdbdc3-de73-48ca-810d-82e776da8af2"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:10845:-1:ed-1:v1:term:3.9"/>
@@ -2604,7 +2604,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ContractualElement">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-03-22T12:02:53Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:c9d7cc4b-1604-4410-b2ca-9081370b5e62"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:references rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ContractualElement"/>
@@ -2620,7 +2620,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Device">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Machine"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:d8bdff75-51b7-43a5-8f2a-b6c5cb5e1c1e"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Device</rdfs:label>
@@ -2641,7 +2641,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:2dc05ab0-a47f-4799-839e-e3d4c7e04086"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.38"/>
@@ -2706,7 +2706,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:23:03Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:bdc8321c-e3ac-4761-a3dd-941f0228102c"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Document Relationship</rdfs:label>
@@ -2741,7 +2741,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:38:52Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:f04c40bc-b255-4b9b-8a85-c902e4ebf194"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Document To Event Relationship</rdfs:label>
@@ -2776,7 +2776,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-19T22:00:43Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:4f10ed3e-bd57-4edd-a4cd-b54fd966aa37"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Document To Location Relationship</rdfs:label>
@@ -2811,7 +2811,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-03-09T12:45:48Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:ee935f80-414a-4325-a119-a3f865125bdb"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en-gb">Document To Organisation Relationship</rdfs:label>
@@ -2846,7 +2846,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-11-19T12:12:24Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:1fe5827d-44b2-4a7b-a60c-d6bd49d17d09"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Document To Person Relationship</rdfs:label>
@@ -2909,7 +2909,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:700de2be-ede3-4ec6-b031-6248e70881a1"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.11"/>
@@ -2966,7 +2966,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:33:36Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:03c6eeee-0e54-428d-a929-c5b232ce45f6"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Event Relationship</rdfs:label>
@@ -3001,7 +3001,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:44:40Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:eb60187a-3fff-4ac1-ab06-91e3fe8fb080"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Event To Location Relationship</rdfs:label>
@@ -3036,7 +3036,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:57:26Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:03d516a3-e806-45ac-a7e4-4d56d6bf5f19"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Event To Material Object Relationship</rdfs:label>
@@ -3071,7 +3071,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-14T17:38:17Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:558bb570-1d93-48e9-a2f4-99143feb043a"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en-gb">Event To Organisation Relationship</rdfs:label>
@@ -3106,7 +3106,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T15:59:02Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:92ad19c8-73ef-40a1-aa51-ccc92530d0a9"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Event To Person Relationship</rdfs:label>
@@ -3197,7 +3197,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-25T10:54:52Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:a665463d-cbae-431d-a251-bf9a0d57d167"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:12:30Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.27"/>
@@ -3220,7 +3220,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/JuridicalPerson">
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:075cf570-c695-42c7-9387-05766ba4e836"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:06:07Z</dcterms:modified>
         <rdfs:label xml:lang="en">Juridical Person</rdfs:label>
@@ -3257,7 +3257,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-10T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:1c8bf785-3d5d-4877-b198-f81742587eb7"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19112:ed-2:v1:term:3.1.3"/>
@@ -3301,7 +3301,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:36:18Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:0df3a424-90e7-4b80-a410-51aefb66cd9e"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Location Relationship</rdfs:label>
@@ -3316,7 +3316,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Machine">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Structure"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:108b4ec3-c719-4916-8d0f-c63e4dc0b78b"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Machine</rdfs:label>
@@ -3351,7 +3351,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:3a074d33-b750-4992-8d96-5cd627b625d3"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.60"/>
@@ -3388,7 +3388,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T17:44:26Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:6a574260-cf16-46a9-a222-3de95fac1699"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Material Object Relationship</rdfs:label>
@@ -3410,7 +3410,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:a6d9b70e-3a55-431f-8345-edd4389c32a6"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:16:42Z</dcterms:modified>
         <rdfs:label xml:lang="en">Means Of Transport</rdfs:label>
@@ -3432,7 +3432,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:42:19Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:5a08adf0-0137-4351-8985-1a0cd4947ae0"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:04:50Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/2.10.html"/>
@@ -3497,7 +3497,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T10:54:03Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:7a401850-ea0b-4a97-83f8-180931573f3e"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:16:04Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/2.1.html"/>
@@ -3564,7 +3564,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:01:25Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b30a4fbd-bcfb-4b02-9bdf-4f3ab77ffce3"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:07:13Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/2.9.html"/>
@@ -3602,7 +3602,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/MeasuringInstrument">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Machine"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:32:43Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:563eba12-7614-4736-bd76-f1a1bc929eab"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:08:27Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/3.1.html"/>
@@ -3632,7 +3632,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/MeasuringSystem">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Machine"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:38:51Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:1a423aab-253c-4b21-9dbd-19d61faa94d7"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:09:57Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/3.2.html"/>
@@ -3657,7 +3657,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/NaturalPerson">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:ac3fa707-b0be-4a9d-915a-c43f46330a25"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:10:45Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:15944:-1:ed-3:v1:term:3.28"/>
@@ -3681,7 +3681,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/NonbuildingStructure">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Structure"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:46:19Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b9b12aca-6dbb-4d98-9869-d8c69f50d7c5"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Nonbuilding Structure</rdfs:label>
@@ -3708,7 +3708,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:270ee6a4-0c9b-4ce8-bf5a-907e872e4a3e"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:17:02Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:isbn:9780421634503"/>
@@ -3735,7 +3735,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-24T10:04:25Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:dbe0e629-c5d7-4c8a-bed1-c83c70b32a80"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <dcterms:source rdf:resource="http://www.heppnetz.de/ontologies/goodrelations/v1.html#Offering"/>
@@ -3767,7 +3767,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T20:41:30Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:15b2386c-012a-42d6-aef3-6978553d1197"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Offering To Product Or Service Relationship</rdfs:label>
@@ -3782,7 +3782,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/OneDimensionalGeometry">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:24:11Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:22797edb-b2eb-47ca-a34e-5cce25fdac86"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.2"/>
@@ -3799,7 +3799,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Organisation">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Organization"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-28T16:35:44Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:06155ec9-e8a3-4323-af0d-d6f32687bb20"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:20:14Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.2.1"/>
@@ -3852,7 +3852,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-21T19:19:54Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:9866ad03-eaa6-43f3-842d-8508d0bb0af2"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en-gb">Organisation Relationship</rdfs:label>
@@ -3915,7 +3915,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-22T16:32:16Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:cc86f143-d735-4717-845a-5520887a12b0"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en-gb">Organisation To Person Relationship</rdfs:label>
@@ -3964,7 +3964,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Output">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-20T12:12:27Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:198ea231-1786-4d33-a46b-0cd2c72ffd73"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.7.5"/>
@@ -4008,7 +4008,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Payment">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T13:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:62a0fb4d-f5bc-457c-9c9d-c90305502d89"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:12812:-1:ed-1:v1:term:3.40"/>
@@ -4039,7 +4039,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:1ef827ec-12a3-43e6-88de-d149d3be2b8e"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:14662:ed-3:v1:term:3.24"/>
@@ -4097,7 +4097,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:72aa9d95-dff4-4cd9-8362-39aadef9b553"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Person Relationship</rdfs:label>
@@ -4154,7 +4154,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:05afc059-5513-4677-bf9c-091cbc3f914f"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Plan</rdfs:label>
@@ -4175,7 +4175,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/PriceSpecification">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-30T10:04:57Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b6a67106-2394-4e06-82f2-ba8b07607277"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Price Specification</rdfs:label>
@@ -4197,7 +4197,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Process">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Activity"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-15T16:16:08Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:9030b8e4-ab54-4848-826a-732405cd720e"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.4.1"/>
@@ -4256,7 +4256,7 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Output"/>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/core/Service"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-20T12:22:15Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:5b8644c2-5c79-49f9-8a43-3913feb026fd"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.7.6"/>
@@ -4300,7 +4300,7 @@
             </owl:Class>
         </owl:equivalentClass>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:d3ee207a-7033-431b-a9d1-fa3cc73e7676"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:41:59Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22300:ed-3:v1:term:3.1.191"/>
@@ -4331,7 +4331,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T15:08:21Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:9a88d8f8-b72e-49d9-9340-43133d747dd0"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Product Or Service Individual</rdfs:label>
@@ -4347,7 +4347,7 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:20:44Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:81a7c4ab-95ab-48ca-92fb-4dff471c056b"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Product Or Service Individual Material</rdfs:label>
@@ -4362,7 +4362,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ProductOrServiceIndividualNonMaterial">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T07:30:05Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:19cd521c-30ba-4024-a6c3-3d7648632e53"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Product Or Service Individual Non-Material</rdfs:label>
@@ -4390,7 +4390,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-18T13:50:48Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:11515a85-86ed-4e21-b3a4-d19954a17d3c"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Product Or Service Preference</rdfs:label>
@@ -4446,7 +4446,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-12-23T22:10:37Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:e7fbb908-527f-4ef5-b6a2-8b597101a307"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Product Or Service Provision</rdfs:label>
@@ -4481,7 +4481,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-08-28T12:11:26Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:9a71d12b-e9bd-442f-80a8-94dac4500a53"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Product Or Service Relationship</rdfs:label>
@@ -4502,7 +4502,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:43:44Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:4a1fe34f-9ee0-4509-92d0-f5d17383b108"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:53:09Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/1.19.html"/>
@@ -4646,7 +4646,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Refund">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Payment"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T14:20:10Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:f25b9883-90fc-4a08-a330-f1199820e871"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Refund</rdfs:label>
@@ -4666,7 +4666,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Resource">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:e0b33311-5b98-4154-8b7e-b590c89faada"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:37:42Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22301:ed-2:v1:term:3.29"/>
@@ -4695,7 +4695,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Service">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Output"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-20T12:22:42Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:6ab4c5f5-4dfb-4bd2-a0ad-c7cbd59bc166"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.7.7"/>
@@ -4739,7 +4739,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/Structure">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:44:40Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:8da5c20f-4463-49f5-b6f5-4fb2d93677cb"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Structure</rdfs:label>
@@ -4759,7 +4759,7 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/System">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:5d947e7a-3fca-405b-b14f-f74878d2201e"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.13"/>
@@ -4781,7 +4781,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T07:39:02Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:73fee82e-9f20-4d7e-b2eb-a84d92a4483e"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Task</rdfs:label>
@@ -4803,7 +4803,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ThreeDimensionalGeometry">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-04-13T09:33:36Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:58518d83-9cd1-4b29-9c19-2443636d23cf"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.4"/>
@@ -4821,7 +4821,7 @@
         <rdfs:subClassOf rdf:resource="http://www.w3.org/2006/time#DateTimeInterval"/>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/core/ValidTime"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:5679728f-cda7-4e37-9839-516a7985ea05"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19108:ed-1:v1:term:4.43"/>
@@ -4837,7 +4837,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/TwoDimensionalGeometry">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T09:09:40Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:7edea946-cd80-4c64-828d-6eaa0abfe234"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.3"/>
@@ -4854,7 +4854,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ValidTime">
         <rdfs:subClassOf rdf:resource="http://www.w3.org/2006/time#DateTimeInterval"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:a37e3066-656f-484c-80ca-f06532e3d994"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19108:ed-1:v1:term:4.44"/>
@@ -4909,7 +4909,7 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/core/ZeroDimensionalGeometry">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T09:22:39Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:a22570be-af17-40ff-9ae1-9aecab9fdd7c"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.1"/>
