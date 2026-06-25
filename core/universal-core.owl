@@ -66,20 +66,6 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/core/synonym -->
-
-    <owl:AnnotationProperty rdf:about="https://haddenindustries.com/ontology/universal/core/synonym">
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-20T08:30:07Z</dcterms:created>
-        <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:15:00Z</dcterms:modified>
-        <rdfs:comment xml:lang="en">Word or phrase that means exactly or nearly the same as another word or phrase in the same language</rdfs:comment>
-        <rdfs:label xml:lang="en">synonym</rdfs:label>
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
-        <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral"/>
-    </owl:AnnotationProperty>
-    
-
-
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -387,9 +373,9 @@
         <dcterms:source rdf:resource="http://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/confers"/>
         <rdfs:comment xml:lang="en">This property should be read as describing the conferral of some legal power or duty, some commitment or some social construct, and is a property of some social construct such as an agreement or some legal authority. These concepts, which would describe the kind of thing of which this is a property, and the kinds of thing in terms of which this property is framed, are outside the scope of this mode land so are not shown.</rdfs:comment>
         <rdfs:label xml:lang="en">confers</rdfs:label>
+        <skos:altLabel xml:lang="en">invests with</skos:altLabel>
         <skos:definition xml:lang="en">Grants or bestows by virtue of some authority</skos:definition>
         <skos:prefLabel xml:lang="en">confers</skos:prefLabel>
-        <synonym xml:lang="en">invests with</synonym>
     </owl:ObjectProperty>
     
 
@@ -3247,15 +3233,15 @@
         <rdfs:seeAlso rdf:resource="http://schema.org/Corporation"/>
         <rdfs:seeAlso rdf:resource="https://www.law.cornell.edu/wex/artificial_person"/>
         <rdfs:seeAlso rdf:resource="urn:iso:std:iso:20275:ed-1:v1:term:3.2"/>
+        <skos:altLabel xml:lang="en">Agency</skos:altLabel>
+        <skos:altLabel xml:lang="en">Business</skos:altLabel>
+        <skos:altLabel xml:lang="en">Company</skos:altLabel>
+        <skos:altLabel xml:lang="en">Corporation</skos:altLabel>
+        <skos:altLabel xml:lang="en">Enterprise</skos:altLabel>
+        <skos:altLabel xml:lang="en">Firm</skos:altLabel>
+        <skos:altLabel xml:lang="en">Legal Entity</skos:altLabel>
         <skos:definition xml:lang="en">Entity, that is not a natural person, recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</skos:definition>
         <skos:prefLabel xml:lang="en">Juridical Person</skos:prefLabel>
-        <synonym xml:lang="en">Agency</synonym>
-        <synonym xml:lang="en">Business</synonym>
-        <synonym xml:lang="en">Company</synonym>
-        <synonym xml:lang="en">Corporation</synonym>
-        <synonym xml:lang="en">Enterprise</synonym>
-        <synonym xml:lang="en">Firm</synonym>
-        <synonym xml:lang="en">Legal Entity</synonym>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/JuridicalPerson"/>
@@ -3383,9 +3369,9 @@
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.60"/>
         <rdfs:comment xml:lang="en">See also “naturafact”, “artefact (1) &lt;man-made object&gt;; ISO 21127:2014, classes “E 18” and “E 19”</rdfs:comment>
         <rdfs:label xml:lang="en">Material Object</rdfs:label>
+        <skos:altLabel xml:lang="en">Physical Object</skos:altLabel>
         <skos:definition xml:lang="en">Object which has physical extension in space and time</skos:definition>
         <skos:prefLabel xml:lang="en">Material Object</skos:prefLabel>
-        <synonym xml:lang="en">Physical Object</synonym>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
@@ -3467,10 +3453,10 @@
         <rdfs:comment xml:lang="en">In the case where the range of the true quantity values believed to represent the measurand is not small compared with the measurement uncertainty, a measured quantity value is often an estimate of an average or median of the set of true quantity values</rdfs:comment>
         <rdfs:comment xml:lang="en">When the range of the true quantity values believed to represent the measurand is small compared with the measurement uncertainty, a measured quantity value can be considered to be an estimate of an essentially unique true quantity value and is often an average or median of individual measured quantity values obtained through replicate measurements</rdfs:comment>
         <rdfs:label xml:lang="en">Measured Quantity Value</rdfs:label>
+        <skos:altLabel xml:lang="en">Measured value</skos:altLabel>
+        <skos:altLabel xml:lang="en">Value of a measured quantity</skos:altLabel>
         <skos:definition xml:lang="en">Quantity Value representing a Measurement Result</skos:definition>
         <skos:prefLabel xml:lang="en">Measured Quantity Value</skos:prefLabel>
-        <synonym xml:lang="en">Measured value</synonym>
-        <synonym xml:lang="en">Value of a measured quantity</synonym>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue"/>
@@ -3598,9 +3584,9 @@
         <rdfs:comment xml:lang="en">A measurement result is generally expressed as a single measured quantity value and a measurement uncertainty. If the measurement uncertainty is considered to be negligible for some purpose, the measurement result may be expressed as a single measured quantity value. In many fields, this is the common way of expressing a measurement result.</rdfs:comment>
         <rdfs:comment xml:lang="en">In the traditional literature and in the previous edition of the VIM, measurement result was defined as a value attributed to a measurand and explained to mean an indication, or an uncorrected result, or a corrected result, according to the context.</rdfs:comment>
         <rdfs:label xml:lang="en">Measurement Result</rdfs:label>
+        <skos:altLabel xml:lang="en">Result of measurement</skos:altLabel>
         <skos:definition xml:lang="en">Set of Quantity Values being attributed to a measurand together with any other available relevant information</skos:definition>
         <skos:prefLabel xml:lang="en">Measurement Result</skos:prefLabel>
-        <synonym xml:lang="en">Result of measurement</synonym>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasurementResult"/>
@@ -3686,10 +3672,10 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:15944:-1:ed-3:v1:term:3.28"/>
         <rdfs:label xml:lang="en">Natural Person</rdfs:label>
+        <skos:altLabel xml:lang="en">Human</skos:altLabel>
+        <skos:altLabel xml:lang="en">Individual</skos:altLabel>
         <skos:definition xml:lang="en">Person who is a human being, i.e., an individual, who acts as a distinct indivisible entity or is considered as such</skos:definition>
         <skos:prefLabel xml:lang="en">Natural Person</skos:prefLabel>
-        <synonym xml:lang="en">Human</synonym>
-        <synonym xml:lang="en">Individual</synonym>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
@@ -3765,10 +3751,10 @@
         <dcterms:source rdf:resource="http://www.heppnetz.de/ontologies/goodrelations/v1.html#Offering"/>
         <rdfs:label xml:lang="en">Offering</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Offering"/>
+        <skos:altLabel xml:lang="en">Invitation To Treat</skos:altLabel>
+        <skos:altLabel xml:lang="en">Proposition</skos:altLabel>
         <skos:definition xml:lang="en">Public, not necessarily binding, not necessarily exclusive, announcement by a business entity to provide (or seek) a certain business function for a certain product or service to a specified target audience</skos:definition>
         <skos:prefLabel xml:lang="en">Offering</skos:prefLabel>
-        <synonym xml:lang="en">Invitation To Treat</synonym>
-        <synonym xml:lang="en">Proposition</synonym>
     </owl:Class>
     
 
@@ -3811,9 +3797,9 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.2"/>
         <rdfs:label xml:lang="en">1-Dimensional Geometry</rdfs:label>
+        <skos:altLabel xml:lang="en">Curve</skos:altLabel>
         <skos:definition xml:lang="en">Geometry with a geometric dimension of 1 (one)</skos:definition>
         <skos:prefLabel xml:lang="en">1-Dimensional Geometry</skos:prefLabel>
-        <synonym xml:lang="en">Curve</synonym>
     </owl:Class>
     
 
@@ -4042,9 +4028,9 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:12812:-1:ed-1:v1:term:3.40"/>
         <rdfs:label xml:lang="en">Payment</rdfs:label>
+        <skos:altLabel xml:lang="en">Payment Transaction</skos:altLabel>
         <skos:definition xml:lang="en">Act of placing, transferring or withdrawing funds, irrespective of any underlying obligations between the payer and the payee</skos:definition>
         <skos:prefLabel xml:lang="en">Payment</skos:prefLabel>
-        <synonym xml:lang="en">Payment Transaction</synonym>
     </owl:Class>
     
 
@@ -4187,9 +4173,9 @@
         <dcterms:identifier rdf:resource="urn:uuid:05afc059-5513-4677-bf9c-091cbc3f914f"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Plan</rdfs:label>
+        <skos:altLabel xml:lang="en">Campaign</skos:altLabel>
         <skos:definition xml:lang="en">Detailed proposal for doing or achieving something</skos:definition>
         <skos:prefLabel xml:lang="en">Plan</skos:prefLabel>
-        <synonym xml:lang="en">Campaign</synonym>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Plan"/>
@@ -4386,9 +4372,9 @@
         <dcterms:identifier rdf:resource="urn:uuid:81a7c4ab-95ab-48ca-92fb-4dff471c056b"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Product Or Service Individual Material</rdfs:label>
+        <skos:altLabel xml:lang="en">Good</skos:altLabel>
         <skos:definition xml:lang="en">Product Or Service Individual consisting of Material Objects</skos:definition>
         <skos:prefLabel xml:lang="en">Product Or Service Individual Material</skos:prefLabel>
-        <synonym xml:lang="en">Good</synonym>
     </owl:Class>
     
 
@@ -4572,11 +4558,11 @@ NOTE 3 A quantity value can be presented in more than one way (see Examples 1, 2
 NOTE 4 In the case of vector or tensor quantities, each component has a quantity value.
 EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; Fz) = (31.5; 43.2; 17.0) N.</rdfs:comment>
         <rdfs:label xml:lang="en">Quantity Value</rdfs:label>
+        <skos:altLabel xml:lang="en">Dimension</skos:altLabel>
+        <skos:altLabel xml:lang="en">Value</skos:altLabel>
+        <skos:altLabel xml:lang="en">Value of a quantity</skos:altLabel>
         <skos:definition xml:lang="en">Number and reference together expressing magnitude of a Quantity</skos:definition>
         <skos:prefLabel xml:lang="en">Quantity Value</skos:prefLabel>
-        <synonym xml:lang="en">Dimension</synonym>
-        <synonym xml:lang="en">Value</synonym>
-        <synonym xml:lang="en">Value of a quantity</synonym>
     </owl:Class>
     
 
@@ -4725,9 +4711,9 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:identifier rdf:resource="urn:uuid:73fee82e-9f20-4d7e-b2eb-a84d92a4483e"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Task</rdfs:label>
+        <skos:altLabel xml:lang="en">Plan Activity</skos:altLabel>
         <skos:definition xml:lang="en">Piece of work to be done or undertaken</skos:definition>
         <skos:prefLabel xml:lang="en">Task</skos:prefLabel>
-        <synonym xml:lang="en">Plan Activity</synonym>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Task"/>
@@ -4748,9 +4734,9 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.4"/>
         <rdfs:label xml:lang="en">3-Dimensional Geometry</rdfs:label>
+        <skos:altLabel xml:lang="en">Solid</skos:altLabel>
         <skos:definition xml:lang="en">Geometry with a geometric dimension of 3</skos:definition>
         <skos:prefLabel xml:lang="en">3-Dimensional Geometry</skos:prefLabel>
-        <synonym xml:lang="en">Solid</synonym>
     </owl:Class>
     
 
@@ -4782,9 +4768,9 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.3"/>
         <rdfs:label xml:lang="en">2-Dimensional Geometry</rdfs:label>
+        <skos:altLabel xml:lang="en">Surface</skos:altLabel>
         <skos:definition xml:lang="en">Geometry with a geometric dimension of 2</skos:definition>
         <skos:prefLabel xml:lang="en">2-Dimensional Geometry</skos:prefLabel>
-        <synonym xml:lang="en">Surface</synonym>
     </owl:Class>
     
 
@@ -4854,9 +4840,9 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.1"/>
         <rdfs:label xml:lang="en">0-Dimensional Geometry</rdfs:label>
+        <skos:altLabel xml:lang="en">Point Set</skos:altLabel>
         <skos:definition xml:lang="en">Geometry with a geometric dimension of 0 (zero)</skos:definition>
         <skos:prefLabel xml:lang="en">0-Dimensional Geometry</skos:prefLabel>
-        <synonym xml:lang="en">Point Set</synonym>
     </owl:Class>
     
 
