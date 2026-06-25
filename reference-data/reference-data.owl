@@ -6,14 +6,13 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:dcam="http://purl.org/dc/dcam/"
      xmlns:dcat="http://www.w3.org/ns/dcat#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:schema="http://schema.org/"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260624"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260625"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260624"/>
         <dcterms:contributor rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-10-14</dcterms:created>
@@ -23,7 +22,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:7be316dd-2ca3-437b-a9d1-cf8939e1d5c2"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-24</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-25</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
@@ -32,8 +31,8 @@
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology</dcterms:title>
         <rdfs:label xml:lang="en">Hadden Industries Universal Reference Data Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260610"/>
-        <owl:versionInfo>2026-06-24</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260624"/>
+        <owl:versionInfo>2026-06-25</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -8462,7 +8461,6 @@ or
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
-        <dcterms:rights rdf:resource="https://www.six-group.com/en/services/legal/terms-and-conditions/terms-of-use.html"/>
         <dcterms:title xml:lang="en">SIX Historical (Currencies &amp; Funds)</dcterms:title>
         <rdfs:label xml:lang="en">SIX Historical (Currencies &amp; Funds)</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
@@ -8532,7 +8530,6 @@ or
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
-        <dcterms:rights rdf:resource="https://unece.org/terms-and-conditions-use-united-nations-websites"/>
         <dcterms:title xml:lang="en">United Nations Economic Commission for Europe - Codes for Types of Means of Transport</dcterms:title>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Codes for Types of Means of Transport</rdfs:label>
         <skos:altLabel xml:lang="en">UNECE - Codes for Types of Means of Transport</skos:altLabel>
@@ -9056,7 +9053,6 @@ or
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T20:45:00Z</dcterms:modified>
-        <dcterms:rights rdf:resource="https://www.six-group.com/en/services/legal/terms-and-conditions/terms-of-use.html"/>
         <dcterms:title xml:lang="en">SIX Current Funds Codes</dcterms:title>
         <rdfs:label xml:lang="en">SIX Current Funds Codes</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
@@ -9879,7 +9875,6 @@ or
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
-        <dcterms:rights rdf:resource="https://unece.org/terms-and-conditions-use-united-nations-websites"/>
         <dcterms:title xml:lang="en">United Nations Economic Commission for Europe - Codes for Modes of Transport</dcterms:title>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Codes for Modes of Transport</rdfs:label>
         <skos:altLabel xml:lang="en">UNECE - Codes for Modes of Transport</skos:altLabel>
@@ -10150,7 +10145,6 @@ or
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T13:35:25Z</dcterms:modified>
-        <dcterms:rights rdf:resource="https://www.six-group.com/en/services/legal/terms-and-conditions/terms-of-use.html"/>
         <dcterms:title xml:lang="en">SIX Current Currency &amp; Funds</dcterms:title>
         <rdfs:label xml:lang="en">SIX Current Currency &amp; Funds</rdfs:label>
         <dcat:landingPage rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
@@ -10458,7 +10452,6 @@ or
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">N/A</dcterms:description>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-23T09:30:00Z</dcterms:modified>
-        <dcterms:rights rdf:resource="https://unece.org/terms-and-conditions-use-united-nations-websites"/>
         <dcterms:title xml:lang="en">United Nations Economic Commission for Europe - Inland Transport Committee - World Forum for Harmonization of Vehicle Regulations - Consolidated Resolution on the Construction of Vehicles - Revision 7</dcterms:title>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Inland Transport Committee - World Forum for Harmonization of Vehicle Regulations - Consolidated Resolution on the Construction of Vehicles - Revision 7</rdfs:label>
         <skos:altLabel xml:lang="en">ECE/TRANS/WP.29/78/Rev.7</skos:altLabel>
@@ -10801,7 +10794,8 @@ or
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-13T19:37:13Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
+        <dcterms:rights rdf:resource="https://unece.org/terms-and-conditions-use-united-nations-websites"/>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Codes for Modes of Transport - Presented by the CDWG - 2001 - English - pdf</rdfs:label>
         <dcat:accessURL rdf:resource="https://unece.org/trade/uncefact/cl-recommendations"/>
         <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-10/Rec19-ECE_TRADE_C_CEFACT_2001_09E.pdf"/>
@@ -11241,7 +11235,8 @@ or
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T12:58:18Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
+        <dcterms:rights rdf:resource="https://www.six-group.com/en/services/legal/terms-and-conditions/terms-of-use.html"/>
         <rdfs:label xml:lang="en">SIX Historical (Currencies &amp; Funds) List Three (XML)</rdfs:label>
         <dcat:accessURL rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:downloadURL rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-three.xml"/>
@@ -11311,7 +11306,8 @@ or
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T12:58:05Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
+        <dcterms:rights rdf:resource="https://www.six-group.com/en/services/legal/terms-and-conditions/terms-of-use.html"/>
         <rdfs:label xml:lang="en">SIX Historical (Currencies &amp; Funds) List Three (XLS)</rdfs:label>
         <dcat:accessURL rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:downloadURL rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-three.xls"/>
@@ -11451,7 +11447,8 @@ or
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T18:37:33Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
+        <dcterms:rights rdf:resource="https://unece.org/terms-and-conditions-use-united-nations-websites"/>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Inland Transport Committee - World Forum for Harmonization of Vehicle Regulations - Consolidated Resolution on the Construction of Vehicles - Revision 7 - docx</rdfs:label>
         <dcat:accessURL rdf:resource="https://unece.org/transport/documents/2023/05/standards/consolidated-resolution-construction-vehicles-re3-revision-7"/>
         <dcat:downloadURL rdf:resource="https://unece.org/sites/default/files/2023-12/ECE_TRANS_WP.29_78_Rev.7e.docx"/>
@@ -11478,8 +11475,9 @@ or
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/GIF"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015 - Schedule Table 1 image</rdfs:label>
         <dcat:accessURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/schedule/1/made"/>
         <dcat:downloadURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/images/uksi_20150017_en_001"/>
@@ -11559,8 +11557,9 @@ or
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/GIF"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">The Company and Business Names (Miscellaneous Provisions) Regulations 2009 - Schedule 1 image</rdfs:label>
         <dcat:accessURL rdf:resource="https://www.legislation.gov.uk/uksi/2009/1085/schedule/1/made"/>
         <dcat:downloadURL rdf:resource="https://www.legislation.gov.uk/uksi/2009/1085/images/uksi_20091085_en_001"/>
@@ -11869,7 +11868,8 @@ or
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T12:12:39Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
+        <dcterms:rights rdf:resource="https://www.six-group.com/en/services/legal/terms-and-conditions/terms-of-use.html"/>
         <rdfs:label xml:lang="en">SIX Current Currency &amp; Funds List One (XLS)</rdfs:label>
         <dcat:accessURL rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:downloadURL rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xls"/>
@@ -12041,7 +12041,8 @@ or
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T12:28:29Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
+        <dcterms:rights rdf:resource="https://www.six-group.com/en/services/legal/terms-and-conditions/terms-of-use.html"/>
         <rdfs:label xml:lang="en">SIX Current Currency &amp; Funds List One (XML)</rdfs:label>
         <dcat:accessURL rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:downloadURL rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml"/>
@@ -12222,7 +12223,8 @@ or
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-11T12:56:59Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
+        <dcterms:rights rdf:resource="https://www.six-group.com/en/services/legal/terms-and-conditions/terms-of-use.html"/>
         <rdfs:label xml:lang="en">SIX Current Funds Codes List Two: Fund Codes Registered with Agency doc</rdfs:label>
         <dcat:accessURL rdf:resource="https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"/>
         <dcat:downloadURL rdf:resource="https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-two.doc"/>
@@ -12291,8 +12293,9 @@ or
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/GIF"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015 - Schedule Table 3 image</rdfs:label>
         <dcat:accessURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/schedule/1/made"/>
         <dcat:downloadURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/images/uksi_20150017_en_003"/>
@@ -12377,7 +12380,8 @@ or
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-13T19:51:04Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
+        <dcterms:rights rdf:resource="https://unece.org/terms-and-conditions-use-united-nations-websites"/>
         <rdfs:label xml:lang="en">United Nations Economic Commission for Europe - Codes for Types of Means of Transport - Revision 4.2 of code list - English - xls</rdfs:label>
         <dcat:accessURL rdf:resource="https://unece.org/code-list-recommendations#accordion_13"/>
         <dcat:downloadURL rdf:resource="https://unece.org/DAM/cefact/recommendations/rec28/Rec28_Rev4.2e_2018.xls"/>
@@ -12712,8 +12716,9 @@ or
         <rdf:type rdf:resource="http://www.w3.org/ns/dcat#Distribution"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-30T11:36:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/GIF"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-19T00:39:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T09:03:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">The Company, Limited Liability Partnership and Business (Names and Trading Disclosures) Regulations 2015 - Schedule Table 2 image</rdfs:label>
         <dcat:accessURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/schedule/1/made"/>
         <dcat:downloadURL rdf:resource="https://www.legislation.gov.uk/uksi/2015/17/images/uksi_20150017_en_002"/>
