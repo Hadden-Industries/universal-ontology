@@ -48,7 +48,8 @@ class OntologyConfiguration:
         'dcterms': 'http://purl.org/dc/terms/',
         'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
         'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-        'xml': 'http://www.w3.org/XML/1998/namespace'
+        'xml': 'http://www.w3.org/XML/1998/namespace',
+        'skos': 'http://www.w3.org/2004/02/skos/core#'
     }
 
     RECORD_TAGS: List[str] = [
@@ -67,7 +68,7 @@ class OntologyConfiguration:
     OWL_ANNOTATED_SOURCE = '{http://www.w3.org/2002/07/owl#}annotatedSource'
     OWL_ANNOTATED_PROPERTY = '{http://www.w3.org/2002/07/owl#}annotatedProperty'
     DCTERMS_SOURCE = '{http://purl.org/dc/terms/}source'
-    DCTERMS_DESCRIPTION_URI = 'http://purl.org/dc/terms/description'
+    SKOS_DEFINITION_URI = 'http://www.w3.org/2004/02/skos/core#definition'
 
     # Filter constraints - Implemented as Set for O(1) lookup
     EXCLUDED_DCAT_TYPES = {
@@ -85,15 +86,14 @@ class OntologyConfiguration:
         {'header_name': 'Object Type'},
         {'header_name': 'UUID', 'tag': '{http://purl.org/dc/terms/}identifier'},
         {'header_name': 'URI'},
-        {'header_name': 'Label', 'tag': '{http://www.w3.org/2000/01/rdf-schema#}label'},
-        {'header_name': 'Title', 'tag': '{http://purl.org/dc/terms/}title'},
-        {'header_name': 'Description', 'tag': '{http://purl.org/dc/terms/}description'},
+        {'header_name': 'Preferred Label', 'tag': '{http://www.w3.org/2004/02/skos/core#}prefLabel'},
+        {'header_name': 'Definition', 'tag': '{http://www.w3.org/2004/02/skos/core#}definition'},
         {'header_name': 'Sources', 'tag': '{http://purl.org/dc/terms/}source'},
-        {'header_name': 'Creator', 'tag': '{http://purl.org/dc/elements/1.1/}creator'},
+        {'header_name': 'Creator', 'tag': '{http://purl.org/dc/terms/}creator'},
         {'header_name': 'CreatedAt', 'tag': '{http://purl.org/dc/terms/}created'},
         {'header_name': 'ModifiedAt', 'tag': '{http://purl.org/dc/terms/}modified'},
         {'header_name': 'SubClassOf', 'tag': '{http://www.w3.org/2000/01/rdf-schema#}subClassOf'},
-        {'header_name': 'Type', 'tag': '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}type'}
+        {'header_name': 'Class of Named Individual', 'tag': '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}type'}
     ]
 
 class SecuritySanitizer:
@@ -189,7 +189,7 @@ class OntologyProcessor:
                 source_uri = annotated_source.get(OntologyConfiguration.RDF_RESOURCE)
                 property_uri = annotated_property.get(OntologyConfiguration.RDF_RESOURCE)
                 
-                if property_uri == OntologyConfiguration.DCTERMS_DESCRIPTION_URI and source_uri:
+                if property_uri == OntologyConfiguration.SKOS_DEFINITION_URI and source_uri:
                     source_resources = []
                     for dcterms_src in axiom.iterfind(OntologyConfiguration.DCTERMS_SOURCE, OntologyConfiguration.NAMESPACES):
                         res_val = dcterms_src.get(OntologyConfiguration.RDF_RESOURCE)
@@ -225,14 +225,28 @@ class OntologyProcessor:
                         if res and res.startswith(OntologyConfiguration.UUID_PREFIX):
                             extracted_value = res[len(OntologyConfiguration.UUID_PREFIX):]
                             break
-                elif header in ('Label', 'Title', 'Description') and tag:
+                elif header in ('Preferred Label', 'Definition') and tag:
                     extracted_value = OntologyExtractor.extract_preferred_language(element, tag)
                 elif header == 'Sources' and tag:
-                    extracted_value = OntologyExtractor.extract_resource_attribute(element, tag)
-                    if not extracted_value and record_uri in axiom_index:
-                        # Fallback to O(1) lookup map if direct attribute missing
-                        extracted_value = axiom_index[record_uri]
-                elif header in ('Creator', 'SubClassOf', 'Type') and tag:
+                    if record_uri.startswith('https://haddenindustries.com/ontology/iso'):
+                        identifier_tag = '{http://purl.org/dc/terms/}identifier'
+                        for identifier in element.iterfind(identifier_tag, OntologyConfiguration.NAMESPACES):
+                            res = identifier.get(OntologyConfiguration.RDF_RESOURCE)
+                            text_val = identifier.text.strip() if identifier.text else ""
+                            if res and res.startswith('urn:iso'):
+                                extracted_value = res
+                                break
+                            elif text_val.startswith('urn:iso'):
+                                extracted_value = text_val
+                                break
+                                
+                    # If extraction failed (or was skipped because entity wasn't ISO),
+                    # fall back to standard source extraction via dcterms:source & Axiom index
+                    if not extracted_value:
+                        extracted_value = OntologyExtractor.extract_resource_attribute(element, tag)
+                        if not extracted_value and record_uri in axiom_index:
+                            extracted_value = axiom_index[record_uri]
+                elif header in ('Creator', 'SubClassOf', 'Class of Named Individual') and tag:
                     extracted_value = OntologyExtractor.extract_resource_attribute(element, tag)
                 else:
                     if tag:
