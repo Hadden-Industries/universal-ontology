@@ -8,7 +8,7 @@
     <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/reference-data/20260625" uri="../reference-data/versions/20260625"/>
     <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/time/gregorian" uri="../core/time-gregorian.ttl"/>
     <uri id="Imports Wizard Entry" name="http://www.w3.org/2006/time" uri="../core/time.rdf"/>
-    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/core/20260610" uri="../core/versions/20260610"/>
+    <uri id="Imports Wizard Entry" name="https://haddenindustries.com/ontology/universal/core/20260625" uri="../core/versions/20260625"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
         <uri id="Automatically generated entry, Timestamp=1781126716381" name="https://haddenindustries.com/ontology/universal/extended/" uri="universal-extended.owl"/>
     </group>
