@@ -57,12 +57,18 @@
     <owl:AnnotationProperty rdf:about="https://haddenindustries.com/ontology/universal/core/acronym">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T09:42:54Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:15:00Z</dcterms:modified>
-        <rdfs:comment xml:lang="en">Abbreviation formed from the initial letters of other words and pronounced as a word</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:11:47Z</dcterms:modified>
         <rdfs:label xml:lang="en">acronym</rdfs:label>
+        <skos:definition xml:lang="en">Abbreviation made up of the initial letters of the components of the full form of the designation or from syllables of the full form and pronounced syllabically</skos:definition>
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
         <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral"/>
     </owl:AnnotationProperty>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/acronym"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
+        <owl:annotatedTarget xml:lang="en">Abbreviation made up of the initial letters of the components of the full form of the designation or from syllables of the full form and pronounced syllabically</owl:annotatedTarget>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:15944:-7:ed-1:v1:term:3.2"/>
+    </owl:Axiom>
     
 
 
@@ -83,18 +89,18 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-11T16:42:16Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b36ab6fb-3317-47c8-87c1-8451ebeaf45a"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19133:ed-1:v1:term:4.18"/>
-        <rdfs:comment xml:lang="en">A direct position is a semantic subtype of position. Direct positions as described can only define a point and therefore not all positions can be represented by a direct position. That is consistent with the “is type of” relation. An ISO 19107 geometry is also a position, just not a direct position.</rdfs:comment>
         <rdfs:label xml:lang="en">Position</rdfs:label>
         <skos:definition xml:lang="en">Data type that describes a point or geometry potentially occupied by an object or person</skos:definition>
         <skos:prefLabel xml:lang="en">Position</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A direct position is a semantic subtype of position. Direct positions as described can only define a point and therefore not all positions can be represented by a direct position. That is consistent with the “is type of” relation. An ISO 19107 geometry is also a position, just not a direct position.</skos:scopeNote>
     </rdfs:Datatype>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Position"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">A direct position is a semantic subtype of position. Direct positions as described can only define a point and therefore not all positions can be represented by a direct position. That is consistent with the “is type of” relation. An ISO 19107 geometry is also a position, just not a direct position.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -369,13 +375,13 @@
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/core/Commitment"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T08:47:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T12:00:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:20:39Z</dcterms:modified>
         <dcterms:source rdf:resource="http://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/confers"/>
-        <rdfs:comment xml:lang="en">This property should be read as describing the conferral of some legal power or duty, some commitment or some social construct, and is a property of some social construct such as an agreement or some legal authority. These concepts, which would describe the kind of thing of which this is a property, and the kinds of thing in terms of which this property is framed, are outside the scope of this mode land so are not shown.</rdfs:comment>
         <rdfs:label xml:lang="en">confers</rdfs:label>
         <skos:altLabel xml:lang="en">invests with</skos:altLabel>
         <skos:definition xml:lang="en">Grants or bestows by virtue of some authority</skos:definition>
         <skos:prefLabel xml:lang="en">confers</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">This property should be read as describing the conferral of some legal power or duty, some commitment or some social construct, and is a property of some social construct such as an agreement or some legal authority. These concepts, which would describe the kind of thing of which this is a property, and the kinds of thing in terms of which this property is framed, are outside the scope of this mode land so are not shown.</skos:scopeNote>
     </owl:ObjectProperty>
     
 
@@ -1940,39 +1946,27 @@
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-09T14:33:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:40:32Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/1.20.html"/>
-        <rdfs:comment xml:lang="en">For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5.7 kg)/kg = 5.7. The same quantity value can be expressed as 5 700 g in which case the numerical quantity value {m} = (5 700 g)/g = 5 700.</rdfs:comment>
-        <rdfs:comment xml:lang="en">For quantities of dimension one, the reference is a measurement unit which is a number and this is not considered as a part of the numerical quantity value</rdfs:comment>
-        <rdfs:comment xml:lang="en">For quantities that have a measurement unit (i.e. those other than ordinal quantities), the numerical value {Q} of a quantity Q is frequently denoted {Q} = Q/[Q], where [Q] denotes the measurement unit</rdfs:comment>
-        <rdfs:comment xml:lang="en">In an amount-of-substance fraction equal to 3 mmol/mol, the numerical quantity value is 3 and the unit is mmol/mol. The unit mmol/mol is numerically equal to 0.001, but this number 0.001 is not part of the numerical quantity value, which remains 3.</rdfs:comment>
         <rdfs:label xml:lang="en">Numerical Quantity Value</rdfs:label>
         <skos:definition xml:lang="en">Number in the expression of a quantity value, other than any number serving as the reference</skos:definition>
         <skos:prefLabel xml:lang="en">Numerical Quantity Value</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">For quantities of dimension one, the reference is a measurement unit which is a number and this is not considered as a part of the numerical quantity value</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">For quantities that have a measurement unit (i.e. those other than ordinal quantities), the numerical value {Q} of a quantity Q is frequently denoted {Q} = Q/[Q], where [Q] denotes the measurement unit</skos:scopeNote>
     </owl:DatatypeProperty>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue_numericalQuantityValue"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5.7 kg)/kg = 5.7. The same quantity value can be expressed as 5 700 g in which case the numerical quantity value {m} = (5 700 g)/g = 5 700.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue_numericalQuantityValue"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">For quantities of dimension one, the reference is a measurement unit which is a number and this is not considered as a part of the numerical quantity value</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 1</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+        <skos:example xml:lang="en">In an amount-of-substance fraction equal to 3 mmol/mol, the numerical quantity value is 3 and the unit is mmol/mol. The unit mmol/mol is numerically equal to 0.001, but this number 0.001 is not part of the numerical quantity value, which remains 3.</skos:example>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue_numericalQuantityValue"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">For quantities that have a measurement unit (i.e. those other than ordinal quantities), the numerical value {Q} of a quantity Q is frequently denoted {Q} = Q/[Q], where [Q] denotes the measurement unit</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 2</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue_numericalQuantityValue"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">In an amount-of-substance fraction equal to 3 mmol/mol, the numerical quantity value is 3 and the unit is mmol/mol. The unit mmol/mol is numerically equal to 0.001, but this number 0.001 is not part of the numerical quantity value, which remains 3.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+        <skos:example xml:lang="en">For a quantity value of 5.7 kg, the numerical quantity value is {m} = (5.7 kg)/kg = 5.7. The same quantity value can be expressed as 5 700 g in which case the numerical quantity value {m} = (5 700 g)/g = 5 700.</skos:example>
     </owl:Axiom>
     
 
@@ -2075,81 +2069,81 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:623ea210-aed1-4788-b0c1-55a970288274"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19160:-1:ed-1:v1:term:4.1"/>
-        <rdfs:comment xml:lang="en">Address where the object is a building group, such as a school or large apartment area: 228-dong 404-ho, 26 Kyunghee-daero, Dongdaemun-gu, Seoul 130–701, South Korea</rdfs:comment>
-        <rdfs:comment xml:lang="en">Address where the object is a building: Lombardy House, 809 Lombardy Street, The Hills, 0039, South Africa</rdfs:comment>
-        <rdfs:comment xml:lang="en">Address where the object is a business: 611 Fifth Avenue, New York NY 10022</rdfs:comment>
-        <rdfs:comment xml:lang="en">Address where the object is a land parcel for a building: San 4–5, Munjae-ro, Songpa-gu, Seoul, 13144, South Korea</rdfs:comment>
-        <rdfs:comment xml:lang="en-gb">In addition to the addressable object, there may be a multitude of people, organizations, addressees or other objects associated with an address. These are external to the address model (refer to Annex C and Annex F for examples).</rdfs:comment>
-        <rdfs:comment xml:lang="en">The object is identifiable in the real world, i.e. electronic and virtual addresses are excluded</rdfs:comment>
-        <rdfs:comment xml:lang="en">There can be many addresses for an object, but at any moment (or lifecycle stage), an address unambiguously determines a single object (see Annex D for examples)</rdfs:comment>
-        <rdfs:comment xml:lang="en">Two addresses for the same addressable object and from the same address class, but in two different languages are two different addresses (refer to Annex E for more examples)</rdfs:comment>
-        <rdfs:comment xml:lang="en">Two addresses from two different address classes (4.4) (i.e. they have different sets of components) for the same addressable object are two different addresses (refer to Annex E for more examples)</rdfs:comment>
-        <rdfs:comment xml:lang="en">“Identification” refers to the fact that the structured information in the address unambiguously determines the object, i.e. it helps the human to identify the object. In other words, “identification” here does not refer to unique identifiers in a database or dataset.</rdfs:comment>
         <rdfs:label xml:lang="en">Address</rdfs:label>
         <skos:definition xml:lang="en">Structured information that allows the unambiguous determination of an object for purposes of identification and location</skos:definition>
+        <skos:example xml:lang="en">Address where the object is a building group, such as a school or large apartment area: 228-dong 404-ho, 26 Kyunghee-daero, Dongdaemun-gu, Seoul 130–701, South Korea</skos:example>
+        <skos:example xml:lang="en">Address where the object is a building: Lombardy House, 809 Lombardy Street, The Hills, 0039, South Africa</skos:example>
+        <skos:example xml:lang="en">Address where the object is a business: 611 Fifth Avenue, New York NY 10022</skos:example>
+        <skos:example xml:lang="en">Address where the object is a land parcel for a building: San 4–5, Munjae-ro, Songpa-gu, Seoul, 13144, South Korea</skos:example>
         <skos:prefLabel xml:lang="en">Address</skos:prefLabel>
+        <skos:scopeNote xml:lang="en-gb">In addition to the addressable object, there may be a multitude of people, organizations, addressees or other objects associated with an address. These are external to the address model (refer to Annex C and Annex F for examples).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The object is identifiable in the real world, i.e. electronic and virtual addresses are excluded</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">There can be many addresses for an object, but at any moment (or lifecycle stage), an address unambiguously determines a single object (see Annex D for examples)</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Two addresses for the same addressable object and from the same address class, but in two different languages are two different addresses (refer to Annex E for more examples)</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Two addresses from two different address classes (4.4) (i.e. they have different sets of components) for the same addressable object are two different addresses (refer to Annex E for more examples)</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">“Identification” refers to the fact that the structured information in the address unambiguously determines the object, i.e. it helps the human to identify the object. In other words, “identification” here does not refer to unique identifiers in a database or dataset.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
         <owl:annotatedTarget xml:lang="en">Address where the object is a building group, such as a school or large apartment area: 228-dong 404-ho, 26 Kyunghee-daero, Dongdaemun-gu, Seoul 130–701, South Korea</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE  4</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
         <owl:annotatedTarget xml:lang="en">Address where the object is a building: Lombardy House, 809 Lombardy Street, The Hills, 0039, South Africa</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE  2</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
         <owl:annotatedTarget xml:lang="en">Address where the object is a business: 611 Fifth Avenue, New York NY 10022</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE  1</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
         <owl:annotatedTarget xml:lang="en">Address where the object is a land parcel for a building: San 4–5, Munjae-ro, Songpa-gu, Seoul, 13144, South Korea</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE  3</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en-gb">In addition to the addressable object, there may be a multitude of people, organizations, addressees or other objects associated with an address. These are external to the address model (refer to Annex C and Annex F for examples).</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 6 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">The object is identifiable in the real world, i.e. electronic and virtual addresses are excluded</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">There can be many addresses for an object, but at any moment (or lifecycle stage), an address unambiguously determines a single object (see Annex D for examples)</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Two addresses for the same addressable object and from the same address class, but in two different languages are two different addresses (refer to Annex E for more examples)</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 5 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Two addresses from two different address classes (4.4) (i.e. they have different sets of components) for the same addressable object are two different addresses (refer to Annex E for more examples)</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 4 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">“Identification” refers to the fact that the structured information in the address unambiguously determines the object, i.e. it helps the human to identify the object. In other words, “identification” here does not refer to unique identifiers in a database or dataset.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     
 
@@ -2420,12 +2414,12 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-09T20:46:48Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:a005da90-2da3-4ac7-9872-26d8c710c98a"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:12:04Z</dcterms:modified>
         <dcterms:source rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Agreement"/>
-        <rdfs:comment xml:lang="en">All agreements are time bound, whether implicit or explicitly stated, and thus an agreement reflects a state of affairs that holds for some period of time</rdfs:comment>
         <rdfs:label xml:lang="en">Agreement</rdfs:label>
         <skos:definition xml:lang="en">Negotiated understanding between two or more parties, reflecting the offer and acceptance of commitments on the part of either party</skos:definition>
         <skos:prefLabel xml:lang="en">Agreement</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">All agreements are time bound, whether implicit or explicitly stated, and thus an agreement reflects a state of affairs that holds for some period of time</skos:scopeNote>
     </owl:Class>
     
 
@@ -2494,12 +2488,12 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T13:31:24Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b405a4a7-646a-462f-9293-3223c658dff1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:12:11Z</dcterms:modified>
         <dcterms:source rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Claim"/>
-        <rdfs:comment xml:lang="en">Claims arise from the existence of a formal commitment between the parties or as implicitly agreed upon through the operation of law or constitution</rdfs:comment>
         <rdfs:label xml:lang="en">Claim</rdfs:label>
         <skos:definition xml:lang="en">Demand or assertion made by one party on another, based on facts that, taken together, give rise to a legally enforceable right or judicial action</skos:definition>
         <skos:prefLabel xml:lang="en">Claim</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Claims arise from the existence of a formal commitment between the parties or as implicitly agreed upon through the operation of law or constitution</skos:scopeNote>
     </owl:Class>
     
 
@@ -2511,12 +2505,12 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-11T08:42:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:45bc471b-16e1-4058-b226-db53740cdd6c"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:12:15Z</dcterms:modified>
         <dcterms:source rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Commitment"/>
-        <rdfs:comment xml:lang="en">Such a promise often results a corresponding right or obligation with respect to another party to the commitment. Thus, obligations and rights are considered as reciprocal aspects of a commitment.</rdfs:comment>
         <rdfs:label xml:lang="en">Commitment</rdfs:label>
         <skos:definition xml:lang="en">Promise made by some party to act or refrain from acting in some manner</skos:definition>
         <skos:prefLabel xml:lang="en">Commitment</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Such a promise often results a corresponding right or obligation with respect to another party to the commitment. Thus, obligations and rights are considered as reciprocal aspects of a commitment.</skos:scopeNote>
     </owl:Class>
     
 
@@ -2535,32 +2529,32 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T12:55:25Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:42fd815e-cd83-4d46-a489-9d9c72ec2eb1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:10002:ed-3:v1:term:3.2"/>
-        <rdfs:comment xml:lang="en-gb">Complaints can be made directly or indirectly to the organisation</rdfs:comment>
-        <rdfs:comment xml:lang="en-gb">Complaints can be made in relation to other processes where the organisation interacts with the customer</rdfs:comment>
-        <rdfs:comment xml:lang="en">ISO 9000:2015, 3.9.3, modified — Notes 1 and 2 to entry have been added</rdfs:comment>
+        <dcterms:source xml:lang="en">ISO 9000:2015, 3.9.3</dcterms:source>
         <rdfs:label xml:lang="en">Complaint</rdfs:label>
         <skos:definition xml:lang="en-gb">Expression of dissatisfaction made to an organisation, related to its product or service, or the complaints-handling process itself, where a response or resolution is explicitly or implicitly expected</skos:definition>
         <skos:prefLabel xml:lang="en">Complaint</skos:prefLabel>
+        <skos:scopeNote xml:lang="en-gb">Complaints can be made directly or indirectly to the organisation</skos:scopeNote>
+        <skos:scopeNote xml:lang="en-gb">Complaints can be made in relation to other processes where the organisation interacts with the customer</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Complaint"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
+        <owl:annotatedTarget xml:lang="en">ISO 9000:2015, 3.9.3</owl:annotatedTarget>
+        <skos:note xml:lang="en">modified — Notes 1 and 2 to entry have been added</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Complaint"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en-gb">Complaints can be made directly or indirectly to the organisation</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Complaint"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en-gb">Complaints can be made in relation to other processes where the organisation interacts with the customer</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Complaint"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">ISO 9000:2015, 3.9.3, modified — Notes 1 and 2 to entry have been added</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -2649,40 +2643,40 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:2dc05ab0-a47f-4799-839e-e3d4c7e04086"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.38"/>
-        <rdfs:comment xml:lang="en">Documents often are the manifestations of works.They can differ extensively in form and characteristics.</rdfs:comment>
-        <rdfs:comment xml:lang="en">In some professional usage, documents are sometimes referred to as “medium”, “title” or “item”</rdfs:comment>
-        <rdfs:comment xml:lang="en">See also ISO 25964-1:2011, definition 2.15; ISO 11005:2010, definition 3.1; ISO 15489-1:2016, definition 3.10; IEC 82045-1:2001, definition 3.2.3; ISO 9000:2015, definition 3.7.2</rdfs:comment>
-        <rdfs:comment xml:lang="en">This definition refers not only to written and printed materials in paper or microform versions (for example, conventional books, journals, diagrams, maps), but also to non-printed media such as machine-readable and digitised records, Internet and intranet resources, films, sound recordings, people and organisations as knowledge resources, buildings, sites, monuments, three-dimensional objects or realia; and to collections of such items or parts of such items. (Note taken from ISO 25964-1:2011, definition 2.15.) Also, software, since recorded, can be considered a document.</rdfs:comment>
         <rdfs:label xml:lang="en">Document</rdfs:label>
         <rdfs:seeAlso rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.8.5"/>
         <skos:definition xml:lang="en">Recorded information or material object which can be treated as a unit in a documentation process</skos:definition>
         <skos:prefLabel xml:lang="en">Document</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Documents often are the manifestations of works.They can differ extensively in form and characteristics.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">In some professional usage, documents are sometimes referred to as “medium”, “title” or “item”</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">See also ISO 25964-1:2011, definition 2.15; ISO 11005:2010, definition 3.1; ISO 15489-1:2016, definition 3.10; IEC 82045-1:2001, definition 3.2.3; ISO 9000:2015, definition 3.7.2</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">This definition refers not only to written and printed materials in paper or microform versions (for example, conventional books, journals, diagrams, maps), but also to non-printed media such as machine-readable and digitised records, Internet and intranet resources, films, sound recordings, people and organisations as knowledge resources, buildings, sites, monuments, three-dimensional objects or realia; and to collections of such items or parts of such items. (Note taken from ISO 25964-1:2011, definition 2.15.) Also, software, since recorded, can be considered a document.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Documents often are the manifestations of works.They can differ extensively in form and characteristics.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">In some professional usage, documents are sometimes referred to as “medium”, “title” or “item”</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 4 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">See also ISO 25964-1:2011, definition 2.15; ISO 11005:2010, definition 3.1; ISO 15489-1:2016, definition 3.10; IEC 82045-1:2001, definition 3.2.3; ISO 9000:2015, definition 3.7.2</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">This definition refers not only to written and printed materials in paper or microform versions (for example, conventional books, journals, diagrams, maps), but also to non-printed media such as machine-readable and digitised records, Internet and intranet resources, films, sound recordings, people and organisations as knowledge resources, buildings, sites, monuments, three-dimensional objects or realia; and to collections of such items or parts of such items. (Note taken from ISO 25964-1:2011, definition 2.15.) Also, software, since recorded, can be considered a document.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     
 
@@ -2917,32 +2911,32 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:700de2be-ede3-4ec6-b031-6248e70881a1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.11"/>
-        <rdfs:comment xml:lang="en">An event can also be something that is expected which does not happen, or something that is not expected which does happen</rdfs:comment>
-        <rdfs:comment xml:lang="en">An event can be a risk source (3.3.10)</rdfs:comment>
-        <rdfs:comment xml:lang="en">An event can have one or more occurrences, and can have several causes and several consequences (3.3.18)</rdfs:comment>
         <rdfs:label xml:lang="en">Event</rdfs:label>
         <skos:definition xml:lang="en">Occurrence or change of a particular set of circumstances</skos:definition>
         <skos:prefLabel xml:lang="en">Event</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">An event can also be something that is expected which does not happen, or something that is not expected which does happen</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">An event can be a risk source (3.3.10)</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">An event can have one or more occurrences, and can have several causes and several consequences (3.3.18)</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">An event can also be something that is expected which does not happen, or something that is not expected which does happen</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">An event can be a risk source (3.3.10)</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">An event can have one or more occurrences, and can have several causes and several consequences (3.3.18)</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -3205,7 +3199,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-25T10:54:52Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:a665463d-cbae-431d-a251-bf9a0d57d167"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:12:30Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:13249:-3:ed-5:v1:term:3.1.2.27"/>
         <rdfs:label xml:lang="en">Geometry</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://help.arcgis.com/en/geodatabase/10.0/sdk/arcsde/concepts/geometry/geometry.htm"/>
@@ -3216,7 +3210,7 @@
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Geometry"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Shape and geographic location of a feature</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Definite article &quot;the&quot; removed from the beginning of the definition</rdfs:comment>
+        <skos:note xml:lang="en">Definite article &quot;the&quot; removed from the beginning of the definition</skos:note>
     </owl:Axiom>
     
 
@@ -3228,7 +3222,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:075cf570-c695-42c7-9387-05766ba4e836"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:06:07Z</dcterms:modified>
         <rdfs:label xml:lang="en">Juridical Person</rdfs:label>
         <rdfs:seeAlso rdf:resource="http://schema.org/Corporation"/>
         <rdfs:seeAlso rdf:resource="https://www.law.cornell.edu/wex/artificial_person"/>
@@ -3248,7 +3242,7 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Entity, that is not a natural person, recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</owl:annotatedTarget>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:14662:ed-3:v1:en:term:3.24"/>
-        <rdfs:comment xml:lang="en">Derived</rdfs:comment>
+        <skos:note xml:lang="en">Derived</skos:note>
     </owl:Axiom>
     
 
@@ -3265,25 +3259,19 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-10T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:1c8bf785-3d5d-4877-b198-f81742587eb7"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:19112:ed-2:v1:term:3.1.3"/>
-        <rdfs:comment xml:lang="en">A location identifies a geographic place</rdfs:comment>
-        <rdfs:comment xml:lang="en">“Madrid”, “California”</rdfs:comment>
         <rdfs:label xml:lang="en">Location</rdfs:label>
         <skos:definition xml:lang="en">Particular place or position</skos:definition>
+        <skos:example xml:lang="en">“Madrid”, “California”</skos:example>
         <skos:prefLabel xml:lang="en">Location</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A location identifies a geographic place</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">A location identifies a geographic place</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Location"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">“Madrid”, “California”</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -3365,19 +3353,19 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:3a074d33-b750-4992-8d96-5cd627b625d3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.60"/>
-        <rdfs:comment xml:lang="en">See also “naturafact”, “artefact (1) &lt;man-made object&gt;; ISO 21127:2014, classes “E 18” and “E 19”</rdfs:comment>
         <rdfs:label xml:lang="en">Material Object</rdfs:label>
         <skos:altLabel xml:lang="en">Physical Object</skos:altLabel>
         <skos:definition xml:lang="en">Object which has physical extension in space and time</skos:definition>
         <skos:prefLabel xml:lang="en">Material Object</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">See also “naturafact”, “artefact (1) &lt;man-made object&gt;; ISO 21127:2014, classes “E 18” and “E 19”</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">See also “naturafact”, “artefact (1) &lt;man-made object&gt;; ISO 21127:2014, classes “E 18” and “E 19”</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -3424,7 +3412,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:a6d9b70e-3a55-431f-8345-edd4389c32a6"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:16:42Z</dcterms:modified>
         <rdfs:label xml:lang="en">Means Of Transport</rdfs:label>
         <skos:definition xml:lang="en">Particular aircraft, vehicle, vessel or other device used for the transport of goods or persons</skos:definition>
         <skos:prefLabel xml:lang="en">Means Of Transport</skos:prefLabel>
@@ -3434,7 +3422,7 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Particular aircraft, vehicle, vessel or other device used for the transport of goods or persons</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://unece.org/fileadmin/DAM/cefact/recommendations/rec28/rec28r1_final.pdf"/>
-        <rdfs:comment xml:lang="en">Section V. A. 3.</rdfs:comment>
+        <skos:note xml:lang="en">Section V. A. 3.</skos:note>
     </owl:Axiom>
     
 
@@ -3446,41 +3434,41 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:42:19Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:5a08adf0-0137-4351-8985-1a0cd4947ae0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:04:50Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/2.10.html"/>
-        <rdfs:comment xml:lang="en">For a measurement involving replicate indications, each indication can be used to provide a corresponding measured quantity value. This set of individual measured quantity values can be used to calculate a resulting measured quantity value, such as an average or median, usually with a decreased associated measurement uncertainty.</rdfs:comment>
-        <rdfs:comment xml:lang="en">In the GUM, the terms “result of measurement” and “estimate of the value of the measurand” or just “estimate of the measurand” are used for ‘measured quantity value’</rdfs:comment>
-        <rdfs:comment xml:lang="en">In the case where the range of the true quantity values believed to represent the measurand is not small compared with the measurement uncertainty, a measured quantity value is often an estimate of an average or median of the set of true quantity values</rdfs:comment>
-        <rdfs:comment xml:lang="en">When the range of the true quantity values believed to represent the measurand is small compared with the measurement uncertainty, a measured quantity value can be considered to be an estimate of an essentially unique true quantity value and is often an average or median of individual measured quantity values obtained through replicate measurements</rdfs:comment>
         <rdfs:label xml:lang="en">Measured Quantity Value</rdfs:label>
         <skos:altLabel xml:lang="en">Measured value</skos:altLabel>
         <skos:altLabel xml:lang="en">Value of a measured quantity</skos:altLabel>
         <skos:definition xml:lang="en">Quantity Value representing a Measurement Result</skos:definition>
         <skos:prefLabel xml:lang="en">Measured Quantity Value</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">For a measurement involving replicate indications, each indication can be used to provide a corresponding measured quantity value. This set of individual measured quantity values can be used to calculate a resulting measured quantity value, such as an average or median, usually with a decreased associated measurement uncertainty.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">In the GUM, the terms “result of measurement” and “estimate of the value of the measurand” or just “estimate of the measurand” are used for ‘measured quantity value’</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">In the case where the range of the true quantity values believed to represent the measurand is not small compared with the measurement uncertainty, a measured quantity value is often an estimate of an average or median of the set of true quantity values</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">When the range of the true quantity values believed to represent the measurand is small compared with the measurement uncertainty, a measured quantity value can be considered to be an estimate of an essentially unique true quantity value and is often an average or median of individual measured quantity values obtained through replicate measurements</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">For a measurement involving replicate indications, each indication can be used to provide a corresponding measured quantity value. This set of individual measured quantity values can be used to calculate a resulting measured quantity value, such as an average or median, usually with a decreased associated measurement uncertainty.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 1</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">In the GUM, the terms “result of measurement” and “estimate of the value of the measurand” or just “estimate of the measurand” are used for ‘measured quantity value’</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 4</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">In the case where the range of the true quantity values believed to represent the measurand is not small compared with the measurement uncertainty, a measured quantity value is often an estimate of an average or median of the set of true quantity values</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 3</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuredQuantityValue"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">When the range of the true quantity values believed to represent the measurand is small compared with the measurement uncertainty, a measured quantity value can be considered to be an estimate of an essentially unique true quantity value and is often an average or median of individual measured quantity values obtained through replicate measurements</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 2</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     
 
@@ -3511,57 +3499,57 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-02T10:54:03Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:7a401850-ea0b-4a97-83f8-180931573f3e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:16:04Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/2.1.html"/>
-        <rdfs:comment xml:lang="en">&quot;experimentally obtaining&quot; in the definition is to be interpreted in a broad sense of including not only direct physical comparison, but also of using models and calculations that are based on theoretical considerations</rdfs:comment>
-        <rdfs:comment xml:lang="en">Here &quot;quantity value&quot; can be replaced with &quot;value&quot; without ambiguity: &quot;process of experimentally obtaining one or more values that can reasonably be attributed to a quantity&quot;</rdfs:comment>
-        <rdfs:comment xml:lang="en">Measurement does not apply to nominal properties</rdfs:comment>
-        <rdfs:comment xml:lang="en">Measurement implies comparison of quantities or counting of entities</rdfs:comment>
-        <rdfs:comment xml:lang="en">Measurement presupposes a description of the quantity commensurate with the intended use of a measurement result, a measurement procedure, and a calibrated measuring system operating according to the specified measurement procedure, including the measurement conditions</rdfs:comment>
-        <rdfs:comment xml:lang="en">This Note is intended to explain what is needed in order to carry out a measurement. It is first necessary to choose a target measurement uncertainty, and then choose an appropriate procedure and measuring system for performing the measurement in order not to exceed the target uncertainty</rdfs:comment>
         <rdfs:label xml:lang="en">Measurement</rdfs:label>
         <skos:definition xml:lang="en">Process of experimentally obtaining one or more Quantity Values that can reasonably be attributed to a Quantity</skos:definition>
+        <skos:note xml:lang="en">&quot;experimentally obtaining&quot; in the definition is to be interpreted in a broad sense of including not only direct physical comparison, but also of using models and calculations that are based on theoretical considerations</skos:note>
+        <skos:note xml:lang="en">Here &quot;quantity value&quot; can be replaced with &quot;value&quot; without ambiguity: &quot;process of experimentally obtaining one or more values that can reasonably be attributed to a quantity&quot;</skos:note>
+        <skos:note xml:lang="en">This Note is intended to explain what is needed in order to carry out a measurement. It is first necessary to choose a target measurement uncertainty, and then choose an appropriate procedure and measuring system for performing the measurement in order not to exceed the target uncertainty</skos:note>
         <skos:prefLabel xml:lang="en">Measurement</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Measurement does not apply to nominal properties</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Measurement implies comparison of quantities or counting of entities</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Measurement presupposes a description of the quantity commensurate with the intended use of a measurement result, a measurement procedure, and a calibrated measuring system operating according to the specified measurement procedure, including the measurement conditions</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
         <owl:annotatedTarget xml:lang="en">&quot;experimentally obtaining&quot; in the definition is to be interpreted in a broad sense of including not only direct physical comparison, but also of using models and calculations that are based on theoretical considerations</owl:annotatedTarget>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-12-03</dcterms:created>
-        <rdfs:comment xml:lang="en">ANNOTATION (informative)</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-12-03</dcterms:modified>
+        <skos:note xml:lang="en">informative</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
         <owl:annotatedTarget xml:lang="en">Here &quot;quantity value&quot; can be replaced with &quot;value&quot; without ambiguity: &quot;process of experimentally obtaining one or more values that can reasonably be attributed to a quantity&quot;</owl:annotatedTarget>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2014-06-05</dcterms:created>
-        <rdfs:comment xml:lang="en">ANNOTATION (informative)</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2014-06-05</dcterms:modified>
+        <skos:note xml:lang="en">informative</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Measurement does not apply to nominal properties</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 1</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Measurement implies comparison of quantities or counting of entities</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 2</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Measurement presupposes a description of the quantity commensurate with the intended use of a measurement result, a measurement procedure, and a calibrated measuring system operating according to the specified measurement procedure, including the measurement conditions</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 3</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
         <owl:annotatedTarget xml:lang="en">This Note is intended to explain what is needed in order to carry out a measurement. It is first necessary to choose a target measurement uncertainty, and then choose an appropriate procedure and measuring system for performing the measurement in order not to exceed the target uncertainty</owl:annotatedTarget>
-        <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-12-03</dcterms:created>
-        <rdfs:comment xml:lang="en">ANNOTATION (informative)</rdfs:comment>
-        <rdfs:comment xml:lang="en">for Note 3</rdfs:comment>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-12-03</dcterms:modified>
+        <skos:note xml:lang="en">informative</skos:note>
+        <skos:scopeNote xml:lang="en">for Note 3</skos:scopeNote>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Measurement does not apply to nominal properties</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Measurement implies comparison of quantities or counting of entities</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Measurement"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Measurement presupposes a description of the quantity commensurate with the intended use of a measurement result, a measurement procedure, and a calibrated measuring system operating according to the specified measurement procedure, including the measurement conditions</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     
 
@@ -3578,33 +3566,33 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-06T21:01:25Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b30a4fbd-bcfb-4b02-9bdf-4f3ab77ffce3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:07:13Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/2.9.html"/>
-        <rdfs:comment xml:lang="en">A measurement result generally contains “relevant information” about the set of quantity values, such that some may be more representative of the measurand than others. This may be expressed in the form of a probability density function (PDF).</rdfs:comment>
-        <rdfs:comment xml:lang="en">A measurement result is generally expressed as a single measured quantity value and a measurement uncertainty. If the measurement uncertainty is considered to be negligible for some purpose, the measurement result may be expressed as a single measured quantity value. In many fields, this is the common way of expressing a measurement result.</rdfs:comment>
-        <rdfs:comment xml:lang="en">In the traditional literature and in the previous edition of the VIM, measurement result was defined as a value attributed to a measurand and explained to mean an indication, or an uncorrected result, or a corrected result, according to the context.</rdfs:comment>
         <rdfs:label xml:lang="en">Measurement Result</rdfs:label>
         <skos:altLabel xml:lang="en">Result of measurement</skos:altLabel>
         <skos:definition xml:lang="en">Set of Quantity Values being attributed to a measurand together with any other available relevant information</skos:definition>
         <skos:prefLabel xml:lang="en">Measurement Result</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A measurement result generally contains “relevant information” about the set of quantity values, such that some may be more representative of the measurand than others. This may be expressed in the form of a probability density function (PDF).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">A measurement result is generally expressed as a single measured quantity value and a measurement uncertainty. If the measurement uncertainty is considered to be negligible for some purpose, the measurement result may be expressed as a single measured quantity value. In many fields, this is the common way of expressing a measurement result.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">In the traditional literature and in the previous edition of the VIM, measurement result was defined as a value attributed to a measurand and explained to mean an indication, or an uncorrected result, or a corrected result, according to the context.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasurementResult"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">A measurement result generally contains “relevant information” about the set of quantity values, such that some may be more representative of the measurand than others. This may be expressed in the form of a probability density function (PDF).</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 1</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasurementResult"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">A measurement result is generally expressed as a single measured quantity value and a measurement uncertainty. If the measurement uncertainty is considered to be negligible for some purpose, the measurement result may be expressed as a single measured quantity value. In many fields, this is the common way of expressing a measurement result.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 2</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasurementResult"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">In the traditional literature and in the previous edition of the VIM, measurement result was defined as a value attributed to a measurand and explained to mean an indication, or an uncorrected result, or a corrected result, according to the context.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 3</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     
 
@@ -3616,25 +3604,25 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:32:43Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:563eba12-7614-4736-bd76-f1a1bc929eab"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:08:27Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/3.1.html"/>
-        <rdfs:comment xml:lang="en">A measuring instrument may be an indicating measuring instrument or a material measure</rdfs:comment>
-        <rdfs:comment xml:lang="en">A measuring instrument that can be used alone is a measuring system</rdfs:comment>
         <rdfs:label xml:lang="en">Measuring Instrument</rdfs:label>
         <skos:definition xml:lang="en">Device used for making Measurements, alone or in conjunction with one or more supplementary devices</skos:definition>
         <skos:prefLabel xml:lang="en">Measuring Instrument</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A measuring instrument may be an indicating measuring instrument or a material measure</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">A measuring instrument that can be used alone is a measuring system</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuringInstrument"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">A measuring instrument may be an indicating measuring instrument or a material measure</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 2</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuringInstrument"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">A measuring instrument that can be used alone is a measuring system</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE 1</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -3646,18 +3634,20 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T14:38:51Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:1a423aab-253c-4b21-9dbd-19d61faa94d7"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:09:57Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/3.2.html"/>
-        <rdfs:comment xml:lang="en">A measuring system may consist of only one measuring instrument</rdfs:comment>
         <rdfs:label xml:lang="en">Measuring System</rdfs:label>
         <skos:definition xml:lang="en">Set of one or more Measuring Instruments and often other devices, including any reagent and supply, assembled and adapted to give information used to generate measured Quantity Values within specified intervals for Quantities of specified Kinds</skos:definition>
+        <skos:note xml:lang="en">Here &quot;measured quantity values&quot; can be replaced by &quot;measured values&quot; without ambiguity: &quot;set of one or more measuring instruments and often other devices, including any reagent and supply, assembled and adapted to give information used to generate measured values within specified intervals for quantities of specified kinds&quot;</skos:note>
         <skos:prefLabel xml:lang="en">Measuring System</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A measuring system may consist of only one measuring instrument</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/MeasuringSystem"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">A measuring system may consist of only one measuring instrument</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">NOTE</rdfs:comment>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#note"/>
+        <owl:annotatedTarget xml:lang="en">Here &quot;measured quantity values&quot; can be replaced by &quot;measured values&quot; without ambiguity: &quot;set of one or more measuring instruments and often other devices, including any reagent and supply, assembled and adapted to give information used to generate measured values within specified intervals for quantities of specified kinds&quot;</owl:annotatedTarget>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2014-12-02</dcterms:modified>
+        <skos:note xml:lang="en">informative</skos:note>
     </owl:Axiom>
     
 
@@ -3669,7 +3659,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:ac3fa707-b0be-4a9d-915a-c43f46330a25"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:10:45Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:15944:-1:ed-3:v1:term:3.28"/>
         <rdfs:label xml:lang="en">Natural Person</rdfs:label>
         <skos:altLabel xml:lang="en">Human</skos:altLabel>
@@ -3681,7 +3671,7 @@
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/NaturalPerson"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Person who is a human being, i.e., an individual, who acts as a distinct indivisible entity or is considered as such</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Description modified from the referenced source to make &apos;Natural Person&apos; the preferred term, instead of &apos;Individual&apos;</rdfs:comment>
+        <skos:note xml:lang="en">Description modified from the referenced source to make &apos;Natural Person&apos; the preferred term, instead of &apos;Individual&apos;</skos:note>
     </owl:Axiom>
     
 
@@ -3720,7 +3710,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:270ee6a4-0c9b-4ce8-bf5a-907e872e4a3e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:17:02Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:isbn:9780421634503"/>
         <rdfs:label xml:lang="en">Offer</rdfs:label>
         <skos:definition xml:lang="en">Expression of willingness to contract on certain terms, made with the intention that it shall become binding as soon as it is accepted by the person to whom it is addressed</skos:definition>
@@ -3730,7 +3720,7 @@
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Offer"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget rdf:resource="urn:isbn:9780421634503"/>
-        <rdfs:comment xml:lang="en">Chapter 2, Section 1</rdfs:comment>
+        <skos:note xml:lang="en">Chapter 2, Section 1</skos:note>
     </owl:Axiom>
     
 
@@ -3811,33 +3801,28 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-28T16:35:44Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:06155ec9-e8a3-4323-af0d-d6f32687bb20"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:20:14Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.2.1"/>
-        <rdfs:comment xml:lang="en-gb">The concept of organisation includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, public or private, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</rdfs:comment>
-        <rdfs:comment xml:lang="en">This constitutes one of the common terms and core definitions for ISO management system standards given in Annex SL of the Consolidated ISO Supplement to the ISO/IEC Directives, Part 1. The original definition has been modified by modifying Note 1 to entry.</rdfs:comment>
         <rdfs:label xml:lang="en-gb">Organisation</rdfs:label>
         <rdfs:label xml:lang="en-us">Organization</rdfs:label>
         <skos:definition xml:lang="en">Person or group of people that has its own functions with responsibilities, authorities and relationships to achieve its objectives</skos:definition>
         <skos:prefLabel xml:lang="en-gb">Organisation</skos:prefLabel>
         <skos:prefLabel xml:lang="en-us">Organization</skos:prefLabel>
+        <skos:scopeNote xml:lang="en-gb">The concept of organisation includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, public or private, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">This constitutes one of the common terms and core definitions for ISO management system standards given in Annex SL of the Consolidated ISO Supplement to the ISO/IEC Directives, Part 1. The original definition has been modified by modifying Note 1 to entry.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
-        <owl:annotatedTarget rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.2.1"/>
-        <rdfs:comment xml:lang="en">Modified — Note 1 to entry has had the text &quot;, whether incorporated or not&quot; removed, and the text &quot;, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)&quot; appended</rdfs:comment>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en-gb">The concept of organisation includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, public or private, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+        <skos:note xml:lang="en">Modified — &quot;, whether incorporated or not&quot; removed, &quot;, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)&quot; appended</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">This constitutes one of the common terms and core definitions for ISO management system standards given in Annex SL of the Consolidated ISO Supplement to the ISO/IEC Directives, Part 1. The original definition has been modified by modifying Note 1 to entry.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     
 
@@ -4056,33 +4041,33 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:1ef827ec-12a3-43e6-88de-d149d3be2b8e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:14662:ed-3:v1:term:3.24"/>
-        <rdfs:comment xml:lang="en-gb">Minimum and common external constraints applicable to a business transaction often require one to differentiate among three common sub-types of Person, namely &quot;individual&quot;, &quot;organisation&quot;, and &quot;public administration&quot;</rdfs:comment>
-        <rdfs:comment xml:lang="en-gb">Person is capitalised to indicate that it is being utilised as formally defined in the standards and to differentiate it from its day-to-day use</rdfs:comment>
-        <rdfs:comment xml:lang="en">Synonyms for &quot;legal person&quot; include &quot;artificial person&quot;, &quot;body corporate&quot;, etc., depending on the terminology used in competent jurisdictions</rdfs:comment>
         <rdfs:label xml:lang="en">Person</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://www.law.cornell.edu/wex/legal_person"/>
         <skos:definition xml:lang="en-gb">Entity, i.e. a natural or legal person, recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</skos:definition>
         <skos:prefLabel xml:lang="en">Person</skos:prefLabel>
+        <skos:scopeNote xml:lang="en-gb">Minimum and common external constraints applicable to a business transaction often require one to differentiate among three common sub-types of Person, namely &quot;individual&quot;, &quot;organisation&quot;, and &quot;public administration&quot;</skos:scopeNote>
+        <skos:scopeNote xml:lang="en-gb">Person is capitalised to indicate that it is being utilised as formally defined in the standards and to differentiate it from its day-to-day use</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Synonyms for &quot;legal person&quot; include &quot;artificial person&quot;, &quot;body corporate&quot;, etc., depending on the terminology used in competent jurisdictions</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en-gb">Minimum and common external constraints applicable to a business transaction often require one to differentiate among three common sub-types of Person, namely &quot;individual&quot;, &quot;organisation&quot;, and &quot;public administration&quot;</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en-gb">Person is capitalised to indicate that it is being utilised as formally defined in the standards and to differentiate it from its day-to-day use</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Person"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Synonyms for &quot;legal person&quot; include &quot;artificial person&quot;, &quot;body corporate&quot;, etc., depending on the terminology used in competent jurisdictions</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -4214,53 +4199,53 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-15T16:16:08Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:9030b8e4-ab54-4848-826a-732405cd720e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.4.1"/>
-        <rdfs:comment xml:lang="en">A process where the conformity of the resulting output cannot be readily or economically validated is frequently referred to as a “special process”.</rdfs:comment>
-        <rdfs:comment xml:lang="en">Inputs to a process are generally the outputs of other processes and outputs of a process are generally the inputs to other processes.</rdfs:comment>
-        <rdfs:comment xml:lang="en">Processes in an organisation are generally planned and carried out under controlled conditions to add value.</rdfs:comment>
-        <rdfs:comment xml:lang="en">This constitutes one of the common terms and core definitions for ISO management system standards given in Annex SL of the Consolidated ISO Supplement to the ISO/IEC Directives, Part 1. The original definition has been modified to prevent circularity between process and output, and Notes 1 to 5 to entry have been added.</rdfs:comment>
-        <rdfs:comment xml:lang="en">Two or more interrelated and interacting processes in series can also be referred to as a process.</rdfs:comment>
-        <rdfs:comment xml:lang="en">Whether the “intended result” of a process is called output, product or service depends on the context of the reference.</rdfs:comment>
         <rdfs:label xml:lang="en">Process</rdfs:label>
         <skos:definition xml:lang="en">Set of interrelated or interacting activities that use inputs to deliver an intended result</skos:definition>
         <skos:prefLabel xml:lang="en">Process</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A process where the conformity of the resulting output cannot be readily or economically validated is frequently referred to as a “special process”.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Inputs to a process are generally the outputs of other processes and outputs of a process are generally the inputs to other processes.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Processes in an organisation are generally planned and carried out under controlled conditions to add value.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">This constitutes one of the common terms and core definitions for ISO management system standards given in Annex SL of the Consolidated ISO Supplement to the ISO/IEC Directives, Part 1. The original definition has been modified to prevent circularity between process and output, and Notes 1 to 5 to entry have been added.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Two or more interrelated and interacting processes in series can also be referred to as a process.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Whether the “intended result” of a process is called output, product or service depends on the context of the reference.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">A process where the conformity of the resulting output cannot be readily or economically validated is frequently referred to as a “special process”.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 5 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Inputs to a process are generally the outputs of other processes and outputs of a process are generally the inputs to other processes.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Processes in an organisation are generally planned and carried out under controlled conditions to add value.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 4 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">This constitutes one of the common terms and core definitions for ISO management system standards given in Annex SL of the Consolidated ISO Supplement to the ISO/IEC Directives, Part 1. The original definition has been modified to prevent circularity between process and output, and Notes 1 to 5 to entry have been added.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 6 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Two or more interrelated and interacting processes in series can also be referred to as a process.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Whether the “intended result” of a process is called output, product or service depends on the context of the reference.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -4273,32 +4258,32 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-20T12:22:15Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:5b8644c2-5c79-49f9-8a43-3913feb026fd"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.7.6"/>
-        <rdfs:comment xml:lang="en">Hardware is tangible and its amount is a countable characteristic (e.g. tyres). Processed materials are tangible and their amount is a continuous characteristic (e.g. fuel and soft drinks). Hardware and processed materials are often referred to as goods. Software consists of information regardless of delivery medium (e.g. computer programme, mobile phone app, instruction manual, dictionary content, musical composition copyright, driver&apos;s license).</rdfs:comment>
-        <rdfs:comment xml:lang="en">Production of a product is achieved without any transaction necessarily taking place between provider and customer, but can often involve this service element upon its delivery to the customer</rdfs:comment>
-        <rdfs:comment xml:lang="en">The dominant element of a product is that it is generally tangible</rdfs:comment>
         <rdfs:label xml:lang="en">Product</rdfs:label>
         <skos:definition xml:lang="en">Output of an organisation that can be produced without any transaction taking place between the organisation and the customer</skos:definition>
         <skos:prefLabel xml:lang="en">Product</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Hardware is tangible and its amount is a countable characteristic (e.g. tyres). Processed materials are tangible and their amount is a continuous characteristic (e.g. fuel and soft drinks). Hardware and processed materials are often referred to as goods. Software consists of information regardless of delivery medium (e.g. computer programme, mobile phone app, instruction manual, dictionary content, musical composition copyright, driver&apos;s license).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Production of a product is achieved without any transaction necessarily taking place between provider and customer, but can often involve this service element upon its delivery to the customer</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The dominant element of a product is that it is generally tangible</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Product"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Hardware is tangible and its amount is a countable characteristic (e.g. tyres). Processed materials are tangible and their amount is a continuous characteristic (e.g. fuel and soft drinks). Hardware and processed materials are often referred to as goods. Software consists of information regardless of delivery medium (e.g. computer programme, mobile phone app, instruction manual, dictionary content, musical composition copyright, driver&apos;s license).</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Product"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Production of a product is achieved without any transaction necessarily taking place between provider and customer, but can often involve this service element upon its delivery to the customer</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Product"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">The dominant element of a product is that it is generally tangible</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     
 
@@ -4317,19 +4302,13 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:d3ee207a-7033-431b-a9d1-fa3cc73e7676"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:41:59Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22300:ed-3:v1:term:3.1.191"/>
-        <rdfs:comment xml:lang="en">Manufactured items, car insurance, community nursing</rdfs:comment>
         <rdfs:label xml:lang="en">Product Or Service</rdfs:label>
         <skos:definition xml:lang="en-gb">Output or outcome provided by an organisation to interested parties</skos:definition>
+        <skos:example xml:lang="en">Manufactured items, car insurance, community nursing</skos:example>
         <skos:prefLabel xml:lang="en">Product Or Service</skos:prefLabel>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">Manufactured items, car insurance, community nursing</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">EXAMPLE</rdfs:comment>
-    </owl:Axiom>
     
 
 
@@ -4525,45 +4504,140 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-04T13:43:44Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:4a1fe34f-9ee0-4509-92d0-f5d17383b108"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:53:09Z</dcterms:modified>
         <dcterms:source rdf:resource="https://jcgm.bipm.org/vim/en/1.19.html"/>
-        <rdfs:comment xml:lang="en">EXAMPLE 1 Length of a given rod:
-5.34 m or 534 cm
-EXAMPLE 2 Mass of a given body:
-0.152 kg or 152 g
-EXAMPLE 3 Curvature of a given arc:
-112 m1
-EXAMPLE 4 Celsius temperature of a given sample:
-5 °C
-EXAMPLE 5 Electric impedance of a given circuit element at a given frequency, where j is the imaginary unit:
-(7  3j) 
-EXAMPLE 6 Refractive index of a given sample of glass:
-1.32
-EXAMPLE 7 Rockwell C hardness of a given sample:
-43.5 HRC
-EXAMPLE 8 Mass fraction of cadmium in a given sample of copper:
-3 μg/kg or 3  10−9
-EXAMPLE 9 Molality of Pb2+ in a given sample of water:
-1.76 μmol/kg
-EXAMPLE 10 Arbitrary amount-of-substance concentration of lutropin in a given sample of human blood plasma (WHO International Standard 80/552 used as a calibrator):
-5.0 IU/l, where “IU” stands for “WHO International Unit”
-NOTE 1 According to the type of reference, a quantity value is either
-— a product of a number and a measurement unit (see Examples 1, 2, 3, 4, 5, 8 and 9); the measurement unit one is generally not indicated for quantities of dimension one (see Examples 6 and 8), or
-— a number and a reference to a measurement
-procedure (see Example 7), or
-— a number and a reference material (see Example
-10).
-NOTE 2 The number can be complex (see Example 5).
-NOTE 3 A quantity value can be presented in more than one way (see Examples 1, 2 and 8).
-NOTE 4 In the case of vector or tensor quantities, each component has a quantity value.
-EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; Fz) = (31.5; 43.2; 17.0) N.</rdfs:comment>
         <rdfs:label xml:lang="en">Quantity Value</rdfs:label>
         <skos:altLabel xml:lang="en">Dimension</skos:altLabel>
         <skos:altLabel xml:lang="en">Value</skos:altLabel>
         <skos:altLabel xml:lang="en">Value of a quantity</skos:altLabel>
         <skos:definition xml:lang="en">Number and reference together expressing magnitude of a Quantity</skos:definition>
+        <skos:example xml:lang="en">Arbitrary amount-of-substance concentration of lutropin in a given sample of human blood plasma (WHO International Standard 80/552 used as a calibrator):
+5.0 IU/l, where “IU” stands for “WHO International Unit&quot;</skos:example>
+        <skos:example xml:lang="en">Celsius temperature of a given sample:
+−5 °C</skos:example>
+        <skos:example xml:lang="en">Curvature of a given arc:
+112 m−1</skos:example>
+        <skos:example xml:lang="en">Electric impedance of a given circuit element at a given frequency, where j is the imaginary unit:
+(7 + 3j) Ω</skos:example>
+        <skos:example xml:lang="en">Length of a given rod:
+5.34 m or 534 cm</skos:example>
+        <skos:example xml:lang="en">Mass fraction of cadmium in a given sample of copper:
+3 µg/kg or 3 ·10−9</skos:example>
+        <skos:example xml:lang="en">Mass of a given body:
+0.152 kg or 152 g</skos:example>
+        <skos:example xml:lang="en">Molality of Pb2+ in a given sample of water:
+1.76 µmol/kg</skos:example>
+        <skos:example xml:lang="en">Refractive index of a given sample of glass:
+1.32</skos:example>
+        <skos:example xml:lang="en">Rockwell C hardness of a given sample:
+43.5 HRC</skos:example>
         <skos:prefLabel xml:lang="en">Quantity Value</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A quantity value can be presented in more than one way (see Examples 1, 2 and 8)</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">According to the type of reference, a quantity value is either
+- a product of a number and a measurement unit (see Examples 1, 2, 3, 4, 5, 8 and 9); the measurement unit one is generally not indicated for quantities of dimension one (see Examples 6 and 8), or
+- a number and a reference to a measurement procedure (see Example 7), or
+- a number and a reference material (see Example 10)</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">In the case of vector or tensor quantities, each component has a quantity value</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The number can be complex (see Example 5)</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Arbitrary amount-of-substance concentration of lutropin in a given sample of human blood plasma (WHO International Standard 80/552 used as a calibrator):
+5.0 IU/l, where “IU” stands for “WHO International Unit&quot;</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Celsius temperature of a given sample:
+−5 °C</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Curvature of a given arc:
+112 m−1</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Electric impedance of a given circuit element at a given frequency, where j is the imaginary unit:
+(7 + 3j) Ω</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Length of a given rod:
+5.34 m or 534 cm</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Mass fraction of cadmium in a given sample of copper:
+3 µg/kg or 3 ·10−9</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">8</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Mass of a given body:
+0.152 kg or 152 g</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Molality of Pb2+ in a given sample of water:
+1.76 µmol/kg</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">9</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Refractive index of a given sample of glass:
+1.32</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#example"/>
+        <owl:annotatedTarget xml:lang="en">Rockwell C hardness of a given sample:
+43.5 HRC</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">A quantity value can be presented in more than one way (see Examples 1, 2 and 8)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">According to the type of reference, a quantity value is either
+- a product of a number and a measurement unit (see Examples 1, 2, 3, 4, 5, 8 and 9); the measurement unit one is generally not indicated for quantities of dimension one (see Examples 6 and 8), or
+- a number and a reference to a measurement procedure (see Example 7), or
+- a number and a reference material (see Example 10)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">In the case of vector or tensor quantities, each component has a quantity value</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
+        <skos:example xml:lang="en">Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; Fz) = (−31.5; 43.2; 17.0) N</skos:example>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/QuantityValue"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The number can be complex (see Example 5)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
     
 
 
@@ -4594,24 +4668,24 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:e0b33311-5b98-4154-8b7e-b590c89faada"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:37:42Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:22301:ed-2:v1:term:3.29"/>
-        <rdfs:comment xml:lang="en">ISO 22300:2018, 3.193, modified — The definition has been replaced</rdfs:comment>
+        <dcterms:source xml:lang="en">ISO 22300:2018, 3.193</dcterms:source>
         <rdfs:label xml:lang="en">Resource</rdfs:label>
         <skos:definition xml:lang="en-gb">Asset (including plant and equipment), person, skill, technology, premises, and supplies and information (whether electronic or not) that an organisation has to have available to use, when needed, in order to operate and meet its objective</skos:definition>
         <skos:prefLabel xml:lang="en">Resource</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Resource"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
-        <owl:annotatedTarget xml:lang="en">ISO 22300:2018, 3.193, modified — The definition has been replaced</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
+        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
+        <owl:annotatedTarget xml:lang="en">ISO 22300:2018, 3.193</owl:annotatedTarget>
+        <skos:note xml:lang="en">modified — The definition has been replaced</skos:note>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Resource"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en-gb">Asset (including plant and equipment), person, skill, technology, premises, and supplies and information (whether electronic or not) that an organisation has to have available to use, when needed, in order to operate and meet its objective</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Modified - plural nouns have been converted to singular</rdfs:comment>
+        <skos:note xml:lang="en">Modified - plural nouns have been converted to singular</skos:note>
     </owl:Axiom>
     
 
@@ -4623,39 +4697,39 @@ EXAMPLE Force acting on a given particle, e.g. in Cartesian components (Fx; Fy; 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-20T12:22:42Z</dcterms:created>
         <dcterms:creator rdf:resource="http://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:6ab4c5f5-4dfb-4bd2-a0ad-c7cbd59bc166"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.7.7"/>
-        <rdfs:comment xml:lang="en">A service is generally experienced by the customer</rdfs:comment>
-        <rdfs:comment xml:lang="en">Provision of a service can involve, for example, the following: —   an activity performed on a customer-supplied tangible product (e.g. a car to be repaired); —   an activity performed on a customer-supplied intangible product (e.g. the income statement needed to prepare a tax return); —   the delivery of an intangible product (e.g. the delivery of information in the context of knowledge transmission); —   the creation of ambience for the customer (e.g. in hotels and restaurants);</rdfs:comment>
-        <rdfs:comment xml:lang="en-gb">Service often involves activities at the interface with the customer to establish customer requirements as well as upon delivery of the service and can involve a continuing relationship such as banks, accountancies or public organisations, e.g. schools or hospitals.</rdfs:comment>
-        <rdfs:comment xml:lang="en">The dominant elements of a service are generally intangible</rdfs:comment>
         <rdfs:label xml:lang="en">Service</rdfs:label>
         <skos:definition xml:lang="en-gb">Output of an organisation with at least one activity necessarily performed between the organisation and the customer</skos:definition>
         <skos:prefLabel xml:lang="en">Service</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A service is generally experienced by the customer</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Provision of a service can involve, for example, the following: —   an activity performed on a customer-supplied tangible product (e.g. a car to be repaired); —   an activity performed on a customer-supplied intangible product (e.g. the income statement needed to prepare a tax return); —   the delivery of an intangible product (e.g. the delivery of information in the context of knowledge transmission); —   the creation of ambience for the customer (e.g. in hotels and restaurants);</skos:scopeNote>
+        <skos:scopeNote xml:lang="en-gb">Service often involves activities at the interface with the customer to establish customer requirements as well as upon delivery of the service and can involve a continuing relationship such as banks, accountancies or public organisations, e.g. schools or hospitals.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The dominant elements of a service are generally intangible</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Service"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">A service is generally experienced by the customer</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 4 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Service"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Provision of a service can involve, for example, the following: —   an activity performed on a customer-supplied tangible product (e.g. a car to be repaired); —   an activity performed on a customer-supplied intangible product (e.g. the income statement needed to prepare a tax return); —   the delivery of an intangible product (e.g. the delivery of information in the context of knowledge transmission); —   the creation of ambience for the customer (e.g. in hotels and restaurants);</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Service"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en-gb">Service often involves activities at the interface with the customer to establish customer requirements as well as upon delivery of the service and can involve a continuing relationship such as banks, accountancies or public organisations, e.g. schools or hospitals.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Service"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">The dominant elements of a service are generally intangible</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
