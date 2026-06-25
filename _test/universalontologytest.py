@@ -438,7 +438,7 @@ class UniversalOntologyTest(XmlTestCase):
 					
 					creatorResourceValue = elem.find('{http://purl.org/dc/terms/}creator').get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
 					
-					if not (creatorResourceValue.startswith('http://orcid.org/') or creatorResourceValue.startswith('https://orcid.org/')):
+					if not creatorResourceValue.startswith('https://orcid.org/'):
 						self.fail('dcterms:creator "%s" is not an ORCID iD' % creatorResourceValue)
 					
 					# Created at date and time
@@ -483,7 +483,7 @@ class UniversalOntologyTest(XmlTestCase):
 						
 					for contributor in elem.iterfind('{http://purl.org/dc/terms/}contributor'):
 						contributorResourceValue = contributor.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
-						if not (contributorResourceValue.startswith('http://orcid.org/') or contributorResourceValue.startswith('https://orcid.org/')):
+						if not contributorResourceValue.startswith('https://orcid.org/'):
 							self.fail('dcterms:contributor "%s" is not an ORCID iD' % contributorResourceValue)
 					
 					if elem.tag in ['{http://www.w3.org/2002/07/owl#}Class', '{http://www.w3.org/2002/07/owl#}NamedIndividual']:
