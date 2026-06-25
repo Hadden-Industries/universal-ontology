@@ -202,8 +202,7 @@ class UniversalOntologyTest(XmlTestCase):
 			'{http://www.w3.org/2004/02/skos/core#}note',
 			'{http://www.w3.org/2004/02/skos/core#}prefLabel',
 			'{http://www.w3.org/2004/02/skos/core#}scopeNote',
-			'{https://haddenindustries.com/ontology/universal/core/}acronym',
-			'{https://haddenindustries.com/ontology/universal/core/}synonym'
+			'{https://haddenindustries.com/ontology/universal/core/}acronym'
 		]:
 			for instance in root.iter(global_lang_tag):
 				if instance.get('{http://www.w3.org/XML/1998/namespace}lang') is None:
@@ -346,6 +345,17 @@ class UniversalOntologyTest(XmlTestCase):
 						is_distribution = True
 				
 				if is_dataset:
+					if not entityRdfAbout.startswith('https://haddenindustries.com/ontology/dataset/'):
+						self.fail('owl:NamedIndividual Dataset "%s" URI does not start with "https://haddenindustries.com/ontology/dataset/"' % entityRdfAbout)
+					else:
+						uuid_str = entityRdfAbout[len('https://haddenindustries.com/ontology/dataset/'):]
+						try:
+							uuid_val = UUID(uuid_str, version = 4)
+							if str(uuid_val) != uuid_str:
+								self.fail('owl:NamedIndividual Dataset "%s" URI does not use lowercase canonical string format for UUID' % entityRdfAbout)
+						except ValueError:
+							self.fail('owl:NamedIndividual Dataset "%s" URI does not end with a valid version 4 UUID' % entityRdfAbout)
+
 					has_valid_theme = False
 					for theme in elem.iterfind('{http://www.w3.org/ns/dcat#}theme'):
 						theme_resource = theme.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource')
@@ -356,9 +366,18 @@ class UniversalOntologyTest(XmlTestCase):
 					if not has_valid_theme:
 						self.fail('owl:NamedIndividual Dataset "%s" is missing a dcat:theme with a non-empty rdf:resource' % entityRdfAbout)
 						
-					title_elem = elem.find('{http://purl.org/dc/terms/}title')
-					if title_elem is None or not title_elem.text or not title_elem.text.strip():
-						self.fail('owl:NamedIndividual Dataset "%s" is missing a dcterms:title child element with a non-empty value' % entityRdfAbout)
+					titles = elem.findall('{http://purl.org/dc/terms/}title')
+					if not titles:
+						self.fail('owl:NamedIndividual Dataset "%s" is missing a dcterms:title child element' % entityRdfAbout)
+					title_set = set()
+					for t in titles:
+						t_text = t.text.strip() if t.text else ''
+						if not t_text:
+							self.fail('owl:NamedIndividual Dataset "%s" has a dcterms:title with an empty value' % entityRdfAbout)
+						t_lang = t.get('{http://www.w3.org/XML/1998/namespace}lang')
+						if (t_text, t_lang) in title_set:
+							self.fail('owl:NamedIndividual Dataset "%s" has duplicate dcterms:title "%s" for language "%s"' % (entityRdfAbout, t_text, t_lang))
+						title_set.add((t_text, t_lang))
 						
 					label_elem = elem.find('{http://www.w3.org/2000/01/rdf-schema#}label')
 					if label_elem is None or not label_elem.text or not label_elem.text.strip():
@@ -369,6 +388,17 @@ class UniversalOntologyTest(XmlTestCase):
 						self.fail('owl:NamedIndividual Dataset "%s" is missing a dcterms:description child element with a non-empty value' % entityRdfAbout)
 						
 				if is_distribution:
+					if not entityRdfAbout.startswith('https://haddenindustries.com/ontology/distribution/'):
+						self.fail('owl:NamedIndividual Distribution "%s" URI does not start with "https://haddenindustries.com/ontology/distribution/"' % entityRdfAbout)
+					else:
+						uuid_str = entityRdfAbout[len('https://haddenindustries.com/ontology/distribution/'):]
+						try:
+							uuid_val = UUID(uuid_str, version = 4)
+							if str(uuid_val) != uuid_str:
+								self.fail('owl:NamedIndividual Distribution "%s" URI does not use lowercase canonical string format for UUID' % entityRdfAbout)
+						except ValueError:
+							self.fail('owl:NamedIndividual Distribution "%s" URI does not end with a valid version 4 UUID' % entityRdfAbout)
+
 					access_url_elem = elem.find('{http://www.w3.org/ns/dcat#}accessURL')
 					if access_url_elem is None:
 						self.fail('owl:NamedIndividual Distribution "%s" is missing a dcat:accessURL child element' % entityRdfAbout)
@@ -512,6 +542,15 @@ class UniversalOntologyTest(XmlTestCase):
 						
 						# Descriptions
 						self.assertXpathsUniqueValue(elem, ['./dcterms:description/@xml:lang'])
+						
+						# Acronyms
+						acronym_set = set()
+						for ac in elem.iterfind('{https://haddenindustries.com/ontology/universal/core/}acronym'):
+							ac_text = ac.text.strip() if ac.text else ''
+							ac_lang = ac.get('{http://www.w3.org/XML/1998/namespace}lang')
+							if (ac_text, ac_lang) in acronym_set:
+								self.fail('Entity "%s" has duplicate uc:acronym "%s" for language "%s"' % (entityRdfAbout, ac_text, ac_lang))
+							acronym_set.add((ac_text, ac_lang))
 						
 				except:
 					print(entityRdfAboutTail)
