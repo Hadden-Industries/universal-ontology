@@ -101,10 +101,16 @@
 
             <!-- Only retain the original rdfs:comment if it contains substantive text beyond the extracted notes -->
             <xsl:if test="normalize-space($cleaned-text) != ''">
+              <xsl:variable name="trimmed-cleaned-text">
+                <xsl:call-template name="trim">
+                  <xsl:with-param name="text" select="$cleaned-text"/>
+                </xsl:call-template>
+              </xsl:variable>
+              
               <xsl:copy>
                 <xsl:apply-templates select="@*"/>
                 <xsl:call-template name="escape-entities">
-                  <xsl:with-param name="text" select="normalize-space($cleaned-text)"/>
+                  <xsl:with-param name="text" select="$trimmed-cleaned-text"/>
                 </xsl:call-template>
               </xsl:copy>
               <!-- Add spacing after the retained comment -->
@@ -180,12 +186,18 @@
               </xsl:call-template>
             </xsl:variable>
 
+            <xsl:variable name="trimmed-note">
+              <xsl:call-template name="trim">
+                <xsl:with-param name="text" select="$note-content"/>
+              </xsl:call-template>
+            </xsl:variable>
+
             <!-- Inject skos:scopeNote sibling formatting -->
             <xsl:if test="$mode = 'scope-notes'">
               <skos:scopeNote>
                 <xsl:copy-of select="$lang-node"/>
                 <xsl:call-template name="escape-entities">
-                  <xsl:with-param name="text" select="normalize-space($note-content)"/>
+                  <xsl:with-param name="text" select="$trimmed-note"/>
                 </xsl:call-template>
               </skos:scopeNote>
               <xsl:text>&#10;        </xsl:text>
@@ -203,7 +215,7 @@
                 <owl:annotatedTarget>
                   <xsl:copy-of select="$lang-node"/>
                   <xsl:call-template name="escape-entities">
-                    <xsl:with-param name="text" select="normalize-space($note-content)"/>
+                    <xsl:with-param name="text" select="$trimmed-note"/>
                   </xsl:call-template>
                 </owl:annotatedTarget>
                 <xsl:text>&#10;        </xsl:text>
@@ -304,7 +316,48 @@
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
-      <!-- Base case inherently falls through returning an empty string when no notes remain -->
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- String Manipulation Utilities for Leading/Trailing Whitespace Trimming -->
+  <xsl:template name="trim">
+    <xsl:param name="text"/>
+    <xsl:variable name="trimmed-left">
+      <xsl:call-template name="trim-left">
+        <xsl:with-param name="text" select="$text"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:call-template name="trim-right">
+      <xsl:with-param name="text" select="$trimmed-left"/>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name="trim-left">
+    <xsl:param name="text"/>
+    <xsl:choose>
+      <xsl:when test="starts-with($text, ' ') or starts-with($text, '&#10;') or starts-with($text, '&#13;') or starts-with($text, '&#9;')">
+        <xsl:call-template name="trim-left">
+          <xsl:with-param name="text" select="substring($text, 2)"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$text"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="trim-right">
+    <xsl:param name="text"/>
+    <xsl:variable name="last-char" select="substring($text, string-length($text))"/>
+    <xsl:choose>
+      <xsl:when test="$last-char = ' ' or $last-char = '&#10;' or $last-char = '&#13;' or $last-char = '&#9;'">
+        <xsl:call-template name="trim-right">
+          <xsl:with-param name="text" select="substring($text, 1, string-length($text) - 1)"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$text"/>
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
