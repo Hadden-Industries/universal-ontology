@@ -2477,8 +2477,9 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/universal/extended/TitleDeed_hasBasicPropertyUnit">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/universal/extended/TitleDeed"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/BasicPropertyUnit"/>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T12:36:00Z</dcterms:created>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:10:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:03:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">has basic property unit</rdfs:label>
 	<skos:prefLabel xml:lang="en">has basic property unit</skos:prefLabel>
     </owl:ObjectProperty>
@@ -3526,13 +3527,19 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T09:08:08Z</dcterms:created>
         <skos:definition xml:lang="en">Set of well-defined methods, functions, protocols, routines or commands which application software uses with facilities of programming languages to invoke services</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:05392562-b3f8-4490-b36f-5c811df6f932"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso:ts:23029:ed-1:v1:en:term:3.1"/>
         <skos:prefLabel xml:lang="en">Application Programming Interface</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: An API is available for different types of software, including Web‑based system/ecosystem.</rdfs:comment>
+        <skos:scopeNote xml:lang="en">An API is available for different types of software, including Web‑based system/ecosystem.</skos:scopeNote>
         <rdfs:label xml:lang="en">Application Programming Interface</rdfs:label>
         <uc:acronym xml:lang="en">API</uc:acronym>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/ApplicationProgrammingInterface"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">An API is available for different types of software, including Web‑based system/ecosystem.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
@@ -3544,15 +3551,33 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-17T14:07:40Z</dcterms:created>
         <skos:definition xml:lang="en">Software or program that is specific to the solution of an application problem</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:342d2c3f-5f69-41eb-a495-90d12041411e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v1:en:term:2121364"/>
         <skos:prefLabel xml:lang="en">Application Software</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: Example: A spreadsheet program.
-Note 2 to entry: application software; application program: terms and definition standardized by ISO/IEC [ISO/IEC 2382-1:1993].
-Note 3 to entry: 01.04.01 (2382)
-[SOURCE: ISO-IEC-2382-1 * 1993 * * * ]</rdfs:comment>
+        <skos:scopeNote xml:lang="en">Example: A spreadsheet program.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">application software; application program: terms and definition standardized by ISO/IEC [ISO/IEC 2382-1:1993].</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">01.04.01 (2382)</skos:scopeNote>
+        <dcterms:source xml:lang="en">ISO-IEC-2382-1 * 1993 * * * </dcterms:source>
         <rdfs:label xml:lang="en">Application Software</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/ApplicationSoftware"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Example: A spreadsheet program.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/ApplicationSoftware"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">application software; application program: terms and definition standardized by ISO/IEC [ISO/IEC 2382-1:1993].</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/ApplicationSoftware"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">01.04.01 (2382)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
     
 
 
@@ -3710,14 +3735,32 @@ Note 3 to entry: 01.04.01 (2382)
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-02T09:06:08Z</dcterms:created>
         <skos:definition xml:lang="en">Item, thing or entity that has potential or actual value to an organisation</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:a964d2a7-6e00-4f98-8017-24df3b45e2f1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso:55000:ed-1:v2:en:term:3.2.1"/>
         <skos:prefLabel xml:lang="en">Asset</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: Value can be tangible or intangible, financial or non-financial, and includes consideration of risks (3.1.21) and liabilities. It can be positive or negative at different stages of the asset life (3.2.2).
-Note 2 to entry: Physical assets usually refer to equipment, inventory and properties owned by the organization. Physical assets are the opposite of intangible assets, which are non-physical assets such as leases, brands, digital assets, use rights, licences, intellectual property rights, reputation or agreements.
-Note 3 to entry: A grouping of assets referred to as an asset system (3.2.5) could also be considered as an asset.</rdfs:comment>
+        <skos:scopeNote xml:lang="en">Value can be tangible or intangible, financial or non-financial, and includes consideration of risks (3.1.21) and liabilities. It can be positive or negative at different stages of the asset life (3.2.2).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Physical assets usually refer to equipment, inventory and properties owned by the organization. Physical assets are the opposite of intangible assets, which are non-physical assets such as leases, brands, digital assets, use rights, licences, intellectual property rights, reputation or agreements.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">A grouping of assets referred to as an asset system (3.2.5) could also be considered as an asset.</skos:scopeNote>
         <rdfs:label xml:lang="en">Asset</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Asset"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Value can be tangible or intangible, financial or non-financial, and includes consideration of risks (3.1.21) and liabilities. It can be positive or negative at different stages of the asset life (3.2.2).</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Asset"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Physical assets usually refer to equipment, inventory and properties owned by the organization. Physical assets are the opposite of intangible assets, which are non-physical assets such as leases, brands, digital assets, use rights, licences, intellectual property rights, reputation or agreements.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Asset"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">A grouping of assets referred to as an asset system (3.2.5) could also be considered as an asset.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
     
 
 
@@ -3729,15 +3772,27 @@ Note 3 to entry: A grouping of assets referred to as an asset system (3.2.5) cou
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-04-24T15:13:02Z</dcterms:created>
         <skos:definition xml:lang="en">Result of an audio recording process independent of the type and number of audio carriers and technology used</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:4232ff73-aa4f-4763-8934-10aeabeae5c1"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.3.3.19"/>
         <skos:prefLabel xml:lang="en">Audio Recording</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: The term “recording” applies to each recorded item which may be used as a separate unit regardless of whether it is issued as part of a larger recorded work (e.g. each separate track (2) &lt;recording&gt;  (3.5.8.49) on an album (3.4.5.5.04) of audio recordings).
-[SOURCE:ISO 3901:2001, definition 3.3]
-Note 2 to entry: See also “recorded information” (3.1.8.26) and “to write” (3.1.11.01).</rdfs:comment>
+        <skos:scopeNote xml:lang="en">The term “recording” applies to each recorded item which may be used as a separate unit regardless of whether it is issued as part of a larger recorded work (e.g. each separate track (2) &lt;recording&gt;  (3.5.8.49) on an album (3.4.5.5.04) of audio recordings).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">See also “recorded information” (3.1.8.26) and “to write” (3.1.11.01).</skos:scopeNote>
+        <dcterms:source xml:lang="en">ISO 3901:2001, definition 3.3</dcterms:source>
         <rdfs:label xml:lang="en">Audio Recording</rdfs:label>
         <rdfs:seeAlso rdf:resource="http://schema.org/MusicRecording"/>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/AudioRecording"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The term “recording” applies to each recorded item which may be used as a separate unit regardless of whether it is issued as part of a larger recorded work (e.g. each separate track (2) &lt;recording&gt;  (3.5.8.49) on an album (3.4.5.5.04) of audio recordings).</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/AudioRecording"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">See also “recorded information” (3.1.8.26) and “to write” (3.1.11.01).</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
     
 
 
@@ -3770,31 +3825,31 @@ Note 2 to entry: See also “recorded information” (3.1.8.26) and “to write�
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-10T15:11:13Z</dcterms:created>
         <skos:definition xml:lang="en">Document in which sound and/or pictures are prominent, and which requires the use of special equipment to be seen and/or heard</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:58e12116-b2ae-4d1f-b3de-4e629b227559"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:33:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.3.3.07"/>
         <skos:prefLabel xml:lang="en">Audiovisual Document</skos:prefLabel>
-        <rdfs:comment xml:lang="en">For library (3.2.3.02) and museum (3.2.3.06) statistics purposes, microforms (3.4.5.1.03) are excluded</rdfs:comment>
-        <rdfs:comment xml:lang="en">ISO 18461:2016, definition 2.5.5, modified</rdfs:comment>
-        <rdfs:comment xml:lang="en">This includes audio documents such as phonographic records, tapes, cassettes, audio compact discs, DVDs, files of digital audio recordings; visual documents such as slides, transparencies; and combined audiovisual documents, such as motion pictures, video recordings, computer games, etc.</rdfs:comment>
+        <skos:scopeNote xml:lang="en">For library (3.2.3.02) and museum (3.2.3.06) statistics purposes, microforms (3.4.5.1.03) are excluded</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">ISO 18461:2016, definition 2.5.5, modified</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">This includes audio documents such as phonographic records, tapes, cassettes, audio compact discs, DVDs, files of digital audio recordings; visual documents such as slides, transparencies; and combined audiovisual documents, such as motion pictures, video recordings, computer games, etc.</skos:scopeNote>
         <rdfs:label xml:lang="en">Audiovisual Document</rdfs:label>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/AudiovisualDocument"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">For library (3.2.3.02) and museum (3.2.3.06) statistics purposes, microforms (3.4.5.1.03) are excluded</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/AudiovisualDocument"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">ISO 18461:2016, definition 2.5.5, modified</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/AudiovisualDocument"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">This includes audio documents such as phonographic records, tapes, cassettes, audio compact discs, DVDs, files of digital audio recordings; visual documents such as slides, transparencies; and combined audiovisual documents, such as motion pictures, video recordings, computer games, etc.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -3862,18 +3917,18 @@ Note 2 to entry: See also “recorded information” (3.1.8.26) and “to write�
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <skos:definition xml:lang="en">Optical machine-readable representation of data, showing data about the object to which it attaches</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:55b42f3a-29ad-415b-b07a-e3f0994eb549"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:33:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:ts:16791:ed-2:v1:term:3.1.9"/>
         <skos:prefLabel xml:lang="en">Barcode</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Originally, barcodes represented data by varying the widths and spacings of parallel lines, and can be referred to as linear or one-dimensional (1D). Later they evolved into rectangles, dots, hexagons, and other geometric patterns in two dimensions (2D). Although 2D systems use a variety of symbols, they are generally referred to as barcodes as well.</rdfs:comment>
+        <skos:scopeNote xml:lang="en">Originally, barcodes represented data by varying the widths and spacings of parallel lines, and can be referred to as linear or one-dimensional (1D). Later they evolved into rectangles, dots, hexagons, and other geometric patterns in two dimensions (2D). Although 2D systems use a variety of symbols, they are generally referred to as barcodes as well.</skos:scopeNote>
         <rdfs:label xml:lang="en">Barcode</rdfs:label>
         <skos:altLabel xml:lang="en">Bar Code</skos:altLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Barcode"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Originally, barcodes represented data by varying the widths and spacings of parallel lines, and can be referred to as linear or one-dimensional (1D). Later they evolved into rectangles, dots, hexagons, and other geometric patterns in two dimensions (2D). Although 2D systems use a variety of symbols, they are generally referred to as barcodes as well.</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -3946,13 +4001,19 @@ Note 2 to entry: See also “recorded information” (3.1.8.26) and “to write�
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-07-29T11:49:07Z</dcterms:created>
         <skos:definition xml:lang="en">Intellectual work published either in handwritten, printed or electronic form, usually paginated and forming a physical unit</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:3cfa642d-fee8-49dc-beeb-1d8d69619e6b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.4.1.27.04"/>
         <skos:prefLabel xml:lang="en">Book</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: See also book (2) &lt;stack of leaves&gt;  (3.3.5.2.37)</rdfs:comment>
+        <skos:scopeNote xml:lang="en">See also book (2) &lt;stack of leaves&gt;  (3.3.5.2.37)</skos:scopeNote>
         <rdfs:label xml:lang="en">Book</rdfs:label>
         <rdfs:seeAlso rdf:resource="http://schema.org/Book"/>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Book"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">See also book (2) &lt;stack of leaves&gt;  (3.3.5.2.37)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
@@ -4598,11 +4659,11 @@ Note 2 to entry: See also “recorded information” (3.1.8.26) and “to write�
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-05-25T08:58:46Z</dcterms:created>
         <skos:definition xml:lang="en">Opinions, comments and expressions of interest in a product, a service or a complaints-handling process</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:edcd7dc2-0eb3-4f7d-8816-45595692099f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:33:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:10001:ed-2:v1:term:3.7"/>
         <skos:prefLabel xml:lang="en">Customer Feedback</skos:prefLabel>
-        <rdfs:comment xml:lang="en-gb">Feedback can be given in relation to other processes where the organisation interacts with the customer</rdfs:comment>
-        <rdfs:comment xml:lang="en">ISO 9000:2015, 3.9.1, modified — Note 1 to entry has been added</rdfs:comment>
+        <skos:scopeNote xml:lang="en-gb">Feedback can be given in relation to other processes where the organisation interacts with the customer</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">ISO 9000:2015, 3.9.1, modified — Note 1 to entry has been added</skos:scopeNote>
         <rdfs:label xml:lang="en">Customer Feedback</rdfs:label>
     </owl:Class>
     <owl:Axiom>
@@ -4619,13 +4680,13 @@ Note 2 to entry: See also “recorded information” (3.1.8.26) and “to write�
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/CustomerFeedback"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en-gb">Feedback can be given in relation to other processes where the organisation interacts with the customer</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/CustomerFeedback"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">ISO 9000:2015, 3.9.1, modified — Note 1 to entry has been added</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
     </owl:Axiom>
@@ -5303,26 +5364,26 @@ Note 2 to entry: See also “recorded information” (3.1.8.26) and “to write�
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-02-10T15:40:35Z</dcterms:created>
         <skos:definition xml:lang="en">Document(s) forming correspondence in the form of messages transmitted over a computer network</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:cac15fd6-26bf-49b5-bde5-d8f313d91b19"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:33:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.1.9.14"/>
         <skos:prefLabel xml:lang="en">Electronic Mail</skos:prefLabel>
-        <rdfs:comment xml:lang="en">ISO/IEC 2382:2015, definition 2121398, modified</rdfs:comment>
-        <rdfs:comment xml:lang="en">See also electronic mail (2) &lt;service&gt;  (3.1.9.15); letter (2) &lt;document&gt; (3.4.7.42)</rdfs:comment>
+        <skos:scopeNote xml:lang="en">ISO/IEC 2382:2015, definition 2121398, modified</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">See also electronic mail (2) &lt;service&gt;  (3.1.9.15); letter (2) &lt;document&gt; (3.4.7.42)</skos:scopeNote>
         <rdfs:label xml:lang="en">Electronic Mail</rdfs:label>
         <skos:altLabel xml:lang="en">E-mail</skos:altLabel>
         <skos:altLabel xml:lang="en">Email</skos:altLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/ElectronicMail"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">ISO/IEC 2382:2015, definition 2121398, modified</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/ElectronicMail"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">See also electronic mail (2) &lt;service&gt;  (3.1.9.15); letter (2) &lt;document&gt; (3.4.7.42)</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -6484,13 +6545,25 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <dcterms:identifier rdf:resource="urn:uuid:b5c4f7b9-be8f-40c9-bd0f-dfe393bdde87"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v1:en:term:2121358"/>
         <skos:prefLabel xml:lang="en">Laptop Computer</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: laptop computer: term and definition standardized by ISO/IEC [ISO/IEC 2382-1:1993].</rdfs:comment>
-        <rdfs:comment xml:lang="en">Note 2 to entry: 01.03.22 (2382)</rdfs:comment>
-        <rdfs:comment xml:lang="en">[SOURCE:ISO-IEC-2382-1 * 1993 * * * ]</rdfs:comment>
+        <skos:scopeNote xml:lang="en">laptop computer: term and definition standardized by ISO/IEC [ISO/IEC 2382-1:1993].</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">01.03.22 (2382)</skos:scopeNote>
+        <dcterms:source xml:lang="en">ISO-IEC-2382-1 * 1993 * * * </dcterms:source>
         <rdfs:label xml:lang="en">Laptop Computer</rdfs:label>
         <skos:altLabel xml:lang="en">Laptop</skos:altLabel>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/LaptopComputer"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">laptop computer: term and definition standardized by ISO/IEC [ISO/IEC 2382-1:1993].</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/LaptopComputer"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">01.03.22 (2382)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
     
 
 
@@ -6792,11 +6865,17 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <dcterms:identifier rdf:resource="urn:uuid:6d363443-2c21-4428-baf5-8dafd2e94a96"/>
         <dcterms:references rdf:resource="urn:iso:std:iso:ts:16791:ed-2:v1:en:term:3.1.20"/>
         <skos:prefLabel xml:lang="en">Medicinal Product</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: The same definition applies for animal health.
-[SOURCE: ISO 11615:2017, 3.1.50, — modified, “(or animals)” removed; notes to entry 1 and 2 removed and a new note 1 to entry added.]</rdfs:comment>
+        <skos:scopeNote xml:lang="en">The same definition applies for animal health.</skos:scopeNote>
+        <dcterms:source xml:lang="en">ISO 11615:2017, 3.1.50, — modified, “(or animals)” removed; notes to entry 1 and 2 removed and a new note 1 to entry added.</dcterms:source>
         <rdfs:label xml:lang="en">Medicinal Product</rdfs:label>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/MedicinalProduct"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The same definition applies for animal health.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
@@ -6884,10 +6963,10 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <dcterms:identifier rdf:resource="urn:uuid:432842b3-ed68-4b56-9b1d-5dda381fe235"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:18013:-5:dis:ed-1:v1:en:term:3.1"/>
         <skos:prefLabel xml:lang="en">Mobile Device</skos:prefLabel>
-        <rdfs:comment xml:lang="en">[SOURCE: NIST SP 800-157, modified]</rdfs:comment>
+        <dcterms:source xml:lang="en">NIST SP 800-157, modified</dcterms:source>
         <rdfs:label xml:lang="en">Mobile Device</rdfs:label>
         <uc:acronym xml:lang="en">MD</uc:acronym>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:19:00Z</dcterms:modified>
     </owl:Class>
     
 
@@ -7593,9 +7672,9 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <dcterms:identifier rdf:resource="urn:uuid:a49d6955-d756-4127-92c9-931e9cece0c4"/>
         <dcterms:references rdf:resource="urn:iso:std:iso:ts:16791:ed-2:v1:en:term:3.1.27"/>
         <skos:prefLabel xml:lang="en">Pharmaceutical Product</skos:prefLabel>
-        <rdfs:comment xml:lang="en">[SOURCE: ISO 11615:2017, 3.1.60]</rdfs:comment>
+        <dcterms:source xml:lang="en">ISO 11615:2017, 3.1.60</dcterms:source>
         <rdfs:label xml:lang="en">Pharmaceutical Product</rdfs:label>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:19:00Z</dcterms:modified>
     </owl:Class>
     
 
@@ -8167,13 +8246,31 @@ Note 3: Unlike a forecast, a predictive measurement requires metrological tracea
         <dcterms:identifier rdf:resource="urn:uuid:3672a1ae-7e21-4948-a9e8-f2852cba4132"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v1:en:term:2122457"/>
         <skos:prefLabel xml:lang="en">Programming Function</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: A function may also produce other changes through the use of parameters.
-Note 2 to entry: function: term and definition standardized by ISO/IEC [ISO/IEC 2382-15:1999].
-Note 3 to entry: 15.06.12 (2382)
-[SOURCE: ISO-IEC-2382-15 * 1999 * * * ]</rdfs:comment>
+        <skos:scopeNote xml:lang="en">A function may also produce other changes through the use of parameters.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">function: term and definition standardized by ISO/IEC [ISO/IEC 2382-15:1999].</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">15.06.12 (2382)</skos:scopeNote>
+        <dcterms:source xml:lang="en">ISO-IEC-2382-15 * 1999 * * * </dcterms:source>
         <rdfs:label xml:lang="en">Programming Function</rdfs:label>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/ProgrammingFunction"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">A function may also produce other changes through the use of parameters.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/ProgrammingFunction"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">function: term and definition standardized by ISO/IEC [ISO/IEC 2382-15:1999].</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/ProgrammingFunction"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">15.06.12 (2382)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
     
 
 
@@ -8185,52 +8282,52 @@ Note 3 to entry: 15.06.12 (2382)
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-23T11:10:34Z</dcterms:created>
         <skos:definition xml:lang="en">Unique process, consisting of a set of coordinated and controlled activities with start and finish dates, undertaken to achieve an objective conforming to specific requirements, including the constraints of time, cost and resources</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:855405e5-3a53-4758-a7a0-261cfa1454e0"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:33:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.4.2"/>
         <skos:prefLabel xml:lang="en">Project</skos:prefLabel>
-        <rdfs:comment xml:lang="en">An individual project can form part of a larger project structure and generally has a defined start and finish date</rdfs:comment>
-        <rdfs:comment xml:lang="en">ISO 10006:2003, 3.5, modified — Notes 1 to 3 have been modified</rdfs:comment>
-        <rdfs:comment xml:lang="en">In some projects the objectives and scope are updated and the product or service characteristics defined progressively as the project proceeds</rdfs:comment>
-        <rdfs:comment xml:lang="en">The complexity of the interactions among project activities is not necessarily related to the project size</rdfs:comment>
-        <rdfs:comment xml:lang="en">The output of a project can be one or several units of product or service</rdfs:comment>
-        <rdfs:comment xml:lang="en-gb">The project’s organisation is normally temporary and established for the lifetime of the project</rdfs:comment>
+        <skos:scopeNote xml:lang="en">An individual project can form part of a larger project structure and generally has a defined start and finish date</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">ISO 10006:2003, 3.5, modified — Notes 1 to 3 have been modified</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">In some projects the objectives and scope are updated and the product or service characteristics defined progressively as the project proceeds</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The complexity of the interactions among project activities is not necessarily related to the project size</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The output of a project can be one or several units of product or service</skos:scopeNote>
+        <skos:scopeNote xml:lang="en-gb">The project’s organisation is normally temporary and established for the lifetime of the project</skos:scopeNote>
         <rdfs:label xml:lang="en">Project</rdfs:label>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Project"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">An individual project can form part of a larger project structure and generally has a defined start and finish date</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Project"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">ISO 10006:2003, 3.5, modified — Notes 1 to 3 have been modified</owl:annotatedTarget>
         <rdfs:comment xml:lang="en">SOURCE</rdfs:comment>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Project"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">In some projects the objectives and scope are updated and the product or service characteristics defined progressively as the project proceeds</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 2 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Project"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">The complexity of the interactions among project activities is not necessarily related to the project size</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 5 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Project"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">The output of a project can be one or several units of product or service</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 3 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Project"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en-gb">The project’s organisation is normally temporary and established for the lifetime of the project</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 4 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
     </owl:Axiom>
     
 
@@ -8245,9 +8342,9 @@ Note 3 to entry: 15.06.12 (2382)
         <dcterms:identifier rdf:resource="urn:uuid:1f67ed67-9594-4fa5-9e0a-b0b4c8d5457c"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:13888:-1:ed-4:v1:en:term:3.46"/>
         <skos:prefLabel xml:lang="en">Public Key Certificate</skos:prefLabel>
-        <rdfs:comment xml:lang="en">[SOURCE: ISO/IEC 11770-3:2015, 3.34]</rdfs:comment>
+        <dcterms:source xml:lang="en">ISO/IEC 11770-3:2015, 3.34</dcterms:source>
         <rdfs:label xml:lang="en">Public Key Certificate</rdfs:label>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:19:00Z</dcterms:modified>
     </owl:Class>
     
 
@@ -8375,10 +8472,10 @@ Note 3 to entry: 15.06.12 (2382)
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-24T11:29:10Z</dcterms:created>
         <skos:definition xml:lang="en">Transponder plus the information storage mechanism attached to an object</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:b1dfac5e-4514-451d-9df4-2e77d065a98d"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:33:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso-iec:19762:ed-2:v1:term:3.5.4.5"/>
         <skos:prefLabel xml:lang="en">Radio Frequency Tag</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Although ‘transponder’ is technically the most accurate term, the most common and preferred term is ‘tag’ or ‘RF tag’</rdfs:comment>
+        <skos:scopeNote xml:lang="en">Although ‘transponder’ is technically the most accurate term, the most common and preferred term is ‘tag’ or ‘RF tag’</skos:scopeNote>
         <rdfs:label xml:lang="en">Radio Frequency Tag</rdfs:label>
         <skos:altLabel xml:lang="en">Code Plate</skos:altLabel>
         <skos:altLabel xml:lang="en">Electronic Label</skos:altLabel>
@@ -8392,9 +8489,9 @@ Note 3 to entry: 15.06.12 (2382)
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/RadioFrequencyTag"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#comment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Although ‘transponder’ is technically the most accurate term, the most common and preferred term is ‘tag’ or ‘RF tag’</owl:annotatedTarget>
-        <rdfs:comment xml:lang="en">Note 1 to entry</rdfs:comment>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -8637,13 +8734,31 @@ Note 3 to entry: 15.06.12 (2382)
         <dcterms:identifier rdf:resource="urn:uuid:b39413e8-a47e-49c8-b972-237f98862a59"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:2382:ed-1:v1:en:term:2121278"/>
         <skos:prefLabel xml:lang="en">Software</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: Software is an intellectual creation that is independent of the medium on which it is recorded.
-Note 2 to entry: software : term and definition standardized by ISO/IEC [ISO/IEC 2382-1:1993].
-Note 3 to entry: 01.01.08 (2382)
-[SOURCE: ISO-IEC-2382-1 * 1993 * * * ]</rdfs:comment>
+        <skos:scopeNote xml:lang="en">Software is an intellectual creation that is independent of the medium on which it is recorded.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">software : term and definition standardized by ISO/IEC [ISO/IEC 2382-1:1993].</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">01.01.08 (2382)</skos:scopeNote>
+        <dcterms:source xml:lang="en">ISO-IEC-2382-1 * 1993 * * * </dcterms:source>
         <rdfs:label xml:lang="en">Software</rdfs:label>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Software"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Software is an intellectual creation that is independent of the medium on which it is recorded.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Software"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">software : term and definition standardized by ISO/IEC [ISO/IEC 2382-1:1993].</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Software"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">01.01.08 (2382)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
     
 
 
@@ -8657,10 +8772,16 @@ Note 3 to entry: 01.01.08 (2382)
         <dcterms:identifier rdf:resource="urn:uuid:38fb715c-862d-49df-ada6-02aa4f955c21"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:19770:-5:ed-2:v1:en:term:3.41"/>
         <skos:prefLabel xml:lang="en">Software License</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: “Using a software product” can include: accessing, copying, distributing, installing, and executing the software product, depending on the license&apos;s terms and conditions.</rdfs:comment>
+        <skos:scopeNote xml:lang="en">“Using a software product” can include: accessing, copying, distributing, installing, and executing the software product, depending on the license&apos;s terms and conditions.</skos:scopeNote>
         <rdfs:label xml:lang="en">Software License</rdfs:label>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/SoftwareLicense"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">“Using a software product” can include: accessing, copying, distributing, installing, and executing the software product, depending on the license&apos;s terms and conditions.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
@@ -8997,9 +9118,9 @@ Note 3 to entry: 01.01.08 (2382)
         <dcterms:identifier rdf:resource="urn:uuid:c23e947a-0f65-42a6-91cc-deb3c2d662ab"/>
         <dcterms:references rdf:resource="urn:iso:std:iso-iec:19762:ed-1:v1:en:term:06.02.04"/>
         <skos:prefLabel xml:lang="en">Transponder</skos:prefLabel>
-        <rdfs:comment xml:lang="en">[SOURCE: IEC 60050-713, 713-08-04]</rdfs:comment>
+        <dcterms:source xml:lang="en">IEC 60050-713, 713-08-04</dcterms:source>
         <rdfs:label xml:lang="en">Transponder</rdfs:label>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:19:00Z</dcterms:modified>
     </owl:Class>
     
 
@@ -9236,12 +9357,30 @@ Note 3 to entry: 01.01.08 (2382)
         <dcterms:identifier rdf:resource="urn:uuid:798bdda7-7847-4591-9473-ed8a4d78b941"/>
         <dcterms:references rdf:resource="urn:iso:std:iso:9000:ed-4:v1:en:term:3.8.12"/>
         <skos:prefLabel xml:lang="en">Verification</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: The objective evidence needed for a verification can be the result of an inspection (3.11.7) or of other forms of determination (3.11.1) such as performing alternative calculations or reviewing documents (3.8.5).
-Note 2 to entry: The activities carried out for verification are sometimes called a qualification process (3.4.1).
-Note 3 to entry: The word “verified” is used to designate the corresponding status.</rdfs:comment>
+        <skos:scopeNote xml:lang="en">The objective evidence needed for a verification can be the result of an inspection (3.11.7) or of other forms of determination (3.11.1) such as performing alternative calculations or reviewing documents (3.8.5).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The activities carried out for verification are sometimes called a qualification process (3.4.1).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The word “verified” is used to designate the corresponding status.</skos:scopeNote>
         <rdfs:label xml:lang="en">Verification</rdfs:label>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Verification"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The objective evidence needed for a verification can be the result of an inspection (3.11.7) or of other forms of determination (3.11.1) such as performing alternative calculations or reviewing documents (3.8.5).</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Verification"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The activities carried out for verification are sometimes called a qualification process (3.4.1).</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Verification"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">The word “verified” is used to designate the corresponding status.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
     
 
 
@@ -9272,11 +9411,17 @@ Note 3 to entry: The word “verified” is used to designate the corresponding 
         <dcterms:identifier rdf:resource="urn:uuid:8bbf8c68-920b-4f6b-9914-b6b55011e513"/>
         <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.11.1.22"/>
         <skos:prefLabel xml:lang="en">Virtual Visit</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: A virtual visit typically starts when a user accesses (3.11.1.01) the organization’s website after visiting an external webpage, and ends if no activity has been recorded for a defined period of time. Another access after a longer interval initiates a new visit.
-[SOURCE: ISO 2789:2013, definition 2.2.39, modified]</rdfs:comment>
+        <skos:scopeNote xml:lang="en">A virtual visit typically starts when a user accesses (3.11.1.01) the organization’s website after visiting an external webpage, and ends if no activity has been recorded for a defined period of time. Another access after a longer interval initiates a new visit.</skos:scopeNote>
+        <dcterms:source xml:lang="en">ISO 2789:2013, definition 2.2.39, modified</dcterms:source>
         <rdfs:label xml:lang="en">Virtual Visit</rdfs:label>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/VirtualVisit"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">A virtual visit typically starts when a user accesses (3.11.1.01) the organization’s website after visiting an external webpage, and ends if no activity has been recorded for a defined period of time. Another access after a longer interval initiates a new visit.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
@@ -9323,10 +9468,10 @@ Note 3 to entry: The word “verified” is used to designate the corresponding 
         <dcterms:identifier rdf:resource="urn:uuid:ed847c57-e6c9-485b-9fa8-37484c7b6497"/>
         <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.3.3.25"/>
         <skos:prefLabel xml:lang="en">Webpage</skos:prefLabel>
-        <rdfs:comment xml:lang="en">[SOURCE: ISO/IEC IEEE 24765:2010, definition 3.3317, modified]</rdfs:comment>
+        <dcterms:source xml:lang="en">ISO/IEC IEEE 24765:2010, definition 3.3317, modified</dcterms:source>
         <rdfs:label xml:lang="en">Webpage</rdfs:label>
         <skos:altLabel xml:lang="en">Web Page</skos:altLabel>
-	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+	<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:19:00Z</dcterms:modified>
     </owl:Class>
     
 
@@ -9345,12 +9490,18 @@ Note 3 to entry: The word “verified” is used to designate the corresponding 
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-08T17:12:45Z</dcterms:created>
         <skos:definition xml:lang="en">Collection of logically connected webpages managed as a single entity and accessed through the same base Uniform Resource Locator</skos:definition>
         <dcterms:identifier rdf:resource="urn:uuid:21a6485d-a4c6-4e17-9f19-a94b0a8f71f4"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:22:00Z</dcterms:modified>
         <dcterms:references rdf:resource="urn:iso:std:iso:5127:ed-2:v1:en:term:3.3.3.24"/>
         <skos:prefLabel xml:lang="en">Website</skos:prefLabel>
-        <rdfs:comment xml:lang="en">Note 1 to entry: See also ISO/TR 14873:2013, definition 2.52.</rdfs:comment>
+        <skos:scopeNote xml:lang="en">See also ISO/TR 14873:2013, definition 2.52.</skos:scopeNote>
         <rdfs:label xml:lang="en">Website</rdfs:label>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Website"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">See also ISO/TR 14873:2013, definition 2.52.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
