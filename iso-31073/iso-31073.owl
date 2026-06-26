@@ -193,6 +193,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:33:34Z</dcterms:created>
         <rdfs:label xml:lang="en">manages</rdfs:label>
+	<skos:prefLabel xml:lang="en">manages</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -205,6 +206,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:07:14Z</dcterms:created>
         <rdfs:label xml:lang="en">accepts</rdfs:label>
+	<skos:prefLabel xml:lang="en">accepts</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -217,6 +219,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:37:19Z</dcterms:created>
         <rdfs:label xml:lang="en">accepts gain or loss from</rdfs:label>
+	<skos:prefLabel xml:lang="en">accepts gain or loss from</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -229,6 +232,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:21:01Z</dcterms:created>
         <rdfs:label xml:lang="en">affects</rdfs:label>
+	<skos:prefLabel xml:lang="en">affects</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -241,6 +245,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:12:55Z</dcterms:created>
         <rdfs:label xml:lang="en">analyses via</rdfs:label>
+	<skos:prefLabel xml:lang="en">analyses via</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -253,6 +258,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:19:15Z</dcterms:created>
         <rdfs:label xml:lang="en">avoids</rdfs:label>
+	<skos:prefLabel xml:lang="en">avoids</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -265,6 +271,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:28:56Z</dcterms:created>
         <rdfs:label xml:lang="en">bears</rdfs:label>
+	<skos:prefLabel xml:lang="en">bears</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -277,6 +284,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:19:14Z</dcterms:created>
         <rdfs:label xml:lang="en">can be</rdfs:label>
+	<skos:prefLabel xml:lang="en">can be</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -297,6 +305,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:03:25Z</dcterms:created>
         <rdfs:label xml:lang="en">can be applied to</rdfs:label>
+	<skos:prefLabel xml:lang="en">can be applied to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -309,6 +318,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:36:37Z</dcterms:created>
         <rdfs:label xml:lang="en">can lead to</rdfs:label>
+	<skos:prefLabel xml:lang="en">can lead to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -321,6 +331,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:08:11Z</dcterms:created>
         <rdfs:label xml:lang="en">combines a number of</rdfs:label>
+	<skos:prefLabel xml:lang="en">combines a number of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -333,6 +344,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:09:00Z</dcterms:created>
         <rdfs:label xml:lang="en">combines into</rdfs:label>
+	<skos:prefLabel xml:lang="en">combines into</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -345,6 +357,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">compares against</rdfs:label>
+	<skos:prefLabel xml:lang="en">compares against</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -357,6 +370,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:13:33Z</dcterms:created>
         <rdfs:label xml:lang="en">compares results of</rdfs:label>
+	<skos:prefLabel xml:lang="en">compares results of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -369,6 +383,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:09:51Z</dcterms:created>
         <rdfs:label xml:lang="en">comprehends the nature of</rdfs:label>
+	<skos:prefLabel xml:lang="en">comprehends the nature of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -381,6 +396,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:10:20Z</dcterms:created>
         <rdfs:label xml:lang="en">determines</rdfs:label>
+	<skos:prefLabel xml:lang="en">determines</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -393,6 +409,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:39:33Z</dcterms:created>
         <rdfs:label xml:lang="en">determines quality of the subject matter to achieve established</rdfs:label>
+	<skos:prefLabel xml:lang="en">determines quality of the subject matter to achieve established</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -405,6 +422,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">directs and controls</rdfs:label>
+	<skos:prefLabel xml:lang="en">directs and controls</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -417,6 +435,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:13:23Z</dcterms:created>
         <rdfs:label xml:lang="en">evaluates via</rdfs:label>
+	<skos:prefLabel xml:lang="en">evaluates via</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -429,6 +448,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T11:47:57Z</dcterms:created>
         <rdfs:label xml:lang="en">evalutes significance of</rdfs:label>
+	<skos:prefLabel xml:lang="en">evalutes significance of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -441,6 +461,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T11:49:25Z</dcterms:created>
         <rdfs:label xml:lang="en">finds, recognises, describes</rdfs:label>
+	<skos:prefLabel xml:lang="en">finds, recognises, describes</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -453,6 +474,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:35:06Z</dcterms:created>
         <rdfs:label xml:lang="en">has approach</rdfs:label>
+	<skos:prefLabel xml:lang="en">has approach</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -465,6 +487,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">has effect on</rdfs:label>
+	<skos:prefLabel xml:lang="en">has effect on</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -477,6 +500,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:42:31Z</dcterms:created>
         <rdfs:label xml:lang="en">has view on</rdfs:label>
+	<skos:prefLabel xml:lang="en">has view on</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -489,6 +513,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:12:13Z</dcterms:created>
         <rdfs:label xml:lang="en">identifies via</rdfs:label>
+	<skos:prefLabel xml:lang="en">identifies via</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -501,6 +526,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">influences</rdfs:label>
+	<skos:prefLabel xml:lang="en">influences</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -513,6 +539,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:19:59Z</dcterms:created>
         <rdfs:label xml:lang="en">informs</rdfs:label>
+	<skos:prefLabel xml:lang="en">informs</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -525,6 +552,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">is adaptive capacity of</rdfs:label>
+	<skos:prefLabel xml:lang="en">is adaptive capacity of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -537,6 +565,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:35:18Z</dcterms:created>
         <rdfs:label xml:lang="en">is applied to</rdfs:label>
+	<skos:prefLabel xml:lang="en">is applied to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -549,6 +578,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:34:27Z</dcterms:created>
         <rdfs:label xml:lang="en">is approach to</rdfs:label>
+	<skos:prefLabel xml:lang="en">is approach to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -568,6 +598,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:01:45Z</dcterms:created>
         <rdfs:label xml:lang="en">is described by</rdfs:label>
+	<skos:prefLabel xml:lang="en">is described by</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -580,6 +611,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">is effect of</rdfs:label>
+	<skos:prefLabel xml:lang="en">is effect of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -599,6 +631,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">is exposed to</rdfs:label>
+	<skos:prefLabel xml:lang="en">is exposed to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -618,6 +651,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:27:40Z</dcterms:created>
         <rdfs:label xml:lang="en">is expressed in terms of</rdfs:label>
+	<skos:prefLabel xml:lang="en">is expressed in terms of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -630,6 +664,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:38:13Z</dcterms:created>
         <rdfs:label xml:lang="en">is favourable to</rdfs:label>
+	<skos:prefLabel xml:lang="en">is favourable to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -642,6 +677,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:26:30Z</dcterms:created>
         <rdfs:label xml:lang="en">is magnitude of</rdfs:label>
+	<skos:prefLabel xml:lang="en">is magnitude of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -654,6 +690,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:25:48Z</dcterms:created>
         <rdfs:label xml:lang="en">is number of</rdfs:label>
+	<skos:prefLabel xml:lang="en">is number of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -666,6 +703,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T11:55:02Z</dcterms:created>
         <rdfs:label xml:lang="en">is subject to</rdfs:label>
+	<skos:prefLabel xml:lang="en">is subject to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -685,6 +723,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:26:28Z</dcterms:created>
         <rdfs:label xml:lang="en">is tolerated by</rdfs:label>
+	<skos:prefLabel xml:lang="en">is tolerated by</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -697,6 +736,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:44:14Z</dcterms:created>
         <rdfs:label xml:lang="en">is towards amount and type of</rdfs:label>
+	<skos:prefLabel xml:lang="en">is towards amount and type of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -709,6 +749,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:31:51Z</dcterms:created>
         <rdfs:label xml:lang="en">maintains and/or modifies</rdfs:label>
+	<skos:prefLabel xml:lang="en">maintains and/or modifies</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -721,6 +762,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">manages</rdfs:label>
+	<skos:prefLabel xml:lang="en">manages</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -733,6 +775,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">modifies</rdfs:label>
+	<skos:prefLabel xml:lang="en">modifies</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -752,6 +795,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T11:57:05Z</dcterms:created>
         <rdfs:label xml:lang="en">operates in</rdfs:label>
+	<skos:prefLabel xml:lang="en">operates in</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -764,6 +808,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:43:16Z</dcterms:created>
         <rdfs:label xml:lang="en">percieves</rdfs:label>
+	<skos:prefLabel xml:lang="en">percieves</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -777,6 +822,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:23:39Z</dcterms:created>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-12T07:19:31Z</dcterms:modified>
         <rdfs:label xml:lang="en">potentially gives rise to</rdfs:label>
+	<skos:prefLabel xml:lang="en">potentially gives rise to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -789,6 +835,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:20:03Z</dcterms:created>
         <rdfs:label xml:lang="en">relates to</rdfs:label>
+	<skos:prefLabel xml:lang="en">relates to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -801,6 +848,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:40:54Z</dcterms:created>
         <rdfs:label xml:lang="en">remains after</rdfs:label>
+	<skos:prefLabel xml:lang="en">remains after</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -820,6 +868,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">reports on</rdfs:label>
+	<skos:prefLabel xml:lang="en">reports on</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -832,6 +881,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
         <rdfs:label xml:lang="en">results from</rdfs:label>
+	<skos:prefLabel xml:lang="en">results from</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -844,6 +894,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:38:01Z</dcterms:created>
         <rdfs:label xml:lang="en">results in susceptibility to</rdfs:label>
+	<skos:prefLabel xml:lang="en">results in susceptibility to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -856,6 +907,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:20:57Z</dcterms:created>
         <rdfs:label xml:lang="en">states overall intentions and direction of</rdfs:label>
+	<skos:prefLabel xml:lang="en">states overall intentions and direction of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -868,6 +920,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:36:19Z</dcterms:created>
         <rdfs:label xml:lang="en">wants to achieve</rdfs:label>
+	<skos:prefLabel xml:lang="en">wants to achieve</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -880,6 +933,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:48:24Z</dcterms:created>
         <rdfs:label xml:lang="en">willingly held by</rdfs:label>
+	<skos:prefLabel xml:lang="en">willingly held by</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -920,6 +974,7 @@ Note 2 to entry: Consequences can be expressed qualitatively or quantitatively.
 Note 3 to entry: Any consequence can escalate through cascading and cumulative effects.</rdfs:comment>
         <rdfs:label xml:lang="en">consequence</rdfs:label>
         <skos:definition xml:lang="en">outcome of an event (3.3.11) affecting objectives (3.1.2)</skos:definition>
+	<skos:prefLabel xml:lang="en">consequence</skos:prefLabel>
     </owl:Class>
     
 
@@ -943,6 +998,7 @@ Note 2 to entry: An event can also be something that is expected which does not 
 Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
         <rdfs:label xml:lang="en">event</rdfs:label>
         <skos:definition xml:lang="en">occurrence or change of a particular set of circumstances</skos:definition>
+	<skos:prefLabel xml:lang="en">event</skos:prefLabel>
     </owl:Class>
     
 
@@ -964,6 +1020,7 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.6.1.2, modified — “interested party” has replaced “stakeholder”.]</rdfs:comment>
         <rdfs:label xml:lang="en">exposure</rdfs:label>
         <skos:definition xml:lang="en">extent to which an organization (3.3.7) and/or interested party (3.3.2) is subject to an event (3.3.11)</skos:definition>
+	<skos:prefLabel xml:lang="en">exposure</skos:prefLabel>
     </owl:Class>
     
 
@@ -983,6 +1040,7 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
 — relationships with, and perceptions and values of, external interested parties (3.3.2).</rdfs:comment>
         <rdfs:label xml:lang="en">external context</rdfs:label>
         <skos:definition xml:lang="en">external environment in which the organization (3.3.7) seeks to achieve its objectives (3.1.2)</skos:definition>
+	<skos:prefLabel xml:lang="en">external context</skos:prefLabel>
     </owl:Class>
     
 
@@ -1005,6 +1063,7 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
 [SOURCE:ISO Guide 73:2009, 3.6.1.5]</rdfs:comment>
         <rdfs:label xml:lang="en">frequency</rdfs:label>
         <skos:definition xml:lang="en">number of events (3.3.11) or outcomes per defined unit of time</skos:definition>
+	<skos:prefLabel xml:lang="en">frequency</skos:prefLabel>
     </owl:Class>
     
 
@@ -1022,6 +1081,7 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
 [SOURCE:ISO Guide 73:2009, 3.5.1.4]</rdfs:comment>
         <rdfs:label xml:lang="en">hazard</rdfs:label>
         <skos:definition xml:lang="en">source of potential harm</skos:definition>
+	<skos:prefLabel xml:lang="en">hazard</skos:prefLabel>
     </owl:Class>
     
 
@@ -1046,6 +1106,7 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
 [SOURCE:ISO Guide 73:2009, 3.3.1.2, modified — “interested parties” has replaced “stakeholders”.]</rdfs:comment>
         <rdfs:label xml:lang="en">internal context</rdfs:label>
         <skos:definition xml:lang="en">internal environment in which the organization (3.3.7) seeks to achieve its objectives (3.1.2)</skos:definition>
+	<skos:prefLabel xml:lang="en">internal context</skos:prefLabel>
     </owl:Class>
     
 
@@ -1080,6 +1141,7 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.6.1.8]</rdfs:comment>
         <rdfs:label xml:lang="en">level of risk</rdfs:label>
         <skos:definition xml:lang="en">magnitude of a risk (3.1.1) or combination of risks, expressed in terms of the combination of consequences (3.3.18) and their likelihood (3.3.16)</skos:definition>
+	<skos:prefLabel xml:lang="en">level of risk</skos:prefLabel>
     </owl:Class>
     
 
@@ -1109,6 +1171,7 @@ Note 3 to entry: An event can be a risk source (3.3.10).</rdfs:comment>
 Note 2 to entry: The English term “likelihood” does not have a direct equivalent in some languages; instead, the equivalent of the term “probability” is often used. However, in English, “probability” is often narrowly interpreted as a mathematical term. Therefore, in risk management terminology, “likelihood” is used with the intent that it should have the same broad interpretation as the term “probability” has in many languages other than English.</rdfs:comment>
         <rdfs:label xml:lang="en">likelihood</rdfs:label>
         <skos:definition xml:lang="en">chance of something happening</skos:definition>
+	<skos:prefLabel xml:lang="en">likelihood</skos:prefLabel>
     </owl:Class>
     
 
@@ -1140,6 +1203,7 @@ Note 2 to entry: The English term “likelihood” does not have a direct equiva
 [SOURCE:ISO Guide 73:2009, 3.8.2.1, modified — “risk control” has replaced “control” in Note 1 to entry.]</rdfs:comment>
         <rdfs:label xml:lang="en">monitoring</rdfs:label>
         <skos:definition xml:lang="en">continual checking, supervising, critically observing or determining the status in order to identify change from the performance level required or expected</skos:definition>
+	<skos:prefLabel xml:lang="en">monitoring</skos:prefLabel>
     </owl:Class>
     
 
@@ -1157,6 +1221,7 @@ Note 2 to entry: Objectives can relate to different disciplines (such as financi
 Note 3 to entry: An objective can be expressed in other ways, e.g. as an intended outcome, a purpose, an operational criterion, as a management system objective, or by the use of other words with similar meaning (e.g. aim, goal, target).</rdfs:comment>
         <rdfs:label xml:lang="en">objective</rdfs:label>
         <skos:definition xml:lang="en">result to be achieved</skos:definition>
+	<skos:prefLabel xml:lang="en">objective</skos:prefLabel>
     </owl:Class>
     
 
@@ -1181,6 +1246,7 @@ Note 3 to entry: Taking or not taking an opportunity are both sources of risk (3
 [SOURCE:IEC 31010:2019, 3.2]</rdfs:comment>
         <rdfs:label xml:lang="en">opportunity</rdfs:label>
         <skos:definition xml:lang="en">combination of circumstances expected to be favourable to objectives (3.1.2)</skos:definition>
+	<skos:prefLabel xml:lang="en">opportunity</skos:prefLabel>
     </owl:Class>
     
 
@@ -1227,6 +1293,7 @@ Note 3 to entry: Taking or not taking an opportunity are both sources of risk (3
         <rdfs:comment xml:lang="en">Note 1 to entry: The concept of organization includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, charity or institution, or part or combination thereof, whether incorporated or not, public or private.</rdfs:comment>
         <rdfs:label xml:lang="en">organization</rdfs:label>
         <skos:definition xml:lang="en">person or group of people that has its own functions with responsibilities, authorities and relationships to achieve its objectives (3.1.2)</skos:definition>
+	<skos:prefLabel xml:lang="en">organization</skos:prefLabel>
     </owl:Class>
     
 
@@ -1243,6 +1310,7 @@ Note 3 to entry: Taking or not taking an opportunity are both sources of risk (3
 [SOURCE:IEC 31010:2019, 3.3, modified — The definition has been modified.]</rdfs:comment>
         <rdfs:label xml:lang="en">probability</rdfs:label>
         <skos:definition xml:lang="en">measure of the chance of occurrence expressed as a number from 0 to 1, where 0 is impossibility and 1 is absolute certainty</skos:definition>
+	<skos:prefLabel xml:lang="en">probability</skos:prefLabel>
     </owl:Class>
     
 
@@ -1267,6 +1335,7 @@ Note 2 to entry: Residual risk can also be known as “retained risk”.
 [SOURCE:ISO Guide 73:2009, 3.8.1.6]</rdfs:comment>
         <rdfs:label xml:lang="en">residual risk</rdfs:label>
         <skos:definition xml:lang="en">risk (3.1.1) remaining after risk treatment (3.3.32)</skos:definition>
+	<skos:prefLabel xml:lang="en">residual risk</skos:prefLabel>
     </owl:Class>
     
 
@@ -1288,6 +1357,7 @@ Note 2 to entry: Residual risk can also be known as “retained risk”.
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.8.1.7]</rdfs:comment>
         <rdfs:label xml:lang="en">resilience</rdfs:label>
         <skos:definition xml:lang="en">adaptive capacity of an organization (3.3.7) in a complex and changing environment</skos:definition>
+	<skos:prefLabel xml:lang="en">resilience</skos:prefLabel>
     </owl:Class>
     
 
@@ -1311,6 +1381,7 @@ Note 2 to entry: Residual risk can also be known as “retained risk”.
 [SOURCE:ISO Guide 73:2009, 3.8.2.2, modified — “risk control” has replaced “control” in Note 1 to entry.]</rdfs:comment>
         <rdfs:label xml:lang="en">review</rdfs:label>
         <skos:definition xml:lang="en">activity undertaken to determine the suitability, adequacy and effectiveness of the subject matter to achieve established objectives (3.1.2)</skos:definition>
+	<skos:prefLabel xml:lang="en">review</skos:prefLabel>
     </owl:Class>
     
 
@@ -1340,6 +1411,7 @@ Note 2 to entry: Objectives can have different aspects and categories, and can b
 Note 3 to entry: Risk is usually expressed in terms of risk sources (3.3.10), potential events (3.3.11), their consequences (3.3.18) and their likelihood (3.3.16).</rdfs:comment>
         <rdfs:label xml:lang="en">risk</rdfs:label>
         <skos:definition xml:lang="en">effect of uncertainty (3.1.3) on objectives (3.1.2)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk</skos:prefLabel>
     </owl:Class>
     
 
@@ -1364,6 +1436,7 @@ Note 2 to entry: Accepted risks are subject to monitoring (3.3.40) and review (3
 [SOURCE:ISO Guide 73:2009, 3.7.1.6]</rdfs:comment>
         <rdfs:label xml:lang="en">risk acceptance</rdfs:label>
         <skos:definition xml:lang="en">informed decision to take a particular risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk acceptance</skos:prefLabel>
     </owl:Class>
     
 
@@ -1392,6 +1465,7 @@ Note 2 to entry: Accepted risks are subject to monitoring (3.3.40) and review (3
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.7.1.5]</rdfs:comment>
         <rdfs:label xml:lang="en">risk aggregation</rdfs:label>
         <skos:definition xml:lang="en">combination of a number of risks (3.1.1) into one risk to develop a more complete understanding of the overall risk</skos:definition>
+	<skos:prefLabel xml:lang="en">risk aggregation</skos:prefLabel>
     </owl:Class>
     
 
@@ -1421,6 +1495,7 @@ Note 2 to entry: Accepted risks are subject to monitoring (3.3.40) and review (3
 [SOURCE:ISO Guide 73:2009, 3.6.1, modified —Note 2 to entry has been deleted.]</rdfs:comment>
         <rdfs:label xml:lang="en">risk analysis</rdfs:label>
         <skos:definition xml:lang="en">process to comprehend the nature of risk (3.1.1) and to determine the level of risk (3.3.22)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk analysis</skos:prefLabel>
     </owl:Class>
     
 
@@ -1448,6 +1523,7 @@ Note 2 to entry: Accepted risks are subject to monitoring (3.3.40) and review (3
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.7.1.2]</rdfs:comment>
         <rdfs:label xml:lang="en">risk appetite</rdfs:label>
         <skos:definition xml:lang="en">amount and type of risk (3.1.1) that an organization (3.3.7) is willing to pursue or retain</skos:definition>
+	<skos:prefLabel xml:lang="en">risk appetite</skos:prefLabel>
     </owl:Class>
     
 
@@ -1481,6 +1557,7 @@ Note 2 to entry: Accepted risks are subject to monitoring (3.3.40) and review (3
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.4.1]</rdfs:comment>
         <rdfs:label xml:lang="en">risk assessment</rdfs:label>
         <skos:definition xml:lang="en">overall process of risk identification (3.3.9), risk analysis (3.3.15) and risk evaluation (3.3.25)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk assessment</skos:prefLabel>
     </owl:Class>
     
 
@@ -1502,6 +1579,7 @@ Note 2 to entry: Accepted risks are subject to monitoring (3.3.40) and review (3
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.7.1.1]</rdfs:comment>
         <rdfs:label xml:lang="en">risk attitude</rdfs:label>
         <skos:definition xml:lang="en">organization’s (3.3.7) approach to assess and eventually pursue, retain, take or turn away from risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk attitude</skos:prefLabel>
     </owl:Class>
     
 
@@ -1518,6 +1596,7 @@ Note 2 to entry: Accepted risks are subject to monitoring (3.3.40) and review (3
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.7.1.4]</rdfs:comment>
         <rdfs:label xml:lang="en">risk aversion</rdfs:label>
         <skos:definition xml:lang="en">attitude to turn away from risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk aversion</skos:prefLabel>
     </owl:Class>
     
 
@@ -1540,6 +1619,7 @@ Note 2 to entry: Accepted risks are subject to monitoring (3.3.40) and review (3
 [SOURCE:ISO Guide 73:2009, 3.8.1.2]</rdfs:comment>
         <rdfs:label xml:lang="en">risk avoidance</rdfs:label>
         <skos:definition xml:lang="en">informed decision not to be involved in, or to withdraw from, an activity in order not to be exposed to a particular risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk avoidance</skos:prefLabel>
     </owl:Class>
     
 
@@ -1562,6 +1642,7 @@ Note 2 to entry: Accepted risks are subject to monitoring (3.3.40) and review (3
 Note 2 to entry: Risk controls do not always exert the intended or assumed modifying effect.</rdfs:comment>
         <rdfs:label xml:lang="en">risk control</rdfs:label>
         <skos:definition xml:lang="en">measure that maintains and/or modifies risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk control</skos:prefLabel>
     </owl:Class>
     
 
@@ -1585,6 +1666,7 @@ Note 2 to entry: Risk criteria can be derived from standards, laws, policies and
 [SOURCE:ISO Guide 73:2009, 3.3.1.3, modified — “risk” has replaced “a risk” in the definition.]</rdfs:comment>
         <rdfs:label xml:lang="en">risk criteria</rdfs:label>
         <skos:definition xml:lang="en">terms of reference against which the significance of risk (3.1.1) is evaluated</skos:definition>
+	<skos:prefLabel xml:lang="en">risk criteria</skos:prefLabel>
     </owl:Class>
     
 
@@ -1606,6 +1688,7 @@ Note 2 to entry: Risk criteria can be derived from standards, laws, policies and
         <rdfs:comment xml:lang="en">[SOURCE:IEC 31010:2019, 3.4]</rdfs:comment>
         <rdfs:label xml:lang="en">risk driver</rdfs:label>
         <skos:definition xml:lang="en">factor that has a major influence on risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk driver</skos:prefLabel>
     </owl:Class>
     
 
@@ -1635,6 +1718,7 @@ Note 2 to entry: Risk criteria can be derived from standards, laws, policies and
 [SOURCE:ISO Guide 73:2009, 3.7.1, modified — “and/or its magnitude” has been deleted from the definition.]</rdfs:comment>
         <rdfs:label xml:lang="en">risk evaluation</rdfs:label>
         <skos:definition xml:lang="en">process of comparing the results of risk analysis (3.3.15) with risk criteria (3.3.6) to determine whether the risk (3.1.1) is acceptable or tolerable</skos:definition>
+	<skos:prefLabel xml:lang="en">risk evaluation</skos:prefLabel>
     </owl:Class>
     
 
@@ -1651,6 +1735,7 @@ Note 2 to entry: Risk criteria can be derived from standards, laws, policies and
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.8.1.4]</rdfs:comment>
         <rdfs:label xml:lang="en">risk financing</rdfs:label>
         <skos:definition xml:lang="en">form of risk treatment (3.3.32) involving contingent arrangements for the provision of funds to meet or modify the financial consequences (3.3.18) should they occur</skos:definition>
+	<skos:prefLabel xml:lang="en">risk financing</skos:prefLabel>
     </owl:Class>
     
 
@@ -1675,6 +1760,7 @@ Note 2 to entry: Risk identification can involve historical data, theoretical an
 [SOURCE:ISO Guide 73:2009, 3.5.1, modified — “interested party” has replaced “stakeholder”.]</rdfs:comment>
         <rdfs:label xml:lang="en">risk identification</rdfs:label>
         <skos:definition xml:lang="en">process of finding, recognizing and describing risks (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk identification</skos:prefLabel>
     </owl:Class>
     
 
@@ -1701,6 +1787,7 @@ Note 2 to entry: Risk identification can involve historical data, theoretical an
         <dcterms:subject xml:lang="en">risk management</dcterms:subject>
         <rdfs:label xml:lang="en">risk management</rdfs:label>
         <skos:definition xml:lang="en">coordinated activities to direct and control an organization (3.3.7) with regard to risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk management</skos:prefLabel>
     </owl:Class>
     
 
@@ -1717,6 +1804,7 @@ Note 2 to entry: Risk identification can involve historical data, theoretical an
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.8.2.6]</rdfs:comment>
         <rdfs:label xml:lang="en">risk management audit</rdfs:label>
         <skos:definition xml:lang="en">systematic, independent and documented process for obtaining evidence and evaluating it objectively in order to determine the extent to which the risk management framework, or any selected part of it, is adequate and effective</skos:definition>
+	<skos:prefLabel xml:lang="en">risk management audit</skos:prefLabel>
     </owl:Class>
     
 
@@ -1740,6 +1828,7 @@ Note 2 to entry: The risk management plan can be applied to a particular product
 [SOURCE:ISO Guide 73:2009, 2.1.3]</rdfs:comment>
         <rdfs:label xml:lang="en">risk management plan</rdfs:label>
         <skos:definition xml:lang="en">scheme within the risk management framework specifying the approach, the management components and resources to be applied to the management of risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk management plan</skos:prefLabel>
     </owl:Class>
     
 
@@ -1767,6 +1856,7 @@ Note 2 to entry: The risk management plan can be applied to a particular product
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 2.1.2]</rdfs:comment>
         <rdfs:label xml:lang="en">risk management policy</rdfs:label>
         <skos:definition xml:lang="en">statement of the overall intentions and direction of an organization (3.3.7) related to risk management (3.2.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk management policy</skos:prefLabel>
     </owl:Class>
     
 
@@ -1783,6 +1873,7 @@ Note 2 to entry: The risk management plan can be applied to a particular product
 [SOURCE:ISO Guide 73:2009, 3.1]</rdfs:comment>
         <rdfs:label xml:lang="en">risk management process</rdfs:label>
         <skos:definition xml:lang="en">systematic application of management policies, procedures and practices to the activities of communicating, consulting, establishing the context, and identifying, analysing, evaluating, treating, monitoring (3.3.40) and reviewing risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk management process</skos:prefLabel>
     </owl:Class>
     
 
@@ -1804,6 +1895,7 @@ Note 2 to entry: The risk management plan can be applied to a particular product
         <rdfs:label xml:lang="en">risk owner</rdfs:label>
         <skos:definition xml:lang="en">person or entity with the accountability and authority to manage risk (3.1.1)
 [SOURCE:ISO Guide 73:2009, 3.5.1.5, modified — “risk” has replaced “a risk” in the definition.]</skos:definition>
+	<skos:prefLabel xml:lang="en">risk owner</skos:prefLabel>
     </owl:Class>
     
 
@@ -1826,6 +1918,7 @@ Note 2 to entry: The risk management plan can be applied to a particular product
 [SOURCE:ISO Guide 73:2009, 3.2.1.2, modified — “interested party” has replaced “stakeholder”, and “risk” has replaced “a risk” in the definition.]</rdfs:comment>
         <rdfs:label xml:lang="en">risk perception</rdfs:label>
         <skos:definition xml:lang="en">interested party’s (3.3.2) view on risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk perception</skos:prefLabel>
     </owl:Class>
     
 
@@ -1861,6 +1954,7 @@ Note 2 to entry: The risk management plan can be applied to a particular product
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.8.2.3, modified — “interested party” has replaced “stakeholder”.]</rdfs:comment>
         <rdfs:label xml:lang="en">risk reporting</rdfs:label>
         <skos:definition xml:lang="en">form of communication intended to inform particular internal or external interested party (3.3.2) by providing information regarding the current state of risk (3.1.1) and its management</skos:definition>
+	<skos:prefLabel xml:lang="en">risk reporting</skos:prefLabel>
     </owl:Class>
     
 
@@ -1884,6 +1978,7 @@ Note 2 to entry: The level of risk (3.3.22) retained can depend on risk criteria
 [SOURCE:ISO Guide 73:2009, 3.8.1.5]</rdfs:comment>
         <rdfs:label xml:lang="en">risk retention</rdfs:label>
         <skos:definition xml:lang="en">acceptance of the potential benefit of gain, or burden of loss, from a particular risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk retention</skos:prefLabel>
     </owl:Class>
     
 
@@ -1903,6 +1998,7 @@ Note 3 to entry: The extent to which risk is distributed can depend on the relia
 [SOURCE:ISO Guide 73:2009, 3.8.1.3, modified — Note 4 to entry has been deleted.]</rdfs:comment>
         <rdfs:label xml:lang="en">risk sharing</rdfs:label>
         <skos:definition xml:lang="en">form of risk treatment (3.3.32) involving the agreed distribution of risk (3.1.1) with other parties</skos:definition>
+	<skos:prefLabel xml:lang="en">risk sharing</skos:prefLabel>
     </owl:Class>
     
 
@@ -1924,6 +2020,7 @@ Note 3 to entry: The extent to which risk is distributed can depend on the relia
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk source</rdfs:label>
         <skos:definition xml:lang="en">element which alone or in combination has the potential to give rise to risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk source</skos:prefLabel>
     </owl:Class>
     
 
@@ -1959,6 +2056,7 @@ Note 3 to entry: The extent to which risk is distributed can depend on the relia
 [SOURCE:ISO Guide 73:2009, 3.7.1.3, modified — “interested party” has replaced “stakeholder”, and “residual risk” has replaced “risk after risk treatment”.]</rdfs:comment>
         <rdfs:label xml:lang="en">risk tolerance</rdfs:label>
         <skos:definition xml:lang="en">organization’s (3.3.7) or interested party’s (3.3.2) readiness to bear the residual risk (3.3.38) in order to achieve its objectives (3.1.2)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk tolerance</skos:prefLabel>
     </owl:Class>
     
 
@@ -1991,6 +2089,7 @@ Note 3 to entry: Risk treatment can create new risks or modify existing risks.
 [SOURCE:ISO Guide 73:2009, 3.8.1]</rdfs:comment>
         <rdfs:label xml:lang="en">risk treatment</rdfs:label>
         <skos:definition xml:lang="en">process to modify risk (3.1.1)</skos:definition>
+	<skos:prefLabel xml:lang="en">risk treatment</skos:prefLabel>
     </owl:Class>
     
 
@@ -2018,6 +2117,7 @@ Note 3 to entry: Risk treatment can create new risks or modify existing risks.
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">stakeholder</rdfs:label>
         <skos:definition xml:lang="en">person or organization (3.3.7) that can affect, be affected by, or perceives itself to be affected by a decision or activity</skos:definition>
+	<skos:prefLabel xml:lang="en">stakeholder</skos:prefLabel>
     </owl:Class>
     
 
@@ -2035,6 +2135,7 @@ Note 3 to entry: Risk treatment can create new risks or modify existing risks.
 Note 2 to entry: A threat to one party may pose an opportunity (3.3.23) to another.</rdfs:comment>
         <rdfs:label xml:lang="en">threat</rdfs:label>
         <skos:definition xml:lang="en">potential source of danger, harm, or other undesirable outcome</skos:definition>
+	<skos:prefLabel xml:lang="en">threat</skos:prefLabel>
     </owl:Class>
     
 
@@ -2051,6 +2152,7 @@ Note 2 to entry: A threat to one party may pose an opportunity (3.3.23) to anoth
 Note 2 to entry: Uncertainty is the root source of risk (3.1.1), namely any kind of “deficiency of information” that matters in relation to objectives (and objectives, in turn, relate to all relevant interested parties’ (3.3.2) needs and expectations).</rdfs:comment>
         <rdfs:label xml:lang="en">uncertainty</rdfs:label>
         <skos:definition xml:lang="en">state, even partial, of deficiency of information related to understanding or knowledge</skos:definition>
+	<skos:prefLabel xml:lang="en">uncertainty</skos:prefLabel>
     </owl:Class>
     
 
@@ -2078,6 +2180,7 @@ Note 2 to entry: Uncertainty is the root source of risk (3.1.1), namely any kind
         <rdfs:comment xml:lang="en">[SOURCE:ISO Guide 73:2009, 3.6.1.6]</rdfs:comment>
         <rdfs:label xml:lang="en">vulnerability</rdfs:label>
         <skos:definition xml:lang="en">intrinsic properties of something resulting in susceptibility to a risk source (3.3.10) that can lead to an event (3.3.11) with a consequence (3.3.18)</skos:definition>
+	<skos:prefLabel xml:lang="en">vulnerability</skos:prefLabel>
     </owl:Class>
 </rdf:RDF>
 
