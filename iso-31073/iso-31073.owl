@@ -979,7 +979,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:9b69e28e-02c0-465a-96f9-4749f0c8c0cb"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.18"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">consequence</rdfs:label>
         <skos:definition xml:lang="en">outcome of an event (3.3.11) affecting objectives (3.1.2)</skos:definition>
         <skos:prefLabel xml:lang="en">consequence</skos:prefLabel>
@@ -1022,7 +1022,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:558ea383-5f79-41da-be94-11bf5f775004"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.11"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">event</rdfs:label>
         <skos:definition xml:lang="en">occurrence or change of a particular set of circumstances</skos:definition>
         <skos:prefLabel xml:lang="en">event</skos:prefLabel>
@@ -1066,7 +1066,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:33:56Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.17"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.2</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">exposure</rdfs:label>
         <skos:definition xml:lang="en">extent to which an organization (3.3.7) and/or interested party (3.3.2) is subject to an event (3.3.11)</skos:definition>
         <skos:prefLabel xml:lang="en">exposure</skos:prefLabel>
@@ -1090,7 +1090,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:18:25Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.4"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.3.1.1</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">external context</rdfs:label>
         <skos:definition xml:lang="en">external environment in which the organization (3.3.7) seeks to achieve its objectives (3.1.2)</skos:definition>
         <skos:prefLabel xml:lang="en">external context</skos:prefLabel>
@@ -1132,7 +1132,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.20"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.5</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">frequency</rdfs:label>
         <skos:definition xml:lang="en">number of events (3.3.11) or outcomes per defined unit of time</skos:definition>
         <skos:prefLabel xml:lang="en">frequency</skos:prefLabel>
@@ -1157,7 +1157,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.12"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.5.1.4</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">hazard</rdfs:label>
         <skos:definition xml:lang="en">source of potential harm</skos:definition>
         <skos:prefLabel xml:lang="en">hazard</skos:prefLabel>
@@ -1192,7 +1192,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:d2fd7844-37a4-43ad-8a25-7c62e8559036"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:34:31Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.2"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">interested party</rdfs:label>
         <rdfs:label xml:lang="en">stakeholder</rdfs:label>
         <skos:definition xml:lang="en">person or organization (3.3.7) that can affect, be affected by, or perceives itself to be affected by a decision or activity</skos:definition>
@@ -1210,7 +1210,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:20:16Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.5"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.3.1.2</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">internal context</rdfs:label>
         <skos:definition xml:lang="en">internal environment in which the organization (3.3.7) seeks to achieve its objectives (3.1.2)</skos:definition>
         <skos:prefLabel xml:lang="en">internal context</skos:prefLabel>
@@ -1275,7 +1275,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.22"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.8</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">level of risk</rdfs:label>
         <skos:definition xml:lang="en">magnitude of a risk (3.1.1) or combination of risks, expressed in terms of the combination of consequences (3.3.18) and their likelihood (3.3.16)</skos:definition>
         <skos:prefLabel xml:lang="en">level of risk</skos:prefLabel>
@@ -1304,7 +1304,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:dba4794d-5594-4734-a733-34196f289098"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.16"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">likelihood</rdfs:label>
         <skos:definition xml:lang="en">chance of something happening</skos:definition>
         <skos:prefLabel xml:lang="en">likelihood</skos:prefLabel>
@@ -1350,7 +1350,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:23:07Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.40"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.1</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">monitoring</rdfs:label>
         <skos:definition xml:lang="en">continual checking, supervising, critically observing or determining the status in order to identify change from the performance level required or expected</skos:definition>
         <skos:prefLabel xml:lang="en">monitoring</skos:prefLabel>
@@ -1379,7 +1379,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:80987a46-8560-4fb8-a764-61255cc917e9"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.2"/>
-        <dcterms:subject xml:lang="en">risk</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.1"/>
         <rdfs:label xml:lang="en">objective</rdfs:label>
         <skos:definition xml:lang="en">result to be achieved</skos:definition>
         <skos:prefLabel xml:lang="en">objective</skos:prefLabel>
@@ -1423,7 +1423,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.23"/>
         <dcterms:source xml:lang="en">IEC 31010:2019, 3.2</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">opportunity</rdfs:label>
         <skos:definition xml:lang="en">combination of circumstances expected to be favourable to objectives (3.1.2)</skos:definition>
         <skos:prefLabel xml:lang="en">opportunity</skos:prefLabel>
@@ -1491,7 +1491,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:95f3deb1-6535-4537-883b-4416f01029f7"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:33:56Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.7"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">organization</rdfs:label>
         <skos:definition xml:lang="en">person or group of people that has its own functions with responsibilities, authorities and relationships to achieve its objectives (3.1.2)</skos:definition>
         <skos:prefLabel xml:lang="en">organization</skos:prefLabel>
@@ -1515,7 +1515,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:23:21Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.19"/>
         <dcterms:source xml:lang="en">IEC 31010:2019, 3.3</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">probability</rdfs:label>
         <skos:definition xml:lang="en">measure of the chance of occurrence expressed as a number from 0 to 1, where 0 is impossibility and 1 is absolute certainty</skos:definition>
         <skos:prefLabel xml:lang="en">probability</skos:prefLabel>
@@ -1552,7 +1552,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.38"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.6</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">residual risk</rdfs:label>
         <skos:definition xml:lang="en">risk (3.1.1) remaining after risk treatment (3.3.32)</skos:definition>
         <skos:prefLabel xml:lang="en">residual risk</skos:prefLabel>
@@ -1589,7 +1589,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.39"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.7</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">resilience</rdfs:label>
         <skos:definition xml:lang="en">adaptive capacity of an organization (3.3.7) in a complex and changing environment</skos:definition>
         <skos:prefLabel xml:lang="en">resilience</skos:prefLabel>
@@ -1613,7 +1613,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:23:37Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.41"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.2</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">review</rdfs:label>
         <skos:definition xml:lang="en">activity undertaken to determine the suitability, adequacy and effectiveness of the subject matter to achieve established objectives (3.1.2)</skos:definition>
         <skos:prefLabel xml:lang="en">review</skos:prefLabel>
@@ -1654,7 +1654,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:d501ae7c-bb44-4eb2-b0fc-2f59eb5b3afe"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.1"/>
-        <dcterms:subject xml:lang="en">risk</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.1"/>
         <rdfs:label xml:lang="en">risk</rdfs:label>
         <skos:definition xml:lang="en">effect of uncertainty (3.1.3) on objectives (3.1.2)</skos:definition>
         <skos:prefLabel xml:lang="en">risk</skos:prefLabel>
@@ -1699,7 +1699,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.31"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.6</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk acceptance</rdfs:label>
         <skos:definition xml:lang="en">informed decision to take a particular risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk acceptance</skos:prefLabel>
@@ -1743,7 +1743,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.30"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.5</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk aggregation</rdfs:label>
         <skos:definition xml:lang="en">combination of a number of risks (3.1.1) into one risk to develop a more complete understanding of the overall risk</skos:definition>
         <skos:prefLabel xml:lang="en">risk aggregation</skos:prefLabel>
@@ -1773,7 +1773,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:20:37Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.15"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk analysis</rdfs:label>
         <skos:definition xml:lang="en">process to comprehend the nature of risk (3.1.1) and to determine the level of risk (3.3.22)</skos:definition>
         <skos:prefLabel xml:lang="en">risk analysis</skos:prefLabel>
@@ -1815,7 +1815,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.27"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.2</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk appetite</rdfs:label>
         <skos:definition xml:lang="en">amount and type of risk (3.1.1) that an organization (3.3.7) is willing to pursue or retain</skos:definition>
         <skos:prefLabel xml:lang="en">risk appetite</skos:prefLabel>
@@ -1850,7 +1850,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.8"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.4.1</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk assessment</rdfs:label>
         <skos:definition xml:lang="en">overall process of risk identification (3.3.9), risk analysis (3.3.15) and risk evaluation (3.3.25)</skos:definition>
         <skos:prefLabel xml:lang="en">risk assessment</skos:prefLabel>
@@ -1873,7 +1873,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.26"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.1</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk attitude</rdfs:label>
         <skos:definition xml:lang="en">organization’s (3.3.7) approach to assess and eventually pursue, retain, take or turn away from risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk attitude</skos:prefLabel>
@@ -1891,7 +1891,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.29"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.4</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk aversion</rdfs:label>
         <skos:definition xml:lang="en">attitude to turn away from risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk aversion</skos:prefLabel>
@@ -1914,7 +1914,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.34"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.2</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk avoidance</rdfs:label>
         <skos:definition xml:lang="en">informed decision not to be involved in, or to withdraw from, an activity in order not to be exposed to a particular risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk avoidance</skos:prefLabel>
@@ -1943,7 +1943,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:384c3e40-d883-44de-8127-6ce75272e9af"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.33"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk control</rdfs:label>
         <skos:definition xml:lang="en">measure that maintains and/or modifies risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk control</skos:prefLabel>
@@ -1980,7 +1980,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:21:07Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.6"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.3.1.3</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk criteria</rdfs:label>
         <skos:definition xml:lang="en">terms of reference against which the significance of risk (3.1.1) is evaluated</skos:definition>
         <skos:prefLabel xml:lang="en">risk criteria</skos:prefLabel>
@@ -2023,7 +2023,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.24"/>
         <dcterms:source xml:lang="en">IEC 31010:2019, 3.4</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk driver</rdfs:label>
         <skos:definition xml:lang="en">factor that has a major influence on risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk driver</skos:prefLabel>
@@ -2053,7 +2053,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:21:22Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.25"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk evaluation</rdfs:label>
         <skos:definition xml:lang="en">process of comparing the results of risk analysis (3.3.15) with risk criteria (3.3.6) to determine whether the risk (3.1.1) is acceptable or tolerable</skos:definition>
         <skos:prefLabel xml:lang="en">risk evaluation</skos:prefLabel>
@@ -2084,7 +2084,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.36"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.4</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk financing</rdfs:label>
         <skos:definition xml:lang="en">form of risk treatment (3.3.32) involving contingent arrangements for the provision of funds to meet or modify the financial consequences (3.3.18) should they occur</skos:definition>
         <skos:prefLabel xml:lang="en">risk financing</skos:prefLabel>
@@ -2108,7 +2108,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:21:36Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.9"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.5.1</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk identification</rdfs:label>
         <skos:definition xml:lang="en">process of finding, recognizing and describing risks (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk identification</skos:prefLabel>
@@ -2155,7 +2155,7 @@
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:930d4063-18f2-4e18-aec6-bf95aacab77b"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.1"/>
-        <dcterms:subject xml:lang="en">risk management</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.1"/>
         <rdfs:label xml:lang="en">risk management</rdfs:label>
         <skos:definition xml:lang="en">coordinated activities to direct and control an organization (3.3.7) with regard to risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk management</skos:prefLabel>
@@ -2173,7 +2173,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.43"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.6</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk management audit</rdfs:label>
         <skos:definition xml:lang="en">systematic, independent and documented process for obtaining evidence and evaluating it objectively in order to determine the extent to which the risk management framework, or any selected part of it, is adequate and effective</skos:definition>
         <skos:prefLabel xml:lang="en">risk management audit</skos:prefLabel>
@@ -2196,7 +2196,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.3"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 2.1.3</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.1"/>
         <rdfs:label xml:lang="en">risk management plan</rdfs:label>
         <skos:definition xml:lang="en">scheme within the risk management framework specifying the approach, the management components and resources to be applied to the management of risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk management plan</skos:prefLabel>
@@ -2239,7 +2239,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.2"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 2.1.2</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.1"/>
         <rdfs:label xml:lang="en">risk management policy</rdfs:label>
         <skos:definition xml:lang="en">statement of the overall intentions and direction of an organization (3.3.7) related to risk management (3.2.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk management policy</skos:prefLabel>
@@ -2256,7 +2256,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:16:56Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.1</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk management process</rdfs:label>
         <skos:definition xml:lang="en">systematic application of management policies, procedures and practices to the activities of communicating, consulting, establishing the context, and identifying, analysing, evaluating, treating, monitoring (3.3.40) and reviewing risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk management process</skos:prefLabel>
@@ -2279,7 +2279,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:24:55Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.14"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.5.1.5</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk owner</rdfs:label>
         <skos:definition xml:lang="en">person or entity with the accountability and authority to manage risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk owner</skos:prefLabel>
@@ -2308,7 +2308,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:33:56Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.3"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.2.1.2</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk perception</rdfs:label>
         <skos:definition xml:lang="en">interested party’s (3.3.2) view on risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk perception</skos:prefLabel>
@@ -2358,7 +2358,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:33:56Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.42"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.3</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk reporting</rdfs:label>
         <skos:definition xml:lang="en">form of communication intended to inform particular internal or external interested party (3.3.2) by providing information regarding the current state of risk (3.1.1) and its management</skos:definition>
         <skos:prefLabel xml:lang="en">risk reporting</skos:prefLabel>
@@ -2387,7 +2387,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.37"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.5</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk retention</rdfs:label>
         <skos:definition xml:lang="en">acceptance of the potential benefit of gain, or burden of loss, from a particular risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk retention</skos:prefLabel>
@@ -2419,7 +2419,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:22:22Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.35"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.3</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk sharing</rdfs:label>
         <skos:definition xml:lang="en">form of risk treatment (3.3.32) involving the agreed distribution of risk (3.1.1) with other parties</skos:definition>
         <skos:prefLabel xml:lang="en">risk sharing</skos:prefLabel>
@@ -2468,7 +2468,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:93eafd73-83d3-4dd9-8fe4-9efb36c4a444"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-12T07:19:31Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.10"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk source</rdfs:label>
         <skos:definition xml:lang="en">element which alone or in combination has the potential to give rise to risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk source</skos:prefLabel>
@@ -2504,7 +2504,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:33:56Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.28"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.3</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk tolerance</rdfs:label>
         <skos:definition xml:lang="en">organization’s (3.3.7) or interested party’s (3.3.2) readiness to bear the residual risk (3.3.38) in order to achieve its objectives (3.1.2)</skos:definition>
         <skos:prefLabel xml:lang="en">risk tolerance</skos:prefLabel>
@@ -2541,7 +2541,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.32"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk treatment</rdfs:label>
         <skos:definition xml:lang="en">process to modify risk (3.1.1)</skos:definition>
         <skos:prefLabel xml:lang="en">risk treatment</skos:prefLabel>
@@ -2593,7 +2593,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:3fc5a47a-d88f-4d98-b14b-3c6cbeac572c"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.13"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">threat</rdfs:label>
         <skos:definition xml:lang="en">potential source of danger, harm, or other undesirable outcome</skos:definition>
         <skos:prefLabel xml:lang="en">threat</skos:prefLabel>
@@ -2623,7 +2623,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:250d3e6a-ef33-4248-bb63-6ffe62154b20"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.3"/>
-        <dcterms:subject xml:lang="en">risk</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.1"/>
         <rdfs:label xml:lang="en">uncertainty</rdfs:label>
         <skos:definition xml:lang="en">state, even partial, of deficiency of information related to understanding or knowledge</skos:definition>
         <skos:prefLabel xml:lang="en">uncertainty</skos:prefLabel>
@@ -2666,7 +2666,7 @@
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.21"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.6</dcterms:source>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">vulnerability</rdfs:label>
         <skos:definition xml:lang="en">intrinsic properties of something resulting in susceptibility to a risk source (3.3.10) that can lead to an event (3.3.11) with a consequence (3.3.18)</skos:definition>
         <skos:prefLabel xml:lang="en">vulnerability</skos:prefLabel>
