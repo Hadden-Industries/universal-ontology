@@ -8,46 +8,33 @@ const NS = {
     dcat: "http://www.w3.org/ns/dcat#"
 };
 
-let ontologyData = [];
-
 async function loadAndProcessXML(url) {
-    try {
-        const response = await fetch(url).catch(() => null);
-        
-        let xmlText = "";
-        if (response && response.ok) {
-            xmlText = await response.text();
-        } else {
-            document.getElementById('status-message').innerText = `File at '${url}' not found or could not be loaded.`;
-            return;
-        }
-
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-        
-        if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
-            throw new Error("Error parsing XML document");
-        }
-
-        // Dynamically update the header title based on the Ontology's dcterms:title
-        const ontologyNode = xmlDoc.getElementsByTagNameNS(NS.owl, "Ontology")[0];
-        if (ontologyNode) {
-            const ontologyTitle = getPreferredLangText(ontologyNode, NS.dcterms, "title");
-            if (ontologyTitle) {
-                document.getElementById('page-title').innerText = `${ontologyTitle} Vocabulary`;
-            }
-        }
-
-        ontologyData = extractOntologyData(xmlDoc);
-        renderTable(ontologyData);
-        
-        document.getElementById('status-message').innerText = `${ontologyData.length} records loaded.`;
-        document.getElementById('export-csv-btn').disabled = false;
-
-    } catch (error) {
-        console.error("Processing error:", error);
-        document.getElementById('status-message').innerText = "Failed to process XML data.";
+    const response = await fetch(url).catch(() => null);
+    
+    if (!response || !response.ok) {
+        throw new Error(`File at '${url}' not found or could not be loaded.`);
     }
+
+    const xmlText = await response.text();
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+    
+    if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
+        throw new Error("Error parsing XML document");
+    }
+
+    let ontologyTitle = "";
+    const ontologyNode = xmlDoc.getElementsByTagNameNS(NS.owl, "Ontology")[0];
+    if (ontologyNode) {
+        ontologyTitle = getPreferredLangText(ontologyNode, NS.dcterms, "title");
+    }
+
+    const ontologyData = extractOntologyData(xmlDoc);
+
+    return {
+        title: ontologyTitle,
+        data: ontologyData
+    };
 }
 
 function buildAxiomIndex(xmlDoc) {
@@ -264,8 +251,8 @@ function escapeHTML(str) {
     );
 }
 
-function exportCSV() {
-    if (ontologyData.length === 0) return;
+function exportCSV(ontologyData) {
+    if (!ontologyData || ontologyData.length === 0) return;
 
     const headers = [
         "Entity Type", "UUID", "URI", "Preferred Label", "Definition", 
