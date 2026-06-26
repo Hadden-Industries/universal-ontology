@@ -25,30 +25,6 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             color: var(--text-main);
         }
-        .header-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem;
-        }
-        button {
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.875rem;
-            transition: background-color 0.15s;
-        }
-        button:hover {
-            background-color: var(--btn-hover);
-        }
-        button:disabled {
-            background-color: var(--text-muted);
-            cursor: not-allowed;
-        }
         .table-container {
             background: var(--surface);
         }
@@ -103,10 +79,6 @@
             font-weight: 600;
             white-space: nowrap;
         }
-        #status-message {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
         a {
             color: var(--btn-bg);
             text-decoration: none;
@@ -117,14 +89,6 @@
     </style>
 </head>
 <body>
-
-    <div class="header-controls">
-        <h2 id="page-title" style="margin: 0;">Ontology Vocabulary</h2>
-        <div>
-            <span id="status-message">Loading data...</span>
-            <button id="export-csv-btn" disabled>Export to CSV</button>
-        </div>
-    </div>
 
     <div class="table-container">
         <table>
@@ -181,16 +145,7 @@
             });
         }
 
-        // Wrapper to pass our local state to the shared export function
-        function triggerExport() {
-            if (typeof exportCSV === 'function' && localExtractedData.length > 0) {
-                exportCSV(localExtractedData);
-            }
-        }
-
         document.addEventListener("DOMContentLoaded", async () => {
-            // Bind export button
-            document.getElementById('export-csv-btn').addEventListener('click', triggerExport);
 
             const pathname = window.location.pathname;
             const basePath = pathname.endsWith('/') ? pathname : pathname.substring(0, pathname.lastIndexOf('/') + 1);
@@ -204,21 +159,15 @@
                 if (result && result.title) {
                     const displayTitle = `${result.title} Vocabulary`;
                     document.title = displayTitle;
-                    document.getElementById('page-title').innerText = displayTitle;
                 }
                 
                 // Render table and enable CSV download if data exists
                 if (result && result.data && result.data.length > 0) {
                     localExtractedData = result.data;
                     renderTable(localExtractedData);
-                    document.getElementById('status-message').innerText = `${localExtractedData.length} records loaded.`;
-                    document.getElementById('export-csv-btn').disabled = false;
-                } else {
-                    document.getElementById('status-message').innerText = "No records found in the XML payload.";
                 }
             } catch (error) {
                 console.error("Processing error:", error);
-                document.getElementById('status-message').innerText = "Failed to process XML data.";
             }
         });
     </script>
