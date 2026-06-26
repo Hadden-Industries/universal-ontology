@@ -11,7 +11,7 @@
   <xsl:preserve-space elements="*"/>
 
   <!-- Global parameter for dynamic runtime timestamp injection -->
-  <xsl:param name="current-timestamp" select="'2026-06-26T08:53:00Z'"/>
+  <xsl:param name="current-timestamp" select="'2026-06-26T21:22:00Z'"/>
 
   <!-- Identity Transform -->
   <xsl:template match="@* | node()">
@@ -192,6 +192,13 @@
               </xsl:call-template>
             </xsl:variable>
 
+            <!-- Determine the start sequence for the NEXT valid note -->
+            <xsl:variable name="next-text">
+              <xsl:call-template name="get-rest-after-note">
+                <xsl:with-param name="text" select="$rest-of-text"/>
+              </xsl:call-template>
+            </xsl:variable>
+
             <!-- Inject skos:scopeNote sibling formatting -->
             <xsl:if test="$mode = 'scope-notes'">
               <skos:scopeNote>
@@ -200,7 +207,11 @@
                   <xsl:with-param name="text" select="$trimmed-note"/>
                 </xsl:call-template>
               </skos:scopeNote>
-              <xsl:text>&#10;        </xsl:text>
+              
+              <!-- Conditionally append formatting ONLY if there is another sibling coming -->
+              <xsl:if test="$next-text != ''">
+                <xsl:text>&#10;        </xsl:text>
+              </xsl:if>
             </xsl:if>
 
             <!-- Inject detached owl:Axiom formatting -->
@@ -223,13 +234,6 @@
                 <xsl:text>&#10;    </xsl:text>
               </owl:Axiom>
             </xsl:if>
-
-            <!-- Determine the start sequence for the NEXT valid note -->
-            <xsl:variable name="next-text">
-              <xsl:call-template name="get-rest-after-note">
-                <xsl:with-param name="text" select="$rest-of-text"/>
-              </xsl:call-template>
-            </xsl:variable>
 
             <!-- Recurse synchronously -->
             <xsl:if test="$next-text != ''">
