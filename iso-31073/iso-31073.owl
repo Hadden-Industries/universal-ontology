@@ -139,15 +139,21 @@
     
 
 
+    <!-- http://www.w3.org/2004/02/skos/core#altLabel -->
+
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#altLabel"/>
+    
+
+
     <!-- http://www.w3.org/2004/02/skos/core#definition -->
 
     <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#definition"/>
     
 
 
-    <!-- http://www.w3.org/2004/02/skos/core#note -->
+    <!-- http://www.w3.org/2004/02/skos/core#prefLabel -->
 
-    <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#note"/>
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#prefLabel"/>
     
 
 
@@ -190,10 +196,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/RiskOwner_manages">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskOwner"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:33:34Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">manages</rdfs:label>
-	<skos:prefLabel xml:lang="en">manages</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">manages</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -203,10 +209,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/accepts">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAcceptance"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:07:14Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">accepts</rdfs:label>
-	<skos:prefLabel xml:lang="en">accepts</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">accepts</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -216,10 +222,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/acceptsGainOrLossFrom">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskRetention"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:37:19Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">accepts gain or loss from</rdfs:label>
-	<skos:prefLabel xml:lang="en">accepts gain or loss from</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">accepts gain or loss from</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -229,10 +235,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/affects">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Consequence"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:21:01Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">affects</rdfs:label>
-	<skos:prefLabel xml:lang="en">affects</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">affects</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -242,10 +248,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/analysesVia">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAssessment"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAnalysis"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:12:55Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">analyses via</rdfs:label>
-	<skos:prefLabel xml:lang="en">analyses via</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">analyses via</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -255,10 +261,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/avoids">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAvoidance"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:19:15Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">avoids</rdfs:label>
-	<skos:prefLabel xml:lang="en">avoids</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">avoids</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -268,10 +274,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/bears">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTolerance"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/ResidualRisk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:28:56Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">bears</rdfs:label>
-	<skos:prefLabel xml:lang="en">bears</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">bears</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -281,10 +287,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/canBe">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSource"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:19:14Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">can be</rdfs:label>
-	<skos:prefLabel xml:lang="en">can be</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">can be</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -302,10 +308,10 @@
                 </owl:unionOf>
             </owl:Class>
         </rdfs:range>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:03:25Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">can be applied to</rdfs:label>
-	<skos:prefLabel xml:lang="en">can be applied to</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">can be applied to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -315,10 +321,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/canLeadto">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Vulnerability"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:36:37Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">can lead to</rdfs:label>
-	<skos:prefLabel xml:lang="en">can lead to</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">can lead to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -328,10 +334,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/combinesANumberOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAggregation"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:08:11Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">combines a number of</rdfs:label>
-	<skos:prefLabel xml:lang="en">combines a number of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">combines a number of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -341,10 +347,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/combinesInto">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAggregation"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:09:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">combines into</rdfs:label>
-	<skos:prefLabel xml:lang="en">combines into</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">combines into</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -354,10 +360,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/comparesAgainst">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskEvaluation"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskCriteria"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">compares against</rdfs:label>
-	<skos:prefLabel xml:lang="en">compares against</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">compares against</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -367,10 +373,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/comparesResultsOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskEvaluation"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAnalysis"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:13:33Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">compares results of</rdfs:label>
-	<skos:prefLabel xml:lang="en">compares results of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">compares results of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -380,10 +386,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/comprehendsTheNatureOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAnalysis"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:09:51Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">comprehends the nature of</rdfs:label>
-	<skos:prefLabel xml:lang="en">comprehends the nature of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">comprehends the nature of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -393,10 +399,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/determines">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAnalysis"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/LevelOfRisk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:10:20Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">determines</rdfs:label>
-	<skos:prefLabel xml:lang="en">determines</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">determines</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -406,10 +412,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/determinesQualityOfTheSubjectMatterToAchieveEstablished">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Review"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:39:33Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">determines quality of the subject matter to achieve established</rdfs:label>
-	<skos:prefLabel xml:lang="en">determines quality of the subject matter to achieve established</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">determines quality of the subject matter to achieve established</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -419,10 +425,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/directsAndControls">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagement"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">directs and controls</rdfs:label>
-	<skos:prefLabel xml:lang="en">directs and controls</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">directs and controls</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -432,10 +438,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/evaluatesVia">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAssessment"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskEvaluation"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:13:23Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">evaluates via</rdfs:label>
-	<skos:prefLabel xml:lang="en">evaluates via</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">evaluates via</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -445,10 +451,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/evalutesSignificanceOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskCriteria"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T11:47:57Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">evalutes significance of</rdfs:label>
-	<skos:prefLabel xml:lang="en">evalutes significance of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">evalutes significance of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -458,10 +464,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/findsRecognisesDescribes">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskIdentification"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T11:49:25Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">finds, recognises, describes</rdfs:label>
-	<skos:prefLabel xml:lang="en">finds, recognises, describes</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">finds, recognises, describes</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -471,10 +477,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/hasApproach">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAttitude"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:35:06Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">has approach</rdfs:label>
-	<skos:prefLabel xml:lang="en">has approach</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">has approach</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -484,10 +490,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/hasEffectOn">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">has effect on</rdfs:label>
-	<skos:prefLabel xml:lang="en">has effect on</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">has effect on</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -497,10 +503,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/hasViewOn">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskPerception"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:42:31Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">has view on</rdfs:label>
-	<skos:prefLabel xml:lang="en">has view on</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">has view on</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -510,10 +516,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/identifiesVia">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAssessment"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskIdentification"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:12:13Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">identifies via</rdfs:label>
-	<skos:prefLabel xml:lang="en">identifies via</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">identifies via</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -523,10 +529,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/influences">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskDriver"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">influences</rdfs:label>
-	<skos:prefLabel xml:lang="en">influences</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">influences</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -536,10 +542,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/informs">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskReporting"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Stakeholder"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:19:59Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">informs</rdfs:label>
-	<skos:prefLabel xml:lang="en">informs</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">informs</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -549,10 +555,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isAdaptiveCapacityOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Resilience"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is adaptive capacity of</rdfs:label>
-	<skos:prefLabel xml:lang="en">is adaptive capacity of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is adaptive capacity of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -562,10 +568,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isAppliedTo">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagementPlan"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagement"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:35:18Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is applied to</rdfs:label>
-	<skos:prefLabel xml:lang="en">is applied to</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is applied to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -575,10 +581,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isApproachTo">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAttitude"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:34:27Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is approach to</rdfs:label>
-	<skos:prefLabel xml:lang="en">is approach to</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is approach to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -595,10 +601,10 @@
                 </owl:unionOf>
             </owl:Class>
         </rdfs:range>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:01:45Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is described by</rdfs:label>
-	<skos:prefLabel xml:lang="en">is described by</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is described by</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -608,10 +614,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isEffectOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Uncertainty"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is effect of</rdfs:label>
-	<skos:prefLabel xml:lang="en">is effect of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is effect of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -628,10 +634,10 @@
             </owl:Class>
         </rdfs:domain>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Exposure"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is exposed to</rdfs:label>
-	<skos:prefLabel xml:lang="en">is exposed to</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is exposed to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -648,10 +654,10 @@
                 </owl:unionOf>
             </owl:Class>
         </rdfs:range>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:27:40Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is expressed in terms of</rdfs:label>
-	<skos:prefLabel xml:lang="en">is expressed in terms of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is expressed in terms of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -661,10 +667,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isFavourableTo">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Opportunity"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:38:13Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is favourable to</rdfs:label>
-	<skos:prefLabel xml:lang="en">is favourable to</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is favourable to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -674,10 +680,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isMagnitudeOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/LevelOfRisk"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:26:30Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is magnitude of</rdfs:label>
-	<skos:prefLabel xml:lang="en">is magnitude of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is magnitude of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -687,10 +693,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isNumberOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Frequency"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:25:48Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is number of</rdfs:label>
-	<skos:prefLabel xml:lang="en">is number of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is number of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -700,10 +706,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isSubjectTo">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Exposure"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T11:55:02Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is subject to</rdfs:label>
-	<skos:prefLabel xml:lang="en">is subject to</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is subject to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -720,10 +726,10 @@
                 </owl:unionOf>
             </owl:Class>
         </rdfs:range>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:26:28Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is tolerated by</rdfs:label>
-	<skos:prefLabel xml:lang="en">is tolerated by</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is tolerated by</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -733,10 +739,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/isTowardsAmountAndTypeOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAppetite"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:44:14Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">is towards amount and type of</rdfs:label>
-	<skos:prefLabel xml:lang="en">is towards amount and type of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">is towards amount and type of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -746,10 +752,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/maintainsAndOrModifies">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskControl"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:31:51Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">maintains and/or modifies</rdfs:label>
-	<skos:prefLabel xml:lang="en">maintains and/or modifies</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">maintains and/or modifies</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -759,10 +765,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/manages">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagement"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">manages</rdfs:label>
-	<skos:prefLabel xml:lang="en">manages</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">manages</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -772,10 +778,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/modifies">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">modifies</rdfs:label>
-	<skos:prefLabel xml:lang="en">modifies</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">modifies</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -792,10 +798,10 @@
                 </owl:unionOf>
             </owl:Class>
         </rdfs:range>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T11:57:05Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">operates in</rdfs:label>
-	<skos:prefLabel xml:lang="en">operates in</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">operates in</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -805,10 +811,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/percieves">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Stakeholder"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskPerception"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:43:16Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">percieves</rdfs:label>
-	<skos:prefLabel xml:lang="en">percieves</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">percieves</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -818,11 +824,11 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/potentiallyGivesRiseTo">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSource"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:23:39Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-12T07:19:31Z</dcterms:modified>
         <rdfs:label xml:lang="en">potentially gives rise to</rdfs:label>
-	<skos:prefLabel xml:lang="en">potentially gives rise to</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">potentially gives rise to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -832,10 +838,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/relatesTo">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagementPolicy"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagement"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:20:03Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">relates to</rdfs:label>
-	<skos:prefLabel xml:lang="en">relates to</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">relates to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -845,10 +851,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/remainsAfter">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/ResidualRisk"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:40:54Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">remains after</rdfs:label>
-	<skos:prefLabel xml:lang="en">remains after</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">remains after</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -865,10 +871,10 @@
                 </owl:unionOf>
             </owl:Class>
         </rdfs:range>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">reports on</rdfs:label>
-	<skos:prefLabel xml:lang="en">reports on</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">reports on</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -878,10 +884,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/resultsFrom">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Consequence"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T23:00:00Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">results from</rdfs:label>
-	<skos:prefLabel xml:lang="en">results from</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">results from</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -891,10 +897,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/resultsInSusceptibilityTo">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Vulnerability"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSource"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:38:01Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">results in susceptibility to</rdfs:label>
-	<skos:prefLabel xml:lang="en">results in susceptibility to</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">results in susceptibility to</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -904,10 +910,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/statesOverallIntentionsAndDirectionOf">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagementPolicy"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:20:57Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">states overall intentions and direction of</rdfs:label>
-	<skos:prefLabel xml:lang="en">states overall intentions and direction of</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">states overall intentions and direction of</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -917,10 +923,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/wantsToAchieve">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:36:19Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">wants to achieve</rdfs:label>
-	<skos:prefLabel xml:lang="en">wants to achieve</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">wants to achieve</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -930,10 +936,10 @@
     <owl:ObjectProperty rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/willinglyHeldBy">
         <rdfs:domain rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAppetite"/>
         <rdfs:range rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T12:48:24Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <rdfs:label xml:lang="en">willingly held by</rdfs:label>
-	<skos:prefLabel xml:lang="en">willingly held by</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">willingly held by</skos:prefLabel>
     </owl:ObjectProperty>
     
 
@@ -964,19 +970,18 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:9b69e28e-02c0-465a-96f9-4749f0c8c0cb"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.18"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">A consequence can have positive or negative, direct or indirect, effects on objectives.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Consequences can be expressed qualitatively or quantitatively.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Any consequence can escalate through cascading and cumulative effects.</skos:scopeNote>
-        
         <rdfs:label xml:lang="en">consequence</rdfs:label>
         <skos:definition xml:lang="en">outcome of an event (3.3.11) affecting objectives (3.1.2)</skos:definition>
-	<skos:prefLabel xml:lang="en">consequence</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">consequence</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A consequence can have positive or negative, direct or indirect, effects on objectives.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Any consequence can escalate through cascading and cumulative effects.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Consequences can be expressed qualitatively or quantitatively.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Consequence"/>
@@ -987,14 +992,14 @@
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Consequence"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Consequences can be expressed qualitatively or quantitatively.</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+        <owl:annotatedTarget xml:lang="en">Any consequence can escalate through cascading and cumulative effects.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Consequence"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Any consequence can escalate through cascading and cumulative effects.</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+        <owl:annotatedTarget xml:lang="en">Consequences can be expressed qualitatively or quantitatively.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     
 
@@ -1008,26 +1013,19 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSource"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:558ea383-5f79-41da-be94-11bf5f775004"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.11"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">An event can have one or more occurrences, and can have several causes and several consequences (3.3.18).</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">An event can also be something that is expected which does not happen, or something that is not expected which does happen.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">An event can be a risk source (3.3.10).</skos:scopeNote>
-        
         <rdfs:label xml:lang="en">event</rdfs:label>
         <skos:definition xml:lang="en">occurrence or change of a particular set of circumstances</skos:definition>
-	<skos:prefLabel xml:lang="en">event</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">event</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">An event can also be something that is expected which does not happen, or something that is not expected which does happen.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">An event can be a risk source (3.3.10).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">An event can have one or more occurrences, and can have several causes and several consequences (3.3.18).</skos:scopeNote>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">An event can have one or more occurrences, and can have several causes and several consequences (3.3.18).</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
-    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
@@ -1039,6 +1037,12 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">An event can be a risk source (3.3.10).</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">An event can have one or more occurrences, and can have several causes and several consequences (3.3.18).</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -1052,16 +1056,16 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:7e81d3f3-42e5-4447-9c2c-acd79d571e70"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.17"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.2, modified — “interested party” has replaced “stakeholder”.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">exposure</rdfs:label>
         <skos:definition xml:lang="en">extent to which an organization (3.3.7) and/or interested party (3.3.2) is subject to an event (3.3.11)</skos:definition>
-	<skos:prefLabel xml:lang="en">exposure</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">exposure</skos:prefLabel>
     </owl:Class>
     
 
@@ -1070,20 +1074,19 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/ExternalContext">
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/InternalContext"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:2234782a-7a38-49e9-b723-d7bb2a9f3026"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.4"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <rdfs:label xml:lang="en">external context</rdfs:label>
+        <skos:definition xml:lang="en">external environment in which the organization (3.3.7) seeks to achieve its objectives (3.1.2)</skos:definition>
+        <skos:prefLabel xml:lang="en">external context</skos:prefLabel>
         <skos:scopeNote xml:lang="en">External context can include:
 — the cultural, social, political, legal, regulatory, financial, technological, economic, natural and competitive environment, whether international, national, regional or local;
 — key drivers and trends having impact on the objectives of the organization; and
 — relationships with, and perceptions and values of, external interested parties (3.3.2).</skos:scopeNote>
-        
-        <rdfs:label xml:lang="en">external context</rdfs:label>
-        <skos:definition xml:lang="en">external environment in which the organization (3.3.7) seeks to achieve its objectives (3.1.2)</skos:definition>
-	<skos:prefLabel xml:lang="en">external context</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/ExternalContext"/>
@@ -1106,18 +1109,17 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Event"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:4c7102d1-f44d-40f7-ac8c-f507b3d98b44"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.20"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Frequency can be applied to past events or to potential future events, where it can be used as a measure of likelihood (3.3.16)/probability (3.3.19).</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.5</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">frequency</rdfs:label>
         <skos:definition xml:lang="en">number of events (3.3.11) or outcomes per defined unit of time</skos:definition>
-	<skos:prefLabel xml:lang="en">frequency</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">frequency</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Frequency can be applied to past events or to potential future events, where it can be used as a measure of likelihood (3.3.16)/probability (3.3.19).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Frequency"/>
@@ -1132,18 +1134,17 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Hazard">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Threat"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:44d632ec-ef07-41b6-baaa-0fbad7109776"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.12"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Hazard can be a risk source (3.3.10).</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.5.1.4</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">hazard</rdfs:label>
         <skos:definition xml:lang="en">source of potential harm</skos:definition>
-	<skos:prefLabel xml:lang="en">hazard</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">hazard</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Hazard can be a risk source (3.3.10).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Hazard"/>
@@ -1157,11 +1158,16 @@
     <!-- https://haddenindustries.com/ontology/iso/31073/ed-1/term/InternalContext -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/InternalContext">
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:7c9b353c-19d3-4af4-9a76-e502b703f3d5"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.5"/>
+        <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.3.1.2, modified — “interested parties” has replaced “stakeholders”.</dcterms:source>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <rdfs:label xml:lang="en">internal context</rdfs:label>
+        <skos:definition xml:lang="en">internal environment in which the organization (3.3.7) seeks to achieve its objectives (3.1.2)</skos:definition>
+        <skos:prefLabel xml:lang="en">internal context</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Internal context can include:
 — governance, organizational structure, roles and accountabilities;
 — policies, objectives, and the strategies that are in place to achieve them;
@@ -1171,12 +1177,6 @@
 — the organization’s culture;
 — standards, guidelines and models adopted by the organization; and
 — form and extent of contractual relationships.</skos:scopeNote>
-        
-        <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.3.1.2, modified — “interested parties” has replaced “stakeholders”.</dcterms:source>
-        <rdfs:label xml:lang="en">internal context</rdfs:label>
-        <skos:definition xml:lang="en">internal environment in which the organization (3.3.7) seeks to achieve its objectives (3.1.2)</skos:definition>
-	<skos:prefLabel xml:lang="en">internal context</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/InternalContext"/>
@@ -1217,16 +1217,16 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:eacee9a6-3849-4eed-9f38-82cc281f991a"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.22"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.8</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">level of risk</rdfs:label>
         <skos:definition xml:lang="en">magnitude of a risk (3.1.1) or combination of risks, expressed in terms of the combination of consequences (3.3.18) and their likelihood (3.3.16)</skos:definition>
-	<skos:prefLabel xml:lang="en">level of risk</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">level of risk</skos:prefLabel>
     </owl:Class>
     
 
@@ -1247,18 +1247,17 @@
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:dba4794d-5594-4734-a733-34196f289098"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.16"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">In risk management terminology, the word “likelihood” is used to refer to the chance of something happening, whether defined, measured or determined objectively or subjectively, qualitatively or quantitatively, and described using general terms or mathematically [such as a probability (3.3.19) or a frequency (3.3.20)].</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">The English term “likelihood” does not have a direct equivalent in some languages; instead, the equivalent of the term “probability” is often used. However, in English, “probability” is often narrowly interpreted as a mathematical term. Therefore, in risk management terminology, “likelihood” is used with the intent that it should have the same broad interpretation as the term “probability” has in many languages other than English.</skos:scopeNote>
-        
         <rdfs:label xml:lang="en">likelihood</rdfs:label>
         <skos:definition xml:lang="en">chance of something happening</skos:definition>
-	<skos:prefLabel xml:lang="en">likelihood</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">likelihood</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">In risk management terminology, the word “likelihood” is used to refer to the chance of something happening, whether defined, measured or determined objectively or subjectively, qualitatively or quantitatively, and described using general terms or mathematically [such as a probability (3.3.19) or a frequency (3.3.20)].</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The English term “likelihood” does not have a direct equivalent in some languages; instead, the equivalent of the term “probability” is often used. However, in English, “probability” is often narrowly interpreted as a mathematical term. Therefore, in risk management terminology, “likelihood” is used with the intent that it should have the same broad interpretation as the term “probability” has in many languages other than English.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Likelihood"/>
@@ -1293,18 +1292,17 @@
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b1ee29a3-54dc-4ece-9130-f56588081d41"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.40"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Monitoring can be applied to a risk management framework, risk management process (3.3.1), risk (3.1.1) or risk control (3.3.33).</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.1, modified — “risk control” has replaced “control” in Note 1 to entry.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">monitoring</rdfs:label>
         <skos:definition xml:lang="en">continual checking, supervising, critically observing or determining the status in order to identify change from the performance level required or expected</skos:definition>
-	<skos:prefLabel xml:lang="en">monitoring</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">monitoring</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Monitoring can be applied to a risk management framework, risk management process (3.3.1), risk (3.1.1) or risk control (3.3.33).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Monitoring"/>
@@ -1318,20 +1316,25 @@
     <!-- https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective">
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:80987a46-8560-4fb8-a764-61255cc917e9"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.2"/>
         <dcterms:subject xml:lang="en">risk</dcterms:subject>
-        <skos:scopeNote xml:lang="en">An objective can be strategic, tactical or operational.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Objectives can relate to different disciplines (such as financial, health and safety, and environmental goals) and can apply at different levels (such as strategic, organization-wide, project, product and process).</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">An objective can be expressed in other ways, e.g. as an intended outcome, a purpose, an operational criterion, as a management system objective, or by the use of other words with similar meaning (e.g. aim, goal, target).</skos:scopeNote>
-        
         <rdfs:label xml:lang="en">objective</rdfs:label>
         <skos:definition xml:lang="en">result to be achieved</skos:definition>
-	<skos:prefLabel xml:lang="en">objective</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">objective</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">An objective can be expressed in other ways, e.g. as an intended outcome, a purpose, an operational criterion, as a management system objective, or by the use of other words with similar meaning (e.g. aim, goal, target).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">An objective can be strategic, tactical or operational.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Objectives can relate to different disciplines (such as financial, health and safety, and environmental goals) and can apply at different levels (such as strategic, organization-wide, project, product and process).</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">An objective can be expressed in other ways, e.g. as an intended outcome, a purpose, an operational criterion, as a management system objective, or by the use of other words with similar meaning (e.g. aim, goal, target).</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
@@ -1343,12 +1346,6 @@
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Objectives can relate to different disciplines (such as financial, health and safety, and environmental goals) and can apply at different levels (such as strategic, organization-wide, project, product and process).</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">An objective can be expressed in other ways, e.g. as an intended outcome, a purpose, an operational criterion, as a management system objective, or by the use of other words with similar meaning (e.g. aim, goal, target).</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     
 
@@ -1362,20 +1359,19 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:bab49423-d96d-41a7-8452-9aff91dcfccb"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.23"/>
+        <dcterms:source xml:lang="en">IEC 31010:2019, 3.2</dcterms:source>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <rdfs:label xml:lang="en">opportunity</rdfs:label>
+        <skos:definition xml:lang="en">combination of circumstances expected to be favourable to objectives (3.1.2)</skos:definition>
+        <skos:prefLabel xml:lang="en">opportunity</skos:prefLabel>
         <skos:scopeNote xml:lang="en">An opportunity is a positive situation in which gain is likely and over which one has a fair level of control.</skos:scopeNote>
         <skos:scopeNote xml:lang="en">An opportunity to one party may pose a threat (3.3.13) to another.</skos:scopeNote>
         <skos:scopeNote xml:lang="en">Taking or not taking an opportunity are both sources of risk (3.1.1).</skos:scopeNote>
-        
-        <dcterms:source xml:lang="en">IEC 31010:2019, 3.2</dcterms:source>
-        <rdfs:label xml:lang="en">opportunity</rdfs:label>
-        <skos:definition xml:lang="en">combination of circumstances expected to be favourable to objectives (3.1.2)</skos:definition>
-	<skos:prefLabel xml:lang="en">opportunity</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Opportunity"/>
@@ -1432,17 +1428,16 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:95f3deb1-6535-4537-883b-4416f01029f7"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.7"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">The concept of organization includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, charity or institution, or part or combination thereof, whether incorporated or not, public or private.</skos:scopeNote>
-        
         <rdfs:label xml:lang="en">organization</rdfs:label>
         <skos:definition xml:lang="en">person or group of people that has its own functions with responsibilities, authorities and relationships to achieve its objectives (3.1.2)</skos:definition>
-	<skos:prefLabel xml:lang="en">organization</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">organization</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">The concept of organization includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, charity or institution, or part or combination thereof, whether incorporated or not, public or private.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
@@ -1456,18 +1451,17 @@
     <!-- https://haddenindustries.com/ontology/iso/31073/ed-1/term/Probability -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Probability">
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:9894a103-50bb-4608-bcc3-9b4e9ae75bfd"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.19"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">See 3.3.16, Note 2 to entry.</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">IEC 31010:2019, 3.3, modified — The definition has been modified.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">probability</rdfs:label>
         <skos:definition xml:lang="en">measure of the chance of occurrence expressed as a number from 0 to 1, where 0 is impossibility and 1 is absolute certainty</skos:definition>
-	<skos:prefLabel xml:lang="en">probability</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">probability</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">See 3.3.16, Note 2 to entry.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Probability"/>
@@ -1488,31 +1482,30 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:ea319a1f-5124-4638-97ee-9578ad62e254"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.38"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Residual risk can contain unidentified risk.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Residual risk can also be known as “retained risk”.</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.6</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">residual risk</rdfs:label>
         <skos:definition xml:lang="en">risk (3.1.1) remaining after risk treatment (3.3.32)</skos:definition>
-	<skos:prefLabel xml:lang="en">residual risk</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">residual risk</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Residual risk can also be known as “retained risk”.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Residual risk can contain unidentified risk.</skos:scopeNote>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/ResidualRisk"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Residual risk can contain unidentified risk.</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
-    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/ResidualRisk"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Residual risk can also be known as “retained risk”.</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/ResidualRisk"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Residual risk can contain unidentified risk.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -1526,16 +1519,16 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:480918d7-659f-4522-a335-542e5f2b34f2"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.39"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.7</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">resilience</rdfs:label>
         <skos:definition xml:lang="en">adaptive capacity of an organization (3.3.7) in a complex and changing environment</skos:definition>
-	<skos:prefLabel xml:lang="en">resilience</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">resilience</skos:prefLabel>
     </owl:Class>
     
 
@@ -1550,18 +1543,17 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:db4bd0f4-9223-4500-a392-dd5942f25312"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.41"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Review can be applied to a risk management framework, risk management process (3.3.1), risk (3.1.1) or risk control (3.3.33).</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.2, modified — “risk control” has replaced “control” in Note 1 to entry.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">review</rdfs:label>
         <skos:definition xml:lang="en">activity undertaken to determine the suitability, adequacy and effectiveness of the subject matter to achieve established objectives (3.1.2)</skos:definition>
-	<skos:prefLabel xml:lang="en">review</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">review</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Review can be applied to a risk management framework, risk management process (3.3.1), risk (3.1.1) or risk control (3.3.33).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Review"/>
@@ -1587,19 +1579,18 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Uncertainty"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:d501ae7c-bb44-4eb2-b0fc-2f59eb5b3afe"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.1"/>
         <dcterms:subject xml:lang="en">risk</dcterms:subject>
+        <rdfs:label xml:lang="en">risk</rdfs:label>
+        <skos:definition xml:lang="en">effect of uncertainty (3.1.3) on objectives (3.1.2)</skos:definition>
+        <skos:prefLabel xml:lang="en">risk</skos:prefLabel>
         <skos:scopeNote xml:lang="en">An effect is a deviation from the expected. It can be positive, negative or both, and can address, create or result in opportunities (3.3.23) and threats (3.3.13).</skos:scopeNote>
         <skos:scopeNote xml:lang="en">Objectives can have different aspects and categories, and can be applied at different levels.</skos:scopeNote>
         <skos:scopeNote xml:lang="en">Risk is usually expressed in terms of risk sources (3.3.10), potential events (3.3.11), their consequences (3.3.18) and their likelihood (3.3.16).</skos:scopeNote>
-        
-        <rdfs:label xml:lang="en">risk</rdfs:label>
-        <skos:definition xml:lang="en">effect of uncertainty (3.1.3) on objectives (3.1.2)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
@@ -1632,31 +1623,30 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAvoidance"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:b01e128a-fd97-48fe-8caa-d0b5d648f33b"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.31"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Risk acceptance can occur without risk treatment (3.3.32) or during the process of risk treatment.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Accepted risks are subject to monitoring (3.3.40) and review (3.3.41).</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.6</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk acceptance</rdfs:label>
         <skos:definition xml:lang="en">informed decision to take a particular risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk acceptance</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk acceptance</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Accepted risks are subject to monitoring (3.3.40) and review (3.3.41).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Risk acceptance can occur without risk treatment (3.3.32) or during the process of risk treatment.</skos:scopeNote>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAcceptance"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Risk acceptance can occur without risk treatment (3.3.32) or during the process of risk treatment.</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
-    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAcceptance"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Accepted risks are subject to monitoring (3.3.40) and review (3.3.41).</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAcceptance"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Risk acceptance can occur without risk treatment (3.3.32) or during the process of risk treatment.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -1677,16 +1667,16 @@
                 <owl:onClass rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:cf738e41-f669-4ed0-95c2-25e91e21956b"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.30"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.5</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk aggregation</rdfs:label>
         <skos:definition xml:lang="en">combination of a number of risks (3.1.1) into one risk to develop a more complete understanding of the overall risk</skos:definition>
-	<skos:prefLabel xml:lang="en">risk aggregation</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk aggregation</skos:prefLabel>
     </owl:Class>
     
 
@@ -1707,18 +1697,17 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/LevelOfRisk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:9bbf8f0b-4010-4ce5-8b6f-7385404f9ea2"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.15"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Risk analysis provides the basis for risk evaluation (3.3.25) and decisions about risk treatment (3.3.32).</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1, modified —Note 2 to entry has been deleted.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk analysis</rdfs:label>
         <skos:definition xml:lang="en">process to comprehend the nature of risk (3.1.1) and to determine the level of risk (3.3.22)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk analysis</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk analysis</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Risk analysis provides the basis for risk evaluation (3.3.25) and decisions about risk treatment (3.3.32).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAnalysis"/>
@@ -1744,16 +1733,16 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:2957b2ee-4e68-4592-988a-d3db7d9e5bcc"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.27"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.2</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk appetite</rdfs:label>
         <skos:definition xml:lang="en">amount and type of risk (3.1.1) that an organization (3.3.7) is willing to pursue or retain</skos:definition>
-	<skos:prefLabel xml:lang="en">risk appetite</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk appetite</skos:prefLabel>
     </owl:Class>
     
 
@@ -1779,16 +1768,16 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskIdentification"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:afc4b62e-ba03-4ef8-aa9a-8e66be1fba7b"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.8"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.4.1</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk assessment</rdfs:label>
         <skos:definition xml:lang="en">overall process of risk identification (3.3.9), risk analysis (3.3.15) and risk evaluation (3.3.25)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk assessment</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk assessment</skos:prefLabel>
     </owl:Class>
     
 
@@ -1802,16 +1791,16 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:83a79e46-2da4-4432-97ea-11086a051ebe"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.26"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.1</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk attitude</rdfs:label>
         <skos:definition xml:lang="en">organization’s (3.3.7) approach to assess and eventually pursue, retain, take or turn away from risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk attitude</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk attitude</skos:prefLabel>
     </owl:Class>
     
 
@@ -1820,16 +1809,16 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAversion">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAttitude"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:2e3293d3-c51e-4bc0-ba16-6caa34ea1a82"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.29"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.4</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk aversion</rdfs:label>
         <skos:definition xml:lang="en">attitude to turn away from risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk aversion</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk aversion</skos:prefLabel>
     </owl:Class>
     
 
@@ -1843,18 +1832,17 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:ec095286-2fc1-4f34-83d0-269356b46435"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.34"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Risk avoidance can be based on the result of risk evaluation (3.3.25) and/or legal and regulatory obligations.</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.2</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk avoidance</rdfs:label>
         <skos:definition xml:lang="en">informed decision not to be involved in, or to withdraw from, an activity in order not to be exposed to a particular risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk avoidance</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk avoidance</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Risk avoidance can be based on the result of risk evaluation (3.3.25) and/or legal and regulatory obligations.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAvoidance"/>
@@ -1874,18 +1862,17 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:384c3e40-d883-44de-8127-6ce75272e9af"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.33"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Risk controls include, but are not limited to, any process, policy, device, practice, or other conditions and/or actions which maintain and/or modify risk.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Risk controls do not always exert the intended or assumed modifying effect.</skos:scopeNote>
-        
         <rdfs:label xml:lang="en">risk control</rdfs:label>
         <skos:definition xml:lang="en">measure that maintains and/or modifies risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk control</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk control</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Risk controls do not always exert the intended or assumed modifying effect.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Risk controls include, but are not limited to, any process, policy, device, practice, or other conditions and/or actions which maintain and/or modify risk.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskControl"/>
@@ -1911,19 +1898,18 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:23a2d9fa-f29c-4aa1-8dee-769d35fdf83a"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.6"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Risk criteria are based on organizational objectives (3.1.2), and external (3.3.4) and internal context (3.3.5).</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Risk criteria can be derived from standards, laws, policies and other requirements.</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.3.1.3, modified — “risk” has replaced “a risk” in the definition.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk criteria</rdfs:label>
         <skos:definition xml:lang="en">terms of reference against which the significance of risk (3.1.1) is evaluated</skos:definition>
-	<skos:prefLabel xml:lang="en">risk criteria</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk criteria</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Risk criteria are based on organizational objectives (3.1.2), and external (3.3.4) and internal context (3.3.5).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Risk criteria can be derived from standards, laws, policies and other requirements.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskCriteria"/>
@@ -1949,16 +1935,16 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:2632cf37-2fd4-41d5-a422-3700ed10e28c"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.24"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">IEC 31010:2019, 3.4</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk driver</rdfs:label>
         <skos:definition xml:lang="en">factor that has a major influence on risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk driver</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk driver</skos:prefLabel>
     </owl:Class>
     
 
@@ -1979,18 +1965,17 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAnalysis"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:7ca768fb-0d20-43f4-9994-c6149d511fc6"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.25"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Risk evaluation assists in the decision about risk treatment (3.3.32).</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1, modified — “and/or its magnitude” has been deleted from the definition.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk evaluation</rdfs:label>
         <skos:definition xml:lang="en">process of comparing the results of risk analysis (3.3.15) with risk criteria (3.3.6) to determine whether the risk (3.1.1) is acceptable or tolerable</skos:definition>
-	<skos:prefLabel xml:lang="en">risk evaluation</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk evaluation</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Risk evaluation assists in the decision about risk treatment (3.3.32).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskEvaluation"/>
@@ -2005,16 +1990,16 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskFinancing">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:f97fcdd2-4a89-47d6-96ca-bdf16c99b7da"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.36"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.4</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk financing</rdfs:label>
         <skos:definition xml:lang="en">form of risk treatment (3.3.32) involving contingent arrangements for the provision of funds to meet or modify the financial consequences (3.3.18) should they occur</skos:definition>
-	<skos:prefLabel xml:lang="en">risk financing</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk financing</skos:prefLabel>
     </owl:Class>
     
 
@@ -2029,31 +2014,30 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:ddd065ca-b3b0-40d7-a077-140055db1b38"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.9"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Risk identification involves the identification of risk sources (3.3.10), events (3.3.11), their causes and their potential consequences (3.3.18).</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Risk identification can involve historical data, theoretical analysis, informed and expert opinions, and interested party’s (3.3.2) needs.</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.5.1, modified — “interested party” has replaced “stakeholder”.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk identification</rdfs:label>
         <skos:definition xml:lang="en">process of finding, recognizing and describing risks (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk identification</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk identification</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Risk identification can involve historical data, theoretical analysis, informed and expert opinions, and interested party’s (3.3.2) needs.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Risk identification involves the identification of risk sources (3.3.10), events (3.3.11), their causes and their potential consequences (3.3.18).</skos:scopeNote>
     </owl:Class>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskIdentification"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Risk identification involves the identification of risk sources (3.3.10), events (3.3.11), their causes and their potential consequences (3.3.18).</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
-    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskIdentification"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
         <owl:annotatedTarget xml:lang="en">Risk identification can involve historical data, theoretical analysis, informed and expert opinions, and interested party’s (3.3.2) needs.</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskIdentification"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Risk identification involves the identification of risk sources (3.3.10), events (3.3.11), their causes and their potential consequences (3.3.18).</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
 
@@ -2073,14 +2057,14 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:930d4063-18f2-4e18-aec6-bf95aacab77b"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.1"/>
         <dcterms:subject xml:lang="en">risk management</dcterms:subject>
         <rdfs:label xml:lang="en">risk management</rdfs:label>
         <skos:definition xml:lang="en">coordinated activities to direct and control an organization (3.3.7) with regard to risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk management</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">risk management</skos:prefLabel>
     </owl:Class>
     
 
@@ -2089,16 +2073,16 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagementAudit">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagementProcess"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:987c5970-71fa-43f6-a102-7e9995cc4f01"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.43"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.6</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk management audit</rdfs:label>
         <skos:definition xml:lang="en">systematic, independent and documented process for obtaining evidence and evaluating it objectively in order to determine the extent to which the risk management framework, or any selected part of it, is adequate and effective</skos:definition>
-	<skos:prefLabel xml:lang="en">risk management audit</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk management audit</skos:prefLabel>
     </owl:Class>
     
 
@@ -2112,19 +2096,18 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagement"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:315d0faa-b940-4625-9bee-ffea9929e851"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.3"/>
-        <dcterms:subject xml:lang="en">risk management</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Management components typically include procedures, practices, assignment of responsibilities, sequence and timing of activities.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">The risk management plan can be applied to a particular product, process and project, and part or whole of the organization (3.3.7).</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 2.1.3</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management</dcterms:subject>
         <rdfs:label xml:lang="en">risk management plan</rdfs:label>
         <skos:definition xml:lang="en">scheme within the risk management framework specifying the approach, the management components and resources to be applied to the management of risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk management plan</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk management plan</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Management components typically include procedures, practices, assignment of responsibilities, sequence and timing of activities.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The risk management plan can be applied to a particular product, process and project, and part or whole of the organization (3.3.7).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagementPlan"/>
@@ -2156,16 +2139,16 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Organization"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:53e2872c-3627-4e08-ae31-852f85d2b775"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.2"/>
-        <dcterms:subject xml:lang="en">risk management</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 2.1.2</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management</dcterms:subject>
         <rdfs:label xml:lang="en">risk management policy</rdfs:label>
         <skos:definition xml:lang="en">statement of the overall intentions and direction of an organization (3.3.7) related to risk management (3.2.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk management policy</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk management policy</skos:prefLabel>
     </owl:Class>
     
 
@@ -2173,18 +2156,18 @@
     <!-- https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagementProcess -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagementProcess">
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:bbfab9e5-34c5-4c3e-9a5d-a99b9fa360a7"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
+        <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.3.1.1, modified — “interested parties” has replaced “stakeholders”.</dcterms:source>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:comment xml:lang="en">
 [SOURCE:ISO Guide 73:2009, 3.1]</rdfs:comment>
-        <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.3.1.1, modified — “interested parties” has replaced “stakeholders”.</dcterms:source>
         <rdfs:label xml:lang="en">risk management process</rdfs:label>
         <skos:definition xml:lang="en">systematic application of management policies, procedures and practices to the activities of communicating, consulting, establishing the context, and identifying, analysing, evaluating, treating, monitoring (3.3.40) and reviewing risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk management process</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk management process</skos:prefLabel>
     </owl:Class>
     
 
@@ -2198,15 +2181,15 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:a6b3ff56-bc59-4308-9f73-d9ad4d36c5aa"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.14"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk owner</rdfs:label>
         <skos:definition xml:lang="en">person or entity with the accountability and authority to manage risk (3.1.1)
 [SOURCE:ISO Guide 73:2009, 3.5.1.5, modified — “risk” has replaced “a risk” in the definition.]</skos:definition>
-	<skos:prefLabel xml:lang="en">risk owner</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">risk owner</skos:prefLabel>
     </owl:Class>
     
 
@@ -2220,18 +2203,17 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:dcf396f7-6162-4a51-9782-4dc7bfcb5667"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.3"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Risk perception reflects the interested party’s needs, issues, knowledge, beliefs and values.</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.2.1.2, modified — “interested party” has replaced “stakeholder”, and “risk” has replaced “a risk” in the definition.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk perception</rdfs:label>
         <skos:definition xml:lang="en">interested party’s (3.3.2) view on risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk perception</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk perception</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Risk perception reflects the interested party’s needs, issues, knowledge, beliefs and values.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskPerception"/>
@@ -2265,16 +2247,16 @@
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:910a65e2-dbbf-4cc5-8c14-ce52bcea54a5"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.42"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.3, modified — “interested party” has replaced “stakeholder”.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk reporting</rdfs:label>
         <skos:definition xml:lang="en">form of communication intended to inform particular internal or external interested party (3.3.2) by providing information regarding the current state of risk (3.1.1) and its management</skos:definition>
-	<skos:prefLabel xml:lang="en">risk reporting</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk reporting</skos:prefLabel>
     </owl:Class>
     
 
@@ -2288,19 +2270,18 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:a6ae4092-e786-498d-855a-dcadf0dc4b5d"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.37"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Risk retention includes the acceptance of residual risks (3.3.38).</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">The level of risk (3.3.22) retained can depend on risk criteria (3.3.6).</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.5</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk retention</rdfs:label>
         <skos:definition xml:lang="en">acceptance of the potential benefit of gain, or burden of loss, from a particular risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk retention</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk retention</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Risk retention includes the acceptance of residual risks (3.3.38).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">The level of risk (3.3.22) retained can depend on risk criteria (3.3.6).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskRetention"/>
@@ -2321,20 +2302,19 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSharing">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:e17e90fc-f0ba-4e25-81a9-21d3faa731b4"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.35"/>
+        <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.3, modified — Note 4 to entry has been deleted.</dcterms:source>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <rdfs:label xml:lang="en">risk sharing</rdfs:label>
+        <skos:definition xml:lang="en">form of risk treatment (3.3.32) involving the agreed distribution of risk (3.1.1) with other parties</skos:definition>
+        <skos:prefLabel xml:lang="en">risk sharing</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Legal or regulatory requirements can limit, prohibit or mandate risk sharing.</skos:scopeNote>
         <skos:scopeNote xml:lang="en">Risk sharing can be carried out through insurance or other forms of contract.</skos:scopeNote>
         <skos:scopeNote xml:lang="en">The extent to which risk is distributed can depend on the reliability and clarity of the sharing arrangements.</skos:scopeNote>
-        
-        <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.3, modified — Note 4 to entry has been deleted.</dcterms:source>
-        <rdfs:label xml:lang="en">risk sharing</rdfs:label>
-        <skos:definition xml:lang="en">form of risk treatment (3.3.32) involving the agreed distribution of risk (3.1.1) with other parties</skos:definition>
-	<skos:prefLabel xml:lang="en">risk sharing</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSharing"/>
@@ -2366,15 +2346,15 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:93eafd73-83d3-4dd9-8fe4-9efb36c4a444"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-12T07:19:31Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.10"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk source</rdfs:label>
         <skos:definition xml:lang="en">element which alone or in combination has the potential to give rise to risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk source</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">risk source</skos:prefLabel>
     </owl:Class>
     
 
@@ -2401,18 +2381,17 @@
                 </owl:someValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:fc350b16-0b01-4ace-954f-92caca26c228"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.28"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">Risk tolerance can be influenced by legal or regulatory requirements.</skos:scopeNote>
-        
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.3, modified — “interested party” has replaced “stakeholder”, and “residual risk” has replaced “risk after risk treatment”.</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">risk tolerance</rdfs:label>
         <skos:definition xml:lang="en">organization’s (3.3.7) or interested party’s (3.3.2) readiness to bear the residual risk (3.3.38) in order to achieve its objectives (3.1.2)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk tolerance</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">risk tolerance</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Risk tolerance can be influenced by legal or regulatory requirements.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTolerance"/>
@@ -2433,11 +2412,17 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Risk"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:19b673d4-deae-443b-b32e-ea8c80e96373"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.32"/>
+        <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1</dcterms:source>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
+        <rdfs:label xml:lang="en">risk treatment</rdfs:label>
+        <skos:definition xml:lang="en">process to modify risk (3.1.1)</skos:definition>
+        <skos:prefLabel xml:lang="en">risk treatment</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">Risk treatment can create new risks or modify existing risks.</skos:scopeNote>
         <skos:scopeNote xml:lang="en">Risk treatment can involve:
 — avoiding the risk by deciding not to start or continue with the activity that gives rise to the risk;
 — taking or increasing risk in order to pursue an opportunity (3.3.23);
@@ -2447,14 +2432,13 @@
 — sharing the risk with another party or parties [including contracts and risk financing (3.3.36)]; and
 — retaining the risk by informed decision.</skos:scopeNote>
         <skos:scopeNote xml:lang="en">Risk treatments that deal with negative consequences are sometimes referred to as “risk mitigation”, “risk elimination”, “risk prevention” and “risk reduction”.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Risk treatment can create new risks or modify existing risks.</skos:scopeNote>
-        
-        <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1</dcterms:source>
-        <rdfs:label xml:lang="en">risk treatment</rdfs:label>
-        <skos:definition xml:lang="en">process to modify risk (3.1.1)</skos:definition>
-	<skos:prefLabel xml:lang="en">risk treatment</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">Risk treatment can create new risks or modify existing risks.</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
+    </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
@@ -2474,12 +2458,6 @@
         <owl:annotatedTarget xml:lang="en">Risk treatments that deal with negative consequences are sometimes referred to as “risk mitigation”, “risk elimination”, “risk prevention” and “risk reduction”.</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
-        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Risk treatment can create new risks or modify existing risks.</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
-    </owl:Axiom>
     
 
 
@@ -2498,15 +2476,15 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskPerception"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <skos:altLabel xml:lang="en">interested party</skos:altLabel>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:d2fd7844-37a4-43ad-8a25-7c62e8559036"/>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.2"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">stakeholder</rdfs:label>
+        <skos:altLabel xml:lang="en">interested party</skos:altLabel>
         <skos:definition xml:lang="en">person or organization (3.3.7) that can affect, be affected by, or perceives itself to be affected by a decision or activity</skos:definition>
-	<skos:prefLabel xml:lang="en">stakeholder</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">stakeholder</skos:prefLabel>
     </owl:Class>
     
 
@@ -2515,18 +2493,17 @@
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Threat">
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSource"/>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:3fc5a47a-d88f-4d98-b14b-3c6cbeac572c"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.13"/>
         <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
-        <skos:scopeNote xml:lang="en">A threat is a negative situation in which loss is likely and over which one has relatively little control.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">A threat to one party may pose an opportunity (3.3.23) to another.</skos:scopeNote>
-        
         <rdfs:label xml:lang="en">threat</rdfs:label>
         <skos:definition xml:lang="en">potential source of danger, harm, or other undesirable outcome</skos:definition>
-	<skos:prefLabel xml:lang="en">threat</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">threat</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">A threat is a negative situation in which loss is likely and over which one has relatively little control.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">A threat to one party may pose an opportunity (3.3.23) to another.</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Threat"/>
@@ -2546,18 +2523,17 @@
     <!-- https://haddenindustries.com/ontology/iso/31073/ed-1/term/Uncertainty -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Uncertainty">
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:250d3e6a-ef33-4248-bb63-6ffe62154b20"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.3"/>
         <dcterms:subject xml:lang="en">risk</dcterms:subject>
-        <skos:scopeNote xml:lang="en">In some cases, uncertainty can be related to the organization’s (3.3.7) context as well as to its objectives (3.1.2).</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Uncertainty is the root source of risk (3.1.1), namely any kind of “deficiency of information” that matters in relation to objectives (and objectives, in turn, relate to all relevant interested parties’ (3.3.2) needs and expectations).</skos:scopeNote>
-        
         <rdfs:label xml:lang="en">uncertainty</rdfs:label>
         <skos:definition xml:lang="en">state, even partial, of deficiency of information related to understanding or knowledge</skos:definition>
-	<skos:prefLabel xml:lang="en">uncertainty</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">uncertainty</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">In some cases, uncertainty can be related to the organization’s (3.3.7) context as well as to its objectives (3.1.2).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Uncertainty is the root source of risk (3.1.1), namely any kind of “deficiency of information” that matters in relation to objectives (and objectives, in turn, relate to all relevant interested parties’ (3.3.2) needs and expectations).</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Uncertainty"/>
@@ -2589,16 +2565,16 @@
                 <owl:someValuesFrom rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSource"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
+        <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:0fff50f9-5009-4a93-95cb-061777a8dae4"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.21"/>
-        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.6</dcterms:source>
+        <dcterms:subject xml:lang="en">risk management process</dcterms:subject>
         <rdfs:label xml:lang="en">vulnerability</rdfs:label>
         <skos:definition xml:lang="en">intrinsic properties of something resulting in susceptibility to a risk source (3.3.10) that can lead to an event (3.3.11) with a consequence (3.3.18)</skos:definition>
-	<skos:prefLabel xml:lang="en">vulnerability</skos:prefLabel>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
+        <skos:prefLabel xml:lang="en">vulnerability</skos:prefLabel>
     </owl:Class>
 </rdf:RDF>
 
