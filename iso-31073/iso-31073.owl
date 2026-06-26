@@ -976,9 +976,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.18"/>
         <dcterms:identifier rdf:resource="urn:uuid:9b69e28e-02c0-465a-96f9-4749f0c8c0cb"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.18"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">consequence</rdfs:label>
         <skos:definition xml:lang="en">outcome of an event (3.3.11) affecting objectives (3.1.2)</skos:definition>
@@ -1019,9 +1019,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.11"/>
         <dcterms:identifier rdf:resource="urn:uuid:558ea383-5f79-41da-be94-11bf5f775004"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.11"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">event</rdfs:label>
         <skos:definition xml:lang="en">occurrence or change of a particular set of circumstances</skos:definition>
@@ -1062,9 +1062,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.17"/>
         <dcterms:identifier rdf:resource="urn:uuid:7e81d3f3-42e5-4447-9c2c-acd79d571e70"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:33:56Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.17"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.2</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">exposure</rdfs:label>
@@ -1086,6 +1086,7 @@
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/InternalContext"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.4"/>
         <dcterms:identifier rdf:resource="urn:uuid:2234782a-7a38-49e9-b723-d7bb2a9f3026"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:18:25Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.4"/>
@@ -1128,9 +1129,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.20"/>
         <dcterms:identifier rdf:resource="urn:uuid:4c7102d1-f44d-40f7-ac8c-f507b3d98b44"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.20"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.5</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">frequency</rdfs:label>
@@ -1153,9 +1154,9 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Threat"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.12"/>
         <dcterms:identifier rdf:resource="urn:uuid:44d632ec-ef07-41b6-baaa-0fbad7109776"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.12"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.5.1.4</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">hazard</rdfs:label>
@@ -1189,9 +1190,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.2"/>
         <dcterms:identifier rdf:resource="urn:uuid:d2fd7844-37a4-43ad-8a25-7c62e8559036"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:34:31Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.2"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">interested party</rdfs:label>
         <rdfs:label xml:lang="en">stakeholder</rdfs:label>
@@ -1206,9 +1207,9 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/InternalContext">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.5"/>
         <dcterms:identifier rdf:resource="urn:uuid:7c9b353c-19d3-4af4-9a76-e502b703f3d5"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:20:16Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.5"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.3.1.2</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">internal context</rdfs:label>
@@ -1271,9 +1272,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.22"/>
         <dcterms:identifier rdf:resource="urn:uuid:eacee9a6-3849-4eed-9f38-82cc281f991a"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.22"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.8</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">level of risk</rdfs:label>
@@ -1301,9 +1302,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.16"/>
         <dcterms:identifier rdf:resource="urn:uuid:dba4794d-5594-4734-a733-34196f289098"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.16"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">likelihood</rdfs:label>
         <skos:definition xml:lang="en">chance of something happening</skos:definition>
@@ -1346,9 +1347,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.40"/>
         <dcterms:identifier rdf:resource="urn:uuid:b1ee29a3-54dc-4ece-9130-f56588081d41"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:23:07Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.40"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.1</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">monitoring</rdfs:label>
@@ -1376,9 +1377,9 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Objective">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.2"/>
         <dcterms:identifier rdf:resource="urn:uuid:80987a46-8560-4fb8-a764-61255cc917e9"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.2"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.1"/>
         <rdfs:label xml:lang="en">objective</rdfs:label>
         <skos:definition xml:lang="en">result to be achieved</skos:definition>
@@ -1419,9 +1420,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.23"/>
         <dcterms:identifier rdf:resource="urn:uuid:bab49423-d96d-41a7-8452-9aff91dcfccb"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.23"/>
         <dcterms:source xml:lang="en">IEC 31010:2019, 3.2</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">opportunity</rdfs:label>
@@ -1488,9 +1489,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.7"/>
         <dcterms:identifier rdf:resource="urn:uuid:95f3deb1-6535-4537-883b-4416f01029f7"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:33:56Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.7"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">organization</rdfs:label>
         <skos:definition xml:lang="en">person or group of people that has its own functions with responsibilities, authorities and relationships to achieve its objectives (3.1.2)</skos:definition>
@@ -1511,9 +1512,9 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Probability">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.19"/>
         <dcterms:identifier rdf:resource="urn:uuid:9894a103-50bb-4608-bcc3-9b4e9ae75bfd"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:23:21Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.19"/>
         <dcterms:source xml:lang="en">IEC 31010:2019, 3.3</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">probability</rdfs:label>
@@ -1548,9 +1549,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.38"/>
         <dcterms:identifier rdf:resource="urn:uuid:ea319a1f-5124-4638-97ee-9578ad62e254"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.38"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.6</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">residual risk</rdfs:label>
@@ -1585,9 +1586,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.39"/>
         <dcterms:identifier rdf:resource="urn:uuid:480918d7-659f-4522-a335-542e5f2b34f2"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.39"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.7</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">resilience</rdfs:label>
@@ -1609,9 +1610,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.41"/>
         <dcterms:identifier rdf:resource="urn:uuid:db4bd0f4-9223-4500-a392-dd5942f25312"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:23:37Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.41"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.2</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">review</rdfs:label>
@@ -1651,9 +1652,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.1"/>
         <dcterms:identifier rdf:resource="urn:uuid:d501ae7c-bb44-4eb2-b0fc-2f59eb5b3afe"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.1"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.1"/>
         <rdfs:label xml:lang="en">risk</rdfs:label>
         <skos:definition xml:lang="en">effect of uncertainty (3.1.3) on objectives (3.1.2)</skos:definition>
@@ -1695,9 +1696,9 @@
         <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAvoidance"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.31"/>
         <dcterms:identifier rdf:resource="urn:uuid:b01e128a-fd97-48fe-8caa-d0b5d648f33b"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.31"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.6</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk acceptance</rdfs:label>
@@ -1739,9 +1740,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.30"/>
         <dcterms:identifier rdf:resource="urn:uuid:cf738e41-f669-4ed0-95c2-25e91e21956b"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.30"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.5</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk aggregation</rdfs:label>
@@ -1769,9 +1770,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.15"/>
         <dcterms:identifier rdf:resource="urn:uuid:9bbf8f0b-4010-4ce5-8b6f-7385404f9ea2"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:20:37Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.15"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk analysis</rdfs:label>
@@ -1811,9 +1812,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.27"/>
         <dcterms:identifier rdf:resource="urn:uuid:2957b2ee-4e68-4592-988a-d3db7d9e5bcc"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.27"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.2</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk appetite</rdfs:label>
@@ -1846,9 +1847,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.8"/>
         <dcterms:identifier rdf:resource="urn:uuid:afc4b62e-ba03-4ef8-aa9a-8e66be1fba7b"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.8"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.4.1</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk assessment</rdfs:label>
@@ -1869,9 +1870,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.26"/>
         <dcterms:identifier rdf:resource="urn:uuid:83a79e46-2da4-4432-97ea-11086a051ebe"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.26"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.1</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk attitude</rdfs:label>
@@ -1887,9 +1888,9 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskAttitude"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.29"/>
         <dcterms:identifier rdf:resource="urn:uuid:2e3293d3-c51e-4bc0-ba16-6caa34ea1a82"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.29"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.4</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk aversion</rdfs:label>
@@ -1910,9 +1911,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.34"/>
         <dcterms:identifier rdf:resource="urn:uuid:ec095286-2fc1-4f34-83d0-269356b46435"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.34"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.2</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk avoidance</rdfs:label>
@@ -1940,9 +1941,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.33"/>
         <dcterms:identifier rdf:resource="urn:uuid:384c3e40-d883-44de-8127-6ce75272e9af"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.33"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk control</rdfs:label>
         <skos:definition xml:lang="en">measure that maintains and/or modifies risk (3.1.1)</skos:definition>
@@ -1976,9 +1977,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.6"/>
         <dcterms:identifier rdf:resource="urn:uuid:23a2d9fa-f29c-4aa1-8dee-769d35fdf83a"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:21:07Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.6"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.3.1.3</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk criteria</rdfs:label>
@@ -2019,9 +2020,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.24"/>
         <dcterms:identifier rdf:resource="urn:uuid:2632cf37-2fd4-41d5-a422-3700ed10e28c"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.24"/>
         <dcterms:source xml:lang="en">IEC 31010:2019, 3.4</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk driver</rdfs:label>
@@ -2049,9 +2050,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.25"/>
         <dcterms:identifier rdf:resource="urn:uuid:7ca768fb-0d20-43f4-9994-c6149d511fc6"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:21:22Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.25"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk evaluation</rdfs:label>
@@ -2080,9 +2081,9 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.36"/>
         <dcterms:identifier rdf:resource="urn:uuid:f97fcdd2-4a89-47d6-96ca-bdf16c99b7da"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.36"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.4</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk financing</rdfs:label>
@@ -2104,9 +2105,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.9"/>
         <dcterms:identifier rdf:resource="urn:uuid:ddd065ca-b3b0-40d7-a077-140055db1b38"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:21:36Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.9"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.5.1</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk identification</rdfs:label>
@@ -2153,8 +2154,8 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.1"/>
         <dcterms:identifier rdf:resource="urn:uuid:930d4063-18f2-4e18-aec6-bf95aacab77b"/>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.1"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.1"/>
         <rdfs:label xml:lang="en">risk management</rdfs:label>
         <skos:definition xml:lang="en">coordinated activities to direct and control an organization (3.3.7) with regard to risk (3.1.1)</skos:definition>
@@ -2169,9 +2170,9 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagementProcess"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.43"/>
         <dcterms:identifier rdf:resource="urn:uuid:987c5970-71fa-43f6-a102-7e9995cc4f01"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.43"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.6</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk management audit</rdfs:label>
@@ -2192,9 +2193,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.3"/>
         <dcterms:identifier rdf:resource="urn:uuid:315d0faa-b940-4625-9bee-ffea9929e851"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.3"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 2.1.3</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.1"/>
         <rdfs:label xml:lang="en">risk management plan</rdfs:label>
@@ -2235,9 +2236,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.2"/>
         <dcterms:identifier rdf:resource="urn:uuid:53e2872c-3627-4e08-ae31-852f85d2b775"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.2"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 2.1.2</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.2.1"/>
         <rdfs:label xml:lang="en">risk management policy</rdfs:label>
@@ -2252,9 +2253,9 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskManagementProcess">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <dcterms:identifier rdf:resource="urn:uuid:bbfab9e5-34c5-4c3e-9a5d-a99b9fa360a7"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:16:56Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.1</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk management process</rdfs:label>
@@ -2275,9 +2276,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.14"/>
         <dcterms:identifier rdf:resource="urn:uuid:a6b3ff56-bc59-4308-9f73-d9ad4d36c5aa"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:24:55Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.14"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.5.1.5</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk owner</rdfs:label>
@@ -2304,9 +2305,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.3"/>
         <dcterms:identifier rdf:resource="urn:uuid:dcf396f7-6162-4a51-9782-4dc7bfcb5667"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:33:56Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.3"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.2.1.2</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk perception</rdfs:label>
@@ -2354,9 +2355,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.42"/>
         <dcterms:identifier rdf:resource="urn:uuid:910a65e2-dbbf-4cc5-8c14-ce52bcea54a5"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:33:56Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.42"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.2.3</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk reporting</rdfs:label>
@@ -2383,9 +2384,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.37"/>
         <dcterms:identifier rdf:resource="urn:uuid:a6ae4092-e786-498d-855a-dcadf0dc4b5d"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.37"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.5</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk retention</rdfs:label>
@@ -2415,9 +2416,9 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskTreatment"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.35"/>
         <dcterms:identifier rdf:resource="urn:uuid:e17e90fc-f0ba-4e25-81a9-21d3faa731b4"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:22:22Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.35"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1.3</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk sharing</rdfs:label>
@@ -2465,9 +2466,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.10"/>
         <dcterms:identifier rdf:resource="urn:uuid:93eafd73-83d3-4dd9-8fe4-9efb36c4a444"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-12T07:19:31Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.10"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk source</rdfs:label>
         <skos:definition xml:lang="en">element which alone or in combination has the potential to give rise to risk (3.1.1)</skos:definition>
@@ -2500,9 +2501,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.28"/>
         <dcterms:identifier rdf:resource="urn:uuid:fc350b16-0b01-4ace-954f-92caca26c228"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T09:33:56Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.28"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.7.1.3</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk tolerance</rdfs:label>
@@ -2537,9 +2538,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.32"/>
         <dcterms:identifier rdf:resource="urn:uuid:19b673d4-deae-443b-b32e-ea8c80e96373"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.32"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.8.1</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">risk treatment</rdfs:label>
@@ -2590,9 +2591,9 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso/31073/ed-1/term/RiskSource"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.13"/>
         <dcterms:identifier rdf:resource="urn:uuid:3fc5a47a-d88f-4d98-b14b-3c6cbeac572c"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.13"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">threat</rdfs:label>
         <skos:definition xml:lang="en">potential source of danger, harm, or other undesirable outcome</skos:definition>
@@ -2620,9 +2621,9 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/iso/31073/ed-1/term/Uncertainty">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.3"/>
         <dcterms:identifier rdf:resource="urn:uuid:250d3e6a-ef33-4248-bb63-6ffe62154b20"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T08:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.3"/>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.1.1"/>
         <rdfs:label xml:lang="en">uncertainty</rdfs:label>
         <skos:definition xml:lang="en">state, even partial, of deficiency of information related to understanding or knowledge</skos:definition>
@@ -2662,9 +2663,9 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T08:04:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
+        <dcterms:identifier rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.21"/>
         <dcterms:identifier rdf:resource="urn:uuid:0fff50f9-5009-4a93-95cb-061777a8dae4"/>
         <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T07:53:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.21"/>
         <dcterms:source xml:lang="en">ISO Guide 73:2009, 3.6.1.6</dcterms:source>
         <dcterms:subject rdf:resource="urn:iso:std:iso:31073:ed-1:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">vulnerability</rdfs:label>
