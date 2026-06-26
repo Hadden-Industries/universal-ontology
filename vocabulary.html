@@ -122,7 +122,7 @@
         <h2 id="page-title" style="margin: 0;">Ontology Vocabulary</h2>
         <div>
             <span id="status-message">Loading data...</span>
-            <button id="export-csv-btn" disabled onclick="exportCSV()">Export to CSV</button>
+            <button id="export-csv-btn" disabled>Export to CSV</button>
         </div>
     </div>
 
@@ -149,8 +149,13 @@
         </table>
     </div>
 
+    <!-- Import the shared logic library -->
     <script src="https://haddenindustries.com/ontology/ontology_processor.js"></script>
+    
     <script>
+        // Store the returned data locally for the export function
+        let localExtractedData = [];
+
         function renderTable(data) {
             const tbody = document.getElementById("table-body");
             tbody.innerHTML = "";
@@ -176,12 +181,45 @@
             });
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
+        // Wrapper to pass our local state to the shared export function
+        function triggerExport() {
+            if (typeof exportCSV === 'function' && localExtractedData.length > 0) {
+                exportCSV(localExtractedData);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            // Bind export button
+            document.getElementById('export-csv-btn').addEventListener('click', triggerExport);
+
             const pathname = window.location.pathname;
             const basePath = pathname.endsWith('/') ? pathname : pathname.substring(0, pathname.lastIndexOf('/') + 1);
             const targetUrl = window.location.origin + basePath + 'latest';
             
-            loadAndProcessXML(targetUrl);
+            try {
+                // Call the shared library which strictly returns data
+                const result = await loadAndProcessXML(targetUrl);
+                
+                // Update UI based on the returned title
+                if (result && result.title) {
+                    const displayTitle = `${result.title} Vocabulary`;
+                    document.title = displayTitle;
+                    document.getElementById('page-title').innerText = displayTitle;
+                }
+                
+                // Render table and enable CSV download if data exists
+                if (result && result.data && result.data.length > 0) {
+                    localExtractedData = result.data;
+                    renderTable(localExtractedData);
+                    document.getElementById('status-message').innerText = `${localExtractedData.length} records loaded.`;
+                    document.getElementById('export-csv-btn').disabled = false;
+                } else {
+                    document.getElementById('status-message').innerText = "No records found in the XML payload.";
+                }
+            } catch (error) {
+                console.error("Processing error:", error);
+                document.getElementById('status-message').innerText = "Failed to process XML data.";
+            }
         });
     </script>
 </body>
