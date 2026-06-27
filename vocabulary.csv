@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Export tool for generating a CSV representation of the Hadden Industries ontology.">
     <title>Ontology Data Exporter</title>
-    <!-- Link to our shared premium stylesheet -->
-    <link rel="stylesheet" href="ontology_styles.css">
+    <!-- Dynamically load shared styles based on environment -->
+    <script>
+        const isLocalEnv = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:";
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = isLocalEnv ? 'ontology_styles.css' : 'https://haddenindustries.com/ontology/ontology_styles.css';
+        document.head.appendChild(cssLink);
+    </script>
 </head>
 <body>
 
@@ -54,7 +60,7 @@
         </div>
     </main>
 
-    <script src="ontology_processor.js"></script>
+    <!-- The shared logic library is dynamically loaded inside the script -->
     <script>
         function setStepState(stepId, state) {
             document.getElementById(stepId).className = 'step ' + state;
@@ -78,10 +84,9 @@
                 // Step 2: Fetch and Process XML
                 setStepState('step-fetch', 'active');
                 
-                const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:";
                 let targetUrl;
 
-                if (isLocal) {
+                if (isLocalEnv) {
                     targetUrl = "https://haddenindustries.com/ontology/universal/reference-data/latest";
                 } else {
                     const pathname = window.location.pathname;
@@ -143,8 +148,13 @@
             }
         }
 
-        // Trigger sequence immediately upon DOM construction
-        document.addEventListener("DOMContentLoaded", orchestrateAutoDownload);
+        // Trigger sequence immediately upon DOM construction by first loading JS dependency
+        document.addEventListener("DOMContentLoaded", () => {
+            const script = document.createElement('script');
+            script.src = isLocalEnv ? 'ontology_processor.js' : 'https://haddenindustries.com/ontology/ontology_processor.js';
+            script.onload = orchestrateAutoDownload;
+            document.body.appendChild(script);
+        });
     </script>
 </body>
 </html>
