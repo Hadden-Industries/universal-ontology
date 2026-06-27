@@ -3,181 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Export tool for generating a CSV representation of the Hadden Industries ontology.">
     <title>Ontology Data Exporter</title>
-    <style>
-        :root {
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --primary: #2563eb;
-            --success: #16a34a;
-            --error: #dc2626;
-            --border: #e2e8f0;
-        }
-
-        body {
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: var(--bg);
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .card {
-            background: var(--surface);
-            padding: 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
-            width: 100%;
-            max-width: 460px;
-        }
-
-        .title {
-            margin: 0 0 2rem 0;
-            font-size: 1.25rem;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .step {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.25rem;
-            color: var(--text-muted);
-            transition: color 0.3s ease;
-        }
-
-        .step:last-of-type {
-            margin-bottom: 0;
-        }
-
-        .step.active {
-            color: var(--primary);
-            font-weight: 500;
-        }
-
-        .step.complete {
-            color: var(--success);
-        }
-
-        .icon-container {
-            width: 24px;
-            height: 24px;
-            margin-right: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        /* Status Icons */
-        .circle-placeholder {
-            width: 18px;
-            height: 18px;
-            border: 2px solid var(--border);
-            border-radius: 50%;
-        }
-
-        .check-icon {
-            display: none;
-            width: 20px;
-            height: 20px;
-            color: var(--success);
-        }
-
-        /* Modern SVG Spinner */
-        .spinner {
-            display: none;
-            animation: rotate 2s linear infinite;
-            width: 20px;
-            height: 20px;
-        }
-        .spinner .path {
-            stroke: currentColor;
-            stroke-linecap: round;
-            animation: dash 1.5s ease-in-out infinite;
-        }
-
-        /* State Visibility Rules */
-        .active .spinner { display: block; }
-        .active .circle-placeholder { display: none; }
-        .complete .check-icon { display: block; }
-        .complete .spinner, .complete .circle-placeholder { display: none; }
-
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-        @keyframes dash {
-            0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
-            50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
-            100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
-        }
-
-        .message-box {
-            margin-top: 2rem;
-            text-align: center;
-            font-size: 0.875rem;
-            font-weight: 500;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .message-box.show {
-            opacity: 1;
-        }
-
-        .message-box.success { color: var(--success); }
-        .message-box.error { color: var(--error); }
-    </style>
+    <!-- Link to our shared premium stylesheet -->
+    <link rel="stylesheet" href="ontology_styles.css">
 </head>
 <body>
 
-    <div class="card">
-        <h1 id="main-title" class="title">Ontology Exporter</h1>
-        
-        <div id="step-init" class="step">
-            <div class="icon-container">
-                <div class="circle-placeholder"></div>
-                <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
-                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+    <main class="exporter-wrapper">
+        <div class="card">
+            <h1 id="main-title" class="title">Ontology Exporter</h1>
+            
+            <div id="step-init" class="step">
+                <div class="icon-container">
+                    <div class="circle-placeholder"></div>
+                    <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
+                    <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <span>Initialising export sequence</span>
             </div>
-            <span>Initialising export sequence</span>
-        </div>
 
-        <div id="step-fetch" class="step">
-            <div class="icon-container">
-                <div class="circle-placeholder"></div>
-                <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
-                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+            <div id="step-fetch" class="step">
+                <div class="icon-container">
+                    <div class="circle-placeholder"></div>
+                    <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
+                    <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <span>Fetching and mapping XML objects</span>
             </div>
-            <span>Fetching and mapping XML objects</span>
-        </div>
 
-        <div id="step-csv" class="step">
-            <div class="icon-container">
-                <div class="circle-placeholder"></div>
-                <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
-                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+            <div id="step-csv" class="step">
+                <div class="icon-container">
+                    <div class="circle-placeholder"></div>
+                    <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
+                    <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <span>Generating CSV payload</span>
             </div>
-            <span>Generating CSV payload</span>
-        </div>
 
-        <div id="step-download" class="step">
-            <div class="icon-container">
-                <div class="circle-placeholder"></div>
-                <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
-                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+            <div id="step-download" class="step">
+                <div class="icon-container">
+                    <div class="circle-placeholder"></div>
+                    <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
+                    <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <span>Downloading .csv file</span>
             </div>
-            <span>Downloading .csv file</span>
+
+            <div id="status-message-box" class="message-box"></div>
         </div>
+    </main>
 
-        <div id="status-message-box" class="message-box"></div>
-    </div>
-
-    <script src="https://haddenindustries.com/ontology/ontology_processor.js"></script>
+    <script src="ontology_processor.js"></script>
     <script>
         function setStepState(stepId, state) {
             document.getElementById(stepId).className = 'step ' + state;
@@ -201,9 +78,16 @@
                 // Step 2: Fetch and Process XML
                 setStepState('step-fetch', 'active');
                 
-                const pathname = window.location.pathname;
-                const basePath = pathname.endsWith('/') ? pathname : pathname.substring(0, pathname.lastIndexOf('/') + 1);
-                const targetUrl = window.location.origin + basePath + 'latest';
+                const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:";
+                let targetUrl;
+
+                if (isLocal) {
+                    targetUrl = "https://haddenindustries.com/ontology/universal/reference-data/latest";
+                } else {
+                    const pathname = window.location.pathname;
+                    const basePath = pathname.endsWith('/') ? pathname : pathname.substring(0, pathname.lastIndexOf('/') + 1);
+                    targetUrl = window.location.origin + basePath + 'latest';
+                }
                 
                 const result = await loadAndProcessXML(targetUrl);
                 
@@ -234,7 +118,16 @@
                 setStepState('step-download', 'active');
                 await new Promise(r => setTimeout(r, 400));
                 
-                exportCSV(extractedData);
+                let filename = "Ontology Vocabulary.csv";
+                if (result.title) {
+                    filename = `${result.title} Vocabulary`;
+                    if (result.modified) {
+                        filename += ` [${result.modified}]`;
+                    }
+                    filename += ".csv";
+                }
+                
+                exportCSV(extractedData, filename);
                 
                 setStepState('step-download', 'complete');
                 displayFinalMessage('Download complete. You may close this window.', 'success');

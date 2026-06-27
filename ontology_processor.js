@@ -1,3 +1,7 @@
+/**
+ * Namespaces used in the OWL XML documents.
+ * @constant {Object}
+ */
 const NS = {
     rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     owl: "http://www.w3.org/2002/07/owl#",
@@ -8,6 +12,13 @@ const NS = {
     dcat: "http://www.w3.org/ns/dcat#"
 };
 
+/**
+ * Fetches and parses an OWL XML document from a given URL.
+ * @async
+ * @param {string} url - The URL of the XML file to load.
+ * @returns {Promise<{title: string, data: Array<Object>}>} The extracted ontology title and processed data.
+ * @throws {Error} If the file cannot be loaded or parsed.
+ */
 async function loadAndProcessXML(url) {
     const response = await fetch(url).catch(() => null);
     
@@ -24,19 +35,31 @@ async function loadAndProcessXML(url) {
     }
 
     let ontologyTitle = "";
+    let ontologyModified = "";
     const ontologyNode = xmlDoc.getElementsByTagNameNS(NS.owl, "Ontology")[0];
     if (ontologyNode) {
         ontologyTitle = getPreferredLangText(ontologyNode, NS.dcterms, "title");
+        
+        const modifiedNode = ontologyNode.getElementsByTagNameNS(NS.dcterms, "modified")[0];
+        if (modifiedNode) {
+            ontologyModified = modifiedNode.textContent.trim();
+        }
     }
 
     const ontologyData = extractOntologyData(xmlDoc);
 
     return {
         title: ontologyTitle,
+        modified: ontologyModified,
         data: ontologyData
     };
 }
 
+/**
+ * Builds an index of Axiom sources for quick lookup.
+ * @param {Document} xmlDoc - The parsed XML document.
+ * @returns {Map<string, string[]>} A map of source URIs to their corresponding source lists.
+ */
 function buildAxiomIndex(xmlDoc) {
     const index = new Map();
     const axioms = xmlDoc.getElementsByTagNameNS(NS.owl, "Axiom");
@@ -68,6 +91,13 @@ function buildAxiomIndex(xmlDoc) {
     return index;
 }
 
+/**
+ * Extracts the preferred language text from an element, falling back to en-GB, en, or the first available.
+ * @param {Element} element - The XML element to extract text from.
+ * @param {string} ns - The namespace URI.
+ * @param {string} tag - The tag name to extract.
+ * @returns {string} The trimmed text content.
+ */
 function getPreferredLangText(element, ns, tag) {
     const nodes = element.getElementsByTagNameNS(ns, tag);
     if (nodes.length === 0) return "";
@@ -83,6 +113,11 @@ function getPreferredLangText(element, ns, tag) {
     return (enGB || en || first).trim();
 }
 
+/**
+ * Extracts and maps ontology objects into a standardized data format.
+ * @param {Document} xmlDoc - The parsed XML document.
+ * @returns {Array<Object>} The array of processed ontology records.
+ */
 function extractOntologyData(xmlDoc) {
     const results = [];
     const axiomIndex = buildAxiomIndex(xmlDoc);
@@ -190,6 +225,11 @@ function extractOntologyData(xmlDoc) {
     return results;
 }
 
+/**
+ * Transforms an ISO URN to an ISO OBP (Online Browsing Platform) URL.
+ * @param {string} rawUrn - The raw URN to transform.
+ * @returns {string|null} The transformed URL or null if invalid.
+ */
 function transformUrnToObpUrl(rawUrn) {
     if (typeof rawUrn !== 'string') return null;
 
@@ -222,6 +262,12 @@ function transformUrnToObpUrl(rawUrn) {
     return `https://www.iso.org/obp/ui/en/#${formattedHashFragment}`;
 }
 
+/**
+ * Wraps a value in an HTML anchor tag if it represents a valid URL or URN.
+ * @param {string} value - The URI/URN value.
+ * @param {boolean} [forceLink=false] - Whether to force a link even if it doesn't look like a standard URL.
+ * @returns {string} The HTML link string, or escaped plain text if not a link.
+ */
 function createLink(value, forceLink = false) {
     if (!value) return "";
     
@@ -238,9 +284,14 @@ function createLink(value, forceLink = false) {
     return escapeHTML(value);
 }
 
+/**
+ * Safely escapes a string for inclusion in HTML to prevent XSS.
+ * @param {any} str - The input to escape.
+ * @returns {string} The escaped HTML string.
+ */
 function escapeHTML(str) {
-    if (!str) return "";
-    return str.replace(/[&<>'"]/g, 
+    if (str === null || str === undefined) return "";
+    return String(str).replace(/[&<>'"]/g, 
         tag => ({
             '&': '&amp;',
             '<': '&lt;',
@@ -251,7 +302,12 @@ function escapeHTML(str) {
     );
 }
 
-function exportCSV(ontologyData) {
+/**
+ * Triggers a download of the provided ontology data as a CSV file.
+ * @param {Array<Object>} ontologyData - The array of parsed ontology records.
+ * @param {string} [filename="Ontology Vocabulary.csv"] - The name of the file to save.
+ */
+function exportCSV(ontologyData, filename = "Ontology Vocabulary.csv") {
     if (!ontologyData || ontologyData.length === 0) return;
 
     const headers = [
@@ -284,7 +340,7 @@ function exportCSV(ontologyData) {
     
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", "ontology_extract.csv");
+    link.setAttribute("download", filename);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
