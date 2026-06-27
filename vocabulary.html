@@ -3,122 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vocabulary representation of the Hadden Industries ontology.">
     <title>Ontology Vocabulary</title>
-    <style>
-        :root {
-            --surface: #ffffff;
-            --background: #f8fafc;
-            --border: #e2e8f0;
-            --text-main: #0f172a;
-            --text-muted: #475569;
-            --row-hover: #f1f5f9;
-            --header-bg: #f8fafc;
-            --badge-bg: #e0e7ff;
-            --badge-text: #4338ca;
-            --btn-bg: #2563eb;
-            --btn-hover: #1d4ed8;
-            --btn-text: #ffffff;
-        }
-        body {
-            margin: 0;
-            background-color: var(--background);
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            color: var(--text-main);
-        }
-        .table-container {
-            background: var(--surface);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.75rem;
-        }
-        th, td {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            vertical-align: top;
-        }
-        th {
-            background-color: var(--header-bg);
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            white-space: nowrap;
-            box-shadow: 0 1px 0 var(--border);
-        }
-        /* Help cursor for elements with a title attribute */
-        th[title] {
-            cursor: help;
-            text-decoration: underline dotted var(--text-muted);
-            text-underline-offset: 3px;
-        }
-        tbody tr:hover { background-color: var(--row-hover); }
-        tbody tr:last-child td { border-bottom: none; }
-        .wrap-text {
-            min-width: 250px;
-            max-width: 400px;
-            white-space: normal;
-            line-height: 1.5;
-            word-break: break-word;
-        }
-        .code-text {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            color: var(--text-muted);
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.6rem;
-            background-color: var(--badge-bg);
-            color: var(--badge-text);
-            border-radius: 9999px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        a {
-            color: var(--btn-bg);
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <!-- Link to our shared premium stylesheet -->
+    <link rel="stylesheet" href="ontology_styles.css">
 </head>
 <body>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Entity Type</th>
-                    <th title="Universally Unique Identifier">UUID</th>
-                    <th title="Uniform Resource Identifier">URI</th>
-                    <th>Preferred Label</th>
-                    <th>Definition</th>
-                    <th>Sources</th>
-                    <th>Creator</th>
-                    <th>Created At</th>
-                    <th>Modified At</th>
-                    <th>Superclasses</th>
-                    <th>Class of Named Individual</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                <!-- Rows injected via JavaScript -->
-            </tbody>
-        </table>
-    </div>
+    <main class="table-wrapper">
+        <div class="toolbar">
+            <div class="dropdown" id="col-dropdown">
+                <button class="dropdown-toggle" id="col-toggle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                    Columns
+                </button>
+                <div class="dropdown-menu" id="col-menu">
+                    <!-- Checkboxes injected via JavaScript -->
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" data-sort="objectType">Entity Type</th>
+                        <th scope="col" title="Universally Unique Identifier" data-sort="uuid">UUID</th>
+                        <th scope="col" title="Uniform Resource Identifier" data-sort="uri">URI</th>
+                        <th scope="col" data-sort="preferredLabel">Preferred Label</th>
+                        <th scope="col" data-sort="definition">Definition</th>
+                        <th scope="col" data-sort="sources">Sources</th>
+                        <th scope="col" data-sort="creator">Creator</th>
+                        <th scope="col" data-sort="createdAt">Created At</th>
+                        <th scope="col" data-sort="modifiedAt">Modified At</th>
+                        <th scope="col" data-sort="subClassOf">Superclasses</th>
+                        <th scope="col" data-sort="classOfNamedIndividual">Class of Named Individual</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Rows injected via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </main>
 
     <!-- Import the shared logic library -->
-    <script src="https://haddenindustries.com/ontology/ontology_processor.js"></script>
+    <script src="ontology_processor.js"></script>
     
     <script>
         // Store the returned data locally for the export function
         let localExtractedData = [];
+        let currentSortCol = null;
+        let currentSortAsc = true;
+        let hiddenColumns = new Set();
+        
+        // Dynamic style block for hiding columns
+        const colStyleElement = document.createElement('style');
+        document.head.appendChild(colStyleElement);
+
+        function updateColumnVisibility() {
+            let cssText = '';
+            hiddenColumns.forEach(index => {
+                // CSS :nth-child is 1-based
+                cssText += `table th:nth-child(${index + 1}), table td:nth-child(${index + 1}) { display: none !important; }\n`;
+            });
+            colStyleElement.textContent = cssText;
+        }
+
+        function initColumnDropdown() {
+            const headers = document.querySelectorAll('thead th');
+            const menu = document.getElementById('col-menu');
+            
+            headers.forEach((th, index) => {
+                // Extract just the text node, excluding the sort icon HTML
+                const text = th.childNodes[0].textContent.trim();
+                const label = document.createElement('label');
+                label.className = 'dropdown-item';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = true; // Columns visible by default
+                
+                checkbox.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        hiddenColumns.delete(index);
+                    } else {
+                        hiddenColumns.add(index);
+                    }
+                    updateColumnVisibility();
+                });
+                
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(text));
+                menu.appendChild(label);
+            });
+
+            const toggleBtn = document.getElementById('col-toggle');
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menu.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!menu.contains(e.target) && e.target !== toggleBtn) {
+                    menu.classList.remove('show');
+                }
+            });
+        }
 
         function renderTable(data) {
             const tbody = document.getElementById("table-body");
@@ -129,27 +120,82 @@
                 
                 tr.innerHTML = `
                     <td><span class="badge">${escapeHTML(row.objectType)}</span></td>
-                    <td class="code-text">${escapeHTML(row.uuid)}</td>
-                    <td class="code-text">${createLink(row.uri, true)}</td>
+                    <td><span class="code-text">${escapeHTML(row.uuid)}</span></td>
+                    <td><span class="code-text">${createLink(row.uri, true)}</span></td>
                     <td style="font-weight: 500;">${escapeHTML(row.preferredLabel)}</td>
                     <td class="wrap-text">${escapeHTML(row.definition)}</td>
-                    <td class="code-text">${row.sources.map(src => createLink(src, false)).join('<br>')}</td>
-                    <td class="code-text">${createLink(row.creator, true)}</td>
+                    <td><span class="code-text">${row.sources.map(src => createLink(src, false)).join('<br>')}</span></td>
+                    <td><span class="code-text">${createLink(row.creator, true)}</span></td>
                     <td>${escapeHTML(row.createdAt).replace('T', '<wbr>T')}</td>
                     <td>${escapeHTML(row.modifiedAt).replace('T', '<wbr>T')}</td>
-                    <td class="code-text wrap-text">${row.subClassOf.map(sc => createLink(sc, false)).join('<br>')}</td>
-                    <td class="code-text">${createLink(row.classOfNamedIndividual, true)}</td>
+                    <td class="wrap-text"><span class="code-text">${row.subClassOf.map(sc => createLink(sc, false)).join('<br>')}</span></td>
+                    <td><span class="code-text">${createLink(row.classOfNamedIndividual, true)}</span></td>
                 `;
                 
                 tbody.appendChild(tr);
             });
         }
 
+        function handleSort(column) {
+            if (currentSortCol === column) {
+                currentSortAsc = !currentSortAsc;
+            } else {
+                currentSortCol = column;
+                currentSortAsc = true;
+            }
+
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                const icon = th.querySelector('.sort-icon');
+                if (icon) {
+                    if (th.getAttribute('data-sort') === column) {
+                        icon.innerHTML = currentSortAsc ? '&#9650;' : '&#9660;';
+                        icon.classList.add('active');
+                    } else {
+                        icon.innerHTML = '&#9650;&#9660;';
+                        icon.classList.remove('active');
+                    }
+                }
+            });
+
+            localExtractedData.sort((a, b) => {
+                let valA = a[column];
+                let valB = b[column];
+
+                if (Array.isArray(valA)) valA = valA.join('');
+                if (Array.isArray(valB)) valB = valB.join('');
+
+                valA = valA ? String(valA).toLowerCase() : '';
+                valB = valB ? String(valB).toLowerCase() : '';
+
+                if (valA < valB) return currentSortAsc ? -1 : 1;
+                if (valA > valB) return currentSortAsc ? 1 : -1;
+                return 0;
+            });
+
+            renderTable(localExtractedData);
+        }
+
         document.addEventListener("DOMContentLoaded", async () => {
 
-            const pathname = window.location.pathname;
-            const basePath = pathname.endsWith('/') ? pathname : pathname.substring(0, pathname.lastIndexOf('/') + 1);
-            const targetUrl = window.location.origin + basePath + 'latest';
+            // Initialize sorting listeners
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.innerHTML += ' <span class="sort-icon">&#9650;&#9660;</span>';
+                th.addEventListener('click', () => handleSort(th.getAttribute('data-sort')));
+            });
+
+            // Initialize column visibility dropdown
+            initColumnDropdown();
+
+            const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:";
+            let targetUrl;
+
+            if (isLocal) {
+                targetUrl = "https://haddenindustries.com/ontology/universal/reference-data/latest";
+            } else {
+                const pathname = window.location.pathname;
+                const basePath = pathname.endsWith('/') ? pathname : pathname.substring(0, pathname.lastIndexOf('/') + 1);
+                targetUrl = window.location.origin + basePath + 'latest';
+            }
             
             try {
                 // Call the shared library which strictly returns data
