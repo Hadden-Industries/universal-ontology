@@ -77,10 +77,14 @@ def setup_lambda(lambda_client, role_arn, zip_bytes, account_id):
     try:
         response = lambda_client.get_function(FunctionName=FUNCTION_NAME)
         function_arn = response['Configuration']['FunctionArn']
-        print(f"Function {FUNCTION_NAME} exists. Updating code...")
+        print(f"Function {FUNCTION_NAME} exists. Updating code and runtime configuration...")
         lambda_client.update_function_code(
             FunctionName=FUNCTION_NAME,
             ZipFile=zip_bytes
+        )
+        lambda_client.update_function_configuration(
+            FunctionName=FUNCTION_NAME,
+            Runtime='nodejs24.x'
         )
     except lambda_client.exceptions.ResourceNotFoundException:
         print(f"Creating function {FUNCTION_NAME}...")
@@ -89,7 +93,7 @@ def setup_lambda(lambda_client, role_arn, zip_bytes, account_id):
             try:
                 response = lambda_client.create_function(
                     FunctionName=FUNCTION_NAME,
-                    Runtime='nodejs20.x',
+                    Runtime='nodejs24.x',
                     Role=role_arn,
                     Handler='index.handler',
                     Code={'ZipFile': zip_bytes},
