@@ -128,6 +128,44 @@ def setup_lambda(lambda_client, role_arn, zip_bytes, account_id):
 
     return function_arn
 
+def setup_s3_versioning(s3_client):
+    print(f"Enabling S3 Versioning on '{BUCKET_NAME}'...")
+    s3_client.put_bucket_versioning(
+        Bucket=BUCKET_NAME,
+        VersioningConfiguration={'Status': 'Enabled'}
+    )
+    print("S3 Versioning enabled.")
+
+def setup_s3_lifecycle(s3_client):
+    print(f"Configuring 7-day Lifecycle Expiration rule on '{BUCKET_NAME}'...")
+    
+    # We want to permanently delete noncurrent versions after 7 days
+    rule = {
+        'ID': 'ExpireOldVersions7Days',
+        'Filter': {},
+        'Status': 'Enabled',
+        'NoncurrentVersionExpiration': {
+            'NoncurrentDays': 7
+        }
+    }
+    
+    try:
+        # Fetch existing to avoid blindly overwriting, though for simplicity we will append or overwrite
+        existing = s3_client.get_bucket_lifecycle_configuration(Bucket=BUCKET_NAME)
+        rules = existing.get('Rules', [])
+        # Remove old matching rule if it exists
+        rules = [r for r in rules if r.get('ID') != 'ExpireOldVersions7Days']
+        rules.append(rule)
+    except Exception:
+        # If no lifecycle configuration exists, start fresh
+        rules = [rule]
+        
+    s3_client.put_bucket_lifecycle_configuration(
+        Bucket=BUCKET_NAME,
+        LifecycleConfiguration={'Rules': rules}
+    )
+    print("S3 Lifecycle rule configured.")
+
 def setup_s3_trigger(s3_client, function_arn):
     print(f"Configuring S3 Bucket '{BUCKET_NAME}' notification...")
     
@@ -174,6 +212,9 @@ def main():
         role_arn = setup_iam(iam)
         zip_bytes = package_lambda()
         function_arn = setup_lambda(lambda_client, role_arn, zip_bytes, identity['Account'])
+        
+        setup_s3_versioning(s3)
+        setup_s3_lifecycle(s3)
         setup_s3_trigger(s3, function_arn)
         
         print("\nDeployment completed successfully!")

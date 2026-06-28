@@ -1,6 +1,8 @@
 const { CloudFrontClient, CreateInvalidationCommand } = require("@aws-sdk/client-cloudfront");
+const { S3Client, ListObjectVersionsCommand } = require("@aws-sdk/client-s3");
 const crypto = require("crypto");
-const client = new CloudFrontClient();
+const cloudfront = new CloudFrontClient();
+const s3 = new S3Client();
 
 // Replace with your actual CloudFront Distribution ID
 const DISTRIBUTION_ID = "E3A1546UWU7C5X"; 
@@ -28,8 +30,26 @@ exports.handler = async (event) => {
     };
 
     try {
+        // Step 1: Check S3 Version History to see if this is an overwrite
+        const versionCommand = new ListObjectVersionsCommand({
+            Bucket: bucket,
+            Prefix: objectKey
+        });
+        
+        const versionData = await s3.send(versionCommand);
+        // Filter strictly for the exact object key, in case the Prefix matched multiple similar files
+        const exactVersions = (versionData.Versions || []).filter(v => v.Key === objectKey);
+        
+        if (exactVersions.length <= 1) {
+            console.log(`Skipping invalidation: ${objectKey} is a brand new file with no previous versions.`);
+            return { message: "Skipped - Brand new file" };
+        }
+        
+        console.log(`${objectKey} was overwritten (Version count: ${exactVersions.length}). Proceeding with invalidation...`);
+
+        // Step 2: Trigger CloudFront Invalidation
         const command = new CreateInvalidationCommand(params);
-        const response = await client.send(command);
+        const response = await cloudfront.send(command);
         console.log("Successfully created CloudFront invalidation:", response.Invalidation.Id);
         return response;
     } catch (error) {
