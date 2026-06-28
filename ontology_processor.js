@@ -20,10 +20,13 @@ const NS = {
  * @throws {Error} If the file cannot be loaded or parsed.
  */
 async function loadAndProcessXML(url) {
-    const response = await fetch(url).catch(() => null);
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     
-    if (!response || !response.ok) {
-        throw new Error(`File at '${url}' not found or could not be loaded.`);
+    // Harden the fetch: ensure the server returned an RDF/XML file
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("application/rdf+xml")) {
+        throw new Error(`Invalid content-type: ${contentType}. Expected application/rdf+xml`);
     }
 
     const xmlText = await response.text();

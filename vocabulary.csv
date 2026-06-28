@@ -86,8 +86,8 @@
                     targetUrl = "https://haddenindustries.com/ontology/universal/reference-data/latest";
                 } else {
                     const pathname = window.location.pathname;
-                    const basePath = pathname.endsWith('/') ? pathname : pathname.substring(0, pathname.lastIndexOf('/') + 1);
-                    targetUrl = window.location.origin + basePath + 'latest';
+                    const basePath = pathname.substring(0, pathname.lastIndexOf('/'));
+                    targetUrl = window.location.origin + basePath;
                 }
                 
                 const result = await loadAndProcessXML(targetUrl);
