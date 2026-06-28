@@ -5,14 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Vocabulary representation of the Hadden Industries ontology.">
     <title>Ontology Vocabulary</title>
-    <!-- Dynamically load shared styles based on environment -->
-    <script>
-        const isLocalEnv = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:";
-        const cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = isLocalEnv ? 'ontology_styles.css' : 'https://haddenindustries.com/ontology/ontology_styles.css';
-        document.head.appendChild(cssLink);
-    </script>
+    <!-- Link to our shared premium stylesheet -->
+    <link rel="stylesheet" href="ontology_styles.css">
 </head>
 <body>
 
@@ -52,7 +46,9 @@
         </div>
     </main>
 
-    <!-- The shared logic library is dynamically loaded inside the script -->
+    <!-- Import the shared logic library -->
+    <script src="ontology_processor.js"></script>
+    
     <script>
         // Store the returned data locally for the export function
         let localExtractedData = [];
@@ -179,50 +175,45 @@
             renderTable(localExtractedData);
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", async () => {
+            // Initialize sorting listeners
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.innerHTML += ' <span class="sort-icon">&#9650;&#9660;</span>';
+                th.addEventListener('click', () => handleSort(th.getAttribute('data-sort')));
+            });
+
+            // Initialize column visibility dropdown
+            initColumnDropdown();
+
+            const isLocalEnv = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:";
+            let targetUrl;
+
+            if (isLocalEnv) {
+                targetUrl = "https://haddenindustries.com/ontology/universal/reference-data/latest";
+            } else {
+                const pathname = window.location.pathname;
+                const basePath = pathname.endsWith('/') ? pathname : pathname.substring(0, pathname.lastIndexOf('/') + 1);
+                targetUrl = window.location.origin + basePath + 'latest';
+            }
             
-            const script = document.createElement('script');
-            script.src = isLocalEnv ? 'ontology_processor.js' : 'https://haddenindustries.com/ontology/ontology_processor.js';
-            script.onload = async () => {
-                // Initialize sorting listeners
-                document.querySelectorAll('th[data-sort]').forEach(th => {
-                    th.innerHTML += ' <span class="sort-icon">&#9650;&#9660;</span>';
-                    th.addEventListener('click', () => handleSort(th.getAttribute('data-sort')));
-                });
-
-                // Initialize column visibility dropdown
-                initColumnDropdown();
-
-                let targetUrl;
-
-                if (isLocalEnv) {
-                    targetUrl = "https://haddenindustries.com/ontology/universal/reference-data/latest";
-                } else {
-                    const pathname = window.location.pathname;
-                    const basePath = pathname.endsWith('/') ? pathname : pathname.substring(0, pathname.lastIndexOf('/') + 1);
-                    targetUrl = window.location.origin + basePath + 'latest';
+            try {
+                // Call the shared library which strictly returns data
+                const result = await loadAndProcessXML(targetUrl);
+                
+                // Update UI based on the returned title
+                if (result && result.title) {
+                    const displayTitle = `${result.title} Vocabulary`;
+                    document.title = displayTitle;
                 }
                 
-                try {
-                    // Call the shared library which strictly returns data
-                    const result = await loadAndProcessXML(targetUrl);
-                    
-                    // Update UI based on the returned title
-                    if (result && result.title) {
-                        const displayTitle = `${result.title} Vocabulary`;
-                        document.title = displayTitle;
-                    }
-                    
-                    // Render table and enable CSV download if data exists
-                    if (result && result.data && result.data.length > 0) {
-                        localExtractedData = result.data;
-                        renderTable(localExtractedData);
-                    }
-                } catch (error) {
-                    console.error("Processing error:", error);
+                // Render table and enable CSV download if data exists
+                if (result && result.data && result.data.length > 0) {
+                    localExtractedData = result.data;
+                    renderTable(localExtractedData);
                 }
-            };
-            document.body.appendChild(script);
+            } catch (error) {
+                console.error("Processing error:", error);
+            }
         });
     </script>
 </body>

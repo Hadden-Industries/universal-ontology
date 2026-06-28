@@ -14,5 +14,17 @@ function handler(event) {
         request.uri = '/ontology/vocabulary.csv';
     }
 
+    // Check if the requested URI ends with /ontology_styles.css
+    if (uri.endsWith('/ontology_styles.css')) {
+        // Rewrite the request to fetch the single master file from S3
+        request.uri = '/ontology/ontology_styles.css';
+    }
+
+    // Check if the requested URI ends with /ontology_processor.js
+    if (uri.endsWith('/ontology_processor.js')) {
+        // Rewrite the request to fetch the single master file from S3
+        request.uri = '/ontology/ontology_processor.js';
+    }
+
     return request;
 }
