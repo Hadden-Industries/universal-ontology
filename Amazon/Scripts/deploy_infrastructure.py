@@ -1,3 +1,4 @@
+import os
 import boto3
 import json
 import zipfile
@@ -30,7 +31,7 @@ def get_boto_clients():
     session = boto3.Session(region_name=REGION_NAME)
     return session.client('iam'), session.client('lambda'), session.client('s3'), session.client('sts')
 
-def setup_iam(iam):
+def setup_iam(iam, account_id, distribution_id):
     print("Setting up IAM Role and Policy...")
     with open(ROLE_POLICY_PATH, 'r') as f:
         trust_policy = f.read()
@@ -53,6 +54,11 @@ def setup_iam(iam):
     with open(IAM_POLICY_PATH, 'r') as f:
         invalidation_policy = f.read()
 
+    invalidation_policy = invalidation_policy.replace('${ACCOUNT_ID}', account_id)
+    invalidation_policy = invalidation_policy.replace('${DISTRIBUTION_ID}', distribution_id)
+    invalidation_policy = invalidation_policy.replace('${REGION}', REGION_NAME)
+    invalidation_policy = invalidation_policy.replace('${FUNCTION_NAME}', FUNCTION_NAME)
+
     iam.put_role_policy(
         RoleName=ROLE_NAME,
         PolicyName=POLICY_NAME,
@@ -71,9 +77,10 @@ def package_lambda():
     
     return memory_file.getvalue()
 
-def setup_lambda(lambda_client, role_arn, zip_bytes, account_id):
+def setup_lambda(lambda_client, role_arn, zip_bytes, account_id, distribution_id):
     print("Setting up Lambda Function...")
     function_arn = None
+    env_vars = {'Variables': {'DISTRIBUTION_ID': distribution_id}}
     try:
         response = lambda_client.get_function(FunctionName=FUNCTION_NAME)
         function_arn = response['Configuration']['FunctionArn']
@@ -82,10 +89,18 @@ def setup_lambda(lambda_client, role_arn, zip_bytes, account_id):
             FunctionName=FUNCTION_NAME,
             ZipFile=zip_bytes
         )
-        lambda_client.update_function_configuration(
-            FunctionName=FUNCTION_NAME,
-            Runtime='nodejs24.x'
-        )
+        for attempt in range(15):
+            try:
+                lambda_client.update_function_configuration(
+                    FunctionName=FUNCTION_NAME,
+                    Runtime='nodejs24.x',
+                    Environment=env_vars
+                )
+                break
+            except lambda_client.exceptions.ResourceConflictException:
+                if attempt == 14: raise
+                print("Waiting for Lambda update to complete...")
+                time.sleep(2)
     except lambda_client.exceptions.ResourceNotFoundException:
         print(f"Creating function {FUNCTION_NAME}...")
         # Retry creating function in case IAM role hasn't propagated yet
@@ -97,7 +112,8 @@ def setup_lambda(lambda_client, role_arn, zip_bytes, account_id):
                     Role=role_arn,
                     Handler='index.handler',
                     Code={'ZipFile': zip_bytes},
-                    Timeout=15
+                    Timeout=15,
+                    Environment=env_vars
                 )
                 function_arn = response['FunctionArn']
                 print(f"Created function {FUNCTION_NAME}.")
@@ -207,15 +223,22 @@ def setup_s3_trigger(s3_client, function_arn):
 def main():
     try:
         print("Starting AWS Deployment...\n")
+        
+        distribution_id = os.environ.get('CLOUDFRONT_DISTRIBUTION_ID')
+        if not distribution_id:
+            print("ERROR: CLOUDFRONT_DISTRIBUTION_ID environment variable is not set.")
+            print(f"Please add CLOUDFRONT_DISTRIBUTION_ID=your_dist_id to {ENV_PATH} and try again.")
+            return
+
         iam, lambda_client, s3, sts = get_boto_clients()
         
         # Verify valid AWS credentials exist
         identity = sts.get_caller_identity()
         print(f"Authenticated as AWS Account: {identity['Account']}")
         
-        role_arn = setup_iam(iam)
+        role_arn = setup_iam(iam, identity['Account'], distribution_id)
         zip_bytes = package_lambda()
-        function_arn = setup_lambda(lambda_client, role_arn, zip_bytes, identity['Account'])
+        function_arn = setup_lambda(lambda_client, role_arn, zip_bytes, identity['Account'], distribution_id)
         
         setup_s3_versioning(s3)
         setup_s3_lifecycle(s3)

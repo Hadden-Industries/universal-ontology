@@ -4,10 +4,13 @@ const crypto = require("crypto");
 const cloudfront = new CloudFrontClient();
 const s3 = new S3Client();
 
-// Replace with your actual CloudFront Distribution ID
-const DISTRIBUTION_ID = "E3A1546UWU7C5X"; 
+const DISTRIBUTION_ID = process.env.DISTRIBUTION_ID;
 
 exports.handler = async (event) => {
+    if (!DISTRIBUTION_ID) {
+        console.error("DISTRIBUTION_ID environment variable is missing.");
+        throw new Error("DISTRIBUTION_ID environment variable is missing.");
+    }
     // Extract the exact file path that was just uploaded to S3
     const bucket = event.Records[0].s3.bucket.name;
     const objectKey = event.Records[0].s3.object.key;

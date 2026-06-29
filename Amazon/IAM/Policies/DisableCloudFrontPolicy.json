@@ -4,13 +4,10 @@
         {
             "Effect": "Allow",
             "Action": [
-                "cloudfront:CreateInvalidation",
-                "s3:ListBucketVersions"
+                "cloudfront:GetDistributionConfig",
+                "cloudfront:UpdateDistribution"
             ],
-            "Resource": [
-                "arn:aws:cloudfront::${ACCOUNT_ID}:distribution/${DISTRIBUTION_ID}",
-                "arn:aws:s3:::haddenindustries.com"
-            ]
+            "Resource": "arn:aws:cloudfront::${ACCOUNT_ID}:distribution/${DISTRIBUTION_ID}"
         },
         {
             "Effect": "Allow",
