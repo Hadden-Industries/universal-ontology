@@ -40,7 +40,7 @@ def setup_sns_topic(sns):
     print(f"SNS Topic created/found: {topic_arn}")
     return topic_arn
 
-def setup_sns_policy_for_budgets(sns, topic_arn):
+def setup_sns_policy_for_budgets(sns, topic_arn, account_id):
     # AWS Budgets needs permission to publish to this SNS Topic
     print("Adding SNS topic policy for AWS Budgets...")
     policy = {
@@ -54,7 +54,12 @@ def setup_sns_policy_for_budgets(sns, topic_arn):
                     "Service": "budgets.amazonaws.com"
                 },
                 "Action": "SNS:Publish",
-                "Resource": topic_arn
+                "Resource": topic_arn,
+                "Condition": {
+                    "StringEquals": {
+                        "aws:SourceAccount": account_id
+                    }
+                }
             }
         ]
     }
@@ -68,6 +73,8 @@ def setup_iam(iam, account_id, distribution_id):
     print("Setting up IAM Role and Policy...")
     with open(ROLE_POLICY_PATH, 'r') as f:
         trust_policy = f.read()
+        
+    trust_policy = trust_policy.replace('${ACCOUNT_ID}', account_id)
     
     try:
         response = iam.get_role(RoleName=ROLE_NAME)
@@ -281,7 +288,7 @@ def main():
         print(f"Authenticated as AWS Account: {account_id}")
         
         topic_arn = setup_sns_topic(sns)
-        setup_sns_policy_for_budgets(sns, topic_arn)
+        setup_sns_policy_for_budgets(sns, topic_arn, account_id)
         
         role_arn = setup_iam(iam, account_id, distribution_id)
         zip_bytes = package_lambda()

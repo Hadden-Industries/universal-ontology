@@ -35,6 +35,8 @@ def setup_iam(iam, account_id, distribution_id):
     print("Setting up IAM Role and Policy...")
     with open(ROLE_POLICY_PATH, 'r') as f:
         trust_policy = f.read()
+        
+    trust_policy = trust_policy.replace('${ACCOUNT_ID}', account_id)
     
     role_arn = None
     try:
