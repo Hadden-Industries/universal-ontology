@@ -102,7 +102,12 @@ function buildAxiomIndex(xmlDoc) {
  * @returns {string} The trimmed text content.
  */
 function getPreferredLangText(element, ns, tag) {
-    const nodes = element.getElementsByTagNameNS(ns, tag);
+    const nodes = [];
+    for (let child of element.children) {
+        if (child.namespaceURI === ns && child.localName === tag) {
+            nodes.push(child);
+        }
+    }
     if (nodes.length === 0) return "";
     
     let enGB = null, en = null, first = nodes[0].textContent;
@@ -136,91 +141,98 @@ function extractOntologyData(xmlDoc) {
 
         const isNamedIndividual = element.localName === "NamedIndividual";
         
-        if (isNamedIndividual) {
-            const types = element.getElementsByTagNameNS(NS.rdf, "type");
-            let skip = false;
-            for (let type of types) {
-                const typeRes = type.getAttributeNS(NS.rdf, "resource");
-                if (typeRes === NS.dcat + "Dataset" || typeRes === NS.dcat + "Distribution") {
-                    skip = true;
-                    break;
+        let skip = false;
+        let uuid = "";
+        const sources = [];
+        let creator = "";
+        let createdAt = "";
+        let modifiedAt = "";
+        const subClassOf = [];
+        let classOfNamedIndividual = "";
+        
+        const dctermsIdentifiers = [];
+        const dctermsSources = [];
+
+        // Single-pass direct child iteration
+        for (let child of element.children) {
+            const ns = child.namespaceURI;
+            const name = child.localName;
+
+            if (ns === NS.rdf && name === "type") {
+                const typeRes = child.getAttributeNS(NS.rdf, "resource") || "";
+                if (isNamedIndividual) {
+                    if (typeRes === NS.dcat + "Dataset" || typeRes === NS.dcat + "Distribution") {
+                        skip = true;
+                        break;
+                    }
                 }
+                if (!classOfNamedIndividual) {
+                    classOfNamedIndividual = typeRes;
+                }
+            } else if (ns === NS.dcterms && name === "identifier") {
+                dctermsIdentifiers.push(child);
+            } else if (ns === NS.dcterms && name === "source") {
+                const res = child.getAttributeNS(NS.rdf, "resource");
+                if (res) dctermsSources.push(res);
+            } else if (ns === NS.dcterms && name === "creator") {
+                creator = child.getAttributeNS(NS.rdf, "resource") || "";
+            } else if (ns === NS.dcterms && name === "created") {
+                createdAt = child.textContent.trim();
+            } else if (ns === NS.dcterms && name === "modified") {
+                modifiedAt = child.textContent.trim();
+            } else if (ns === NS.rdfs && name === "subClassOf") {
+                const res = child.getAttributeNS(NS.rdf, "resource");
+                if (res) subClassOf.push(res);
             }
-            if (skip) continue;
         }
 
-        const record = {
-            objectType: element.localName === "Class" ? "Class" : (element.localName === "NamedIndividual" ? "Named Individual" : element.localName),
-            uuid: "",
-            uri: uri,
-            preferredLabel: getPreferredLangText(element, NS.skos, "prefLabel"),
-            definition: getPreferredLangText(element, NS.skos, "definition"),
-            sources: [],
-            creator: "",
-            createdAt: "",
-            modifiedAt: "",
-            subClassOf: [],
-            classOfNamedIndividual: ""
-        };
+        if (skip) continue;
 
-        // Extract UUID
-        const identifiers = element.getElementsByTagNameNS(NS.dcterms, "identifier");
-        for (let id of identifiers) {
+        // Process UUID
+        for (let id of dctermsIdentifiers) {
             const res = id.getAttributeNS(NS.rdf, "resource");
             if (res && res.startsWith("urn:uuid:")) {
-                record.uuid = res.substring(9);
+                uuid = res.substring(9);
                 break;
             }
         }
 
-        // Extract Sources as Array
+        // Process Sources
         if (uri.startsWith("https://haddenindustries.com/ontology/iso")) {
-            for (let id of identifiers) {
+            for (let id of dctermsIdentifiers) {
                 const res = id.getAttributeNS(NS.rdf, "resource");
                 const text = id.textContent;
                 if (res && res.startsWith("urn:iso")) {
-                    record.sources.push(res);
+                    sources.push(res);
                     break;
-                }
-                else if (text && text.startsWith("urn:iso")) {
-                    record.sources.push(text);
+                } else if (text && text.startsWith("urn:iso")) {
+                    sources.push(text);
                     break;
                 }
             }
         }
-        if (record.sources.length === 0) {
-            const dctermsSources = Array.from(element.getElementsByTagNameNS(NS.dcterms, "source"));
-            const validSources = dctermsSources
-                .map(src => src.getAttributeNS(NS.rdf, "resource"))
-                .filter(res => res);
-            
-            if (validSources.length > 0) {
-                record.sources = validSources;
+
+        if (sources.length === 0) {
+            if (dctermsSources.length > 0) {
+                sources.push(...dctermsSources);
             } else if (axiomIndex.has(uri)) {
-                record.sources = axiomIndex.get(uri);
+                sources.push(...axiomIndex.get(uri));
             }
         }
 
-        // Extract Creator
-        const creatorNode = element.getElementsByTagNameNS(NS.dcterms, "creator")[0];
-        if (creatorNode) record.creator = creatorNode.getAttributeNS(NS.rdf, "resource") || "";
-
-        // Extract Dates
-        const createdNode = element.getElementsByTagNameNS(NS.dcterms, "created")[0];
-        if (createdNode) record.createdAt = createdNode.textContent.trim();
-        
-        const modifiedNode = element.getElementsByTagNameNS(NS.dcterms, "modified")[0];
-        if (modifiedNode) record.modifiedAt = modifiedNode.textContent.trim();
-
-        // Extract SubClassOf as Array
-        const subClassNodes = Array.from(element.getElementsByTagNameNS(NS.rdfs, "subClassOf"));
-        record.subClassOf = subClassNodes
-            .map(node => node.getAttributeNS(NS.rdf, "resource"))
-            .filter(res => res);
-
-        // Extract Class of Named Individual
-        const typeNode = element.getElementsByTagNameNS(NS.rdf, "type")[0];
-        if (typeNode) record.classOfNamedIndividual = typeNode.getAttributeNS(NS.rdf, "resource") || "";
+        const record = {
+            objectType: element.localName === "Class" ? "Class" : (element.localName === "NamedIndividual" ? "Named Individual" : element.localName),
+            uuid: uuid,
+            uri: uri,
+            preferredLabel: getPreferredLangText(element, NS.skos, "prefLabel"),
+            definition: getPreferredLangText(element, NS.skos, "definition"),
+            sources: sources,
+            creator: creator,
+            createdAt: createdAt,
+            modifiedAt: modifiedAt,
+            subClassOf: subClassOf,
+            classOfNamedIndividual: classOfNamedIndividual
+        };
 
         results.push(record);
     }
