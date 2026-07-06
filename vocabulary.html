@@ -52,6 +52,7 @@
     <script>
         // Store the returned data locally for the export function
         let localExtractedData = [];
+        let ontologyContext = {};
         let currentSortCol = null;
         let currentSortAsc = true;
         let hiddenColumns = new Set();
@@ -118,22 +119,104 @@
             data.forEach(row => {
                 const tr = document.createElement("tr");
                 
+                const entityType = getEntityType(row["@type"]);
+                const uuid = getUuid(row);
+                const uri = row["@id"] || "";
+                const preferredLabel = getPreferredLang(row["skos:prefLabel"]);
+                const definition = getPreferredLang(row["skos:definition"]);
+                let sourcesList = [];
+                const rawSources = row["dcterms:source"];
+                if (rawSources) {
+                    if (Array.isArray(rawSources)) {
+                        sourcesList = rawSources.map(src => {
+                            if (typeof src === 'object' && src !== null) {
+                                return getPreferredLang(src);
+                            }
+                            return expandURI(src, ontologyContext);
+                        });
+                    } else if (typeof rawSources === 'object') {
+                        sourcesList = [getPreferredLang(rawSources)];
+                    } else {
+                        sourcesList = [expandURI(rawSources, ontologyContext)];
+                    }
+                }
+                const sources = sourcesList;
+                const creator = expandURI(row["dcterms:creator"] || "", ontologyContext);
+                const createdAt = row["dcterms:created"] || "";
+                const modifiedAt = row["dcterms:modified"] || "";
+                const superclassesHtml = formatSubClassOfHtml(row["rdfs:subClassOf"], ontologyContext);
+                const classOfNamedIndividual = getClassOfNamedIndividual(row, ontologyContext);
+
                 tr.innerHTML = `
-                    <td><span class="badge">${escapeHTML(row.objectType)}</span></td>
-                    <td><span class="code-text">${escapeHTML(row.uuid)}</span></td>
-                    <td><span class="code-text">${createLink(row.uri, true)}</span></td>
-                    <td style="font-weight: 500;">${escapeHTML(row.preferredLabel)}</td>
-                    <td class="wrap-text">${escapeHTML(row.definition)}</td>
-                    <td><span class="code-text">${row.sources.map(src => createLink(src, false)).join('<br>')}</span></td>
-                    <td><span class="code-text">${createLink(row.creator, true)}</span></td>
-                    <td>${escapeHTML(row.createdAt).replace('T', '<wbr>T')}</td>
-                    <td>${escapeHTML(row.modifiedAt).replace('T', '<wbr>T')}</td>
-                    <td class="wrap-text"><span class="code-text">${row.subClassOf.map(sc => createLink(sc, false)).join('<br>')}</span></td>
-                    <td><span class="code-text">${createLink(row.classOfNamedIndividual, true)}</span></td>
+                    <td><span class="badge">${escapeHTML(entityType)}</span></td>
+                    <td><span class="code-text">${escapeHTML(uuid)}</span></td>
+                    <td><span class="code-text">${createLink(uri, true)}</span></td>
+                    <td style="font-weight: 500;">${escapeHTML(preferredLabel)}</td>
+                    <td class="wrap-text">${escapeHTML(definition)}</td>
+                    <td><span class="code-text">${sources.map(src => createLink(src, false)).join('<br>')}</span></td>
+                    <td><span class="code-text">${createLink(creator, true)}</span></td>
+                    <td>${escapeHTML(createdAt).replace('T', '<wbr>T')}</td>
+                    <td>${escapeHTML(modifiedAt).replace('T', '<wbr>T')}</td>
+                    <td class="wrap-text"><span class="code-text">${superclassesHtml}</span></td>
+                    <td><span class="code-text">${createLink(classOfNamedIndividual, true)}</span></td>
                 `;
                 
                 tbody.appendChild(tr);
             });
+        }
+
+        function getSortValue(row, column) {
+            if (!row) return '';
+            let val;
+            switch(column) {
+                case 'objectType':
+                    val = getEntityType(row["@type"]);
+                    break;
+                case 'uuid':
+                    val = getUuid(row);
+                    break;
+                case 'uri':
+                    val = row["@id"] || "";
+                    break;
+                case 'preferredLabel':
+                    val = getPreferredLang(row["skos:prefLabel"]);
+                    break;
+                case 'definition':
+                    val = getPreferredLang(row["skos:definition"]);
+                    break;
+                case 'sources':
+                    let srcVal = row["dcterms:source"];
+                    if (!srcVal) {
+                        val = '';
+                    } else if (Array.isArray(srcVal)) {
+                        val = srcVal.map(s => typeof s === 'object' ? getPreferredLang(s) : s).join('');
+                    } else if (typeof srcVal === 'object') {
+                        val = getPreferredLang(srcVal);
+                    } else {
+                        val = srcVal;
+                    }
+                    break;
+                case 'creator':
+                    val = row["dcterms:creator"] || '';
+                    break;
+                case 'createdAt':
+                    val = row["dcterms:created"] || '';
+                    break;
+                case 'modifiedAt':
+                    val = row["dcterms:modified"] || '';
+                    break;
+                case 'subClassOf':
+                    const sc = row["rdfs:subClassOf"] || [];
+                    const list = Array.isArray(sc) ? sc : [sc];
+                    val = list.filter(item => typeof item === 'string').join('');
+                    break;
+                case 'classOfNamedIndividual':
+                    val = getClassOfNamedIndividual(row);
+                    break;
+                default:
+                    val = '';
+            }
+            return String(val).toLowerCase();
         }
 
         function handleSort(column) {
@@ -158,14 +241,8 @@
             });
 
             localExtractedData.sort((a, b) => {
-                let valA = a[column];
-                let valB = b[column];
-
-                if (Array.isArray(valA)) valA = valA.join('');
-                if (Array.isArray(valB)) valB = valB.join('');
-
-                valA = valA ? String(valA).toLowerCase() : '';
-                valB = valB ? String(valB).toLowerCase() : '';
+                let valA = getSortValue(a, column);
+                let valB = getSortValue(b, column);
 
                 if (valA < valB) return currentSortAsc ? -1 : 1;
                 if (valA > valB) return currentSortAsc ? 1 : -1;
@@ -197,18 +274,29 @@
             }
             
             try {
-                // Call the shared library which strictly returns data
-                const result = await loadAndProcessXML(targetUrl);
+                // Call the shared library which strictly returns JSON-LD data
+                const result = await fetchOntologyAsJsonLd(targetUrl);
                 
-                // Update UI based on the returned title
-                if (result && result.title) {
-                    const displayTitle = `${result.title} Vocabulary`;
+                // Update UI based on the returned title (using language map)
+                if (result && result["dcterms:title"]) {
+                    const titleText = getPreferredLang(result["dcterms:title"]);
+                    const displayTitle = `${titleText} Vocabulary`;
                     document.title = displayTitle;
                 }
                 
                 // Render table and enable CSV download if data exists
-                if (result && result.data && result.data.length > 0) {
-                    localExtractedData = result.data;
+                if (result && result["@graph"] && result["@graph"].length > 0) {
+                    ontologyContext = result["@context"] || {};
+                    
+                    // Filter out dcat:Dataset and dcat:Distribution from representation
+                    localExtractedData = result["@graph"].filter(row => {
+                        const type = row["@type"];
+                        if (Array.isArray(type)) {
+                            return !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution");
+                        }
+                        return type !== "dcat:Dataset" && type !== "dcat:Distribution";
+                    });
+                    
                     renderTable(localExtractedData);
                 }
             } catch (error) {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Export tool for generating a CSV representation of the Hadden Industries ontology.">
+    <meta name="description" content="Export tool for generating a JSON-LD representation of the Hadden Industries ontology.">
     <title>Ontology Data Exporter</title>
     <!-- Link to our shared premium stylesheet -->
     <link rel="stylesheet" href="ontology_styles.css">
@@ -32,13 +32,13 @@
                 <span>Fetching and mapping XML objects</span>
             </div>
 
-            <div id="step-csv" class="step">
+            <div id="step-json" class="step">
                 <div class="icon-container">
                     <div class="circle-placeholder"></div>
                     <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
                     <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
                 </div>
-                <span>Generating CSV payload</span>
+                <span>Generating JSON-LD payload</span>
             </div>
 
             <div id="step-download" class="step">
@@ -47,7 +47,7 @@
                     <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
                     <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
                 </div>
-                <span>Downloading .csv file</span>
+                <span>Downloading .json file</span>
             </div>
 
             <div id="status-message-box" class="message-box"></div>
@@ -106,7 +106,7 @@
                 }
                 
                 // Prevent duplicate "Ontology" if the XML title already includes it
-                const suffix = baseTitle.endsWith("Ontology") ? " Data Exporter (.csv)" : " Ontology Data Exporter (.csv)";
+                const suffix = baseTitle.endsWith("Ontology") ? " Data Exporter (.json)" : " Ontology Data Exporter (.json)";
                 const exportTitle = baseTitle + suffix;
                 
                 document.title = exportTitle;
@@ -114,16 +114,16 @@
 
                 setStepState('step-fetch', 'complete');
 
-                // Step 3: Package CSV
-                setStepState('step-csv', 'active');
+                // Step 3: Package JSON-LD
+                setStepState('step-json', 'active');
                 await new Promise(r => setTimeout(r, 600)); // Brief UX delay
-                setStepState('step-csv', 'complete');
+                setStepState('step-json', 'complete');
 
                 // Step 4: Download
                 setStepState('step-download', 'active');
                 await new Promise(r => setTimeout(r, 400));
                 
-                let filename = "Ontology Vocabulary.csv";
+                let filename = "Ontology Vocabulary.json";
                 if (titleMap) {
                     const titleText = titleMap["en-GB"] || titleMap["en"] || Object.values(titleMap)[0] || "Ontology";
                     filename = `${titleText} Vocabulary`;
@@ -131,10 +131,10 @@
                     if (modified) {
                         filename += ` [${modified}]`;
                     }
-                    filename += ".csv";
+                    filename += ".json";
                 }
                 
-                exportCSV(ontologyResult, filename);
+                exportJSON(ontologyResult, filename);
                 
                 setStepState('step-download', 'complete');
                 displayFinalMessage('Download complete. You may close this window.', 'success');
@@ -150,8 +150,8 @@
             }
         }
 
-        // Trigger sequence immediately upon DOM construction
-        document.addEventListener("DOMContentLoaded", orchestrateAutoDownload);
+        // Start sequence automatically on load
+        window.addEventListener('load', orchestrateAutoDownload);
     </script>
 </body>
 </html>
