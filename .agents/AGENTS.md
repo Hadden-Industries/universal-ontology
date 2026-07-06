@@ -1,8 +1,9 @@
 ﻿# AWS Guidance
 
-- Prefer the AWS MCP Server for AWS interactions â€” it provides sandboxed
-  execution, observability, and audit logging. If unavailable, use the
-  AWS CLI directly.
+- Prefer the AWS MCP Server for AWS interactions; it provides sandboxed
+  execution, observability, and audit logging. Only if unavailable
+  (attempt to fix the cause of the unavailability first, and notify me if you cannot fix it without my input),
+  use the AWS CLI directly.
 - Before starting a task, check whether a relevant AWS skill is available.
   Load the skill with `retrieve_skill` and prefer its guidance over
   general knowledge.
@@ -24,3 +25,7 @@
   NOT hit the Secrets Manager Agent daemon directly. MUST use
   `{{resolve:secretsmanager:secret-id:SecretString:json-key}}` with
   `asm-exec` so the secret resolves at runtime without entering context.
+
+# Python Guidance
+
+- Only use the local Python environment found in the .venv directory for the execution of Python scripts
