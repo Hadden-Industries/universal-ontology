@@ -75,14 +75,20 @@ class TestOwlToUmlXmi(XmlTestCase):
         # Verify BaseClass properties (name from prefLabel, uuid, definition comment)
         self.assertXpathsExist(root, [
             "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='https___haddenindustries_com_ontology_test_BaseClass'][@name='Base Class GB'][@xmi:uuid='11111111-1111-1111-1111-111111111111']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedComment/body[.='Base definition fallback']"
+            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedComment/body[contains(., 'Base definition fallback')][contains(., '[UUID: 11111111-1111-1111-1111-111111111111]')]"
         ])
         
         # Verify SubClass properties (name fallback to first match 'Sub Class FR', uuid, definition comment from 'en-GB')
         self.assertXpathsExist(root, [
             "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='https___haddenindustries_com_ontology_test_SubClass'][@name='Sub Class FR'][@xmi:uuid='22222222-2222-2222-2222-222222222222']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/ownedComment/body[.='Sub Definition GB']",
+            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/ownedComment/body[contains(., 'Sub Definition GB')][contains(., '[UUID: 22222222-2222-2222-2222-222222222222]')]",
             "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/generalization[@general='https___haddenindustries_com_ontology_test_BaseClass']"
+        ])
+
+        # Verify Sparx Enterprise Architect xmi:Extension elements (UUID UDPs)
+        self.assertXpathsExist(root, [
+            "/xmi:XMI/xmi:Extension[@extender='Enterprise Architect'][@extenderID='6.5']/elements/element[@xmi:idref='https___haddenindustries_com_ontology_test_BaseClass'][@xmi:type='uml:Class'][@sType='Class']/tags/tag[@name='UUID'][@value='11111111-1111-1111-1111-111111111111']",
+            "/xmi:XMI/xmi:Extension[@extender='Enterprise Architect'][@extenderID='6.5']/elements/element[@xmi:idref='https___haddenindustries_com_ontology_test_SubClass'][@xmi:type='uml:Class'][@sType='Class']/tags/tag[@name='UUID'][@value='22222222-2222-2222-2222-222222222222']"
         ])
 
     def test_datatype_property_and_multiplicity(self):
@@ -242,7 +248,7 @@ class TestOwlToUmlXmi(XmlTestCase):
             'uml': 'http://schema.omg.org/spec/UML/2.1'
         }
         comment_body = root.xpath("/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedComment/body/text()", namespaces=namespaces)[0]
-        self.assertEqual(comment_body.strip(), "Base definition\nNote 1 to entry: Scope Note One")
+        self.assertEqual(comment_body.strip(), "Base definition\nNote 1 to entry: Scope Note One\n[UUID: 11111111-1111-1111-1111-111111111111]")
         
         # Verify ClassWithExplicitID has:
         # 1. Explicit item identifier attribute as regular property (without isID="true")
@@ -319,7 +325,7 @@ class TestOwlToUmlXmi(XmlTestCase):
         expected_example = "EXAMPLE 1:\nExample description here"
         expected_source = "[SOURCE:urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.3.33]"
         
-        expected_combined = f"{expected_definition}\n{expected_notes}\n{expected_example}\n{expected_source}"
+        expected_combined = f"{expected_definition}\n{expected_notes}\n{expected_example}\n{expected_source}\n[UUID: 55555555-5555-5555-5555-555555555555]"
         self.assertEqual(comment_body.strip(), expected_combined)
 
     def test_ontology_metadata_mapping(self):

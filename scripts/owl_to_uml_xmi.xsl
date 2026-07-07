@@ -105,6 +105,8 @@
 
     <!-- Main entry point -->
     <xsl:template match="/rdf:RDF">
+        <xsl:variable name="all-classes" select="owl:Class | //rdfs:subClassOf[@rdf:resource and not(contains(@rdf:resource, 'http://www.w3.org/2001/XMLSchema#'))] | //rdfs:domain[@rdf:resource] | //rdfs:range[@rdf:resource and not(contains(@rdf:resource, 'http://www.w3.org/2001/XMLSchema#'))] | //owl:onClass[@rdf:resource]"/>
+
         <xsl:variable name="ontology-title">
             <xsl:variable name="pref-title">
                 <xsl:call-template name="get-preferred-lang">
@@ -254,8 +256,6 @@
                 <packagedElement xmi:type="uml:PrimitiveType" xmi:id="prim_Boolean" name="Boolean"/>
                 <packagedElement xmi:type="uml:PrimitiveType" xmi:id="prim_DateTime" name="DateTime"/>
 
-                <!-- Generate unique classes (both defined owl:Class and referenced) -->
-                <xsl:variable name="all-classes" select="owl:Class | //rdfs:subClassOf[@rdf:resource and not(contains(@rdf:resource, 'http://www.w3.org/2001/XMLSchema#'))] | //rdfs:domain[@rdf:resource] | //rdfs:range[@rdf:resource and not(contains(@rdf:resource, 'http://www.w3.org/2001/XMLSchema#'))] | //owl:onClass[@rdf:resource]"/>
 
                 <xsl:for-each select="$all-classes[generate-id() = generate-id(key('class-by-uri', concat(@rdf:about, @rdf:resource))[1])]">
                     <xsl:variable name="class-uri" select="concat(@rdf:about, @rdf:resource)"/>
@@ -319,6 +319,7 @@
                                 <xsl:call-template name="generate-comment-body">
                                     <xsl:with-param name="entity-uri" select="$class-uri"/>
                                     <xsl:with-param name="def-node" select="$def-node"/>
+                                    <xsl:with-param name="uuid" select="$uuid"/>
                                 </xsl:call-template>
                             </xsl:variable>
 
@@ -387,6 +388,7 @@
                                         <xsl:call-template name="generate-comment-body">
                                             <xsl:with-param name="entity-uri" select="$prop-uri"/>
                                             <xsl:with-param name="def-node" select="."/>
+                                            <xsl:with-param name="uuid" select="$prop-uuid"/>
                                         </xsl:call-template>
                                     </xsl:variable>
 
@@ -476,6 +478,7 @@
                                         <xsl:call-template name="generate-comment-body">
                                             <xsl:with-param name="entity-uri" select="$prop-uri"/>
                                             <xsl:with-param name="def-node" select="."/>
+                                            <xsl:with-param name="uuid" select="$prop-uuid"/>
                                         </xsl:call-template>
                                     </xsl:variable>
 
@@ -575,8 +578,33 @@
                         </ownedEnd>
                     </packagedElement>
                 </xsl:for-each>
-
             </uml:Model>
+
+            <!-- Sparx Enterprise Architect Tool Specific Metadata Extensions for Entity-level UDPs -->
+            <xmi:Extension extender="Enterprise Architect" extenderID="6.5">
+                <elements>
+                    <xsl:for-each select="$all-classes[generate-id() = generate-id(key('class-by-uri', concat(@rdf:about, @rdf:resource))[1])]">
+                        <xsl:variable name="class-uri" select="concat(@rdf:about, @rdf:resource)"/>
+                        <xsl:variable name="def-node" select="//owl:Class[@rdf:about = $class-uri]"/>
+                        <xsl:variable name="uuid-uri" select="$def-node/dcterms:identifier[starts-with(@rdf:resource, 'urn:uuid:')]/@rdf:resource"/>
+                        <xsl:if test="normalize-space($uuid-uri) != ''">
+                            <xsl:variable name="class-id">
+                                <xsl:call-template name="get-id">
+                                    <xsl:with-param name="uri" select="$class-uri"/>
+                                </xsl:call-template>
+                            </xsl:variable>
+                            <xsl:variable name="uuid" select="substring-after($uuid-uri, 'urn:uuid:')"/>
+                            
+                            <element xmi:idref="{$class-id}" xmi:type="uml:Class" sType="Class">
+                                <properties sType="Class"/>
+                                <tags>
+                                    <tag name="UUID" value="{$uuid}"/>
+                                </tags>
+                            </element>
+                        </xsl:if>
+                    </xsl:for-each>
+                </elements>
+            </xmi:Extension>
         </xmi:XMI>
     </xsl:template>
 
@@ -584,6 +612,7 @@
     <xsl:template name="generate-comment-body">
         <xsl:param name="entity-uri"/>
         <xsl:param name="def-node"/>
+        <xsl:param name="uuid"/>
 
         <!-- 1. Definition (skos:definition with EN sub-tag priority) -->
         <xsl:variable name="desc">
@@ -685,6 +714,7 @@
         <xsl:variable name="part2" select="normalize-space($scope-text)"/>
         <xsl:variable name="part3" select="normalize-space($example-text)"/>
         <xsl:variable name="part4" select="normalize-space($source-text)"/>
+        <xsl:variable name="part5" select="normalize-space($uuid)"/>
 
         <xsl:value-of select="$part1"/>
         <xsl:if test="normalize-space($part1) != '' and normalize-space($scope-text) != ''">
@@ -699,6 +729,14 @@
             <xsl:text>&#10;</xsl:text>
         </xsl:if>
         <xsl:value-of select="$source-text"/>
+        <xsl:if test="(normalize-space($part1) != '' or normalize-space($scope-text) != '' or normalize-space($example-text) != '' or normalize-space($source-text) != '') and normalize-space($part5) != ''">
+            <xsl:text>&#10;</xsl:text>
+        </xsl:if>
+        <xsl:if test="normalize-space($part5) != ''">
+            <xsl:text>[UUID: </xsl:text>
+            <xsl:value-of select="$part5"/>
+            <xsl:text>]</xsl:text>
+        </xsl:if>
     </xsl:template>
 
 </xsl:stylesheet>
