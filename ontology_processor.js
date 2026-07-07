@@ -731,3 +731,69 @@ function exportJSON(ontologyLd, filename = "Ontology Vocabulary.json") {
     link.click();
     document.body.removeChild(link);
 }
+
+/**
+ * Fetches and parses an OWL XML document from a given URL and returns it as a DOM Document.
+ * @async
+ * @param {string} url - The URL of the XML file to load.
+ * @returns {Promise<Document>} The parsed ontology XML DOM document.
+ */
+async function fetchOntologyAsXml(url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    
+    const contentType = response.headers.get("content-type") || "";
+    // Allow various XML/RDF content types
+    if (!contentType.includes("application/rdf+xml") && 
+        !contentType.includes("application/xml") && 
+        !contentType.includes("text/xml") && 
+        !url.endsWith(".owl") && 
+        !url.endsWith(".xml")) {
+        throw new Error(`Invalid content-type: ${contentType}. Expected XML or RDF/XML`);
+    }
+
+    const xmlText = await response.text();
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+    
+    if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
+        throw new Error("Error parsing XML document");
+    }
+    return xmlDoc;
+}
+
+/**
+ * Applies the XSLT stylesheet to the OWL XML document and triggers a download of the resulting UML XMI file.
+ * @param {Document} xmlDoc - The parsed OWL XML DOM document.
+ * @param {string} xsltText - The raw text of the XSLT stylesheet.
+ * @param {string} [filename="Ontology Vocabulary.xmi"] - The name of the file to save.
+ */
+function exportXMI(xmlDoc, xsltText, filename = "Ontology Vocabulary.xmi") {
+    const parser = new DOMParser();
+    const xsltDoc = parser.parseFromString(xsltText, "application/xml");
+    
+    if (xsltDoc.getElementsByTagName("parsererror").length > 0) {
+        throw new Error("Error parsing XSLT stylesheet");
+    }
+
+    const xsltProcessor = new XSLTProcessor();
+    xsltProcessor.importStylesheet(xsltDoc);
+    
+    const resultDoc = xsltProcessor.transformToDocument(xmlDoc);
+    if (!resultDoc) {
+        throw new Error("XSLT transformation returned null");
+    }
+
+    const serializer = new XMLSerializer();
+    const xmiText = serializer.serializeToString(resultDoc);
+    
+    const blob = new Blob([xmiText], { type: "application/xml;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}

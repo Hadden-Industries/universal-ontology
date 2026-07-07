@@ -86,8 +86,8 @@ def main() -> None:
     argument_parser.add_argument("output_file", help="Path to the output UML XMI document.")
     argument_parser.add_argument(
         "--xslt", 
-        default=os.path.join(os.path.dirname(__file__), "owl_to_uml_xmi.xsl"),
-        help="Path to the XSLT stylesheet (defaults to scripts/owl_to_uml_xmi.xsl)."
+        default=os.path.join(os.path.dirname(os.path.dirname(__file__)), "owl_to_uml_xmi.xsl"),
+        help="Path to the XSLT stylesheet (defaults to owl_to_uml_xmi.xsl in the parent directory)."
     )
     
     parsed_arguments = argument_parser.parse_args()

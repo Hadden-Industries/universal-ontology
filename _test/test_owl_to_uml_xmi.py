@@ -9,7 +9,6 @@ class TestOwlToUmlXmi(XmlTestCase):
         # Path to stylesheet
         cls.xslt_path = os.path.join(
             os.path.dirname(os.path.dirname(__file__)), 
-            "scripts", 
             "owl_to_uml_xmi.xsl"
         )
         with open(cls.xslt_path, "r", encoding="utf-8") as f:
