@@ -16,3 +16,6 @@ __pycache__/
 *.pyc
 scripts/*.tsv
 .env
+
+# AI exclusions
+.agents/*
