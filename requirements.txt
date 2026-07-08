@@ -5,3 +5,4 @@ boto3>=1.43.40
 python-dotenv>=1.2.2
 aws-cdk-lib>=2.261.0
 constructs>=10.6.0
+rdflib>=7.6.0
