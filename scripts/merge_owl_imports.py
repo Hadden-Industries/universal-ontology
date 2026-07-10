@@ -297,7 +297,9 @@ def main():
     with tempfile.NamedTemporaryFile(mode="wb", delete=False, dir=output_dir, suffix=".owl") as temp_file:
         temp_file_path = temp_file.name
         try:
-            base_graph.serialize(destination=temp_file, format="xml")
+            # Use pretty-xml to preserve owl:Class / owl:ObjectProperty elements
+            # and avoid unnecessary rdf:Description wrappers where a typed node can be used.
+            base_graph.serialize(destination=temp_file, format="pretty-xml", max_depth=1)
             temp_file.flush()
             os.fsync(temp_file.fileno())
         except Exception as e:
