@@ -12,8 +12,8 @@
      xmlns:schema="http://schema.org/"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260625"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260624"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260714"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714"/>
         <dcterms:contributor rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-10-14</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
@@ -22,7 +22,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:7be316dd-2ca3-437b-a9d1-cf8939e1d5c2"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-25</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-07-14</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
@@ -31,8 +31,8 @@
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Reference Data Ontology</dcterms:title>
         <rdfs:label xml:lang="en">Hadden Industries Universal Reference Data Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260624"/>
-        <owl:versionInfo>2026-06-25</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260625"/>
+        <owl:versionInfo>2026-07-14</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -1994,7 +1994,7 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T08:38:34Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:c19139ac-2c4a-4508-ad07-457a402ad47c"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T19:45:41Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:20:51Z</dcterms:modified>
         <rdfs:label xml:lang="en">Activity Class</rdfs:label>
         <rdfs:seeAlso rdf:resource="http://snomed.info/id/257733005"/>
         <skos:definition xml:lang="en">Concept defining a set of deeds, actions, or functions that a person or group does or has done, based on specific shared characteristics and rules</skos:definition>
@@ -4568,22 +4568,23 @@
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/IndoorActivity -->
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/IndoorActivityClass -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/IndoorActivity">
-        <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OutdoorActivity"/>
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/IndoorActivityClass">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ActivityClass"/>
+        <owl:disjointWith rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OutdoorActivityClass"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:06:35Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:0bb78ac3-077a-4ec0-9489-9ffb11bae9be"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:07:49Z</dcterms:modified>
-        <rdfs:label xml:lang="en">Indoor Activity</rdfs:label>
-        <skos:definition xml:lang="en">Activity conducted within a building or under cover</skos:definition>
-        <skos:prefLabel xml:lang="en">Indoor Activity</skos:prefLabel>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:20:36Z</dcterms:modified>
+        <rdfs:label xml:lang="en">Indoor Activity Class</rdfs:label>
+        <skos:definition xml:lang="en">Activity Class relating to activity conducted within a building or under cover</skos:definition>
+        <skos:prefLabel xml:lang="en">Indoor Activity Class</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IndoorActivity"/>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/IndoorActivityClass"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
-        <owl:annotatedTarget xml:lang="en">Activity conducted within a building or under cover</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">Activity Class relating to activity conducted within a building or under cover</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/indoor"/>
     </owl:Axiom>
     
@@ -7042,21 +7043,22 @@ or
     
 
 
-    <!-- https://haddenindustries.com/ontology/universal/reference-data/OutdoorActivity -->
+    <!-- https://haddenindustries.com/ontology/universal/reference-data/OutdoorActivityClass -->
 
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OutdoorActivity">
+    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/reference-data/OutdoorActivityClass">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/ActivityClass"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-16T10:07:41Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:3ed0243d-e977-46e4-bbfe-68e065768e50"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-05-04T15:47:12Z</dcterms:modified>
-        <rdfs:label xml:lang="en">Outdoor Activity</rdfs:label>
-        <skos:definition xml:lang="en">Activity done out of doors</skos:definition>
-        <skos:prefLabel xml:lang="en">Outdoor Activity</skos:prefLabel>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:20:51Z</dcterms:modified>
+        <rdfs:label xml:lang="en">Outdoor Activity Class</rdfs:label>
+        <skos:definition xml:lang="en">Activity Class relating to activity done out of doors</skos:definition>
+        <skos:prefLabel xml:lang="en">Outdoor Activity Class</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OutdoorActivity"/>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/OutdoorActivityClass"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
-        <owl:annotatedTarget xml:lang="en">Activity done out of doors</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">Activity Class relating to activity done out of doors</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/en/definition/outdoor"/>
     </owl:Axiom>
     
