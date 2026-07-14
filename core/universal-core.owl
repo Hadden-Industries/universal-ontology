@@ -15,9 +15,9 @@
      xmlns:schema="http://schema.org/"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/core/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260625"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260714"/>
         <owl:imports rdf:resource="http://www.w3.org/ns/time/gregorian"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260625"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260714"/>
         <dcterms:contributor rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-09-30</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
@@ -26,7 +26,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:478440d0-9623-45ef-973f-ab0e7f2a9dec"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-25</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-07-14</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
@@ -35,8 +35,8 @@
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Core Ontology</dcterms:title>
         <rdfs:label xml:lang="en">Hadden Industries Universal Core Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/core/20260610"/>
-        <owl:versionInfo>2026-06-25</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/core/20260625"/>
+        <owl:versionInfo>2026-07-14</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -2573,11 +2573,11 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-09-30T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:41cdbdc3-de73-48ca-810d-82e776da8af2"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:56:50Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:10845:-1:ed-1:v1:term:3.9"/>
         <rdfs:label xml:lang="en">Contract</rdfs:label>
         <rdfs:seeAlso rdf:resource="https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/Contract"/>
-        <rdfs:seeAlso rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.4.7"/>
+        <rdfs:seeAlso rdf:resource="urn:iso:std:iso:9000:ed-5:v1:term:3.3.13"/>
         <skos:definition xml:lang="en">Legally enforceable agreement to supply goods, execute work or provide services</skos:definition>
         <skos:prefLabel xml:lang="en">Contract</skos:prefLabel>
     </owl:Class>
@@ -2643,10 +2643,10 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:2dc05ab0-a47f-4799-839e-e3d4c7e04086"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:57:11Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.38"/>
         <rdfs:label xml:lang="en">Document</rdfs:label>
-        <rdfs:seeAlso rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.8.5"/>
+        <rdfs:seeAlso rdf:resource="urn:iso:std:iso:9000:ed-5:v1:term:3.8.7"/>
         <skos:definition xml:lang="en">Recorded information or material object which can be treated as a unit in a documentation process</skos:definition>
         <skos:prefLabel xml:lang="en">Document</skos:prefLabel>
         <skos:scopeNote xml:lang="en">Documents often are the manifestations of works.They can differ extensively in form and characteristics.</skos:scopeNote>
@@ -3801,28 +3801,28 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-11-28T16:35:44Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:06155ec9-e8a3-4323-af0d-d6f32687bb20"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T14:20:14Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.2.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:49:51Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-5:v1:term:3.1.1"/>
         <rdfs:label xml:lang="en-gb">Organisation</rdfs:label>
         <rdfs:label xml:lang="en-us">Organization</rdfs:label>
         <skos:definition xml:lang="en">Person or group of people that has its own functions with responsibilities, authorities and relationships to achieve its objectives</skos:definition>
         <skos:prefLabel xml:lang="en-gb">Organisation</skos:prefLabel>
         <skos:prefLabel xml:lang="en-us">Organization</skos:prefLabel>
-        <skos:scopeNote xml:lang="en-gb">The concept of organisation includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, public or private, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">This constitutes one of the common terms and core definitions for ISO management system standards given in Annex SL of the Consolidated ISO Supplement to the ISO/IEC Directives, Part 1. The original definition has been modified by modifying Note 1 to entry.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en-us">If the organization is part of a larger entity, the term “organization” refers only to the part of the larger entity that is within the scope of the quality management system (3.4.9)</skos:scopeNote>
+        <skos:scopeNote xml:lang="en-us">The concept of organization includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, public or private, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en-gb">The concept of organisation includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, public or private, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
-        <skos:note xml:lang="en">Modified — &quot;, whether incorporated or not&quot; removed, &quot;, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)&quot; appended</skos:note>
+        <owl:annotatedTarget xml:lang="en-us">If the organization is part of a larger entity, the term “organization” refers only to the part of the larger entity that is within the scope of the quality management system (3.4.9)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Organisation"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">This constitutes one of the common terms and core definitions for ISO management system standards given in Annex SL of the Consolidated ISO Supplement to the ISO/IEC Directives, Part 1. The original definition has been modified by modifying Note 1 to entry.</owl:annotatedTarget>
-        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
+        <owl:annotatedTarget xml:lang="en-us">The concept of organization includes, but is not limited to, sole-trader, company, corporation, firm, enterprise, authority, partnership, association, charity or institution, or part or combination thereof, public or private, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+        <skos:note xml:lang="en">Modified — &quot;, whether incorporated or not&quot; removed, &quot;, and excludes entities recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)&quot; appended</skos:note>
     </owl:Axiom>
     
 
@@ -3966,12 +3966,19 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-20T12:12:27Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:198ea231-1786-4d33-a46b-0cd2c72ffd73"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.7.5"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:48:57Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-5:v1:term:3.7.8"/>
         <rdfs:label xml:lang="en">Output</rdfs:label>
         <skos:definition xml:lang="en">Result of a process</skos:definition>
         <skos:prefLabel xml:lang="en">Output</skos:prefLabel>
+        <skos:scopeNote xml:lang="en-us">Whether an output of the organization (3.1.1) is a product (3.7.9) or a service (3.7.10) depends on the preponderance of the characteristics (3.10.1) involved (e.g. a painting for sale in a gallery is a product whereas the supply of a commissioned painting is a service, a hamburger bought in a retail store is a product whereas receiving an order and serving a hamburger ordered in a restaurant is part of a service)</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Output"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en-us">Whether an output of the organization (3.1.1) is a product (3.7.9) or a service (3.7.10) depends on the preponderance of the characteristics (3.10.1) involved (e.g. a painting for sale in a gallery is a product whereas the supply of a commissioned painting is a service, a hamburger bought in a retail store is a product whereas receiving an order and serving a hamburger ordered in a restaurant is part of a service)</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
@@ -4199,34 +4206,34 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-15T16:16:08Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:9030b8e4-ab54-4848-826a-732405cd720e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.4.1"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:53:06Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-5:v1:term:3.3.1"/>
         <rdfs:label xml:lang="en">Process</rdfs:label>
-        <skos:definition xml:lang="en">Set of interrelated or interacting activities that use inputs to deliver an intended result</skos:definition>
+        <skos:definition xml:lang="en">Set of interrelated or interacting activities that uses or transforms inputs to deliver a result</skos:definition>
         <skos:prefLabel xml:lang="en">Process</skos:prefLabel>
-        <skos:scopeNote xml:lang="en">A process where the conformity of the resulting output cannot be readily or economically validated is frequently referred to as a “special process”.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Inputs to a process are generally the outputs of other processes and outputs of a process are generally the inputs to other processes.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Processes in an organisation are generally planned and carried out under controlled conditions to add value.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">A process where the conformity (3.5.9) of the resulting output cannot be readily or economically validated is frequently referred to as a “special process”</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Inputs to a process are generally the outputs of other processes and outputs of a process are generally the inputs to other processes</skos:scopeNote>
+        <skos:scopeNote xml:lang="en-us">Processes in an organization (3.1.1) are generally planned and carried out under controlled conditions to add value and to ensure that intended results can be achieved</skos:scopeNote>
         <skos:scopeNote xml:lang="en">This constitutes one of the common terms and core definitions for ISO management system standards given in Annex SL of the Consolidated ISO Supplement to the ISO/IEC Directives, Part 1. The original definition has been modified to prevent circularity between process and output, and Notes 1 to 5 to entry have been added.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Two or more interrelated and interacting processes in series can also be referred to as a process.</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Whether the “intended result” of a process is called output, product or service depends on the context of the reference.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Two or more interrelated and interacting processes in series can also be referred to as a “process”</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Whether the result of a process is called an output (3.7.8), a product (3.7.9) or a service (3.7.10) depends on the context of the reference</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">A process where the conformity of the resulting output cannot be readily or economically validated is frequently referred to as a “special process”.</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">A process where the conformity (3.5.9) of the resulting output cannot be readily or economically validated is frequently referred to as a “special process”</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Inputs to a process are generally the outputs of other processes and outputs of a process are generally the inputs to other processes.</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">Inputs to a process are generally the outputs of other processes and outputs of a process are generally the inputs to other processes</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Processes in an organisation are generally planned and carried out under controlled conditions to add value.</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en-us">Processes in an organization (3.1.1) are generally planned and carried out under controlled conditions to add value and to ensure that intended results can be achieved</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</schema:position>
     </owl:Axiom>
     <owl:Axiom>
@@ -4238,13 +4245,13 @@
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Two or more interrelated and interacting processes in series can also be referred to as a process.</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">Two or more interrelated and interacting processes in series can also be referred to as a “process”</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Process"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Whether the “intended result” of a process is called output, product or service depends on the context of the reference.</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">Whether the result of a process is called an output (3.7.8), a product (3.7.9) or a service (3.7.10) depends on the context of the reference</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     
@@ -4258,25 +4265,25 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-20T12:22:15Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:5b8644c2-5c79-49f9-8a43-3913feb026fd"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.7.6"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:54:30Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-5:v1:term:3.7.9"/>
         <rdfs:label xml:lang="en">Product</rdfs:label>
-        <skos:definition xml:lang="en">Output of an organisation that can be produced without any transaction taking place between the organisation and the customer</skos:definition>
+        <skos:definition xml:lang="en-us">Output of an organization that can be produced without any transaction taking place between the organization and the customer</skos:definition>
         <skos:prefLabel xml:lang="en">Product</skos:prefLabel>
-        <skos:scopeNote xml:lang="en">Hardware is tangible and its amount is a countable characteristic (e.g. tyres). Processed materials are tangible and their amount is a continuous characteristic (e.g. fuel and soft drinks). Hardware and processed materials are often referred to as goods. Software consists of information regardless of delivery medium (e.g. computer programme, mobile phone app, instruction manual, dictionary content, musical composition copyright, driver&apos;s license).</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Production of a product is achieved without any transaction necessarily taking place between provider and customer, but can often involve this service element upon its delivery to the customer</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Hardware is tangible and its amount is a countable characteristic (3.10.1) (e.g. tyres). Processed materials are tangible and their amount is a continuous characteristic (e.g. fuel and soft drinks). Hardware and processed materials are often referred to as “goods”. Software consists of information (3.8.4) regardless of the delivery medium (e.g. computer program, mobile phone app, instruction manual, dictionary content, musical composition copyright, driver’s licence).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Production of a product is achieved without any transaction necessarily taking place between the provider (3.1.9) and the customer, but can often involve this service (3.7.10) element upon its delivery to the customer</skos:scopeNote>
         <skos:scopeNote xml:lang="en">The dominant element of a product is that it is generally tangible</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Product"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Hardware is tangible and its amount is a countable characteristic (e.g. tyres). Processed materials are tangible and their amount is a continuous characteristic (e.g. fuel and soft drinks). Hardware and processed materials are often referred to as goods. Software consists of information regardless of delivery medium (e.g. computer programme, mobile phone app, instruction manual, dictionary content, musical composition copyright, driver&apos;s license).</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">Hardware is tangible and its amount is a countable characteristic (3.10.1) (e.g. tyres). Processed materials are tangible and their amount is a continuous characteristic (e.g. fuel and soft drinks). Hardware and processed materials are often referred to as “goods”. Software consists of information (3.8.4) regardless of the delivery medium (e.g. computer program, mobile phone app, instruction manual, dictionary content, musical composition copyright, driver’s licence).</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Product"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Production of a product is achieved without any transaction necessarily taking place between provider and customer, but can often involve this service element upon its delivery to the customer</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">Production of a product is achieved without any transaction necessarily taking place between the provider (3.1.9) and the customer, but can often involve this service (3.7.10) element upon its delivery to the customer</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
     </owl:Axiom>
     <owl:Axiom>
@@ -4697,14 +4704,18 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-20T12:22:42Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:6ab4c5f5-4dfb-4bd2-a0ad-c7cbd59bc166"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:58:00Z</dcterms:modified>
-        <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.7.7"/>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:56:02Z</dcterms:modified>
+        <dcterms:source rdf:resource="urn:iso:std:iso:9000:ed-5:v1:term:3.7.10"/>
         <rdfs:label xml:lang="en">Service</rdfs:label>
-        <skos:definition xml:lang="en-gb">Output of an organisation with at least one activity necessarily performed between the organisation and the customer</skos:definition>
+        <skos:definition xml:lang="en-us">Output of an organization with at least one activity necessarily performed between the organization and the customer</skos:definition>
         <skos:prefLabel xml:lang="en">Service</skos:prefLabel>
         <skos:scopeNote xml:lang="en">A service is generally experienced by the customer</skos:scopeNote>
-        <skos:scopeNote xml:lang="en">Provision of a service can involve, for example, the following: —   an activity performed on a customer-supplied tangible product (e.g. a car to be repaired); —   an activity performed on a customer-supplied intangible product (e.g. the income statement needed to prepare a tax return); —   the delivery of an intangible product (e.g. the delivery of information in the context of knowledge transmission); —   the creation of ambience for the customer (e.g. in hotels and restaurants);</skos:scopeNote>
-        <skos:scopeNote xml:lang="en-gb">Service often involves activities at the interface with the customer to establish customer requirements as well as upon delivery of the service and can involve a continuing relationship such as banks, accountancies or public organisations, e.g. schools or hospitals.</skos:scopeNote>
+        <skos:scopeNote xml:lang="en">Provision of a service can involve, for example, the following:
+— an activity performed on a customer-supplied tangible product (3.7.9) (e.g. a car to be repaired);
+— an activity performed on a customer-supplied intangible product (e.g. the income statement needed to prepare a tax return);
+— the delivery of an intangible product (e.g. the delivery of information (3.8.4) in the context of knowledge transmission);
+— the creation of ambience for the customer (e.g. in hotels and restaurants).</skos:scopeNote>
+        <skos:scopeNote xml:lang="en-us">Service often involves activities at the interface with the customer to establish customer requirements (3.5.1) as well as upon delivery of the service and can involve a continuing relationship such as banks, accountancies or public organizations (e.g. schools, hospitals)</skos:scopeNote>
         <skos:scopeNote xml:lang="en">The dominant elements of a service are generally intangible</skos:scopeNote>
     </owl:Class>
     <owl:Axiom>
@@ -4716,13 +4727,17 @@
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Service"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en">Provision of a service can involve, for example, the following: —   an activity performed on a customer-supplied tangible product (e.g. a car to be repaired); —   an activity performed on a customer-supplied intangible product (e.g. the income statement needed to prepare a tax return); —   the delivery of an intangible product (e.g. the delivery of information in the context of knowledge transmission); —   the creation of ambience for the customer (e.g. in hotels and restaurants);</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en">Provision of a service can involve, for example, the following:
+— an activity performed on a customer-supplied tangible product (3.7.9) (e.g. a car to be repaired);
+— an activity performed on a customer-supplied intangible product (e.g. the income statement needed to prepare a tax return);
+— the delivery of an intangible product (e.g. the delivery of information (3.8.4) in the context of knowledge transmission);
+— the creation of ambience for the customer (e.g. in hotels and restaurants).</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</schema:position>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/Service"/>
         <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
-        <owl:annotatedTarget xml:lang="en-gb">Service often involves activities at the interface with the customer to establish customer requirements as well as upon delivery of the service and can involve a continuing relationship such as banks, accountancies or public organisations, e.g. schools or hospitals.</owl:annotatedTarget>
+        <owl:annotatedTarget xml:lang="en-us">Service often involves activities at the interface with the customer to establish customer requirements (3.5.1) as well as upon delivery of the service and can involve a continuing relationship such as banks, accountancies or public organizations (e.g. schools, hospitals)</owl:annotatedTarget>
         <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</schema:position>
     </owl:Axiom>
     <owl:Axiom>
@@ -4761,13 +4776,20 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-10-14T12:00:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:5d947e7a-3fca-405b-b14f-f74878d2201e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-24T18:25:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:43:02Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:5127:ed-2:v1:term:3.1.1.13"/>
         <rdfs:label xml:lang="en">System</rdfs:label>
-        <rdfs:seeAlso rdf:resource="urn:iso:std:iso:9000:ed-4:v1:term:3.5.1"/>
+        <rdfs:seeAlso rdf:resource="urn:iso:std:iso:9000:ed-5:v1:term:3.4.1"/>
         <skos:definition xml:lang="en-gb">Combination of interacting elements organised to achieve one or more stated purposes</skos:definition>
         <skos:prefLabel xml:lang="en">System</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">See also IEC 81346-1:2009, definition 3.2; ISO 10209:2012, definition 2.82; ISO/TS 27790:2009, definition 3.72</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/core/System"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#scopeNote"/>
+        <owl:annotatedTarget xml:lang="en">See also IEC 81346-1:2009, definition 3.2; ISO 10209:2012, definition 2.82; ISO/TS 27790:2009, definition 3.72</owl:annotatedTarget>
+        <schema:position rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</schema:position>
+    </owl:Axiom>
     
 
 
