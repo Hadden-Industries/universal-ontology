@@ -139,29 +139,6 @@
      -->
 
 
-
-    <!-- http://schema.org/AudioObject -->
-
-    <owl:Class rdf:about="http://schema.org/AudioObject">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/AudioRecording"/>
-		<owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/File"/>
-    </owl:Class>
-    
-
-    <!-- https://haddenindustries.com/ontology/universal/extended/Audio -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/AudioRecording"/>
-	
-	
-	<!-- https://haddenindustries.com/ontology/universal/extended/File -->
-
-    <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/File"/>
-	
-	<!-- http://schema.org/skills -->
-
-    <owl:Class rdf:about="http://schema.org/skills">
-        <owl:equivalentClass rdf:resource="https://haddenindustries.com/ontology/universal/extended/PersonSkill"/>
-    </owl:Class>
 	
 </rdf:RDF>
 

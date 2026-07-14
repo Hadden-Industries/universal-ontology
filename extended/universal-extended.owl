@@ -14,8 +14,8 @@
      xmlns:schema="http://schema.org/"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/extended/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/extended/20260626"/>
-        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/core/20260625"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/extended/20260714"/>
+        <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/core/20260714"/>
         <dcterms:contributor rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-09-30</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
@@ -24,7 +24,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:0b29ff4f-6c01-4bea-9df9-789ccd53579b"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-26</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-07-14</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
@@ -33,8 +33,8 @@
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Extended Ontology</dcterms:title>
         <rdfs:label xml:lang="en">Hadden Industries Universal Extended Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/extended/20260610"/>
-        <owl:versionInfo>2026-06-26</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/extended/20260626"/>
+        <owl:versionInfo>2026-07-14</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -3154,6 +3154,24 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://schema.org/AudioObject -->
+
+    <owl:Class rdf:about="http://schema.org/AudioObject">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/extended/AudioRecording"/>
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/extended/File"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schema.org/Message -->
+
+    <owl:Class rdf:about="http://schema.org/Message">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/extended/Message"/>
+    </owl:Class>
     
 
 
@@ -7755,8 +7773,9 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-03-18T12:31:43Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:341ab492-ce83-4368-a81c-5e5f45a88284"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T21:17:19Z</dcterms:modified>
         <rdfs:label xml:lang="en">Person Skill</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://schema.org/skills"/>
         <skos:definition xml:lang="en">Association between a Person and their Skill</skos:definition>
         <skos:prefLabel xml:lang="en">Person Skill</skos:prefLabel>
     </owl:Class>
@@ -7836,6 +7855,7 @@ Help ensure compliance with applicable laws and regulations, and also with inter
     <!-- https://haddenindustries.com/ontology/universal/extended/PostalAddress -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/PostalAddress">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/PostalAddress"/>
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Address"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -7854,7 +7874,7 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T09:09:02Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:49c405d8-eba6-4ffe-b3a8-c4ef8941d204"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T21:10:45Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:isbn:978-92-95025-42-4"/>
         <rdfs:label xml:lang="en">Postal Address</rdfs:label>
         <skos:definition xml:lang="en">Set of information, which, for a postal item, allows the unambiguous determination of an actual or potential delivery point, usually combined with the specification of an addressee and/or a mailee</skos:definition>
@@ -9069,6 +9089,8 @@ Help ensure compliance with applicable laws and regulations, and also with inter
     <!-- https://haddenindustries.com/ontology/universal/extended/TelephoneNumber -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/TelephoneNumber">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Identifier"/>
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/PhoneNumber"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/hasITUTE164CountryCode"/>
@@ -9086,7 +9108,7 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T09:52:45Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:3bc7f081-f3dd-4198-abbd-6769c8d861ff"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T21:09:52Z</dcterms:modified>
         <rdfs:label xml:lang="en">Telephone Number</rdfs:label>
         <skos:altLabel xml:lang="en">Phone Number</skos:altLabel>
         <skos:definition xml:lang="en">Identifier of a Telephone Line</skos:definition>
