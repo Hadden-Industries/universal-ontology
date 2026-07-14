@@ -10,25 +10,25 @@
      xmlns:schema="http://schema.org/"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260624"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714"/>
         <owl:imports rdf:resource="http://www.w3.org/2004/02/skos/core"/>
         <dcterms:contributor rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-19</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:description xml:lang="en">Set of concepts and categories, applicable to metadata registries as specified in ISO/IEC 11179-3:2023, that shows their properties and the relations between them</dcterms:description>
         <dcterms:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/RDF_XML"/>
-        <dcterms:identifier rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4"/>
         <dcterms:identifier rdf:resource="urn:uuid:d83f788a-3e90-4d07-b280-614532e9984e"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-24</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-07-14</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
+        <dcterms:source rdf:resource="urn:iso:std:iso-iec:11179:-3:ed-4"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">ISO/IEC 11179-3:2023 Ontology</dcterms:title>
         <rdfs:label xml:lang="en">ISO/IEC 11179-3:2023 Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260623"/>
-        <owl:versionInfo>2026-06-24</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260624"/>
+        <owl:versionInfo>2026-07-14</owl:versionInfo>
     </owl:Ontology>
     
 
