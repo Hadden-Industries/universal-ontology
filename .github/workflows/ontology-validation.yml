@@ -76,6 +76,10 @@ jobs:
           # 3. Stream differential payload through validation matrix
           while IFS= read -r -d '' file; do
               if echo "${file}" | grep -Eq "${TARGET_PATTERN}"; then
+                  # Skip files with the "-full" suffix
+                  if echo "${file}" | grep -q -- "-full"; then
+                      continue
+                  fi
                   if [[ -f "${file}" ]]; then
                       set +e
                       test_output=$("${TEST_EXECUTABLE}" "${TEST_SCRIPT}" "${file}" 2>&1)

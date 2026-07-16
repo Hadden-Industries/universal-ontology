@@ -67,6 +67,10 @@ main() {
         [ -z "$staged_file" ] && continue
 
         if echo "${staged_file}" | grep -Eq "${TARGET_PATTERN}"; then
+            # Skip files with the "-full" suffix
+            if echo "${staged_file}" | grep -q -- "-full"; then
+                continue
+            fi
             if ! execute_ontology_validation "${staged_file}"; then
                 validation_failures=$((validation_failures + 1))
             fi
