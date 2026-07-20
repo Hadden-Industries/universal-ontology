@@ -1,11 +1,6 @@
 # Universal Ontology Exclusions
-iso-iec11179-3/versions/latest
-reference-data/versions/latest
-core/versions/latest
-core/versions/latest-unstable
-extended/versions/latest
-extended/versions/latest-unstable
-iso-31073/versions/latest
+dist/**/latest
+dist/**/latest-unstable
 
 # Environment Exclusions
 .env
