@@ -4,7 +4,7 @@ set -eu
 set -o pipefail 2>/dev/null || true
 
 readonly TEST_SCRIPT_PATH="_test/universalontologytest.py"
-readonly TARGET_PATTERN="^(iso-31073/iso-31073\.owl|iso-iec11179-3/iso-iec11179-3\.owl|reference-data/reference-data\.owl|core/universal-core\.owl|extended/universal-extended\.owl|iso-31073/versions/.*|iso-iec11179-3/versions/.*|reference-data/versions/.*|core/versions/.*|extended/versions/.*)$"
+readonly TARGET_PATTERN="^(iso-31073/iso-31073\.owl|iso-iec11179-3/iso-iec11179-3\.owl|reference-data/reference-data\.owl|core/universal-core\.owl|extended/universal-extended\.owl|dist/iso/31073/ed-[0-9]+/.*|dist/iso-iec/11179/-3/ed-[0-9]+/.*|dist/universal/reference-data/.*|dist/universal/core/.*|dist/universal/extended/.*)$"
 
 # 1. Dynamic Interpreter Resolution
 resolve_python_executable() {
