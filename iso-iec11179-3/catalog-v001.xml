@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-    <uri id="Imports Wizard Entry" name="http://purl.org/dc/elements/1.1" uri="../external/dc.rdf"/>
-    <uri id="Imports Wizard Entry" name="http://purl.org/dc/terms" uri="../external/dcterms.rdf"/>
-    <uri id="Imports Wizard Entry" name="http://www.w3.org/2004/02/skos/core" uri="../external/skos.rdf"/>
+    <uri id="Imports Wizard Entry" name="http://purl.org/dc/elements/1.1" uri="../dist/external/dc.rdf"/>
+    <uri id="Imports Wizard Entry" name="http://purl.org/dc/terms" uri="../dist/external/dcterms.rdf"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/2004/02/skos/core" uri="../dist/external/skos.rdf"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
         <uri id="Automatically generated entry, Timestamp=1784058457525" name="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/" uri="iso-iec11179-3.owl"/>
     </group>
