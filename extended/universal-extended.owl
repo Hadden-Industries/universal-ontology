@@ -14,7 +14,7 @@
      xmlns:schema="http://schema.org/"
      xmlns:dcterms="http://purl.org/dc/terms/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/extended/">
-        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/extended/20260714"/>
+        <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/extended/20260721"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/core/20260714"/>
         <dcterms:contributor rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2016-09-30</dcterms:created>
@@ -24,7 +24,7 @@
         <dcterms:identifier rdf:resource="urn:uuid:0b29ff4f-6c01-4bea-9df9-789ccd53579b"/>
         <dcterms:language rdf:resource="http://id.loc.gov/vocabulary/iso639-1/en"/>
         <dcterms:license rdf:resource="https://opensource.org/licenses/MIT"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-07-14</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-07-21</dcterms:modified>
         <dcterms:publisher rdf:resource="https://data.companieshouse.gov.uk/doc/company/07862561"/>
         <dcterms:rights rdf:resource="https://haddenindustries.com/legal.html#proprietary-rights"/>
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh00009202"/>
@@ -33,8 +33,8 @@
         <dcterms:subject rdf:resource="http://id.loc.gov/authorities/subjects/sh96000740"/>
         <dcterms:title xml:lang="en">Hadden Industries Universal Extended Ontology</dcterms:title>
         <rdfs:label xml:lang="en">Hadden Industries Universal Extended Ontology</rdfs:label>
-        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/extended/20260626"/>
-        <owl:versionInfo>2026-07-14</owl:versionInfo>
+        <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/extended/20260714"/>
+        <owl:versionInfo>2026-07-21</owl:versionInfo>
     </owl:Ontology>
     
 
@@ -3124,16 +3124,15 @@
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-02T11:48:59Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Unique identifier for every addressable location across the UK</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:0e1867b0-b658-40cf-af1d-344758561e66"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">unique property reference number</rdfs:label>
         <skos:definition xml:lang="en">Unique identifier for every addressable location across the UK</skos:definition>
         <skos:prefLabel xml:lang="en">unique property reference number</skos:prefLabel>
     </owl:DatatypeProperty>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/uniquePropertyReferenceNumber"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Unique identifier for every addressable location across the UK</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.geoplace.co.uk/addresses-streets/location-data/the-uprn"/>
     </owl:Axiom>
@@ -3275,16 +3274,15 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T08:52:31Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Product Or Service that is the formal business arrangement providing for regular dealings or services</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:e7793f14-1a42-4b2f-9b6f-47a65363001d"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:57:56Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Account</rdfs:label>
         <skos:definition xml:lang="en">Product Or Service that is the formal business arrangement providing for regular dealings or services</skos:definition>
         <skos:prefLabel xml:lang="en">Account</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Account"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Product Or Service that is the formal business arrangement providing for regular dealings or services</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.merriam-webster.com/dictionary/account"/>
         <skos:changeNote xml:lang="en">Modified to use the partial definition</skos:changeNote>
@@ -3313,16 +3311,15 @@
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/Achievement">
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-05-09T19:53:25Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Something accomplished, especially by superior ability, special effort, great courage, etc.</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:13a11bf1-1163-441b-b46e-b5998f804aba"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Achievement</rdfs:label>
         <skos:definition xml:lang="en">Something accomplished, especially by superior ability, special effort, great courage, etc.</skos:definition>
         <skos:prefLabel xml:lang="en">Achievement</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Achievement"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Something accomplished, especially by superior ability, special effort, great courage, etc.</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.dictionary.com/browse/achievement"/>
     </owl:Axiom>
@@ -3823,16 +3820,15 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-02-16T11:52:23Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Written or printed version of material originally presented in the audio medium</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:d0269fbf-3e03-4dea-9206-0064175c5fe8"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Audio Transcript</rdfs:label>
         <skos:definition xml:lang="en">Written or printed version of material originally presented in the audio medium</skos:definition>
         <skos:prefLabel xml:lang="en">Audio Transcript</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/AudioTranscript"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Written or printed version of material originally presented in the audio medium</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/transcript"/>
     </owl:Axiom>
@@ -4472,16 +4468,15 @@
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T16:57:11Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Formal proceeding before a court</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:151ca34d-66f0-4d71-ae09-99b44dc66708"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Court Hearing</rdfs:label>
         <skos:definition xml:lang="en">Formal proceeding before a court</skos:definition>
         <skos:prefLabel xml:lang="en">Court Hearing</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/CourtHearing"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Formal proceeding before a court</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.law.cornell.edu/wex/hearing"/>
     </owl:Axiom>
@@ -4716,9 +4711,8 @@
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-05-25T08:58:46Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Opinions, comments and expressions of interest in a product, a service or a complaints-handling process</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:edcd7dc2-0eb3-4f7d-8816-45595692099f"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:52:59Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <dcterms:source rdf:resource="urn:iso:std:iso:10001:ed-2:v1:term:3.7"/>
         <dcterms:source xml:lang="en">ISO 9000:2015, 3.9.1</dcterms:source>
         <rdfs:label xml:lang="en">Customer Feedback</rdfs:label>
@@ -4728,15 +4722,15 @@
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/CustomerFeedback"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
-        <owl:annotatedTarget xml:lang="en">Opinions, comments and expressions of interest in a product, a service or a complaints-handling process</owl:annotatedTarget>
-        <dcterms:subject xml:lang="en">customer satisfaction</dcterms:subject>
-    </owl:Axiom>
-    <owl:Axiom>
-        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/CustomerFeedback"/>
         <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/source"/>
         <owl:annotatedTarget xml:lang="en">ISO 9000:2015, 3.9.1</owl:annotatedTarget>
         <skos:note xml:lang="en">modified — Note 1 to entry has been added</skos:note>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/CustomerFeedback"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
+        <owl:annotatedTarget xml:lang="en">Opinions, comments and expressions of interest in a product, a service or a complaints-handling process</owl:annotatedTarget>
+        <dcterms:subject xml:lang="en">customer satisfaction</dcterms:subject>
     </owl:Axiom>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/CustomerFeedback"/>
@@ -6412,16 +6406,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-10-26T11:51:41Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Product Or Service for the allocation of a unique numerical identifier to a device that is connected to a computer network and uses the Internet Protocol for communication</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:009d67de-2f51-4e76-b5ae-042707635966"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Internet Protocol Address Assignment</rdfs:label>
         <skos:definition xml:lang="en">Product Or Service for the allocation of a unique numerical identifier to a device that is connected to a computer network and uses the Internet Protocol for communication</skos:definition>
         <skos:prefLabel xml:lang="en">Internet Protocol Address Assignment</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/InternetProtocolAddressAssignment"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Product Or Service for the allocation of a unique numerical identifier to a device that is connected to a computer network and uses the Internet Protocol for communication</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.law.cornell.edu/wex/ip_address"/>
     </owl:Axiom>
@@ -6482,16 +6475,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/extended/Case"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T14:26:14Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Formal adjudicative proceeding administered by a competent judicial authority to evaluate evidence, apply statutory law, and render a Legal Adjudication Result regarding an Offence Event</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:722926dd-9889-4dd7-b085-5c4458940f5b"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Judicial Case</rdfs:label>
         <skos:definition xml:lang="en">Formal adjudicative proceeding administered by a competent judicial authority to evaluate evidence, apply statutory law, and render a Legal Adjudication Result regarding an Offence Event</skos:definition>
         <skos:prefLabel xml:lang="en">Judicial Case</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/JudicialCase"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Formal adjudicative proceeding administered by a competent judicial authority to evaluate evidence, apply statutory law, and render a Legal Adjudication Result regarding an Offence Event</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
@@ -6606,16 +6598,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/MaterialObject"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-24T11:18:35Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Small piece of paper, fabric, plastic, or similar material attached to an object and giving information about it</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:2ec2af86-fcc8-4a41-999b-d30b5d9a9fd9"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Label</rdfs:label>
         <skos:definition xml:lang="en">Small piece of paper, fabric, plastic, or similar material attached to an object and giving information about it</skos:definition>
         <skos:prefLabel xml:lang="en">Label</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Label"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Small piece of paper, fabric, plastic, or similar material attached to an object and giving information about it</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/label"/>
     </owl:Axiom>
@@ -6683,16 +6674,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T12:54:49Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Formal, systematic inquiry executed by a statutory policing authority to ascertain facts, gather evidence, and determine the statutory resolution of an Offence Event</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:e368aeac-23cd-4704-a4e2-8e1385120b91"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Law Enforcement Investigation</rdfs:label>
         <skos:definition xml:lang="en">Formal, systematic inquiry executed by a statutory policing authority to ascertain facts, gather evidence, and determine the statutory resolution of an Offence Event</skos:definition>
         <skos:prefLabel xml:lang="en">Law Enforcement Investigation</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/LawEnforcementInvestigation"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Formal, systematic inquiry executed by a statutory policing authority to ascertain facts, gather evidence, and determine the statutory resolution of an Offence Event</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
@@ -7029,16 +7019,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-19T13:39:48Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Linked sequence of Messages relating to the same subject</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:ac9b5e72-1035-4502-9598-5f0d994d7ad5"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T21:53:38Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Message Thread</rdfs:label>
         <skos:definition xml:lang="en">Linked sequence of Messages relating to the same subject</skos:definition>
         <skos:prefLabel xml:lang="en">Message Thread</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/MessageThread"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Linked sequence of Messages relating to the same subject</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.oed.com/dictionary/thread_n"/>
         <skos:changeNote xml:lang="en">Modified</skos:changeNote>
@@ -7394,16 +7383,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/extended/Message"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-07-03T13:12:57Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Message informing of something, typically in a formal or official manner</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:74587cb5-b77d-4594-a34e-e2e855768034"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Notification</rdfs:label>
         <skos:definition xml:lang="en">Message informing of something, typically in a formal or official manner</skos:definition>
         <skos:prefLabel xml:lang="en">Notification</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Notification"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Message informing of something, typically in a formal or official manner</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/notify"/>
     </owl:Axiom>
@@ -7444,16 +7432,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T15:46:01Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Association that tracks the legal and prosecutorial transformations applied between a Law Enforcement Investigation&apos;s investigated Offence and its resulting formal statutory charges within a Judicial Case</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:4104e1a9-0c75-4905-aab6-fcb2996350b9"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Offence Charge Mapping</rdfs:label>
         <skos:definition xml:lang="en">Association that tracks the legal and prosecutorial transformations applied between a Law Enforcement Investigation&apos;s investigated Offence and its resulting formal statutory charges within a Judicial Case</skos:definition>
         <skos:prefLabel xml:lang="en">Offence Charge Mapping</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/OffenceChargeMapping"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Association that tracks the legal and prosecutorial transformations applied between a Law Enforcement Investigation&apos;s investigated Offence and its resulting formal statutory charges within a Judicial Case</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
@@ -7466,16 +7453,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Event"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-22T12:39:38Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Discrete occurrence situated in time and space during which an Offence is alleged or proven to have taken place</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:f39927bb-931c-4214-b694-fe3d58312397"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Offence Event</rdfs:label>
         <skos:definition xml:lang="en">Discrete occurrence situated in time and space during which an Offence is alleged or proven to have taken place</skos:definition>
         <skos:prefLabel xml:lang="en">Offence Event</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/OffenceEvent"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Discrete occurrence situated in time and space during which an Offence is alleged or proven to have taken place</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://gemini.google.com/app/4ebc25f67d9284b8"/>
     </owl:Axiom>
@@ -7737,16 +7723,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-03-21T22:18:00Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Person&apos;s money received, especially on a regular basis, for work or through investments</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b926df5f-8ca0-4462-95a4-eb392cc5efbe"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Person Income</rdfs:label>
         <skos:definition xml:lang="en">Person&apos;s money received, especially on a regular basis, for work or through investments</skos:definition>
         <skos:prefLabel xml:lang="en">Person Income</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/PersonIncome"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Person&apos;s money received, especially on a regular basis, for work or through investments</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/income"/>
     </owl:Axiom>
@@ -8508,16 +8493,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/Document"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-12-20T13:58:45Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Document awarded on the successful completion of a course of training or passing of an exam</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:dcd05755-afd1-4577-bdaf-ebdd0da8aba9"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Qualification</rdfs:label>
         <skos:definition xml:lang="en">Document awarded on the successful completion of a course of training or passing of an exam</skos:definition>
         <skos:prefLabel xml:lang="en">Qualification</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Qualification"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Document awarded on the successful completion of a course of training or passing of an exam</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.collinsdictionary.com/dictionary/english/qualification"/>
     </owl:Axiom>
@@ -8537,9 +8521,8 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-10-26T07:40:25Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Formal statement setting out the estimated cost for a particular job or service</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:795e0cdf-619f-4fca-849b-5309403840eb"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T16:04:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Quotation</rdfs:label>
         <skos:altLabel xml:lang="en">Quote</skos:altLabel>
         <skos:definition xml:lang="en">Formal statement setting out the estimated cost for a particular job or service</skos:definition>
@@ -8547,7 +8530,7 @@ Help ensure compliance with applicable laws and regulations, and also with inter
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Quotation"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Formal statement setting out the estimated cost for a particular job or service</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/quotation"/>
     </owl:Axiom>
@@ -9163,16 +9146,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/universal/core/ProductOrService"/>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-05-09T15:13:31Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Product Or Service providing use of a system for transmitting voices over a distance using wire or radio, by converting acoustic vibrations to electrical signals</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:b4eeed79-1b84-45d7-add8-7ee8d867009e"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Telephony Service</rdfs:label>
         <skos:definition xml:lang="en">Product Or Service providing use of a system for transmitting voices over a distance using wire or radio, by converting acoustic vibrations to electrical signals</skos:definition>
         <skos:prefLabel xml:lang="en">Telephony Service</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/TelephonyService"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Product Or Service providing use of a system for transmitting voices over a distance using wire or radio, by converting acoustic vibrations to electrical signals</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://www.lexico.com/definition/telephone"/>
     </owl:Axiom>
@@ -9235,16 +9217,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-31T09:49:32Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Document that states and proves a Person&apos;s legal right to own a piece of land or a building</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:7ebb835a-497c-4c9b-8077-5fca9f8449a3"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Title Deed</rdfs:label>
         <skos:definition xml:lang="en">Document that states and proves a Person&apos;s legal right to own a piece of land or a building</skos:definition>
         <skos:prefLabel xml:lang="en">Title Deed</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/TitleDeed"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Document that states and proves a Person&apos;s legal right to own a piece of land or a building</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://dictionary.cambridge.org/dictionary/english/title-deed"/>
     </owl:Axiom>
@@ -9461,16 +9442,15 @@ Help ensure compliance with applicable laws and regulations, and also with inter
         </rdfs:subClassOf>
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-20T17:03:43Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
-        <dcterms:description xml:lang="en">Any self-propelled vehicle designed and constructed to be used on the road and having at least two wheels or any non-self propelled vehicle, which is designed and constructed to be towed by a power driven vehicle</dcterms:description>
         <dcterms:identifier rdf:resource="urn:uuid:65e9a74c-d519-42e3-a54e-50b5f23bb388"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-26T22:03:50Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-21T18:00:00Z</dcterms:modified>
         <rdfs:label xml:lang="en">Vehicle</rdfs:label>
         <skos:definition xml:lang="en">Any self-propelled vehicle designed and constructed to be used on the road and having at least two wheels or any non-self propelled vehicle, which is designed and constructed to be towed by a power driven vehicle</skos:definition>
         <skos:prefLabel xml:lang="en">Vehicle</skos:prefLabel>
     </owl:Class>
     <owl:Axiom>
         <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/Vehicle"/>
-        <owl:annotatedProperty rdf:resource="http://purl.org/dc/terms/description"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
         <owl:annotatedTarget xml:lang="en">Any self-propelled vehicle designed and constructed to be used on the road and having at least two wheels or any non-self propelled vehicle, which is designed and constructed to be towed by a power driven vehicle</owl:annotatedTarget>
         <dcterms:source rdf:resource="https://unece.org/fileadmin/DAM/trans/doc/2005/wp29/TRANS-WP29-1045e.pdf"/>
         <skos:note xml:lang="en">Annex 1, Section 3.</skos:note>
