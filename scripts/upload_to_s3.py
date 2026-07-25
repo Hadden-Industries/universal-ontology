@@ -14,6 +14,7 @@ import os
 import shutil
 import subprocess
 import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from enum import Enum
 from pathlib import Path
 from typing import Any
@@ -128,6 +129,32 @@ def get_content_type(file_path: Path) -> str | None:
     return None
 
 
+def fetch_s3_checksum(bucket: str, s3_file_key: str, region: str | None = None) -> tuple[str, str | None]:
+    """
+    Fetches the CRC64NVME checksum for a single S3 object using 'aws s3api head-object'.
+    Returns a tuple of (s3_file_key, checksum_str_or_none).
+    """
+    head_cmd = [
+        "aws", "s3api", "head-object",
+        "--bucket", bucket,
+        "--key", s3_file_key,
+        "--checksum-mode", "ENABLED",
+        "--query", "ChecksumCRC64NVME",
+        "--output", "text"
+    ]
+    if region:
+        head_cmd.extend(["--region", region])
+
+    try:
+        head_out = run_cli_command(head_cmd, dry_run=False, suppress_log=True)
+        cleaned_out = head_out.strip()
+        if cleaned_out and cleaned_out not in {"None", "null"}:
+            return s3_file_key, cleaned_out
+    except subprocess.CalledProcessError:
+        pass
+    return s3_file_key, None
+
+
 def get_s3_objects(bucket: str, prefix: str, region: str | None = None) -> dict[str, dict[str, Any]]:
     """Lists S3 objects under the specified prefix and returns a dict mapping key -> metadata."""
     prefix_clean = prefix.strip("/")
@@ -185,7 +212,8 @@ def sync_directory_to_s3(
     compare_mode: CompareMode = CompareMode.CHECKSUM,
     region: str | None = None,
     dry_run: bool = False,
-    force: bool = False
+    force: bool = False,
+    max_workers: int = 16
 ) -> tuple[int, int]:
     """
     Synchronizes a local directory with an S3 bucket and prefix.
@@ -212,6 +240,33 @@ def sync_directory_to_s3(
                 print(f"[INFO] Skipping ignored file: {file_path.relative_to(resolved_dir)}")
                 continue
             local_files.append(file_path)
+
+    if compare_mode == CompareMode.CHECKSUM and not force:
+        keys_needing_head: list[str] = []
+        for file_path in local_files:
+            rel_file = file_path.relative_to(resolved_dir)
+            rel_posix = rel_file.as_posix()
+            s3_file_key = f"{normalized_prefix}/{rel_posix}" if normalized_prefix else rel_posix
+            if s3_file_key in s3_objects and not s3_objects[s3_file_key].get("ChecksumCRC64NVME"):
+                keys_needing_head.append(s3_file_key)
+
+        if keys_needing_head:
+            print(f"\nFetching missing S3 checksums for {len(keys_needing_head)} objects using {max_workers} parallel workers...")
+            completed_count = 0
+            total_count = len(keys_needing_head)
+            
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                future_to_key = {
+                    executor.submit(fetch_s3_checksum, bucket, key, region): key
+                    for key in keys_needing_head
+                }
+                for future in as_completed(future_to_key):
+                    key, crc_val = future.result()
+                    completed_count += 1
+                    if crc_val:
+                        s3_objects[key]["ChecksumCRC64NVME"] = crc_val
+                    pct = (completed_count / total_count) * 100
+                    print(f"  [{completed_count}/{total_count} | {pct:5.1f}%] Checksum fetched: {key} -> {crc_val or 'None'}")
 
     # 1. Directory creation placeholders
     print(f"\nProcessing {len(local_dirs)} subdirectories...")
@@ -254,29 +309,6 @@ def sync_directory_to_s3(
             
             if compare_mode == CompareMode.CHECKSUM:
                 s3_crc = s3_item.get("ChecksumCRC64NVME")
-                
-                # Lazy load CRC64NVME via head-object only when required for a local file
-                if not s3_crc:
-                    head_cmd = [
-                        "aws", "s3api", "head-object",
-                        "--bucket", bucket,
-                        "--key", s3_file_key,
-                        "--checksum-mode", "ENABLED",
-                        "--query", "ChecksumCRC64NVME",
-                        "--output", "text"
-                    ]
-                    if region:
-                        head_cmd.extend(["--region", region])
-
-                    try:
-                        head_out = run_cli_command(head_cmd, dry_run=False, suppress_log=True)
-                        cleaned_out = head_out.strip()
-                        if cleaned_out and cleaned_out not in {"None", "null"}:
-                            s3_crc = cleaned_out
-                            s3_item["ChecksumCRC64NVME"] = s3_crc
-                    except subprocess.CalledProcessError:
-                        pass
-
                 local_crc = calculate_crc64nvme(file_path)
                 
                 if not s3_crc:
@@ -358,6 +390,12 @@ def parse_args() -> argparse.Namespace:
         help=f"Comparison method: 'checksum' (CRC64NVME full object) or 'mtime' (modification date). Default: '{CompareMode.CHECKSUM.value}'."
     )
     parser.add_argument(
+        "--max-workers",
+        type=int,
+        default=16,
+        help="Number of parallel worker threads for fetching S3 metadata/checksums (default: 16)."
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Print actions without executing S3 uploads."
@@ -381,7 +419,8 @@ def main() -> None:
             compare_mode=args.compare_mode,
             region=args.region,
             dry_run=args.dry_run,
-            force=args.force
+            force=args.force,
+            max_workers=args.max_workers
         )
     except Exception as e:
         print(f"[FATAL ERROR] {e}", file=sys.stderr)
