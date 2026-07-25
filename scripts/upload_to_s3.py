@@ -251,11 +251,12 @@ def sync_directory_to_s3(
                 keys_needing_head.append(s3_file_key)
 
         if keys_needing_head:
-            print(f"\nFetching missing S3 checksums for {len(keys_needing_head)} objects using {max_workers} parallel workers...")
+            workers_to_use = min(max_workers, len(keys_needing_head))
+            print(f"\nFetching missing S3 checksums for {len(keys_needing_head)} objects using {workers_to_use} parallel workers...")
             completed_count = 0
             total_count = len(keys_needing_head)
             
-            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            with ThreadPoolExecutor(max_workers=workers_to_use) as executor:
                 future_to_key = {
                     executor.submit(fetch_s3_checksum, bucket, key, region): key
                     for key in keys_needing_head
@@ -268,21 +269,24 @@ def sync_directory_to_s3(
                     pct = (completed_count / total_count) * 100
                     print(f"  [{completed_count}/{total_count} | {pct:5.1f}%] Checksum fetched: {key} -> {crc_val or 'None'}")
 
-    # 1. Directory creation placeholders
+    # 1. Directory creation placeholders (only if prefix has no existing objects beneath it)
     print(f"\nProcessing {len(local_dirs)} subdirectories...")
     for dir_path in sorted(local_dirs):
         rel_dir = dir_path.relative_to(resolved_dir)
         rel_posix = rel_dir.as_posix()
         s3_dir_key = f"{normalized_prefix}/{rel_posix}/" if normalized_prefix else f"{rel_posix}/"
         
-        if s3_dir_key not in s3_objects:
+        # Check if directory placeholder exists OR if any object exists under this virtual directory prefix
+        dir_exists = any(k == s3_dir_key or k.startswith(s3_dir_key) for k in s3_objects)
+        
+        if not dir_exists:
             print(f"[CREATE DIR] S3 Key: {s3_dir_key}")
             cmd = ["aws", "s3api", "put-object", "--bucket", bucket, "--key", s3_dir_key]
             if region:
                 cmd.extend(["--region", region])
             run_cli_command(cmd, dry_run=dry_run)
         else:
-            print(f"[SKIP DIR] Already exists in S3: {s3_dir_key}")
+            print(f"[SKIP DIR] Already exists in S3 (or contains objects): {s3_dir_key}")
 
     # 2. File uploads
     print(f"\nProcessing {len(local_files)} files (Compare Mode: {compare_mode.value.upper()})...")
