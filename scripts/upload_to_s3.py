@@ -128,7 +128,7 @@ def get_content_type(file_path: Path) -> str | None:
     return None
 
 
-def get_s3_objects(bucket: str, prefix: str, compare_mode: CompareMode) -> dict[str, dict[str, Any]]:
+def get_s3_objects(bucket: str, prefix: str, region: str | None = None) -> dict[str, dict[str, Any]]:
     """Lists S3 objects under the specified prefix and returns a dict mapping key -> metadata."""
     prefix_clean = prefix.strip("/")
     prefix_str = f"{prefix_clean}/" if prefix_clean else ""
@@ -144,7 +144,8 @@ def get_s3_objects(bucket: str, prefix: str, compare_mode: CompareMode) -> dict[
         ]
         if prefix_str:
             command.extend(["--prefix", prefix_str])
-            
+        if region:
+            command.extend(["--region", region])
         if continuation_token:
             command.extend(["--continuation-token", continuation_token])
             
@@ -182,6 +183,7 @@ def sync_directory_to_s3(
     bucket: str,
     prefix: str,
     compare_mode: CompareMode = CompareMode.CHECKSUM,
+    region: str | None = None,
     dry_run: bool = False,
     force: bool = False
 ) -> tuple[int, int]:
@@ -193,7 +195,7 @@ def sync_directory_to_s3(
         raise FileNotFoundError(f"Local directory '{resolved_dir}' does not exist or is not a directory.")
 
     normalized_prefix = prefix.strip("/")
-    s3_objects = get_s3_objects(bucket, normalized_prefix, compare_mode)
+    s3_objects = get_s3_objects(bucket, normalized_prefix, region=region)
     
     print(f"\nScanning local directory: {resolved_dir}...")
     
@@ -221,6 +223,8 @@ def sync_directory_to_s3(
         if s3_dir_key not in s3_objects:
             print(f"[CREATE DIR] S3 Key: {s3_dir_key}")
             cmd = ["aws", "s3api", "put-object", "--bucket", bucket, "--key", s3_dir_key]
+            if region:
+                cmd.extend(["--region", region])
             run_cli_command(cmd, dry_run=dry_run)
         else:
             print(f"[SKIP DIR] Already exists in S3: {s3_dir_key}")
@@ -257,13 +261,18 @@ def sync_directory_to_s3(
                         "aws", "s3api", "head-object",
                         "--bucket", bucket,
                         "--key", s3_file_key,
-                        "--checksum-mode", "ENABLED"
+                        "--checksum-mode", "ENABLED",
+                        "--query", "ChecksumCRC64NVME",
+                        "--output", "text"
                     ]
+                    if region:
+                        head_cmd.extend(["--region", region])
+
                     try:
                         head_out = run_cli_command(head_cmd, dry_run=False, suppress_log=True)
-                        if head_out.strip():
-                            head_data = json.loads(head_out)
-                            s3_crc = head_data.get("ChecksumCRC64NVME")
+                        cleaned_out = head_out.strip()
+                        if cleaned_out and cleaned_out not in {"None", "null"}:
+                            s3_crc = cleaned_out
                             s3_item["ChecksumCRC64NVME"] = s3_crc
                     except subprocess.CalledProcessError:
                         pass
@@ -294,11 +303,14 @@ def sync_directory_to_s3(
             cmd = [
                 "aws", "s3", "cp",
                 str(file_path),
-                f"s3://{bucket}/{s3_file_key}"
+                f"s3://{bucket}/{s3_file_key}",
+                "--checksum-algorithm", "CRC64NVME"
             ]
             if content_type:
                 cmd.extend(["--content-type", content_type])
-                
+            if region:
+                cmd.extend(["--region", region])
+
             run_cli_command(cmd, dry_run=dry_run)
             uploads_count += 1
         else:
@@ -333,6 +345,12 @@ def parse_args() -> argparse.Namespace:
         help="Target S3 prefix/folder path."
     )
     parser.add_argument(
+        "--region",
+        type=str,
+        default=None,
+        help="Optional AWS region (e.g., 'eu-west-1')."
+    )
+    parser.add_argument(
         "--compare-mode",
         type=CompareMode,
         choices=list(CompareMode),
@@ -361,6 +379,7 @@ def main() -> None:
             bucket=args.bucket,
             prefix=args.prefix,
             compare_mode=args.compare_mode,
+            region=args.region,
             dry_run=args.dry_run,
             force=args.force
         )
