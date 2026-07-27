@@ -238,6 +238,7 @@ body {
     bottom: 2rem;
     right: 2rem;
     z-index: 50;
+    display: flex;
 }
 
 .dropdown {
@@ -314,6 +315,15 @@ body {
 .dropdown-item input[type="checkbox"] {
     cursor: pointer;
     accent-color: var(--primary);
+}
+
+.dropdown-button {
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.25rem;
+    user-select: none;
+    transition: background-color 0.2s;
 }
 
 table {

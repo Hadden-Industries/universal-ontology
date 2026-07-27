@@ -629,9 +629,9 @@ function formatSubClassOfHtml(scList, context) {
 /**
  * Triggers a download of the provided JSON-LD ontology data as a CSV file.
  * @param {Object} ontologyLd - The full parsed ontology JSON-LD document.
- * @param {string} [filename="Ontology Vocabulary.csv"] - The name of the file to save.
+ * @param {string} [filename="Ontology.csv"] - The name of the file to save.
  */
-function exportCSV(ontologyLd, filename = "Ontology Vocabulary.csv") {
+function exportCSV(ontologyLd, filename = "Ontology.csv") {
     if (!ontologyLd) return;
 
     const context = ontologyLd["@context"] || {};
@@ -715,9 +715,9 @@ function exportCSV(ontologyLd, filename = "Ontology Vocabulary.csv") {
 /**
  * Triggers a download of the provided JSON-LD ontology data as a .json file.
  * @param {Object} ontologyLd - The full parsed ontology JSON-LD document.
- * @param {string} [filename="Ontology Vocabulary.json"] - The name of the file to save.
+ * @param {string} [filename="Ontology.json"] - The name of the file to save.
  */
-function exportJSON(ontologyLd, filename = "Ontology Vocabulary.json") {
+function exportJSON(ontologyLd, filename = "Ontology.json") {
     if (!ontologyLd) return;
 
     const jsonString = JSON.stringify(ontologyLd, null, 2);
@@ -766,9 +766,9 @@ async function fetchOntologyAsXml(url) {
  * Applies the XSLT stylesheet to the OWL XML document and triggers a download of the resulting UML XMI file.
  * @param {Document} xmlDoc - The parsed OWL XML DOM document.
  * @param {string} xsltText - The raw text of the XSLT stylesheet.
- * @param {string} [filename="Ontology Vocabulary.xmi"] - The name of the file to save.
+ * @param {string} [filename="Ontology.xmi"] - The name of the file to save.
  */
-function exportXMI(xmlDoc, xsltText, filename = "Ontology Vocabulary.xmi") {
+function exportXMI(xmlDoc, xsltText, filename = "Ontology.xmi") {
     const parser = new DOMParser();
     const xsltDoc = parser.parseFromString(xsltText, "application/xml");
     

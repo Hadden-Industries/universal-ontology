@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Vocabulary representation of the Hadden Industries ontology.">
-    <title>Ontology Vocabulary</title>
+    <meta name="description" content="HTML representation of the ontology.">
+    <title>Ontology</title>
     <!-- Link to our shared premium stylesheet -->
     <link rel="stylesheet" href="ontology_styles.css">
 </head>
@@ -12,13 +12,24 @@
 
     <main class="table-wrapper">
         <div class="toolbar">
-            <div class="dropdown" id="col-dropdown">
+            <div class="dropdown" id="col-dropdown" aria-label="Filter Columns" title="Filter Columns">
                 <button class="dropdown-toggle" id="col-toggle">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
                     Columns
                 </button>
                 <div class="dropdown-menu" id="col-menu">
                     <!-- Checkboxes injected via JavaScript -->
+                </div>
+            </div>
+            <div class="dropdown" id="export-dropdown">
+                <button class="dropdown-toggle" id="export-toggle" aria-label="Export data" title="Export data">
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="14"  height="14"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg>
+                    Export
+                </button>
+                <div class="dropdown-menu" id="export-menu">
+                    <button class="dropdown-button" id="export-csv" type="button" title="Export .csv">Comma-Separated Values<br/>(.csv)</button>
+                    <button class="dropdown-button" id="export-jsonld" type="button" title="Export .jsonld"><abbr title="JavaScript Object Notation">JSON</abbr> for Linked Data<br/>(.jsonld)</button>
+                    <button class="dropdown-button" id="export-xmi" type="button" title="Export .xmi"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange<br/>(.xmi)</button>
                 </div>
             </div>
         </div>
@@ -56,6 +67,10 @@
         let currentSortCol = null;
         let currentSortAsc = true;
         let hiddenColumns = new Set();
+        let isLocalEnv = false;
+        let targetUrl = "";
+        let result = {};
+        let fileName = "Ontology";
         
         // Dynamic style block for hiding columns
         const colStyleElement = document.createElement('style');
@@ -79,6 +94,7 @@
                 const text = th.childNodes[0].textContent.trim();
                 const label = document.createElement('label');
                 label.className = 'dropdown-item';
+                label.title = text;
                 
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
@@ -102,6 +118,7 @@
             toggleBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 menu.classList.toggle('show');
+                exportMenu.classList.remove('show');
             });
 
             // Close dropdown when clicking outside
@@ -109,6 +126,66 @@
                 if (!menu.contains(e.target) && e.target !== toggleBtn) {
                     menu.classList.remove('show');
                 }
+            });
+            
+            const exportMenu = document.getElementById('export-menu');
+            
+            const toggleExportBtn = document.getElementById('export-toggle');
+            toggleExportBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                exportMenu.classList.toggle('show');
+                menu.classList.remove('show');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!exportMenu.contains(e.target) && e.target !== toggleExportBtn) {
+                    exportMenu.classList.remove('show');
+                }
+            });
+            
+            const exportCsvBtn = document.getElementById('export-csv');
+            exportCsvBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                exportCSV(result, filename + ".csv");
+            });
+            
+            const exportJsonLdBtn = document.getElementById('export-jsonld');
+            exportJsonLdBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                exportJSON(result, filename + ".jsonld");
+            });
+            
+            const exportXmiBtn = document.getElementById('export-xmi');
+            exportXmiBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                
+                const xmlDoc = await fetchOntologyAsXml(targetUrl);
+                let xsltUrl;
+
+                if (isLocalEnv) {
+                    xsltUrl = "owl_to_uml_xmi.xsl";
+                } else {
+                    const pathname = window.location.pathname;
+                    const basePath = pathname.substring(0, pathname.lastIndexOf('/'));
+                    xsltUrl = window.location.origin + basePath + "/owl_to_uml_xmi.xsl";
+                }
+
+                // Fetch XSLT stylesheet (with fallback to CDN)
+                let xsltText;
+                try {
+                    const xsltResponse = await fetch(xsltUrl);
+                    if (!xsltResponse.ok) { throw new Error("Local XSLT fetch failed"); }
+                    xsltText = await xsltResponse.text();
+                } catch (xsltErr) {
+                    console.warn("Could not fetch local XSLT, falling back to production CDN:", xsltErr);
+                    const prodXsltUrl = "https://haddenindustries.com/ontology/owl_to_uml_xmi.xsl";
+                    const xsltResponse = await fetch(prodXsltUrl);
+                    if (!xsltResponse.ok) { throw new Error("CDN XSLT fetch failed"); }
+                    xsltText = await xsltResponse.text();
+                }
+                
+                exportXMI(xmlDoc, xsltText, filename + ".xmi");
             });
         }
 
@@ -262,8 +339,7 @@
             // Initialize column visibility dropdown
             initColumnDropdown();
 
-            const isLocalEnv = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:";
-            let targetUrl;
+            isLocalEnv = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:";
 
             if (isLocalEnv) {
                 targetUrl = "https://haddenindustries.com/ontology/universal/reference-data/latest";
@@ -275,13 +351,19 @@
             
             try {
                 // Call the shared library which strictly returns JSON-LD data
-                const result = await fetchOntologyAsJsonLd(targetUrl);
+                result = await fetchOntologyAsJsonLd(targetUrl);
                 
-                // Update UI based on the returned title (using language map)
+                // Update UI, file name based on the returned title (using language map)
                 if (result && result["dcterms:title"]) {
                     const titleText = getPreferredLang(result["dcterms:title"]);
-                    const displayTitle = `${titleText} Vocabulary`;
+                    const displayTitle = `${titleText}`;
                     document.title = displayTitle;
+                    
+                    filename = `${titleText}`;
+                    const modified = result["dcterms:modified"];
+                    if (modified) {
+                        filename += ` [${modified}]`;
+                    }
                 }
                 
                 // Render table and enable CSV download if data exists
