@@ -1,6 +1,7 @@
 # Universal Ontology Exclusions
 src/**/latest
 src/**/latest-unstable
+dist/
 
 # Environment Exclusions
 .env
