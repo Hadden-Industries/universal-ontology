@@ -50,29 +50,12 @@ function expandURI(compactUri, context) {
 }
 
 /**
- * Fetches and parses an OWL XML document from a given URL and returns it as JSON-LD.
- * @async
- * @param {string} url - The URL of the XML file to load.
- * @returns {Promise<Object>} The parsed ontology represented as a JSON-LD document.
+ * Transforms a given parsed XML document and returns it as JSON-LD.
+ * @param <Object> xmlDoc - The parsed XML document to read.
+ * @returns <Object> The parsed ontology represented as a JSON-LD document.
  * @throws {Error} If the file cannot be loaded or parsed.
  */
-async function fetchOntologyAsJsonLd(url) {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    
-    // Harden the fetch: ensure the server returned an RDF/XML file
-    const contentType = response.headers.get("content-type") || "";
-    if (!contentType.includes("application/rdf+xml")) {
-        throw new Error(`Invalid content-type: ${contentType}. Expected application/rdf+xml`);
-    }
-
-    const xmlText = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-    
-    if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
-        throw new Error("Error parsing XML document");
-    }
+function transformOntologyToJsonLd(xmlDoc) {
 
     // Initialize the base JSON-LD context
     const context = {

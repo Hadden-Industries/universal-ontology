@@ -69,7 +69,8 @@
         let hiddenColumns = new Set();
         let isLocalEnv = false;
         let targetUrl = "";
-        let result = {};
+        let fetchedXmlDoc = {};
+        let jsonLdDoc = {};
         let fileName = "Ontology";
         
         // Dynamic style block for hiding columns
@@ -147,20 +148,25 @@
             const exportCsvBtn = document.getElementById('export-csv');
             exportCsvBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                exportCSV(result, filename + ".csv");
+                exportCsvBtn.disabled = true;
+                exportCSV(jsonLdDoc, filename + ".csv");
+                exportCsvBtn.disabled = false;
             });
             
             const exportJsonLdBtn = document.getElementById('export-jsonld');
             exportJsonLdBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                exportJSON(result, filename + ".jsonld");
+                exportJsonLdBtn.disabled = true;
+                exportJSON(jsonLdDoc, filename + ".jsonld");
+                exportJsonLdBtn.disabled = false;
             });
             
             const exportXmiBtn = document.getElementById('export-xmi');
             exportXmiBtn.addEventListener('click', async (e) => {
                 e.stopPropagation();
+                // Immediate visual feedback & prevent double-clicks
+                exportXmiBtn.disabled = true;
                 
-                const xmlDoc = await fetchOntologyAsXml(targetUrl);
                 let xsltUrl;
 
                 if (isLocalEnv) {
@@ -177,15 +183,17 @@
                     const xsltResponse = await fetch(xsltUrl);
                     if (!xsltResponse.ok) { throw new Error("Local XSLT fetch failed"); }
                     xsltText = await xsltResponse.text();
+                    exportXMI(fetchedXmlDoc, xsltText, filename + ".xmi");
                 } catch (xsltErr) {
                     console.warn("Could not fetch local XSLT, falling back to production CDN:", xsltErr);
                     const prodXsltUrl = "https://haddenindustries.com/ontology/owl_to_uml_xmi.xsl";
                     const xsltResponse = await fetch(prodXsltUrl);
                     if (!xsltResponse.ok) { throw new Error("CDN XSLT fetch failed"); }
                     xsltText = await xsltResponse.text();
+                } finally {
+                    // Restore UI state regardless of success or failure
+                    exportXmiBtn.disabled = false;
                 }
-                
-                exportXMI(xmlDoc, xsltText, filename + ".xmi");
             });
         }
 
@@ -350,28 +358,30 @@
             }
             
             try {
+                // Call the shared library which strictly returns a parsed XML document
+                fetchedXmlDoc = await fetchOntologyAsXml(targetUrl);
                 // Call the shared library which strictly returns JSON-LD data
-                result = await fetchOntologyAsJsonLd(targetUrl);
+                jsonLdDoc = transformOntologyToJsonLd(fetchedXmlDoc);
                 
                 // Update UI, file name based on the returned title (using language map)
-                if (result && result["dcterms:title"]) {
-                    const titleText = getPreferredLang(result["dcterms:title"]);
+                if (jsonLdDoc && jsonLdDoc["dcterms:title"]) {
+                    const titleText = getPreferredLang(jsonLdDoc["dcterms:title"]);
                     const displayTitle = `${titleText}`;
                     document.title = displayTitle;
                     
                     filename = `${titleText}`;
-                    const modified = result["dcterms:modified"];
+                    const modified = jsonLdDoc["dcterms:modified"];
                     if (modified) {
                         filename += ` [${modified}]`;
                     }
                 }
                 
                 // Render table and enable CSV download if data exists
-                if (result && result["@graph"] && result["@graph"].length > 0) {
-                    ontologyContext = result["@context"] || {};
+                if (jsonLdDoc && jsonLdDoc["@graph"] && jsonLdDoc["@graph"].length > 0) {
+                    ontologyContext = jsonLdDoc["@context"] || {};
                     
                     // Filter out dcat:Dataset and dcat:Distribution from representation
-                    localExtractedData = result["@graph"].filter(row => {
+                    localExtractedData = jsonLdDoc["@graph"].filter(row => {
                         const type = row["@type"];
                         if (Array.isArray(type)) {
                             return !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution");
