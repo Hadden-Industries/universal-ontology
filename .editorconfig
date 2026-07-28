@@ -1,0 +1,46 @@
+# EditorConfig helps developers define and maintain consistent
+# coding styles between different editors and IDEs.
+# https://editorconfig.org
+
+# Source: https://gemini.google.com/app/39fa94805b099202
+
+root = true
+
+# Global defaults
+# 2-space indentation covers modern Web (HTML/CSS/JS), JSON, XML, RDF, OWL, Turtle, and HCL/Terraform
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Python strictly mandates 4 spaces per PEP 8
+[*.py]
+indent_size = 4
+
+# C-Family, Java, and C# standardise on 4 spaces
+[*.{c,cpp,h,hpp,java,cs}]
+indent_size = 4
+
+# Go strictly requires tab indentation per gofmt
+[*.go]
+indent_style = tab
+
+# YAML parser syntax strictly forbids tab characters
+[*.{yml,yaml}]
+indent_style = space
+
+# Markdown Documentation
+# Preserve trailing spaces to maintain hard line breaks (<br>)
+[*.md]
+trim_trailing_whitespace = false
+
+# Makefiles strictly require tabs for target recipe execution
+[Makefile]
+indent_style = tab
+
+# Windows Batch scripts require CRLF line endings for legacy parser compatibility
+[*.{bat,cmd}]
+end_of_line = crlf
