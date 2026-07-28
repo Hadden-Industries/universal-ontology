@@ -6,7 +6,7 @@
     <meta name="description" content="HTML representation of the ontology.">
     <title>Ontology</title>
     <!-- Link to our shared premium stylesheet -->
-    <link rel="stylesheet" href="ontology_styles.css">
+    <link rel="stylesheet" href="/ontology/ontology_styles.css">
 </head>
 <body>
 
@@ -58,7 +58,7 @@
     </main>
 
     <!-- Import the shared logic library -->
-    <script src="ontology_processor.js"></script>
+    <script src="/ontology/ontology_processor.js"></script>
     
     <script>
         // Store the returned data locally for the export function
@@ -67,8 +67,6 @@
         let currentSortCol = null;
         let currentSortAsc = true;
         let hiddenColumns = new Set();
-        let isLocalEnv = false;
-        let targetUrl = "";
         let fetchedXmlDoc = {};
         let jsonLdDoc = {};
         let fileName = "Ontology";
@@ -167,15 +165,7 @@
                 // Immediate visual feedback & prevent double-clicks
                 exportXmiBtn.disabled = true;
                 
-                let xsltUrl;
-
-                if (isLocalEnv) {
-                    xsltUrl = "owl_to_uml_xmi.xsl";
-                } else {
-                    const pathname = window.location.pathname;
-                    const basePath = pathname.substring(0, pathname.lastIndexOf('/'));
-                    xsltUrl = window.location.origin + basePath + "/owl_to_uml_xmi.xsl";
-                }
+                const xsltUrl = "/ontology/owl_to_uml_xmi.xsl";
 
                 // Fetch XSLT stylesheet (with fallback to CDN)
                 let xsltText;
@@ -347,16 +337,17 @@
             // Initialize column visibility dropdown
             initColumnDropdown();
 
-            isLocalEnv = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:";
+            const pathname = window.location.pathname;
 
-            if (isLocalEnv) {
-                targetUrl = "https://haddenindustries.com/ontology/universal/reference-data/latest";
-            } else {
-                const pathname = window.location.pathname;
-                const basePath = pathname.substring(0, pathname.lastIndexOf('/'));
-                targetUrl = window.location.origin + basePath;
-            }
-            
+            // Find where the last slash and last dot occur
+            const lastSlashIndex = pathname.lastIndexOf('/');
+            const lastDotIndex = pathname.lastIndexOf('.');
+
+            // Only strip the extension if a dot exists AND it appears AFTER the last slash
+            const targetUrl = (lastDotIndex > lastSlashIndex)
+                ? pathname.substring(0, lastDotIndex)
+                : pathname;
+
             try {
                 // Call the shared library which strictly returns a parsed XML document
                 fetchedXmlDoc = await fetchOntologyAsXml(targetUrl);
