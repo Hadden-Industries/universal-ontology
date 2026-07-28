@@ -939,7 +939,7 @@ class OntologyUIController {
             exportXmiBtn.addEventListener('click', async (e) => {
                 e.stopPropagation();
                 exportXmiBtn.disabled = true;
-                const xsltUrl = "/ontology/owl_to_uml_xmi.xsl";
+                const xsltUrl = "/ontology/owl-to-uml-xmi.xsl";
 
                 try {
                     let xsltText;
