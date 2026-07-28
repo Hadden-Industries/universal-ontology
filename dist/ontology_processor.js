@@ -1,6 +1,13 @@
 /**
- * Namespaces used in the OWL XML documents.
- * @constant {Object}
+ * @file ontology_processor.js
+ * @description Modernized, consolidated processor and interactive table controller for OWL/XML Ontologies.
+ * Features XML to JSON-LD transformation, dynamic table rendering, column filtering, multi-column sorting,
+ * and data export utilities (CSV, JSON-LD, XMI).
+ */
+
+/**
+ * Standard namespaces used across OWL/RDF XML documents.
+ * @constant {Object<string, string>}
  */
 const NS = {
     rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -50,10 +57,9 @@ function expandURI(compactUri, context) {
 }
 
 /**
- * Transforms a given parsed XML document and returns it as JSON-LD.
- * @param <Object> xmlDoc - The parsed XML document to read.
- * @returns <Object> The parsed ontology represented as a JSON-LD document.
- * @throws {Error} If the file cannot be loaded or parsed.
+ * Transforms a parsed OWL XML document into a standardized JSON-LD object.
+ * @param {Document} xmlDoc - Parsed XML Document.
+ * @returns {Object} Formatted JSON-LD document.
  */
 function transformOntologyToJsonLd(xmlDoc) {
 
@@ -64,9 +70,9 @@ function transformOntologyToJsonLd(xmlDoc) {
         "dcterms": NS.dcterms,
         "skos": NS.skos,
         "rdfs": NS.rdfs,
-        "xml": "http://www.w3.org/XML/1998/namespace",
+        "xml": NS.xml,
         "dcat": NS.dcat,
-        "schema": NS.schema,
+        "schema": "http://schema.org/",
         "uc": "https://haddenindustries.com/ontology/universal/core/",
         "ue": "https://haddenindustries.com/ontology/universal/extended/",
         "md": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/",
@@ -130,7 +136,7 @@ function transformOntologyToJsonLd(xmlDoc) {
         }
 
         // Generic child iteration for owl:Ontology properties
-        for (let child of ontologyNode.children) {
+        for (const child of ontologyNode.children) {
             const ns = child.namespaceURI;
             const name = child.localName;
             const key = compactURI(ns + name, context);
@@ -195,10 +201,9 @@ function transformOntologyToJsonLd(xmlDoc) {
         }
     }
 
-    const ontologyData = extractGraphData(xmlDoc, context);
-    result["@graph"] = ontologyData;
+    result["@graph"] = extractGraphData(xmlDoc, context);
 
-    for (let key in result) {
+    for (const key in result) {
         if (result[key] === undefined) {
             delete result[key];
         }
@@ -216,7 +221,7 @@ function buildAxiomIndex(xmlDoc) {
     const index = new Map();
     const axioms = xmlDoc.getElementsByTagNameNS(NS.owl, "Axiom");
     
-    for (let axiom of axioms) {
+    for (const axiom of axioms) {
         const annotatedSource = axiom.getElementsByTagNameNS(NS.owl, "annotatedSource")[0];
         const annotatedProperty = axiom.getElementsByTagNameNS(NS.owl, "annotatedProperty")[0];
         
@@ -243,6 +248,10 @@ function buildAxiomIndex(xmlDoc) {
     return index;
 }
 
+/**
+ * Set of RDF properties that accept multiple values as arrays.
+ * @constant {Set<string>}
+ */
 const MULTI_VALUED_PROPERTIES = new Set([
     "rdfs:subClassOf",
     "dcterms:source",
@@ -267,7 +276,7 @@ function parseElementAsObject(el, context) {
         obj["@id"] = about;
     }
 
-    for (let child of el.children) {
+    for (const child of el.children) {
         const ns = child.namespaceURI;
         const name = child.localName;
         const key = compactURI(ns + name, context);
@@ -326,7 +335,7 @@ function extractGraphData(xmlDoc, context) {
     const individuals = Array.from(xmlDoc.getElementsByTagNameNS(NS.owl, "NamedIndividual"));
     const allElements = classes.concat(individuals);
 
-    for (let element of allElements) {
+    for (const element of allElements) {
         const uri = element.getAttributeNS(NS.rdf, "about") || "";
         
         if (!uri.startsWith("https://haddenindustries.com/")) continue;
@@ -339,7 +348,7 @@ function extractGraphData(xmlDoc, context) {
         };
 
         // Single-pass direct child iteration to populate properties generically
-        for (let child of element.children) {
+        for (const child of element.children) {
             const ns = child.namespaceURI;
             const name = child.localName;
             const key = compactURI(ns + name, context);
@@ -434,7 +443,7 @@ function extractGraphData(xmlDoc, context) {
                 } else if (!Array.isArray(record["dcterms:source"])) {
                     record["dcterms:source"] = [record["dcterms:source"]];
                 }
-                for (let src of axiomSources) {
+                for (const src of axiomSources) {
                     const compactedSrc = compactURI(src, context);
                     if (!record["dcterms:source"].includes(compactedSrc)) {
                         record["dcterms:source"].push(compactedSrc);
@@ -529,11 +538,13 @@ function escapeHTML(str) {
 /**
  * Resolves a language-specific annotation from a JSON-LD language map.
  * Checks for en-GB, en, and falls back to the first available language value.
- * @param {Object} langMap - The language map object.
+ * @param {Object|string} langMap - Map of language tags to strings or raw string.
  * @returns {string} The resolved text string.
  */
 function getPreferredLang(langMap) {
-    if (!langMap || typeof langMap !== 'object') return "";
+    if (!langMap) return "";
+    if (typeof langMap === 'string') return langMap;
+    if (typeof langMap !== 'object') return "";
     return langMap["en-GB"] || langMap["en"] || Object.values(langMap)[0] || "";
 }
 
@@ -567,10 +578,10 @@ function getUuid(row) {
 /**
  * Resolves the class type for a NamedIndividual entity.
  * @param {Object} row - The parsed JSON-LD entity record.
- * @param {Object} context - The JSON-LD context map.
+ * @param {Object} [context={}] - Active JSON-LD context map.
  * @returns {string} The expanded IRI of the class type.
  */
-function getClassOfNamedIndividual(row, context) {
+function getClassOfNamedIndividual(row, context = {}) {
     const type = row["@type"];
     if (Array.isArray(type)) {
         const specificType = type.find(t => t !== "owl:NamedIndividual");
@@ -683,24 +694,24 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
         csvRows.push(values.join(","));
     }
 
-    const csvData = csvRows.join("\n");
-    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csvRows.join("\n")], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     
     const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", filename);
+    link.href = url;
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
 }
 
 /**
  * Triggers a download of the provided JSON-LD ontology data as a .json file.
  * @param {Object} ontologyLd - The full parsed ontology JSON-LD document.
- * @param {string} [filename="Ontology.json"] - The name of the file to save.
+ * @param {string} [filename="Ontology.jsonld"] - The name of the file to save.
  */
-function exportJSON(ontologyLd, filename = "Ontology.json") {
+function exportJSON(ontologyLd, filename = "Ontology.jsonld") {
     if (!ontologyLd) return;
 
     const jsonString = JSON.stringify(ontologyLd, null, 2);
@@ -708,11 +719,12 @@ function exportJSON(ontologyLd, filename = "Ontology.json") {
     const url = URL.createObjectURL(blob);
     
     const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", filename);
+    link.href = url;
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
 }
 
 /**
@@ -723,7 +735,7 @@ function exportJSON(ontologyLd, filename = "Ontology.json") {
  */
 async function fetchOntologyAsXml(url) {
     const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    if (!response.ok) throw new Error(`HTTP fetch error! Status: ${response.status}`);
     
     const contentType = response.headers.get("content-type") || "";
     // Allow various XML/RDF content types
@@ -732,7 +744,7 @@ async function fetchOntologyAsXml(url) {
         !contentType.includes("text/xml") && 
         !url.endsWith(".owl") && 
         !url.endsWith(".xml")) {
-        throw new Error(`Invalid content-type: ${contentType}. Expected XML or RDF/XML`);
+        console.warn(`Unusual Content-Type (${contentType}), attempting XML parse anyway.`);
     }
 
     const xmlText = await response.text();
@@ -740,7 +752,7 @@ async function fetchOntologyAsXml(url) {
     const xmlDoc = parser.parseFromString(xmlText, "application/xml");
     
     if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
-        throw new Error("Error parsing XML document");
+        throw new Error("Failed to parse response as XML document");
     }
     return xmlDoc;
 }
@@ -764,7 +776,7 @@ function exportXMI(xmlDoc, xsltText, filename = "Ontology.xmi") {
     
     const resultDoc = xsltProcessor.transformToDocument(xmlDoc);
     if (!resultDoc) {
-        throw new Error("XSLT transformation returned null");
+        throw new Error("XSLT transformation returned null document");
     }
 
     const serializer = new XMLSerializer();
@@ -772,11 +784,407 @@ function exportXMI(xmlDoc, xsltText, filename = "Ontology.xmi") {
     
     const blob = new Blob([xmiText], { type: "application/xml;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     URL.revokeObjectURL(url);
+}
+
+/**
+ * Encapsulated UI Controller class managing table rendering, dropdown actions, sorting, and export logic.
+ */
+class OntologyUIController {
+    #extractedData = [];
+    #ontologyContext = {};
+    #currentSortCol = null;
+    #currentSortAsc = true;
+    #hiddenColumns = new Set();
+    #fetchedXmlDoc = null;
+    #jsonLdDoc = null;
+    #fileName = "Ontology";
+    #colStyleElement = null;
+
+    constructor() {
+        this.#colStyleElement = document.createElement('style');
+        document.head.appendChild(this.#colStyleElement);
+    }
+
+    /**
+     * Initializes the UI event handlers and starts initial ontology load.
+     * @async
+     */
+    async init() {
+        this.#setupSortListeners();
+        this.#setupColumnDropdown();
+        this.#setupExportDropdown();
+        await this.#loadAndRender();
+    }
+
+    /**
+     * Dynamically updates CSS rules to show/hide table columns.
+     * @private
+     */
+    #updateColumnVisibility() {
+        let cssText = '';
+        this.#hiddenColumns.forEach(index => {
+            // CSS :nth-child is 1-based
+            cssText += `table th:nth-child(${index + 1}), table td:nth-child(${index + 1}) { display: none !important; }\n`;
+        });
+        this.#colStyleElement.textContent = cssText;
+    }
+
+    /**
+     * Builds and configures column filtering dropdown menu.
+     * @private
+     */
+    #setupColumnDropdown() {
+        const headers = document.querySelectorAll('thead th');
+        const menu = document.getElementById('col-menu');
+        const toggleBtn = document.getElementById('col-toggle');
+        const exportMenu = document.getElementById('export-menu');
+        
+        if (!menu || !toggleBtn) return;
+
+        headers.forEach((th, index) => {
+            const text = th.childNodes[0].textContent.trim();
+            const label = document.createElement('label');
+            label.className = 'dropdown-item';
+            label.title = text;
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = true;
+            
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    this.#hiddenColumns.delete(index);
+                } else {
+                    this.#hiddenColumns.add(index);
+                }
+                this.#updateColumnVisibility();
+            });
+            
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(text));
+            menu.appendChild(label);
+        });
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('show');
+            if (exportMenu) exportMenu.classList.remove('show');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!menu.contains(e.target) && e.target !== toggleBtn) {
+                menu.classList.remove('show');
+            }
+        });
+    }
+
+    /**
+     * Configures listeners for data export buttons (CSV, JSON-LD, XMI).
+     * @private
+     */
+    #setupExportDropdown() {
+        const exportMenu = document.getElementById('export-menu');
+        const toggleExportBtn = document.getElementById('export-toggle');
+        const colMenu = document.getElementById('col-menu');
+
+        if (!exportMenu || !toggleExportBtn) return;
+
+        toggleExportBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            exportMenu.classList.toggle('show');
+            if (colMenu) colMenu.classList.remove('show');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!exportMenu.contains(e.target) && e.target !== toggleExportBtn) {
+                exportMenu.classList.remove('show');
+            }
+        });
+
+        const exportCsvBtn = document.getElementById('export-csv');
+        if (exportCsvBtn) {
+            exportCsvBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                exportCsvBtn.disabled = true;
+                try {
+                    exportCSV(this.#jsonLdDoc, `${this.#fileName}.csv`);
+                } finally {
+                    exportCsvBtn.disabled = false;
+                }
+            });
+        }
+
+        const exportJsonLdBtn = document.getElementById('export-jsonld');
+        if (exportJsonLdBtn) {
+            exportJsonLdBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                exportJsonLdBtn.disabled = true;
+                try {
+                    exportJSON(this.#jsonLdDoc, `${this.#fileName}.jsonld`);
+                } finally {
+                    exportJsonLdBtn.disabled = false;
+                }
+            });
+        }
+
+        const exportXmiBtn = document.getElementById('export-xmi');
+        if (exportXmiBtn) {
+            exportXmiBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                exportXmiBtn.disabled = true;
+                const xsltUrl = "/ontology/owl_to_uml_xmi.xsl";
+
+                try {
+                    let xsltText;
+                    const xsltResponse = await fetch(xsltUrl);
+                    if (!xsltResponse.ok) throw new Error("Local XSLT fetch failed");
+                    xsltText = await xsltResponse.text();
+                    exportXMI(this.#fetchedXmlDoc, xsltText, `${this.#fileName}.xmi`);
+                } catch (error) {
+                    console.error("XMI Export failed:", error);
+                } finally {
+                    exportXmiBtn.disabled = false;
+                }
+            });
+        }
+    }
+
+    /**
+     * Binds sort click handlers to header columns with data-sort attributes.
+     * @private
+     */
+    #setupSortListeners() {
+        document.querySelectorAll('th[data-sort]').forEach(th => {
+            th.innerHTML += ' <span class="sort-icon">&#9650;&#9660;</span>';
+            th.addEventListener('click', () => this.#handleSort(th.getAttribute('data-sort')));
+        });
+    }
+
+    /**
+     * Extracts comparable text value for sorting table rows.
+     * @private
+     * @param {Object} row - JSON-LD entity node.
+     * @param {string} column - Sort column key.
+     * @returns {string} Comparable lowercase string value.
+     */
+    #getSortValue(row, column) {
+        if (!row) return '';
+        let val;
+        switch(column) {
+            case 'objectType':
+                val = getEntityType(row["@type"]);
+                break;
+            case 'uuid':
+                val = getUuid(row);
+                break;
+            case 'uri':
+                val = row["@id"] || "";
+                break;
+            case 'preferredLabel':
+                val = getPreferredLang(row["skos:prefLabel"]);
+                break;
+            case 'definition':
+                val = getPreferredLang(row["skos:definition"]);
+                break;
+            case 'sources': {
+                const srcVal = row["dcterms:source"];
+                if (!srcVal) {
+                    val = '';
+                } else if (Array.isArray(srcVal)) {
+                    val = srcVal.map(s => typeof s === 'object' ? getPreferredLang(s) : s).join('');
+                } else if (typeof srcVal === 'object') {
+                    val = getPreferredLang(srcVal);
+                } else {
+                    val = srcVal;
+                }
+                break;
+            }
+            case 'creator':
+                val = row["dcterms:creator"] || '';
+                break;
+            case 'createdAt':
+                val = row["dcterms:created"] || '';
+                break;
+            case 'modifiedAt':
+                val = row["dcterms:modified"] || '';
+                break;
+            case 'subClassOf': {
+                const sc = row["rdfs:subClassOf"] || [];
+                const list = Array.isArray(sc) ? sc : [sc];
+                val = list.filter(item => typeof item === 'string').join('');
+                break;
+            }
+            case 'classOfNamedIndividual':
+                val = getClassOfNamedIndividual(row, this.#ontologyContext);
+                break;
+            default:
+                val = '';
+        }
+        return String(val).toLowerCase();
+    }
+
+    /**
+     * Reorders data and updates active header indicators.
+     * @private
+     * @param {string} column - Sort column name.
+     */
+    #handleSort(column) {
+        if (this.#currentSortCol === column) {
+            this.#currentSortAsc = !this.#currentSortAsc;
+        } else {
+            this.#currentSortCol = column;
+            this.#currentSortAsc = true;
+        }
+
+        document.querySelectorAll('th[data-sort]').forEach(th => {
+            const icon = th.querySelector('.sort-icon');
+            if (icon) {
+                if (th.getAttribute('data-sort') === column) {
+                    icon.innerHTML = this.#currentSortAsc ? '&#9650;' : '&#9660;';
+                    icon.classList.add('active');
+                } else {
+                    icon.innerHTML = '&#9650;&#9660;';
+                    icon.classList.remove('active');
+                }
+            }
+        });
+
+        this.#extractedData.sort((a, b) => {
+            const valA = this.#getSortValue(a, column);
+            const valB = this.#getSortValue(b, column);
+
+            if (valA < valB) return this.#currentSortAsc ? -1 : 1;
+            if (valA > valB) return this.#currentSortAsc ? 1 : -1;
+            return 0;
+        });
+
+        this.#renderTable();
+    }
+
+    /**
+     * Renders extracted ontology nodes into table rows using DocumentFragment.
+     * @private
+     */
+    #renderTable() {
+        const tbody = document.getElementById("table-body");
+        if (!tbody) return;
+
+        tbody.innerHTML = "";
+        const fragment = document.createDocumentFragment();
+
+        this.#extractedData.forEach(row => {
+            const tr = document.createElement("tr");
+            
+            const entityType = getEntityType(row["@type"]);
+            const uuid = getUuid(row);
+            const uri = row["@id"] || "";
+            const preferredLabel = getPreferredLang(row["skos:prefLabel"]);
+            const definition = getPreferredLang(row["skos:definition"]);
+            
+            let sourcesList = [];
+            const rawSources = row["dcterms:source"];
+            if (rawSources) {
+                if (Array.isArray(rawSources)) {
+                    sourcesList = rawSources.map(src => {
+                        if (typeof src === 'object' && src !== null) {
+                            return getPreferredLang(src);
+                        }
+                        return expandURI(src, this.#ontologyContext);
+                    });
+                } else if (typeof rawSources === 'object') {
+                    sourcesList = [getPreferredLang(rawSources)];
+                } else {
+                    sourcesList = [expandURI(rawSources, this.#ontologyContext)];
+                }
+            }
+            
+            const creator = expandURI(row["dcterms:creator"] || "", this.#ontologyContext);
+            const createdAt = row["dcterms:created"] || "";
+            const modifiedAt = row["dcterms:modified"] || "";
+            const superclassesHtml = formatSubClassOfHtml(row["rdfs:subClassOf"], this.#ontologyContext);
+            const classOfNamedIndividual = getClassOfNamedIndividual(row, this.#ontologyContext);
+
+            tr.innerHTML = `
+                <td><span class="badge">${escapeHTML(entityType)}</span></td>
+                <td><span class="code-text">${escapeHTML(uuid)}</span></td>
+                <td><span class="code-text">${createLink(uri, true)}</span></td>
+                <td style="font-weight: 500;">${escapeHTML(preferredLabel)}</td>
+                <td class="wrap-text">${escapeHTML(definition)}</td>
+                <td><span class="code-text">${sourcesList.map(src => createLink(src, false)).join('<br>')}</span></td>
+                <td><span class="code-text">${createLink(creator, true)}</span></td>
+                <td>${escapeHTML(createdAt).replace('T', '<wbr>T')}</td>
+                <td>${escapeHTML(modifiedAt).replace('T', '<wbr>T')}</td>
+                <td class="wrap-text"><span class="code-text">${superclassesHtml}</span></td>
+                <td><span class="code-text">${createLink(classOfNamedIndividual, true)}</span></td>
+            `;
+            
+            fragment.appendChild(tr);
+        });
+
+        tbody.appendChild(fragment);
+    }
+
+    /**
+     * Asynchronously loads XML data, constructs JSON-LD document, and renders UI.
+     * @private
+     */
+    async #loadAndRender() {
+        const pathname = window.location.pathname;
+        const lastSlashIndex = pathname.lastIndexOf('/');
+        const lastDotIndex = pathname.lastIndexOf('.');
+
+        const targetUrl = (lastDotIndex > lastSlashIndex)
+            ? pathname.substring(0, lastDotIndex)
+            : pathname;
+
+        try {
+            this.#fetchedXmlDoc = await fetchOntologyAsXml(targetUrl);
+            this.#jsonLdDoc = transformOntologyToJsonLd(this.#fetchedXmlDoc);
+
+            if (this.#jsonLdDoc && this.#jsonLdDoc["dcterms:title"]) {
+                const titleText = getPreferredLang(this.#jsonLdDoc["dcterms:title"]);
+                document.title = titleText;
+                
+                this.#fileName = titleText;
+                const modified = this.#jsonLdDoc["dcterms:modified"];
+                if (modified) {
+                    this.#fileName += ` [${modified}]`;
+                }
+            }
+
+            if (this.#jsonLdDoc && Array.isArray(this.#jsonLdDoc["@graph"])) {
+                this.#ontologyContext = this.#jsonLdDoc["@context"] || {};
+                
+                this.#extractedData = this.#jsonLdDoc["@graph"].filter(row => {
+                    const type = row["@type"];
+                    if (Array.isArray(type)) {
+                        return !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution");
+                    }
+                    return type !== "dcat:Dataset" && type !== "dcat:Distribution";
+                });
+                
+                this.#renderTable();
+            }
+        } catch (error) {
+            console.error("Error processing ontology file:", error);
+        }
+    }
+}
+
+// Auto-initialize UI controller when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        const controller = new OntologyUIController();
+        controller.init();
+    });
+} else {
+    const controller = new OntologyUIController();
+    controller.init();
 }
