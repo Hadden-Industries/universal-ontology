@@ -45,7 +45,7 @@ jobs:
           set -euo pipefail
 
           readonly TEST_EXECUTABLE="python"
-          readonly TEST_SCRIPT="_test/universalontologytest.py"
+          readonly TEST_SCRIPT="tests/universalontologytest.py"
           readonly TARGET_PATTERN="^(iso-31073/iso-31073\.owl|iso-iec11179-3/iso-iec11179-3\.owl|reference-data/reference-data\.owl|core/universal-core\.owl|extended/universal-extended\.owl|dist/iso/31073/ed-[0-9]+/.*|dist/iso-iec/11179/-3/ed-[0-9]+/.*|dist/universal/reference-data/.*|dist/universal/core/.*|dist/universal/extended/.*)$"
           readonly GIT_EMPTY_TREE="4b825dc642cb6eb9a060e54bf8d69288fbee4904"
 
