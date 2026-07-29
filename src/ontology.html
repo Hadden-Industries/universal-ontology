@@ -9,6 +9,14 @@
     <link rel="stylesheet" href="/ontology/ontology.css" />
   </head>
   <body>
+    <svg style="display: none;" aria-hidden="true">
+      <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </symbol>
+    </svg>
+
     <main class="table-wrapper">
       <div class="toolbar">
         <div class="dropdown" id="col-dropdown" title="Filter Columns">
@@ -22,18 +30,42 @@
         </div>
         <div class="dropdown" id="export-dropdown">
           <button class="dropdown-toggle" id="export-toggle" type="button" aria-label="Export data" title="Export data">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-              <polyline points="16 6 12 2 8 6" />
-              <line x1="12" y1="2" x2="12" y2="15" />
-            </svg>
+            <svg width="14" height="14" aria-hidden="true"><use href="#icon-download"></use></svg>
             Export
           </button>
           <div class="dropdown-menu" id="export-menu">
-            <button class="dropdown-button" id="export-csv" type="button" title="Export .csv">Comma-Separated Values<br />(.csv)</button>
-            <button class="dropdown-button" id="export-jsonld" type="button" title="Export .jsonld"><abbr title="JavaScript Object Notation">JSON</abbr> for Linked Data<br />(.jsonld)</button>
-            <button class="dropdown-button" id="export-xmi" type="button" title="Export .xmi"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange<br />(.xmi)</button>
-            <button class="dropdown-button" id="export-xmi-xslt" type="button" title="Export .xmi via XSLT"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange<br />(.xmi)<br />via <abbr title="eXtensible Stylesheet Language Transformations">XSLT</abbr></button>
+            <button class="dropdown-button" id="export-csv" type="button" title="Export .csv">
+              <svg class="export-icon" width="16" height="16" aria-hidden="true"><use href="#icon-download"></use></svg>
+              <span class="export-details">
+                <span class="export-label">Comma-Separated Values</span>
+                <span class="export-desc">Standard tabular spreadsheet format</span>
+              </span>
+              <span class="export-badge">.csv</span>
+            </button>
+            <button class="dropdown-button" id="export-jsonld" type="button" title="Export .jsonld">
+              <svg class="export-icon" width="16" height="16" aria-hidden="true"><use href="#icon-download"></use></svg>
+              <span class="export-details">
+                <span class="export-label"><abbr title="JavaScript Object Notation">JSON</abbr> for Linked Data</span>
+                <span class="export-desc">Semantic Web graph model data</span>
+              </span>
+              <span class="export-badge">.jsonld</span>
+            </button>
+            <button class="dropdown-button" id="export-xmi" type="button" title="Export .xmi">
+              <svg class="export-icon" width="16" height="16" aria-hidden="true"><use href="#icon-download"></use></svg>
+              <span class="export-details">
+                <span class="export-label"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange</span>
+                <span class="export-desc"><abbr title="Unified Modeling Language">UML</abbr> 2.1 model payload</span>
+              </span>
+              <span class="export-badge">.xmi</span>
+            </button>
+            <button class="dropdown-button" id="export-xmi-xslt" type="button" title="Export .xmi via XSLT">
+              <svg class="export-icon" width="16" height="16" aria-hidden="true"><use href="#icon-download"></use></svg>
+              <span class="export-details">
+                <span class="export-label"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange, via <abbr title="eXtensible Stylesheet Language Transformations">XSLT</abbr></span>
+                <span class="export-desc"><abbr title="Unified Modeling Language">UML</abbr> 2.1 model payload</span>
+              </span>
+              <span class="export-badge">.xmi</span>
+            </button>
           </div>
         </div>
       </div>

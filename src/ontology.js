@@ -939,9 +939,11 @@ class OntologyUIController {
       exportCsvBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         exportCsvBtn.disabled = true;
+        exportCsvBtn.classList.add("exporting");
         try {
           exportCSV(this.#jsonLdDoc, `${this.#fileName}.csv`);
         } finally {
+          exportCsvBtn.classList.remove("exporting");
           exportCsvBtn.disabled = false;
         }
       });
@@ -952,9 +954,11 @@ class OntologyUIController {
       exportJsonLdBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         exportJsonLdBtn.disabled = true;
+        exportJsonLdBtn.classList.add("exporting");
         try {
           exportJSON(this.#jsonLdDoc, `${this.#fileName}.jsonld`);
         } finally {
+          exportJsonLdBtn.classList.remove("exporting");
           exportJsonLdBtn.disabled = false;
         }
       });
@@ -965,11 +969,13 @@ class OntologyUIController {
       exportXmiBtn.addEventListener("click", async (e) => {
         e.stopPropagation();
         exportXmiBtn.disabled = true;
+        exportXmiBtn.classList.add("exporting");
         try {
           await exportXMI(this.#fetchedXmlDoc, `${this.#fileName}.xmi`);
         } catch (error) {
           console.error("XMI Export failed:", error);
         } finally {
+          exportXmiBtn.classList.remove("exporting");
           exportXmiBtn.disabled = false;
         }
       });
@@ -980,6 +986,7 @@ class OntologyUIController {
       exportXmiViaXsltBtn.addEventListener("click", async (e) => {
         e.stopPropagation();
         exportXmiViaXsltBtn.disabled = true;
+        exportXmiViaXsltBtn.classList.add("exporting");
         const xsltUrl = "/ontology/owl-to-uml-xmi.xsl";
 
         try {
@@ -990,6 +997,7 @@ class OntologyUIController {
         } catch (error) {
           console.error("XMI Export failed:", error);
         } finally {
+          exportXmiViaXsltBtn.classList.remove("exporting");
           exportXmiViaXsltBtn.disabled = false;
         }
       });
