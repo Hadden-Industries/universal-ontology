@@ -580,31 +580,6 @@
                 </xsl:for-each>
             </uml:Model>
 
-            <!-- Sparx Enterprise Architect Tool Specific Metadata Extensions for Entity-level UDPs -->
-            <xmi:Extension extender="Enterprise Architect" extenderID="6.5">
-                <elements>
-                    <xsl:for-each select="$all-classes[generate-id() = generate-id(key('class-by-uri', concat(@rdf:about, @rdf:resource))[1])]">
-                        <xsl:variable name="class-uri" select="concat(@rdf:about, @rdf:resource)"/>
-                        <xsl:variable name="def-node" select="//owl:Class[@rdf:about = $class-uri]"/>
-                        <xsl:variable name="uuid-uri" select="$def-node/dcterms:identifier[starts-with(@rdf:resource, 'urn:uuid:')]/@rdf:resource"/>
-                        <xsl:if test="normalize-space($uuid-uri) != ''">
-                            <xsl:variable name="class-id">
-                                <xsl:call-template name="get-id">
-                                    <xsl:with-param name="uri" select="$class-uri"/>
-                                </xsl:call-template>
-                            </xsl:variable>
-                            <xsl:variable name="uuid" select="substring-after($uuid-uri, 'urn:uuid:')"/>
-                            
-                            <element xmi:idref="{$class-id}" xmi:type="uml:Class" sType="Class">
-                                <properties sType="Class"/>
-                                <tags>
-                                    <tag name="UUID" value="{$uuid}"/>
-                                </tags>
-                            </element>
-                        </xsl:if>
-                    </xsl:for-each>
-                </elements>
-            </xmi:Extension>
         </xmi:XMI>
     </xsl:template>
 
