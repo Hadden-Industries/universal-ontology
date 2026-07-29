@@ -42,3 +42,7 @@ src\app\js\editSidebar.js
 - **Net State & Reverted Experiments Separation**:
   - The main sections of `walkthrough.md` must only describe the net observable code and configuration changes relative to the last commit for each referenced file.
   - Intermediate attempts, tested approaches, or reverted experiments must NOT be listed as active changes in the main sections. Instead, document them in a separate section titled `## Tested & Reverted Experiments` detailing what was tested, the outcome, and why it was reverted.
+
+# Python Guidance
+
+- Only use the local Python environment found in the .venv directory for the execution of Python scripts
