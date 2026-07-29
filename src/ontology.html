@@ -12,8 +12,8 @@
 
     <main class="table-wrapper">
         <div class="toolbar">
-            <div class="dropdown" id="col-dropdown" aria-label="Filter Columns" title="Filter Columns">
-                <button class="dropdown-toggle" id="col-toggle">
+            <div class="dropdown" id="col-dropdown" title="Filter Columns">
+                <button class="dropdown-toggle" id="col-toggle" type="button">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
                     Columns
                 </button>
@@ -22,15 +22,15 @@
                 </div>
             </div>
             <div class="dropdown" id="export-dropdown">
-                <button class="dropdown-toggle" id="export-toggle" aria-label="Export data" title="Export data">
+                <button class="dropdown-toggle" id="export-toggle" type="button" aria-label="Export data" title="Export data">
                     <svg  xmlns="http://www.w3.org/2000/svg"  width="14"  height="14"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg>
                     Export
                 </button>
                 <div class="dropdown-menu" id="export-menu">
-                    <button class="dropdown-button" id="export-csv" type="button" title="Export .csv">Comma-Separated Values<br/>(.csv)</button>
-                    <button class="dropdown-button" id="export-jsonld" type="button" title="Export .jsonld"><abbr title="JavaScript Object Notation">JSON</abbr> for Linked Data<br/>(.jsonld)</button>
-                    <button class="dropdown-button" id="export-xmi" type="button" title="Export .xmi"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange<br/>(.xmi)</button>
-                    <button class="dropdown-button" id="export-xmi-xslt" type="button" title="Export .xmi via XSLT"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange<br/>(.xmi)<br/>via <abbr title="eXtensible Stylesheet Language Transformations">XSLT</abbr></button>
+                    <button class="dropdown-button" id="export-csv" type="button" title="Export .csv">Comma-Separated Values<br>(.csv)</button>
+                    <button class="dropdown-button" id="export-jsonld" type="button" title="Export .jsonld"><abbr title="JavaScript Object Notation">JSON</abbr> for Linked Data<br>(.jsonld)</button>
+                    <button class="dropdown-button" id="export-xmi" type="button" title="Export .xmi"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange<br>(.xmi)</button>
+                    <button class="dropdown-button" id="export-xmi-xslt" type="button" title="Export .xmi via XSLT"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange<br>(.xmi)<br>via <abbr title="eXtensible Stylesheet Language Transformations">XSLT</abbr></button>
                 </div>
             </div>
         </div>
