@@ -1,14 +1,13 @@
 {
   "extends": [
-    "html-validate:recommended"
+    "html-validate:recommended",
+    "html-validate:prettier"
   ],
   "elements": [
     "html5"
   ],
   "rules": {
     "doctype-html": "error",
-    "missing-doctype": "error",
-    "doctype-style": "off",
-    "void-style": "off"
+    "missing-doctype": "error"
   }
 }
