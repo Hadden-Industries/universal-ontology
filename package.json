@@ -1,0 +1,13 @@
+{
+  "name": "xslt-to-js-migration-tests",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "devDependencies": {
+    "@xmldom/xmldom": "^0.9.10",
+    "jest": "^30.4.2",
+    "playwright": "^1.62.0"
+  }
+}
