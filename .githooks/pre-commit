@@ -3,8 +3,7 @@
 set -eu
 set -o pipefail 2>/dev/null || true
 
-readonly TEST_SCRIPT_PATH="tests/universalontologytest.py"
-readonly TARGET_PATTERN="^(iso-31073/iso-31073\.owl|iso-iec11179-3/iso-iec11179-3\.owl|reference-data/reference-data\.owl|core/universal-core\.owl|extended/universal-extended\.owl|dist/iso/31073/ed-[0-9]+/.*|dist/iso-iec/11179/-3/ed-[0-9]+/.*|dist/universal/reference-data/.*|dist/universal/core/.*|dist/universal/extended/.*)$"
+readonly VALIDATOR_SCRIPT="scripts/validate_ontologies.py"
 
 # 1. Dynamic Interpreter Resolution
 resolve_python_executable() {
@@ -28,61 +27,15 @@ resolve_python_executable() {
 readonly TEST_EXECUTABLE=$(resolve_python_executable)
 
 validate_prerequisites() {
-    if [ ! -f "${TEST_SCRIPT_PATH}" ]; then
-        printf "CRITICAL_FAILURE: Validation script missing at operational path: %s\n" "${TEST_SCRIPT_PATH}" >&2
+    if [ ! -f "${VALIDATOR_SCRIPT}" ]; then
+        printf "CRITICAL_FAILURE: Validation runner script missing at path: %s\n" "${VALIDATOR_SCRIPT}" >&2
         exit 1
     fi
-}
-
-execute_ontology_validation() {
-    local target_file="$1"
-    local execution_output
-
-    set +e
-    execution_output=$("${TEST_EXECUTABLE}" "${TEST_SCRIPT_PATH}" "${target_file}" 2>&1)
-    local exit_code=$?
-    set -e
-
-    if [ -n "${execution_output}" ] || [ "${exit_code}" -ne 0 ]; then
-        printf "VALIDATION_FAILURE: %s\n" "${target_file}" >&2
-        printf -- "--------------------------------------------------\n" >&2
-        printf "%s\n" "${execution_output}" >&2
-        printf -- "--------------------------------------------------\n" >&2
-        return 1
-    fi
-
-    return 0
 }
 
 main() {
     validate_prerequisites
-
-    local validation_failures=0
-
-    # FIX: Use '< <()' so the shell treats the command output as a stream/file.
-    # We also use 'tr' to convert the null-terminated strings (\0) to newlines (\n)
-    # so that the 'read' command can process them one by one.
-    while IFS= read -r staged_file; do
-        # Guard: Skip empty strings
-        [ -z "$staged_file" ] && continue
-
-        if echo "${staged_file}" | grep -Eq "${TARGET_PATTERN}"; then
-            # Skip files with the "-full" suffix
-            if echo "${staged_file}" | grep -q -- "-full"; then
-                continue
-            fi
-            if ! execute_ontology_validation "${staged_file}"; then
-                validation_failures=$((validation_failures + 1))
-            fi
-        fi
-    done < <(git diff --cached --name-only --diff-filter=ACM -z | tr '\0' '\n')
-
-    if [ "${validation_failures}" -gt 0 ]; then
-        printf "ABORT: %d ontology validation(s) failed. Remediate issues before committing.\n" "${validation_failures}" >&2
-        exit 1
-    fi
-
-    exit 0
+    exec "${TEST_EXECUTABLE}" "${VALIDATOR_SCRIPT}" --staged --python-exec "${TEST_EXECUTABLE}"
 }
 
 main "$@"
