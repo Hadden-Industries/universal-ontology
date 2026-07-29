@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-clean-order"
+  ],
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "order/order": [
+      "custom-properties",
+      "declarations",
+      {
+        "type": "rule",
+        "selector": "^&::(?:before|after|backdrop|marker)$"
+      },
+      {
+        "type": "rule",
+        "selector": "^&:(?:hover|focus|focus-visible|focus-within|active|visited)$"
+      },
+      "rules",
+      "at-rules"
+    ]
+  }
+}
