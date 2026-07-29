@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "html-validate:recommended"
+  ],
+  "elements": [
+    "html5"
+  ],
+  "rules": {
+    "doctype-html": "error",
+    "missing-doctype": "error"
+  }
+}

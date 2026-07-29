@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint:html": "html-validate \"src/**/*.html\""
   },
   "devDependencies": {
     "@xmldom/xmldom": "^0.9.10",
     "jest": "^30.4.2",
-    "playwright": "^1.62.0"
+    "playwright": "^1.62.0",
+    "html-validate": "^11.5.6"
   }
 }
