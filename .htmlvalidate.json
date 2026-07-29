@@ -7,6 +7,8 @@
   ],
   "rules": {
     "doctype-html": "error",
-    "missing-doctype": "error"
+    "missing-doctype": "error",
+    "doctype-style": "off",
+    "void-style": "off"
   }
 }
