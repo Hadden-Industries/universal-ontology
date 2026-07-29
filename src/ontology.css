@@ -85,7 +85,6 @@ body {
 
     background: var(--surface-color);
     backdrop-filter: var(--glass-blur);
-    backdrop-filter: var(--glass-blur);
     box-shadow: var(--shadow-lg), var(--shadow-glow);
 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -169,7 +168,7 @@ body {
 
     color: var(--success);
 
-    animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: scale-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .complete .check-icon { display: block; }
@@ -190,17 +189,35 @@ body {
 .active .spinner { display: block; }
 .complete .spinner { display: none; }
 
-@keyframes scaleIn {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+@keyframes scale-in {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes rotate { 100% { transform: rotate(360deg); } }
 
 @keyframes dash {
-    0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
-    50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
-    100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
 }
 
 .message-box {
@@ -251,7 +268,6 @@ body {
 
     background: var(--surface-color);
     backdrop-filter: var(--glass-blur);
-    backdrop-filter: var(--glass-blur);
 }
 
 /* =========================================
@@ -281,14 +297,12 @@ body {
     padding: 0.75rem 1.25rem; /* Larger padding for a nice pill */
     border: 1px solid var(--border-color);
     border-radius: 9999px; /* Pill shape */
-
     font-family: inherit;
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-main);
 
     background: var(--surface-color);
-    backdrop-filter: var(--glass-blur);
     backdrop-filter: var(--glass-blur);
     box-shadow: var(--shadow-lg), 0 0 15px rgb(0 0 0 / 5%); /* Stronger shadow to pop */
 
@@ -321,12 +335,19 @@ body {
 
 .dropdown-menu.show {
     display: flex;
-    animation: fadeInUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: fade-in-up 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes fadeInUp {
-    from { transform: translateY(10px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+@keyframes fade-in-up {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .dropdown-item {
@@ -379,19 +400,6 @@ table {
     text-align: left;
 }
 
-/* Specific column widths scaled down */
-th:nth-child(1) { width: 75px; } /* Entity Type */
-th:nth-child(2) { width: 120px; } /* UUID */
-th:nth-child(3) { width: 170px; } /* URI */
-th:nth-child(4) { width: 120px; } /* Preferred Label */
-th:nth-child(5) { width: 240px; } /* Definition */
-th:nth-child(6) { width: 160px; } /* Sources */
-th:nth-child(7) { width: 120px; } /* Creator */
-th:nth-child(8) { width: 90px; } /* Created At */
-th:nth-child(9) { width: 90px; } /* Modified At */
-th:nth-child(10) { width: 150px; } /* Superclasses */
-th:nth-child(11) { width: 120px; } /* Class of NI */
-
 th, td {
     padding: 0.5rem 0.75rem; /* Tighter padding for a more compact grid */
     border-bottom: 1px solid var(--border-color);
@@ -412,7 +420,6 @@ th {
     white-space: normal; /* Allow headers to wrap */
 
     background-color: var(--header-bg);
-    backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     box-shadow: 0 1px 0 var(--border-color);
 }
@@ -437,6 +444,19 @@ th[data-sort]:hover {
         background-color: rgb(255 255 255 / 3%);
     }
 }
+
+/* Specific column widths scaled down */
+th:nth-child(1) { width: 75px; } /* Entity Type */
+th:nth-child(2) { width: 120px; } /* UUID */
+th:nth-child(3) { width: 170px; } /* URI */
+th:nth-child(4) { width: 120px; } /* Preferred Label */
+th:nth-child(5) { width: 240px; } /* Definition */
+th:nth-child(6) { width: 160px; } /* Sources */
+th:nth-child(7) { width: 120px; } /* Creator */
+th:nth-child(8) { width: 90px; } /* Created At */
+th:nth-child(9) { width: 90px; } /* Modified At */
+th:nth-child(10) { width: 150px; } /* Superclasses */
+th:nth-child(11) { width: 120px; } /* Class of NI */
 
 .sort-icon {
     display: inline-block;
@@ -470,7 +490,7 @@ tbody tr:last-child td { border-bottom: none; }
 .wrap-text {
     width: 100%;
     line-height: 1.6;
-    word-break: break-word;
+    overflow-wrap: break-word;
     white-space: normal;
 }
 
