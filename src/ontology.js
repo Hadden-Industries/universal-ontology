@@ -20,6 +20,12 @@ const NS = {
 };
 
 /**
+ * Set of RDF properties that accept multiple values as arrays.
+ * @constant {Set<string>}
+ */
+const MULTI_VALUED_PROPERTIES = new Set(["rdfs:subClassOf", "dcterms:source", "dcterms:references", "rdfs:seeAlso", "dcterms:subject"]);
+
+/**
  * Compacts a full URI into a prefix-compacted URI using the context.
  * @param {string} uri - The full URI.
  * @param {Object} context - The JSON-LD context map.
@@ -228,7 +234,7 @@ function buildAxiomIndex(xmlDoc) {
       const propRes = annotatedProperty.getAttributeNS(NS.rdf, "resource");
       const sourceRes = annotatedSource.getAttributeNS(NS.rdf, "resource");
 
-      if (propRes === NS.skos + "definition" && sourceRes) {
+      if (propRes === `${NS.skos}definition` && sourceRes) {
         const dctermsSources = axiom.getElementsByTagNameNS(NS.dcterms, "source");
         const sourceList = Array.from(dctermsSources)
           .map((src) => src.getAttributeNS(NS.rdf, "resource"))
@@ -246,12 +252,6 @@ function buildAxiomIndex(xmlDoc) {
   }
   return index;
 }
-
-/**
- * Set of RDF properties that accept multiple values as arrays.
- * @constant {Set<string>}
- */
-const MULTI_VALUED_PROPERTIES = new Set(["rdfs:subClassOf", "dcterms:source", "dcterms:references", "rdfs:seeAlso", "dcterms:subject"]);
 
 /**
  * Helper to parse a nested XML element (like owl:Restriction) as a JSON-LD object.
@@ -672,7 +672,7 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
 
     const values = [entityType, uuid, uri, preferredLabel, definition, sources, creator, createdAt, modifiedAt, superclasses, classOfNamedIndividual].map((value) => {
       let safeVal = String(value || "");
-      if (safeVal.match(/^[=+\-@]/)) safeVal = "'" + safeVal;
+      if (safeVal.match(/^[=+\-@]/)) safeVal = `'${safeVal}`;
       if (safeVal.includes(",") || safeVal.includes('"') || safeVal.includes("\n")) {
         safeVal = `"${safeVal.replace(/"/g, '""')}"`;
       }
@@ -983,10 +983,9 @@ class OntologyUIController {
         const xsltUrl = "/ontology/owl-to-uml-xmi.xsl";
 
         try {
-          let xsltText;
           const xsltResponse = await fetch(xsltUrl);
           if (!xsltResponse.ok) throw new Error("Local XSLT fetch failed");
-          xsltText = await xsltResponse.text();
+          const xsltText = await xsltResponse.text();
           exportXMIviaXslt(this.#fetchedXmlDoc, xsltText, `${this.#fileName}.xmi`);
         } catch (error) {
           console.error("XMI Export failed:", error);

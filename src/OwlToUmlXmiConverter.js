@@ -183,7 +183,7 @@ export class OwlToUmlXmiConverter {
     }
 
     // Recursively evaluate all child elements.
-    for (let child of node.children) {
+    for (const child of node.children) {
       this._walkNode(child);
     }
   }
@@ -239,7 +239,7 @@ export class OwlToUmlXmiConverter {
     });
 
     // Generate UML Classes and embed their attributes.
-    for (const [classUri, nodes] of this.indexes.classes.entries()) {
+    for (const classUri of this.indexes.classes.keys()) {
       if (!classUri || classUri.trim() === "") continue;
 
       const defNode = this.indexes.classDefs.get(classUri);
@@ -394,7 +394,7 @@ export class OwlToUmlXmiConverter {
     const idNode = Array.from(node.children).find((c) => c.namespaceURI === dcNs && c.localName === "identifier");
     if (!idNode) return null;
 
-    let val = this._getAttributeSafe(idNode, rdfNs, "resource") || idNode.textContent.trim();
+    const val = this._getAttributeSafe(idNode, rdfNs, "resource") || idNode.textContent.trim();
     if (val && val.startsWith("urn:uuid:")) {
       return val.substring("urn:uuid:".length);
     }
@@ -412,7 +412,7 @@ export class OwlToUmlXmiConverter {
    */
   _generateCommentBody(entityUri, defNode, uuid) {
     const rules = OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES;
-    let parts = [];
+    const parts = [];
 
     // 1. Definition Evaluation (Prioritizing specific SKOS linguistic tags)
     const defNodes = Array.from(defNode.children).filter((c) => c.namespaceURI === rules.skos && c.localName === "definition");
@@ -429,7 +429,7 @@ export class OwlToUmlXmiConverter {
 
     // Helper function for querying, extracting, and numerically sorting Axioms.
     const extractAxiomText = (propUri, prefix, fallbackNodes) => {
-      let output = [];
+      const output = [];
       const axiomKey = `${entityUri}|${propUri}`;
       const axioms = this.indexes.axioms.get(axiomKey) || [];
 
@@ -552,7 +552,7 @@ export class OwlToUmlXmiConverter {
     if (restrictions.length > 0) {
       const restNode = restrictions[0]; // Isolate the first associated formal restriction
       const extractCard = (names) => {
-        for (let name of names) {
+        for (const name of names) {
           const node = this._getChildNode(restNode, rules.owl, name);
           if (node && node.textContent.trim()) return node.textContent.trim();
         }
@@ -654,7 +654,7 @@ export class OwlToUmlXmiConverter {
    */
   _buildModelDescription(ontNode) {
     const rules = OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES;
-    let parts = [];
+    const parts = [];
 
     const extractText = (ns, localName, prefix = "") => {
       const node = this._getChildNode(ontNode, ns, localName);
