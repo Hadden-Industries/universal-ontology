@@ -220,21 +220,21 @@ function transformOntologyToJsonLd(xmlDoc) {
 function buildAxiomIndex(xmlDoc) {
     const index = new Map();
     const axioms = xmlDoc.getElementsByTagNameNS(NS.owl, "Axiom");
-    
+
     for (const axiom of axioms) {
         const annotatedSource = axiom.getElementsByTagNameNS(NS.owl, "annotatedSource")[0];
         const annotatedProperty = axiom.getElementsByTagNameNS(NS.owl, "annotatedProperty")[0];
-        
+
         if (annotatedSource && annotatedProperty) {
             const propRes = annotatedProperty.getAttributeNS(NS.rdf, "resource");
             const sourceRes = annotatedSource.getAttributeNS(NS.rdf, "resource");
-            
+
             if (propRes === NS.skos + "definition" && sourceRes) {
                 const dctermsSources = axiom.getElementsByTagNameNS(NS.dcterms, "source");
                 const sourceList = Array.from(dctermsSources)
                     .map(src => src.getAttributeNS(NS.rdf, "resource"))
                     .filter(res => res);
-                
+
                 if (sourceList.length > 0) {
                     if (index.has(sourceRes)) {
                         index.set(sourceRes, index.get(sourceRes).concat(sourceList));
@@ -270,7 +270,7 @@ function parseElementAsObject(el, context) {
     const obj = {
         "@type": compactURI(el.namespaceURI + el.localName, context)
     };
-    
+
     const about = el.getAttributeNS(NS.rdf, "about");
     if (about) {
         obj["@id"] = about;
@@ -280,7 +280,7 @@ function parseElementAsObject(el, context) {
         const ns = child.namespaceURI;
         const name = child.localName;
         const key = compactURI(ns + name, context);
-        
+
         const res = child.getAttributeNS(NS.rdf, "resource");
         const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
         const hasElements = Array.from(child.children).some(c => c.nodeType === 1);
@@ -330,19 +330,19 @@ function parseElementAsObject(el, context) {
 function extractGraphData(xmlDoc, context) {
     const results = [];
     const axiomIndex = buildAxiomIndex(xmlDoc);
-    
+
     const classes = Array.from(xmlDoc.getElementsByTagNameNS(NS.owl, "Class"));
     const individuals = Array.from(xmlDoc.getElementsByTagNameNS(NS.owl, "NamedIndividual"));
     const allElements = classes.concat(individuals);
 
     for (const element of allElements) {
         const uri = element.getAttributeNS(NS.rdf, "about") || "";
-        
+
         if (!uri.startsWith("https://haddenindustries.com/")) continue;
 
         const isNamedIndividual = element.localName === "NamedIndividual";
         const types = [compactURI(NS.owl + (isNamedIndividual ? "NamedIndividual" : "Class"), context)];
-        
+
         const record = {
             "@id": uri
         };
@@ -367,7 +367,7 @@ function extractGraphData(xmlDoc, context) {
             const res = child.getAttributeNS(NS.rdf, "resource");
             const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
             const hasElements = Array.from(child.children).some(c => c.nodeType === 1);
-            
+
             if (hasElements) {
                 // Parse nested resource (like owl:Restriction)
                 const nestedEl = child.children[0];
@@ -454,7 +454,7 @@ function extractGraphData(xmlDoc, context) {
 
         results.push(record);
     }
-    
+
     return results;
 }
 
@@ -491,7 +491,7 @@ function transformUrnToObpUrl(rawUrn) {
 
     // Combine and strip the 'urn:' prefix to form the OBP hash fragment
     const formattedHashFragment = (documentIdentifier + documentElement).replace(/^urn:/, '');
-    
+
     return `https://www.iso.org/obp/ui/en/#${formattedHashFragment}`;
 }
 
@@ -503,7 +503,7 @@ function transformUrnToObpUrl(rawUrn) {
  */
 function createLink(value, forceLink = false) {
     if (!value) return "";
-    
+
     if (value.toLowerCase().startsWith('urn:iso:std:')) {
         const obpUrl = transformUrnToObpUrl(value);
         if (obpUrl) {
@@ -524,7 +524,7 @@ function createLink(value, forceLink = false) {
  */
 function escapeHTML(str) {
     if (str === null || str === undefined) return "";
-    return String(str).replace(/[&<>'"]/g, 
+    return String(str).replace(/[&<>'"]/g,
         tag => ({
             '&': '&amp;',
             '<': '&lt;',
@@ -641,8 +641,8 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
     });
 
     const headers = [
-        "Entity Type", "UUID", "URI", "Preferred Label", "Definition", 
-        "Sources", "Creator", "Created At", "Modified At", "Superclasses", 
+        "Entity Type", "UUID", "URI", "Preferred Label", "Definition",
+        "Sources", "Creator", "Created At", "Modified At", "Superclasses",
         "Class of Named Individual"
     ];
 
@@ -654,7 +654,7 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
         const uri = row["@id"] || "";
         const preferredLabel = getPreferredLang(row["skos:prefLabel"]);
         const definition = getPreferredLang(row["skos:definition"]);
-        
+
         let sourcesList = [];
         const rawSources = row["dcterms:source"];
         if (rawSources) {
@@ -672,7 +672,7 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
             }
         }
         const sources = sourcesList.join('\n');
-            
+
         const creator = expandURI(row["dcterms:creator"] || "", context);
         const createdAt = row["dcterms:created"] || "";
         const modifiedAt = row["dcterms:modified"] || "";
@@ -681,7 +681,7 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
 
         const values = [
             entityType, uuid, uri, preferredLabel, definition,
-            sources, creator, createdAt, modifiedAt, 
+            sources, creator, createdAt, modifiedAt,
             superclasses, classOfNamedIndividual
         ].map(value => {
             let safeVal = String(value || "");
@@ -696,7 +696,7 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
 
     const blob = new Blob([csvRows.join("\n")], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-    
+
     const link = document.createElement("a");
     link.href = url;
     link.download = filename;
@@ -717,7 +717,7 @@ function exportJSON(ontologyLd, filename = "Ontology.jsonld") {
     const jsonString = JSON.stringify(ontologyLd, null, 2);
     const blob = new Blob([jsonString], { type: 'application/ld+json;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-    
+
     const link = document.createElement("a");
     link.href = url;
     link.download = filename;
@@ -736,13 +736,13 @@ function exportJSON(ontologyLd, filename = "Ontology.jsonld") {
 async function fetchOntologyAsXml(url) {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`HTTP fetch error! Status: ${response.status}`);
-    
+
     const contentType = response.headers.get("content-type") || "";
     // Allow various XML/RDF content types
-    if (!contentType.includes("application/rdf+xml") && 
-        !contentType.includes("application/xml") && 
-        !contentType.includes("text/xml") && 
-        !url.endsWith(".owl") && 
+    if (!contentType.includes("application/rdf+xml") &&
+        !contentType.includes("application/xml") &&
+        !contentType.includes("text/xml") &&
+        !url.endsWith(".owl") &&
         !url.endsWith(".xml")) {
         console.warn(`Unusual Content-Type (${contentType}), attempting XML parse anyway.`);
     }
@@ -750,11 +750,54 @@ async function fetchOntologyAsXml(url) {
     const xmlText = await response.text();
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-    
+
     if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
         throw new Error("Failed to parse response as XML document");
     }
     return xmlDoc;
+}
+
+async function initializeOwlToUmlXmiConverter(xmlString) {
+    try {
+        // Await the import and destructure the named export directly
+        const { OwlToUmlXmiConverter } = await import('/ontology/OwlToUmlXmiConverter.js');
+
+        const converter = new OwlToUmlXmiConverter(xmlString);
+        return converter;
+    } catch (error) {
+        console.error("Module loading failed:", error);
+    }
+}
+
+/**
+ * Transforms the OWL XML document and triggers a download of the resulting UML XMI file.
+ * @param {Document} xmlDoc - The parsed OWL XML DOM document.
+ * @param {string} [filename="Ontology.xmi"] - The name of the file to save.
+ */
+async function exportXMI(xmlDoc, filename = "Ontology.xmi") {
+    if (!xmlDoc) return;
+
+    const serializerXML = new XMLSerializer();
+    const xmlText = serializerXML.serializeToString(xmlDoc);
+
+    // Wait for the module to load and the instance to be created
+    const converter = await initializeOwlToUmlXmiConverter(xmlText);
+
+    const resultXmiText = converter.convert();
+    if (!resultXmiText) {
+        throw new Error("JS transformation returned null text");
+    }
+
+    const blob = new Blob([resultXmiText], { type: "application/xml;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
 }
 
 /**
@@ -763,17 +806,17 @@ async function fetchOntologyAsXml(url) {
  * @param {string} xsltText - The raw text of the XSLT stylesheet.
  * @param {string} [filename="Ontology.xmi"] - The name of the file to save.
  */
-function exportXMI(xmlDoc, xsltText, filename = "Ontology.xmi") {
+function exportXMIviaXslt(xmlDoc, xsltText, filename = "Ontology.xmi") {
     const parser = new DOMParser();
     const xsltDoc = parser.parseFromString(xsltText, "application/xml");
-    
+
     if (xsltDoc.getElementsByTagName("parsererror").length > 0) {
         throw new Error("Error parsing XSLT stylesheet");
     }
 
     const xsltProcessor = new XSLTProcessor();
     xsltProcessor.importStylesheet(xsltDoc);
-    
+
     const resultDoc = xsltProcessor.transformToDocument(xmlDoc);
     if (!resultDoc) {
         throw new Error("XSLT transformation returned null document");
@@ -781,7 +824,7 @@ function exportXMI(xmlDoc, xsltText, filename = "Ontology.xmi") {
 
     const serializer = new XMLSerializer();
     const xmiText = serializer.serializeToString(resultDoc);
-    
+
     const blob = new Blob([xmiText], { type: "application/xml;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -845,7 +888,7 @@ class OntologyUIController {
         const menu = document.getElementById('col-menu');
         const toggleBtn = document.getElementById('col-toggle');
         const exportMenu = document.getElementById('export-menu');
-        
+
         if (!menu || !toggleBtn) return;
 
         headers.forEach((th, index) => {
@@ -853,11 +896,11 @@ class OntologyUIController {
             const label = document.createElement('label');
             label.className = 'dropdown-item';
             label.title = text;
-            
+
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.checked = true;
-            
+
             checkbox.addEventListener('change', (e) => {
                 if (e.target.checked) {
                     this.#hiddenColumns.delete(index);
@@ -866,7 +909,7 @@ class OntologyUIController {
                 }
                 this.#updateColumnVisibility();
             });
-            
+
             label.appendChild(checkbox);
             label.appendChild(document.createTextNode(text));
             menu.appendChild(label);
@@ -939,6 +982,21 @@ class OntologyUIController {
             exportXmiBtn.addEventListener('click', async (e) => {
                 e.stopPropagation();
                 exportXmiBtn.disabled = true;
+                try {
+                    await exportXMI(this.#fetchedXmlDoc, `${this.#fileName}.xmi`);
+                } catch (error) {
+                    console.error("XMI Export failed:", error);
+                } finally {
+                    exportXmiBtn.disabled = false;
+                }
+            });
+        }
+
+        const exportXmiViaXsltBtn = document.getElementById('export-xmi-xslt');
+        if (exportXmiViaXsltBtn) {
+            exportXmiViaXsltBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                exportXmiViaXsltBtn.disabled = true;
                 const xsltUrl = "/ontology/owl-to-uml-xmi.xsl";
 
                 try {
@@ -946,11 +1004,11 @@ class OntologyUIController {
                     const xsltResponse = await fetch(xsltUrl);
                     if (!xsltResponse.ok) throw new Error("Local XSLT fetch failed");
                     xsltText = await xsltResponse.text();
-                    exportXMI(this.#fetchedXmlDoc, xsltText, `${this.#fileName}.xmi`);
+                    exportXMIviaXslt(this.#fetchedXmlDoc, xsltText, `${this.#fileName}.xmi`);
                 } catch (error) {
                     console.error("XMI Export failed:", error);
                 } finally {
-                    exportXmiBtn.disabled = false;
+                    exportXmiViaXsltBtn.disabled = false;
                 }
             });
         }
@@ -1081,13 +1139,13 @@ class OntologyUIController {
 
         this.#extractedData.forEach(row => {
             const tr = document.createElement("tr");
-            
+
             const entityType = getEntityType(row["@type"]);
             const uuid = getUuid(row);
             const uri = row["@id"] || "";
             const preferredLabel = getPreferredLang(row["skos:prefLabel"]);
             const definition = getPreferredLang(row["skos:definition"]);
-            
+
             let sourcesList = [];
             const rawSources = row["dcterms:source"];
             if (rawSources) {
@@ -1104,7 +1162,7 @@ class OntologyUIController {
                     sourcesList = [expandURI(rawSources, this.#ontologyContext)];
                 }
             }
-            
+
             const creator = expandURI(row["dcterms:creator"] || "", this.#ontologyContext);
             const createdAt = row["dcterms:created"] || "";
             const modifiedAt = row["dcterms:modified"] || "";
@@ -1124,7 +1182,7 @@ class OntologyUIController {
                 <td class="wrap-text"><span class="code-text">${superclassesHtml}</span></td>
                 <td><span class="code-text">${createLink(classOfNamedIndividual, true)}</span></td>
             `;
-            
+
             fragment.appendChild(tr);
         });
 
@@ -1151,7 +1209,7 @@ class OntologyUIController {
             if (this.#jsonLdDoc && this.#jsonLdDoc["dcterms:title"]) {
                 const titleText = getPreferredLang(this.#jsonLdDoc["dcterms:title"]);
                 document.title = titleText;
-                
+
                 this.#fileName = titleText;
                 const modified = this.#jsonLdDoc["dcterms:modified"];
                 if (modified) {
@@ -1161,7 +1219,7 @@ class OntologyUIController {
 
             if (this.#jsonLdDoc && Array.isArray(this.#jsonLdDoc["@graph"])) {
                 this.#ontologyContext = this.#jsonLdDoc["@context"] || {};
-                
+
                 this.#extractedData = this.#jsonLdDoc["@graph"].filter(row => {
                     const type = row["@type"];
                     if (Array.isArray(type)) {
@@ -1169,7 +1227,7 @@ class OntologyUIController {
                     }
                     return type !== "dcat:Dataset" && type !== "dcat:Distribution";
                 });
-                
+
                 this.#renderTable();
             }
         } catch (error) {

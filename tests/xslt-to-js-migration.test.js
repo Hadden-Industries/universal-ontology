@@ -16,17 +16,17 @@ let browser;
 let page;
 
 beforeAll(async () => {
-    browser = await chromium.launch({ 
+    browser = await chromium.launch({
         headless: true,
-        channel: 'chrome' 
+        channel: 'chrome'
     });
     page = await browser.newPage();
 
     // Intercept the root URL and serve a blank HTML page
     await page.route('http://localhost/', async route => {
-        await route.fulfill({ 
-            contentType: 'text/html', 
-            body: '<!DOCTYPE html><html><body></body></html>' 
+        await route.fulfill({
+            contentType: 'text/html',
+            body: '<!DOCTYPE html><html><body></body></html>'
         });
     });
 
@@ -36,12 +36,12 @@ beforeAll(async () => {
         const urlPath = new URL(route.request().url()).pathname;
         const relativePath = decodeURIComponent(urlPath.replace(/^\//, ''));
         const absolutePath = path.resolve(WORKSPACE_PARENT, relativePath);
-        
+
         if (fs.existsSync(absolutePath)) {
             const content = fs.readFileSync(absolutePath, 'utf8');
-            await route.fulfill({ 
-                contentType: 'application/javascript', 
-                body: content 
+            await route.fulfill({
+                contentType: 'application/javascript',
+                body: content
             });
         } else {
             await route.abort();
@@ -88,7 +88,7 @@ export class TransformationVerifier {
         const docA = parser.parseFromString(xmlA, "application/xml");
         const docB = parser.parseFromString(xmlB, "application/xml");
 
-        if (docA.getElementsByTagName("parsererror").length > 0 || 
+        if (docA.getElementsByTagName("parsererror").length > 0 ||
             docB.getElementsByTagName("parsererror").length > 0) {
             return false;
         }
@@ -105,7 +105,7 @@ export class TransformationVerifier {
 
         for (let i = 0; i < nodeA.attributes.length; i++) {
             const attrA = nodeA.attributes[i];
-            const attrB = nodeB.getAttributeNodeNS(attrA.namespaceURI, attrA.localName) || 
+            const attrB = nodeB.getAttributeNodeNS(attrA.namespaceURI, attrA.localName) ||
                           nodeB.getAttributeNode(attrA.name);
             if (!attrB || attrA.value.trim() !== attrB.value.trim()) return false;
         }
@@ -134,7 +134,7 @@ describe('XSLT to JavaScript Parity Test Suite', () => {
     const mockOwlSource = fs.readFileSync(path.join(WORKSPACE_PARENT, 'src', 'universal', 'core', '20260714'), 'utf8');
 
     it('should generate equivalent XMI structures without polynomial latency', async () => {
-        
+
         // Step A: Generate the legacy source of truth (Executes in Chrome)
         const expectedXmi = await page.evaluate(({ xmlStr, xsltStr }) => {
             const parser = new DOMParser();
@@ -143,7 +143,7 @@ describe('XSLT to JavaScript Parity Test Suite', () => {
 
             const processor = new window.XSLTProcessor();
             processor.importStylesheet(xsltDoc);
-            
+
             const resultDoc = processor.transformToDocument(xmlDoc);
             const serializer = new XMLSerializer();
             return serializer.serializeToString(resultDoc);
@@ -152,14 +152,14 @@ describe('XSLT to JavaScript Parity Test Suite', () => {
 
         // Step B: Execute the new ES6 Converter natively (Executes in Chrome)
         const startTime = performance.now();
-        
+
         const newJsResult = await page.evaluate(async (xmlStr) => {
             // Dynamically import the class via the Playwright router
             const { OwlToUmlXmiConverter } = await import('http://localhost/src/OwlToUmlXmiConverter.js');
-            
+
             // Replicate the implementation format from your original runner
             const converter = new OwlToUmlXmiConverter(xmlStr);
-            return converter.convert(xmlStr);
+            return converter.convert();
         }, mockOwlSource);
 
         const duration = performance.now() - startTime;
