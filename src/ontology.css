@@ -317,8 +317,8 @@ body {
 
 .dropdown-toggle {
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
 
+  overflow: hidden;
   display: flex;
   gap: 0.5rem;
   align-items: center;
@@ -326,7 +326,6 @@ body {
   padding: 0.75rem 1.25rem; /* Larger padding for a nice pill */
   border: 1px solid var(--border-color);
   border-radius: 9999px; /* Pill shape */
-  overflow: hidden;
 
   font-family: inherit;
   font-size: 0.875rem;
@@ -340,6 +339,8 @@ body {
     0 0 15px rgb(0 0 0 / 5%); /* Stronger shadow to pop */
 
   transition: all 0.2s;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
 .dropdown-toggle:hover {
@@ -393,8 +394,8 @@ body {
 }
 
 #export-menu {
-  min-width: 320px;
   gap: 0.375rem;
+  min-width: 320px;
 }
 
 .dropdown-item {
@@ -423,10 +424,35 @@ body {
   accent-color: var(--primary);
 }
 
+.export-icon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.export-badge {
+  flex-shrink: 0;
+
+  padding: 0.2rem 0.45rem;
+  border-radius: 0.375rem;
+
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--badge-text);
+
+  background-color: var(--badge-bg);
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
 .dropdown-button {
   cursor: pointer;
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
 
   display: flex;
   gap: 0.75rem;
@@ -445,18 +471,20 @@ body {
   background: var(--surface-color);
 
   transition: all 0.2s ease;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
 .dropdown-button:hover {
+  transform: translateY(-1px);
   border-color: var(--primary);
   background: var(--row-hover);
   box-shadow: 0 2px 8px rgb(59 130 246 / 10%);
-  transform: translateY(-1px);
 }
 
 .dropdown-button:hover .export-icon {
-  color: var(--primary);
   transform: translateY(1px);
+  color: var(--primary);
 }
 
 .dropdown-button:hover .export-badge {
@@ -481,15 +509,30 @@ body {
 .dropdown-button.exporting {
   cursor: wait;
 
+  border-color: transparent;
+
   color: #fff;
   text-shadow: 0 1px 2px rgb(0 0 0 / 25%);
 
+  opacity: 1;
   background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #10b981, #3b82f6);
   background-size: 200% 100%;
-  border-color: transparent;
-  opacity: 1;
 
   animation: rolling-gradient 2s linear infinite;
+}
+
+.export-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-main);
+}
+
+.export-desc {
+  margin-top: 0.125rem;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  color: var(--text-muted);
 }
 
 .dropdown-button.exporting .export-icon,
@@ -503,56 +546,14 @@ body {
   background: rgb(255 255 255 / 25%);
 }
 
-.export-icon {
-  flex-shrink: 0;
-
-  color: var(--text-muted);
-
-  transition:
-    transform 0.2s ease,
-    color 0.2s ease;
-}
-
 .export-details {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+
   min-width: 0;
 
   text-align: left;
-}
-
-.export-label {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--text-main);
-}
-
-.export-desc {
-  margin-top: 0.125rem;
-
-  font-size: 0.7rem;
-  line-height: 1.2;
-  color: var(--text-muted);
-}
-
-.export-badge {
-  flex-shrink: 0;
-
-  padding: 0.2rem 0.45rem;
-  border-radius: 0.375rem;
-
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  color: var(--badge-text);
-
-  background-color: var(--badge-bg);
-
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
 }
 
 @keyframes rolling-gradient {
@@ -564,7 +565,6 @@ body {
     background-position: 200% 50%;
   }
 }
-
 
 table {
   table-layout: fixed; /* Respect strict column widths */
