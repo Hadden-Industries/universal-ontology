@@ -10,13 +10,13 @@
  * @constant {Object<string, string>}
  */
 const NS = {
-    rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    owl: "http://www.w3.org/2002/07/owl#",
-    dcterms: "http://purl.org/dc/terms/",
-    skos: "http://www.w3.org/2004/02/skos/core#",
-    rdfs: "http://www.w3.org/2000/01/rdf-schema#",
-    xml: "http://www.w3.org/XML/1998/namespace",
-    dcat: "http://www.w3.org/ns/dcat#"
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+  owl: "http://www.w3.org/2002/07/owl#",
+  dcterms: "http://purl.org/dc/terms/",
+  skos: "http://www.w3.org/2004/02/skos/core#",
+  rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+  xml: "http://www.w3.org/XML/1998/namespace",
+  dcat: "http://www.w3.org/ns/dcat#",
 };
 
 /**
@@ -26,14 +26,14 @@ const NS = {
  * @returns {string} The compacted URI.
  */
 function compactURI(uri, context) {
-    if (!uri) return "";
-    for (const [prefix, ns] of Object.entries(context)) {
-        if (typeof ns !== "string") continue;
-        if (uri.startsWith(ns)) {
-            return `${prefix}:${uri.substring(ns.length)}`;
-        }
+  if (!uri) return "";
+  for (const [prefix, ns] of Object.entries(context)) {
+    if (typeof ns !== "string") continue;
+    if (uri.startsWith(ns)) {
+      return `${prefix}:${uri.substring(ns.length)}`;
     }
-    return uri;
+  }
+  return uri;
 }
 
 /**
@@ -43,17 +43,17 @@ function compactURI(uri, context) {
  * @returns {string} The expanded URI.
  */
 function expandURI(compactUri, context) {
-    if (!compactUri) return "";
-    const colonIdx = compactUri.indexOf(":");
-    if (colonIdx > 0) {
-        const prefix = compactUri.substring(0, colonIdx);
-        const suffix = compactUri.substring(colonIdx + 1);
-        const ns = context[prefix];
-        if (ns && typeof ns === "string") {
-            return ns + suffix;
-        }
+  if (!compactUri) return "";
+  const colonIdx = compactUri.indexOf(":");
+  if (colonIdx > 0) {
+    const prefix = compactUri.substring(0, colonIdx);
+    const suffix = compactUri.substring(colonIdx + 1);
+    const ns = context[prefix];
+    if (ns && typeof ns === "string") {
+      return ns + suffix;
     }
-    return compactUri;
+  }
+  return compactUri;
 }
 
 /**
@@ -62,154 +62,153 @@ function expandURI(compactUri, context) {
  * @returns {Object} Formatted JSON-LD document.
  */
 function transformOntologyToJsonLd(xmlDoc) {
+  // Initialize the base JSON-LD context
+  const context = {
+    rdf: NS.rdf,
+    owl: NS.owl,
+    dcterms: NS.dcterms,
+    skos: NS.skos,
+    rdfs: NS.rdfs,
+    xml: NS.xml,
+    dcat: NS.dcat,
+    schema: "http://schema.org/",
+    uc: "https://haddenindustries.com/ontology/universal/core/",
+    ue: "https://haddenindustries.com/ontology/universal/extended/",
+    md: "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/",
+    urd: "https://haddenindustries.com/ontology/universal/reference-data/",
+    "rdfs:subClassOf": { "@type": "@id" },
+    "dcterms:creator": { "@type": "@id" },
+    "dcterms:source": { "@type": "@id" },
+    "dcterms:references": { "@type": "@id" },
+    "rdfs:seeAlso": { "@type": "@id" },
+    "owl:versionIRI": { "@type": "@id" },
+    "owl:imports": { "@type": "@id" },
+    "dcterms:contributor": { "@type": "@id" },
+    "dcterms:format": { "@type": "@id" },
+    "dcterms:identifier": { "@type": "@id" },
+    "dcterms:language": { "@type": "@id" },
+    "dcterms:license": { "@type": "@id" },
+    "dcterms:publisher": { "@type": "@id" },
+    "dcterms:rights": { "@type": "@id" },
+    "dcterms:subject": { "@type": "@id" },
+    "owl:priorVersion": { "@type": "@id" },
+    "skos:prefLabel": { "@container": "@language" },
+    "skos:definition": { "@container": "@language" },
+    "rdfs:label": { "@container": "@language" },
+    "dcterms:title": { "@container": "@language" },
+    "dcterms:description": { "@container": "@language" },
+  };
 
-    // Initialize the base JSON-LD context
-    const context = {
-        "rdf": NS.rdf,
-        "owl": NS.owl,
-        "dcterms": NS.dcterms,
-        "skos": NS.skos,
-        "rdfs": NS.rdfs,
-        "xml": NS.xml,
-        "dcat": NS.dcat,
-        "schema": "http://schema.org/",
-        "uc": "https://haddenindustries.com/ontology/universal/core/",
-        "ue": "https://haddenindustries.com/ontology/universal/extended/",
-        "md": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/",
-        "urd": "https://haddenindustries.com/ontology/universal/reference-data/",
-        "rdfs:subClassOf": { "@type": "@id" },
-        "dcterms:creator": { "@type": "@id" },
-        "dcterms:source": { "@type": "@id" },
-        "dcterms:references": { "@type": "@id" },
-        "rdfs:seeAlso": { "@type": "@id" },
-        "owl:versionIRI": { "@type": "@id" },
-        "owl:imports": { "@type": "@id" },
-        "dcterms:contributor": { "@type": "@id" },
-        "dcterms:format": { "@type": "@id" },
-        "dcterms:identifier": { "@type": "@id" },
-        "dcterms:language": { "@type": "@id" },
-        "dcterms:license": { "@type": "@id" },
-        "dcterms:publisher": { "@type": "@id" },
-        "dcterms:rights": { "@type": "@id" },
-        "dcterms:subject": { "@type": "@id" },
-        "owl:priorVersion": { "@type": "@id" },
-        "skos:prefLabel": { "@container": "@language" },
-        "skos:definition": { "@container": "@language" },
-        "rdfs:label": { "@container": "@language" },
-        "dcterms:title": { "@container": "@language" },
-        "dcterms:description": { "@container": "@language" }
-    };
+  // Dynamically extract namespace declarations from the root element
+  const root = xmlDoc.documentElement;
+  if (root) {
+    for (let i = 0; i < root.attributes.length; i++) {
+      const attr = root.attributes[i];
+      if (attr.name.startsWith("xmlns:")) {
+        const prefix = attr.name.substring(6);
+        context[prefix] = attr.value;
+      }
+    }
+    const defaultNs = root.getAttribute("xmlns") || root.getAttributeNS(NS.xml, "base") || "";
+    if (defaultNs) {
+      const isAlreadyMapped = Object.keys(context).some((k) => context[k] === defaultNs);
+      if (!isAlreadyMapped) {
+        const parts = defaultNs.replace(/\/$/, "").split("/");
+        const localPrefix = parts[parts.length - 1];
+        if (localPrefix && !context[localPrefix]) {
+          context[localPrefix] = defaultNs;
+        }
+      }
+    }
+  }
 
-    // Dynamically extract namespace declarations from the root element
-    const root = xmlDoc.documentElement;
-    if (root) {
-        for (let i = 0; i < root.attributes.length; i++) {
-            const attr = root.attributes[i];
-            if (attr.name.startsWith("xmlns:")) {
-                const prefix = attr.name.substring(6);
-                context[prefix] = attr.value;
-            }
-        }
-        const defaultNs = root.getAttribute("xmlns") || root.getAttributeNS(NS.xml, "base") || "";
-        if (defaultNs) {
-            const isAlreadyMapped = Object.keys(context).some(k => context[k] === defaultNs);
-            if (!isAlreadyMapped) {
-                const parts = defaultNs.replace(/\/$/, "").split("/");
-                const localPrefix = parts[parts.length - 1];
-                if (localPrefix && !context[localPrefix]) {
-                    context[localPrefix] = defaultNs;
-                }
-            }
-        }
+  const result = {
+    "@context": context,
+    "@type": "owl:Ontology",
+  };
+
+  const ontologyNode = xmlDoc.getElementsByTagNameNS(NS.owl, "Ontology")[0];
+  if (ontologyNode) {
+    const ontologyId = ontologyNode.getAttributeNS(NS.rdf, "about") || "";
+    if (ontologyId) {
+      result["@id"] = ontologyId;
     }
 
-    const result = {
-        "@context": context,
-        "@type": "owl:Ontology"
-    };
+    // Generic child iteration for owl:Ontology properties
+    for (const child of ontologyNode.children) {
+      const ns = child.namespaceURI;
+      const name = child.localName;
+      const key = compactURI(ns + name, context);
 
-    const ontologyNode = xmlDoc.getElementsByTagNameNS(NS.owl, "Ontology")[0];
-    if (ontologyNode) {
-        const ontologyId = ontologyNode.getAttributeNS(NS.rdf, "about") || "";
-        if (ontologyId) {
-            result["@id"] = ontologyId;
+      // Skip type since it's hardcoded as owl:Ontology
+      if (ns === NS.rdf && name === "type") {
+        continue;
+      }
+
+      const res = child.getAttributeNS(NS.rdf, "resource");
+      const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
+      const hasElements = Array.from(child.children).some((c) => c.nodeType === 1);
+
+      let val;
+      if (hasElements) {
+        val = parseElementAsObject(child.children[0], context);
+      } else if (lang) {
+        if (!result[key]) {
+          result[key] = {};
         }
-
-        // Generic child iteration for owl:Ontology properties
-        for (const child of ontologyNode.children) {
-            const ns = child.namespaceURI;
-            const name = child.localName;
-            const key = compactURI(ns + name, context);
-
-            // Skip type since it's hardcoded as owl:Ontology
-            if (ns === NS.rdf && name === "type") {
-                continue;
-            }
-
-            const res = child.getAttributeNS(NS.rdf, "resource");
-            const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
-            const hasElements = Array.from(child.children).some(c => c.nodeType === 1);
-
-            let val;
-            if (hasElements) {
-                val = parseElementAsObject(child.children[0], context);
-            } else if (lang) {
-                if (!result[key]) {
-                    result[key] = {};
-                }
-                const text = child.textContent.trim();
-                if (!result[key][lang]) {
-                    result[key][lang] = text;
-                } else {
-                    if (!Array.isArray(result[key][lang])) {
-                        result[key][lang] = [result[key][lang]];
-                    }
-                    result[key][lang].push(text);
-                }
-                continue;
-            } else if (res) {
-                val = compactURI(res, context);
-            } else {
-                val = child.textContent.trim();
-                const datatype = child.getAttribute("rdf:datatype") || child.getAttributeNS(NS.rdf, "datatype") || child.getAttribute("datatype") || "";
-                if (datatype.includes("integer") || datatype.includes("Integer")) {
-                    const num = parseInt(val, 10);
-                    if (!isNaN(num)) val = num;
-                } else if (datatype.includes("boolean") || datatype.includes("Boolean")) {
-                    val = val.toLowerCase() === "true" || val === "1";
-                } else if (datatype.includes("decimal") || datatype.includes("float") || datatype.includes("double")) {
-                    const num = parseFloat(val);
-                    if (!isNaN(num)) val = num;
-                }
-            }
-
-            if (val !== undefined) {
-                if (MULTI_VALUED_PROPERTIES.has(key)) {
-                    if (!result[key]) result[key] = [];
-                    if (!result[key].includes(val)) result[key].push(val);
-                } else {
-                    if (!result[key]) {
-                        result[key] = val;
-                    } else {
-                        if (!Array.isArray(result[key])) {
-                            result[key] = [result[key]];
-                        }
-                        if (!result[key].includes(val)) result[key].push(val);
-                    }
-                }
-            }
+        const text = child.textContent.trim();
+        if (!result[key][lang]) {
+          result[key][lang] = text;
+        } else {
+          if (!Array.isArray(result[key][lang])) {
+            result[key][lang] = [result[key][lang]];
+          }
+          result[key][lang].push(text);
         }
+        continue;
+      } else if (res) {
+        val = compactURI(res, context);
+      } else {
+        val = child.textContent.trim();
+        const datatype = child.getAttribute("rdf:datatype") || child.getAttributeNS(NS.rdf, "datatype") || child.getAttribute("datatype") || "";
+        if (datatype.includes("integer") || datatype.includes("Integer")) {
+          const num = parseInt(val, 10);
+          if (!isNaN(num)) val = num;
+        } else if (datatype.includes("boolean") || datatype.includes("Boolean")) {
+          val = val.toLowerCase() === "true" || val === "1";
+        } else if (datatype.includes("decimal") || datatype.includes("float") || datatype.includes("double")) {
+          const num = parseFloat(val);
+          if (!isNaN(num)) val = num;
+        }
+      }
+
+      if (val !== undefined) {
+        if (MULTI_VALUED_PROPERTIES.has(key)) {
+          if (!result[key]) result[key] = [];
+          if (!result[key].includes(val)) result[key].push(val);
+        } else {
+          if (!result[key]) {
+            result[key] = val;
+          } else {
+            if (!Array.isArray(result[key])) {
+              result[key] = [result[key]];
+            }
+            if (!result[key].includes(val)) result[key].push(val);
+          }
+        }
+      }
     }
+  }
 
-    result["@graph"] = extractGraphData(xmlDoc, context);
+  result["@graph"] = extractGraphData(xmlDoc, context);
 
-    for (const key in result) {
-        if (result[key] === undefined) {
-            delete result[key];
-        }
+  for (const key in result) {
+    if (result[key] === undefined) {
+      delete result[key];
     }
+  }
 
-    return result;
+  return result;
 }
 
 /**
@@ -218,47 +217,41 @@ function transformOntologyToJsonLd(xmlDoc) {
  * @returns {Map<string, string[]>} A map of source URIs to their corresponding source lists.
  */
 function buildAxiomIndex(xmlDoc) {
-    const index = new Map();
-    const axioms = xmlDoc.getElementsByTagNameNS(NS.owl, "Axiom");
+  const index = new Map();
+  const axioms = xmlDoc.getElementsByTagNameNS(NS.owl, "Axiom");
 
-    for (const axiom of axioms) {
-        const annotatedSource = axiom.getElementsByTagNameNS(NS.owl, "annotatedSource")[0];
-        const annotatedProperty = axiom.getElementsByTagNameNS(NS.owl, "annotatedProperty")[0];
+  for (const axiom of axioms) {
+    const annotatedSource = axiom.getElementsByTagNameNS(NS.owl, "annotatedSource")[0];
+    const annotatedProperty = axiom.getElementsByTagNameNS(NS.owl, "annotatedProperty")[0];
 
-        if (annotatedSource && annotatedProperty) {
-            const propRes = annotatedProperty.getAttributeNS(NS.rdf, "resource");
-            const sourceRes = annotatedSource.getAttributeNS(NS.rdf, "resource");
+    if (annotatedSource && annotatedProperty) {
+      const propRes = annotatedProperty.getAttributeNS(NS.rdf, "resource");
+      const sourceRes = annotatedSource.getAttributeNS(NS.rdf, "resource");
 
-            if (propRes === NS.skos + "definition" && sourceRes) {
-                const dctermsSources = axiom.getElementsByTagNameNS(NS.dcterms, "source");
-                const sourceList = Array.from(dctermsSources)
-                    .map(src => src.getAttributeNS(NS.rdf, "resource"))
-                    .filter(res => res);
+      if (propRes === NS.skos + "definition" && sourceRes) {
+        const dctermsSources = axiom.getElementsByTagNameNS(NS.dcterms, "source");
+        const sourceList = Array.from(dctermsSources)
+          .map((src) => src.getAttributeNS(NS.rdf, "resource"))
+          .filter((res) => res);
 
-                if (sourceList.length > 0) {
-                    if (index.has(sourceRes)) {
-                        index.set(sourceRes, index.get(sourceRes).concat(sourceList));
-                    } else {
-                        index.set(sourceRes, sourceList);
-                    }
-                }
-            }
+        if (sourceList.length > 0) {
+          if (index.has(sourceRes)) {
+            index.set(sourceRes, index.get(sourceRes).concat(sourceList));
+          } else {
+            index.set(sourceRes, sourceList);
+          }
         }
+      }
     }
-    return index;
+  }
+  return index;
 }
 
 /**
  * Set of RDF properties that accept multiple values as arrays.
  * @constant {Set<string>}
  */
-const MULTI_VALUED_PROPERTIES = new Set([
-    "rdfs:subClassOf",
-    "dcterms:source",
-    "dcterms:references",
-    "rdfs:seeAlso",
-    "dcterms:subject"
-]);
+const MULTI_VALUED_PROPERTIES = new Set(["rdfs:subClassOf", "dcterms:source", "dcterms:references", "rdfs:seeAlso", "dcterms:subject"]);
 
 /**
  * Helper to parse a nested XML element (like owl:Restriction) as a JSON-LD object.
@@ -267,58 +260,58 @@ const MULTI_VALUED_PROPERTIES = new Set([
  * @returns {Object} The parsed object.
  */
 function parseElementAsObject(el, context) {
-    const obj = {
-        "@type": compactURI(el.namespaceURI + el.localName, context)
-    };
+  const obj = {
+    "@type": compactURI(el.namespaceURI + el.localName, context),
+  };
 
-    const about = el.getAttributeNS(NS.rdf, "about");
-    if (about) {
-        obj["@id"] = about;
+  const about = el.getAttributeNS(NS.rdf, "about");
+  if (about) {
+    obj["@id"] = about;
+  }
+
+  for (const child of el.children) {
+    const ns = child.namespaceURI;
+    const name = child.localName;
+    const key = compactURI(ns + name, context);
+
+    const res = child.getAttributeNS(NS.rdf, "resource");
+    const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
+    const hasElements = Array.from(child.children).some((c) => c.nodeType === 1);
+
+    let val;
+    if (hasElements) {
+      val = parseElementAsObject(child.children[0], context);
+    } else if (res) {
+      val = compactURI(res, context);
+    } else if (lang) {
+      val = {};
+      val[lang] = child.textContent.trim();
+    } else {
+      val = child.textContent.trim();
+      const datatype = child.getAttribute("rdf:datatype") || child.getAttributeNS(NS.rdf, "datatype") || child.getAttribute("datatype") || "";
+      if (datatype.includes("integer") || datatype.includes("Integer")) {
+        const num = parseInt(val, 10);
+        if (!isNaN(num)) val = num;
+      } else if (datatype.includes("boolean") || datatype.includes("Boolean")) {
+        val = val.toLowerCase() === "true" || val === "1";
+      } else if (datatype.includes("decimal") || datatype.includes("float") || datatype.includes("double")) {
+        const num = parseFloat(val);
+        if (!isNaN(num)) val = num;
+      }
     }
 
-    for (const child of el.children) {
-        const ns = child.namespaceURI;
-        const name = child.localName;
-        const key = compactURI(ns + name, context);
-
-        const res = child.getAttributeNS(NS.rdf, "resource");
-        const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
-        const hasElements = Array.from(child.children).some(c => c.nodeType === 1);
-
-        let val;
-        if (hasElements) {
-            val = parseElementAsObject(child.children[0], context);
-        } else if (res) {
-            val = compactURI(res, context);
-        } else if (lang) {
-            val = {};
-            val[lang] = child.textContent.trim();
-        } else {
-            val = child.textContent.trim();
-            const datatype = child.getAttribute("rdf:datatype") || child.getAttributeNS(NS.rdf, "datatype") || child.getAttribute("datatype") || "";
-            if (datatype.includes("integer") || datatype.includes("Integer")) {
-                const num = parseInt(val, 10);
-                if (!isNaN(num)) val = num;
-            } else if (datatype.includes("boolean") || datatype.includes("Boolean")) {
-                val = val.toLowerCase() === "true" || val === "1";
-            } else if (datatype.includes("decimal") || datatype.includes("float") || datatype.includes("double")) {
-                const num = parseFloat(val);
-                if (!isNaN(num)) val = num;
-            }
+    if (val !== undefined) {
+      if (!obj[key]) {
+        obj[key] = val;
+      } else {
+        if (!Array.isArray(obj[key])) {
+          obj[key] = [obj[key]];
         }
-
-        if (val !== undefined) {
-            if (!obj[key]) {
-                obj[key] = val;
-            } else {
-                if (!Array.isArray(obj[key])) {
-                    obj[key] = [obj[key]];
-                }
-                obj[key].push(val);
-            }
-        }
+        obj[key].push(val);
+      }
     }
-    return obj;
+  }
+  return obj;
 }
 
 /**
@@ -328,134 +321,134 @@ function parseElementAsObject(el, context) {
  * @returns {Array<Object>} The array of processed ontology records.
  */
 function extractGraphData(xmlDoc, context) {
-    const results = [];
-    const axiomIndex = buildAxiomIndex(xmlDoc);
+  const results = [];
+  const axiomIndex = buildAxiomIndex(xmlDoc);
 
-    const classes = Array.from(xmlDoc.getElementsByTagNameNS(NS.owl, "Class"));
-    const individuals = Array.from(xmlDoc.getElementsByTagNameNS(NS.owl, "NamedIndividual"));
-    const allElements = classes.concat(individuals);
+  const classes = Array.from(xmlDoc.getElementsByTagNameNS(NS.owl, "Class"));
+  const individuals = Array.from(xmlDoc.getElementsByTagNameNS(NS.owl, "NamedIndividual"));
+  const allElements = classes.concat(individuals);
 
-    for (const element of allElements) {
-        const uri = element.getAttributeNS(NS.rdf, "about") || "";
+  for (const element of allElements) {
+    const uri = element.getAttributeNS(NS.rdf, "about") || "";
 
-        if (!uri.startsWith("https://haddenindustries.com/")) continue;
+    if (!uri.startsWith("https://haddenindustries.com/")) continue;
 
-        const isNamedIndividual = element.localName === "NamedIndividual";
-        const types = [compactURI(NS.owl + (isNamedIndividual ? "NamedIndividual" : "Class"), context)];
+    const isNamedIndividual = element.localName === "NamedIndividual";
+    const types = [compactURI(NS.owl + (isNamedIndividual ? "NamedIndividual" : "Class"), context)];
 
-        const record = {
-            "@id": uri
-        };
+    const record = {
+      "@id": uri,
+    };
 
-        // Single-pass direct child iteration to populate properties generically
-        for (const child of element.children) {
-            const ns = child.namespaceURI;
-            const name = child.localName;
-            const key = compactURI(ns + name, context);
+    // Single-pass direct child iteration to populate properties generically
+    for (const child of element.children) {
+      const ns = child.namespaceURI;
+      const name = child.localName;
+      const key = compactURI(ns + name, context);
 
-            if (ns === NS.rdf && name === "type") {
-                const res = child.getAttributeNS(NS.rdf, "resource");
-                if (res) {
-                    const compactedType = compactURI(res, context);
-                    if (!types.includes(compactedType)) {
-                        types.push(compactedType);
-                    }
-                }
-                continue;
-            }
-
-            const res = child.getAttributeNS(NS.rdf, "resource");
-            const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
-            const hasElements = Array.from(child.children).some(c => c.nodeType === 1);
-
-            if (hasElements) {
-                // Parse nested resource (like owl:Restriction)
-                const nestedEl = child.children[0];
-                const val = parseElementAsObject(nestedEl, context);
-                if (MULTI_VALUED_PROPERTIES.has(key)) {
-                    if (!record[key]) record[key] = [];
-                    record[key].push(val);
-                } else {
-                    if (!record[key]) {
-                        record[key] = val;
-                    } else {
-                        if (!Array.isArray(record[key])) {
-                            record[key] = [record[key]];
-                        }
-                        record[key].push(val);
-                    }
-                }
-            } else if (lang) {
-                if (!record[key]) {
-                    record[key] = {};
-                }
-                const text = child.textContent.trim();
-                if (!record[key][lang]) {
-                    record[key][lang] = text;
-                } else {
-                    if (!Array.isArray(record[key][lang])) {
-                        record[key][lang] = [record[key][lang]];
-                    }
-                    record[key][lang].push(text);
-                }
-            } else if (res) {
-                const val = compactURI(res, context);
-                if (MULTI_VALUED_PROPERTIES.has(key)) {
-                    if (!record[key]) record[key] = [];
-                    if (!record[key].includes(val)) record[key].push(val);
-                } else {
-                    if (!record[key]) {
-                        record[key] = val;
-                    } else {
-                        if (!Array.isArray(record[key])) {
-                            record[key] = [record[key]];
-                        }
-                        if (!record[key].includes(val)) record[key].push(val);
-                    }
-                }
-            } else {
-                const val = child.textContent.trim();
-                if (MULTI_VALUED_PROPERTIES.has(key)) {
-                    if (!record[key]) record[key] = [];
-                    if (!record[key].includes(val)) record[key].push(val);
-                } else {
-                    if (!record[key]) {
-                        record[key] = val;
-                    } else {
-                        if (!Array.isArray(record[key])) {
-                            record[key] = [record[key]];
-                        }
-                        if (!record[key].includes(val)) record[key].push(val);
-                    }
-                }
-            }
+      if (ns === NS.rdf && name === "type") {
+        const res = child.getAttributeNS(NS.rdf, "resource");
+        if (res) {
+          const compactedType = compactURI(res, context);
+          if (!types.includes(compactedType)) {
+            types.push(compactedType);
+          }
         }
+        continue;
+      }
 
-        // Post-process type
-        record["@type"] = types.length === 1 ? types[0] : types;
+      const res = child.getAttributeNS(NS.rdf, "resource");
+      const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
+      const hasElements = Array.from(child.children).some((c) => c.nodeType === 1);
 
-        // Match source URNs/URIs from axiomIndex
-        if (axiomIndex.has(uri)) {
-            const axiomSources = axiomIndex.get(uri);
-            if (axiomSources && axiomSources.length > 0) {
-                if (!record["dcterms:source"]) {
-                    record["dcterms:source"] = [];
-                } else if (!Array.isArray(record["dcterms:source"])) {
-                    record["dcterms:source"] = [record["dcterms:source"]];
-                }
-                for (const src of axiomSources) {
-                    const compactedSrc = compactURI(src, context);
-                    if (!record["dcterms:source"].includes(compactedSrc)) {
-                        record["dcterms:source"].push(compactedSrc);
-                    }
-                }
+      if (hasElements) {
+        // Parse nested resource (like owl:Restriction)
+        const nestedEl = child.children[0];
+        const val = parseElementAsObject(nestedEl, context);
+        if (MULTI_VALUED_PROPERTIES.has(key)) {
+          if (!record[key]) record[key] = [];
+          record[key].push(val);
+        } else {
+          if (!record[key]) {
+            record[key] = val;
+          } else {
+            if (!Array.isArray(record[key])) {
+              record[key] = [record[key]];
             }
+            record[key].push(val);
+          }
         }
-
-        results.push(record);
+      } else if (lang) {
+        if (!record[key]) {
+          record[key] = {};
+        }
+        const text = child.textContent.trim();
+        if (!record[key][lang]) {
+          record[key][lang] = text;
+        } else {
+          if (!Array.isArray(record[key][lang])) {
+            record[key][lang] = [record[key][lang]];
+          }
+          record[key][lang].push(text);
+        }
+      } else if (res) {
+        const val = compactURI(res, context);
+        if (MULTI_VALUED_PROPERTIES.has(key)) {
+          if (!record[key]) record[key] = [];
+          if (!record[key].includes(val)) record[key].push(val);
+        } else {
+          if (!record[key]) {
+            record[key] = val;
+          } else {
+            if (!Array.isArray(record[key])) {
+              record[key] = [record[key]];
+            }
+            if (!record[key].includes(val)) record[key].push(val);
+          }
+        }
+      } else {
+        const val = child.textContent.trim();
+        if (MULTI_VALUED_PROPERTIES.has(key)) {
+          if (!record[key]) record[key] = [];
+          if (!record[key].includes(val)) record[key].push(val);
+        } else {
+          if (!record[key]) {
+            record[key] = val;
+          } else {
+            if (!Array.isArray(record[key])) {
+              record[key] = [record[key]];
+            }
+            if (!record[key].includes(val)) record[key].push(val);
+          }
+        }
+      }
     }
 
-    return results;
+    // Post-process type
+    record["@type"] = types.length === 1 ? types[0] : types;
+
+    // Match source URNs/URIs from axiomIndex
+    if (axiomIndex.has(uri)) {
+      const axiomSources = axiomIndex.get(uri);
+      if (axiomSources && axiomSources.length > 0) {
+        if (!record["dcterms:source"]) {
+          record["dcterms:source"] = [];
+        } else if (!Array.isArray(record["dcterms:source"])) {
+          record["dcterms:source"] = [record["dcterms:source"]];
+        }
+        for (const src of axiomSources) {
+          const compactedSrc = compactURI(src, context);
+          if (!record["dcterms:source"].includes(compactedSrc)) {
+            record["dcterms:source"].push(compactedSrc);
+          }
+        }
+      }
+    }
+
+    results.push(record);
+  }
+
+  return results;
 }
 
 /**
@@ -464,35 +457,35 @@ function extractGraphData(xmlDoc, context) {
  * @returns {string|null} The transformed URL or null if invalid.
  */
 function transformUrnToObpUrl(rawUrn) {
-    if (typeof rawUrn !== 'string') return null;
+  if (typeof rawUrn !== "string") return null;
 
-    const normalizedUrn = rawUrn.toLowerCase().trim();
-    if (!normalizedUrn.startsWith('urn:iso:std:')) return null;
+  const normalizedUrn = rawUrn.toLowerCase().trim();
+  if (!normalizedUrn.startsWith("urn:iso:std:")) return null;
 
-    // Isolate document elements (clause, figure, table, term, sec, annex, bib, foreword, intro, scope, normative_references) and additions (tech)
-    const documentElementRegex = /:(clause|figure|table|term|tech|sec|annex|bib|foreword|intro|scope|normative_references)(:|$)/;
-    const regexMatch = normalizedUrn.match(documentElementRegex);
+  // Isolate document elements (clause, figure, table, term, sec, annex, bib, foreword, intro, scope, normative_references) and additions (tech)
+  const documentElementRegex = /:(clause|figure|table|term|tech|sec|annex|bib|foreword|intro|scope|normative_references)(:|$)/;
+  const regexMatch = normalizedUrn.match(documentElementRegex);
 
-    let documentIdentifier = normalizedUrn;
-    let documentElement = '';
+  let documentIdentifier = normalizedUrn;
+  let documentElement = "";
 
-    if (regexMatch) {
-        documentIdentifier = normalizedUrn.substring(0, regexMatch.index);
-        documentElement = normalizedUrn.substring(regexMatch.index);
-    }
+  if (regexMatch) {
+    documentIdentifier = normalizedUrn.substring(0, regexMatch.index);
+    documentElement = normalizedUrn.substring(regexMatch.index);
+  }
 
-    // RFC 5141 valid ISO 639-1 alpha-2 language codes
-    const languageRegex = /:(en|fr|ru|es|ar)(,(en|fr|ru|es|ar))*$/;
+  // RFC 5141 valid ISO 639-1 alpha-2 language codes
+  const languageRegex = /:(en|fr|ru|es|ar)(,(en|fr|ru|es|ar))*$/;
 
-    // Inject 'en' fallback if no valid language tag terminates the document identifier
-    if (!languageRegex.test(documentIdentifier)) {
-        documentIdentifier += ':en';
-    }
+  // Inject 'en' fallback if no valid language tag terminates the document identifier
+  if (!languageRegex.test(documentIdentifier)) {
+    documentIdentifier += ":en";
+  }
 
-    // Combine and strip the 'urn:' prefix to form the OBP hash fragment
-    const formattedHashFragment = (documentIdentifier + documentElement).replace(/^urn:/, '');
+  // Combine and strip the 'urn:' prefix to form the OBP hash fragment
+  const formattedHashFragment = (documentIdentifier + documentElement).replace(/^urn:/, "");
 
-    return `https://www.iso.org/obp/ui/en/#${formattedHashFragment}`;
+  return `https://www.iso.org/obp/ui/en/#${formattedHashFragment}`;
 }
 
 /**
@@ -502,19 +495,19 @@ function transformUrnToObpUrl(rawUrn) {
  * @returns {string} The HTML link string, or escaped plain text if not a link.
  */
 function createLink(value, forceLink = false) {
-    if (!value) return "";
+  if (!value) return "";
 
-    if (value.toLowerCase().startsWith('urn:iso:std:')) {
-        const obpUrl = transformUrnToObpUrl(value);
-        if (obpUrl) {
-            return `<a href="${escapeHTML(obpUrl)}" target="_blank" rel="noopener noreferrer">${escapeHTML(value)}</a>`;
-        }
+  if (value.toLowerCase().startsWith("urn:iso:std:")) {
+    const obpUrl = transformUrnToObpUrl(value);
+    if (obpUrl) {
+      return `<a href="${escapeHTML(obpUrl)}" target="_blank" rel="noopener noreferrer">${escapeHTML(value)}</a>`;
     }
+  }
 
-    if (forceLink || value.startsWith("http:") || value.startsWith("https:")) {
-        return `<a href="${escapeHTML(value)}" target="_blank" rel="noopener noreferrer">${escapeHTML(value)}</a>`;
-    }
-    return escapeHTML(value);
+  if (forceLink || value.startsWith("http:") || value.startsWith("https:")) {
+    return `<a href="${escapeHTML(value)}" target="_blank" rel="noopener noreferrer">${escapeHTML(value)}</a>`;
+  }
+  return escapeHTML(value);
 }
 
 /**
@@ -523,16 +516,18 @@ function createLink(value, forceLink = false) {
  * @returns {string} The escaped HTML string.
  */
 function escapeHTML(str) {
-    if (str === null || str === undefined) return "";
-    return String(str).replace(/[&<>'"]/g,
-        tag => ({
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            "'": '&#39;',
-            '"': '&quot;'
-        }[tag] || tag)
-    );
+  if (str === null || str === undefined) return "";
+  return String(str).replace(
+    /[&<>'"]/g,
+    (tag) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;",
+      })[tag] || tag,
+  );
 }
 
 /**
@@ -542,10 +537,10 @@ function escapeHTML(str) {
  * @returns {string} The resolved text string.
  */
 function getPreferredLang(langMap) {
-    if (!langMap) return "";
-    if (typeof langMap === 'string') return langMap;
-    if (typeof langMap !== 'object') return "";
-    return langMap["en-GB"] || langMap["en"] || Object.values(langMap)[0] || "";
+  if (!langMap) return "";
+  if (typeof langMap === "string") return langMap;
+  if (typeof langMap !== "object") return "";
+  return langMap["en-GB"] || langMap["en"] || Object.values(langMap)[0] || "";
 }
 
 /**
@@ -554,10 +549,10 @@ function getPreferredLang(langMap) {
  * @returns {string} The normalized type name (Class, Named Individual, or default type).
  */
 function getEntityType(type) {
-    const types = Array.isArray(type) ? type : [type];
-    if (types.includes("owl:Class")) return "Class";
-    if (types.includes("owl:NamedIndividual")) return "Named Individual";
-    return types[0] || "";
+  const types = Array.isArray(type) ? type : [type];
+  if (types.includes("owl:Class")) return "Class";
+  if (types.includes("owl:NamedIndividual")) return "Named Individual";
+  return types[0] || "";
 }
 
 /**
@@ -566,13 +561,13 @@ function getEntityType(type) {
  * @returns {string} The extracted UUID.
  */
 function getUuid(row) {
-    const idVal = row["dcterms:identifier"];
-    if (!idVal) return "";
-    const ids = Array.isArray(idVal) ? idVal : [idVal];
-    const uuidId = ids.find(id => typeof id === 'string' && id.startsWith("urn:uuid:"));
-    if (uuidId) return uuidId.substring(9);
-    const firstId = ids.find(id => typeof id === 'string');
-    return firstId || "";
+  const idVal = row["dcterms:identifier"];
+  if (!idVal) return "";
+  const ids = Array.isArray(idVal) ? idVal : [idVal];
+  const uuidId = ids.find((id) => typeof id === "string" && id.startsWith("urn:uuid:"));
+  if (uuidId) return uuidId.substring(9);
+  const firstId = ids.find((id) => typeof id === "string");
+  return firstId || "";
 }
 
 /**
@@ -582,12 +577,12 @@ function getUuid(row) {
  * @returns {string} The expanded IRI of the class type.
  */
 function getClassOfNamedIndividual(row, context = {}) {
-    const type = row["@type"];
-    if (Array.isArray(type)) {
-        const specificType = type.find(t => t !== "owl:NamedIndividual");
-        return specificType ? expandURI(specificType, context) : "";
-    }
-    return "";
+  const type = row["@type"];
+  if (Array.isArray(type)) {
+    const specificType = type.find((t) => t !== "owl:NamedIndividual");
+    return specificType ? expandURI(specificType, context) : "";
+  }
+  return "";
 }
 
 /**
@@ -597,12 +592,12 @@ function getClassOfNamedIndividual(row, context = {}) {
  * @returns {string} The formatted newline-separated plain text.
  */
 function formatSuperClassesText(scList, context) {
-    if (!scList) return "";
-    const list = Array.isArray(scList) ? scList : [scList];
-    return list
-        .filter(item => typeof item === 'string')
-        .map(item => expandURI(item, context))
-        .join('\n');
+  if (!scList) return "";
+  const list = Array.isArray(scList) ? scList : [scList];
+  return list
+    .filter((item) => typeof item === "string")
+    .map((item) => expandURI(item, context))
+    .join("\n");
 }
 
 /**
@@ -612,12 +607,12 @@ function formatSuperClassesText(scList, context) {
  * @returns {string} The formatted HTML string containing anchor links.
  */
 function formatSubClassOfHtml(scList, context) {
-    if (!scList) return "";
-    const list = Array.isArray(scList) ? scList : [scList];
-    return list
-        .filter(item => typeof item === 'string')
-        .map(item => createLink(expandURI(item, context), false))
-        .join('<br>');
+  if (!scList) return "";
+  const list = Array.isArray(scList) ? scList : [scList];
+  return list
+    .filter((item) => typeof item === "string")
+    .map((item) => createLink(expandURI(item, context), false))
+    .join("<br>");
 }
 
 /**
@@ -626,84 +621,76 @@ function formatSubClassOfHtml(scList, context) {
  * @param {string} [filename="Ontology.csv"] - The name of the file to save.
  */
 function exportCSV(ontologyLd, filename = "Ontology.csv") {
-    if (!ontologyLd) return;
+  if (!ontologyLd) return;
 
-    const context = ontologyLd["@context"] || {};
-    const rawGraph = ontologyLd["@graph"] || [];
+  const context = ontologyLd["@context"] || {};
+  const rawGraph = ontologyLd["@graph"] || [];
 
-    // Filter out dcat:Dataset and dcat:Distribution from CSV representation
-    const graph = rawGraph.filter(row => {
-        const type = row["@type"];
-        if (Array.isArray(type)) {
-            return !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution");
-        }
-        return type !== "dcat:Dataset" && type !== "dcat:Distribution";
-    });
-
-    const headers = [
-        "Entity Type", "UUID", "URI", "Preferred Label", "Definition",
-        "Sources", "Creator", "Created At", "Modified At", "Superclasses",
-        "Class of Named Individual"
-    ];
-
-    const csvRows = [headers.join(",")];
-
-    for (const row of graph) {
-        const entityType = getEntityType(row["@type"]);
-        const uuid = getUuid(row);
-        const uri = row["@id"] || "";
-        const preferredLabel = getPreferredLang(row["skos:prefLabel"]);
-        const definition = getPreferredLang(row["skos:definition"]);
-
-        let sourcesList = [];
-        const rawSources = row["dcterms:source"];
-        if (rawSources) {
-            if (Array.isArray(rawSources)) {
-                sourcesList = rawSources.map(src => {
-                    if (typeof src === 'object' && src !== null) {
-                        return getPreferredLang(src);
-                    }
-                    return expandURI(src, context);
-                });
-            } else if (typeof rawSources === 'object') {
-                sourcesList = [getPreferredLang(rawSources)];
-            } else {
-                sourcesList = [expandURI(rawSources, context)];
-            }
-        }
-        const sources = sourcesList.join('\n');
-
-        const creator = expandURI(row["dcterms:creator"] || "", context);
-        const createdAt = row["dcterms:created"] || "";
-        const modifiedAt = row["dcterms:modified"] || "";
-        const superclasses = formatSuperClassesText(row["rdfs:subClassOf"], context);
-        const classOfNamedIndividual = getClassOfNamedIndividual(row, context);
-
-        const values = [
-            entityType, uuid, uri, preferredLabel, definition,
-            sources, creator, createdAt, modifiedAt,
-            superclasses, classOfNamedIndividual
-        ].map(value => {
-            let safeVal = String(value || "");
-            if (safeVal.match(/^[=+\-@]/)) safeVal = "'" + safeVal;
-            if (safeVal.includes(",") || safeVal.includes('"') || safeVal.includes("\n")) {
-                safeVal = `"${safeVal.replace(/"/g, '""')}"`;
-            }
-            return safeVal;
-        });
-        csvRows.push(values.join(","));
+  // Filter out dcat:Dataset and dcat:Distribution from CSV representation
+  const graph = rawGraph.filter((row) => {
+    const type = row["@type"];
+    if (Array.isArray(type)) {
+      return !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution");
     }
+    return type !== "dcat:Dataset" && type !== "dcat:Distribution";
+  });
 
-    const blob = new Blob([csvRows.join("\n")], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
+  const headers = ["Entity Type", "UUID", "URI", "Preferred Label", "Definition", "Sources", "Creator", "Created At", "Modified At", "Superclasses", "Class of Named Individual"];
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const csvRows = [headers.join(",")];
+
+  for (const row of graph) {
+    const entityType = getEntityType(row["@type"]);
+    const uuid = getUuid(row);
+    const uri = row["@id"] || "";
+    const preferredLabel = getPreferredLang(row["skos:prefLabel"]);
+    const definition = getPreferredLang(row["skos:definition"]);
+
+    let sourcesList = [];
+    const rawSources = row["dcterms:source"];
+    if (rawSources) {
+      if (Array.isArray(rawSources)) {
+        sourcesList = rawSources.map((src) => {
+          if (typeof src === "object" && src !== null) {
+            return getPreferredLang(src);
+          }
+          return expandURI(src, context);
+        });
+      } else if (typeof rawSources === "object") {
+        sourcesList = [getPreferredLang(rawSources)];
+      } else {
+        sourcesList = [expandURI(rawSources, context)];
+      }
+    }
+    const sources = sourcesList.join("\n");
+
+    const creator = expandURI(row["dcterms:creator"] || "", context);
+    const createdAt = row["dcterms:created"] || "";
+    const modifiedAt = row["dcterms:modified"] || "";
+    const superclasses = formatSuperClassesText(row["rdfs:subClassOf"], context);
+    const classOfNamedIndividual = getClassOfNamedIndividual(row, context);
+
+    const values = [entityType, uuid, uri, preferredLabel, definition, sources, creator, createdAt, modifiedAt, superclasses, classOfNamedIndividual].map((value) => {
+      let safeVal = String(value || "");
+      if (safeVal.match(/^[=+\-@]/)) safeVal = "'" + safeVal;
+      if (safeVal.includes(",") || safeVal.includes('"') || safeVal.includes("\n")) {
+        safeVal = `"${safeVal.replace(/"/g, '""')}"`;
+      }
+      return safeVal;
+    });
+    csvRows.push(values.join(","));
+  }
+
+  const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 /**
@@ -712,19 +699,19 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
  * @param {string} [filename="Ontology.jsonld"] - The name of the file to save.
  */
 function exportJSON(ontologyLd, filename = "Ontology.jsonld") {
-    if (!ontologyLd) return;
+  if (!ontologyLd) return;
 
-    const jsonString = JSON.stringify(ontologyLd, null, 2);
-    const blob = new Blob([jsonString], { type: 'application/ld+json;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
+  const jsonString = JSON.stringify(ontologyLd, null, 2);
+  const blob = new Blob([jsonString], { type: "application/ld+json;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 /**
@@ -734,39 +721,35 @@ function exportJSON(ontologyLd, filename = "Ontology.jsonld") {
  * @returns {Promise<Document>} The parsed ontology XML DOM document.
  */
 async function fetchOntologyAsXml(url) {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP fetch error! Status: ${response.status}`);
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`HTTP fetch error! Status: ${response.status}`);
 
-    const contentType = response.headers.get("content-type") || "";
-    // Allow various XML/RDF content types
-    if (!contentType.includes("application/rdf+xml") &&
-        !contentType.includes("application/xml") &&
-        !contentType.includes("text/xml") &&
-        !url.endsWith(".owl") &&
-        !url.endsWith(".xml")) {
-        console.warn(`Unusual Content-Type (${contentType}), attempting XML parse anyway.`);
-    }
+  const contentType = response.headers.get("content-type") || "";
+  // Allow various XML/RDF content types
+  if (!contentType.includes("application/rdf+xml") && !contentType.includes("application/xml") && !contentType.includes("text/xml") && !url.endsWith(".owl") && !url.endsWith(".xml")) {
+    console.warn(`Unusual Content-Type (${contentType}), attempting XML parse anyway.`);
+  }
 
-    const xmlText = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+  const xmlText = await response.text();
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(xmlText, "application/xml");
 
-    if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
-        throw new Error("Failed to parse response as XML document");
-    }
-    return xmlDoc;
+  if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
+    throw new Error("Failed to parse response as XML document");
+  }
+  return xmlDoc;
 }
 
 async function initializeOwlToUmlXmiConverter(xmlString) {
-    try {
-        // Await the import and destructure the named export directly
-        const { OwlToUmlXmiConverter } = await import('/ontology/OwlToUmlXmiConverter.js');
+  try {
+    // Await the import and destructure the named export directly
+    const { OwlToUmlXmiConverter } = await import("/ontology/OwlToUmlXmiConverter.js");
 
-        const converter = new OwlToUmlXmiConverter(xmlString);
-        return converter;
-    } catch (error) {
-        console.error("Module loading failed:", error);
-    }
+    const converter = new OwlToUmlXmiConverter(xmlString);
+    return converter;
+  } catch (error) {
+    console.error("Module loading failed:", error);
+  }
 }
 
 /**
@@ -775,29 +758,29 @@ async function initializeOwlToUmlXmiConverter(xmlString) {
  * @param {string} [filename="Ontology.xmi"] - The name of the file to save.
  */
 async function exportXMI(xmlDoc, filename = "Ontology.xmi") {
-    if (!xmlDoc) return;
+  if (!xmlDoc) return;
 
-    const serializerXML = new XMLSerializer();
-    const xmlText = serializerXML.serializeToString(xmlDoc);
+  const serializerXML = new XMLSerializer();
+  const xmlText = serializerXML.serializeToString(xmlDoc);
 
-    // Wait for the module to load and the instance to be created
-    const converter = await initializeOwlToUmlXmiConverter(xmlText);
+  // Wait for the module to load and the instance to be created
+  const converter = await initializeOwlToUmlXmiConverter(xmlText);
 
-    const resultXmiText = converter.convert();
-    if (!resultXmiText) {
-        throw new Error("JS transformation returned null text");
-    }
+  const resultXmiText = converter.convert();
+  if (!resultXmiText) {
+    throw new Error("JS transformation returned null text");
+  }
 
-    const blob = new Blob([resultXmiText], { type: "application/xml;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
+  const blob = new Blob([resultXmiText], { type: "application/xml;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 /**
@@ -807,442 +790,440 @@ async function exportXMI(xmlDoc, filename = "Ontology.xmi") {
  * @param {string} [filename="Ontology.xmi"] - The name of the file to save.
  */
 function exportXMIviaXslt(xmlDoc, xsltText, filename = "Ontology.xmi") {
-    const parser = new DOMParser();
-    const xsltDoc = parser.parseFromString(xsltText, "application/xml");
+  const parser = new DOMParser();
+  const xsltDoc = parser.parseFromString(xsltText, "application/xml");
 
-    if (xsltDoc.getElementsByTagName("parsererror").length > 0) {
-        throw new Error("Error parsing XSLT stylesheet");
-    }
+  if (xsltDoc.getElementsByTagName("parsererror").length > 0) {
+    throw new Error("Error parsing XSLT stylesheet");
+  }
 
-    const xsltProcessor = new XSLTProcessor();
-    xsltProcessor.importStylesheet(xsltDoc);
+  const xsltProcessor = new XSLTProcessor();
+  xsltProcessor.importStylesheet(xsltDoc);
 
-    const resultDoc = xsltProcessor.transformToDocument(xmlDoc);
-    if (!resultDoc) {
-        throw new Error("XSLT transformation returned null document");
-    }
+  const resultDoc = xsltProcessor.transformToDocument(xmlDoc);
+  if (!resultDoc) {
+    throw new Error("XSLT transformation returned null document");
+  }
 
-    const serializer = new XMLSerializer();
-    const xmiText = serializer.serializeToString(resultDoc);
+  const serializer = new XMLSerializer();
+  const xmiText = serializer.serializeToString(resultDoc);
 
-    const blob = new Blob([xmiText], { type: "application/xml;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const blob = new Blob([xmiText], { type: "application/xml;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 /**
  * Encapsulated UI Controller class managing table rendering, dropdown actions, sorting, and export logic.
  */
 class OntologyUIController {
-    #extractedData = [];
-    #ontologyContext = {};
-    #currentSortCol = null;
-    #currentSortAsc = true;
-    #hiddenColumns = new Set();
-    #fetchedXmlDoc = null;
-    #jsonLdDoc = null;
-    #fileName = "Ontology";
-    #colStyleElement = null;
+  #extractedData = [];
+  #ontologyContext = {};
+  #currentSortCol = null;
+  #currentSortAsc = true;
+  #hiddenColumns = new Set();
+  #fetchedXmlDoc = null;
+  #jsonLdDoc = null;
+  #fileName = "Ontology";
+  #colStyleElement = null;
 
-    constructor() {
-        this.#colStyleElement = document.createElement('style');
-        document.head.appendChild(this.#colStyleElement);
-    }
+  constructor() {
+    this.#colStyleElement = document.createElement("style");
+    document.head.appendChild(this.#colStyleElement);
+  }
 
-    /**
-     * Initializes the UI event handlers and starts initial ontology load.
-     * @async
-     */
-    async init() {
-        this.#setupSortListeners();
-        this.#setupColumnDropdown();
-        this.#setupExportDropdown();
-        await this.#loadAndRender();
-    }
+  /**
+   * Initializes the UI event handlers and starts initial ontology load.
+   * @async
+   */
+  async init() {
+    this.#setupSortListeners();
+    this.#setupColumnDropdown();
+    this.#setupExportDropdown();
+    await this.#loadAndRender();
+  }
 
-    /**
-     * Dynamically updates CSS rules to show/hide table columns.
-     * @private
-     */
-    #updateColumnVisibility() {
-        let cssText = '';
-        this.#hiddenColumns.forEach(index => {
-            // CSS :nth-child is 1-based
-            cssText += `table th:nth-child(${index + 1}), table td:nth-child(${index + 1}) { display: none !important; }\n`;
-        });
-        this.#colStyleElement.textContent = cssText;
-    }
+  /**
+   * Dynamically updates CSS rules to show/hide table columns.
+   * @private
+   */
+  #updateColumnVisibility() {
+    let cssText = "";
+    this.#hiddenColumns.forEach((index) => {
+      // CSS :nth-child is 1-based
+      cssText += `table th:nth-child(${index + 1}), table td:nth-child(${index + 1}) { display: none !important; }\n`;
+    });
+    this.#colStyleElement.textContent = cssText;
+  }
 
-    /**
-     * Builds and configures column filtering dropdown menu.
-     * @private
-     */
-    #setupColumnDropdown() {
-        const headers = document.querySelectorAll('thead th');
-        const menu = document.getElementById('col-menu');
-        const toggleBtn = document.getElementById('col-toggle');
-        const exportMenu = document.getElementById('export-menu');
+  /**
+   * Builds and configures column filtering dropdown menu.
+   * @private
+   */
+  #setupColumnDropdown() {
+    const headers = document.querySelectorAll("thead th");
+    const menu = document.getElementById("col-menu");
+    const toggleBtn = document.getElementById("col-toggle");
+    const exportMenu = document.getElementById("export-menu");
 
-        if (!menu || !toggleBtn) return;
+    if (!menu || !toggleBtn) return;
 
-        headers.forEach((th, index) => {
-            const text = th.childNodes[0].textContent.trim();
-            const label = document.createElement('label');
-            label.className = 'dropdown-item';
-            label.title = text;
+    headers.forEach((th, index) => {
+      const text = th.childNodes[0].textContent.trim();
+      const label = document.createElement("label");
+      label.className = "dropdown-item";
+      label.title = text;
 
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.checked = true;
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = true;
 
-            checkbox.addEventListener('change', (e) => {
-                if (e.target.checked) {
-                    this.#hiddenColumns.delete(index);
-                } else {
-                    this.#hiddenColumns.add(index);
-                }
-                this.#updateColumnVisibility();
-            });
-
-            label.appendChild(checkbox);
-            label.appendChild(document.createTextNode(text));
-            menu.appendChild(label);
-        });
-
-        toggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            menu.classList.toggle('show');
-            if (exportMenu) exportMenu.classList.remove('show');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!menu.contains(e.target) && e.target !== toggleBtn) {
-                menu.classList.remove('show');
-            }
-        });
-    }
-
-    /**
-     * Configures listeners for data export buttons (CSV, JSON-LD, XMI).
-     * @private
-     */
-    #setupExportDropdown() {
-        const exportMenu = document.getElementById('export-menu');
-        const toggleExportBtn = document.getElementById('export-toggle');
-        const colMenu = document.getElementById('col-menu');
-
-        if (!exportMenu || !toggleExportBtn) return;
-
-        toggleExportBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            exportMenu.classList.toggle('show');
-            if (colMenu) colMenu.classList.remove('show');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!exportMenu.contains(e.target) && e.target !== toggleExportBtn) {
-                exportMenu.classList.remove('show');
-            }
-        });
-
-        const exportCsvBtn = document.getElementById('export-csv');
-        if (exportCsvBtn) {
-            exportCsvBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                exportCsvBtn.disabled = true;
-                try {
-                    exportCSV(this.#jsonLdDoc, `${this.#fileName}.csv`);
-                } finally {
-                    exportCsvBtn.disabled = false;
-                }
-            });
-        }
-
-        const exportJsonLdBtn = document.getElementById('export-jsonld');
-        if (exportJsonLdBtn) {
-            exportJsonLdBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                exportJsonLdBtn.disabled = true;
-                try {
-                    exportJSON(this.#jsonLdDoc, `${this.#fileName}.jsonld`);
-                } finally {
-                    exportJsonLdBtn.disabled = false;
-                }
-            });
-        }
-
-        const exportXmiBtn = document.getElementById('export-xmi');
-        if (exportXmiBtn) {
-            exportXmiBtn.addEventListener('click', async (e) => {
-                e.stopPropagation();
-                exportXmiBtn.disabled = true;
-                try {
-                    await exportXMI(this.#fetchedXmlDoc, `${this.#fileName}.xmi`);
-                } catch (error) {
-                    console.error("XMI Export failed:", error);
-                } finally {
-                    exportXmiBtn.disabled = false;
-                }
-            });
-        }
-
-        const exportXmiViaXsltBtn = document.getElementById('export-xmi-xslt');
-        if (exportXmiViaXsltBtn) {
-            exportXmiViaXsltBtn.addEventListener('click', async (e) => {
-                e.stopPropagation();
-                exportXmiViaXsltBtn.disabled = true;
-                const xsltUrl = "/ontology/owl-to-uml-xmi.xsl";
-
-                try {
-                    let xsltText;
-                    const xsltResponse = await fetch(xsltUrl);
-                    if (!xsltResponse.ok) throw new Error("Local XSLT fetch failed");
-                    xsltText = await xsltResponse.text();
-                    exportXMIviaXslt(this.#fetchedXmlDoc, xsltText, `${this.#fileName}.xmi`);
-                } catch (error) {
-                    console.error("XMI Export failed:", error);
-                } finally {
-                    exportXmiViaXsltBtn.disabled = false;
-                }
-            });
-        }
-    }
-
-    /**
-     * Binds sort click handlers to header columns with data-sort attributes.
-     * @private
-     */
-    #setupSortListeners() {
-        document.querySelectorAll('th[data-sort]').forEach(th => {
-            th.innerHTML += ' <span class="sort-icon">&#9650;&#9660;</span>';
-            th.addEventListener('click', () => this.#handleSort(th.getAttribute('data-sort')));
-        });
-    }
-
-    /**
-     * Extracts comparable text value for sorting table rows.
-     * @private
-     * @param {Object} row - JSON-LD entity node.
-     * @param {string} column - Sort column key.
-     * @returns {string} Comparable lowercase string value.
-     */
-    #getSortValue(row, column) {
-        if (!row) return '';
-        let val;
-        switch(column) {
-            case 'objectType':
-                val = getEntityType(row["@type"]);
-                break;
-            case 'uuid':
-                val = getUuid(row);
-                break;
-            case 'uri':
-                val = row["@id"] || "";
-                break;
-            case 'preferredLabel':
-                val = getPreferredLang(row["skos:prefLabel"]);
-                break;
-            case 'definition':
-                val = getPreferredLang(row["skos:definition"]);
-                break;
-            case 'sources': {
-                const srcVal = row["dcterms:source"];
-                if (!srcVal) {
-                    val = '';
-                } else if (Array.isArray(srcVal)) {
-                    val = srcVal.map(s => typeof s === 'object' ? getPreferredLang(s) : s).join('');
-                } else if (typeof srcVal === 'object') {
-                    val = getPreferredLang(srcVal);
-                } else {
-                    val = srcVal;
-                }
-                break;
-            }
-            case 'creator':
-                val = row["dcterms:creator"] || '';
-                break;
-            case 'createdAt':
-                val = row["dcterms:created"] || '';
-                break;
-            case 'modifiedAt':
-                val = row["dcterms:modified"] || '';
-                break;
-            case 'subClassOf': {
-                const sc = row["rdfs:subClassOf"] || [];
-                const list = Array.isArray(sc) ? sc : [sc];
-                val = list.filter(item => typeof item === 'string').join('');
-                break;
-            }
-            case 'classOfNamedIndividual':
-                val = getClassOfNamedIndividual(row, this.#ontologyContext);
-                break;
-            default:
-                val = '';
-        }
-        return String(val).toLowerCase();
-    }
-
-    /**
-     * Reorders data and updates active header indicators.
-     * @private
-     * @param {string} column - Sort column name.
-     */
-    #handleSort(column) {
-        if (this.#currentSortCol === column) {
-            this.#currentSortAsc = !this.#currentSortAsc;
+      checkbox.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          this.#hiddenColumns.delete(index);
         } else {
-            this.#currentSortCol = column;
-            this.#currentSortAsc = true;
+          this.#hiddenColumns.add(index);
         }
+        this.#updateColumnVisibility();
+      });
 
-        document.querySelectorAll('th[data-sort]').forEach(th => {
-            const icon = th.querySelector('.sort-icon');
-            if (icon) {
-                if (th.getAttribute('data-sort') === column) {
-                    icon.innerHTML = this.#currentSortAsc ? '&#9650;' : '&#9660;';
-                    icon.classList.add('active');
-                } else {
-                    icon.innerHTML = '&#9650;&#9660;';
-                    icon.classList.remove('active');
-                }
-            }
-        });
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(text));
+      menu.appendChild(label);
+    });
 
-        this.#extractedData.sort((a, b) => {
-            const valA = this.#getSortValue(a, column);
-            const valB = this.#getSortValue(b, column);
+    toggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menu.classList.toggle("show");
+      if (exportMenu) exportMenu.classList.remove("show");
+    });
 
-            if (valA < valB) return this.#currentSortAsc ? -1 : 1;
-            if (valA > valB) return this.#currentSortAsc ? 1 : -1;
-            return 0;
-        });
+    document.addEventListener("click", (e) => {
+      if (!menu.contains(e.target) && e.target !== toggleBtn) {
+        menu.classList.remove("show");
+      }
+    });
+  }
 
-        this.#renderTable();
+  /**
+   * Configures listeners for data export buttons (CSV, JSON-LD, XMI).
+   * @private
+   */
+  #setupExportDropdown() {
+    const exportMenu = document.getElementById("export-menu");
+    const toggleExportBtn = document.getElementById("export-toggle");
+    const colMenu = document.getElementById("col-menu");
+
+    if (!exportMenu || !toggleExportBtn) return;
+
+    toggleExportBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      exportMenu.classList.toggle("show");
+      if (colMenu) colMenu.classList.remove("show");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!exportMenu.contains(e.target) && e.target !== toggleExportBtn) {
+        exportMenu.classList.remove("show");
+      }
+    });
+
+    const exportCsvBtn = document.getElementById("export-csv");
+    if (exportCsvBtn) {
+      exportCsvBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        exportCsvBtn.disabled = true;
+        try {
+          exportCSV(this.#jsonLdDoc, `${this.#fileName}.csv`);
+        } finally {
+          exportCsvBtn.disabled = false;
+        }
+      });
     }
 
-    /**
-     * Renders extracted ontology nodes into table rows using DocumentFragment.
-     * @private
-     */
-    #renderTable() {
-        const tbody = document.getElementById("table-body");
-        if (!tbody) return;
+    const exportJsonLdBtn = document.getElementById("export-jsonld");
+    if (exportJsonLdBtn) {
+      exportJsonLdBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        exportJsonLdBtn.disabled = true;
+        try {
+          exportJSON(this.#jsonLdDoc, `${this.#fileName}.jsonld`);
+        } finally {
+          exportJsonLdBtn.disabled = false;
+        }
+      });
+    }
 
-        tbody.innerHTML = "";
-        const fragment = document.createDocumentFragment();
+    const exportXmiBtn = document.getElementById("export-xmi");
+    if (exportXmiBtn) {
+      exportXmiBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        exportXmiBtn.disabled = true;
+        try {
+          await exportXMI(this.#fetchedXmlDoc, `${this.#fileName}.xmi`);
+        } catch (error) {
+          console.error("XMI Export failed:", error);
+        } finally {
+          exportXmiBtn.disabled = false;
+        }
+      });
+    }
 
-        this.#extractedData.forEach(row => {
-            const tr = document.createElement("tr");
+    const exportXmiViaXsltBtn = document.getElementById("export-xmi-xslt");
+    if (exportXmiViaXsltBtn) {
+      exportXmiViaXsltBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        exportXmiViaXsltBtn.disabled = true;
+        const xsltUrl = "/ontology/owl-to-uml-xmi.xsl";
 
-            const entityType = getEntityType(row["@type"]);
-            const uuid = getUuid(row);
-            const uri = row["@id"] || "";
-            const preferredLabel = getPreferredLang(row["skos:prefLabel"]);
-            const definition = getPreferredLang(row["skos:definition"]);
+        try {
+          let xsltText;
+          const xsltResponse = await fetch(xsltUrl);
+          if (!xsltResponse.ok) throw new Error("Local XSLT fetch failed");
+          xsltText = await xsltResponse.text();
+          exportXMIviaXslt(this.#fetchedXmlDoc, xsltText, `${this.#fileName}.xmi`);
+        } catch (error) {
+          console.error("XMI Export failed:", error);
+        } finally {
+          exportXmiViaXsltBtn.disabled = false;
+        }
+      });
+    }
+  }
 
-            let sourcesList = [];
-            const rawSources = row["dcterms:source"];
-            if (rawSources) {
-                if (Array.isArray(rawSources)) {
-                    sourcesList = rawSources.map(src => {
-                        if (typeof src === 'object' && src !== null) {
-                            return getPreferredLang(src);
-                        }
-                        return expandURI(src, this.#ontologyContext);
-                    });
-                } else if (typeof rawSources === 'object') {
-                    sourcesList = [getPreferredLang(rawSources)];
-                } else {
-                    sourcesList = [expandURI(rawSources, this.#ontologyContext)];
-                }
+  /**
+   * Binds sort click handlers to header columns with data-sort attributes.
+   * @private
+   */
+  #setupSortListeners() {
+    document.querySelectorAll("th[data-sort]").forEach((th) => {
+      th.innerHTML += ' <span class="sort-icon">&#9650;&#9660;</span>';
+      th.addEventListener("click", () => this.#handleSort(th.getAttribute("data-sort")));
+    });
+  }
+
+  /**
+   * Extracts comparable text value for sorting table rows.
+   * @private
+   * @param {Object} row - JSON-LD entity node.
+   * @param {string} column - Sort column key.
+   * @returns {string} Comparable lowercase string value.
+   */
+  #getSortValue(row, column) {
+    if (!row) return "";
+    let val;
+    switch (column) {
+      case "objectType":
+        val = getEntityType(row["@type"]);
+        break;
+      case "uuid":
+        val = getUuid(row);
+        break;
+      case "uri":
+        val = row["@id"] || "";
+        break;
+      case "preferredLabel":
+        val = getPreferredLang(row["skos:prefLabel"]);
+        break;
+      case "definition":
+        val = getPreferredLang(row["skos:definition"]);
+        break;
+      case "sources": {
+        const srcVal = row["dcterms:source"];
+        if (!srcVal) {
+          val = "";
+        } else if (Array.isArray(srcVal)) {
+          val = srcVal.map((s) => (typeof s === "object" ? getPreferredLang(s) : s)).join("");
+        } else if (typeof srcVal === "object") {
+          val = getPreferredLang(srcVal);
+        } else {
+          val = srcVal;
+        }
+        break;
+      }
+      case "creator":
+        val = row["dcterms:creator"] || "";
+        break;
+      case "createdAt":
+        val = row["dcterms:created"] || "";
+        break;
+      case "modifiedAt":
+        val = row["dcterms:modified"] || "";
+        break;
+      case "subClassOf": {
+        const sc = row["rdfs:subClassOf"] || [];
+        const list = Array.isArray(sc) ? sc : [sc];
+        val = list.filter((item) => typeof item === "string").join("");
+        break;
+      }
+      case "classOfNamedIndividual":
+        val = getClassOfNamedIndividual(row, this.#ontologyContext);
+        break;
+      default:
+        val = "";
+    }
+    return String(val).toLowerCase();
+  }
+
+  /**
+   * Reorders data and updates active header indicators.
+   * @private
+   * @param {string} column - Sort column name.
+   */
+  #handleSort(column) {
+    if (this.#currentSortCol === column) {
+      this.#currentSortAsc = !this.#currentSortAsc;
+    } else {
+      this.#currentSortCol = column;
+      this.#currentSortAsc = true;
+    }
+
+    document.querySelectorAll("th[data-sort]").forEach((th) => {
+      const icon = th.querySelector(".sort-icon");
+      if (icon) {
+        if (th.getAttribute("data-sort") === column) {
+          icon.innerHTML = this.#currentSortAsc ? "&#9650;" : "&#9660;";
+          icon.classList.add("active");
+        } else {
+          icon.innerHTML = "&#9650;&#9660;";
+          icon.classList.remove("active");
+        }
+      }
+    });
+
+    this.#extractedData.sort((a, b) => {
+      const valA = this.#getSortValue(a, column);
+      const valB = this.#getSortValue(b, column);
+
+      if (valA < valB) return this.#currentSortAsc ? -1 : 1;
+      if (valA > valB) return this.#currentSortAsc ? 1 : -1;
+      return 0;
+    });
+
+    this.#renderTable();
+  }
+
+  /**
+   * Renders extracted ontology nodes into table rows using DocumentFragment.
+   * @private
+   */
+  #renderTable() {
+    const tbody = document.getElementById("table-body");
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+    const fragment = document.createDocumentFragment();
+
+    this.#extractedData.forEach((row) => {
+      const tr = document.createElement("tr");
+
+      const entityType = getEntityType(row["@type"]);
+      const uuid = getUuid(row);
+      const uri = row["@id"] || "";
+      const preferredLabel = getPreferredLang(row["skos:prefLabel"]);
+      const definition = getPreferredLang(row["skos:definition"]);
+
+      let sourcesList = [];
+      const rawSources = row["dcterms:source"];
+      if (rawSources) {
+        if (Array.isArray(rawSources)) {
+          sourcesList = rawSources.map((src) => {
+            if (typeof src === "object" && src !== null) {
+              return getPreferredLang(src);
             }
+            return expandURI(src, this.#ontologyContext);
+          });
+        } else if (typeof rawSources === "object") {
+          sourcesList = [getPreferredLang(rawSources)];
+        } else {
+          sourcesList = [expandURI(rawSources, this.#ontologyContext)];
+        }
+      }
 
-            const creator = expandURI(row["dcterms:creator"] || "", this.#ontologyContext);
-            const createdAt = row["dcterms:created"] || "";
-            const modifiedAt = row["dcterms:modified"] || "";
-            const superclassesHtml = formatSubClassOfHtml(row["rdfs:subClassOf"], this.#ontologyContext);
-            const classOfNamedIndividual = getClassOfNamedIndividual(row, this.#ontologyContext);
+      const creator = expandURI(row["dcterms:creator"] || "", this.#ontologyContext);
+      const createdAt = row["dcterms:created"] || "";
+      const modifiedAt = row["dcterms:modified"] || "";
+      const superclassesHtml = formatSubClassOfHtml(row["rdfs:subClassOf"], this.#ontologyContext);
+      const classOfNamedIndividual = getClassOfNamedIndividual(row, this.#ontologyContext);
 
-            tr.innerHTML = `
+      tr.innerHTML = `
                 <td><span class="badge">${escapeHTML(entityType)}</span></td>
                 <td><span class="code-text">${escapeHTML(uuid)}</span></td>
                 <td><span class="code-text">${createLink(uri, true)}</span></td>
                 <td style="font-weight: 500;">${escapeHTML(preferredLabel)}</td>
                 <td class="wrap-text">${escapeHTML(definition)}</td>
-                <td><span class="code-text">${sourcesList.map(src => createLink(src, false)).join('<br>')}</span></td>
+                <td><span class="code-text">${sourcesList.map((src) => createLink(src, false)).join("<br>")}</span></td>
                 <td><span class="code-text">${createLink(creator, true)}</span></td>
-                <td>${escapeHTML(createdAt).replace('T', '<wbr>T')}</td>
-                <td>${escapeHTML(modifiedAt).replace('T', '<wbr>T')}</td>
+                <td>${escapeHTML(createdAt).replace("T", "<wbr>T")}</td>
+                <td>${escapeHTML(modifiedAt).replace("T", "<wbr>T")}</td>
                 <td class="wrap-text"><span class="code-text">${superclassesHtml}</span></td>
                 <td><span class="code-text">${createLink(classOfNamedIndividual, true)}</span></td>
             `;
 
-            fragment.appendChild(tr);
+      fragment.appendChild(tr);
+    });
+
+    tbody.appendChild(fragment);
+  }
+
+  /**
+   * Asynchronously loads XML data, constructs JSON-LD document, and renders UI.
+   * @private
+   */
+  async #loadAndRender() {
+    const pathname = window.location.pathname;
+    const lastSlashIndex = pathname.lastIndexOf("/");
+    const lastDotIndex = pathname.lastIndexOf(".");
+
+    const targetUrl = lastDotIndex > lastSlashIndex ? pathname.substring(0, lastDotIndex) : pathname;
+
+    try {
+      this.#fetchedXmlDoc = await fetchOntologyAsXml(targetUrl);
+      this.#jsonLdDoc = transformOntologyToJsonLd(this.#fetchedXmlDoc);
+
+      if (this.#jsonLdDoc && this.#jsonLdDoc["dcterms:title"]) {
+        const titleText = getPreferredLang(this.#jsonLdDoc["dcterms:title"]);
+        document.title = titleText;
+
+        this.#fileName = titleText;
+        const modified = this.#jsonLdDoc["dcterms:modified"];
+        if (modified) {
+          this.#fileName += ` [${modified}]`;
+        }
+      }
+
+      if (this.#jsonLdDoc && Array.isArray(this.#jsonLdDoc["@graph"])) {
+        this.#ontologyContext = this.#jsonLdDoc["@context"] || {};
+
+        this.#extractedData = this.#jsonLdDoc["@graph"].filter((row) => {
+          const type = row["@type"];
+          if (Array.isArray(type)) {
+            return !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution");
+          }
+          return type !== "dcat:Dataset" && type !== "dcat:Distribution";
         });
 
-        tbody.appendChild(fragment);
+        this.#renderTable();
+      }
+    } catch (error) {
+      console.error("Error processing ontology file:", error);
     }
-
-    /**
-     * Asynchronously loads XML data, constructs JSON-LD document, and renders UI.
-     * @private
-     */
-    async #loadAndRender() {
-        const pathname = window.location.pathname;
-        const lastSlashIndex = pathname.lastIndexOf('/');
-        const lastDotIndex = pathname.lastIndexOf('.');
-
-        const targetUrl = (lastDotIndex > lastSlashIndex)
-            ? pathname.substring(0, lastDotIndex)
-            : pathname;
-
-        try {
-            this.#fetchedXmlDoc = await fetchOntologyAsXml(targetUrl);
-            this.#jsonLdDoc = transformOntologyToJsonLd(this.#fetchedXmlDoc);
-
-            if (this.#jsonLdDoc && this.#jsonLdDoc["dcterms:title"]) {
-                const titleText = getPreferredLang(this.#jsonLdDoc["dcterms:title"]);
-                document.title = titleText;
-
-                this.#fileName = titleText;
-                const modified = this.#jsonLdDoc["dcterms:modified"];
-                if (modified) {
-                    this.#fileName += ` [${modified}]`;
-                }
-            }
-
-            if (this.#jsonLdDoc && Array.isArray(this.#jsonLdDoc["@graph"])) {
-                this.#ontologyContext = this.#jsonLdDoc["@context"] || {};
-
-                this.#extractedData = this.#jsonLdDoc["@graph"].filter(row => {
-                    const type = row["@type"];
-                    if (Array.isArray(type)) {
-                        return !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution");
-                    }
-                    return type !== "dcat:Dataset" && type !== "dcat:Distribution";
-                });
-
-                this.#renderTable();
-            }
-        } catch (error) {
-            console.error("Error processing ontology file:", error);
-        }
-    }
+  }
 }
 
 // Auto-initialize UI controller when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        const controller = new OntologyUIController();
-        controller.init();
-    });
-} else {
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
     const controller = new OntologyUIController();
     controller.init();
+  });
+} else {
+  const controller = new OntologyUIController();
+  controller.init();
 }
