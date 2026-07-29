@@ -1,0 +1,10 @@
+# Build and dependency directories
+node_modules/
+dist/
+
+# Misc.
+.agents/skills/
+.git/
+.venv/
+src/external/
+__pycache__

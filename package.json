@@ -6,7 +6,9 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "lint": "npm run lint:html && npm run lint:css",
     "lint:css": "stylelint \"src/**/*.css\"",
-    "lint:html": "html-validate \"src/**/*.html\""
+    "lint:html": "html-validate \"src/**/*.html\"",
+    "format": "prettier --write \"src/**/*.{js,css,html}\"",
+    "format:check": "prettier --check \"src/**/*.{js,css,html}\""
   },
   "devDependencies": {
     "@xmldom/xmldom": "^0.9.10",
@@ -16,6 +18,7 @@
     "stylelint": "^17.14.1",
     "stylelint-config-standard": "^40.0.0",
     "stylelint-order": "^8.1.1",
-    "stylelint-config-clean-order": "^10.0.0"
+    "stylelint-config-clean-order": "^10.0.0",
+    "prettier": "^3.9.6"
   }
 }
