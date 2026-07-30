@@ -10,7 +10,15 @@
   </head>
   <body>
     <svg style="display: none" aria-hidden="true">
-      <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <symbol
+        id="icon-download"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
         <polyline points="7 10 12 15 17 10" />
         <line x1="12" y1="15" x2="12" y2="3" />
@@ -21,7 +29,20 @@
       <div class="toolbar">
         <div class="dropdown" id="col-dropdown" title="Filter Columns">
           <button class="dropdown-toggle" id="col-toggle" type="button">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon
+                points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
+              ></polygon>
+            </svg>
             Columns
           </button>
           <div class="dropdown-menu" id="col-menu">
@@ -29,40 +50,116 @@
           </div>
         </div>
         <div class="dropdown" id="export-dropdown">
-          <button class="dropdown-toggle" id="export-toggle" type="button" aria-label="Export data" title="Export data">
-            <svg width="14" height="14" aria-hidden="true"><use href="#icon-download"></use></svg>
+          <button
+            class="dropdown-toggle"
+            id="export-toggle"
+            type="button"
+            aria-label="Export data"
+            title="Export data"
+          >
+            <svg width="14" height="14" aria-hidden="true">
+              <use href="#icon-download"></use>
+            </svg>
             Export
           </button>
           <div class="dropdown-menu" id="export-menu">
-            <button class="dropdown-button" id="export-csv" type="button" title="Export .csv">
-              <svg class="export-icon" width="16" height="16" aria-hidden="true"><use href="#icon-download"></use></svg>
+            <button
+              class="dropdown-button"
+              id="export-csv"
+              type="button"
+              title="Export .csv"
+            >
+              <svg
+                class="export-icon"
+                width="16"
+                height="16"
+                aria-hidden="true"
+              >
+                <use href="#icon-download"></use>
+              </svg>
               <span class="export-details">
                 <span class="export-label">Comma-Separated Values</span>
-                <span class="export-desc">Standard tabular spreadsheet format</span>
+                <span class="export-desc"
+                  >Standard tabular spreadsheet format</span
+                >
               </span>
               <span class="export-badge">.csv</span>
             </button>
-            <button class="dropdown-button" id="export-jsonld" type="button" title="Export .jsonld">
-              <svg class="export-icon" width="16" height="16" aria-hidden="true"><use href="#icon-download"></use></svg>
+            <button
+              class="dropdown-button"
+              id="export-jsonld"
+              type="button"
+              title="Export .jsonld"
+            >
+              <svg
+                class="export-icon"
+                width="16"
+                height="16"
+                aria-hidden="true"
+              >
+                <use href="#icon-download"></use>
+              </svg>
               <span class="export-details">
-                <span class="export-label"><abbr title="JavaScript Object Notation">JSON</abbr> for Linked Data</span>
+                <span class="export-label"
+                  ><abbr title="JavaScript Object Notation">JSON</abbr> for
+                  Linked Data</span
+                >
                 <span class="export-desc">Semantic Web graph model data</span>
               </span>
               <span class="export-badge">.jsonld</span>
             </button>
-            <button class="dropdown-button" id="export-xmi" type="button" title="Export .xmi">
-              <svg class="export-icon" width="16" height="16" aria-hidden="true"><use href="#icon-download"></use></svg>
+            <button
+              class="dropdown-button"
+              id="export-xmi"
+              type="button"
+              title="Export .xmi"
+            >
+              <svg
+                class="export-icon"
+                width="16"
+                height="16"
+                aria-hidden="true"
+              >
+                <use href="#icon-download"></use>
+              </svg>
               <span class="export-details">
-                <span class="export-label"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange</span>
-                <span class="export-desc"><abbr title="Unified Modeling Language">UML</abbr> 2.1 model payload</span>
+                <span class="export-label"
+                  ><abbr title="Extensible Markup Language">XML</abbr> Metadata
+                  Interchange</span
+                >
+                <span class="export-desc"
+                  ><abbr title="Unified Modeling Language">UML</abbr> 2.1 model
+                  payload</span
+                >
               </span>
               <span class="export-badge">.xmi</span>
             </button>
-            <button class="dropdown-button" id="export-xmi-xslt" type="button" title="Export .xmi via XSLT">
-              <svg class="export-icon" width="16" height="16" aria-hidden="true"><use href="#icon-download"></use></svg>
+            <button
+              class="dropdown-button"
+              id="export-xmi-xslt"
+              type="button"
+              title="Export .xmi via XSLT"
+            >
+              <svg
+                class="export-icon"
+                width="16"
+                height="16"
+                aria-hidden="true"
+              >
+                <use href="#icon-download"></use>
+              </svg>
               <span class="export-details">
-                <span class="export-label"><abbr title="Extensible Markup Language">XML</abbr> Metadata Interchange, via <abbr title="eXtensible Stylesheet Language Transformations">XSLT</abbr></span>
-                <span class="export-desc"><abbr title="Unified Modeling Language">UML</abbr> 2.1 model payload</span>
+                <span class="export-label"
+                  ><abbr title="Extensible Markup Language">XML</abbr> Metadata
+                  Interchange, via
+                  <abbr title="eXtensible Stylesheet Language Transformations"
+                    >XSLT</abbr
+                  ></span
+                >
+                <span class="export-desc"
+                  ><abbr title="Unified Modeling Language">UML</abbr> 2.1 model
+                  payload</span
+                >
               </span>
               <span class="export-badge">.xmi</span>
             </button>
@@ -74,8 +171,20 @@
           <thead>
             <tr>
               <th scope="col" data-sort="objectType">Entity Type</th>
-              <th scope="col" title="Universally Unique Identifier" data-sort="uuid">UUID</th>
-              <th scope="col" title="Uniform Resource Identifier" data-sort="uri">URI</th>
+              <th
+                scope="col"
+                title="Universally Unique Identifier"
+                data-sort="uuid"
+              >
+                UUID
+              </th>
+              <th
+                scope="col"
+                title="Uniform Resource Identifier"
+                data-sort="uri"
+              >
+                URI
+              </th>
               <th scope="col" data-sort="preferredLabel">Preferred Label</th>
               <th scope="col" data-sort="definition">Definition</th>
               <th scope="col" data-sort="sources">Sources</th>
@@ -83,7 +192,9 @@
               <th scope="col" data-sort="createdAt">Created At</th>
               <th scope="col" data-sort="modifiedAt">Modified At</th>
               <th scope="col" data-sort="subClassOf">Superclasses</th>
-              <th scope="col" data-sort="classOfNamedIndividual">Class of Named Individual</th>
+              <th scope="col" data-sort="classOfNamedIndividual">
+                Class of Named Individual
+              </th>
             </tr>
           </thead>
           <tbody id="table-body">

@@ -23,7 +23,13 @@ const NS = {
  * Set of RDF properties that accept multiple values as arrays.
  * @constant {Set<string>}
  */
-const MULTI_VALUED_PROPERTIES = new Set(["rdfs:subClassOf", "dcterms:source", "dcterms:references", "rdfs:seeAlso", "dcterms:subject"]);
+const MULTI_VALUED_PROPERTIES = new Set([
+  "rdfs:subClassOf",
+  "dcterms:source",
+  "dcterms:references",
+  "rdfs:seeAlso",
+  "dcterms:subject",
+]);
 
 /**
  * Compacts a full URI into a prefix-compacted URI using the context.
@@ -115,9 +121,12 @@ function transformOntologyToJsonLd(xmlDoc) {
         context[prefix] = attr.value;
       }
     }
-    const defaultNs = root.getAttribute("xmlns") || root.getAttributeNS(NS.xml, "base") || "";
+    const defaultNs =
+      root.getAttribute("xmlns") || root.getAttributeNS(NS.xml, "base") || "";
     if (defaultNs) {
-      const isAlreadyMapped = Object.keys(context).some((k) => context[k] === defaultNs);
+      const isAlreadyMapped = Object.keys(context).some(
+        (k) => context[k] === defaultNs,
+      );
       if (!isAlreadyMapped) {
         const parts = defaultNs.replace(/\/$/, "").split("/");
         const localPrefix = parts[parts.length - 1];
@@ -152,8 +161,11 @@ function transformOntologyToJsonLd(xmlDoc) {
       }
 
       const res = child.getAttributeNS(NS.rdf, "resource");
-      const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
-      const hasElements = Array.from(child.children).some((c) => c.nodeType === 1);
+      const lang =
+        child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
+      const hasElements = Array.from(child.children).some(
+        (c) => c.nodeType === 1,
+      );
 
       let val;
       if (hasElements) {
@@ -176,13 +188,24 @@ function transformOntologyToJsonLd(xmlDoc) {
         val = compactURI(res, context);
       } else {
         val = child.textContent.trim();
-        const datatype = child.getAttribute("rdf:datatype") || child.getAttributeNS(NS.rdf, "datatype") || child.getAttribute("datatype") || "";
+        const datatype =
+          child.getAttribute("rdf:datatype") ||
+          child.getAttributeNS(NS.rdf, "datatype") ||
+          child.getAttribute("datatype") ||
+          "";
         if (datatype.includes("integer") || datatype.includes("Integer")) {
           const num = parseInt(val, 10);
           if (!isNaN(num)) val = num;
-        } else if (datatype.includes("boolean") || datatype.includes("Boolean")) {
+        } else if (
+          datatype.includes("boolean") ||
+          datatype.includes("Boolean")
+        ) {
           val = val.toLowerCase() === "true" || val === "1";
-        } else if (datatype.includes("decimal") || datatype.includes("float") || datatype.includes("double")) {
+        } else if (
+          datatype.includes("decimal") ||
+          datatype.includes("float") ||
+          datatype.includes("double")
+        ) {
           const num = parseFloat(val);
           if (!isNaN(num)) val = num;
         }
@@ -227,15 +250,24 @@ function buildAxiomIndex(xmlDoc) {
   const axioms = xmlDoc.getElementsByTagNameNS(NS.owl, "Axiom");
 
   for (const axiom of axioms) {
-    const annotatedSource = axiom.getElementsByTagNameNS(NS.owl, "annotatedSource")[0];
-    const annotatedProperty = axiom.getElementsByTagNameNS(NS.owl, "annotatedProperty")[0];
+    const annotatedSource = axiom.getElementsByTagNameNS(
+      NS.owl,
+      "annotatedSource",
+    )[0];
+    const annotatedProperty = axiom.getElementsByTagNameNS(
+      NS.owl,
+      "annotatedProperty",
+    )[0];
 
     if (annotatedSource && annotatedProperty) {
       const propRes = annotatedProperty.getAttributeNS(NS.rdf, "resource");
       const sourceRes = annotatedSource.getAttributeNS(NS.rdf, "resource");
 
       if (propRes === `${NS.skos}definition` && sourceRes) {
-        const dctermsSources = axiom.getElementsByTagNameNS(NS.dcterms, "source");
+        const dctermsSources = axiom.getElementsByTagNameNS(
+          NS.dcterms,
+          "source",
+        );
         const sourceList = Array.from(dctermsSources)
           .map((src) => src.getAttributeNS(NS.rdf, "resource"))
           .filter((res) => res);
@@ -275,8 +307,11 @@ function parseElementAsObject(el, context) {
     const key = compactURI(ns + name, context);
 
     const res = child.getAttributeNS(NS.rdf, "resource");
-    const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
-    const hasElements = Array.from(child.children).some((c) => c.nodeType === 1);
+    const lang =
+      child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
+    const hasElements = Array.from(child.children).some(
+      (c) => c.nodeType === 1,
+    );
 
     let val;
     if (hasElements) {
@@ -288,13 +323,21 @@ function parseElementAsObject(el, context) {
       val[lang] = child.textContent.trim();
     } else {
       val = child.textContent.trim();
-      const datatype = child.getAttribute("rdf:datatype") || child.getAttributeNS(NS.rdf, "datatype") || child.getAttribute("datatype") || "";
+      const datatype =
+        child.getAttribute("rdf:datatype") ||
+        child.getAttributeNS(NS.rdf, "datatype") ||
+        child.getAttribute("datatype") ||
+        "";
       if (datatype.includes("integer") || datatype.includes("Integer")) {
         const num = parseInt(val, 10);
         if (!isNaN(num)) val = num;
       } else if (datatype.includes("boolean") || datatype.includes("Boolean")) {
         val = val.toLowerCase() === "true" || val === "1";
-      } else if (datatype.includes("decimal") || datatype.includes("float") || datatype.includes("double")) {
+      } else if (
+        datatype.includes("decimal") ||
+        datatype.includes("float") ||
+        datatype.includes("double")
+      ) {
         const num = parseFloat(val);
         if (!isNaN(num)) val = num;
       }
@@ -325,7 +368,9 @@ function extractGraphData(xmlDoc, context) {
   const axiomIndex = buildAxiomIndex(xmlDoc);
 
   const classes = Array.from(xmlDoc.getElementsByTagNameNS(NS.owl, "Class"));
-  const individuals = Array.from(xmlDoc.getElementsByTagNameNS(NS.owl, "NamedIndividual"));
+  const individuals = Array.from(
+    xmlDoc.getElementsByTagNameNS(NS.owl, "NamedIndividual"),
+  );
   const allElements = classes.concat(individuals);
 
   for (const element of allElements) {
@@ -334,7 +379,12 @@ function extractGraphData(xmlDoc, context) {
     if (!uri.startsWith("https://haddenindustries.com/")) continue;
 
     const isNamedIndividual = element.localName === "NamedIndividual";
-    const types = [compactURI(NS.owl + (isNamedIndividual ? "NamedIndividual" : "Class"), context)];
+    const types = [
+      compactURI(
+        NS.owl + (isNamedIndividual ? "NamedIndividual" : "Class"),
+        context,
+      ),
+    ];
 
     const record = {
       "@id": uri,
@@ -358,8 +408,11 @@ function extractGraphData(xmlDoc, context) {
       }
 
       const res = child.getAttributeNS(NS.rdf, "resource");
-      const lang = child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
-      const hasElements = Array.from(child.children).some((c) => c.nodeType === 1);
+      const lang =
+        child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
+      const hasElements = Array.from(child.children).some(
+        (c) => c.nodeType === 1,
+      );
 
       if (hasElements) {
         // Parse nested resource (like owl:Restriction)
@@ -463,7 +516,8 @@ function transformUrnToObpUrl(rawUrn) {
   if (!normalizedUrn.startsWith("urn:iso:std:")) return null;
 
   // Isolate document elements (clause, figure, table, term, sec, annex, bib, foreword, intro, scope, normative_references) and additions (tech)
-  const documentElementRegex = /:(clause|figure|table|term|tech|sec|annex|bib|foreword|intro|scope|normative_references)(:|$)/;
+  const documentElementRegex =
+    /:(clause|figure|table|term|tech|sec|annex|bib|foreword|intro|scope|normative_references)(:|$)/;
   const regexMatch = normalizedUrn.match(documentElementRegex);
 
   let documentIdentifier = normalizedUrn;
@@ -483,7 +537,10 @@ function transformUrnToObpUrl(rawUrn) {
   }
 
   // Combine and strip the 'urn:' prefix to form the OBP hash fragment
-  const formattedHashFragment = (documentIdentifier + documentElement).replace(/^urn:/, "");
+  const formattedHashFragment = (documentIdentifier + documentElement).replace(
+    /^urn:/,
+    "",
+  );
 
   return `https://www.iso.org/obp/ui/en/#${formattedHashFragment}`;
 }
@@ -564,7 +621,9 @@ function getUuid(row) {
   const idVal = row["dcterms:identifier"];
   if (!idVal) return "";
   const ids = Array.isArray(idVal) ? idVal : [idVal];
-  const uuidId = ids.find((id) => typeof id === "string" && id.startsWith("urn:uuid:"));
+  const uuidId = ids.find(
+    (id) => typeof id === "string" && id.startsWith("urn:uuid:"),
+  );
   if (uuidId) return uuidId.substring(9);
   const firstId = ids.find((id) => typeof id === "string");
   return firstId || "";
@@ -630,12 +689,26 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
   const graph = rawGraph.filter((row) => {
     const type = row["@type"];
     if (Array.isArray(type)) {
-      return !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution");
+      return (
+        !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution")
+      );
     }
     return type !== "dcat:Dataset" && type !== "dcat:Distribution";
   });
 
-  const headers = ["Entity Type", "UUID", "URI", "Preferred Label", "Definition", "Sources", "Creator", "Created At", "Modified At", "Superclasses", "Class of Named Individual"];
+  const headers = [
+    "Entity Type",
+    "UUID",
+    "URI",
+    "Preferred Label",
+    "Definition",
+    "Sources",
+    "Creator",
+    "Created At",
+    "Modified At",
+    "Superclasses",
+    "Class of Named Individual",
+  ];
 
   const csvRows = [headers.join(",")];
 
@@ -667,13 +740,32 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
     const creator = expandURI(row["dcterms:creator"] || "", context);
     const createdAt = row["dcterms:created"] || "";
     const modifiedAt = row["dcterms:modified"] || "";
-    const superclasses = formatSuperClassesText(row["rdfs:subClassOf"], context);
+    const superclasses = formatSuperClassesText(
+      row["rdfs:subClassOf"],
+      context,
+    );
     const classOfNamedIndividual = getClassOfNamedIndividual(row, context);
 
-    const values = [entityType, uuid, uri, preferredLabel, definition, sources, creator, createdAt, modifiedAt, superclasses, classOfNamedIndividual].map((value) => {
+    const values = [
+      entityType,
+      uuid,
+      uri,
+      preferredLabel,
+      definition,
+      sources,
+      creator,
+      createdAt,
+      modifiedAt,
+      superclasses,
+      classOfNamedIndividual,
+    ].map((value) => {
       let safeVal = String(value || "");
       if (safeVal.match(/^[=+\-@]/)) safeVal = `'${safeVal}`;
-      if (safeVal.includes(",") || safeVal.includes('"') || safeVal.includes("\n")) {
+      if (
+        safeVal.includes(",") ||
+        safeVal.includes('"') ||
+        safeVal.includes("\n")
+      ) {
         safeVal = `"${safeVal.replace(/"/g, '""')}"`;
       }
       return safeVal;
@@ -681,7 +773,9 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
     csvRows.push(values.join(","));
   }
 
-  const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob([csvRows.join("\n")], {
+    type: "text/csv;charset=utf-8;",
+  });
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement("a");
@@ -702,7 +796,9 @@ function exportJSON(ontologyLd, filename = "Ontology.jsonld") {
   if (!ontologyLd) return;
 
   const jsonString = JSON.stringify(ontologyLd, null, 2);
-  const blob = new Blob([jsonString], { type: "application/ld+json;charset=utf-8;" });
+  const blob = new Blob([jsonString], {
+    type: "application/ld+json;charset=utf-8;",
+  });
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement("a");
@@ -722,12 +818,21 @@ function exportJSON(ontologyLd, filename = "Ontology.jsonld") {
  */
 async function fetchOntologyAsXml(url) {
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`HTTP fetch error! Status: ${response.status}`);
+  if (!response.ok)
+    throw new Error(`HTTP fetch error! Status: ${response.status}`);
 
   const contentType = response.headers.get("content-type") || "";
   // Allow various XML/RDF content types
-  if (!contentType.includes("application/rdf+xml") && !contentType.includes("application/xml") && !contentType.includes("text/xml") && !url.endsWith(".owl") && !url.endsWith(".xml")) {
-    console.warn(`Unusual Content-Type (${contentType}), attempting XML parse anyway.`);
+  if (
+    !contentType.includes("application/rdf+xml") &&
+    !contentType.includes("application/xml") &&
+    !contentType.includes("text/xml") &&
+    !url.endsWith(".owl") &&
+    !url.endsWith(".xml")
+  ) {
+    console.warn(
+      `Unusual Content-Type (${contentType}), attempting XML parse anyway.`,
+    );
   }
 
   const xmlText = await response.text();
@@ -743,7 +848,8 @@ async function fetchOntologyAsXml(url) {
 async function initializeOwlToUmlXmiConverter(xmlString) {
   try {
     // Await the import and destructure the named export directly
-    const { OwlToUmlXmiConverter } = await import("/ontology/OwlToUmlXmiConverter.js");
+    const { OwlToUmlXmiConverter } =
+      await import("/ontology/OwlToUmlXmiConverter.js");
 
     const converter = new OwlToUmlXmiConverter(xmlString);
     return converter;
@@ -771,7 +877,9 @@ async function exportXMI(xmlDoc, filename = "Ontology.xmi") {
     throw new Error("JS transformation returned null text");
   }
 
-  const blob = new Blob([resultXmiText], { type: "application/xml;charset=utf-8;" });
+  const blob = new Blob([resultXmiText], {
+    type: "application/xml;charset=utf-8;",
+  });
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement("a");
@@ -993,7 +1101,11 @@ class OntologyUIController {
           const xsltResponse = await fetch(xsltUrl);
           if (!xsltResponse.ok) throw new Error("Local XSLT fetch failed");
           const xsltText = await xsltResponse.text();
-          exportXMIviaXslt(this.#fetchedXmlDoc, xsltText, `${this.#fileName}.xmi`);
+          exportXMIviaXslt(
+            this.#fetchedXmlDoc,
+            xsltText,
+            `${this.#fileName}.xmi`,
+          );
         } catch (error) {
           console.error("XMI Export failed:", error);
         } finally {
@@ -1011,7 +1123,9 @@ class OntologyUIController {
   #setupSortListeners() {
     document.querySelectorAll("th[data-sort]").forEach((th) => {
       th.innerHTML += ' <span class="sort-icon">&#9650;&#9660;</span>';
-      th.addEventListener("click", () => this.#handleSort(th.getAttribute("data-sort")));
+      th.addEventListener("click", () =>
+        this.#handleSort(th.getAttribute("data-sort")),
+      );
     });
   }
 
@@ -1046,7 +1160,9 @@ class OntologyUIController {
         if (!srcVal) {
           val = "";
         } else if (Array.isArray(srcVal)) {
-          val = srcVal.map((s) => (typeof s === "object" ? getPreferredLang(s) : s)).join("");
+          val = srcVal
+            .map((s) => (typeof s === "object" ? getPreferredLang(s) : s))
+            .join("");
         } else if (typeof srcVal === "object") {
           val = getPreferredLang(srcVal);
         } else {
@@ -1153,11 +1269,20 @@ class OntologyUIController {
         }
       }
 
-      const creator = expandURI(row["dcterms:creator"] || "", this.#ontologyContext);
+      const creator = expandURI(
+        row["dcterms:creator"] || "",
+        this.#ontologyContext,
+      );
       const createdAt = row["dcterms:created"] || "";
       const modifiedAt = row["dcterms:modified"] || "";
-      const superclassesHtml = formatSubClassOfHtml(row["rdfs:subClassOf"], this.#ontologyContext);
-      const classOfNamedIndividual = getClassOfNamedIndividual(row, this.#ontologyContext);
+      const superclassesHtml = formatSubClassOfHtml(
+        row["rdfs:subClassOf"],
+        this.#ontologyContext,
+      );
+      const classOfNamedIndividual = getClassOfNamedIndividual(
+        row,
+        this.#ontologyContext,
+      );
 
       tr.innerHTML = `
                 <td><span class="badge">${escapeHTML(entityType)}</span></td>
@@ -1188,7 +1313,10 @@ class OntologyUIController {
     const lastSlashIndex = pathname.lastIndexOf("/");
     const lastDotIndex = pathname.lastIndexOf(".");
 
-    const targetUrl = lastDotIndex > lastSlashIndex ? pathname.substring(0, lastDotIndex) : pathname;
+    const targetUrl =
+      lastDotIndex > lastSlashIndex
+        ? pathname.substring(0, lastDotIndex)
+        : pathname;
 
     try {
       this.#fetchedXmlDoc = await fetchOntologyAsXml(targetUrl);
@@ -1211,7 +1339,10 @@ class OntologyUIController {
         this.#extractedData = this.#jsonLdDoc["@graph"].filter((row) => {
           const type = row["@type"];
           if (Array.isArray(type)) {
-            return !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution");
+            return (
+              !type.includes("dcat:Dataset") &&
+              !type.includes("dcat:Distribution")
+            );
           }
           return type !== "dcat:Dataset" && type !== "dcat:Distribution";
         });

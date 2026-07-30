@@ -60,7 +60,11 @@ export class OwlToUmlXmiConverter {
 
     // Defensive check for parser errors, adhering to cross-browser namespace definitions.
     // A parsererror node indicates the XML is structurally broken.
-    const parserError = this.sourceDoc.getElementsByTagNameNS(OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.parsererror, "parsererror")[0] || this.sourceDoc.querySelector("parsererror");
+    const parserError =
+      this.sourceDoc.getElementsByTagNameNS(
+        OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.parsererror,
+        "parsererror",
+      )[0] || this.sourceDoc.querySelector("parsererror");
 
     if (parserError) {
       throw new Error(`XML Parsing Error: ${parserError.textContent}`);
@@ -108,10 +112,23 @@ export class OwlToUmlXmiConverter {
     const uri = about || resource;
 
     // 1. Class Identifiers: Group all semantic references to a specific class entity.
-    if ((ns === rules.owl && localName === "Class") || (ns === rules.rdfs && localName === "subClassOf" && resource && !resource.includes("http://www.w3.org/2001/XMLSchema#")) || (ns === rules.rdfs && localName === "domain" && resource) || (ns === rules.rdfs && localName === "range" && resource && !resource.includes("http://www.w3.org/2001/XMLSchema#")) || (ns === rules.owl && localName === "onClass" && resource)) {
+    if (
+      (ns === rules.owl && localName === "Class") ||
+      (ns === rules.rdfs &&
+        localName === "subClassOf" &&
+        resource &&
+        !resource.includes("http://www.w3.org/2001/XMLSchema#")) ||
+      (ns === rules.rdfs && localName === "domain" && resource) ||
+      (ns === rules.rdfs &&
+        localName === "range" &&
+        resource &&
+        !resource.includes("http://www.w3.org/2001/XMLSchema#")) ||
+      (ns === rules.owl && localName === "onClass" && resource)
+    ) {
       const classUri = (about || "") + (resource || "");
       if (classUri) {
-        if (!this.indexes.classes.has(classUri)) this.indexes.classes.set(classUri, []);
+        if (!this.indexes.classes.has(classUri))
+          this.indexes.classes.set(classUri, []);
         this.indexes.classes.get(classUri).push(node);
       }
     }
@@ -124,9 +141,14 @@ export class OwlToUmlXmiConverter {
     // 2. Datatype Properties: Hash attributes based on their contextual domain.
     if (ns === rules.owl && localName === "DatatypeProperty" && about) {
       const domainNode = this._getChildNode(node, rules.rdfs, "domain");
-      const domainUri = this._getAttributeSafe(domainNode, rules.rdf, "resource");
+      const domainUri = this._getAttributeSafe(
+        domainNode,
+        rules.rdf,
+        "resource",
+      );
       if (domainUri) {
-        if (!this.indexes.datatypeProps.has(domainUri)) this.indexes.datatypeProps.set(domainUri, []);
+        if (!this.indexes.datatypeProps.has(domainUri))
+          this.indexes.datatypeProps.set(domainUri, []);
         this.indexes.datatypeProps.get(domainUri).push(node);
       }
     }
@@ -135,11 +157,16 @@ export class OwlToUmlXmiConverter {
     if (ns === rules.owl && localName === "ObjectProperty" && about) {
       const domainNode = this._getChildNode(node, rules.rdfs, "domain");
       const rangeNode = this._getChildNode(node, rules.rdfs, "range");
-      const domainUri = this._getAttributeSafe(domainNode, rules.rdf, "resource");
+      const domainUri = this._getAttributeSafe(
+        domainNode,
+        rules.rdf,
+        "resource",
+      );
       const rangeUri = this._getAttributeSafe(rangeNode, rules.rdf, "resource");
 
       if (domainUri) {
-        if (!this.indexes.objectProps.has(domainUri)) this.indexes.objectProps.set(domainUri, []);
+        if (!this.indexes.objectProps.has(domainUri))
+          this.indexes.objectProps.set(domainUri, []);
         this.indexes.objectProps.get(domainUri).push(node);
       }
       if (domainUri && rangeUri) {
@@ -159,10 +186,15 @@ export class OwlToUmlXmiConverter {
       }
 
       if (parentClassNode && propUri) {
-        const classUri = this._getAttributeSafe(parentClassNode, rules.rdf, "about");
+        const classUri = this._getAttributeSafe(
+          parentClassNode,
+          rules.rdf,
+          "about",
+        );
         if (classUri) {
           const key = `${classUri}|${propUri}`;
-          if (!this.indexes.restrictions.has(key)) this.indexes.restrictions.set(key, []);
+          if (!this.indexes.restrictions.has(key))
+            this.indexes.restrictions.set(key, []);
           this.indexes.restrictions.get(key).push(node);
         }
       }
@@ -172,7 +204,11 @@ export class OwlToUmlXmiConverter {
     if (ns === rules.owl && localName === "Axiom") {
       const sourceNode = this._getChildNode(node, rules.owl, "annotatedSource");
       const propNode = this._getChildNode(node, rules.owl, "annotatedProperty");
-      const sourceUri = this._getAttributeSafe(sourceNode, rules.rdf, "resource");
+      const sourceUri = this._getAttributeSafe(
+        sourceNode,
+        rules.rdf,
+        "resource",
+      );
       const propUri = this._getAttributeSafe(propNode, rules.rdf, "resource");
 
       if (sourceUri && propUri) {
@@ -196,19 +232,44 @@ export class OwlToUmlXmiConverter {
     const rules = OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES;
 
     // Initialize the base Output Document ensuring primary namespace validity.
-    this.targetDoc = document.implementation.createDocument(rules.NAMESPACES.xmi, "xmi:XMI", null);
+    this.targetDoc = document.implementation.createDocument(
+      rules.NAMESPACES.xmi,
+      "xmi:XMI",
+      null,
+    );
     const root = this.targetDoc.documentElement;
 
     // Safely set root namespace bindings utilizing the specific XMLNS URI.
     root.setAttributeNS(rules.NAMESPACES.xmi, "xmi:version", "2.1");
-    root.setAttributeNS(rules.NAMESPACES.xmlns, "xmlns:xmi", rules.NAMESPACES.xmi);
-    root.setAttributeNS(rules.NAMESPACES.xmlns, "xmlns:uml", rules.NAMESPACES.uml);
+    root.setAttributeNS(
+      rules.NAMESPACES.xmlns,
+      "xmlns:xmi",
+      rules.NAMESPACES.xmi,
+    );
+    root.setAttributeNS(
+      rules.NAMESPACES.xmlns,
+      "xmlns:uml",
+      rules.NAMESPACES.uml,
+    );
 
     // Fetch primary Ontology metadata for the root model wrapper.
-    const ontologyNode = this._getChildNode(this.sourceDoc.documentElement, rules.NAMESPACES.owl, "Ontology");
+    const ontologyNode = this._getChildNode(
+      this.sourceDoc.documentElement,
+      rules.NAMESPACES.owl,
+      "Ontology",
+    );
 
-    const titleNodes = ontologyNode ? Array.from(ontologyNode.children).filter((c) => (c.namespaceURI === rules.NAMESPACES.dcterms && c.localName === "title") || (c.namespaceURI === rules.NAMESPACES.rdfs && c.localName === "label")) : [];
-    const ontologyTitle = this._getPreferredLangText(titleNodes) || "UniversalOntologyModel";
+    const titleNodes = ontologyNode
+      ? Array.from(ontologyNode.children).filter(
+          (c) =>
+            (c.namespaceURI === rules.NAMESPACES.dcterms &&
+              c.localName === "title") ||
+            (c.namespaceURI === rules.NAMESPACES.rdfs &&
+              c.localName === "label"),
+        )
+      : [];
+    const ontologyTitle =
+      this._getPreferredLangText(titleNodes) || "UniversalOntologyModel";
 
     // Create the core uml:Model element.
     const modelEl = this._createElement(null, "uml:Model");
@@ -219,11 +280,15 @@ export class OwlToUmlXmiConverter {
     // Process overarching metadata assignment for the model.
     if (ontologyNode) {
       const ontUuid = this._extractUuid(ontologyNode);
-      if (ontUuid) this._setAttribute(modelEl, rules.NAMESPACES.xmi, "xmi:uuid", ontUuid);
+      if (ontUuid)
+        this._setAttribute(modelEl, rules.NAMESPACES.xmi, "xmi:uuid", ontUuid);
 
       const modelDesc = this._buildModelDescription(ontologyNode);
       if (modelDesc) {
-        const commentEl = this._createCommentElement("comment_model", modelDesc);
+        const commentEl = this._createCommentElement(
+          "comment_model",
+          modelDesc,
+        );
         modelEl.appendChild(commentEl);
       }
     }
@@ -232,7 +297,12 @@ export class OwlToUmlXmiConverter {
     const primitives = ["String", "Integer", "Decimal", "Boolean", "DateTime"];
     primitives.forEach((prim) => {
       const pEl = this._createElement(null, "packagedElement");
-      this._setAttribute(pEl, rules.NAMESPACES.xmi, "xmi:type", "uml:PrimitiveType");
+      this._setAttribute(
+        pEl,
+        rules.NAMESPACES.xmi,
+        "xmi:type",
+        "uml:PrimitiveType",
+      );
       this._setAttribute(pEl, rules.NAMESPACES.xmi, "xmi:id", `prim_${prim}`);
       this._setAttribute(pEl, null, "name", prim);
       modelEl.appendChild(pEl);
@@ -250,21 +320,43 @@ export class OwlToUmlXmiConverter {
       const uuid = this._extractUuid(defNode);
 
       const classEl = this._createElement(null, "packagedElement");
-      this._setAttribute(classEl, rules.NAMESPACES.xmi, "xmi:type", "uml:Class");
+      this._setAttribute(
+        classEl,
+        rules.NAMESPACES.xmi,
+        "xmi:type",
+        "uml:Class",
+      );
       this._setAttribute(classEl, rules.NAMESPACES.xmi, "xmi:id", classId);
       this._setAttribute(classEl, null, "name", className);
-      if (uuid) this._setAttribute(classEl, rules.NAMESPACES.xmi, "xmi:uuid", uuid);
+      if (uuid)
+        this._setAttribute(classEl, rules.NAMESPACES.xmi, "xmi:uuid", uuid);
 
       // Execute Generalization / Superclass mapping operations.
-      const superClasses = Array.from(defNode.children).filter((c) => c.namespaceURI === rules.NAMESPACES.rdfs && c.localName === "subClassOf");
+      const superClasses = Array.from(defNode.children).filter(
+        (c) =>
+          c.namespaceURI === rules.NAMESPACES.rdfs &&
+          c.localName === "subClassOf",
+      );
 
       superClasses.forEach((sc) => {
-        const superUri = this._getAttributeSafe(sc, rules.NAMESPACES.rdf, "resource");
-        if (superUri && !superUri.includes("http://www.w3.org/2001/XMLSchema#")) {
+        const superUri = this._getAttributeSafe(
+          sc,
+          rules.NAMESPACES.rdf,
+          "resource",
+        );
+        if (
+          superUri &&
+          !superUri.includes("http://www.w3.org/2001/XMLSchema#")
+        ) {
           const superId = this._getId(superUri);
           const genId = `gen_${classId}_${superId}`;
           const genEl = this._createElement(null, "generalization");
-          this._setAttribute(genEl, rules.NAMESPACES.xmi, "xmi:type", "uml:Generalization");
+          this._setAttribute(
+            genEl,
+            rules.NAMESPACES.xmi,
+            "xmi:type",
+            "uml:Generalization",
+          );
           this._setAttribute(genEl, rules.NAMESPACES.xmi, "xmi:id", genId);
           this._setAttribute(genEl, null, "general", superId);
           classEl.appendChild(genEl);
@@ -274,7 +366,10 @@ export class OwlToUmlXmiConverter {
       // Generate ISO-compliant class documentation blocks.
       const finalDesc = this._generateCommentBody(classUri, defNode, uuid);
       if (finalDesc) {
-        const commentEl = this._createCommentElement(`comment_${classId}`, finalDesc);
+        const commentEl = this._createCommentElement(
+          `comment_${classId}`,
+          finalDesc,
+        );
         classEl.appendChild(commentEl);
       }
 
@@ -315,7 +410,8 @@ export class OwlToUmlXmiConverter {
   _getId(uri) {
     if (!uri) return "";
     const trimmed = uri.trim();
-    const rules = OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.PREFIX_TRANSLATIONS;
+    const rules =
+      OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.PREFIX_TRANSLATIONS;
 
     for (const [prefixBase, replacement] of Object.entries(rules)) {
       if (trimmed.startsWith(prefixBase)) {
@@ -335,11 +431,16 @@ export class OwlToUmlXmiConverter {
    */
   _getPreferredLangText(nodes) {
     if (!nodes || nodes.length === 0) return "";
-    const priorities = OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.LANG_PRIORITY;
+    const priorities =
+      OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.LANG_PRIORITY;
 
     for (const lang of priorities) {
       const match = nodes.find((n) => {
-        const l = this._getAttributeSafe(n, OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.xml, "lang");
+        const l = this._getAttributeSafe(
+          n,
+          OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.xml,
+          "lang",
+        );
         return l && l.toLowerCase() === lang;
       });
       if (match) return match.textContent.trim();
@@ -373,7 +474,11 @@ export class OwlToUmlXmiConverter {
     const skosNs = OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.skos;
     const rdfsNs = OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.rdfs;
 
-    const nodes = Array.from(defNode.children).filter((c) => (c.namespaceURI === skosNs && c.localName === "prefLabel") || (c.namespaceURI === rdfsNs && c.localName === "label"));
+    const nodes = Array.from(defNode.children).filter(
+      (c) =>
+        (c.namespaceURI === skosNs && c.localName === "prefLabel") ||
+        (c.namespaceURI === rdfsNs && c.localName === "label"),
+    );
 
     const prefName = this._getPreferredLangText(nodes);
     return prefName !== "" ? prefName : this._getLocalName(classUri);
@@ -388,13 +493,18 @@ export class OwlToUmlXmiConverter {
    */
   _extractUuid(node) {
     if (!node) return null;
-    const dcNs = OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.dcterms;
+    const dcNs =
+      OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.dcterms;
     const rdfNs = OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.rdf;
 
-    const idNode = Array.from(node.children).find((c) => c.namespaceURI === dcNs && c.localName === "identifier");
+    const idNode = Array.from(node.children).find(
+      (c) => c.namespaceURI === dcNs && c.localName === "identifier",
+    );
     if (!idNode) return null;
 
-    const val = this._getAttributeSafe(idNode, rdfNs, "resource") || idNode.textContent.trim();
+    const val =
+      this._getAttributeSafe(idNode, rdfNs, "resource") ||
+      idNode.textContent.trim();
     if (val && val.startsWith("urn:uuid:")) {
       return val.substring("urn:uuid:".length);
     }
@@ -415,12 +525,28 @@ export class OwlToUmlXmiConverter {
     const parts = [];
 
     // 1. Definition Evaluation (Prioritizing specific SKOS linguistic tags)
-    const defNodes = Array.from(defNode.children).filter((c) => c.namespaceURI === rules.skos && c.localName === "definition");
+    const defNodes = Array.from(defNode.children).filter(
+      (c) => c.namespaceURI === rules.skos && c.localName === "definition",
+    );
 
-    const enGbDef = defNodes.find((n) => (this._getAttributeSafe(n, rules.xml, "lang") || "").toLowerCase() === "en-gb");
-    const enDef = defNodes.find((n) => (this._getAttributeSafe(n, rules.xml, "lang") || "").toLowerCase() === "en");
-    const startEnDef = defNodes.find((n) => (this._getAttributeSafe(n, rules.xml, "lang") || "").toLowerCase().startsWith("en"));
-    const noLangDef = defNodes.find((n) => !this._getAttributeSafe(n, rules.xml, "lang"));
+    const enGbDef = defNodes.find(
+      (n) =>
+        (this._getAttributeSafe(n, rules.xml, "lang") || "").toLowerCase() ===
+        "en-gb",
+    );
+    const enDef = defNodes.find(
+      (n) =>
+        (this._getAttributeSafe(n, rules.xml, "lang") || "").toLowerCase() ===
+        "en",
+    );
+    const startEnDef = defNodes.find((n) =>
+      (this._getAttributeSafe(n, rules.xml, "lang") || "")
+        .toLowerCase()
+        .startsWith("en"),
+    );
+    const noLangDef = defNodes.find(
+      (n) => !this._getAttributeSafe(n, rules.xml, "lang"),
+    );
 
     const bestDef = enGbDef || enDef || startEnDef || noLangDef;
     if (bestDef && bestDef.textContent.trim()) {
@@ -436,32 +562,54 @@ export class OwlToUmlXmiConverter {
       const validAxioms = axioms.filter((a) => {
         const targetNode = this._getChildNode(a, rules.owl, "annotatedTarget");
         if (!targetNode) return false;
-        const lang = (this._getAttributeSafe(targetNode, rules.xml, "lang") || "").toLowerCase();
+        const lang = (
+          this._getAttributeSafe(targetNode, rules.xml, "lang") || ""
+        ).toLowerCase();
         return lang.startsWith("en") || lang === "";
       });
 
       if (validAxioms.length > 0) {
         // Parse the schema position as a float and apply a stable numeric sorting algorithm.
         validAxioms.sort((a, b) => {
-          const posA = parseFloat((this._getChildNode(a, rules.schema, "position") || {}).textContent || "0");
-          const posB = parseFloat((this._getChildNode(b, rules.schema, "position") || {}).textContent || "0");
+          const posA = parseFloat(
+            (this._getChildNode(a, rules.schema, "position") || {})
+              .textContent || "0",
+          );
+          const posB = parseFloat(
+            (this._getChildNode(b, rules.schema, "position") || {})
+              .textContent || "0",
+          );
           return posA - posB;
         });
 
         validAxioms.forEach((ax, idx) => {
-          const targetText = this._getChildNode(ax, rules.owl, "annotatedTarget").textContent.trim();
-          const positionVal = (this._getChildNode(ax, rules.schema, "position") || {}).textContent;
-          const token = prefix === "Note" ? `Note ${idx + 1} to entry: ` : `EXAMPLE ${positionVal}:\n`;
+          const targetText = this._getChildNode(
+            ax,
+            rules.owl,
+            "annotatedTarget",
+          ).textContent.trim();
+          const positionVal = (
+            this._getChildNode(ax, rules.schema, "position") || {}
+          ).textContent;
+          const token =
+            prefix === "Note"
+              ? `Note ${idx + 1} to entry: `
+              : `EXAMPLE ${positionVal}:\n`;
           output.push(`${token}${targetText}`);
         });
       } else {
         // Programmatic fallback to direct child nodes if reified axioms are entirely absent.
         const validNodes = Array.from(fallbackNodes).filter((n) => {
-          const lang = (this._getAttributeSafe(n, rules.xml, "lang") || "").toLowerCase();
+          const lang = (
+            this._getAttributeSafe(n, rules.xml, "lang") || ""
+          ).toLowerCase();
           return lang.startsWith("en") || lang === "";
         });
         validNodes.forEach((n, idx) => {
-          const token = prefix === "Note" ? `Note ${idx + 1} to entry: ` : `EXAMPLE ${idx + 1}:\n`;
+          const token =
+            prefix === "Note"
+              ? `Note ${idx + 1} to entry: `
+              : `EXAMPLE ${idx + 1}:\n`;
           output.push(`${token}${n.textContent.trim()}`);
         });
       }
@@ -469,19 +617,33 @@ export class OwlToUmlXmiConverter {
     };
 
     // 2. Scope Notes Extraction
-    const scopeNodes = Array.from(defNode.children).filter((c) => c.namespaceURI === rules.skos && c.localName === "scopeNote");
-    const scopeText = extractAxiomText("http://www.w3.org/2004/02/skos/core#scopeNote", "Note", scopeNodes);
+    const scopeNodes = Array.from(defNode.children).filter(
+      (c) => c.namespaceURI === rules.skos && c.localName === "scopeNote",
+    );
+    const scopeText = extractAxiomText(
+      "http://www.w3.org/2004/02/skos/core#scopeNote",
+      "Note",
+      scopeNodes,
+    );
     if (scopeText) parts.push(scopeText);
 
     // 3. Examples Extraction
-    const exampleNodes = Array.from(defNode.children).filter((c) => c.namespaceURI === rules.skos && c.localName === "example");
-    const exampleText = extractAxiomText("http://www.w3.org/2004/02/skos/core#example", "EXAMPLE", exampleNodes);
+    const exampleNodes = Array.from(defNode.children).filter(
+      (c) => c.namespaceURI === rules.skos && c.localName === "example",
+    );
+    const exampleText = extractAxiomText(
+      "http://www.w3.org/2004/02/skos/core#example",
+      "EXAMPLE",
+      exampleNodes,
+    );
     if (exampleText) parts.push(exampleText);
 
     // 4. Source Attribution
     const sourceNode = this._getChildNode(defNode, rules.dcterms, "source");
     if (sourceNode) {
-      const srcVal = this._getAttributeSafe(sourceNode, rules.rdf, "resource") || sourceNode.textContent.trim();
+      const srcVal =
+        this._getAttributeSafe(sourceNode, rules.rdf, "resource") ||
+        sourceNode.textContent.trim();
       if (srcVal) parts.push(`[SOURCE:${srcVal}]`);
     }
 
@@ -511,7 +673,8 @@ export class OwlToUmlXmiConverter {
     const propName = this._getClassName(propNode, propUri);
     const uuid = this._extractUuid(propNode);
     const rangeNode = this._getChildNode(propNode, rules.rdfs, "range");
-    const rangeUri = this._getAttributeSafe(rangeNode, rules.rdf, "resource") || "";
+    const rangeUri =
+      this._getAttributeSafe(rangeNode, rules.rdf, "resource") || "";
 
     const attrEl = this._createElement(null, "ownedAttribute");
     this._setAttribute(attrEl, rules.xmi, "xmi:type", "uml:Property");
@@ -523,7 +686,9 @@ export class OwlToUmlXmiConverter {
 
     if (isDatatype) {
       let typeId = "prim_String";
-      for (const [key, val] of Object.entries(OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.DATATYPE_RANGES)) {
+      for (const [key, val] of Object.entries(
+        OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.DATATYPE_RANGES,
+      )) {
         if (rangeUri.includes(key)) {
           typeId = val;
           break;
@@ -559,8 +724,18 @@ export class OwlToUmlXmiConverter {
         return null;
       };
 
-      const parsedMin = extractCard(["minQualifiedCardinality", "minCardinality", "qualifiedCardinality", "cardinality"]);
-      const parsedMax = extractCard(["maxQualifiedCardinality", "maxCardinality", "qualifiedCardinality", "cardinality"]);
+      const parsedMin = extractCard([
+        "minQualifiedCardinality",
+        "minCardinality",
+        "qualifiedCardinality",
+        "cardinality",
+      ]);
+      const parsedMax = extractCard([
+        "maxQualifiedCardinality",
+        "maxCardinality",
+        "qualifiedCardinality",
+        "cardinality",
+      ]);
 
       if (parsedMin) minCard = parsedMin;
       if (parsedMax) maxCard = parsedMax;
@@ -572,7 +747,12 @@ export class OwlToUmlXmiConverter {
     this._setAttribute(lowerEl, null, "value", minCard);
 
     const upperEl = this._createElement(null, "upperValue");
-    this._setAttribute(upperEl, rules.xmi, "xmi:type", "uml:LiteralUnlimitedNatural");
+    this._setAttribute(
+      upperEl,
+      rules.xmi,
+      "xmi:type",
+      "uml:LiteralUnlimitedNatural",
+    );
     this._setAttribute(upperEl, rules.xmi, "xmi:id", `upper_${propId}`);
     this._setAttribute(upperEl, null, "value", maxCard);
 
@@ -632,7 +812,12 @@ export class OwlToUmlXmiConverter {
     this._setAttribute(lowerEl, null, "value", "0");
 
     const upperEl = this._createElement(null, "upperValue");
-    this._setAttribute(upperEl, rules.xmi, "xmi:type", "uml:LiteralUnlimitedNatural");
+    this._setAttribute(
+      upperEl,
+      rules.xmi,
+      "xmi:type",
+      "uml:LiteralUnlimitedNatural",
+    );
     this._setAttribute(upperEl, rules.xmi, "xmi:id", `upper_${srcEndId}`);
     this._setAttribute(upperEl, null, "value", "*");
 
@@ -715,7 +900,10 @@ export class OwlToUmlXmiConverter {
     // for parsers that have unexpectedly discarded strict namespace bindings.
     for (let i = 0; i < node.attributes.length; i++) {
       const attr = node.attributes[i];
-      if (attr.localName === localName && (attr.namespaceURI === namespace || !namespace)) {
+      if (
+        attr.localName === localName &&
+        (attr.namespaceURI === namespace || !namespace)
+      ) {
         return attr.value;
       }
     }
@@ -732,7 +920,11 @@ export class OwlToUmlXmiConverter {
    */
   _getChildNode(node, namespace, localName) {
     if (!node || !node.children) return null;
-    return Array.from(node.children).find((c) => c.namespaceURI === namespace && c.localName === localName) || null;
+    return (
+      Array.from(node.children).find(
+        (c) => c.namespaceURI === namespace && c.localName === localName,
+      ) || null
+    );
   }
 
   /**

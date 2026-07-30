@@ -20,7 +20,8 @@
   /* Effects */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 5%);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
   --shadow-glow: 0 0 20px rgb(59 130 246 / 15%);
   --glass-blur: blur(12px);
 }
@@ -60,7 +61,9 @@ body {
   color: var(--text-main);
 
   background-color: var(--bg-color);
-  background-image: radial-gradient(at 0% 0%, rgb(59 130 246 / 10%) 0, transparent 50%), radial-gradient(at 100% 100%, rgb(16 185 129 / 10%) 0, transparent 50%);
+  background-image:
+    radial-gradient(at 0% 0%, rgb(59 130 246 / 10%) 0, transparent 50%),
+    radial-gradient(at 100% 100%, rgb(16 185 129 / 10%) 0, transparent 50%);
   background-attachment: fixed;
 
   -webkit-font-smoothing: antialiased;
@@ -515,7 +518,14 @@ body {
   text-shadow: 0 1px 2px rgb(0 0 0 / 25%);
 
   opacity: 1;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #10b981, #3b82f6);
+  background: linear-gradient(
+    90deg,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899,
+    #10b981,
+    #3b82f6
+  );
   background-size: 200% 100%;
 
   animation: rolling-gradient 2s linear infinite;
