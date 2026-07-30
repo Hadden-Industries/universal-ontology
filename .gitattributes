@@ -2,3 +2,7 @@
 # - Auto-detect text vs binary files
 # - Normalise text files to LF on commit and keep LF on checkout
 * text=auto eol=lf
+
+# Override: Disable normalisation for specific directories
+src/external/** -text
+dist/** -text
