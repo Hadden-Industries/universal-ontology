@@ -29,7 +29,8 @@ def main():
         "--region", region,
         "--bucket", bucket,
         "--prefix", prefix,
-        "--local-dir", str(local_dir)
+        "--local-dir", str(local_dir),
+        "--wait-for-cloudfront"
     ]
 
     try:
