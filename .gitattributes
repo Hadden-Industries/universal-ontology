@@ -3,6 +3,6 @@
 # - Normalise text files to LF on commit and keep LF on checkout
 * text=auto eol=lf
 
-# Override: Disable normalisation for specific directories
-src/external/** -text
-dist/** -text
+# Preserve files exactly as supplied/generated
+src/external/** -text !eol
+dist/**         -text !eol
