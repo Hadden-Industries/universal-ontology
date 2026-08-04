@@ -44,3 +44,18 @@ indent_style = tab
 # Windows Batch scripts require CRLF line endings for legacy parser compatibility
 [*.{bat,cmd}]
 end_of_line = crlf
+
+[core/*.owl]
+trim_trailing_whitespace = false
+
+[extended/*.owl]
+trim_trailing_whitespace = false
+
+[iso-31073/*.owl]
+trim_trailing_whitespace = false
+
+[iso-iec11179-3/*.owl]
+trim_trailing_whitespace = false
+
+[reference-data/*.owl]
+trim_trailing_whitespace = false
