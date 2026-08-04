@@ -13,7 +13,7 @@
 
 	owl:versionInfo "2.2" ;
 	owl:versionIRI <http://ontovibe.visualdataweb.org/2.2> ;
-	owl:imports <http://ontovibe.visualdataweb.org/2.0/imported> ;
+	owl:imports <https://github.com/Hadden-Industries/universal-ontology/raw/refs/heads/master/src/external/BenchmarkOntologyModule.ttl> ;
 	owl:priorVersion <http://ontovibe.visualdataweb.org/2.1> ;
 	owl:backwardCompatibleWith <http://ontovibe.visualdataweb.org/2.1> ;
 	owl:incompatibleWith <http://ontovibe.visualdataweb.org/minimal> ;
