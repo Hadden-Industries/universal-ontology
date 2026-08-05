@@ -1,6 +1,6 @@
-const js = require("@eslint/js");
-const globals = require("globals");
-const eslintConfigPrettier = require("eslint-config-prettier");
+import js from "@eslint/js";
+import globals from "globals";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 const strictRules = {
   "no-var": "error",
@@ -34,7 +34,7 @@ const strictRules = {
   "no-new": "error"
 };
 
-module.exports = [
+export default [
   js.configs.recommended,
 
   // 1. Frontend Code: Browser globals only

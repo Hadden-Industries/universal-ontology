@@ -32,6 +32,99 @@ const MULTI_VALUED_PROPERTIES = new Set([
 ]);
 
 /**
+ * Safely adds a property value to a record or result object, handling primitives, language objects, and arrays.
+ * @param {Object} record - The target entity record or ontology result object.
+ * @param {string} key - The property key.
+ * @param {any} val - The value to add.
+ * @param {boolean} [isMultiValued=false] - Whether the property is defined as multi-valued.
+ */
+export function addRecordProperty(record, key, val, isMultiValued = false) {
+  if (val === undefined) return;
+
+  const isValueEqual = (a, b) => {
+    if (a === b) return true;
+    if (
+      typeof a === "object" &&
+      typeof b === "object" &&
+      a !== null &&
+      b !== null
+    ) {
+      return JSON.stringify(a) === JSON.stringify(b);
+    }
+    return false;
+  };
+
+  const containsValue = (arr, item) => {
+    return arr.some((existing) => isValueEqual(existing, item));
+  };
+
+  if (isMultiValued) {
+    if (!record[key]) {
+      record[key] = [val];
+    } else if (Array.isArray(record[key])) {
+      if (!containsValue(record[key], val)) {
+        record[key].push(val);
+      }
+    } else {
+      const existing = record[key];
+      record[key] = [existing];
+      if (!containsValue(record[key], val)) {
+        record[key].push(val);
+      }
+    }
+    return;
+  }
+
+  // Single-valued property handling
+  if (!record[key]) {
+    record[key] = val;
+  } else {
+    const isExistingLangMap =
+      typeof record[key] === "object" &&
+      record[key] !== null &&
+      !Array.isArray(record[key]) &&
+      Object.keys(record[key]).every(
+        (k) =>
+          typeof record[key][k] === "string" || Array.isArray(record[key][k]),
+      );
+    const isNewLangMap =
+      typeof val === "object" &&
+      val !== null &&
+      !Array.isArray(val) &&
+      Object.keys(val).every(
+        (k) => typeof val[k] === "string" || Array.isArray(val[k]),
+      );
+
+    if (isExistingLangMap && isNewLangMap) {
+      for (const langKey in val) {
+        if (!record[key][langKey]) {
+          record[key][langKey] = val[langKey];
+        } else {
+          if (!Array.isArray(record[key][langKey])) {
+            record[key][langKey] = [record[key][langKey]];
+          }
+          const textArr = Array.isArray(val[langKey])
+            ? val[langKey]
+            : [val[langKey]];
+          for (const t of textArr) {
+            if (!record[key][langKey].includes(t)) {
+              record[key][langKey].push(t);
+            }
+          }
+        }
+      }
+    } else {
+      if (!Array.isArray(record[key])) {
+        record[key] = [record[key]];
+      }
+      if (!containsValue(record[key], val)) {
+        record[key].push(val);
+      }
+    }
+  }
+}
+
+/**
  * Compacts a full URI into a prefix-compacted URI using the context.
  * @param {string} uri - The full URI.
  * @param {Object} context - The JSON-LD context map.
@@ -73,7 +166,7 @@ function expandURI(compactUri, context) {
  * @param {Document} xmlDoc - Parsed XML Document.
  * @returns {Object} Formatted JSON-LD document.
  */
-function transformOntologyToJsonLd(xmlDoc) {
+export function transformOntologyToJsonLd(xmlDoc) {
   // Initialize the base JSON-LD context
   const context = {
     rdf: NS.rdf,
@@ -171,19 +264,7 @@ function transformOntologyToJsonLd(xmlDoc) {
       if (hasElements) {
         val = parseElementAsObject(child.children[0], context);
       } else if (lang) {
-        if (!result[key]) {
-          result[key] = {};
-        }
-        const text = child.textContent.trim();
-        if (!result[key][lang]) {
-          result[key][lang] = text;
-        } else {
-          if (!Array.isArray(result[key][lang])) {
-            result[key][lang] = [result[key][lang]];
-          }
-          result[key][lang].push(text);
-        }
-        continue;
+        val = { [lang]: child.textContent.trim() };
       } else if (res) {
         val = compactURI(res, context);
       } else {
@@ -211,21 +292,7 @@ function transformOntologyToJsonLd(xmlDoc) {
         }
       }
 
-      if (val !== undefined) {
-        if (MULTI_VALUED_PROPERTIES.has(key)) {
-          if (!result[key]) result[key] = [];
-          if (!result[key].includes(val)) result[key].push(val);
-        } else {
-          if (!result[key]) {
-            result[key] = val;
-          } else {
-            if (!Array.isArray(result[key])) {
-              result[key] = [result[key]];
-            }
-            if (!result[key].includes(val)) result[key].push(val);
-          }
-        }
-      }
+      addRecordProperty(result, key, val, MULTI_VALUED_PROPERTIES.has(key));
     }
   }
 
@@ -363,7 +430,7 @@ function parseElementAsObject(el, context) {
  * @param {Object} context - The JSON-LD context map.
  * @returns {Array<Object>} The array of processed ontology records.
  */
-function extractGraphData(xmlDoc, context) {
+export function extractGraphData(xmlDoc, context) {
   const results = [];
   const axiomIndex = buildAxiomIndex(xmlDoc);
 
@@ -418,62 +485,38 @@ function extractGraphData(xmlDoc, context) {
         // Parse nested resource (like owl:Restriction)
         const nestedEl = child.children[0];
         const val = parseElementAsObject(nestedEl, context);
-        if (MULTI_VALUED_PROPERTIES.has(key)) {
-          if (!record[key]) record[key] = [];
-          record[key].push(val);
-        } else {
-          if (!record[key]) {
-            record[key] = val;
-          } else {
-            if (!Array.isArray(record[key])) {
-              record[key] = [record[key]];
-            }
-            record[key].push(val);
-          }
-        }
+        addRecordProperty(record, key, val, MULTI_VALUED_PROPERTIES.has(key));
       } else if (lang) {
-        if (!record[key]) {
-          record[key] = {};
-        }
         const text = child.textContent.trim();
-        if (!record[key][lang]) {
-          record[key][lang] = text;
-        } else {
-          if (!Array.isArray(record[key][lang])) {
-            record[key][lang] = [record[key][lang]];
-          }
-          record[key][lang].push(text);
-        }
+        const langVal = { [lang]: text };
+        addRecordProperty(record, key, langVal, MULTI_VALUED_PROPERTIES.has(key));
       } else if (res) {
         const val = compactURI(res, context);
-        if (MULTI_VALUED_PROPERTIES.has(key)) {
-          if (!record[key]) record[key] = [];
-          if (!record[key].includes(val)) record[key].push(val);
-        } else {
-          if (!record[key]) {
-            record[key] = val;
-          } else {
-            if (!Array.isArray(record[key])) {
-              record[key] = [record[key]];
-            }
-            if (!record[key].includes(val)) record[key].push(val);
-          }
-        }
+        addRecordProperty(record, key, val, MULTI_VALUED_PROPERTIES.has(key));
       } else {
-        const val = child.textContent.trim();
-        if (MULTI_VALUED_PROPERTIES.has(key)) {
-          if (!record[key]) record[key] = [];
-          if (!record[key].includes(val)) record[key].push(val);
-        } else {
-          if (!record[key]) {
-            record[key] = val;
-          } else {
-            if (!Array.isArray(record[key])) {
-              record[key] = [record[key]];
-            }
-            if (!record[key].includes(val)) record[key].push(val);
-          }
+        let val = child.textContent.trim();
+        const datatype =
+          child.getAttribute("rdf:datatype") ||
+          child.getAttributeNS(NS.rdf, "datatype") ||
+          child.getAttribute("datatype") ||
+          "";
+        if (datatype.includes("integer") || datatype.includes("Integer")) {
+          const num = parseInt(val, 10);
+          if (!isNaN(num)) val = num;
+        } else if (
+          datatype.includes("boolean") ||
+          datatype.includes("Boolean")
+        ) {
+          val = val.toLowerCase() === "true" || val === "1";
+        } else if (
+          datatype.includes("decimal") ||
+          datatype.includes("float") ||
+          datatype.includes("double")
+        ) {
+          const num = parseFloat(val);
+          if (!isNaN(num)) val = num;
         }
+        addRecordProperty(record, key, val, MULTI_VALUED_PROPERTIES.has(key));
       }
     }
 
@@ -484,16 +527,9 @@ function extractGraphData(xmlDoc, context) {
     if (axiomIndex.has(uri)) {
       const axiomSources = axiomIndex.get(uri);
       if (axiomSources && axiomSources.length > 0) {
-        if (!record["dcterms:source"]) {
-          record["dcterms:source"] = [];
-        } else if (!Array.isArray(record["dcterms:source"])) {
-          record["dcterms:source"] = [record["dcterms:source"]];
-        }
         for (const src of axiomSources) {
           const compactedSrc = compactURI(src, context);
-          if (!record["dcterms:source"].includes(compactedSrc)) {
-            record["dcterms:source"].push(compactedSrc);
-          }
+          addRecordProperty(record, "dcterms:source", compactedSrc, true);
         }
       }
     }
@@ -593,9 +629,15 @@ function escapeHTML(str) {
  * @param {Object|string} langMap - Map of language tags to strings or raw string.
  * @returns {string} The resolved text string.
  */
-function getPreferredLang(langMap) {
+export function getPreferredLang(langMap) {
   if (!langMap) return "";
   if (typeof langMap === "string") return langMap;
+  if (Array.isArray(langMap)) {
+    const resolved = langMap
+      .map((item) => getPreferredLang(item))
+      .filter((str) => Boolean(str));
+    return resolved[0] || "";
+  }
   if (typeof langMap !== "object") return "";
   return langMap["en-GB"] || langMap["en"] || Object.values(langMap)[0] || "";
 }
@@ -930,7 +972,7 @@ function exportXMIviaXslt(xmlDoc, xsltText, filename = "Ontology.xmi") {
 /**
  * Encapsulated UI Controller class managing table rendering, dropdown actions, sorting, and export logic.
  */
-class OntologyUIController {
+export class OntologyUIController {
   #extractedData = [];
   #ontologyContext = {};
   #currentSortCol = null;
@@ -1356,12 +1398,14 @@ class OntologyUIController {
 }
 
 // Auto-initialize UI controller when DOM is ready
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
+if (typeof document !== "undefined") {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const controller = new OntologyUIController();
+      controller.init();
+    });
+  } else {
     const controller = new OntologyUIController();
     controller.init();
-  });
-} else {
-  const controller = new OntologyUIController();
-  controller.init();
+  }
 }
