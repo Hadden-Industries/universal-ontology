@@ -46,10 +46,23 @@ When asked to commit, push, or draft a commit message in the local repository wo
 - When drafting pull request descriptions or issue comments, ensure clear, structured formatting and cross-reference relevant issue numbers directly.
 - Avoid executing destructive Git operations (such as force-pushing to protected branches or deleting remote branches) without explicit, case-by-case approval.
 
-# File Reading
+# File Operations & Search
 
-- **Internal Tools Only**: You must exclusively use the built-in `read_file`, `list_directory`, `glob`, `grep_search` etc. commands to read files or check for keywords. Use the command `run_command` for this only as a last resort.
-- **No Custom Functions**: Do not write, register, or request custom scripts, functions, or MCP servers for basic file reading.
+- **Internal Tools Only**: You must exclusively use built-in tools (e.g. `list_dir`, `grep_search`, `view_file`, `write_to_file`, `replace_file_content`, `multi_replace_file_content`, etc.) to view, search, read, or modify files. Use `run_command` for file operations only as a last resort.
+- **No Custom Functions**: Do not write, register, or request custom scripts, functions, or MCP servers for basic file reading, searching, or editing.
+
+# Command Execution & Chaining
+
+- **Strict Single-Command Execution**: You MUST execute shell commands individually, one command per execution block or action turn. 
+- **Banned Operators**: NEVER use sequential chaining, logical operators, or command substitution (e.g., `;`, `&&`, `||`, `|`, `&`, `$()`, `` ` ``).
+- **Execution Rationale**:
+  - **Environment Security**: The host environment parses commands against strict allow/deny lists. Chaining or nesting commands obscures the execution intent and will trigger security blocks or parser failures.
+  - **State Validation**: You must evaluate the exit code, standard error (stderr), and standard output (stdout) of a command before determining the next action. Chained operators bypass this cognitive pause, causing cascading failures if a prerequisite command fails.
+- **Examples**:
+  - **INCORRECT**: `git status; git diff`
+  - **INCORRECT**: `npm run build && npm test`
+  - **INCORRECT**: `cat $(find . -name "*.txt")`
+  - **CORRECT**: Execute `git status`, await the system response and exit code, and only then execute `git diff`.
 
 # AWS Guidance
 
