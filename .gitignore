@@ -11,3 +11,6 @@ __pycache__/
 
 # Node.js dependencies
 node_modules/
+
+# Local Agent Skills
+.agents/skills/
