@@ -2,12 +2,17 @@
 # coding styles between different editors and IDEs.
 # https://editorconfig.org
 
-# Source: https://gemini.google.com/app/39fa94805b099202
+# Source: https://chatgpt.com/c/6a778fe9-92c4-83ed-92d8-3b15c8ec1a43
 
 root = true
 
 # Global defaults
-# 2-space indentation covers modern Web (HTML/CSS/JS), JSON, XML, RDF, OWL, Turtle, and HCL/Terraform
+# 2-space indentation covers modern Web (HTML/CSS/JS), JSON, XML, RDF, OWL, Turtle, etc.
+# C++, Java, and C# conventions as per
+# https://google.github.io/styleguide/
+#   cppguide.html#Spaces_vs._Tabs
+#   javaguide.html#s4.2-block-indentation
+#   csharp-style.html#whitespace-rules
 [*]
 charset = utf-8
 end_of_line = lf
@@ -16,46 +21,29 @@ indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# Python strictly mandates 4 spaces per PEP 8
+# PEP 8 recommends 4 spaces per indentation level
 [*.py]
 indent_size = 4
 
-# C-Family, Java, and C# standardise on 4 spaces
-[*.{c,cpp,h,hpp,java,cs}]
-indent_size = 4
-
-# Go strictly requires tab indentation per gofmt
+# Match gofmt: tabs for indentation, rendered at 8-column tab stops
 [*.go]
 indent_style = tab
+indent_size = tab
+tab_width = 8
 
 # YAML parser syntax strictly forbids tab characters
 [*.{yml,yaml}]
 indent_style = space
 
-# Markdown Documentation
-# Preserve trailing spaces to maintain hard line breaks (<br>)
-[*.md]
-trim_trailing_whitespace = false
-
-# Makefiles strictly require tabs for target recipe execution
+# Conventional Make recipe lines use tabs
+# Caveat: GNU Make normally requires a tab at the beginning of recipe lines, but .RECIPEPREFIX can deliberately change that character
 [Makefile]
 indent_style = tab
+indent_size = tab
 
-# Windows Batch scripts require CRLF line endings for legacy parser compatibility
+# Use native Windows line endings for cmd.exe batch scripts
 [*.{bat,cmd}]
 end_of_line = crlf
 
-[core/*.owl]
-trim_trailing_whitespace = false
-
-[extended/*.owl]
-trim_trailing_whitespace = false
-
-[iso-31073/*.owl]
-trim_trailing_whitespace = false
-
-[iso-iec11179-3/*.owl]
-trim_trailing_whitespace = false
-
-[reference-data/*.owl]
+[{core,extended,iso-31073,iso-iec11179-3,reference-data}/*.owl]
 trim_trailing_whitespace = false
