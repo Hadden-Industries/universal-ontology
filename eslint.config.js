@@ -78,5 +78,12 @@ export default [
     rules: strictRules
   },
 
+  {
+    files: ['scripts/**/*.js'],
+    languageOptions: {
+      globals: globals.nodeBuiltin,
+    },
+  },
+
   eslintConfigPrettier
 ];
