@@ -1,7 +1,7 @@
 /**
  * @file ontology_processor.js
  * @description Modernized, consolidated processor and interactive table controller for OWL/XML Ontologies.
- * Features XML to JSON-LD transformation, dynamic table rendering, column filtering, multi-column sorting,
+ * Features JSON-LD loading, dynamic table rendering, column filtering, multi-column sorting,
  * and data export utilities (CSV, JSON-LD, XMI).
  */
 
@@ -159,152 +159,6 @@ function expandURI(compactUri, context) {
     }
   }
   return compactUri;
-}
-
-/**
- * Transforms a parsed OWL XML document into a standardized JSON-LD object.
- * @param {Document} xmlDoc - Parsed XML Document.
- * @returns {Object} Formatted JSON-LD document.
- */
-export function transformOntologyToJsonLd(xmlDoc) {
-  // Initialize the base JSON-LD context
-  const context = {
-    rdf: NS.rdf,
-    owl: NS.owl,
-    dcterms: NS.dcterms,
-    skos: NS.skos,
-    rdfs: NS.rdfs,
-    xml: NS.xml,
-    dcat: NS.dcat,
-    schema: "http://schema.org/",
-    uc: "https://haddenindustries.com/ontology/universal/core/",
-    ue: "https://haddenindustries.com/ontology/universal/extended/",
-    md: "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/",
-    urd: "https://haddenindustries.com/ontology/universal/reference-data/",
-    "rdfs:subClassOf": { "@type": "@id" },
-    "dcterms:creator": { "@type": "@id" },
-    "dcterms:source": { "@type": "@id" },
-    "dcterms:references": { "@type": "@id" },
-    "rdfs:seeAlso": { "@type": "@id" },
-    "owl:versionIRI": { "@type": "@id" },
-    "owl:imports": { "@type": "@id" },
-    "dcterms:contributor": { "@type": "@id" },
-    "dcterms:format": { "@type": "@id" },
-    "dcterms:identifier": { "@type": "@id" },
-    "dcterms:language": { "@type": "@id" },
-    "dcterms:license": { "@type": "@id" },
-    "dcterms:publisher": { "@type": "@id" },
-    "dcterms:rights": { "@type": "@id" },
-    "dcterms:subject": { "@type": "@id" },
-    "owl:priorVersion": { "@type": "@id" },
-    "skos:prefLabel": { "@container": "@language" },
-    "skos:definition": { "@container": "@language" },
-    "rdfs:label": { "@container": "@language" },
-    "dcterms:title": { "@container": "@language" },
-    "dcterms:description": { "@container": "@language" },
-  };
-
-  // Dynamically extract namespace declarations from the root element
-  const root = xmlDoc.documentElement;
-  if (root) {
-    for (let i = 0; i < root.attributes.length; i++) {
-      const attr = root.attributes[i];
-      if (attr.name.startsWith("xmlns:")) {
-        const prefix = attr.name.substring(6);
-        context[prefix] = attr.value;
-      }
-    }
-    const defaultNs =
-      root.getAttribute("xmlns") || root.getAttributeNS(NS.xml, "base") || "";
-    if (defaultNs) {
-      const isAlreadyMapped = Object.keys(context).some(
-        (k) => context[k] === defaultNs,
-      );
-      if (!isAlreadyMapped) {
-        const parts = defaultNs.replace(/\/$/, "").split("/");
-        const localPrefix = parts[parts.length - 1];
-        if (localPrefix && !context[localPrefix]) {
-          context[localPrefix] = defaultNs;
-        }
-      }
-    }
-  }
-
-  const result = {
-    "@context": context,
-    "@type": "owl:Ontology",
-  };
-
-  const ontologyNode = xmlDoc.getElementsByTagNameNS(NS.owl, "Ontology")[0];
-  if (ontologyNode) {
-    const ontologyId = ontologyNode.getAttributeNS(NS.rdf, "about") || "";
-    if (ontologyId) {
-      result["@id"] = ontologyId;
-    }
-
-    // Generic child iteration for owl:Ontology properties
-    for (const child of ontologyNode.children) {
-      const ns = child.namespaceURI;
-      const name = child.localName;
-      const key = compactURI(ns + name, context);
-
-      // Skip type since it's hardcoded as owl:Ontology
-      if (ns === NS.rdf && name === "type") {
-        continue;
-      }
-
-      const res = child.getAttributeNS(NS.rdf, "resource");
-      const lang =
-        child.getAttribute("xml:lang") || child.getAttributeNS(NS.xml, "lang");
-      const hasElements = Array.from(child.children).some(
-        (c) => c.nodeType === 1,
-      );
-
-      let val;
-      if (hasElements) {
-        val = parseElementAsObject(child.children[0], context);
-      } else if (lang) {
-        val = { [lang]: child.textContent.trim() };
-      } else if (res) {
-        val = compactURI(res, context);
-      } else {
-        val = child.textContent.trim();
-        const datatype =
-          child.getAttribute("rdf:datatype") ||
-          child.getAttributeNS(NS.rdf, "datatype") ||
-          child.getAttribute("datatype") ||
-          "";
-        if (datatype.includes("integer") || datatype.includes("Integer")) {
-          const num = parseInt(val, 10);
-          if (!isNaN(num)) val = num;
-        } else if (
-          datatype.includes("boolean") ||
-          datatype.includes("Boolean")
-        ) {
-          val = val.toLowerCase() === "true" || val === "1";
-        } else if (
-          datatype.includes("decimal") ||
-          datatype.includes("float") ||
-          datatype.includes("double")
-        ) {
-          const num = parseFloat(val);
-          if (!isNaN(num)) val = num;
-        }
-      }
-
-      addRecordProperty(result, key, val, MULTI_VALUED_PROPERTIES.has(key));
-    }
-  }
-
-  result["@graph"] = extractGraphData(xmlDoc, context);
-
-  for (const key in result) {
-    if (result[key] === undefined) {
-      delete result[key];
-    }
-  }
-
-  return result;
 }
 
 /**
@@ -489,7 +343,12 @@ export function extractGraphData(xmlDoc, context) {
       } else if (lang) {
         const text = child.textContent.trim();
         const langVal = { [lang]: text };
-        addRecordProperty(record, key, langVal, MULTI_VALUED_PROPERTIES.has(key));
+        addRecordProperty(
+          record,
+          key,
+          langVal,
+          MULTI_VALUED_PROPERTIES.has(key),
+        );
       } else if (res) {
         const val = compactURI(res, context);
         addRecordProperty(record, key, val, MULTI_VALUED_PROPERTIES.has(key));
@@ -830,26 +689,18 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
 }
 
 /**
- * Triggers a download of the provided JSON-LD ontology data as a .json file.
- * @param {Object} ontologyLd - The full parsed ontology JSON-LD document.
- * @param {string} [filename="Ontology.jsonld"] - The name of the file to save.
+ * Triggers a download of the materialized JSON-LD ontology file.
+ * @param {string} url - The URL of the materialized JSON-LD file.
  */
-function exportJSON(ontologyLd, filename = "Ontology.jsonld") {
-  if (!ontologyLd) return;
-
-  const jsonString = JSON.stringify(ontologyLd, null, 2);
-  const blob = new Blob([jsonString], {
-    type: "application/ld+json;charset=utf-8;",
-  });
-  const url = URL.createObjectURL(blob);
+function exportJSON(url) {
+  if (!url) return;
 
   const link = document.createElement("a");
   link.href = url;
-  link.download = filename;
+  link.download = "";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  URL.revokeObjectURL(url);
 }
 
 /**
@@ -885,6 +736,32 @@ async function fetchOntologyAsXml(url) {
     throw new Error("Failed to parse response as XML document");
   }
   return xmlDoc;
+}
+
+/**
+ * Fetches and parses a JSON-LD ontology document.
+ * @async
+ * @param {string} url - The URL of the JSON-LD file to load.
+ * @returns {Promise<Object>} The parsed JSON-LD document.
+ */
+async function fetchOntologyAsJsonLd(url) {
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/ld+json, application/json;q=0.9",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`JSON-LD fetch error! Status: ${response.status} (${url})`);
+  }
+
+  try {
+    return await response.json();
+  } catch (error) {
+    throw new Error(`Failed to parse JSON-LD document: ${url}`, {
+      cause: error,
+    });
+  }
 }
 
 async function initializeOwlToUmlXmiConverter(xmlString) {
@@ -980,12 +857,24 @@ export class OntologyUIController {
   #hiddenColumns = new Set();
   #fetchedXmlDoc = null;
   #jsonLdDoc = null;
+  #jsonLdUrl = null;
+  #sourceUrl = null;
   #fileName = "Ontology";
   #colStyleElement = null;
 
   constructor() {
     this.#colStyleElement = document.createElement("style");
     document.head.appendChild(this.#colStyleElement);
+  }
+
+  /**
+   * Lazily fetches and caches the source RDF/XML document.
+   * @returns {Promise<Document>} The parsed RDF/XML document.
+   */
+  async #getXmlDocument() {
+    this.#fetchedXmlDoc ??= await fetchOntologyAsXml(this.#sourceUrl);
+
+    return this.#fetchedXmlDoc;
   }
 
   /**
@@ -1106,7 +995,7 @@ export class OntologyUIController {
         exportJsonLdBtn.disabled = true;
         exportJsonLdBtn.classList.add("exporting");
         try {
-          exportJSON(this.#jsonLdDoc, `${this.#fileName}.jsonld`);
+          exportJSON(this.#jsonLdUrl);
         } finally {
           exportJsonLdBtn.classList.remove("exporting");
           exportJsonLdBtn.disabled = false;
@@ -1121,7 +1010,8 @@ export class OntologyUIController {
         exportXmiBtn.disabled = true;
         exportXmiBtn.classList.add("exporting");
         try {
-          await exportXMI(this.#fetchedXmlDoc, `${this.#fileName}.xmi`);
+          const xmlDoc = await this.#getXmlDocument();
+          await exportXMI(xmlDoc, `${this.#fileName}.xmi`);
         } catch (error) {
           console.error("XMI Export failed:", error);
         } finally {
@@ -1140,14 +1030,11 @@ export class OntologyUIController {
         const xsltUrl = "/ontology/owl-to-uml-xmi.xsl";
 
         try {
+          const xmlDoc = await this.#getXmlDocument();
           const xsltResponse = await fetch(xsltUrl);
           if (!xsltResponse.ok) throw new Error("Local XSLT fetch failed");
           const xsltText = await xsltResponse.text();
-          exportXMIviaXslt(
-            this.#fetchedXmlDoc,
-            xsltText,
-            `${this.#fileName}.xmi`,
-          );
+          exportXMIviaXslt(xmlDoc, xsltText, `${this.#fileName}.xmi`);
         } catch (error) {
           console.error("XMI Export failed:", error);
         } finally {
@@ -1351,18 +1238,29 @@ export class OntologyUIController {
    * @private
    */
   async #loadAndRender() {
-    const pathname = window.location.pathname;
+    const pageUrl = new URL(window.location.href);
+    const pathname = pageUrl.pathname;
     const lastSlashIndex = pathname.lastIndexOf("/");
     const lastDotIndex = pathname.lastIndexOf(".");
 
-    const targetUrl =
+    const sourcePath =
       lastDotIndex > lastSlashIndex
         ? pathname.substring(0, lastDotIndex)
         : pathname;
 
+    const sourceUrl = new URL(pageUrl);
+    sourceUrl.pathname = sourcePath;
+    sourceUrl.search = "";
+    sourceUrl.hash = "";
+
+    const jsonLdUrl = new URL(sourceUrl);
+    jsonLdUrl.pathname = `${sourcePath}.jsonld`;
+
+    this.#sourceUrl = sourceUrl.href;
+    this.#jsonLdUrl = jsonLdUrl.href;
+
     try {
-      this.#fetchedXmlDoc = await fetchOntologyAsXml(targetUrl);
-      this.#jsonLdDoc = transformOntologyToJsonLd(this.#fetchedXmlDoc);
+      this.#jsonLdDoc = await fetchOntologyAsJsonLd(this.#jsonLdUrl);
 
       if (this.#jsonLdDoc && this.#jsonLdDoc["dcterms:title"]) {
         const titleText = getPreferredLang(this.#jsonLdDoc["dcterms:title"]);
