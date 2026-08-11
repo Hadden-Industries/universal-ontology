@@ -22,7 +22,6 @@ def main():
     bucket = "haddenindustries-com-static-assets"
     prefix = "ontology"
 
-    print(f"Uploading to S3: {local_dir} -> s3://{bucket}/{prefix}")
     cmd = [
         sys.executable,
         str(upload_script),
@@ -36,7 +35,6 @@ def main():
     try:
         subprocess.run(cmd, check=True)
     except subprocess.CalledProcessError as e:
-        print(f"[ERROR] Failed uploading {local_dir} to S3 bucket {bucket}", file=sys.stderr)
         sys.exit(e.returncode)
 
     print("SUCCESS: S3 upload completed successfully.")
