@@ -142,26 +142,6 @@ function compactURI(uri, context) {
 }
 
 /**
- * Expands a compacted URI back to its full URI using the context.
- * @param {string} compactUri - The compacted URI.
- * @param {Object} context - The JSON-LD context map.
- * @returns {string} The expanded URI.
- */
-function expandURI(compactUri, context) {
-  if (!compactUri) return "";
-  const colonIdx = compactUri.indexOf(":");
-  if (colonIdx > 0) {
-    const prefix = compactUri.substring(0, colonIdx);
-    const suffix = compactUri.substring(colonIdx + 1);
-    const ns = context[prefix];
-    if (ns && typeof ns === "string") {
-      return ns + suffix;
-    }
-  }
-  return compactUri;
-}
-
-/**
  * Builds an index of Axiom sources for quick lookup.
  * @param {Document} xmlDoc - The parsed XML document.
  * @returns {Map<string, string[]>} A map of source URIs to their corresponding source lists.
@@ -502,100 +482,12 @@ export function getPreferredLang(langMap) {
 }
 
 /**
- * Normalizes the JSON-LD entity types to a readable type string.
- * @param {string|string[]} type - The type or list of types.
- * @returns {string} The normalized type name (Class, Named Individual, or default type).
- */
-function getEntityType(type) {
-  const types = Array.isArray(type) ? type : [type];
-  if (types.includes("owl:Class")) return "Class";
-  if (types.includes("owl:NamedIndividual")) return "Named Individual";
-  return types[0] || "";
-}
-
-/**
- * Extracts and parses the UUID from the URN identifier.
- * @param {Object} row - The parsed JSON-LD entity record.
- * @returns {string} The extracted UUID.
- */
-function getUuid(row) {
-  const idVal = row["dcterms:identifier"];
-  if (!idVal) return "";
-  const ids = Array.isArray(idVal) ? idVal : [idVal];
-  const uuidId = ids.find(
-    (id) => typeof id === "string" && id.startsWith("urn:uuid:"),
-  );
-  if (uuidId) return uuidId.substring(9);
-  const firstId = ids.find((id) => typeof id === "string");
-  return firstId || "";
-}
-
-/**
- * Resolves the class type for a NamedIndividual entity.
- * @param {Object} row - The parsed JSON-LD entity record.
- * @param {Object} [context={}] - Active JSON-LD context map.
- * @returns {string} The expanded IRI of the class type.
- */
-function getClassOfNamedIndividual(row, context = {}) {
-  const type = row["@type"];
-  if (Array.isArray(type)) {
-    const specificType = type.find((t) => t !== "owl:NamedIndividual");
-    return specificType ? expandURI(specificType, context) : "";
-  }
-  return "";
-}
-
-/**
- * Formats the list of subclasses into a plain text representation for export.
- * @param {any} scList - The subclass or array of subclasses/restrictions.
- * @param {Object} context - The JSON-LD context map.
- * @returns {string} The formatted newline-separated plain text.
- */
-function formatSuperClassesText(scList, context) {
-  if (!scList) return "";
-  const list = Array.isArray(scList) ? scList : [scList];
-  return list
-    .filter((item) => typeof item === "string")
-    .map((item) => expandURI(item, context))
-    .join("\n");
-}
-
-/**
- * Formats the list of subclasses into an HTML representation for display.
- * @param {any} scList - The subclass or array of subclasses/restrictions.
- * @param {Object} context - The JSON-LD context map.
- * @returns {string} The formatted HTML string containing anchor links.
- */
-function formatSubClassOfHtml(scList, context) {
-  if (!scList) return "";
-  const list = Array.isArray(scList) ? scList : [scList];
-  return list
-    .filter((item) => typeof item === "string")
-    .map((item) => createLink(expandURI(item, context), false))
-    .join("<br>");
-}
-
-/**
  * Triggers a download of the provided JSON-LD ontology data as a CSV file.
  * @param {Object} ontologyLd - The full parsed ontology JSON-LD document.
  * @param {string} [filename="Ontology.csv"] - The name of the file to save.
  */
-function exportCSV(ontologyLd, filename = "Ontology.csv") {
-  if (!ontologyLd) return;
-
-  const context = ontologyLd["@context"] || {};
-  const rawGraph = ontologyLd["@graph"] || [];
-
-  // Filter out dcat:Dataset and dcat:Distribution from CSV representation
-  const graph = rawGraph.filter((row) => {
-    const type = row["@type"];
-    if (Array.isArray(type)) {
-      return (
-        !type.includes("dcat:Dataset") && !type.includes("dcat:Distribution")
-      );
-    }
-    return type !== "dcat:Dataset" && type !== "dcat:Distribution";
-  });
+function exportCSV(rows, filename = "Ontology.csv") {
+  if (!rows) return;
 
   const headers = [
     "Entity Type",
@@ -613,63 +505,35 @@ function exportCSV(ontologyLd, filename = "Ontology.csv") {
 
   const csvRows = [headers.join(",")];
 
-  for (const row of graph) {
-    const entityType = getEntityType(row["@type"]);
-    const uuid = getUuid(row);
-    const uri = row["@id"] || "";
-    const preferredLabel = getPreferredLang(row["skos:prefLabel"]);
-    const definition = getPreferredLang(row["skos:definition"]);
-
-    let sourcesList = [];
-    const rawSources = row["dcterms:source"];
-    if (rawSources) {
-      if (Array.isArray(rawSources)) {
-        sourcesList = rawSources.map((src) => {
-          if (typeof src === "object" && src !== null) {
-            return getPreferredLang(src);
-          }
-          return expandURI(src, context);
-        });
-      } else if (typeof rawSources === "object") {
-        sourcesList = [getPreferredLang(rawSources)];
-      } else {
-        sourcesList = [expandURI(rawSources, context)];
-      }
-    }
-    const sources = sourcesList.join("\n");
-
-    const creator = expandURI(row["dcterms:creator"] || "", context);
-    const createdAt = row["dcterms:created"] || "";
-    const modifiedAt = row["dcterms:modified"] || "";
-    const superclasses = formatSuperClassesText(
-      row["rdfs:subClassOf"],
-      context,
-    );
-    const classOfNamedIndividual = getClassOfNamedIndividual(row, context);
-
+  for (const row of rows) {
     const values = [
-      entityType,
-      uuid,
-      uri,
-      preferredLabel,
-      definition,
-      sources,
-      creator,
-      createdAt,
-      modifiedAt,
-      superclasses,
-      classOfNamedIndividual,
+      row.entityType,
+      row.uuid,
+      row.uri,
+      row.preferredLabel,
+      row.definition,
+      row.sources.join("\n"),
+      row.creator,
+      row.createdAt,
+      row.modifiedAt,
+      row.superclasses.join("\n"),
+      row.classOfNamedIndividual,
     ].map((value) => {
-      let safeVal = String(value || "");
-      if (safeVal.match(/^[=+\-@]/)) safeVal = `'${safeVal}`;
-      if (
-        safeVal.includes(",") ||
-        safeVal.includes('"') ||
-        safeVal.includes("\n")
-      ) {
-        safeVal = `"${safeVal.replace(/"/g, '""')}"`;
+      let safeValue = String(value ?? "");
+
+      if (/^[=+\-@]/.test(safeValue)) {
+        safeValue = `'${safeValue}`;
       }
-      return safeVal;
+
+      if (
+        safeValue.includes(",") ||
+        safeValue.includes('"') ||
+        safeValue.includes("\n")
+      ) {
+        safeValue = `"${safeValue.replace(/"/g, '""')}"`;
+      }
+
+      return safeValue;
     });
     csvRows.push(values.join(","));
   }
@@ -846,12 +710,287 @@ function exportXMIviaXslt(xmlDoc, xsltText, filename = "Ontology.xmi") {
   URL.revokeObjectURL(url);
 }
 
+const JSON_LD = {
+  ontology: `${NS.owl}Ontology`,
+  class: `${NS.owl}Class`,
+  namedIndividual: `${NS.owl}NamedIndividual`,
+  axiom: `${NS.owl}Axiom`,
+  dataset: `${NS.dcat}Dataset`,
+  distribution: `${NS.dcat}Distribution`,
+  annotatedSource: `${NS.owl}annotatedSource`,
+  annotatedProperty: `${NS.owl}annotatedProperty`,
+  title: `${NS.dcterms}title`,
+  identifier: `${NS.dcterms}identifier`,
+  source: `${NS.dcterms}source`,
+  creator: `${NS.dcterms}creator`,
+  created: `${NS.dcterms}created`,
+  modified: `${NS.dcterms}modified`,
+  prefLabel: `${NS.skos}prefLabel`,
+  definition: `${NS.skos}definition`,
+  subClassOf: `${NS.rdfs}subClassOf`,
+};
+
+function asArray(value) {
+  if (value === undefined || value === null) {
+    return [];
+  }
+
+  return Array.isArray(value) ? value : [value];
+}
+
+function getJsonLdNodes(jsonLdDocument) {
+  if (Array.isArray(jsonLdDocument)) {
+    return jsonLdDocument;
+  }
+
+  if (
+    jsonLdDocument &&
+    typeof jsonLdDocument === "object" &&
+    Array.isArray(jsonLdDocument["@graph"])
+  ) {
+    return jsonLdDocument["@graph"];
+  }
+
+  return jsonLdDocument && typeof jsonLdDocument === "object"
+    ? [jsonLdDocument]
+    : [];
+}
+
+function getPropertyValues(node, property) {
+  return asArray(node?.[property]);
+}
+
+function getReferencedIris(node, property) {
+  return getPropertyValues(node, property)
+    .map((value) => {
+      if (typeof value === "string") {
+        return value;
+      }
+
+      if (
+        value &&
+        typeof value === "object" &&
+        typeof value["@id"] === "string"
+      ) {
+        return value["@id"];
+      }
+
+      return null;
+    })
+    .filter(Boolean);
+}
+
+function getLexicalValues(node, property) {
+  return getPropertyValues(node, property)
+    .map((value) => {
+      if (
+        typeof value === "string" ||
+        typeof value === "number" ||
+        typeof value === "boolean"
+      ) {
+        return String(value);
+      }
+
+      if (!value || typeof value !== "object") {
+        return null;
+      }
+
+      if (typeof value["@id"] === "string") {
+        return value["@id"];
+      }
+
+      if (value["@value"] !== undefined) {
+        return String(value["@value"]);
+      }
+
+      return null;
+    })
+    .filter(Boolean);
+}
+
+function getPreferredLiteral(node, property) {
+  const literals = getPropertyValues(node, property)
+    .map((value) => {
+      if (
+        typeof value === "string" ||
+        typeof value === "number" ||
+        typeof value === "boolean"
+      ) {
+        return {
+          language: null,
+          value: String(value),
+        };
+      }
+
+      if (value && typeof value === "object" && value["@value"] !== undefined) {
+        return {
+          language:
+            typeof value["@language"] === "string"
+              ? value["@language"].toLowerCase()
+              : null,
+          value: String(value["@value"]),
+        };
+      }
+
+      return null;
+    })
+    .filter(Boolean);
+
+  for (const language of ["en-gb", "en"]) {
+    const match = literals.find((literal) => literal.language === language);
+
+    if (match) {
+      return match.value;
+    }
+  }
+
+  return literals[0]?.value ?? "";
+}
+
+function hasType(node, type) {
+  return asArray(node?.["@type"]).includes(type);
+}
+
+function buildDefinitionSourceIndex(nodes) {
+  const index = new Map();
+
+  for (const node of nodes) {
+    if (!hasType(node, JSON_LD.axiom)) {
+      continue;
+    }
+
+    const annotatedProperties = getReferencedIris(
+      node,
+      JSON_LD.annotatedProperty,
+    );
+
+    if (!annotatedProperties.includes(JSON_LD.definition)) {
+      continue;
+    }
+
+    const annotatedSource = getReferencedIris(node, JSON_LD.annotatedSource)[0];
+
+    if (!annotatedSource) {
+      continue;
+    }
+
+    const sources = getLexicalValues(node, JSON_LD.source);
+
+    if (sources.length === 0) {
+      continue;
+    }
+
+    const existing = index.get(annotatedSource) ?? [];
+
+    index.set(annotatedSource, [...new Set([...existing, ...sources])]);
+  }
+
+  return index;
+}
+
+/**
+ * Creates the application view model used by both HTML and CSV output.
+ *
+ * @param {Object|Object[]} jsonLdDocument - Materialized JSON-LD document.
+ * @returns {{
+ *   title: string,
+ *   modified: string,
+ *   rows: Array<{
+ *     entityType: string,
+ *     uuid: string,
+ *     uri: string,
+ *     preferredLabel: string,
+ *     definition: string,
+ *     sources: string[],
+ *     creator: string,
+ *     createdAt: string,
+ *     modifiedAt: string,
+ *     superclasses: string[],
+ *     classOfNamedIndividual: string
+ *   }>
+ * }}
+ */
+function createOntologyViewModel(jsonLdDocument) {
+  const nodes = getJsonLdNodes(jsonLdDocument);
+  const definitionSources = buildDefinitionSourceIndex(nodes);
+
+  const ontologyNode = nodes.find((node) => hasType(node, JSON_LD.ontology));
+
+  const rows = [];
+
+  for (const node of nodes) {
+    const isClass = hasType(node, JSON_LD.class);
+    const isNamedIndividual = hasType(node, JSON_LD.namedIndividual);
+
+    if (!isClass && !isNamedIndividual) {
+      continue;
+    }
+
+    if (hasType(node, JSON_LD.dataset) || hasType(node, JSON_LD.distribution)) {
+      continue;
+    }
+
+    const uri = node["@id"] ?? "";
+
+    // Preserve the existing application's entity scope.
+    if (!uri.startsWith("https://haddenindustries.com/")) {
+      continue;
+    }
+
+    const identifiers = getLexicalValues(node, JSON_LD.identifier);
+
+    const uuidIdentifier = identifiers.find((identifier) =>
+      identifier.startsWith("urn:uuid:"),
+    );
+
+    const directSources = getLexicalValues(node, JSON_LD.source);
+
+    const sources = [
+      ...new Set([...directSources, ...(definitionSources.get(uri) ?? [])]),
+    ];
+
+    const types = asArray(node["@type"]);
+
+    const classOfNamedIndividual = isNamedIndividual
+      ? (types.find(
+          (type) => type !== JSON_LD.namedIndividual && type !== JSON_LD.class,
+        ) ?? "")
+      : "";
+
+    const superclasses = getReferencedIris(node, JSON_LD.subClassOf).filter(
+      (iri) => !iri.startsWith("_:"),
+    );
+
+    rows.push({
+      entityType: isNamedIndividual ? "Named Individual" : "Class",
+      uuid:
+        uuidIdentifier?.substring("urn:uuid:".length) ?? identifiers[0] ?? "",
+      uri,
+      preferredLabel: getPreferredLiteral(node, JSON_LD.prefLabel),
+      definition: getPreferredLiteral(node, JSON_LD.definition),
+      sources,
+      creator: getLexicalValues(node, JSON_LD.creator)[0] ?? "",
+      createdAt: getLexicalValues(node, JSON_LD.created)[0] ?? "",
+      modifiedAt: getLexicalValues(node, JSON_LD.modified)[0] ?? "",
+      superclasses,
+      classOfNamedIndividual,
+    });
+  }
+
+  return {
+    title: ontologyNode ? getPreferredLiteral(ontologyNode, JSON_LD.title) : "",
+    modified: ontologyNode
+      ? (getLexicalValues(ontologyNode, JSON_LD.modified)[0] ?? "")
+      : "",
+    rows,
+  };
+}
+
 /**
  * Encapsulated UI Controller class managing table rendering, dropdown actions, sorting, and export logic.
  */
 export class OntologyUIController {
   #extractedData = [];
-  #ontologyContext = {};
   #currentSortCol = null;
   #currentSortAsc = true;
   #hiddenColumns = new Set();
@@ -980,7 +1119,7 @@ export class OntologyUIController {
         exportCsvBtn.disabled = true;
         exportCsvBtn.classList.add("exporting");
         try {
-          exportCSV(this.#jsonLdDoc, `${this.#fileName}.csv`);
+          exportCSV(this.#extractedData, `${this.#fileName}.csv`);
         } finally {
           exportCsvBtn.classList.remove("exporting");
           exportCsvBtn.disabled = false;
@@ -1066,61 +1205,21 @@ export class OntologyUIController {
    * @returns {string} Comparable lowercase string value.
    */
   #getSortValue(row, column) {
-    if (!row) return "";
-    let val;
-    switch (column) {
-      case "objectType":
-        val = getEntityType(row["@type"]);
-        break;
-      case "uuid":
-        val = getUuid(row);
-        break;
-      case "uri":
-        val = row["@id"] || "";
-        break;
-      case "preferredLabel":
-        val = getPreferredLang(row["skos:prefLabel"]);
-        break;
-      case "definition":
-        val = getPreferredLang(row["skos:definition"]);
-        break;
-      case "sources": {
-        const srcVal = row["dcterms:source"];
-        if (!srcVal) {
-          val = "";
-        } else if (Array.isArray(srcVal)) {
-          val = srcVal
-            .map((s) => (typeof s === "object" ? getPreferredLang(s) : s))
-            .join("");
-        } else if (typeof srcVal === "object") {
-          val = getPreferredLang(srcVal);
-        } else {
-          val = srcVal;
-        }
-        break;
-      }
-      case "creator":
-        val = row["dcterms:creator"] || "";
-        break;
-      case "createdAt":
-        val = row["dcterms:created"] || "";
-        break;
-      case "modifiedAt":
-        val = row["dcterms:modified"] || "";
-        break;
-      case "subClassOf": {
-        const sc = row["rdfs:subClassOf"] || [];
-        const list = Array.isArray(sc) ? sc : [sc];
-        val = list.filter((item) => typeof item === "string").join("");
-        break;
-      }
-      case "classOfNamedIndividual":
-        val = getClassOfNamedIndividual(row, this.#ontologyContext);
-        break;
-      default:
-        val = "";
-    }
-    return String(val).toLowerCase();
+    const values = {
+      objectType: row.entityType,
+      uuid: row.uuid,
+      uri: row.uri,
+      preferredLabel: row.preferredLabel,
+      definition: row.definition,
+      sources: row.sources.join(""),
+      creator: row.creator,
+      createdAt: row.createdAt,
+      modifiedAt: row.modifiedAt,
+      subClassOf: row.superclasses.join(""),
+      classOfNamedIndividual: row.classOfNamedIndividual,
+    };
+
+    return String(values[column] ?? "").toLowerCase();
   }
 
   /**
@@ -1175,57 +1274,28 @@ export class OntologyUIController {
     this.#extractedData.forEach((row) => {
       const tr = document.createElement("tr");
 
-      const entityType = getEntityType(row["@type"]);
-      const uuid = getUuid(row);
-      const uri = row["@id"] || "";
-      const preferredLabel = getPreferredLang(row["skos:prefLabel"]);
-      const definition = getPreferredLang(row["skos:definition"]);
-
-      let sourcesList = [];
-      const rawSources = row["dcterms:source"];
-      if (rawSources) {
-        if (Array.isArray(rawSources)) {
-          sourcesList = rawSources.map((src) => {
-            if (typeof src === "object" && src !== null) {
-              return getPreferredLang(src);
-            }
-            return expandURI(src, this.#ontologyContext);
-          });
-        } else if (typeof rawSources === "object") {
-          sourcesList = [getPreferredLang(rawSources)];
-        } else {
-          sourcesList = [expandURI(rawSources, this.#ontologyContext)];
-        }
-      }
-
-      const creator = expandURI(
-        row["dcterms:creator"] || "",
-        this.#ontologyContext,
-      );
-      const createdAt = row["dcterms:created"] || "";
-      const modifiedAt = row["dcterms:modified"] || "";
-      const superclassesHtml = formatSubClassOfHtml(
-        row["rdfs:subClassOf"],
-        this.#ontologyContext,
-      );
-      const classOfNamedIndividual = getClassOfNamedIndividual(
-        row,
-        this.#ontologyContext,
-      );
+      const superclassesHtml = row.superclasses
+        .map((uri) => createLink(uri))
+        .join("<br>");
 
       tr.innerHTML = `
-                <td><span class="badge">${escapeHTML(entityType)}</span></td>
-                <td><span class="code-text">${escapeHTML(uuid)}</span></td>
-                <td><span class="code-text">${createLink(uri, true)}</span></td>
-                <td style="font-weight: 500;">${escapeHTML(preferredLabel)}</td>
-                <td class="wrap-text">${escapeHTML(definition)}</td>
-                <td><span class="code-text">${sourcesList.map((src) => createLink(src, false)).join("<br>")}</span></td>
-                <td><span class="code-text">${createLink(creator, true)}</span></td>
-                <td>${escapeHTML(createdAt).replace("T", "<wbr>T")}</td>
-                <td>${escapeHTML(modifiedAt).replace("T", "<wbr>T")}</td>
-                <td class="wrap-text"><span class="code-text">${superclassesHtml}</span></td>
-                <td><span class="code-text">${createLink(classOfNamedIndividual, true)}</span></td>
-            `;
+      <td><span class="badge">${escapeHTML(row.entityType)}</span></td>
+      <td><span class="code-text">${escapeHTML(row.uuid)}</span></td>
+      <td><span class="code-text">${createLink(row.uri, true)}</span></td>
+      <td style="font-weight: 500;">${escapeHTML(row.preferredLabel)}</td>
+      <td class="wrap-text">${escapeHTML(row.definition)}</td>
+      <td><span class="code-text">${row.sources
+        .map((source) => createLink(source))
+        .join("<br>")}</span></td>
+      <td><span class="code-text">${createLink(row.creator, true)}</span></td>
+      <td>${escapeHTML(row.createdAt).replace("T", "<wbr>T")}</td>
+      <td>${escapeHTML(row.modifiedAt).replace("T", "<wbr>T")}</td>
+      <td class="wrap-text"><span class="code-text">${superclassesHtml}</span></td>
+      <td><span class="code-text">${createLink(
+        row.classOfNamedIndividual,
+        true,
+      )}</span></td>
+    `;
 
       fragment.appendChild(tr);
     });
@@ -1262,33 +1332,20 @@ export class OntologyUIController {
     try {
       this.#jsonLdDoc = await fetchOntologyAsJsonLd(this.#jsonLdUrl);
 
-      if (this.#jsonLdDoc && this.#jsonLdDoc["dcterms:title"]) {
-        const titleText = getPreferredLang(this.#jsonLdDoc["dcterms:title"]);
-        document.title = titleText;
+      const viewModel = createOntologyViewModel(this.#jsonLdDoc);
 
-        this.#fileName = titleText;
-        const modified = this.#jsonLdDoc["dcterms:modified"];
-        if (modified) {
-          this.#fileName += ` [${modified}]`;
+      this.#extractedData = viewModel.rows;
+
+      if (viewModel.title) {
+        document.title = viewModel.title;
+        this.#fileName = viewModel.title;
+
+        if (viewModel.modified) {
+          this.#fileName += ` [${viewModel.modified}]`;
         }
       }
 
-      if (this.#jsonLdDoc && Array.isArray(this.#jsonLdDoc["@graph"])) {
-        this.#ontologyContext = this.#jsonLdDoc["@context"] || {};
-
-        this.#extractedData = this.#jsonLdDoc["@graph"].filter((row) => {
-          const type = row["@type"];
-          if (Array.isArray(type)) {
-            return (
-              !type.includes("dcat:Dataset") &&
-              !type.includes("dcat:Distribution")
-            );
-          }
-          return type !== "dcat:Dataset" && type !== "dcat:Distribution";
-        });
-
-        this.#renderTable();
-      }
+      this.#renderTable();
     } catch (error) {
       console.error("Error processing ontology file:", error);
     }
