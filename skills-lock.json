@@ -1,0 +1,160 @@
+{
+  "version": 1,
+  "skills": {
+    "acquire-codebase-knowledge": {
+      "source": "github/awesome-copilot",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/acquire-codebase-knowledge/SKILL.md",
+      "computedHash": "06b7a3d0bb44b70b470247aacc2ffffe37c8ce64cc3f9178be6f392c81cb6d22"
+    },
+    "apple-design": {
+      "source": "emilkowalski/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/apple-design/SKILL.md",
+      "computedHash": "8b94db67cb9edaad5f1501010804caa610131f1d2dfda0a27664b2e858deade3"
+    },
+    "brainstorming": {
+      "source": "obra/superpowers",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/brainstorming/SKILL.md",
+      "computedHash": "b58d55b64742ecd37923985ec7bdfbe678ffbcb9895562abd28c0a32dcacd7fb"
+    },
+    "brooks-audit": {
+      "source": "hyhmrright/brooks-lint",
+      "sourceType": "github",
+      "skillPath": "skills/brooks-audit/SKILL.md",
+      "computedHash": "1c89a774116ba2c7a6eef90763b184541f81e0d79fc8f942067f7f991fcec3d8"
+    },
+    "brooks-review": {
+      "source": "hyhmrright/brooks-lint",
+      "sourceType": "github",
+      "skillPath": "skills/brooks-review/SKILL.md",
+      "computedHash": "041b8a9f34550748cd0785f406e51478d41863fc082e57091f9fa29d53c3eb70"
+    },
+    "browser-testing-with-devtools": {
+      "source": "addyosmani/agent-skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/browser-testing-with-devtools/SKILL.md",
+      "computedHash": "639950ea71851d9c4919608cba8b6276cd1ba30cd82acdc4949c701537eed661"
+    },
+    "codebase-design": {
+      "source": "mattpocock/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/codebase-design/SKILL.md",
+      "computedHash": "e6394592ecf4b5aa5bc93f95a20d0a56314788bde2e1221f87296d3becb734a2"
+    },
+    "committing-to-git": {
+      "source": "Hadden-Industries/agent-skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/committing-to-git/SKILL.md",
+      "computedHash": "41979342f39cead4600a4f0a5f11acff908a86194d00205014f579b1aca22f94"
+    },
+    "diagnosing-bugs": {
+      "source": "mattpocock/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/diagnosing-bugs/SKILL.md",
+      "computedHash": "c86c725ad271ba57d7e9ffd86122b898438314ef9c20ec1dbe03f3e8f149c3b2"
+    },
+    "find-animation-opportunities": {
+      "source": "emilkowalski/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/find-animation-opportunities/SKILL.md",
+      "computedHash": "8fb8492eb8fbed1313cb430b5831d925d9b8964ca24f3c41a6244cbd1fd98732"
+    },
+    "grilling": {
+      "source": "mattpocock/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/grilling/SKILL.md",
+      "computedHash": "4ebdd12fe61ff3abf20cff6683740e2b9b3739454be0a3f4a928a1c4d07d6b34"
+    },
+    "handoff": {
+      "source": "mattpocock/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/handoff/SKILL.md",
+      "computedHash": "ad03e8d4ea3cbbff66420eb7ba3cc375b5cbe1821a2449b53e863256cf5b5cde"
+    },
+    "improve-animations": {
+      "source": "emilkowalski/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/improve-animations/SKILL.md",
+      "computedHash": "eeb219a407e325b687af88db25771cc3018e3148245604112f5ac6990b6fd79c"
+    },
+    "logic-diff": {
+      "source": "hyhmrright/logic-lens",
+      "sourceType": "github",
+      "skillPath": "skills/logic-diff/SKILL.md",
+      "computedHash": "3058fa238bcbe13900aee46f7b1e7c19a3b5aaad1b651399ecb2e5a17a309aec"
+    },
+    "logic-explain": {
+      "source": "hyhmrright/logic-lens",
+      "sourceType": "github",
+      "skillPath": "skills/logic-explain/SKILL.md",
+      "computedHash": "f34eb6fa2c400eaccb45b6f3380638ecec8968c036de6b0fcc6283319ae5bdef"
+    },
+    "logic-locate": {
+      "source": "hyhmrright/logic-lens",
+      "sourceType": "github",
+      "skillPath": "skills/logic-locate/SKILL.md",
+      "computedHash": "979f694f8f5bc7968e96db7884dbaae3ce4acb18ff4565a82a5a6b317e78ef02"
+    },
+    "logic-review": {
+      "source": "hyhmrright/logic-lens",
+      "sourceType": "github",
+      "skillPath": "skills/logic-review/SKILL.md",
+      "computedHash": "5edf4f514ca3daa5ce2722256c7ebd408cb7c509a5f3d460612f8e1a828db7cd"
+    },
+    "review-animations": {
+      "source": "emilkowalski/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/review-animations/SKILL.md",
+      "computedHash": "b9f669af5ae280c19a592a94611520335a81de25c88f225bf60ae4b2d66c8c7c"
+    },
+    "test-driven-development": {
+      "source": "obra/superpowers",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/test-driven-development/SKILL.md",
+      "computedHash": "a4126a9c5f17be3c228aa9e5755898ade283448b86099f56f40852e8c14532be"
+    },
+    "ui-craft": {
+      "source": "educlopez/ui-craft",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/ui-craft/SKILL.md",
+      "computedHash": "e9b4e23ce8f42e6b12092b0a9079a9ced8f9e93a8059cfa16fa7ad3c97259fa6"
+    },
+    "verification-before-completion": {
+      "source": "obra/superpowers",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/verification-before-completion/SKILL.md",
+      "computedHash": "b529822bdac4b197b180fe12225cff86b930b65910435103c10622df7f041651"
+    },
+    "writing-for-agents": {
+      "source": "mattpocock/skills",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/writing-for-agents/SKILL.md",
+      "computedHash": "ccfa1e94d8f6ab5c6a1edd55293ca477faf93c39207771331efdb1e798ed21d6"
+    },
+    "writing-plans": {
+      "source": "obra/superpowers",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/writing-plans/SKILL.md",
+      "computedHash": "27c75044e444a4fc68798c3f799dc23eaff3a6bfabff32e6ad75bb20f881c094"
+    }
+  }
+}
