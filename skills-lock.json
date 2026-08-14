@@ -53,7 +53,7 @@
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/committing-to-git/SKILL.md",
-      "computedHash": "41979342f39cead4600a4f0a5f11acff908a86194d00205014f579b1aca22f94"
+      "computedHash": "ecf37e4547f1b83d6a8fcaf83caa3a2434e66fca77fe86405fa01ba233c84837"
     },
     "diagnosing-bugs": {
       "source": "mattpocock/skills",
@@ -113,6 +113,13 @@
       "sourceType": "github",
       "skillPath": "skills/logic-review/SKILL.md",
       "computedHash": "5edf4f514ca3daa5ce2722256c7ebd408cb7c509a5f3d460612f8e1a828db7cd"
+    },
+    "modern-web-guidance": {
+      "source": "GoogleChrome/modern-web-guidance",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/modern-web-guidance/SKILL.md",
+      "computedHash": "6e8841de6cb76fedb94c71008924c3bdc46db0c54111049329e789e0e478d282"
     },
     "review-animations": {
       "source": "emilkowalski/skills",
