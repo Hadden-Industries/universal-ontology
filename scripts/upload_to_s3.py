@@ -21,14 +21,16 @@ def main():
     region = "eu-west-1"
     bucket = "haddenindustries-com-static-assets"
     prefix = "ontology"
+    exclude = "external/*.url"
 
     cmd = [
         sys.executable,
         str(upload_script),
+        str(local_dir),
         "--region", region,
         "--bucket", bucket,
         "--prefix", prefix,
-        "--local-dir", str(local_dir),
+        "--exclude", exclude,
         "--wait-for-cloudfront"
     ]
 
