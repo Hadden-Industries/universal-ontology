@@ -7,7 +7,7 @@ Expected repository layout:
     <repo>/
     ├── skills-lock.json
     └── <scripts>/
-        └── set-up-agent-skills.py
+        └── set_up_agent_skills.py
 
 Commit both files. Generated activation directories should be Git-ignored:
 
@@ -20,12 +20,18 @@ the existing project lock format written by the `skills` CLI.
 Default targets: codex, antigravity, claude-code.
 
 Rerunning this script is the update operation. It explicitly re-adds each
-declared skill from its recorded source using `skills@latest`.
+declared skill from its recorded source using `skills@latest`. Skills sharing
+a source are re-added in a single invocation, because `skills add` clones the
+whole source repository once per call.
 
 For upstream suites that reference a sibling `../_shared/`, the script detects
 that dependency, vendors the source `_shared` directory into the generated
 skill at `references/_shared/`, and rewrites the generated references. This
 makes selected bundle modules self-contained and avoids `_shared` collisions.
+
+That vendoring step reads upstream through a shallow, blobless, cone-mode
+sparse checkout restricted to the `_shared` directories actually needed, so a
+large suite repository is never materialized in full. Requires Git 2.25+.
 """
 
 from __future__ import annotations
@@ -135,7 +141,7 @@ def git_output(repo: Path, *args: str) -> str:
 
 
 def derive_repo_from_script() -> Path:
-    """Derive <repo> from <repo>/<scripts>/set-up-agent-skills.py."""
+    """Derive <repo> from <repo>/<scripts>/set_up_agent_skills.py."""
     script_path = Path(__file__).resolve()
 
     expected_repo = script_path.parent.parent.resolve()
@@ -274,7 +280,7 @@ def ensure_generated_roots_are_safe(
                 "only."
             )
 
-        probe = f"{relative}/.set-up-agent-skills-ignore-probe"
+        probe = f"{relative}/.set_up_agent_skills_ignore_probe"
         result = run(
             (
                 require_command("git"),
@@ -370,24 +376,46 @@ def get_install_source(entry: dict[str, Any]) -> str:
     return install_source
 
 
-def sync_skill(
+def group_skills_by_install_source(
+    skills: dict[str, dict[str, Any]],
+) -> dict[str, tuple[str, ...]]:
+    """
+    Group declared skills by the exact `skills add` source they install from.
+
+    `skills add` clones the entire source repository once per invocation, and
+    exposes no depth or sparse control, so the only way to avoid re-cloning a
+    repository is to install everything it provides in one invocation.
+
+    Grouping on the reconstructed source string rather than on `source` alone
+    keeps entries that pin different refs in separate groups, because they
+    genuinely need separate checkouts.
+    """
+    grouped: dict[str, list[str]] = {}
+
+    for skill_name in sorted(skills):
+        source = get_install_source(skills[skill_name])
+        grouped.setdefault(source, []).append(skill_name)
+
+    return {source: tuple(names) for source, names in grouped.items()}
+
+
+def sync_source(
     repo: Path,
     npx: str,
-    skill_name: str,
-    entry: dict[str, Any],
+    source: str,
+    skill_names: tuple[str, ...],
     agents: tuple[str, ...],
 ) -> None:
-    source = get_install_source(entry)
-
     command: list[str] = [
         npx,
         "--yes",
         "skills@latest",
         "add",
         source,
-        "--skill",
-        skill_name,
     ]
+
+    for skill_name in skill_names:
+        command.extend(("--skill", skill_name))
 
     for agent in agents:
         command.extend(("--agent", agent))
@@ -549,54 +577,73 @@ def source_cache_key(entry: dict[str, Any], repo: Path) -> str:
 def checkout_remote_source(
     clone_url: str,
     ref: str | None,
+    sparse_paths: tuple[str, ...],
     destination: Path,
 ) -> Path:
-    git = require_command("git")
+    """
+    Materialize only the source directories this script actually reads.
 
-    if ref:
-        destination.mkdir(parents=True, exist_ok=False)
-        git_env = lf_git_environment()
-        run((git, "init", destination), env=git_env)
-        run(
-            (git, "-C", destination, "remote", "add", "origin", clone_url),
-            env=git_env,
+    The script needs a handful of `_shared` directories, so a full checkout of
+    a large suite repository is wasted transfer and wasted working-tree writes.
+    Cone-mode sparse checkout limits the working tree to `sparse_paths` (plus
+    the files sitting directly in their parent directories), and the blobless
+    partial fetch limits transfer to the objects those paths need.
+
+    Servers without partial-clone support warn and send an ordinary shallow
+    pack; the sparse working tree is unaffected. Requires Git 2.25+ for
+    `git sparse-checkout`.
+    """
+    if not sparse_paths:
+        raise SetupError(
+            f"Refusing to check out {clone_url!r} without any sparse paths."
         )
-        run(
-            (
-                git,
-                "-C",
-                destination,
-                "fetch",
-                "--depth",
-                "1",
-                "origin",
-                ref,
-            ),
-            env=git_env,
-        )
-        run(
-            (
-                git,
-                "-C",
-                destination,
-                "checkout",
-                "--detach",
-                "FETCH_HEAD",
-            ),
-            env=git_env,
-        )
-    else:
-        run(
-            (
-                git,
-                "clone",
-                "--depth",
-                "1",
-                clone_url,
-                destination,
-            ),
-            env=lf_git_environment(),
-        )
+
+    git = require_command("git")
+    git_env = lf_git_environment()
+
+    destination.mkdir(parents=True, exist_ok=False)
+
+    run((git, "init", destination), env=git_env)
+    run(
+        (git, "-C", destination, "remote", "add", "origin", clone_url),
+        env=git_env,
+    )
+    run(
+        (git, "-C", destination, "sparse-checkout", "init", "--cone"),
+        env=git_env,
+    )
+    run(
+        (git, "-C", destination, "sparse-checkout", "set", *sparse_paths),
+        env=git_env,
+    )
+    run(
+        (
+            git,
+            "-C",
+            destination,
+            "fetch",
+            "--depth",
+            "1",
+            "--no-tags",
+            "--filter=blob:none",
+            "origin",
+            # An unpinned entry still resolves against the remote default
+            # branch, which `HEAD` names without a second round trip.
+            ref or "HEAD",
+        ),
+        env=git_env,
+    )
+    run(
+        (
+            git,
+            "-C",
+            destination,
+            "checkout",
+            "--detach",
+            "FETCH_HEAD",
+        ),
+        env=git_env,
+    )
 
     return destination
 
@@ -606,6 +653,7 @@ def source_root_for_entry(
     repo: Path,
     temp_root: Path,
     cache: dict[str, Path],
+    sparse_paths_by_source: dict[str, tuple[str, ...]],
 ) -> Path:
     key = source_cache_key(entry, repo)
 
@@ -624,17 +672,22 @@ def source_root_for_entry(
     root = checkout_remote_source(
         clone_url,
         entry.get("ref"),
+        sparse_paths_by_source[key],
         checkout,
     )
     cache[key] = root
     return root
 
 
-def locate_source_shared_dir(
-    source_root: Path,
+def shared_dir_relative(
     skill_name: str,
     entry: dict[str, Any],
-) -> Path:
+) -> PurePosixPath:
+    """
+    Return the source-relative sibling `_shared` directory for one skill.
+
+    skills/brooks-review/SKILL.md -> skills/_shared
+    """
     raw = entry.get("skillPath")
 
     if not raw:
@@ -652,8 +705,15 @@ def locate_source_shared_dir(
             "Expected a path ending in SKILL.md."
         )
 
-    # skills/brooks-review/SKILL.md -> skills/_shared
-    shared_relative = skill_path.parent.parent / "_shared"
+    return skill_path.parent.parent / "_shared"
+
+
+def locate_source_shared_dir(
+    source_root: Path,
+    skill_name: str,
+    entry: dict[str, Any],
+) -> Path:
+    shared_relative = shared_dir_relative(skill_name, entry)
     shared_dir = source_root.joinpath(*shared_relative.parts)
 
     if not shared_dir.is_dir():
@@ -725,6 +785,30 @@ def vendor_shared_resources(
     return changed
 
 
+def plan_sparse_paths(
+    repo: Path,
+    skills: dict[str, dict[str, Any]],
+    candidates: Iterable[str],
+) -> dict[str, tuple[str, ...]]:
+    """
+    Union, per source, every directory that source's checkout must contain.
+
+    A single checkout is cached and reused across all skills declared from the
+    same source and ref, so its sparse patterns have to be complete before the
+    first fetch. Planning up front also fails on an unusable `skillPath`
+    before any network work is done.
+    """
+    grouped: dict[str, set[str]] = {}
+
+    for skill_name in candidates:
+        entry = skills[skill_name]
+        key = source_cache_key(entry, repo)
+        relative = shared_dir_relative(skill_name, entry).as_posix()
+        grouped.setdefault(key, set()).add(relative)
+
+    return {key: tuple(sorted(paths)) for key, paths in grouped.items()}
+
+
 def repair_non_self_contained_skills(
     repo: Path,
     lock_before_sync: dict[str, Any],
@@ -754,7 +838,9 @@ def repair_non_self_contained_skills(
         + ", ".join(candidates)
     )
 
-    with tempfile.TemporaryDirectory(prefix="set-up-agent-skills-") as temp:
+    sparse_paths = plan_sparse_paths(repo, skills, candidates)
+
+    with tempfile.TemporaryDirectory(prefix="set_up_agent_skills_") as temp:
         temp_root = Path(temp)
         source_cache: dict[str, Path] = {}
 
@@ -765,6 +851,7 @@ def repair_non_self_contained_skills(
                 repo,
                 temp_root,
                 source_cache,
+                sparse_paths,
             )
             shared_source = locate_source_shared_dir(
                 source_root,
@@ -891,16 +978,15 @@ def main() -> int:
 
         print("\n== Synchronize declared skills from current upstream ==")
 
-        for skill_name in sorted(declared_skills):
-            print(f"\n-- {skill_name} --")
-            sync_skill(
-                repo,
-                npx,
-                skill_name,
-                lock_before["skills"][skill_name],
-                agents,
-            )
-            verify_skill_present(repo, skill_name, agents)
+        by_source = group_skills_by_install_source(lock_before["skills"])
+        print(f"Source checkouts required: {len(by_source)}")
+
+        for source, skill_names in sorted(by_source.items()):
+            print(f"\n-- {source}: {', '.join(skill_names)} --")
+            sync_source(repo, npx, source, skill_names, agents)
+
+            for skill_name in skill_names:
+                verify_skill_present(repo, skill_name, agents)
 
         verify_lock_skill_set_unchanged(repo, declared_skills)
 
