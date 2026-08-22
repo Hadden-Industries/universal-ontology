@@ -65,7 +65,7 @@ export default [
 
   // 3. Test Files: Jest, Node, and Browser globals
   {
-    files: ["**/*.test.js", "**/*.spec.js"],
+    files: ["**/*.test.js", "**/*.spec.js", "tests/**/*.js"],
     languageOptions: {
       ecmaVersion: 2024,
       sourceType: "module",

@@ -3,5 +3,8 @@
     "html-validate:recommended",
     "html-validate:document",
     "html-validate:prettier"
-  ]
+  ],
+  "rules": {
+    "require-sri": ["error", { "target": "crossorigin" }]
+  }
 }

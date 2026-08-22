@@ -1,6 +1,5 @@
 import { Buffer } from "node:buffer";
-import { createReadStream } from "node:fs";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { Readable } from "node:stream";
 
@@ -15,149 +14,6 @@ const XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
 
 function isAbsoluteIri(value) {
   return /^[A-Za-z][A-Za-z0-9+.-]*:/.test(value);
-}
-
-/**
- * Read the document-level xml:base from an RDF/XML document.
- *
- * The xml:base MUST be declared on the XML document element itself.
- * Nested xml:base declarations are deliberately not considered because
- * their scope is limited to their respective subtrees and they therefore
- * cannot establish the base IRI of the document as a whole.
- *
- * @param {string} inputPath
- * @returns {Promise<string>}
- */
-async function readDocumentBaseIri(inputPath) {
-  return new Promise((resolve, reject) => {
-    const parser = new SaxesParser({ xmlns: true });
-    const stream = createReadStream(inputPath, { encoding: "utf8" });
-
-    let settled = false;
-
-    function succeed(value) {
-      if (settled) {
-        return;
-      }
-
-      settled = true;
-      stream.destroy();
-      resolve(value);
-    }
-
-    function fail(error) {
-      if (settled) {
-        return;
-      }
-
-      settled = true;
-      stream.destroy();
-      reject(error);
-    }
-
-    parser.on("opentag", (element) => {
-      const xmlBase = Object.values(element.attributes).find(
-        (attribute) =>
-          attribute.uri === XML_NAMESPACE && attribute.local === "base",
-      );
-
-      if (!xmlBase) {
-        fail(
-          new Error(
-            `RDF/XML document "${inputPath}" does not declare ` +
-              "xml:base on its document element.",
-          ),
-        );
-        return;
-      }
-
-      if (!isAbsoluteIri(xmlBase.value)) {
-        fail(
-          new Error(
-            `RDF/XML document "${inputPath}" declares a non-absolute ` +
-              `document xml:base: "${xmlBase.value}".`,
-          ),
-        );
-        return;
-      }
-
-      succeed(xmlBase.value);
-    });
-
-    parser.on("error", (error) => {
-      fail(
-        new Error(
-          `Unable to inspect RDF/XML document "${inputPath}": ${error.message}`,
-          { cause: error },
-        ),
-      );
-    });
-
-    stream.on("data", (chunk) => {
-      if (!settled) {
-        parser.write(chunk);
-      }
-    });
-
-    stream.on("end", () => {
-      if (settled) {
-        return;
-      }
-
-      try {
-        parser.close();
-      } catch (error) {
-        fail(error);
-        return;
-      }
-
-      if (!settled) {
-        fail(
-          new Error(
-            `RDF/XML document "${inputPath}" does not contain an XML ` +
-              "document element.",
-          ),
-        );
-      }
-    });
-
-    stream.on("error", fail);
-  });
-}
-
-/**
- * Parse an RDF/XML document into RDF/JS quads.
- *
- * The document MUST declare an absolute xml:base on its document element.
- *
- * @param {string} inputPath
- * @returns {Promise<{
- *   baseIRI: string,
- *   quads: import('@rdfjs/types').Quad[],
- * }>}
- */
-async function parseRdfXml(inputPath) {
-  const baseIRI = await readDocumentBaseIri(inputPath);
-
-  const parser = new RdfXmlParser({
-    baseIRI,
-    strict: true,
-    trackPosition: true,
-    allowDuplicateRdfIds: false,
-    validateUri: true,
-    parseUnsupportedVersions: false,
-  });
-
-  const quads = [];
-
-  for await (const quad of parser.import(createReadStream(inputPath))) {
-    quads.push(quad);
-  }
-
-  return {
-    baseIRI,
-    quads,
-  };
 }
 
 /**
@@ -264,6 +120,129 @@ async function verifySemanticEquivalence(sourceQuads, jsonLdDocument) {
   }
 }
 
+function readDocumentBaseIri(sourceText, sourceName, fallbackBaseIRI) {
+  const parser = new SaxesParser({ xmlns: true });
+  const stopAfterDocumentElement = new Error("document element inspected");
+  let baseIRI;
+  let documentElementFound = false;
+  let inspectionError;
+
+  parser.on("opentag", (element) => {
+    documentElementFound = true;
+
+    const xmlBase = Object.values(element.attributes).find(
+      (attribute) =>
+        attribute.uri === XML_NAMESPACE && attribute.local === "base",
+    );
+
+    if (!xmlBase && fallbackBaseIRI === undefined) {
+      inspectionError = new Error(
+        `RDF/XML document "${sourceName}" does not declare ` +
+          "xml:base on its document element.",
+      );
+    } else if (!xmlBase && !isAbsoluteIri(fallbackBaseIRI)) {
+      inspectionError = new Error(
+        `RDF/XML document "${sourceName}" received a non-absolute ` +
+          `fallback base IRI: "${fallbackBaseIRI}".`,
+      );
+    } else if (!xmlBase) {
+      baseIRI = fallbackBaseIRI;
+    } else if (!isAbsoluteIri(xmlBase.value)) {
+      inspectionError = new Error(
+        `RDF/XML document "${sourceName}" declares a non-absolute ` +
+          `document xml:base: "${xmlBase.value}".`,
+      );
+    } else {
+      baseIRI = xmlBase.value;
+    }
+
+    throw stopAfterDocumentElement;
+  });
+
+  parser.on("error", (error) => {
+    inspectionError = new Error(
+      `Unable to inspect RDF/XML document "${sourceName}": ${error.message}`,
+      { cause: error },
+    );
+  });
+
+  try {
+    parser.write(sourceText).close();
+  } catch (error) {
+    if (error !== stopAfterDocumentElement && !inspectionError) {
+      inspectionError = new Error(
+        `Unable to inspect RDF/XML document "${sourceName}": ${error.message}`,
+        { cause: error },
+      );
+    }
+  }
+
+  if (inspectionError) {
+    throw inspectionError;
+  }
+
+  if (!documentElementFound) {
+    throw new Error(
+      `RDF/XML document "${sourceName}" does not contain an XML ` +
+        "document element.",
+    );
+  }
+
+  return baseIRI;
+}
+
+async function parseRdfXml(sourceText, baseIRI) {
+  const parser = new RdfXmlParser({
+    baseIRI,
+    strict: true,
+    trackPosition: true,
+    allowDuplicateRdfIds: false,
+    validateUri: true,
+    parseUnsupportedVersions: false,
+  });
+  const quads = [];
+
+  for await (const quad of parser.import(Readable.from([sourceText]))) {
+    quads.push(quad);
+  }
+
+  return quads;
+}
+
+export async function renderRdfXmlAsJsonLd({
+  rdfXml,
+  sourceName,
+  fallbackBaseIRI,
+  context,
+  verify = true,
+}) {
+  if (!Buffer.isBuffer(rdfXml) && typeof rdfXml !== "string") {
+    throw new TypeError("rdfXml must be a Buffer or string.");
+  }
+
+  if (!sourceName) {
+    throw new TypeError("sourceName is required.");
+  }
+
+  const sourceText = Buffer.isBuffer(rdfXml) ? rdfXml.toString("utf8") : rdfXml;
+  const baseIRI = readDocumentBaseIri(sourceText, sourceName, fallbackBaseIRI);
+  const quads = await parseRdfXml(sourceText, baseIRI);
+  const jsonLdDocument = await serializeJsonLd(quads, context);
+
+  if (verify) {
+    await verifySemanticEquivalence(quads, jsonLdDocument);
+  }
+
+  return {
+    baseIRI,
+    quadCount: quads.length,
+    content: Buffer.from(
+      `${JSON.stringify(jsonLdDocument, null, 2)}\n`,
+      "utf8",
+    ),
+  };
+}
+
 /**
  * Convert an RDF/XML OWL document to semantically equivalent JSON-LD.
  *
@@ -273,7 +252,6 @@ async function verifySemanticEquivalence(sourceQuads, jsonLdDocument) {
  * @param {object} options
  * @param {string} options.inputPath
  * @param {string} options.outputPath
- * @param {string} options.baseIRI
  * @param {object} [options.context]
  * @param {boolean} [options.verify=true]
  * @returns {Promise<{ quadCount: number, outputPath: string }>}
@@ -292,25 +270,20 @@ export async function convertRdfXmlToJsonLd({
     throw new TypeError("outputPath is required.");
   }
 
-  const { baseIRI, quads } = await parseRdfXml(inputPath);
-
-  const jsonLdDocument = await serializeJsonLd(quads, context);
-
-  if (verify) {
-    await verifySemanticEquivalence(quads, jsonLdDocument);
-  }
+  const rendered = await renderRdfXmlAsJsonLd({
+    rdfXml: await readFile(inputPath),
+    sourceName: inputPath,
+    context,
+    verify,
+  });
 
   await mkdir(dirname(outputPath), { recursive: true });
 
-  await writeFile(
-    outputPath,
-    `${JSON.stringify(jsonLdDocument, null, 2)}\n`,
-    "utf8",
-  );
+  await writeFile(outputPath, rendered.content);
 
   return {
-    baseIRI,
-    quadCount: quads.length,
+    baseIRI: rendered.baseIRI,
+    quadCount: rendered.quadCount,
     outputPath,
   };
 }

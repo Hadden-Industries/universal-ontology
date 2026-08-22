@@ -313,10 +313,10 @@ export class OwlToUmlXmiConverter {
       if (!classUri || classUri.trim() === "") continue;
 
       const defNode = this.indexes.classDefs.get(classUri);
-      if (!defNode) continue; // Terminate if no formal class definition exists.
-
       const classId = this._getId(classUri);
-      const className = this._getClassName(defNode, classUri);
+      const className = defNode
+        ? this._getClassName(defNode, classUri)
+        : this._getLocalName(classUri);
       const uuid = this._extractUuid(defNode);
 
       const classEl = this._createElement(null, "packagedElement");
@@ -332,11 +332,13 @@ export class OwlToUmlXmiConverter {
         this._setAttribute(classEl, rules.NAMESPACES.xmi, "xmi:uuid", uuid);
 
       // Execute Generalization / Superclass mapping operations.
-      const superClasses = Array.from(defNode.children).filter(
-        (c) =>
-          c.namespaceURI === rules.NAMESPACES.rdfs &&
-          c.localName === "subClassOf",
-      );
+      const superClasses = defNode
+        ? Array.from(defNode.children).filter(
+            (c) =>
+              c.namespaceURI === rules.NAMESPACES.rdfs &&
+              c.localName === "subClassOf",
+          )
+        : [];
 
       superClasses.forEach((sc) => {
         const superUri = this._getAttributeSafe(
@@ -364,7 +366,9 @@ export class OwlToUmlXmiConverter {
       });
 
       // Generate ISO-compliant class documentation blocks.
-      const finalDesc = this._generateCommentBody(classUri, defNode, uuid);
+      const finalDesc = defNode
+        ? this._generateCommentBody(classUri, defNode, uuid)
+        : "";
       if (finalDesc) {
         const commentEl = this._createCommentElement(
           `comment_${classId}`,
@@ -416,10 +420,22 @@ export class OwlToUmlXmiConverter {
     for (const [prefixBase, replacement] of Object.entries(rules)) {
       if (trimmed.startsWith(prefixBase)) {
         const rest = trimmed.substring(prefixBase.length);
-        return replacement + rest.replace(/[:/#.]/g, "____");
+        return replacement + rest.replace(/[:/#.]/g, "_");
       }
     }
-    return trimmed.replace(/[:/#.]/g, "____");
+    return trimmed.replace(/[:/#.]/g, "_");
+  }
+
+  /**
+   * Applies the XML whitespace collapsing performed by XPath normalize-space().
+   * @param {string} value - The XML text to normalize.
+   * @returns {string} The collapsed and trimmed value.
+   * @private
+   */
+  _normalizeSpace(value) {
+    return String(value ?? "")
+      .replace(/[\t\n\r ]+/g, " ")
+      .trim();
   }
 
   /**
@@ -443,11 +459,11 @@ export class OwlToUmlXmiConverter {
         );
         return l && l.toLowerCase() === lang;
       });
-      if (match) return match.textContent.trim();
+      if (match) return this._normalizeSpace(match.textContent);
     }
 
     // Execute fallback to the first available content node.
-    return nodes[0].textContent.trim();
+    return this._normalizeSpace(nodes[0].textContent);
   }
 
   /**
@@ -497,18 +513,19 @@ export class OwlToUmlXmiConverter {
       OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.dcterms;
     const rdfNs = OwlToUmlXmiConverter.CONVERTER_MAPPING_RULES.NAMESPACES.rdf;
 
-    const idNode = Array.from(node.children).find(
-      (c) => c.namespaceURI === dcNs && c.localName === "identifier",
-    );
-    if (!idNode) return null;
+    const uuidIdentifier = Array.from(node.children)
+      .filter(
+        (child) =>
+          child.namespaceURI === dcNs && child.localName === "identifier",
+      )
+      .map(
+        (identifier) =>
+          this._getAttributeSafe(identifier, rdfNs, "resource") ||
+          identifier.textContent.trim(),
+      )
+      .find((identifier) => identifier.startsWith("urn:uuid:"));
 
-    const val =
-      this._getAttributeSafe(idNode, rdfNs, "resource") ||
-      idNode.textContent.trim();
-    if (val && val.startsWith("urn:uuid:")) {
-      return val.substring("urn:uuid:".length);
-    }
-    return null;
+    return uuidIdentifier ? uuidIdentifier.substring("urn:uuid:".length) : null;
   }
 
   /**
@@ -549,8 +566,9 @@ export class OwlToUmlXmiConverter {
     );
 
     const bestDef = enGbDef || enDef || startEnDef || noLangDef;
-    if (bestDef && bestDef.textContent.trim()) {
-      parts.push(bestDef.textContent.trim());
+    const definition = this._normalizeSpace(bestDef?.textContent);
+    if (definition) {
+      parts.push(definition);
     }
 
     // Helper function for querying, extracting, and numerically sorting Axioms.
@@ -583,11 +601,9 @@ export class OwlToUmlXmiConverter {
         });
 
         validAxioms.forEach((ax, idx) => {
-          const targetText = this._getChildNode(
-            ax,
-            rules.owl,
-            "annotatedTarget",
-          ).textContent.trim();
+          const targetText = this._normalizeSpace(
+            this._getChildNode(ax, rules.owl, "annotatedTarget").textContent,
+          );
           const positionVal = (
             this._getChildNode(ax, rules.schema, "position") || {}
           ).textContent;
@@ -610,7 +626,7 @@ export class OwlToUmlXmiConverter {
             prefix === "Note"
               ? `Note ${idx + 1} to entry: `
               : `EXAMPLE ${idx + 1}:\n`;
-          output.push(`${token}${n.textContent.trim()}`);
+          output.push(`${token}${this._normalizeSpace(n.textContent)}`);
         });
       }
       return output.join("\n");
@@ -643,7 +659,7 @@ export class OwlToUmlXmiConverter {
     if (sourceNode) {
       const srcVal =
         this._getAttributeSafe(sourceNode, rules.rdf, "resource") ||
-        sourceNode.textContent.trim();
+        this._normalizeSpace(sourceNode.textContent);
       if (srcVal) parts.push(`[SOURCE:${srcVal}]`);
     }
 
@@ -715,11 +731,13 @@ export class OwlToUmlXmiConverter {
     const restrictionKey = `${classUri}|${propUri}`;
     const restrictions = this.indexes.restrictions.get(restrictionKey) || [];
     if (restrictions.length > 0) {
-      const restNode = restrictions[0]; // Isolate the first associated formal restriction
       const extractCard = (names) => {
         for (const name of names) {
-          const node = this._getChildNode(restNode, rules.owl, name);
-          if (node && node.textContent.trim()) return node.textContent.trim();
+          for (const restriction of restrictions) {
+            const node = this._getChildNode(restriction, rules.owl, name);
+            const value = this._normalizeSpace(node?.textContent);
+            if (value) return value;
+          }
         }
         return null;
       };
@@ -845,7 +863,7 @@ export class OwlToUmlXmiConverter {
       const node = this._getChildNode(ontNode, ns, localName);
       if (node) {
         const res = this._getAttributeSafe(node, rules.rdf, "resource");
-        const txt = res || node.textContent.trim();
+        const txt = this._normalizeSpace(res || node.textContent);
         if (txt) parts.push(`${prefix}${txt}`);
       }
     };

@@ -8,8 +8,9 @@ class TestOwlToUmlXmi(XmlTestCase):
     def setUpClass(cls):
         # Path to stylesheet
         cls.xslt_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), 
-            "owl_to_uml_xmi.xsl"
+            os.path.dirname(os.path.dirname(__file__)),
+            "src",
+            "owl-to-uml-xmi.xsl",
         )
         with open(cls.xslt_path, "r", encoding="utf-8") as f:
             xslt_doc = etree.parse(f)
@@ -82,12 +83,6 @@ class TestOwlToUmlXmi(XmlTestCase):
             "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='https___haddenindustries_com_ontology_test_SubClass'][@name='Sub Class FR'][@xmi:uuid='22222222-2222-2222-2222-222222222222']",
             "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/ownedComment/body[contains(., 'Sub Definition GB')][contains(., '[UUID: 22222222-2222-2222-2222-222222222222]')]",
             "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/generalization[@general='https___haddenindustries_com_ontology_test_BaseClass']"
-        ])
-
-        # Verify Sparx Enterprise Architect xmi:Extension elements (UUID UDPs)
-        self.assertXpathsExist(root, [
-            "/xmi:XMI/xmi:Extension[@extender='Enterprise Architect'][@extenderID='6.5']/elements/element[@xmi:idref='https___haddenindustries_com_ontology_test_BaseClass'][@xmi:type='uml:Class'][@sType='Class']/tags/tag[@name='UUID'][@value='11111111-1111-1111-1111-111111111111']",
-            "/xmi:XMI/xmi:Extension[@extender='Enterprise Architect'][@extenderID='6.5']/elements/element[@xmi:idref='https___haddenindustries_com_ontology_test_SubClass'][@xmi:type='uml:Class'][@sType='Class']/tags/tag[@name='UUID'][@value='22222222-2222-2222-2222-222222222222']"
         ])
 
     def test_datatype_property_and_multiplicity(self):

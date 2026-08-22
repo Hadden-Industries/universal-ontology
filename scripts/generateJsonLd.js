@@ -3,7 +3,7 @@ import { constants } from "node:fs";
 import { parseArgs } from "node:util";
 import { extname, join } from "node:path";
 
-import { convertRdfXmlToJsonLd } from "../src/rdfXmlToJsonLd.js";
+import { convertRdfXmlToJsonLd } from "./rdfXmlToJsonLd.js";
 
 const DEFAULT_INPUT_ROOTS = ["dist/universal", "dist/iso", "dist/iso-iec"];
 
