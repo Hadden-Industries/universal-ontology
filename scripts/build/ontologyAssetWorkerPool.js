@@ -2,7 +2,7 @@ import { availableParallelism } from "node:os";
 import { Worker } from "node:worker_threads";
 
 const DEFAULT_WORKER_COUNT = Math.min(4, availableParallelism());
-const DEFAULT_WORKER_URL = new URL("./jsonLdWorker.js", import.meta.url);
+const DEFAULT_WORKER_URL = new URL("./ontologyAssetWorker.js", import.meta.url);
 
 function compareBinaryPaths(left, right) {
   return left < right ? -1 : left > right ? 1 : 0;
@@ -19,18 +19,18 @@ function validateInputs(inputs, workerCount) {
 
   for (const input of inputs) {
     if (!input?.outputPath) {
-      throw new TypeError("Every JSON-LD worker input needs an outputPath.");
+      throw new TypeError("Every ontology asset input needs an outputPath.");
     }
 
     if (!Number.isFinite(input.size) || input.size < 0) {
       throw new TypeError(
-        `JSON-LD worker input "${input.outputPath}" needs a non-negative size.`,
+        `Ontology asset input "${input.outputPath}" needs a non-negative size.`,
       );
     }
 
     if (!input.sourcePath && input.content === undefined) {
       throw new TypeError(
-        `JSON-LD worker input "${input.outputPath}" needs a sourcePath or content.`,
+        `Ontology asset input "${input.outputPath}" needs a sourcePath or content.`,
       );
     }
   }
@@ -64,7 +64,9 @@ function createSizeBalancedQueues(inputs, poolSize) {
 }
 
 function createFailure({ outputPath, error }) {
-  const cause = new Error(error?.message ?? "Worker conversion failed.");
+  const cause = new Error(
+    error?.message ?? "Ontology asset worker conversion failed.",
+  );
   cause.name = error?.name ?? "Error";
 
   if (error?.stack) {
@@ -74,13 +76,13 @@ function createFailure({ outputPath, error }) {
   return {
     outputPath,
     error: new Error(
-      `Unable to render JSON-LD for "${outputPath}": ${cause.message}`,
+      `Unable to render ontology assets for "${outputPath}": ${cause.message}`,
       { cause },
     ),
   };
 }
 
-export async function renderJsonLdWithWorkers({
+export async function renderOntologyAssetsWithWorkers({
   inputs,
   workerCount = DEFAULT_WORKER_COUNT,
   workerUrl = DEFAULT_WORKER_URL,
@@ -186,7 +188,8 @@ export async function renderJsonLdWithWorkers({
         } else {
           results[task.index] = {
             outputPath: task.input.outputPath,
-            content: Buffer.from(message.content),
+            jsonLdContent: Buffer.from(message.jsonLdContent),
+            csvContent: Buffer.from(message.csvContent),
           };
           completedTasks += 1;
         }

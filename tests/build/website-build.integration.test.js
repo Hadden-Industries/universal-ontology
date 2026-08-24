@@ -158,10 +158,13 @@ test("builds multi-page website and ontology assets with stable public paths", a
       "owl-to-uml-xmi.xsl",
       "external/kept.rdf",
       "universal/core/20260101",
+      "universal/core/20260101.csv",
       "universal/core/20260101.jsonld",
       "universal/core/latest",
+      "universal/core/latest.csv",
       "universal/core/latest.jsonld",
       "universal/core/latest-unstable",
+      "universal/core/latest-unstable.csv",
       "universal/core/latest-unstable.jsonld",
       "sentinel.txt",
     ]);
@@ -220,6 +223,7 @@ test("preserves mtimes for byte-identical outputs on a second build", async () =
       "ontology.css",
       "external/kept.rdf",
       "universal/core/latest",
+      "universal/core/latest.csv",
       "universal/core/latest.jsonld",
       "sentinel.txt",
     ].map((relativePath) =>

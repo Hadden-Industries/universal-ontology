@@ -1,4 +1,4 @@
-import { createOntologyViewModel } from "../src/ontology.js";
+import { createOntologyViewModel } from "../src/ontologyViewModel.js";
 
 const NS = {
   owl: "http://www.w3.org/2002/07/owl#",

@@ -66,6 +66,8 @@ async function createFixture() {
     "ontology.html",
     "ontology.js",
     "ontology.css",
+    "ontologyCsv.js",
+    "ontologyViewModel.js",
     "OwlToUmlXmiConverter.js",
     "owl-to-uml-xmi.xsl",
   ]) {
@@ -169,6 +171,9 @@ test("loads the built master page at a deeply nested ontology URL", async () => 
     await runViteBuild(fixture);
     await expect(
       access(join(fixture.outputDirectory, "OwlToUmlXmiConverter.js")),
+    ).resolves.toBeUndefined();
+    await expect(
+      access(join(fixture.outputDirectory, "ontologyCsv.js")),
     ).resolves.toBeUndefined();
     server = await startServer(fixture.outputDirectory);
     browser = await chromium.launch({ headless: true, channel: "chrome" });

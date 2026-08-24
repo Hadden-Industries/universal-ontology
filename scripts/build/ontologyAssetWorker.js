@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { parentPort } from "node:worker_threads";
 
+import { renderOntologyCsvFromJsonLd } from "../jsonLdToCsv.js";
 import { renderRdfXmlAsJsonLd } from "../rdfXmlToJsonLd.js";
 
 function serializeError(error) {
@@ -27,14 +28,21 @@ parentPort.on("message", async ({ taskId, input }) => {
     const rdfXml = input.sourcePath
       ? await readFile(input.sourcePath)
       : Buffer.from(input.content);
-    const rendered = await renderRdfXmlAsJsonLd({
+    const renderedJsonLd = await renderRdfXmlAsJsonLd({
       rdfXml,
       sourceName: input.outputPath,
       fallbackBaseIRI: input.fallbackBaseIRI,
     });
-    const content = createTransferableBuffer(rendered.content);
+    const renderedCsv = renderOntologyCsvFromJsonLd(
+      renderedJsonLd.jsonLdDocument,
+    );
+    const jsonLdContent = createTransferableBuffer(renderedJsonLd.content);
+    const csvContent = createTransferableBuffer(renderedCsv.content);
 
-    parentPort.postMessage({ taskId, content }, [content]);
+    parentPort.postMessage({ taskId, jsonLdContent, csvContent }, [
+      jsonLdContent,
+      csvContent,
+    ]);
   } catch (error) {
     parentPort.postMessage({ taskId, error: serializeError(error) });
   }

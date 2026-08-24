@@ -41,12 +41,14 @@ parentPort.on("message", async ({ taskId, input }) => {
     }
 
     recordCompletion(input.control);
+    const result = fixture.resultFromHistory
+      ? history.join(",")
+      : fixture.result;
+
     parentPort.postMessage({
       taskId,
-      content: Buffer.from(
-        fixture.resultFromHistory ? history.join(",") : fixture.result,
-        "utf8",
-      ),
+      jsonLdContent: Buffer.from(result, "utf8"),
+      csvContent: Buffer.from(`csv:${result}`, "utf8"),
     });
   } catch (error) {
     recordCompletion(input.control);

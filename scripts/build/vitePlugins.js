@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { posix } from "node:path";
 
 import { resolveOutputPath } from "./sourceInventory.js";
-import { createOntologyBuildAssets } from "./jsonLdAssets.js";
+import { createOntologyBuildAssets } from "./ontologyAssets.js";
 
 function outputBytes(entry) {
   if (entry.type === "chunk") {

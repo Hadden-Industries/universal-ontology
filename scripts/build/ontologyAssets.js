@@ -1,7 +1,7 @@
 import { stat } from "node:fs/promises";
 import { posix } from "node:path";
 
-import { renderJsonLdWithWorkers } from "./jsonLdWorkerPool.js";
+import { renderOntologyAssetsWithWorkers } from "./ontologyAssetWorkerPool.js";
 import { generateOntologyAliases } from "./ontologyAliases.js";
 
 const PUBLIC_ONTOLOGY_ROOT = new URL("https://haddenindustries.com/ontology/");
@@ -38,13 +38,14 @@ export async function createOntologyBuildAssets({
     left < right ? -1 : left > right ? 1 : 0,
   );
 
-  const renderedInputs = await renderJsonLdWithWorkers({
+  const renderedInputs = await renderOntologyAssetsWithWorkers({
     inputs: currentInputs,
     workerCount,
   });
 
-  for (const { outputPath, content } of renderedInputs) {
-    assets.set(`${outputPath}.jsonld`, content);
+  for (const { outputPath, jsonLdContent, csvContent } of renderedInputs) {
+    assets.set(`${outputPath}.jsonld`, jsonLdContent);
+    assets.set(`${outputPath}.csv`, csvContent);
   }
 
   return assets;

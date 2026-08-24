@@ -236,6 +236,7 @@ export async function renderRdfXmlAsJsonLd({
   return {
     baseIRI,
     quadCount: quads.length,
+    jsonLdDocument,
     content: Buffer.from(
       `${JSON.stringify(jsonLdDocument, null, 2)}\n`,
       "utf8",

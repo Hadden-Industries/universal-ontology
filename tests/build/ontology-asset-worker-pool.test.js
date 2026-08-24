@@ -1,7 +1,7 @@
-import { renderJsonLdWithWorkers } from "../../scripts/build/jsonLdWorkerPool.js";
+import { renderOntologyAssetsWithWorkers } from "../../scripts/build/ontologyAssetWorkerPool.js";
 
 const workerUrl = new URL(
-  "./fixtures/jsonld-worker-fixture.js",
+  "./fixtures/ontology-asset-worker-fixture.js",
   import.meta.url,
 );
 
@@ -49,7 +49,7 @@ test("returns results in input order when workers finish out of order", async ()
     }),
   ];
 
-  const results = await renderJsonLdWithWorkers({
+  const results = await renderOntologyAssetsWithWorkers({
     inputs,
     workerCount: 3,
     workerUrl,
@@ -58,8 +58,11 @@ test("returns results in input order when workers finish out of order", async ()
   expect(results.map(({ outputPath }) => outputPath)).toEqual(
     inputs.map(({ outputPath }) => outputPath),
   );
-  expect(results.map(({ content }) => content.toString("utf8"))).toEqual(
-    inputs.map(({ outputPath }) => outputPath),
+  expect(
+    results.map(({ jsonLdContent }) => jsonLdContent.toString("utf8")),
+  ).toEqual(inputs.map(({ outputPath }) => outputPath));
+  expect(results.map(({ csvContent }) => csvContent.toString("utf8"))).toEqual(
+    inputs.map(({ outputPath }) => `csv:${outputPath}`),
   );
 });
 
@@ -91,18 +94,15 @@ test("uses deterministic size-balanced worker queues", async () => {
     }),
   ];
 
-  const results = await renderJsonLdWithWorkers({
+  const results = await renderOntologyAssetsWithWorkers({
     inputs,
     workerCount: 2,
     workerUrl,
   });
 
-  expect(results.map(({ content }) => content.toString("utf8"))).toEqual([
-    "a",
-    "b",
-    "b,c",
-    "a,d",
-  ]);
+  expect(
+    results.map(({ jsonLdContent }) => jsonLdContent.toString("utf8")),
+  ).toEqual(["a", "b", "b,c", "a,d"]);
 });
 
 test("runs no more than the requested number of tasks concurrently", async () => {
@@ -116,7 +116,7 @@ test("runs no more than the requested number of tasks concurrently", async () =>
     }),
   );
 
-  await renderJsonLdWithWorkers({ inputs, workerCount: 2, workerUrl });
+  await renderOntologyAssetsWithWorkers({ inputs, workerCount: 2, workerUrl });
 
   const counters = new Int32Array(control);
   expect(counters[0]).toBe(0);
@@ -150,7 +150,7 @@ test("stops dispatching and reports the lexical-first active failure", async () 
   ];
 
   await expect(
-    renderJsonLdWithWorkers({ inputs, workerCount: 2, workerUrl }),
+    renderOntologyAssetsWithWorkers({ inputs, workerCount: 2, workerUrl }),
   ).rejects.toThrow(/universal\/Z\/20260101.*uppercase failed first/u);
 
   expect(new Int32Array(control)[2]).toBe(2);
