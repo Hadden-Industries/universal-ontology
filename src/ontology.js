@@ -90,36 +90,10 @@ function escapeHTML(str) {
 }
 
 /**
- * Serializes ontology view-model rows and downloads them as a CSV file.
- * @async
- * @param {Array<Object>} rows - The ontology rows to export.
- * @param {string} [filename="Ontology.csv"] - The name of the file to save.
+ * Triggers a download of a materialized ontology asset.
+ * @param {string} url - The URL of the materialized asset.
  */
-async function downloadOntologyCsv(rows, filename = "Ontology.csv") {
-  if (!rows) return;
-
-  const { serializeOntologyRowsAsCsv } = await import("./ontologyCsv.js");
-  const csvText = serializeOntologyRowsAsCsv(rows);
-
-  const blob = new Blob([csvText], {
-    type: "text/csv;charset=utf-8;",
-  });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
-
-/**
- * Triggers a download of the materialized JSON-LD ontology file.
- * @param {string} url - The URL of the materialized JSON-LD file.
- */
-function exportJSON(url) {
+function downloadMaterializedAsset(url) {
   if (!url) return;
 
   const link = document.createElement("a");
@@ -282,6 +256,7 @@ export class OntologyUIController {
   #hiddenColumns = new Set();
   #fetchedXmlDoc = null;
   #jsonLdDoc = null;
+  #csvUrl = null;
   #jsonLdUrl = null;
   #sourceUrl = null;
   #fileName = "Ontology";
@@ -400,15 +375,12 @@ export class OntologyUIController {
 
     const exportCsvBtn = document.getElementById("export-csv");
     if (exportCsvBtn) {
-      exportCsvBtn.addEventListener("click", async (e) => {
+      exportCsvBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         exportCsvBtn.disabled = true;
         exportCsvBtn.classList.add("exporting");
         try {
-          await downloadOntologyCsv(
-            this.#extractedData,
-            `${this.#fileName}.csv`,
-          );
+          downloadMaterializedAsset(this.#csvUrl);
         } finally {
           exportCsvBtn.classList.remove("exporting");
           exportCsvBtn.disabled = false;
@@ -423,7 +395,7 @@ export class OntologyUIController {
         exportJsonLdBtn.disabled = true;
         exportJsonLdBtn.classList.add("exporting");
         try {
-          exportJSON(this.#jsonLdUrl);
+          downloadMaterializedAsset(this.#jsonLdUrl);
         } finally {
           exportJsonLdBtn.classList.remove("exporting");
           exportJsonLdBtn.disabled = false;
@@ -615,7 +587,11 @@ export class OntologyUIController {
     const jsonLdUrl = new URL(sourceUrl);
     jsonLdUrl.pathname = `${sourcePath}.jsonld`;
 
+    const csvUrl = new URL(sourceUrl);
+    csvUrl.pathname = `${sourcePath}.csv`;
+
     this.#sourceUrl = sourceUrl.href;
+    this.#csvUrl = csvUrl.href;
     this.#jsonLdUrl = jsonLdUrl.href;
 
     try {

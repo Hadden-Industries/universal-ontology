@@ -32,7 +32,13 @@ const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
 </rdf:RDF>
 `;
 
+const EXPECTED_CSV = [
+  "Entity Type,UUID,URI,Preferred Label,Definition,Sources,Creator,Created At,Modified At,Superclasses,Class of Named Individual",
+  "Class,,https://haddenindustries.com/ontology/universal/core/Thing,,,,,,,,",
+].join("\n");
+
 const CONTENT_TYPES = new Map([
+  [".csv", "text/csv; charset=utf-8"],
   [".css", "text/css; charset=utf-8"],
   [".html", "text/html; charset=utf-8"],
   [".js", "text/javascript; charset=utf-8"],
@@ -66,7 +72,6 @@ async function createFixture() {
     "ontology.html",
     "ontology.js",
     "ontology.css",
-    "ontologyCsv.js",
     "ontologyViewModel.js",
     "OwlToUmlXmiConverter.js",
     "owl-to-uml-xmi.xsl",
@@ -162,7 +167,7 @@ async function startServer(outputDirectory) {
   };
 }
 
-test("loads the built master page at a deeply nested ontology URL", async () => {
+test("loads the built master page and downloads its materialized CSV", async () => {
   const fixture = await createFixture();
   let browser;
   let server;
@@ -171,9 +176,6 @@ test("loads the built master page at a deeply nested ontology URL", async () => 
     await runViteBuild(fixture);
     await expect(
       access(join(fixture.outputDirectory, "OwlToUmlXmiConverter.js")),
-    ).resolves.toBeUndefined();
-    await expect(
-      access(join(fixture.outputDirectory, "ontologyCsv.js")),
     ).resolves.toBeUndefined();
     server = await startServer(fixture.outputDirectory);
     browser = await chromium.launch({ headless: true, channel: "chrome" });
@@ -220,6 +222,19 @@ test("loads the built master page at a deeply nested ontology URL", async () => 
     expect(
       await page.evaluate(() => document.styleSheets.length),
     ).toBeGreaterThan(0);
+
+    const downloadPromise = page.waitForEvent("download");
+    await page.locator("#export-toggle").click();
+    await page.locator("#export-csv").click();
+    const download = await downloadPromise;
+
+    expect(download.url()).toBe(
+      `${server.origin}/ontology/universal/core/20260101.csv`,
+    );
+    expect(download.suggestedFilename()).toBe("20260101.csv");
+    expect(await readFile(await download.path(), "utf8")).toBe(EXPECTED_CSV);
+    expect(responses).not.toContain(`${server.origin}/ontology/ontologyCsv.js`);
+    expect(failures).toEqual([]);
   } finally {
     await browser?.close();
     await server?.close();
