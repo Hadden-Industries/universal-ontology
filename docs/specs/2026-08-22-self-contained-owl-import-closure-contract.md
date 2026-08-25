@@ -8,7 +8,7 @@
 
 **Machine-readable policy:** `docs/import-closure/contract.v1.json`
 
-**Required library release:** exact public-registry dependency `owlapi@1.4.0`
+**Required library release:** exact public-registry dependency `owlapi@0.2.0`
 from `https://github.com/Hadden-Industries/owlapi`
 
 ## 1. Purpose and conformance
@@ -122,10 +122,17 @@ method.
 
 The consumer implementation starts only after the canonical
 `Hadden-Industries/owlapi` repository has published the complete required
-capability slice as `owlapi@1.4.0` to the public npm registry. The dependency
-**MUST** be declared exactly as `"owlapi": "1.4.0"`; a relative source-tree
+capability slice as `owlapi@0.2.0` to the public npm registry. The dependency
+**MUST** be declared exactly as `"owlapi": "0.2.0"`; a relative source-tree
 path, `file:`, `link:`, workspace alias, Git URL, copied source, package alias,
 resolver alias, or unpublished tarball is non-conforming.
+
+This consumer contract does not authorize or create an `owlapi` release. The
+ontology-lifecycle programme owns publication of `0.2.0`; this workflow starts
+only after that exact immutable registry artefact is accepted. If the required
+capability slice is not available at `0.2.0`, implementation stops for an
+explicit contract/version decision rather than selecting or publishing a
+different coordinate from `universal-ontology`.
 
 Except for `owlapi`'s curated bare aggregate, every public package subpath is
 the exact slash-form of a separately approved package beneath
@@ -342,7 +349,7 @@ An implementation is non-conforming if it does any of the following, even when c
 - keeps either Python file as a wrapper, alias, fallback, or deprecation launcher;
 - uses a local path, workspace/link, Git dependency, copied source, package or
   resolver alias, internal/deep import, or re-export shim in place of exact
-  public-registry `owlapi@1.4.0` package specifiers;
+  public-registry `owlapi@0.2.0` package specifiers;
 - publishes a temporary file before every contract equality check passes.
 
 ## 13. Conformance completion criteria
@@ -350,7 +357,7 @@ An implementation is non-conforming if it does any of the following, even when c
 The migration is complete only when all of the following are true:
 
 - the machine-readable policy and relevant capability matrix entries are green;
-- exact public-registry `owlapi@1.4.0` is declared and all consumer imports use
+- exact public-registry `owlapi@0.2.0` is declared and all consumer imports use
   only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and
   `owlapi/util`;
 - the upstream Public API Surface Registry, capability matrix, package exports,
@@ -375,7 +382,7 @@ The migration is complete only when all of the following are true:
 - no shim, alias, fallback, or stale command reference remains;
 - focused tests, complete tests, lint, formatting checks, and builds pass in
   `universal-ontology`, while the accepted release evidence remains valid for
-  the exact consumed `owlapi@1.4.0` artifact;
+  the exact consumed `owlapi@0.2.0` artifact;
 - unrelated working-tree changes remain intact;
 - no commit or push occurs without separate explicit authorization.
 
@@ -388,8 +395,8 @@ Use these sources in this order when resolving an implementation question:
 3. [OWL 2 Mapping to RDF Graphs](https://www.w3.org/TR/owl2-mapping-to-rdf/) for OWL-to-RDF behavior.
 4. [OWL 2 Conformance](https://www.w3.org/TR/owl2-conformance/) for structural and semantic comparison expectations.
 5. The canonical `Hadden-Industries/owlapi` Public API Surface Registry,
-   capability matrix, post-1.0 capability plan, and public package documentation
-   for the exact `owlapi@1.4.0` consumer boundary.
+   capability matrix, ontology-lifecycle capability plan, and public package
+   documentation for the exact `owlapi@0.2.0` consumer boundary.
 6. Public Java OWLAPI 5.5.1 contracts and the pinned local source at `C:\Users\maksy\GitHub\owlcs\owlapi`, especially `OWLOntologyManager`, `OWLOntologyImportsClosureSetProvider`, `OWLOntologyMerger`, `SetOntologyID`, `AddOntologyAnnotation`, `OWLStorer`, `FunctionalSyntaxStorer`, and `RDFXMLStorer`.
 7. [OASIS XML Catalogs 1.0](https://www.oasis-open.org/committees/entity/specs/cs-entity-xml-catalogs-1.0.html) for URI catalog precedence and `xml:base`.
 8. [RDF/XML Syntax](https://www.w3.org/TR/rdf-syntax-grammar/) for concrete output constraints.

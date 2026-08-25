@@ -13,13 +13,13 @@ a one-ontology distribution artifact, performs a strict offline structural
 round trip, and publishes only after the proof passes.
 
 **Tech Stack:** Native ESM JavaScript on Node.js 24 LTS; exact public-registry
-`owlapi@1.4.0`; RDF/JS; W3C OWL 2 structural semantics and OWL-to-RDF mapping;
+`owlapi@0.2.0`; RDF/JS; W3C OWL 2 structural semantics and OWL-to-RDF mapping;
 OASIS XML Catalogs; Jest; the pinned Java OWLAPI 5.5.1 differential harness.
 
 **Spec:** `docs/specs/2026-08-22-self-contained-owl-import-closure-contract.md`
 is the normative consumer-owned contract. The canonical
 `Hadden-Industries/owlapi` Public API Surface Registry, capability matrix, and
-post-1.0 capability plan govern the package boundary and upstream feature
+ontology-lifecycle capability plan govern the package boundary and upstream feature
 implementation; this plan does not duplicate them.
 
 ## Global Constraints
@@ -29,7 +29,7 @@ implementation; this plan does not duplicate them.
 - W3C OWL 2 structural semantics govern ontology meaning. Public Java OWLAPI 5.5.1 contracts and the upstream Public API Surface Registry govern any new `owlapi` public class or method. ROBOT, Protege, and current Python behavior are comparative evidence, not normative authorities.
 - `owlapi` **MUST NOT** expose `materializeImportClosure`, `collapseImports`, or any other project-invented convenience method. The materialization policy belongs only to `universal-ontology`.
 - Except for the curated bare aggregate, a public `owlapi` subpath **MUST** map exactly to a separately approved package beneath `org.semanticweb.owlapi`. A public binding **MUST** retain its Java responsibility, have an approved registry row and focused parity tests, and own one canonical definition in the matching Java-shaped namespace. If no corresponding upstream namespace exists, keep the helper private to `universal-ontology` or stop for an approved architecture amendment.
-- `universal-ontology` **MUST** consume exact public-registry `owlapi@1.4.0` through only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`. Relative, `file:`, `link:`, workspace, Git, copied-source, package-alias, resolver-alias, `owlapi/internal/*`, unexported deep, and nominal `owlapi/rdf` imports are forbidden.
+- `universal-ontology` **MUST** consume exact public-registry `owlapi@0.2.0` through only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`. Relative, `file:`, `link:`, workspace, Git, copied-source, package-alias, resolver-alias, `owlapi/internal/*`, unexported deep, and nominal `owlapi/rdf` imports are forbidden.
 - Functional Syntax and RDF/XML storage **MUST** be selected through `OWLOntologyManager.saveOntology`; this consumer neither requires nor directly imports `FunctionalSyntaxStorer` or `RDFXMLStorer` constructors.
 - There **MUST NOT** be a compatibility shim, wrapper, forwarding module, deprecated alias, Python launcher for JavaScript, or parallel old/new implementation in either repository.
 - Import resolution during generation **MUST** enable remote imports, catalog mappings, redirects, retries, and HTTP-to-HTTPS retry promotion. Missing, unreadable, unsupported, or unparsed input **MUST** fail generation.
@@ -71,14 +71,15 @@ that WebVOWL path is not a consumer import or a second maintained authority.
 This consumer plan starts only after all of these upstream gates are complete:
 
 1. the extraction/publication plan has completed with verified public
-   `owlapi@1.0.1` and WebVOWL consuming that exact package;
-2. the separate post-1.0 capability plan has implemented the complete
+   production `owlapi@0.1.0`—or only its recorded same-surface cutover patch—and
+   WebVOWL consuming that exact package;
+2. the separate ontology-lifecycle capability plan has implemented the complete
    imports-closure, mutation, merger, strict reconstruction, and Functional
    Syntax/RDF/XML storage slice in the canonical `Hadden-Industries/owlapi`
    repository;
 3. the Public API Surface Registry and capability matrix classify every
    consumed binding as complete and public at its exact Java-backed subpath;
-4. the exact retained `owlapi@1.4.0` artifact has passed installed-package,
+4. the exact retained `owlapi@0.2.0` artifact has passed installed-package,
    browser, Node, Java differential, round-trip, provenance, and public-registry
    verification.
 
@@ -86,6 +87,12 @@ The upstream work is a prerequisite, not an executable task group in this
 consumer plan.
 `universal-ontology` does not edit WebVOWL staging paths, the canonical package
 source, its registry, or its capability matrix while executing this plan.
+The exact `0.2.0` package is an immutable upstream prerequisite selected and
+published by the ontology-lifecycle programme. This consumer plan neither
+creates a new `owlapi` release nor advances its version. If the required
+capabilities are not available at that exact coordinate, implementation stops
+for an explicit cross-plan/version decision rather than silently selecting a
+different package or publishing one from this repository.
 
 The executor must inspect the `universal-ontology` working tree before every
 task. A dirty tree is not a blocker, but overlapping user changes must be
@@ -133,7 +140,7 @@ concrete-storer constructors are not a consumer prerequisite.
 ## Upstream library prerequisite gate
 
 The implementation formerly described here as Tasks 1–6 is owned exclusively
-by the canonical `Hadden-Industries/owlapi` post-1.0 capability plan. It is not
+by the canonical `Hadden-Industries/owlapi` ontology-lifecycle capability plan. It is not
 executed from this repository, and this consumer plan deliberately does not
 duplicate upstream source paths, internal architecture, commits, or task
 instructions.
@@ -170,7 +177,7 @@ The upstream gate is satisfied only when:
 6. the complete composition agrees with the pinned Java OWLAPI 5.5.1 oracle on
    full ontology identity, root annotations, empty imports, axiom set, and
    anonymous-individual relationships; and
-7. the exact retained artifact is publicly published as `owlapi@1.4.0` and
+7. the exact retained artifact is publicly published as `owlapi@0.2.0` and
    verified from a fresh registry cache.
 
 Direct `FunctionalSyntaxStorer` or `RDFXMLStorer` constructors are not part of
@@ -194,13 +201,13 @@ checkout, reintroduce the former WebVOWL staging tree, or create a consumer shim
 
 **Interfaces:**
 
-- Consumes: the approved consumer contract, its versioned machine-readable policy, and exact public-registry `owlapi@1.4.0` after the upstream prerequisite gate.
+- Consumes: the approved consumer contract, its versioned machine-readable policy, and exact public-registry `owlapi@0.2.0` after the upstream prerequisite gate.
 - Produces: a contract-lock test, one exact development dependency, and a test proving the consumer uses only published Java-compatible exports.
 
 - [ ] **Step 1: Verify the package release before changing consumer configuration**
 
 From a clean temporary consumer with the canonical public npm registry selected,
-verify that `owlapi@1.4.0` resolves, its registry integrity/provenance and source
+verify that `owlapi@0.2.0` resolves, its registry integrity/provenance and source
 tag match the accepted retained artifact, and its installed-package tests expose
 the five required subpaths. Confirm the upstream registry marks every consumed
 symbol public and complete. Do not install a workspace path, `file:`, `link:`,
@@ -211,7 +218,7 @@ re-export, or resolver alias as a substitute for the release.
 
 Ask for approval to make only these changes:
 
-- add `"owlapi": "1.4.0"` to `devDependencies` in `universal-ontology/package.json` because the package is used by repository generation tooling and tests, not browser runtime code;
+- add `"owlapi": "0.2.0"` to `devDependencies` in `universal-ontology/package.json` because the package is used by repository generation tooling and tests, not browser runtime code;
 - add `"generate:full-ontologies": "node scripts/createFullVersions.js"` to `scripts`;
 - update `universal-ontology/package-lock.json` to pin the resolved package and integrity tree.
 
@@ -240,7 +247,7 @@ test("locks the approved standalone import-closure policy", async () => {
       packageName: "owlapi",
       sourceRepository: "https://github.com/Hadden-Industries/owlapi",
       registry: "https://registry.npmjs.org/",
-      exactVersion: "1.4.0",
+      exactVersion: "0.2.0",
       dependencySection: "devDependencies",
       publicSubpathAuthority: "public-api-surface-registry",
       publicSubpathRule: "exact-approved-org.semanticweb.owlapi-package",
@@ -330,7 +337,7 @@ because `owlapi` is not installed.
 Run this as one command:
 
 ```powershell
-npm install --save-dev --save-exact owlapi@1.4.0
+npm install --save-dev --save-exact owlapi@0.2.0
 ```
 
 Then add the one approved `generate:full-ontologies` script entry with a targeted edit. Inspect both configuration diffs and reject any unrelated dependency update or script rewrite.
@@ -868,7 +875,7 @@ const generationConfiguration = new OWLOntologyLoaderConfiguration({
 ```
 
 Use the finite byte/axiom/import/depth ceilings supplied by the completed
-`owlapi@1.4.0` resource contract. Do not replace them with infinity.
+`owlapi@0.2.0` resource contract. Do not replace them with infinity.
 
 - [ ] **Step 7: Run CLI tests**
 
@@ -1085,7 +1092,7 @@ npm run generate:full-ontologies
 Expected: PASS.
 
 For each output, verify with the exact installed public-registry
-`owlapi@1.4.0` package in a fresh Node process that:
+`owlapi@0.2.0` package in a fresh Node process that:
 
 ```text
 imports declarations = 0
@@ -1098,7 +1105,7 @@ external loader calls = 0
 
 Run the independent pinned Java OWLAPI oracle for the same four artifacts, one
 command at a time from a clean checkout of `Hadden-Industries/owlapi` at the
-source tag recorded for `owlapi@1.4.0`:
+source tag recorded for `owlapi@0.2.0`:
 
 ```powershell
 node util/owlapi-reference/run-import-closure-contract.mjs --root C:\Users\maksy\GitHub\universal-ontology\dist\iso-iec\11179\-3\ed-4\20260714 --catalog C:\Users\maksy\GitHub\universal-ontology\iso-iec11179-3\catalog-v001.xml --verify-output C:\Users\maksy\GitHub\universal-ontology\dist\iso-iec\11179\-3\ed-4\20260714-full
@@ -1126,7 +1133,7 @@ From `C:\Users\maksy\GitHub\universal-ontology`:
 npm ls owlapi --depth=0
 ```
 
-Expected: exactly `owlapi@1.4.0`, with no invalid, extraneous, linked, or
+Expected: exactly `owlapi@0.2.0`, with no invalid, extraneous, linked, or
 deduplicated alternate copy.
 
 ```powershell

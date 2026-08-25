@@ -4,7 +4,7 @@
     "packageName": "owlapi",
     "sourceRepository": "https://github.com/Hadden-Industries/owlapi",
     "registry": "https://registry.npmjs.org/",
-    "exactVersion": "1.4.0",
+    "exactVersion": "0.2.0",
     "dependencySection": "devDependencies",
     "publicSubpathAuthority": "public-api-surface-registry",
     "publicSubpathRule": "exact-approved-org.semanticweb.owlapi-package",
