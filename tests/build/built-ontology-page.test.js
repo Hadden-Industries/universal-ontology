@@ -29,14 +29,15 @@ const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
   </owl:Ontology>
   <owl:Class rdf:about="Thing">
     <dcterms:source rdf:resource="urn:iso:std:iso:704:ed-4:v1:en" />
+    <dcterms:references rdf:resource="https://example.com/reference" />
     <rdfs:label xml:lang="en">Thing</rdfs:label>
   </owl:Class>
 </rdf:RDF>
 `;
 
 const EXPECTED_CSV = [
-  "Entity Type,UUID,URI,Preferred Label,Definition,Sources,Creator,Created At,Modified At,Superclasses,Class of Named Individual",
-  "Class,,https://haddenindustries.com/ontology/universal/core/Thing,,,urn:iso:std:iso:704:ed-4:v1:en,,,,,",
+  "Entity Type,UUID,URI,Preferred Label,Definition,Sources,References,Creator,Created At,Modified At,Superclasses,Class of Named Individual",
+  "Class,,https://haddenindustries.com/ontology/universal/core/Thing,,,urn:iso:std:iso:704:ed-4:v1:en,https://example.com/reference,,,,,",
 ].join("\n");
 
 const CONTENT_TYPES = new Map([
@@ -74,12 +75,24 @@ async function createFixture() {
     "ontology.html",
     "ontology.js",
     "ontology.css",
+    "ontologyProjectionProperties.js",
     "ontologyViewModel.js",
     "OwlToUmlXmiConverter.js",
     "owl-to-uml-xmi.xsl",
   ]) {
     await copySourceFile(repositorySource, sourceDirectory, relativePath);
   }
+
+  await copySourceFile(
+    repositorySource,
+    sourceDirectory,
+    "projection/field-property-history.v1.json",
+  );
+  await copySourceFile(
+    repositorySource,
+    sourceDirectory,
+    "projection/field-property-history.v1.schema.json",
+  );
 
   await put(sourceDirectory, "universal/core/20260101", RDF_XML);
   await put(
@@ -179,6 +192,24 @@ test("loads the built master page and downloads its materialized CSV", async () 
     await expect(
       access(join(fixture.outputDirectory, "OwlToUmlXmiConverter.js")),
     ).resolves.toBeUndefined();
+    await expect(
+      access(
+        join(
+          fixture.outputDirectory,
+          "projection",
+          "field-property-history.v1.json",
+        ),
+      ),
+    ).resolves.toBeUndefined();
+    await expect(
+      access(
+        join(
+          fixture.outputDirectory,
+          "projection",
+          "field-property-history.v1.schema.json",
+        ),
+      ),
+    ).resolves.toBeUndefined();
     server = await startServer(fixture.outputDirectory);
     browser = await chromium.launch({ headless: true, channel: "chrome" });
     const page = await browser.newPage();
@@ -212,6 +243,9 @@ test("loads the built master page and downloads its materialized CSV", async () 
     });
 
     expect(await page.locator("#table-body tr").count()).toBeGreaterThan(0);
+    expect(
+      await page.locator('thead th[data-sort="references"]').textContent(),
+    ).toContain("References");
     expect(failures).toEqual([]);
     expect(responses).toContain(
       `${server.origin}/ontology/universal/core/20260101.jsonld`,
@@ -233,6 +267,15 @@ test("loads the built master page and downloads its materialized CSV", async () 
         .locator("a")
         .getAttribute("href"),
     ).toBe("urn:iso:std:iso:704:ed-4:v1:en");
+    expect(
+      await page
+        .locator("#table-body tr")
+        .first()
+        .locator("td")
+        .nth(6)
+        .locator("a")
+        .getAttribute("href"),
+    ).toBe("https://example.com/reference");
 
     const downloadPromise = page.waitForEvent("download");
     await page.locator("#export-toggle").click();

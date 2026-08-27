@@ -22,9 +22,24 @@ const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
 `;
 
 const EXPECTED_CSV = [
-  "Entity Type,UUID,URI,Preferred Label,Definition,Sources,Creator,Created At,Modified At,Superclasses,Class of Named Individual",
-  "Class,6cc43e8b-3eb3-43f1-80bd-b643a27f1c32,https://haddenindustries.com/ontology/universal/core/Thing,Thing,,,,,,,",
+  "Entity Type,UUID,URI,Preferred Label,Definition,Sources,References,Creator,Created At,Modified At,Superclasses,Class of Named Individual",
+  "Class,6cc43e8b-3eb3-43f1-80bd-b643a27f1c32,https://haddenindustries.com/ontology/universal/core/Thing,Thing,,,,,,,,",
 ].join("\n");
+
+const LEGACY_RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xml:base="https://haddenindustries.com/ontology/universal/core/"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260610" />
+  </owl:Ontology>
+  <owl:Class rdf:about="LegacyThing">
+    <dcterms:title xml:lang="en">Legacy Thing</dcterms:title>
+  </owl:Class>
+</rdf:RDF>
+`;
 
 async function ontologySource(root, outputPath, content = RDF_XML) {
   const sourcePath = join(root, ...outputPath.split("/"));
@@ -37,15 +52,15 @@ test("renders JSON-LD and CSV for every current source and generated alias", asy
   const root = await mkdtemp(join(tmpdir(), "uo-jsonld-assets-"));
 
   try {
-    const source = await ontologySource(root, "universal/core/20260101");
+    const source = await ontologySource(root, "universal/core/20260701");
     const assets = await createOntologyBuildAssets({
       ontologySources: [source],
       workerCount: 2,
     });
 
     expect([...assets.keys()].sort()).toEqual([
-      "universal/core/20260101.csv",
-      "universal/core/20260101.jsonld",
+      "universal/core/20260701.csv",
+      "universal/core/20260701.jsonld",
       "universal/core/latest",
       "universal/core/latest-unstable",
       "universal/core/latest-unstable.csv",
@@ -58,7 +73,7 @@ test("renders JSON-LD and CSV for every current source and generated alias", asy
     );
 
     for (const outputPath of [
-      "universal/core/20260101.jsonld",
+      "universal/core/20260701.jsonld",
       "universal/core/latest.jsonld",
       "universal/core/latest-unstable.jsonld",
     ]) {
@@ -68,12 +83,35 @@ test("renders JSON-LD and CSV for every current source and generated alias", asy
     }
 
     for (const outputPath of [
-      "universal/core/20260101.csv",
+      "universal/core/20260701.csv",
       "universal/core/latest.csv",
       "universal/core/latest-unstable.csv",
     ]) {
       expect(assets.get(outputPath)).toEqual(Buffer.from(EXPECTED_CSV, "utf8"));
     }
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("uses the source version when generating a historical CSV asset", async () => {
+  const root = await mkdtemp(join(tmpdir(), "uo-legacy-csv-assets-"));
+
+  try {
+    const source = await ontologySource(
+      root,
+      "universal/core/20260610",
+      LEGACY_RDF_XML,
+    );
+    const assets = await createOntologyBuildAssets({
+      ontologySources: [source],
+      workerCount: 1,
+    });
+    const csv = assets.get("universal/core/20260610.csv").toString("utf8");
+
+    expect(csv).toContain(
+      "https://haddenindustries.com/ontology/universal/core/LegacyThing,Legacy Thing,",
+    );
   } finally {
     await rm(root, { recursive: true, force: true });
   }

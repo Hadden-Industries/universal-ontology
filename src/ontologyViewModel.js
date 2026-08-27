@@ -1,3 +1,9 @@
+import {
+  resolveApplicableOntologyProjectionPropertyIris,
+  resolveLegacySourceInterpretations,
+  resolveOntologyProjectionProperties,
+} from "./ontologyProjectionProperties.js";
+
 const NS = {
   owl: "http://www.w3.org/2002/07/owl#",
   dcterms: "http://purl.org/dc/terms/",
@@ -15,10 +21,11 @@ const JSON_LD = {
   distribution: `${NS.dcat}Distribution`,
   annotatedSource: `${NS.owl}annotatedSource`,
   annotatedProperty: `${NS.owl}annotatedProperty`,
+  annotatedTarget: `${NS.owl}annotatedTarget`,
   title: `${NS.dcterms}title`,
   identifier: `${NS.dcterms}identifier`,
+  references: `${NS.dcterms}references`,
   source: `${NS.dcterms}source`,
-  creator: `${NS.dcterms}creator`,
   created: `${NS.dcterms}created`,
   modified: `${NS.dcterms}modified`,
   prefLabel: `${NS.skos}prefLabel`,
@@ -105,30 +112,67 @@ function getLexicalValues(node, property) {
 }
 
 function getPreferredLiteral(node, property) {
+  return getPreferredLiteralTerm(node, property)?.value ?? "";
+}
+
+function getDefaultLiteralDatatype(value) {
+  if (typeof value === "boolean") {
+    return "http://www.w3.org/2001/XMLSchema#boolean";
+  }
+
+  if (typeof value === "number") {
+    return `http://www.w3.org/2001/XMLSchema#${Number.isInteger(value) ? "integer" : "double"}`;
+  }
+
+  return "http://www.w3.org/2001/XMLSchema#string";
+}
+
+function getLiteralTerm(value) {
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
+    return {
+      datatype: getDefaultLiteralDatatype(value),
+      language: null,
+      value: String(value),
+    };
+  }
+
+  if (!value || typeof value !== "object" || value["@value"] === undefined) {
+    return null;
+  }
+
+  const language =
+    typeof value["@language"] === "string"
+      ? value["@language"].toLowerCase()
+      : null;
+
+  return {
+    datatype: language
+      ? "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"
+      : (value["@type"] ?? getDefaultLiteralDatatype(value["@value"])),
+    language,
+    value: String(value["@value"]),
+  };
+}
+
+function getRdfTermKey(term) {
+  return JSON.stringify([
+    "literal",
+    term.value,
+    term.language ?? "",
+    term.datatype,
+  ]);
+}
+
+function getPreferredLiteralTerm(node, property) {
   const literals = getPropertyValues(node, property)
     .map((value) => {
-      if (
-        typeof value === "string" ||
-        typeof value === "number" ||
-        typeof value === "boolean"
-      ) {
-        return {
-          language: null,
-          value: String(value),
-        };
-      }
+      const term = getLiteralTerm(value);
 
-      if (value && typeof value === "object" && value["@value"] !== undefined) {
-        return {
-          language:
-            typeof value["@language"] === "string"
-              ? value["@language"].toLowerCase()
-              : null,
-          value: String(value["@value"]),
-        };
-      }
-
-      return null;
+      return term ? { ...term, key: getRdfTermKey(term) } : null;
     })
     .filter(Boolean);
 
@@ -136,37 +180,52 @@ function getPreferredLiteral(node, property) {
     const match = literals.find((literal) => literal.language === language);
 
     if (match) {
-      return match.value;
+      return match;
     }
   }
 
-  return literals[0]?.value ?? "";
+  return literals[0] ?? null;
 }
 
 function hasType(node, type) {
   return asArray(node?.["@type"]).includes(type);
 }
 
-function buildDefinitionSourceIndex(nodes) {
+function buildDefinitionSourceIndex(nodes, definitionProperties) {
   const index = new Map();
+  const applicableProperties = new Set(definitionProperties);
 
   for (const node of nodes) {
     if (!hasType(node, JSON_LD.axiom)) {
       continue;
     }
 
-    const annotatedProperties = getReferencedIris(
-      node,
-      JSON_LD.annotatedProperty,
-    );
+    const annotatedProperties = [
+      ...new Set(
+        getReferencedIris(node, JSON_LD.annotatedProperty).filter((property) =>
+          applicableProperties.has(property),
+        ),
+      ),
+    ];
 
-    if (!annotatedProperties.includes(JSON_LD.definition)) {
+    if (annotatedProperties.length !== 1) {
       continue;
     }
+
+    const [annotatedProperty] = annotatedProperties;
 
     const annotatedSource = getReferencedIris(node, JSON_LD.annotatedSource)[0];
 
     if (!annotatedSource) {
+      continue;
+    }
+
+    const annotatedTarget = getPropertyValues(
+      node,
+      JSON_LD.annotatedTarget,
+    ).map(getLiteralTerm)[0];
+
+    if (!annotatedTarget) {
       continue;
     }
 
@@ -176,18 +235,59 @@ function buildDefinitionSourceIndex(nodes) {
       continue;
     }
 
-    const existing = index.get(annotatedSource) ?? [];
+    const targetKey = getRdfTermKey(annotatedTarget);
+    const sourceStatements = index.get(annotatedSource) ?? new Map();
+    const propertyTargets =
+      sourceStatements.get(annotatedProperty) ?? new Map();
+    const existing = propertyTargets.get(targetKey) ?? [];
 
-    index.set(annotatedSource, [...new Set([...existing, ...sources])]);
+    propertyTargets.set(targetKey, [...new Set([...existing, ...sources])]);
+    sourceStatements.set(annotatedProperty, propertyTargets);
+    index.set(annotatedSource, sourceStatements);
   }
 
   return index;
+}
+
+function interpretLegacySources(node, interpretations) {
+  const promotedSources = [];
+  const promotedReferenceValues = new Set();
+
+  for (const interpretation of interpretations) {
+    if (interpretation.interpretedAsPropertyIri !== JSON_LD.source) {
+      continue;
+    }
+
+    const matchingValues = getReferencedIris(
+      node,
+      interpretation.observedPropertyIri,
+    ).filter((value) => value.startsWith(interpretation.valueIriPrefix));
+
+    promotedSources.push(...matchingValues);
+
+    if (interpretation.observedPropertyIri === JSON_LD.references) {
+      matchingValues.forEach((value) => promotedReferenceValues.add(value));
+    }
+  }
+
+  return {
+    promotedSources: [...new Set(promotedSources)],
+    remainingReferences: [
+      ...new Set(
+        getLexicalValues(node, JSON_LD.references).filter(
+          (value) => !promotedReferenceValues.has(value),
+        ),
+      ),
+    ],
+  };
 }
 
 /**
  * Creates the application view model used by HTML and CSV output.
  *
  * @param {Object|Object[]} jsonLdDocument - Materialized JSON-LD document.
+ * @param {Object} [options]
+ * @param {string} [options.ontologyPath] - Published path used for historical fields.
  * @returns {{
  *   title: string,
  *   modified: string,
@@ -198,6 +298,7 @@ function buildDefinitionSourceIndex(nodes) {
  *     preferredLabel: string,
  *     definition: string,
  *     sources: string[],
+ *     references: string[],
  *     creator: string,
  *     createdAt: string,
  *     modifiedAt: string,
@@ -206,9 +307,18 @@ function buildDefinitionSourceIndex(nodes) {
  *   }>
  * }}
  */
-export function createOntologyViewModel(jsonLdDocument) {
+export function createOntologyViewModel(jsonLdDocument, { ontologyPath } = {}) {
   const nodes = getJsonLdNodes(jsonLdDocument);
-  const definitionSources = buildDefinitionSourceIndex(nodes);
+  const projectionProperties =
+    resolveOntologyProjectionProperties(ontologyPath);
+  const applicableDefinitionProperties =
+    resolveApplicableOntologyProjectionPropertyIris(ontologyPath, "definition");
+  const definitionSources = buildDefinitionSourceIndex(
+    nodes,
+    applicableDefinitionProperties,
+  );
+  const legacySourceInterpretations =
+    resolveLegacySourceInterpretations(ontologyPath);
 
   const ontologyNode = nodes.find((node) => hasType(node, JSON_LD.ontology));
 
@@ -240,9 +350,36 @@ export function createOntologyViewModel(jsonLdDocument) {
     );
 
     const directSources = getLexicalValues(node, JSON_LD.source);
+    const definitionTerm = getPreferredLiteralTerm(
+      node,
+      projectionProperties.definition,
+    );
+    const associatedDefinitionSources = definitionTerm
+      ? applicableDefinitionProperties.flatMap((propertyIri) => {
+          const statementExists = getPropertyValues(node, propertyIri)
+            .map(getLiteralTerm)
+            .filter(Boolean)
+            .some((term) => getRdfTermKey(term) === definitionTerm.key);
+
+          return statementExists
+            ? (definitionSources
+                .get(uri)
+                ?.get(propertyIri)
+                ?.get(definitionTerm.key) ?? [])
+            : [];
+        })
+      : [];
+    const { promotedSources, remainingReferences } = interpretLegacySources(
+      node,
+      legacySourceInterpretations,
+    );
 
     const sources = [
-      ...new Set([...directSources, ...(definitionSources.get(uri) ?? [])]),
+      ...new Set([
+        ...directSources,
+        ...associatedDefinitionSources,
+        ...promotedSources,
+      ]),
     ];
 
     const types = asArray(node["@type"]);
@@ -262,10 +399,14 @@ export function createOntologyViewModel(jsonLdDocument) {
       uuid:
         uuidIdentifier?.substring("urn:uuid:".length) ?? identifiers[0] ?? "",
       uri,
-      preferredLabel: getPreferredLiteral(node, JSON_LD.prefLabel),
-      definition: getPreferredLiteral(node, JSON_LD.definition),
+      preferredLabel: getPreferredLiteral(
+        node,
+        projectionProperties.preferredLabel,
+      ),
+      definition: definitionTerm?.value ?? "",
       sources,
-      creator: getLexicalValues(node, JSON_LD.creator)[0] ?? "",
+      references: remainingReferences,
+      creator: getLexicalValues(node, projectionProperties.creator)[0] ?? "",
       createdAt: getLexicalValues(node, JSON_LD.created)[0] ?? "",
       modifiedAt: getLexicalValues(node, JSON_LD.modified)[0] ?? "",
       superclasses,

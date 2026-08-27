@@ -1,0 +1,210 @@
+{
+  "$schema": "https://haddenindustries.com/ontology/projection/field-property-history.v1.schema.json",
+  "defaultPropertyIris": {
+    "preferredLabel": "http://www.w3.org/2004/02/skos/core#prefLabel",
+    "definition": "http://www.w3.org/2004/02/skos/core#definition",
+    "creator": "http://purl.org/dc/terms/creator"
+  },
+  "legacySourceInterpretations": [
+    {
+      "pathPrefix": "/universal/core/",
+      "throughVersion": "20260423",
+      "observedPropertyIri": "http://purl.org/dc/terms/references",
+      "valueIriPrefix": "urn:iso:std",
+      "interpretedAsPropertyIri": "http://purl.org/dc/terms/source"
+    },
+    {
+      "pathPrefix": "/universal/extended/",
+      "throughVersion": "20260610",
+      "observedPropertyIri": "http://purl.org/dc/terms/references",
+      "valueIriPrefix": "urn:iso:std",
+      "interpretedAsPropertyIri": "http://purl.org/dc/terms/source"
+    },
+    {
+      "pathPrefix": "/universal/reference-data/",
+      "throughVersion": "20260507",
+      "observedPropertyIri": "http://purl.org/dc/terms/references",
+      "valueIriPrefix": "urn:iso:std",
+      "interpretedAsPropertyIri": "http://purl.org/dc/terms/source"
+    }
+  ],
+  "ontologySeries": [
+    {
+      "pathPrefix": "/universal/core/",
+      "fieldPropertyHistories": {
+        "preferredLabel": {
+          "initialPropertyIri": "http://purl.org/dc/terms/title",
+          "transitions": [
+            {
+              "fromVersion": "20260625",
+              "propertyIri": "http://www.w3.org/2004/02/skos/core#prefLabel"
+            }
+          ]
+        },
+        "definition": {
+          "initialPropertyIri": "http://purl.org/dc/terms/description",
+          "transitions": [
+            {
+              "fromVersion": "20260625",
+              "propertyIri": "http://www.w3.org/2004/02/skos/core#definition"
+            }
+          ]
+        },
+        "creator": {
+          "initialPropertyIri": "http://purl.org/dc/elements/1.1/creator",
+          "transitions": [
+            {
+              "fromVersion": "20260625",
+              "propertyIri": "http://purl.org/dc/terms/creator"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pathPrefix": "/universal/extended/",
+      "fieldPropertyHistories": {
+        "preferredLabel": {
+          "initialPropertyIri": "http://purl.org/dc/terms/title",
+          "transitions": [
+            {
+              "fromVersion": "20260626",
+              "propertyIri": "http://www.w3.org/2004/02/skos/core#prefLabel"
+            }
+          ]
+        },
+        "definition": {
+          "initialPropertyIri": "http://purl.org/dc/terms/description",
+          "transitions": [
+            {
+              "fromVersion": "20260626",
+              "propertyIri": "http://www.w3.org/2004/02/skos/core#definition"
+            }
+          ]
+        },
+        "creator": {
+          "initialPropertyIri": "http://purl.org/dc/elements/1.1/creator",
+          "transitions": [
+            {
+              "fromVersion": "20260626",
+              "propertyIri": "http://purl.org/dc/terms/creator"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pathPrefix": "/universal/reference-data/",
+      "fieldPropertyHistories": {
+        "preferredLabel": {
+          "initialPropertyIri": "http://purl.org/dc/terms/title",
+          "transitions": [
+            {
+              "fromVersion": "20260624",
+              "propertyIri": "http://www.w3.org/2004/02/skos/core#prefLabel"
+            }
+          ]
+        },
+        "definition": {
+          "initialPropertyIri": "http://purl.org/dc/terms/description",
+          "transitions": [
+            {
+              "fromVersion": "20260624",
+              "propertyIri": "http://www.w3.org/2004/02/skos/core#definition"
+            }
+          ]
+        },
+        "creator": {
+          "initialPropertyIri": "http://purl.org/dc/elements/1.1/creator",
+          "transitions": [
+            {
+              "fromVersion": "20260624",
+              "propertyIri": "http://purl.org/dc/terms/creator"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pathPrefix": "/iso-iec/11179/-3/ed-3/",
+      "fieldPropertyHistories": {
+        "preferredLabel": {
+          "initialPropertyIri": "http://purl.org/dc/terms/title",
+          "transitions": []
+        },
+        "definition": {
+          "initialPropertyIri": "http://purl.org/dc/terms/description",
+          "transitions": []
+        },
+        "creator": {
+          "initialPropertyIri": "http://purl.org/dc/elements/1.1/creator",
+          "transitions": []
+        }
+      }
+    },
+    {
+      "pathPrefix": "/iso-iec/11179/-3/ed-4/",
+      "fieldPropertyHistories": {
+        "preferredLabel": {
+          "initialPropertyIri": "http://purl.org/dc/terms/title",
+          "transitions": [
+            {
+              "fromVersion": "20260618",
+              "propertyIri": "http://www.w3.org/2004/02/skos/core#prefLabel"
+            }
+          ]
+        },
+        "definition": {
+          "initialPropertyIri": "http://purl.org/dc/terms/description",
+          "transitions": [
+            {
+              "fromVersion": "20260618",
+              "propertyIri": "http://www.w3.org/2004/02/skos/core#definition"
+            }
+          ]
+        },
+        "creator": {
+          "initialPropertyIri": "http://purl.org/dc/elements/1.1/creator",
+          "transitions": [
+            {
+              "fromVersion": "20260623",
+              "propertyIri": "http://purl.org/dc/terms/creator"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pathPrefix": "/iso/31073/ed-1/",
+      "fieldPropertyHistories": {
+        "preferredLabel": {
+          "initialPropertyIri": "http://purl.org/dc/terms/title",
+          "transitions": [
+            {
+              "fromVersion": "20260626",
+              "propertyIri": "http://www.w3.org/2004/02/skos/core#prefLabel"
+            }
+          ]
+        },
+        "definition": {
+          "initialPropertyIri": "http://purl.org/dc/terms/description",
+          "transitions": [
+            {
+              "fromVersion": "20260512",
+              "propertyIri": "http://www.w3.org/2004/02/skos/core#definition"
+            }
+          ]
+        },
+        "creator": {
+          "initialPropertyIri": "http://purl.org/dc/elements/1.1/creator",
+          "transitions": [
+            {
+              "fromVersion": "20260626",
+              "propertyIri": "http://purl.org/dc/terms/creator"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

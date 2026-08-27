@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://haddenindustries.com/ontology/projection/field-property-history.v1.schema.json",
+  "title": "Ontology projection field property history",
+  "description": "Maps ontology projection fields to the RDF property IRIs used across published ontology versions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "defaultPropertyIris",
+    "legacySourceInterpretations",
+    "ontologySeries"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://haddenindustries.com/ontology/projection/field-property-history.v1.schema.json"
+    },
+    "defaultPropertyIris": {
+      "$ref": "#/$defs/propertyIris"
+    },
+    "legacySourceInterpretations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/legacySourceInterpretation"
+      }
+    },
+    "ontologySeries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/ontologySeries"
+      }
+    }
+  },
+  "$defs": {
+    "absoluteIri": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*:"
+    },
+    "publicationVersion": {
+      "type": "string",
+      "pattern": "^[0-9]{8}$"
+    },
+    "legacySourceInterpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pathPrefix",
+        "throughVersion",
+        "observedPropertyIri",
+        "valueIriPrefix",
+        "interpretedAsPropertyIri"
+      ],
+      "properties": {
+        "pathPrefix": {
+          "type": "string",
+          "pattern": "^/[a-z0-9/-]+/$"
+        },
+        "throughVersion": {
+          "$ref": "#/$defs/publicationVersion"
+        },
+        "observedPropertyIri": {
+          "$ref": "#/$defs/absoluteIri"
+        },
+        "valueIriPrefix": {
+          "$ref": "#/$defs/absoluteIri"
+        },
+        "interpretedAsPropertyIri": {
+          "$ref": "#/$defs/absoluteIri"
+        }
+      }
+    },
+    "propertyIris": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preferredLabel", "definition", "creator"],
+      "properties": {
+        "preferredLabel": {
+          "$ref": "#/$defs/absoluteIri"
+        },
+        "definition": {
+          "$ref": "#/$defs/absoluteIri"
+        },
+        "creator": {
+          "$ref": "#/$defs/absoluteIri"
+        }
+      }
+    },
+    "ontologySeries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pathPrefix", "fieldPropertyHistories"],
+      "properties": {
+        "pathPrefix": {
+          "type": "string",
+          "pattern": "^/[a-z0-9/-]+/$"
+        },
+        "fieldPropertyHistories": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["preferredLabel", "definition", "creator"],
+          "properties": {
+            "preferredLabel": {
+              "$ref": "#/$defs/fieldPropertyHistory"
+            },
+            "definition": {
+              "$ref": "#/$defs/fieldPropertyHistory"
+            },
+            "creator": {
+              "$ref": "#/$defs/fieldPropertyHistory"
+            }
+          }
+        }
+      }
+    },
+    "fieldPropertyHistory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["initialPropertyIri", "transitions"],
+      "properties": {
+        "initialPropertyIri": {
+          "$ref": "#/$defs/absoluteIri"
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/propertyTransition"
+          }
+        }
+      }
+    },
+    "propertyTransition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fromVersion", "propertyIri"],
+      "properties": {
+        "fromVersion": {
+          "$ref": "#/$defs/publicationVersion"
+        },
+        "propertyIri": {
+          "$ref": "#/$defs/absoluteIri"
+        }
+      }
+    }
+  }
+}

@@ -9,10 +9,15 @@ import { createOntologyViewModel } from "../src/ontologyViewModel.js";
  * Renders an ontology JSON-LD document as CSV bytes.
  *
  * @param {Object|Object[]} jsonLdDocument - The materialized ontology.
+ * @param {Object} [options]
+ * @param {string} [options.ontologyPath] - Published path used for historical fields.
  * @returns {{ content: Buffer, rowCount: number }}
  */
-export function renderOntologyCsvFromJsonLd(jsonLdDocument) {
-  const { rows } = createOntologyViewModel(jsonLdDocument);
+export function renderOntologyCsvFromJsonLd(
+  jsonLdDocument,
+  { ontologyPath } = {},
+) {
+  const { rows } = createOntologyViewModel(jsonLdDocument, { ontologyPath });
 
   return {
     content: Buffer.from(serializeOntologyRowsAsCsv(rows), "utf8"),
@@ -38,7 +43,9 @@ export async function convertJsonLdToCsv({ inputPath, outputPath }) {
   }
 
   const jsonLdDocument = JSON.parse(await readFile(inputPath, "utf8"));
-  const rendered = renderOntologyCsvFromJsonLd(jsonLdDocument);
+  const rendered = renderOntologyCsvFromJsonLd(jsonLdDocument, {
+    ontologyPath: inputPath,
+  });
 
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, rendered.content);

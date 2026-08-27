@@ -1,7 +1,7 @@
 import { serializeOntologyRowsAsCsv } from "../src/ontologyCsv.js";
 
 const HEADERS =
-  "Entity Type,UUID,URI,Preferred Label,Definition,Sources,Creator,Created At,Modified At,Superclasses,Class of Named Individual";
+  "Entity Type,UUID,URI,Preferred Label,Definition,Sources,References,Creator,Created At,Modified At,Superclasses,Class of Named Individual";
 
 test("serializes ontology rows using the established CSV column order", () => {
   expect(
@@ -13,6 +13,7 @@ test("serializes ontology rows using the established CSV column order", () => {
         preferredLabel: "label",
         definition: "definition",
         sources: ["source"],
+        references: ["reference"],
         creator: "creator",
         createdAt: "created",
         modifiedAt: "modified",
@@ -23,7 +24,7 @@ test("serializes ontology rows using the established CSV column order", () => {
   ).toBe(
     `${
       HEADERS
-    }\nclass,uuid,uri,label,definition,source,creator,created,modified,superclass,individual`,
+    }\nclass,uuid,uri,label,definition,source,reference,creator,created,modified,superclass,individual`,
   );
 });
 
@@ -37,6 +38,7 @@ test("escapes CSV syntax and neutralizes spreadsheet formulas", () => {
         preferredLabel: "@label",
         definition: 'comma, quote " and\nnewline',
         sources: ["first", "second"],
+        references: ["third", "fourth"],
         creator: null,
         createdAt: undefined,
         modifiedAt: "",
@@ -47,7 +49,7 @@ test("escapes CSV syntax and neutralizes spreadsheet formulas", () => {
   ).toBe(
     `${
       HEADERS
-    }\n'=entity,'+uuid,'-uri,'@label,"comma, quote "" and\nnewline","first\nsecond",,,,,`,
+    }\n'=entity,'+uuid,'-uri,'@label,"comma, quote "" and\nnewline","first\nsecond","third\nfourth",,,,,`,
   );
 });
 

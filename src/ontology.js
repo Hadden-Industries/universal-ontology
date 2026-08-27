@@ -430,6 +430,7 @@ export class OntologyUIController {
       preferredLabel: row.preferredLabel,
       definition: row.definition,
       sources: row.sources.join(""),
+      references: row.references.join(""),
       creator: row.creator,
       createdAt: row.createdAt,
       modifiedAt: row.modifiedAt,
@@ -505,6 +506,9 @@ export class OntologyUIController {
       <td><span class="code-text">${row.sources
         .map((source) => createLink(source))
         .join("<br>")}</span></td>
+      <td><span class="code-text">${row.references
+        .map((reference) => createLink(reference))
+        .join("<br>")}</span></td>
       <td><span class="code-text">${createLink(row.creator, true)}</span></td>
       <td>${escapeHTML(row.createdAt).replace("T", "<wbr>T")}</td>
       <td>${escapeHTML(row.modifiedAt).replace("T", "<wbr>T")}</td>
@@ -554,7 +558,9 @@ export class OntologyUIController {
     try {
       this.#jsonLdDoc = await fetchOntologyAsJsonLd(this.#jsonLdUrl);
 
-      const viewModel = createOntologyViewModel(this.#jsonLdDoc);
+      const viewModel = createOntologyViewModel(this.#jsonLdDoc, {
+        ontologyPath: sourcePath,
+      });
 
       this.#extractedData = viewModel.rows;
 

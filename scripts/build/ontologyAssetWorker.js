@@ -35,6 +35,7 @@ parentPort.on("message", async ({ taskId, input }) => {
     });
     const renderedCsv = renderOntologyCsvFromJsonLd(
       renderedJsonLd.jsonLdDocument,
+      { ontologyPath: input.outputPath },
     );
     const jsonLdContent = createTransferableBuffer(renderedJsonLd.content);
     const csvContent = createTransferableBuffer(renderedCsv.content);
