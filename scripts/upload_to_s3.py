@@ -31,7 +31,8 @@ def main():
         "--bucket", bucket,
         "--prefix", prefix,
         "--exclude", exclude,
-        "--invalidate-cloudfront"
+        "--invalidate-cloudfront",
+        "--delete"
     ]
 
     try:
