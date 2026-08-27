@@ -22,11 +22,13 @@ const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
   xml:base="https://haddenindustries.com/ontology/universal/core/"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:dcterms="http://purl.org/dc/terms/"
   xmlns:owl="http://www.w3.org/2002/07/owl#">
   <owl:Ontology rdf:about="">
     <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260101" />
   </owl:Ontology>
   <owl:Class rdf:about="Thing">
+    <dcterms:source rdf:resource="urn:iso:std:iso:704:ed-4:v1:en" />
     <rdfs:label xml:lang="en">Thing</rdfs:label>
   </owl:Class>
 </rdf:RDF>
@@ -34,7 +36,7 @@ const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
 
 const EXPECTED_CSV = [
   "Entity Type,UUID,URI,Preferred Label,Definition,Sources,Creator,Created At,Modified At,Superclasses,Class of Named Individual",
-  "Class,,https://haddenindustries.com/ontology/universal/core/Thing,,,,,,,,",
+  "Class,,https://haddenindustries.com/ontology/universal/core/Thing,,,urn:iso:std:iso:704:ed-4:v1:en,,,,,",
 ].join("\n");
 
 const CONTENT_TYPES = new Map([
@@ -222,6 +224,15 @@ test("loads the built master page and downloads its materialized CSV", async () 
     expect(
       await page.evaluate(() => document.styleSheets.length),
     ).toBeGreaterThan(0);
+    expect(
+      await page
+        .locator("#table-body tr")
+        .first()
+        .locator("td")
+        .nth(5)
+        .locator("a")
+        .getAttribute("href"),
+    ).toBe("urn:iso:std:iso:704:ed-4:v1:en");
 
     const downloadPromise = page.waitForEvent("download");
     await page.locator("#export-toggle").click();

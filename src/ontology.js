@@ -7,47 +7,6 @@
 import { createOntologyViewModel } from "./ontologyViewModel.js";
 
 /**
- * Transforms an ISO URN to an ISO OBP (Online Browsing Platform) URL.
- * @param {string} rawUrn - The raw URN to transform.
- * @returns {string|null} The transformed URL or null if invalid.
- */
-function transformUrnToObpUrl(rawUrn) {
-  if (typeof rawUrn !== "string") return null;
-
-  const normalizedUrn = rawUrn.toLowerCase().trim();
-  if (!normalizedUrn.startsWith("urn:iso:std:")) return null;
-
-  // Isolate document elements (clause, figure, table, term, sec, annex, bib, foreword, intro, scope, normative_references) and additions (tech)
-  const documentElementRegex =
-    /:(clause|figure|table|term|tech|sec|annex|bib|foreword|intro|scope|normative_references)(:|$)/;
-  const regexMatch = normalizedUrn.match(documentElementRegex);
-
-  let documentIdentifier = normalizedUrn;
-  let documentElement = "";
-
-  if (regexMatch) {
-    documentIdentifier = normalizedUrn.substring(0, regexMatch.index);
-    documentElement = normalizedUrn.substring(regexMatch.index);
-  }
-
-  // RFC 5141 valid ISO 639-1 alpha-2 language codes
-  const languageRegex = /:(en|fr|ru|es|ar)(,(en|fr|ru|es|ar))*$/;
-
-  // Inject 'en' fallback if no valid language tag terminates the document identifier
-  if (!languageRegex.test(documentIdentifier)) {
-    documentIdentifier += ":en";
-  }
-
-  // Combine and strip the 'urn:' prefix to form the OBP hash fragment
-  const formattedHashFragment = (documentIdentifier + documentElement).replace(
-    /^urn:/,
-    "",
-  );
-
-  return `https://www.iso.org/obp/ui/en/#${formattedHashFragment}`;
-}
-
-/**
  * Wraps a value in an HTML anchor tag if it represents a valid URL or URN.
  * @param {string} value - The URI/URN value.
  * @param {boolean} [forceLink=false] - Whether to force a link even if it doesn't look like a standard URL.
@@ -56,14 +15,12 @@ function transformUrnToObpUrl(rawUrn) {
 function createLink(value, forceLink = false) {
   if (!value) return "";
 
-  if (value.toLowerCase().startsWith("urn:iso:std:")) {
-    const obpUrl = transformUrnToObpUrl(value);
-    if (obpUrl) {
-      return `<a href="${escapeHTML(obpUrl)}" target="_blank" rel="noopener noreferrer">${escapeHTML(value)}</a>`;
-    }
-  }
-
-  if (forceLink || value.startsWith("http:") || value.startsWith("https:")) {
+  if (
+    forceLink ||
+    value.toLowerCase().startsWith("urn:") ||
+    value.startsWith("http:") ||
+    value.startsWith("https:")
+  ) {
     return `<a href="${escapeHTML(value)}" target="_blank" rel="noopener noreferrer">${escapeHTML(value)}</a>`;
   }
   return escapeHTML(value);
