@@ -1,4 +1,4 @@
 defusedxml>=0.7.1
-lxml>=6.1.1
+lxml>=6.1.2
 xmlunittest>=1.0.1
 rdflib>=7.6.0
