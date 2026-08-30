@@ -3,7 +3,7 @@ import { McpServer } from "@modelcontextprotocol/server";
 import {
   isOntologyQueryError,
   OntologyQueryError,
-} from "../ontologyQuery/createOntologyQueryModule.js";
+} from "../ontologyQuery/ontologyQueryErrors.js";
 import {
   RESOLVE_ENTITY_TOOL_NAME,
   SEARCH_ENTITIES_TOOL_NAME,

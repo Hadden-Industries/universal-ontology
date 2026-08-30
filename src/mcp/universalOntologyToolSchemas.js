@@ -1,5 +1,6 @@
 import * as z from "zod";
 
+import { ONTOLOGY_QUERY_ERROR_CODE_VALUES } from "../ontologyQuery/ontologyQueryErrors.js";
 import {
   OntologyEntityResolutionSuccessSchema,
   OntologyEntitySearchSuccessSchema,
@@ -7,21 +8,11 @@ import {
   SearchOntologyEntitiesInputSchema,
 } from "../ontologyQuery/ontologyQuerySchemas.js";
 
-export const ONTOLOGY_TOOL_ERROR_CODE_VALUES = Object.freeze([
-  "UNKNOWN_ONTOLOGY_ARTIFACT_FAMILY",
-  "UNKNOWN_ONTOLOGY_RELEASE",
-  "QUERY_INDEX_CATALOG_UNAVAILABLE",
-  "QUERY_INDEX_SCHEMA_UNSUPPORTED",
-  "QUERY_INDEX_DIGEST_MISMATCH",
-  "QUERY_CANCELLED",
-  "INTERNAL_QUERY_FAILURE",
-]);
-
 /** Stable application failure arm returned inside a successful MCP exchange. */
 export const OntologyToolFailureSchema = z.strictObject({
   outcome: z.literal("failure"),
   error: z.strictObject({
-    errorCode: z.enum(ONTOLOGY_TOOL_ERROR_CODE_VALUES),
+    errorCode: z.enum(ONTOLOGY_QUERY_ERROR_CODE_VALUES),
     message: z.string(),
     retryable: z.boolean(),
   }),

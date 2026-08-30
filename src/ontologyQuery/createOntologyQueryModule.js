@@ -1,7 +1,14 @@
-import { Buffer } from "node:buffer";
-import { createHash } from "node:crypto";
+/**
+ * Implements deterministic ontology search and exact entity resolution over
+ * validated release-index bytes. Byte acquisition belongs to repository
+ * adapters; this module owns decoding, integrity, semantics, and caching.
+ */
 
 import { resolveOntologyProjectionProperties } from "../ontologyProjectionProperties.js";
+import {
+  isOntologyQueryError,
+  OntologyQueryError,
+} from "./ontologyQueryErrors.js";
 import {
   DEFAULT_ONTOLOGY_ARTIFACT_FAMILY_IDS,
   ONTOLOGY_ENTITY_MATCH_BASIS_VALUES,
@@ -18,70 +25,22 @@ import {
 const DEFAULT_MAXIMUM_CACHE_BYTE_SIZE = 64 * 1024 * 1024;
 const NON_LITERAL_LANGUAGE_RANK = 1_000_000;
 const FALLBACK_LANGUAGE_RANK = 100_000;
+const UTF_8_DECODER = new TextDecoder("utf-8", { fatal: true });
 const MATCH_BASIS_ORDER = new Map(
   ONTOLOGY_ENTITY_MATCH_BASIS_VALUES.map((basis, index) => [basis, index]),
 );
-
-const ONTOLOGY_QUERY_ERROR_DEFINITIONS = Object.freeze({
-  UNKNOWN_ONTOLOGY_ARTIFACT_FAMILY: {
-    retryable: false,
-    defaultMessage: "The requested ontology artifact family is not cataloged.",
-  },
-  UNKNOWN_ONTOLOGY_RELEASE: {
-    retryable: false,
-    defaultMessage: "The requested ontology release is not cataloged.",
-  },
-  QUERY_INDEX_CATALOG_UNAVAILABLE: {
-    retryable: true,
-    defaultMessage: "The ontology query-index catalog is unavailable.",
-  },
-  QUERY_INDEX_SCHEMA_UNSUPPORTED: {
-    retryable: false,
-    defaultMessage: "The ontology query-index format is unsupported.",
-  },
-  QUERY_INDEX_DIGEST_MISMATCH: {
-    retryable: false,
-    defaultMessage: "Ontology query-index integrity verification failed.",
-  },
-  QUERY_CANCELLED: {
-    retryable: true,
-    defaultMessage: "The ontology query was cancelled.",
-  },
-  INTERNAL_QUERY_FAILURE: {
-    retryable: false,
-    defaultMessage: "The ontology query failed unexpectedly.",
-  },
-});
-
-/** Stable, safe failure raised by the deep query module. */
-export class OntologyQueryError extends Error {
-  constructor(errorCode, options = {}) {
-    const definition = ONTOLOGY_QUERY_ERROR_DEFINITIONS[errorCode];
-
-    if (!definition) {
-      throw new TypeError(`Unknown ontology query error code: ${errorCode}`);
-    }
-
-    super(options.message ?? definition.defaultMessage, {
-      cause: options.cause,
-    });
-    this.name = "OntologyQueryError";
-    this.errorCode = errorCode;
-    this.retryable = options.retryable ?? definition.retryable;
-  }
-}
-
-/** Whether an exception is already a safe query-domain failure. */
-export function isOntologyQueryError(error) {
-  return error instanceof OntologyQueryError;
-}
 
 function compareBinary(left, right) {
   return left < right ? -1 : left > right ? 1 : 0;
 }
 
-function sha256(content) {
-  return createHash("sha256").update(content).digest("hex");
+async function sha256(bytes) {
+  // Digest the exact repository bytes before parsing so integrity does not
+  // depend on JSON reserialization or runtime-specific text conversion.
+  const digest = await globalThis.crypto.subtle.digest("SHA-256", bytes);
+  return [...new Uint8Array(digest)]
+    .map((value) => value.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 function throwIfCancelled(signal) {
@@ -124,25 +83,23 @@ function canonicalizeUuidUrn(value) {
   return parsed.success ? value.toLowerCase() : null;
 }
 
-function parseJsonBytes(bytes, unsupportedMessage) {
-  let parsed;
-
+function parseJsonBytes(bytes, invalidJsonMessage) {
   try {
-    parsed = JSON.parse(Buffer.from(bytes).toString("utf8"));
+    // Fatal decoding rejects corrupted UTF-8 instead of silently replacing
+    // bytes before the schema and digest invariants are evaluated.
+    return JSON.parse(UTF_8_DECODER.decode(bytes));
   } catch (error) {
     throw new OntologyQueryError("QUERY_INDEX_SCHEMA_UNSUPPORTED", {
-      message: unsupportedMessage,
+      message: invalidJsonMessage,
       cause: error,
     });
   }
-
-  return parsed;
 }
 
 function parseCatalogBytes(bytes) {
   const parsed = parseJsonBytes(
     bytes,
-    "The ontology query-index catalog is not valid JSON.",
+    "The ontology query-index catalog is not valid UTF-8 JSON.",
   );
 
   if (
@@ -167,7 +124,7 @@ function parseCatalogBytes(bytes) {
 function parseReleaseIndexBytes(bytes) {
   const parsed = parseJsonBytes(
     bytes,
-    "The ontology release query index is not valid JSON.",
+    "The ontology release query index is not valid UTF-8 JSON.",
   );
 
   if (
@@ -873,7 +830,7 @@ export function createOntologyQueryModule({
           });
         throwIfCancelled(internalSignal);
 
-        if (sha256(bytes) !== catalogRelease.queryIndexSha256) {
+        if ((await sha256(bytes)) !== catalogRelease.queryIndexSha256) {
           throw new OntologyQueryError("QUERY_INDEX_DIGEST_MISMATCH");
         }
 
@@ -898,7 +855,7 @@ export function createOntologyQueryModule({
           throw new OntologyQueryError("QUERY_CANCELLED", { cause: error });
         }
 
-        throw new OntologyQueryError("INTERNAL_QUERY_FAILURE", {
+        throw new OntologyQueryError("QUERY_INDEX_UNAVAILABLE", {
           cause: error,
         });
       }

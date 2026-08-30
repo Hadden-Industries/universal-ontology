@@ -1,26 +1,13 @@
-import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
-
-import { parseRdfXmlToQuads } from "../../scripts/rdfXmlToJsonLd.js";
 import { createOntologyQueryModule } from "../../src/ontologyQuery/createOntologyQueryModule.js";
-import { createOntologyReleaseQueryIndex } from "../../src/ontologyQuery/createOntologyReleaseQueryIndex.js";
 import {
   OntologyEntityResolutionSuccessSchema,
   OntologyEntitySearchSuccessSchema,
 } from "../../src/ontologyQuery/ontologyQuerySchemas.js";
-
-const fixtureUrl = new URL(
-  "../fixtures/ontology-query/minimal-ontology-release",
-  import.meta.url,
-);
-
-function serialize(document) {
-  return Buffer.from(`${JSON.stringify(document, null, 2)}\n`, "utf8");
-}
-
-function digest(content) {
-  return createHash("sha256").update(content).digest("hex");
-}
+import {
+  createInMemoryOntologyReleaseArtifact as createReleaseArtifact,
+  createInMemoryOntologyReleaseIndexRepository as createInMemoryRepository,
+  serializeOntologyQueryArtifact as serialize,
+} from "../fixtures/ontology-query/createInMemoryOntologyQueryFixture.js";
 
 function createDeferred() {
   let resolve;
@@ -30,102 +17,6 @@ function createDeferred() {
     reject = promiseReject;
   });
   return { promise, resolve, reject };
-}
-
-async function createReleaseArtifact({
-  ontologyArtifactFamilyId,
-  versionTag,
-  latestStableRelease = true,
-  transformIndex,
-}) {
-  const rdfXml = await readFile(fixtureUrl);
-  const sourceArtifactRelativePath = `${ontologyArtifactFamilyId}/${versionTag}`;
-  const sourceArtifactUrl = `https://example.com/ontology/${sourceArtifactRelativePath}`;
-  const quads = await parseRdfXmlToQuads({
-    rdfXml,
-    sourceName: sourceArtifactRelativePath,
-  });
-  const projectedIndex = createOntologyReleaseQueryIndex({
-    quads: [...quads],
-    ontologyArtifactFamilyId,
-    versionTag,
-    sourceArtifactRelativePath,
-    sourceArtifactUrl,
-    sourceArtifactSha256: digest(rdfXml),
-  });
-  const index = transformIndex
-    ? transformIndex(JSON.parse(JSON.stringify(projectedIndex)))
-    : projectedIndex;
-  const indexBytes = serialize(index);
-  const queryIndexSha256 = digest(indexBytes);
-  const queryIndexRelativePath =
-    `releases/${ontologyArtifactFamilyId}/${versionTag}/` +
-    `${queryIndexSha256}.json`;
-
-  return {
-    catalogRelease: {
-      ontologyArtifactFamilyId,
-      versionTag,
-      latestStableRelease,
-      sourceArtifactRelativePath,
-      sourceArtifactUrl,
-      sourceArtifactSha256: index.resolvedOntologyRelease.sourceArtifactSha256,
-      queryIndexRelativePath,
-      queryIndexSha256,
-    },
-    queryIndexRelativePath,
-    indexBytes,
-  };
-}
-
-function createInMemoryRepository(releaseArtifacts, overrides = {}) {
-  const catalog = {
-    queryArtifactKind: "universal_ontology_query_catalog",
-    queryArtifactFormatVersion: 1,
-    releases: releaseArtifacts.map(({ catalogRelease }) => catalogRelease),
-  };
-  const indexBytesByPath = new Map(
-    releaseArtifacts.map(({ queryIndexRelativePath, indexBytes }) => [
-      queryIndexRelativePath,
-      indexBytes,
-    ]),
-  );
-  const readCounts = new Map();
-
-  return {
-    readCounts,
-    repository: {
-      async readOntologyQueryCatalog({ signal }) {
-        signal?.throwIfAborted();
-
-        if (overrides.beforeCatalogRead) {
-          await overrides.beforeCatalogRead({ signal });
-        }
-
-        if (overrides.catalogError) {
-          throw overrides.catalogError;
-        }
-
-        signal?.throwIfAborted();
-        return overrides.catalogBytes ?? serialize(catalog);
-      },
-      async readOntologyReleaseQueryIndex({ relativePath, signal }) {
-        signal?.throwIfAborted();
-        readCounts.set(relativePath, (readCounts.get(relativePath) ?? 0) + 1);
-
-        if (overrides.beforeIndexRead) {
-          await overrides.beforeIndexRead({ relativePath, signal });
-        }
-
-        if (overrides.indexError) {
-          throw overrides.indexError;
-        }
-
-        signal?.throwIfAborted();
-        return overrides.indexBytes ?? indexBytesByPath.get(relativePath);
-      },
-    },
-  };
 }
 
 let defaultReleaseArtifacts;
@@ -394,6 +285,23 @@ describe("ontology query module", () => {
     });
   });
 
+  test("rejects malformed UTF-8 catalog bytes before JSON parsing", async () => {
+    const ontologyQuery = createOntologyQueryModule({
+      ontologyReleaseIndexRepository: createInMemoryRepository(
+        [defaultReleaseArtifacts[0]],
+        { catalogBytes: Uint8Array.from([0xc3, 0x28]) },
+      ).repository,
+    });
+
+    await expect(
+      ontologyQuery.searchOntologyEntities({ queryText: "Person" }),
+    ).rejects.toMatchObject({
+      errorCode: "QUERY_INDEX_SCHEMA_UNSUPPORTED",
+      message: "The ontology query-index catalog is not valid UTF-8 JSON.",
+      retryable: false,
+    });
+  });
+
   test("translates pre-I/O cancellation to the stable query error", async () => {
     const { repository, readCounts } = createInMemoryRepository([
       defaultReleaseArtifacts[0],
@@ -643,7 +551,12 @@ describe("ontology query module", () => {
     });
     await expect(
       retryQuery.searchOntologyEntities(input),
-    ).rejects.toMatchObject({ errorCode: "INTERNAL_QUERY_FAILURE" });
+    ).rejects.toMatchObject({
+      name: "OntologyQueryError",
+      errorCode: "QUERY_INDEX_UNAVAILABLE",
+      message: "The ontology release query index is unavailable.",
+      retryable: true,
+    });
     await expect(
       retryQuery.searchOntologyEntities(input),
     ).resolves.toMatchObject({ outcome: "success" });

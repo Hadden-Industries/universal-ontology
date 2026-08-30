@@ -20,7 +20,7 @@ import {
   SEARCH_ENTITIES_TOOL_CONFIGURATION,
   SearchEntitiesToolOutputSchema,
 } from "../../src/mcp/universalOntologyToolSchemas.js";
-import { OntologyQueryError } from "../../src/ontologyQuery/createOntologyQueryModule.js";
+import { OntologyQueryError } from "../../src/ontologyQuery/ontologyQueryErrors.js";
 
 const MCP_URL = new URL("http://127.0.0.1:8000/mcp");
 const SKOS_DEFINITION_IRI = "http://www.w3.org/2004/02/skos/core#definition";
@@ -404,6 +404,40 @@ describe("Universal Ontology MCP server", () => {
     expect(
       SearchEntitiesToolOutputSchema.parse(result.structuredContent),
     ).toEqual(result.structuredContent);
+    expect(reportUnhandledToolError).not.toHaveBeenCalled();
+  });
+
+  test("returns selected-index unavailability through the shared safe error vocabulary", async () => {
+    const privateAdapterError = new Error(
+      "C:\\private\\ontology-index.json could not be read",
+    );
+    const domainError = new OntologyQueryError("QUERY_INDEX_UNAVAILABLE", {
+      cause: privateAdapterError,
+    });
+    const ontologyQuery = createOntologyQueryStub({
+      searchOntologyEntities: async () => {
+        throw domainError;
+      },
+    });
+    const { client, reportUnhandledToolError } = await connectOfficialClient({
+      ontologyQuery,
+    });
+    await client.listTools();
+    const result = await client.callTool({
+      name: SEARCH_ENTITIES_TOOL_NAME,
+      arguments: { queryText: "Person" },
+    });
+
+    expect(result.isError).toBe(true);
+    expect(OntologyToolFailureSchema.parse(result.structuredContent)).toEqual({
+      outcome: "failure",
+      error: {
+        errorCode: "QUERY_INDEX_UNAVAILABLE",
+        message: "The ontology release query index is unavailable.",
+        retryable: true,
+      },
+    });
+    expect(JSON.stringify(result)).not.toContain(privateAdapterError.message);
     expect(reportUnhandledToolError).not.toHaveBeenCalled();
   });
 
