@@ -218,6 +218,7 @@ export class OntologyUIController {
   #sourceUrl = null;
   #fileName = "Ontology";
   #colStyleElement = null;
+  #webMcpRegistrationController = null;
 
   constructor() {
     this.#colStyleElement = document.createElement("style");
@@ -526,6 +527,92 @@ export class OntologyUIController {
   }
 
   /**
+   * Registers optional browser-agent functionality after the human-facing
+   * ontology view is complete. Unsupported browsers return before importing
+   * any WebMCP code, preserving this feature as true progressive enhancement.
+   *
+   * @param {ReturnType<typeof import("./ontologyViewModel.js").createOntologyViewModel>["ontology"]} ontologyDocumentMetadata
+   * @returns {Promise<void>}
+   */
+  async #registerOntologyEntityDefinitionTool(ontologyDocumentMetadata) {
+    let modelContext;
+
+    try {
+      modelContext = document.modelContext;
+    } catch (error) {
+      console.error(
+        "WebMCP ontology definition tool registration failed:",
+        error,
+      );
+      return;
+    }
+
+    if (typeof modelContext?.registerTool !== "function") {
+      return;
+    }
+
+    const registrationController = new AbortController();
+    this.#webMcpRegistrationController = registrationController;
+    const handlePageHide = (event) => {
+      // A persisted pagehide suspends the document in the back/forward cache;
+      // its contextual tool remains valid when that same document resumes.
+      if (!event.persisted) {
+        registrationController.abort();
+      }
+    };
+    window.addEventListener("pagehide", handlePageHide);
+    registrationController.signal.addEventListener(
+      "abort",
+      () => {
+        window.removeEventListener("pagehide", handlePageHide);
+
+        if (this.#webMcpRegistrationController === registrationController) {
+          this.#webMcpRegistrationController = null;
+        }
+      },
+      { once: true },
+    );
+
+    try {
+      const { registerDisplayedOntologyEntityDefinitionTool } =
+        await import("./webmcp/registerDisplayedOntologyEntityDefinitionTool.js");
+      const registered = await registerDisplayedOntologyEntityDefinitionTool({
+        modelContext,
+        ontologyDocumentMetadata,
+        ontologyDocumentIri: this.#sourceUrl,
+        ontologyPageRootIri: new URL("/ontology/", window.location.origin).href,
+        ontologyQueryRootIri: new URL(
+          "/ontology/query/v1/",
+          window.location.origin,
+        ).href,
+        registrationSignal: registrationController.signal,
+        fetchImplementation: fetch,
+        reportUnhandledError(error) {
+          console.error(
+            "WebMCP ontology definition tool execution failed:",
+            error,
+          );
+        },
+      });
+
+      if (!registered) {
+        // An expected out-of-scope page variant has no registration to retain.
+        registrationController.abort();
+      }
+    } catch (error) {
+      if (registrationController.signal.aborted) {
+        return;
+      }
+
+      registrationController.abort();
+      console.error(
+        "WebMCP ontology definition tool registration failed:",
+        error,
+      );
+    }
+  }
+
+  /**
    * Asynchronously loads XML data, constructs JSON-LD document, and renders UI.
    * @private
    */
@@ -574,6 +661,7 @@ export class OntologyUIController {
       }
 
       this.#renderTable();
+      await this.#registerOntologyEntityDefinitionTool(viewModel.ontology);
     } catch (error) {
       console.error("Error processing ontology file:", error);
     }
