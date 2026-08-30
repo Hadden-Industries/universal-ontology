@@ -1,4 +1,7 @@
+import { readFile } from "node:fs/promises";
+
 import { renderOntologyAssetsWithWorkers } from "../../scripts/build/ontologyAssetWorkerPool.js";
+import { OntologyReleaseQueryIndexSchema } from "../../src/ontologyQuery/ontologyQuerySchemas.js";
 
 const workerUrl = new URL(
   "./fixtures/ontology-asset-worker-fixture.js",
@@ -64,6 +67,92 @@ test("returns results in input order when workers finish out of order", async ()
   expect(results.map(({ csvContent }) => csvContent.toString("utf8"))).toEqual(
     inputs.map(({ outputPath }) => `csv:${outputPath}`),
   );
+  expect(results.every(({ queryIndexContent }) => !queryIndexContent)).toBe(
+    true,
+  );
+});
+
+test("returns only query-index bytes when that asset kind is requested", async () => {
+  const inputs = [
+    fixtureInput({
+      outputPath: "universal/core/20260101",
+      size: 10,
+      delayMilliseconds: 1,
+    }),
+  ];
+
+  const results = await renderOntologyAssetsWithWorkers({
+    inputs,
+    requestedAssetKinds: ["query_index"],
+    workerUrl,
+  });
+
+  expect(results).toEqual([
+    {
+      outputPath: "universal/core/20260101",
+      queryIndexContent: Buffer.from("query:universal/core/20260101", "utf8"),
+    },
+  ]);
+});
+
+test("rejects empty, duplicate, and unknown requested asset kinds", async () => {
+  const inputs = [
+    fixtureInput({ outputPath: "fixture", size: 1, delayMilliseconds: 1 }),
+  ];
+
+  await expect(
+    renderOntologyAssetsWithWorkers({ inputs, requestedAssetKinds: [] }),
+  ).rejects.toThrow(/requestedAssetKinds/u);
+  await expect(
+    renderOntologyAssetsWithWorkers({
+      inputs,
+      requestedAssetKinds: ["csv", "csv"],
+    }),
+  ).rejects.toThrow(/requestedAssetKinds/u);
+  await expect(
+    renderOntologyAssetsWithWorkers({
+      inputs,
+      requestedAssetKinds: ["unsupported"],
+    }),
+  ).rejects.toThrow(/requestedAssetKinds/u);
+});
+
+test("the production worker projects query-index bytes from the same parsed quads", async () => {
+  const content = await readFile(
+    new URL(
+      "../fixtures/ontology-query/minimal-ontology-release",
+      import.meta.url,
+    ),
+  );
+  const [result] = await renderOntologyAssetsWithWorkers({
+    inputs: [
+      {
+        outputPath: "universal/test/20260830",
+        content,
+        size: content.byteLength,
+        fallbackBaseIRI: "https://example.com/ontology/test/",
+        ontologyArtifactFamilyId: "universal/test",
+        versionTag: "20260830",
+        sourceArtifactUrl: "https://example.com/ontology/test/20260830",
+      },
+    ],
+    workerCount: 1,
+    requestedAssetKinds: ["query_index"],
+  });
+
+  expect(result.jsonLdContent).toBeUndefined();
+  expect(result.csvContent).toBeUndefined();
+  expect(result.queryIndexContent.at(-1)).toBe(0x0a);
+  expect(
+    OntologyReleaseQueryIndexSchema.parse(
+      JSON.parse(result.queryIndexContent.toString("utf8")),
+    ),
+  ).toMatchObject({
+    resolvedOntologyRelease: {
+      ontologyArtifactFamilyId: "universal/test",
+      versionTag: "20260830",
+    },
+  });
 });
 
 test("uses deterministic size-balanced worker queues", async () => {

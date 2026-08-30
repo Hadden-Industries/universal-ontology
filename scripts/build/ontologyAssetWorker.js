@@ -1,8 +1,13 @@
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { parentPort } from "node:worker_threads";
 
+import { createOntologyReleaseQueryIndex } from "../../src/ontologyQuery/createOntologyReleaseQueryIndex.js";
 import { renderOntologyCsvFromJsonLd } from "../jsonLdToCsv.js";
-import { renderRdfXmlAsJsonLd } from "../rdfXmlToJsonLd.js";
+import {
+  parseRdfXmlToQuads,
+  renderRdfQuadsAsJsonLd,
+} from "../rdfXmlToJsonLd.js";
 
 function serializeError(error) {
   return {
@@ -28,22 +33,56 @@ parentPort.on("message", async ({ taskId, input }) => {
     const rdfXml = input.sourcePath
       ? await readFile(input.sourcePath)
       : Buffer.from(input.content);
-    const renderedJsonLd = await renderRdfXmlAsJsonLd({
+    const requestedAssetKinds = new Set(input.requestedAssetKinds);
+    const quads = await parseRdfXmlToQuads({
       rdfXml,
       sourceName: input.outputPath,
-      fallbackBaseIRI: input.fallbackBaseIRI,
+      fallbackBaseIri: input.fallbackBaseIRI,
     });
-    const renderedCsv = renderOntologyCsvFromJsonLd(
-      renderedJsonLd.jsonLdDocument,
-      { ontologyPath: input.outputPath },
-    );
-    const jsonLdContent = createTransferableBuffer(renderedJsonLd.content);
-    const csvContent = createTransferableBuffer(renderedCsv.content);
+    const response = { taskId };
+    const transferList = [];
 
-    parentPort.postMessage({ taskId, jsonLdContent, csvContent }, [
-      jsonLdContent,
-      csvContent,
-    ]);
+    if (requestedAssetKinds.has("json_ld") || requestedAssetKinds.has("csv")) {
+      const renderedJsonLd = await renderRdfQuadsAsJsonLd({
+        quads,
+        sourceName: input.outputPath,
+      });
+
+      if (requestedAssetKinds.has("json_ld")) {
+        response.jsonLdContent = createTransferableBuffer(
+          renderedJsonLd.content,
+        );
+        transferList.push(response.jsonLdContent);
+      }
+
+      if (requestedAssetKinds.has("csv")) {
+        const renderedCsv = renderOntologyCsvFromJsonLd(
+          renderedJsonLd.jsonLdDocument,
+          { ontologyPath: input.outputPath },
+        );
+        response.csvContent = createTransferableBuffer(renderedCsv.content);
+        transferList.push(response.csvContent);
+      }
+    }
+
+    if (requestedAssetKinds.has("query_index")) {
+      const queryIndex = createOntologyReleaseQueryIndex({
+        quads: [...quads],
+        ontologyArtifactFamilyId: input.ontologyArtifactFamilyId,
+        versionTag: input.versionTag,
+        sourceArtifactRelativePath: input.outputPath,
+        sourceArtifactUrl: input.sourceArtifactUrl,
+        sourceArtifactSha256: createHash("sha256").update(rdfXml).digest("hex"),
+      });
+      const queryIndexBytes = Buffer.from(
+        `${JSON.stringify(queryIndex, null, 2)}\n`,
+        "utf8",
+      );
+      response.queryIndexContent = createTransferableBuffer(queryIndexBytes);
+      transferList.push(response.queryIndexContent);
+    }
+
+    parentPort.postMessage(response, transferList);
   } catch (error) {
     parentPort.postMessage({ taskId, error: serializeError(error) });
   }

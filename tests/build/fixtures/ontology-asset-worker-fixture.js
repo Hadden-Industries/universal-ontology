@@ -44,12 +44,24 @@ parentPort.on("message", async ({ taskId, input }) => {
     const result = fixture.resultFromHistory
       ? history.join(",")
       : fixture.result;
+    const requestedAssetKinds = new Set(
+      input.requestedAssetKinds ?? ["json_ld", "csv"],
+    );
+    const response = { taskId };
 
-    parentPort.postMessage({
-      taskId,
-      jsonLdContent: Buffer.from(result, "utf8"),
-      csvContent: Buffer.from(`csv:${result}`, "utf8"),
-    });
+    if (requestedAssetKinds.has("json_ld")) {
+      response.jsonLdContent = Buffer.from(result, "utf8");
+    }
+
+    if (requestedAssetKinds.has("csv")) {
+      response.csvContent = Buffer.from(`csv:${result}`, "utf8");
+    }
+
+    if (requestedAssetKinds.has("query_index")) {
+      response.queryIndexContent = Buffer.from(`query:${result}`, "utf8");
+    }
+
+    parentPort.postMessage(response);
   } catch (error) {
     recordCompletion(input.control);
     parentPort.postMessage({

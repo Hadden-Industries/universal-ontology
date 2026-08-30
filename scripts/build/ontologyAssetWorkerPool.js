@@ -3,18 +3,33 @@ import { Worker } from "node:worker_threads";
 
 const DEFAULT_WORKER_COUNT = Math.min(4, availableParallelism());
 const DEFAULT_WORKER_URL = new URL("./ontologyAssetWorker.js", import.meta.url);
+const DEFAULT_REQUESTED_ASSET_KINDS = Object.freeze(["json_ld", "csv"]);
+const SUPPORTED_ASSET_KINDS = new Set(["json_ld", "csv", "query_index"]);
 
 function compareBinaryPaths(left, right) {
   return left < right ? -1 : left > right ? 1 : 0;
 }
 
-function validateInputs(inputs, workerCount) {
+function validateInputs(inputs, workerCount, requestedAssetKinds) {
   if (!Array.isArray(inputs)) {
     throw new TypeError("inputs must be an array.");
   }
 
   if (!Number.isInteger(workerCount) || workerCount < 1) {
     throw new TypeError("workerCount must be a positive integer.");
+  }
+
+  if (
+    !Array.isArray(requestedAssetKinds) ||
+    requestedAssetKinds.length === 0 ||
+    requestedAssetKinds.some(
+      (assetKind) => !SUPPORTED_ASSET_KINDS.has(assetKind),
+    ) ||
+    new Set(requestedAssetKinds).size !== requestedAssetKinds.length
+  ) {
+    throw new TypeError(
+      "requestedAssetKinds must be a non-empty array of unique supported asset kinds.",
+    );
   }
 
   for (const input of inputs) {
@@ -86,8 +101,9 @@ export async function renderOntologyAssetsWithWorkers({
   inputs,
   workerCount = DEFAULT_WORKER_COUNT,
   workerUrl = DEFAULT_WORKER_URL,
+  requestedAssetKinds = DEFAULT_REQUESTED_ASSET_KINDS,
 }) {
-  validateInputs(inputs, workerCount);
+  validateInputs(inputs, workerCount, requestedAssetKinds);
 
   if (inputs.length === 0) {
     return [];
@@ -138,7 +154,13 @@ export async function renderOntologyAssetsWithWorkers({
       const task = state.queue.shift();
       activeTasks += 1;
       state.task = task;
-      state.worker.postMessage({ taskId: task.index, input: task.input });
+      state.worker.postMessage({
+        taskId: task.index,
+        input: {
+          ...task.input,
+          requestedAssetKinds,
+        },
+      });
     }
 
     function failState(state, error) {
@@ -186,11 +208,23 @@ export async function renderOntologyAssetsWithWorkers({
           );
           dispatchStopped = true;
         } else {
-          results[task.index] = {
+          const result = {
             outputPath: task.input.outputPath,
-            jsonLdContent: Buffer.from(message.jsonLdContent),
-            csvContent: Buffer.from(message.csvContent),
           };
+
+          if (message.jsonLdContent !== undefined) {
+            result.jsonLdContent = Buffer.from(message.jsonLdContent);
+          }
+
+          if (message.csvContent !== undefined) {
+            result.csvContent = Buffer.from(message.csvContent);
+          }
+
+          if (message.queryIndexContent !== undefined) {
+            result.queryIndexContent = Buffer.from(message.queryIndexContent);
+          }
+
+          results[task.index] = result;
           completedTasks += 1;
         }
 

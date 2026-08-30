@@ -269,6 +269,16 @@ export const OntologyEntityDescriptionSchema = z.strictObject({
   assertedClassMembershipIris: z.array(AbsoluteIriSchema),
 });
 
+/**
+ * A release artifact stores one source-graph description per entity. The
+ * entity IRI is adjacent to that description on disk; runtime aggregation can
+ * then group the same IRI across releases without losing graph provenance.
+ */
+export const IndexedOntologyEntityDescriptionSchema = z.strictObject({
+  entityIri: AbsoluteIriSchema,
+  ...OntologyEntityDescriptionSchema.shape,
+});
+
 export const OntologyEntitySchema = z.strictObject({
   entityIri: AbsoluteIriSchema,
   selectedPreferredLabel: SelectedLexicalAssertionSchema.nullable(),
@@ -301,12 +311,7 @@ export const OntologyReleaseQueryIndexSchema = z.strictObject({
   queryArtifactKind: z.literal("universal_ontology_release_query_index"),
   queryArtifactFormatVersion: z.literal(1),
   resolvedOntologyRelease: ResolvedOntologyReleaseSchema,
-  ontologyEntityDescriptions: z.array(
-    z.strictObject({
-      entityIri: AbsoluteIriSchema,
-      ontologyEntityDescription: OntologyEntityDescriptionSchema,
-    }),
-  ),
+  ontologyEntityDescriptions: z.array(IndexedOntologyEntityDescriptionSchema),
 });
 
 export const MatchedOntologyValueSchema = z.discriminatedUnion(

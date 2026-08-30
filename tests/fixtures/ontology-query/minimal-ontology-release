@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xml:base="https://example.com/ontology/test/20260830"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:ex="https://example.com/ontology/test/"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+  <!-- This compact source-artifact graph exercises the semantic distinctions
+       required by the query index without relying on the much larger corpus. -->
+  <owl:Ontology rdf:about="https://example.com/ontology/test">
+    <owl:versionIRI rdf:resource="https://example.com/ontology/test/20260830" />
+  </owl:Ontology>
+
+  <owl:Class rdf:about="https://example.com/ontology/test/Agent">
+    <skos:prefLabel xml:lang="en">Agent</skos:prefLabel>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://example.com/ontology/test/Person">
+    <dcterms:identifier rdf:resource="URN:UUID:550E8400-E29B-41D4-A716-446655440000" />
+    <dcterms:identifier>URN:UUID:550E8400-E29B-41D4-A716-446655440001</dcterms:identifier>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">42</dcterms:identifier>
+    <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797" />
+    <dcterms:source rdf:resource="urn:iso:std:iso:example:term:person" />
+    <rdfs:seeAlso rdf:resource="https://example.com/glossary/person" />
+    <rdfs:subClassOf rdf:resource="https://example.com/ontology/test/Agent" />
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="https://example.com/ontology/test/hasName" />
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <skos:prefLabel xml:lang="en-GB">Person</skos:prefLabel>
+    <skos:prefLabel xml:lang="en">Person</skos:prefLabel>
+    <skos:altLabel xml:lang="en">Legal person</skos:altLabel>
+    <skos:definition xml:lang="en-GB">A natural or legal person recognised by law.</skos:definition>
+    <skos:definition rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A person with legal standing.</skos:definition>
+    <skos:scopeNote xml:lang="en">This note is not an alternative label.</skos:scopeNote>
+  </owl:Class>
+
+  <owl:Axiom>
+    <owl:annotatedSource rdf:resource="https://example.com/ontology/test/Person" />
+    <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition" />
+    <owl:annotatedTarget xml:lang="en-GB">A natural or legal person recognised by law.</owl:annotatedTarget>
+    <dcterms:source rdf:resource="https://example.com/standard/person-definition" />
+  </owl:Axiom>
+
+  <!-- OWL punning is legal: this single IRI has two asserted entity kinds. -->
+  <owl:Class rdf:about="https://example.com/ontology/test/Role">
+    <skos:prefLabel xml:lang="en">Role</skos:prefLabel>
+  </owl:Class>
+  <owl:NamedIndividual rdf:about="https://example.com/ontology/test/Role" />
+</rdf:RDF>

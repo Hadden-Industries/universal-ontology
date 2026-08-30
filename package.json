@@ -15,6 +15,7 @@
     "fix:all": "stylelint \"src/**/*.css\" --fix && eslint \"src/**/*.js\" \"scripts/**/*.js\" \"tests/**/*.js\" \"vite.config.mjs\" --fix && npm run format",
     "generate:jsonld": "node scripts/generateJsonLd.js --missing-only",
     "generate:jsonld:all": "node scripts/generateJsonLd.js",
+    "mcp:index": "node scripts/generateOntologyQueryIndexes.js",
     "deploy": "python scripts/upload_to_s3.py",
     "deploy:force": "python scripts/upload_to_s3.py --force"
   },
