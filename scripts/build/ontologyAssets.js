@@ -1,6 +1,7 @@
 import { stat } from "node:fs/promises";
 import { posix } from "node:path";
 
+import { createOntologyQueryArtifacts } from "./createOntologyQueryArtifacts.js";
 import { renderOntologyAssetsWithWorkers } from "./ontologyAssetWorkerPool.js";
 import { generateOntologyAliases } from "./ontologyAliases.js";
 
@@ -46,6 +47,23 @@ export async function createOntologyBuildAssets({
   for (const { outputPath, jsonLdContent, csvContent } of renderedInputs) {
     assets.set(`${outputPath}.jsonld`, jsonLdContent);
     assets.set(`${outputPath}.csv`, csvContent);
+  }
+
+  const { artifactContentsByRelativePath } = await createOntologyQueryArtifacts(
+    { ontologySources, workerCount },
+  );
+
+  for (const [relativePath, content] of artifactContentsByRelativePath) {
+    const outputPath = `query/v1/${relativePath}`;
+
+    if (assets.has(outputPath)) {
+      // A collision means two independent build producers claim one deployed
+      // URL. Failing closed prevents a query document from silently replacing
+      // another ontology asset (or vice versa).
+      throw new Error(`Ontology build asset path collision: "${outputPath}".`);
+    }
+
+    assets.set(outputPath, content);
   }
 
   return assets;

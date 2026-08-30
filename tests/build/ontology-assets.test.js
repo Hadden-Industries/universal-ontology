@@ -1,8 +1,13 @@
+import { createHash } from "node:crypto";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 
 import { createOntologyBuildAssets } from "../../scripts/build/ontologyAssets.js";
+import {
+  OntologyQueryCatalogSchema,
+  OntologyReleaseQueryIndexSchema,
+} from "../../src/ontologyQuery/ontologyQuerySchemas.js";
 
 const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF
@@ -58,7 +63,11 @@ test("renders JSON-LD and CSV for every current source and generated alias", asy
       workerCount: 2,
     });
 
-    expect([...assets.keys()].sort()).toEqual([
+    const nonQueryAssetPaths = [...assets.keys()]
+      .filter((assetPath) => !assetPath.startsWith("query/v1/"))
+      .sort();
+
+    expect(nonQueryAssetPaths).toEqual([
       "universal/core/20260701.csv",
       "universal/core/20260701.jsonld",
       "universal/core/latest",
@@ -68,6 +77,35 @@ test("renders JSON-LD and CSV for every current source and generated alias", asy
       "universal/core/latest.csv",
       "universal/core/latest.jsonld",
     ]);
+
+    expect(assets.has("query/v1/catalog.json")).toBe(true);
+    const catalogContent = assets.get("query/v1/catalog.json");
+    const catalog = OntologyQueryCatalogSchema.parse(
+      JSON.parse(catalogContent.toString("utf8")),
+    );
+    expect(catalog.releases).toHaveLength(1);
+    expect(catalog.releases[0]).toMatchObject({
+      ontologyArtifactFamilyId: "universal/core",
+      versionTag: "20260701",
+      latestStableRelease: true,
+      sourceArtifactRelativePath: "universal/core/20260701",
+    });
+
+    const releaseCatalogEntry = catalog.releases[0];
+    const releaseAssetPath = `query/v1/${releaseCatalogEntry.queryIndexRelativePath}`;
+    const releaseContent = assets.get(releaseAssetPath);
+    expect(releaseContent).toBeDefined();
+    expect(
+      OntologyReleaseQueryIndexSchema.parse(
+        JSON.parse(releaseContent.toString("utf8")),
+      ).resolvedOntologyRelease,
+    ).toMatchObject({
+      ontologyArtifactFamilyId: "universal/core",
+      versionTag: "20260701",
+    });
+    expect(createHash("sha256").update(releaseContent).digest("hex")).toBe(
+      releaseCatalogEntry.queryIndexSha256,
+    );
     expect(assets.get("universal/core/latest")).toEqual(
       Buffer.from(RDF_XML, "utf8"),
     );
@@ -145,6 +183,9 @@ test("derives a build-time base IRI for a baseless full ontology", async () => {
     const document = JSON.parse(
       assets.get("iso-iec/11179/-3/ed-4/20260714-full.jsonld").toString("utf8"),
     );
+    const queryCatalog = OntologyQueryCatalogSchema.parse(
+      JSON.parse(assets.get("query/v1/catalog.json").toString("utf8")),
+    );
 
     expect(document).toEqual(
       expect.arrayContaining([
@@ -154,6 +195,7 @@ test("derives a build-time base IRI for a baseless full ontology", async () => {
         }),
       ]),
     );
+    expect(queryCatalog.releases).toEqual([]);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

@@ -12,6 +12,7 @@ import { join, relative } from "node:path";
 
 import * as z from "zod";
 
+import { createOntologyQueryArtifacts } from "../../scripts/build/createOntologyQueryArtifacts.js";
 import { parseRdfXmlToQuads } from "../../scripts/rdfXmlToJsonLd.js";
 import { generateOntologyQueryIndexes } from "../../scripts/generateOntologyQueryIndexes.js";
 import { createOntologyReleaseQueryIndex } from "../../src/ontologyQuery/createOntologyReleaseQueryIndex.js";
@@ -539,10 +540,27 @@ describe("ontology query-index generation", () => {
         outputDirectory: secondOutputDirectory,
         workerCount: 1,
       });
+      const { catalog: inMemoryCatalog, artifactContentsByRelativePath } =
+        await createOntologyQueryArtifacts({
+          ontologySources: ["20260829", "20260830", "v1", "20260830-full"].map(
+            (versionTag) => ({
+              sourcePath: join(familyDirectory, versionTag),
+              outputPath: `universal/test/${versionTag}`,
+            }),
+          ),
+          workerCount: 1,
+        });
 
       const firstFiles = await readGeneratedFiles(firstOutputDirectory);
       const secondFiles = await readGeneratedFiles(secondOutputDirectory);
       expect(firstFiles).toEqual(secondFiles);
+      expect(firstFiles).toEqual(
+        [...artifactContentsByRelativePath]
+          .map(([relativePath, content]) => ({ relativePath, content }))
+          .sort(({ relativePath: left }, { relativePath: right }) =>
+            left < right ? -1 : left > right ? 1 : 0,
+          ),
+      );
 
       const catalogBytes = await readFile(
         join(firstOutputDirectory, "catalog.json"),
@@ -551,6 +569,7 @@ describe("ontology query-index generation", () => {
       const catalog = OntologyQueryCatalogSchema.parse(
         JSON.parse(catalogBytes.toString("utf8")),
       );
+      expect(catalog).toEqual(inMemoryCatalog);
       expect(
         catalog.releases.map(({ versionTag, latestStableRelease }) => ({
           versionTag,

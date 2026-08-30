@@ -1,80 +1,12 @@
-import { createHash } from "node:crypto";
-import { mkdir, rename, stat, unlink, writeFile } from "node:fs/promises";
-import { dirname, posix } from "node:path";
+import { mkdir, rename, unlink, writeFile } from "node:fs/promises";
+import { dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import {
-  OntologyQueryCatalogSchema,
-  OntologyReleaseQueryIndexSchema,
-  deepFreeze,
-} from "../src/ontologyQuery/ontologyQuerySchemas.js";
-import { renderOntologyAssetsWithWorkers } from "./build/ontologyAssetWorkerPool.js";
+import { createOntologyQueryArtifacts } from "./build/createOntologyQueryArtifacts.js";
 import {
   inventorySourceTree,
   resolveOutputPath,
 } from "./build/sourceInventory.js";
-
-const PUBLIC_ONTOLOGY_ROOT = new URL("https://haddenindustries.com/ontology/");
-const IMMUTABLE_RELEASE_NAME_PATTERN = /^(?:\d{8}|v[1-9][0-9]*)$/u;
-const STABLE_RELEASE_NAME_PATTERN = /^\d{8}$/u;
-
-function compareBinary(left, right) {
-  return left < right ? -1 : left > right ? 1 : 0;
-}
-
-function sha256(content) {
-  return createHash("sha256").update(content).digest("hex");
-}
-
-function serializeJsonDocument(document) {
-  return Buffer.from(`${JSON.stringify(document, null, 2)}\n`, "utf8");
-}
-
-function isEligibleImmutableRelease({ outputPath }) {
-  return IMMUTABLE_RELEASE_NAME_PATTERN.test(posix.basename(outputPath));
-}
-
-function selectLatestUniversalSources(ontologySources) {
-  const latestSourceByFamily = new Map();
-
-  for (const source of ontologySources) {
-    if (
-      !source.outputPath.startsWith("universal/") ||
-      !STABLE_RELEASE_NAME_PATTERN.test(posix.basename(source.outputPath))
-    ) {
-      continue;
-    }
-
-    const familyId = posix.dirname(source.outputPath);
-    const preceding = latestSourceByFamily.get(familyId);
-
-    if (!preceding || source.outputPath > preceding.outputPath) {
-      latestSourceByFamily.set(familyId, source);
-    }
-  }
-
-  return [...latestSourceByFamily.values()].sort(
-    ({ outputPath: left }, { outputPath: right }) => compareBinary(left, right),
-  );
-}
-
-function buildFallbackBaseIri(outputPath) {
-  return new URL(`${posix.dirname(outputPath)}/`, PUBLIC_ONTOLOGY_ROOT).href;
-}
-
-function requireMatchingReleaseIdentity(index, input) {
-  const release = index.resolvedOntologyRelease;
-
-  if (
-    release.ontologyArtifactFamilyId !== input.ontologyArtifactFamilyId ||
-    release.versionTag !== input.versionTag ||
-    release.sourceArtifactUrl !== input.sourceArtifactUrl
-  ) {
-    throw new Error(
-      `Generated query index identity does not match "${input.outputPath}".`,
-    );
-  }
-}
 
 async function writeReleaseIndex({ outputDirectory, relativePath, content }) {
   const outputPath = resolveOutputPath(outputDirectory, relativePath);
@@ -129,123 +61,39 @@ export async function generateOntologyQueryIndexes({
   }
 
   const { ontologySources } = await inventorySourceTree({ sourceDirectory });
-  const eligibleSources = ontologySources.filter(isEligibleImmutableRelease);
-  const selectedSources = latestUniversalOnly
-    ? selectLatestUniversalSources(eligibleSources)
-    : eligibleSources;
+  const { catalog, artifactContentsByRelativePath } =
+    await createOntologyQueryArtifacts({
+      ontologySources,
+      workerCount,
+      latestUniversalOnly,
+    });
 
-  if (selectedSources.length === 0) {
+  if (catalog.releases.length === 0) {
+    // Preserve the standalone publisher's historical contract: invoking the
+    // CLI against an ineligible source tree is a configuration error. The
+    // in-memory builder itself may still represent an empty fixture catalog.
     throw new Error("No eligible immutable ontology releases were found.");
   }
 
-  const inputs = await Promise.all(
-    selectedSources.map(async (source) => {
-      const ontologyArtifactFamilyId = posix.dirname(source.outputPath);
-      const versionTag = posix.basename(source.outputPath);
-
-      return {
-        ...source,
-        size: (await stat(source.sourcePath)).size,
-        fallbackBaseIRI: buildFallbackBaseIri(source.outputPath),
-        ontologyArtifactFamilyId,
-        versionTag,
-        sourceArtifactUrl: new URL(source.outputPath, PUBLIC_ONTOLOGY_ROOT)
-          .href,
-      };
-    }),
-  );
-  inputs.sort(({ outputPath: left }, { outputPath: right }) =>
-    compareBinary(left, right),
-  );
-
-  const renderedIndexes = await renderOntologyAssetsWithWorkers({
-    inputs,
-    workerCount,
-    requestedAssetKinds: ["query_index"],
-  });
-  const stableVersionByFamily = new Map();
-
-  for (const input of inputs) {
-    if (!STABLE_RELEASE_NAME_PATTERN.test(input.versionTag)) {
-      continue;
-    }
-
-    const preceding = stableVersionByFamily.get(input.ontologyArtifactFamilyId);
-
-    if (!preceding || input.versionTag > preceding) {
-      stableVersionByFamily.set(
-        input.ontologyArtifactFamilyId,
-        input.versionTag,
-      );
-    }
-  }
-
-  const releaseArtifacts = renderedIndexes.map((renderedIndex, index) => {
-    const input = inputs[index];
-    const queryIndex = OntologyReleaseQueryIndexSchema.parse(
-      JSON.parse(renderedIndex.queryIndexContent.toString("utf8")),
-    );
-    requireMatchingReleaseIdentity(queryIndex, input);
-
-    const deterministicContent = serializeJsonDocument(queryIndex);
-
-    if (!deterministicContent.equals(renderedIndex.queryIndexContent)) {
-      throw new Error(
-        `Worker emitted non-canonical query-index bytes for "${input.outputPath}".`,
-      );
-    }
-
-    const queryIndexSha256 = sha256(deterministicContent);
-    const queryIndexRelativePath =
-      `releases/${input.ontologyArtifactFamilyId}/${input.versionTag}/` +
-      `${queryIndexSha256}.json`;
-
-    return {
-      input,
-      content: deterministicContent,
-      catalogRelease: {
-        ontologyArtifactFamilyId: input.ontologyArtifactFamilyId,
-        versionTag: input.versionTag,
-        latestStableRelease:
-          stableVersionByFamily.get(input.ontologyArtifactFamilyId) ===
-          input.versionTag,
-        sourceArtifactRelativePath: input.outputPath,
-        sourceArtifactUrl: input.sourceArtifactUrl,
-        sourceArtifactSha256:
-          queryIndex.resolvedOntologyRelease.sourceArtifactSha256,
-        queryIndexRelativePath,
-        queryIndexSha256,
-      },
-    };
-  });
+  const catalogContent = artifactContentsByRelativePath.get("catalog.json");
 
   // Every immutable object is made durable before catalog publication. A
   // failure therefore leaves the preceding catalog complete and queryable.
-  for (const releaseArtifact of releaseArtifacts) {
+  for (const [relativePath, content] of artifactContentsByRelativePath) {
+    if (relativePath === "catalog.json") {
+      continue;
+    }
+
     await writeReleaseIndex({
       outputDirectory,
-      relativePath: releaseArtifact.catalogRelease.queryIndexRelativePath,
-      content: releaseArtifact.content,
+      relativePath,
+      content,
     });
   }
 
-  const catalog = OntologyQueryCatalogSchema.parse({
-    queryArtifactKind: "universal_ontology_query_catalog",
-    queryArtifactFormatVersion: 1,
-    releases: releaseArtifacts
-      .map(({ catalogRelease }) => catalogRelease)
-      .sort(
-        (left, right) =>
-          compareBinary(
-            left.ontologyArtifactFamilyId,
-            right.ontologyArtifactFamilyId,
-          ) || compareBinary(left.versionTag, right.versionTag),
-      ),
-  });
-  const catalogContent = serializeJsonDocument(catalog);
   await publishCatalogAtomically({ outputDirectory, catalogContent });
 
-  return deepFreeze(catalog);
+  return catalog;
 }
 
 function parseCommandLineArguments(arguments_) {
