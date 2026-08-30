@@ -1,28 +1,7 @@
 import { lstat, readFile, realpath } from "node:fs/promises";
-import { isAbsolute, resolve, sep } from "node:path";
+import { resolve, sep } from "node:path";
 
-function validateContainedRelativePath(relativePath) {
-  if (
-    typeof relativePath !== "string" ||
-    relativePath === "" ||
-    isAbsolute(relativePath) ||
-    relativePath.includes("\\")
-  ) {
-    throw new TypeError(
-      "The repository relative path must be a normalized contained POSIX path.",
-    );
-  }
-
-  const segments = relativePath.split("/");
-
-  if (segments.some((segment) => ["", ".", ".."].includes(segment))) {
-    throw new TypeError(
-      "The repository relative path must be a normalized contained POSIX path.",
-    );
-  }
-
-  return segments;
-}
+import { parseContainedOntologyReleaseIndexRelativePath } from "./ontologyReleaseIndexRelativePath.js";
 
 function throwIfAborted(signal) {
   signal?.throwIfAborted();
@@ -45,7 +24,8 @@ export function createFileSystemOntologyReleaseIndexRepository({ queryRoot }) {
 
   async function readContainedFile(relativePath, { signal } = {}) {
     throwIfAborted(signal);
-    const segments = validateContainedRelativePath(relativePath);
+    const segments =
+      parseContainedOntologyReleaseIndexRelativePath(relativePath);
     const targetPath = resolve(absoluteQueryRoot, ...segments);
     const rootPrefix = `${absoluteQueryRoot}${sep}`;
 

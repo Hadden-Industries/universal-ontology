@@ -58,9 +58,15 @@ describe("filesystem ontology release-index repository", () => {
       });
 
       for (const relativePath of [
+        "",
+        ".",
         "../outside.json",
         "releases/../catalog.json",
         "releases\\catalog.json",
+        "/query/v1/catalog.json",
+        "C:/query/v1/catalog.json",
+        "C:\\query\\v1\\catalog.json",
+        "\\\\server\\share\\catalog.json",
         join(temporaryRoot, "catalog.json"),
         "linked.json",
       ]) {
