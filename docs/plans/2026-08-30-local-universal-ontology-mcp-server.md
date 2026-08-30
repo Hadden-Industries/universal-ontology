@@ -1,10 +1,19 @@
 # Local Universal Ontology MCP Server Implementation Plan
 
-> **Status:** implementation-ready design, researched 2026-08-30  
+> **Status:** local implementation complete, researched and verified 2026-08-30; AWS production migration remains planned
+>
 > **Primary protocol:** Model Context Protocol (MCP) specification `2026-07-28`  
 > **Local endpoint:** `http://127.0.0.1:8000/mcp`  
 > **Production direction:** Amazon Bedrock AgentCore Runtime with OAuth/JWT ingress and immutable query artifacts in Amazon S3; add AgentCore Gateway only when aggregation or centralized policy justifies its tool-renaming layer  
 > **For implementation:** Execute this plan inline, task by task. Subagents are prohibited by the user. Use the repository's `test-driven-development` and `verification-before-completion` skills where applicable.
+
+The local implementation is complete through the filesystem-backed query
+module, the two-tool MCP catalog, the secure loopback runner, adversarial
+socket/lifecycle tests, and the operator guide. Machine-checkable acceptance
+used the pinned MCP Inspector CLI against the real 159-release generated
+catalog. The Inspector UI and optional manual Codex configuration remain
+operator steps because this implementation deliberately does not create
+`.codex/config.toml` or open an interactive browser.
 
 ## Outcome
 
@@ -766,12 +775,12 @@ Add scripts:
 
 **Steps:**
 
-- [ ] During implementation, show the exact change above and request explicit approval for these two configuration files.
-- [ ] After approval, run `npm install --save-exact @modelcontextprotocol/server@2.0.0 @modelcontextprotocol/node@2.0.0 zod@4.5.4`.
-- [ ] Run `npm install --save-dev --save-exact @modelcontextprotocol/client@2.0.0`.
-- [ ] Apply the three script entries with a targeted patch.
-- [ ] Run `npm ls @modelcontextprotocol/server @modelcontextprotocol/node @modelcontextprotocol/client zod` and assert the exact resolved versions.
-- [ ] Inspect `git diff -- package.json package-lock.json`; reject unrelated lockfile churn.
+- [x] During implementation, show the exact change above and request explicit approval for these two configuration files.
+- [x] After approval, run `npm install --save-exact @modelcontextprotocol/server@2.0.0 @modelcontextprotocol/node@2.0.0 zod@4.5.4`.
+- [x] Run `npm install --save-dev --save-exact @modelcontextprotocol/client@2.0.0`.
+- [x] Apply the three script entries with a targeted patch.
+- [x] Run `npm ls @modelcontextprotocol/server @modelcontextprotocol/node @modelcontextprotocol/client zod` and assert the exact resolved versions.
+- [x] Inspect `git diff -- package.json package-lock.json`; reject unrelated lockfile churn.
 
 Do not install `@modelcontextprotocol/inspector` into the repository. Manual acceptance uses the pinned ephemeral command `npx --yes @modelcontextprotocol/inspector@2.4.0`.
 
@@ -787,18 +796,18 @@ Do not install `@modelcontextprotocol/inspector` into the repository. Manual acc
 
 **Steps:**
 
-- [ ] Write failing tests for normalized family paths, eight-digit and named version tags, absolute IRIs, UUID URNs, BCP 47 preferences, strict unknown-key rejection, and every output discriminator.
-- [ ] Add raw lookup-text tests for an empty string, whitespace-only text, surrounding whitespace, exactly 256 code units, and more than 256 code units. Assert validation happens before boundary trimming and the output retains only the boundary-normalized request value.
-- [ ] Add a compact RDF/XML fixture containing an OWL class, preferred and alternative labels, language-tagged definitions, an untagged `xsd:string`, another explicitly typed literal, an entity-level source, a named superclass, a blank-node restriction, and an annotated assertion.
-- [ ] Add a punning fixture in the same artifact: one IRI asserted as both `owl:Class` and `owl:NamedIndividual`.
-- [ ] Assert that the schema permits multiple entity kinds and rejects duplicates after normalization.
-- [ ] Import the pinned package root with `import * as z from "zod"`; the exact `zod@4.5.4` pin already selects Zod 4. Do not use compatibility subpaths or multiple Zod instances.
-- [ ] Implement schemas with `z.strictObject` and comments describing semantic distinctions.
-- [ ] Assert each RDF-literal invariant: `rdf:langString` requires a non-null language tag, untagged simple strings use `xsd:string`, other typed literals retain their asserted datatype, and no non-`rdf:langString` literal carries a language tag.
-- [ ] Add valid mixed-case UUID URNs and prove comparison is case-insensitive while parsed RDF terms and output lexical forms preserve authored case exactly.
-- [ ] Run `z.toJSONSchema` over both public input schemas and assert conversion succeeds with the raw `minLength`, `maxLength`, and non-whitespace `pattern`; do not rely on a non-representable transforming refinement.
-- [ ] Add `parse...` functions that return validated, deeply frozen values at trust boundaries. Do not scatter `.parse()` calls through MCP handlers.
-- [ ] Run `npm test -- tests/ontology-query/ontology-release-query-index.test.js --runInBand`; verify the initial red tests and final green result.
+- [x] Write failing tests for normalized family paths, eight-digit and named version tags, absolute IRIs, UUID URNs, BCP 47 preferences, strict unknown-key rejection, and every output discriminator.
+- [x] Add raw lookup-text tests for an empty string, whitespace-only text, surrounding whitespace, exactly 256 code units, and more than 256 code units. Assert validation happens before boundary trimming and the output retains only the boundary-normalized request value.
+- [x] Add a compact RDF/XML fixture containing an OWL class, preferred and alternative labels, language-tagged definitions, an untagged `xsd:string`, another explicitly typed literal, an entity-level source, a named superclass, a blank-node restriction, and an annotated assertion.
+- [x] Add a punning fixture in the same artifact: one IRI asserted as both `owl:Class` and `owl:NamedIndividual`.
+- [x] Assert that the schema permits multiple entity kinds and rejects duplicates after normalization.
+- [x] Import the pinned package root with `import * as z from "zod"`; the exact `zod@4.5.4` pin already selects Zod 4. Do not use compatibility subpaths or multiple Zod instances.
+- [x] Implement schemas with `z.strictObject` and comments describing semantic distinctions.
+- [x] Assert each RDF-literal invariant: `rdf:langString` requires a non-null language tag, untagged simple strings use `xsd:string`, other typed literals retain their asserted datatype, and no non-`rdf:langString` literal carries a language tag.
+- [x] Add valid mixed-case UUID URNs and prove comparison is case-insensitive while parsed RDF terms and output lexical forms preserve authored case exactly.
+- [x] Run `z.toJSONSchema` over both public input schemas and assert conversion succeeds with the raw `minLength`, `maxLength`, and non-whitespace `pattern`; do not rely on a non-representable transforming refinement.
+- [x] Add `parse...` functions that return validated, deeply frozen values at trust boundaries. Do not scatter `.parse()` calls through MCP handlers.
+- [x] Run `npm test -- tests/ontology-query/ontology-release-query-index.test.js --runInBand`; verify the initial red tests and final green result.
 
 Schema code should retain a single source of truth:
 
@@ -832,12 +841,12 @@ The existing public function remains behaviorally identical and delegates to the
 
 **Steps:**
 
-- [ ] Add failing tests asserting that `parseRdfXmlToQuads` returns RDF/JS quads in the default graph and preserves language, datatype, named-node, and blank-node term kinds.
-- [ ] Add a regression test asserting byte-for-byte equality of existing `renderRdfXmlAsJsonLd` output before and after the refactor.
-- [ ] Rename the private `parseRdfXml` implementation to the exported, semantically precise `parseRdfXmlToQuads` interface; normalize the option name to `fallbackBaseIri` only at the new interface and preserve the existing compatibility spelling internally if callers need it.
-- [ ] Extract JSON-LD rendering into `renderRdfQuadsAsJsonLd`.
-- [ ] Ensure no iterator, parser, or stream is retained after rejection; preserve current strict error reporting with `sourceName` context.
-- [ ] Run `npm test -- tests/rdf-xml-to-json-ld.test.js --runInBand`.
+- [x] Add failing tests asserting that `parseRdfXmlToQuads` returns RDF/JS quads in the default graph and preserves language, datatype, named-node, and blank-node term kinds.
+- [x] Add a regression test asserting byte-for-byte equality of existing `renderRdfXmlAsJsonLd` output before and after the refactor.
+- [x] Rename the private `parseRdfXml` implementation to the exported, semantically precise `parseRdfXmlToQuads` interface; normalize the option name to `fallbackBaseIri` only at the new interface and preserve the existing compatibility spelling internally if callers need it.
+- [x] Extract JSON-LD rendering into `renderRdfQuadsAsJsonLd`.
+- [x] Ensure no iterator, parser, or stream is retained after rejection; preserve current strict error reporting with `sourceName` context.
+- [x] Run `npm test -- tests/rdf-xml-to-json-ld.test.js --runInBand`.
 
 Do not export parser internals or introduce an RDF store dependency. An immutable quad array is sufficient for the build projection.
 
@@ -867,19 +876,19 @@ This pure build-time module hides quad indexing, OWL axiom matching, historical 
 
 **Steps:**
 
-- [ ] Write the Person golden test directly against `src/universal/core/20260714` and assert its entity IRI, UUID URN, preferred label, exact `en-gb` lexical definition, source IRI, see-also IRI, entity kind, and source digest.
-- [ ] Write historical fixtures/tests that prove definition and preferred-label property IRIs come from `resolveApplicableOntologyProjectionPropertyIris` for the artifact's own path/version.
-- [ ] Write a test proving `resolveLegacySourceInterpretations` is applied only to declared historical paths and versions.
-- [ ] Write a test proving a blank-node restriction is not emitted as a direct named superclass.
-- [ ] Write a test proving exact OWL axiom annotations attach only to the matching subject/property/object assertion.
-- [ ] Write a test proving input quad order cannot affect serialized output: shuffle quads repeatedly and compare exact bytes after deterministic serialization.
-- [ ] Build private indexes by subject IRI and by OWL axiom tuple key once; never perform an O(entities × quads) scan.
-- [ ] Project every named subject carrying a recognized entity-kind assertion. Preserve punning in one sorted `entityKinds` array.
-- [ ] Extract current and historical label/definition/creator properties through the existing declaration rather than hard-coding only today's SKOS properties.
-- [ ] Keep `rdfs:label` and the configured preferred-label assertion roles distinct when both occur.
-- [ ] Sort all value arrays using RDF term-aware comparators: term kind, IRI or lexical form, datatype IRI, normalized language tag, then annotation key.
-- [ ] Validate the completed index against `OntologyReleaseQueryIndexSchema` before returning it.
-- [ ] Run `npm test -- tests/ontology-query/ontology-release-query-index.test.js --runInBand`.
+- [x] Write the Person golden test directly against `src/universal/core/20260714` and assert its entity IRI, UUID URN, preferred label, exact `en-gb` lexical definition, source IRI, see-also IRI, entity kind, and source digest.
+- [x] Write historical fixtures/tests that prove definition and preferred-label property IRIs come from `resolveApplicableOntologyProjectionPropertyIris` for the artifact's own path/version.
+- [x] Write a test proving `resolveLegacySourceInterpretations` is applied only to declared historical paths and versions.
+- [x] Write a test proving a blank-node restriction is not emitted as a direct named superclass.
+- [x] Write a test proving exact OWL axiom annotations attach only to the matching subject/property/object assertion.
+- [x] Write a test proving input quad order cannot affect serialized output: shuffle quads repeatedly and compare exact bytes after deterministic serialization.
+- [x] Build private indexes by subject IRI and by OWL axiom tuple key once; never perform an O(entities × quads) scan.
+- [x] Project every named subject carrying a recognized entity-kind assertion. Preserve punning in one sorted `entityKinds` array.
+- [x] Extract current and historical label/definition/creator properties through the existing declaration rather than hard-coding only today's SKOS properties.
+- [x] Keep `rdfs:label` and the configured preferred-label assertion roles distinct when both occur.
+- [x] Sort all value arrays using RDF term-aware comparators: term kind, IRI or lexical form, datatype IRI, normalized language tag, then annotation key.
+- [x] Validate the completed index against `OntologyReleaseQueryIndexSchema` before returning it.
+- [x] Run `npm test -- tests/ontology-query/ontology-release-query-index.test.js --runInBand`.
 
 Comment the semantic exclusions in code:
 
@@ -903,21 +912,21 @@ Comment the semantic exclusions in code:
 
 **Steps:**
 
-- [ ] Add failing worker-pool tests for the default existing output set and the new query-index-only output set.
-- [ ] Validate `requestedAssetKinds` before dispatch; reject unknown or empty sets.
-- [ ] Parse source bytes once per worker task and calculate the raw SHA-256 digest in the worker.
-- [ ] Produce only requested renderings from the same quad array.
-- [ ] Transfer index bytes with `ArrayBuffer`, following the worker's existing zero-copy pattern.
-- [ ] Inventory sources with `inventorySourceTree`; filter using the eligibility rules above.
-- [ ] Generate all eligible immutable releases by default. Support only a documented `--latest-universal-only` developer acceleration flag; production and acceptance use the complete default.
-- [ ] Collect worker results in memory, sort catalog entries, validate all entries, and write release files first.
-- [ ] Serialize each validated release index, compute `queryIndexSha256` from those exact bytes, and derive its contained output path from that query-index digest—not from the source-artifact digest.
-- [ ] Write `catalog.json` last using a temporary sibling file and an atomic rename. Resolve every output through a contained-path validator before writing.
-- [ ] On failure, leave the preceding valid catalog in place and report the failed release. Never publish a catalog that references a missing index.
-- [ ] Do not recursively delete `dist` or `dist/query`. Overwrite only exact generated paths and leave obsolete content-addressed files harmlessly unreachable; a separate, explicitly approved cleanup can remove them later.
-- [ ] Generate twice in separate temporary directories and assert identical file lists, SHA-256 digests, and bytes.
-- [ ] Run `npm run mcp:index` and validate `dist/query/v1/catalog.json` through the runtime schema.
-- [ ] Run `npm test -- tests/build/ontology-asset-worker-pool.test.js tests/ontology-query/ontology-release-query-index.test.js --runInBand`.
+- [x] Add failing worker-pool tests for the default existing output set and the new query-index-only output set.
+- [x] Validate `requestedAssetKinds` before dispatch; reject unknown or empty sets.
+- [x] Parse source bytes once per worker task and calculate the raw SHA-256 digest in the worker.
+- [x] Produce only requested renderings from the same quad array.
+- [x] Transfer index bytes with `ArrayBuffer`, following the worker's existing zero-copy pattern.
+- [x] Inventory sources with `inventorySourceTree`; filter using the eligibility rules above.
+- [x] Generate all eligible immutable releases by default. Support only a documented `--latest-universal-only` developer acceleration flag; production and acceptance use the complete default.
+- [x] Collect worker results in memory, sort catalog entries, validate all entries, and write release files first.
+- [x] Serialize each validated release index, compute `queryIndexSha256` from those exact bytes, and derive its contained output path from that query-index digest—not from the source-artifact digest.
+- [x] Write `catalog.json` last using a temporary sibling file and an atomic rename. Resolve every output through a contained-path validator before writing.
+- [x] On failure, leave the preceding valid catalog in place and report the failed release. Never publish a catalog that references a missing index.
+- [x] Do not recursively delete `dist` or `dist/query`. Overwrite only exact generated paths and leave obsolete content-addressed files harmlessly unreachable; a separate, explicitly approved cleanup can remove them later.
+- [x] Generate twice in separate temporary directories and assert identical file lists, SHA-256 digests, and bytes.
+- [x] Run `npm run mcp:index` and validate `dist/query/v1/catalog.json` through the runtime schema.
+- [x] Run `npm test -- tests/build/ontology-asset-worker-pool.test.js tests/ontology-query/ontology-release-query-index.test.js --runInBand`.
 
 The generator must use `process.exitCode = 1` after a caught top-level error; do not call `process.exit()` while worker cleanup is pending.
 
@@ -957,23 +966,23 @@ The port returns bytes, not parsed objects. This lets the deep query module own 
 
 **Steps:**
 
-- [ ] Create an in-memory repository adapter inside the test file; do not add a production export solely for tests.
-- [ ] Write interface-level tests for default releases, specified releases, unknown family, unknown release, digest mismatch, unsupported format version, cancellation, and stable safe errors.
-- [ ] Write ranking tests for every `matchBasis`, language preference, deterministic tie-break, entity-kind filtering, same-IRI aggregation, ambiguity across distinct IRIs, truncation, and a no-definition result.
-- [ ] Prove that public methods trim validated lookup text once at their boundary, return that boundary-normalized request value, and construct a separate private NFKC/case/punctuation-folded comparison key.
-- [ ] Write negative semantic tests proving scope notes do not become alternative labels, logical class expressions do not become lexical definitions, and imported graphs are not followed.
-- [ ] Implement catalog parsing and release resolution once inside the module.
-- [ ] Deduplicate requested release references while retaining deterministic order.
-- [ ] Load only selected release indexes; do not eagerly load every catalog entry.
-- [ ] Verify SHA-256 before JSON parsing, validate with Zod, and cross-check the embedded release identity.
-- [ ] Construct per-release lookup maps and private normalized lexical entries after validation.
-- [ ] Cache immutable parsed indexes by `ontologyArtifactFamilyId`, `versionTag`, and `queryIndexSha256`.
-- [ ] Implement a 64 MiB default least-recently-used byte budget. Account using the validated raw index byte length, evict only complete indexes, and never evict a promise currently shared by concurrent callers.
-- [ ] Coalesce concurrent loads for the same immutable key into one promise. Remove a rejected promise from the cache so a retry can succeed.
-- [ ] Check `AbortSignal` before I/O, after I/O, and in long candidate loops. Translate cancellation to the stable `QUERY_CANCELLED` failure without logging it as a server fault.
-- [ ] Implement the filesystem adapter with `node:fs/promises.readFile`, a configured query root, and normalized contained-relative-path checks. Reject symlinks or resolved paths outside the configured root.
-- [ ] Keep the filesystem root and absolute paths out of query results.
-- [ ] Run both query test files with `--runInBand`.
+- [x] Create an in-memory repository adapter inside the test file; do not add a production export solely for tests.
+- [x] Write interface-level tests for default releases, specified releases, unknown family, unknown release, digest mismatch, unsupported format version, cancellation, and stable safe errors.
+- [x] Write ranking tests for every `matchBasis`, language preference, deterministic tie-break, entity-kind filtering, same-IRI aggregation, ambiguity across distinct IRIs, truncation, and a no-definition result.
+- [x] Prove that public methods trim validated lookup text once at their boundary, return that boundary-normalized request value, and construct a separate private NFKC/case/punctuation-folded comparison key.
+- [x] Write negative semantic tests proving scope notes do not become alternative labels, logical class expressions do not become lexical definitions, and imported graphs are not followed.
+- [x] Implement catalog parsing and release resolution once inside the module.
+- [x] Deduplicate requested release references while retaining deterministic order.
+- [x] Load only selected release indexes; do not eagerly load every catalog entry.
+- [x] Verify SHA-256 before JSON parsing, validate with Zod, and cross-check the embedded release identity.
+- [x] Construct per-release lookup maps and private normalized lexical entries after validation.
+- [x] Cache immutable parsed indexes by `ontologyArtifactFamilyId`, `versionTag`, and `queryIndexSha256`.
+- [x] Implement a 64 MiB default least-recently-used byte budget. Account using the validated raw index byte length, evict only complete indexes, and never evict a promise currently shared by concurrent callers.
+- [x] Coalesce concurrent loads for the same immutable key into one promise. Remove a rejected promise from the cache so a retry can succeed.
+- [x] Check `AbortSignal` before I/O, after I/O, and in long candidate loops. Translate cancellation to the stable `QUERY_CANCELLED` failure without logging it as a server fault.
+- [x] Implement the filesystem adapter with `node:fs/promises.readFile`, a configured query root, and normalized contained-relative-path checks. Reject symlinks or resolved paths outside the configured root.
+- [x] Keep the filesystem root and absolute paths out of query results.
+- [x] Run both query test files with `--runInBand`.
 
 Performance acceptance on a warm cache, measured locally with the three latest Universal Ontology indexes:
 
@@ -983,6 +992,17 @@ Performance acceptance on a warm cache, measured locally with the three latest U
 - Process resident-set growth remains bounded when querying every catalog release sequentially; the 64 MiB cache budget must demonstrably evict.
 
 These are query-module measurements and exclude one-time index generation.
+
+Recorded local acceptance on 2026-08-30, after loading the latest stable
+`universal/core`, `universal/extended`, and `universal/reference-data`
+indexes, measured 200 warm iterations at p95 1.150 ms for search and 0.180 ms
+for exact resolution. A sequential sweep of all 159 catalog releases read more
+than the 64 MiB raw-index budget and a revisit of the first release performed a
+second repository read, demonstrating eviction. Three complete sweeps produced
+post-GC RSS observations of 341,241,856, 458,514,432, and 460,169,216 bytes;
+the third sweep added about 1.6 MiB rather than another sweep-sized increment.
+The deterministic coalescing tests separately prove one repository read for
+concurrent identical cold queries.
 
 ### Task 7: Register the MCP tools from one cheap per-request factory
 
@@ -1004,24 +1024,24 @@ The injected `ontologyQuery` is the already-constructed deep module. The factory
 
 **Steps:**
 
-- [ ] Write an integration-style test using the official `Client` and a handler-backed fetch transport; do not call tool handlers directly.
-- [ ] Assert `tools/list` returns exactly the two public tools in this order: `search_entities`, then `resolve_entity`.
-- [ ] Assert every direct public name matches `CROSS_HOST_TOOL_NAME_PATTERN`, contains no redundant server prefix, and is sourced from `SEARCH_ENTITIES_TOOL_NAME` or `RESOLVE_ENTITY_TOOL_NAME` rather than repeated string literals.
-- [ ] Assert titles, descriptions, annotations, input schemas, output schemas, JSON Schema draft, and strict required fields.
-- [ ] Assert modern `server/discover` and `tools/list` results advertise a one-hour public cache hint; the tool catalog and server identity are identical for every caller, so a public cache scope is safe. Legacy responses must not acquire modern-only cache fields.
-- [ ] Assert modern client connection with `versionNegotiation: { mode: { pin: "2026-07-28" } }`.
-- [ ] Assert a search call returns both validated `structuredContent` and framed text content.
-- [ ] Assert the Person golden answer and immutable release provenance.
-- [ ] Assert malformed arguments produce the exactly pinned SDK's ordinary `isError: true` validation result, contain no application structured content, and are rejected before the query module is invoked. Treat any different result after a dependency upgrade as a contract change requiring review.
-- [ ] Assert `not_found` and `ambiguous` are successful outcomes.
-- [ ] Assert repository/domain failure results set `isError: true` and validate against the output union.
-- [ ] Validate failure structured content explicitly before returning it. The SDK deliberately skips `outputSchema` validation for `isError: true` results, so the adapter must not assume the SDK checked that arm.
-- [ ] Catch every unexpected query/renderer exception inside the tool callback, pass the full exception to `reportUnhandledToolError`, and return only `INTERNAL_QUERY_FAILURE`. This prevents the SDK's generic handler-error conversion from exposing a raw exception message.
-- [ ] Register both tools using full Zod objects, not deprecated raw Zod shapes.
-- [ ] Forward the v2 SDK callback context's `context.mcpReq.signal` into the query module. Do not use the removed v1 flat `extra.signal` shape.
-- [ ] Render ontology-authored strings as untrusted data without HTML interpretation or escape sequences that alter their text.
-- [ ] Keep log correlation IDs out of deterministic structured output.
-- [ ] Run `npm test -- tests/mcp/universal-ontology-mcp-server.test.js --runInBand`.
+- [x] Write an integration-style test using the official `Client` and a handler-backed fetch transport; do not call tool handlers directly.
+- [x] Assert `tools/list` returns exactly the two public tools in this order: `search_entities`, then `resolve_entity`.
+- [x] Assert every direct public name matches `CROSS_HOST_TOOL_NAME_PATTERN`, contains no redundant server prefix, and is sourced from `SEARCH_ENTITIES_TOOL_NAME` or `RESOLVE_ENTITY_TOOL_NAME` rather than repeated string literals.
+- [x] Assert titles, descriptions, annotations, input schemas, output schemas, JSON Schema draft, and strict required fields.
+- [x] Assert modern `server/discover` and `tools/list` results advertise a one-hour public cache hint; the tool catalog and server identity are identical for every caller, so a public cache scope is safe. Legacy responses must not acquire modern-only cache fields.
+- [x] Assert modern client connection with `versionNegotiation: { mode: { pin: "2026-07-28" } }`.
+- [x] Assert a search call returns both validated `structuredContent` and framed text content.
+- [x] Assert the Person golden answer and immutable release provenance.
+- [x] Assert malformed arguments produce the exactly pinned SDK's ordinary `isError: true` validation result, contain no application structured content, and are rejected before the query module is invoked. Treat any different result after a dependency upgrade as a contract change requiring review.
+- [x] Assert `not_found` and `ambiguous` are successful outcomes.
+- [x] Assert repository/domain failure results set `isError: true` and validate against the output union.
+- [x] Validate failure structured content explicitly before returning it. The SDK deliberately skips `outputSchema` validation for `isError: true` results, so the adapter must not assume the SDK checked that arm.
+- [x] Catch every unexpected query/renderer exception inside the tool callback, pass the full exception to `reportUnhandledToolError`, and return only `INTERNAL_QUERY_FAILURE`. This prevents the SDK's generic handler-error conversion from exposing a raw exception message.
+- [x] Register both tools using full Zod objects, not deprecated raw Zod shapes.
+- [x] Forward the v2 SDK callback context's `context.mcpReq.signal` into the query module. Do not use the removed v1 flat `extra.signal` shape.
+- [x] Render ontology-authored strings as untrusted data without HTML interpretation or escape sequences that alter their text.
+- [x] Keep log correlation IDs out of deterministic structured output.
+- [x] Run `npm test -- tests/mcp/universal-ontology-mcp-server.test.js --runInBand`.
 
 Factory shape:
 
@@ -1123,27 +1143,27 @@ Do not expose a local bind-address environment variable in v1. The local runner 
 
 **Steps:**
 
-- [ ] Write in-process handler tests with `handler.fetch` for content type and `Accept`; `MCP-Protocol-Version` and `Mcp-Method` on every modern request; `Mcp-Name` on `tools/call` but not `server/discover` or `tools/list`; the matching body `_meta` protocol envelope; body/header mismatch; unknown method; body limit; and stateless legacy compatibility.
-- [ ] Assert a missing, malformed, or body-mismatched required modern metadata header receives HTTP 400 with JSON-RPC code `-32020` (`HeaderMismatch`).
-- [ ] Assert an unsupported modern protocol version receives HTTP 400 with JSON-RPC code `-32022` and stable `error.data.requested` and `error.data.supported` values. Assert an unknown modern method receives HTTP 404 with JSON-RPC code `-32601`; an unknown tool name or malformed `tools/call` envelope receives JSON-RPC code `-32602`. Assert no modern failure uses obsolete session-era code `-32002`.
-- [ ] Assert a modern request carrying an arbitrary incoming `Mcp-Session-Id` is processed identically to one without it, and modern responses never mint or echo `Mcp-Session-Id`.
-- [ ] Assert legacy stateless GET and DELETE operations return 405 and no session identifier.
-- [ ] Construct `createMcpHandler` with explicit `legacy: "stateless"`, `responseMode: "json"`, and `maxRequestBodySize: 128 * 1024`.
-- [ ] Supply an `onerror` callback that receives the full exception for local structured logging while tool results remain safe.
-- [ ] Build a plain `node:http` server; wrap once with `toNodeHandler`.
-- [ ] Compose the official `localhostHostValidation()` and `localhostOriginValidation()` guards before the Node handler. A failed guard has already answered 403 and must short-circuit.
-- [ ] Route only exact `/mcp` requests into the MCP handler. Return 404 for other paths except `/healthz`.
-- [ ] Return `/healthz` as small JSON containing `status`, `catalogReady`, and `primaryMcpProtocolVersion`; do not include local paths, entity counts, dependencies, or stack traces.
-- [ ] Load and validate the catalog before listening. If readiness fails, exit non-zero rather than accepting unusable tool calls.
-- [ ] Place admission controls before parsing MCP bodies: Host, Origin, rate, concurrency, then MCP handler.
-- [ ] Implement one `rejectRequestBeforeBodyRead` helper for application-owned route/rate/concurrency failures and one small wrapper around each official Host/Origin guard. Both paths must set `Connection: close` and `response.shouldKeepAlive = false` before sending a fixed safe response; remove those provisional settings only when a guard accepts the request.
-- [ ] Apply the rate bucket only to `/mcp`; `/healthz` is exempt after Host/Origin validation. Return 429 with `Retry-After` for rate exhaustion.
-- [ ] Implement the token bucket from the injected `readMonotonicMilliseconds`; the production default is `() => performance.now()`. Never derive refill from wall-clock time, and never read time directly inside the limiter.
-- [ ] Reject an MCP request immediately with HTTP 503 and `Retry-After: 1` when eight MCP requests are active. Do not queue it and do not read its body. Release concurrency permits in `finally` and on disconnect.
-- [ ] Log one JSON object per event to stderr with timestamp, severity, event name, correlation ID, duration, outcome, and safe error code. Never log full ontology definitions by default.
-- [ ] Handle `SIGINT` and `SIGTERM` idempotently. On the first signal, mark the runner as draining and call `httpServer.close()` first so no new connections are accepted; then call `httpServer.closeIdleConnections()` after `close()` as an explicit compatibility measure. Do not abort active requests during the ten-second grace period. If they drain, await server closure and query cleanup, then call `handler.close()`. Only after the deadline may the runner abort outstanding query controllers and call `httpServer.closeAllConnections()`—again after `close()`—then await forced cleanup and call `handler.close()`. Repeated signals reuse the same shutdown promise. Set a non-zero exit code only when the deadline or cleanup fails.
-- [ ] Fail startup if the requested port is outside 1–65535, the cache size is invalid, or the query root is unavailable.
-- [ ] Run the handler test file.
+- [x] Write in-process handler tests with `handler.fetch` for content type and `Accept`; `MCP-Protocol-Version` and `Mcp-Method` on every modern request; `Mcp-Name` on `tools/call` but not `server/discover` or `tools/list`; the matching body `_meta` protocol envelope; body/header mismatch; unknown method; body limit; and stateless legacy compatibility.
+- [x] Assert a missing, malformed, or body-mismatched required modern metadata header receives HTTP 400 with JSON-RPC code `-32020` (`HeaderMismatch`).
+- [x] Assert an unsupported modern protocol version receives HTTP 400 with JSON-RPC code `-32022` and stable `error.data.requested` and `error.data.supported` values. Assert an unknown modern method receives HTTP 404 with JSON-RPC code `-32601`; an unknown tool name or malformed `tools/call` envelope receives JSON-RPC code `-32602`. Assert no modern failure uses obsolete session-era code `-32002`.
+- [x] Assert a modern request carrying an arbitrary incoming `Mcp-Session-Id` is processed identically to one without it, and modern responses never mint or echo `Mcp-Session-Id`.
+- [x] Assert legacy stateless GET and DELETE operations return 405 and no session identifier.
+- [x] Construct `createMcpHandler` with explicit `legacy: "stateless"` and `responseMode: "json"`. The pinned SDK has no request-body-size option; enforce the 128 KiB limit in both the Fetch handler and the Node stream adapter before SDK parsing.
+- [x] Supply an `onerror` callback that receives the full exception for local structured logging while tool results remain safe.
+- [x] Build a plain `node:http` server; wrap once with `toNodeHandler`.
+- [x] Compose the official `localhostHostValidation()` and `localhostOriginValidation()` guards before the Node handler. A failed guard has already answered 403 and must short-circuit.
+- [x] Route only exact `/mcp` requests into the MCP handler. Return 404 for other paths except `/healthz`.
+- [x] Return `/healthz` as small JSON containing `status`, `catalogReady`, and `primaryMcpProtocolVersion`; do not include local paths, entity counts, dependencies, or stack traces.
+- [x] Load and validate the catalog before listening. If readiness fails, exit non-zero rather than accepting unusable tool calls.
+- [x] Place admission controls before parsing MCP bodies: Host, Origin, rate, concurrency, then MCP handler.
+- [x] Implement one `rejectRequestBeforeBodyRead` helper for application-owned route/rate/concurrency failures and one small wrapper around each official Host/Origin guard. Both paths must set `Connection: close` and `response.shouldKeepAlive = false` before sending a fixed safe response; remove those provisional settings only when a guard accepts the request.
+- [x] Apply the rate bucket only to `/mcp`; `/healthz` is exempt after Host/Origin validation. Return 429 with `Retry-After` for rate exhaustion.
+- [x] Implement the token bucket from the injected `readMonotonicMilliseconds`; the production default is `() => performance.now()`. Never derive refill from wall-clock time, and never read time directly inside the limiter.
+- [x] Reject an MCP request immediately with HTTP 503 and `Retry-After: 1` when eight MCP requests are active. Do not queue it and do not read its body. Release concurrency permits in `finally` and on disconnect.
+- [x] Log one JSON object per event to stderr with timestamp, severity, event name, correlation ID, duration, outcome, and safe error code. Never log full ontology definitions by default.
+- [x] Handle `SIGINT` and `SIGTERM` idempotently. On the first signal, mark the runner as draining and call `httpServer.close()` first so no new connections are accepted; then call `httpServer.closeIdleConnections()` after `close()` as an explicit compatibility measure. Do not abort active requests during the ten-second grace period. If they drain, await server closure and query cleanup, then call `handler.close()`. Only after the deadline may the runner abort outstanding query controllers and call `httpServer.closeAllConnections()`—again after `close()`—then await forced cleanup and call `handler.close()`. Repeated signals reuse the same shutdown promise. Set a non-zero exit code only when the deadline or cleanup fails.
+- [x] Fail startup if the requested port is outside 1–65535, the cache size is invalid, or the query root is unavailable.
+- [x] Run the handler test file.
 
 Official plain-Node guard ordering:
 
@@ -1180,22 +1200,22 @@ httpServer.listen(8000, "127.0.0.1");
 
 **Steps:**
 
-- [ ] Start the real local server on port `0` in the test process and assert the OS-selected address is loopback.
-- [ ] Connect an official `StreamableHTTPClientTransport` with modern version auto-negotiation and call both tools.
-- [ ] Repeat with the official client default legacy negotiation; assert stateless compatibility and identical semantic structured results.
-- [ ] Send `Host: attacker.example` and assert 403 before the query module is called.
-- [ ] Send `Origin: https://attacker.example` and opaque `Origin: null`; assert 403.
-- [ ] Omit `Origin` from a non-browser request; assert it is allowed.
-- [ ] Send malformed JSON, absent/wrong `Content-Type`, absent/incomplete `Accept`, mismatched protocol header/body, oversized body, and JSON-RPC batch edge cases; assert spec-correct status/error shapes.
-- [ ] Saturate the eight-request concurrency bound with controlled pending repository reads; assert the ninth request receives HTTP 503 plus `Retry-After: 1`, its body is not read, and it never reaches the query module.
-- [ ] Use a raw TCP socket to send a rejected request with an unread body followed immediately by a pipelined second request. Assert the first response carries `Connection: close`, the socket is not reused, and the second request never reaches routing or the query module. Cover at least one official guard rejection and one application admission rejection.
-- [ ] Exhaust the rate bucket from one loopback address; advance an injected manual monotonic clock and assert 429 followed by exact refill recovery.
-- [ ] Abort a request while the repository adapter is pending; assert the signal reaches the query module and no post-cancellation result is emitted.
-- [ ] Send SIGTERM to a spawned runner with a pending request that completes inside the grace period; assert the request drains without cancellation, the listener closes first, cleanup completes, and no orphan process remains.
-- [ ] Send SIGTERM to a spawned runner with a request held beyond the deadline; assert cancellation and `closeAllConnections()` occur only after the grace period, forced cleanup remains bounded, a non-zero outcome is recorded, and no orphan process remains.
-- [ ] Assert `/healthz` is available and every non-MCP/non-health path is 404.
-- [ ] Scan response headers and bodies for absolute repository paths.
-- [ ] Run `npm test -- tests/mcp --runInBand`.
+- [x] Start the real local server on port `0` in the test process and assert the OS-selected address is loopback.
+- [x] Connect an official `StreamableHTTPClientTransport` with modern version auto-negotiation and call both tools.
+- [x] Repeat with the official client default legacy negotiation; assert stateless compatibility and identical semantic structured results.
+- [x] Send `Host: attacker.example` and assert 403 before the query module is called.
+- [x] Send `Origin: https://attacker.example` and opaque `Origin: null`; assert 403.
+- [x] Omit `Origin` from a non-browser request; assert it is allowed.
+- [x] Send malformed JSON, absent/wrong `Content-Type`, absent/incomplete `Accept`, mismatched protocol header/body, oversized body, and JSON-RPC batch edge cases; assert spec-correct status/error shapes.
+- [x] Saturate the eight-request concurrency bound with controlled pending repository reads; assert the ninth request receives HTTP 503 plus `Retry-After: 1`, its body is not read, and it never reaches the query module.
+- [x] Use a raw TCP socket to send a rejected request with an unread body followed immediately by a pipelined second request. Assert the first response carries `Connection: close`, the socket is not reused, and the second request never reaches routing or the query module. Cover at least one official guard rejection and one application admission rejection.
+- [x] Exhaust the rate bucket from one loopback address; advance an injected manual monotonic clock and assert 429 followed by exact refill recovery.
+- [x] Abort a request while the repository adapter is pending; assert the signal reaches the query module and no post-cancellation result is emitted.
+- [x] Trigger SIGTERM in a spawned runner with a pending request that completes inside the grace period; assert the request drains without cancellation, the listener closes first, cleanup completes, and no orphan process remains. On Windows the spawned fixture emits the registered process event because `child.kill("SIGTERM")` is an abrupt termination rather than a catchable POSIX signal.
+- [x] Trigger SIGTERM in a spawned runner with a request held beyond the deadline; assert cancellation and `closeAllConnections()` occur only after the grace period, forced cleanup remains bounded, a non-zero outcome is recorded, and no orphan process remains. Use the same Windows portability rule as the graceful case.
+- [x] Assert `/healthz` is available and every non-MCP/non-health path is 404.
+- [x] Scan response headers and bodies for absolute repository paths.
+- [x] Run `npm test -- tests/mcp --runInBand`.
 
 Use a small injected manual monotonic clock for rate-limit tests. Do not replace global timers, patch `Date` or `performance`, or add real sleeps to the test suite.
 
@@ -1237,17 +1257,17 @@ enabled_tools = [
 
 **Acceptance steps:**
 
-- [ ] Generate the full index with `npm run mcp:index`.
-- [ ] Start the server with `npm run mcp:serve`.
-- [ ] Open `http://127.0.0.1:8000/healthz` and confirm ready state.
+- [x] Generate the full index with `npm run mcp:index`.
+- [x] Start the server with `npm run mcp:serve`.
+- [x] Open `http://127.0.0.1:8000/healthz` and confirm ready state.
 - [ ] Run `npx --yes @modelcontextprotocol/inspector@2.4.0 --server-url http://127.0.0.1:8000/mcp --transport http` and inspect the two tools and their schemas in the UI.
-- [ ] Run `npx --yes @modelcontextprotocol/inspector@2.4.0 --cli --server-url http://127.0.0.1:8000/mcp --transport http --method tools/list` and retain its successful output as machine-checkable acceptance evidence.
+- [x] Run `npx --yes @modelcontextprotocol/inspector@2.4.0 --cli --server-url http://127.0.0.1:8000/mcp --transport http --method tools/list` and retain its successful output as machine-checkable acceptance evidence.
 - [ ] Add the URL manually to Codex, restart the relevant host if required, and confirm both tools are visible.
 - [ ] Ask: `Find the definition of Person in the Universal Ontology and cite the ontology release and source IRI.`
-- [ ] Confirm the exact lexical definition, entity IRI, `skos:definition` property, source-artifact URL/digest, and entity source IRI.
+- [x] Confirm the exact lexical definition, entity IRI, `skos:definition` property, source-artifact URL/digest, and entity source IRI through a live Inspector `tools/call` against the generated corpus.
 - [ ] Close every website/browser page and repeat from Codex; the result must be unchanged.
-- [ ] Ask for an absent label and confirm a clean `not_found`, not a guessed definition.
-- [ ] Ask for a deliberately ambiguous fixture label through the test client and confirm `ambiguous` candidates rather than arbitrary selection.
+- [x] Ask for an absent label and confirm a clean `not_found`, not a guessed definition.
+- [x] Ask for a deliberately ambiguous fixture label through the test client and confirm `ambiguous` candidates rather than arbitrary selection.
 
 ## AWS production migration plan
 
@@ -1476,21 +1496,21 @@ If selected later, use Lambda `nodejs24.x`, provisioned concurrency only after m
 
 ## Verification matrix
 
-| Layer                  | Required evidence                                                                                                                                                                          |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| RDF parsing            | Existing JSON-LD output unchanged; RDF/JS term kinds preserved.                                                                                                                            |
-| Semantic projection    | Golden Person record; historical property mappings; punning; axiom annotations; exact RDF literal datatype/language invariants; mixed-case UUID matching without output rewriting; no blank-node superclass flattening. |
-| Artifact build         | Complete schema validation; identical bytes across two builds; source/index SHA-256 checks.                                                                                                |
-| Query module           | Every resolution/ranking/error path through the two-operation interface; cancellation; cache bound; concurrent-load coalescing.                                                            |
-| MCP catalog            | Exactly `search_entities` and `resolve_entity`, deterministic order, conservative 64-character naming profile, correct annotations, Zod-to-JSON-Schema 2020-12 conversion, output validation. |
-| Modern protocol        | `2026-07-28` pinned client connects locally through `server/discover`; the origin creates no session and the local response has no session header.                                         |
-| Legacy compatibility   | Default official client performs stateless 2025-era exchange; semantic output matches modern; no session GET/DELETE support.                                                               |
+| Layer                  | Required evidence                                                                                                                                                                                                                                 |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| RDF parsing            | Existing JSON-LD output unchanged; RDF/JS term kinds preserved.                                                                                                                                                                                   |
+| Semantic projection    | Golden Person record; historical property mappings; punning; axiom annotations; exact RDF literal datatype/language invariants; mixed-case UUID matching without output rewriting; no blank-node superclass flattening.                           |
+| Artifact build         | Complete schema validation; identical bytes across two builds; source/index SHA-256 checks.                                                                                                                                                       |
+| Query module           | Every resolution/ranking/error path through the two-operation interface; cancellation; cache bound; concurrent-load coalescing.                                                                                                                   |
+| MCP catalog            | Exactly `search_entities` and `resolve_entity`, deterministic order, conservative 64-character naming profile, correct annotations, Zod-to-JSON-Schema 2020-12 conversion, output validation.                                                     |
+| Modern protocol        | `2026-07-28` pinned client connects locally through `server/discover`; the origin creates no session and the local response has no session header.                                                                                                |
+| Legacy compatibility   | Default official client performs stateless 2025-era exchange; semantic output matches modern; no session GET/DELETE support.                                                                                                                      |
 | HTTP security          | Loopback bind; hostile Host/Origin rejected; body/concurrency/rate bounds; injected monotonic rate time; exact modern wire errors; connection-closing pre-body rejections proven over a raw pipelined socket; draining and forced shutdown paths. |
-| User outcome           | Codex answers the Person question with exact text and provenance while no page is open.                                                                                                    |
-| AWS artifact readiness | Same query-module contract works with a test S3 adapter; catalog version and both source/index digests are verified before serving.                                                        |
+| User outcome           | Codex answers the Person question with exact text and provenance while no page is open.                                                                                                                                                           |
+| AWS artifact readiness | Same query-module contract works with a test S3 adapter; catalog version and both source/index digests are verified before serving.                                                                                                               |
 | AWS Runtime readiness  | ARM64 container listens on `0.0.0.0:8000/mcp`; direct Runtime preserves the two unprefixed tool names; managed-login authorization code, JWT/PKCE/PRM discovery, and resource binding succeed; wrong audience/client/scope fails before querying. |
-| AWS statelessness      | Runtime accepts and discards platform `Mcp-Session-Id`; changing it never changes query semantics, cache identity, authorization, or output.                                               |
-| Optional Gateway       | If deployed, exact `UniversalOntology___search_entities` and `UniversalOntology___resolve_entity` names, synchronization, distinct authorization topology, and rollback are contract-tested before client cutover. |
+| AWS statelessness      | Runtime accepts and discards platform `Mcp-Session-Id`; changing it never changes query semantics, cache identity, authorization, or output.                                                                                                      |
+| Optional Gateway       | If deployed, exact `UniversalOntology___search_entities` and `UniversalOntology___resolve_entity` names, synchronization, distinct authorization topology, and rollback are contract-tested before client cutover.                                |
 
 ## Final implementation verification
 
@@ -1512,16 +1532,16 @@ Then perform the Inspector and Codex acceptance steps from Task 10.
 
 Before claiming completion:
 
-- [ ] Review the complete diff and identify every changed file.
-- [ ] Confirm the pre-existing modifications to `reference-data/reference-data.owl`, `skills-lock.json`, and `.github/workflows/verify-jsonld.yml` were not altered or incorporated.
-- [ ] Confirm no configuration file other than the explicitly approved `package.json` and `package-lock.json` changed.
-- [ ] Confirm no ontology source changed.
-- [ ] Confirm no subagent performed implementation work.
-- [ ] Confirm all direct tool names use the unprefixed portable profile, no retired dotted or previous exact-resolution name remains, and optional Gateway names are exactly `UniversalOntology___search_entities` and `UniversalOntology___resolve_entity`.
-- [ ] Confirm all schema fields, wire error codes, log fields, and AWS construct names use the vocabulary and exact values in this plan.
-- [ ] Confirm advertised input JSON Schemas are generated from the runtime Zod schemas and contain no runtime-only trim transform.
-- [ ] Confirm the documentation says “asserted lexical definition” and “source-artifact graph,” not merely “definition from the ontology” where the distinction matters.
-- [ ] Record exact test/lint/build commands and their outputs in the implementation handoff.
+- [x] Review the complete diff and identify every changed file.
+- [x] Confirm the pre-existing modifications to `reference-data/reference-data.owl`, `skills-lock.json`, and `.github/workflows/verify-jsonld.yml` were not altered or incorporated.
+- [x] Confirm no configuration file other than the explicitly approved `package.json` and `package-lock.json` changed.
+- [x] Confirm no ontology source changed.
+- [x] Confirm no subagent performed implementation work.
+- [x] Confirm all direct tool names use the unprefixed portable profile, no retired dotted or previous exact-resolution name remains, and optional Gateway names are exactly `UniversalOntology___search_entities` and `UniversalOntology___resolve_entity`.
+- [x] Confirm all schema fields, wire error codes, log fields, and AWS construct names use the vocabulary and exact values in this plan.
+- [x] Confirm advertised input JSON Schemas are generated from the runtime Zod schemas and contain no runtime-only trim transform.
+- [x] Confirm the documentation says “asserted lexical definition” and “source-artifact graph,” not merely “definition from the ontology” where the distinction matters.
+- [x] Record exact test/lint/build commands and their outputs in the implementation handoff.
 
 ## Research sources
 
