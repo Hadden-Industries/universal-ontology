@@ -191,7 +191,7 @@ function readDocumentBaseIri(sourceText, sourceName, fallbackBaseIRI) {
   return baseIRI;
 }
 
-async function parseRdfXml(sourceText, baseIRI) {
+async function parseRdfXmlTextToQuads(sourceText, baseIRI) {
   const parser = new RdfXmlParser({
     baseIRI,
     strict: true,
@@ -207,6 +207,92 @@ async function parseRdfXml(sourceText, baseIRI) {
   }
 
   return quads;
+}
+
+/**
+ * Parse an RDF/XML source artifact into an immutable RDF/JS quad sequence.
+ *
+ * The parser is intentionally the single source-reading seam shared by the
+ * website serializers and the ontology query-index projector. Callers may
+ * derive several artifacts from these quads without parsing the source again.
+ * No parser, stream, or iterator is retained after this promise settles.
+ *
+ * @param {object} options
+ * @param {Buffer | string} options.rdfXml
+ * @param {string} options.sourceName - Safe diagnostic name for parser errors.
+ * @param {string} [options.fallbackBaseIri]
+ * @returns {Promise<ReadonlyArray<import('@rdfjs/types').Quad>>}
+ */
+export async function parseRdfXmlToQuads({
+  rdfXml,
+  sourceName,
+  fallbackBaseIri,
+}) {
+  if (!Buffer.isBuffer(rdfXml) && typeof rdfXml !== "string") {
+    throw new TypeError("rdfXml must be a Buffer or string.");
+  }
+
+  if (!sourceName) {
+    throw new TypeError("sourceName is required.");
+  }
+
+  const sourceText = Buffer.isBuffer(rdfXml) ? rdfXml.toString("utf8") : rdfXml;
+  const baseIri = readDocumentBaseIri(sourceText, sourceName, fallbackBaseIri);
+  const quads = await parseRdfXmlTextToQuads(sourceText, baseIri);
+
+  return Object.freeze(quads);
+}
+
+/**
+ * Render already-parsed RDF/JS quads as the same verified JSON-LD bytes used
+ * by the existing RDF/XML wrapper.
+ *
+ * @param {object} options
+ * @param {ReadonlyArray<import('@rdfjs/types').Quad>} options.quads
+ * @param {string} options.sourceName
+ * @param {object} [options.context]
+ * @param {boolean} [options.verify=true]
+ * @returns {Promise<{
+ *   quadCount: number,
+ *   jsonLdDocument: object | object[],
+ *   content: Buffer
+ * }>}
+ */
+export async function renderRdfQuadsAsJsonLd({
+  quads,
+  sourceName,
+  context,
+  verify = true,
+}) {
+  if (!Array.isArray(quads)) {
+    throw new TypeError("quads must be an array of RDF/JS quads.");
+  }
+
+  if (!sourceName) {
+    throw new TypeError("sourceName is required.");
+  }
+
+  try {
+    const jsonLdDocument = await serializeJsonLd(quads, context);
+
+    if (verify) {
+      await verifySemanticEquivalence(quads, jsonLdDocument);
+    }
+
+    return {
+      quadCount: quads.length,
+      jsonLdDocument,
+      content: Buffer.from(
+        `${JSON.stringify(jsonLdDocument, null, 2)}\n`,
+        "utf8",
+      ),
+    };
+  } catch (error) {
+    throw new Error(
+      `Unable to render RDF quads from "${sourceName}" as JSON-LD: ${error.message}`,
+      { cause: error },
+    );
+  }
 }
 
 export async function renderRdfXmlAsJsonLd({
@@ -226,21 +312,21 @@ export async function renderRdfXmlAsJsonLd({
 
   const sourceText = Buffer.isBuffer(rdfXml) ? rdfXml.toString("utf8") : rdfXml;
   const baseIRI = readDocumentBaseIri(sourceText, sourceName, fallbackBaseIRI);
-  const quads = await parseRdfXml(sourceText, baseIRI);
-  const jsonLdDocument = await serializeJsonLd(quads, context);
-
-  if (verify) {
-    await verifySemanticEquivalence(quads, jsonLdDocument);
-  }
+  const quads = await parseRdfXmlToQuads({
+    rdfXml,
+    sourceName,
+    fallbackBaseIri: fallbackBaseIRI,
+  });
+  const rendered = await renderRdfQuadsAsJsonLd({
+    quads,
+    sourceName,
+    context,
+    verify,
+  });
 
   return {
     baseIRI,
-    quadCount: quads.length,
-    jsonLdDocument,
-    content: Buffer.from(
-      `${JSON.stringify(jsonLdDocument, null, 2)}\n`,
-      "utf8",
-    ),
+    ...rendered,
   };
 }
 

@@ -5,6 +5,8 @@ import { join } from "node:path";
 
 import {
   convertRdfXmlToJsonLd,
+  parseRdfXmlToQuads,
+  renderRdfQuadsAsJsonLd,
   renderRdfXmlAsJsonLd,
 } from "../scripts/rdfXmlToJsonLd.js";
 
@@ -14,6 +16,26 @@ const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
   xmlns:owl="http://www.w3.org/2002/07/owl#">
   <owl:Class rdf:about="Thing" />
+</rdf:RDF>
+`;
+
+const RDF_TERM_KINDS_XML = `<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xml:base="https://example.com/ontology/"
+  xmlns:ex="https://example.com/ontology/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+  <owl:Class rdf:about="Person">
+    <skos:prefLabel xml:lang="en-GB">Person</skos:prefLabel>
+    <ex:population rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">42</ex:population>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="hasName" />
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
 </rdf:RDF>
 `;
 
@@ -55,4 +77,61 @@ test("writes the same verified bytes through the file-oriented wrapper", async (
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
+});
+
+test("parses RDF/XML once into default-graph RDF/JS quads without losing term kinds", async () => {
+  const quads = await parseRdfXmlToQuads({
+    rdfXml: Buffer.from(RDF_TERM_KINDS_XML, "utf8"),
+    sourceName: "term-kinds.rdf",
+  });
+
+  expect(quads.length).toBeGreaterThan(0);
+  expect(new Set(quads.map(({ graph }) => graph.termType))).toEqual(
+    new Set(["DefaultGraph"]),
+  );
+  expect(new Set(quads.map(({ subject }) => subject.termType))).toEqual(
+    new Set(["NamedNode", "BlankNode"]),
+  );
+  expect(new Set(quads.map(({ object }) => object.termType))).toEqual(
+    new Set(["NamedNode", "BlankNode", "Literal"]),
+  );
+
+  const languageLiteral = quads.find(
+    ({ object }) => object.termType === "Literal" && object.language,
+  ).object;
+  expect(languageLiteral.value).toBe("Person");
+  expect(languageLiteral.language).toBe("en-gb");
+  expect(languageLiteral.datatype.value).toBe(
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+  );
+
+  const typedLiteral = quads.find(
+    ({ object }) =>
+      object.termType === "Literal" &&
+      object.datatype.value.endsWith("integer"),
+  ).object;
+  expect(typedLiteral.value).toBe("42");
+});
+
+test("renders the exact existing JSON-LD bytes from reusable quads", async () => {
+  // This regression source intentionally contains no blank nodes. RDF blank
+  // node labels are local serializer identifiers, so independently parsing a
+  // blank-node graph twice need not assign the same incidental labels.
+  const rdfXml = Buffer.from(RDF_XML, "utf8");
+  const quads = await parseRdfXmlToQuads({
+    rdfXml,
+    sourceName: "parse-once.rdf",
+  });
+  const fromQuads = await renderRdfQuadsAsJsonLd({
+    quads,
+    sourceName: "parse-once.rdf",
+  });
+  const fromXml = await renderRdfXmlAsJsonLd({
+    rdfXml,
+    sourceName: "parse-once.rdf",
+  });
+
+  expect(fromQuads.content).toEqual(fromXml.content);
+  expect(fromQuads.quadCount).toBe(fromXml.quadCount);
+  expect(fromQuads.jsonLdDocument).toEqual(fromXml.jsonLdDocument);
 });
