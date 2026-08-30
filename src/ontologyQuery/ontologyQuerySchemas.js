@@ -387,31 +387,12 @@ function validateVersionTagSemantics(versionTag) {
 }
 
 function validateOntologyReleaseSelectionSemantics(selection) {
-  if (!selection) {
+  if (!selection || selection.selectionKind === "latest_stable_releases") {
     return;
   }
-
-  if (selection.selectionKind === "latest_stable_releases") {
-    const familyIds = selection.ontologyArtifactFamilyIds ?? [];
-
-    if (new Set(familyIds).size !== familyIds.length) {
-      throw new TypeError("Ontology artifact family IDs must be unique.");
-    }
-
-    return;
-  }
-
-  const releaseKeys = new Set();
 
   for (const release of selection.ontologyReleases) {
     validateVersionTagSemantics(release.versionTag);
-    const key = `${release.ontologyArtifactFamilyId}\u0000${release.versionTag}`;
-
-    if (releaseKeys.has(key)) {
-      throw new TypeError("Specified ontology releases must be unique.");
-    }
-
-    releaseKeys.add(key);
   }
 }
 
