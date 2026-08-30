@@ -22,6 +22,9 @@ const JSON_LD = {
   annotatedSource: `${NS.owl}annotatedSource`,
   annotatedProperty: `${NS.owl}annotatedProperty`,
   annotatedTarget: `${NS.owl}annotatedTarget`,
+  versionIri: `${NS.owl}versionIRI`,
+  versionInfo: `${NS.owl}versionInfo`,
+  priorVersion: `${NS.owl}priorVersion`,
   title: `${NS.dcterms}title`,
   identifier: `${NS.dcterms}identifier`,
   references: `${NS.dcterms}references`,
@@ -283,14 +286,26 @@ function interpretLegacySources(node, interpretations) {
 }
 
 /**
+ * Authored identity and immutable-version metadata for the ontology document.
+ * Null records absence without inferring identity from a page URL or file path.
+ *
+ * @typedef {Object} DisplayedOntologyDocumentMetadata
+ * @property {string|null} ontologyIri
+ * @property {string|null} ontologyTitle
+ * @property {string|null} versionIri
+ * @property {string|null} versionInfo
+ * @property {string|null} priorVersionIri
+ * @property {string|null} modifiedAt
+ */
+
+/**
  * Creates the application view model used by HTML and CSV output.
  *
  * @param {Object|Object[]} jsonLdDocument - Materialized JSON-LD document.
  * @param {Object} [options]
  * @param {string} [options.ontologyPath] - Published path used for historical fields.
  * @returns {{
- *   title: string,
- *   modified: string,
+ *   ontology: DisplayedOntologyDocumentMetadata,
  *   rows: Array<{
  *     entityType: string,
  *     uuid: string,
@@ -415,10 +430,25 @@ export function createOntologyViewModel(jsonLdDocument, { ontologyPath } = {}) {
   }
 
   return {
-    title: ontologyNode ? getPreferredLiteral(ontologyNode, JSON_LD.title) : "",
-    modified: ontologyNode
-      ? (getLexicalValues(ontologyNode, JSON_LD.modified)[0] ?? "")
-      : "",
+    ontology: {
+      ontologyIri: ontologyNode?.["@id"] ?? null,
+      ontologyTitle: ontologyNode
+        ? (getPreferredLiteralTerm(ontologyNode, JSON_LD.title)?.value ?? null)
+        : null,
+      versionIri: ontologyNode
+        ? (getReferencedIris(ontologyNode, JSON_LD.versionIri)[0] ?? null)
+        : null,
+      versionInfo: ontologyNode
+        ? (getPreferredLiteralTerm(ontologyNode, JSON_LD.versionInfo)?.value ??
+          null)
+        : null,
+      priorVersionIri: ontologyNode
+        ? (getReferencedIris(ontologyNode, JSON_LD.priorVersion)[0] ?? null)
+        : null,
+      modifiedAt: ontologyNode
+        ? (getLexicalValues(ontologyNode, JSON_LD.modified)[0] ?? null)
+        : null,
+    },
     rows,
   };
 }

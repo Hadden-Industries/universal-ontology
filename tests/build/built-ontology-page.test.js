@@ -25,6 +25,11 @@ const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
   xmlns:dcterms="http://purl.org/dc/terms/"
   xmlns:owl="http://www.w3.org/2002/07/owl#">
   <owl:Ontology rdf:about="">
+    <dcterms:title xml:lang="en">Hadden Industries Universal Core Ontology</dcterms:title>
+    <dcterms:modified>2026-07-14</dcterms:modified>
+    <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260101" />
+    <owl:versionInfo>2026-07-14</owl:versionInfo>
+    <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/core/20251201" />
     <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260101" />
   </owl:Ontology>
   <owl:Class rdf:about="Thing">
@@ -41,6 +46,7 @@ const EXPECTED_CSV = [
 ].join("\n");
 
 const CONTENT_TYPES = new Map([
+  ["", "application/rdf+xml; charset=utf-8"],
   [".csv", "text/csv; charset=utf-8"],
   [".css", "text/css; charset=utf-8"],
   [".html", "text/html; charset=utf-8"],
@@ -242,6 +248,9 @@ test("loads the built master page and downloads its materialized CSV", async () 
       waitUntil: "networkidle",
     });
 
+    expect(await page.title()).toBe(
+      "Hadden Industries Universal Core Ontology",
+    );
     expect(await page.locator("#table-body tr").count()).toBeGreaterThan(0);
     expect(
       await page.locator('thead th[data-sort="references"]').textContent(),
@@ -276,6 +285,15 @@ test("loads the built master page and downloads its materialized CSV", async () 
         .locator("a")
         .getAttribute("href"),
     ).toBe("https://example.com/reference");
+
+    const xmiDownloadPromise = page.waitForEvent("download");
+    await page.locator("#export-toggle").click();
+    await page.locator("#export-xmi").click();
+    const xmiDownload = await xmiDownloadPromise;
+
+    expect(xmiDownload.suggestedFilename()).toBe(
+      "Hadden Industries Universal Core Ontology [2026-07-14].xmi",
+    );
 
     const downloadPromise = page.waitForEvent("download");
     await page.locator("#export-toggle").click();

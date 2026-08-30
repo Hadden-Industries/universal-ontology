@@ -16,9 +16,25 @@ test("creates a display row from mixed literal and IRI JSON-LD values", () => {
       "@id": "https://haddenindustries.com/ontology/universal/core/",
       "@type": [`${NS.owl}Ontology`],
       [`${NS.dcterms}title`]: [
-        { "@value": "Example Ontology", "@language": "en" },
+        {
+          "@value": "Hadden Industries Universal Core Ontology",
+          "@language": "en",
+        },
       ],
-      [`${NS.dcterms}modified`]: [{ "@value": "2026-08-22" }],
+      [`${NS.owl}versionIRI`]: [
+        {
+          "@id":
+            "https://haddenindustries.com/ontology/universal/core/20260714",
+        },
+      ],
+      [`${NS.owl}versionInfo`]: [{ "@value": "2026-07-14" }],
+      [`${NS.owl}priorVersion`]: [
+        {
+          "@id":
+            "https://haddenindustries.com/ontology/universal/core/20260625",
+        },
+      ],
+      [`${NS.dcterms}modified`]: [{ "@value": "2026-07-14" }],
     },
     {
       "@id": CLASS_IRI,
@@ -53,8 +69,16 @@ test("creates a display row from mixed literal and IRI JSON-LD values", () => {
   ]);
 
   expect(viewModel).toEqual({
-    title: "Example Ontology",
-    modified: "2026-08-22",
+    ontology: {
+      ontologyIri: "https://haddenindustries.com/ontology/universal/core/",
+      ontologyTitle: "Hadden Industries Universal Core Ontology",
+      versionIri:
+        "https://haddenindustries.com/ontology/universal/core/20260714",
+      versionInfo: "2026-07-14",
+      priorVersionIri:
+        "https://haddenindustries.com/ontology/universal/core/20260625",
+      modifiedAt: "2026-07-14",
+    },
     rows: [
       {
         entityType: "Class",
@@ -76,6 +100,24 @@ test("creates a display row from mixed literal and IRI JSON-LD values", () => {
         classOfNamedIndividual: "",
       },
     ],
+  });
+});
+
+test("represents absent authored ontology metadata with explicit nulls", () => {
+  const viewModel = createOntologyViewModel([
+    {
+      "@id": CLASS_IRI,
+      "@type": [`${NS.owl}Class`],
+    },
+  ]);
+
+  expect(viewModel.ontology).toEqual({
+    ontologyIri: null,
+    ontologyTitle: null,
+    versionIri: null,
+    versionInfo: null,
+    priorVersionIri: null,
+    modifiedAt: null,
   });
 });
 

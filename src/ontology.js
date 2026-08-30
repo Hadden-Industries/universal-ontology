@@ -564,12 +564,12 @@ export class OntologyUIController {
 
       this.#extractedData = viewModel.rows;
 
-      if (viewModel.title) {
-        document.title = viewModel.title;
-        this.#fileName = viewModel.title;
+      if (viewModel.ontology.ontologyTitle) {
+        document.title = viewModel.ontology.ontologyTitle;
+        this.#fileName = viewModel.ontology.ontologyTitle;
 
-        if (viewModel.modified) {
-          this.#fileName += ` [${viewModel.modified}]`;
+        if (viewModel.ontology.modifiedAt) {
+          this.#fileName += ` [${viewModel.ontology.modifiedAt}]`;
         }
       }
 
