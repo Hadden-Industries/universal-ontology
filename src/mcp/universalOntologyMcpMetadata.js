@@ -1,3 +1,7 @@
+const { default: packageMetadata } = await import("../../package.json", {
+  with: { type: "json" },
+});
+
 /**
  * Conservative direct-tool naming profile shared by MCP hosts and stricter
  * function-calling surfaces. Cross-server namespacing belongs to the host.
@@ -11,7 +15,7 @@ export const RESOLVE_ENTITY_TOOL_NAME = "resolve_entity";
 export const UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO = Object.freeze({
   name: "universal-ontology",
   title: "Universal Ontology",
-  version: "1.0.0",
+  version: packageMetadata.version,
 });
 
 /**
