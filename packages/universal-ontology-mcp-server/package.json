@@ -1,0 +1,44 @@
+{
+  "name": "universal-ontology-mcp-server",
+  "version": "1.0.0",
+  "description": "Read-only local MCP access to versioned Universal Ontology definitions and entity descriptions.",
+  "type": "module",
+  "bin": {
+    "universal-ontology-mcp-server": "dist/universal-ontology-mcp-server.mjs"
+  },
+  "files": [
+    "dist/universal-ontology-mcp-server.mjs",
+    "LICENSE",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "keywords": [
+    "model-context-protocol",
+    "mcp",
+    "ontology",
+    "semantic-web",
+    "knowledge-graph",
+    "universal-ontology"
+  ],
+  "mcpName": "io.github.hadden-industries/universal-ontology",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hadden-industries/universal-ontology.git",
+    "directory": "packages/universal-ontology-mcp-server"
+  },
+  "homepage": "https://github.com/hadden-industries/universal-ontology#universal-ontology-mcp-server",
+  "bugs": {
+    "url": "https://github.com/hadden-industries/universal-ontology/issues"
+  },
+  "scripts": {
+    "prepack": "node ../../scripts/distribution/buildUniversalOntologyMcpApplicationBundle.js"
+  }
+}

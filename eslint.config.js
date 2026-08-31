@@ -50,6 +50,27 @@ export default [
     rules: strictRules
   },
 
+  // Node-only installed-server adapters retain the source rule set while
+  // receiving only the platform globals required by their runtime boundary.
+  {
+    files: [
+      "src/mcp/runUniversalOntologyMcpStdioServer.js",
+      "src/mcp/universalOntologyMcpStdioConfiguration.js",
+      "src/mcp/universalOntologyMcpOperationalEvents.js",
+      "src/ontologyQuery/httpOntologyQueryArtifactReader.js",
+      "src/ontologyQuery/persistentHttpOntologyQueryArtifactRepository.js",
+      "src/ontologyQuery/persistentOntologyQueryArtifactCache.js"
+    ],
+    languageOptions: {
+      ecmaVersion: 2025,
+      sourceType: "module",
+      globals: {
+        ...globals.node
+      }
+    },
+    rules: strictRules
+  },
+
   // 2. Build Scripts & Configs: Node globals only
   {
     files: ["eslint.config.js", "stylelint.config.js", "build/**/*.js"],

@@ -1,6 +1,10 @@
 {
   "name": "universal-ontology",
   "version": "1.0.0",
+  "packageManager": "npm@12.0.2",
+  "workspaces": [
+    "packages/universal-ontology-mcp-server"
+  ],
   "type": "module",
   "scripts": {
     "prebuild": "npm run fix:all",
@@ -10,8 +14,8 @@
     "lint:css": "stylelint \"src/**/*.css\"",
     "lint:html": "html-validate \"src/**/*.html\"",
     "lint:js": "eslint \"src/**/*.js\" \"scripts/**/*.js\" \"tests/**/*.js\" \"vite.config.mjs\"",
-    "format": "prettier --write \"src/**/*.{js,css,html}\" \"scripts/**/*.js\" \"templates/**/*.html\" \"tests/**/*.js\" \"vite.config.mjs\"",
-    "format:check": "prettier --check \"src/**/*.{js,css,html}\" \"scripts/**/*.js\" \"templates/**/*.html\" \"tests/**/*.js\" \"vite.config.mjs\"",
+    "format": "prettier --write \"src/**/*.{js,css,html}\" \"scripts/**/*.js\" \"templates/**/*.html\" \"tests/**/*.js\" \"vite.config.mjs\" \"package.json\" \"packages/universal-ontology-mcp-server/**/*.{json,md}\" \"docs/mcp/*.md\"",
+    "format:check": "prettier --check \"src/**/*.{js,css,html}\" \"scripts/**/*.js\" \"templates/**/*.html\" \"tests/**/*.js\" \"vite.config.mjs\" \"package.json\" \"packages/universal-ontology-mcp-server/**/*.{json,md}\" \"docs/mcp/*.md\"",
     "fix:all": "stylelint \"src/**/*.css\" --fix && eslint \"src/**/*.js\" \"scripts/**/*.js\" \"tests/**/*.js\" \"vite.config.mjs\" --fix && npm run format",
     "generate:jsonld": "node scripts/generateJsonLd.js --missing-only",
     "generate:jsonld:all": "node scripts/generateJsonLd.js",
@@ -20,6 +24,11 @@
     "mcp:serve": "node scripts/runLocalOntologyMcpServer.js",
     "mcp:stdio": "node scripts/runUniversalOntologyMcpStdioServer.js",
     "mcp:dev": "node scripts/runLocalOntologyMcpServer.js --refresh-index",
+    "mcp:package:build": "node scripts/distribution/buildUniversalOntologyMcpApplicationBundle.js",
+    "mcp:package:pack": "npm pack --workspace universal-ontology-mcp-server --pack-destination dist/releases",
+    "mcp:archives:build": "node scripts/distribution/buildUniversalOntologyMcpPlatformArchive.js",
+    "mcp:sbom:create": "node scripts/distribution/createUniversalOntologyMcpSpdxSbom.js",
+    "mcp:release:verify": "node scripts/distribution/verifyUniversalOntologyMcpRelease.js",
     "deploy": "python scripts/upload_to_s3.py",
     "deploy:force": "python scripts/upload_to_s3.py --force"
   },
@@ -30,6 +39,9 @@
     "@rdfjs/serializer-ntriples": "^2.0.1",
     "@rubensworks/saxes": "^ 6.0.1",
     "@xmldom/xmldom": "^0.9.10",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "esbuild": "0.28.2",
     "eslint": "^10.8.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.8.0",
@@ -44,9 +56,13 @@
     "stylelint-config-clean-order": "^10.0.0",
     "stylelint-config-standard": "^40.0.0",
     "stylelint-order": "^8.1.1",
+    "tar": "7.5.22",
     "terser": "^5.49.0",
     "vite": "^8.1.5",
-    "vite-plugin-static-copy": "^4.1.1"
+    "vite-plugin-static-copy": "^4.1.1",
+    "yaml": "2.9.0",
+    "yauzl": "3.4.0",
+    "yazl": "3.3.1"
   },
   "license": "MIT",
   "private": true,

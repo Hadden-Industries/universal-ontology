@@ -429,21 +429,21 @@ endpoint:
 
 ## Common errors
 
-| Symptom                                                                         | Meaning and action                                                                                                                               |
-| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Startup exits with `SERVER_STARTUP_FAILED` or `QUERY_INDEX_CATALOG_UNAVAILABLE` | Generate artifacts with `npm run mcp:index`, verify `UNIVERSAL_ONTOLOGY_QUERY_ROOT`, and restart. The port was not opened.                       |
-| Startup reports `EADDRINUSE`                                                    | Another process owns the requested port. Stop that process or select another valid `UNIVERSAL_ONTOLOGY_MCP_PORT` and update the host URL.        |
-| HTTP 403                                                                        | Host or Origin validation rejected the request. Connect directly to `127.0.0.1` and do not synthesize a non-local Host or browser Origin.        |
-| HTTP 404                                                                        | The path is not exactly `/mcp` or `/healthz`. Query strings are not part of the v1 route contract.                                               |
-| HTTP 406                                                                        | A Streamable HTTP POST must advertise both `application/json` and `text/event-stream` in `Accept`. Prefer an official MCP client.                |
-| HTTP 415                                                                        | A POST did not use `Content-Type: application/json`.                                                                                             |
-| HTTP 413                                                                        | The body exceeded 131072 bytes. Reduce the call; ontology lookup inputs are intentionally small.                                                 |
-| HTTP 429                                                                        | The local token bucket is exhausted. Respect `Retry-After`; do not spin.                                                                         |
-| HTTP 503                                                                        | The server is draining or already has eight active MCP requests. Respect `Retry-After` and retry after capacity is available.                    |
-| `UNKNOWN_ONTOLOGY_ARTIFACT_FAMILY` or `UNKNOWN_ONTOLOGY_RELEASE`                | The selection is syntactically valid but absent from the catalog. Inspect `catalog.json` and supply an exact catalog identity.                   |
+| Symptom                                                                         | Meaning and action                                                                                                                                    |
+| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Startup exits with `SERVER_STARTUP_FAILED` or `QUERY_INDEX_CATALOG_UNAVAILABLE` | Generate artifacts with `npm run mcp:index`, verify `UNIVERSAL_ONTOLOGY_QUERY_ROOT`, and restart. The port was not opened.                            |
+| Startup reports `EADDRINUSE`                                                    | Another process owns the requested port. Stop that process or select another valid `UNIVERSAL_ONTOLOGY_MCP_PORT` and update the host URL.             |
+| HTTP 403                                                                        | Host or Origin validation rejected the request. Connect directly to `127.0.0.1` and do not synthesize a non-local Host or browser Origin.             |
+| HTTP 404                                                                        | The path is not exactly `/mcp` or `/healthz`. Query strings are not part of the v1 route contract.                                                    |
+| HTTP 406                                                                        | A Streamable HTTP POST must advertise both `application/json` and `text/event-stream` in `Accept`. Prefer an official MCP client.                     |
+| HTTP 415                                                                        | A POST did not use `Content-Type: application/json`.                                                                                                  |
+| HTTP 413                                                                        | The body exceeded 131072 bytes. Reduce the call; ontology lookup inputs are intentionally small.                                                      |
+| HTTP 429                                                                        | The local token bucket is exhausted. Respect `Retry-After`; do not spin.                                                                              |
+| HTTP 503                                                                        | The server is draining or already has eight active MCP requests. Respect `Retry-After` and retry after capacity is available.                         |
+| `UNKNOWN_ONTOLOGY_ARTIFACT_FAMILY` or `UNKNOWN_ONTOLOGY_RELEASE`                | The selection is syntactically valid but absent from the catalog. Inspect `catalog.json` and supply an exact catalog identity.                        |
 | `QUERY_INDEX_DIGEST_MISMATCH` or `QUERY_INDEX_SCHEMA_UNSUPPORTED`               | Treat the generated query artifacts as untrusted or stale. Regenerate; if the problem persists, investigate before serving. Do not bypass validation. |
-| Results do not reflect regenerated files                                        | The process intentionally holds one catalog snapshot. Stop and restart it.                                                                       |
-| Process exits 1 after shutdown                                                  | Active work exceeded the ten-second deadline or cleanup failed. Inspect safe structured lifecycle events; the forced exit is intentional.        |
+| Results do not reflect regenerated files                                        | The process intentionally holds one catalog snapshot. Stop and restart it.                                                                            |
+| Process exits 1 after shutdown                                                  | Active work exceeded the ten-second deadline or cleanup failed. Inspect safe structured lifecycle events; the forced exit is intentional.             |
 
 ## Production migration summary
 
