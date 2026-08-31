@@ -8,15 +8,6 @@
 - Before requesting approval, identify the exact file and setting, explain the behavioral and pipeline impact, and propose the smallest change.
 - If a task appears to require a configuration change, stop and request approval instead of inferring permission.
 
-# Command Execution
-
-- Execute shell commands individually, one command per execution action.
-- Do not use command chaining, pipelines, background operators, or command substitution (`;`, `&&`, `||`, `|`, `&`, `$()`, or backticks). The host environment rejects compound commands.
-- Inspect each command's exit status and output before executing a dependent command.
-
-# File Editing Guidance
-- Use native file-reading, searching, and targeted-editing tools for ordinary source-file operations. Do not use shell commands, ad-hoc scripts, or Git restoration commands as substitutes for targeted file editing when an appropriate native tool is available.
-
 # Git Guidance
 
 ## Local Workspace Commits & Pushing
