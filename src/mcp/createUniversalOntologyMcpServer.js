@@ -118,6 +118,7 @@ async function executeOntologyToolSafely({
 export function createUniversalOntologyMcpServer({
   ontologyQuery,
   reportUnhandledToolError = () => {},
+  serverLifecycleSignal,
 }) {
   if (
     !ontologyQuery ||
@@ -131,6 +132,27 @@ export function createUniversalOntologyMcpServer({
 
   if (typeof reportUnhandledToolError !== "function") {
     throw new TypeError("reportUnhandledToolError must be a function.");
+  }
+
+  if (
+    serverLifecycleSignal !== undefined &&
+    !(
+      typeof serverLifecycleSignal.aborted === "boolean" &&
+      typeof serverLifecycleSignal.addEventListener === "function"
+    )
+  ) {
+    throw new TypeError("serverLifecycleSignal must be an AbortSignal.");
+  }
+
+  function createOntologyQuerySignal(requestSignal) {
+    if (!serverLifecycleSignal) {
+      return requestSignal;
+    }
+
+    // A request cancellation must not terminate sibling work, while process
+    // shutdown must reach every request. AbortSignal.any preserves whichever
+    // of those two reasons triggered this individual invocation first.
+    return AbortSignal.any([requestSignal, serverLifecycleSignal]);
   }
 
   const server = new McpServer(UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO, {
@@ -154,7 +176,7 @@ export function createUniversalOntologyMcpServer({
         outputSchema: SearchEntitiesToolOutputSchema,
         execute: () =>
           ontologyQuery.searchOntologyEntities(input, {
-            signal: context.mcpReq.signal,
+            signal: createOntologyQuerySignal(context.mcpReq.signal),
           }),
       }),
   );
@@ -168,7 +190,7 @@ export function createUniversalOntologyMcpServer({
         outputSchema: ResolveEntityToolOutputSchema,
         execute: () =>
           ontologyQuery.resolveOntologyEntity(input, {
-            signal: context.mcpReq.signal,
+            signal: createOntologyQuerySignal(context.mcpReq.signal),
           }),
       }),
   );

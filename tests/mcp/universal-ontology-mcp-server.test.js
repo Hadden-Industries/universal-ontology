@@ -150,6 +150,7 @@ function createOntologyQueryStub(overrides = {}) {
 async function connectOfficialClient({
   ontologyQuery = createOntologyQueryStub(),
   reportUnhandledToolError = jest.fn(),
+  serverLifecycleSignal,
   modern = true,
 } = {}) {
   const responseModeWarning = jest
@@ -163,6 +164,7 @@ async function connectOfficialClient({
         createUniversalOntologyMcpServer({
           ontologyQuery,
           reportUnhandledToolError,
+          serverLifecycleSignal,
         }),
       { legacy: "stateless", responseMode: "json" },
     );
@@ -290,6 +292,65 @@ describe("Universal Ontology MCP server", () => {
       },
       { signal: expect.any(AbortSignal) },
     );
+  });
+
+  test("merges the installed process lifecycle into every tool request signal", async () => {
+    const serverLifecycleAbortController = new AbortController();
+    let observedQuerySignal;
+    let markQueryEntered;
+    let releaseQuery;
+    const queryEntered = new Promise((resolve) => {
+      markQueryEntered = resolve;
+    });
+    const ontologyQuery = createOntologyQueryStub({
+      async searchOntologyEntities(_input, { signal }) {
+        observedQuerySignal = signal;
+        markQueryEntered();
+        return new Promise((resolve, reject) => {
+          releaseQuery = () => resolve(structuredClone(PERSON_SEARCH_RESULT));
+          signal.addEventListener(
+            "abort",
+            () =>
+              reject(
+                new OntologyQueryError("QUERY_CANCELLED", {
+                  cause: signal.reason,
+                }),
+              ),
+            { once: true },
+          );
+        });
+      },
+    });
+    const { client } = await connectOfficialClient({
+      ontologyQuery,
+      serverLifecycleSignal: serverLifecycleAbortController.signal,
+    });
+    await client.listTools();
+    const toolCall = client.callTool({
+      name: SEARCH_ENTITIES_TOOL_NAME,
+      arguments: { queryText: "Person" },
+    });
+    await queryEntered;
+
+    expect(observedQuerySignal).toBeInstanceOf(AbortSignal);
+    expect(observedQuerySignal.aborted).toBe(false);
+    serverLifecycleAbortController.abort(
+      new DOMException("server stopping", "AbortError"),
+    );
+    const lifecycleCancellationReachedQuery = observedQuerySignal.aborted;
+    const observedCancellationReason = observedQuerySignal.reason;
+    releaseQuery();
+    const toolResult = await toolCall;
+
+    expect(lifecycleCancellationReachedQuery).toBe(true);
+    expect(observedCancellationReason).toMatchObject({ name: "AbortError" });
+    expect(toolResult).toMatchObject({
+      isError: true,
+      structuredContent: {
+        outcome: "failure",
+        error: { errorCode: "QUERY_CANCELLED" },
+      },
+    });
   });
 
   test("preserves adversarial ontology-authored text as framed plain data", async () => {

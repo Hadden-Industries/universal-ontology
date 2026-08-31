@@ -18,6 +18,7 @@
     "mcp:index": "node scripts/generateOntologyQueryIndexes.js",
     "mcp:channel:stage": "node scripts/stageOntologyQueryArtifactChannel.js",
     "mcp:serve": "node scripts/runLocalOntologyMcpServer.js",
+    "mcp:stdio": "node scripts/runUniversalOntologyMcpStdioServer.js",
     "mcp:dev": "node scripts/runLocalOntologyMcpServer.js --refresh-index",
     "deploy": "python scripts/upload_to_s3.py",
     "deploy:force": "python scripts/upload_to_s3.py --force"
