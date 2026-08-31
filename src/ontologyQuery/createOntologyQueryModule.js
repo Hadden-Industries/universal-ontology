@@ -1,7 +1,8 @@
 /**
  * Implements deterministic ontology search and exact entity resolution over
- * validated release-index bytes. Byte acquisition belongs to repository
- * adapters; this module owns decoding, integrity, semantics, and caching.
+ * validated release-index bytes. Byte acquisition belongs to ontology
+ * query-artifact repository adapters; this module owns decoding, integrity,
+ * semantics, and caching.
  */
 
 import { resolveOntologyProjectionProperties } from "../ontologyProjectionProperties.js";
@@ -22,7 +23,7 @@ import {
   parseSearchOntologyEntitiesInput,
 } from "./ontologyQuerySchemas.js";
 
-const DEFAULT_MAXIMUM_CACHE_BYTE_SIZE = 64 * 1024 * 1024;
+const DEFAULT_MAXIMUM_IN_MEMORY_QUERY_INDEX_CACHE_BYTE_SIZE = 64 * 1024 * 1024;
 const NON_LITERAL_LANGUAGE_RANK = 1_000_000;
 const FALLBACK_LANGUAGE_RANK = 100_000;
 const UTF_8_DECODER = new TextDecoder("utf-8", { fatal: true });
@@ -35,7 +36,7 @@ function compareBinary(left, right) {
 }
 
 async function sha256(bytes) {
-  // Digest the exact repository bytes before parsing so integrity does not
+  // Digest the exact artifact bytes before parsing so integrity does not
   // depend on JSON reserialization or runtime-specific text conversion.
   const digest = await globalThis.crypto.subtle.digest("SHA-256", bytes);
   return [...new Uint8Array(digest)]
@@ -610,38 +611,41 @@ function collectDescriptionsByEntityIri(runtimeIndexes) {
 }
 
 /**
- * Create the two-operation ontology query module over a byte repository.
+ * Create the two-operation module over an ontology query-artifact repository.
  *
  * Raw bytes are digest-verified before JSON parsing, then completely schema
  * validated and cross-checked against the catalog. Parsed immutable indexes
  * share concurrent loads and live in an LRU cache bounded by their validated
- * byte lengths. No repository-specific object or exception escapes this seam.
+ * byte lengths. No adapter-specific object or exception escapes this seam.
  */
 export function createOntologyQueryModule({
-  ontologyReleaseIndexRepository,
-  maximumCacheByteSize = DEFAULT_MAXIMUM_CACHE_BYTE_SIZE,
+  ontologyQueryArtifactRepository,
+  maximumInMemoryQueryIndexCacheByteSize = DEFAULT_MAXIMUM_IN_MEMORY_QUERY_INDEX_CACHE_BYTE_SIZE,
 }) {
   if (
-    !ontologyReleaseIndexRepository ||
-    typeof ontologyReleaseIndexRepository.readOntologyQueryCatalog !==
+    !ontologyQueryArtifactRepository ||
+    typeof ontologyQueryArtifactRepository.readOntologyQueryCatalog !==
       "function" ||
-    typeof ontologyReleaseIndexRepository.readOntologyReleaseQueryIndex !==
+    typeof ontologyQueryArtifactRepository.readOntologyReleaseQueryIndex !==
       "function"
   ) {
     throw new TypeError(
-      "ontologyReleaseIndexRepository must implement both byte-read methods.",
+      "ontologyQueryArtifactRepository must implement both byte-read methods.",
     );
   }
 
-  if (!Number.isSafeInteger(maximumCacheByteSize) || maximumCacheByteSize < 1) {
+  if (
+    !Number.isSafeInteger(maximumInMemoryQueryIndexCacheByteSize) ||
+    maximumInMemoryQueryIndexCacheByteSize < 1
+  ) {
     throw new TypeError(
-      "maximumCacheByteSize must be a positive safe integer.",
+      "maximumInMemoryQueryIndexCacheByteSize must be a positive safe integer.",
     );
   }
 
   let catalogValue;
   let catalogLoadEntry;
-  let cacheByteSize = 0;
+  let inMemoryQueryIndexCacheByteSize = 0;
   let accessSequence = 0;
   const cacheEntries = new Map();
 
@@ -676,7 +680,7 @@ export function createOntologyQueryModule({
 
         try {
           const bytes =
-            await ontologyReleaseIndexRepository.readOntologyQueryCatalog({
+            await ontologyQueryArtifactRepository.readOntologyQueryCatalog({
               signal: internalSignal,
             });
           throwIfCancelled(internalSignal);
@@ -706,8 +710,10 @@ export function createOntologyQueryModule({
     return waitForSharedLoad(catalogLoadEntry, signal);
   }
 
-  function evictIndexesToBudget(protectedKey) {
-    while (cacheByteSize > maximumCacheByteSize) {
+  function evictQueryIndexesToInMemoryCacheBudget(protectedKey) {
+    while (
+      inMemoryQueryIndexCacheByteSize > maximumInMemoryQueryIndexCacheByteSize
+    ) {
       const evictionCandidates = [...cacheEntries.entries()]
         .filter(
           ([key, entry]) =>
@@ -722,9 +728,9 @@ export function createOntologyQueryModule({
       if (!candidate) {
         const protectedEntry = cacheEntries.get(protectedKey);
 
-        if (protectedEntry?.byteSize > maximumCacheByteSize) {
+        if (protectedEntry?.byteSize > maximumInMemoryQueryIndexCacheByteSize) {
           cacheEntries.delete(protectedKey);
-          cacheByteSize -= protectedEntry.byteSize;
+          inMemoryQueryIndexCacheByteSize -= protectedEntry.byteSize;
         }
 
         break;
@@ -732,7 +738,7 @@ export function createOntologyQueryModule({
 
       const [key, entry] = candidate;
       cacheEntries.delete(key);
-      cacheByteSize -= entry.byteSize;
+      inMemoryQueryIndexCacheByteSize -= entry.byteSize;
     }
   }
 
@@ -753,8 +759,8 @@ export function createOntologyQueryModule({
         entry.waiterCount -= 1;
 
         // A shared read must survive cancellation by one of several callers.
-        // Abort the repository operation only when no caller is still waiting;
-        // each caller nevertheless receives its own cancellation promptly.
+        // Abort the artifact read only when no caller is still waiting; each
+        // caller nevertheless receives its own cancellation promptly.
         if (entry.waiterCount === 0 && entry.loading) {
           entry.abortController.abort(
             new DOMException(entry.noWaitersAbortMessage, "AbortError"),
@@ -824,7 +830,7 @@ export function createOntologyQueryModule({
 
       try {
         const bytes =
-          await ontologyReleaseIndexRepository.readOntologyReleaseQueryIndex({
+          await ontologyQueryArtifactRepository.readOntologyReleaseQueryIndex({
             relativePath: catalogRelease.queryIndexRelativePath,
             signal: internalSignal,
           });
@@ -839,8 +845,8 @@ export function createOntologyQueryModule({
         const runtimeIndex = buildRuntimeReleaseIndex(queryIndex);
         entry.byteSize = bytes.byteLength;
         entry.loading = false;
-        cacheByteSize += entry.byteSize;
-        evictIndexesToBudget(cacheKey);
+        inMemoryQueryIndexCacheByteSize += entry.byteSize;
+        evictQueryIndexesToInMemoryCacheBudget(cacheKey);
         return runtimeIndex;
       } catch (error) {
         if (cacheEntries.get(cacheKey) === entry) {

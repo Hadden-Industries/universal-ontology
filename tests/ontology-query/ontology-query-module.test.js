@@ -5,7 +5,7 @@ import {
 } from "../../src/ontologyQuery/ontologyQuerySchemas.js";
 import {
   createInMemoryOntologyReleaseArtifact as createReleaseArtifact,
-  createInMemoryOntologyReleaseIndexRepository as createInMemoryRepository,
+  createInMemoryOntologyQueryArtifactRepositoryFixture,
   serializeOntologyQueryArtifact as serialize,
 } from "../fixtures/ontology-query/createInMemoryOntologyQueryFixture.js";
 
@@ -35,9 +35,12 @@ beforeAll(async () => {
 
 describe("ontology query module", () => {
   test("searches default releases and returns the exact selected lexical definition", async () => {
-    const { repository } = createInMemoryRepository(defaultReleaseArtifacts);
+    const { ontologyQueryArtifactRepository } =
+      createInMemoryOntologyQueryArtifactRepositoryFixture(
+        defaultReleaseArtifacts,
+      );
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: repository,
+      ontologyQueryArtifactRepository,
     });
     const result = await ontologyQuery.searchOntologyEntities({
       queryText: "  Person  ",
@@ -82,11 +85,12 @@ describe("ontology query module", () => {
   });
 
   test("resolves mixed-case UUID URNs without rewriting authored RDF terms", async () => {
-    const { repository } = createInMemoryRepository([
-      defaultReleaseArtifacts[0],
-    ]);
+    const { ontologyQueryArtifactRepository } =
+      createInMemoryOntologyQueryArtifactRepositoryFixture([
+        defaultReleaseArtifacts[0],
+      ]);
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: repository,
+      ontologyQueryArtifactRepository,
     });
     const requestedUuidUrn = "urn:uuid:550e8400-e29b-41d4-a716-446655440000";
     const result = await ontologyQuery.resolveOntologyEntity({
@@ -129,11 +133,12 @@ describe("ontology query module", () => {
   });
 
   test("reports actionable unknown-family and unknown-release failures", async () => {
-    const { repository } = createInMemoryRepository([
-      defaultReleaseArtifacts[0],
-    ]);
+    const { ontologyQueryArtifactRepository } =
+      createInMemoryOntologyQueryArtifactRepositoryFixture([
+        defaultReleaseArtifacts[0],
+      ]);
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: repository,
+      ontologyQueryArtifactRepository,
     });
 
     await expect(
@@ -172,10 +177,10 @@ describe("ontology query module", () => {
   test("rejects unavailable catalogs, unsupported schemas, and index digest mismatches", async () => {
     const releaseArtifacts = [defaultReleaseArtifacts[0]];
     const unavailableQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: createInMemoryRepository(
-        releaseArtifacts,
-        { catalogError: new Error("private filesystem path") },
-      ).repository,
+      ontologyQueryArtifactRepository:
+        createInMemoryOntologyQueryArtifactRepositoryFixture(releaseArtifacts, {
+          catalogError: new Error("private filesystem path"),
+        }).ontologyQueryArtifactRepository,
     });
     await expect(
       unavailableQuery.searchOntologyEntities({
@@ -192,16 +197,14 @@ describe("ontology query module", () => {
     });
 
     const unsupportedQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: createInMemoryRepository(
-        releaseArtifacts,
-        {
+      ontologyQueryArtifactRepository:
+        createInMemoryOntologyQueryArtifactRepositoryFixture(releaseArtifacts, {
           catalogBytes: serialize({
             queryArtifactKind: "universal_ontology_query_catalog",
             queryArtifactFormatVersion: 2,
             releases: [],
           }),
-        },
-      ).repository,
+        }).ontologyQueryArtifactRepository,
     });
     await expect(
       unsupportedQuery.searchOntologyEntities({ queryText: "Person" }),
@@ -211,10 +214,10 @@ describe("ontology query module", () => {
     });
 
     const digestMismatchQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: createInMemoryRepository(
-        releaseArtifacts,
-        { indexBytes: Buffer.from("{}\n", "utf8") },
-      ).repository,
+      ontologyQueryArtifactRepository:
+        createInMemoryOntologyQueryArtifactRepositoryFixture(releaseArtifacts, {
+          indexBytes: Buffer.from("{}\n", "utf8"),
+        }).ontologyQueryArtifactRepository,
     });
     await expect(
       digestMismatchQuery.searchOntologyEntities({
@@ -238,9 +241,10 @@ describe("ontology query module", () => {
       },
     });
     const unsupportedIndexQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: createInMemoryRepository([
-        unsupportedIndexArtifact,
-      ]).repository,
+      ontologyQueryArtifactRepository:
+        createInMemoryOntologyQueryArtifactRepositoryFixture([
+          unsupportedIndexArtifact,
+        ]).ontologyQueryArtifactRepository,
     });
     await expect(
       unsupportedIndexQuery.searchOntologyEntities({
@@ -265,9 +269,10 @@ describe("ontology query module", () => {
       },
     });
     const mismatchedIdentityQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: createInMemoryRepository([
-        mismatchedIdentityArtifact,
-      ]).repository,
+      ontologyQueryArtifactRepository:
+        createInMemoryOntologyQueryArtifactRepositoryFixture([
+          mismatchedIdentityArtifact,
+        ]).ontologyQueryArtifactRepository,
     });
     await expect(
       mismatchedIdentityQuery.searchOntologyEntities({
@@ -287,10 +292,11 @@ describe("ontology query module", () => {
 
   test("rejects malformed UTF-8 catalog bytes before JSON parsing", async () => {
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: createInMemoryRepository(
-        [defaultReleaseArtifacts[0]],
-        { catalogBytes: Uint8Array.from([0xc3, 0x28]) },
-      ).repository,
+      ontologyQueryArtifactRepository:
+        createInMemoryOntologyQueryArtifactRepositoryFixture(
+          [defaultReleaseArtifacts[0]],
+          { catalogBytes: Uint8Array.from([0xc3, 0x28]) },
+        ).ontologyQueryArtifactRepository,
     });
 
     await expect(
@@ -303,11 +309,12 @@ describe("ontology query module", () => {
   });
 
   test("translates pre-I/O cancellation to the stable query error", async () => {
-    const { repository, readCounts } = createInMemoryRepository([
-      defaultReleaseArtifacts[0],
-    ]);
+    const { ontologyQueryArtifactRepository, readCounts } =
+      createInMemoryOntologyQueryArtifactRepositoryFixture([
+        defaultReleaseArtifacts[0],
+      ]);
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: repository,
+      ontologyQueryArtifactRepository,
     });
     const controller = new AbortController();
     controller.abort(new Error("caller stopped"));
@@ -368,8 +375,9 @@ describe("ontology query module", () => {
         },
       });
       const ontologyQuery = createOntologyQueryModule({
-        ontologyReleaseIndexRepository: createInMemoryRepository([artifact])
-          .repository,
+        ontologyQueryArtifactRepository:
+          createInMemoryOntologyQueryArtifactRepositoryFixture([artifact])
+            .ontologyQueryArtifactRepository,
       });
       const result = await ontologyQuery.searchOntologyEntities({
         queryText,
@@ -386,8 +394,9 @@ describe("ontology query module", () => {
   test("applies RFC-style language lookup before untagged and deterministic fallbacks", async () => {
     const artifact = defaultReleaseArtifacts[0];
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: createInMemoryRepository([artifact])
-        .repository,
+      ontologyQueryArtifactRepository:
+        createInMemoryOntologyQueryArtifactRepositoryFixture([artifact])
+          .ontologyQueryArtifactRepository,
     });
     const selection = {
       selectionKind: "latest_stable_releases",
@@ -445,9 +454,10 @@ describe("ontology query module", () => {
       },
     });
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: createInMemoryRepository([
-        ambiguousArtifact,
-      ]).repository,
+      ontologyQueryArtifactRepository:
+        createInMemoryOntologyQueryArtifactRepositoryFixture([
+          ambiguousArtifact,
+        ]).ontologyQueryArtifactRepository,
     });
     const ontologyReleaseSelection = {
       selectionKind: "latest_stable_releases",
@@ -512,14 +522,16 @@ describe("ontology query module", () => {
     const artifact = defaultReleaseArtifacts[0];
     const loadEntered = createDeferred();
     const allowLoad = createDeferred();
-    const coalescedRepository = createInMemoryRepository([artifact], {
-      async beforeIndexRead() {
-        loadEntered.resolve();
-        await allowLoad.promise;
-      },
-    });
+    const coalescedRepositoryFixture =
+      createInMemoryOntologyQueryArtifactRepositoryFixture([artifact], {
+        async beforeIndexRead() {
+          loadEntered.resolve();
+          await allowLoad.promise;
+        },
+      });
     const coalescedQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: coalescedRepository.repository,
+      ontologyQueryArtifactRepository:
+        coalescedRepositoryFixture.ontologyQueryArtifactRepository,
     });
     const input = {
       queryText: "Person",
@@ -534,20 +546,24 @@ describe("ontology query module", () => {
     allowLoad.resolve();
     await Promise.all([firstQuery, secondQuery]);
     expect(
-      coalescedRepository.readCounts.get(artifact.queryIndexRelativePath),
+      coalescedRepositoryFixture.readCounts.get(
+        artifact.queryIndexRelativePath,
+      ),
     ).toBe(1);
 
     let shouldFail = true;
-    const retryRepository = createInMemoryRepository([artifact], {
-      beforeIndexRead() {
-        if (shouldFail) {
-          shouldFail = false;
-          throw new Error("transient private adapter error");
-        }
-      },
-    });
+    const retryRepositoryFixture =
+      createInMemoryOntologyQueryArtifactRepositoryFixture([artifact], {
+        beforeIndexRead() {
+          if (shouldFail) {
+            shouldFail = false;
+            throw new Error("transient private adapter error");
+          }
+        },
+      });
     const retryQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: retryRepository.repository,
+      ontologyQueryArtifactRepository:
+        retryRepositoryFixture.ontologyQueryArtifactRepository,
     });
     await expect(
       retryQuery.searchOntologyEntities(input),
@@ -561,16 +577,18 @@ describe("ontology query module", () => {
       retryQuery.searchOntologyEntities(input),
     ).resolves.toMatchObject({ outcome: "success" });
     expect(
-      retryRepository.readCounts.get(artifact.queryIndexRelativePath),
+      retryRepositoryFixture.readCounts.get(artifact.queryIndexRelativePath),
     ).toBe(2);
   });
 
   test("evicts complete indexes beyond the byte budget", async () => {
     const artifact = defaultReleaseArtifacts[0];
-    const inMemoryRepository = createInMemoryRepository([artifact]);
+    const inMemoryRepositoryFixture =
+      createInMemoryOntologyQueryArtifactRepositoryFixture([artifact]);
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: inMemoryRepository.repository,
-      maximumCacheByteSize: 1,
+      ontologyQueryArtifactRepository:
+        inMemoryRepositoryFixture.ontologyQueryArtifactRepository,
+      maximumInMemoryQueryIndexCacheByteSize: 1,
     });
     const input = {
       queryText: "Person",
@@ -583,28 +601,30 @@ describe("ontology query module", () => {
     await ontologyQuery.searchOntologyEntities(input);
     await ontologyQuery.searchOntologyEntities(input);
     expect(
-      inMemoryRepository.readCounts.get(artifact.queryIndexRelativePath),
+      inMemoryRepositoryFixture.readCounts.get(artifact.queryIndexRelativePath),
     ).toBe(2);
   });
 
-  test("propagates in-flight cancellation through the repository adapter", async () => {
+  test("propagates in-flight cancellation through the ontology query-artifact repository", async () => {
     const artifact = defaultReleaseArtifacts[0];
     const loadEntered = createDeferred();
     let observedSignal;
-    const inMemoryRepository = createInMemoryRepository([artifact], {
-      beforeIndexRead({ signal }) {
-        observedSignal = signal;
-        loadEntered.resolve();
+    const inMemoryRepositoryFixture =
+      createInMemoryOntologyQueryArtifactRepositoryFixture([artifact], {
+        beforeIndexRead({ signal }) {
+          observedSignal = signal;
+          loadEntered.resolve();
 
-        return new Promise((resolve, reject) => {
-          signal.addEventListener("abort", () => reject(signal.reason), {
-            once: true,
+          return new Promise((resolve, reject) => {
+            signal.addEventListener("abort", () => reject(signal.reason), {
+              once: true,
+            });
           });
-        });
-      },
-    });
+        },
+      });
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: inMemoryRepository.repository,
+      ontologyQueryArtifactRepository:
+        inMemoryRepositoryFixture.ontologyQueryArtifactRepository,
     });
     const controller = new AbortController();
     const queryPromise = ontologyQuery.searchOntologyEntities(
@@ -630,24 +650,26 @@ describe("ontology query module", () => {
     const artifact = defaultReleaseArtifacts[0];
     const loadEntered = createDeferred();
     const allowLoad = createDeferred();
-    let repositorySignal;
-    const inMemoryRepository = createInMemoryRepository([artifact], {
-      async beforeIndexRead({ signal }) {
-        repositorySignal = signal;
-        loadEntered.resolve();
+    let ontologyQueryArtifactRepositorySignal;
+    const inMemoryRepositoryFixture =
+      createInMemoryOntologyQueryArtifactRepositoryFixture([artifact], {
+        async beforeIndexRead({ signal }) {
+          ontologyQueryArtifactRepositorySignal = signal;
+          loadEntered.resolve();
 
-        await Promise.race([
-          allowLoad.promise,
-          new Promise((resolve, reject) => {
-            signal.addEventListener("abort", () => reject(signal.reason), {
-              once: true,
-            });
-          }),
-        ]);
-      },
-    });
+          await Promise.race([
+            allowLoad.promise,
+            new Promise((resolve, reject) => {
+              signal.addEventListener("abort", () => reject(signal.reason), {
+                once: true,
+              });
+            }),
+          ]);
+        },
+      });
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: inMemoryRepository.repository,
+      ontologyQueryArtifactRepository:
+        inMemoryRepositoryFixture.ontologyQueryArtifactRepository,
     });
     const input = {
       queryText: "Person",
@@ -671,13 +693,13 @@ describe("ontology query module", () => {
     await expect(firstQuery).rejects.toMatchObject({
       errorCode: "QUERY_CANCELLED",
     });
-    expect(repositorySignal.aborted).toBe(false);
+    expect(ontologyQueryArtifactRepositorySignal.aborted).toBe(false);
     allowLoad.resolve();
     expect(await secondOutcome).toMatchObject({
       value: { outcome: "success" },
     });
     expect(
-      inMemoryRepository.readCounts.get(artifact.queryIndexRelativePath),
+      inMemoryRepositoryFixture.readCounts.get(artifact.queryIndexRelativePath),
     ).toBe(1);
   });
 
@@ -686,25 +708,27 @@ describe("ontology query module", () => {
     const loadEntered = createDeferred();
     const allowLoad = createDeferred();
     let catalogReadCount = 0;
-    let repositorySignal;
-    const inMemoryRepository = createInMemoryRepository([artifact], {
-      async beforeCatalogRead({ signal }) {
-        catalogReadCount += 1;
-        repositorySignal = signal;
-        loadEntered.resolve();
+    let ontologyQueryArtifactRepositorySignal;
+    const inMemoryRepositoryFixture =
+      createInMemoryOntologyQueryArtifactRepositoryFixture([artifact], {
+        async beforeCatalogRead({ signal }) {
+          catalogReadCount += 1;
+          ontologyQueryArtifactRepositorySignal = signal;
+          loadEntered.resolve();
 
-        await Promise.race([
-          allowLoad.promise,
-          new Promise((resolve, reject) => {
-            signal.addEventListener("abort", () => reject(signal.reason), {
-              once: true,
-            });
-          }),
-        ]);
-      },
-    });
+          await Promise.race([
+            allowLoad.promise,
+            new Promise((resolve, reject) => {
+              signal.addEventListener("abort", () => reject(signal.reason), {
+                once: true,
+              });
+            }),
+          ]);
+        },
+      });
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository: inMemoryRepository.repository,
+      ontologyQueryArtifactRepository:
+        inMemoryRepositoryFixture.ontologyQueryArtifactRepository,
     });
     const input = {
       queryText: "Person",
@@ -724,7 +748,7 @@ describe("ontology query module", () => {
     await expect(firstQuery).rejects.toMatchObject({
       errorCode: "QUERY_CANCELLED",
     });
-    expect(repositorySignal.aborted).toBe(false);
+    expect(ontologyQueryArtifactRepositorySignal.aborted).toBe(false);
     allowLoad.resolve();
     await expect(secondQuery).resolves.toMatchObject({ outcome: "success" });
     expect(catalogReadCount).toBe(1);

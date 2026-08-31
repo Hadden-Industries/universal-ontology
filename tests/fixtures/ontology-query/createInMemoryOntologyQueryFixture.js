@@ -73,10 +73,10 @@ export async function createInMemoryOntologyReleaseArtifact({
 }
 
 /**
- * Creates a byte-repository test double around real serialized artifacts.
+ * Creates an ontology query-artifact repository fixture around real bytes.
  * Overrides are limited to repository boundaries so query behavior stays real.
  */
-export function createInMemoryOntologyReleaseIndexRepository(
+export function createInMemoryOntologyQueryArtifactRepositoryFixture(
   releaseArtifacts,
   overrides = {},
 ) {
@@ -95,7 +95,7 @@ export function createInMemoryOntologyReleaseIndexRepository(
 
   return {
     readCounts,
-    repository: {
+    ontologyQueryArtifactRepository: {
       async readOntologyQueryCatalog({ signal } = {}) {
         signal?.throwIfAborted();
 

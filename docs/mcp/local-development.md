@@ -65,7 +65,7 @@ process exit code.
 flowchart LR
     A[Immutable RDF/XML releases under src] --> B[npm run mcp:index]
     B --> C[Versioned query catalog and content-addressed release indexes]
-    C --> D[Filesystem repository adapter]
+    C --> D[Filesystem ontology query-artifact repository]
     D --> E[Ontology query module]
     E --> F[Two read-only MCP tools]
     F --> G[Loopback Streamable HTTP endpoint]
@@ -80,7 +80,7 @@ This layering is intentional:
   and symlink rejection. It does not interpret ontology semantics.
 - The query module verifies digests, validates complete documents, resolves
   releases, applies language preference, ranks matches, and owns the bounded
-  immutable-index cache.
+  in-memory query-index cache.
 - MCP and HTTP are outer adapters. They contain no ontology interpretation
   rules, which leaves the same query contract usable by a future S3 adapter and
   production runner.
@@ -137,11 +137,11 @@ after any change to:
 - a query-artifact schema; or
 - deterministic serialization.
 
-The running process loads one catalog snapshot and caches immutable release
-indexes. It does not watch the filesystem. Stop and restart it after
-regeneration. If the representation changes incompatibly, introduce a new
-format version and query-root directory instead of silently reinterpreting
-format version `1`.
+The running process loads one catalog snapshot and caches parsed immutable
+release query indexes in memory. It does not watch the filesystem. Stop and
+restart it after regeneration. If the representation changes incompatibly,
+introduce a new format version and query-root directory instead of silently
+reinterpreting format version `1`.
 
 ## Local runner configuration
 
@@ -152,7 +152,7 @@ variables are supported:
 | ---------------------------------------------- | ---------------------------: | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | `UNIVERSAL_ONTOLOGY_MCP_PORT`                  |                       `8000` | Decimal integer from `1` through `65535`. Changes both `/mcp` and `/healthz`; update the host URL to match.                               |
 | `UNIVERSAL_ONTOLOGY_QUERY_ROOT`                | `<repository>/dist/query/v1` | Filesystem root containing `catalog.json` and its referenced release indexes. Relative values resolve from the process working directory. |
-| `UNIVERSAL_ONTOLOGY_QUERY_CACHE_MAXIMUM_BYTES` |                   `67108864` | Positive safe integer giving the parsed release-index LRU byte budget. Accounting uses validated raw index byte lengths.                  |
+| `UNIVERSAL_ONTOLOGY_QUERY_CACHE_MAXIMUM_BYTES` |                   `67108864` | Positive safe integer giving the in-memory parsed query-index LRU byte budget. Accounting uses validated raw index byte lengths.          |
 
 For example, to use port 8001 in the current PowerShell session:
 
@@ -378,7 +378,7 @@ runner applies these controls before ontology query dispatch:
 - At most eight active MCP requests. A ninth request is not queued and its body
   is not read.
 - Cancellation propagation from disconnected clients and forced shutdown into
-  repository reads and query execution.
+  query-artifact repository reads and query execution.
 
 Host, Origin, route, rate, and concurrency failures can occur before a request
 body is consumed. Their responses are fixed, never echo a request identifier or
@@ -441,7 +441,7 @@ endpoint:
 | HTTP 429                                                                        | The local token bucket is exhausted. Respect `Retry-After`; do not spin.                                                                         |
 | HTTP 503                                                                        | The server is draining or already has eight active MCP requests. Respect `Retry-After` and retry after capacity is available.                    |
 | `UNKNOWN_ONTOLOGY_ARTIFACT_FAMILY` or `UNKNOWN_ONTOLOGY_RELEASE`                | The selection is syntactically valid but absent from the catalog. Inspect `catalog.json` and supply an exact catalog identity.                   |
-| `QUERY_INDEX_DIGEST_MISMATCH` or `QUERY_INDEX_SCHEMA_UNSUPPORTED`               | Treat the generated repository as untrusted or stale. Regenerate; if the problem persists, investigate before serving. Do not bypass validation. |
+| `QUERY_INDEX_DIGEST_MISMATCH` or `QUERY_INDEX_SCHEMA_UNSUPPORTED`               | Treat the generated query artifacts as untrusted or stale. Regenerate; if the problem persists, investigate before serving. Do not bypass validation. |
 | Results do not reflect regenerated files                                        | The process intentionally holds one catalog snapshot. Stop and restart it.                                                                       |
 | Process exits 1 after shutdown                                                  | Active work exceeded the ten-second deadline or cleanup failed. Inspect safe structured lifecycle events; the forced exit is intentional.        |
 
@@ -456,7 +456,7 @@ Codex or another remote MCP host
   -> AgentCore Runtime JWT ingress
   -> production HTTP adapter on 0.0.0.0:8000/mcp
   -> unchanged ontology query module
-  -> S3 ontology-release index repository adapter
+  -> S3 ontology query-artifact repository adapter
 ```
 
 The production implementation should preserve the local contracts while

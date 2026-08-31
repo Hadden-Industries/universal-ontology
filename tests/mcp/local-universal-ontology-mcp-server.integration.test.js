@@ -353,7 +353,7 @@ describe("local Universal Ontology MCP server socket seam", () => {
     ).toEqual({
       port: 8123,
       queryRoot: resolve("test-query-root"),
-      maximumCacheByteSize: 1_048_576,
+      maximumInMemoryQueryIndexCacheByteSize: 1_048_576,
     });
 
     for (const environment of [

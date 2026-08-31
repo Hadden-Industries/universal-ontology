@@ -16,7 +16,7 @@ import {
   createUniversalOntologyMcpHttpHandler,
   UNIVERSAL_ONTOLOGY_MCP_REQUEST_BODY_MAXIMUM_BYTES,
 } from "../src/mcp/createUniversalOntologyMcpHttpHandler.js";
-import { createFileSystemOntologyReleaseIndexRepository } from "../src/ontologyQuery/fileSystemOntologyReleaseIndexRepository.js";
+import { createFileSystemOntologyQueryArtifactRepository } from "../src/ontologyQuery/fileSystemOntologyQueryArtifactRepository.js";
 import { createOntologyQueryModule } from "../src/ontologyQuery/createOntologyQueryModule.js";
 
 export const LOCAL_ONTOLOGY_MCP_BIND_ADDRESS = "127.0.0.1";
@@ -757,7 +757,7 @@ export function readLocalOntologyMcpServerConfiguration({
     throw new RangeError("UNIVERSAL_ONTOLOGY_MCP_PORT must not exceed 65535.");
   }
 
-  const maximumCacheByteSize =
+  const maximumInMemoryQueryIndexCacheByteSize =
     environment.UNIVERSAL_ONTOLOGY_QUERY_CACHE_MAXIMUM_BYTES
       ? parsePositiveSafeInteger(
           environment.UNIVERSAL_ONTOLOGY_QUERY_CACHE_MAXIMUM_BYTES,
@@ -768,7 +768,11 @@ export function readLocalOntologyMcpServerConfiguration({
     ? resolve(environment.UNIVERSAL_ONTOLOGY_QUERY_ROOT)
     : resolve(projectRoot, "dist", "query", "v1");
 
-  return Object.freeze({ port, maximumCacheByteSize, queryRoot });
+  return Object.freeze({
+    port,
+    maximumInMemoryQueryIndexCacheByteSize,
+    queryRoot,
+  });
 }
 
 function parseRunnerArguments(arguments_) {
@@ -909,12 +913,14 @@ export async function runLocalOntologyMcpServer({
     });
   }
 
-  const repository = createFileSystemOntologyReleaseIndexRepository({
-    queryRoot: configuration.queryRoot,
-  });
+  const ontologyQueryArtifactRepository =
+    createFileSystemOntologyQueryArtifactRepository({
+      queryRoot: configuration.queryRoot,
+    });
   const ontologyQuery = createOntologyQueryModule({
-    ontologyReleaseIndexRepository: repository,
-    maximumCacheByteSize: configuration.maximumCacheByteSize,
+    ontologyQueryArtifactRepository,
+    maximumInMemoryQueryIndexCacheByteSize:
+      configuration.maximumInMemoryQueryIndexCacheByteSize,
   });
 
   // Readiness uses the public query seam: this validates the catalog, selects

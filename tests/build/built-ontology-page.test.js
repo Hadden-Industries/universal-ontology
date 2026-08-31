@@ -99,7 +99,7 @@ async function createFixture() {
     "OwlToUmlXmiConverter.js",
     "owl-to-uml-xmi.xsl",
     "ontologyQuery/createOntologyQueryModule.js",
-    "ontologyQuery/fetchOntologyReleaseIndexRepository.js",
+    "ontologyQuery/fetchOntologyQueryArtifactRepository.js",
     "ontologyQuery/ontologyQueryArtifactLimits.js",
     "ontologyQuery/ontologyQueryErrors.js",
     "ontologyQuery/ontologyQuerySchemas.js",

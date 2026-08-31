@@ -8,14 +8,14 @@ function throwIfAborted(signal) {
 }
 
 /**
- * Create the local adapter for the two-method byte repository port.
+ * Create the local adapter for the ontology query-artifact repository port.
  *
  * The adapter owns filesystem containment and symlink rejection only. Digest
  * verification, JSON parsing, schema validation, and catalog/index identity
  * checks remain in the query module so a future S3 adapter crosses the same
  * integrity boundary with the same raw bytes.
  */
-export function createFileSystemOntologyReleaseIndexRepository({ queryRoot }) {
+export function createFileSystemOntologyQueryArtifactRepository({ queryRoot }) {
   if (typeof queryRoot !== "string" || queryRoot === "") {
     throw new TypeError("queryRoot must be a non-empty path.");
   }
@@ -31,7 +31,7 @@ export function createFileSystemOntologyReleaseIndexRepository({ queryRoot }) {
 
     if (!targetPath.startsWith(rootPrefix)) {
       throw new Error(
-        "The repository path resolves outside the contained root.",
+        "The ontology query-artifact repository path resolves outside the contained root.",
       );
     }
 
@@ -51,7 +51,9 @@ export function createFileSystemOntologyReleaseIndexRepository({ queryRoot }) {
       const pathStats = await lstat(currentPath);
 
       if (pathStats.isSymbolicLink()) {
-        throw new Error("Ontology query repository paths cannot use symlinks.");
+        throw new Error(
+          "Ontology query-artifact repository paths cannot use symlinks.",
+        );
       }
     }
 
@@ -63,7 +65,7 @@ export function createFileSystemOntologyReleaseIndexRepository({ queryRoot }) {
 
     if (!resolvedTarget.startsWith(resolvedRootPrefix)) {
       throw new Error(
-        "The repository path resolves outside the contained root.",
+        "The ontology query-artifact repository path resolves outside the contained root.",
       );
     }
 

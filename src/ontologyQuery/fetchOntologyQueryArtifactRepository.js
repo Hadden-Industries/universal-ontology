@@ -194,11 +194,11 @@ function parseFetchRelativePath(relativePath) {
 }
 
 /**
- * Create the browser adapter for the ontology release-index byte repository.
+ * Create the Fetch adapter for the ontology query-artifact repository port.
  * The query root is resolved once; individual reads accept only catalog-owned
  * normalized paths and never a caller-controlled absolute URL.
  */
-export function createFetchOntologyReleaseIndexRepository({
+export function createFetchOntologyQueryArtifactRepository({
   ontologyQueryRootIri,
   expectedOrigin,
   fetchImplementation = globalThis.fetch,

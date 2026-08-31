@@ -1,5 +1,5 @@
 import { createOntologyQueryModule } from "../ontologyQuery/createOntologyQueryModule.js";
-import { createFetchOntologyReleaseIndexRepository } from "../ontologyQuery/fetchOntologyReleaseIndexRepository.js";
+import { createFetchOntologyQueryArtifactRepository } from "../ontologyQuery/fetchOntologyQueryArtifactRepository.js";
 import {
   OntologyQueryError,
   isOntologyQueryError,
@@ -437,14 +437,14 @@ export function createBrowserOntologyEntityDefinitionResolver({
   fetchImplementation,
   reportUnhandledError,
 }) {
-  const ontologyReleaseIndexRepository =
-    createFetchOntologyReleaseIndexRepository({
+  const ontologyQueryArtifactRepository =
+    createFetchOntologyQueryArtifactRepository({
       ontologyQueryRootIri,
       expectedOrigin,
       fetchImplementation,
     });
   const ontologyQuery = createOntologyQueryModule({
-    ontologyReleaseIndexRepository,
+    ontologyQueryArtifactRepository,
   });
 
   return createOntologyEntityDefinitionResolver({

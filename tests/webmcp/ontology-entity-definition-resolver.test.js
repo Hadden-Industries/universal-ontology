@@ -8,7 +8,7 @@ import {
 } from "../../src/webmcp/createOntologyEntityDefinitionResolver.js";
 import {
   createInMemoryOntologyReleaseArtifact,
-  createInMemoryOntologyReleaseIndexRepository,
+  createInMemoryOntologyQueryArtifactRepositoryFixture,
   serializeOntologyQueryArtifact,
 } from "../fixtures/ontology-query/createInMemoryOntologyQueryFixture.js";
 
@@ -66,13 +66,13 @@ async function createRealResolver(options = {}) {
     versionTag: "20260830",
     transformIndex: options.transformIndex,
   });
-  const { repository, readCounts } =
-    createInMemoryOntologyReleaseIndexRepository(
+  const { ontologyQueryArtifactRepository, readCounts } =
+    createInMemoryOntologyQueryArtifactRepositoryFixture(
       [releaseArtifact],
-      options.repositoryOverrides,
+      options.ontologyQueryArtifactRepositoryOverrides,
     );
   const ontologyQuery = createOntologyQueryModule({
-    ontologyReleaseIndexRepository: repository,
+    ontologyQueryArtifactRepository,
   });
   const reportUnhandledError = options.reportUnhandledError ?? jest.fn();
   const resolver = createOntologyEntityDefinitionResolver({
@@ -505,7 +505,7 @@ describe("ontology entity-definition resolver", () => {
     const controller = new AbortController();
     const cancellationReason = new DOMException("cancelled", "AbortError");
     const { reportUnhandledError, resolver } = await createRealResolver({
-      repositoryOverrides: {
+      ontologyQueryArtifactRepositoryOverrides: {
         beforeIndexRead: ({ signal }) =>
           new Promise((resolve, reject) => {
             signal.addEventListener("abort", () => reject(signal.reason), {

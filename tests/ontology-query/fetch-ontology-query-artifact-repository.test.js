@@ -1,7 +1,7 @@
 import { jest } from "@jest/globals";
 
 import { createOntologyQueryModule } from "../../src/ontologyQuery/createOntologyQueryModule.js";
-import { createFetchOntologyReleaseIndexRepository } from "../../src/ontologyQuery/fetchOntologyReleaseIndexRepository.js";
+import { createFetchOntologyQueryArtifactRepository } from "../../src/ontologyQuery/fetchOntologyQueryArtifactRepository.js";
 import {
   createInMemoryOntologyReleaseArtifact,
   serializeOntologyQueryArtifact,
@@ -11,7 +11,7 @@ const EXPECTED_ORIGIN = "https://example.test";
 const ONTOLOGY_QUERY_ROOT_IRI = "https://example.test/ontology/query/v1/";
 
 function createRepository(fetchImplementation = jest.fn()) {
-  return createFetchOntologyReleaseIndexRepository({
+  return createFetchOntologyQueryArtifactRepository({
     ontologyQueryRootIri: ONTOLOGY_QUERY_ROOT_IRI,
     expectedOrigin: EXPECTED_ORIGIN,
     fetchImplementation,
@@ -33,7 +33,7 @@ function markResponseAsRedirected(response) {
   return response;
 }
 
-describe("Fetch ontology release-index repository", () => {
+describe("Fetch ontology query-artifact repository", () => {
   test.each([
     "https://example.test/",
     "https://example.test/path",
@@ -45,7 +45,7 @@ describe("Fetch ontology release-index repository", () => {
     "ftp://example.test",
   ])("rejects a non-canonical expected origin: %s", (expectedOrigin) => {
     expect(() =>
-      createFetchOntologyReleaseIndexRepository({
+      createFetchOntologyQueryArtifactRepository({
         ontologyQueryRootIri: ONTOLOGY_QUERY_ROOT_IRI,
         expectedOrigin,
         fetchImplementation: jest.fn(),
@@ -62,7 +62,7 @@ describe("Fetch ontology release-index repository", () => {
     "ftp://example.test/ontology/query/v1/",
   ])("rejects an unsafe ontology query root: %s", (ontologyQueryRootIri) => {
     expect(() =>
-      createFetchOntologyReleaseIndexRepository({
+      createFetchOntologyQueryArtifactRepository({
         ontologyQueryRootIri,
         expectedOrigin: EXPECTED_ORIGIN,
         fetchImplementation: jest.fn(),
@@ -292,10 +292,11 @@ describe("Fetch ontology release-index repository", () => {
 
       throw new Error(`Unexpected test URL: ${url}`);
     };
-    const ontologyReleaseIndexRepository =
+    const ontologyQueryArtifactRepository =
       createRepository(fetchImplementation);
     const ontologyQuery = createOntologyQueryModule({
-      ontologyReleaseIndexRepository,
+      ontologyQueryArtifactRepository,
+      maximumInMemoryQueryIndexCacheByteSize: 1_048_576,
     });
 
     await expect(

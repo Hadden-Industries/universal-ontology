@@ -2,9 +2,9 @@ import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import { createFileSystemOntologyReleaseIndexRepository } from "../../src/ontologyQuery/fileSystemOntologyReleaseIndexRepository.js";
+import { createFileSystemOntologyQueryArtifactRepository } from "../../src/ontologyQuery/fileSystemOntologyQueryArtifactRepository.js";
 
-describe("filesystem ontology release-index repository", () => {
+describe("filesystem ontology query-artifact repository", () => {
   test("reads catalog and contained immutable index bytes", async () => {
     const temporaryRoot = await mkdtemp(join(tmpdir(), "uo-index-repository-"));
 
@@ -20,18 +20,19 @@ describe("filesystem ontology release-index repository", () => {
       await writeFile(join(temporaryRoot, "catalog.json"), "catalog", "utf8");
       await writeFile(join(releaseDirectory, "digest.json"), "index", "utf8");
 
-      const repository = createFileSystemOntologyReleaseIndexRepository({
-        queryRoot: temporaryRoot,
-      });
+      const ontologyQueryArtifactRepository =
+        createFileSystemOntologyQueryArtifactRepository({
+          queryRoot: temporaryRoot,
+        });
 
       expect(
-        Buffer.from(await repository.readOntologyQueryCatalog({})).toString(
-          "utf8",
-        ),
+        Buffer.from(
+          await ontologyQueryArtifactRepository.readOntologyQueryCatalog({}),
+        ).toString("utf8"),
       ).toBe("catalog");
       expect(
         Buffer.from(
-          await repository.readOntologyReleaseQueryIndex({
+          await ontologyQueryArtifactRepository.readOntologyReleaseQueryIndex({
             relativePath: "releases/universal/core/20260714/digest.json",
           }),
         ).toString("utf8"),
@@ -53,9 +54,10 @@ describe("filesystem ontology release-index repository", () => {
         join(temporaryRoot, "linked.json"),
         "file",
       );
-      const repository = createFileSystemOntologyReleaseIndexRepository({
-        queryRoot: temporaryRoot,
-      });
+      const ontologyQueryArtifactRepository =
+        createFileSystemOntologyQueryArtifactRepository({
+          queryRoot: temporaryRoot,
+        });
 
       for (const relativePath of [
         "",
@@ -71,7 +73,9 @@ describe("filesystem ontology release-index repository", () => {
         "linked.json",
       ]) {
         await expect(
-          repository.readOntologyReleaseQueryIndex({ relativePath }),
+          ontologyQueryArtifactRepository.readOntologyReleaseQueryIndex({
+            relativePath,
+          }),
         ).rejects.toThrow(/contained|normalized|symlink/u);
       }
     } finally {
@@ -85,14 +89,17 @@ describe("filesystem ontology release-index repository", () => {
 
     try {
       await writeFile(join(temporaryRoot, "catalog.json"), "catalog", "utf8");
-      const repository = createFileSystemOntologyReleaseIndexRepository({
-        queryRoot: temporaryRoot,
-      });
+      const ontologyQueryArtifactRepository =
+        createFileSystemOntologyQueryArtifactRepository({
+          queryRoot: temporaryRoot,
+        });
       const controller = new AbortController();
       controller.abort();
 
       await expect(
-        repository.readOntologyQueryCatalog({ signal: controller.signal }),
+        ontologyQueryArtifactRepository.readOntologyQueryCatalog({
+          signal: controller.signal,
+        }),
       ).rejects.toMatchObject({ name: "AbortError" });
     } finally {
       await rm(temporaryRoot, { recursive: true, force: true });
