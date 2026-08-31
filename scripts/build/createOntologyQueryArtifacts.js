@@ -192,6 +192,7 @@ export async function createOntologyQueryArtifacts({
             queryIndex.resolvedOntologyRelease.sourceArtifactSha256,
           queryIndexRelativePath,
           queryIndexSha256,
+          queryIndexByteLength: deterministicContent.byteLength,
         },
       };
     }),

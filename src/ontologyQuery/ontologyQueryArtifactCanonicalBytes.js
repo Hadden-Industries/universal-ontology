@@ -111,6 +111,7 @@ function rebuildOntologyQueryCatalogRelease(release) {
     sourceArtifactSha256: release.sourceArtifactSha256,
     queryIndexRelativePath: release.queryIndexRelativePath,
     queryIndexSha256: release.queryIndexSha256,
+    queryIndexByteLength: release.queryIndexByteLength,
   };
 }
 

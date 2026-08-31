@@ -27,6 +27,7 @@ function createCatalogDocument() {
         sourceArtifactSha256: SHA_256_A,
         queryIndexRelativePath: `releases/universal/core/20260830/${SHA_256_B}.json`,
         queryIndexSha256: SHA_256_B,
+        queryIndexByteLength: 1_024,
       },
     ],
   };

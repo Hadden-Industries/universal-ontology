@@ -1,5 +1,7 @@
 import * as z from "zod";
 
+import { MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH } from "./ontologyQueryArtifactLimits.js";
+
 const GREGORIAN_DATE_VERSION_PATTERN = /^(\d{4})(\d{2})(\d{2})$/u;
 
 export const RDF_LANG_STRING_DATATYPE_IRI =
@@ -299,6 +301,11 @@ export const OntologyQueryCatalogReleaseSchema = z.strictObject({
     .string()
     .regex(/^(?!(?:.*\/)?\.{1,2}(?:\/|$))[^/\\]+(?:\/[^/\\]+)*$/u),
   queryIndexSha256: z.string().regex(/^[0-9a-f]{64}$/u),
+  queryIndexByteLength: z
+    .number()
+    .int()
+    .positive()
+    .max(MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH),
 });
 
 export const OntologyQueryCatalogSchema = z.strictObject({

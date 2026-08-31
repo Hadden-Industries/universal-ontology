@@ -46,6 +46,7 @@ export async function createOntologyQueryArtifactHttpFixture() {
   const requestRecords = [];
   const requestCountWaiters = new Set();
   const sockets = new Set();
+  let closed = false;
 
   function notifyRequestCountWaiters() {
     for (const waiter of requestCountWaiters) {
@@ -205,6 +206,7 @@ export async function createOntologyQueryArtifactHttpFixture() {
         const waiter = {
           expectedCount,
           resolve,
+          reject,
           timeout: setTimeout(() => {
             requestCountWaiters.delete(waiter);
             reject(
@@ -219,9 +221,14 @@ export async function createOntologyQueryArtifactHttpFixture() {
     },
 
     async close() {
+      if (closed) {
+        return;
+      }
+
+      closed = true;
       for (const waiter of requestCountWaiters) {
         clearTimeout(waiter.timeout);
-        waiter.reject?.(new Error("The HTTP fixture closed."));
+        waiter.reject(new Error("The HTTP fixture closed."));
       }
       requestCountWaiters.clear();
 

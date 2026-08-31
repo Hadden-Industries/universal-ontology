@@ -66,6 +66,7 @@ export async function createInMemoryOntologyReleaseArtifact({
       sourceArtifactSha256: index.resolvedOntologyRelease.sourceArtifactSha256,
       queryIndexRelativePath,
       queryIndexSha256,
+      queryIndexByteLength: indexBytes.byteLength,
     },
     queryIndexRelativePath,
     indexBytes,
