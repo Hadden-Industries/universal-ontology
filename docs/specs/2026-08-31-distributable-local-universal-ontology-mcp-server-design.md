@@ -1,12 +1,14 @@
 # Distributable Local Universal Ontology MCP Server Design
 
-**Status:** Proposed for owner review
+**Status:** Accepted for implementation
 
 **Owner:** `universal-ontology`
 
 **Design date:** 2026-08-31
 
-**Planned implementation plan:**
+**Owner approval date:** 2026-08-31
+
+**Implementation plan:**
 `docs/plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md`
 
 **Protocol baseline:** Model Context Protocol specification `2026-07-28`
