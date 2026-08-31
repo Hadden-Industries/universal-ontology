@@ -83,6 +83,17 @@ test("renders JSON-LD and CSV for every current source and generated alias", asy
     const catalog = OntologyQueryCatalogSchema.parse(
       JSON.parse(catalogContent.toString("utf8")),
     );
+    const catalogSha256 = createHash("sha256")
+      .update(catalogContent)
+      .digest("hex");
+    expect(assets.get(`query/v1/catalogs/${catalogSha256}.json`)).toEqual(
+      catalogContent,
+    );
+    expect(
+      [...assets.keys()].some((assetPath) =>
+        assetPath.startsWith("query/v1/channels/"),
+      ),
+    ).toBe(false);
     expect(catalog.releases).toHaveLength(1);
     expect(catalog.releases[0]).toMatchObject({
       ontologyArtifactFamilyId: "universal/core",

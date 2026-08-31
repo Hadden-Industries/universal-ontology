@@ -8,7 +8,11 @@ import {
   resolveOutputPath,
 } from "./build/sourceInventory.js";
 
-async function writeReleaseIndex({ outputDirectory, relativePath, content }) {
+async function writeImmutableArtifact({
+  outputDirectory,
+  relativePath,
+  content,
+}) {
   const outputPath = resolveOutputPath(outputDirectory, relativePath);
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, content);
@@ -61,7 +65,7 @@ export async function generateOntologyQueryIndexes({
   }
 
   const { ontologySources } = await inventorySourceTree({ sourceDirectory });
-  const { catalog, artifactContentsByRelativePath } =
+  const { catalog, catalogContent, artifactContentsByRelativePath } =
     await createOntologyQueryArtifacts({
       ontologySources,
       workerCount,
@@ -75,8 +79,6 @@ export async function generateOntologyQueryIndexes({
     throw new Error("No eligible immutable ontology releases were found.");
   }
 
-  const catalogContent = artifactContentsByRelativePath.get("catalog.json");
-
   // Every immutable object is made durable before catalog publication. A
   // failure therefore leaves the preceding catalog complete and queryable.
   for (const [relativePath, content] of artifactContentsByRelativePath) {
@@ -84,7 +86,7 @@ export async function generateOntologyQueryIndexes({
       continue;
     }
 
-    await writeReleaseIndex({
+    await writeImmutableArtifact({
       outputDirectory,
       relativePath,
       content,

@@ -16,6 +16,7 @@
     "generate:jsonld": "node scripts/generateJsonLd.js --missing-only",
     "generate:jsonld:all": "node scripts/generateJsonLd.js",
     "mcp:index": "node scripts/generateOntologyQueryIndexes.js",
+    "mcp:channel:stage": "node scripts/stageOntologyQueryArtifactChannel.js",
     "mcp:serve": "node scripts/runLocalOntologyMcpServer.js",
     "mcp:dev": "node scripts/runLocalOntologyMcpServer.js --refresh-index",
     "deploy": "python scripts/upload_to_s3.py",

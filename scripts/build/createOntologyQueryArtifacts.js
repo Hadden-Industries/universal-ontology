@@ -1,16 +1,19 @@
-import { createHash } from "node:crypto";
 import { stat } from "node:fs/promises";
 import { posix } from "node:path";
 
+import {
+  calculateSha256,
+  serializeCanonicalOntologyQueryJsonDocument,
+} from "../../src/ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
 import {
   MAX_ONTOLOGY_QUERY_CATALOG_BYTE_LENGTH,
   MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH,
 } from "../../src/ontologyQuery/ontologyQueryArtifactLimits.js";
 import {
   OntologyQueryCatalogSchema,
-  OntologyReleaseQueryIndexSchema,
   deepFreeze,
 } from "../../src/ontologyQuery/ontologyQuerySchemas.js";
+import { parseOntologyReleaseQueryIndexBytes } from "../../src/ontologyQuery/ontologyQueryArtifactParsing.js";
 import { renderOntologyAssetsWithWorkers } from "./ontologyAssetWorkerPool.js";
 
 const PUBLIC_ONTOLOGY_ROOT = new URL("https://haddenindustries.com/ontology/");
@@ -19,14 +22,6 @@ const STABLE_RELEASE_NAME_PATTERN = /^\d{8}$/u;
 
 function compareBinary(left, right) {
   return left < right ? -1 : left > right ? 1 : 0;
-}
-
-function sha256(content) {
-  return createHash("sha256").update(content).digest("hex");
-}
-
-function serializeJsonDocument(document) {
-  return Buffer.from(`${JSON.stringify(document, null, 2)}\n`, "utf8");
 }
 
 function assertArtifactByteLength({
@@ -101,6 +96,9 @@ function requireMatchingReleaseIdentity(index, input) {
  * @param {boolean} [options.latestUniversalOnly=false]
  * @returns {Promise<{
  *   catalog: Readonly<object>,
+ *   catalogContent: Buffer,
+ *   catalogSha256: string,
+ *   catalogRelativePath: string,
  *   artifactContentsByRelativePath: Map<string, Buffer>
  * }>}
  */
@@ -156,49 +154,48 @@ export async function createOntologyQueryArtifacts({
     }
   }
 
-  const releaseArtifacts = renderedIndexes.map((renderedIndex, index) => {
-    const input = inputs[index];
-    const queryIndex = OntologyReleaseQueryIndexSchema.parse(
-      JSON.parse(renderedIndex.queryIndexContent.toString("utf8")),
-    );
-    requireMatchingReleaseIdentity(queryIndex, input);
-
-    const deterministicContent = serializeJsonDocument(queryIndex);
-
-    if (!deterministicContent.equals(renderedIndex.queryIndexContent)) {
-      throw new Error(
-        `Worker emitted non-canonical query-index bytes for "${input.outputPath}".`,
+  const releaseArtifacts = await Promise.all(
+    renderedIndexes.map(async (renderedIndex, index) => {
+      const input = inputs[index];
+      // The worker crosses a structured-clone boundary. Reparse its exact bytes
+      // here so schema, canonicalization, and publisher identity cannot drift.
+      const queryIndex = parseOntologyReleaseQueryIndexBytes(
+        renderedIndex.queryIndexContent,
       );
-    }
+      requireMatchingReleaseIdentity(queryIndex, input);
+      const deterministicContent = Buffer.from(
+        serializeCanonicalOntologyQueryJsonDocument(queryIndex),
+      );
 
-    assertArtifactByteLength({
-      artifactKind: `ontology release query index for "${input.outputPath}"`,
-      content: deterministicContent,
-      maximumByteLength: MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH,
-    });
+      assertArtifactByteLength({
+        artifactKind: `ontology release query index for "${input.outputPath}"`,
+        content: deterministicContent,
+        maximumByteLength: MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH,
+      });
 
-    const queryIndexSha256 = sha256(deterministicContent);
-    const queryIndexRelativePath =
-      `releases/${input.ontologyArtifactFamilyId}/${input.versionTag}/` +
-      `${queryIndexSha256}.json`;
+      const queryIndexSha256 = await calculateSha256(deterministicContent);
+      const queryIndexRelativePath =
+        `releases/${input.ontologyArtifactFamilyId}/${input.versionTag}/` +
+        `${queryIndexSha256}.json`;
 
-    return {
-      content: deterministicContent,
-      catalogRelease: {
-        ontologyArtifactFamilyId: input.ontologyArtifactFamilyId,
-        versionTag: input.versionTag,
-        latestStableRelease:
-          stableVersionByFamily.get(input.ontologyArtifactFamilyId) ===
-          input.versionTag,
-        sourceArtifactRelativePath: input.outputPath,
-        sourceArtifactUrl: input.sourceArtifactUrl,
-        sourceArtifactSha256:
-          queryIndex.resolvedOntologyRelease.sourceArtifactSha256,
-        queryIndexRelativePath,
-        queryIndexSha256,
-      },
-    };
-  });
+      return {
+        content: deterministicContent,
+        catalogRelease: {
+          ontologyArtifactFamilyId: input.ontologyArtifactFamilyId,
+          versionTag: input.versionTag,
+          latestStableRelease:
+            stableVersionByFamily.get(input.ontologyArtifactFamilyId) ===
+            input.versionTag,
+          sourceArtifactRelativePath: input.outputPath,
+          sourceArtifactUrl: input.sourceArtifactUrl,
+          sourceArtifactSha256:
+            queryIndex.resolvedOntologyRelease.sourceArtifactSha256,
+          queryIndexRelativePath,
+          queryIndexSha256,
+        },
+      };
+    }),
+  );
 
   const catalog = deepFreeze(
     OntologyQueryCatalogSchema.parse({
@@ -215,13 +212,17 @@ export async function createOntologyQueryArtifacts({
         ),
     }),
   );
-  const catalogContent = serializeJsonDocument(catalog);
+  const catalogContent = Buffer.from(
+    serializeCanonicalOntologyQueryJsonDocument(catalog),
+  );
 
   assertArtifactByteLength({
     artifactKind: "ontology query catalog",
     content: catalogContent,
     maximumByteLength: MAX_ONTOLOGY_QUERY_CATALOG_BYTE_LENGTH,
   });
+  const catalogSha256 = await calculateSha256(catalogContent);
+  const catalogRelativePath = `catalogs/${catalogSha256}.json`;
 
   const artifactContentsByRelativePath = new Map(
     releaseArtifacts.map(({ catalogRelease, content }) => [
@@ -229,9 +230,17 @@ export async function createOntologyQueryArtifacts({
       content,
     ]),
   );
-  // The catalog is inserted last to retain the publisher's durability model:
-  // immutable release bytes are always available before readers can select them.
+  // Immutable indexes precede the immutable catalog that references them. The
+  // compatibility path is last so existing readers observe the new graph only
+  // after every content-addressed object is available.
+  artifactContentsByRelativePath.set(catalogRelativePath, catalogContent);
   artifactContentsByRelativePath.set("catalog.json", catalogContent);
 
-  return { catalog, artifactContentsByRelativePath };
+  return {
+    catalog,
+    catalogContent,
+    catalogSha256,
+    catalogRelativePath,
+    artifactContentsByRelativePath,
+  };
 }

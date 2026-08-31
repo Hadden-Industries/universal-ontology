@@ -1,4 +1,5 @@
 import { OntologyQueryError } from "./ontologyQueryErrors.js";
+import { OntologyQueryChannelManifestSchema } from "./ontologyQueryChannelManifestSchemas.js";
 import {
   OntologyQueryCatalogSchema,
   OntologyReleaseQueryIndexSchema,
@@ -123,6 +124,21 @@ function rebuildOntologyQueryCatalog(document) {
   };
 }
 
+function rebuildOntologyQueryChannelManifest(document) {
+  const manifest = OntologyQueryChannelManifestSchema.parse(document);
+
+  return {
+    queryArtifactKind: manifest.queryArtifactKind,
+    queryArtifactFormatVersion: manifest.queryArtifactFormatVersion,
+    ontologyQueryArtifactChannelName: manifest.ontologyQueryArtifactChannelName,
+    ontologyQueryCatalogReference: {
+      relativePath: manifest.ontologyQueryCatalogReference.relativePath,
+      sha256: manifest.ontologyQueryCatalogReference.sha256,
+      byteLength: manifest.ontologyQueryCatalogReference.byteLength,
+    },
+  };
+}
+
 function rebuildOntologyReleaseQueryIndex(document) {
   const queryIndex = OntologyReleaseQueryIndexSchema.parse(document);
 
@@ -140,6 +156,8 @@ function rebuildOntologyReleaseQueryIndex(document) {
 
 function rebuildOntologyQueryArtifact(document) {
   switch (document?.queryArtifactKind) {
+    case "universal_ontology_query_channel_manifest":
+      return rebuildOntologyQueryChannelManifest(document);
     case "universal_ontology_query_catalog":
       return rebuildOntologyQueryCatalog(document);
     case "universal_ontology_release_query_index":

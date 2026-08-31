@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { parentPort } from "node:worker_threads";
 
 import { createOntologyReleaseQueryIndex } from "../../src/ontologyQuery/createOntologyReleaseQueryIndex.js";
+import { serializeCanonicalOntologyQueryJsonDocument } from "../../src/ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
 import { renderOntologyCsvFromJsonLd } from "../jsonLdToCsv.js";
 import {
   parseRdfXmlToQuads,
@@ -75,8 +76,7 @@ parentPort.on("message", async ({ taskId, input }) => {
         sourceArtifactSha256: createHash("sha256").update(rdfXml).digest("hex"),
       });
       const queryIndexBytes = Buffer.from(
-        `${JSON.stringify(queryIndex, null, 2)}\n`,
-        "utf8",
+        serializeCanonicalOntologyQueryJsonDocument(queryIndex),
       );
       response.queryIndexContent = createTransferableBuffer(queryIndexBytes);
       transferList.push(response.queryIndexContent);

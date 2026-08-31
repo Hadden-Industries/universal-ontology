@@ -1,5 +1,6 @@
 import { serializeCanonicalOntologyQueryJsonDocument } from "./ontologyQueryArtifactCanonicalBytes.js";
 import { OntologyQueryError } from "./ontologyQueryErrors.js";
+import { OntologyQueryChannelManifestSchema } from "./ontologyQueryChannelManifestSchemas.js";
 import {
   OntologyQueryCatalogSchema,
   OntologyReleaseQueryIndexSchema,
@@ -107,6 +108,23 @@ export function parseOntologyQueryCatalogBytes(bytes) {
       "The ontology query-index catalog schema is unsupported.",
     noncanonicalBytesMessage:
       "The ontology query-index catalog bytes are not canonical.",
+  });
+}
+
+/** Parse and freeze one canonical stable or development channel manifest. */
+export function parseOntologyQueryChannelManifestBytes(bytes) {
+  return parseCanonicalArtifactBytes({
+    bytes,
+    expectedArtifactKind: "universal_ontology_query_channel_manifest",
+    schema: OntologyQueryChannelManifestSchema,
+    invalidJsonMessage:
+      "The ontology query channel manifest is not valid UTF-8 JSON.",
+    unsupportedFormatMessage:
+      "The ontology query channel-manifest format is unsupported.",
+    unsupportedSchemaMessage:
+      "The ontology query channel-manifest schema is unsupported.",
+    noncanonicalBytesMessage:
+      "The ontology query channel-manifest bytes are not canonical.",
   });
 }
 

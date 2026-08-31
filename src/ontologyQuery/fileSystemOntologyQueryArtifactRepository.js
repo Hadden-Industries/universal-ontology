@@ -1,7 +1,7 @@
 import { lstat, readFile, realpath } from "node:fs/promises";
 import { resolve, sep } from "node:path";
 
-import { parseContainedOntologyReleaseIndexRelativePath } from "./ontologyReleaseIndexRelativePath.js";
+import { parseContainedOntologyQueryArtifactRelativePath } from "./ontologyQueryArtifactRelativePath.js";
 
 function throwIfAborted(signal) {
   signal?.throwIfAborted();
@@ -25,7 +25,7 @@ export function createFileSystemOntologyQueryArtifactRepository({ queryRoot }) {
   async function readContainedFile(relativePath, { signal } = {}) {
     throwIfAborted(signal);
     const segments =
-      parseContainedOntologyReleaseIndexRelativePath(relativePath);
+      parseContainedOntologyQueryArtifactRelativePath(relativePath);
     const targetPath = resolve(absoluteQueryRoot, ...segments);
     const rootPrefix = `${absoluteQueryRoot}${sep}`;
 

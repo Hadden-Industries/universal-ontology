@@ -9,9 +9,9 @@ import {
   MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH,
 } from "./ontologyQueryArtifactLimits.js";
 import {
-  ONTOLOGY_RELEASE_INDEX_RELATIVE_PATH_ERROR_MESSAGE,
-  parseContainedOntologyReleaseIndexRelativePath,
-} from "./ontologyReleaseIndexRelativePath.js";
+  ONTOLOGY_QUERY_ARTIFACT_RELATIVE_PATH_ERROR_MESSAGE,
+  parseContainedOntologyQueryArtifactRelativePath,
+} from "./ontologyQueryArtifactRelativePath.js";
 
 const EXPECTED_ORIGIN_ERROR_MESSAGE =
   "expectedOrigin must be a canonical HTTP(S) origin string.";
@@ -182,12 +182,13 @@ function parseOntologyQueryRoot(ontologyQueryRootIri, expectedOrigin) {
 }
 
 function parseFetchRelativePath(relativePath) {
-  const segments = parseContainedOntologyReleaseIndexRelativePath(relativePath);
+  const segments =
+    parseContainedOntologyQueryArtifactRelativePath(relativePath);
 
   // The filesystem vocabulary may legitimately contain these characters, but
   // Fetch must reject them before URL parsing can decode or reinterpret them.
   if (/[%?#]/u.test(relativePath)) {
-    throw new TypeError(ONTOLOGY_RELEASE_INDEX_RELATIVE_PATH_ERROR_MESSAGE);
+    throw new TypeError(ONTOLOGY_QUERY_ARTIFACT_RELATIVE_PATH_ERROR_MESSAGE);
   }
 
   return segments.join("/");
@@ -223,7 +224,7 @@ export function createFetchOntologyQueryArtifactRepository({
       artifactUrl.origin !== canonicalExpectedOrigin ||
       !artifactUrl.pathname.startsWith(ontologyQueryRootUrl.pathname)
     ) {
-      throw new TypeError(ONTOLOGY_RELEASE_INDEX_RELATIVE_PATH_ERROR_MESSAGE);
+      throw new TypeError(ONTOLOGY_QUERY_ARTIFACT_RELATIVE_PATH_ERROR_MESSAGE);
     }
 
     const response = await fetchImplementation(artifactUrl.href, {
