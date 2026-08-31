@@ -2,6 +2,10 @@
 r"""
 Synchronize repo-local Agent Skills from the standard npx-skills project lock.
 
+EXPECTED LOCATION
+-----------------
+    <repo>/<scripts>/set_up_agent_skills.py
+
 Expected repository layout:
 
     <repo>/
@@ -9,29 +13,35 @@ Expected repository layout:
     └── <scripts>/
         └── set_up_agent_skills.py
 
+`<scripts>` is whatever directory one level below the repository root holds this
+file; its name is never inspected, so `scripts/`, `util/` and anything else work
+identically.
+
 Commit both files. Generated activation directories should be Git-ignored:
 
     .agents/skills/
     .claude/skills/
 
-The script introduces no custom manifest or schema. `skills-lock.json` v1 is
-the existing project lock format written by the `skills` CLI.
+The script introduces no custom manifest or schema. `skills-lock.json` v1 is the
+existing project lock format written by the `skills` CLI, so the declared set of
+skills lives in one place instead of being duplicated between a lock file and a
+hardcoded list of install commands.
 
 Default targets: codex, antigravity, claude-code.
 
 Rerunning this script is the update operation. It explicitly re-adds each
-declared skill from its recorded source using `skills@latest`. Skills sharing
-a source are re-added in a single invocation, because `skills add` clones the
-whole source repository once per call.
+declared skill from its recorded source using `skills@latest`. Skills sharing a
+source are re-added in a single invocation, because `skills add` clones the whole
+source repository once per call.
 
 For upstream suites that reference a sibling `../_shared/`, the script detects
-that dependency, vendors the source `_shared` directory into the generated
-skill at `references/_shared/`, and rewrites the generated references. This
-makes selected bundle modules self-contained and avoids `_shared` collisions.
+that dependency, vendors the source `_shared` directory into the generated skill
+at `references/_shared/`, and rewrites the generated references. This makes
+selected bundle modules self-contained and avoids `_shared` collisions.
 
-That vendoring step reads upstream through a shallow, blobless, cone-mode
-sparse checkout restricted to the `_shared` directories actually needed, so a
-large suite repository is never materialized in full. Requires Git 2.25+.
+That vendoring step reads upstream through a shallow, blobless, cone-mode sparse
+checkout restricted to the `_shared` directories actually needed, so a large
+suite repository is never materialized in full. Requires Git 2.25+.
 """
 
 from __future__ import annotations
@@ -40,7 +50,6 @@ import argparse
 import hashlib
 import json
 import os
-import re
 import shutil
 import subprocess
 import sys
@@ -49,6 +58,8 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
 from urllib.parse import urlsplit, urlunsplit
 
+from _commands import SetupError, require_command, run
+from _repository import derive_repo_from_script, is_ignored, tracked_paths_under
 
 LOCK_FILENAME = "skills-lock.json"
 SUPPORTED_LOCK_VERSION = 1
@@ -64,29 +75,18 @@ AGENT_SKILL_ROOTS = {
 SHARED_REFERENCE = "../_shared"
 VENDORED_SHARED_REFERENCE = "references/_shared"
 
+BROOKS_REVIEW_SKILL = "brooks-review"
+BROOKS_REVIEW_SOURCE = "hyhmrright/brooks-lint"
+BROOKS_REVIEW_OPENAI_YAML = """interface:
+  display_name: "Brooks Review"
+  short_description: "Maintainability and design-decay review"
+  default_prompt: >
+    Use $brooks-review as a separate maintainability-focused review of the
+    scope I explicitly provide.
 
-class SetupError(RuntimeError):
-    """A safe, actionable setup failure."""
-
-
-def run(
-    args: Iterable[object],
-    *,
-    cwd: Path | None = None,
-    capture: bool = False,
-    check: bool = True,
-    env: dict[str, str] | None = None,
-) -> subprocess.CompletedProcess[str]:
-    command = [str(arg) for arg in args]
-    print(f"> {subprocess.list2cmdline(command)}")
-    return subprocess.run(
-        command,
-        cwd=str(cwd) if cwd else None,
-        text=True,
-        capture_output=capture,
-        check=check,
-        env=env,
-    )
+policy:
+  allow_implicit_invocation: false
+"""
 
 
 def lf_git_environment() -> dict[str, str]:
@@ -94,8 +94,8 @@ def lf_git_environment() -> dict[str, str]:
     Return a child-process environment that forces Git checkouts to retain LF.
 
     npx-skills currently hashes the checked-out skill contents in its project
-    lock. Inheriting a user's Windows core.autocrlf=true can therefore produce
-    a different computedHash from an otherwise identical Unix checkout.
+    lock. Inheriting a user's Windows core.autocrlf=true can therefore produce a
+    different computedHash from an otherwise identical Unix checkout.
 
     Git's GIT_CONFIG_COUNT/KEY/VALUE mechanism scopes the override to this
     process tree and does not mutate user, system, or repository Git config.
@@ -117,54 +117,12 @@ def lf_git_environment() -> dict[str, str]:
     return env
 
 
-def require_command(name: str) -> str:
-    path = shutil.which(name)
-    if not path:
-        raise SetupError(f"Required command not found on PATH: {name}")
-    return path
-
-
 def require_python_version() -> None:
     if sys.version_info < (3, 10):
         raise SetupError(
             "Python 3.10 or newer is required. "
             f"Running: {sys.version.split()[0]}"
         )
-
-
-def git_output(repo: Path, *args: str) -> str:
-    result = run(
-        (require_command("git"), "-C", repo, *args),
-        capture=True,
-    )
-    return result.stdout.strip()
-
-
-def derive_repo_from_script() -> Path:
-    """Derive <repo> from <repo>/<scripts>/set_up_agent_skills.py."""
-    script_path = Path(__file__).resolve()
-
-    expected_repo = script_path.parent.parent.resolve()
-
-    try:
-        actual_repo = Path(
-            git_output(expected_repo, "rev-parse", "--show-toplevel")
-        ).resolve()
-    except subprocess.CalledProcessError as exc:
-        raise SetupError(
-            f"The directory above `<scripts>/` is not a Git repository: "
-            f"{expected_repo}"
-        ) from exc
-
-    if actual_repo != expected_repo:
-        raise SetupError(
-            "The directory above `<scripts>/` is not exactly the Git repository "
-            "root.\n"
-            f"From script location: {expected_repo}\n"
-            f"Git repository root: {actual_repo}"
-        )
-
-    return actual_repo
 
 
 def load_lock(repo: Path) -> tuple[Path, dict[str, Any], bytes]:
@@ -216,16 +174,13 @@ def validate_lock_entry(skill_name: object, entry: object) -> None:
         raise SetupError("Every skills-lock.json skill key must be non-empty.")
 
     if not isinstance(entry, dict):
-        raise SetupError(
-            f"Lock entry for {skill_name!r} must be a JSON object."
-        )
+        raise SetupError(f"Lock entry for {skill_name!r} must be a JSON object.")
 
     for field in ("source", "sourceType", "computedHash"):
         value = entry.get(field)
         if not isinstance(value, str) or not value:
             raise SetupError(
-                f"Lock entry {skill_name!r} requires non-empty string "
-                f"`{field}`."
+                f"Lock entry {skill_name!r} requires non-empty string `{field}`."
             )
 
     for field in ("sourceUrl", "ref", "skillPath", "wellKnownDigest"):
@@ -242,8 +197,8 @@ def validate_lock_entry(skill_name: object, entry: object) -> None:
         or not all(isinstance(item, str) for item in subagents)
     ):
         raise SetupError(
-            f"Lock entry {skill_name!r} field `subagents` must be an array "
-            "of strings when present."
+            f"Lock entry {skill_name!r} field `subagents` must be an array of "
+            "strings when present."
         )
 
 
@@ -258,44 +213,25 @@ def selected_roots(repo: Path, agents: tuple[str, ...]) -> tuple[Path, ...]:
     return tuple(roots)
 
 
-def ensure_generated_roots_are_safe(
-    repo: Path,
-    roots: tuple[Path, ...],
-) -> None:
+def ensure_generated_roots_are_safe(repo: Path, roots: tuple[Path, ...]) -> None:
     """
     Require generated roots to be untracked and ignored before rebuilding them.
     """
     for root in roots:
         relative = root.relative_to(repo).as_posix()
 
-        tracked = git_output(repo, "ls-files", "--", relative)
+        tracked = tracked_paths_under(repo, relative)
         if tracked:
-            rendered = "\n".join(
-                f"  - {line}" for line in tracked.splitlines() if line
-            )
+            rendered = "\n".join(f"  - {line}" for line in tracked)
             raise SetupError(
                 f"Refusing to manage {relative}: Git tracks files underneath "
                 f"it:\n{rendered}\n"
-                "These activation directories must contain generated files "
-                "only."
+                "These activation directories must contain generated files only."
             )
 
         probe = f"{relative}/.set_up_agent_skills_ignore_probe"
-        result = run(
-            (
-                require_command("git"),
-                "-C",
-                repo,
-                "check-ignore",
-                "--quiet",
-                "--no-index",
-                "--",
-                probe,
-            ),
-            check=False,
-        )
 
-        if result.returncode != 0:
+        if not is_ignored(repo, probe):
             suggested = (
                 ".agents/skills/"
                 if relative == ".agents/skills"
@@ -352,8 +288,8 @@ def get_install_source(entry: dict[str, Any]) -> str:
     """
     Reconstruct a safe source argument from the standard lock entry.
 
-    The explicit --skill filter keeps updates name-scoped, so skillPath does
-    not need to be appended here.
+    The explicit --skill filter keeps updates name-scoped, so skillPath does not
+    need to be appended here.
     """
     source_type = entry["sourceType"]
     source_url = entry.get("sourceUrl")
@@ -406,13 +342,7 @@ def sync_source(
     skill_names: tuple[str, ...],
     agents: tuple[str, ...],
 ) -> None:
-    command: list[str] = [
-        npx,
-        "--yes",
-        "skills@latest",
-        "add",
-        source,
-    ]
+    command: list[str] = [npx, "--yes", "skills@latest", "add", source]
 
     for skill_name in skill_names:
         command.extend(("--skill", skill_name))
@@ -423,11 +353,7 @@ def sync_source(
     # This --yes belongs to the skills CLI; the earlier one belongs to npx.
     command.append("--yes")
 
-    run(
-        command,
-        cwd=repo,
-        env=lf_git_environment(),
-    )
+    run(command, cwd=repo, env=lf_git_environment())
 
 
 def verify_skill_present(
@@ -467,9 +393,7 @@ def contains_shared_reference(skill_dir: Path) -> bool:
             if needle in path.read_bytes():
                 return True
         except OSError as exc:
-            raise SetupError(
-                f"Could not inspect installed file: {path}"
-            ) from exc
+            raise SetupError(f"Could not inspect installed file: {path}") from exc
 
     return False
 
@@ -502,6 +426,58 @@ def unique_installed_skill_dirs(
     return tuple(directories)
 
 
+def configure_brooks_review_invocation_policy(
+    repo: Path,
+    skills: dict[str, dict[str, Any]],
+    agents: tuple[str, ...],
+) -> tuple[Path, ...]:
+    """Make the upstream Brooks Review skill explicit-only for Codex."""
+    entry = skills.get(BROOKS_REVIEW_SKILL)
+
+    if entry is None or entry.get("source") != BROOKS_REVIEW_SOURCE:
+        return ()
+
+    configured: list[Path] = []
+
+    for skill_dir in unique_installed_skill_dirs(
+        repo,
+        BROOKS_REVIEW_SKILL,
+        agents,
+    ):
+        metadata = skill_dir / "agents" / "openai.yaml"
+        resolved_metadata = metadata.resolve(strict=False)
+
+        try:
+            resolved_metadata.relative_to(skill_dir)
+        except ValueError as exc:
+            raise SetupError(
+                "Refusing to configure Brooks Review metadata outside its "
+                f"installed skill directory:\n  {resolved_metadata}"
+            ) from exc
+
+        if metadata.is_symlink():
+            raise SetupError(
+                "Refusing to replace symlinked Brooks Review metadata:\n"
+                f"  {metadata}"
+            )
+
+        if metadata.exists() and not metadata.is_file():
+            raise SetupError(
+                "Brooks Review metadata path is not a regular file:\n"
+                f"  {metadata}"
+            )
+
+        metadata.parent.mkdir(parents=True, exist_ok=True)
+        metadata.write_text(
+            BROOKS_REVIEW_OPENAI_YAML,
+            encoding="utf-8",
+            newline="\n",
+        )
+        configured.append(metadata)
+
+    return tuple(configured)
+
+
 def clone_url_for_entry(
     entry: dict[str, Any],
     repo: Path,
@@ -525,10 +501,7 @@ def clone_url_for_entry(
         return "", local
 
     if source_type == "github" and is_bare_shorthand(source):
-        return (
-            f"https://github.com/{source.removesuffix('.git')}.git",
-            None,
-        )
+        return f"https://github.com/{source.removesuffix('.git')}.git", None
 
     candidate = source_url or source
 
@@ -548,9 +521,7 @@ def clone_url_for_entry(
         if host == "gitlab.com" and ".git" in parts.path:
             clean_path = parts.path.split(".git", 1)[0] + ".git"
             return (
-                urlunsplit(
-                    (parts.scheme, parts.netloc, clean_path, "", "")
-                ),
+                urlunsplit((parts.scheme, parts.netloc, clean_path, "", "")),
                 None,
             )
 
@@ -571,6 +542,7 @@ def clone_url_for_entry(
 def source_cache_key(entry: dict[str, Any], repo: Path) -> str:
     clone_url, local_path = clone_url_for_entry(entry, repo)
     identity = str(local_path) if local_path else clone_url
+
     return f"{identity}#{entry.get('ref') or ''}"
 
 
@@ -583,14 +555,14 @@ def checkout_remote_source(
     """
     Materialize only the source directories this script actually reads.
 
-    The script needs a handful of `_shared` directories, so a full checkout of
-    a large suite repository is wasted transfer and wasted working-tree writes.
-    Cone-mode sparse checkout limits the working tree to `sparse_paths` (plus
-    the files sitting directly in their parent directories), and the blobless
-    partial fetch limits transfer to the objects those paths need.
+    The script needs a handful of `_shared` directories, so a full checkout of a
+    large suite repository is wasted transfer and wasted working-tree writes.
+    Cone-mode sparse checkout limits the working tree to `sparse_paths` (plus the
+    files sitting directly in their parent directories), and the blobless partial
+    fetch limits transfer to the objects those paths need.
 
-    Servers without partial-clone support warn and send an ordinary shallow
-    pack; the sparse working tree is unaffected. Requires Git 2.25+ for
+    Servers without partial-clone support warn and send an ordinary shallow pack;
+    the sparse working tree is unaffected. Requires Git 2.25+ for
     `git sparse-checkout`.
     """
     if not sparse_paths:
@@ -604,18 +576,9 @@ def checkout_remote_source(
     destination.mkdir(parents=True, exist_ok=False)
 
     run((git, "init", destination), env=git_env)
-    run(
-        (git, "-C", destination, "remote", "add", "origin", clone_url),
-        env=git_env,
-    )
-    run(
-        (git, "-C", destination, "sparse-checkout", "init", "--cone"),
-        env=git_env,
-    )
-    run(
-        (git, "-C", destination, "sparse-checkout", "set", *sparse_paths),
-        env=git_env,
-    )
+    run((git, "-C", destination, "remote", "add", "origin", clone_url), env=git_env)
+    run((git, "-C", destination, "sparse-checkout", "init", "--cone"), env=git_env)
+    run((git, "-C", destination, "sparse-checkout", "set", *sparse_paths), env=git_env)
     run(
         (
             git,
@@ -633,17 +596,7 @@ def checkout_remote_source(
         ),
         env=git_env,
     )
-    run(
-        (
-            git,
-            "-C",
-            destination,
-            "checkout",
-            "--detach",
-            "FETCH_HEAD",
-        ),
-        env=git_env,
-    )
+    run((git, "-C", destination, "checkout", "--detach", "FETCH_HEAD"), env=git_env)
 
     return destination
 
@@ -676,6 +629,7 @@ def source_root_for_entry(
         checkout,
     )
     cache[key] = root
+
     return root
 
 
@@ -692,8 +646,8 @@ def shared_dir_relative(
 
     if not raw:
         raise SetupError(
-            f"Skill {skill_name!r} references `{SHARED_REFERENCE}` but its "
-            "lock entry has no `skillPath`. Re-add it with the current "
+            f"Skill {skill_name!r} references `{SHARED_REFERENCE}` but its lock "
+            "entry has no `skillPath`. Re-add it with the current "
             "`skills@latest` CLI to refresh the lock entry."
         )
 
@@ -743,10 +697,7 @@ def rewrite_shared_references(skill_dir: Path) -> int:
                 f"{path}"
             ) from exc
 
-        updated = text.replace(
-            SHARED_REFERENCE,
-            VENDORED_SHARED_REFERENCE,
-        )
+        updated = text.replace(SHARED_REFERENCE, VENDORED_SHARED_REFERENCE)
 
         if updated != text:
             path.write_text(updated, encoding="utf-8", newline="\n")
@@ -768,11 +719,7 @@ def vendor_shared_resources(
         shutil.rmtree(destination)
 
     destination.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(
-        shared_source_dir,
-        destination,
-        symlinks=False,
-    )
+    shutil.copytree(shared_source_dir, destination, symlinks=False)
 
     changed = rewrite_shared_references(installed_skill_dir)
 
@@ -795,8 +742,8 @@ def plan_sparse_paths(
 
     A single checkout is cached and reused across all skills declared from the
     same source and ref, so its sparse patterns have to be complete before the
-    first fetch. Planning up front also fails on an unusable `skillPath`
-    before any network work is done.
+    first fetch. Planning up front also fails on an unusable `skillPath` before
+    any network work is done.
     """
     grouped: dict[str, set[str]] = {}
 
@@ -819,11 +766,7 @@ def repair_non_self_contained_skills(
     candidates: list[str] = []
 
     for skill_name in sorted(skills):
-        physical_dirs = unique_installed_skill_dirs(
-            repo,
-            skill_name,
-            agents,
-        )
+        physical_dirs = unique_installed_skill_dirs(repo, skill_name, agents)
         if any(contains_shared_reference(path) for path in physical_dirs):
             candidates.append(skill_name)
 
@@ -864,10 +807,7 @@ def repair_non_self_contained_skills(
                 skill_name,
                 agents,
             ):
-                changed = vendor_shared_resources(
-                    installed_dir,
-                    shared_source,
-                )
+                changed = vendor_shared_resources(installed_dir, shared_source)
                 print(
                     f"  {skill_name}: vendored `_shared` as "
                     f"{installed_dir.relative_to(repo)}/references/_shared "
@@ -903,9 +843,7 @@ def verify_final_state(
             if missing:
                 details.append("missing=" + ", ".join(sorted(missing)))
             if unexpected:
-                details.append(
-                    "unexpected=" + ", ".join(sorted(unexpected))
-                )
+                details.append("unexpected=" + ", ".join(sorted(unexpected)))
 
             raise SetupError(
                 f"Generated root {relative_root} does not match "
@@ -913,15 +851,11 @@ def verify_final_state(
             )
 
         print(
-            f"  OK  {relative_root}: "
-            f"{len(declared_skills)} declared skill(s)"
+            f"  OK  {relative_root}: {len(declared_skills)} declared skill(s)"
         )
 
 
-def verify_lock_skill_set_unchanged(
-    repo: Path,
-    expected_skills: set[str],
-) -> None:
+def verify_lock_skill_set_unchanged(repo: Path, expected_skills: set[str]) -> None:
     _, current, _ = load_lock(repo)
     actual = set(current["skills"])
 
@@ -931,6 +865,75 @@ def verify_lock_skill_set_unchanged(
             f"Before: {', '.join(sorted(expected_skills))}\n"
             f"After:  {', '.join(sorted(actual))}"
         )
+
+
+def ensure_agent_skills(repo: Path, agents: tuple[str, ...]) -> set[str]:
+    """
+    Rebuild every declared skill's activation view from its recorded source.
+
+    Returns the declared skill names, so a caller sequencing several setup steps
+    can report them without re-reading the lock.
+    """
+    require_python_version()
+    require_command("git")
+    npx = require_command("npx")
+
+    lock_path, lock_before, raw_before = load_lock(repo)
+    declared_skills = set(lock_before["skills"])
+
+    print("\n== Repository-local Agent Skills ==")
+    print(f"Declaration: {lock_path}")
+    print(f"Target agents: {', '.join(agents)}")
+    print(f"Declared skills: {len(declared_skills)}")
+
+    roots = selected_roots(repo, agents)
+    ensure_generated_roots_are_safe(repo, roots)
+    reset_generated_roots(repo, roots)
+
+    print("\n== Synchronize declared skills from current upstream ==")
+
+    by_source = group_skills_by_install_source(lock_before["skills"])
+    print(f"Source checkouts required: {len(by_source)}")
+
+    for source, skill_names in sorted(by_source.items()):
+        print(f"\n-- {source}: {', '.join(skill_names)} --")
+        sync_source(repo, npx, source, skill_names, agents)
+
+        for skill_name in skill_names:
+            verify_skill_present(repo, skill_name, agents)
+
+    verify_lock_skill_set_unchanged(repo, declared_skills)
+
+    repair_non_self_contained_skills(repo, lock_before, agents)
+
+    print("\n== Codex skill invocation policies ==")
+    configured_metadata = configure_brooks_review_invocation_policy(
+        repo,
+        lock_before["skills"],
+        agents,
+    )
+
+    if configured_metadata:
+        for metadata in configured_metadata:
+            print(
+                "  brooks-review: disabled implicit invocation in "
+                f"{metadata.relative_to(repo)}"
+            )
+    else:
+        print("No repository-specific invocation policies required.")
+
+    verify_final_state(repo, declared_skills, agents)
+
+    if lock_path.read_bytes() != raw_before:
+        print(
+            f"\nNOTE: `npx skills` updated {LOCK_FILENAME} while refreshing "
+            "upstream content.\n      Review and commit that diff if it "
+            "represents the state you want the\n      repository to declare."
+        )
+    else:
+        print(f"\n{LOCK_FILENAME} did not change.")
+
+    return declared_skills
 
 
 def parse_args() -> argparse.Namespace:
@@ -950,6 +953,7 @@ def parse_args() -> argparse.Namespace:
             "antigravity, claude-code."
         ),
     )
+
     return parser.parse_args()
 
 
@@ -957,47 +961,12 @@ def main() -> int:
     args = parse_args()
 
     try:
-        require_python_version()
-        require_command("git")
-        npx = require_command("npx")
-
-        repo = derive_repo_from_script()
+        repo = derive_repo_from_script(__file__)
         agents = tuple(dict.fromkeys(args.agents or DEFAULT_AGENTS))
 
-        lock_path, lock_before, raw_before = load_lock(repo)
-        declared_skills = set(lock_before["skills"])
+        print(f"Repository root: {repo}")
 
-        print(f"Repository: {repo}")
-        print(f"Declaration: {lock_path}")
-        print(f"Target agents: {', '.join(agents)}")
-        print(f"Declared skills: {len(declared_skills)}")
-
-        roots = selected_roots(repo, agents)
-        ensure_generated_roots_are_safe(repo, roots)
-        reset_generated_roots(repo, roots)
-
-        print("\n== Synchronize declared skills from current upstream ==")
-
-        by_source = group_skills_by_install_source(lock_before["skills"])
-        print(f"Source checkouts required: {len(by_source)}")
-
-        for source, skill_names in sorted(by_source.items()):
-            print(f"\n-- {source}: {', '.join(skill_names)} --")
-            sync_source(repo, npx, source, skill_names, agents)
-
-            for skill_name in skill_names:
-                verify_skill_present(repo, skill_name, agents)
-
-        verify_lock_skill_set_unchanged(repo, declared_skills)
-
-        repair_non_self_contained_skills(
-            repo,
-            lock_before,
-            agents,
-        )
-        verify_final_state(repo, declared_skills, agents)
-
-        raw_after = lock_path.read_bytes()
+        ensure_agent_skills(repo, agents)
 
         print("\nAgent Skill setup is complete.")
         print(
@@ -1005,19 +974,11 @@ def main() -> int:
             "current upstream sources."
         )
 
-        if raw_after != raw_before:
-            print(
-                "\nNOTE: `npx skills` updated skills-lock.json while "
-                "refreshing upstream content. Review and commit that diff if "
-                "it represents the state you want the repository to declare."
-            )
-        else:
-            print("\nskills-lock.json did not change.")
-
         return 0
 
     except (SetupError, subprocess.CalledProcessError, OSError) as exc:
         print(f"\nERROR: {exc}", file=sys.stderr)
+
         return 1
 
 
