@@ -171,16 +171,16 @@ plan authorizes exactly these changes during implementation. If implementation
 discovers another configuration file or materially different setting, amend
 and review the plan before editing it.
 
-| File                                                          | Exact planned settings                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Behavioral and pipeline effect                                                                                                                                                                                                        |
-| ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `package.json`                                                | Add `workspaces: ["packages/universal-ontology-mcp-server"]`; exact dev dependencies `ajv: "8.17.1"`, `ajv-formats: "3.0.1"`, `esbuild: "0.28.2"`, `tar: "7.5.22"`, `yaml: "2.9.0"`, `yazl: "3.3.1"`, and `yauzl: "3.4.0"`; add the `mcp:stdio`, `mcp:channel:stage`, `mcp:package:build`, `mcp:package:pack`, `mcp:archives:build`, `mcp:sbom:create`, and `mcp:release:verify` scripts specified below; include root `package.json`, `packages/universal-ontology-mcp-server`, `server.json`, `scripts/distribution/*.json`, and `docs/mcp/*.md` in the existing narrow Prettier commands. | Gives npm one public workspace, offline Registry-schema/workflow validation, reproducible packaging tools, named local/release entry points, and formatting coverage. Root stays `private: true`; ontology dependencies remain exact. |
-| `package-lock.json`                                           | Regenerate with the repository npm version after the workspace and seven exact dev dependencies are added; retain lockfile version 3 and exact resolved integrity data.                                                                                                                                                                                                                                                                                                                                                                                                                      | Makes `npm ci` reproduce the workspace, schema/workflow validators, and packaging toolchain.                                                                                                                                          |
-| `eslint.config.js`                                            | Add a later override with Node globals and ECMAScript 2025 for `src/mcp/runUniversalOntologyMcpStdioServer.js`, `src/mcp/universalOntologyMcpStdioConfiguration.js`, `src/mcp/universalOntologyMcpOperationalEvents.js`, and the Node filesystem/HTTP cache adapters named by this plan. Do not broaden browser globals for other source files.                                                                                                                                                                                                                                              | Lets Node-only source use `process` and platform APIs without weakening the browser boundary.                                                                                                                                         |
-| `packages/universal-ontology-mcp-server/package.json`         | Create public package `universal-ontology-mcp-server` version `1.0.0`, `type: "module"`, `bin.universal-ontology-mcp-server: "dist/universal-ontology-mcp-server.mjs"`, explicit `files`, `engines.node: ">=24.0.0"`, `mcpName: "io.github.hadden-industries/universal-ontology"`, `publishConfig.access: "public"`, `publishConfig.provenance: true`, MIT license, repository/homepage/bugs metadata, and a `prepack` script that builds the canonical bundle. It has no runtime dependencies because the allowlisted dependencies are bundled.                                             | Defines the npm installation and Registry ownership contract without publishing ontology data.                                                                                                                                        |
-| `server.json`                                                 | Create Registry schema `https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json`; name `io.github.hadden-industries/universal-ontology`; title `Universal Ontology`; version `1.0.0`; GitHub repository; npm and OCI package records; `stdio` transport only.                                                                                                                                                                                                                                                                                                           | Makes the already-published package/image discoverable. It does not host bytes or execute requests.                                                                                                                                   |
-| `scripts/distribution/universalOntologyMcpReleaseInputs.json` | Create a strict, versioned release-input document containing Node `24.20.0`, the five official runtime archive URLs and SHA-256 values in section 6, the pinned OCI base index digest, MCP Publisher `1.7.9` download/checksum, release target names, archive formats, runner labels, executable paths, and application/runtime byte allowlists.                                                                                                                                                                                                                                             | Centralizes supply-chain identities and prevents workflow/build-script drift.                                                                                                                                                         |
-| `packages/universal-ontology-mcp-server/Dockerfile`           | Create a multi-platform `stdio` image from `node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e`; copy only the built bundle and notices; label `io.modelcontextprotocol.server.name=io.github.hadden-industries/universal-ontology`; run as UID/GID 1000 (`node`); set the bundle as the exec-form entry point; expose no port.                                                                                                                                                                                                              | Produces a non-root local container with stdin/stdout protocol and a mountable persistent cache.                                                                                                                                      |
-| `.github/workflows/release-universal-ontology-mcp-server.yml` | Create path-scoped pull-request/branch validation plus tag-triggered release for `universal-ontology-mcp-server-v*`; validate the tag in code; use Node `24.20.0`; use the five-runner archive matrix; pin every action to the full SHA in section 6; give each job only its named permissions; use protected `npm-publish` and `mcp-registry-publish` environments; publish npm with trusted OIDC, GHCR with `GITHUB_TOKEN`, attest artifacts, create a draft release, publish it only after complete checks, and publish Registry metadata last.                                           | Adds continuous distribution validation and resumable, least-privilege publication. No workflow runs during local implementation unless a commit is later pushed by the owner.                                                        |
+| File                                                          | Exact planned settings                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Behavioral and pipeline effect                                                                                                                                                                                                                                                       |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `package.json`                                                | Add `packageManager: "npm@12.0.2"` and `workspaces: ["packages/universal-ontology-mcp-server"]`; exact dev dependencies `ajv: "8.20.0"`, `ajv-formats: "3.0.1"`, `esbuild: "0.28.2"`, `tar: "7.5.22"`, `yaml: "2.9.0"`, `yazl: "3.3.1"`, and `yauzl: "3.4.0"`; add the `mcp:stdio`, `mcp:channel:stage`, `mcp:package:build`, `mcp:package:pack`, `mcp:archives:build`, `mcp:sbom:create`, and `mcp:release:verify` scripts specified below; include root `package.json`, `packages/universal-ontology-mcp-server`, `server.json`, `scripts/distribution/*.json`, and `docs/mcp/*.md` in the existing narrow Prettier commands.                                                     | Gives npm one public workspace, declares one exact build/package CLI, provides offline Registry-schema/workflow validation, reproducible packaging tools, named local/release entry points, and formatting coverage. Root stays `private: true`; ontology dependencies remain exact. |
+| `package-lock.json`                                           | Regenerate with npm `12.0.2` after the workspace and seven exact dev dependencies are added; retain lockfile version 3 and exact resolved integrity data.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Makes `npm ci` under the selected npm CLI reproduce the workspace, schema/workflow validators, and packaging toolchain.                                                                                                                                                              |
+| `eslint.config.js`                                            | Add a later override with Node globals and ECMAScript 2025 for `src/mcp/runUniversalOntologyMcpStdioServer.js`, `src/mcp/universalOntologyMcpStdioConfiguration.js`, `src/mcp/universalOntologyMcpOperationalEvents.js`, and the Node filesystem/HTTP cache adapters named by this plan. Do not broaden browser globals for other source files.                                                                                                                                                                                                                                                                                                                                     | Lets Node-only source use `process` and platform APIs without weakening the browser boundary.                                                                                                                                                                                        |
+| `packages/universal-ontology-mcp-server/package.json`         | Create public package `universal-ontology-mcp-server` version `1.0.0`, `type: "module"`, `bin.universal-ontology-mcp-server: "dist/universal-ontology-mcp-server.mjs"`, explicit `files`, `engines.node: ">=24.0.0"`, `mcpName: "io.github.hadden-industries/universal-ontology"`, `publishConfig.access: "public"`, `publishConfig.provenance: true`, MIT license, repository/homepage/bugs metadata, and a `prepack` script that builds the canonical bundle. It has no runtime dependencies because the allowlisted dependencies are bundled.                                                                                                                                    | Defines the npm installation and Registry ownership contract without publishing ontology data.                                                                                                                                                                                       |
+| `server.json`                                                 | Create Registry schema `https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json`; name `io.github.hadden-industries/universal-ontology`; title `Universal Ontology`; version `1.0.0`; GitHub repository; npm and OCI package records; `stdio` transport only.                                                                                                                                                                                                                                                                                                                                                                                                  | Makes the already-published package/image discoverable. It does not host bytes or execute requests.                                                                                                                                                                                  |
+| `scripts/distribution/universalOntologyMcpReleaseInputs.json` | Create a strict, versioned release-input document containing Node `24.20.0`, selected npm CLI `12.0.2`, the five official runtime archive URLs and SHA-256 values in section 6, the pinned OCI base index digest, MCP Publisher `1.8.1` download/checksum, release target names, archive formats, runner labels, executable paths, and application/runtime byte allowlists.                                                                                                                                                                                                                                                                                                         | Centralizes supply-chain identities and prevents workflow/build-script drift.                                                                                                                                                                                                        |
+| `packages/universal-ontology-mcp-server/Dockerfile`           | Create a multi-platform `stdio` image from `node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e`; copy only the built bundle and notices; label `io.modelcontextprotocol.server.name=io.github.hadden-industries/universal-ontology`; run as UID/GID 1000 (`node`); set the bundle as the exec-form entry point; expose no port.                                                                                                                                                                                                                                                                                                     | Produces a non-root local container with stdin/stdout protocol and a mountable persistent cache.                                                                                                                                                                                     |
+| `.github/workflows/release-universal-ontology-mcp-server.yml` | Create path-scoped pull-request/branch validation plus tag-triggered release for `universal-ontology-mcp-server-v*`; validate the tag in code; use Node `24.20.0`; after every `setup-node` invocation install npm `12.0.2` globally and assert the exact `npm --version` before any npm operation; use the five-runner archive matrix; pin every action to the full SHA in section 6; give each job only its named permissions; use protected `npm-publish` and `mcp-registry-publish` environments; publish npm with trusted OIDC, GHCR with `GITHUB_TOKEN`, attest artifacts, create a draft release, publish it only after complete checks, and publish Registry metadata last. | Adds continuous distribution validation with one exact npm build CLI and resumable, least-privilege publication. No workflow runs during local implementation unless a commit is later pushed by the owner.                                                                          |
 
 No `.npmrc`, `.codex/config.toml`, AWS configuration, CloudFront function,
 repository policy, or existing workflow is edited. The already ignored `dist/`
@@ -294,7 +294,9 @@ The process must:
   stderr;
 - open no listening socket;
 - propagate cancellation through every pending query/cache/HTTP operation;
-- stop promptly on stdin EOF and close its SDK handle on `SIGINT`/`SIGTERM`;
+- use stdin EOF as the portable host-driven graceful-shutdown path; close its
+  SDK handle for POSIX `SIGINT`/`SIGTERM` and for Windows `SIGINT` when Node
+  delivers it, without promising a catchable Windows `SIGTERM`;
 - advertise software version `1.0.0` from the same package-version authority
   used by npm, Registry metadata, archives, and OCI; and
 - expose exactly `search_entities`, then `resolve_entity`, with the existing
@@ -313,14 +315,15 @@ These values were current on 2026-08-31:
 | `@modelcontextprotocol/inspector` | `2.4.0`        |
 | `zod`                             | `4.5.4`        |
 | Node LTS                          | `24.20.0`      |
-| npm CLI                           | `12.0.2`       |
+| npm CLI bundled with Node         | `11.19.0`      |
+| Selected build/publish npm CLI    | `12.0.2`       |
 | MCP Registry schema               | `2025-12-11`   |
-| MCP Publisher                     | `1.7.9`        |
+| MCP Publisher                     | `1.8.1`        |
 | `esbuild`                         | `0.28.2`       |
 | `tar`                             | `7.5.22`       |
 | `yazl`                            | `3.3.1`        |
 | `yauzl`                           | `3.4.0`        |
-| `ajv`                             | `8.17.1`       |
+| `ajv`                             | `8.20.0`       |
 | `ajv-formats`                     | `3.0.1`        |
 | `yaml`                            | `2.9.0`        |
 
@@ -348,10 +351,25 @@ The release workflow pins these current action commits:
 | `docker/build-push-action@v7`   | `53b7df96c91f9c12dcc8a07bcb9ccacbed38856a` |
 | `docker/metadata-action@v6`     | `dc802804100637a589fabce1cb79ff13a1411302` |
 
-MCP Publisher `1.7.9` is downloaded only from the versioned official Linux
-amd64 release URL. Its archive SHA-256 is
-`ab128162b0616090b47cf245afe0a23f3ef08936fdce19074f5ba0a4469281ac`.
+MCP Publisher `1.8.1` is downloaded only from
+`https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz`.
+Its archive SHA-256 is
+`a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc`.
 Never execute a `latest` download.
+
+Node `24.20.0` bundles npm `11.19.0`; that executable is bootstrap tooling, not
+the selected release-build identity. Local lockfile-generating commands invoke
+npm `12.0.2` explicitly. Every workflow job installs npm `12.0.2` immediately
+after `actions/setup-node`, asserts that `npm --version` equals `12.0.2`, and
+only then runs `npm ci`, tests, builds, packing, SBOM generation, or publication.
+The root `packageManager` field and release-input document carry the same exact
+selected npm version. Do not use Corepack as an npm-version manager.
+
+Every unqualified `npm` command shown below denotes npm `12.0.2`. The local
+implementer first checks `npm --version`; when it is not exactly `12.0.2`, run
+the command as `npx --yes npm@12.0.2 <subcommand>` instead. In particular, no
+other npm version may create or change `package-lock.json`, pack the public
+workspace, generate an SBOM, or exercise the release verifier.
 
 At the beginning of Task 1, recheck these values against primary upstream
 sources. A compatible patch update must be recorded in the release-input JSON,
@@ -381,6 +399,7 @@ src/ontologyQuery/
   ontologyQueryArtifactLimits.js
   ontologyQueryArtifactParsing.js
   ontologyQueryArtifactRelativePath.js
+  ontologyQueryArtifactCacheInitializationErrors.js
   ontologyQueryChannelManifestSchemas.js
   ontologyQueryPersistentCacheSchemas.js
   persistentHttpOntologyQueryArtifactRepository.js
@@ -435,7 +454,8 @@ operations already name the distinct artifacts precisely.
 
 ### Steps
 
-- [ ] Record `git status --short --branch`, Node/npm versions, the upstream
+- [ ] Record `git status --short --branch`, the Node version, Node-bundled npm
+      version, separately selected npm `12.0.2` version, the upstream
       revalidation evidence from section 6, and the npm package-name result.
 - [ ] Add a focused failing test that imports only the new factory names and
       constructs `createOntologyQueryModule` with the new option names. The
@@ -480,12 +500,18 @@ refactor(ontology-query): Name the artifact repository boundary precisely
 - Create their focused test files.
 - Modify `src/ontologyQuery/createOntologyQueryModule.js` and existing tests.
 
-The canonical-bytes module owns the one fixed UTF-8 representation: two-space
-JSON indentation, schema-defined property order, and one terminal newline. It
-also owns SHA-256 and byte-reference verification. The parser module owns
-fatal UTF-8 decoding, JSON parsing, artifact-kind and format-version checks,
-strict Zod parsing, deep freezing, and reserialization equality. Export these
-narrow operations:
+The canonical-bytes module owns the one fixed, application-specific UTF-8
+representation: two-space JSON indentation, recursively schema-declared object
+field order, schema-declared array order, and one terminal newline. It rebuilds
+each strict artifact shape in the declared order rather than trusting caller
+object insertion order. An artifact schema may contain a variable-key mapping
+only when that field declares ascending lexicographic ordering of UTF-8 key
+bytes; identifiers that look numeric remain string values and never depend on
+JavaScript's integer-index property enumeration. It also owns SHA-256 and
+byte-reference verification. The parser module owns fatal UTF-8 decoding, JSON parsing,
+artifact-kind and format-version checks, strict Zod parsing, deep freezing, and
+reserialization equality. Changing this canonicalization later requires a new
+artifact format version. Export these narrow operations:
 
 ```js
 serializeCanonicalOntologyQueryJsonDocument(document);
@@ -505,7 +531,8 @@ cancellation must remove the registry entry.
 - [ ] Write failing parser tests for invalid UTF-8, invalid JSON, wrong kind,
       wrong format, strict-schema rejection, noncanonical whitespace/property
       order/terminal newline, byte-length mismatch, digest mismatch, and
-      immutable success.
+      immutable success. Prove that reordered caller properties serialize to
+      identical bytes and that undeclared variable-key maps are rejected.
 - [ ] Move the existing private parsing/digest behavior without changing its
       safe `OntologyQueryError` mapping; run query-module tests green after
       each extraction.
@@ -626,7 +653,9 @@ npm run mcp:channel:stage -- --channel development --query-root dist/query/v1
       path functions, then add manifest parsing through the shared canonical-
       byte boundary.
 - [ ] Add failing producer tests for canonical catalog identity, identical
-      compatibility bytes, map ordering, determinism, and byte ceilings.
+      compatibility bytes, map/array ordering, byte ceilings, and byte-for-byte
+      determinism across reordered RDF input and caller object-construction
+      order.
 - [ ] Modify the producer and standalone generator minimally; keep existing
       query-index digests unchanged.
 - [ ] Add failing staging tests for missing catalog, corrupt immutable copy,
@@ -665,6 +694,8 @@ feat(ontology-query): Introduce deterministic artifact channels
 **Files:**
 
 - Create `src/ontologyQuery/ontologyQueryPersistentCacheSchemas.js`.
+- Create
+  `src/ontologyQuery/ontologyQueryArtifactCacheInitializationErrors.js`.
 - Create `src/ontologyQuery/persistentOntologyQueryArtifactCache.js`.
 - Create `tests/ontology-query/persistent-ontology-query-artifact-cache.test.js`.
 - Create a child-process fixture below
@@ -697,6 +728,42 @@ retained `development` loopback state from satisfying a later production-
 origin request with the same channel name. The strict channel state repeats
 that base-URL identity and rejects a mismatch. The unhashed URL is not written
 to cache metadata.
+
+On POSIX, every managed directory is created with mode `0700` and every managed
+file with mode `0600`, then verified without following links. Before use,
+reject an entry whose effective owner differs from the process's effective user,
+whose type is not the expected directory or regular file, or whose group/other
+write bits are set. Never silently take ownership of an existing path. On
+Windows, keep the default under the current user's `LOCALAPPDATA`; reject
+symbolic links, reparse-point links, and unexpected object types. An explicit
+override is documented as requiring an ACL controlled by the intended user,
+but the process neither presents POSIX modes as ACL verification nor blindly
+strips inherited Windows ACLs. Unsafe path/security state fails without
+including the path in output, using the stable operational error code
+`UNSAFE_CACHE_DIRECTORY`; inability to create, secure, or remove an ordinary
+probe file in the owned temporary directory is unsafe-directory state.
+
+`ontologyQueryArtifactCacheInitializationErrors.js` owns the closed two-value
+safe vocabulary and exports
+`OntologyQueryArtifactCacheInitializationError`. Its `safeErrorCode` is either
+`UNSAFE_CACHE_DIRECTORY` or `UNSUPPORTED_CACHE_FILE_SYSTEM`; its public message
+is fixed and path-free, while the original platform exception remains only as
+an unrendered `cause`. No caller may copy an arbitrary filesystem error code or
+message into stderr or an MCP result.
+
+Cache initialization performs a no-clobber capability probe in the owned
+`temporary/` directory. Exclusively create and flush one unique source file,
+hard-link it to a second unique name in that same directory, and verify the
+linked bytes. Then attempt to hard-link over a third pre-existing file holding
+different bytes: require `EEXIST` and prove the sentinel bytes are unchanged.
+Clean up all three invocation-owned names. An unsupported hard-link operation,
+link-operation policy/permission denial after ordinary file access has passed,
+or a result that cannot establish the required semantics fails closed with the
+path-redacted operational error code
+`UNSUPPORTED_CACHE_FILE_SYSTEM`. Do not fall back to copying or a
+replace-existing rename. Local NTFS, APFS, and ordinary Linux filesystems
+normally pass, but the probe—not a filesystem-name allowlist—decides whether a
+default, custom, removable, or network location is supported.
 
 Immutable artifact installation uses a unique temporary file in the same
 filesystem, `open` with exclusive creation, file flush, close, and an atomic
@@ -745,7 +812,7 @@ artifact identity and never enter semantic results.
 ### 11.2 Cache interface
 
 ```js
-createPersistentOntologyQueryArtifactCache({
+const cache = await createPersistentOntologyQueryArtifactCache({
   ontologyQueryArtifactCacheDirectoryPath,
   ontologyQueryArtifactBaseUrlSha256,
   maximumPersistentQueryArtifactCacheByteSize,
@@ -792,11 +859,21 @@ explicitly rather than claiming full offline coverage.
 
 ### Steps
 
-- [ ] Begin with failing constructor/path tests, including a relative root,
-      symlink root, symlink descendant, digest traversal, file-as-root, and a
-      state from a different base-URL identity.
+- [ ] Begin with failing initialization/path tests, including a relative root,
+      symlink/reparse-point root, linked descendant, digest traversal,
+      file-as-root, wrong effective owner, POSIX group/other-writable entries,
+      exact `0700`/`0600` creation modes, unexpected Windows object types, and
+      ordinary probe-file permission failure, plus a state from a different
+      base-URL identity. Assert the redacted `UNSAFE_CACHE_DIRECTORY` code where
+      applicable.
+- [ ] Add failing capability-probe tests for success, unsupported hard links,
+      hard-link-specific policy/permission denial, required `EEXIST` collision
+      with an unchanged sentinel, unexpected collision behavior, and cleanup on
+      every outcome. Assert `UNSUPPORTED_CACHE_FILE_SYSTEM` and prove no copy or
+      rename fallback executes.
 - [ ] Add failing cold-install, verified-hit, corrupt-hit quarantine,
-      no-overwrite race, and cancellation tests through the public cache API.
+      no-overwrite `EEXIST` race-winner validation, and cancellation tests
+      through the public cache API.
 - [ ] Implement the minimal contained immutable store with detailed comments
       at the hard-link and containment boundaries.
 - [ ] Add failing state-generation tests: no state, one valid state, invalid
@@ -1061,7 +1138,9 @@ Resolve the default once at startup:
 
 An explicit cache directory must already be absolute after platform parsing;
 do not resolve it relative to the current working directory. Empty environment
-values count as absent, not as the current directory.
+values count as absent, not as the current directory. The ownership,
+permissions, link/object-type, and hard-link capability requirements from Task
+4 apply equally to a default or explicit cache directory.
 
 ### Parsed configuration
 
@@ -1158,8 +1237,9 @@ const stdioServerHandle = serveStdio(
 The SDK factory pins one connection-era instance and retains intended
 handshake-era compatibility. Do not construct `StdioServerTransport`
 directly. Keep the returned `StdioServerHandle`; its `close()` method is the
-single idempotent shutdown path for `SIGINT`, `SIGTERM`, startup failure, and
-test cleanup.
+single idempotent shutdown path for stdin EOF, POSIX `SIGINT`/`SIGTERM`, a
+Windows `SIGINT` when delivered, startup failure, and test cleanup. Do not add
+a proprietary MCP shutdown message.
 
 Create one `serverLifecycleAbortController`. Each tool invocation passes
 `AbortSignal.any([context.mcpReq.signal, serverLifecycleSignal])` to the query
@@ -1176,10 +1256,14 @@ artifact selection. Help/version modes return before runtime composition.
 
 - stdout is reserved entirely for the SDK transport;
 - all server and SDK diagnostics use the safe stderr event writer;
-- stdin EOF lets the SDK transport close and the process exit naturally;
-- a termination signal stops accepting protocol input, aborts in-flight query
-  acquisition, waits for `close()`, and sets a nonzero exit code only if
-  cleanup itself fails;
+- stdin EOF stops accepting protocol input, aborts in-flight query acquisition,
+  closes the SDK handle, and lets the process exit on every platform;
+- on POSIX, `SIGINT` and `SIGTERM` use that same graceful path; on Windows,
+  host-driven graceful shutdown is stdin EOF and a delivered console `SIGINT`
+  may use the same path, but no catchable `SIGTERM` behavior is promised;
+- forced Windows process termination is a crash case: subsequent startup must
+  recover owned temporary files and stale leases without accepting partial
+  state;
 - signal handlers are removed on closure and repeated signals cannot run
   cleanup twice; and
 - no HTTP listener, health port, WebSocket, or background refresh timer is
@@ -1188,8 +1272,9 @@ artifact selection. Help/version modes return before runtime composition.
 ### Steps
 
 - [ ] Add failing unit tests for help/version short-circuit, lazy artifact
-      access, one-time server construction, idempotent close, signal cleanup,
-      EOF, and safe startup failure.
+      access, one-time server construction, idempotent close, handler cleanup,
+      stdin EOF, platform-specific signal registration, and safe startup
+      failure.
 - [ ] Implement composition and shutdown around `serveStdio` with comments at
       the legacy-era and protocol-output boundaries.
 - [ ] Launch the real script through official
@@ -1204,6 +1289,10 @@ artifact selection. Help/version modes return before runtime composition.
       operational warnings to stderr and prove they never appear on stdout.
 - [ ] Block an artifact response, cancel the MCP call, and prove cancellation
       reaches the HTTP fixture without aborting a second waiter.
+- [ ] Add platform integration cases: send `SIGINT` and `SIGTERM` on POSIX;
+      close stdin on Windows; exercise Windows `SIGINT` only where the runner
+      can deliver it reliably; forcibly terminate a Windows cache writer and
+      prove the next process recovers without accepting partial bytes.
 - [ ] During the running integration test, attempt to connect to the old
       loopback default port and inspect active test-owned handles to prove this
       process did not open a listening socket.
@@ -1299,6 +1388,10 @@ shown here:
 
 Add useful search keywords, but do not add a postinstall script, update
 checker, telemetry, runtime dependency, install-time download, or data file.
+The declared Node floor remains `>=24.0.0`, matching the `node24` bundle target
+and the tested LTS line. Supporting Node 22 would require a separate plan
+amendment, `node22` build target, compatibility review, and Node 22 CI matrix;
+do not imply that support from untested syntax compatibility alone.
 
 ### Canonical bundle
 
@@ -1328,10 +1421,11 @@ The test fails if the metafile contains a bundled package missing from notices.
 ### Steps
 
 - [ ] Add failing metadata tests for name, `mcpName`, bin, exact files,
-      versions, engines, no runtime dependencies, no install hooks, and
-      root/workspace version equality.
-- [ ] Make the exact configuration edits in section 4 with
-      `npm install --save-dev --save-exact` for the seven approved packages;
+      versions, engines, exact root `packageManager`, no runtime dependencies,
+      no install hooks, and root/workspace version equality.
+- [ ] Make the exact configuration edits in section 4 with selected npm
+      `12.0.2` and `npm install --save-dev --save-exact` for the seven approved
+      packages; assert the CLI version immediately before the command and
       inspect both manifest and lockfile diffs before continuing.
 - [ ] Add a failing bundle test for the expected executable entry point, then
       implement the minimal esbuild script.
@@ -1413,9 +1507,10 @@ universal-ontology-mcp-server-v1.0.0-linux-x64/
 Windows uses `runtime/node.exe`. The runtime binary comes from the verified
 official Node archive; the notices include the Node license. Host
 configuration calls the included runtime executable with the included app
-path as its first argument, avoiding dependence on a shell or system Node.
-Convenience `.cmd`/shell launchers are intentionally absent from the first
-archive contract.
+path as its first application argument, avoiding dependence on a shell or
+system Node. A documented Node runtime option such as `--use-system-ca` appears
+before that application path. Convenience `.cmd`/shell launchers are
+intentionally absent from the first archive contract.
 
 ### Safe deterministic construction
 
@@ -1437,7 +1532,8 @@ archive contract.
 ### Steps
 
 - [ ] Add failing strict-schema and matrix tests for the release-input JSON,
-      including unique target/archive names and digest/URL/version agreement.
+      including unique target/archive names, digest/URL/version agreement, and
+      selected npm equality with the root `packageManager` field.
 - [ ] Add malicious archive fixtures for traversal, absolute paths, symlinks,
       duplicate entries, case collisions, oversize, checksum failure, and
       unexpected runtime paths.
@@ -1505,7 +1601,9 @@ ENTRYPOINT ["node", "/opt/universal-ontology-mcp-server/server.mjs"]
 The release build supplies version, revision, created-time, source, and
 description OCI labels through the pinned metadata/build actions. The image
 declares no port and no health check because it is a one-connection `stdio`
-process, not a network service.
+process, not a network service. `STOPSIGNAL SIGTERM` applies to this Linux OCI
+runtime and does not imply that native Windows processes receive a catchable
+`SIGTERM`.
 
 ### Steps
 
@@ -1686,10 +1784,26 @@ on:
 The code validator, not the permissive GitHub tag glob, enforces the exact
 semantic-version tag grammar and version equality.
 
-1. `validate`: `contents: read`; install with `npm ci`, run all tests/lint/
-   format/build, validate Registry/workflow metadata, and output the strictly
-   parsed version/target matrix. On a release tag only, also run a read-only
-   public-origin `stable`/`Person` smoke before any write-capable job.
+Every job that invokes npm runs this immediately after the pinned
+`actions/setup-node` step and before its first npm command; the workflow tests
+cross-check the literal with both `packageManager` and the release-input JSON:
+
+```yaml
+- name: Select exact npm CLI
+  shell: bash
+  run: |
+    npm install --global --no-audit --no-fund npm@12.0.2
+    test "$(npm --version)" = "12.0.2"
+```
+
+The Node-bundled npm `11.19.0` performs only this bootstrap. Lockfile use,
+`npm ci`, tests, builds, packing, `npm sbom`, and trusted publication all run
+under npm `12.0.2`; Corepack is not used to manage npm.
+
+1. `validate`: `contents: read`; select npm `12.0.2`, install with `npm ci`, run
+   all tests/lint/format/build, validate Registry/workflow metadata, and output
+   the strictly parsed version/target matrix. On a release tag only, also run a
+   read-only public-origin `stable`/`Person` smoke before any write-capable job.
 2. `archive` matrix: `contents: read`; run all five native archive builds and
    smoke tests; upload each asset with the pinned artifact action.
 3. `assemble`: `contents: read`; download exact artifacts, pack npm, build
@@ -1709,7 +1823,7 @@ semantic-version tag grammar and version equality.
 7. `publish-github-release`: `contents: write`; re-download and verify the
    candidate and make the draft public only after npm and OCI succeed.
 8. `publish-mcp-registry`: protected `mcp-registry-publish` environment,
-   `contents: read`, `id-token: write`; download MCP Publisher 1.7.9, verify
+   `contents: read`, `id-token: write`; download MCP Publisher 1.8.1, verify
    the recorded archive SHA-256 before extraction/execution, authenticate with
    `mcp-publisher login github-oidc`, and run
    `mcp-publisher publish server.json` last.
@@ -1746,7 +1860,8 @@ subjects.
       insufficient-SBOM candidate fixtures.
 - [ ] Add the workflow skeleton and parse it with `yaml@2.9.0`; add failing
       tests for triggers, tag validator, concurrency, full-SHA action pins,
-      job dependencies, environments, permissions, and publish ordering.
+      job dependencies, environments, permissions, exact npm bootstrap and
+      version assertion before every npm operation, and publish ordering.
 - [ ] Implement each workflow job only after its structural test is red.
 - [ ] Exercise the workflow scripts locally against a synthetic release
       candidate; do not create a tag, publish, or call a Registry write API.
@@ -1801,13 +1916,27 @@ The canonical guide must cover:
   authoritative current syntax is available;
 - stable/development semantics, process restart refresh, cache paths/limits,
   cold/warm/offline behavior, safe cache clearing, and corrupt-cache recovery;
+- cache security and compatibility: POSIX `0700` directories/`0600` files,
+  Windows inherited-ACL expectations for explicit overrides, link rejection,
+  the required hard-link capability probe, and safe handling of
+  `UNSAFE_CACHE_DIRECTORY` and `UNSUPPORTED_CACHE_FILE_SYSTEM`;
 - self-contained archive configuration using its runtime executable plus app
   path;
 - OCI stdin, named cache volume, read-only filesystem, dropped capabilities,
   no-new-privileges, and no port mapping;
 - exact `Person` smoke call and expected provenance fields;
-- stdout/stderr troubleshooting, proxy/CA behavior, timeout, 401/403, 404,
-  invalid manifest/catalog/index, and explicit offline miss; and
+- portable stdin-EOF shutdown, POSIX signal handling, the absence of guaranteed
+  Windows `SIGTERM`, and the absence of a proprietary MCP shutdown message;
+- stdout/stderr troubleshooting, timeout, 401/403, 404, invalid
+  manifest/catalog/index, and explicit offline miss;
+- Node proxy configuration using `NODE_USE_ENV_PROXY=1`, `HTTP_PROXY`,
+  `HTTPS_PROXY`, and `NO_PROXY`; private/system CA configuration using
+  `NODE_EXTRA_CA_CERTS`, `NODE_USE_SYSTEM_CA=1`, or `--use-system-ca`; and an
+  explanation that Node 24 environment-proxy support is active development and
+  only for operator-authorized, trusted proxies, CA environment values are read
+  at Node startup, and runtime options precede the archive's application-bundle
+  path; plus an explicit warning never to use
+  `NODE_TLS_REJECT_UNAUTHORIZED=0`; and
 - the complementary WebMCP page-scoped capability versus the installed,
   page-independent MCP server.
 
@@ -1857,7 +1986,9 @@ adapter, not the chosen production requirement.
 - [ ] Add failing documentation tests for exact package/tag/tool names,
       version agreement, current Codex keys, all install formats, archive
       runtime invocation, security limitations, cache paths, no-data promise,
-      no AWS-hosted-runtime claim, and live local links.
+      hard-link/filesystem and lifecycle guidance, every exact proxy/CA variable
+      above, the insecure-TLS prohibition, no AWS-hosted-runtime claim, and live
+      local links.
 - [ ] Write the canonical guide and concise cross-links. Do not duplicate the
       architecture specification into each README.
 - [ ] Run every documented help/version/Inspector/Codex-add command that is
@@ -1930,6 +2061,9 @@ closed:
 | Corrupt cached index, offline                     | Explicit safe failure; no corrupt result                              |
 | One of two coalesced callers cancels              | Cancelled caller fails; other caller succeeds                         |
 | All coalesced callers cancel                      | Underlying HTTP/cache operation aborts and leaves no partial artifact |
+| Unsafe owned cache entry                          | Redacted `UNSAFE_CACHE_DIRECTORY`; no artifact request                |
+| Cache location fails hard-link probe              | Redacted `UNSUPPORTED_CACHE_FILE_SYSTEM`; no fallback or request      |
+| Process terminated during artifact installation   | Restart removes/reclaims owned remnants and accepts no partial bytes  |
 
 For every successful `Person` call, assert:
 
@@ -2043,10 +2177,14 @@ Implementation is complete only when:
   names/results remain unchanged;
 - cold, warm, last-known-good offline, corrupt-cache, cancellation, and
   cross-process behavior pass;
+- cache ownership/mode/link checks and the fail-closed no-clobber hard-link
+  capability contract pass on every advertised native target;
 - source, npm tarball, five archives, and OCI all use one canonical bundle and
   contain no ontology data;
 - version, Registry, package, archive, image, checksum, SBOM, and provenance
   identities agree;
+- root metadata, release inputs, lockfile operations, builds, SBOM generation,
+  and publication all agree on npm `12.0.2`;
 - the release workflow fails before publication on any missing prerequisite,
   including an unavailable public stable channel;
 - every non-trivial increment passed its formal review gate and every commit is

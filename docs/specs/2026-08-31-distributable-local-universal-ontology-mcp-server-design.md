@@ -228,9 +228,15 @@ server. It MUST:
 - propagate MCP cancellation to pending cache reads, HTTP reads, digest work,
   and ontology queries;
 - exit promptly when stdin reaches EOF;
-- close the SDK handle on `SIGINT` or `SIGTERM` where the platform delivers
-  those signals; and
+- use stdin EOF as the portable, host-driven graceful-shutdown mechanism;
+- close the SDK handle on POSIX `SIGINT` and `SIGTERM`, and on Windows
+  `SIGINT` when Node delivers it, without promising a catchable Windows
+  `SIGTERM`; and
 - avoid opening a listening socket.
+
+The server MUST NOT invent a proprietary MCP shutdown message. On Windows, a
+host that wants graceful termination closes the child's stdin and waits for
+exit; forced process termination is treated as a crash-safety case.
 
 The `stdio` process needs no MCP authentication because the host creates a
 private child-process channel. The downloaded executable still runs with the
@@ -375,9 +381,22 @@ Release-index paths remain content-addressed by the SHA-256 of their own
 canonical bytes. A source-artifact digest MUST remain embedded separately,
 because source identity and query-projection identity are different facts.
 
-All artifact JSON MUST be serialized deterministically as UTF-8, with the
-repository's fixed indentation and one terminal newline. Digests and declared
-byte lengths apply to those canonical uncompressed bytes.
+All artifact JSON MUST use the repository's application-specific canonical
+UTF-8 representation: every schema declares the recursive object-field order,
+serialization uses two-space indentation and one terminal newline, and every
+array has a schema-defined semantic ordering. A canonical serializer rebuilds
+schema-valid objects in that declared order; it does not rely on the insertion
+order of a caller-provided JavaScript object.
+
+An artifact format MUST NOT introduce an arbitrary-key JSON object without
+declaring ascending lexicographic ordering of UTF-8 key bytes for that field.
+Numeric-looking identifiers remain JSON string values and MUST NOT rely on
+JavaScript's special integer-index property enumeration. Tests must prove byte
+identity when RDF input order and caller construction/property order vary. Replacing this
+canonicalization algorithm later requires a new artifact format version rather
+than silently changing bytes within format version 1.
+
+Digests and declared byte lengths apply to those canonical uncompressed bytes.
 
 ### 8.4 Publication order and cache metadata
 
@@ -556,28 +575,60 @@ MUST NOT infer a writable location from the process working directory, package
 installation directory, source checkout, or executable directory.
 
 Cache paths are constructed from validated channel names and lowercase
-digests, never from arbitrary URL text or ontology identifiers. Cache
-directories are user-only where the operating system honors POSIX-style
-permissions. Existing symbolic links or non-regular files at managed paths
-are rejected rather than followed.
+digests, never from arbitrary URL text or ontology identifiers. Existing
+symbolic links, Windows reparse-point links, and non-directory/non-regular
+objects at managed paths are rejected rather than followed.
+
+On POSIX systems, newly created managed directories use mode `0700` and newly
+created managed files use mode `0600`, independently of the caller's umask.
+Before use, the server rejects a managed entry owned by an identity other than
+the process's effective user or writable by group/other. It never silently
+takes ownership of or loosens an existing path.
+
+On Windows, the default remains below the current user's `LOCALAPPDATA` tree.
+An explicit override is an operator assertion that the selected directory's
+ACL is controlled by the intended user; the guide must explain that inherited
+ACLs remain authoritative. The server rejects links and unexpected object
+types, but MUST NOT claim that POSIX modes are Windows ACLs or blindly rewrite
+inherited ACLs. An unsafe managed path fails with the fixed, path-redacted
+operational error code `UNSAFE_CACHE_DIRECTORY`; this includes inability to
+create, secure, or remove an ordinary probe file in the owned temporary
+directory.
 
 ### 9.5 Atomic installation and concurrency
 
+At cache initialization, the server performs a same-directory capability probe
+inside its owned temporary directory: it exclusively creates one source file,
+creates a hard link at a second unique path, verifies the linked bytes, then
+attempts to link over a third pre-existing file containing different bytes.
+The collision attempt must report `EEXIST` and leave the third file unchanged;
+all three invocation-owned probe names are then removed. Unsupported hard
+links, link-operation policy/permission denial after ordinary file access has
+passed, or any result that cannot establish these no-clobber semantics fails
+closed with the fixed, path-redacted operational error code
+`UNSUPPORTED_CACHE_FILE_SYSTEM`. There is no copy or replace-existing-rename
+fallback. NTFS, APFS, and ordinary local Linux filesystems normally provide the
+required primitive, but the probe—not a filesystem-name allowlist—determines
+support, including for custom, removable, and network cache locations.
+
 For every immutable artifact cache miss:
 
-1. acquire an artifact-specific inter-process lock with bounded waiting and
+1. acquire an artifact-specific inter-process lease with bounded waiting and
    stale-owner recovery;
-2. check the final cache path again after acquiring the lock;
-3. stream into a uniquely named temporary sibling while hashing and bounding;
-4. validate the digest, byte length, UTF-8, schema, and identity;
-5. flush the file before making it reachable;
-6. atomically rename it to the digest-derived final path;
-7. flush directory metadata where supported; and
-8. remove the temporary file and release the lock on every outcome.
+2. check the final cache path again after acquiring the lease;
+3. exclusively create a uniquely named temporary file on the same filesystem;
+4. stream, bound, and hash the bytes into that file;
+5. validate the digest, byte length, UTF-8, schema, and embedded identity;
+6. flush and close the temporary file before making it reachable;
+7. atomically create a hard link from the temporary file to the digest-derived
+   final path without replacing an existing directory entry;
+8. when link creation reports `EEXIST`, validate and reuse the race winner; and
+9. remove only the invocation-owned temporary file and release the lease on
+   every outcome.
 
-The implementation MUST account for Windows rename and process-termination
-semantics explicitly. A second process that loses the install race validates
-and reuses the winner's immutable file. It never overwrites it.
+The installer never renames over, copies over, truncates, or repairs an
+existing digest path. A race loser treats `EEXIST` as success only after the
+winner's immutable file passes full validation.
 
 Within one process, concurrent requests for the same cold artifact share one
 read promise. One caller's cancellation stops only that caller while another
@@ -728,7 +779,10 @@ The package exposes one `bin` entry named
 license, third-party notices, package README, and source/repository metadata.
 It contains no query artifact or ontology source. The root website package
 remains private; the MCP server is a separate npm workspace/package with its
-own semantic version and explicit published-file allowlist.
+own semantic version and explicit published-file allowlist. Its initial engine
+floor is Node `>=24.0.0`, matching the `node24` bundle target and tested LTS
+matrix; Node 22 support is not inferred and would require its own compatibility
+review, build target, and CI coverage.
 
 The public package metadata MUST set:
 
@@ -802,7 +856,12 @@ GitHub release immutability SHOULD be enabled. The workflow prepares a draft,
 attaches every asset, verifies the asset set, and publishes only when complete.
 Every third-party GitHub Action is pinned by full commit SHA, workflow
 permissions are least-privilege per job, and release builds use `npm ci` from
-the committed lockfile without dependency caching.
+the committed lockfile without dependency caching. The Node distribution's
+bundled npm is only the bootstrap CLI: every dependency installation, lockfile
+operation, package/archive build, SBOM generation, and npm publication uses the
+single exact npm version declared by the root `packageManager` field and the
+release-input document. Each release job installs that selected npm version and
+asserts `npm --version` before its first npm operation.
 
 ### 12.3 OCI image
 
@@ -945,6 +1004,23 @@ User documentation is split by audience:
   page-independent installed MCP server without presenting either as a
   replacement for the other.
 
+The installation guide MUST name Node's supported network-environment controls
+exactly: opt in to environment-proxy handling with `NODE_USE_ENV_PROXY=1`, then
+use `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY`; add private trust anchors with
+`NODE_EXTRA_CA_CERTS`; and opt in to the operating-system trust store with
+`NODE_USE_SYSTEM_CA=1` or the equivalent `--use-system-ca` runtime option. It
+must describe Node 24's environment-proxy support as active development and
+limit examples to operator-authorized, trusted proxies. It
+must state that CA environment variables are read when Node starts and that a
+runtime option precedes the application-bundle path in archive host
+configuration. It MUST warn that `NODE_TLS_REJECT_UNAUTHORIZED=0` disables TLS
+certificate verification and is never an acceptable troubleshooting step.
+
+The guide also distinguishes lifecycle behavior by platform: stdin EOF is the
+portable MCP-host shutdown path; POSIX signals are catchable process controls;
+Windows does not promise a catchable `SIGTERM`; and no proprietary MCP
+shutdown message exists.
+
 The Codex examples MUST follow current official guidance: Codex supports local
 `stdio` servers started by a command, can add them with `codex mcp add`, and
 shares MCP configuration across its local clients on the same host. Examples
@@ -982,6 +1058,8 @@ Required test layers include:
 ### 16.2 HTTP and cache tests
 
 - compressed and uncompressed canonical bytes produce the same digest;
+- reordered RDF input and caller object-construction order produce identical
+  canonical bytes;
 - chunked decoded bodies enforce the canonical byte ceiling;
 - invalid content type, status, redirect, timeout, truncation, UTF-8, JSON,
   schema, digest, byte length, and embedded identity all fail safely;
@@ -991,8 +1069,12 @@ Required test layers include:
 - no fallback when no complete last-known-good snapshot exists;
 - concurrent in-process and inter-process cold reads;
 - one-waiter and all-waiter cancellation;
+- POSIX ownership/mode enforcement and Windows link/object-type rejection;
+- successful same-directory hard-link capability probing, unsupported-link and
+  permission failures, and the `UNSUPPORTED_CACHE_FILE_SYSTEM` safe error;
 - simulated process failure at every atomic-install step;
-- Windows and POSIX path/rename semantics;
+- Windows and POSIX hard-link/no-clobber semantics, including a race-winning
+  `EEXIST` result;
 - persistent-cache eviction and protected active artifacts; and
 - proof that no HTTP request contains a query string or entity value.
 
@@ -1006,7 +1088,9 @@ Required test layers include:
   annotations;
 - invalid arguments are rejected before the query module;
 - cancellation reaches a blocked cold artifact read;
-- stdin EOF and termination signals close promptly;
+- stdin EOF closes promptly on every platform; POSIX `SIGINT`/`SIGTERM` and a
+  Windows `SIGINT` where deliverable use the same idempotent close path;
+- forced Windows termination leaves recoverable cache/lease state;
 - no listening network socket is created; and
 - both tools return the existing structured/text result contract.
 
@@ -1017,6 +1101,8 @@ Required test layers include:
 - installation into a new temporary directory works with production
   dependencies only;
 - `--version` equals package, server, tag fixture, Registry, and OCI metadata;
+- root metadata, release inputs, workflow bootstrap, lockfile use, build, SBOM,
+  and publish paths agree on and assert one exact selected npm CLI;
 - exact-version `npx` can complete the golden `Person` call;
 - every platform archive runs on its advertised target and uses its dedicated
   cache directory;
@@ -1179,6 +1265,8 @@ all of the following:
 - `stable` and `development` channel semantics are distinct and documented;
 - persistent cache, exact offline behavior, and last-known-good rules are
   accepted;
+- persistent-cache mutation is restricted to safe owned paths and a probed,
+  fail-closed no-clobber hard-link primitive;
 - integrity is over decoded canonical JSON, with CloudFront compression only
   an HTTP optimization;
 - the v1 trust model and unsigned-channel limitation are explicit;
