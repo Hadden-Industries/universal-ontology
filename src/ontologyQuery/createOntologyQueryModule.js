@@ -6,17 +6,21 @@
  */
 
 import { resolveOntologyProjectionProperties } from "../ontologyProjectionProperties.js";
+import { calculateSha256 } from "./ontologyQueryArtifactCanonicalBytes.js";
+import {
+  parseOntologyQueryCatalogBytes,
+  parseOntologyReleaseQueryIndexBytes,
+} from "./ontologyQueryArtifactParsing.js";
 import {
   isOntologyQueryError,
   OntologyQueryError,
 } from "./ontologyQueryErrors.js";
+import { createWaiterAwareSharedOperation } from "./createWaiterAwareSharedOperation.js";
 import {
   DEFAULT_ONTOLOGY_ARTIFACT_FAMILY_IDS,
   ONTOLOGY_ENTITY_MATCH_BASIS_VALUES,
   OntologyEntityResolutionSuccessSchema,
   OntologyEntitySearchSuccessSchema,
-  OntologyQueryCatalogSchema,
-  OntologyReleaseQueryIndexSchema,
   UuidUrnSchema,
   deepFreeze,
   parseResolveOntologyEntityInput,
@@ -26,7 +30,6 @@ import {
 const DEFAULT_MAXIMUM_IN_MEMORY_QUERY_INDEX_CACHE_BYTE_SIZE = 64 * 1024 * 1024;
 const NON_LITERAL_LANGUAGE_RANK = 1_000_000;
 const FALLBACK_LANGUAGE_RANK = 100_000;
-const UTF_8_DECODER = new TextDecoder("utf-8", { fatal: true });
 const MATCH_BASIS_ORDER = new Map(
   ONTOLOGY_ENTITY_MATCH_BASIS_VALUES.map((basis, index) => [basis, index]),
 );
@@ -35,21 +38,16 @@ function compareBinary(left, right) {
   return left < right ? -1 : left > right ? 1 : 0;
 }
 
-async function sha256(bytes) {
-  // Digest the exact artifact bytes before parsing so integrity does not
-  // depend on JSON reserialization or runtime-specific text conversion.
-  const digest = await globalThis.crypto.subtle.digest("SHA-256", bytes);
-  return [...new Uint8Array(digest)]
-    .map((value) => value.toString(16).padStart(2, "0"))
-    .join("");
-}
-
 function throwIfCancelled(signal) {
   if (signal?.aborted) {
-    throw new OntologyQueryError("QUERY_CANCELLED", {
-      cause: signal.reason,
-    });
+    throw createOntologyQueryCancellationError({ signal });
   }
+}
+
+function createOntologyQueryCancellationError({ signal }) {
+  return new OntologyQueryError("QUERY_CANCELLED", {
+    cause: signal.reason,
+  });
 }
 
 function isCancellation(error, signal) {
@@ -82,69 +80,6 @@ function extractIriLocalName(iri) {
 function canonicalizeUuidUrn(value) {
   const parsed = UuidUrnSchema.safeParse(value);
   return parsed.success ? value.toLowerCase() : null;
-}
-
-function parseJsonBytes(bytes, invalidJsonMessage) {
-  try {
-    // Fatal decoding rejects corrupted UTF-8 instead of silently replacing
-    // bytes before the schema and digest invariants are evaluated.
-    return JSON.parse(UTF_8_DECODER.decode(bytes));
-  } catch (error) {
-    throw new OntologyQueryError("QUERY_INDEX_SCHEMA_UNSUPPORTED", {
-      message: invalidJsonMessage,
-      cause: error,
-    });
-  }
-}
-
-function parseCatalogBytes(bytes) {
-  const parsed = parseJsonBytes(
-    bytes,
-    "The ontology query-index catalog is not valid UTF-8 JSON.",
-  );
-
-  if (
-    parsed?.queryArtifactKind !== "universal_ontology_query_catalog" ||
-    parsed?.queryArtifactFormatVersion !== 1
-  ) {
-    throw new OntologyQueryError("QUERY_INDEX_SCHEMA_UNSUPPORTED", {
-      message: "The ontology query-index catalog format is unsupported.",
-    });
-  }
-
-  try {
-    return deepFreeze(OntologyQueryCatalogSchema.parse(parsed));
-  } catch (error) {
-    throw new OntologyQueryError("QUERY_INDEX_SCHEMA_UNSUPPORTED", {
-      message: "The ontology query-index catalog schema is unsupported.",
-      cause: error,
-    });
-  }
-}
-
-function parseReleaseIndexBytes(bytes) {
-  const parsed = parseJsonBytes(
-    bytes,
-    "The ontology release query index is not valid UTF-8 JSON.",
-  );
-
-  if (
-    parsed?.queryArtifactKind !== "universal_ontology_release_query_index" ||
-    parsed?.queryArtifactFormatVersion !== 1
-  ) {
-    throw new OntologyQueryError("QUERY_INDEX_SCHEMA_UNSUPPORTED", {
-      message: "The ontology release query-index format is unsupported.",
-    });
-  }
-
-  try {
-    return deepFreeze(OntologyReleaseQueryIndexSchema.parse(parsed));
-  } catch (error) {
-    throw new OntologyQueryError("QUERY_INDEX_SCHEMA_UNSUPPORTED", {
-      message: "The ontology release query-index schema is unsupported.",
-      cause: error,
-    });
-  }
 }
 
 function chooseCatalogReleases(catalog, ontologyReleaseSelection) {
@@ -644,10 +579,27 @@ export function createOntologyQueryModule({
   }
 
   let catalogValue;
-  let catalogLoadEntry;
   let inMemoryQueryIndexCacheByteSize = 0;
   let accessSequence = 0;
-  const cacheEntries = new Map();
+  const runtimeIndexCacheEntriesByKey = new Map();
+  const runSharedCatalogLoad = createWaiterAwareSharedOperation({
+    createWaiterCancellationError: createOntologyQueryCancellationError,
+    createAllWaitersCancelledAbortReason() {
+      return new DOMException(
+        "All ontology catalog readers cancelled.",
+        "AbortError",
+      );
+    },
+  });
+  const runSharedRuntimeIndexLoad = createWaiterAwareSharedOperation({
+    createWaiterCancellationError: createOntologyQueryCancellationError,
+    createAllWaitersCancelledAbortReason() {
+      return new DOMException(
+        "All ontology index readers cancelled.",
+        "AbortError",
+      );
+    },
+  });
 
   function loadCatalog(signal) {
     throwIfCancelled(signal);
@@ -656,42 +608,19 @@ export function createOntologyQueryModule({
       return Promise.resolve(catalogValue);
     }
 
-    if (
-      catalogLoadEntry?.abortController.signal.aborted &&
-      catalogLoadEntry.waiterCount === 0
-    ) {
-      // A fully abandoned load is not reusable by a later caller. Its promise
-      // will still settle independently, but it no longer occupies the shared
-      // catalog slot.
-      catalogLoadEntry = undefined;
-    }
-
-    if (!catalogLoadEntry) {
-      const entry = {
-        loading: true,
-        abortController: new AbortController(),
-        waiterCount: 0,
-        noWaitersAbortMessage: "All ontology catalog readers cancelled.",
-        promise: undefined,
-      };
-      catalogLoadEntry = entry;
-      entry.promise = (async () => {
-        const internalSignal = entry.abortController.signal;
-
+    return runSharedCatalogLoad({
+      operationKey: "ontology-query-catalog",
+      signal,
+      async executeOperation({ signal: internalSignal }) {
         try {
           const bytes =
             await ontologyQueryArtifactRepository.readOntologyQueryCatalog({
               signal: internalSignal,
             });
           throwIfCancelled(internalSignal);
-          catalogValue = parseCatalogBytes(bytes);
-          entry.loading = false;
+          catalogValue = parseOntologyQueryCatalogBytes(bytes);
           return catalogValue;
         } catch (error) {
-          if (catalogLoadEntry === entry) {
-            catalogLoadEntry = undefined;
-          }
-
           if (isOntologyQueryError(error)) {
             throw error;
           }
@@ -704,21 +633,16 @@ export function createOntologyQueryModule({
             cause: error,
           });
         }
-      })();
-    }
-
-    return waitForSharedLoad(catalogLoadEntry, signal);
+      },
+    });
   }
 
   function evictQueryIndexesToInMemoryCacheBudget(protectedKey) {
     while (
       inMemoryQueryIndexCacheByteSize > maximumInMemoryQueryIndexCacheByteSize
     ) {
-      const evictionCandidates = [...cacheEntries.entries()]
-        .filter(
-          ([key, entry]) =>
-            key !== protectedKey && !entry.loading && entry.byteSize > 0,
-        )
+      const evictionCandidates = [...runtimeIndexCacheEntriesByKey.entries()]
+        .filter(([key, entry]) => key !== protectedKey && entry.byteSize > 0)
         .sort(
           ([, left], [, right]) =>
             left.lastAccessSequence - right.lastAccessSequence,
@@ -726,10 +650,10 @@ export function createOntologyQueryModule({
       const candidate = evictionCandidates[0];
 
       if (!candidate) {
-        const protectedEntry = cacheEntries.get(protectedKey);
+        const protectedEntry = runtimeIndexCacheEntriesByKey.get(protectedKey);
 
         if (protectedEntry?.byteSize > maximumInMemoryQueryIndexCacheByteSize) {
-          cacheEntries.delete(protectedKey);
+          runtimeIndexCacheEntriesByKey.delete(protectedKey);
           inMemoryQueryIndexCacheByteSize -= protectedEntry.byteSize;
         }
 
@@ -737,63 +661,9 @@ export function createOntologyQueryModule({
       }
 
       const [key, entry] = candidate;
-      cacheEntries.delete(key);
+      runtimeIndexCacheEntriesByKey.delete(key);
       inMemoryQueryIndexCacheByteSize -= entry.byteSize;
     }
-  }
-
-  function waitForSharedLoad(entry, signal) {
-    throwIfCancelled(signal);
-    entry.waiterCount += 1;
-
-    return new Promise((resolve, reject) => {
-      let settled = false;
-
-      function releaseWaiter() {
-        if (settled) {
-          return false;
-        }
-
-        settled = true;
-        signal?.removeEventListener("abort", handleAbort);
-        entry.waiterCount -= 1;
-
-        // A shared read must survive cancellation by one of several callers.
-        // Abort the artifact read only when no caller is still waiting; each
-        // caller nevertheless receives its own cancellation promptly.
-        if (entry.waiterCount === 0 && entry.loading) {
-          entry.abortController.abort(
-            new DOMException(entry.noWaitersAbortMessage, "AbortError"),
-          );
-        }
-
-        return true;
-      }
-
-      function handleAbort() {
-        if (releaseWaiter()) {
-          reject(
-            new OntologyQueryError("QUERY_CANCELLED", {
-              cause: signal.reason,
-            }),
-          );
-        }
-      }
-
-      signal?.addEventListener("abort", handleAbort, { once: true });
-      entry.promise.then(
-        (value) => {
-          if (releaseWaiter()) {
-            resolve(value);
-          }
-        },
-        (error) => {
-          if (releaseWaiter()) {
-            reject(error);
-          }
-        },
-      );
-    });
   }
 
   async function loadRuntimeIndex(catalogRelease, signal) {
@@ -801,73 +671,67 @@ export function createOntologyQueryModule({
     const cacheKey =
       `${catalogRelease.ontologyArtifactFamilyId}\u0000` +
       `${catalogRelease.versionTag}\u0000${catalogRelease.queryIndexSha256}`;
-    let cachedEntry = cacheEntries.get(cacheKey);
-
-    if (
-      cachedEntry?.abortController.signal.aborted &&
-      cachedEntry.waiterCount === 0
-    ) {
-      cacheEntries.delete(cacheKey);
-      cachedEntry = undefined;
-    }
+    const cachedEntry = runtimeIndexCacheEntriesByKey.get(cacheKey);
 
     if (cachedEntry) {
       cachedEntry.lastAccessSequence = accessSequence += 1;
-      return waitForSharedLoad(cachedEntry, signal);
+      return cachedEntry.runtimeIndex;
     }
 
-    const entry = {
-      loading: true,
-      byteSize: 0,
-      lastAccessSequence: (accessSequence += 1),
-      abortController: new AbortController(),
-      waiterCount: 0,
-      noWaitersAbortMessage: "All ontology index readers cancelled.",
-      promise: undefined,
-    };
-    entry.promise = (async () => {
-      const internalSignal = entry.abortController.signal;
+    const runtimeIndex = await runSharedRuntimeIndexLoad({
+      operationKey: cacheKey,
+      signal,
+      async executeOperation({ signal: internalSignal }) {
+        try {
+          const bytes =
+            await ontologyQueryArtifactRepository.readOntologyReleaseQueryIndex(
+              {
+                relativePath: catalogRelease.queryIndexRelativePath,
+                signal: internalSignal,
+              },
+            );
+          throwIfCancelled(internalSignal);
 
-      try {
-        const bytes =
-          await ontologyQueryArtifactRepository.readOntologyReleaseQueryIndex({
-            relativePath: catalogRelease.queryIndexRelativePath,
-            signal: internalSignal,
+          if (
+            (await calculateSha256(bytes)) !== catalogRelease.queryIndexSha256
+          ) {
+            throw new OntologyQueryError("QUERY_INDEX_DIGEST_MISMATCH");
+          }
+
+          const queryIndex = parseOntologyReleaseQueryIndexBytes(bytes);
+          verifyEmbeddedReleaseIdentity(catalogRelease, queryIndex);
+          const loadedRuntimeIndex = buildRuntimeReleaseIndex(queryIndex);
+          const completedCacheEntry = {
+            runtimeIndex: loadedRuntimeIndex,
+            byteSize: bytes.byteLength,
+            lastAccessSequence: (accessSequence += 1),
+          };
+          runtimeIndexCacheEntriesByKey.set(cacheKey, completedCacheEntry);
+          inMemoryQueryIndexCacheByteSize += completedCacheEntry.byteSize;
+          evictQueryIndexesToInMemoryCacheBudget(cacheKey);
+          return loadedRuntimeIndex;
+        } catch (error) {
+          if (isOntologyQueryError(error)) {
+            throw error;
+          }
+
+          if (isCancellation(error, internalSignal)) {
+            throw new OntologyQueryError("QUERY_CANCELLED", { cause: error });
+          }
+
+          throw new OntologyQueryError("QUERY_INDEX_UNAVAILABLE", {
+            cause: error,
           });
-        throwIfCancelled(internalSignal);
-
-        if ((await sha256(bytes)) !== catalogRelease.queryIndexSha256) {
-          throw new OntologyQueryError("QUERY_INDEX_DIGEST_MISMATCH");
         }
+      },
+    });
+    const completedCacheEntry = runtimeIndexCacheEntriesByKey.get(cacheKey);
 
-        const queryIndex = parseReleaseIndexBytes(bytes);
-        verifyEmbeddedReleaseIdentity(catalogRelease, queryIndex);
-        const runtimeIndex = buildRuntimeReleaseIndex(queryIndex);
-        entry.byteSize = bytes.byteLength;
-        entry.loading = false;
-        inMemoryQueryIndexCacheByteSize += entry.byteSize;
-        evictQueryIndexesToInMemoryCacheBudget(cacheKey);
-        return runtimeIndex;
-      } catch (error) {
-        if (cacheEntries.get(cacheKey) === entry) {
-          cacheEntries.delete(cacheKey);
-        }
+    if (completedCacheEntry?.runtimeIndex === runtimeIndex) {
+      completedCacheEntry.lastAccessSequence = accessSequence += 1;
+    }
 
-        if (isOntologyQueryError(error)) {
-          throw error;
-        }
-
-        if (isCancellation(error, internalSignal)) {
-          throw new OntologyQueryError("QUERY_CANCELLED", { cause: error });
-        }
-
-        throw new OntologyQueryError("QUERY_INDEX_UNAVAILABLE", {
-          cause: error,
-        });
-      }
-    })();
-    cacheEntries.set(cacheKey, entry);
-    return waitForSharedLoad(entry, signal);
+    return runtimeIndex;
   }
 
   async function loadSelection(ontologyReleaseSelection, signal) {
