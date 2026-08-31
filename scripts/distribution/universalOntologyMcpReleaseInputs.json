@@ -1,0 +1,171 @@
+{
+  "releaseInputFormatVersion": 1,
+  "selectedNpmVersion": "12.0.2",
+  "modelContextProtocol": {
+    "revision": "2026-07-28",
+    "registrySchemaVersion": "2025-12-11",
+    "sdkPackageVersions": {
+      "@modelcontextprotocol/server": "2.0.0",
+      "@modelcontextprotocol/client": "2.0.0",
+      "@modelcontextprotocol/node": "2.0.0",
+      "@modelcontextprotocol/inspector": "2.4.0"
+    },
+    "zodVersion": "4.5.4"
+  },
+  "nodeRuntime": {
+    "version": "24.20.0",
+    "bundledNpmVersion": "11.19.0",
+    "downloadTimeoutMilliseconds": 120000,
+    "compressedArchiveMaximumByteSize": 134217728,
+    "runtimeExecutableMaximumByteSize": 134217728,
+    "licenseMaximumByteSize": 4194304,
+    "targets": [
+      {
+        "targetName": "linux-x64",
+        "runnerLabel": "ubuntu-24.04",
+        "runtimeArchiveUrl": "https://nodejs.org/dist/v24.20.0/node-v24.20.0-linux-x64.tar.gz",
+        "runtimeArchiveSha256": "855d581f8a4eb1a8117e3426de25fe02770592febcfb31369aee1ffbfee9e8ec",
+        "upstreamArchiveFormat": "tar.gz",
+        "releaseArchiveFormat": "tar.gz",
+        "upstreamRuntimeExecutablePath": "node-v24.20.0-linux-x64/bin/node",
+        "upstreamRuntimeLicensePath": "node-v24.20.0-linux-x64/LICENSE",
+        "packagedRuntimeExecutablePath": "runtime/bin/node"
+      },
+      {
+        "targetName": "linux-arm64",
+        "runnerLabel": "ubuntu-24.04-arm",
+        "runtimeArchiveUrl": "https://nodejs.org/dist/v24.20.0/node-v24.20.0-linux-arm64.tar.gz",
+        "runtimeArchiveSha256": "3515603e2487879a39bc75716f1a2affd027500c64ba50e845cf72cb33219013",
+        "upstreamArchiveFormat": "tar.gz",
+        "releaseArchiveFormat": "tar.gz",
+        "upstreamRuntimeExecutablePath": "node-v24.20.0-linux-arm64/bin/node",
+        "upstreamRuntimeLicensePath": "node-v24.20.0-linux-arm64/LICENSE",
+        "packagedRuntimeExecutablePath": "runtime/bin/node"
+      },
+      {
+        "targetName": "macos-x64",
+        "runnerLabel": "macos-15-intel",
+        "runtimeArchiveUrl": "https://nodejs.org/dist/v24.20.0/node-v24.20.0-darwin-x64.tar.gz",
+        "runtimeArchiveSha256": "9e5b2644cf107befb6aefca676b96d3296bc10138096f022ed378d6233ed81f4",
+        "upstreamArchiveFormat": "tar.gz",
+        "releaseArchiveFormat": "tar.gz",
+        "upstreamRuntimeExecutablePath": "node-v24.20.0-darwin-x64/bin/node",
+        "upstreamRuntimeLicensePath": "node-v24.20.0-darwin-x64/LICENSE",
+        "packagedRuntimeExecutablePath": "runtime/bin/node"
+      },
+      {
+        "targetName": "macos-arm64",
+        "runnerLabel": "macos-15",
+        "runtimeArchiveUrl": "https://nodejs.org/dist/v24.20.0/node-v24.20.0-darwin-arm64.tar.gz",
+        "runtimeArchiveSha256": "40e5607e5ecb3db9192723776da2d75d966260fc74a7a9e731c1bd67dda96bc8",
+        "upstreamArchiveFormat": "tar.gz",
+        "releaseArchiveFormat": "tar.gz",
+        "upstreamRuntimeExecutablePath": "node-v24.20.0-darwin-arm64/bin/node",
+        "upstreamRuntimeLicensePath": "node-v24.20.0-darwin-arm64/LICENSE",
+        "packagedRuntimeExecutablePath": "runtime/bin/node"
+      },
+      {
+        "targetName": "windows-x64",
+        "runnerLabel": "windows-2025",
+        "runtimeArchiveUrl": "https://nodejs.org/dist/v24.20.0/node-v24.20.0-win-x64.zip",
+        "runtimeArchiveSha256": "6cac9ffbca8f6a47091e4b5c772e0606049c3871cb67d900c0cedde630e545ba",
+        "upstreamArchiveFormat": "zip",
+        "releaseArchiveFormat": "zip",
+        "upstreamRuntimeExecutablePath": "node-v24.20.0-win-x64/node.exe",
+        "upstreamRuntimeLicensePath": "node-v24.20.0-win-x64/LICENSE",
+        "packagedRuntimeExecutablePath": "runtime/node.exe"
+      }
+    ]
+  },
+  "applicationBundle": {
+    "sourceRelativePath": "packages/universal-ontology-mcp-server/dist/universal-ontology-mcp-server.mjs",
+    "packagedRelativePath": "app/universal-ontology-mcp-server.mjs",
+    "maximumByteSize": 16777216,
+    "mode": "0755"
+  },
+  "packagedStaticFiles": [
+    {
+      "sourceRelativePath": "packages/universal-ontology-mcp-server/LICENSE",
+      "packagedRelativePath": "LICENSE",
+      "maximumByteSize": 1048576,
+      "mode": "0644"
+    },
+    {
+      "sourceRelativePath": "packages/universal-ontology-mcp-server/README.md",
+      "packagedRelativePath": "README.md",
+      "maximumByteSize": 1048576,
+      "mode": "0644"
+    },
+    {
+      "sourceRelativePath": "packages/universal-ontology-mcp-server/THIRD_PARTY_NOTICES.md",
+      "packagedRelativePath": "THIRD_PARTY_NOTICES.md",
+      "maximumByteSize": 4194304,
+      "mode": "0644"
+    }
+  ],
+  "buildToolVersions": {
+    "esbuild": "0.28.2",
+    "tar": "7.5.22",
+    "yazl": "3.3.1",
+    "yauzl": "3.4.0",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "yaml": "2.9.0"
+  },
+  "ociBaseImage": {
+    "reference": "node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e",
+    "indexSha256": "ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e"
+  },
+  "mcpPublisher": {
+    "version": "1.8.1",
+    "linuxAmd64ArchiveUrl": "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz",
+    "archiveSha256": "a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc"
+  },
+  "githubActions": [
+    {
+      "actionName": "actions/checkout",
+      "versionTag": "v7",
+      "commitSha": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+    },
+    {
+      "actionName": "actions/setup-node",
+      "versionTag": "v7",
+      "commitSha": "820762786026740c76f36085b0efc47a31fe5020"
+    },
+    {
+      "actionName": "actions/upload-artifact",
+      "versionTag": "v7",
+      "commitSha": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
+    },
+    {
+      "actionName": "actions/download-artifact",
+      "versionTag": "v8",
+      "commitSha": "3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c"
+    },
+    {
+      "actionName": "actions/attest",
+      "versionTag": "v4",
+      "commitSha": "1e69f48acb82d1966a394da916b4c1698aa569d6"
+    },
+    {
+      "actionName": "docker/setup-buildx-action",
+      "versionTag": "v4",
+      "commitSha": "37fe631027851001ddb9b187196cc803df7f5f0e"
+    },
+    {
+      "actionName": "docker/login-action",
+      "versionTag": "v4",
+      "commitSha": "dbcb813823bdd20940b903addbd779551569679f"
+    },
+    {
+      "actionName": "docker/build-push-action",
+      "versionTag": "v7",
+      "commitSha": "53b7df96c91f9c12dcc8a07bcb9ccacbed38856a"
+    },
+    {
+      "actionName": "docker/metadata-action",
+      "versionTag": "v6",
+      "commitSha": "dc802804100637a589fabce1cb79ff13a1411302"
+    }
+  ]
+}
