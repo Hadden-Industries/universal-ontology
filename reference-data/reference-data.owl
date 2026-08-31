@@ -10,7 +10,8 @@
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:schema="http://schema.org/"
-     xmlns:dcterms="http://purl.org/dc/terms/">
+     xmlns:dcterms="http://purl.org/dc/terms/"
+     xmlns:vann="http://purl.org/vocab/vann/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/reference-data/">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260714"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714"/>
@@ -33,6 +34,7 @@
         <rdfs:label xml:lang="en">Hadden Industries Universal Reference Data Ontology</rdfs:label>
         <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260625"/>
         <owl:versionInfo>2026-07-14</owl:versionInfo>
+        <vann:preferredNamespacePrefix>urd</vann:preferredNamespacePrefix>
     </owl:Ontology>
     
 
@@ -3585,9 +3587,9 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-04-17T12:49:42Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:905770f1-45ca-4738-8eb6-a2e84935c74c"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-19T19:47:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-08-30T19:56:14Z</dcterms:modified>
         <rdfs:label xml:lang="en">Electronic Mail Address To Person Relationship Type</rdfs:label>
-        <skos:definition xml:lang="en">Category of the way in which an Electronic Email Address and a Person are connected, having common characteristics</skos:definition>
+        <skos:definition xml:lang="en">Category of relationship that holds between an Electronic Mail Address and a Person</skos:definition>
         <skos:prefLabel xml:lang="en">Electronic Mail Address To Person Relationship Type</skos:prefLabel>
     </owl:Class>
     

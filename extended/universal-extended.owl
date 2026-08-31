@@ -12,7 +12,8 @@
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:schema="http://schema.org/"
-     xmlns:dcterms="http://purl.org/dc/terms/">
+     xmlns:dcterms="http://purl.org/dc/terms/"
+     xmlns:vann="http://purl.org/vocab/vann/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/extended/">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/extended/20260721"/>
         <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/core/20260714"/>
@@ -35,6 +36,7 @@
         <rdfs:label xml:lang="en">Hadden Industries Universal Extended Ontology</rdfs:label>
         <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/extended/20260714"/>
         <owl:versionInfo>2026-07-21</owl:versionInfo>
+        <vann:preferredNamespacePrefix>ue</vann:preferredNamespacePrefix>
     </owl:Ontology>
     
 
@@ -5463,6 +5465,7 @@
     <!-- https://haddenindustries.com/ontology/universal/extended/ElectronicMailAddress -->
 
     <owl:Class rdf:about="https://haddenindustries.com/ontology/universal/extended/ElectronicMailAddress">
+        <rdfs:subClassOf rdf:resource="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/Identifier"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://haddenindustries.com/ontology/universal/extended/ElectronicMailAddress_hasDomainNameSystemDomain"/>
@@ -5473,13 +5476,22 @@
         <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-01-23T11:44:16Z</dcterms:created>
         <dcterms:creator rdf:resource="https://orcid.org/0000-0001-8017-8797"/>
         <dcterms:identifier rdf:resource="urn:uuid:a58191d7-a51b-454d-8755-b9048ebdd9d6"/>
-        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-06-25T13:11:00Z</dcterms:modified>
+        <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-08-30T19:56:14Z</dcterms:modified>
         <rdfs:label xml:lang="en">Electronic Mail Address</rdfs:label>
         <skos:altLabel xml:lang="en">E-Mail Address</skos:altLabel>
         <skos:altLabel xml:lang="en">Email Address</skos:altLabel>
-        <skos:definition xml:lang="en">Identifier for an Electronic Mailbox</skos:definition>
+        <skos:definition xml:lang="en">Identifier that designates an Electronic Mailbox as a source or destination of electronic mail</skos:definition>
         <skos:prefLabel xml:lang="en">Electronic Mail Address</skos:prefLabel>
+        <skos:scopeNote xml:lang="en">This class denotes the addr-spec identifier (local-part@domain) itself. It excludes a display name, a name-addr containing the identifier, a group, and an entire electronic mail header field.</skos:scopeNote>
     </owl:Class>
+    <owl:Axiom>
+        <owl:annotatedSource rdf:resource="https://haddenindustries.com/ontology/universal/extended/ElectronicMailAddress"/>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2004/02/skos/core#definition"/>
+        <owl:annotatedTarget xml:lang="en">Identifier that designates an Electronic Mailbox as a source or destination of electronic mail</owl:annotatedTarget>
+        <dcterms:source rdf:resource="https://www.rfc-editor.org/rfc/rfc5321.html#section-2.3.11"/>
+        <dcterms:source rdf:resource="https://www.rfc-editor.org/rfc/rfc5322.html#section-3.4"/>
+        <dcterms:source rdf:resource="https://www.rfc-editor.org/rfc/rfc5322.html#section-3.4.1"/>
+    </owl:Axiom>
     
 
 
