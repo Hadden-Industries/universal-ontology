@@ -62,6 +62,64 @@ function collectChildProcess(childProcess) {
   });
 }
 
+function createDeferredControl() {
+  let resolveDeferred;
+  const promise = new Promise((resolve) => {
+    resolveDeferred = resolve;
+  });
+
+  return { promise, resolve: () => resolveDeferred() };
+}
+
+/**
+ * Observe verified-cache lookups for one digest so a concurrency test can wait
+ * for a caller to reach its shared-population join instead of sleeping.
+ */
+function createArtifactCacheReadBarrier(observedSha256) {
+  const countWaiters = new Set();
+  let readCount = 0;
+
+  return {
+    get readCount() {
+      return readCount;
+    },
+
+    decorate(cache) {
+      return {
+        ...cache,
+        async readVerifiedArtifact(input) {
+          const bytes = await cache.readVerifiedArtifact(input);
+
+          if (input.expectedSha256 === observedSha256) {
+            readCount += 1;
+
+            for (const waiter of countWaiters) {
+              if (readCount >= waiter.expectedCount) {
+                countWaiters.delete(waiter);
+                waiter.resolve();
+              }
+            }
+          }
+
+          return bytes;
+        },
+      };
+    },
+
+    async waitForReadCount(expectedCount) {
+      if (readCount < expectedCount) {
+        await new Promise((resolve) => {
+          countWaiters.add({ expectedCount, resolve });
+        });
+      }
+
+      // A cache miss is followed synchronously by the shared-population join,
+      // so draining the pending microtasks proves that join has happened.
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    },
+  };
+}
+
 function getRepositoryRootPath(fixture) {
   return join(
     fixture.cacheRootPath,
@@ -203,16 +261,18 @@ async function createRepositoryFixture() {
   const operationalEvents = [];
 
   async function createRepositoryInstance({
+    decoratePersistentCache = (cache) => cache,
     persistentCacheOptions = {},
     recordedOperationalEvents = operationalEvents,
     requestTimeoutMilliseconds = 1_000,
   } = {}) {
-    const persistentOntologyQueryArtifactCache =
+    const persistentOntologyQueryArtifactCache = decoratePersistentCache(
       await createPersistentOntologyQueryArtifactCache({
         ...persistentCacheOptions,
         ontologyQueryArtifactCacheDirectoryPath: cacheRootPath,
         ontologyQueryArtifactBaseUrlSha256,
-      });
+      }),
+    );
     const httpOntologyQueryArtifactReader =
       createHttpOntologyQueryArtifactReader({
         ontologyQueryArtifactBaseUrl: httpFixture.ontologyQueryArtifactBaseUrl,
@@ -753,49 +813,70 @@ describe("persistent HTTP ontology query-artifact repository", () => {
     }
   });
 
-  test("revalidates shared digest bytes against each catalog release identity", async () => {
+  test("validates digest-coalesced bytes independently for each release reference", async () => {
     const fixture = await createRepositoryFixture();
 
     try {
+      const queryIndexSha256 =
+        fixture.releaseArtifact.catalogRelease.queryIndexSha256;
       const sharedDigestCatalog = structuredClone(fixture.catalog);
-      const secondRelease = {
+      const aliasedRelease = {
         ...structuredClone(sharedDigestCatalog.releases[0]),
         ontologyArtifactFamilyId: "universal/extended",
         latestStableRelease: false,
         sourceArtifactRelativePath: "universal/extended/20260714",
         sourceArtifactUrl:
           "https://example.com/ontology/universal/extended/20260714",
-        queryIndexRelativePath:
-          "releases/universal/extended/20260714/" +
-          `${fixture.releaseArtifact.catalogRelease.queryIndexSha256}.json`,
+        queryIndexRelativePath: `releases/universal/extended/20260714/${queryIndexSha256}.json`,
       };
-      sharedDigestCatalog.releases.push(secondRelease);
+      sharedDigestCatalog.releases.push(aliasedRelease);
       await configureChannelPublication(fixture, {
         catalog: sharedDigestCatalog,
       });
+
+      // The aliased caller must deterministically own the shared population,
+      // so its origin response stays blocked until the valid caller has joined.
+      const aliasedRequestObserved = createDeferredControl();
+      const aliasedResponseReleased = createDeferredControl();
       fixture.httpFixture.setResponse(
-        fixture.releaseArtifact.queryIndexRelativePath,
-        {
-          bodyBytes: fixture.releaseArtifact.indexBytes,
-          delayBeforeHeadersMilliseconds: 50,
+        aliasedRelease.queryIndexRelativePath,
+        async () => {
+          aliasedRequestObserved.resolve();
+          await aliasedResponseReleased.promise;
+          return { bodyBytes: fixture.releaseArtifact.indexBytes };
         },
       );
-      fixture.httpFixture.setResponse(secondRelease.queryIndexRelativePath, {
-        bodyBytes: fixture.releaseArtifact.indexBytes,
+      fixture.httpFixture.setResponse(
+        fixture.releaseArtifact.queryIndexRelativePath,
+        { bodyBytes: fixture.releaseArtifact.indexBytes },
+      );
+      const cacheReadBarrier = createArtifactCacheReadBarrier(queryIndexSha256);
+      const { repository } = await fixture.createRepositoryInstance({
+        decoratePersistentCache: cacheReadBarrier.decorate,
       });
-      await fixture.repository.readOntologyQueryCatalog();
+      await repository.readOntologyQueryCatalog();
+      fixture.httpFixture.requestRecords.length = 0;
 
-      const [matchingRead, mismatchingRead] = await Promise.allSettled([
-        fixture.repository.readOntologyReleaseQueryIndex({
-          relativePath: fixture.releaseArtifact.queryIndexRelativePath,
-        }),
-        fixture.repository.readOntologyReleaseQueryIndex({
-          relativePath: secondRelease.queryIndexRelativePath,
-        }),
-      ]);
+      const aliasedRead = repository.readOntologyReleaseQueryIndex({
+        relativePath: aliasedRelease.queryIndexRelativePath,
+      });
+      await aliasedRequestObserved.promise;
+      const joinedSharedPopulation = cacheReadBarrier.waitForReadCount(
+        cacheReadBarrier.readCount + 1,
+      );
+      const matchingRead = repository.readOntologyReleaseQueryIndex({
+        relativePath: fixture.releaseArtifact.queryIndexRelativePath,
+      });
+      const settlements = Promise.allSettled([matchingRead, aliasedRead]);
+      await joinedSharedPopulation;
+      aliasedResponseReleased.resolve();
+      const [matchingSettlement, aliasedSettlement] = await settlements;
 
-      expect(matchingRead).toMatchObject({ status: "fulfilled" });
-      expect(mismatchingRead).toMatchObject({
+      expect(matchingSettlement).toEqual({
+        status: "fulfilled",
+        value: fixture.releaseArtifact.indexBytes,
+      });
+      expect(aliasedSettlement).toMatchObject({
         status: "rejected",
         reason: {
           errorCode: "QUERY_INDEX_DIGEST_MISMATCH",
@@ -1107,6 +1188,10 @@ describe("persistent HTTP ontology query-artifact repository", () => {
         errorCode: "QUERY_INDEX_DIGEST_MISMATCH",
         retryable: false,
       });
+      // The content-addressed cache owns byte integrity, not the contextual
+      // release identity of any one caller, so it may retain digest-verified
+      // bytes that no catalog entry accepts. Every later read must therefore
+      // reapply that contextual validation against its own cache hit.
       await expect(
         restartedProcess.persistentOntologyQueryArtifactCache.readVerifiedArtifact(
           {
@@ -1114,7 +1199,19 @@ describe("persistent HTTP ontology query-artifact repository", () => {
             expectedSha256: inconsistentIndexSha256,
           },
         ),
-      ).resolves.toBeNull();
+      ).resolves.not.toBeNull();
+      fixture.httpFixture.requestRecords.length = 0;
+
+      await expect(
+        restartedProcess.repository.readOntologyReleaseQueryIndex({
+          relativePath: inconsistentIndexRelativePath,
+        }),
+      ).rejects.toMatchObject({
+        name: "OntologyQueryError",
+        errorCode: "QUERY_INDEX_DIGEST_MISMATCH",
+        retryable: false,
+      });
+      expect(fixture.httpFixture.requestRecords).toEqual([]);
     } finally {
       await fixture.close();
     }

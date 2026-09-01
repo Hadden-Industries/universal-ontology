@@ -321,16 +321,21 @@ export function createPersistentHttpOntologyQueryArtifactRepository({
   async function readArtifactFromCacheOrOrigin({
     reference,
     maximumDecodedByteLength,
-    parseAndValidate,
+    validateArtifactBytesForRequest,
     signal,
   }) {
     const cachedBytes = await readCachedArtifact(reference, signal);
 
     if (cachedBytes) {
-      parseAndValidate(cachedBytes);
+      validateArtifactBytesForRequest(cachedBytes);
       return cachedBytes;
     }
 
+    // Population is shared by digest alone, so it may only establish
+    // properties of the immutable bytes: retrieval, transfer bounds,
+    // integrity, and cache installation. Interpreting those bytes under the
+    // initiating caller's release identity here would let one incompatible
+    // catalog alias reject every coalesced waiter, valid ones included.
     const populatedBytes = await runSharedArtifactPopulation({
       operationKey: reference.sha256,
       signal,
@@ -345,7 +350,6 @@ export function createPersistentHttpOntologyQueryArtifactRepository({
             );
 
             if (raceWinnerBytes) {
-              parseAndValidate(raceWinnerBytes);
               return raceWinnerBytes;
             }
 
@@ -367,7 +371,6 @@ export function createPersistentHttpOntologyQueryArtifactRepository({
               expectedByteLength: reference.byteLength,
               expectedSha256: reference.sha256,
             });
-            parseAndValidate(response.bytes);
             await cache.installVerifiedArtifact({
               bytes: response.bytes,
               expectedByteLength: reference.byteLength,
@@ -388,7 +391,7 @@ export function createPersistentHttpOntologyQueryArtifactRepository({
       expectedByteLength: reference.byteLength,
       expectedSha256: reference.sha256,
     });
-    parseAndValidate(populatedBytes);
+    validateArtifactBytesForRequest(populatedBytes);
     return populatedBytes;
   }
 
@@ -406,7 +409,7 @@ export function createPersistentHttpOntologyQueryArtifactRepository({
     const catalogBytes = await readArtifactFromCacheOrOrigin({
       reference: catalogReference,
       maximumDecodedByteLength: MAX_ONTOLOGY_QUERY_CATALOG_BYTE_LENGTH,
-      parseAndValidate: parseAndValidateCatalogBytes,
+      validateArtifactBytesForRequest: parseAndValidateCatalogBytes,
       signal,
     });
     const catalog = parseAndValidateCatalogBytes(catalogBytes);
@@ -560,7 +563,7 @@ export function createPersistentHttpOntologyQueryArtifactRepository({
       const bytes = await readArtifactFromCacheOrOrigin({
         reference,
         maximumDecodedByteLength: MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH,
-        parseAndValidate(indexBytes) {
+        validateArtifactBytesForRequest(indexBytes) {
           return validateReleaseIndexIdentity(
             catalogRelease,
             parseOntologyReleaseQueryIndexBytes(indexBytes),
