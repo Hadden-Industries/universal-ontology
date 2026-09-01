@@ -23,3 +23,30 @@ Portions of this software or document may use, include material copied from, or 
 Supported WebMCP clients can retrieve the authored, versioned definition of an
 exact named ontology entity from the ontology HTML page open in the current
 tab. See [WebMCP ontology entity definition lookup](docs/webmcp-ontology-entity-definition-lookup.md).
+
+### Page-independent access with a local MCP server
+
+The distributable Universal Ontology MCP server exposes the read-only
+`search_entities` and `resolve_entity` tools over `stdio`. An MCP host launches
+the process locally, so definition lookup remains available with every website
+and browser page closed. Software search and resolution run locally while
+independently changing ontology catalogs and indexes are retrieved from the
+configured artifact origin and retained in a verified local cache.
+
+The server is currently development-only: no public package, image, Registry
+record, or GitHub Release is an installation source. See the
+[local MCP installation and operation guide](docs/mcp/local-installation.md)
+for trusted-checkout, local package/archive/container, and short-lived GitHub
+Actions-artifact use.
+
+WebMCP and the installed server are complementary. WebMCP is page-scoped and
+inherits the lifecycle of an open supporting page; the installed MCP process is
+page-independent and available to any configured local host.
+
+### Repository-only MCP development
+
+Contributors testing the Streamable HTTP adapter and repository-generated
+query artifacts can instead use the fixed loopback development server. It is a
+separate development topology documented in the
+[local MCP development guide](docs/mcp/local-development.md); it is not the
+installed `stdio` server and must not be exposed beyond loopback.

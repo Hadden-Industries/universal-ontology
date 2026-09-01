@@ -445,46 +445,31 @@ endpoint:
 | Results do not reflect regenerated files                                        | The process intentionally holds one catalog snapshot. Stop and restart it.                                                                            |
 | Process exits 1 after shutdown                                                  | Active work exceeded the ten-second deadline or cleanup failed. Inspect safe structured lifecycle events; the forced exit is intentional.             |
 
-## Production migration summary
+## Distribution and optional hosted adapters
 
-The first AWS production target is a direct Amazon Bedrock AgentCore Runtime,
-not a browser-hosted tool and not an AgentCore Gateway by default:
+The accepted distribution design makes a locally launched `stdio` process the
+page-independent server topology. Query execution needs no hosted MCP compute:
+the local process retrieves independently changing ontology artifacts from the
+configured origin, then verifies, caches, searches, and resolves them locally.
+Development software remains in a trusted checkout, local build output, or a
+short-lived GitHub Actions artifact; it is not published to a package, image,
+Registry, release, or cloud namespace.
 
-```text
-Codex or another remote MCP host
-  -> OAuth authorization-code flow with PKCE
-  -> AgentCore Runtime JWT ingress
-  -> production HTTP adapter on 0.0.0.0:8000/mcp
-  -> unchanged ontology query module
-  -> S3 ontology query-artifact repository adapter
-```
+See the accepted
+[distributable local MCP server design](../specs/2026-08-31-distributable-local-universal-ontology-mcp-server-design.md)
+and its
+[implementation plan](../plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md)
+for the normative boundaries. The separate
+[local installation guide](local-installation.md) covers installed `stdio`
+operation; this page remains the repository-only loopback HTTP guide.
 
-The production implementation should preserve the local contracts while
-replacing only deployment adapters:
-
-- Build an ARM64 image in an immutable-tag ECR repository.
-- Run a separate production entry point on AgentCore's required
-  `0.0.0.0:8000/mcp`; do not weaken the local runner's fixed loopback bind.
-- Store immutable, content-addressed release indexes in a versioned,
-  public-blocked, encrypted S3 bucket and publish the catalog last.
-- Pin the expected catalog SHA-256 and S3 version in deployment configuration.
-- Give the Runtime role `GetObject` only for the selected catalog and index
-  prefix; it does not require `ListBucket` or writes.
-- Use Cognito managed login with a public authorization-code client, PKCE/S256,
-  the Runtime's exact protected-resource audience, and one query scope.
-- Preserve the direct tool names `search_entities` and `resolve_entity`, their
-  schemas, instructions, structured results, and golden `Person` acceptance.
-- Emit redacted logs, bounded metrics, alarms, and traces through CloudWatch.
-
-Add AgentCore Gateway only when measured aggregation, centralized policy, or a
-large combined catalog justifies it. Gateway projects names into
-`UniversalOntology___search_entities` and
-`UniversalOntology___resolve_entity`; that is a distinct client contract and
-authorization topology requiring synchronization and acceptance testing.
-
-The complete construct inventory, staged Cognito bootstrap, rollback model,
-and optional Gateway design remain in
-[`docs/plans/2026-08-30-local-universal-ontology-mcp-server.md`](../plans/2026-08-30-local-universal-ontology-mcp-server.md).
+Hosted compute is an optional future adapter for clients that cannot launch a
+local process, not the chosen production requirement. A later, separately
+approved design may add an authenticated HTTP transport while reusing the
+query module and semantic tool contracts. It must not weaken this runner's
+fixed loopback boundary or silently rename `search_entities` and
+`resolve_entity`. The current work makes no AWS stack, AgentCore, Gateway, ECR,
+Cognito, S3, CloudFront, or other remote deployment change.
 
 ## Relevant specifications and guidance
 
