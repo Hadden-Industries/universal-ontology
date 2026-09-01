@@ -380,6 +380,113 @@ describe("public Universal Ontology MCP npm package", () => {
     expect(versionText).toBe(`${UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO.version}\n`);
   });
 
+  test("keeps the canonical application bundle continuously available while rebuilding", async () => {
+    const { buildUniversalOntologyMcpApplicationBundle } = await import(
+      APPLICATION_BUNDLE_BUILD_SCRIPT_URL.href
+    );
+    await buildUniversalOntologyMcpApplicationBundle();
+
+    let continueObserving = true;
+    let observedMissingBundle = false;
+    let markObserverStarted;
+    const observerStarted = new Promise((resolveObserverStarted) => {
+      markObserverStarted = resolveObserverStarted;
+    });
+    const observation = (async () => {
+      let firstObservation = true;
+
+      while (continueObserving) {
+        try {
+          const status = await nodeFileSystem.stat(APPLICATION_BUNDLE_URL);
+          expect(status.isFile()).toBe(true);
+        } catch (error) {
+          if (error?.code !== "ENOENT") {
+            throw error;
+          }
+
+          observedMissingBundle = true;
+        } finally {
+          if (firstObservation) {
+            firstObservation = false;
+            markObserverStarted();
+          }
+        }
+
+        await new Promise((resolveTurn) => setImmediate(resolveTurn));
+      }
+    })();
+
+    await observerStarted;
+
+    try {
+      await buildUniversalOntologyMcpApplicationBundle();
+    } finally {
+      continueObserving = false;
+      await observation;
+    }
+
+    expect(observedMissingBundle).toBe(false);
+  });
+
+  test("rejects a linked package distribution directory before cleanup", async () => {
+    const { removeUnexpectedPublicPackageDistributionEntries } = await import(
+      APPLICATION_BUNDLE_BUILD_SCRIPT_URL.href
+    );
+    const temporaryRepositoryPath = await nodeFileSystem.mkdtemp(
+      join(tmpdir(), "uo-mcp-linked-package-output-"),
+    );
+    const externalDirectoryPath = join(
+      temporaryRepositoryPath,
+      "external-directory",
+    );
+    const packageDirectoryPath = join(
+      temporaryRepositoryPath,
+      "packages",
+      "universal-ontology-mcp-server",
+    );
+    const linkedDistributionPath = join(packageDirectoryPath, "dist");
+    const externalSentinelPath = join(externalDirectoryPath, "sentinel.txt");
+
+    try {
+      await Promise.all([
+        nodeFileSystem.mkdir(externalDirectoryPath, { recursive: true }),
+        nodeFileSystem.mkdir(packageDirectoryPath, { recursive: true }),
+      ]);
+      await nodeFileSystem.writeFile(
+        externalSentinelPath,
+        "must remain outside package cleanup\n",
+        "utf8",
+      );
+      await nodeFileSystem.symlink(
+        externalDirectoryPath,
+        linkedDistributionPath,
+        process.platform === "win32" ? "junction" : "dir",
+      );
+
+      await expect(
+        removeUnexpectedPublicPackageDistributionEntries(
+          linkedDistributionPath,
+          temporaryRepositoryPath,
+        ),
+      ).rejects.toThrow(/symbolic link|junction/iu);
+      await expect(
+        nodeFileSystem.readFile(externalSentinelPath, "utf8"),
+      ).resolves.toBe("must remain outside package cleanup\n");
+    } finally {
+      // Unlink the directory reference before recursively deleting the scratch
+      // root, so cleanup itself can never depend on platform link traversal.
+      await nodeFileSystem.unlink(linkedDistributionPath).catch((error) => {
+        if (error?.code !== "ENOENT") {
+          throw error;
+        }
+      });
+      await nodeFileSystem.rm(temporaryRepositoryPath, {
+        recursive: true,
+        force: true,
+      });
+    }
+  });
+
   test("dry-runs an npm tarball containing exactly the five public files", async () => {
     const { stdout } = await runNpm([
       "pack",

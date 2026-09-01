@@ -43,6 +43,9 @@ authenticates the configured origin under the operator's CA trust policy.
 ## Requirements
 
 - A trusted checkout of this repository and Git.
+- Python 3.11 or later in the checkout's `.venv` when using the repository-local
+  installation command below. The script itself uses only the standard library
+  and the repository's shared command/repository helpers.
 - Node.js 24 or later for the source-checkout and local npm-tarball forms. The
   self-contained archives carry the pinned Node.js 24.20.0 runtime.
 - npm using the repository lockfile. Every command below explicitly selects and
@@ -63,6 +66,171 @@ bundle and fetch the same independently changing ontology data:
 | Locally built platform archive | Self-contained pinned Node.js    | Extracted archive plus cache                        |
 | Locally built OCI image        | Image                            | Local image plus named cache volume                 |
 | GitHub Actions artifact        | Selected archive or tarball form | Downloaded three-day candidate, installation, cache |
+
+## Install both repository-local MCP servers
+
+Contributors who want this checkout to supply its MCP servers to supported
+project-scoped hosts can run the hardened, rerunnable installation command from
+the repository root:
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\set_up_mcp_servers.py
+```
+
+On Linux or macOS, use the checkout's corresponding virtual-environment
+interpreter:
+
+```sh
+./.venv/bin/python ./scripts/set_up_mcp_servers.py
+```
+
+The command installs two distinct local programs:
+
+- `github` is the official GitHub MCP Server executable for the current
+  operating system and architecture. The latest GitHub release is resolved on
+  every run; its selected archive is bounded, checked against the release's
+  single SHA-256 manifest, and constrained to one regular executable member.
+- `universal_ontology` is this checkout's canonical single-file MCP application
+  bundle. The command selects the npm version declared by `packageManager`, runs
+  `npm ci --ignore-scripts`, builds the bundle, and checks its byte length,
+  SHA-256 digest, package identity, and package version against generated build
+  metadata. It then requires the copied staging file's byte length and SHA-256
+  digest to match that validated snapshot before writing the installation
+  record, so a concurrent canonical-bundle replacement cannot make the record
+  describe different bytes.
+
+Before changing active files, setup verifies the staged GitHub executable with
+`--version` and connects to the staged Universal Ontology bundle with the
+official MCP v2 client pinned to protocol version `2026-07-28`. That protocol
+probe requires the exact `universal-ontology` server identity and exactly
+`search_entities` and `resolve_entity`; it deliberately does not make an
+ontology-data request, because mutable remote data is not software-installation
+integrity evidence. The verifier gives that child process a unique
+operating-system-temporary `--cache-directory`, closes the MCP process, and
+removes the directory. Verification therefore neither depends on nor mutates
+the developer's persistent runtime cache. If that authoritative verifier exits
+non-zero, setup reports its bounded, control-character-sanitized stderr
+diagnostic instead of replacing it with a generic subprocess failure.
+
+Only after both staged programs pass does the command publish the per-file
+atomic replacements as one rollback-capable transaction. Rendering retains the
+byte-exact presence and contents of every host document. Activation checks those
+optimistic-concurrency preconditions before preparing replacements and again
+immediately before the first live replacement, then rechecks each host document
+at its own replacement boundary. For an existing host document, the operating
+system atomically retains the exact file displaced by publication: Windows uses
+`ReplaceFileW` with a backup path, Linux uses
+`renameat2(RENAME_EXCHANGE)`, and macOS uses `renamex_np(RENAME_SWAP)`. Setup
+compares that displaced file with the render-time bytes before committing the
+wider transaction. For a host document that was absent when rendered, a
+same-directory hard link publishes the staged regular file only if the
+destination name is still absent. If a user or host edited or created a document
+while setup was downloading, building, or activating earlier files, setup
+restores or preserves those exact bytes, rolls back its preceding replacements,
+and asks you to rerun against the current document. An unsupported native
+exchange or no-clobber filesystem operation fails closed.
+
+For an existing generated program or installation record, setup first creates
+and synchronizes a sibling activation backup without moving the live path. It
+then performs one replace-over-destination operation, so an observer never sees
+a missing path between backup and replacement. Existing host documents instead
+use the native displaced-file operation above, which also keeps the destination
+continuously present. An ordinary later failure atomically restores every
+preceding program, installation record, and host document from the applicable
+copy or displaced file. If the operating system also prevents rollback, setup
+retains the exact recovery file and reports its path instead of deleting the only
+remaining copy.
+
+Before rollback restores or removes an already replaced destination, setup
+recomputes the live regular file's byte length, SHA-256 digest, and complete
+file-permission bits and compares them with the replacement state it published.
+If another process changed, removed, or replaced that destination with a
+non-regular filesystem object, rollback preserves the concurrent state instead
+of overwriting it. Any preceding synchronized backup or atomically displaced
+file is retained as an exact recovery copy, and setup reports both the
+conflicted destination and recovery path.
+
+Matching bytes are not sufficient to skip a program replacement on POSIX: the
+installed and staged execution-permission bits must also match, so setup repairs
+an executable whose contents are intact but whose execute permission was lost.
+
+On Windows, a running executable may deny replacement. That failure leaves the
+existing path and bytes active; stop the MCP host and rerun setup. If a scanner
+or another process instead denies cleanup of an inactive superseded backup after
+a committed replacement, setup reports the exact path as deferred cleanup but
+does not retroactively fail the activation.
+
+An operating-system file lock under `.agent-tools/` permits only one setup
+process to enter that transaction at a time; the kernel releases the lock after
+a normal exit or crash, so the persistent lock file is not a stale-lock
+sentinel.
+
+Generated software and digest-bound installation records live under the
+Git-ignored `.agent-tools/` root:
+
+```text
+.agent-tools/
+├── .set_up_mcp_servers.lock
+├── bin/
+│   ├── github-mcp-server[.exe]
+│   └── universal-ontology-mcp-server.mjs
+├── github-mcp-server/installation.json
+└── universal-ontology-mcp-server/installation.json
+```
+
+The installation command then manages these portable, project-scoped host
+entries:
+
+| Path                      | Scope and ownership                                                                                                      |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `.mcp.json`               | Checked-in Claude Code project configuration using its top-level `mcpServers` document.                                  |
+| `.codex/config.toml`      | Checked-in Codex project configuration; only marker-delimited `github` and `universal_ontology` tables are script-owned. |
+| `.agents/mcp_config.json` | Git-ignored, machine-local Antigravity configuration; it may contain unrelated local entries that setup preserves.       |
+
+The root `.agent-tools/` ignore rule is anchored to this checkout, so it does not
+hide a same-named directory nested in a package. Same-directory staged and
+activation-backup files for all three host documents have narrowly scoped ignore
+rules as well. Those artifacts can contain a complete machine-local
+`.agents/mcp_config.json`, including preserved credentials; a crash or a
+reported rollback failure therefore cannot make such a copy eligible for an
+accidental `git add -A`. Setup creates each randomized transaction file empty,
+requires Git to ignore that exact repository-contained path, and only then
+writes or copies potentially sensitive host-configuration bytes into it.
+
+Each launch entry runs a small Node bootstrap that asks Git for the checkout's
+top-level directory, changes the child process to that directory, and imports
+the exact repository-relative server entry point. Moving the checkout therefore
+does not embed an old absolute path, and starting an MCP host from a nested
+repository directory does not reinterpret the paths beneath that directory.
+Git remains a runtime prerequisite for these repository-local entries. The
+Universal Ontology entry explicitly selects the rapidly changing `development`
+data channel while this software remains in development. The data is not
+bundled into `.agent-tools`, and changing a remote channel does not require
+rebuilding or reinstalling the server software.
+
+The GitHub configuration writes no credential. When
+`GITHUB_PERSONAL_ACCESS_TOKEN` is absent, the GitHub MCP Server can begin its
+browser-based OAuth flow when authorization is first required. If that variable
+is already present, its value takes precedence; setup reports only the variable
+name and never prints or persists the token.
+
+To check the checked-in host documents without downloading, building,
+installing, launching, or writing anything, run:
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\set_up_mcp_servers.py --check
+```
+
+The check intentionally excludes `.agents/mcp_config.json` because that file is
+local and may contain credentials or machine-specific servers. Rerun the normal
+command after pulling software changes or when updating the GitHub MCP Server.
+Reload the MCP-capable host after a successful run.
+
+This command creates no Universal Ontology GitHub Release, npm publication,
+container publication, MCP Registry record, AWS or Google Cloud resource, CDN
+object, or remote MCP deployment. GitHub remains only the source of the official
+GitHub MCP Server dependency and, elsewhere in this guide, the permitted
+short-lived development-candidate store.
 
 ## Build and run from a source checkout
 
@@ -274,8 +442,10 @@ rollback store; retain a trusted source commit or locally verified candidate.
 Every example below uses an absolute source-checkout bundle path. Substitute
 the locally installed tarball path, the archive runtime/application pair, or a
 locked-down local container invocation as appropriate. These examples are
-manual configuration guidance; repository setup does not create or modify a
-user's MCP-host configuration.
+manual alternatives to the repository-local installation command above. That
+command manages only this checkout's `.mcp.json`, `.codex/config.toml`, and
+Git-ignored `.agents/mcp_config.json`; it does not modify a user-profile MCP
+configuration.
 
 The server exposes exactly two read-only tools:
 
@@ -576,20 +746,21 @@ definition assertion.
 
 ## Troubleshooting
 
-| Symptom                                      | Meaning and action                                                                                                                                                                           |
-| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Host reports invalid JSON or framing         | A wrapper probably wrote diagnostics to stdout. Launch the bundle directly; leave stdout exclusively to MCP and inspect stderr.                                                              |
-| Startup timeout                              | Cache safety checks or cold startup exceeded the host allowance. Inspect stderr and use a bounded host `startup_timeout_sec`; do not disable checks.                                         |
-| Tool timeout                                 | An authorized proxy, DNS, TLS, or origin request may be slow. Inspect safe stderr events and set a bounded `tool_timeout_sec`; do not retry in a tight loop.                                 |
-| HTTP `401` or `403` from the artifact origin | A future public data path should need no credentials. Check the exact base URL, proxy authorization, corporate interception, and origin policy. Never put credentials in the URL.            |
-| HTTP `404` or `410`                          | The exact channel, catalog, or index object is absent. Confirm the base URL and channel; do not substitute a similarly named release.                                                        |
-| Invalid channel manifest or catalog          | Schema, size, UTF-8, digest, or embedded identity validation failed. Preserve stderr diagnostics and investigate publication; do not edit cached JSON.                                       |
-| Invalid or digest-mismatched release index   | Treat the exact object or proxy response as corrupt. Online operation may quarantine/refetch it; offline operation must fail.                                                                |
-| Explicit offline miss                        | `QUERY_INDEX_CATALOG_UNAVAILABLE` or `QUERY_INDEX_UNAVAILABLE` means the exact last-known-good bytes are incomplete. Reconnect to the trusted origin or restore a previously verified cache. |
-| `UNSAFE_CACHE_DIRECTORY`                     | Stop and correct ownership, permissions, links, object types, or the absolute cache location. Do not weaken the invariant.                                                                   |
-| `UNSUPPORTED_CACHE_FILE_SYSTEM`              | Move the cache to a private local filesystem with the probed no-clobber hard-link behavior. Network and removable filesystems are unsuitable.                                                |
-| Result still uses an older channel snapshot  | Restart the MCP process. A running process intentionally pins one verified snapshot.                                                                                                         |
-| Shutdown exits non-zero                      | Closure failed or exceeded ten seconds. Inspect the redacted stderr lifecycle event and let the host terminate the child; no cache-integrity bypass is needed.                               |
+| Symptom                                       | Meaning and action                                                                                                                                                                                            |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Host reports invalid JSON or framing          | A wrapper probably wrote diagnostics to stdout. Launch the bundle directly; leave stdout exclusively to MCP and inspect stderr.                                                                               |
+| Startup timeout                               | Cache safety checks or cold startup exceeded the host allowance. Inspect stderr and use a bounded host `startup_timeout_sec`; do not disable checks.                                                          |
+| Tool timeout                                  | An authorized proxy, DNS, TLS, or origin request may be slow. Inspect safe stderr events and set a bounded `tool_timeout_sec`; do not retry in a tight loop.                                                  |
+| HTTP `401` or `403` from the artifact origin  | A future public data path should need no credentials. Check the exact base URL, proxy authorization, corporate interception, and origin policy. Never put credentials in the URL.                             |
+| HTTP `404` or `410`                           | The exact channel, catalog, or index object is absent. Confirm the base URL and channel; do not substitute a similarly named release.                                                                         |
+| Invalid channel manifest or catalog           | Schema, size, UTF-8, digest, or embedded identity validation failed. Preserve stderr diagnostics and investigate publication; do not edit cached JSON.                                                        |
+| Invalid or digest-mismatched release index    | Treat the exact object or proxy response as corrupt. Online operation may quarantine/refetch it; offline operation must fail.                                                                                 |
+| Explicit offline miss                         | `QUERY_INDEX_CATALOG_UNAVAILABLE` or `QUERY_INDEX_UNAVAILABLE` means the exact last-known-good bytes are incomplete. Reconnect to the trusted origin or restore a previously verified cache.                  |
+| `UNSAFE_CACHE_DIRECTORY`                      | Stop and correct ownership, permissions, links, object types, or the absolute cache location. Do not weaken the invariant.                                                                                    |
+| `UNSUPPORTED_CACHE_FILE_SYSTEM`               | Move the cache to a private local filesystem with the probed no-clobber hard-link behavior. Network and removable filesystems are unsuitable.                                                                 |
+| Legacy Codex table cannot be safely rewritten | `tomllib` found an obsolete server under a valid but noncanonical TOML spelling. Remove it, or rewrite its header exactly as setup reports, then rerun; setup deliberately does not approximate TOML parsing. |
+| Result still uses an older channel snapshot   | Restart the MCP process. A running process intentionally pins one verified snapshot.                                                                                                                          |
+| Shutdown exits non-zero                       | Closure failed or exceeded ten seconds. Inspect the redacted stderr lifecycle event and let the host terminate the child; no cache-integrity bypass is needed.                                                |
 
 ## Remove the development installation
 

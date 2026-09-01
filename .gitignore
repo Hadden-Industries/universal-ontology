@@ -12,6 +12,20 @@ __pycache__/
 # Node.js dependencies
 node_modules/
 
+# Repository-local agent tool installations
+/.agent-tools/
+
+# Repository-local MCP configuration transaction artifacts
+/.mcp.json.repository-mcp-setup.*.staged.tmp
+/.mcp.json.repository-mcp-setup.*.activation.backup
+/.codex/.config.toml.repository-mcp-setup.*.staged.tmp
+/.codex/.config.toml.repository-mcp-setup.*.activation.backup
+/.agents/.mcp_config.json.repository-mcp-setup.*.staged.tmp
+/.agents/.mcp_config.json.repository-mcp-setup.*.activation.backup
+
+# Machine-local MCP host configuration
+/.agents/mcp_config.json
+
 # Local Agent Skills
 .agents/skills/
 .claude/skills/

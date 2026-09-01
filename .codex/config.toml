@@ -1,0 +1,19 @@
+[sandbox_workspace_write]
+network_access = true
+
+# BEGIN mcp_servers.github - managed by scripts/set_up_mcp_servers.py
+[mcp_servers.github]
+command = "node"
+args = ["--input-type=module", "--eval", "import { execFileSync } from \"node:child_process\";import { resolve } from \"node:path\";import { pathToFileURL } from \"node:url\";const repositoryRootPath = execFileSync(\"git\",[\"rev-parse\",\"--show-toplevel\"],{encoding:\"utf8\",windowsHide:true}).replace(/\\r?\\n$/u,\"\");const [repositoryRelativeEntryPointPath,...entryPointArguments]=process.argv.slice(1);const entryPointPath=resolve(repositoryRootPath,repositoryRelativeEntryPointPath);process.chdir(repositoryRootPath);process.argv=[process.execPath,entryPointPath,...entryPointArguments];await import(pathToFileURL(entryPointPath).href);", "--", "scripts/launchGitHubMcpServer.js", "stdio"]
+# END mcp_servers.github - managed by scripts/set_up_mcp_servers.py
+
+# BEGIN mcp_servers.universal_ontology - managed by scripts/set_up_mcp_servers.py
+[mcp_servers.universal_ontology]
+command = "node"
+args = ["--input-type=module", "--eval", "import { execFileSync } from \"node:child_process\";import { resolve } from \"node:path\";import { pathToFileURL } from \"node:url\";const repositoryRootPath = execFileSync(\"git\",[\"rev-parse\",\"--show-toplevel\"],{encoding:\"utf8\",windowsHide:true}).replace(/\\r?\\n$/u,\"\");const [repositoryRelativeEntryPointPath,...entryPointArguments]=process.argv.slice(1);const entryPointPath=resolve(repositoryRootPath,repositoryRelativeEntryPointPath);process.chdir(repositoryRootPath);process.argv=[process.execPath,entryPointPath,...entryPointArguments];await import(pathToFileURL(entryPointPath).href);", "--", ".agent-tools/bin/universal-ontology-mcp-server.mjs", "--artifact-channel=development"]
+startup_timeout_sec = 15
+tool_timeout_sec = 30
+required = true
+enabled_tools = ["search_entities", "resolve_entity"]
+default_tools_approval_mode = "writes"
+# END mcp_servers.universal_ontology - managed by scripts/set_up_mcp_servers.py

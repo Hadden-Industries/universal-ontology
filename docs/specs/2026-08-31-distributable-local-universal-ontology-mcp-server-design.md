@@ -127,6 +127,13 @@ The implementation MUST follow these decisions:
     package bytes.
 11. No AWS stack, deployment, or remote MCP runtime change belongs to the
     implementation plan derived from this design.
+12. Externally defined formats and protocols are executed and validated by
+    their authoritative tools or maintained format implementations. Repository
+    code adds only Universal Ontology ownership, safety, integrity,
+    reproducibility, migration, and cross-artifact invariants that those tools
+    cannot know; it MUST NOT reimplement MCP negotiation, npm packing, Git
+    ignore semantics, JSON/TOML syntax validation, JSON Schema validation, or
+    container execution.
 
 ## 4. Standards and current implementation baseline
 
@@ -148,6 +155,28 @@ plan MUST recheck the official specification, SDK release line, Inspector,
 Registry schema, Node.js LTS patch, npm CLI, and release-action versions on the
 day implementation begins. It MUST pin exact package versions in the lockfile
 and record why each compatibility-sensitive version was selected.
+
+This authority boundary applies throughout implementation and verification:
+
+- the official MCP SDK and client execute protocol negotiation, transport, and
+  tool discovery; repository assertions add the exact Universal Ontology
+  identity and tool-surface invariants;
+- the exact npm CLI executes lockfile installation, package selection,
+  tarball assembly, and npm SBOM generation; repository checks add allowlists,
+  digest agreement, and cross-form version identity;
+- Git itself decides tracking and ignore behavior for each exact path;
+- maintained JSON, TOML, YAML, and JSON Schema implementations decide syntax
+  and schema validity; repository code may preserve comments and ownership
+  markers, reject duplicate JSON members, and assert domain-specific
+  cross-field meaning, but the final document is reparsed by the format
+  implementation; and
+- Docker builds, inspects, and runs the OCI form; repository checks constrain
+  its inputs, labels, privileges, mounts, network expectations, and artifact
+  identity.
+
+A textual assertion is acceptable only for a repository invariant that the
+authoritative tool cannot express, and never as a substitute for executing or
+parsing the resulting format.
 
 The existing implementation already provides:
 
@@ -992,8 +1021,10 @@ packages/universal-ontology-mcp-server/
   README.md                                  installed-package guide
 
 scripts/
-  buildUniversalOntologyMcpPackage.js         one canonical application bundle
-  buildUniversalOntologyMcpPlatformArchive.js release archive adapter
+  distribution/
+    buildUniversalOntologyMcpApplicationBundle.js
+                                               one canonical application bundle
+    buildUniversalOntologyMcpPlatformArchive.js release archive adapter
 
 tests/mcp/
 tests/ontology-query/
@@ -1007,7 +1038,18 @@ ontology query semantics require independently testable interfaces.
 
 The canonical application bundle is built once from the same source entry for
 npm, platform archives, and OCI. Packaging adapters MUST not carry divergent
-server logic or version strings.
+server logic or version strings. A rebuild MUST create and validate a unique
+candidate outside the future-public package output, synchronize the candidate,
+and atomically replace the canonical bundle. It MUST NOT remove or partially
+rewrite the live bundle while another build, verifier, or MCP process may be
+using it. Build metadata receives the same synchronized-candidate and atomic-
+replace treatment; unexpected package-output entries are removed only after a
+successful candidate publication. Before either publication or destructive
+cleanup, every output-directory component below the repository root MUST be a
+real directory according to `lstat` (not a symbolic link or Windows junction),
+and `realpath` MUST confirm that the directory still resolves below the
+repository root. Cleanup MUST recheck that invariant at each destructive
+boundary.
 
 ## 15. Code-comment and documentation policy
 
@@ -1282,6 +1324,114 @@ keeps the last-known-good snapshot and emits a safe warning. If an immutable
 cache file is corrupt, it is quarantined or removed only after its exact path
 has been validated, then fetched again when online. No repair rewrites bytes
 under an existing digest name.
+
+### Repository-local development installation integration
+
+A contributor checkout may install both the official GitHub MCP Server and the
+checkout-built Universal Ontology MCP server beneath the ignored
+`.agent-tools/` root. This is a development convenience boundary, not another
+software-distribution channel: it consumes the official GitHub server release,
+builds Universal Ontology software from the trusted checkout and exact lockfile,
+and publishes no Universal Ontology bytes remotely.
+
+The persistent identities remain deliberately different at each namespace:
+
+| Namespace                         | Identity                                                                                            |
+| --------------------------------- | --------------------------------------------------------------------------------------------------- |
+| MCP Registry package              | `io.github.hadden-industries/universal-ontology`                                                    |
+| Advertised MCP server             | `universal-ontology`                                                                                |
+| Repository host configuration     | `universal_ontology`                                                                                |
+| Public operations                 | `search_entities`, `resolve_entity`                                                                 |
+| Generated software installation   | `.agent-tools/bin/universal-ontology-mcp-server.mjs`                                                |
+| Generated installation record     | `.agent-tools/universal-ontology-mcp-server/installation.json`                                      |
+| Mutable development-data selector | `--artifact-channel=development` in launch configuration, never in the software installation record |
+
+Neither public tool name repeats `ontology`. MCP tool names are unique within
+one server; host aggregators own any necessary cross-server disambiguation. The
+host alias uses `universal_ontology` because it identifies which server
+configuration a host launches, whereas the installation record describes
+immutable local software evidence and therefore does not carry the
+independently changing data-channel selection.
+
+Setup must render and validate every supported host document before expensive
+work, retaining each destination's byte-exact presence and contents as an
+optimistic-concurrency precondition; reject an unmanaged ownership conflict;
+stage both programs; require the staged ontology bundle's byte length and SHA-256
+digest to equal the validated canonical snapshot; verify the GitHub executable
+with its native version command; and verify the Universal Ontology program by
+connecting with the official MCP v2 client pinned to protocol version
+`2026-07-28`, requiring the exact advertised server identity, and listing the
+exact tool surface. The protocol probe must not query ontology data: remote
+channel availability is runtime acceptance evidence, not application-bundle
+integrity evidence. The verifier MUST pass a unique operating-system-temporary
+`--cache-directory` to the child process and MUST remove it after closing the
+client, so verification cannot depend on or mutate the user's persistent runtime
+cache. A non-zero verifier exit MUST surface a bounded,
+control-character-sanitized form of the verifier's stderr diagnostic.
+
+Every repository-local host entry MUST remain portable across checkout moves and
+MUST launch correctly when the host session begins in any repository
+subdirectory. A shared Node bootstrap MUST ask Git for `--show-toplevel`, change
+to that authoritative checkout root, and import only the configured
+repository-relative entry point. The bootstrap owns no server-specific policy.
+The repository-relative launcher path and absolute verifier path MUST both be
+derived from the setup script's actual sibling directory, preserving the
+documented one-directory-below-root location contract without assuming that the
+directory is named `scripts`.
+
+Activation uses an ordered, rollback-capable multi-file transaction. Each
+generated program or record remains live while setup creates and synchronizes a
+sibling activation-backup copy, then changes through one atomic
+replace-over-destination operation; the group is not misdescribed as globally
+atomic. An existing host document MUST instead use the operating system's native
+displaced-file primitive: `ReplaceFileW` with a backup path on Windows,
+`renameat2(RENAME_EXCHANGE)` on Linux, or `renamex_np(RENAME_SWAP)` on macOS.
+The exact file displaced by that operation MUST equal the render-time bytes
+before the wider transaction commits. A host document observed absent MUST be
+published through a same-directory no-clobber hard link, so a concurrent
+creation survives. An unsupported platform or filesystem primitive MUST fail
+closed. Activation checks every host-document precondition before preparation
+and again immediately before the first live replacement, then checks each host
+document at its own replacement boundary. A concurrent edit preserves the
+user's bytes and aborts the activation.
+A later failure may restore a preceding destination only while its regular-file
+byte length, SHA-256 digest, and complete permission bits still equal the exact
+replacement state setup published. A changed, removed, or non-regular
+destination is a rollback conflict: setup MUST preserve that concurrent state,
+retain any synchronized preceding backup or atomically displaced file, and
+report both paths. An ordinary rollback failure likewise preserves and reports
+the recovery file.
+Same-directory staged and backup host documents use precise `.staged.tmp` and
+`.activation.backup` names covered by root-scoped Git ignore rules, because a
+complete local document may contain credentials. Setup MUST create each
+randomized transaction artifact empty, prove that exact path remains inside the
+repository and is ignored by Git, and only then write or copy potentially
+sensitive host-configuration bytes. Unchanged-file comparison includes POSIX execution-permission bits
+as well as bytes, so an installed executable with correct contents but lost
+execution permission is replaced. A mapped Windows executable may deny the
+single replacement; the existing path remains intact and setup fails safely. A
+cleanup denial for an inactive superseded backup is reported without
+retroactively failing committed activation. Legacy Codex migration removes both
+the exact obsolete server table and all of its descendant tables, preventing TOML
+from implicitly recreating the obsolete server or retaining a legacy environment
+table. The maintained TOML parser MUST then establish that the obsolete semantic
+key is absent. Both ordinary-table and array-of-tables headers MUST delimit the
+source-edit span, while only the canonical ordinary legacy table spelling is
+eligible for removal. If a valid noncanonical spelling survives the
+conservative comment-preserving source edit, setup MUST reject it with exact
+remediation; it MUST NOT grow a handwritten TOML parser to rewrite that
+spelling. A
+kernel-managed file lock allows only one setup writer per checkout and recovers
+automatically when a process exits or crashes; the persistent lock file is not
+itself the lock state. Checked-in `.mcp.json` and
+`.codex/config.toml` are drift-checkable;
+local `.agents/mcp_config.json` is ignored and omitted from read-only validation
+so its machine-specific or credential-bearing entries are never parsed by that
+gate.
+
+This integration changes no AWS stack, CloudFront behavior, Google Cloud
+resource, remote MCP deployment, npm publication, OCI publication, MCP Registry
+record, Universal Ontology GitHub Release, or immutable-release setting.
 
 ## 20. Explicit non-goals
 

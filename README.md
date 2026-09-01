@@ -39,6 +39,16 @@ record, or GitHub Release is an installation source. See the
 for trusted-checkout, local package/archive/container, and short-lived GitHub
 Actions-artifact use.
 
+For a repository-local contributor installation, the hardened
+`scripts/set_up_mcp_servers.py` command builds and verifies the Universal
+Ontology `stdio` bundle, installs the checksum-verified official GitHub MCP
+Server beside it, and transactionally updates the supported project-scoped host
+documents. It selects the Universal Ontology `development` data channel without
+bundling that rapidly changing data into the installed software. The exact
+command, generated paths, authentication behavior, read-only drift check, and
+rollback guarantees are documented under
+[Install both repository-local MCP servers](docs/mcp/local-installation.md#install-both-repository-local-mcp-servers).
+
 WebMCP and the installed server are complementary. WebMCP is page-scoped and
 inherits the lifecycle of an open supporting page; the installed MCP process is
 page-independent and available to any configured local host.

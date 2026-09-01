@@ -1,6 +1,14 @@
 import { createHash } from "node:crypto";
 import * as nodeFileSystem from "node:fs/promises";
-import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+import {
+  basename,
+  dirname,
+  isAbsolute,
+  join,
+  relative,
+  resolve,
+  sep,
+} from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { build } from "esbuild";
@@ -38,6 +46,8 @@ const APPLICATION_BUNDLE_METADATA_PATH = join(
   "release-work",
   "universal-ontology-mcp-application-bundle.json",
 );
+const APPLICATION_BUNDLE_CANDIDATE_DIRECTORY_NAME_PREFIX =
+  ".universal-ontology-mcp-application-bundle-candidate-";
 const ALLOWED_REPOSITORY_INPUT_PREFIXES = Object.freeze([
   "src/mcp/",
   "src/ontologyQuery/",
@@ -398,6 +408,126 @@ function assertOwnedOutputPath(path, expectedParentPath) {
   }
 }
 
+async function assertDirectoryPathHasNoSymbolicLinkComponents(
+  directoryPath,
+  repositoryRootPath,
+) {
+  const resolvedRepositoryRootPath = resolve(repositoryRootPath);
+  const resolvedDirectoryPath = resolve(directoryPath);
+  const repositoryRelativeDirectoryPath = relative(
+    resolvedRepositoryRootPath,
+    resolvedDirectoryPath,
+  );
+
+  if (
+    repositoryRelativeDirectoryPath === "" ||
+    repositoryRelativeDirectoryPath.startsWith(`..${sep}`) ||
+    repositoryRelativeDirectoryPath === ".." ||
+    isAbsolute(repositoryRelativeDirectoryPath)
+  ) {
+    throw new Error("Distribution directory escaped the repository.");
+  }
+
+  let inspectedPath = resolvedRepositoryRootPath;
+
+  for (const pathComponent of repositoryRelativeDirectoryPath.split(sep)) {
+    inspectedPath = join(inspectedPath, pathComponent);
+    // lstat is the authoritative distinction here: stat/realpath deliberately
+    // follow symbolic links and Windows directory junctions, which is exactly
+    // what destructive package-output cleanup must refuse to do.
+    const status = await nodeFileSystem.lstat(inspectedPath);
+
+    if (status.isSymbolicLink()) {
+      throw new Error(
+        `Distribution directory contains a symbolic link or junction: ${inspectedPath}`,
+      );
+    }
+
+    if (!status.isDirectory()) {
+      throw new Error(
+        `Distribution directory component is not a directory: ${inspectedPath}`,
+      );
+    }
+  }
+
+  // The component walk rejects links directly. This canonical containment
+  // check provides a second platform-authoritative guard against an unusual
+  // filesystem redirect that lstat does not classify as a symbolic link.
+  const [canonicalRepositoryRootPath, canonicalDirectoryPath] =
+    await Promise.all([
+      nodeFileSystem.realpath(resolvedRepositoryRootPath),
+      nodeFileSystem.realpath(resolvedDirectoryPath),
+    ]);
+  const canonicalRepositoryRelativeDirectoryPath = relative(
+    canonicalRepositoryRootPath,
+    canonicalDirectoryPath,
+  );
+
+  if (
+    canonicalRepositoryRelativeDirectoryPath === "" ||
+    canonicalRepositoryRelativeDirectoryPath.startsWith(`..${sep}`) ||
+    canonicalRepositoryRelativeDirectoryPath === ".." ||
+    isAbsolute(canonicalRepositoryRelativeDirectoryPath)
+  ) {
+    throw new Error(
+      "Distribution directory resolves outside the repository through a symbolic link or junction.",
+    );
+  }
+}
+
+async function synchronizeFileContents(path) {
+  const fileHandle = await nodeFileSystem.open(path, "r+");
+
+  try {
+    await fileHandle.sync();
+  } finally {
+    await fileHandle.close();
+  }
+}
+
+async function writeUtf8FileAndSynchronize(path, contents, mode) {
+  const fileHandle = await nodeFileSystem.open(path, "wx", mode);
+
+  try {
+    await fileHandle.writeFile(contents, "utf8");
+    await fileHandle.sync();
+  } finally {
+    await fileHandle.close();
+  }
+}
+
+export async function removeUnexpectedPublicPackageDistributionEntries(
+  publicPackageDistributionPath,
+  repositoryRootPath = REPOSITORY_ROOT_PATH,
+) {
+  await assertDirectoryPathHasNoSymbolicLinkComponents(
+    publicPackageDistributionPath,
+    repositoryRootPath,
+  );
+  const applicationBundleFileName = basename(APPLICATION_BUNDLE_PATH);
+  const entries = await nodeFileSystem.readdir(publicPackageDistributionPath, {
+    withFileTypes: true,
+  });
+
+  for (const { name } of entries) {
+    if (name === applicationBundleFileName) {
+      continue;
+    }
+
+    // Revalidate the parent at each destructive boundary. Node intentionally
+    // owns traversal and removal semantics; this repository check contributes
+    // only the containment invariant Node cannot infer from the path string.
+    await assertDirectoryPathHasNoSymbolicLinkComponents(
+      publicPackageDistributionPath,
+      repositoryRootPath,
+    );
+    await nodeFileSystem.rm(join(publicPackageDistributionPath, name), {
+      recursive: true,
+      force: true,
+    });
+  }
+}
+
 /**
  * Build the one canonical, dependency-bundled MCP application used by every
  * distribution format. The function is intentionally deterministic: no clock,
@@ -416,85 +546,143 @@ export async function buildUniversalOntologyMcpApplicationBundle() {
     APPLICATION_BUNDLE_METADATA_PATH,
     join(REPOSITORY_ROOT_PATH, "dist", "release-work"),
   );
-  await nodeFileSystem.rm(publicPackageDistPath, {
-    recursive: true,
-    force: true,
-  });
   await Promise.all([
     nodeFileSystem.mkdir(dirname(APPLICATION_BUNDLE_PATH), { recursive: true }),
     nodeFileSystem.mkdir(dirname(APPLICATION_BUNDLE_METADATA_PATH), {
       recursive: true,
     }),
   ]);
-
-  const buildResult = await build({
-    absWorkingDir: REPOSITORY_ROOT_PATH,
-    // An absolute entry point avoids drive-relative resolution ambiguity in
-    // esbuild's native Windows service while absWorkingDir keeps metafile input
-    // names stable and repository-relative on every host.
-    entryPoints: [APPLICATION_ENTRY_POINT_PATH],
-    outfile: APPLICATION_BUNDLE_PATH,
-    bundle: true,
-    platform: "node",
-    format: "esm",
-    target: "node24",
-    minify: false,
-    treeShaking: true,
-    legalComments: "eof",
-    metafile: true,
-    sourcemap: false,
-    charset: "utf8",
-    logLevel: "silent",
-    plugins: [createRootPackageVersionProjectionPlugin(rootPackage.version)],
-  });
-  const bundledComponentNames = collectAndValidateBundledComponentNames(
-    buildResult.metafile,
+  await Promise.all([
+    assertDirectoryPathHasNoSymbolicLinkComponents(
+      publicPackageDistPath,
+      REPOSITORY_ROOT_PATH,
+    ),
+    assertDirectoryPathHasNoSymbolicLinkComponents(
+      dirname(APPLICATION_BUNDLE_METADATA_PATH),
+      REPOSITORY_ROOT_PATH,
+    ),
+  ]);
+  const candidateDirectoryPath = await nodeFileSystem.mkdtemp(
+    join(
+      dirname(APPLICATION_BUNDLE_METADATA_PATH),
+      APPLICATION_BUNDLE_CANDIDATE_DIRECTORY_NAME_PREFIX,
+    ),
   );
-  const [directBundledComponents, prebundledServerComponents] =
+  const applicationBundleCandidatePath = join(
+    candidateDirectoryPath,
+    basename(APPLICATION_BUNDLE_PATH),
+  );
+  const applicationBundleMetadataCandidatePath = join(
+    candidateDirectoryPath,
+    basename(APPLICATION_BUNDLE_METADATA_PATH),
+  );
+
+  try {
+    const buildResult = await build({
+      absWorkingDir: REPOSITORY_ROOT_PATH,
+      // An absolute entry point avoids drive-relative resolution ambiguity in
+      // esbuild's native Windows service while absWorkingDir keeps metafile
+      // input names stable and repository-relative on every host. A unique
+      // candidate path prevents concurrent builders from deleting or partially
+      // rewriting the application bundle another verifier is already using.
+      entryPoints: [APPLICATION_ENTRY_POINT_PATH],
+      outfile: applicationBundleCandidatePath,
+      bundle: true,
+      platform: "node",
+      format: "esm",
+      target: "node24",
+      minify: false,
+      treeShaking: true,
+      legalComments: "eof",
+      metafile: true,
+      sourcemap: false,
+      charset: "utf8",
+      logLevel: "silent",
+      plugins: [createRootPackageVersionProjectionPlugin(rootPackage.version)],
+    });
+    const bundledComponentNames = collectAndValidateBundledComponentNames(
+      buildResult.metafile,
+    );
+    const [directBundledComponents, prebundledServerComponents] =
+      await Promise.all([
+        readBundledComponents(bundledComponentNames),
+        readAndValidatePrebundledServerComponents(buildResult.metafile),
+      ]);
+    const bundledComponents = [
+      ...directBundledComponents,
+      ...prebundledServerComponents,
+    ].sort(({ name: leftName }, { name: rightName }) =>
+      leftName.localeCompare(rightName),
+    );
+    assertNoticesCoverBundledComponents(noticesText, bundledComponents);
+    const bundleBytes = await nodeFileSystem.readFile(
+      applicationBundleCandidatePath,
+    );
+    assertBundleExcludesForbiddenContent(bundleBytes);
+
+    if (process.platform !== "win32") {
+      await nodeFileSystem.chmod(applicationBundleCandidatePath, 0o755);
+    }
+
+    await synchronizeFileContents(applicationBundleCandidatePath);
+    const metadata = Object.freeze({
+      applicationBundleMetadataFormatVersion: 1,
+      packageName: publicPackage.name,
+      packageVersion: publicPackage.version,
+      bundleRelativePath: APPLICATION_BUNDLE_RELATIVE_PATH,
+      bundleByteLength: bundleBytes.byteLength,
+      bundleSha256: calculateSha256(bundleBytes),
+      approvedDynamicCodeGeneration: [
+        {
+          componentName: "ajv",
+          componentVersion: "8.18.0",
+          occurrenceCount: 1,
+          purpose: "Compile MCP JSON Schemas into validation functions",
+        },
+      ],
+      bundledComponents,
+      bundledInputPaths: Object.keys(buildResult.metafile.inputs)
+        .map(normalizeRelativePath)
+        .sort((left, right) => left.localeCompare(right)),
+    });
+    await writeUtf8FileAndSynchronize(
+      applicationBundleMetadataCandidatePath,
+      `${JSON.stringify(metadata, null, 2)}\n`,
+      0o600,
+    );
+
+    // Each rename is an atomic replace of a fully validated, synchronized
+    // candidate. The bundle is published first because it is the executable
+    // primary artifact; metadata publication follows without ever exposing a
+    // truncated metadata document.
     await Promise.all([
-      readBundledComponents(bundledComponentNames),
-      readAndValidatePrebundledServerComponents(buildResult.metafile),
+      assertDirectoryPathHasNoSymbolicLinkComponents(
+        publicPackageDistPath,
+        REPOSITORY_ROOT_PATH,
+      ),
+      assertDirectoryPathHasNoSymbolicLinkComponents(
+        dirname(APPLICATION_BUNDLE_METADATA_PATH),
+        REPOSITORY_ROOT_PATH,
+      ),
     ]);
-  const bundledComponents = [
-    ...directBundledComponents,
-    ...prebundledServerComponents,
-  ].sort(({ name: leftName }, { name: rightName }) =>
-    leftName.localeCompare(rightName),
-  );
-  assertNoticesCoverBundledComponents(noticesText, bundledComponents);
-  const bundleBytes = await nodeFileSystem.readFile(APPLICATION_BUNDLE_PATH);
-  assertBundleExcludesForbiddenContent(bundleBytes);
-
-  if (process.platform !== "win32") {
-    await nodeFileSystem.chmod(APPLICATION_BUNDLE_PATH, 0o755);
+    await nodeFileSystem.rename(
+      applicationBundleCandidatePath,
+      APPLICATION_BUNDLE_PATH,
+    );
+    await nodeFileSystem.rename(
+      applicationBundleMetadataCandidatePath,
+      APPLICATION_BUNDLE_METADATA_PATH,
+    );
+    await removeUnexpectedPublicPackageDistributionEntries(
+      publicPackageDistPath,
+    );
+    return metadata;
+  } finally {
+    await nodeFileSystem.rm(candidateDirectoryPath, {
+      recursive: true,
+      force: true,
+    });
   }
-
-  const metadata = Object.freeze({
-    applicationBundleMetadataFormatVersion: 1,
-    packageName: publicPackage.name,
-    packageVersion: publicPackage.version,
-    bundleRelativePath: APPLICATION_BUNDLE_RELATIVE_PATH,
-    bundleByteLength: bundleBytes.byteLength,
-    bundleSha256: calculateSha256(bundleBytes),
-    approvedDynamicCodeGeneration: [
-      {
-        componentName: "ajv",
-        componentVersion: "8.18.0",
-        occurrenceCount: 1,
-        purpose: "Compile MCP JSON Schemas into validation functions",
-      },
-    ],
-    bundledComponents,
-    bundledInputPaths: Object.keys(buildResult.metafile.inputs)
-      .map(normalizeRelativePath)
-      .sort((left, right) => left.localeCompare(right)),
-  });
-  await nodeFileSystem.writeFile(
-    APPLICATION_BUNDLE_METADATA_PATH,
-    `${JSON.stringify(metadata, null, 2)}\n`,
-    { encoding: "utf8", mode: 0o600 },
-  );
-  return metadata;
 }
 
 const invokedScriptPath = process.argv[1]

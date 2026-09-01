@@ -167,7 +167,38 @@ containment, digest, canonical-byte, cancellation, coalescing, atomic-write,
 lease, eviction, offline-fallback, cross-platform, or release-ordering
 invariants. Do not narrate syntax or preserve obsolete implementation history.
 
-### 3.4 Review and commit gate
+### 3.4 Authoritative format and protocol tooling
+
+Use authoritative tools to execute and validate their own formats; write
+repository code only for invariants those tools cannot know.
+
+- Use the official MCP SDK/client for negotiation, transport, and tool
+  discovery. Repository assertions may require the exact server identity,
+  protocol pin, capabilities, and tool surface, but must not emulate an MCP
+  peer.
+- Use the selected exact npm CLI for lockfile installation, workspace/package
+  selection, `pack --json`, tarball creation, and npm SBOM generation.
+  Repository code may enforce file allowlists, digest agreement, component
+  coverage, and cross-form version identity.
+- Ask Git about tracking and ignore behavior for every exact generated or
+  transaction path. Never approximate `.gitignore` semantics with pathname
+  matching.
+- Use maintained JSON, TOML, YAML, archive, and JSON Schema implementations to
+  parse or validate the complete result. Repository code may preserve
+  comments/ordering and ownership markers, reject duplicate JSON members, and
+  enforce domain-specific containment or cross-field invariants; it must then
+  reparse the final document with the format implementation.
+- Use Docker to build, inspect, and execute the OCI form. Repository code owns
+  the expected inputs, identity, privilege, mount, network, and content
+  invariants, not an OCI runtime substitute.
+
+Do not accept a source-text grep, regex, handwritten parser, or duplicated
+formatter rule as proof when an authoritative executable, parser, schema, or
+runtime can validate the artifact itself. A textual check is reserved for an
+invariant that authority cannot express, such as a forbidden embedded
+repository path, generated ownership marker, or secret-shaped output.
+
+### 3.5 Review and commit gate
 
 After each non-trivial behavioral task has green focused and applicable full
 checks, but before staging or committing, the implementer must say exactly:
@@ -210,6 +241,89 @@ No `.npmrc`, `.codex/config.toml`, AWS configuration, CloudFront function,
 repository policy, or existing workflow is edited. The already ignored `dist/`
 tree remains the only local release-output root, so `.gitignore` needs no
 change.
+
+### Approved follow-up: repository-local MCP host integration
+
+The original distribution increment above intentionally stopped at manually
+configurable software forms. The separately approved repository-local
+development integration of 1 September 2026 supersedes only its
+`.codex/config.toml` and `.gitignore` exclusions. It does not broaden any
+production publication, AWS, CDN, Registry, npm, OCI, or GitHub Release scope.
+
+That follow-up makes these exact configuration changes:
+
+| Path                      | Approved repository-local setting and ownership                                                                                                                                                                                                                                                                           |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.gitignore`              | Root-anchor the generated `/.agent-tools/` installation and local `/.agents/mcp_config.json`; ignore only the same-directory `.staged.tmp` and `.activation.backup` name patterns produced for `.mcp.json`, `.codex/config.toml`, and `.agents/mcp_config.json`; retain the existing, independent `.agents/skills/` rule. |
+| `.mcp.json`               | Track complete `github` and `universal_ontology` `stdio` entries whose shared Node bootstrap asks Git for the checkout root before resolving repository-relative launcher/application paths; select `--artifact-channel=development` for Universal Ontology data.                                                         |
+| `.codex/config.toml`      | Replace the legacy `universal_ontology_local` loopback table with marker-owned `github` and `universal_ontology` `stdio` tables; retain `sandbox_workspace_write.network_access = true`; require the ontology server; enable only `search_entities` and `resolve_entity`; retain write-only approval mode.                |
+| `.agents/mcp_config.json` | Generate the same two portable entries locally while preserving unrelated local servers; never include it in the checked-in drift gate.                                                                                                                                                                                   |
+
+Implementation adds `scripts/set_up_mcp_servers.py`, the checked-in GitHub
+launcher, and an official-client Universal Ontology bundle verifier. The setup
+operation renders every host document before network or build work; stages and
+verifies both server programs; and then publishes per-file atomic replacements
+as one rollback-capable transaction. Generated programs and records remain
+present while a synchronized activation-backup copy is prepared, then change
+through one replace-over-destination operation. Existing host documents use the
+native displaced-file primitive for the current operating system—Windows
+`ReplaceFileW`, Linux `renameat2(RENAME_EXCHANGE)`, or macOS
+`renamex_np(RENAME_SWAP)`—and validate the exact displaced bytes before the
+wider transaction commits. An originally absent host document is published by
+a same-directory hard link that cannot overwrite a concurrently created file.
+Byte-exact host-document observations are therefore compare-and-replace
+preconditions: an edit made during download, build, earlier activation, or at
+the native replacement boundary is preserved and aborts the transaction. A
+platform or filesystem without the required primitive fails closed. Before
+restoring or removing any replacement during rollback, setup
+requires the destination's regular-file byte length, SHA-256 digest, and complete
+permission bits to equal the exact state setup published; a concurrent change is
+preserved and its preceding synchronized backup or displaced file is retained
+and reported. Each randomized staged or recovery host-document path is created empty,
+confirmed to be repository-contained and exactly Git-ignored, and only then
+receives potentially sensitive host-configuration bytes. Setup non-fatally
+reports an inactive backup
+whose cleanup is denied after a committed activation, and repairs mismatched
+POSIX execution-permission bits even when program bytes match. A Windows lock on
+the live executable fails without removing the existing installation. Legacy
+Codex migration removes each obsolete server's complete descendant-table
+subtree. `tomllib` then requires the obsolete semantic key to be absent; a valid
+but noncanonical table spelling that the conservative source editor does not own
+fails with a precise remediation instead of motivating a second TOML parser.
+Ordinary and array-of-tables headers both delimit the conservative source-edit
+span, so an unrelated `[[table]]` following an obsolete server is retained and
+then validated by `tomllib`. The host entries use one small Node bootstrap that
+asks Git for the checkout root, so they launch from the repository root even
+when a host session begins in a nested directory. Both the checked-in GitHub
+launcher and official-client verifier are derived from the setup script's
+actual sibling directory, preserving the script's one-directory-below-root
+location contract without a hard-coded `scripts/` assumption. A failed
+official-client verification reports bounded, control-character-sanitized
+stderr. The copied ontology bundle's byte length and SHA-256 digest must equal
+the validated build snapshot before its installation record is written. A
+process-scoped operating-system lock enforces one setup writer per checkout and
+is released automatically after a crash. Tests proceed
+failure-first for merge ownership, read-only checking, generated-root and
+configuration-path safety, bounded download and archive handling, software
+metadata, staged protocol verification, legacy descendant-table removal,
+array-table preservation, semantic legacy-key rejection, nested-session launch
+resolution, setup-companion path derivation, surfaced verifier diagnostics,
+staged-copy identity binding, Python-3.11 Windows junction recognition, exact
+transaction-artifact ignore coverage before sensitive bytes, concurrent-edit
+rejection (including the native replacement boundary and absent-path creation),
+strict rejection of non-finite JSON constants, rollback conflict preservation,
+continuous-path atomic replacement,
+execution-permission repair, locking, transaction rollback, and deferred backup
+cleanup. The Universal Ontology protocol verifier supplies a unique operating-system-temporary
+`--cache-directory` to the child process and removes it after closure, so
+installation verification never depends on or mutates the developer's normal
+persistent runtime cache.
+
+The setup command may use the exact npm configuration already authorized by
+this plan, but it does not edit `package.json`, `package-lock.json`, a workflow,
+or another configuration file. It never creates or pushes a Universal Ontology
+release or publishes anything outside the existing short-lived GitHub Actions
+development-candidate mechanism.
 
 The root script values are exactly:
 
@@ -1432,8 +1546,15 @@ dependencies. Do not externalize `@modelcontextprotocol/*` or Zod.
 The build script:
 
 - reads version from both package files and fails on disagreement;
-- writes only the package `dist/` output and a release-work metadata file
-  below root `dist/release-work/`;
+- builds and validates each application-bundle candidate in a uniquely named
+  directory below root `dist/release-work/`, synchronizes its bytes, then
+  atomically replaces the canonical package `dist/` bundle without first
+  removing the live bundle another verifier may be using;
+- atomically replaces the synchronized release-work metadata document and
+  removes unexpected package `dist/` entries only after successful candidate
+  publication; immediately before publication and each destructive cleanup,
+  `lstat` rejects a symbolic-link or Windows-junction component and `realpath`
+  confirms the owned directory still resolves inside the repository;
 - normalizes output mode to executable on POSIX;
 - scans the metafile for only allowlisted source roots and runtime packages;
 - scans output for absolute repository paths, ontology artifact paths, source
@@ -1457,6 +1578,12 @@ The test fails if the metafile contains a bundled package missing from notices.
       inspect both manifest and lockfile diffs before continuing.
 - [ ] Add a failing bundle test for the expected executable entry point, then
       implement the minimal esbuild script.
+- [ ] Add a failing concurrency regression that observes the canonical bundle
+      throughout a rebuild and run the package and application-bundle-verifier
+      suites in separate workers; require continuous availability and fully
+      validated candidate publication.
+- [ ] Add a failing linked-output regression proving package cleanup rejects a
+      symbolic-link or junction parent without deleting its external target.
 - [ ] Add failing allowlist, path-leak, data-exclusion, notice-completeness,
       deterministic-build, `--help`, and `--version` tests.
 - [ ] Run `npm pack --dry-run --json --workspace

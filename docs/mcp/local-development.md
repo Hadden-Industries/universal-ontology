@@ -309,14 +309,20 @@ Run that prompt with every website and browser page closed. The result must be
 unchanged because the MCP capability is owned by the standalone process, not a
 page lifecycle.
 
-## Connect Codex manually
+## Connect Codex to the loopback HTTP server manually
 
-This repository deliberately does not create or modify `.codex/config.toml`.
-If you want project-scoped Codex configuration, make the following manual
-configuration change yourself:
+The repository-local installation command documented in
+[the local installation guide](local-installation.md#install-both-repository-local-mcp-servers)
+manages a page-independent `stdio` entry named `universal_ontology`. It does
+not point that entry at this loopback HTTP development topology.
+
+When specifically testing the Streamable HTTP adapter, add the following
+separate project-scoped entry manually. The name `universal_ontology_loopback`
+identifies the transport and lifecycle precisely and avoids colliding with the
+installed `stdio` server:
 
 ```toml
-[mcp_servers.universal_ontology_local]
+[mcp_servers.universal_ontology_loopback]
 url = "http://127.0.0.1:8000/mcp"
 startup_timeout_sec = 10
 tool_timeout_sec = 30
@@ -332,7 +338,8 @@ enabled_tools = [
 read-only tools can run without a write prompt, while any future write-capable
 tool would require approval. Restart or reload the relevant Codex host after a
 manual configuration change, then confirm that exactly the two tools above are
-visible.
+visible under the loopback entry. Remove the entry when HTTP-adapter testing is
+complete; it is not an installed-server configuration.
 
 ## Inspect the server with MCP Inspector
 
