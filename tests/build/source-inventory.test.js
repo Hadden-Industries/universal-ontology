@@ -1,6 +1,6 @@
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 import {
   inventorySourceTree,
@@ -61,7 +61,7 @@ test("classifies pages, passthrough files, exclusions, and ontology sources", as
 });
 
 test("resolves only normalized relative output paths beneath the output root", () => {
-  const outputDirectory = join("C:\\", "build-fixture", "dist");
+  const outputDirectory = resolve(tmpdir(), "build-fixture", "dist");
 
   expect(resolveOutputPath(outputDirectory, "nested/asset.bin")).toBe(
     join(outputDirectory, "nested", "asset.bin"),
