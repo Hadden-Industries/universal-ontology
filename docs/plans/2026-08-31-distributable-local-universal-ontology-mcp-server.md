@@ -252,18 +252,21 @@ production publication, AWS, CDN, Registry, npm, OCI, or GitHub Release scope.
 
 That follow-up makes these exact configuration changes:
 
-| Path                      | Approved repository-local setting and ownership                                                                                                                                                                                                                                                                           |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.gitignore`              | Root-anchor the generated `/.agent-tools/` installation and local `/.agents/mcp_config.json`; ignore only the same-directory `.staged.tmp` and `.activation.backup` name patterns produced for `.mcp.json`, `.codex/config.toml`, and `.agents/mcp_config.json`; retain the existing, independent `.agents/skills/` rule. |
-| `.mcp.json`               | Track complete `github` and `universal_ontology` `stdio` entries whose shared Node bootstrap asks Git for the checkout root before resolving repository-relative launcher/application paths; select `--artifact-channel=development` for Universal Ontology data.                                                         |
-| `.codex/config.toml`      | Replace the legacy `universal_ontology_local` loopback table with marker-owned `github` and `universal_ontology` `stdio` tables; retain `sandbox_workspace_write.network_access = true`; require the ontology server; enable only `search_entities` and `resolve_entity`; retain write-only approval mode.                |
-| `.agents/mcp_config.json` | Generate the same two portable entries locally while preserving unrelated local servers; never include it in the checked-in drift gate.                                                                                                                                                                                   |
+| Path                      | Approved repository-local setting and ownership                                                                                                                                                                                                                                                                               |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.gitignore`              | Root-anchor the generated `/.agent-tools/` installation and local `/.agents/mcp_config.json`; ignore only the same-directory `.staged.tmp` and `.activation.backup` name patterns produced for `.mcp.json`, `.codex/config.toml`, and `.agents/mcp_config.json`; retain the existing, independent `.agents/skills/` rule.     |
+| `.mcp.json`               | Track complete `github` and `universal_ontology` `stdio` entries whose shared Node bootstrap asks Git for the checkout root before resolving repository-relative launcher/application paths; select `--query-artifact-source=file-system` and repository-relative `--query-artifact-root-directory=dist/query/v1` by default. |
+| `.codex/config.toml`      | Replace the legacy `universal_ontology_local` loopback table with marker-owned `github` and `universal_ontology` `stdio` tables; retain `sandbox_workspace_write.network_access = true`; require the ontology server; enable only `search_entities` and `resolve_entity`; retain write-only approval mode.                    |
+| `.agents/mcp_config.json` | Generate the same two portable entries locally while preserving unrelated local servers; never include it in the checked-in drift gate.                                                                                                                                                                                       |
 
 Implementation adds `scripts/set_up_mcp_servers.py`, the checked-in GitHub
 launcher, and an official-client Universal Ontology bundle verifier. The setup
 operation renders every host document before network or build work; stages and
-verifies both server programs; and then publishes per-file atomic replacements
-as one rollback-capable transaction. Generated programs and records remain
+verifies both server programs; uses the repository's authoritative
+`npm run mcp:index` generator when the selected ontology query-artifact source
+is `file-system`; makes a real `Person` query through the official MCP client;
+and then publishes per-file atomic replacements as one rollback-capable
+transaction. Generated programs and records remain
 present while a synchronized activation-backup copy is prepared, then change
 through one replace-over-destination operation. Existing host documents use the
 native displaced-file primitive for the current operating system—Windows
@@ -315,9 +318,22 @@ strict rejection of non-finite JSON constants, rollback conflict preservation,
 continuous-path atomic replacement,
 execution-permission repair, locking, transaction rollback, and deferred backup
 cleanup. The Universal Ontology protocol verifier supplies a unique operating-system-temporary
-`--cache-directory` to the child process and removes it after closure, so
-installation verification never depends on or mutates the developer's normal
-persistent runtime cache.
+`--cache-directory` to an HTTP-source child process and removes it after
+closure, so HTTP installation verification never depends on or mutates the
+developer's normal persistent runtime cache. Filesystem verification instead
+uses the generated `dist/query/v1` tree without creating an HTTP cache.
+
+The repository-local follow-up also adds one explicit source discriminator.
+`--universal-ontology-query-artifact-source=file-system` is the setup default;
+it renders `--query-artifact-source=file-system` and
+`--query-artifact-root-directory=dist/query/v1` into every supported host.
+`--universal-ontology-query-artifact-source=http` renders the server's HTTP
+repository instead, with optional `--universal-ontology-query-artifact-channel`
+and `--universal-ontology-query-artifact-base-url` selections. The setup command
+rejects HTTP-only selectors for the filesystem source, passes the same source
+selection through read-only drift checking, and verifies the selected repository
+before activation. This changes no package, lockfile, workflow, AWS, CDN, or
+remote-publication configuration.
 
 The setup command may use the exact npm configuration already authorized by
 this plan, but it does not edit `package.json`, `package-lock.json`, a workflow,

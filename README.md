@@ -29,9 +29,10 @@ tab. See [WebMCP ontology entity definition lookup](docs/webmcp-ontology-entity-
 The distributable Universal Ontology MCP server exposes the read-only
 `search_entities` and `resolve_entity` tools over `stdio`. An MCP host launches
 the process locally, so definition lookup remains available with every website
-and browser page closed. Software search and resolution run locally while
-independently changing ontology catalogs and indexes are retrieved from the
-configured artifact origin and retained in a verified local cache.
+and browser page closed. Software search and resolution run locally. The server
+can read ontology catalogs and indexes either directly from a generated
+filesystem tree or from a configured HTTP artifact origin with a verified local
+cache.
 
 The server is currently development-only: no public package, image, Registry
 record, or GitHub Release is an installation source. See the
@@ -43,10 +44,12 @@ For a repository-local contributor installation, the hardened
 `scripts/set_up_mcp_servers.py` command builds and verifies the Universal
 Ontology `stdio` bundle, installs the checksum-verified official GitHub MCP
 Server beside it, and transactionally updates the supported project-scoped host
-documents. It selects the Universal Ontology `development` data channel without
-bundling that rapidly changing data into the installed software. The exact
-command, generated paths, authentication behavior, read-only drift check, and
-rollback guarantees are documented under
+documents. By default it regenerates `dist/query/v1`, configures the server to
+read that filesystem tree, and proves the staged server with a real `Person`
+query before activation. HTTP artifacts remain an explicit setup option; their
+rapidly changing data is not bundled into the installed software. The exact
+commands for switching sources, generated paths, authentication behavior,
+read-only drift check, and rollback guarantees are documented under
 [Install both repository-local MCP servers](docs/mcp/local-installation.md#install-both-repository-local-mcp-servers).
 
 WebMCP and the installed server are complementary. WebMCP is page-scoped and

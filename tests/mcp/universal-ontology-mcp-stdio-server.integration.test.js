@@ -1,6 +1,6 @@
 import * as nodeFileSystem from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { Client } from "@modelcontextprotocol/client";
@@ -45,6 +45,25 @@ async function createStdioIntegrationFixture() {
   );
   const catalogSha256 = await calculateSha256(catalogBytes);
   const catalogRelativePath = `catalogs/${catalogSha256}.json`;
+  const queryArtifactRootDirectoryPath = join(
+    temporaryParentPath,
+    "query",
+    "v1",
+  );
+  const releaseQueryIndexPath = join(
+    queryArtifactRootDirectoryPath,
+    ...releaseArtifact.queryIndexRelativePath.split("/"),
+  );
+  await nodeFileSystem.mkdir(dirname(releaseQueryIndexPath), {
+    recursive: true,
+  });
+  await Promise.all([
+    nodeFileSystem.writeFile(
+      join(queryArtifactRootDirectoryPath, "catalog.json"),
+      catalogBytes,
+    ),
+    nodeFileSystem.writeFile(releaseQueryIndexPath, releaseArtifact.indexBytes),
+  ]);
   const manifestBytes = Buffer.from(
     serializeCanonicalOntologyQueryJsonDocument({
       queryArtifactKind: "universal_ontology_query_channel_manifest",
@@ -67,17 +86,24 @@ async function createStdioIntegrationFixture() {
   });
   const clients = [];
 
-  async function connect({ modern }) {
+  async function connect({ modern, ontologyQueryArtifactSourceKind = "http" }) {
+    const ontologyQueryArtifactArguments =
+      ontologyQueryArtifactSourceKind === "file_system"
+        ? [
+            "--query-artifact-source=file-system",
+            `--query-artifact-root-directory=${queryArtifactRootDirectoryPath}`,
+          ]
+        : [
+            "--query-artifact-source=http",
+            "--artifact-channel=stable",
+            `--artifact-base-url=${httpFixture.ontologyQueryArtifactBaseUrl}`,
+            "--cache-directory",
+            cacheDirectoryPath,
+            "--allow-insecure-loopback-artifact-origin",
+          ];
     const transport = new StdioClientTransport({
       command: process.execPath,
-      args: [
-        STDIO_SERVER_SCRIPT_PATH,
-        "--artifact-channel=stable",
-        `--artifact-base-url=${httpFixture.ontologyQueryArtifactBaseUrl}`,
-        "--cache-directory",
-        cacheDirectoryPath,
-        "--allow-insecure-loopback-artifact-origin",
-      ],
+      args: [STDIO_SERVER_SCRIPT_PATH, ...ontologyQueryArtifactArguments],
       cwd: process.cwd(),
       stderr: "pipe",
     });
@@ -152,6 +178,41 @@ function waitForNextTurn() {
 }
 
 describe("installed Universal Ontology MCP stdio process", () => {
+  test("serves a real ontology query from filesystem artifacts without HTTP", async () => {
+    const fixture = await createStdioIntegrationFixture();
+
+    try {
+      const connection = await fixture.connect({
+        modern: true,
+        ontologyQueryArtifactSourceKind: "file_system",
+      });
+      const result = await connection.client.callTool({
+        name: SEARCH_ENTITIES_TOOL_NAME,
+        arguments: createPersonSearchArguments(),
+      });
+
+      expect(result).toMatchObject({
+        structuredContent: {
+          outcome: "success",
+          totalMatchedEntityCount: 1,
+          matches: [
+            {
+              ontologyEntity: {
+                selectedPreferredLabel: {
+                  literalValue: { lexicalForm: "Person" },
+                },
+              },
+            },
+          ],
+        },
+      });
+      expect(fixture.httpFixture.requestRecords).toEqual([]);
+      await connection.close();
+    } finally {
+      await fixture.close();
+    }
+  }, 30_000);
+
   test.each([
     ["current", true],
     ["intended legacy", false],

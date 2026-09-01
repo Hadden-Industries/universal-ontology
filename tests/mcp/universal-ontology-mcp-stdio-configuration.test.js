@@ -21,19 +21,63 @@ function parseConfiguration(overrides = {}) {
 }
 
 describe("Universal Ontology MCP stdio configuration", () => {
-  test("returns the strict production defaults with one package-version authority", () => {
+  test("selects the repository filesystem source without consulting HTTP cache configuration", () => {
+    const configuration = parseConfiguration({
+      commandLineArguments: ["--query-artifact-source=file-system"],
+      workingDirectoryPath: "/workspace/universal-ontology",
+      readHomeDirectory() {
+        throw new Error("HTTP cache home lookup must not run");
+      },
+    });
+
+    expect(configuration).toEqual({
+      operationMode: "serve_stdio",
+      ontologyQueryArtifactSource: {
+        kind: "file_system",
+        rootDirectoryPath: "/workspace/universal-ontology/dist/query/v1",
+      },
+    });
+  });
+
+  test.each([
+    [
+      ["--query-artifact-source=file-system", "--artifact-channel=development"],
+      "--artifact-channel",
+    ],
+    [
+      [
+        "--query-artifact-source=http",
+        "--query-artifact-root-directory=dist/query/v1",
+      ],
+      "--query-artifact-root-directory",
+    ],
+  ])(
+    "rejects source-incompatible option %s",
+    (commandLineArguments, optionName) => {
+      expect(() => parseConfiguration({ commandLineArguments })).toThrow(
+        expect.objectContaining({
+          name: "UniversalOntologyMcpStdioConfigurationError",
+          optionName,
+          exitCode: 2,
+        }),
+      );
+    },
+  );
+
+  test("returns the strict standalone HTTP defaults with one package-version authority", () => {
     const configuration = parseConfiguration();
 
     expect(configuration).toEqual({
       operationMode: "serve_stdio",
-      ontologyQueryArtifactChannelName: "stable",
-      ontologyQueryArtifactBaseUrl: new URL(
-        "https://haddenindustries.com/ontology/query/v1/",
-      ),
-      ontologyQueryArtifactCacheDirectoryPath:
-        "/home/ontology-user/.cache/universal-ontology-mcp-server/v1",
-      maximumPersistentQueryArtifactCacheByteSize: 536_870_912,
-      allowInsecureLoopbackOntologyQueryArtifactOrigin: false,
+      ontologyQueryArtifactSource: {
+        kind: "http",
+        channelName: "stable",
+        baseUrl: new URL("https://haddenindustries.com/ontology/query/v1/"),
+        persistentCacheDirectoryPath:
+          "/home/ontology-user/.cache/universal-ontology-mcp-server/v1",
+        maximumPersistentCacheByteSize: 536_870_912,
+        allowInsecureLoopbackOrigin: false,
+      },
     });
     expect(UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO.version).toBe(
       packageMetadata.version,
@@ -100,7 +144,7 @@ describe("Universal Ontology MCP stdio configuration", () => {
           environment,
           platform,
           readHomeDirectory: () => homeDirectory,
-        }).ontologyQueryArtifactCacheDirectoryPath,
+        }).ontologyQueryArtifactSource.persistentCacheDirectoryPath,
       ).toBe(expected);
     },
   );
@@ -127,11 +171,14 @@ describe("Universal Ontology MCP stdio configuration", () => {
 
     expect(configuration).toEqual({
       operationMode: "serve_stdio",
-      ontologyQueryArtifactChannelName: "development",
-      ontologyQueryArtifactBaseUrl: new URL("http://127.0.0.1:8123/query/v1/"),
-      ontologyQueryArtifactCacheDirectoryPath: "/tmp/ontology-cli-cache",
-      maximumPersistentQueryArtifactCacheByteSize: 1_048_576,
-      allowInsecureLoopbackOntologyQueryArtifactOrigin: true,
+      ontologyQueryArtifactSource: {
+        kind: "http",
+        channelName: "development",
+        baseUrl: new URL("http://127.0.0.1:8123/query/v1/"),
+        persistentCacheDirectoryPath: "/tmp/ontology-cli-cache",
+        maximumPersistentCacheByteSize: 1_048_576,
+        allowInsecureLoopbackOrigin: true,
+      },
     });
   });
 
@@ -147,11 +194,14 @@ describe("Universal Ontology MCP stdio configuration", () => {
     });
 
     expect(configuration).toMatchObject({
-      ontologyQueryArtifactChannelName: "development",
-      ontologyQueryArtifactCacheDirectoryPath: "/srv/ontology-cache",
-      maximumPersistentQueryArtifactCacheByteSize: 4096,
+      ontologyQueryArtifactSource: {
+        kind: "http",
+        channelName: "development",
+        persistentCacheDirectoryPath: "/srv/ontology-cache",
+        maximumPersistentCacheByteSize: 4096,
+      },
     });
-    expect(configuration.ontologyQueryArtifactBaseUrl.href).toBe(
+    expect(configuration.ontologyQueryArtifactSource.baseUrl.href).toBe(
       "https://artifacts.example.test/ontology/query/v1/",
     );
   });
@@ -163,7 +213,7 @@ describe("Universal Ontology MCP stdio configuration", () => {
         readHomeDirectory() {
           throw new Error("home lookup must not run");
         },
-      }).ontologyQueryArtifactCacheDirectoryPath,
+      }).ontologyQueryArtifactSource.persistentCacheDirectoryPath,
     ).toBe("/srv/ontology-cache");
   });
 
@@ -259,7 +309,7 @@ describe("Universal Ontology MCP stdio configuration", () => {
             `http://${hostname}:8123/query/v1/`,
             "--allow-insecure-loopback-artifact-origin",
           ],
-        }).ontologyQueryArtifactBaseUrl.protocol,
+        }).ontologyQueryArtifactSource.baseUrl.protocol,
       ).toBe("http:");
     }
 

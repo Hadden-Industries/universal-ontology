@@ -12,6 +12,13 @@ const LOOPBACK_HOSTNAME_VALUES = Object.freeze([
   "[::1]",
 ]);
 const VALUE_OPTION_DEFINITIONS = Object.freeze({
+  "--query-artifact-source": {
+    environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_SOURCE",
+  },
+  "--query-artifact-root-directory": {
+    environmentVariableName:
+      "UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY",
+  },
   "--artifact-channel": {
     environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_ARTIFACT_CHANNEL",
   },
@@ -37,8 +44,16 @@ Usage:
   universal-ontology-mcp-server [options]
 
 Options:
+  --query-artifact-source <file-system|http>
+      Environment: UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_SOURCE
+      Standalone default: http
+  --query-artifact-root-directory <path>
+      Environment: UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY
+      Filesystem-source default: dist/query/v1
+      Relative paths resolve from the working directory.
   --artifact-channel <stable|development>
       Environment: UNIVERSAL_ONTOLOGY_MCP_ARTIFACT_CHANNEL
+      HTTP-source default: stable
   --artifact-base-url <url>
       Environment: UNIVERSAL_ONTOLOGY_MCP_ARTIFACT_BASE_URL
   --cache-directory <absolute-path>
@@ -197,6 +212,24 @@ function readConfiguredValue({
   );
 }
 
+function rejectConfiguredOptions({
+  optionNames,
+  valuesByOptionName,
+  environment,
+}) {
+  for (const optionName of optionNames) {
+    if (
+      valuesByOptionName.has(optionName) ||
+      readNonEmptyEnvironmentValue(
+        environment,
+        VALUE_OPTION_DEFINITIONS[optionName].environmentVariableName,
+      ) !== undefined
+    ) {
+      throwConfigurationError(optionName);
+    }
+  }
+}
+
 function requireUnpaddedValue(value, optionName) {
   if (typeof value !== "string" || value === "" || value.trim() !== value) {
     throwConfigurationError(optionName);
@@ -213,6 +246,33 @@ function parseArtifactChannel(value) {
   }
 
   return value;
+}
+
+function parseQueryArtifactSourceKind(value) {
+  requireUnpaddedValue(value, "--query-artifact-source");
+
+  if (value === "file-system") {
+    return "file_system";
+  }
+
+  if (value === "http") {
+    return "http";
+  }
+
+  throwConfigurationError("--query-artifact-source");
+}
+
+function parseQueryArtifactRootDirectoryPath({
+  value,
+  platform,
+  workingDirectoryPath,
+}) {
+  requireUnpaddedValue(value, "--query-artifact-root-directory");
+  requireUnpaddedValue(workingDirectoryPath, "workingDirectoryPath");
+  return selectPlatformPathImplementation(platform).resolve(
+    workingDirectoryPath,
+    value,
+  );
 }
 
 function parseMaximumCacheByteSize(value) {
@@ -331,6 +391,7 @@ export function parseUniversalOntologyMcpStdioConfiguration({
   commandLineArguments = process.argv.slice(2),
   environment = process.env,
   platform = process.platform,
+  workingDirectoryPath = process.cwd(),
   readHomeDirectory = homedir,
 } = {}) {
   if (typeof readHomeDirectory !== "function") {
@@ -348,6 +409,56 @@ export function parseUniversalOntologyMcpStdioConfiguration({
     operationMode === "serve_stdio" ? environment : {};
   const effectiveValuesByOptionName =
     operationMode === "serve_stdio" ? valuesByOptionName : new Map();
+  const ontologyQueryArtifactSourceKind = parseQueryArtifactSourceKind(
+    readConfiguredValue({
+      optionName: "--query-artifact-source",
+      valuesByOptionName: effectiveValuesByOptionName,
+      environment: effectiveEnvironment,
+      defaultValue: "http",
+    }),
+  );
+
+  if (ontologyQueryArtifactSourceKind === "file_system") {
+    rejectConfiguredOptions({
+      optionNames: [
+        "--artifact-channel",
+        "--artifact-base-url",
+        "--cache-directory",
+        "--cache-maximum-bytes",
+      ],
+      valuesByOptionName: effectiveValuesByOptionName,
+      environment: effectiveEnvironment,
+    });
+
+    if (
+      presentFlagOptionNames.has("--allow-insecure-loopback-artifact-origin")
+    ) {
+      throwConfigurationError("--allow-insecure-loopback-artifact-origin");
+    }
+
+    return Object.freeze({
+      operationMode,
+      ontologyQueryArtifactSource: Object.freeze({
+        kind: ontologyQueryArtifactSourceKind,
+        rootDirectoryPath: parseQueryArtifactRootDirectoryPath({
+          value: readConfiguredValue({
+            optionName: "--query-artifact-root-directory",
+            valuesByOptionName: effectiveValuesByOptionName,
+            environment: effectiveEnvironment,
+            defaultValue: "dist/query/v1",
+          }),
+          platform,
+          workingDirectoryPath,
+        }),
+      }),
+    });
+  }
+
+  rejectConfiguredOptions({
+    optionNames: ["--query-artifact-root-directory"],
+    valuesByOptionName: effectiveValuesByOptionName,
+    environment: effectiveEnvironment,
+  });
   const allowInsecureLoopbackOntologyQueryArtifactOrigin =
     operationMode === "serve_stdio" &&
     presentFlagOptionNames.has("--allow-insecure-loopback-artifact-origin");
@@ -367,37 +478,41 @@ export function parseUniversalOntologyMcpStdioConfiguration({
 
   return Object.freeze({
     operationMode,
-    ontologyQueryArtifactChannelName: parseArtifactChannel(
-      readConfiguredValue({
-        optionName: "--artifact-channel",
-        valuesByOptionName: effectiveValuesByOptionName,
-        environment: effectiveEnvironment,
-        defaultValue: "stable",
-      }),
-    ),
-    ontologyQueryArtifactBaseUrl: parseArtifactBaseUrl(
-      readConfiguredValue({
-        optionName: "--artifact-base-url",
-        valuesByOptionName: effectiveValuesByOptionName,
-        environment: effectiveEnvironment,
-        defaultValue: DEFAULT_ONTOLOGY_QUERY_ARTIFACT_BASE_URL,
-      }),
-      allowInsecureLoopbackOntologyQueryArtifactOrigin,
-    ),
-    ontologyQueryArtifactCacheDirectoryPath: parseCacheDirectoryPath(
-      cacheDirectoryPath,
-      platform,
-    ),
-    maximumPersistentQueryArtifactCacheByteSize: parseMaximumCacheByteSize(
-      readConfiguredValue({
-        optionName: "--cache-maximum-bytes",
-        valuesByOptionName: effectiveValuesByOptionName,
-        environment: effectiveEnvironment,
-        defaultValue: String(
-          DEFAULT_MAXIMUM_PERSISTENT_QUERY_ARTIFACT_CACHE_BYTE_SIZE,
-        ),
-      }),
-    ),
-    allowInsecureLoopbackOntologyQueryArtifactOrigin,
+    ontologyQueryArtifactSource: Object.freeze({
+      kind: ontologyQueryArtifactSourceKind,
+      channelName: parseArtifactChannel(
+        readConfiguredValue({
+          optionName: "--artifact-channel",
+          valuesByOptionName: effectiveValuesByOptionName,
+          environment: effectiveEnvironment,
+          defaultValue: "stable",
+        }),
+      ),
+      baseUrl: parseArtifactBaseUrl(
+        readConfiguredValue({
+          optionName: "--artifact-base-url",
+          valuesByOptionName: effectiveValuesByOptionName,
+          environment: effectiveEnvironment,
+          defaultValue: DEFAULT_ONTOLOGY_QUERY_ARTIFACT_BASE_URL,
+        }),
+        allowInsecureLoopbackOntologyQueryArtifactOrigin,
+      ),
+      persistentCacheDirectoryPath: parseCacheDirectoryPath(
+        cacheDirectoryPath,
+        platform,
+      ),
+      maximumPersistentCacheByteSize: parseMaximumCacheByteSize(
+        readConfiguredValue({
+          optionName: "--cache-maximum-bytes",
+          valuesByOptionName: effectiveValuesByOptionName,
+          environment: effectiveEnvironment,
+          defaultValue: String(
+            DEFAULT_MAXIMUM_PERSISTENT_QUERY_ARTIFACT_CACHE_BYTE_SIZE,
+          ),
+        }),
+      ),
+      allowInsecureLoopbackOrigin:
+        allowInsecureLoopbackOntologyQueryArtifactOrigin,
+    }),
   });
 }

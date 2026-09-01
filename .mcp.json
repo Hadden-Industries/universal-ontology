@@ -19,7 +19,8 @@
         "import { execFileSync } from \"node:child_process\";import { resolve } from \"node:path\";import { pathToFileURL } from \"node:url\";const repositoryRootPath = execFileSync(\"git\",[\"rev-parse\",\"--show-toplevel\"],{encoding:\"utf8\",windowsHide:true}).replace(/\\r?\\n$/u,\"\");const [repositoryRelativeEntryPointPath,...entryPointArguments]=process.argv.slice(1);const entryPointPath=resolve(repositoryRootPath,repositoryRelativeEntryPointPath);process.chdir(repositoryRootPath);process.argv=[process.execPath,entryPointPath,...entryPointArguments];await import(pathToFileURL(entryPointPath).href);",
         "--",
         ".agent-tools/bin/universal-ontology-mcp-server.mjs",
-        "--artifact-channel=development"
+        "--query-artifact-source=file-system",
+        "--query-artifact-root-directory=dist/query/v1"
       ]
     }
   }

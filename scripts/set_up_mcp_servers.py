@@ -118,15 +118,11 @@ UNIVERSAL_ONTOLOGY_MCP_LAUNCH_COMMAND = "node"
 UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH = (
     Path(".agent-tools") / "bin" / "universal-ontology-mcp-server.mjs"
 )
+UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND = "file-system"
+UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY = (
+    Path("dist") / "query" / "v1"
+)
 UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_CHANNEL_NAME = "development"
-UNIVERSAL_ONTOLOGY_MCP_LAUNCH_ARGUMENTS = [
-    *REPOSITORY_ROOTED_NODE_ENTRY_POINT_ARGUMENT_PREFIX,
-    UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH.as_posix(),
-    (
-        "--artifact-channel="
-        f"{UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_CHANNEL_NAME}"
-    ),
-]
 UNIVERSAL_ONTOLOGY_MCP_STARTUP_TIMEOUT_SECONDS = 15
 UNIVERSAL_ONTOLOGY_MCP_TOOL_TIMEOUT_SECONDS = 30
 UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES = [
@@ -1138,13 +1134,88 @@ def github_mcp_host_configuration_entry() -> dict[str, object]:
     }
 
 
+def universal_ontology_mcp_query_artifact_arguments(
+    *,
+    query_artifact_source_kind: str = (
+        UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
+    ),
+    query_artifact_root_directory: Path = (
+        UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY
+    ),
+    query_artifact_channel_name: str | None = None,
+    query_artifact_base_url: str | None = None,
+) -> list[str]:
+    """Return server arguments selecting exactly one artifact repository."""
+
+    if query_artifact_source_kind == "file-system":
+        if (
+            query_artifact_channel_name is not None
+            or query_artifact_base_url is not None
+        ):
+            raise ValueError(
+                "A filesystem query-artifact source cannot select an HTTP "
+                "channel or base URL."
+            )
+        return [
+            "--query-artifact-source=file-system",
+            (
+                "--query-artifact-root-directory="
+                f"{query_artifact_root_directory.as_posix()}"
+            ),
+        ]
+
+    if query_artifact_source_kind != "http":
+        raise ValueError("Unsupported ontology query-artifact source kind.")
+
+    arguments = [
+        "--query-artifact-source=http",
+        (
+            "--artifact-channel="
+            f"{query_artifact_channel_name or UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_CHANNEL_NAME}"
+        ),
+    ]
+    if query_artifact_base_url is not None:
+        arguments.append(f"--artifact-base-url={query_artifact_base_url}")
+    return arguments
+
+
+def universal_ontology_mcp_launch_arguments(
+    *,
+    query_artifact_source_kind: str = (
+        UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
+    ),
+    query_artifact_channel_name: str | None = None,
+    query_artifact_base_url: str | None = None,
+) -> list[str]:
+    """Return portable launch arguments for the installed ontology server."""
+    return [
+        *REPOSITORY_ROOTED_NODE_ENTRY_POINT_ARGUMENT_PREFIX,
+        UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH.as_posix(),
+        *universal_ontology_mcp_query_artifact_arguments(
+            query_artifact_source_kind=query_artifact_source_kind,
+            query_artifact_channel_name=query_artifact_channel_name,
+            query_artifact_base_url=query_artifact_base_url,
+        ),
+    ]
+
+
 def universal_ontology_mcp_host_configuration_entry(
-    *, codex: bool = False
+    *,
+    codex: bool = False,
+    query_artifact_source_kind: str = (
+        UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
+    ),
+    query_artifact_channel_name: str | None = None,
+    query_artifact_base_url: str | None = None,
 ) -> dict[str, object]:
     """Return the complete local stdio entry for the ontology application."""
     entry: dict[str, object] = {
         "command": UNIVERSAL_ONTOLOGY_MCP_LAUNCH_COMMAND,
-        "args": list(UNIVERSAL_ONTOLOGY_MCP_LAUNCH_ARGUMENTS),
+        "args": universal_ontology_mcp_launch_arguments(
+            query_artifact_source_kind=query_artifact_source_kind,
+            query_artifact_channel_name=query_artifact_channel_name,
+            query_artifact_base_url=query_artifact_base_url,
+        ),
     }
 
     if codex:
@@ -1185,6 +1256,12 @@ def _read_optional_utf8_host_configuration_document(
 def _render_mcp_host_configuration_documents(
     repo: Path,
     json_host_configurations: Iterable[tuple[Path, str]],
+    *,
+    query_artifact_source_kind: str = (
+        UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
+    ),
+    query_artifact_channel_name: str | None = None,
+    query_artifact_base_url: str | None = None,
 ) -> list[RenderedMcpHostConfigurationDocument]:
     """Render every managed host document without changing the filesystem.
 
@@ -1216,7 +1293,11 @@ def _render_mcp_host_configuration_documents(
         contents = merge_json_mcp_host_configuration(
             contents,
             UNIVERSAL_ONTOLOGY_MCP_HOST_CONFIGURATION_NAME,
-            universal_ontology_mcp_host_configuration_entry(),
+            universal_ontology_mcp_host_configuration_entry(
+                query_artifact_source_kind=query_artifact_source_kind,
+                query_artifact_channel_name=query_artifact_channel_name,
+                query_artifact_base_url=query_artifact_base_url,
+            ),
             remove_names=(
                 LEGACY_UNIVERSAL_ONTOLOGY_MCP_HOST_CONFIGURATION_NAME,
             ),
@@ -1258,7 +1339,12 @@ def _render_mcp_host_configuration_documents(
     codex_contents = merge_codex_mcp_host_configuration(
         codex_contents,
         UNIVERSAL_ONTOLOGY_MCP_HOST_CONFIGURATION_NAME,
-        universal_ontology_mcp_host_configuration_entry(codex=True),
+        universal_ontology_mcp_host_configuration_entry(
+            codex=True,
+            query_artifact_source_kind=query_artifact_source_kind,
+            query_artifact_channel_name=query_artifact_channel_name,
+            query_artifact_base_url=query_artifact_base_url,
+        ),
     )
     rendered.append(
         RenderedMcpHostConfigurationDocument(
@@ -1272,11 +1358,20 @@ def _render_mcp_host_configuration_documents(
 
 def render_mcp_host_configuration_documents(
     repo: Path,
+    *,
+    query_artifact_source_kind: str = (
+        UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
+    ),
+    query_artifact_channel_name: str | None = None,
+    query_artifact_base_url: str | None = None,
 ) -> list[RenderedMcpHostConfigurationDocument]:
     """Render checked-in and local host documents without writing either."""
     return _render_mcp_host_configuration_documents(
         repo,
         JSON_MCP_HOST_CONFIGURATION_DOCUMENTS,
+        query_artifact_source_kind=query_artifact_source_kind,
+        query_artifact_channel_name=query_artifact_channel_name,
+        query_artifact_base_url=query_artifact_base_url,
     )
 
 
@@ -2162,7 +2257,15 @@ def write_mcp_host_configuration_documents(repo: Path) -> list[Path]:
     return publish_mcp_host_configuration_documents(repo, rendered)
 
 
-def check_mcp_host_configuration_documents(repo: Path) -> list[Path]:
+def check_mcp_host_configuration_documents(
+    repo: Path,
+    *,
+    query_artifact_source_kind: str = (
+        UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
+    ),
+    query_artifact_channel_name: str | None = None,
+    query_artifact_base_url: str | None = None,
+) -> list[Path]:
     """Fail read-only when a checked-in host document differs from its render."""
     # Antigravity's local document can contain credentials or user-specific
     # servers. Read-only checked-in drift validation must neither parse nor
@@ -2170,6 +2273,9 @@ def check_mcp_host_configuration_documents(repo: Path) -> list[Path]:
     rendered = _render_mcp_host_configuration_documents(
         repo,
         CHECKED_IN_JSON_MCP_HOST_CONFIGURATION_DOCUMENTS,
+        query_artifact_source_kind=query_artifact_source_kind,
+        query_artifact_channel_name=query_artifact_channel_name,
+        query_artifact_base_url=query_artifact_base_url,
     )
     checked_relatives = {
         relative
@@ -2606,6 +2712,22 @@ def build_universal_ontology_mcp_application_bundle(
     )
 
 
+def generate_repository_local_ontology_query_artifacts(repo: Path) -> None:
+    """Run the authoritative generator for the filesystem source.
+
+    The staged application-bundle build installs the locked dependency graph
+    immediately before this operation. Keeping format production in the Node
+    generator prevents the Python installer from duplicating catalog or index
+    semantics that it cannot authoritatively validate.
+    """
+    npx_command = require_command("npx")
+    selected_npm = f"npm@{_read_declared_npm_version(repo)}"
+    run(
+        [npx_command, "--yes", selected_npm, "run", "mcp:index"],
+        cwd=repo,
+    )
+
+
 def stage_universal_ontology_mcp_server_installation(
     repo: Path,
     staging_directory: Path,
@@ -2690,8 +2812,14 @@ def stage_universal_ontology_mcp_server_installation(
 def verify_staged_universal_ontology_mcp_server_installation(
     repo: Path,
     staged_installation: StagedMcpServerInstallation,
+    *,
+    query_artifact_source_kind: str = (
+        UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
+    ),
+    query_artifact_channel_name: str | None = None,
+    query_artifact_base_url: str | None = None,
 ) -> dict[str, object]:
-    """Verify staged bytes through the official MCP v2 client executable."""
+    """Verify staged bytes and query readiness through the official client."""
     node_command = require_command("node")
     verifier_path = SETUP_SCRIPT_PATH.with_name(
         "verifyUniversalOntologyMcpApplicationBundle.js"
@@ -2702,10 +2830,16 @@ def verify_staged_universal_ontology_mcp_server_installation(
             verifier_path,
             "--application-bundle",
             staged_installation.staged_program_path,
-            (
-                "--artifact-channel="
-                f"{UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_CHANNEL_NAME}"
+            *universal_ontology_mcp_query_artifact_arguments(
+                query_artifact_source_kind=query_artifact_source_kind,
+                query_artifact_root_directory=(
+                    repo
+                    / UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY
+                ),
+                query_artifact_channel_name=query_artifact_channel_name,
+                query_artifact_base_url=query_artifact_base_url,
             ),
+            "--verify-query-readiness",
         ],
         cwd=repo,
         capture=True,
@@ -2758,9 +2892,18 @@ def verify_staged_universal_ontology_mcp_server_installation(
         read_universal_ontology_mcp_package_identity(repo)
     )
     expected = {
-        "ontologyQueryArtifactChannelName": (
-            UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_CHANNEL_NAME
+        "ontologyQueryArtifactSourceKind": (
+            "file_system"
+            if query_artifact_source_kind == "file-system"
+            else "http"
         ),
+        "queryReadiness": {
+            "matchedEntityIri": (
+                "https://haddenindustries.com/ontology/"
+                "universal/core/Person"
+            ),
+            "outcome": "success",
+        },
         "serverInfo": {
             "name": UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_SERVER_NAME,
             "title": UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_SERVER_TITLE,
@@ -2768,6 +2911,11 @@ def verify_staged_universal_ontology_mcp_server_installation(
         },
         "toolNames": list(UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES),
     }
+    if query_artifact_source_kind == "http":
+        expected["ontologyQueryArtifactChannelName"] = (
+            query_artifact_channel_name
+            or UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_CHANNEL_NAME
+        )
 
     if verification != expected:
         raise SetupError(
@@ -2899,6 +3047,12 @@ def verify_staged_github_mcp_server_installation(
 
 def set_up_repository_local_mcp_servers(
     repo: Path,
+    *,
+    query_artifact_source_kind: str = (
+        UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
+    ),
+    query_artifact_channel_name: str | None = None,
+    query_artifact_base_url: str | None = None,
 ) -> RepositoryLocalMcpSetupResult:
     """Stage, verify, and transactionally activate repository-local servers."""
     ensure_generated_installation_root_is_safe(repo)
@@ -2910,7 +3064,12 @@ def set_up_repository_local_mcp_servers(
 
         # Configuration ownership conflicts are cheap to diagnose. Render
         # before downloads or builds so a conflict cannot waste toolchain work.
-        rendered_documents = render_mcp_host_configuration_documents(repo)
+        rendered_documents = render_mcp_host_configuration_documents(
+            repo,
+            query_artifact_source_kind=query_artifact_source_kind,
+            query_artifact_channel_name=query_artifact_channel_name,
+            query_artifact_base_url=query_artifact_base_url,
+        )
 
         with tempfile.TemporaryDirectory(
             prefix="repository-mcp-setup-"
@@ -2926,6 +3085,8 @@ def set_up_repository_local_mcp_servers(
                     staging_directory,
                 )
             )
+            if query_artifact_source_kind == "file-system":
+                generate_repository_local_ontology_query_artifacts(repo)
             github_version = verify_staged_github_mcp_server_installation(
                 repo,
                 github_installation,
@@ -2934,6 +3095,9 @@ def set_up_repository_local_mcp_servers(
                 verify_staged_universal_ontology_mcp_server_installation(
                     repo,
                     ontology_installation,
+                    query_artifact_source_kind=query_artifact_source_kind,
+                    query_artifact_channel_name=query_artifact_channel_name,
+                    query_artifact_base_url=query_artifact_base_url,
                 )
             )
             activated_paths = (
@@ -2966,7 +3130,47 @@ def parse_args(arguments: Sequence[str] | None = None) -> argparse.Namespace:
             "downloading, building, installing, starting, or writing anything."
         ),
     )
-    return parser.parse_args(arguments)
+    parser.add_argument(
+        "--universal-ontology-query-artifact-source",
+        choices=("file-system", "http"),
+        default=UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND,
+        help=(
+            "Select repository filesystem artifacts (the default) or the "
+            "HTTP artifact repository for the Universal Ontology server."
+        ),
+    )
+    parser.add_argument(
+        "--universal-ontology-query-artifact-channel",
+        choices=("stable", "development"),
+        help=(
+            "Select the stable or development channel when the Universal "
+            "Ontology query-artifact source is HTTP."
+        ),
+    )
+    parser.add_argument(
+        "--universal-ontology-query-artifact-base-url",
+        help=(
+            "Override the canonical HTTP query-artifact base URL. The MCP "
+            "server authoritatively validates this value before activation."
+        ),
+    )
+    parsed_arguments = parser.parse_args(arguments)
+    if (
+        parsed_arguments.universal_ontology_query_artifact_source
+        == "file-system"
+        and (
+            parsed_arguments.universal_ontology_query_artifact_channel
+            is not None
+            or parsed_arguments.universal_ontology_query_artifact_base_url
+            is not None
+        )
+    ):
+        parser.error(
+            "--universal-ontology-query-artifact-channel and "
+            "--universal-ontology-query-artifact-base-url require "
+            "--universal-ontology-query-artifact-source=http"
+        )
+    return parsed_arguments
 
 
 def main(arguments: Sequence[str] | None = None) -> int:
@@ -2977,7 +3181,18 @@ def main(arguments: Sequence[str] | None = None) -> int:
         print(f"Repository root: {repo}")
 
         if arguments_namespace.check:
-            checked_paths = check_mcp_host_configuration_documents(repo)
+            checked_paths = check_mcp_host_configuration_documents(
+                repo,
+                query_artifact_source_kind=(
+                    arguments_namespace.universal_ontology_query_artifact_source
+                ),
+                query_artifact_channel_name=(
+                    arguments_namespace.universal_ontology_query_artifact_channel
+                ),
+                query_artifact_base_url=(
+                    arguments_namespace.universal_ontology_query_artifact_base_url
+                ),
+            )
             print("\nMCP host configuration documents are current:")
 
             for path in checked_paths:
@@ -2985,7 +3200,18 @@ def main(arguments: Sequence[str] | None = None) -> int:
 
             return 0
 
-        setup_result = set_up_repository_local_mcp_servers(repo)
+        setup_result = set_up_repository_local_mcp_servers(
+            repo,
+            query_artifact_source_kind=(
+                arguments_namespace.universal_ontology_query_artifact_source
+            ),
+            query_artifact_channel_name=(
+                arguments_namespace.universal_ontology_query_artifact_channel
+            ),
+            query_artifact_base_url=(
+                arguments_namespace.universal_ontology_query_artifact_base_url
+            ),
+        )
 
         print(f"\n  GitHub: {setup_result.github_mcp_server_version}")
 

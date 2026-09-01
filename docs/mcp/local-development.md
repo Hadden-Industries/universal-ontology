@@ -143,6 +143,14 @@ restart it after regeneration. If the representation changes incompatibly,
 introduce a new format version and query-root directory instead of silently
 reinterpreting format version `1`.
 
+The repository-local `stdio` installation uses this same `dist/query/v1` tree
+by default, but it does **not** require the loopback development server. Running
+`scripts/set_up_mcp_servers.py` invokes the authoritative `mcp:index` generator,
+installs the application bundle, and configures the MCP host to let that bundle
+open the filesystem artifacts directly. See the
+[local installation guide](local-installation.md#select-the-repository-local-query-artifact-source)
+for the explicit HTTP alternative.
+
 ## Local runner configuration
 
 The local security boundary is intentionally narrow. Only these environment

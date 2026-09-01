@@ -16,8 +16,10 @@ the user's computer.
 > **Current data-origin status:** the public stable artifact origin is not yet
 > established. The server software can be built and configured now, but an
 > uncached query using its default base URL will fail closed with an HTTP `404`.
-> The deterministic `Person` integration check below uses an ephemeral loopback
-> artifact origin; it does not publish data or make the default origin usable.
+> Repository-local setup is usable now because it defaults to the generated
+> filesystem artifacts under `dist/query/v1`; it does not contact that public
+> origin. HTTP mode remains available for development against an explicitly
+> selected channel or base URL.
 
 ## What crosses the network
 
@@ -26,13 +28,25 @@ that launches it. Install only code and candidate artifacts obtained through a
 trusted repository identity, and review host configuration before enabling the
 server.
 
-The executable contains the query engine but no ontology catalog or index. On
-a cold query it makes HTTPS `GET` requests for the selected channel manifest,
-its content-addressed catalog, and the exact content-addressed release indexes
-needed by the query. Query text, entity identifiers, labels, definitions, and
-tool results remain local and are not sent to the artifact origin. Request
-paths and timing can still reveal the selected channel and retrieved artifact,
-so an operator-controlled proxy remains part of the privacy boundary.
+The executable contains the query engine but no ontology catalog or index. It
+composes exactly one query-artifact repository selected at process launch:
+
+- `file-system` reads a generated `catalog.json` and its content-addressed
+  release indexes from an operator-selected local root. It performs no ontology
+  artifact network request.
+- `http` makes HTTPS `GET` requests for the selected channel manifest, its
+  content-addressed catalog, and only the content-addressed release indexes
+  needed by the query. Verified immutable bytes are retained in a private local
+  cache.
+
+Query text, entity identifiers, labels, definitions, and tool results remain
+local in both modes and are not sent to the artifact origin. In HTTP mode,
+request paths and timing can still reveal the selected channel and retrieved
+artifact, so an operator-controlled proxy remains part of the privacy boundary.
+The standalone executable defaults to `http` and `stable`, because a distributed
+installation cannot assume a checkout-local artifact tree. The repository setup
+command explicitly defaults its generated host entries to `file-system` and
+`dist/query/v1`.
 
 Channel manifests are unsigned publisher selections. Each manifest selects a
 catalog by byte length and SHA-256, and each catalog selects release indexes by
@@ -51,13 +65,15 @@ authenticates the configured origin under the operator's CA trust policy.
 - npm using the repository lockfile. Every command below explicitly selects and
   checks npm 12.0.2; the `packageManager` field alone does not switch npm.
 - An MCP host that can launch a local `stdio` command.
-- HTTPS access to the configured ontology-artifact origin for a cold query.
+- HTTPS access to the configured ontology-artifact origin for a cold HTTP-mode
+  query; filesystem mode needs no ontology-artifact network access.
 - Docker or a compatible OCI runtime only for the locally built OCI form.
 - An authenticated GitHub account with repository read access, plus GitHub CLI,
   only when retrieving a short-lived GitHub Actions artifact.
 
 Choose one software form. All forms execute the same canonical application
-bundle and fetch the same independently changing ontology data:
+bundle and can read the same independently changing ontology data from either
+an explicitly selected filesystem tree or the HTTP repository:
 
 | Development form               | Runtime supplied by              | Persistent files you manage                         |
 | ------------------------------ | -------------------------------- | --------------------------------------------------- |
@@ -92,25 +108,28 @@ The command installs two distinct local programs:
   single SHA-256 manifest, and constrained to one regular executable member.
 - `universal_ontology` is this checkout's canonical single-file MCP application
   bundle. The command selects the npm version declared by `packageManager`, runs
-  `npm ci --ignore-scripts`, builds the bundle, and checks its byte length,
-  SHA-256 digest, package identity, and package version against generated build
-  metadata. It then requires the copied staging file's byte length and SHA-256
-  digest to match that validated snapshot before writing the installation
-  record, so a concurrent canonical-bundle replacement cannot make the record
-  describe different bytes.
+  `npm ci --ignore-scripts`, builds the bundle, and—under the default filesystem
+  source—runs the existing authoritative `npm run mcp:index` generator. Setup
+  checks the bundle's byte length, SHA-256 digest, package identity, and package
+  version against generated build metadata. It then requires the copied staging
+  file's byte length and SHA-256 digest to match that validated snapshot before
+  writing the installation record, so a concurrent canonical-bundle replacement
+  cannot make the record describe different bytes.
 
 Before changing active files, setup verifies the staged GitHub executable with
 `--version` and connects to the staged Universal Ontology bundle with the
 official MCP v2 client pinned to protocol version `2026-07-28`. That protocol
 probe requires the exact `universal-ontology` server identity and exactly
-`search_entities` and `resolve_entity`; it deliberately does not make an
-ontology-data request, because mutable remote data is not software-installation
-integrity evidence. The verifier gives that child process a unique
-operating-system-temporary `--cache-directory`, closes the MCP process, and
-removes the directory. Verification therefore neither depends on nor mutates
-the developer's persistent runtime cache. If that authoritative verifier exits
-non-zero, setup reports its bounded, control-character-sanitized stderr
-diagnostic instead of replacing it with a generic subprocess failure.
+`search_entities` and `resolve_entity`. It then calls `search_entities` for
+`Person` in the latest stable `universal/core` release and requires the expected
+Universal Ontology entity IRI before activation. Filesystem verification reads
+the newly generated `dist/query/v1` tree. HTTP verification uses the selected
+remote source and a unique operating-system-temporary `--cache-directory`, then
+closes the MCP process and removes that cache. Verification therefore tests the
+actual selected data path without depending on or mutating the developer's
+persistent HTTP runtime cache. If the authoritative verifier exits non-zero,
+setup reports its bounded, control-character-sanitized stderr diagnostic instead
+of replacing it with a generic subprocess failure.
 
 Only after both staged programs pass does the command publish the per-file
 atomic replacements as one rollback-capable transaction. Rendering retains the
@@ -203,16 +222,66 @@ the exact repository-relative server entry point. Moving the checkout therefore
 does not embed an old absolute path, and starting an MCP host from a nested
 repository directory does not reinterpret the paths beneath that directory.
 Git remains a runtime prerequisite for these repository-local entries. The
-Universal Ontology entry explicitly selects the rapidly changing `development`
-data channel while this software remains in development. The data is not
-bundled into `.agent-tools`, and changing a remote channel does not require
-rebuilding or reinstalling the server software.
+Universal Ontology entry explicitly selects the filesystem repository at
+`dist/query/v1` by default. The query data remains outside `.agent-tools` and is
+not bundled into the installed application. The setup command regenerates it
+before it verifies and activates the server.
 
 The GitHub configuration writes no credential. When
 `GITHUB_PERSONAL_ACCESS_TOKEN` is absent, the GitHub MCP Server can begin its
 browser-based OAuth flow when authorization is first required. If that variable
 is already present, its value takes precedence; setup reports only the variable
 name and never prints or persists the token.
+
+### Select the repository-local query-artifact source
+
+The no-argument setup command is equivalent to selecting the filesystem source:
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\set_up_mcp_servers.py --universal-ontology-query-artifact-source=file-system
+```
+
+It runs `npm run mcp:index`, verifies a real query against `dist/query/v1`, and
+renders these application arguments into all three supported host documents:
+
+```text
+--query-artifact-source=file-system
+--query-artifact-root-directory=dist/query/v1
+```
+
+The repository-rooting bootstrap resolves that relative directory after changing
+the MCP child process to the checkout root. A user does not need to start
+`npm run mcp:serve`, keep a terminal open, or prefill an HTTP cache.
+
+To exercise the HTTP artifact repository instead, rerun setup with the explicit
+source selector:
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\set_up_mcp_servers.py `
+  --universal-ontology-query-artifact-source=http `
+  --universal-ontology-query-artifact-channel=development
+```
+
+When the channel should come from a noncanonical origin, add an operator-approved
+absolute HTTPS URL ending in `/`:
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\set_up_mcp_servers.py `
+  --universal-ontology-query-artifact-source=http `
+  --universal-ontology-query-artifact-channel=development `
+  --universal-ontology-query-artifact-base-url=https://artifacts.example.test/ontology/query/v1/
+```
+
+If the channel is omitted in HTTP mode, repository setup selects `development`.
+The MCP server—not the Python setup script—authoritatively validates the URL and
+all query-artifact documents during the pre-activation `Person` query. Because
+the canonical public origin is not complete yet, selecting it is expected to
+fail closed before any host configuration or installed program is activated.
+
+Rerun the first command to switch back to local artifacts. Source changes affect
+new child processes only, so restart or reload the MCP host after setup succeeds.
+The read-only drift check accepts the same source, channel, and base-URL options;
+pass the selectors matching the configuration you intend to check.
 
 To check the checked-in host documents without downloading, building,
 installing, launching, or writing anything, run:
@@ -344,10 +413,12 @@ docker run --rm --interactive --read-only --cap-drop=ALL --security-opt=no-new-p
 `--interactive` preserves stdin for MCP frames. The named volume is the only
 expected writable path; the root filesystem is read-only, Linux capabilities
 are dropped, and privilege escalation is disabled. There is deliberately no
-port mapping because the process uses `stdio`. Do not add `--network=none` for
-normal operation: a cold query needs outbound HTTPS access to the data origin.
-The verification workflow uses an isolated network for help/version checks and
-an official-client MCP initialize/tools-list smoke; none fetches ontology data.
+port mapping because the process uses `stdio`. HTTP-mode queries require
+outbound HTTPS access to the data origin, so do not add `--network=none` in that
+mode. A filesystem source requires a separately mounted read-only artifact tree
+and matching source/root arguments. The verification workflow uses an isolated
+network for its data-free software checks; its deterministic query checks supply
+their own test artifacts.
 
 An MCP host can use `docker` as the command and the complete sequence from
 `run` through the local image name as its arguments. Keep `--rm` so a stopped
@@ -563,9 +634,45 @@ Field names outside `command` and `args` vary by host; use that host's current
 documentation. Never put a logging wrapper between the host and stdout unless
 it preserves MCP frames exactly.
 
-## Select a data channel
+## Select a query-artifact source
 
-The default channel is `stable`. It is intended for ontology data accepted for
+The standalone application defaults to the HTTP repository. Make that selection
+explicit in long-lived host configuration so its data boundary remains obvious:
+
+```toml
+[mcp_servers.universal_ontology]
+command = "node"
+args = [
+  "C:\\absolute\\path\\to\\universal-ontology-mcp-server.mjs",
+  "--query-artifact-source=http",
+]
+```
+
+To read artifacts generated by `npm run mcp:index` directly, select the
+filesystem repository and its root directory:
+
+```toml
+[mcp_servers.universal_ontology]
+command = "node"
+args = [
+  "C:\\absolute\\path\\to\\universal-ontology-mcp-server.mjs",
+  "--query-artifact-source=file-system",
+  "--query-artifact-root-directory=C:\\absolute\\path\\to\\universal-ontology\\dist\\query\\v1",
+]
+```
+
+The equivalent environment variables are
+`UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_SOURCE=file-system` and
+`UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY`. A CLI value takes
+precedence. Relative root-directory values resolve from the server process's
+working directory; use an absolute path unless a host bootstrap deliberately
+establishes that directory. The server rejects HTTP-only channel, base-URL, and
+cache options under the filesystem source, and rejects a filesystem root under
+the HTTP source, rather than silently ignoring a contradictory setting.
+
+## Select an HTTP data channel
+
+HTTP mode defaults to `stable`. It is intended for ontology data accepted for
 normal use. `development` is explicit opt-in for rapidly changing query
 artifacts and may change without a software rebuild:
 
@@ -574,6 +681,7 @@ artifacts and may change without a software rebuild:
 command = "node"
 args = [
   "C:\\absolute\\path\\to\\universal-ontology-mcp-server.mjs",
+  "--query-artifact-source=http",
   "--artifact-channel",
   "development",
 ]
@@ -591,7 +699,7 @@ absolute HTTPS base URL ending in `/`. Embedded credentials, query strings, and
 fragments are rejected. Plain HTTP is available only for an explicitly enabled
 loopback development fixture.
 
-## Persistent cache and offline behavior
+## HTTP persistent cache and offline behavior
 
 The default maximum persistent cache size is 512 MiB (`536870912` bytes).
 Override it with `--cache-maximum-bytes` or
@@ -603,7 +711,10 @@ Override it with `--cache-maximum-bytes` or
 | macOS                         | `~/Library/Caches/io.hadden-industries.universal-ontology-mcp-server/v1`                                      |
 | Linux and other POSIX systems | `$XDG_CACHE_HOME/universal-ontology-mcp-server/v1`, or `~/.cache/universal-ontology-mcp-server/v1` when unset |
 
-An absolute override can be supplied with `--cache-directory` or
+These cache settings apply only to the HTTP repository. The filesystem
+repository validates and reads the selected local tree without copying it into
+the HTTP cache. An absolute HTTP-cache override can be supplied with
+`--cache-directory` or
 `UNIVERSAL_ONTOLOGY_MCP_CACHE_DIRECTORY`.
 
 - **Cold start:** cache initialization runs locally; the first ontology query
@@ -679,15 +790,22 @@ request after closing the protocol session.
 
 ## Verify the `Person` definition
 
-Default-origin host acceptance is deferred until a complete stable artifact
-origin is established. Do not treat a successful build, `--help`, or `--version`
-check as proof that a cold ontology query can currently reach the default URL.
+The default repository-local setup performs this acceptance query through the
+official MCP client before it activates any generated program or host document.
+After restarting the host, repeat it through the agent to prove host discovery
+and launch as well as server behavior. Do not treat a successful build,
+`--help`, or `--version` check as equivalent query evidence.
 
-For the current development increment, verify the actual locally packed server
+Default-origin **HTTP** host acceptance remains deferred until a complete stable
+artifact origin is established. The filesystem setup does not depend on that
+origin.
+
+For an independent HTTP-adapter check, verify the actual locally packed server
 against the repository's deterministic loopback artifact origin. This test
 fresh-installs the tarball, starts an ephemeral origin on `127.0.0.1`, passes
-`--artifact-base-url` plus `--allow-insecure-loopback-artifact-origin`, performs
-the `Person` MCP call, and removes the fixture afterward:
+the explicit HTTP source, `--artifact-base-url`, and
+`--allow-insecure-loopback-artifact-origin`, performs the `Person` MCP call, and
+removes the fixture afterward:
 
 ```powershell
 npx --yes npm@12.0.2 test -- --runInBand tests/distribution/universal-ontology-mcp-npm-package.test.js

@@ -3,6 +3,7 @@ import { homedir } from "node:os";
 import process from "node:process";
 
 import { createOntologyQueryModule } from "../ontologyQuery/createOntologyQueryModule.js";
+import { createFileSystemOntologyQueryArtifactRepository } from "../ontologyQuery/fileSystemOntologyQueryArtifactRepository.js";
 import { createHttpOntologyQueryArtifactReader } from "../ontologyQuery/httpOntologyQueryArtifactReader.js";
 import { calculateSha256 } from "../ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
 import { createPersistentHttpOntologyQueryArtifactRepository } from "../ontologyQuery/persistentHttpOntologyQueryArtifactRepository.js";
@@ -74,6 +75,7 @@ export async function runUniversalOntologyMcpStdioServer({
   },
   fetchImplementation = globalThis.fetch,
   serveStdioImplementation = serveStdio,
+  createFileSystemOntologyQueryArtifactRepositoryImplementation = createFileSystemOntologyQueryArtifactRepository,
   createPersistentOntologyQueryArtifactCacheImplementation = createPersistentOntologyQueryArtifactCache,
   createHttpOntologyQueryArtifactReaderImplementation = createHttpOntologyQueryArtifactReader,
   createPersistentHttpOntologyQueryArtifactRepositoryImplementation = createPersistentHttpOntologyQueryArtifactRepository,
@@ -132,6 +134,10 @@ export async function runUniversalOntologyMcpStdioServer({
     [fetchImplementation, "fetchImplementation"],
     [serveStdioImplementation, "serveStdioImplementation"],
     [
+      createFileSystemOntologyQueryArtifactRepositoryImplementation,
+      "createFileSystemOntologyQueryArtifactRepositoryImplementation",
+    ],
+    [
       createPersistentOntologyQueryArtifactCacheImplementation,
       "createPersistentOntologyQueryArtifactCacheImplementation",
     ],
@@ -188,8 +194,21 @@ export async function runUniversalOntologyMcpStdioServer({
 
   async function createSharedOntologyQuery() {
     serverLifecycleSignal.throwIfAborted();
+    const ontologyQueryArtifactSource =
+      configuration.ontologyQueryArtifactSource;
+
+    if (ontologyQueryArtifactSource.kind === "file_system") {
+      const ontologyQueryArtifactRepository =
+        createFileSystemOntologyQueryArtifactRepositoryImplementation({
+          queryRoot: ontologyQueryArtifactSource.rootDirectoryPath,
+        });
+      return createOntologyQueryModuleImplementation({
+        ontologyQueryArtifactRepository,
+      });
+    }
+
     const ontologyQueryArtifactBaseUrl =
-      configuration.ontologyQueryArtifactBaseUrl.href;
+      ontologyQueryArtifactSource.baseUrl.href;
     const ontologyQueryArtifactBaseUrlSha256 = await calculateSha256(
       new TextEncoder().encode(ontologyQueryArtifactBaseUrl),
     );
@@ -197,10 +216,10 @@ export async function runUniversalOntologyMcpStdioServer({
     const persistentOntologyQueryArtifactCache =
       await createPersistentOntologyQueryArtifactCacheImplementation({
         ontologyQueryArtifactCacheDirectoryPath:
-          configuration.ontologyQueryArtifactCacheDirectoryPath,
+          ontologyQueryArtifactSource.persistentCacheDirectoryPath,
         ontologyQueryArtifactBaseUrlSha256,
         maximumPersistentQueryArtifactCacheByteSize:
-          configuration.maximumPersistentQueryArtifactCacheByteSize,
+          ontologyQueryArtifactSource.maximumPersistentCacheByteSize,
         writeOperationalEvent,
       });
     serverLifecycleSignal.throwIfAborted();
@@ -208,13 +227,13 @@ export async function runUniversalOntologyMcpStdioServer({
       createHttpOntologyQueryArtifactReaderImplementation({
         ontologyQueryArtifactBaseUrl,
         allowInsecureLoopbackOntologyQueryArtifactOrigin:
-          configuration.allowInsecureLoopbackOntologyQueryArtifactOrigin,
+          ontologyQueryArtifactSource.allowInsecureLoopbackOrigin,
         fetchImplementation,
       });
     const ontologyQueryArtifactRepository =
       createPersistentHttpOntologyQueryArtifactRepositoryImplementation({
         ontologyQueryArtifactChannelName:
-          configuration.ontologyQueryArtifactChannelName,
+          ontologyQueryArtifactSource.channelName,
         ontologyQueryArtifactBaseUrlSha256,
         persistentOntologyQueryArtifactCache,
         httpOntologyQueryArtifactReader,

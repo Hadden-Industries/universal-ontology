@@ -190,6 +190,28 @@ class MergeJsonMcpConfigurationTests(unittest.TestCase):
 
 
 class HostConfigurationRenderingTests(unittest.TestCase):
+    def test_renders_an_explicit_http_query_artifact_source(self):
+        entry = set_up_mcp_servers.universal_ontology_mcp_host_configuration_entry(
+            query_artifact_source_kind="http",
+            query_artifact_channel_name="stable",
+            query_artifact_base_url=(
+                "https://example.cloudfront.net/ontology/query/v1/"
+            ),
+        )
+
+        self.assertEqual(
+            entry["args"][-4:],
+            [
+                ".agent-tools/bin/universal-ontology-mcp-server.mjs",
+                "--query-artifact-source=http",
+                "--artifact-channel=stable",
+                (
+                    "--artifact-base-url="
+                    "https://example.cloudfront.net/ontology/query/v1/"
+                ),
+            ],
+        )
+
     def test_renders_portable_github_and_ontology_entries_for_every_host(self):
         render_documents = require_setup_callable(
             self,
@@ -227,10 +249,11 @@ class HostConfigurationRenderingTests(unittest.TestCase):
             expected_github_entry["args"][:4],
         )
         self.assertEqual(
-            expected_ontology_entry["args"][-2:],
+            expected_ontology_entry["args"][-3:],
             [
                 ".agent-tools/bin/universal-ontology-mcp-server.mjs",
-                "--artifact-channel=development",
+                "--query-artifact-source=file-system",
+                "--query-artifact-root-directory=dist/query/v1",
             ],
         )
 
@@ -310,7 +333,10 @@ class HostConfigurationRenderingTests(unittest.TestCase):
                     / "bin"
                     / "universal-ontology-mcp-server.mjs",
                     configured_servers["universal_ontology"],
-                    ["--artifact-channel=development"],
+                    [
+                        "--query-artifact-source=file-system",
+                        "--query-artifact-root-directory=dist/query/v1",
+                    ],
                 ),
             )
 
@@ -1806,6 +1832,46 @@ class GeneratedMcpInstallationStateTests(unittest.TestCase):
 
 
 class SetupCommandLineTests(unittest.TestCase):
+    def test_http_source_selection_reaches_the_transactional_installer(self):
+        setup_result = set_up_mcp_servers.RepositoryLocalMcpSetupResult(
+            github_mcp_server_version="github-mcp-server Version: v1.11.0",
+            universal_ontology_mcp_verification={
+                "ontologyQueryArtifactSourceKind": "http",
+                "toolNames": ["search_entities", "resolve_entity"],
+            },
+            activated_paths=(),
+        )
+
+        with mock.patch.object(
+            set_up_mcp_servers,
+            "derive_repo_from_script",
+            return_value=REPOSITORY_ROOT,
+        ), mock.patch.object(
+            set_up_mcp_servers,
+            "set_up_repository_local_mcp_servers",
+            return_value=setup_result,
+        ) as install_servers:
+            exit_code = set_up_mcp_servers.main(
+                [
+                    "--universal-ontology-query-artifact-source=http",
+                    "--universal-ontology-query-artifact-channel=stable",
+                    (
+                        "--universal-ontology-query-artifact-base-url="
+                        "https://example.cloudfront.net/ontology/query/v1/"
+                    ),
+                ]
+            )
+
+        self.assertEqual(exit_code, 0)
+        install_servers.assert_called_once_with(
+            REPOSITORY_ROOT,
+            query_artifact_source_kind="http",
+            query_artifact_channel_name="stable",
+            query_artifact_base_url=(
+                "https://example.cloudfront.net/ontology/query/v1/"
+            ),
+        )
+
     def test_check_mode_bypasses_installation_and_performs_only_drift_check(self):
         main = set_up_mcp_servers.main
         self.assertIn("arguments", inspect.signature(main).parameters)
@@ -1828,10 +1894,27 @@ class SetupCommandLineTests(unittest.TestCase):
                 "set_up_repository_local_mcp_servers",
                 side_effect=AssertionError("check mode entered the installer"),
             ) as install_servers:
-                exit_code = main(["--check"])
+                exit_code = main(
+                    [
+                        "--check",
+                        "--universal-ontology-query-artifact-source=http",
+                        "--universal-ontology-query-artifact-channel=stable",
+                        (
+                            "--universal-ontology-query-artifact-base-url="
+                            "https://example.cloudfront.net/ontology/query/v1/"
+                        ),
+                    ]
+                )
 
         self.assertEqual(exit_code, 0)
-        check_documents.assert_called_once_with(repository_root)
+        check_documents.assert_called_once_with(
+            repository_root,
+            query_artifact_source_kind="http",
+            query_artifact_channel_name="stable",
+            query_artifact_base_url=(
+                "https://example.cloudfront.net/ontology/query/v1/"
+            ),
+        )
         install_servers.assert_not_called()
 
     def test_help_starts_through_repository_shipped_dependencies(self):
@@ -1892,6 +1975,39 @@ class SetupCommandLineTests(unittest.TestCase):
 
 
 class UniversalOntologyMcpInstallationTests(unittest.TestCase):
+    def test_generates_repository_local_query_artifacts_with_the_declared_npm(self):
+        generate_query_artifacts = require_setup_callable(
+            self,
+            "generate_repository_local_ontology_query_artifacts",
+        )
+
+        with mock.patch.object(
+            set_up_mcp_servers,
+            "require_command",
+            return_value="npx-path",
+            create=True,
+        ), mock.patch.object(
+            set_up_mcp_servers,
+            "_read_declared_npm_version",
+            return_value="12.0.2",
+        ), mock.patch.object(
+            set_up_mcp_servers,
+            "run",
+            create=True,
+        ) as run_command:
+            generate_query_artifacts(REPOSITORY_ROOT)
+
+        run_command.assert_called_once_with(
+            [
+                "npx-path",
+                "--yes",
+                "npm@12.0.2",
+                "run",
+                "mcp:index",
+            ],
+            cwd=REPOSITORY_ROOT,
+        )
+
     def test_package_identity_reader_rejects_a_different_package_name(self):
         read_package_identity = require_setup_callable(
             self,
@@ -2216,7 +2332,14 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 0,
                 json.dumps(
                     {
-                        "ontologyQueryArtifactChannelName": "development",
+                        "ontologyQueryArtifactSourceKind": "file_system",
+                        "queryReadiness": {
+                            "matchedEntityIri": (
+                                "https://haddenindustries.com/ontology/"
+                                "universal/core/Person"
+                            ),
+                            "outcome": "success",
+                        },
                         "serverInfo": {
                             "name": "universal-ontology",
                             "title": "Universal Ontology",
@@ -2261,7 +2384,12 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 / "verifyUniversalOntologyMcpApplicationBundle.js",
                 "--application-bundle",
                 staged_program_path,
-                "--artifact-channel=development",
+                "--query-artifact-source=file-system",
+                (
+                    "--query-artifact-root-directory="
+                    f"{(repository_root / 'dist' / 'query' / 'v1').as_posix()}"
+                ),
+                "--verify-query-readiness",
             ],
             cwd=repository_root,
             capture=True,
@@ -2798,6 +2926,9 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
                 return_value=ontology_installation,
             ), mock.patch.object(
                 set_up_mcp_servers,
+                "generate_repository_local_ontology_query_artifacts",
+            ) as generate_query_artifacts, mock.patch.object(
+                set_up_mcp_servers,
                 "verify_staged_github_mcp_server_installation",
                 return_value="GitHub MCP Server v1.11.0",
             ), mock.patch.object(
@@ -2816,6 +2947,7 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
                 ):
                     set_up_servers(repository_root)
 
+            generate_query_artifacts.assert_called_once_with(repository_root)
             activate.assert_not_called()
             self.assertEqual(
                 original_configuration_path.read_text(encoding="utf-8"),
@@ -2847,7 +2979,7 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
                 set_up_mcp_servers,
                 "render_mcp_host_configuration_documents",
                 return_value=rendered_documents,
-            ), mock.patch.object(
+            ) as render_documents, mock.patch.object(
                 set_up_mcp_servers,
                 "stage_github_mcp_server_installation",
                 return_value=github_installation,
@@ -2863,7 +2995,7 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
                 set_up_mcp_servers,
                 "verify_staged_universal_ontology_mcp_server_installation",
                 return_value={
-                    "ontologyQueryArtifactChannelName": "development",
+                    "ontologyQueryArtifactSourceKind": "http",
                     "toolNames": ["search_entities", "resolve_entity"],
                 },
             ) as verify_ontology, mock.patch.object(
@@ -2874,11 +3006,26 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
                     for document in rendered_documents
                 ],
             ) as activate:
-                result = set_up_servers(repository_root)
+                result = set_up_servers(
+                    repository_root,
+                    query_artifact_source_kind="http",
+                    query_artifact_channel_name="stable",
+                    query_artifact_base_url=(
+                        "https://example.cloudfront.net/ontology/query/v1/"
+                    ),
+                )
 
         self.assertEqual(
             ensure_safe.call_args_list,
             [mock.call(repository_root), mock.call(repository_root)],
+        )
+        render_documents.assert_called_once_with(
+            repository_root,
+            query_artifact_source_kind="http",
+            query_artifact_channel_name="stable",
+            query_artifact_base_url=(
+                "https://example.cloudfront.net/ontology/query/v1/"
+            ),
         )
         stage_github.assert_called_once()
         stage_ontology.assert_called_once()
@@ -2893,6 +3040,11 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
         verify_ontology.assert_called_once_with(
             repository_root,
             ontology_installation,
+            query_artifact_source_kind="http",
+            query_artifact_channel_name="stable",
+            query_artifact_base_url=(
+                "https://example.cloudfront.net/ontology/query/v1/"
+            ),
         )
         activate.assert_called_once_with(
             repository_root,
@@ -2910,11 +3062,56 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
             setup_result_type(
                 github_mcp_server_version="GitHub MCP Server v1.11.0",
                 universal_ontology_mcp_verification={
-                    "ontologyQueryArtifactChannelName": "development",
+                    "ontologyQueryArtifactSourceKind": "http",
                     "toolNames": ["search_entities", "resolve_entity"],
                 },
                 activated_paths=(repository_root / ".mcp.json",),
             ),
+        )
+
+
+class SetupArgumentParsingTests(unittest.TestCase):
+    def test_rejects_http_only_options_for_the_filesystem_source(self):
+        with self.assertRaises(SystemExit) as raised:
+            set_up_mcp_servers.parse_args(
+                ["--universal-ontology-query-artifact-channel=development"]
+            )
+
+        self.assertEqual(raised.exception.code, 2)
+
+    def test_accepts_an_explicit_http_channel_and_artifact_base_url(self):
+        arguments = set_up_mcp_servers.parse_args(
+            [
+                "--universal-ontology-query-artifact-source=http",
+                "--universal-ontology-query-artifact-channel=stable",
+                (
+                    "--universal-ontology-query-artifact-base-url="
+                    "https://example.cloudfront.net/ontology/query/v1/"
+                ),
+            ]
+        )
+
+        self.assertEqual(
+            arguments.universal_ontology_query_artifact_source,
+            "http",
+        )
+        self.assertEqual(
+            arguments.universal_ontology_query_artifact_channel,
+            "stable",
+        )
+        self.assertEqual(
+            arguments.universal_ontology_query_artifact_base_url,
+            "https://example.cloudfront.net/ontology/query/v1/",
+        )
+
+    def test_defaults_repository_setup_to_the_filesystem_query_artifact_source(
+        self,
+    ):
+        arguments = set_up_mcp_servers.parse_args([])
+
+        self.assertEqual(
+            arguments.universal_ontology_query_artifact_source,
+            "file-system",
         )
 
 

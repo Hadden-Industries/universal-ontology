@@ -27,6 +27,12 @@ const SUPPORTED_ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAMES = new Set([
   "stable",
   "development",
 ]);
+const SUPPORTED_ONTOLOGY_QUERY_ARTIFACT_SOURCE_KINDS = new Set([
+  "file_system",
+  "http",
+]);
+const EXPECTED_READINESS_ENTITY_IRI =
+  "https://haddenindustries.com/ontology/universal/core/Person";
 const EXPECTED_MCP_TOOL_NAMES = Object.freeze([
   SEARCH_ENTITIES_TOOL_NAME,
   RESOLVE_ENTITY_TOOL_NAME,
@@ -44,6 +50,59 @@ function validateOntologyQueryArtifactChannelName(
       'ontologyQueryArtifactChannelName must be "stable" or "development".',
     );
   }
+}
+
+function validateOntologyQueryArtifactSourceKind(
+  ontologyQueryArtifactSourceKind,
+) {
+  if (
+    !SUPPORTED_ONTOLOGY_QUERY_ARTIFACT_SOURCE_KINDS.has(
+      ontologyQueryArtifactSourceKind,
+    )
+  ) {
+    throw new TypeError(
+      'ontologyQueryArtifactSourceKind must be "file_system" or "http".',
+    );
+  }
+}
+
+function createReadinessSearchArguments() {
+  return {
+    queryText: "Person",
+    preferredLanguageTags: ["en", "en-GB"],
+    maximumResultCount: 10,
+    ontologyReleaseSelection: {
+      selectionKind: "latest_stable_releases",
+      ontologyArtifactFamilyIds: ["universal/core"],
+    },
+  };
+}
+
+function assertOntologyQueryReadiness(result) {
+  if (
+    result?.isError === true ||
+    result?.structuredContent?.outcome !== "success" ||
+    !Array.isArray(result.structuredContent.matches)
+  ) {
+    throw new Error(
+      "Universal Ontology MCP query-readiness verification failed.",
+    );
+  }
+
+  const matchingEntity = result.structuredContent.matches
+    .map(({ ontologyEntity }) => ontologyEntity)
+    .find(({ entityIri }) => entityIri === EXPECTED_READINESS_ENTITY_IRI);
+
+  if (!matchingEntity) {
+    throw new Error(
+      "Universal Ontology MCP query-readiness verification did not return the expected entity.",
+    );
+  }
+
+  return Object.freeze({
+    matchedEntityIri: matchingEntity.entityIri,
+    outcome: "success",
+  });
 }
 
 async function requireApplicationBundleFile(applicationBundlePath) {
@@ -130,15 +189,32 @@ function assertJsonLinesStandardError({ exceededMaximum, text }) {
 
 /**
  * Verify the installed application's actual MCP interface through the official
- * v2 client. Listing tools deliberately performs no ontology-data request: the
- * mutable artifact channel is a runtime data dependency, not software-install
- * integrity evidence.
+ * v2 client. Callers may additionally require a real ontology query when they
+ * are proving a configured installation is ready, rather than only proving the
+ * data-free software bundle's identity and tool surface.
  */
 export async function verifyUniversalOntologyMcpApplicationBundle({
   applicationBundlePath,
+  ontologyQueryArtifactSourceKind = "http",
+  ontologyQueryArtifactRootDirectoryPath,
   ontologyQueryArtifactChannelName = "development",
+  ontologyQueryArtifactBaseUrl,
+  verifyOntologyQueryReadiness = false,
 } = {}) {
-  validateOntologyQueryArtifactChannelName(ontologyQueryArtifactChannelName);
+  validateOntologyQueryArtifactSourceKind(ontologyQueryArtifactSourceKind);
+  if (typeof verifyOntologyQueryReadiness !== "boolean") {
+    throw new TypeError("verifyOntologyQueryReadiness must be a boolean.");
+  }
+  if (ontologyQueryArtifactSourceKind === "http") {
+    validateOntologyQueryArtifactChannelName(ontologyQueryArtifactChannelName);
+  } else if (
+    typeof ontologyQueryArtifactRootDirectoryPath !== "string" ||
+    ontologyQueryArtifactRootDirectoryPath.length === 0
+  ) {
+    throw new TypeError(
+      "ontologyQueryArtifactRootDirectoryPath must name the filesystem query-artifact root.",
+    );
+  }
   const resolvedApplicationBundlePath = await requireApplicationBundleFile(
     applicationBundlePath,
   );
@@ -154,16 +230,27 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
   let verificationFailure;
   let serverInfo;
   let toolNames;
+  let queryReadiness;
 
   try {
+    const ontologyQueryArtifactArguments =
+      ontologyQueryArtifactSourceKind === "file_system"
+        ? [
+            "--query-artifact-source=file-system",
+            `--query-artifact-root-directory=${resolve(ontologyQueryArtifactRootDirectoryPath)}`,
+          ]
+        : [
+            "--query-artifact-source=http",
+            `--artifact-channel=${ontologyQueryArtifactChannelName}`,
+            ...(ontologyQueryArtifactBaseUrl === undefined
+              ? []
+              : [`--artifact-base-url=${ontologyQueryArtifactBaseUrl}`]),
+            "--cache-directory",
+            verifierOwnedOntologyQueryArtifactCacheDirectoryPath,
+          ];
     const transport = new StdioClientTransport({
       command: process.execPath,
-      args: [
-        resolvedApplicationBundlePath,
-        `--artifact-channel=${ontologyQueryArtifactChannelName}`,
-        "--cache-directory",
-        verifierOwnedOntologyQueryArtifactCacheDirectoryPath,
-      ],
+      args: [resolvedApplicationBundlePath, ...ontologyQueryArtifactArguments],
       cwd: REPOSITORY_ROOT_PATH,
       stderr: "pipe",
       maxBufferSize: MCP_STDIO_MAXIMUM_MESSAGE_BYTES,
@@ -212,6 +299,20 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
         `Universal Ontology MCP tool surface mismatch. Expected ${JSON.stringify(EXPECTED_MCP_TOOL_NAMES)}; received ${JSON.stringify(toolNames)}.`,
       );
     }
+
+    if (verifyOntologyQueryReadiness) {
+      const result = await client.callTool(
+        {
+          name: SEARCH_ENTITIES_TOOL_NAME,
+          arguments: createReadinessSearchArguments(),
+        },
+        {
+          timeout: MCP_OPERATION_TIMEOUT_MILLISECONDS,
+          maxTotalTimeout: MCP_OPERATION_TIMEOUT_MILLISECONDS,
+        },
+      );
+      queryReadiness = assertOntologyQueryReadiness(result);
+    }
   } catch (error) {
     verificationFailure = error;
   } finally {
@@ -244,7 +345,11 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
 
   assertJsonLinesStandardError(readCapturedStandardError());
   return {
-    ontologyQueryArtifactChannelName,
+    ontologyQueryArtifactSourceKind,
+    ...(ontologyQueryArtifactSourceKind === "http"
+      ? { ontologyQueryArtifactChannelName }
+      : {}),
+    ...(queryReadiness === undefined ? {} : { queryReadiness }),
     serverInfo,
     toolNames,
   };
@@ -252,7 +357,11 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
 
 function parseCommandLineArguments(commandLineArguments) {
   let applicationBundlePath;
+  let ontologyQueryArtifactSourceKind = "http";
+  let ontologyQueryArtifactRootDirectoryPath;
   let ontologyQueryArtifactChannelName = "development";
+  let ontologyQueryArtifactBaseUrl;
+  let verifyOntologyQueryReadiness = false;
 
   for (let index = 0; index < commandLineArguments.length; index += 1) {
     const argument = commandLineArguments[index];
@@ -260,16 +369,37 @@ function parseCommandLineArguments(commandLineArguments) {
     if (argument === "--application-bundle") {
       applicationBundlePath = commandLineArguments[index + 1];
       index += 1;
+    } else if (argument.startsWith("--query-artifact-source=")) {
+      const sourceValue = argument.slice("--query-artifact-source=".length);
+      ontologyQueryArtifactSourceKind =
+        sourceValue === "file-system" ? "file_system" : sourceValue;
+    } else if (argument.startsWith("--query-artifact-root-directory=")) {
+      ontologyQueryArtifactRootDirectoryPath = argument.slice(
+        "--query-artifact-root-directory=".length,
+      );
     } else if (argument.startsWith("--artifact-channel=")) {
       ontologyQueryArtifactChannelName = argument.slice(
         "--artifact-channel=".length,
       );
+    } else if (argument.startsWith("--artifact-base-url=")) {
+      ontologyQueryArtifactBaseUrl = argument.slice(
+        "--artifact-base-url=".length,
+      );
+    } else if (argument === "--verify-query-readiness") {
+      verifyOntologyQueryReadiness = true;
     } else {
       throw new TypeError(`Unknown verifier argument: ${argument}`);
     }
   }
 
-  return { applicationBundlePath, ontologyQueryArtifactChannelName };
+  return {
+    applicationBundlePath,
+    ontologyQueryArtifactSourceKind,
+    ontologyQueryArtifactRootDirectoryPath,
+    ontologyQueryArtifactChannelName,
+    ontologyQueryArtifactBaseUrl,
+    verifyOntologyQueryReadiness,
+  };
 }
 
 if (
