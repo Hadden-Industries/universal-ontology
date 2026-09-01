@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - ".github/workflows/verify-universal-ontology-mcp-distribution.yml"
+      - "README.md"
       - "docs/mcp/**"
+      - "docs/plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md"
       - "package.json"
       - "package-lock.json"
       - "packages/universal-ontology-mcp-server/**"
@@ -26,7 +28,9 @@ on:
     branches: ["**"]
     paths:
       - ".github/workflows/verify-universal-ontology-mcp-distribution.yml"
+      - "README.md"
       - "docs/mcp/**"
+      - "docs/plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md"
       - "package.json"
       - "package-lock.json"
       - "packages/universal-ontology-mcp-server/**"
@@ -284,6 +288,56 @@ jobs:
           )
           test "$(docker run "${container_options[@]}" "${image_name}" --version)" = "${{ needs.validate.outputs.software-version }}"
           docker run "${container_options[@]}" "${image_name}" --help | grep --fixed-strings "universal-ontology-mcp-server [options]"
+
+          # Help and version exit before cache initialization. The official MCP
+          # client keeps stdin open for a complete initialize/tools-list exchange,
+          # so a root-owned fresh volume fails closed with UNSAFE_CACHE_DIRECTORY
+          # instead of becoming a false-positive smoke. No ontology data is read.
+          MCP_CONTAINER_IMAGE_NAME="${image_name}" \
+          MCP_CONTAINER_CACHE_VOLUME_NAME="${cache_volume}" \
+          MCP_CONTAINER_EXPECTED_VERSION="${{ needs.validate.outputs.software-version }}" \
+          node --input-type=module --eval '
+            import { Client } from "@modelcontextprotocol/client";
+            import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
+
+            const transport = new StdioClientTransport({
+              command: "docker",
+              args: [
+                "run",
+                "--rm",
+                "--interactive",
+                "--read-only",
+                "--network=none",
+                "--cap-drop=ALL",
+                "--security-opt=no-new-privileges",
+                "--mount",
+                `type=volume,source=${process.env.MCP_CONTAINER_CACHE_VOLUME_NAME},target=/home/node/.cache/universal-ontology-mcp-server/v1`,
+                process.env.MCP_CONTAINER_IMAGE_NAME,
+              ],
+            });
+            const client = new Client(
+              { name: "mcp-container-smoke", version: "1.0.0" },
+              { versionNegotiation: { mode: { pin: "2026-07-28" } } },
+            );
+
+            try {
+              await client.connect(transport);
+              const toolList = await client.listTools();
+              const toolNames = toolList.tools.map(({ name }) => name);
+              if (
+                client.getServerVersion()?.version !==
+                  process.env.MCP_CONTAINER_EXPECTED_VERSION ||
+                JSON.stringify(toolNames) !==
+                  JSON.stringify(["search_entities", "resolve_entity"])
+              ) {
+                throw new Error(
+                  "Container MCP initialization smoke returned an invalid server identity or tool list.",
+                );
+              }
+            } finally {
+              await client.close();
+            }
+          '
 
   assemble:
     name: Assemble verified development candidate

@@ -13,6 +13,12 @@ the user's computer.
 > sources. Build from a trusted checkout or use an authenticated, short-lived
 > GitHub Actions artifact as described below.
 
+> **Current data-origin status:** the public stable artifact origin is not yet
+> established. The server software can be built and configured now, but an
+> uncached query using its default base URL will fail closed with an HTTP `404`.
+> The deterministic `Person` integration check below uses an ephemeral loopback
+> artifact origin; it does not publish data or make the default origin usable.
+
 ## What crosses the network
 
 The local executable has the same operating-system authority as the MCP host
@@ -39,7 +45,8 @@ authenticates the configured origin under the operator's CA trust policy.
 - A trusted checkout of this repository and Git.
 - Node.js 24 or later for the source-checkout and local npm-tarball forms. The
   self-contained archives carry the pinned Node.js 24.20.0 runtime.
-- npm using the repository lockfile. The development build selects npm 12.0.2.
+- npm using the repository lockfile. Every command below explicitly selects and
+  checks npm 12.0.2; the `packageManager` field alone does not switch npm.
 - An MCP host that can launch a local `stdio` command.
 - HTTPS access to the configured ontology-artifact origin for a cold query.
 - Docker or a compatible OCI runtime only for the locally built OCI form.
@@ -64,8 +71,10 @@ running dependency lifecycle scripts, then build the canonical single-file
 bundle:
 
 ```powershell
-npm ci --ignore-scripts
-npm run mcp:package:build
+$selectedNpmVersion = npx --yes npm@12.0.2 --version
+if ($selectedNpmVersion -cne "12.0.2") { throw "Expected npm 12.0.2." }
+npx --yes npm@12.0.2 ci --ignore-scripts
+npx --yes npm@12.0.2 run mcp:package:build
 $serverEntryPath = (Resolve-Path ".\packages\universal-ontology-mcp-server\dist\universal-ontology-mcp-server.mjs").Path
 node $serverEntryPath --version
 node $serverEntryPath --help
@@ -84,11 +93,12 @@ This is a local package-file workflow. It does not contact an npm package
 registry for the Universal Ontology package:
 
 ```powershell
-npm ci --ignore-scripts
-npm run mcp:package:pack
+npx --yes npm@12.0.2 ci --ignore-scripts
+New-Item -ItemType Directory -Path ".\dist\releases" -Force | Out-Null
+npx --yes npm@12.0.2 run mcp:package:pack
 $packageArchivePath = (Resolve-Path ".\dist\releases\universal-ontology-mcp-server-1.0.0.tgz").Path
 $installationRoot = Join-Path $PWD ".local-mcp-installation"
-npm install --prefix $installationRoot --ignore-scripts --omit=dev $packageArchivePath
+npx --yes npm@12.0.2 install --prefix $installationRoot --ignore-scripts --omit=dev $packageArchivePath
 $serverEntryPath = Join-Path $installationRoot "node_modules\universal-ontology-mcp-server\dist\universal-ontology-mcp-server.mjs"
 node $serverEntryPath --version
 ```
@@ -116,9 +126,9 @@ and verifies its pinned upstream SHA-256 before creating an archive. Select one
 of `windows-x64`, `linux-x64`, `linux-arm64`, `macos-x64`, or `macos-arm64`:
 
 ```powershell
-npm ci --ignore-scripts
-npm run mcp:package:build
-npm run mcp:archives:build -- --target=windows-x64
+npx --yes npm@12.0.2 ci --ignore-scripts
+npx --yes npm@12.0.2 run mcp:package:build
+npx --yes npm@12.0.2 run mcp:archives:build -- --target=windows-x64
 Get-FileHash -Algorithm SHA256 -LiteralPath ".\dist\releases\universal-ontology-mcp-server-v1.0.0-windows-x64.zip"
 ```
 
@@ -156,8 +166,8 @@ The image is local development output. Build it from the checkout and do not
 assign or resolve a remote registry name:
 
 ```powershell
-npm ci --ignore-scripts
-npm run mcp:package:build
+npx --yes npm@12.0.2 ci --ignore-scripts
+npx --yes npm@12.0.2 run mcp:package:build
 docker build --tag universal-ontology-mcp-server:development packages/universal-ontology-mcp-server
 docker volume create universal-ontology-mcp-cache
 docker run --rm --interactive --read-only --cap-drop=ALL --security-opt=no-new-privileges --mount type=volume,source=universal-ontology-mcp-cache,target=/home/node/.cache/universal-ontology-mcp-server/v1 universal-ontology-mcp-server:development
@@ -168,8 +178,8 @@ expected writable path; the root filesystem is read-only, Linux capabilities
 are dropped, and privilege escalation is disabled. There is deliberately no
 port mapping because the process uses `stdio`. Do not add `--network=none` for
 normal operation: a cold query needs outbound HTTPS access to the data origin.
-The verification workflow uses an isolated network only for help/version
-smokes that fetch no ontology data.
+The verification workflow uses an isolated network for help/version checks and
+an official-client MCP initialize/tools-list smoke; none fetches ontology data.
 
 An MCP host can use `docker` as the command and the complete sequence from
 `run` through the local image name as its arguments. Keep `--rm` so a stopped
@@ -190,7 +200,8 @@ download it while signed in with repository read access:
 
 ```powershell
 gh run list --repo hadden-industries/universal-ontology --workflow verify-universal-ontology-mcp-distribution.yml
-gh run download RUN_ID --repo hadden-industries/universal-ontology -n ARTIFACT_NAME --dir .\downloaded-mcp-candidate
+$artifactName = "universal-ontology-mcp-server-development-candidate-<64-lowercase-hex-digest>"
+gh run download RUN_ID --repo hadden-industries/universal-ontology -n $artifactName --dir .\downloaded-mcp-candidate
 ```
 
 The candidate includes `SHA256SUMS`. Verify every listed subject before using
@@ -199,26 +210,63 @@ the local npm tarball or extracting the platform archive:
 ```powershell
 $candidateDirectory = (Resolve-Path ".\downloaded-mcp-candidate").Path
 $checksumManifestPath = Join-Path $candidateDirectory "SHA256SUMS"
+$selectedPayloadName = "universal-ontology-mcp-server-v1.0.0-windows-x64.zip" # Replace with the exact payload you will execute.
 
-foreach ($checksumRecord in Get-Content -LiteralPath $checksumManifestPath) {
-    if ($checksumRecord -notmatch '^(?<sha256>[0-9a-f]{64})  (?<name>.+)$') {
+# The Actions artifact name commits to the exact SHA256SUMS bytes. Capture the
+# expected digest before later regular-expression matches replace $Matches.
+if ($artifactName -notmatch '^universal-ontology-mcp-server-development-candidate-(?<candidateSha256>[0-9a-f]{64})$') {
+    throw "The Actions artifact name does not contain a valid candidate identity."
+}
+$expectedChecksumManifestSha256 = $Matches.candidateSha256
+$actualChecksumManifestSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $checksumManifestPath).Hash.ToLowerInvariant()
+if ($actualChecksumManifestSha256 -cne $expectedChecksumManifestSha256) {
+    throw "SHA256SUMS does not match the digest in the Actions artifact name."
+}
+
+$checksumRecords = @(
+    foreach ($checksumRecordLine in Get-Content -LiteralPath $checksumManifestPath) {
+        if ($checksumRecordLine -notmatch '^(?<sha256>[0-9a-f]{64})  (?<name>.+)$') {
+            throw "Invalid SHA256SUMS record."
+        }
+        [PSCustomObject]@{
+            ExpectedSha256 = $Matches.sha256
+            Name = $Matches.name
+        }
+    }
+)
+if ($checksumRecords.Count -eq 0) {
+    throw "SHA256SUMS contains no candidate subjects."
+}
+
+foreach ($checksumRecord in $checksumRecords) {
+    # Candidate subjects are flat release files. Reject path-bearing records
+    # before joining them to the trusted download directory.
+    if ($checksumRecord.Name -match '[/\\]' -or $checksumRecord.Name -in @('.', '..')) {
         throw "Invalid SHA256SUMS record."
     }
 
-    $expectedSha256 = $Matches.sha256
-    $subjectPath = Join-Path $candidateDirectory $Matches.name
+    $subjectPath = Join-Path $candidateDirectory $checksumRecord.Name
     $actualSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $subjectPath).Hash.ToLowerInvariant()
-    if ($actualSha256 -ne $expectedSha256) {
+    if ($actualSha256 -cne $checksumRecord.ExpectedSha256) {
         throw "Candidate subject failed SHA-256 verification."
     }
 }
+
+$selectedPayloadRecords = @(
+    $checksumRecords | Where-Object { $_.Name -ceq $selectedPayloadName }
+)
+if ($selectedPayloadRecords.Count -ne 1) {
+    throw "The selected payload must occur exactly once in SHA256SUMS."
+}
 ```
 
-Checksums detect corruption and substitution relative to the downloaded
-manifest, but they do not authenticate the publisher. No publisher signature
-or attestation accompanies a development candidate. Preserve the workflow run
-identity, source commit, artifact name, and verified checksum manifest in local
-test records. Because Actions retention is three days, do not depend on it as a
+The artifact-name comparison binds the downloaded manifest to the selected
+GitHub Actions artifact, while the per-subject checks bind the selected payload
+to that manifest. These checksums detect corruption and substitution, but they
+do not authenticate the publisher. No publisher signature or attestation
+accompanies a development candidate. Preserve the workflow run identity,
+source commit, artifact name, and verified checksum manifest in local test
+records. Because Actions retention is three days, do not depend on it as a
 rollback store; retain a trusted source commit or locally verified candidate.
 
 ## Configure an MCP host
@@ -241,8 +289,8 @@ The server exposes exactly two read-only tools:
 Build the bundle and let the Codex CLI record its absolute entry path:
 
 ```powershell
-npm ci --ignore-scripts
-npm run mcp:package:build
+npx --yes npm@12.0.2 ci --ignore-scripts
+npx --yes npm@12.0.2 run mcp:package:build
 $serverEntryPath = (Resolve-Path ".\packages\universal-ontology-mcp-server\dist\universal-ontology-mcp-server.mjs").Path
 codex mcp add universal_ontology -- node $serverEntryPath
 ```
@@ -461,7 +509,23 @@ request after closing the protocol session.
 
 ## Verify the `Person` definition
 
-After restarting the host, with every browser page closed, ask:
+Default-origin host acceptance is deferred until a complete stable artifact
+origin is established. Do not treat a successful build, `--help`, or `--version`
+check as proof that a cold ontology query can currently reach the default URL.
+
+For the current development increment, verify the actual locally packed server
+against the repository's deterministic loopback artifact origin. This test
+fresh-installs the tarball, starts an ephemeral origin on `127.0.0.1`, passes
+`--artifact-base-url` plus `--allow-insecure-loopback-artifact-origin`, performs
+the `Person` MCP call, and removes the fixture afterward:
+
+```powershell
+npx --yes npm@12.0.2 test -- --runInBand tests/distribution/universal-ontology-mcp-npm-package.test.js
+```
+
+Once an operator-approved HTTPS base URL serves a complete `stable` channel,
+configure it explicitly with `--artifact-base-url`, restart the host, close every
+browser page, and ask:
 
 ```text
 Find the definition of Person in the Universal Ontology and cite the ontology release and source IRI.
@@ -481,7 +545,8 @@ The host should call `search_entities` with the equivalent structured input:
 }
 ```
 
-The current stable acceptance record is:
+The deterministic fixture's acceptance record—and the record required of the
+future stable channel—is:
 
 | Field                   | Expected value                                                     |
 | ----------------------- | ------------------------------------------------------------------ |
@@ -516,7 +581,7 @@ definition assertion.
 | Host reports invalid JSON or framing         | A wrapper probably wrote diagnostics to stdout. Launch the bundle directly; leave stdout exclusively to MCP and inspect stderr.                                                              |
 | Startup timeout                              | Cache safety checks or cold startup exceeded the host allowance. Inspect stderr and use a bounded host `startup_timeout_sec`; do not disable checks.                                         |
 | Tool timeout                                 | An authorized proxy, DNS, TLS, or origin request may be slow. Inspect safe stderr events and set a bounded `tool_timeout_sec`; do not retry in a tight loop.                                 |
-| HTTP `401` or `403` from the artifact origin | The default public data path should need no credentials. Check the exact base URL, proxy authorization, corporate interception, and origin policy. Never put credentials in the URL.         |
+| HTTP `401` or `403` from the artifact origin | A future public data path should need no credentials. Check the exact base URL, proxy authorization, corporate interception, and origin policy. Never put credentials in the URL.            |
 | HTTP `404` or `410`                          | The exact channel, catalog, or index object is absent. Confirm the base URL and channel; do not substitute a similarly named release.                                                        |
 | Invalid channel manifest or catalog          | Schema, size, UTF-8, digest, or embedded identity validation failed. Preserve stderr diagnostics and investigate publication; do not edit cached JSON.                                       |
 | Invalid or digest-mismatched release index   | Treat the exact object or proxy response as corrupt. Online operation may quarantine/refetch it; offline operation must fail.                                                                |

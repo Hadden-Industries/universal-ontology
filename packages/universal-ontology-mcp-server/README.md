@@ -19,10 +19,10 @@ For trusted-checkout builds, locally packed npm tarballs, self-contained
 platform archives, local OCI images, short-lived GitHub Actions artifacts,
 Codex/Claude Desktop/VS Code configuration, cache behavior, offline limits,
 updates, and removal, use the canonical
-[local installation and operation guide](../../docs/mcp/local-installation.md).
+[local installation and operation guide](https://github.com/Hadden-Industries/universal-ontology/blob/main/docs/mcp/local-installation.md).
 
 For repository-only Streamable HTTP development at loopback, use the separate
-[local development guide](../../docs/mcp/local-development.md).
+[local development guide](https://github.com/Hadden-Industries/universal-ontology/blob/main/docs/mcp/local-development.md).
 
 ## Runtime boundary
 

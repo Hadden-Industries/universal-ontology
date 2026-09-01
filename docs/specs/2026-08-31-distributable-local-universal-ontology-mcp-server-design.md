@@ -910,7 +910,10 @@ It runs the same `stdio` entry as a non-root user, declares
 for MCP Registry ownership verification, and contains no ontology data.
 Container documentation MUST preserve stdin (`-i`) and mount a dedicated
 cache volume; otherwise every process start discards the cache and repeats
-downloads.
+downloads. Before declaring that volume, the image MUST create its mount point
+as the non-root runtime user with owner-only mode `0700`. A newly created empty
+named volume then inherits a root that satisfies the server's owner and mode
+checks instead of failing initialization with `UNSAFE_CACHE_DIRECTORY`.
 
 The image is an installation alternative, not a hosted server. Publishing it
 to GHCR does not create a running workload. Tags are convenience references;
@@ -1145,13 +1148,23 @@ Required test layers include:
   `Person` call without accessing a public package namespace;
 - every platform archive runs on its advertised target and uses its dedicated
   cache directory;
-- OCI runs as non-root, uses stdin, persists a mounted cache, and contains no
-  shell or unnecessary package manager in the final image where practical;
+- OCI runs as non-root, uses stdin, initializes and persists a node-owned mounted
+  cache, completes an MCP initialize/tools-list smoke, and contains no shell or
+  unnecessary package manager in the final image where practical;
 - checksums, SBOM subjects, license, and notices cover every candidate asset;
 - the development workflow grants only `contents: read`, retains candidates
-  for three days, and contains no remote-publication or attestation path; and
+  for three days, contains no remote-publication or attestation path, and
+  matches the reviewed SHA-256 digest of its canonical semantic policy
+  manifest so every unapproved executable mutation fails closed; and
 - the local release-candidate verifier fails closed when any expected asset is
   absent or inconsistent.
+
+The workflow policy digest is calculated after YAML parsing over canonical
+JSON with recursively sorted mapping keys and preserved sequence order. It
+covers triggers, capabilities, jobs, actions, inputs, shells, environments, and
+run scripts while excluding comments and mapping presentation order. This
+closed-world policy deliberately avoids attempting to emulate Bash,
+PowerShell, and `cmd.exe` parsing in one static command scanner.
 
 ### 16.5 Golden semantic acceptance
 

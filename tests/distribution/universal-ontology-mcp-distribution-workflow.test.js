@@ -11,7 +11,9 @@ const WORKFLOW_URL = new URL(
 
 const EXPECTED_PATH_FILTERS = Object.freeze([
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
+  "README.md",
   "docs/mcp/**",
+  "docs/plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md",
   "package.json",
   "package-lock.json",
   "packages/universal-ontology-mcp-server/**",
@@ -58,13 +60,20 @@ const PROHIBITED_WORKFLOW_PATTERNS = Object.freeze([
   /actions\/attest@/u,
   /docker\/login-action@/u,
   /docker\/build-push-action@/u,
-  /\b(?:npm\s+publish|docker\s+(?:login|push)|gh\s+release)\b/iu,
+  /\bdocker[^\r\n;&|]*?[ \t]+(?:login|push)(?=[ \t\r\n;&|]|$)/imu,
+  /\bdocker[^\r\n;&|]*?[ \t]+(?:build\b|buildx\b[^\r\n;&|]*?[ \t]+b\b)[^\r\n;&|]*?[ \t]+--push(?=[= \t\r\n;&|]|$)/imu,
+  /\bdocker[^\r\n;&|]*?[ \t]+(?:build\b|buildx\b[^\r\n;&|]*?[ \t]+b\b)[^\r\n;&|]*?[ \t]+(?:--output|-o)(?:[ \t]*=[ \t]*|[ \t]+)[^\r\n;&|]*?\b(?:push[ \t]*=|type[ \t]*=[ \t]*registry\b)/imu,
+  /\bdocker[^\r\n;&|]*?[ \t]+(?:build\b|buildx\b[^\r\n;&|]*?[ \t]+b\b)[^\r\n;&|]*?[ \t]+--cache-to(?:[ \t]*=[ \t]*|[ \t]+)(?!type[ \t]*=[ \t]*(?:inline|local)\b)[^\r\n;&|]+/imu,
+  /\bdocker[^\r\n;&|]*?[ \t]+(?:bake\b|buildx\b[^\r\n;&|]*?[ \t]+(?:bake|f)\b)/imu,
+  /\bgh\s+release\b/iu,
+  /\bnpm[^\r\n;&|]*?[ \t]+pu(?:b(?:l(?:i(?:s(?:h)?)?)?)?)?(?=[ \t\r\n;&|]|$)/imu,
   /\bpush-by-digest\b/iu,
   /\bimagetools\s+create\b/iu,
   /\bmcp-publisher\s+(?:login|publish)\b/iu,
   /\b(?:aws|gcloud|gsutil)\s+/iu,
   /\b(?:GH_TOKEN|NODE_AUTH_TOKEN)\b/u,
-  /\$\{\{\s*github\.token\s*\}\}/u,
+  /\$\{\{[^}\r\n]*\bgithub\s*(?:\.token\b|\[\s*['"]token['"]\s*\])/iu,
+  /\$\{\{[^}\r\n]*\bsecrets\b/iu,
   /\b(?:id-token|attestations|artifact-metadata|packages|contents):\s*write\b/iu,
   /\bregistry-url\s*:/iu,
 ]);
@@ -81,6 +90,29 @@ function concatenateRunScripts(job) {
     .filter(({ run }) => typeof run === "string")
     .map(({ run }) => run)
     .join("\n");
+}
+
+/**
+ * Render only parsed YAML keys and scalar values for defense-in-depth scans.
+ *
+ * Comments are presentation metadata rather than executable workflow policy.
+ * Parsing before this traversal prevents a warning comment from looking like
+ * a token reference or publication command while retaining mapping keys such
+ * as `permissions.contents` for the prohibited-pattern checks.
+ */
+function concatenateWorkflowSemanticText(value) {
+  if (Array.isArray(value)) {
+    return value.map(concatenateWorkflowSemanticText).join("\n");
+  }
+  if (value !== null && typeof value === "object") {
+    return Object.entries(value)
+      .map(
+        ([propertyName, propertyValue]) =>
+          `${propertyName}: ${concatenateWorkflowSemanticText(propertyValue)}`,
+      )
+      .join("\n");
+  }
+  return String(value);
 }
 
 describe("Universal Ontology MCP development distribution workflow", () => {
@@ -217,6 +249,18 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     expect(containerScripts).toContain("--read-only");
     expect(containerScripts).toContain("--cap-drop=ALL");
     expect(containerScripts).toContain("no-new-privileges");
+    expect(containerScripts).toContain(
+      'import { Client } from "@modelcontextprotocol/client"',
+    );
+    expect(containerScripts).toContain(
+      'import { StdioClientTransport } from "@modelcontextprotocol/client/stdio"',
+    );
+    expect(containerScripts).toContain("await client.connect(transport)");
+    expect(containerScripts).toContain("await client.listTools()");
+    expect(containerScripts).toContain("client.getServerVersion()");
+    expect(containerScripts).toContain("mcp-container-smoke");
+    expect(containerScripts).toContain("UNSAFE_CACHE_DIRECTORY");
+    expect(containerScripts).not.toContain('"method":"initialize"');
     expect(containerScripts).not.toMatch(/(?:--publish|-p\s+\d)/u);
   });
 
@@ -229,25 +273,40 @@ describe("Universal Ontology MCP development distribution workflow", () => {
       uses?.startsWith("actions/upload-artifact@"),
     );
 
-    expect(archiveUploadStep?.with).toMatchObject({
+    expect(archiveUploadStep?.with).toEqual({
+      name: "universal-ontology-mcp-server-${{ matrix.targetName }}",
+      path: "dist/releases/universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}-${{ matrix.targetName }}.${{ matrix.releaseArchiveFormat }}",
       "if-no-files-found": "error",
       "retention-days": 3,
     });
     expect(assembleScripts).toContain("npm sbom");
     expect(assembleScripts).toContain("mcp:sbom:create");
     expect(assembleScripts).toContain("mcp:release:verify");
-    expect(candidateUploadStep?.with).toMatchObject({
-      name: expect.stringContaining(
-        "${{ steps.candidate-identity.outputs.candidate-sha256 }}",
-      ),
+    expect(candidateUploadStep?.with).toEqual({
+      name: "universal-ontology-mcp-server-development-candidate-${{ steps.candidate-identity.outputs.candidate-sha256 }}",
+      path: "dist/releases/*",
       "if-no-files-found": "error",
       "retention-days": 3,
     });
   });
 
   test("contains no public release, registry, attestation, or cloud write path", () => {
+    const workflowSemanticText = concatenateWorkflowSemanticText(workflow);
     for (const prohibitedPattern of PROHIBITED_WORKFLOW_PATTERNS) {
-      expect(workflowText).not.toMatch(prohibitedPattern);
+      expect(workflowSemanticText).not.toMatch(prohibitedPattern);
     }
+  });
+
+  test("excludes YAML comments from executable-policy scans", () => {
+    const workflowWithSecurityComment = parseYaml(
+      [
+        "# Security note: never expose ${{ secrets }} from this workflow.",
+        workflowText,
+      ].join("\n"),
+    );
+
+    expect(concatenateWorkflowSemanticText(workflowWithSecurityComment)).toBe(
+      concatenateWorkflowSemanticText(workflow),
+    );
   });
 });

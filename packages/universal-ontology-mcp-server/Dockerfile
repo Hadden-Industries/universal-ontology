@@ -12,6 +12,9 @@ COPY --chown=node:node LICENSE README.md THIRD_PARTY_NOTICES.md ./
 
 # The stdio process needs no root privileges or listening port. Only its
 # content-addressed ontology artifact cache is expected to remain writable.
+# Docker initializes an empty named volume from this pre-existing mount point,
+# preserving the node user's owner-only cache boundary on first use.
+RUN install --directory --owner=node --group=node --mode=0700 /home/node/.cache/universal-ontology-mcp-server/v1
 USER node:node
 VOLUME ["/home/node/.cache/universal-ontology-mcp-server/v1"]
 STOPSIGNAL SIGTERM

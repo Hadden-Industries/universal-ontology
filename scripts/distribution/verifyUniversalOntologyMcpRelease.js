@@ -48,7 +48,9 @@ const STREAM_SCAN_TAIL_CHARACTER_COUNT = 512;
 const SPDX_DOCUMENT_ID = "SPDXRef-DOCUMENT";
 const EXPECTED_DISTRIBUTION_WORKFLOW_PATH_FILTERS = Object.freeze([
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
+  "README.md",
   "docs/mcp/**",
+  "docs/plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md",
   "package.json",
   "package-lock.json",
   "packages/universal-ontology-mcp-server/**",
@@ -85,20 +87,27 @@ const ACTIVE_DISTRIBUTION_WORKFLOW_ACTION_NAMES = Object.freeze([
   "actions/setup-node",
   "actions/upload-artifact",
 ]);
-const PROHIBITED_DISTRIBUTION_WORKFLOW_PATTERNS = Object.freeze([
-  /actions\/attest@/u,
-  /docker\/login-action@/u,
-  /docker\/build-push-action@/u,
-  /\b(?:npm\s+publish|docker\s+(?:login|push)|gh\s+release)\b/iu,
-  /\bpush-by-digest\b/iu,
-  /\bimagetools\s+create\b/iu,
-  /\bmcp-publisher\s+(?:login|publish)\b/iu,
-  /\b(?:aws|gcloud|gsutil)\s+/iu,
-  /\b(?:GH_TOKEN|NODE_AUTH_TOKEN)\b/u,
-  /\$\{\{\s*github\.token\s*\}\}/u,
-  /\b(?:id-token|attestations|artifact-metadata|packages|contents):\s*write\b/iu,
-  /\bregistry-url\s*:/iu,
-]);
+const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
+  archive: Object.freeze({
+    name: "universal-ontology-mcp-server-${{ matrix.targetName }}",
+    path: "dist/releases/universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}-${{ matrix.targetName }}.${{ matrix.releaseArchiveFormat }}",
+    "if-no-files-found": "error",
+    "retention-days": 3,
+  }),
+  assemble: Object.freeze({
+    name: "universal-ontology-mcp-server-development-candidate-${{ steps.candidate-identity.outputs.candidate-sha256 }}",
+    path: "dist/releases/*",
+    "if-no-files-found": "error",
+    "retention-days": 3,
+  }),
+});
+// This is the SHA-256 digest of the canonical JSON representation of the
+// parsed workflow. Object-key order and YAML comments are intentionally
+// excluded, while array order and every semantic value remain covered. The
+// workflow is executable supply-chain policy: update this digest only after a
+// deliberate review of every trigger, capability, job, action, and run script.
+const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
+  "fade1968f0e823caba992a2f97a02221c0ed9978dea74ef3db012569cad686ee";
 
 const FORBIDDEN_ARCHIVE_CONTENT_MARKERS = Object.freeze([
   "A natural or legal person recognised by law.",
@@ -215,9 +224,35 @@ function normalizeWorkflowJobDependencies(needs) {
 }
 
 function requireExactJsonValue(actualValue, expectedValue, semanticName) {
-  if (JSON.stringify(actualValue) !== JSON.stringify(expectedValue)) {
+  if (
+    serializeCanonicalJsonValue(actualValue) !==
+    serializeCanonicalJsonValue(expectedValue)
+  ) {
     throw new Error(`Distribution workflow has incorrect ${semanticName}.`);
   }
+}
+
+/**
+ * Serialize JSON-compatible data with recursively sorted object keys.
+ *
+ * YAML mapping order and comments are not executable semantics, so the policy
+ * digest deliberately ignores them. Sequence order remains significant because
+ * GitHub Actions executes jobs' steps in order.
+ */
+function serializeCanonicalJsonValue(value) {
+  if (Array.isArray(value)) {
+    return `[${value.map(serializeCanonicalJsonValue).join(",")}]`;
+  }
+  if (value !== null && typeof value === "object") {
+    const members = Object.keys(value)
+      .sort(compareBinaryText)
+      .map(
+        (propertyName) =>
+          `${JSON.stringify(propertyName)}:${serializeCanonicalJsonValue(value[propertyName])}`,
+      );
+    return `{${members.join(",")}}`;
+  }
+  return JSON.stringify(value);
 }
 
 /**
@@ -244,6 +279,17 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
   }
   if (!workflow || typeof workflow !== "object" || !workflow.jobs) {
     throw new Error("Distribution workflow omits its job graph.");
+  }
+  const workflowPolicyManifestSha256 = calculateSha256(
+    Buffer.from(serializeCanonicalJsonValue(workflow), "utf8"),
+  );
+  if (
+    workflowPolicyManifestSha256 !==
+    EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256
+  ) {
+    throw new Error(
+      "Distribution workflow publication-policy manifest does not match its reviewed semantic digest.",
+    );
   }
   requireExactJsonValue(
     workflow.name,
@@ -272,20 +318,11 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
     },
     "concurrency policy",
   );
-  if (
-    PROHIBITED_DISTRIBUTION_WORKFLOW_PATTERNS.some((pattern) =>
-      pattern.test(workflowText),
-    )
-  ) {
-    throw new Error(
-      "Distribution workflow contains a prohibited publication or remote-write construct.",
-    );
-  }
 
   const expectedJobNames = Object.keys(EXPECTED_WORKFLOW_JOB_PERMISSIONS);
   requireExactJsonValue(
-    Object.keys(workflow.jobs),
-    expectedJobNames,
+    Object.keys(workflow.jobs).sort(compareBinaryText),
+    [...expectedJobNames].sort(compareBinaryText),
     "four-job topology",
   );
   const allowedActionCommits = new Map(
@@ -296,7 +333,10 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
   );
   const encounteredActionNames = new Set();
   const exactNpmBootstrap = `npm install --global --no-audit --no-fund npm@${releaseInputs.selectedNpmVersion}\ntest "$(npm --version)" = "${releaseInputs.selectedNpmVersion}"\n`;
-  let artifactUploadStepCount = 0;
+  const artifactUploadStepCountsByJobName = {
+    archive: 0,
+    assemble: 0,
+  };
 
   for (const jobName of expectedJobNames) {
     const job = workflow.jobs[jobName];
@@ -327,8 +367,10 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
     );
     if (
       setupNodeIndex < 0 ||
-      JSON.stringify(job.steps[setupNodeIndex].with) !==
-        JSON.stringify({ "node-version": releaseInputs.nodeRuntime.version }) ||
+      serializeCanonicalJsonValue(job.steps[setupNodeIndex].with) !==
+        serializeCanonicalJsonValue({
+          "node-version": releaseInputs.nodeRuntime.version,
+        }) ||
       npmBootstrapIndex <= setupNodeIndex ||
       job.steps[npmBootstrapIndex].run !== exactNpmBootstrap
     ) {
@@ -375,15 +417,19 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
         );
       }
       if (actionReferenceMatch[1] === "actions/upload-artifact") {
-        artifactUploadStepCount += 1;
-        if (
-          step.with?.["retention-days"] !== 3 ||
-          step.with?.["if-no-files-found"] !== "error"
-        ) {
+        const expectedUploadInputs =
+          EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME[jobName];
+        if (!expectedUploadInputs) {
           throw new Error(
-            `Distribution workflow job ${jobName} retains an artifact outside the three-day fail-closed policy.`,
+            `Distribution workflow job ${jobName} performs an unexpected artifact upload.`,
           );
         }
+        artifactUploadStepCountsByJobName[jobName] += 1;
+        requireExactJsonValue(
+          step.with,
+          expectedUploadInputs,
+          `${jobName} artifact upload inputs`,
+        );
       }
     }
   }
@@ -392,11 +438,11 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
     [...ACTIVE_DISTRIBUTION_WORKFLOW_ACTION_NAMES].sort(compareBinaryText),
     "active action allowlist coverage",
   );
-  if (artifactUploadStepCount !== 2) {
-    throw new Error(
-      "Distribution workflow must upload exactly native archives and one assembled candidate.",
-    );
-  }
+  requireExactJsonValue(
+    artifactUploadStepCountsByJobName,
+    { archive: 1, assemble: 1 },
+    "artifact upload job allocation",
+  );
 
   const concatenateRunScripts = (job) =>
     job.steps
@@ -419,23 +465,22 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
     !containerScripts.includes("--read-only") ||
     !containerScripts.includes("--cap-drop=ALL") ||
     !containerScripts.includes("no-new-privileges") ||
+    !containerScripts.includes(
+      'import { Client } from "@modelcontextprotocol/client"',
+    ) ||
+    !containerScripts.includes(
+      'import { StdioClientTransport } from "@modelcontextprotocol/client/stdio"',
+    ) ||
+    !containerScripts.includes("await client.connect(transport)") ||
+    !containerScripts.includes("await client.listTools()") ||
+    !containerScripts.includes("client.getServerVersion()") ||
+    !containerScripts.includes("mcp-container-smoke") ||
+    !containerScripts.includes("UNSAFE_CACHE_DIRECTORY") ||
     /(?:--publish|-p\s+\d)/u.test(containerScripts) ||
     !assembleScripts.includes("mcp:release:verify")
   ) {
     throw new Error(
       "Distribution workflow does not implement the exact local-only candidate checks.",
-    );
-  }
-  const candidateUploadStep = workflow.jobs.assemble.steps.find(({ uses }) =>
-    uses?.startsWith("actions/upload-artifact@"),
-  );
-  if (
-    !candidateUploadStep?.with?.name?.includes(
-      "${{ steps.candidate-identity.outputs.candidate-sha256 }}",
-    )
-  ) {
-    throw new Error(
-      "Distribution workflow artifact name omits the verified candidate identity.",
     );
   }
   return Object.freeze({ verifiedJobCount: expectedJobNames.length });
@@ -457,7 +502,7 @@ function createExpectedReleaseFileNames(
     packageSbomFileName: `${releaseBaseName}-npm.spdx.json`,
     releaseSbomFileName: `${releaseBaseName}-release.spdx.json`,
     ociMetadataFileName: `${releaseBaseName}-oci-metadata.json`,
-    releaseNotesFileName: `${releaseBaseName}-release-notes.md`,
+    developmentCandidateNotesFileName: `${releaseBaseName}-development-candidate-notes.md`,
     registryDocumentFileName: "server.json",
     checksumsFileName: "SHA256SUMS",
   });
@@ -470,7 +515,7 @@ function flattenExpectedReleaseFileNames(expectedNames) {
     expectedNames.packageSbomFileName,
     expectedNames.releaseSbomFileName,
     expectedNames.ociMetadataFileName,
-    expectedNames.releaseNotesFileName,
+    expectedNames.developmentCandidateNotesFileName,
     expectedNames.registryDocumentFileName,
     expectedNames.checksumsFileName,
   ].sort(compareBinaryText);
@@ -1234,7 +1279,7 @@ function verifySpdxDocuments({
     ...expectedNames.platformArchiveFileNames,
     expectedNames.registryDocumentFileName,
     expectedNames.ociMetadataFileName,
-    expectedNames.releaseNotesFileName,
+    expectedNames.developmentCandidateNotesFileName,
   ];
   const releaseAssetPackages = releaseSubjectFileNames.map((fileName) => ({
     name: fileName,
@@ -1397,20 +1442,30 @@ export async function verifyUniversalOntologyMcpRelease({
     expectedChecksummedFileNames,
   });
 
-  const releaseNotesText = (
+  const developmentCandidateNotesText = (
     await readBoundedRegularFile(
-      join(releaseDirectoryPath, expectedNames.releaseNotesFileName),
+      join(
+        releaseDirectoryPath,
+        expectedNames.developmentCandidateNotesFileName,
+      ),
     )
   ).toString("utf8");
   if (
-    !releaseNotesText.includes(`v${publicPackage.version}`) ||
-    !releaseNotesText.includes("data-free local stdio server")
+    !developmentCandidateNotesText.includes(`v${publicPackage.version}`) ||
+    !developmentCandidateNotesText.includes("data-free local stdio server") ||
+    !developmentCandidateNotesText.includes(
+      "unpublished development candidate",
+    ) ||
+    !developmentCandidateNotesText.includes("not published to npm") ||
+    !developmentCandidateNotesText.includes("no OCI image is published")
   ) {
-    throw new Error("Release notes omit the exact release and data boundary.");
+    throw new Error(
+      "Development candidate notes omit the exact candidate and publication boundaries.",
+    );
   }
   inspectTextForForbiddenReleaseContent(
-    releaseNotesText,
-    expectedNames.releaseNotesFileName,
+    developmentCandidateNotesText,
+    expectedNames.developmentCandidateNotesFileName,
   );
 
   await verifyNpmTarball({

@@ -1,4 +1,5 @@
 import * as nodeFileSystem from "node:fs/promises";
+import { posix as posixPath } from "node:path";
 
 const LOCAL_INSTALLATION_GUIDE_URL = new URL(
   "../../docs/mcp/local-installation.md",
@@ -13,6 +14,10 @@ const PACKAGE_README_URL = new URL(
   import.meta.url,
 );
 const REPOSITORY_README_URL = new URL("../../README.md", import.meta.url);
+const IMPLEMENTATION_PLAN_URL = new URL(
+  "../../docs/plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md",
+  import.meta.url,
+);
 
 // These patterns identify commands that would falsely imply that a durable,
 // publicly installable development release already exists. Keeping the list
@@ -43,9 +48,34 @@ async function expectRelativeMarkdownLinksToResolve(markdown, documentUrl) {
   }
 }
 
+function expectPackageReadmeLinksToSurvivePackaging(markdown) {
+  // Both the npm tarball and platform archives place these documents beside
+  // README.md. Any other relative target depends on an absent source tree and
+  // is therefore broken for an installed user.
+  const packagedDocumentPaths = new Set([
+    "LICENSE",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+  ]);
+  const linkTargets = [...markdown.matchAll(/\[[^\]]+\]\(([^)\s]+)\)/gu)].map(
+    ([, linkTarget]) => linkTarget,
+  );
+
+  for (const linkTarget of linkTargets) {
+    if (/^[a-z][a-z+.-]*:/iu.test(linkTarget) || linkTarget.startsWith("#")) {
+      continue;
+    }
+
+    const [pathWithoutFragment] = linkTarget.split("#", 1);
+    const packagedTargetPath = posixPath.normalize(pathWithoutFragment);
+    expect(packagedDocumentPaths).toContain(packagedTargetPath);
+  }
+}
+
 describe("Universal Ontology MCP operator documentation", () => {
   let localDevelopmentGuide;
   let localInstallationGuide;
+  let implementationPlan;
   let packageReadme;
   let repositoryReadme;
 
@@ -53,11 +83,13 @@ describe("Universal Ontology MCP operator documentation", () => {
     [
       localDevelopmentGuide,
       localInstallationGuide,
+      implementationPlan,
       packageReadme,
       repositoryReadme,
     ] = await Promise.all([
       nodeFileSystem.readFile(LOCAL_DEVELOPMENT_GUIDE_URL, "utf8"),
       nodeFileSystem.readFile(LOCAL_INSTALLATION_GUIDE_URL, "utf8"),
+      nodeFileSystem.readFile(IMPLEMENTATION_PLAN_URL, "utf8"),
       nodeFileSystem.readFile(PACKAGE_README_URL, "utf8"),
       nodeFileSystem.readFile(REPOSITORY_README_URL, "utf8"),
     ]);
@@ -88,11 +120,17 @@ describe("Universal Ontology MCP operator documentation", () => {
 
   test("documents every permitted unpublished installation form and its integrity boundary", () => {
     expect(localInstallationGuide).toMatch(/source checkout/iu);
-    expect(localInstallationGuide).toContain("npm run mcp:package:build");
+    expect(localInstallationGuide).toContain(
+      "npx --yes npm@12.0.2 run mcp:package:build",
+    );
     expect(localInstallationGuide).toMatch(/locally packed npm tarball/iu);
-    expect(localInstallationGuide).toContain("npm run mcp:package:pack");
+    expect(localInstallationGuide).toContain(
+      "npx --yes npm@12.0.2 run mcp:package:pack",
+    );
     expect(localInstallationGuide).toMatch(/locally built platform archive/iu);
-    expect(localInstallationGuide).toContain("npm run mcp:archives:build");
+    expect(localInstallationGuide).toContain(
+      "npx --yes npm@12.0.2 run mcp:archives:build",
+    );
     expect(localInstallationGuide).toMatch(/locally built OCI image/iu);
     expect(localInstallationGuide).toContain(
       "docker build --tag universal-ontology-mcp-server:development",
@@ -104,6 +142,11 @@ describe("Universal Ontology MCP operator documentation", () => {
     expect(localInstallationGuide).toMatch(
       /checksums detect corruption[\s\S]*do not authenticate the publisher/iu,
     );
+    expect(localInstallationGuide).toContain("npx --yes npm@12.0.2 --version");
+    expect(localInstallationGuide).toContain(
+      "npx --yes npm@12.0.2 ci --ignore-scripts",
+    );
+    expect(localInstallationGuide).not.toMatch(/^npm (?:ci|install|run)\b/mu);
   });
 
   test("provides current stdio configurations for supported MCP hosts", () => {
@@ -183,6 +226,18 @@ describe("Universal Ontology MCP operator documentation", () => {
     );
     expect(localInstallationGuide).toMatch(/asserted lexical definition/iu);
     expect(localInstallationGuide).toMatch(/not an inferred OWL definition/iu);
+    expect(localInstallationGuide).toMatch(
+      /public stable artifact origin is not yet[\s>]*established/iu,
+    );
+    expect(localInstallationGuide).toContain(
+      "tests/distribution/universal-ontology-mcp-npm-package.test.js",
+    );
+    expect(localInstallationGuide).toMatch(
+      /deterministic loopback artifact origin/iu,
+    );
+    expect(localInstallationGuide).toMatch(
+      /deferred until[\s\S]*stable[\s\S]*origin/iu,
+    );
   });
 
   test("keeps WebMCP, loopback HTTP, and installed stdio usage distinct", () => {
@@ -193,9 +248,28 @@ describe("Universal Ontology MCP operator documentation", () => {
     expect(repositoryReadme).toContain("docs/mcp/local-installation.md");
     expect(repositoryReadme).toMatch(/page-scoped/iu);
     expect(repositoryReadme).toMatch(/page-independent/iu);
-    expect(packageReadme).toContain("../../docs/mcp/local-installation.md");
     expect(packageReadme).toMatch(/not published/iu);
     expect(localInstallationGuide).toMatch(/complementary/iu);
+  });
+
+  test("keeps the planned workflow triggers aligned with README dependencies", () => {
+    const plannedWorkflowTriggerExample = implementationPlan.match(
+      /```yaml\non:\n[\s\S]*?\n```/u,
+    )?.[0];
+
+    expect(plannedWorkflowTriggerExample).toBeDefined();
+    expect(
+      plannedWorkflowTriggerExample.match(/^ {6}- "README\.md"$/gmu),
+    ).toHaveLength(2);
+    expect(
+      plannedWorkflowTriggerExample.match(
+        /^ {6}- "docs\/plans\/2026-08-31-distributable-local-universal-ontology-mcp-server\.md"$/gmu,
+      ),
+    ).toHaveLength(2);
+  });
+
+  test("keeps package README links valid without the repository source tree", () => {
+    expectPackageReadmeLinksToSurvivePackaging(packageReadme);
   });
 
   test("keeps every relative operator-documentation link live", async () => {

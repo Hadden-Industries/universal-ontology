@@ -92,13 +92,22 @@ describe("Universal Ontology MCP SPDX SBOMs", () => {
         nodeFileSystem.readFile(secondResult.packageSbomPath),
       ).resolves.toEqual(firstPackageSbomBytes);
 
-      const [releaseSbom, packageSbom, checksumsText, ociMetadata] =
-        await Promise.all([
-          readJsonDocument(firstResult.releaseSbomPath),
-          readJsonDocument(firstResult.packageSbomPath),
-          nodeFileSystem.readFile(firstResult.checksumsPath, "utf8"),
-          readJsonDocument(firstResult.ociMetadataPath),
-        ]);
+      const [
+        releaseSbom,
+        packageSbom,
+        checksumsText,
+        ociMetadata,
+        developmentCandidateNotesText,
+      ] = await Promise.all([
+        readJsonDocument(firstResult.releaseSbomPath),
+        readJsonDocument(firstResult.packageSbomPath),
+        nodeFileSystem.readFile(firstResult.checksumsPath, "utf8"),
+        readJsonDocument(firstResult.ociMetadataPath),
+        nodeFileSystem.readFile(
+          firstResult.developmentCandidateNotesPath,
+          "utf8",
+        ),
+      ]);
       for (const sbom of [releaseSbom, packageSbom]) {
         expect(sbom).toMatchObject({
           spdxVersion: "SPDX-2.3",
@@ -130,7 +139,7 @@ describe("Universal Ontology MCP SPDX SBOMs", () => {
           ...payloadFileNames,
           firstResult.ociMetadataFileName,
           firstResult.registryDocumentFileName,
-          firstResult.releaseNotesFileName,
+          firstResult.developmentCandidateNotesFileName,
         ]),
       );
       const packageSbomNames = new Set(
@@ -175,6 +184,18 @@ describe("Universal Ontology MCP SPDX SBOMs", () => {
         entrypoint: ["node", "/opt/universal-ontology-mcp-server/server.mjs"],
         exposedPorts: [],
       });
+      expect(firstResult.developmentCandidateNotesFileName).toBe(
+        "universal-ontology-mcp-server-v1.0.0-development-candidate-notes.md",
+      );
+      expect(developmentCandidateNotesText).toMatch(
+        /unpublished[\s\S]*development candidate/iu,
+      );
+      expect(developmentCandidateNotesText).toMatch(/not published to npm/iu);
+      expect(developmentCandidateNotesText).toMatch(
+        /no OCI image is published/iu,
+      );
+      expect(developmentCandidateNotesText).not.toMatch(/\bThis release\b/iu);
+      expect(developmentCandidateNotesText).not.toMatch(/\bon npm\b/iu);
 
       const checksumLines = checksumsText.trimEnd().split("\n");
       const checksumFileNames = checksumLines.map((line) => line.slice(66));

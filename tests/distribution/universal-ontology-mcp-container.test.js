@@ -54,13 +54,14 @@ describe("Universal Ontology MCP container package", () => {
       "WORKDIR /opt/universal-ontology-mcp-server",
       "COPY --chown=node:node dist/universal-ontology-mcp-server.mjs ./server.mjs",
       "COPY --chown=node:node LICENSE README.md THIRD_PARTY_NOTICES.md ./",
+      "RUN install --directory --owner=node --group=node --mode=0700 /home/node/.cache/universal-ontology-mcp-server/v1",
       "USER node:node",
       'VOLUME ["/home/node/.cache/universal-ontology-mcp-server/v1"]',
       "STOPSIGNAL SIGTERM",
       'ENTRYPOINT ["node", "/opt/universal-ontology-mcp-server/server.mjs"]',
     ]);
     expect(dockerfileText).not.toMatch(
-      /\b(?:ADD|CMD|ENV|EXPOSE|HEALTHCHECK|RUN)\b/iu,
+      /\b(?:ADD|CMD|ENV|EXPOSE|HEALTHCHECK)\b/iu,
     );
     expect(dockerfileText).not.toMatch(
       /(?:\.owl|\.jsonld|query\/v1|COPY\s+(?:\.\/)?\.\s)/iu,

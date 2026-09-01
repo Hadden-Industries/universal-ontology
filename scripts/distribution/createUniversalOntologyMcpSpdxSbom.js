@@ -235,14 +235,14 @@ function createOciMetadata({ serverDocument, releaseInputs, dockerfileText }) {
   };
 }
 
-function createReleaseNotes({ publicPackage, releaseInputs }) {
+function createDevelopmentCandidateNotes({ publicPackage, releaseInputs }) {
   const targetLines = releaseInputs.nodeRuntime.targets
     .map(
       ({ targetName, releaseArchiveFormat }) =>
-        `- \`${targetName}\` self-contained archive (\`${releaseArchiveFormat}\`)`,
+        `- locally assembled \`${targetName}\` self-contained archive (\`${releaseArchiveFormat}\`)`,
     )
     .join("\n");
-  return `# Universal Ontology MCP Server v${publicPackage.version}\n\nThis release provides the data-free local stdio server. Ontology query artifacts remain remotely delivered through the configured Universal Ontology artifact channel.\n\n## Packages\n\n- \`universal-ontology-mcp-server@${publicPackage.version}\` on npm\n- \`ghcr.io/hadden-industries/universal-ontology-mcp-server:${publicPackage.version}\` for Linux amd64 and arm64\n${targetLines}\n\nAll release bytes are covered by \`SHA256SUMS\`; SPDX documents describe the bundled application dependencies and self-contained Node runtimes.\n`;
+  return `# Universal Ontology MCP Server development candidate v${publicPackage.version}\n\nThis unpublished development candidate provides the data-free local stdio server for verification only. Ontology query artifacts remain independently delivered through a configured Universal Ontology artifact channel.\n\n## Candidate payloads and compatibility metadata\n\n- locally packed \`${publicPackage.name}-${publicPackage.version}.tgz\`; it is not published to npm\n- OCI compatibility metadata records the reserved future coordinate \`ghcr.io/hadden-industries/universal-ontology-mcp-server:${publicPackage.version}\`; no OCI image is published\n${targetLines}\n\nAll candidate bytes are covered by \`SHA256SUMS\`; SPDX documents describe the bundled application dependencies and self-contained Node runtimes. The candidate is a short-lived GitHub Actions artifact, not a GitHub Release or immutable software release.\n`;
 }
 
 async function writeDeterministicFile(filePath, bytes) {
@@ -403,14 +403,14 @@ export async function createUniversalOntologyMcpSpdxSboms({
   const packageSbomFileName = `${releaseBaseName}-npm.spdx.json`;
   const releaseSbomFileName = `${releaseBaseName}-release.spdx.json`;
   const ociMetadataFileName = `${releaseBaseName}-oci-metadata.json`;
-  const releaseNotesFileName = `${releaseBaseName}-release-notes.md`;
+  const developmentCandidateNotesFileName = `${releaseBaseName}-development-candidate-notes.md`;
   const registryDocumentFileName = "server.json";
   const checksumsFileName = "SHA256SUMS";
   const generatedFileNames = new Set([
     packageSbomFileName,
     releaseSbomFileName,
     ociMetadataFileName,
-    releaseNotesFileName,
+    developmentCandidateNotesFileName,
     registryDocumentFileName,
     checksumsFileName,
   ]);
@@ -450,8 +450,10 @@ export async function createUniversalOntologyMcpSpdxSboms({
       bytes: Buffer.from(serializeCanonicalJson(ociMetadata)),
     },
     {
-      fileName: releaseNotesFileName,
-      bytes: Buffer.from(createReleaseNotes({ publicPackage, releaseInputs })),
+      fileName: developmentCandidateNotesFileName,
+      bytes: Buffer.from(
+        createDevelopmentCandidateNotes({ publicPackage, releaseInputs }),
+      ),
     },
   ];
   for (const generatedStaticFile of generatedStaticFiles) {
@@ -465,7 +467,7 @@ export async function createUniversalOntologyMcpSpdxSboms({
     ...expectedPayloadFileNames,
     registryDocumentFileName,
     ociMetadataFileName,
-    releaseNotesFileName,
+    developmentCandidateNotesFileName,
   ].sort(compareBinaryText);
   const releaseAssetRecords = await Promise.all(
     releaseSubjectFileNames.map((fileName) =>
@@ -623,8 +625,11 @@ export async function createUniversalOntologyMcpSpdxSboms({
     releaseSbomPath,
     ociMetadataFileName,
     ociMetadataPath: join(releaseDirectoryPath, ociMetadataFileName),
-    releaseNotesFileName,
-    releaseNotesPath: join(releaseDirectoryPath, releaseNotesFileName),
+    developmentCandidateNotesFileName,
+    developmentCandidateNotesPath: join(
+      releaseDirectoryPath,
+      developmentCandidateNotesFileName,
+    ),
     registryDocumentFileName,
     registryDocumentPath: join(releaseDirectoryPath, registryDocumentFileName),
     checksumsFileName,

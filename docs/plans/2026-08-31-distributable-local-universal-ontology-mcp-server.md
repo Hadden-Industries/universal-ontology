@@ -203,7 +203,7 @@ and review the plan before editing it.
 | `packages/universal-ontology-mcp-server/package.json`              | Create future-public package metadata for `universal-ontology-mcp-server` version `1.0.0`, `type: "module"`, `bin.universal-ontology-mcp-server: "dist/universal-ontology-mcp-server.mjs"`, explicit `files`, `engines.node: ">=24.0.0"`, `mcpName: "io.github.hadden-industries/universal-ontology"`, inactive `publishConfig.access: "public"`, inactive `publishConfig.provenance: true`, MIT license, repository/homepage/bugs metadata, and a `prepack` script that builds the canonical bundle. It has no runtime dependencies because the allowlisted dependencies are bundled.                                                                                                                                                                         | Defines and locally tests the future npm installation and Registry ownership contract without publishing software or ontology data.                                                                                                                                                                                                    |
 | `server.json`                                                      | Create Registry schema `https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json`; name `io.github.hadden-industries/universal-ontology`; title `Universal Ontology`; version `1.0.0`; GitHub repository; npm and OCI package records; `stdio` transport only.                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Validates future package/image discovery metadata offline. It does not claim that bytes are published, host bytes, execute requests, or authorize Registry publication.                                                                                                                                                                |
 | `scripts/distribution/universalOntologyMcpReleaseInputs.json`      | Create a strict, versioned release-input document containing Node `24.20.0`, selected npm CLI `12.0.2`, the five official runtime archive URLs and SHA-256 values in section 6, the pinned OCI base index digest, MCP Publisher `1.8.1` download/checksum, release target names, archive formats, runner labels, executable paths, and application/runtime byte allowlists.                                                                                                                                                                                                                                                                                                                                                                                    | Centralizes supply-chain identities and prevents workflow/build-script drift.                                                                                                                                                                                                                                                          |
-| `packages/universal-ontology-mcp-server/Dockerfile`                | Create a multi-platform `stdio` image from `node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e`; copy only the built bundle and notices; label `io.modelcontextprotocol.server.name=io.github.hadden-industries/universal-ontology`; run as UID/GID 1000 (`node`); set the bundle as the exec-form entry point; expose no port.                                                                                                                                                                                                                                                                                                                                                                                | Produces a non-root local container with stdin/stdout protocol and a mountable persistent cache.                                                                                                                                                                                                                                       |
+| `packages/universal-ontology-mcp-server/Dockerfile`                | Create a multi-platform `stdio` image from `node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e`; copy only the built bundle and notices; label `io.modelcontextprotocol.server.name=io.github.hadden-industries/universal-ontology`; create the declared cache mount point as UID/GID 1000 (`node`) with mode `0700` before declaring the volume; run as `node`; set the bundle as the exec-form entry point; expose no port.                                                                                                                                                                                                                                                                                  | Produces a non-root local container whose first empty named volume inherits the cache ownership required by the server's fail-closed filesystem boundary.                                                                                                                                                                              |
 | `.github/workflows/verify-universal-ontology-mcp-distribution.yml` | Create path-scoped pull-request and branch validation only; omit tag and manual publication triggers; use Node `24.20.0`; after every `setup-node` invocation install npm `12.0.2` globally and assert the exact `npm --version` before any npm operation; run repository validation, the five-runner archive matrix, a non-publishing local-container job, and exact candidate assembly; pin each used action to its full section 6 SHA; set workflow default permissions to `{}` and every job to `contents: read`; upload only intermediate and assembled GitHub Actions artifacts with three-day retention; contain no attestation, GitHub Release, npm publish, OCI push/login, MCP Publisher login/publish, environment, write permission, or OIDC path. | Continuously proves that development outputs are buildable and internally consistent without claiming or mutating any public release namespace. GitHub Actions is the only permitted remote artifact store and its outputs expire after three days.                                                                                    |
 
 No `.npmrc`, `.codex/config.toml`, AWS configuration, CloudFront function,
@@ -1620,6 +1620,7 @@ WORKDIR /opt/universal-ontology-mcp-server
 COPY --chown=node:node dist/universal-ontology-mcp-server.mjs ./server.mjs
 COPY --chown=node:node LICENSE README.md THIRD_PARTY_NOTICES.md ./
 
+RUN install --directory --owner=node --group=node --mode=0700 /home/node/.cache/universal-ontology-mcp-server/v1
 USER node:node
 VOLUME ["/home/node/.cache/universal-ontology-mcp-server/v1"]
 STOPSIGNAL SIGTERM
@@ -1638,7 +1639,8 @@ native Windows processes receive a catchable `SIGTERM`.
 
 - [ ] Start with static failing tests for digest-pinned base, exact MCP label,
       non-root final user, exec-form entry point, no `EXPOSE`, no data copy,
-      and only the five allowlisted copied files.
+      only the five allowlisted copied files, and a node-owned mode-`0700` cache
+      mount point created before `USER` and `VOLUME`.
 - [ ] Add the minimal Dockerfile and keep it package-context buildable after
       `npm run mcp:package:build`.
 - [ ] Where Docker is available, build the native image and inspect its config
@@ -1760,6 +1762,9 @@ agreement without creating a Git tag. It fails unless:
 - each asset is represented in the SBOM input;
 - GitHub workflow action references are full 40-character commits from the
   section 6 allowlist;
+- the canonical semantic representation of the complete workflow matches one
+  reviewed SHA-256 policy-manifest digest, so any changed trigger, job field,
+  action input, shell, environment value, step, or run script fails closed;
 - workflow YAML parses, exactly the four development jobs form the intended
   dependency graph, and every job grants only `contents: read`;
 - every Actions artifact has three-day retention; and
@@ -1779,7 +1784,9 @@ on:
   pull_request:
     paths:
       - ".github/workflows/verify-universal-ontology-mcp-distribution.yml"
+      - "README.md"
       - "docs/mcp/**"
+      - "docs/plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md"
       - "package.json"
       - "package-lock.json"
       - "packages/universal-ontology-mcp-server/**"
@@ -1801,7 +1808,9 @@ on:
     branches: ["**"]
     paths:
       - ".github/workflows/verify-universal-ontology-mcp-distribution.yml"
+      - "README.md"
       - "docs/mcp/**"
+      - "docs/plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md"
       - "package.json"
       - "package-lock.json"
       - "packages/universal-ontology-mcp-server/**"
@@ -1849,8 +1858,10 @@ Corepack is not used to manage npm.
 3. `container`: `contents: read`; depend on `validate`, build the Docker image
    under a local development tag without logging into any registry, then run
    it with stdin preserved, a named cache volume, a read-only filesystem,
-   dropped capabilities, `no-new-privileges`, and no port mapping. Never invoke
-   a registry login, build push, image push, or remote cache export.
+   dropped capabilities, `no-new-privileges`, and no port mapping. Complete an
+   MCP initialize/tools-list exchange so the job exercises cache ownership rather
+   than only the help/version early exits. Never invoke a registry login, build
+   push, image push, or remote cache export.
 4. `assemble`: `contents: read`; depend on `validate`, `archive`, and
    `container`; download the exact archive artifacts, build and pack the local
    npm tarball, generate npm and deterministic SPDX SBOMs, assemble checksums
@@ -1868,6 +1879,18 @@ Cloud, or CDN publication interfaces. The inactive `server.json`, package
 publication metadata, future publisher/action pins, and CDN handoffs remain
 locally validated stubs for a later owner-approved production plan.
 
+Treat the parsed workflow itself as the publication-policy manifest. Compute a
+SHA-256 digest over canonical JSON: recursively sort mapping keys, preserve
+sequence order, and exclude YAML comments and mapping presentation order. The
+candidate verifier must compare that digest with the reviewed value before it
+interprets individual workflow fields. This closed-world check intentionally
+rejects every unapproved executable addition, including an otherwise local-only
+command. Do not approximate Bash, PowerShell, and `cmd.exe` with a shared lexer;
+their distinct quoting, escaping, comment, continuation, and command-resolution
+rules make such a scanner both bypassable and prone to rejecting valid syntax.
+Update the reviewed digest only together with the workflow change and focused
+policy tests.
+
 ### Steps
 
 - [ ] Add failing Ajv tests for the exact Registry document and ownership/
@@ -1884,7 +1907,9 @@ locally validated stubs for a later owner-approved production plan.
       permissions, the exact four-job dependency graph, three-day artifact
       retention, full-SHA pins for every used action, exact npm bootstrap and
       version assertion before every npm operation, local-only container
-      handling, and the absence of every prohibited publication construct.
+      handling, an exact canonical semantic policy-manifest digest, rejection
+      of every added or changed executable step, and the absence of every
+      prohibited publication construct.
 - [ ] Implement each workflow job only after its structural test is red.
 - [ ] Exercise the workflow scripts locally against a synthetic development
       candidate; do not create a tag, publish, authenticate to a registry,
