@@ -4,7 +4,7 @@
 > time. Implementation delegation is prohibited. Keep the approved design,
 > this plan, test evidence, review findings, and commits in the same task.
 
-**Status:** Ready for implementation
+**Status:** Implementation in progress; public software publication deferred
 
 **Plan date:** 2026-08-31
 
@@ -13,6 +13,22 @@
 
 **Protocol baseline:** Model Context Protocol current revision `2026-07-28`,
 official modular JavaScript SDK v2
+
+### Development-publication amendment — 2026-09-01
+
+This amendment supersedes every later instruction that would publish a
+development build. The active workflow is verification-only: it runs for
+branches and pull requests, has no release-tag trigger, grants no write or
+OIDC permission, and may retain build outputs only as private, short-lived
+GitHub Actions artifacts for three days. It must not create a GitHub Release
+or attestation, publish npm or OCI content, authenticate to the MCP Registry,
+or write to AWS, CloudFront, S3, Google Cloud, or another remote service.
+
+Package names, OCI coordinates, Registry metadata, publisher pins, CDN paths,
+SBOM subjects, and release-building scripts remain reserved production stubs
+and locally testable contracts. Their presence is not evidence that an
+artifact is public. Enabling any remote publication—including an immutable
+GitHub Release—requires a later, explicit owner-approved plan amendment.
 
 ## 1. Outcome
 
@@ -24,14 +40,18 @@ selected, canonical query artifacts from
 artifacts locally, and executes ontology search and entity resolution on the
 user's machine.
 
-The first release must support all of these installation forms from one
-canonical application bundle:
+The future production release is designed to support all of these
+installation forms from one canonical application bundle:
 
 1. `npx --yes universal-ontology-mcp-server@1.0.0` and an ordinary npm install;
 2. self-contained GitHub Release archives for Linux x64, Linux arm64, macOS
    x64, macOS arm64, and Windows x64; and
 3. a multi-platform OCI image at
    `ghcr.io/hadden-industries/universal-ontology-mcp-server:1.0.0`.
+
+During development, those same formats are built and tested from the checkout
+or downloaded as short-lived GitHub Actions artifacts. Nothing is installed
+from, or pushed to, the reserved public npm, OCI, Registry, or Release names.
 
 No software package or image contains an ontology catalog, release query
 index, source ontology, or another fast-changing data snapshot. Remote costs
@@ -62,9 +82,10 @@ source-artifact SHA-256 already asserted by the existing acceptance tests.
   behavior.
 - Add the installed `stdio` entry point, CLI configuration, and redacted
   stderr operational events.
-- Produce and test the npm package, five platform archives, OCI image,
-  checksums, SPDX 2.3 SBOM, and GitHub attestations.
-- Add MCP Registry metadata and a fail-closed release workflow.
+- Produce and test the npm package, five platform archives, local OCI image,
+  checksums, and SPDX 2.3 SBOM without publishing them.
+- Add future MCP Registry metadata and a fail-closed, read-only development
+  distribution-verification workflow.
 - Add installation, update, removal, integrity, cache, privacy, and
   troubleshooting documentation.
 
@@ -82,6 +103,9 @@ source-artifact SHA-256 already asserted by the existing acceptance tests.
 - No MCPB package and no Node single-executable-application dependency in the
   first release.
 - No push. Plan execution must neither push nor ask whether to push.
+- No npm, OCI/Container Registry, MCP Registry, GitHub Release, attestation,
+  AWS, or Google Cloud write. Development artifacts may exist remotely only
+  as three-day GitHub Actions artifacts.
 
 The AWS delivery work remains in these handoffs:
 
@@ -171,16 +195,16 @@ plan authorizes exactly these changes during implementation. If implementation
 discovers another configuration file or materially different setting, amend
 and review the plan before editing it.
 
-| File                                                          | Exact planned settings                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Behavioral and pipeline effect                                                                                                                                                                                                                                                       |
-| ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `package.json`                                                | Add `packageManager: "npm@12.0.2"` and `workspaces: ["packages/universal-ontology-mcp-server"]`; exact dev dependencies `ajv: "8.20.0"`, `ajv-formats: "3.0.1"`, `esbuild: "0.28.2"`, `tar: "7.5.22"`, `yaml: "2.9.0"`, `yazl: "3.3.1"`, and `yauzl: "3.4.0"`; add the `mcp:stdio`, `mcp:channel:stage`, `mcp:package:build`, `mcp:package:pack`, `mcp:archives:build`, `mcp:sbom:create`, and `mcp:release:verify` scripts specified below; include root `package.json`, `packages/universal-ontology-mcp-server`, `server.json`, `scripts/distribution/*.json`, and `docs/mcp/*.md` in the existing narrow Prettier commands.                                                     | Gives npm one public workspace, declares one exact build/package CLI, provides offline Registry-schema/workflow validation, reproducible packaging tools, named local/release entry points, and formatting coverage. Root stays `private: true`; ontology dependencies remain exact. |
-| `package-lock.json`                                           | Regenerate with npm `12.0.2` after the workspace and seven exact dev dependencies are added; retain lockfile version 3 and exact resolved integrity data.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Makes `npm ci` under the selected npm CLI reproduce the workspace, schema/workflow validators, and packaging toolchain.                                                                                                                                                              |
-| `eslint.config.js`                                            | Add a later override with Node globals and ECMAScript 2025 for `src/mcp/runUniversalOntologyMcpStdioServer.js`, `src/mcp/universalOntologyMcpStdioConfiguration.js`, `src/mcp/universalOntologyMcpOperationalEvents.js`, and the Node filesystem/HTTP cache adapters named by this plan. Do not broaden browser globals for other source files.                                                                                                                                                                                                                                                                                                                                     | Lets Node-only source use `process` and platform APIs without weakening the browser boundary.                                                                                                                                                                                        |
-| `packages/universal-ontology-mcp-server/package.json`         | Create public package `universal-ontology-mcp-server` version `1.0.0`, `type: "module"`, `bin.universal-ontology-mcp-server: "dist/universal-ontology-mcp-server.mjs"`, explicit `files`, `engines.node: ">=24.0.0"`, `mcpName: "io.github.hadden-industries/universal-ontology"`, `publishConfig.access: "public"`, `publishConfig.provenance: true`, MIT license, repository/homepage/bugs metadata, and a `prepack` script that builds the canonical bundle. It has no runtime dependencies because the allowlisted dependencies are bundled.                                                                                                                                    | Defines the npm installation and Registry ownership contract without publishing ontology data.                                                                                                                                                                                       |
-| `server.json`                                                 | Create Registry schema `https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json`; name `io.github.hadden-industries/universal-ontology`; title `Universal Ontology`; version `1.0.0`; GitHub repository; npm and OCI package records; `stdio` transport only.                                                                                                                                                                                                                                                                                                                                                                                                  | Makes the already-published package/image discoverable. It does not host bytes or execute requests.                                                                                                                                                                                  |
-| `scripts/distribution/universalOntologyMcpReleaseInputs.json` | Create a strict, versioned release-input document containing Node `24.20.0`, selected npm CLI `12.0.2`, the five official runtime archive URLs and SHA-256 values in section 6, the pinned OCI base index digest, MCP Publisher `1.8.1` download/checksum, release target names, archive formats, runner labels, executable paths, and application/runtime byte allowlists.                                                                                                                                                                                                                                                                                                         | Centralizes supply-chain identities and prevents workflow/build-script drift.                                                                                                                                                                                                        |
-| `packages/universal-ontology-mcp-server/Dockerfile`           | Create a multi-platform `stdio` image from `node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e`; copy only the built bundle and notices; label `io.modelcontextprotocol.server.name=io.github.hadden-industries/universal-ontology`; run as UID/GID 1000 (`node`); set the bundle as the exec-form entry point; expose no port.                                                                                                                                                                                                                                                                                                     | Produces a non-root local container with stdin/stdout protocol and a mountable persistent cache.                                                                                                                                                                                     |
-| `.github/workflows/release-universal-ontology-mcp-server.yml` | Create path-scoped pull-request/branch validation plus tag-triggered release for `universal-ontology-mcp-server-v*`; validate the tag in code; use Node `24.20.0`; after every `setup-node` invocation install npm `12.0.2` globally and assert the exact `npm --version` before any npm operation; use the five-runner archive matrix; pin every action to the full SHA in section 6; give each job only its named permissions; use protected `npm-publish` and `mcp-registry-publish` environments; publish npm with trusted OIDC, GHCR with `GITHUB_TOKEN`, attest artifacts, create a draft release, publish it only after complete checks, and publish Registry metadata last. | Adds continuous distribution validation with one exact npm build CLI and resumable, least-privilege publication. No workflow runs during local implementation unless a commit is later pushed by the owner.                                                                          |
+| File                                                               | Exact planned settings                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Behavioral and pipeline effect                                                                                                                                                                                                                                                                                                         |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `package.json`                                                     | Add `packageManager: "npm@12.0.2"` and `workspaces: ["packages/universal-ontology-mcp-server"]`; exact dev dependencies `ajv: "8.20.0"`, `ajv-formats: "3.0.1"`, `esbuild: "0.28.2"`, `tar: "7.5.22"`, `yaml: "2.9.0"`, `yazl: "3.3.1"`, and `yauzl: "3.4.0"`; add the `mcp:stdio`, `mcp:channel:stage`, `mcp:package:build`, `mcp:package:pack`, `mcp:archives:build`, `mcp:sbom:create`, and `mcp:release:verify` scripts specified below; include root `package.json`, `packages/universal-ontology-mcp-server`, `server.json`, `scripts/distribution/*.json`, and `docs/mcp/*.md` in the existing narrow Prettier commands.                                                                                                                                | Gives npm one future-public workspace that is built only as development output, declares one exact build/package CLI, provides offline Registry-schema/workflow validation, reproducible packaging tools, named local/candidate entry points, and formatting coverage. Root stays `private: true`; ontology dependencies remain exact. |
+| `package-lock.json`                                                | Regenerate with npm `12.0.2` after the workspace and seven exact dev dependencies are added; retain lockfile version 3 and exact resolved integrity data.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Makes `npm ci` under the selected npm CLI reproduce the workspace, schema/workflow validators, and packaging toolchain.                                                                                                                                                                                                                |
+| `eslint.config.js`                                                 | Add a later override with Node globals and ECMAScript 2025 for `src/mcp/runUniversalOntologyMcpStdioServer.js`, `src/mcp/universalOntologyMcpStdioConfiguration.js`, `src/mcp/universalOntologyMcpOperationalEvents.js`, and the Node filesystem/HTTP cache adapters named by this plan. Do not broaden browser globals for other source files.                                                                                                                                                                                                                                                                                                                                                                                                                | Lets Node-only source use `process` and platform APIs without weakening the browser boundary.                                                                                                                                                                                                                                          |
+| `packages/universal-ontology-mcp-server/package.json`              | Create future-public package metadata for `universal-ontology-mcp-server` version `1.0.0`, `type: "module"`, `bin.universal-ontology-mcp-server: "dist/universal-ontology-mcp-server.mjs"`, explicit `files`, `engines.node: ">=24.0.0"`, `mcpName: "io.github.hadden-industries/universal-ontology"`, inactive `publishConfig.access: "public"`, inactive `publishConfig.provenance: true`, MIT license, repository/homepage/bugs metadata, and a `prepack` script that builds the canonical bundle. It has no runtime dependencies because the allowlisted dependencies are bundled.                                                                                                                                                                         | Defines and locally tests the future npm installation and Registry ownership contract without publishing software or ontology data.                                                                                                                                                                                                    |
+| `server.json`                                                      | Create Registry schema `https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json`; name `io.github.hadden-industries/universal-ontology`; title `Universal Ontology`; version `1.0.0`; GitHub repository; npm and OCI package records; `stdio` transport only.                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Validates future package/image discovery metadata offline. It does not claim that bytes are published, host bytes, execute requests, or authorize Registry publication.                                                                                                                                                                |
+| `scripts/distribution/universalOntologyMcpReleaseInputs.json`      | Create a strict, versioned release-input document containing Node `24.20.0`, selected npm CLI `12.0.2`, the five official runtime archive URLs and SHA-256 values in section 6, the pinned OCI base index digest, MCP Publisher `1.8.1` download/checksum, release target names, archive formats, runner labels, executable paths, and application/runtime byte allowlists.                                                                                                                                                                                                                                                                                                                                                                                    | Centralizes supply-chain identities and prevents workflow/build-script drift.                                                                                                                                                                                                                                                          |
+| `packages/universal-ontology-mcp-server/Dockerfile`                | Create a multi-platform `stdio` image from `node:24.20.0-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e`; copy only the built bundle and notices; label `io.modelcontextprotocol.server.name=io.github.hadden-industries/universal-ontology`; run as UID/GID 1000 (`node`); set the bundle as the exec-form entry point; expose no port.                                                                                                                                                                                                                                                                                                                                                                                | Produces a non-root local container with stdin/stdout protocol and a mountable persistent cache.                                                                                                                                                                                                                                       |
+| `.github/workflows/verify-universal-ontology-mcp-distribution.yml` | Create path-scoped pull-request and branch validation only; omit tag and manual publication triggers; use Node `24.20.0`; after every `setup-node` invocation install npm `12.0.2` globally and assert the exact `npm --version` before any npm operation; run repository validation, the five-runner archive matrix, a non-publishing local-container job, and exact candidate assembly; pin each used action to its full section 6 SHA; set workflow default permissions to `{}` and every job to `contents: read`; upload only intermediate and assembled GitHub Actions artifacts with three-day retention; contain no attestation, GitHub Release, npm publish, OCI push/login, MCP Publisher login/publish, environment, write permission, or OIDC path. | Continuously proves that development outputs are buildable and internally consistent without claiming or mutating any public release namespace. GitHub Actions is the only permitted remote artifact store and its outputs expire after three days.                                                                                    |
 
 No `.npmrc`, `.codex/config.toml`, AWS configuration, CloudFront function,
 repository policy, or existing workflow is edited. The already ignored `dist/`
@@ -316,7 +340,7 @@ These values were current on 2026-08-31:
 | `zod`                             | `4.5.4`        |
 | Node LTS                          | `24.20.0`      |
 | npm CLI bundled with Node         | `11.19.0`      |
-| Selected build/publish npm CLI    | `12.0.2`       |
+| Selected build/candidate npm CLI  | `12.0.2`       |
 | MCP Registry schema               | `2025-12-11`   |
 | MCP Publisher                     | `1.8.1`        |
 | `esbuild`                         | `0.28.2`       |
@@ -337,7 +361,9 @@ Official Node runtime inputs:
 | macOS arm64 | `https://nodejs.org/dist/v24.20.0/node-v24.20.0-darwin-arm64.tar.gz` | `40e5607e5ecb3db9192723776da2d75d966260fc74a7a9e731c1bd67dda96bc8` |
 | Windows x64 | `https://nodejs.org/dist/v24.20.0/node-v24.20.0-win-x64.zip`         | `6cac9ffbca8f6a47091e4b5c772e0606049c3871cb67d900c0cedde630e545ba` |
 
-The release workflow pins these current action commits:
+The development distribution-verification workflow pins the checkout, setup,
+upload, and download actions below when used. The remaining pins are inactive
+future-production inputs and MUST NOT appear in the active workflow:
 
 | Action                          | Full commit SHA                            |
 | ------------------------------- | ------------------------------------------ |
@@ -361,21 +387,23 @@ Node `24.20.0` bundles npm `11.19.0`; that executable is bootstrap tooling, not
 the selected release-build identity. Local lockfile-generating commands invoke
 npm `12.0.2` explicitly. Every workflow job installs npm `12.0.2` immediately
 after `actions/setup-node`, asserts that `npm --version` equals `12.0.2`, and
-only then runs `npm ci`, tests, builds, packing, SBOM generation, or publication.
+only then runs `npm ci`, tests, builds, packing, or SBOM generation.
 The root `packageManager` field and release-input document carry the same exact
 selected npm version. Do not use Corepack as an npm-version manager.
 
 Every unqualified `npm` command shown below denotes npm `12.0.2`. The local
 implementer first checks `npm --version`; when it is not exactly `12.0.2`, run
 the command as `npx --yes npm@12.0.2 <subcommand>` instead. In particular, no
-other npm version may create or change `package-lock.json`, pack the public
-workspace, generate an SBOM, or exercise the release verifier.
+other npm version may create or change `package-lock.json`, pack the
+future-public workspace locally, generate an SBOM, or exercise the candidate
+verifier.
 
 At the beginning of Task 1, recheck these values against primary upstream
 sources. A compatible patch update must be recorded in the release-input JSON,
 lockfile, tests, and plan execution notes before code depends on it. A new MCP
 revision, SDK major, Node major, Registry schema, package name, or behavior-
-changing dependency requires a plan amendment. Also re-run
+changing dependency requires a plan amendment. Immediately before any future
+publication is separately approved, re-run
 `npm view universal-ontology-mcp-server version`; if the previously unclaimed
 name is no longer available, stop rather than publish under a guessed name.
 
@@ -1326,7 +1354,7 @@ feat(mcp): Serve Universal Ontology over local stdio
   process termination without opening a listener
 ```
 
-## 16. Task 9: Build and verify the public npm package
+## 16. Task 9: Build and verify the future-public npm package locally
 
 **Files:**
 
@@ -1598,12 +1626,13 @@ STOPSIGNAL SIGTERM
 ENTRYPOINT ["node", "/opt/universal-ontology-mcp-server/server.mjs"]
 ```
 
-The release build supplies version, revision, created-time, source, and
-description OCI labels through the pinned metadata/build actions. The image
-declares no port and no health check because it is a one-connection `stdio`
-process, not a network service. `STOPSIGNAL SIGTERM` applies to this Linux OCI
-runtime and does not imply that native Windows processes receive a catchable
-`SIGTERM`.
+A future authorized production build may supply version, revision,
+created-time, source, and description OCI labels. The active development
+workflow uses the Dockerfile metadata, builds only a local image tag, and
+performs no registry login or push. The image declares no port and no health
+check because it is a one-connection `stdio` process, not a network service.
+`STOPSIGNAL SIGTERM` applies to this Linux OCI runtime and does not imply that
+native Windows processes receive a catchable `SIGTERM`.
 
 ### Steps
 
@@ -1621,11 +1650,13 @@ runtime and does not imply that native Windows processes receive a catchable
       `Person`, and offline `Person`.
 - [ ] Prove an absent cached selected index fails offline and the container
       never binds a port.
-- [ ] Let release CI build Linux amd64/arm64, generate BuildKit provenance and
-      SBOM, and test the pushed digest before Registry publication.
+- [ ] Let the development-verification workflow build the native Linux image
+      under a local `:development` tag and run the locked-down smoke without a
+      registry login, push, remote cache export, provenance upload, or Registry
+      publication.
 - [ ] Run static checks on hosts without Docker and record the real-container
-      suite as a release-runner acceptance requirement, not a silently skipped
-      success.
+      suite as a development-runner acceptance requirement, not a silently
+      skipped success.
 - [ ] Enter `/review`, resolve P0-P2 findings, rerun available checks, and
       commit:
 
@@ -1640,7 +1671,7 @@ feat(distribution): Add a non-root stdio container package
   and exclusion of ontology data from image layers
 ```
 
-## 19. Task 12: Add Registry metadata, SBOMs, attestations, and release CI
+## 19. Task 12: Add future Registry metadata, SBOMs, and development distribution verification
 
 **Files:**
 
@@ -1649,8 +1680,9 @@ feat(distribution): Add a non-root stdio container package
   `tests/fixtures/distribution/mcp-registry-server-schema-2025-12-11.json`.
 - Create `scripts/distribution/createUniversalOntologyMcpSpdxSbom.js`.
 - Create `scripts/distribution/verifyUniversalOntologyMcpRelease.js`.
-- Create `.github/workflows/release-universal-ontology-mcp-server.yml`.
-- Create focused Registry, SBOM, release-verifier, and workflow tests.
+- Create `.github/workflows/verify-universal-ontology-mcp-distribution.yml`.
+- Create focused Registry, SBOM, release-candidate-verifier, and
+  development-workflow tests.
 
 ### 19.1 Registry document
 
@@ -1683,10 +1715,12 @@ Create exactly this initial package topology:
 }
 ```
 
-Validate it offline with Ajv 2020 plus `ajv-formats` against the vendored
-official schema. Assert `server.json.name === package.json.mcpName`, all
-versions agree, both packages use `stdio`, and each package ownership proof is
-present in its underlying package/image metadata.
+Treat this as inactive future-production discovery metadata. Validate it
+offline with Ajv 2020 plus `ajv-formats` against the vendored official schema.
+Assert `server.json.name === package.json.mcpName`, all versions agree, both
+packages use `stdio`, and each package ownership proof is present in its
+underlying package/image metadata. Validation MUST NOT contact, authenticate
+to, or update the MCP Registry.
 
 ### 19.2 SPDX 2.3
 
@@ -1695,8 +1729,8 @@ metafile, lockfile, release-input document, built archive manifests, and OCI
 metadata. Use deterministic SPDX identifiers and document namespaces derived
 from package version plus artifact SHA-256; do not use random UUIDs. Derive the
 required `creationInfo.created` timestamp from `SOURCE_DATE_EPOCH`, which the
-release job sets to the tagged Git commit time, rather than the current wall
-clock. Describe:
+development workflow sets to the tested Git commit time, rather than the
+current wall clock. Describe:
 
 - the Universal Ontology MCP application;
 - every bundled npm runtime component and license;
@@ -1712,7 +1746,9 @@ runtime/archive subjects npm cannot see.
 
 ### 19.3 Release verifier
 
-The verifier takes a release staging directory and exact tag. It fails unless:
+The verifier takes a local candidate staging directory and a synthetic exact
+tag-shaped software identity. The identity exercises future-release version
+agreement without creating a Git tag. It fails unless:
 
 - tag is `universal-ontology-mcp-server-v${softwareVersion}` and all version
   authorities agree;
@@ -1721,23 +1757,28 @@ The verifier takes a release staging directory and exact tag. It fails unless:
 - every archive content manifest matches its target allowlist;
 - npm tarball, archives, SBOM, notices, Registry document, and OCI metadata
   exclude ontology data and secrets;
-- each asset is represented in SBOM/provenance input;
+- each asset is represented in the SBOM input;
 - GitHub workflow action references are full 40-character commits from the
   section 6 allowlist;
-- workflow YAML parses, job dependencies form the intended order, and each job
-  permission set is no broader than required; and
-- no publish job can run on an unvalidated tag or before all target smoke jobs.
+- workflow YAML parses, exactly the four development jobs form the intended
+  dependency graph, and every job grants only `contents: read`;
+- every Actions artifact has three-day retention; and
+- the workflow contains no tag/manual publication trigger, environment, OIDC
+  permission, write permission, attestation, GitHub Release, npm publish, OCI
+  login/push, MCP Publisher login/publish, AWS, Google Cloud, or CDN write
+  path.
 
 ### 19.4 Workflow topology
 
-Use path-scoped branch/PR validation and a tag release path. `permissions: {}`
-is the workflow default. Grant per job:
+Use path-scoped branch and pull-request validation only. The workflow has no
+tag or manual trigger. `permissions: {}` is the workflow default, and every
+job explicitly grants only `contents: read`:
 
 ```yaml
 on:
   pull_request:
     paths:
-      - ".github/workflows/release-universal-ontology-mcp-server.yml"
+      - ".github/workflows/verify-universal-ontology-mcp-distribution.yml"
       - "docs/mcp/**"
       - "package.json"
       - "package-lock.json"
@@ -1758,9 +1799,8 @@ on:
       - "tests/webmcp/ontology-entity-definition-resolver.test.js"
   push:
     branches: ["**"]
-    tags: ["universal-ontology-mcp-server-v*"]
     paths:
-      - ".github/workflows/release-universal-ontology-mcp-server.yml"
+      - ".github/workflows/verify-universal-ontology-mcp-distribution.yml"
       - "docs/mcp/**"
       - "package.json"
       - "package-lock.json"
@@ -1781,9 +1821,6 @@ on:
       - "tests/webmcp/ontology-entity-definition-resolver.test.js"
 ```
 
-The code validator, not the permissive GitHub tag glob, enforces the exact
-semantic-version tag grammar and version equality.
-
 Every job that invokes npm runs this immediately after the pinned
 `actions/setup-node` step and before its first npm command; the workflow tests
 cross-check the literal with both `packageManager` and the release-input JSON:
@@ -1797,55 +1834,39 @@ cross-check the literal with both `packageManager` and the release-input JSON:
 ```
 
 The Node-bundled npm `11.19.0` performs only this bootstrap. Lockfile use,
-`npm ci`, tests, builds, packing, `npm sbom`, and trusted publication all run
-under npm `12.0.2`; Corepack is not used to manage npm.
+`npm ci`, tests, builds, packing, and `npm sbom` all run under npm `12.0.2`;
+Corepack is not used to manage npm.
 
-1. `validate`: `contents: read`; select npm `12.0.2`, install with `npm ci`, run
-   all tests/lint/format/build, validate Registry/workflow metadata, and output
-   the strictly parsed version/target matrix. On a release tag only, also run a
-   read-only public-origin `stable`/`Person` smoke before any write-capable job.
-2. `archive` matrix: `contents: read`; run all five native archive builds and
-   smoke tests; upload each asset with the pinned artifact action.
-3. `assemble`: `contents: read`; download exact artifacts, pack npm, build
-   checksums/SBOM/release notes, run the fail-closed verifier, and upload one
-   immutable release-candidate artifact.
-4. `attest-and-draft`: `contents: write`, `id-token: write`,
-   `attestations: write`, `artifact-metadata: write`; create build-provenance
-   and SBOM attestations with `actions/attest@v4`, then create/reuse a draft
-   GitHub Release and upload only verified assets.
-5. `publish-npm`: protected `npm-publish` environment, `contents: read`,
-   `id-token: write`; publish the exact candidate tarball using npm trusted
-   publishing and provenance. No long-lived npm token.
-6. `publish-oci`: `contents: read`, `packages: write`, `id-token: write`;
-   build the tested Dockerfile for Linux amd64/arm64, push the exact semantic
-   version and immutable Git-SHA tags, capture the image digest, and attach
-   BuildKit provenance/SBOM. Do not publish `latest` in the first release.
-7. `publish-github-release`: `contents: write`; re-download and verify the
-   candidate and make the draft public only after npm and OCI succeed.
-8. `publish-mcp-registry`: protected `mcp-registry-publish` environment,
-   `contents: read`, `id-token: write`; download MCP Publisher 1.8.1, verify
-   the recorded archive SHA-256 before extraction/execution, authenticate with
-   `mcp-publisher login github-oidc`, and run
-   `mcp-publisher publish server.json` last.
+1. `validate`: `contents: read`; select npm `12.0.2`, install with
+   `npm ci --ignore-scripts`, run all tests/lint/format/build, build the
+   canonical package bundle, validate Registry/workflow metadata offline, and
+   output the strictly parsed version, target matrix, and commit-derived
+   `SOURCE_DATE_EPOCH`. Do not access the not-yet-established public ontology
+   artifact origin; deterministic loopback tests cover network behavior.
+2. `archive` matrix: `contents: read`; depend on `validate`, run all five native
+   archive builds and native `--version`/`--help` smoke tests, and upload each
+   target as a GitHub Actions artifact with `retention-days: 3`.
+3. `container`: `contents: read`; depend on `validate`, build the Docker image
+   under a local development tag without logging into any registry, then run
+   it with stdin preserved, a named cache volume, a read-only filesystem,
+   dropped capabilities, `no-new-privileges`, and no port mapping. Never invoke
+   a registry login, build push, image push, or remote cache export.
+4. `assemble`: `contents: read`; depend on `validate`, `archive`, and
+   `container`; download the exact archive artifacts, build and pack the local
+   npm tarball, generate npm and deterministic SPDX SBOMs, assemble checksums
+   and notices, and run the fail-closed candidate verifier with the synthetic
+   identity `universal-ontology-mcp-server-v1.0.0`. Upload the complete
+   candidate once as a GitHub Actions artifact whose name contains its SHA-256
+   and whose retention is three days.
 
-Set concurrency to the release tag with `cancel-in-progress: false`. Use a
-bounded retention period on intermediary Actions artifacts. Never pipe a
-download directly into a shell. Every publication step is resumable: if an
-immutable npm version, GHCR tag, or draft release already exists, compare its
-registry digest to the candidate and continue only on exact equality; fail on
-disagreement.
-
-Repository administrators must configure npm trusted publishing for this
-exact repository/workflow/environment, protect both publish environments,
-enable GitHub immutable releases, and keep tag creation restricted. These are
-external repository/registry settings, not configuration-file changes in this
-plan.
-
-The official MCP Registry is still a preview service at the plan date. Its
-publication remains deliberately last and resumable. A Registry outage or data
-reset must not change npm, GitHub Release, OCI, or artifact-channel identities;
-rerun only the exact Registry publication after verifying those immutable
-subjects.
+Set concurrency to the branch or pull-request ref with
+`cancel-in-progress: true`. Actions artifacts are the only remote outputs and
+are disposable development evidence, not releases. Never expose a GitHub token
+to a shell step, pipe a download into a shell, use an environment, request
+OIDC, or call npm, OCI, MCP Registry, GitHub Release, attestation, AWS, Google
+Cloud, or CDN publication interfaces. The inactive `server.json`, package
+publication metadata, future publisher/action pins, and CDN handoffs remain
+locally validated stubs for a later owner-approved production plan.
 
 ### Steps
 
@@ -1858,19 +1879,22 @@ subjects.
 - [ ] Add failing release-verifier tests using complete, missing, extra,
       renamed, corrupt, mismatched-version, data-containing, and
       insufficient-SBOM candidate fixtures.
-- [ ] Add the workflow skeleton and parse it with `yaml@2.9.0`; add failing
-      tests for triggers, tag validator, concurrency, full-SHA action pins,
-      job dependencies, environments, permissions, exact npm bootstrap and
-      version assertion before every npm operation, and publish ordering.
+- [ ] Add failing workflow-policy tests before changing the workflow. Parse it
+      with `yaml@2.9.0` and require branch/PR-only triggers, read-only
+      permissions, the exact four-job dependency graph, three-day artifact
+      retention, full-SHA pins for every used action, exact npm bootstrap and
+      version assertion before every npm operation, local-only container
+      handling, and the absence of every prohibited publication construct.
 - [ ] Implement each workflow job only after its structural test is red.
-- [ ] Exercise the workflow scripts locally against a synthetic release
-      candidate; do not create a tag, publish, or call a Registry write API.
+- [ ] Exercise the workflow scripts locally against a synthetic development
+      candidate; do not create a tag, publish, authenticate to a registry,
+      create an attestation or Release, or invoke a cloud write API.
 - [ ] Run:
 
 ```powershell
 npm run mcp:sbom:create
 npm run mcp:release:verify -- --tag universal-ontology-mcp-server-v1.0.0 --release-directory dist/releases
-npm test -- --runInBand tests/distribution/mcp-registry-server-metadata.test.js tests/distribution/universal-ontology-mcp-spdx-sbom.test.js tests/distribution/universal-ontology-mcp-release-verifier.test.js tests/distribution/universal-ontology-mcp-release-workflow.test.js
+npm test -- --runInBand tests/distribution/mcp-registry-server-metadata.test.js tests/distribution/universal-ontology-mcp-spdx-sbom.test.js tests/distribution/universal-ontology-mcp-release-verifier.test.js tests/distribution/universal-ontology-mcp-distribution-workflow.test.js
 npm run lint
 npm run format:check
 ```
@@ -1880,17 +1904,17 @@ npm run format:check
       commit:
 
 ```text
-feat(distribution): Define an attested MCP release pipeline
+fix(distribution): Keep MCP builds in development verification
 
-- validate npm and OCI discovery metadata against the versioned official MCP
-  Registry schema and package ownership requirements
-- generate deterministic SPDX coverage and fail closed on missing, unexpected,
-  corrupt, data-bearing, or version-inconsistent release assets
-- assemble, attest, and publish immutable GitHub, npm, GHCR, and Registry
-  identities in a least-privilege resumable order
+- replace the tag-triggered publish graph with branch and pull-request
+  verification that grants read-only permissions
+- retain cross-platform candidates only as three-day GitHub Actions artifacts
+  and build the container locally without registry access
+- fail workflow-policy tests on npm, OCI, Registry, attestation, GitHub Release,
+  or cloud publication commands while retaining inactive future stubs
 ```
 
-## 20. Task 13: Publish the installation and operations guide
+## 20. Task 13: Document development installation and operations
 
 **Files:**
 
@@ -1909,9 +1933,15 @@ The canonical guide must cover:
   against corruption/substitution after selection by explicit SHA-256;
 - network/privacy: only channel/catalog/index GETs reach the fixed artifact
   origin and no user query or result is sent;
-- prerequisites for npm, archives, and OCI;
-- exact-version installation, integrity/attestation verification, update,
-  rollback, and removal for each format;
+- an explicit development-only notice: no public npm package, GHCR image, MCP
+  Registry record, GitHub Release, immutable software artifact, or attestation
+  exists yet, and none of the reserved public coordinates is an install source;
+- prerequisites for a source checkout, locally packed npm tarball, locally
+  built/extracted archives, locally built OCI image, and authenticated download
+  of an optional three-day GitHub Actions artifact;
+- local installation, SHA-256 integrity verification, update, rollback, and
+  removal for each development format, plus the current absence of publisher
+  identity attestations;
 - Codex, Claude Desktop, VS Code, and generic MCP-host `stdio` examples where
   authoritative current syntax is available;
 - stable/development semantics, process restart refresh, cache paths/limits,
@@ -1922,8 +1952,8 @@ The canonical guide must cover:
   `UNSAFE_CACHE_DIRECTORY` and `UNSUPPORTED_CACHE_FILE_SYSTEM`;
 - self-contained archive configuration using its runtime executable plus app
   path;
-- OCI stdin, named cache volume, read-only filesystem, dropped capabilities,
-  no-new-privileges, and no port mapping;
+- local OCI build and execution with stdin, a named cache volume, read-only
+  filesystem, dropped capabilities, no-new-privileges, and no port mapping;
 - exact `Person` smoke call and expected provenance fields;
 - portable stdin-EOF shutdown, POSIX signal handling, the absence of guaranteed
   Windows `SIGTERM`, and the absence of a proprietary MCP shutdown message;
@@ -1940,18 +1970,22 @@ The canonical guide must cover:
 - the complementary WebMCP page-scoped capability versus the installed,
   page-independent MCP server.
 
-The primary Codex npm command is:
+The primary Codex development command builds the canonical bundle from the
+checkout and registers its absolute path:
 
 ```powershell
-codex mcp add universal_ontology -- npx --yes universal-ontology-mcp-server@1.0.0
+npm ci --ignore-scripts
+npm run mcp:package:build
+$serverEntryPath = (Resolve-Path ".\packages\universal-ontology-mcp-server\dist\universal-ontology-mcp-server.mjs").Path
+codex mcp add universal_ontology -- node $serverEntryPath
 ```
 
 The equivalent configuration is:
 
 ```toml
 [mcp_servers.universal_ontology]
-command = "npx"
-args = ["--yes", "universal-ontology-mcp-server@1.0.0"]
+command = "node"
+args = ["C:\\absolute\\path\\to\\universal-ontology\\packages\\universal-ontology-mcp-server\\dist\\universal-ontology-mcp-server.mjs"]
 startup_timeout_sec = 15
 tool_timeout_sec = 30
 required = true
@@ -1963,8 +1997,9 @@ Explain that `writes` lets annotated read-only tools run without a write
 prompt while requiring approval for any future write-capable tool. Do not
 create a user's Codex configuration.
 
-For an extracted Windows archive, show direct runtime/app arguments; for
-example, if extracted at `C:/Tools/UniversalOntologyMcpServer`:
+For an extracted locally built Windows archive, show direct runtime/app
+arguments; for example, if extracted at
+`C:/Tools/UniversalOntologyMcpServer`:
 
 ```toml
 [mcp_servers.universal_ontology_archive]
@@ -1974,26 +2009,31 @@ enabled_tools = ["search_entities", "resolve_entity"]
 default_tools_approval_mode = "writes"
 ```
 
-The package README stays concise and links the canonical guide at a versioned
-GitHub path. The root README links WebMCP, repository loopback development,
-and installed `stdio` use distinctly. Replace the obsolete AgentCore-first
-production summary in `local-development.md` with a link to the accepted
-distribution design and explain that hosted compute remains an optional later
-adapter, not the chosen production requirement.
+The package README stays concise, labels the package as unpublished
+development output, and links the canonical repository guide. The root README
+links WebMCP, repository loopback development, and local `stdio` use distinctly.
+Replace the obsolete AgentCore-first production summary in
+`local-development.md` with a link to the accepted distribution design and
+explain that hosted compute remains an optional later adapter, not the chosen
+production requirement. Examples MUST NOT use `npx` with the reserved public
+package, `docker pull` from GHCR, a GitHub Release URL, or an MCP Registry
+installation claim.
 
 ### Steps
 
-- [ ] Add failing documentation tests for exact package/tag/tool names,
-      version agreement, current Codex keys, all install formats, archive
-      runtime invocation, security limitations, cache paths, no-data promise,
-      hard-link/filesystem and lifecycle guidance, every exact proxy/CA variable
-      above, the insecure-TLS prohibition, no AWS-hosted-runtime claim, and live
-      local links.
+- [ ] Add failing documentation tests for the development-only publication
+      notice; absence of public npm/GHCR/Release/Registry install commands;
+      exact package/tag/tool names; version agreement; current Codex keys;
+      every local format; archive runtime invocation; security limitations;
+      cache paths; no-data promise; hard-link/filesystem and lifecycle guidance;
+      every exact proxy/CA variable above; the insecure-TLS prohibition; no
+      AWS-hosted-runtime claim; and live local links.
 - [ ] Write the canonical guide and concise cross-links. Do not duplicate the
       architecture specification into each README.
 - [ ] Run every documented help/version/Inspector/Codex-add command that is
-      safe locally against the packed tarball or extracted native archive.
-      Test config examples through the actual CLI parser where possible.
+      safe locally against the checkout bundle, packed tarball, or extracted
+      native archive. Test config examples through the actual CLI parser where
+      possible. Do not resolve a reserved coordinate through a public registry.
 - [ ] Run:
 
 ```powershell
@@ -2005,14 +2045,14 @@ npm run format:check
       create a scoped signed commit without the behavioral review gate:
 
 ```text
-docs(mcp): Document local installation and artifact operations
+docs(mcp): Document unpublished local server operation
 
-- explain verified npm, platform-archive, and locked-down OCI installation for
-  the page-independent stdio server
+- explain checkout, local tarball, platform-archive, locked-down local OCI, and
+  short-lived Actions-artifact operation for the page-independent stdio server
 - document Codex configuration, stable and development channels, persistent
   cache behavior, privacy, offline limits, updates, and removal
 - distinguish installed MCP, loopback development, WebMCP, and optional hosted
-  compute without duplicating the architecture specification
+  compute while making every public publication path explicitly unavailable
 ```
 
 ## 21. Task 14: Complete implementation acceptance without publishing
@@ -2041,8 +2081,8 @@ npm run mcp:release:verify -- --tag universal-ontology-mcp-server-v1.0.0 --relea
 - [ ] Run Inspector 2.4.0 against source, the npm tarball install, and the
       current-host platform archive.
 - [ ] If Docker is available, run the locked-down container suite. Otherwise,
-      require its green native GitHub runner job before any release tag can be
-      published.
+      require its green native GitHub development-verification job before
+      accepting the container candidate.
 
 ### 21.2 Golden semantic matrix
 
@@ -2085,7 +2125,7 @@ For every successful `Person` call, assert:
 State explicitly that this is an asserted lexical definition, not an inferred
 OWL logical definition.
 
-### 21.3 Public-origin release gate
+### 21.3 Future public-origin release gate
 
 The code implementation may be accepted locally before AWS delivery work is
 executed. A public software release may not be created until the separately
@@ -2100,10 +2140,12 @@ approved AWS handoffs have produced and verified:
 - automatic Brotli/Gzip transfer with digest over decoded bytes; and
 - the public-origin cold/warm/offline `Person` matrix.
 
-The release workflow's tag path performs this public-origin smoke before its
-first write-capable job. A missing `channels/stable.json` therefore prevents
-publication rather than producing a software release that cannot serve its
-default configuration.
+The active development workflow deliberately has neither a tag path nor a
+write-capable job and therefore does not contact the not-yet-established
+public origin. A future owner-approved production-publication amendment MUST
+add a read-only public-origin smoke before its first write-capable job. A
+missing `channels/stable.json` must then prevent publication rather than
+produce software that cannot serve its default configuration.
 
 ### 21.4 Final review and repository state
 
@@ -2116,9 +2158,11 @@ default configuration.
 - [ ] Confirm no remote ref changed and no release/tag/package/image/Registry
       write occurred.
 
-## 22. Release operations after implementation
+## 22. Deferred production-publication operations
 
-These are owner-operated prerequisites, not actions authorized by this plan:
+These are future owner-operated prerequisites, not actions authorized by this
+plan. They require a later explicit design/plan amendment before any workflow
+or operator performs them:
 
 1. complete and deploy the separately approved AWS delivery changes;
 2. publish and verify `stable` through CloudFront;
@@ -2128,7 +2172,8 @@ These are owner-operated prerequisites, not actions authorized by this plan:
    changed since their increment reviews;
 6. create and push signed tag
    `universal-ontology-mcp-server-v1.0.0`; and
-7. supervise the release workflow through Registry publication.
+7. supervise the separately approved production workflow through Registry
+   publication.
 
 The implementation agent must stop after local commits and handoff. It must
 not perform step 6, push commits, or ask for permission to push.
@@ -2179,14 +2224,15 @@ Implementation is complete only when:
   cross-process behavior pass;
 - cache ownership/mode/link checks and the fail-closed no-clobber hard-link
   capability contract pass on every advertised native target;
-- source, npm tarball, five archives, and OCI all use one canonical bundle and
-  contain no ontology data;
-- version, Registry, package, archive, image, checksum, SBOM, and provenance
-  identities agree;
+- source, locally packed npm tarball, five locally built archives, and local
+  OCI image all use one canonical bundle and contain no ontology data;
+- version, inactive Registry metadata, package, archive, image, checksum, and
+  SBOM identities agree locally;
 - root metadata, release inputs, lockfile operations, builds, SBOM generation,
-  and publication all agree on npm `12.0.2`;
-- the release workflow fails before publication on any missing prerequisite,
-  including an unavailable public stable channel;
+  and candidate assembly all agree on npm `12.0.2`;
+- the development workflow is branch/PR-only, read-only, retains GitHub Actions
+  candidates for three days, and fails policy validation if any public or
+  cloud publication path is introduced;
 - every non-trivial increment passed its formal review gate and every commit is
   signed;
 - unrelated working-tree state is preserved; and

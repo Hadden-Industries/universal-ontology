@@ -1,0 +1,367 @@
+name: Verify Universal Ontology MCP Distribution
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/verify-universal-ontology-mcp-distribution.yml"
+      - "docs/mcp/**"
+      - "package.json"
+      - "package-lock.json"
+      - "packages/universal-ontology-mcp-server/**"
+      - "scripts/build/createOntologyQueryArtifacts.js"
+      - "scripts/build/ontologyAssets.js"
+      - "scripts/distribution/**"
+      - "scripts/generateOntologyQueryIndexes.js"
+      - "scripts/runUniversalOntologyMcpStdioServer.js"
+      - "scripts/stageOntologyQueryArtifactChannel.js"
+      - "server.json"
+      - "src/mcp/**"
+      - "src/ontology.js"
+      - "src/ontologyQuery/**"
+      - "tests/distribution/**"
+      - "tests/mcp/**"
+      - "tests/ontology-query/**"
+      - "tests/webmcp/ontology-entity-definition-resolver.test.js"
+  push:
+    branches: ["**"]
+    paths:
+      - ".github/workflows/verify-universal-ontology-mcp-distribution.yml"
+      - "docs/mcp/**"
+      - "package.json"
+      - "package-lock.json"
+      - "packages/universal-ontology-mcp-server/**"
+      - "scripts/build/createOntologyQueryArtifacts.js"
+      - "scripts/build/ontologyAssets.js"
+      - "scripts/distribution/**"
+      - "scripts/generateOntologyQueryIndexes.js"
+      - "scripts/runUniversalOntologyMcpStdioServer.js"
+      - "scripts/stageOntologyQueryArtifactChannel.js"
+      - "server.json"
+      - "src/mcp/**"
+      - "src/ontology.js"
+      - "src/ontologyQuery/**"
+      - "tests/distribution/**"
+      - "tests/mcp/**"
+      - "tests/ontology-query/**"
+      - "tests/webmcp/ontology-entity-definition-resolver.test.js"
+
+# Default-deny token capabilities. Development jobs receive repository read
+# access only; no job can mint OIDC credentials or mutate a remote namespace.
+permissions: {}
+
+concurrency:
+  group: universal-ontology-mcp-distribution-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate development distribution sources
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    outputs:
+      software-version: ${{ steps.candidate-metadata.outputs.software-version }}
+      source-date-epoch: ${{ steps.candidate-metadata.outputs.source-date-epoch }}
+      target-matrix: ${{ steps.candidate-metadata.outputs.target-matrix }}
+    steps:
+      - name: Check out the exact source revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Keeping credentials out of the worktree prevents later shell steps
+          # from acquiring an accidental repository-write capability.
+          persist-credentials: false
+
+      - name: Set up exact Node.js runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "24.20.0"
+
+      - name: Select exact npm CLI
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.0.2
+          test "$(npm --version)" = "12.0.2"
+
+      - name: Install the exact locked dependency graph
+        run: npm ci --ignore-scripts
+
+      - name: Derive deterministic development candidate metadata
+        id: candidate-metadata
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import { appendFileSync, readFileSync } from "node:fs";
+          import { execFileSync } from "node:child_process";
+
+          const rootPackage = JSON.parse(readFileSync("package.json", "utf8"));
+          const distributablePackage = JSON.parse(
+            readFileSync("packages/universal-ontology-mcp-server/package.json", "utf8"),
+          );
+          const serverDocument = JSON.parse(readFileSync("server.json", "utf8"));
+          const releaseInputs = JSON.parse(
+            readFileSync(
+              "scripts/distribution/universalOntologyMcpReleaseInputs.json",
+              "utf8",
+            ),
+          );
+          const versions = [
+            rootPackage.version,
+            distributablePackage.version,
+            serverDocument.version,
+            ...serverDocument.packages
+              .map(({ version }) => version)
+              .filter((version) => version !== undefined),
+          ];
+          if (versions.some((version) => version !== rootPackage.version)) {
+            throw new Error("Development candidate versions disagree.");
+          }
+          if (
+            rootPackage.packageManager !==
+              `npm@${releaseInputs.selectedNpmVersion}` ||
+            distributablePackage.mcpName !== serverDocument.name
+          ) {
+            throw new Error(
+              "Development toolchain or future Registry identity disagrees.",
+            );
+          }
+          const targetMatrix = releaseInputs.nodeRuntime.targets.map(
+            ({ targetName, runnerLabel, releaseArchiveFormat }) => ({
+              targetName,
+              runnerLabel,
+              releaseArchiveFormat,
+            }),
+          );
+          const sourceDateEpoch = execFileSync(
+            "git",
+            ["show", "-s", "--format=%ct", "HEAD"],
+            { encoding: "utf8" },
+          ).trim();
+          appendFileSync(
+            process.env.GITHUB_OUTPUT,
+            [
+              `software-version=${rootPackage.version}`,
+              `source-date-epoch=${sourceDateEpoch}`,
+              `target-matrix=${JSON.stringify(targetMatrix)}`,
+              "",
+            ].join("\n"),
+          );
+          NODE
+
+      - name: Run repository and package verification
+        run: |
+          npm test -- --runInBand
+          npm run lint
+          npm run format:check
+          npm run build
+          npm run mcp:package:build
+
+  archive:
+    name: Build development archive for ${{ matrix.targetName }}
+    needs: validate
+    runs-on: ${{ matrix.runnerLabel }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.validate.outputs.target-matrix) }}
+    env:
+      SOURCE_DATE_EPOCH: ${{ needs.validate.outputs.source-date-epoch }}
+    steps:
+      - name: Check out the exact source revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up exact Node.js runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "24.20.0"
+
+      - name: Select exact npm CLI
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.0.2
+          test "$(npm --version)" = "12.0.2"
+
+      - name: Install the exact locked dependency graph
+        run: npm ci --ignore-scripts
+
+      - name: Build the native self-contained archive
+        run: npm run mcp:archives:build -- --target=${{ matrix.targetName }}
+
+      - name: Smoke-test the extracted Unix runtime and application
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive_root="universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}-${{ matrix.targetName }}"
+          archive_path="dist/releases/${archive_root}.tar.gz"
+          extraction_path="${RUNNER_TEMP}/universal-ontology-mcp-server"
+          mkdir --parents "${extraction_path}"
+          tar --extract --gzip --file "${archive_path}" --directory "${extraction_path}"
+          runtime_path="${extraction_path}/${archive_root}/runtime/bin/node"
+          application_path="${extraction_path}/${archive_root}/app/universal-ontology-mcp-server.mjs"
+          test "$("${runtime_path}" --version)" = "v24.20.0"
+          "${runtime_path}" "${application_path}" --version
+          "${runtime_path}" "${application_path}" --help | grep --fixed-strings "universal-ontology-mcp-server [options]"
+
+      - name: Smoke-test the extracted Windows runtime and application
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $archiveRoot = "universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}-${{ matrix.targetName }}"
+          $archivePath = "dist/releases/$archiveRoot.zip"
+          $extractionPath = Join-Path $env:RUNNER_TEMP "universal-ontology-mcp-server"
+          Expand-Archive -LiteralPath $archivePath -DestinationPath $extractionPath
+          $runtimePath = Join-Path $extractionPath "$archiveRoot/runtime/node.exe"
+          $applicationPath = Join-Path $extractionPath "$archiveRoot/app/universal-ontology-mcp-server.mjs"
+          if ((& $runtimePath --version) -ne "v24.20.0") {
+            throw "The packaged Node runtime version disagrees."
+          }
+          if ((& $runtimePath $applicationPath --version) -ne "${{ needs.validate.outputs.software-version }}") {
+            throw "The packaged application version disagrees."
+          }
+          $helpText = & $runtimePath $applicationPath --help | Out-String
+          if (-not $helpText.Contains("universal-ontology-mcp-server [options]")) {
+            throw "The packaged application help smoke failed."
+          }
+
+      - name: Upload the verified development archive
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: universal-ontology-mcp-server-${{ matrix.targetName }}
+          path: dist/releases/universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}-${{ matrix.targetName }}.${{ matrix.releaseArchiveFormat }}
+          if-no-files-found: error
+          retention-days: 3
+
+  container:
+    name: Verify local development container
+    needs: validate
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Check out the exact source revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up exact Node.js runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "24.20.0"
+
+      - name: Select exact npm CLI
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.0.2
+          test "$(npm --version)" = "12.0.2"
+
+      - name: Install dependencies and build the canonical bundle
+        run: |
+          npm ci --ignore-scripts
+          npm run mcp:package:build
+
+      - name: Build and smoke-test the image without registry access
+        shell: bash
+        run: |
+          set -euo pipefail
+          image_name="universal-ontology-mcp-server:development"
+          cache_volume="universal-ontology-mcp-cache-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          docker build --tag universal-ontology-mcp-server:development packages/universal-ontology-mcp-server
+          docker volume create "${cache_volume}"
+          trap 'docker volume rm --force "${cache_volume}" >/dev/null' EXIT
+          container_options=(
+            --rm
+            --interactive
+            --read-only
+            --network=none
+            --cap-drop=ALL
+            --security-opt=no-new-privileges
+            --mount "type=volume,source=${cache_volume},target=/home/node/.cache/universal-ontology-mcp-server/v1"
+          )
+          test "$(docker run "${container_options[@]}" "${image_name}" --version)" = "${{ needs.validate.outputs.software-version }}"
+          docker run "${container_options[@]}" "${image_name}" --help | grep --fixed-strings "universal-ontology-mcp-server [options]"
+
+  assemble:
+    name: Assemble verified development candidate
+    needs: [archive, container, validate]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    env:
+      SOURCE_DATE_EPOCH: ${{ needs.validate.outputs.source-date-epoch }}
+    steps:
+      - name: Check out the exact source revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up exact Node.js runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "24.20.0"
+
+      - name: Select exact npm CLI
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.0.2
+          test "$(npm --version)" = "12.0.2"
+
+      - name: Install the exact locked dependency graph
+        run: npm ci --ignore-scripts
+
+      - name: Download all native development archives
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          pattern: universal-ontology-mcp-server-*
+          path: dist/releases
+          merge-multiple: true
+
+      - name: Build and pack the local npm artifact
+        run: |
+          npm run mcp:package:build
+          npm run mcp:package:pack
+
+      - name: Generate independent npm and deterministic SPDX documents
+        shell: bash
+        run: |
+          mkdir --parents dist/release-work
+          npm sbom --workspace universal-ontology-mcp-server --sbom-format spdx --sbom-type application > dist/release-work/npm-workspace.spdx.json
+          npm run mcp:sbom:create
+
+      - name: Verify the complete development candidate
+        run: >-
+          npm run mcp:release:verify --
+          --tag "universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}"
+          --release-directory dist/releases
+          --npm-comparison-sbom dist/release-work/npm-workspace.spdx.json
+
+      - name: Derive the verified candidate identity
+        id: candidate-identity
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import { createHash } from "node:crypto";
+          import { appendFileSync, readFileSync } from "node:fs";
+
+          // SHA256SUMS commits to every candidate subject; hashing that exact
+          // manifest gives the disposable Actions artifact a stable identity.
+          const candidateSha256 = createHash("sha256")
+            .update(readFileSync("dist/releases/SHA256SUMS"))
+            .digest("hex");
+          appendFileSync(
+            process.env.GITHUB_OUTPUT,
+            `candidate-sha256=${candidateSha256}\n`,
+          );
+          NODE
+
+      - name: Upload the verified development candidate
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: universal-ontology-mcp-server-development-candidate-${{ steps.candidate-identity.outputs.candidate-sha256 }}
+          path: dist/releases/*
+          if-no-files-found: error
+          retention-days: 3

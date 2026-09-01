@@ -1,6 +1,6 @@
 # Distributable Local Universal Ontology MCP Server Design
 
-**Status:** Accepted for implementation
+**Status:** Accepted for implementation; public software publication deferred
 
 **Owner:** `universal-ontology`
 
@@ -13,6 +13,27 @@
 
 **Protocol baseline:** Model Context Protocol specification `2026-07-28`
 with the stable modular TypeScript/JavaScript SDK v2 line
+
+### Development-publication amendment — 2026-09-01
+
+The owner has restricted this implementation increment to development-only
+software distribution. This amendment is normative and supersedes any later
+language in this design that could otherwise be read as authorizing public
+publication.
+
+The active GitHub Actions workflow MUST run only for branch pushes and pull
+requests, MUST grant no write or OpenID Connect permission, and MUST publish
+only short-lived GitHub Actions artifacts with a three-day retention period.
+It MUST NOT create a Git tag, GitHub Release, or attestation; publish an npm or
+OCI package; authenticate to or update the MCP Registry; or write to AWS,
+Google Cloud, another CDN, or another remote package or artifact namespace.
+
+The npm, OCI, MCP Registry, GitHub Release, checksum, SBOM, and CDN constructs
+described below remain useful future-production contracts and locally
+verifiable stubs. They do not establish that any package, image, registry
+entry, release, or immutable public artifact exists. Enabling any such remote
+publication requires a later, explicit owner-approved design and plan
+amendment.
 
 ## 1. Purpose and authority
 
@@ -57,9 +78,11 @@ MCP host
 
 The architecture therefore has no metered remote compute facility per MCP
 tool call. Search, ranking, entity resolution, language selection, and result
-rendering consume the user's local CPU and memory. The remotely chargeable
-surface is limited to ordinary software distribution plus S3/CloudFront
-requests and transfer for cache misses. AWS Lambda, Bedrock AgentCore Runtime,
+rendering consume the user's local CPU and memory. In the intended production
+architecture, the remotely chargeable surface is limited to ordinary software
+distribution plus S3/CloudFront requests and transfer for cache misses. During
+the current development increment, software is built locally or retained
+briefly by GitHub Actions. AWS Lambda, Bedrock AgentCore Runtime,
 AgentCore Gateway, API Gateway, ECS, and another continuously running MCP
 runtime are not required.
 
@@ -96,9 +119,12 @@ The implementation MUST follow these decisions:
 9. A persistent local cache supports warm startup and last-known-good offline
    operation. A missing artifact is never replaced by a nearby release or a
    different channel silently.
-10. GitHub Releases, npm, and optionally GHCR distribute the local software.
-    The MCP Registry stores discovery metadata only; it does not host package
-    bytes.
+10. During development, the local software is consumed from a source checkout,
+    locally packed tarball, locally built platform archive or container image,
+    or a three-day GitHub Actions artifact. GitHub Releases, npm, and
+    optionally GHCR are reserved future-production distribution channels. The
+    MCP Registry metadata is an inactive discovery stub and never hosts
+    package bytes.
 11. No AWS stack, deployment, or remote MCP runtime change belongs to the
     implementation plan derived from this design.
 
@@ -141,10 +167,10 @@ search engine, result schema, ranking algorithm, or definition resolver.
 ## 5. System architecture
 
 ```text
-                                   SOFTWARE DISTRIBUTION
+                          DEVELOPMENT SOFTWARE DISTRIBUTION
                      +------------------------------------------+
-                     | npm package / GitHub archives / OCI image|
-                     | code, runtime, notices, metadata; no data |
+                     | checkout / local package, archive, image  |
+                     | or three-day GitHub Actions artifact      |
                      +---------------------+--------------------+
                                            |
                                            v
@@ -762,7 +788,12 @@ not become installed-stdio options.
 
 ## 12. Software packaging and distribution
 
-### 12.1 Canonical npm package
+The formats and coordinates in this section define future-production
+compatibility contracts. In the current development increment they are built
+and verified only from the checkout or as short-lived GitHub Actions
+artifacts. None is published to its reserved public namespace.
+
+### 12.1 Future canonical npm package
 
 The primary package coordinate is:
 
@@ -795,12 +826,14 @@ The public package metadata MUST set:
 That value is the MCP Registry's npm ownership-verification link and MUST
 equal the `name` in `server.json` exactly.
 
-The package is published through npm trusted publishing from one narrowly
-permissioned GitHub-hosted workflow. OIDC replaces a long-lived npm publish
-token, and npm provenance remains enabled. The workflow first verifies the
-exact `npm pack` contents and runs the packed-tarball acceptance test.
+Before a future production publication, the package will use npm trusted
+publishing from one narrowly permissioned GitHub-hosted workflow. That future
+workflow will use OIDC instead of a long-lived npm publish token, retain npm
+provenance, verify the exact `npm pack` contents, and run the packed-tarball
+acceptance test. The active development workflow has no npm authentication or
+publication step.
 
-A typical Codex installation command will be:
+A typical Codex installation command after that future publication will be:
 
 ```powershell
 codex mcp add universal_ontology -- npx -y universal-ontology-mcp-server@1.0.0
@@ -809,7 +842,7 @@ codex mcp add universal_ontology -- npx -y universal-ontology-mcp-server@1.0.0
 Documentation may also show an unpinned `@latest` convenience, but acceptance,
 bug reports, and reproducibility examples MUST use an exact version.
 
-### 12.2 GitHub Release assets
+### 12.2 Future GitHub Release assets
 
 The Git tag namespace is independent from ontology date releases:
 
@@ -817,7 +850,7 @@ The Git tag namespace is independent from ontology date releases:
 universal-ontology-mcp-server-v<semver>
 ```
 
-One immutable GitHub Release contains:
+One future immutable GitHub Release will contain:
 
 - the exact npm tarball published to npm;
 - self-contained platform archives for the supported matrix;
@@ -852,7 +885,8 @@ supported Node runtime is omitted rather than published as untested. The npm
 package remains available anywhere the declared Node.js engine range is
 supported.
 
-GitHub release immutability SHOULD be enabled. The workflow prepares a draft,
+GitHub release immutability SHOULD be enabled when public publication is
+authorized. A future publication workflow prepares a draft,
 attaches every asset, verifies the asset set, and publishes only when complete.
 Every third-party GitHub Action is pinned by full commit SHA, workflow
 permissions are least-privilege per job, and release builds use `npm ci` from
@@ -863,7 +897,7 @@ single exact npm version declared by the root `packageManager` field and the
 release-input document. Each release job installs that selected npm version and
 asserts `npm --version` before its first npm operation.
 
-### 12.3 OCI image
+### 12.3 Future OCI image
 
 An OCI image MAY be published at:
 
@@ -882,7 +916,7 @@ The image is an installation alternative, not a hosted server. Publishing it
 to GHCR does not create a running workload. Tags are convenience references;
 digests are the immutable OCI identity.
 
-### 12.4 MCP Registry metadata
+### 12.4 Future MCP Registry metadata
 
 The Registry server name is:
 
@@ -896,10 +930,12 @@ official schema. It identifies the npm and, when available, OCI packages as
 rendered or checked against the release version; stale metadata blocks a
 release.
 
-The official Registry is still preview infrastructure. Registry publication
-MUST be the last distribution step, after package bytes are public and
-verified. A Registry failure does not justify mutating an already published
-software version; it is retried with the same immutable metadata.
+The official Registry is still preview infrastructure. In a later authorized
+production flow, Registry publication MUST be the last distribution step,
+after package bytes are public and verified. A Registry failure does not
+justify mutating an already published software version; it is retried with
+the same immutable metadata. The current workflow validates `server.json`
+offline but neither authenticates to nor updates the Registry.
 
 MCPB is deliberately deferred. It is useful for hosts that implement one-click
 bundle installation, but npm plus self-contained archives cover the initial
@@ -983,8 +1019,8 @@ modern practice:
   the obvious simpler alternative is unsafe;
 - format-version and naming decisions identify the semantic distinction they
   protect;
-- workflow comments explain non-obvious permissions, provenance, target
-  matrices, and immutable-release ordering;
+- workflow comments explain non-obvious read-only permissions, target
+  matrices, short-lived artifact retention, and publication prohibitions;
 - comments do not narrate syntax, duplicate type/schema information, preserve
   obsolete history, or excuse unclear names; and
 - every comment is updated or removed in the same change that alters its
@@ -994,10 +1030,12 @@ User documentation is split by audience:
 
 - `docs/mcp/local-development.md` remains the source-checkout and loopback HTTP
   developer guide;
-- a new `docs/mcp/local-installation.md` covers npm, GitHub archive, and OCI
-  installation; Codex and generic MCP-host `stdio` configuration; cache paths;
-  `stable` versus `development`; privacy; offline behavior; update and removal;
-  checksum/attestation verification; and troubleshooting;
+- a new `docs/mcp/local-installation.md` covers development installation from
+  a checkout, local package/archive/container outputs, and short-lived GitHub
+  Actions artifacts; Codex and generic MCP-host `stdio` configuration; cache
+  paths; `stable` versus `development`; privacy; offline behavior; local
+  checksum verification; update and removal; the absence of public packages
+  and attestations; and troubleshooting;
 - `packages/universal-ontology-mcp-server/README.md` is a concise package-local
   route to the same canonical guide; and
 - the repository `README.md` links both WebMCP page-scoped lookup and the
@@ -1102,16 +1140,18 @@ Required test layers include:
   dependencies only;
 - `--version` equals package, server, tag fixture, Registry, and OCI metadata;
 - root metadata, release inputs, workflow bootstrap, lockfile use, build, SBOM,
-  and publish paths agree on and assert one exact selected npm CLI;
-- exact-version `npx` can complete the golden `Person` call;
+  and candidate-assembly paths agree on and assert one exact selected npm CLI;
+- installation from the locally packed npm tarball can complete the golden
+  `Person` call without accessing a public package namespace;
 - every platform archive runs on its advertised target and uses its dedicated
   cache directory;
 - OCI runs as non-root, uses stdin, persists a mounted cache, and contains no
   shell or unnecessary package manager in the final image where practical;
-- checksums, SBOM, provenance subjects, license, and notices cover every
-  shipped asset; and
-- a draft release fails closed when any expected asset or attestation is
-  absent.
+- checksums, SBOM subjects, license, and notices cover every candidate asset;
+- the development workflow grants only `contents: read`, retains candidates
+  for three days, and contains no remote-publication or attestation path; and
+- the local release-candidate verifier fails closed when any expected asset is
+  absent or inconsistent.
 
 ### 16.5 Golden semantic acceptance
 
@@ -1153,10 +1193,10 @@ The implementation plan derived from this design MUST:
   or commit authorization; and
 - neither push nor ask whether to push.
 
-Likely configuration changes include the root and public-package
+Likely configuration changes include the root and future-public-package
 `package.json` files, `package-lock.json`, lint/format script coverage for the
 new package sources, one MCP Registry `server.json`, one container definition,
-and one narrowly permissioned GitHub release workflow. The detailed plan must
+and one read-only GitHub distribution-verification workflow. The detailed plan must
 name the exact files, settings, dependencies, scripts, workflow triggers,
 permissions, and pipeline effects before any of them is edited.
 
@@ -1206,11 +1246,13 @@ requires verifying the real public response metadata and decoded digest.
 
 ### Software release failure
 
-A failed build or test publishes nothing. Release assets are assembled in a
-draft. Once an immutable release and npm version are public, they are never
-replaced; a fix receives a new semantic version. An OCI mutable tag may be
-repointed only by the documented release policy, while the digest remains the
-accepted identity.
+A failed development build or test publishes nothing. Candidate assets exist
+only locally or as three-day GitHub Actions artifacts. The active workflow has
+no tag, release, attestation, npm, OCI, Registry, AWS, Google Cloud, or CDN
+write path. Once a later authorized production process makes an immutable
+release and npm version public, they are never replaced; a fix receives a new
+semantic version. An OCI mutable tag may be repointed only by that future
+documented release policy, while the digest remains the accepted identity.
 
 ### Artifact publication failure
 
@@ -1258,8 +1300,10 @@ all of the following:
   only;
 - tool names and semantic contracts remain unchanged;
 - code distribution and fast-changing data publication are independent;
-- npm is the primary package, GitHub Releases provide verifiable assets and
-  self-contained platform archives, and OCI is an optional local alternative;
+- development installations use checkout or locally built package, archive,
+  or container outputs, with three-day GitHub Actions artifacts as the only
+  remote candidates; npm, GitHub Releases, GHCR, and Registry publication are
+  explicitly deferred future-production channels;
 - no executable release contains ontology data;
 - channel manifests select content-addressed catalogs and release indexes;
 - `stable` and `development` channel semantics are distinct and documented;

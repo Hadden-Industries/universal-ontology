@@ -33,11 +33,11 @@ const DEFAULT_APPLICATION_BUNDLE_METADATA_PATH = join(
   "release-work",
   "universal-ontology-mcp-application-bundle.json",
 );
-const DEFAULT_RELEASE_WORKFLOW_PATH = join(
+const DEFAULT_DISTRIBUTION_WORKFLOW_PATH = join(
   REPOSITORY_ROOT_PATH,
   ".github",
   "workflows",
-  "release-universal-ontology-mcp-server.yml",
+  "verify-universal-ontology-mcp-distribution.yml",
 );
 const RELEASE_TAG_PATTERN =
   /^universal-ontology-mcp-server-v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$/u;
@@ -46,46 +46,58 @@ const MAXIMUM_RELEASE_ASSET_BYTE_SIZE = 268_435_456;
 const MAXIMUM_METADATA_BYTE_SIZE = 16_777_216;
 const STREAM_SCAN_TAIL_CHARACTER_COUNT = 512;
 const SPDX_DOCUMENT_ID = "SPDXRef-DOCUMENT";
+const EXPECTED_DISTRIBUTION_WORKFLOW_PATH_FILTERS = Object.freeze([
+  ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
+  "docs/mcp/**",
+  "package.json",
+  "package-lock.json",
+  "packages/universal-ontology-mcp-server/**",
+  "scripts/build/createOntologyQueryArtifacts.js",
+  "scripts/build/ontologyAssets.js",
+  "scripts/distribution/**",
+  "scripts/generateOntologyQueryIndexes.js",
+  "scripts/runUniversalOntologyMcpStdioServer.js",
+  "scripts/stageOntologyQueryArtifactChannel.js",
+  "server.json",
+  "src/mcp/**",
+  "src/ontology.js",
+  "src/ontologyQuery/**",
+  "tests/distribution/**",
+  "tests/mcp/**",
+  "tests/ontology-query/**",
+  "tests/webmcp/ontology-entity-definition-resolver.test.js",
+]);
 const EXPECTED_WORKFLOW_JOB_PERMISSIONS = Object.freeze({
   validate: { contents: "read" },
   archive: { contents: "read" },
+  container: { contents: "read" },
   assemble: { contents: "read" },
-  "attest-and-draft": {
-    contents: "write",
-    "id-token": "write",
-    attestations: "write",
-    "artifact-metadata": "write",
-  },
-  "publish-npm": { contents: "read", "id-token": "write" },
-  "publish-oci": {
-    contents: "read",
-    packages: "write",
-    "id-token": "write",
-  },
-  "publish-github-release": { contents: "write" },
-  "publish-mcp-registry": { contents: "read", "id-token": "write" },
 });
 const EXPECTED_WORKFLOW_JOB_DEPENDENCIES = Object.freeze({
   validate: [],
   archive: ["validate"],
-  assemble: ["archive", "validate"],
-  "attest-and-draft": ["assemble", "validate"],
-  "publish-npm": ["attest-and-draft", "validate"],
-  "publish-oci": ["attest-and-draft", "validate"],
-  "publish-github-release": [
-    "attest-and-draft",
-    "publish-npm",
-    "publish-oci",
-    "validate",
-  ],
-  "publish-mcp-registry": ["publish-github-release", "validate"],
+  container: ["validate"],
+  assemble: ["archive", "container", "validate"],
 });
-const RELEASE_WRITE_JOB_NAMES = Object.freeze([
-  "attest-and-draft",
-  "publish-npm",
-  "publish-oci",
-  "publish-github-release",
-  "publish-mcp-registry",
+const ACTIVE_DISTRIBUTION_WORKFLOW_ACTION_NAMES = Object.freeze([
+  "actions/checkout",
+  "actions/download-artifact",
+  "actions/setup-node",
+  "actions/upload-artifact",
+]);
+const PROHIBITED_DISTRIBUTION_WORKFLOW_PATTERNS = Object.freeze([
+  /actions\/attest@/u,
+  /docker\/login-action@/u,
+  /docker\/build-push-action@/u,
+  /\b(?:npm\s+publish|docker\s+(?:login|push)|gh\s+release)\b/iu,
+  /\bpush-by-digest\b/iu,
+  /\bimagetools\s+create\b/iu,
+  /\bmcp-publisher\s+(?:login|publish)\b/iu,
+  /\b(?:aws|gcloud|gsutil)\s+/iu,
+  /\b(?:GH_TOKEN|NODE_AUTH_TOKEN)\b/u,
+  /\$\{\{\s*github\.token\s*\}\}/u,
+  /\b(?:id-token|attestations|artifact-metadata|packages|contents):\s*write\b/iu,
+  /\bregistry-url\s*:/iu,
 ]);
 
 const FORBIDDEN_ARCHIVE_CONTENT_MARKERS = Object.freeze([
@@ -204,57 +216,77 @@ function normalizeWorkflowJobDependencies(needs) {
 
 function requireExactJsonValue(actualValue, expectedValue, semanticName) {
   if (JSON.stringify(actualValue) !== JSON.stringify(expectedValue)) {
-    throw new Error(`Release workflow has incorrect ${semanticName}.`);
+    throw new Error(`Distribution workflow has incorrect ${semanticName}.`);
   }
 }
 
 /**
- * Treat the release workflow as executable supply-chain policy. Validation is
- * intentionally independent of GitHub's permissive YAML acceptance so a
- * broadened permission, dependency edge, or action ref fails before publish.
+ * Treat the development distribution workflow as executable supply-chain
+ * policy. Validation is intentionally independent of GitHub's permissive YAML
+ * acceptance so a broadened trigger, permission, dependency edge, action ref,
+ * or publication command fails before a candidate can be retained remotely.
  */
-export async function verifyUniversalOntologyMcpReleaseWorkflow({
-  releaseWorkflowPath = DEFAULT_RELEASE_WORKFLOW_PATH,
+export async function verifyUniversalOntologyMcpDistributionWorkflow({
+  distributionWorkflowPath = DEFAULT_DISTRIBUTION_WORKFLOW_PATH,
   releaseInputs,
 }) {
   let workflow;
+  let workflowText;
   try {
-    workflow = parseYaml(
-      (await readBoundedRegularFile(releaseWorkflowPath)).toString("utf8"),
-    );
+    workflowText = (
+      await readBoundedRegularFile(distributionWorkflowPath)
+    ).toString("utf8");
+    workflow = parseYaml(workflowText);
   } catch (error) {
-    throw new Error("Release workflow YAML cannot be parsed.", {
+    throw new Error("Distribution workflow YAML cannot be parsed.", {
       cause: error,
     });
   }
   if (!workflow || typeof workflow !== "object" || !workflow.jobs) {
-    throw new Error("Release workflow omits its job graph.");
+    throw new Error("Distribution workflow omits its job graph.");
   }
+  requireExactJsonValue(
+    workflow.name,
+    "Verify Universal Ontology MCP Distribution",
+    "display name",
+  );
   requireExactJsonValue(workflow.permissions, {}, "default permissions");
   requireExactJsonValue(
-    workflow.on?.push?.branches,
-    ["**"],
-    "push branch filters",
-  );
-  requireExactJsonValue(
-    workflow.on?.push?.tags,
-    ["universal-ontology-mcp-server-v*"],
-    "release tag filter",
+    workflow.on,
+    {
+      pull_request: {
+        paths: EXPECTED_DISTRIBUTION_WORKFLOW_PATH_FILTERS,
+      },
+      push: {
+        branches: ["**"],
+        paths: EXPECTED_DISTRIBUTION_WORKFLOW_PATH_FILTERS,
+      },
+    },
+    "branch and pull-request triggers",
   );
   requireExactJsonValue(
     workflow.concurrency,
     {
-      group: "universal-ontology-mcp-server-${{ github.ref }}",
-      "cancel-in-progress": false,
+      group: "universal-ontology-mcp-distribution-${{ github.ref }}",
+      "cancel-in-progress": true,
     },
     "concurrency policy",
   );
+  if (
+    PROHIBITED_DISTRIBUTION_WORKFLOW_PATTERNS.some((pattern) =>
+      pattern.test(workflowText),
+    )
+  ) {
+    throw new Error(
+      "Distribution workflow contains a prohibited publication or remote-write construct.",
+    );
+  }
 
   const expectedJobNames = Object.keys(EXPECTED_WORKFLOW_JOB_PERMISSIONS);
   requireExactJsonValue(
     Object.keys(workflow.jobs),
     expectedJobNames,
-    "eight-job topology",
+    "four-job topology",
   );
   const allowedActionCommits = new Map(
     releaseInputs.githubActions.map(({ actionName, commitSha }) => [
@@ -264,6 +296,7 @@ export async function verifyUniversalOntologyMcpReleaseWorkflow({
   );
   const encounteredActionNames = new Set();
   const exactNpmBootstrap = `npm install --global --no-audit --no-fund npm@${releaseInputs.selectedNpmVersion}\ntest "$(npm --version)" = "${releaseInputs.selectedNpmVersion}"\n`;
+  let artifactUploadStepCount = 0;
 
   for (const jobName of expectedJobNames) {
     const job = workflow.jobs[jobName];
@@ -277,8 +310,13 @@ export async function verifyUniversalOntologyMcpReleaseWorkflow({
       EXPECTED_WORKFLOW_JOB_DEPENDENCIES[jobName],
       `${jobName} dependency order`,
     );
+    if (job.environment !== undefined) {
+      throw new Error(
+        `Distribution workflow job ${jobName} uses a protected publication environment.`,
+      );
+    }
     if (!Array.isArray(job.steps)) {
-      throw new Error(`Release workflow job ${jobName} omits its steps.`);
+      throw new Error(`Distribution workflow job ${jobName} omits its steps.`);
     }
 
     const setupNodeIndex = job.steps.findIndex(({ uses }) =>
@@ -289,13 +327,13 @@ export async function verifyUniversalOntologyMcpReleaseWorkflow({
     );
     if (
       setupNodeIndex < 0 ||
-      job.steps[setupNodeIndex].with?.["node-version"] !==
-        releaseInputs.nodeRuntime.version ||
+      JSON.stringify(job.steps[setupNodeIndex].with) !==
+        JSON.stringify({ "node-version": releaseInputs.nodeRuntime.version }) ||
       npmBootstrapIndex <= setupNodeIndex ||
       job.steps[npmBootstrapIndex].run !== exactNpmBootstrap
     ) {
       throw new Error(
-        `Release workflow job ${jobName} does not select exact Node and npm versions first.`,
+        `Distribution workflow job ${jobName} does not select exact Node and npm versions first.`,
       );
     }
 
@@ -308,7 +346,7 @@ export async function verifyUniversalOntologyMcpReleaseWorkflow({
         stepIndex < npmBootstrapIndex
       ) {
         throw new Error(
-          `Release workflow job ${jobName} invokes npm before its exact bootstrap.`,
+          `Distribution workflow job ${jobName} invokes npm before its exact bootstrap.`,
         );
       }
       if (!step.uses) {
@@ -318,10 +356,13 @@ export async function verifyUniversalOntologyMcpReleaseWorkflow({
       if (
         !actionReferenceMatch ||
         allowedActionCommits.get(actionReferenceMatch[1]) !==
-          actionReferenceMatch[2]
+          actionReferenceMatch[2] ||
+        !ACTIVE_DISTRIBUTION_WORKFLOW_ACTION_NAMES.includes(
+          actionReferenceMatch[1],
+        )
       ) {
         throw new Error(
-          `Release workflow action ref leaves the full-SHA allowlist: ${step.uses}`,
+          `Distribution workflow action ref leaves the active full-SHA allowlist: ${step.uses}`,
         );
       }
       encounteredActionNames.add(actionReferenceMatch[1]);
@@ -330,32 +371,72 @@ export async function verifyUniversalOntologyMcpReleaseWorkflow({
         step.with?.["persist-credentials"] !== false
       ) {
         throw new Error(
-          `Release workflow job ${jobName} retains checkout credentials.`,
+          `Distribution workflow job ${jobName} retains checkout credentials.`,
         );
+      }
+      if (actionReferenceMatch[1] === "actions/upload-artifact") {
+        artifactUploadStepCount += 1;
+        if (
+          step.with?.["retention-days"] !== 3 ||
+          step.with?.["if-no-files-found"] !== "error"
+        ) {
+          throw new Error(
+            `Distribution workflow job ${jobName} retains an artifact outside the three-day fail-closed policy.`,
+          );
+        }
       }
     }
   }
   requireExactJsonValue(
     [...encounteredActionNames].sort(compareBinaryText),
-    [...allowedActionCommits.keys()].sort(compareBinaryText),
-    "action allowlist coverage",
+    [...ACTIVE_DISTRIBUTION_WORKFLOW_ACTION_NAMES].sort(compareBinaryText),
+    "active action allowlist coverage",
   );
-  for (const jobName of RELEASE_WRITE_JOB_NAMES) {
-    if (
-      !workflow.jobs[jobName].if?.includes(
-        "needs.validate.outputs.is-release == 'true'",
-      )
-    ) {
-      throw new Error(
-        `Release workflow write job ${jobName} is not restricted to a validated tag.`,
-      );
-    }
+  if (artifactUploadStepCount !== 2) {
+    throw new Error(
+      "Distribution workflow must upload exactly native archives and one assembled candidate.",
+    );
   }
+
+  const concatenateRunScripts = (job) =>
+    job.steps
+      .filter(({ run }) => typeof run === "string")
+      .map(({ run }) => run)
+      .join("\n");
+  const validateScripts = concatenateRunScripts(workflow.jobs.validate);
+  const archiveScripts = concatenateRunScripts(workflow.jobs.archive);
+  const containerScripts = concatenateRunScripts(workflow.jobs.container);
+  const assembleScripts = concatenateRunScripts(workflow.jobs.assemble);
   if (
-    workflow.jobs["publish-npm"].environment !== "npm-publish" ||
-    workflow.jobs["publish-mcp-registry"].environment !== "mcp-registry-publish"
+    validateScripts.includes(
+      "smokeTestUniversalOntologyMcpPublicArtifactOrigin.js",
+    ) ||
+    !archiveScripts.includes("mcp:archives:build") ||
+    !containerScripts.includes(
+      "docker build --tag universal-ontology-mcp-server:development",
+    ) ||
+    !containerScripts.includes("--network=none") ||
+    !containerScripts.includes("--read-only") ||
+    !containerScripts.includes("--cap-drop=ALL") ||
+    !containerScripts.includes("no-new-privileges") ||
+    /(?:--publish|-p\s+\d)/u.test(containerScripts) ||
+    !assembleScripts.includes("mcp:release:verify")
   ) {
-    throw new Error("Release workflow omits a protected publish environment.");
+    throw new Error(
+      "Distribution workflow does not implement the exact local-only candidate checks.",
+    );
+  }
+  const candidateUploadStep = workflow.jobs.assemble.steps.find(({ uses }) =>
+    uses?.startsWith("actions/upload-artifact@"),
+  );
+  if (
+    !candidateUploadStep?.with?.name?.includes(
+      "${{ steps.candidate-identity.outputs.candidate-sha256 }}",
+    )
+  ) {
+    throw new Error(
+      "Distribution workflow artifact name omits the verified candidate identity.",
+    );
   }
   return Object.freeze({ verifiedJobCount: expectedJobNames.length });
 }
@@ -1241,16 +1322,17 @@ function validateApplicationBundleMetadata(
 }
 
 /**
- * Verify a complete release candidate before any attest or publish job can use
- * it. Every identity is derived from repository authorities and exact bytes;
- * release-owned metadata is corroborating evidence, never its own trust root.
+ * Verify a complete local development candidate before it can be retained as
+ * a short-lived Actions artifact. Every identity is derived from repository
+ * authorities and exact bytes; candidate-owned metadata is corroborating
+ * evidence, never its own trust root.
  */
 export async function verifyUniversalOntologyMcpRelease({
   releaseDirectoryPath = DEFAULT_RELEASE_DIRECTORY_PATH,
   tag,
   applicationBundleMetadataPath = DEFAULT_APPLICATION_BUNDLE_METADATA_PATH,
   npmComparisonSbomPath,
-  releaseWorkflowPath = DEFAULT_RELEASE_WORKFLOW_PATH,
+  distributionWorkflowPath = DEFAULT_DISTRIBUTION_WORKFLOW_PATH,
 } = {}) {
   const tagVersion = parseReleaseTag(tag);
   const [
@@ -1270,8 +1352,8 @@ export async function verifyUniversalOntologyMcpRelease({
     throw new Error("Release tag version differs from the software version.");
   }
   validateApplicationBundleMetadata(applicationBundleMetadata, publicPackage);
-  await verifyUniversalOntologyMcpReleaseWorkflow({
-    releaseWorkflowPath,
+  await verifyUniversalOntologyMcpDistributionWorkflow({
+    distributionWorkflowPath,
     releaseInputs,
   });
 

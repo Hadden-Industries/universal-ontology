@@ -17,8 +17,8 @@ const RELEASE_TAG = `universal-ontology-mcp-server-v${SOFTWARE_VERSION}`;
 const RELEASE_BASE_NAME = `${RELEASE_TAG}`;
 const PACKAGE_NAME = "universal-ontology-mcp-server";
 const SOURCE_DATE_EPOCH_SECONDS = 1_700_000_000;
-const RELEASE_WORKFLOW_URL = new URL(
-  "../../.github/workflows/release-universal-ontology-mcp-server.yml",
+const DISTRIBUTION_WORKFLOW_URL = new URL(
+  "../../.github/workflows/verify-universal-ontology-mcp-distribution.yml",
   import.meta.url,
 );
 const APPLICATION_BYTES = Buffer.from(
@@ -367,17 +367,17 @@ describe("Universal Ontology MCP release verifier", () => {
     ).rejects.toThrow(/npm.*SBOM|SBOM.*npm/iu);
   });
 
-  test("rejects a release workflow whose action ref leaves the full-SHA allowlist", async () => {
-    const releaseWorkflowPath = join(
+  test("rejects a distribution workflow whose action ref leaves the full-SHA allowlist", async () => {
+    const distributionWorkflowPath = join(
       fixtureParentDirectoryPath,
-      "tampered-release-workflow.yml",
+      "tampered-distribution-workflow.yml",
     );
     const workflowText = await nodeFileSystem.readFile(
-      RELEASE_WORKFLOW_URL,
+      DISTRIBUTION_WORKFLOW_URL,
       "utf8",
     );
     await nodeFileSystem.writeFile(
-      releaseWorkflowPath,
+      distributionWorkflowPath,
       workflowText.replace(
         "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
         "actions/checkout@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -389,7 +389,7 @@ describe("Universal Ontology MCP release verifier", () => {
         releaseDirectoryPath: baseReleaseDirectoryPath,
         tag: RELEASE_TAG,
         applicationBundleMetadataPath: baseBundleMetadataPath,
-        releaseWorkflowPath,
+        distributionWorkflowPath,
       }),
     ).rejects.toThrow(/workflow|action/iu);
   });
