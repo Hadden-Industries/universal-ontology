@@ -1045,6 +1045,70 @@ describe("persistent ontology query-artifact cache leases and channel state", ()
     }
   });
 
+  test("waits for a live lease without holding its owner file open", async () => {
+    const { parent, cacheRoot } = await createTemporaryCacheRoot(
+      "uo-cache-artifact-lease-observation-",
+    );
+    const artifact = await createArtifactFixture();
+    const openedPaths = [];
+    const fileSystem = {
+      ...nodeFileSystem,
+      open(path, ...openArguments) {
+        openedPaths.push(path);
+
+        return nodeFileSystem.open(path, ...openArguments);
+      },
+    };
+    let releaseOwner;
+    const ownerMayFinish = new Promise((resolve) => {
+      releaseOwner = resolve;
+    });
+
+    try {
+      const cache = await createPersistentOntologyQueryArtifactCache({
+        ontologyQueryArtifactCacheDirectoryPath: cacheRoot,
+        ontologyQueryArtifactBaseUrlSha256: BASE_URL_SHA_256,
+        leaseRetryDelayMilliseconds: 5,
+        fileSystem,
+      });
+      const leaseOwnerFilePath = join(
+        getRepositoryRootPath(cacheRoot),
+        "locks",
+        "artifacts",
+        `${artifact.expectedSha256}.lease`,
+        "owner.json",
+      );
+      const owner = cache.withArtifactPopulationLease({
+        expectedSha256: artifact.expectedSha256,
+        async operation() {
+          await ownerMayFinish;
+          return "owner completed";
+        },
+      });
+      await new Promise((resolve) => setTimeout(resolve, 10));
+      openedPaths.length = 0;
+      const contender = cache.withArtifactPopulationLease({
+        expectedSha256: artifact.expectedSha256,
+        operation: () => "contender completed",
+      });
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      // Windows refuses to rename a directory that still has an open
+      // descendant, so a contender that reads the owner file on every poll can
+      // starve the owner out of its detach attempts when it releases.
+      expect(openedPaths).not.toContain(leaseOwnerFilePath);
+
+      releaseOwner();
+      await expect(Promise.all([owner, contender])).resolves.toEqual([
+        "owner completed",
+        "contender completed",
+      ]);
+    } finally {
+      releaseOwner?.();
+      await nodeFileSystem.rm(parent, { recursive: true, force: true });
+    }
+  });
+
   test("returns null without state and installs one fully validated generation", async () => {
     const { parent, cacheRoot } = await createTemporaryCacheRoot(
       "uo-cache-channel-state-",
@@ -1265,16 +1329,36 @@ describe("persistent ontology query-artifact cache leases and channel state", ()
         cache.installLastKnownGoodChannelState({ state: secondState }),
       ]);
 
-      expect(
-        await nodeFileSystem.readdir(
-          join(getRepositoryRootPath(cacheRoot), "channels", "stable"),
+      const channelDirectoryPath = join(
+        getRepositoryRootPath(cacheRoot),
+        "channels",
+        "stable",
+      );
+      const generationFileNames = [
+        "state-0000000000000001.json",
+        "state-0000000000000002.json",
+      ];
+      expect(await nodeFileSystem.readdir(channelDirectoryPath)).toEqual(
+        generationFileNames,
+      );
+
+      // Neither writer is promised the lease first, so the durable guarantee is
+      // that each one occupies its own generation and that a reader observes
+      // whichever of them committed the newest generation.
+      const persistedStates = await Promise.all(
+        generationFileNames.map(async (fileName) =>
+          parseOntologyQueryChannelLastKnownGoodStateBytes(
+            await nodeFileSystem.readFile(join(channelDirectoryPath, fileName)),
+          ),
         ),
-      ).toEqual(["state-0000000000000001.json", "state-0000000000000002.json"]);
+      );
+      expect(persistedStates).toContainEqual(firstState);
+      expect(persistedStates).toContainEqual(secondState);
       expect(
         await cache.readLastKnownGoodChannelState({
           ontologyQueryArtifactChannelName: "stable",
         }),
-      ).toEqual(secondState);
+      ).toEqual(persistedStates[1]);
     } finally {
       await nodeFileSystem.rm(parent, { recursive: true, force: true });
     }

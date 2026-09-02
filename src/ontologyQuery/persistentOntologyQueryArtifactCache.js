@@ -916,16 +916,55 @@ export async function createPersistentOntologyQueryArtifactCache({
     }
   }
 
+  // Staleness only needs the heartbeat timestamp, so it is read from metadata
+  // alone. Opening the owner file would leave a descendant handle on the lease
+  // directory, which Windows refuses to rename, starving the owner of the
+  // detach it performs when it releases.
+  async function readLeaseHeartbeat(leaseDirectoryPath) {
+    const leaseDirectoryStats = await readStatsIfPresent(
+      fileSystem,
+      leaseDirectoryPath,
+    );
+
+    if (!leaseDirectoryStats) {
+      return null;
+    }
+
+    verifyManagedStats({
+      stats: leaseDirectoryStats,
+      expectedType: "directory",
+      platform,
+      effectiveUserId,
+    });
+    const ownerStats = await readStatsIfPresent(
+      fileSystem,
+      join(leaseDirectoryPath, LEASE_OWNER_FILE_NAME),
+    );
+
+    if (!ownerStats) {
+      return { lastHeartbeatMilliseconds: leaseDirectoryStats.mtimeMs };
+    }
+
+    verifyManagedStats({
+      stats: ownerStats,
+      expectedType: "file",
+      platform,
+      effectiveUserId,
+    });
+
+    return { lastHeartbeatMilliseconds: ownerStats.mtimeMs };
+  }
+
   async function tryReclaimStaleLease(leaseDirectoryPath) {
-    let observation;
+    let heartbeat;
 
     try {
-      observation = await readLeaseObservation(leaseDirectoryPath);
+      heartbeat = await readLeaseHeartbeat(leaseDirectoryPath);
     } catch (error) {
       throw createInitializationError("UNSAFE_CACHE_DIRECTORY", error);
     }
 
-    if (!observation) {
+    if (!heartbeat) {
       return true;
     }
 
@@ -933,7 +972,7 @@ export async function createPersistentOntologyQueryArtifactCache({
       requireWallClockDate(wallClockTime).getTime();
 
     if (
-      currentWallClockMilliseconds - observation.lastHeartbeatMilliseconds <=
+      currentWallClockMilliseconds - heartbeat.lastHeartbeatMilliseconds <=
       leaseStaleAfterMilliseconds
     ) {
       return false;
@@ -955,13 +994,13 @@ export async function createPersistentOntologyQueryArtifactCache({
       throw createInitializationError("UNSAFE_CACHE_DIRECTORY", error);
     }
 
-    const detachedObservation = await readLeaseObservation(
+    const detachedHeartbeat = await readLeaseHeartbeat(
       detachedLeaseDirectoryPath,
     );
     const detachedLeaseIsStillStale =
-      !detachedObservation ||
+      !detachedHeartbeat ||
       currentWallClockMilliseconds -
-        detachedObservation.lastHeartbeatMilliseconds >
+        detachedHeartbeat.lastHeartbeatMilliseconds >
         leaseStaleAfterMilliseconds;
 
     if (!detachedLeaseIsStillStale) {
