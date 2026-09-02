@@ -53,6 +53,38 @@ const ACTIVE_ACTION_NAMES = Object.freeze([
 const EXACT_NPM_BOOTSTRAP =
   'npm install --global --no-audit --no-fund npm@12.0.2\ntest "$(npm --version)" = "12.0.2"\n';
 
+// The archive matrix places shell steps on macOS runners, whose BSD userland
+// supplies these commands with short flags only. A GNU long option survives
+// review and every Linux job, then fails the macOS targets at runtime, so the
+// portable spelling is asserted here instead. Commands absent from this list
+// either come from GNU-compatible implementations on macOS, such as libarchive
+// `tar` and BSD `grep`, or are not part of the base userland at all.
+const BSD_SHORT_OPTION_ONLY_COMMANDS = Object.freeze([
+  "basename",
+  "chmod",
+  "chown",
+  "cp",
+  "cut",
+  "date",
+  "dirname",
+  "du",
+  "head",
+  "ln",
+  "mkdir",
+  "mktemp",
+  "mv",
+  "readlink",
+  "rm",
+  "sed",
+  "seq",
+  "stat",
+  "tail",
+  "touch",
+  "tr",
+  "uniq",
+  "wc",
+]);
+
 // These patterns cover every remote publication mechanism intentionally kept
 // out of development. The positive artifact assertions below make the narrow
 // GitHub Actions-artifact exception explicit rather than relying on omission.
@@ -262,6 +294,38 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     expect(containerScripts).toContain("UNSAFE_CACHE_DIRECTORY");
     expect(containerScripts).not.toContain('"method":"initialize"');
     expect(containerScripts).not.toMatch(/(?:--publish|-p\s+\d)/u);
+  });
+
+  test("spells every shell option portably for BSD and GNU userland", () => {
+    const macOsRunnerLabels = releaseInputs.nodeRuntime.targets
+      .map(({ runnerLabel }) => runnerLabel)
+      .filter((runnerLabel) => runnerLabel.startsWith("macos-"));
+
+    expect(macOsRunnerLabels.length).toBeGreaterThan(0);
+
+    for (const [jobName, job] of Object.entries(workflow.jobs)) {
+      const jobScripts = concatenateRunScripts(job);
+
+      for (const command of BSD_SHORT_OPTION_ONLY_COMMANDS) {
+        // Anchoring to the start of a simple command keeps a subcommand of
+        // the same name, such as `docker volume rm --force`, out of the scan,
+        // and the lookahead keeps a longer command that merely starts with
+        // one of these names, such as `trap`, out of it as well.
+        const longOptionUses =
+          jobScripts.match(
+            new RegExp(
+              String.raw`(?:^|[;&|(])[ \t]*${command}(?=[ \t])[^\r\n;&|]*?\s--[A-Za-z]`,
+              "gmu",
+            ),
+          ) ?? [];
+
+        expect({ jobName, command, longOptionUses }).toEqual({
+          jobName,
+          command,
+          longOptionUses: [],
+        });
+      }
+    }
   });
 
   test("retains only three-day GitHub Actions artifacts", () => {

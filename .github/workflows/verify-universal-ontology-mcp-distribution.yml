@@ -202,7 +202,7 @@ jobs:
           archive_root="universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}-${{ matrix.targetName }}"
           archive_path="dist/releases/${archive_root}.tar.gz"
           extraction_path="${RUNNER_TEMP}/universal-ontology-mcp-server"
-          mkdir --parents "${extraction_path}"
+          mkdir -p "${extraction_path}"
           tar --extract --gzip --file "${archive_path}" --directory "${extraction_path}"
           runtime_path="${extraction_path}/${archive_root}/runtime/bin/node"
           application_path="${extraction_path}/${archive_root}/app/universal-ontology-mcp-server.mjs"
@@ -382,7 +382,7 @@ jobs:
       - name: Generate independent npm and deterministic SPDX documents
         shell: bash
         run: |
-          mkdir --parents dist/release-work
+          mkdir -p dist/release-work
           npm sbom --workspace universal-ontology-mcp-server --sbom-format spdx --sbom-type application > dist/release-work/npm-workspace.spdx.json
           npm run mcp:sbom:create
 
