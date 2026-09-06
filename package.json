@@ -8,6 +8,7 @@
   "type": "module",
   "scripts": {
     "setup:development": "node scripts/setUpDevelopmentEnvironment.js",
+    "configure:git-hooks": "node scripts/configureGitHooks.js",
     "prebuild": "npm run fix:all",
     "build": "vite build",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",

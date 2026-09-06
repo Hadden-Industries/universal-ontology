@@ -4,22 +4,42 @@
 
 ### Development setup
 
-Install Node.js 24 or later and the npm version declared by `packageManager` in
-`package.json`. Python 3.11 or later is also required: an existing `.venv` is
-reused, or setup creates one using `python` on Windows and `python3` on macOS/Linux.
+Install Git 2.46 or later, Node.js 24 or later, and the npm version declared by
+`packageManager` in `package.json`. Python 3.11 or later is also required. An
+existing `.venv` is reused, or setup creates one using `python` on Windows and
+`python3` on macOS/Linux.
 The system interpreter must be available on `PATH` when creating `.venv`.
 
 From the repository root, run:
 
 ```sh
 npm run setup:development
+npm run configure:git-hooks
 ```
 
-This installs npm dependencies with `npm ci --include=dev`, which replaces
-`node_modules` using the existing lockfile. It also upgrades pip and installs
-`requirements.txt` inside `.venv`. An unusable existing `.venv` causes setup to
+The development setup command installs npm dependencies with
+`npm ci --include=dev`, which replaces `node_modules` using the existing lockfile.
+It also upgrades pip and installs `requirements.txt` inside `.venv`.
+An unusable existing `.venv` causes setup to
 stop so it can be repaired manually. AWS CLI is checked and produces a warning
 if unavailable; it is needed for S3 uploads, and setup does not install it.
+
+The Git hook command sets repository-local `core.hooksPath` to `.githooks`,
+replacing any previous local value. Run it once per clone; it is safe to rerun.
+It verifies the hook exists and leaves staged changes intact. This command runs
+independently of dependency installation.
+
+Once enabled locally, the pre-commit hook runs staged ontology validation using Python
+from `.venv`. A missing interpreter blocks the commit with setup instructions;
+validation failures also block the commit. The hook uses `.venv/Scripts/python.exe`
+on Windows or `.venv/bin/python` on macOS/Linux.
+
+On GitHub, [the ontology validation workflow](.github/workflows/ontology-validation.yml)
+runs on pushes and pull requests. It provisions Python and dependencies on the
+runner, then calls the same `scripts/validate_ontologies.py` directly with
+`--diff-base` and `--diff-head` to select the commit range. It does not invoke
+the local pre-commit hook or require its `.venv`. Pushing commits to GitHub does
+not itself run the pre-commit hook.
 
 Portions of this software or document may use, include material copied from, or derive from the following standard vocabularies and ontologies:
 

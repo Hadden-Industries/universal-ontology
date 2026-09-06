@@ -1,41 +1,21 @@
 #!/bin/sh
-# Enforce strict execution context: fail on error, fail on unbound variable.
 set -eu
-set -o pipefail 2>/dev/null || true
 
-readonly VALIDATOR_SCRIPT="scripts/validate_ontologies.py"
+readonly ONTOLOGY_VALIDATOR_PATH="scripts/validate_ontologies.py"
 
-# 1. Dynamic Interpreter Resolution
-resolve_python_executable() {
-    # Check for Windows virtual environment binary
-    if [ -x ".venv/Scripts/python.exe" ]; then
-        echo ".venv/Scripts/python.exe"
-    # Check for POSIX virtual environment binary
-    elif [ -x ".venv/bin/python" ]; then
-        echo ".venv/bin/python"
-    # Fallback to globally available executable
-    elif command -v python3 >/dev/null 2>&1; then
-        echo "python3"
-    elif command -v python >/dev/null 2>&1; then
-        echo "python"
-    else
-        printf "CRITICAL_FAILURE: Python runtime not detected in standard paths or local .venv.\n" >&2
-        exit 1
-    fi
-}
+if [ ! -f "${ONTOLOGY_VALIDATOR_PATH}" ]; then
+    printf 'Ontology validation script is missing: %s\n' "${ONTOLOGY_VALIDATOR_PATH}" >&2
+    exit 1
+fi
 
-readonly TEST_EXECUTABLE=$(resolve_python_executable)
+if [ -x ".venv/Scripts/python.exe" ]; then
+    PYTHON_EXECUTABLE_PATH=".venv/Scripts/python.exe"
+elif [ -x ".venv/bin/python" ]; then
+    PYTHON_EXECUTABLE_PATH=".venv/bin/python"
+else
+    printf '%s\n' 'A Python interpreter is required in .venv. Run npm run setup:development before committing.' >&2
+    exit 1
+fi
+readonly PYTHON_EXECUTABLE_PATH
 
-validate_prerequisites() {
-    if [ ! -f "${VALIDATOR_SCRIPT}" ]; then
-        printf "CRITICAL_FAILURE: Validation runner script missing at path: %s\n" "${VALIDATOR_SCRIPT}" >&2
-        exit 1
-    fi
-}
-
-main() {
-    validate_prerequisites
-    exec "${TEST_EXECUTABLE}" "${VALIDATOR_SCRIPT}" --staged --python-exec "${TEST_EXECUTABLE}"
-}
-
-main "$@"
+exec "${PYTHON_EXECUTABLE_PATH}" "${ONTOLOGY_VALIDATOR_PATH}" --staged --python-exec "${PYTHON_EXECUTABLE_PATH}"
