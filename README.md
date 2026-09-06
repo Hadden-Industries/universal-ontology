@@ -2,6 +2,25 @@
 
 **Set of concepts and categories, applicable to almost all domains, that shows their properties and the relations between them**
 
+### Development setup
+
+Install Node.js 24 or later and the npm version declared by `packageManager` in
+`package.json`. Python 3.11 or later is also required: an existing `.venv` is
+reused, or setup creates one using `python` on Windows and `python3` on macOS/Linux.
+The system interpreter must be available on `PATH` when creating `.venv`.
+
+From the repository root, run:
+
+```sh
+npm run setup:development
+```
+
+This installs npm dependencies with `npm ci --include=dev`, which replaces
+`node_modules` using the existing lockfile. It also upgrades pip and installs
+`requirements.txt` inside `.venv`. An unusable existing `.venv` causes setup to
+stop so it can be repaired manually. AWS CLI is checked and produces a warning
+if unavailable; it is needed for S3 uploads, and setup does not install it.
+
 Portions of this software or document may use, include material copied from, or derive from the following standard vocabularies and ontologies:
 
 - **[Dublin Core Metadata Initiative (DCMI) Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)**: Copyright © [Dublin Core Metadata Initiative](https://dublincore.org/). Licensed under the [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) license.
