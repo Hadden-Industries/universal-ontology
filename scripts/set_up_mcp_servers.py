@@ -1225,7 +1225,6 @@ def universal_ontology_mcp_host_configuration_entry(
                     UNIVERSAL_ONTOLOGY_MCP_STARTUP_TIMEOUT_SECONDS
                 ),
                 "tool_timeout_sec": UNIVERSAL_ONTOLOGY_MCP_TOOL_TIMEOUT_SECONDS,
-                "required": True,
                 "enabled_tools": list(
                     UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES
                 ),
