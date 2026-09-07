@@ -407,6 +407,7 @@ describe("Universal Ontology MCP release verifier", () => {
           container: parsedWorkflow.jobs.container,
           archive: parsedWorkflow.jobs.archive,
           validate: parsedWorkflow.jobs.validate,
+          scope: parsedWorkflow.jobs.scope,
         };
         for (const jobName of ["archive", "assemble"]) {
           const uploadStep = parsedWorkflow.jobs[jobName].steps.find(
@@ -434,7 +435,43 @@ describe("Universal Ontology MCP release verifier", () => {
         distributionWorkflowPath,
         releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
       }),
-    ).resolves.toEqual({ verifiedJobCount: 4 });
+    ).resolves.toEqual({ verifiedJobCount: 5 });
+  });
+
+  test.each([
+    [
+      "write permission in the scope job",
+      (workflow) => {
+        workflow.jobs.scope.permissions.contents = "write";
+      },
+    ],
+    [
+      "an archive job without the scope dependency",
+      (workflow) => {
+        workflow.jobs.archive.needs = ["validate"];
+      },
+    ],
+    [
+      "an unconditional archive job",
+      (workflow) => {
+        delete workflow.jobs.archive.if;
+      },
+    ],
+  ])("rejects %s", async (caseName, mutateWorkflow) => {
+    const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
+      caseName.replaceAll(" ", "-"),
+      (workflowText) => {
+        const workflow = parseYaml(workflowText);
+        mutateWorkflow(workflow);
+        return stringifyYaml(workflow);
+      },
+    );
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        distributionWorkflowPath,
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).rejects.toThrow(/workflow.*(?:policy|manifest)/iu);
   });
 
   test("does not decode an allowlisted opaque runtime executable as text", async () => {

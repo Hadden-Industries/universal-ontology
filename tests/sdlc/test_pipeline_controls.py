@@ -308,7 +308,11 @@ class LocalVerificationControlTests(unittest.TestCase):
         shell = ['powershell', '-NoProfile', '-Command'] if os.name == 'nt' else ['sh', '-c']
         result = subprocess.run([*shell, command],cwd=self.repo/'scripts',input='{}',text=True,capture_output=True)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(json.loads(result.stdout), {'cwd': str(self.repo), 'args': ['scripts/sdlc_stop_gate.py']})
+        payload = json.loads(result.stdout)
+        self.assertEqual(set(payload), {'cwd', 'args'})
+        self.assertTrue(Path(payload['cwd']).is_absolute())
+        self.assertTrue(Path(payload['cwd']).samefile(self.repo))
+        self.assertEqual(payload['args'], ['scripts/sdlc_stop_gate.py'])
 
     def test_unknown_end_command_does_not_execute_a_transition(self):
         result = subprocess.run([sys.executable, str(self.repo / 'scripts/sdlc.py'), 'end'],
@@ -418,6 +422,9 @@ class SkillMetadataTests(unittest.TestCase):
         import yaml
         with tempfile.TemporaryDirectory() as temporary:
             repo = Path(temporary)
+            (repo / 'existing-directory').mkdir()
+            repo = repo / 'existing-directory' / '..'
+            self.assertNotEqual(repo, repo.resolve())
             subprocess.run(['git', 'init', '-q', str(repo)], check=True)
             (repo / '.gitignore').write_text('.agents/skills/\n.claude/skills/\n')
             local_source = repo / '.sdlc/skills/example'

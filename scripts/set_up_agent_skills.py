@@ -598,6 +598,7 @@ def configure_skill_invocation_policies(
     skill_names: set[str],
     agents: tuple[str, ...],
 ) -> tuple[Path, ...]:
+    repo = repo.resolve()
     default, overrides = load_skill_policy(repo)
     unknown = set(overrides) - skill_names
     if unknown:
@@ -622,6 +623,7 @@ def configure_skill_invocation_policies(
 
 def install_local_skills(repo: Path, local_skills: dict[str, Path], agents: tuple[str, ...]) -> None:
     """Publish only declared local skill files, preserving unrelated skills."""
+    repo = repo.resolve()
     documents = []
     for root in selected_roots(repo, agents):
         for name, source in sorted(local_skills.items()):

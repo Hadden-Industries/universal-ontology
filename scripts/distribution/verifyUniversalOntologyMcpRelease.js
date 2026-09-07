@@ -46,40 +46,19 @@ const MAXIMUM_RELEASE_ASSET_BYTE_SIZE = 268_435_456;
 const MAXIMUM_METADATA_BYTE_SIZE = 16_777_216;
 const STREAM_SCAN_TAIL_CHARACTER_COUNT = 512;
 const SPDX_DOCUMENT_ID = "SPDXRef-DOCUMENT";
-const EXPECTED_DISTRIBUTION_WORKFLOW_PATH_FILTERS = Object.freeze([
-  ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
-  "README.md",
-  "docs/mcp/**",
-  "docs/plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md",
-  "package.json",
-  "package-lock.json",
-  "packages/universal-ontology-mcp-server/**",
-  "scripts/build/createOntologyQueryArtifacts.js",
-  "scripts/build/ontologyAssets.js",
-  "scripts/distribution/**",
-  "scripts/generateOntologyQueryIndexes.js",
-  "scripts/runUniversalOntologyMcpStdioServer.js",
-  "scripts/stageOntologyQueryArtifactChannel.js",
-  "server.json",
-  "src/mcp/**",
-  "src/ontology.js",
-  "src/ontologyQuery/**",
-  "tests/distribution/**",
-  "tests/mcp/**",
-  "tests/ontology-query/**",
-  "tests/webmcp/ontology-entity-definition-resolver.test.js",
-]);
 const EXPECTED_WORKFLOW_JOB_PERMISSIONS = Object.freeze({
+  scope: { contents: "read" },
   validate: { contents: "read" },
   archive: { contents: "read" },
   container: { contents: "read" },
   assemble: { contents: "read" },
 });
 const EXPECTED_WORKFLOW_JOB_DEPENDENCIES = Object.freeze({
-  validate: [],
-  archive: ["validate"],
-  container: ["validate"],
-  assemble: ["archive", "container", "validate"],
+  scope: [],
+  validate: ["scope"],
+  archive: ["scope", "validate"],
+  container: ["scope", "validate"],
+  assemble: ["archive", "container", "scope", "validate"],
 });
 const ACTIVE_DISTRIBUTION_WORKFLOW_ACTION_NAMES = Object.freeze([
   "actions/checkout",
@@ -107,7 +86,7 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "216e4ea49904cfb54cea0955f2aba4f90fa6122fb1c42ebdca0fdf8f909aa37c";
+  "00a97e2d849dfb1e0aa254133fd75dca326b206879e6f4fb4f42a16a1b99da75";
 
 const FORBIDDEN_ARCHIVE_CONTENT_MARKERS = Object.freeze([
   "A natural or legal person recognised by law.",
@@ -300,13 +279,9 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
   requireExactJsonValue(
     workflow.on,
     {
-      pull_request: {
-        paths: EXPECTED_DISTRIBUTION_WORKFLOW_PATH_FILTERS,
-      },
-      push: {
-        branches: ["**"],
-        paths: EXPECTED_DISTRIBUTION_WORKFLOW_PATH_FILTERS,
-      },
+      push: { branches: ["main"] },
+      pull_request: null,
+      workflow_dispatch: null,
     },
     "branch and pull-request triggers",
   );
@@ -323,7 +298,7 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
   requireExactJsonValue(
     Object.keys(workflow.jobs).sort(compareBinaryText),
     [...expectedJobNames].sort(compareBinaryText),
-    "four-job topology",
+    "five-job topology",
   );
   const allowedActionCommits = new Map(
     releaseInputs.githubActions.map(({ actionName, commitSha }) => [
@@ -365,8 +340,23 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
     const npmBootstrapIndex = job.steps.findIndex(
       ({ name }) => name === "Select exact npm CLI",
     );
-    if (
-      setupNodeIndex < 0 ||
+    if (setupNodeIndex < 0) {
+      throw new Error(
+        `Distribution workflow job ${jobName} omits Node.js setup.`,
+      );
+    }
+    if (jobName === "scope") {
+      requireExactJsonValue(
+        job.steps[setupNodeIndex].with,
+        { "node-version-file": ".node-version" },
+        "scope Node.js version-file selection",
+      );
+      if (npmBootstrapIndex !== -1) {
+        throw new Error(
+          "Distribution scope job must select checks without installing npm.",
+        );
+      }
+    } else if (
       serializeCanonicalJsonValue(job.steps[setupNodeIndex].with) !==
         serializeCanonicalJsonValue({
           "node-version": releaseInputs.nodeRuntime.version,
@@ -385,7 +375,7 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
         stepIndex !== npmBootstrapIndex &&
         typeof step.run === "string" &&
         /(^|\s)npm(?:\s|$)/mu.test(step.run) &&
-        stepIndex < npmBootstrapIndex
+        (npmBootstrapIndex < 0 || stepIndex < npmBootstrapIndex)
       ) {
         throw new Error(
           `Distribution workflow job ${jobName} invokes npm before its exact bootstrap.`,
