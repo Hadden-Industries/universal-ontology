@@ -40,7 +40,9 @@ export function configureGitHooks({
   }
 
   const workingTreeRoot = runGit(["rev-parse", "--show-toplevel"]);
-  if (realpathSync(workingTreeRoot) !== realpathSync(repositoryRoot)) {
+  if (
+    realpathSync.native(workingTreeRoot) !== realpathSync.native(repositoryRoot)
+  ) {
     throw new Error(
       `Expected the Git working tree root to be ${repositoryRoot}; found ${workingTreeRoot}.`,
     );
