@@ -1,0 +1,22 @@
+{
+  "adaptationVersion": "1.0.0",
+  "status": "pre-release; not deployed; behavioural evaluation pending",
+  "retrievedOn": "2026-09-07",
+  "upstreamRepository": "https://github.com/obra/superpowers",
+  "upstreamCommit": "b36e0829c6d0140e93cfef2ca599b1b07d4a7797",
+  "license": "MIT",
+  "files": {
+    "SKILL.md": {
+      "upstreamPath": "skills/test-driven-development/SKILL.md",
+      "gitBlob": "4320d8879a639d0536c2239bb80c9d7257ad8947",
+      "sha256": "bf1b8216e523851a411e91d429a7c1c2a173e79d88957bc78e348218d50edd54",
+      "bytes": 9015
+    },
+    "writing-good-tests.md": {
+      "upstreamPath": "skills/test-driven-development/writing-good-tests.md",
+      "gitBlob": "d3c4482fd30b4f9084bb61545fe73939a7502c28",
+      "sha256": "51471c853306ff92ca8bb41dcaea05f31c0e46b03651f8f3c99754b7172f4ae1",
+      "bytes": 8268
+    }
+  }
+}

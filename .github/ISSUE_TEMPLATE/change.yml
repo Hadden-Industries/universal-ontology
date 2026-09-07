@@ -1,0 +1,62 @@
+name: Change or capability
+description: Capture accepted intent, outcome and constraints without unnecessary planning ceremony.
+title: "[Change]: "
+labels: ["sdlc:change", "state:draft"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        R0/R1 may use the existing task/PR instead. This form does not require an architectural plan.
+        Semantic naming is mandatory. No compatibility shim without a specific prior override.
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Problem, affected party and desired outcome
+      description: Distinguish observations, claims and hypotheses. Include the higher-level objective and guardrails.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Accepted behaviour and prohibited effects
+      description: Describe observable criteria, non-goals and authoritative input contracts. Use stable AC IDs for R2/R3.
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints, evidence and owners
+      description: Include semantic terminology, compatibility obligations, known reusable/native capabilities and who may accept decisions.
+    validations:
+      required: false
+  - type: checkboxes
+    id: risk
+    attributes:
+      label: Material risk signals
+      options:
+        - label: Auth, tenant isolation, sensitive data, trust boundary or privileged input handling
+        - label: Persistent data, migration, public contract, concurrency or difficult recovery
+        - label: Material legal, financial, safety or critical-infrastructure obligation
+  - type: textarea
+    id: decisions
+    attributes:
+      label: Open decisions and justified exceptions
+      description: Name material uncertainties. Any shim request needs scope, reason, owner, actual approval and removal/reassessment trigger.
+    validations:
+      required: false
+  - type: dropdown
+    id: new-functionality
+    attributes:
+      label: Does this introduce new functionality?
+      options:
+        - "Yes — deep reuse research is required before design/implementation"
+        - "No — maintenance only; justify any reused assessment"
+    validations:
+      required: true
+  - type: textarea
+    id: software-selection
+    attributes:
+      label: Software-selection research and adoption restrictions
+      description: At intake this may be pending. Before implementation, link completed primary-source research covering alternatives, latest stable/LTS, supported APIs, licences/riders/terms, constraints and residual custom gaps. Do not fabricate clearance.
+    validations:
+      required: false

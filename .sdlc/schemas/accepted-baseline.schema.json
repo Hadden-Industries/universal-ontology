@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Hadden-Industries/universal-ontology/main/.sdlc/schemas/accepted-baseline.schema.json",
+  "title": "Accepted GitHub Issue baseline",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "repository", "capturedAt", "acceptedAt", "acceptedBy", "version", "issue"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schemaVersion": {"const": 1},
+    "repository": {"type": "string", "pattern": "^[^/]+/[^/]+$"},
+    "capturedAt": {"type": "string", "format": "date-time"},
+    "acceptedAt": {"type": "string", "format": "date-time"},
+    "acceptedBy": {"type": "string", "minLength": 1},
+    "version": {"type": "integer", "minimum": 1},
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["number", "title", "url", "labels", "body", "bodySha256"],
+      "properties": {
+        "number": {"type": "integer", "minimum": 1},
+        "title": {"type": "string"},
+        "url": {"type": "string", "format": "uri"},
+        "author": {"type": ["string", "null"]},
+        "createdAt": {"type": ["string", "null"], "format": "date-time"},
+        "updatedAt": {"type": ["string", "null"], "format": "date-time"},
+        "labels": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "body": {"type": "string"},
+        "bodySha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

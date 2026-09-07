@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node --input-type=module --eval 'import { execFileSync } from \"node:child_process\";import { resolve } from \"node:path\";import { pathToFileURL } from \"node:url\";const repositoryRootPath = execFileSync(\"git\",[\"rev-parse\",\"--show-toplevel\"],{encoding:\"utf8\",windowsHide:true}).replace(/\\r?\\n$/u,\"\");const [repositoryRelativeEntryPointPath,...entryPointArguments]=process.argv.slice(1);const entryPointPath=resolve(repositoryRootPath,repositoryRelativeEntryPointPath);process.chdir(repositoryRootPath);process.argv=[process.execPath,entryPointPath,...entryPointArguments];await import(pathToFileURL(entryPointPath).href);' -- scripts/runRepositoryPython.js scripts/sdlc_stop_gate.py",
+            "commandWindows": "$sdlcRepositoryRoot = & git rev-parse --show-toplevel; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; Set-Location -LiteralPath $sdlcRepositoryRoot -ErrorAction Stop; & node (Join-Path $sdlcRepositoryRoot 'scripts/runRepositoryPython.js') 'scripts/sdlc_stop_gate.py'; exit $LASTEXITCODE",
+            "timeout": 30,
+            "statusMessage": "Checking current SDLC verification evidence"
+          }
+        ]
+      }
+    ]
+  }
+}

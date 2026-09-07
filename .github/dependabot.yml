@@ -1,0 +1,24 @@
+# Native update proposals; latest-first selection does not mean automatic approval.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: daily
+    cooldown:
+      default-days: 0
+    open-pull-requests-limit: 10
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: daily
+    cooldown:
+      default-days: 0
+    open-pull-requests-limit: 10
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+    cooldown:
+      default-days: 0
+    open-pull-requests-limit: 10

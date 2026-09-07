@@ -1,0 +1,21 @@
+# Teams must be visible and have explicit repository write access.
+# This declaration does not grant access or enable required code-owner reviews.
+/AGENTS.md @Hadden-Industries/engineering-governance
+/REVIEW.md @Hadden-Industries/engineering-governance
+/.codex/ @Hadden-Industries/engineering-governance
+/.sdlc/ @Hadden-Industries/engineering-governance
+/scripts/ @Hadden-Industries/engineering-governance
+/docs/sdlc/ @Hadden-Industries/engineering-governance
+/.github/ @Hadden-Industries/engineering-governance
+/package.json @Hadden-Industries/engineering-governance
+/package-lock.json @Hadden-Industries/engineering-governance
+/skills-lock.json @Hadden-Industries/engineering-governance
+/requirements*.txt @Hadden-Industries/engineering-governance
+/.node-version @Hadden-Industries/engineering-governance
+/.python-version @Hadden-Industries/engineering-governance
+/.gitignore @Hadden-Industries/engineering-governance
+/SECURITY.md @Hadden-Industries/security
+/.sdlc/dcg/ @Hadden-Industries/engineering-governance @Hadden-Industries/security
+/docs/sdlc/command-safety.md @Hadden-Industries/engineering-governance @Hadden-Industries/security
+/docs/sdlc/codex-security.md @Hadden-Industries/engineering-governance @Hadden-Industries/security
+/docs/sdlc/dcg-acceptance.md @Hadden-Industries/engineering-governance @Hadden-Industries/security

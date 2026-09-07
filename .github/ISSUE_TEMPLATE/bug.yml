@@ -1,0 +1,90 @@
+name: Defect / observed failure
+description: Capture an observable discrepancy suitable for evidence-led diagnosis.
+title: "[Bug]: "
+labels:
+  - "sdlc:bug"
+  - "state:draft"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Diagnosis begins by enclosing the exact observed symptom in a reliable red-capable feedback loop. Do not guess the cause in this form.
+
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behaviour
+      description: State exactly what happened, including output/error and timing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour and authoritative source
+      description: State what should happen and identify the requirement, documentation, prior behaviour, contract, or accountable decision supporting it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Minimal steps, input, fixture, command, request, or trace that triggers the symptom. State frequency if intermittent.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Logs, screenshots, traces, failing tests, identifiers, timestamps, or sanitised data. Do not include secrets or personal data unnecessarily.
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and version
+      description: Commit/release, operating system, runtime, browser/device, configuration, deployment region, and relevant dependencies.
+    validations:
+      required: true
+
+  - type: textarea
+    id: known_good
+    attributes:
+      label: Known-good comparison
+      description: Last known-good version, environment, input, or execution path, if any.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - Cosmetic or negligible
+        - Bounded inconvenience/workaround available
+        - Material feature degradation or data risk
+        - Severe outage, security/privacy, financial, legal, or safety risk
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: risk_signals
+    attributes:
+      label: Elevated-risk signals
+      options:
+        - label: Data corruption, loss, migration, retention, or reconciliation
+        - label: Authentication, authorisation, privacy, sensitive data, or exploitability
+        - label: Public contract, cross-system, concurrency, or idempotency
+        - label: Material availability/performance or difficult recovery
+        - label: Financial, legal, regulatory, safety, or critical-infrastructure consequence
+
+  - type: checkboxes
+    id: attestation
+    attributes:
+      label: Submission attestation
+      options:
+        - label: I have described the observed symptom separately from my causal hypothesis.
+          required: true

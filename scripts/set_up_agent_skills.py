@@ -29,8 +29,8 @@ hardcoded list of install commands.
 
 Default targets: codex, antigravity, claude-code.
 
-Rerunning this script is the update operation. It explicitly re-adds each
-declared skill from its recorded source using `skills@latest`. Skills sharing a
+Without --local-only, this script requires reviewed immutable remote refs and re-adds each
+declared skill from its recorded source using the locked project-local Skills CLI. Skills sharing a
 source are re-added in a single invocation, because `skills add` clones the whole
 source repository once per call.
 
@@ -50,6 +50,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -60,7 +61,16 @@ from urllib.parse import urlsplit, urlunsplit
 
 from _commands import SetupError, require_command, run
 from _repository import derive_repo_from_script, is_ignored, tracked_paths_under
+from set_up_mcp_servers import (
+    RenderedRepositoryConfigurationDocument,
+    ensure_repository_configuration_destinations_are_safe,
+    publish_repository_configuration_documents,
+)
 
+LOCAL_SKILL_SOURCE_ROOT = Path(".sdlc") / "skills"
+SKILL_POLICY_PATH = Path(".sdlc") / "skill-policies.json"
+SUPPORTED_SKILL_POLICY_VERSION = 1
+FULL_GIT_SHA = re.compile(r"^[0-9a-fA-F]{40}$")
 LOCK_FILENAME = "skills-lock.json"
 SUPPORTED_LOCK_VERSION = 1
 
@@ -118,9 +128,9 @@ def lf_git_environment() -> dict[str, str]:
 
 
 def require_python_version() -> None:
-    if sys.version_info < (3, 10):
+    if sys.version_info < (3, 14):
         raise SetupError(
-            "Python 3.10 or newer is required. "
+            "Python 3.14 or newer is required; use the selected latest stable patch in .python-version. "
             f"Running: {sys.version.split()[0]}"
         )
 
@@ -132,7 +142,7 @@ def load_lock(repo: Path) -> tuple[Path, dict[str, Any], bytes]:
         raise SetupError(
             f"Missing {LOCK_FILENAME} at repository root: {lock_path}\n"
             "Create it by adding desired project skills with "
-            "`npx skills@latest add ...`, then commit it."
+            "`npm exec --no -- skills add ...`, then commit it."
         )
 
     raw = lock_path.read_bytes()
@@ -206,7 +216,14 @@ def selected_roots(repo: Path, agents: tuple[str, ...]) -> tuple[Path, ...]:
     roots: list[Path] = []
 
     for agent in agents:
-        root = (repo / AGENT_SKILL_ROOTS[agent]).resolve(strict=False)
+        root = repo / AGENT_SKILL_ROOTS[agent]
+        for component in (root, root.parent):
+            is_junction = component.is_junction
+            if component.is_symlink() or is_junction():
+                raise SetupError(
+                    f"Generated activation roots must not redirect through links: {component}"
+                )
+        root = root.resolve(strict=False)
         if root not in roots:
             roots.append(root)
 
@@ -245,35 +262,8 @@ def ensure_generated_roots_are_safe(repo: Path, roots: tuple[Path, ...]) -> None
             )
 
 
-def remove_generated_root(repo: Path, root: Path) -> None:
-    root = root.resolve(strict=False)
-
-    try:
-        root.relative_to(repo)
-    except ValueError as exc:
-        raise SetupError(
-            f"Refusing to remove path outside repository: {root}"
-        ) from exc
-
-    if root.is_symlink():
-        root.unlink()
-        return
-
-    is_junction = getattr(root, "is_junction", None)
-    if is_junction and is_junction():
-        os.rmdir(root)
-        return
-
-    if root.exists():
-        shutil.rmtree(root)
 
 
-def reset_generated_roots(repo: Path, roots: tuple[Path, ...]) -> None:
-    print("\n== Reset generated Agent Skill activation roots ==")
-
-    for root in roots:
-        print(f"Resetting {root.relative_to(repo)}")
-        remove_generated_root(repo, root)
 
 
 def is_bare_shorthand(source: str) -> bool:
@@ -286,30 +276,55 @@ def is_bare_shorthand(source: str) -> bool:
 
 def get_install_source(entry: dict[str, Any]) -> str:
     """
-    Reconstruct a safe source argument from the standard lock entry.
+    Bind a canonical Git repository to the lock's single immutable revision.
 
     The explicit --skill filter keeps updates name-scoped, so skillPath does not
-    need to be appended here.
+    need to be appended here. This accepts repository-root lock representations,
+    not the CLI's interactive tree, archive, alias or embedded-ref syntax.
+    Skills CLI remains responsible for fetching and installing that source.
     """
     source_type = entry["sourceType"]
-    source_url = entry.get("sourceUrl")
     source = entry["source"]
-
-    if source_url:
-        install_source = source_url
-    else:
-        if source_type in {"git", "gitlab"} and is_bare_shorthand(source):
-            raise SetupError(
-                "Cannot safely reconstruct generic Git/GitLab source "
-                f"{source!r}: the lock entry has no sourceUrl."
-            )
-        install_source = source
+    candidate = entry.get("sourceUrl") or source
+    if source_type == "local":
+        if candidate != source or not (
+            Path(source).is_absolute() or source in {".", ".."}
+            or source.startswith(("./", "../"))
+        ):
+            raise SetupError("Local skill source must be an explicit filesystem path, not a remote source or shorthand.")
+        return candidate
 
     ref = entry.get("ref")
-    if ref and "#" not in install_source:
-        install_source = f"{install_source}#{ref}"
+    if not isinstance(ref, str) or FULL_GIT_SHA.fullmatch(ref) is None:
+        raise SetupError("Remote Agent Skills require a reviewed full Git commit SHA in ref.")
+    if source_type not in {"github", "gitlab", "git"}:
+        raise SetupError(f"Source type {source_type!r} cannot be pinned to a Git commit.")
 
-    return install_source
+    clone_url, _ = clone_url_for_entry(entry, Path.cwd())
+    canonical_sources = {clone_url, clone_url.removesuffix(".git")}
+    if clone_url.startswith("https://github.com/"):
+        canonical_sources.add(clone_url.removeprefix("https://github.com/").removesuffix(".git"))
+    if candidate not in canonical_sources:
+        raise SetupError("Remote skill source must be a canonical repository root; put its revision only in ref.")
+
+    # Restrict lock inputs to unambiguous clone endpoints shared by the native
+    # Skills consumer and the existing Git _shared-resource checkout. In
+    # particular, appending #SHA to a tree/download URL does not pin that URL.
+    if any(char.isspace() or ord(char) < 32 or char in "?#%\\" for char in clone_url):
+        raise SetupError("Remote skill source must be an unescaped canonical Git clone URL.")
+    parsed = urlsplit(clone_url if not clone_url.startswith("git@") else "ssh://" + clone_url.replace(":", "/", 1))
+    configured_github_host = urlsplit("https://" + os.environ.get("GH_HOST", "").strip()).hostname
+    path_parts = parsed.path.removeprefix("/").split("/")
+    if (parsed.scheme not in {"http", "https", "ssh"} or not parsed.hostname
+            or not parsed.path.endswith(".git")
+            or any(part in {"", ".", "..", "-"} for part in path_parts)
+            or parsed.hostname in {"raw.githubusercontent.com", "codeload.github.com", "objects.githubusercontent.com"}
+            or (parsed.hostname in {"github.com", configured_github_host}
+                and len(path_parts) != 2)
+            or any(host + "/" in clone_url and parsed.hostname != host for host in ("github.com", "gitlab.com"))):
+        raise SetupError("Remote skill source must be a canonical Git clone endpoint, without tree or download selectors.")
+
+    return f"{clone_url}#{ref}"
 
 
 def group_skills_by_install_source(
@@ -337,12 +352,16 @@ def group_skills_by_install_source(
 
 def sync_source(
     repo: Path,
-    npx: str,
     source: str,
     skill_names: tuple[str, ...],
     agents: tuple[str, ...],
 ) -> None:
-    command: list[str] = [npx, "--yes", "skills@latest", "add", source]
+    cli_manifest = repo / "node_modules" / "skills" / "package.json"
+    if not cli_manifest.is_file():
+        raise SetupError("Install the locked Skills CLI before external skill setup.")
+    manifest = json.loads(cli_manifest.read_text(encoding="utf-8"))
+    cli_entry = cli_manifest.parent / manifest["bin"]["skills"]
+    command: list[str] = [require_command("node"), str(cli_entry), "add", source]
 
     for skill_name in skill_names:
         command.extend(("--skill", skill_name))
@@ -350,7 +369,6 @@ def sync_source(
     for agent in agents:
         command.extend(("--agent", agent))
 
-    # This --yes belongs to the skills CLI; the earlier one belongs to npx.
     command.append("--yes")
 
     run(command, cwd=repo, env=lf_git_environment())
@@ -371,7 +389,7 @@ def verify_skill_present(
     if missing:
         rendered = "\n".join(f"  - {path}" for path in missing)
         raise SetupError(
-            f"`npx skills` did not materialize {skill_name!r} in all expected "
+            f"The pinned Skills CLI did not materialize {skill_name!r} in all expected "
             f"roots:\n{rendered}"
         )
 
@@ -476,6 +494,150 @@ def configure_brooks_review_invocation_policy(
         configured.append(metadata)
 
     return tuple(configured)
+
+
+def validate_locked_skill_sources(
+    skills: dict[str, dict[str, Any]],
+) -> None:
+    """Preflight every effective remote source before any installer can run."""
+    invalid_sources: list[str] = []
+
+    for skill_name, entry in sorted(skills.items()):
+        try:
+            get_install_source(entry)
+        except SetupError as exc:
+            invalid_sources.append(f"{skill_name}: {exc}")
+
+    if invalid_sources:
+        rendered = "\n".join(f"  - {item}" for item in invalid_sources)
+        raise SetupError(
+            "Remote Agent Skills must be frozen to reviewed full Git commit "
+            f"SHAs before normal setup:\n{rendered}\n\n"
+            "Resolve each upstream once with `git ls-remote`, add it through "
+            "the project-local Skills CLI using `#<full-sha>`, review the resulting lock and "
+            "skill diff, then obtain the required configuration and commit approvals."
+        )
+
+
+def discover_local_skills(repo: Path) -> dict[str, Path]:
+    """Discover repository-local skill sources without introducing another manifest."""
+    root = repo / LOCAL_SKILL_SOURCE_ROOT
+    if not root.exists():
+        return {}
+    if not root.is_dir() or root.is_symlink() or root.is_junction():
+        raise SetupError(f"Local skill source root must be a real directory: {root}")
+
+    discovered: dict[str, Path] = {}
+    for child in sorted(root.iterdir(), key=lambda item: item.name):
+        if not child.is_dir() or child.is_symlink() or child.is_junction():
+            continue
+        skill_md = child / "SKILL.md"
+        if not skill_md.is_file() or skill_md.is_symlink():
+            continue
+        if not child.name.strip():
+            raise SetupError(f"Invalid empty local skill directory name: {child}")
+        discovered[child.name] = child.resolve()
+    return discovered
+
+
+def load_skill_policy(repo: Path) -> tuple[bool, dict[str, bool]]:
+    path = repo / SKILL_POLICY_PATH
+    if not path.is_file():
+        return False, {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SetupError(f"{SKILL_POLICY_PATH} is not valid JSON.") from exc
+
+    if not isinstance(data, dict) or data.get("version") != SUPPORTED_SKILL_POLICY_VERSION:
+        raise SetupError(
+            f"{SKILL_POLICY_PATH} must be a version "
+            f"{SUPPORTED_SKILL_POLICY_VERSION} JSON object."
+        )
+    default = data.get("defaultAllowImplicitInvocation", False)
+    overrides = data.get("overrides", {})
+    if not isinstance(default, bool) or not isinstance(overrides, dict):
+        raise SetupError(f"Invalid invocation policy in {SKILL_POLICY_PATH}.")
+    if not all(isinstance(k, str) and isinstance(v, bool) for k, v in overrides.items()):
+        raise SetupError(f"Every {SKILL_POLICY_PATH} override must map a skill name to a boolean.")
+    return default, overrides
+
+
+def humanize_skill_name(skill_name: str) -> str:
+    return " ".join(part.capitalize() for part in skill_name.replace("_", "-").split("-") if part)
+
+
+def set_openai_invocation_policy(metadata: Path, skill_name: str, allowed: bool) -> None:
+    """Modify semantic YAML data through its supported parser, not line substitution."""
+    import yaml
+    if any(p.is_symlink() or p.is_junction() for p in (metadata, *metadata.parents)) or (metadata.exists() and not metadata.is_file()):
+        raise SetupError(f"Expected regular skill metadata file: {metadata}")
+    try:
+        data = yaml.safe_load(metadata.read_text(encoding="utf-8")) if metadata.exists() else {}
+    except yaml.YAMLError as exc:
+        raise SetupError(f"Invalid YAML metadata: {metadata}") from exc
+    if data is None:
+        data = {}
+    if not isinstance(data, dict):
+        raise SetupError(f"Skill metadata must be a mapping: {metadata}")
+    policy = data.setdefault("policy", {})
+    if not isinstance(policy, dict):
+        raise SetupError(f"Skill policy must be a mapping: {metadata}")
+    policy["allow_implicit_invocation"] = allowed
+    data.setdefault("interface", {
+        "display_name": humanize_skill_name(skill_name),
+        "short_description": "Repository-curated Agent Skill",
+        "default_prompt": f"Use ${skill_name} only for the explicit scope I provide.",
+    })
+    metadata.parent.mkdir(parents=True, exist_ok=True)
+    metadata.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8", newline="\n")
+
+
+def configure_skill_invocation_policies(
+    repo: Path,
+    skill_names: set[str],
+    agents: tuple[str, ...],
+) -> tuple[Path, ...]:
+    default, overrides = load_skill_policy(repo)
+    unknown = set(overrides) - skill_names
+    if unknown:
+        raise SetupError(
+            f"{SKILL_POLICY_PATH} names skills that are not installed: "
+            + ", ".join(sorted(unknown))
+        )
+
+    configured: list[Path] = []
+    for skill_name in sorted(skill_names):
+        allowed = overrides.get(skill_name, default)
+        for skill_dir in unique_installed_skill_dirs(repo, skill_name, agents):
+            metadata = skill_dir / "agents" / "openai.yaml"
+            set_openai_invocation_policy(metadata, skill_name, allowed)
+            configured.append(metadata)
+            print(
+                f"  {skill_name}: allow_implicit_invocation={str(allowed).lower()} "
+                f"in {metadata.relative_to(repo)}"
+            )
+    return tuple(configured)
+
+
+def install_local_skills(repo: Path, local_skills: dict[str, Path], agents: tuple[str, ...]) -> None:
+    """Publish only declared local skill files, preserving unrelated skills."""
+    documents = []
+    for root in selected_roots(repo, agents):
+        for name, source in sorted(local_skills.items()):
+            for source_file in sorted(source.rglob("*")):
+                if source_file.is_symlink() or source_file.is_junction():
+                    raise SetupError(f"Local skill resources cannot redirect: {source_file}")
+                if not source_file.is_file():
+                    continue
+                destination = root / name / source_file.relative_to(source)
+                relative = destination.relative_to(repo)
+                ensure_repository_configuration_destinations_are_safe(repo, [relative])
+                observed = destination.read_bytes() if destination.exists() else None
+                contents = source_file.read_text(encoding="utf-8")
+                documents.append(RenderedRepositoryConfigurationDocument(
+                    destination, contents, observed))
+    publish_repository_configuration_documents(repo, documents)
 
 
 def clone_url_for_entry(
@@ -648,7 +810,7 @@ def shared_dir_relative(
         raise SetupError(
             f"Skill {skill_name!r} references `{SHARED_REFERENCE}` but its lock "
             "entry has no `skillPath`. Re-add it with the current "
-            "`skills@latest` CLI to refresh the lock entry."
+            "pinned Skills CLI to refresh the lock entry."
         )
 
     skill_path = PurePosixPath(raw)
@@ -834,19 +996,16 @@ def verify_final_state(
             if child.is_dir() and (child / "SKILL.md").is_file()
         }
 
-        unexpected = discovered - declared_skills
         missing = declared_skills - discovered
 
-        if unexpected or missing:
+        if missing:
             details: list[str] = []
 
             if missing:
                 details.append("missing=" + ", ".join(sorted(missing)))
-            if unexpected:
-                details.append("unexpected=" + ", ".join(sorted(unexpected)))
 
             raise SetupError(
-                f"Generated root {relative_root} does not match "
+                f"Generated root {relative_root} is missing declarations from "
                 f"{LOCK_FILENAME}: {'; '.join(details)}"
             )
 
@@ -861,25 +1020,64 @@ def verify_lock_skill_set_unchanged(repo: Path, expected_skills: set[str]) -> No
 
     if actual != expected_skills:
         raise SetupError(
-            "`npx skills` changed the declared skill set unexpectedly.\n"
+            "The pinned Skills CLI changed the declared skill set unexpectedly.\n"
             f"Before: {', '.join(sorted(expected_skills))}\n"
             f"After:  {', '.join(sorted(actual))}"
         )
 
 
-def ensure_agent_skills(repo: Path, agents: tuple[str, ...]) -> set[str]:
+def preflight_local_skill_activation(repo: Path, agents: tuple[str, ...]) -> dict[str, Path]:
+    """Check local prerequisites before a caller publishes repository configuration."""
+    require_python_version()
+    import yaml
+    _, lock, _ = load_lock(repo)
+    local = discover_local_skills(repo)
+    collisions = set(lock["skills"]) & set(local)
+    if collisions:
+        raise SetupError("Local/external skill declaration collision: " + ", ".join(sorted(collisions)))
+    load_skill_policy(repo)
+    roots = selected_roots(repo, agents)
+    ensure_generated_roots_are_safe(repo, roots)
+    for root in roots:
+        for name, source in local.items():
+            for item in source.rglob("*"):
+                if item.is_symlink() or item.is_junction():
+                    raise SetupError(f"Local skill resources cannot redirect: {item}")
+                if item.is_file():
+                    ensure_repository_configuration_destinations_are_safe(repo, [(root / name / item.relative_to(source)).relative_to(repo)])
+                    if item.name == "openai.yaml":
+                        metadata = yaml.safe_load(item.read_text(encoding="utf-8"))
+                        if not isinstance(metadata, dict) or not isinstance(metadata.get("policy", {}), dict):
+                            raise SetupError(f"Invalid native skill metadata: {item}")
+    return local
+
+
+def ensure_agent_skills(repo: Path, agents: tuple[str, ...], *, local_only: bool = False) -> set[str]:
     """
-    Rebuild every declared skill's activation view from its recorded source.
+    Activate selected local files or reviewed external declarations without clearing roots.
 
     Returns the declared skill names, so a caller sequencing several setup steps
     can report them without re-reading the lock.
     """
     require_python_version()
     require_command("git")
-    npx = require_command("npx")
+    import yaml  # Preflight the existing native metadata parser before writes.
 
     lock_path, lock_before, raw_before = load_lock(repo)
     declared_skills = set(lock_before["skills"])
+    local_skills = discover_local_skills(repo)
+    collisions = declared_skills & set(local_skills)
+    if collisions:
+        raise SetupError("Local/external skill declaration collision: " + ", ".join(sorted(collisions)))
+    if local_only:
+        preflight_local_skill_activation(repo, agents)
+        roots = selected_roots(repo, agents)
+        ensure_generated_roots_are_safe(repo, roots)
+        install_local_skills(repo, local_skills, agents)
+        configure_skill_invocation_policies(repo, set(local_skills), agents)
+        verify_final_state(repo, set(local_skills), agents)
+        return set(local_skills)
+    validate_locked_skill_sources(lock_before["skills"])
 
     print("\n== Repository-local Agent Skills ==")
     print(f"Declaration: {lock_path}")
@@ -888,7 +1086,7 @@ def ensure_agent_skills(repo: Path, agents: tuple[str, ...]) -> set[str]:
 
     roots = selected_roots(repo, agents)
     ensure_generated_roots_are_safe(repo, roots)
-    reset_generated_roots(repo, roots)
+    # Native name-scoped installation preserves other standalone skills.
 
     print("\n== Synchronize declared skills from current upstream ==")
 
@@ -897,7 +1095,7 @@ def ensure_agent_skills(repo: Path, agents: tuple[str, ...]) -> set[str]:
 
     for source, skill_names in sorted(by_source.items()):
         print(f"\n-- {source}: {', '.join(skill_names)} --")
-        sync_source(repo, npx, source, skill_names, agents)
+        sync_source(repo, source, skill_names, agents)
 
         for skill_name in skill_names:
             verify_skill_present(repo, skill_name, agents)
@@ -922,11 +1120,13 @@ def ensure_agent_skills(repo: Path, agents: tuple[str, ...]) -> set[str]:
     else:
         print("No repository-specific invocation policies required.")
 
-    verify_final_state(repo, declared_skills, agents)
+    install_local_skills(repo, local_skills, agents)
+    configure_skill_invocation_policies(repo, set(local_skills), agents)
+    verify_final_state(repo, declared_skills | set(local_skills), agents)
 
     if lock_path.read_bytes() != raw_before:
         print(
-            f"\nNOTE: `npx skills` updated {LOCK_FILENAME} while refreshing "
+            f"\nNOTE: The pinned Skills CLI updated {LOCK_FILENAME} while refreshing "
             "upstream content.\n      Review and commit that diff if it "
             "represents the state you want the\n      repository to declare."
         )
@@ -954,6 +1154,8 @@ def parse_args() -> argparse.Namespace:
         ),
     )
 
+    parser.add_argument("--local-only", action="store_true",
+                        help="Activate repository-owned skills; preserve installed external skills and their lock.")
     return parser.parse_args()
 
 
@@ -966,7 +1168,7 @@ def main() -> int:
 
         print(f"Repository root: {repo}")
 
-        ensure_agent_skills(repo, agents)
+        ensure_agent_skills(repo, agents, local_only=args.local_only)
 
         print("\nAgent Skill setup is complete.")
         print(

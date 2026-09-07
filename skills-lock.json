@@ -135,13 +135,6 @@
       "skillPath": "skills/review-animations/SKILL.md",
       "computedHash": "b9f669af5ae280c19a592a94611520335a81de25c88f225bf60ae4b2d66c8c7c"
     },
-    "test-driven-development": {
-      "source": "obra/superpowers",
-      "ref": "main",
-      "sourceType": "github",
-      "skillPath": "skills/test-driven-development/SKILL.md",
-      "computedHash": "a4126a9c5f17be3c228aa9e5755898ade283448b86099f56f40852e8c14532be"
-    },
     "ui-craft": {
       "source": "educlopez/ui-craft",
       "ref": "main",

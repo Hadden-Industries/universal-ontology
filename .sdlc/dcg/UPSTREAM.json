@@ -1,0 +1,33 @@
+{
+  "component": "Dicklesworthstone/destructive_command_guard",
+  "candidateVersion": "0.14.0",
+  "releaseTag": "v0.14.0",
+  "releasePublishedAt": "2026-09-01T18:37:22Z",
+  "sourceCommit": "581accd259ed2f8294a7e3866d1489eeaaa58b19",
+  "tagObject": "522479f970eaaf7499c595395743e9727ab130ae",
+  "tagSignatureStatus": "unsigned per GitHub; not a release-binary signature verification",
+  "reviewedAt": "2026-09-07",
+  "deploymentStatus": "owner-authorized-use; host-acceptance-pending",
+  "binaryBundled": false,
+  "configuration": "operator-config.example.toml",
+  "nativeSchemaCommand": [
+    "dcg",
+    "config",
+    "schema"
+  ],
+  "nativeEffectiveConfigCommand": [
+    "dcg",
+    "config",
+    "--format",
+    "json"
+  ],
+  "releaseUrl": "https://github.com/Dicklesworthstone/destructive_command_guard/releases/tag/v0.14.0",
+  "sourceReviewOnly": true,
+  "nativeExecutionStatus": "No adoption protocol or host acceptance run; ambient guard intervention observed in this task is not acceptance evidence.",
+  "licence": {
+    "source": "https://github.com/Dicklesworthstone/destructive_command_guard/blob/v0.14.0/LICENSE",
+    "description": "MIT-derived text with OpenAI/Anthropic rider; NOT plain MIT",
+    "checkedAt": "2026-09-07",
+    "clearance": "Repository owner explicitly authorizes use; no upstream written exception is claimed."
+  }
+}

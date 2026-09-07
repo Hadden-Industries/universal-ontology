@@ -19,7 +19,7 @@ Generated state
 ---------------
 - .agent-tools/bin/github-mcp-server[.exe]
 - .agent-tools/bin/universal-ontology-mcp-server.mjs
-- .agent-tools/.set_up_mcp_servers.lock
+- .agent-tools/.repository-setup.lock
 - .agent-tools/github-mcp-server/installation.json
 - .agent-tools/universal-ontology-mcp-server/installation.json
 - .mcp.json                                    (Claude Code)
@@ -153,8 +153,8 @@ GITHUB_MCP_INSTALLATION_RECORD_PATH = (
     Path(".agent-tools") / "github-mcp-server" / "installation.json"
 )
 GENERATED_MCP_INSTALLATION_ROOT = Path(".agent-tools")
-REPOSITORY_LOCAL_MCP_SETUP_LOCK_PATH = (
-    GENERATED_MCP_INSTALLATION_ROOT / ".set_up_mcp_servers.lock"
+REPOSITORY_SETUP_LOCK_PATH = (
+    GENERATED_MCP_INSTALLATION_ROOT / ".repository-setup.lock"
 )
 UNIVERSAL_ONTOLOGY_MCP_INSTALLATION_RECORD_PATH = (
     Path(".agent-tools")
@@ -193,9 +193,9 @@ WINDOWS_DIRECTORY_JUNCTION_REPARSE_TAG = getattr(
     "IO_REPARSE_TAG_MOUNT_POINT",
     0xA0000003,
 )
-REPOSITORY_LOCAL_MCP_TRANSACTION_FILE_NAME_COMPONENT = "repository-mcp-setup"
-REPOSITORY_LOCAL_MCP_STAGED_FILE_SUFFIX = ".staged.tmp"
-REPOSITORY_LOCAL_MCP_ACTIVATION_BACKUP_FILE_SUFFIX = ".activation.backup"
+REPOSITORY_TRANSACTION_FILE_NAME_COMPONENT = "repository-setup"
+REPOSITORY_STAGED_FILE_SUFFIX = ".staged.tmp"
+REPOSITORY_ACTIVATION_BACKUP_FILE_SUFFIX = ".activation.backup"
 # Native names and values are retained in the Python identifiers so readers can
 # verify them directly against the respective operating-system headers.
 LINUX_AT_FDCWD = -100
@@ -235,7 +235,7 @@ class RepositoryLocalMcpSetupResult:
 
 
 @dataclass(frozen=True)
-class RenderedMcpHostConfigurationDocument:
+class RenderedRepositoryConfigurationDocument:
     """One validated rendering and the destination state it was based on.
 
     `observed_destination_bytes` is `None` only when the destination did not
@@ -387,7 +387,7 @@ def _path_is_symbolic_link_or_junction(path: Path) -> bool:
         return False
 
 
-def ensure_mcp_host_configuration_destinations_are_safe(
+def ensure_repository_configuration_destinations_are_safe(
     repo: Path,
     relative_paths: Iterable[Path],
 ) -> None:
@@ -436,9 +436,9 @@ def ensure_mcp_host_configuration_destinations_are_safe(
 
 
 @contextmanager
-def acquire_repository_local_mcp_setup_lock(repo: Path) -> Iterator[None]:
+def acquire_repository_setup_lock(repo: Path) -> Iterator[None]:
     """Hold one crash-recovering, process-scoped setup lock for this checkout."""
-    lock_path = repo / REPOSITORY_LOCAL_MCP_SETUP_LOCK_PATH
+    lock_path = repo / REPOSITORY_SETUP_LOCK_PATH
     lock_path.parent.mkdir(parents=True, exist_ok=True)
     lock_file = lock_path.open("a+b")
     lock_acquired = False
@@ -1261,7 +1261,7 @@ def _render_mcp_host_configuration_documents(
     ),
     query_artifact_channel_name: str | None = None,
     query_artifact_base_url: str | None = None,
-) -> list[RenderedMcpHostConfigurationDocument]:
+) -> list[RenderedRepositoryConfigurationDocument]:
     """Render every managed host document without changing the filesystem.
 
     Rendering all documents before publication is the transaction's validation
@@ -1269,14 +1269,14 @@ def _render_mcp_host_configuration_documents(
     even the first destination is created or replaced.
     """
     json_host_configuration_documents = list(json_host_configurations)
-    ensure_mcp_host_configuration_destinations_are_safe(
+    ensure_repository_configuration_destinations_are_safe(
         repo,
         [
             *(relative for relative, _host in json_host_configuration_documents),
             CODEX_MCP_HOST_CONFIGURATION_PATH,
         ],
     )
-    rendered: list[RenderedMcpHostConfigurationDocument] = []
+    rendered: list[RenderedRepositoryConfigurationDocument] = []
 
     for relative, _host in json_host_configuration_documents:
         path = repo / relative
@@ -1302,7 +1302,7 @@ def _render_mcp_host_configuration_documents(
             ),
         )
         rendered.append(
-            RenderedMcpHostConfigurationDocument(
+            RenderedRepositoryConfigurationDocument(
                 destination_path=path,
                 rendered_contents=contents,
                 observed_destination_bytes=observed_destination_bytes,
@@ -1346,7 +1346,7 @@ def _render_mcp_host_configuration_documents(
         ),
     )
     rendered.append(
-        RenderedMcpHostConfigurationDocument(
+        RenderedRepositoryConfigurationDocument(
             destination_path=codex_path,
             rendered_contents=codex_contents,
             observed_destination_bytes=codex_observed_destination_bytes,
@@ -1363,7 +1363,7 @@ def render_mcp_host_configuration_documents(
     ),
     query_artifact_channel_name: str | None = None,
     query_artifact_base_url: str | None = None,
-) -> list[RenderedMcpHostConfigurationDocument]:
+) -> list[RenderedRepositoryConfigurationDocument]:
     """Render checked-in and local host documents without writing either."""
     return _render_mcp_host_configuration_documents(
         repo,
@@ -1374,7 +1374,7 @@ def render_mcp_host_configuration_documents(
     )
 
 
-def _repository_local_mcp_transaction_file_prefix(path: Path) -> str:
+def _repository_transaction_file_prefix(path: Path) -> str:
     """Name a hidden sibling transaction artifact after its destination."""
     destination_file_name = path.name.lstrip(".")
 
@@ -1385,7 +1385,7 @@ def _repository_local_mcp_transaction_file_prefix(path: Path) -> str:
 
     return (
         f".{destination_file_name}."
-        f"{REPOSITORY_LOCAL_MCP_TRANSACTION_FILE_NAME_COMPONENT}."
+        f"{REPOSITORY_TRANSACTION_FILE_NAME_COMPONENT}."
     )
 
 
@@ -1419,7 +1419,7 @@ def _require_repository_transaction_artifact_is_git_ignored(
         )
 
 
-def _stage_host_configuration_document(
+def _stage_repository_configuration_document(
     repository_root: Path,
     path: Path,
     contents: str,
@@ -1433,8 +1433,8 @@ def _stage_host_configuration_document(
             mode="w",
             encoding="utf-8",
             newline="\n",
-            prefix=_repository_local_mcp_transaction_file_prefix(path),
-            suffix=REPOSITORY_LOCAL_MCP_STAGED_FILE_SUFFIX,
+            prefix=_repository_transaction_file_prefix(path),
+            suffix=REPOSITORY_STAGED_FILE_SUFFIX,
             dir=path.parent,
             delete=False,
         ) as handle:
@@ -1472,8 +1472,8 @@ def _create_activation_backup_copy(
 
         with path.open("rb") as source, tempfile.NamedTemporaryFile(
             mode="wb",
-            prefix=_repository_local_mcp_transaction_file_prefix(path),
-            suffix=REPOSITORY_LOCAL_MCP_ACTIVATION_BACKUP_FILE_SUFFIX,
+            prefix=_repository_transaction_file_prefix(path),
+            suffix=REPOSITORY_ACTIVATION_BACKUP_FILE_SUFFIX,
             dir=path.parent,
             delete=False,
         ) as backup:
@@ -1517,8 +1517,8 @@ def _create_empty_activation_displaced_file_path(
     try:
         with tempfile.NamedTemporaryFile(
             mode="wb",
-            prefix=_repository_local_mcp_transaction_file_prefix(path),
-            suffix=REPOSITORY_LOCAL_MCP_ACTIVATION_BACKUP_FILE_SUFFIX,
+            prefix=_repository_transaction_file_prefix(path),
+            suffix=REPOSITORY_ACTIVATION_BACKUP_FILE_SUFFIX,
             dir=path.parent,
             delete=False,
         ) as displaced_file:
@@ -1684,8 +1684,8 @@ def _stage_file_for_atomic_replacement(source_path: Path, destination: Path) -> 
     try:
         with source_path.open("rb") as source, tempfile.NamedTemporaryFile(
             mode="wb",
-            prefix=_repository_local_mcp_transaction_file_prefix(destination),
-            suffix=REPOSITORY_LOCAL_MCP_STAGED_FILE_SUFFIX,
+            prefix=_repository_transaction_file_prefix(destination),
+            suffix=REPOSITORY_STAGED_FILE_SUFFIX,
             dir=destination.parent,
             delete=False,
         ) as target:
@@ -1776,7 +1776,7 @@ def _activate_staged_file_replacements(
     replacements: Iterable[tuple[Path, Path]],
     *,
     expected_destination_bytes_by_path: dict[Path, bytes | None] | None = None,
-    sensitive_host_configuration_destination_paths: Iterable[Path] = (),
+    sensitive_configuration_destination_paths: Iterable[Path] = (),
 ) -> list[Path]:
     """Replace live paths continuously as one rollback-capable transaction."""
     replacement_list = list(replacements)
@@ -1784,7 +1784,7 @@ def _activate_staged_file_replacements(
         expected_destination_bytes_by_path or {}
     )
     sensitive_host_configuration_destination_path_set = set(
-        sensitive_host_configuration_destination_paths
+        sensitive_configuration_destination_paths
     )
     prepared_file_replacements: list[
         tuple[
@@ -1891,17 +1891,17 @@ def _activate_staged_file_replacements(
                 f"part of the activation transaction: {listing}."
             )
 
-        unmatched_sensitive_host_configuration_destination_paths = (
+        unmatched_sensitive_configuration_destination_paths = (
             sensitive_host_configuration_destination_path_set.difference(
                 replacement_destination_paths
             )
         )
 
-        if unmatched_sensitive_host_configuration_destination_paths:
+        if unmatched_sensitive_configuration_destination_paths:
             listing = ", ".join(
                 str(path)
                 for path in sorted(
-                    unmatched_sensitive_host_configuration_destination_paths
+                    unmatched_sensitive_configuration_destination_paths
                 )
             )
             raise SetupError(
@@ -2097,7 +2097,7 @@ def _activate_staged_file_replacements(
             raise
 
         raise SetupError(
-            f"Could not activate the staged MCP setup transaction: {exc}."
+            f"Could not activate the staged repository setup transaction: {exc}."
             f"{rollback_detail}{rollback_conflict_detail}{recovery_detail}"
         ) from exc
 
@@ -2140,9 +2140,9 @@ def _activate_staged_file_replacements(
     return replacement_destination_paths
 
 
-def publish_mcp_host_configuration_documents(
+def publish_repository_configuration_documents(
     repository_root: Path,
-    rendered_documents: Iterable[RenderedMcpHostConfigurationDocument],
+    rendered_documents: Iterable[RenderedRepositoryConfigurationDocument],
 ) -> list[Path]:
     """Publish host documents with per-file atomicity and transaction rollback."""
     documents = list(rendered_documents)
@@ -2153,7 +2153,7 @@ def publish_mcp_host_configuration_documents(
             replacements.append(
                 (
                     document.destination_path,
-                    _stage_host_configuration_document(
+                    _stage_repository_configuration_document(
                         repository_root,
                         document.destination_path,
                         document.rendered_contents,
@@ -2168,7 +2168,7 @@ def publish_mcp_host_configuration_documents(
             raise
 
         raise SetupError(
-            f"Could not stage MCP host configuration documents: {exc}."
+            f"Could not stage repository configuration documents: {exc}."
         ) from exc
 
     return _activate_staged_file_replacements(
@@ -2178,7 +2178,7 @@ def publish_mcp_host_configuration_documents(
             document.destination_path: document.observed_destination_bytes
             for document in documents
         },
-        sensitive_host_configuration_destination_paths={
+        sensitive_configuration_destination_paths={
             document.destination_path for document in documents
         },
     )
@@ -2187,7 +2187,7 @@ def publish_mcp_host_configuration_documents(
 def activate_staged_mcp_server_installations_and_host_configurations(
     repository_root: Path,
     staged_installations: Iterable[StagedMcpServerInstallation],
-    rendered_documents: Iterable[RenderedMcpHostConfigurationDocument],
+    rendered_documents: Iterable[RenderedRepositoryConfigurationDocument],
 ) -> list[Path]:
     """Activate server software, records, and host documents as one unit."""
     documents = list(rendered_documents)
@@ -2218,7 +2218,7 @@ def activate_staged_mcp_server_installations_and_host_configurations(
             replacements.append(
                 (
                     document.destination_path,
-                    _stage_host_configuration_document(
+                    _stage_repository_configuration_document(
                         repository_root,
                         document.destination_path,
                         document.rendered_contents,
@@ -2244,7 +2244,7 @@ def activate_staged_mcp_server_installations_and_host_configurations(
             document.destination_path: document.observed_destination_bytes
             for document in documents
         },
-        sensitive_host_configuration_destination_paths={
+        sensitive_configuration_destination_paths={
             document.destination_path for document in documents
         },
     )
@@ -2253,7 +2253,7 @@ def activate_staged_mcp_server_installations_and_host_configurations(
 def write_mcp_host_configuration_documents(repo: Path) -> list[Path]:
     """Render and transactionally publish every validated host document."""
     rendered = render_mcp_host_configuration_documents(repo)
-    return publish_mcp_host_configuration_documents(repo, rendered)
+    return publish_repository_configuration_documents(repo, rendered)
 
 
 def check_mcp_host_configuration_documents(
@@ -3056,7 +3056,7 @@ def set_up_repository_local_mcp_servers(
     """Stage, verify, and transactionally activate repository-local servers."""
     ensure_generated_installation_root_is_safe(repo)
 
-    with acquire_repository_local_mcp_setup_lock(repo):
+    with acquire_repository_setup_lock(repo):
         # Recheck after acquiring the single-writer lock so no competing setup
         # can change generated path types between validation and activation.
         ensure_generated_installation_root_is_safe(repo)
@@ -3071,7 +3071,7 @@ def set_up_repository_local_mcp_servers(
         )
 
         with tempfile.TemporaryDirectory(
-            prefix="repository-mcp-setup-"
+            prefix="repository-setup-"
         ) as scratch:
             staging_directory = Path(scratch)
             github_installation = stage_github_mcp_server_installation(

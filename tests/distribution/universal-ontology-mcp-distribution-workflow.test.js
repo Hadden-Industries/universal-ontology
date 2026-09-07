@@ -9,40 +9,19 @@ const WORKFLOW_URL = new URL(
   import.meta.url,
 );
 
-const EXPECTED_PATH_FILTERS = Object.freeze([
-  ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
-  "README.md",
-  "docs/mcp/**",
-  "docs/plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md",
-  "package.json",
-  "package-lock.json",
-  "packages/universal-ontology-mcp-server/**",
-  "scripts/build/createOntologyQueryArtifacts.js",
-  "scripts/build/ontologyAssets.js",
-  "scripts/distribution/**",
-  "scripts/generateOntologyQueryIndexes.js",
-  "scripts/runUniversalOntologyMcpStdioServer.js",
-  "scripts/stageOntologyQueryArtifactChannel.js",
-  "server.json",
-  "src/mcp/**",
-  "src/ontology.js",
-  "src/ontologyQuery/**",
-  "tests/distribution/**",
-  "tests/mcp/**",
-  "tests/ontology-query/**",
-  "tests/webmcp/ontology-entity-definition-resolver.test.js",
-]);
 const EXPECTED_JOB_PERMISSIONS = Object.freeze({
+  scope: { contents: "read" },
   validate: { contents: "read" },
   archive: { contents: "read" },
   container: { contents: "read" },
   assemble: { contents: "read" },
 });
 const EXPECTED_JOB_DEPENDENCIES = Object.freeze({
-  validate: [],
-  archive: ["validate"],
-  container: ["validate"],
-  assemble: ["archive", "container", "validate"],
+  scope: [],
+  validate: ["scope"],
+  archive: ["scope", "validate"],
+  container: ["scope", "validate"],
+  assemble: ["archive", "container", "scope", "validate"],
 });
 const ACTIVE_ACTION_NAMES = Object.freeze([
   "actions/checkout",
@@ -114,7 +93,7 @@ function normalizeNeeds(needs) {
   if (needs === undefined) {
     return [];
   }
-  return (Array.isArray(needs) ? needs : [needs]).sort();
+  return (Array.isArray(needs) ? [...needs] : [needs]).sort();
 }
 
 function concatenateRunScripts(job) {
@@ -160,25 +139,24 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     workflow = parseYaml(workflowText);
   });
 
-  test("uses only path-scoped branch and pull-request verification triggers", () => {
+  test("selects checks within PR, main-push and manual verification runs", () => {
     expect(workflow.name).toBe("Verify Universal Ontology MCP Distribution");
     expect(workflow.permissions).toEqual({});
     expect(workflow.on).toEqual({
-      pull_request: { paths: EXPECTED_PATH_FILTERS },
+      pull_request: null,
       push: {
-        branches: ["**"],
-        paths: EXPECTED_PATH_FILTERS,
+        branches: ["main"],
       },
+      workflow_dispatch: null,
     });
     expect(workflow.on.push.tags).toBeUndefined();
-    expect(workflow.on.workflow_dispatch).toBeUndefined();
     expect(workflow.concurrency).toEqual({
       group: "universal-ontology-mcp-distribution-${{ github.ref }}",
       "cancel-in-progress": true,
     });
   });
 
-  test("defines the exact read-only four-job dependency graph", () => {
+  test("defines the read-only scope job and four conditional verification jobs", () => {
     expect(Object.keys(workflow.jobs)).toEqual(
       Object.keys(EXPECTED_JOB_PERMISSIONS),
     );
@@ -199,6 +177,61 @@ describe("Universal Ontology MCP development distribution workflow", () => {
       },
     });
     expect(workflow.jobs.archive["runs-on"]).toBe("${{ matrix.runnerLabel }}");
+    expect(workflow.jobs.validate.if).toBe(
+      "needs.scope.outputs.product_tests == 'true' || needs.scope.outputs.mcp_artifacts == 'true' || needs.scope.outputs.website_build == 'true' || needs.scope.outputs.mcp_docs == 'true'",
+    );
+    for (const name of ["archive", "container", "assemble"]) {
+      expect(workflow.jobs[name].if).toBe(
+        "needs.scope.outputs.mcp_artifacts == 'true'",
+      );
+    }
+  });
+
+  test("determines applicability before npm installation and reports each scope", () => {
+    const scope = workflow.jobs.scope;
+    expect(scope.outputs).toEqual({
+      product_tests: "${{ steps.scope.outputs.product_tests }}",
+      mcp_artifacts: "${{ steps.scope.outputs.mcp_artifacts }}",
+      website_build: "${{ steps.scope.outputs.website_build }}",
+      mcp_docs: "${{ steps.scope.outputs.mcp_docs }}",
+    });
+    expect(scope.steps[0].with).toEqual({
+      "fetch-depth": 0,
+      "persist-credentials": false,
+    });
+    expect(scope.steps.at(-1)).toMatchObject({
+      id: "scope",
+      run: "node scripts/selectPullRequestChecks.js --scope product_tests --scope mcp_artifacts --scope website_build --scope mcp_docs",
+    });
+    expect(concatenateRunScripts(scope)).not.toMatch(/\bnpm\b/u);
+  });
+
+  test("separates product, documentation, website and MCP artifact work", () => {
+    const steps = workflow.jobs.validate.steps;
+    const byName = (name) => steps.find((step) => step.name === name);
+    expect(byName("Run product regression and static checks")?.if).toBe(
+      "needs.scope.outputs.product_tests == 'true' || needs.scope.outputs.mcp_artifacts == 'true' || needs.scope.outputs.website_build == 'true'",
+    );
+    expect(byName("Check MCP documentation")).toMatchObject({
+      if: "needs.scope.outputs.mcp_docs == 'true' && needs.scope.outputs.product_tests != 'true' && needs.scope.outputs.mcp_artifacts != 'true' && needs.scope.outputs.website_build != 'true'",
+      run: "npm test -- --runInBand --runTestsByPath tests/distribution/universal-ontology-mcp-documentation.test.js\nnpm run format:check\n",
+    });
+    expect(
+      byName("Build the affected website and generators without auto-fixes"),
+    ).toMatchObject({
+      if: "needs.scope.outputs.website_build == 'true'",
+      run: "node node_modules/vite/bin/vite.js build",
+    });
+    expect(byName("Build the affected MCP application bundle")).toMatchObject({
+      if: "needs.scope.outputs.mcp_artifacts == 'true'",
+      run: "npm run mcp:package:build",
+    });
+    expect(steps.find(({ id }) => id === "candidate-metadata")?.if).toBe(
+      "needs.scope.outputs.mcp_artifacts == 'true'",
+    );
+    expect(concatenateRunScripts(workflow.jobs.validate)).not.toContain(
+      "npm run build",
+    );
   });
 
   test("pins every used external action without requiring inactive future pins", () => {
@@ -229,7 +262,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
   });
 
   test("selects exact Node and npm versions before every npm operation", () => {
-    for (const job of Object.values(workflow.jobs)) {
+    for (const [jobName, job] of Object.entries(workflow.jobs)) {
       const setupNodeIndex = job.steps.findIndex(({ uses }) =>
         uses?.startsWith("actions/setup-node@"),
       );
@@ -247,6 +280,14 @@ describe("Universal Ontology MCP development distribution workflow", () => {
         .map(({ index }) => index);
 
       expect(setupNodeIndex).toBeGreaterThanOrEqual(0);
+      if (jobName === "scope") {
+        expect(job.steps[setupNodeIndex].with).toEqual({
+          "node-version-file": ".node-version",
+        });
+        expect(bootstrapIndex).toBe(-1);
+        expect(npmOperationIndices).toEqual([]);
+        continue;
+      }
       expect(job.steps[setupNodeIndex].with?.["node-version"]).toBe("24.20.0");
       expect(bootstrapIndex).toBeGreaterThan(setupNodeIndex);
       expect(job.steps[bootstrapIndex]).toMatchObject({

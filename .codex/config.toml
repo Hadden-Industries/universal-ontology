@@ -1,3 +1,7 @@
+# BEGIN SDLC root policy - managed by scripts/set_up_sdlc.py
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+# END SDLC root policy - managed by scripts/set_up_sdlc.py
 [sandbox_workspace_write]
 network_access = true
 
@@ -16,3 +20,10 @@ tool_timeout_sec = 30
 enabled_tools = ["search_entities", "resolve_entity"]
 default_tools_approval_mode = "writes"
 # END mcp_servers.universal_ontology - managed by scripts/set_up_mcp_servers.py
+
+# BEGIN SDLC agents - managed by scripts/set_up_sdlc.py
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 4
+interrupt_message = true
+# END SDLC agents - managed by scripts/set_up_sdlc.py

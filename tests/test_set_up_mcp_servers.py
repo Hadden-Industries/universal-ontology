@@ -39,12 +39,12 @@ def rendered_mcp_host_configuration_document(
     """Construct the installer's byte-guarded host-document value object."""
     document_type = getattr(
         set_up_mcp_servers,
-        "RenderedMcpHostConfigurationDocument",
+        "RenderedRepositoryConfigurationDocument",
         None,
     )
 
     if document_type is None:
-        raise AssertionError("Missing RenderedMcpHostConfigurationDocument")
+        raise AssertionError("Missing RenderedRepositoryConfigurationDocument")
 
     return document_type(
         destination_path=destination_path,
@@ -282,7 +282,6 @@ class HostConfigurationRenderingTests(unittest.TestCase):
                 **expected_ontology_entry,
                 "startup_timeout_sec": 15,
                 "tool_timeout_sec": 30,
-                "required": True,
                 "enabled_tools": ["search_entities", "resolve_entity"],
                 "default_tools_approval_mode": "writes",
             },
@@ -730,7 +729,7 @@ class RepositoryLocalMcpSetupLockTests(unittest.TestCase):
     def test_second_setup_process_cannot_acquire_the_repository_lock(self):
         acquire_setup_lock = require_setup_callable(
             self,
-            "acquire_repository_local_mcp_setup_lock",
+            "acquire_repository_setup_lock",
         )
 
         with tempfile.TemporaryDirectory() as scratch:
@@ -817,7 +816,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
         )
         publish_documents = require_setup_callable(
             self,
-            "publish_mcp_host_configuration_documents",
+            "publish_repository_configuration_documents",
         )
 
         with tempfile.TemporaryDirectory() as scratch:
@@ -982,7 +981,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                         expected_destination_bytes_by_path={
                             destination: b"render-time observation"
                         },
-                        sensitive_host_configuration_destination_paths={
+                        sensitive_configuration_destination_paths={
                             destination
                         },
                     )
@@ -1094,7 +1093,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
     def test_host_document_staging_requires_exact_git_ignore_coverage(self):
         stage_document = require_setup_callable(
             self,
-            "_stage_host_configuration_document",
+            "_stage_repository_configuration_document",
         )
 
         with tempfile.TemporaryDirectory() as scratch:
@@ -1149,7 +1148,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                     activate_replacements(
                         repository_root,
                         [(destination, staged_replacement)],
-                        sensitive_host_configuration_destination_paths={
+                        sensitive_configuration_destination_paths={
                             destination
                         },
                     )
@@ -1230,7 +1229,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
     def test_later_replacement_failure_restores_every_original_document(self):
         publish_documents = require_setup_callable(
             self,
-            "publish_mcp_host_configuration_documents",
+            "publish_repository_configuration_documents",
         )
         with tempfile.TemporaryDirectory() as scratch:
             repository_root = Path(scratch)
@@ -1311,11 +1310,11 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
     def test_partial_staging_failure_removes_every_temporary_document(self):
         publish_documents = require_setup_callable(
             self,
-            "publish_mcp_host_configuration_documents",
+            "publish_repository_configuration_documents",
         )
         stage_document = require_setup_callable(
             self,
-            "_stage_host_configuration_document",
+            "_stage_repository_configuration_document",
         )
 
         with tempfile.TemporaryDirectory() as scratch:
@@ -1343,7 +1342,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
 
             with mock.patch.object(
                 set_up_mcp_servers,
-                "_stage_host_configuration_document",
+                "_stage_repository_configuration_document",
                 side_effect=fail_second_staging_attempt,
             ), mock.patch.object(
                 set_up_mcp_servers,
@@ -1380,7 +1379,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
     def test_failed_rollback_preserves_the_only_recovery_copy(self):
         publish_documents = require_setup_callable(
             self,
-            "publish_mcp_host_configuration_documents",
+            "publish_repository_configuration_documents",
         )
 
         with tempfile.TemporaryDirectory() as scratch:
@@ -1653,12 +1652,12 @@ class GeneratedMcpInstallationStateTests(unittest.TestCase):
 
     def test_configuration_transaction_artifacts_are_ignored_exactly(self):
         ignored_transaction_paths = (
-            ".mcp.json.repository-mcp-setup.abcdef.staged.tmp",
-            ".mcp.json.repository-mcp-setup.abcdef.activation.backup",
-            ".codex/.config.toml.repository-mcp-setup.abcdef.staged.tmp",
-            ".codex/.config.toml.repository-mcp-setup.abcdef.activation.backup",
-            ".agents/.mcp_config.json.repository-mcp-setup.abcdef.staged.tmp",
-            ".agents/.mcp_config.json.repository-mcp-setup.abcdef.activation.backup",
+            ".mcp.json.repository-setup.abcdef.staged.tmp",
+            ".mcp.json.repository-setup.abcdef.activation.backup",
+            ".codex/.config.toml.repository-setup.abcdef.staged.tmp",
+            ".codex/.config.toml.repository-setup.abcdef.activation.backup",
+            ".agents/.mcp_config.json.repository-setup.abcdef.staged.tmp",
+            ".agents/.mcp_config.json.repository-setup.abcdef.activation.backup",
         )
 
         for transaction_path in ignored_transaction_paths:

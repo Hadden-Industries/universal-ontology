@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 2,
+  "profiles": {
+    "focused": [
+      {
+        "name": "Working-tree whitespace",
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ]
+      },
+      {
+        "name": "Generated Codex configuration",
+        "argv": [
+          "node",
+          "scripts/runRepositoryPython.js",
+          "scripts/set_up_sdlc.py",
+          "--check"
+        ]
+      }
+    ],
+    "affected": [
+      {
+        "name": "Working-tree whitespace",
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ]
+      },
+      {
+        "name": "Generated Codex configuration",
+        "argv": [
+          "node",
+          "scripts/runRepositoryPython.js",
+          "scripts/set_up_sdlc.py",
+          "--check"
+        ]
+      },
+      {
+        "name": "Product JavaScript tests",
+        "argv": [
+          "npm",
+          "test",
+          "--",
+          "--runInBand"
+        ],
+        "timeoutSeconds": 1200
+      },
+      {
+        "name": "Repository Python tests",
+        "argv": [
+          "npm",
+          "run",
+          "test:python"
+        ],
+        "timeoutSeconds": 600
+      },
+      {
+        "name": "SDLC controls",
+        "argv": [
+          "npm",
+          "run",
+          "test:sdlc"
+        ],
+        "timeoutSeconds": 600
+      }
+    ],
+    "full": [
+      {
+        "name": "Working-tree whitespace",
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ]
+      },
+      {
+        "name": "Generated Codex configuration",
+        "argv": [
+          "node",
+          "scripts/runRepositoryPython.js",
+          "scripts/set_up_sdlc.py",
+          "--check"
+        ]
+      },
+      {
+        "name": "Product JavaScript tests",
+        "argv": [
+          "npm",
+          "test",
+          "--",
+          "--runInBand"
+        ],
+        "timeoutSeconds": 1200
+      },
+      {
+        "name": "Repository Python tests",
+        "argv": [
+          "npm",
+          "run",
+          "test:python"
+        ],
+        "timeoutSeconds": 600
+      },
+      {
+        "name": "SDLC controls",
+        "argv": [
+          "npm",
+          "run",
+          "test:sdlc"
+        ],
+        "timeoutSeconds": 600
+      },
+      {
+        "name": "Product lint",
+        "argv": [
+          "npm",
+          "run",
+          "lint"
+        ],
+        "timeoutSeconds": 600
+      },
+      {
+        "name": "Product formatting",
+        "argv": [
+          "npm",
+          "run",
+          "format:check"
+        ],
+        "timeoutSeconds": 600
+      },
+      {
+        "name": "Ontology source invariants",
+        "argv": [
+          "node",
+          "scripts/runRepositoryPython.js",
+          "scripts/validate_ontologies.py",
+          "core/universal-core.owl",
+          "extended/universal-extended.owl",
+          "reference-data/reference-data.owl",
+          "iso-31073/iso-31073.owl",
+          "iso-iec11179-3/iso-iec11179-3.owl"
+        ],
+        "timeoutSeconds": 600
+      },
+      {
+        "name": "Product build without prebuild auto-fixes",
+        "argv": [
+          "node",
+          "node_modules/vite/bin/vite.js",
+          "build"
+        ],
+        "timeoutSeconds": 1200
+      },
+      {
+        "name": "Generated JSON-LD",
+        "argv": [
+          "npm",
+          "run",
+          "generate:jsonld"
+        ],
+        "timeoutSeconds": 1200
+      },
+      {
+        "name": "MCP application bundle",
+        "argv": [
+          "npm",
+          "run",
+          "mcp:package:build"
+        ],
+        "timeoutSeconds": 600
+      }
+    ]
+  },
+  "additionalFingerprintInputs": [
+    ".sdlc/verification.json",
+    ".node-version",
+    ".python-version",
+    "requirements-sdlc.txt"
+  ]
+}
