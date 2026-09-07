@@ -2851,7 +2851,9 @@ class GitHubMcpInstallationTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as scratch:
             repository_root = Path(scratch)
-            staged_executable_path = repository_root / "staged-github.exe"
+            path_anchor = repository_root / "path-anchor"
+            path_anchor.mkdir()
+            staged_executable_path = path_anchor / ".." / "staged-github.exe"
             staged_executable_path.write_bytes(b"executable")
             staged_installation = mock.Mock(
                 staged_program_path=staged_executable_path,
@@ -2873,14 +2875,18 @@ class GitHubMcpInstallationTests(unittest.TestCase):
                     staged_installation,
                 )
 
+            run_process.assert_called_once_with(
+                [mock.ANY, "--version"],
+                cwd=str(repository_root),
+                check=False,
+                text=True,
+                capture_output=True,
+            )
+            invoked_executable_path = Path(run_process.call_args.args[0][0])
+            self.assertTrue(invoked_executable_path.is_absolute())
+            self.assertTrue(invoked_executable_path.samefile(staged_executable_path))
+
         self.assertEqual(reported_version, "github-mcp-server Version: v1.11.0")
-        run_process.assert_called_once_with(
-            [str(staged_executable_path), "--version"],
-            cwd=str(repository_root),
-            check=False,
-            text=True,
-            capture_output=True,
-        )
 
 
 class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):

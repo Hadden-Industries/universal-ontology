@@ -984,6 +984,7 @@ def verify_final_state(
     declared_skills: set[str],
     agents: tuple[str, ...],
 ) -> None:
+    repo = repo.resolve()
     print("\n== Verify generated Agent Skills ==")
 
     for root in selected_roots(repo, agents):

@@ -110,7 +110,9 @@ class PinnedSkillSourceTests(unittest.TestCase):
 class SkillActivationPreservationTests(unittest.TestCase):
     def test_verification_preserves_an_unrelated_standalone_skill(self):
         with tempfile.TemporaryDirectory() as directory:
-            repo = Path(directory)
+            path_anchor = Path(directory) / "path-anchor"
+            path_anchor.mkdir()
+            repo = path_anchor / ".."
             root = repo / ".agents" / "skills"
             for name in ("selected", "user-owned"):
                 (root / name).mkdir(parents=True)
