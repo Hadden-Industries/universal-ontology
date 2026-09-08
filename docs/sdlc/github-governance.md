@@ -50,10 +50,19 @@ account features, team permissions, token policy or required-check enforcement.
 The source actions are pinned to checkout v7.0.1, setup-python v7.0.0,
 github-script v9.0.0 and setup-node v7; exact identities are in the workflow files.
 
-Dependabot owns npm/pip/Actions updates, daily with zero cooldown and a ten-PR
-limit per ecosystem. The owner confirmed no other service covers this repository.
-Its PRs need the same actual metadata/review after creation; no label exemption,
-auto-approval, silent downgrade or second update service is supplied.
+Dependabot groups npm/pip/Actions version updates into one daily
+`repository-version-updates` batch, with zero cooldown and no custom PR-limit
+override. GitHub's default five open version-update PRs per ecosystem applies;
+this does not cap the number of dependency updates in a batch. Security updates
+remain separate from this version-update batch. The owner confirmed no other
+service covers this repository.
+
+Assess each batch, then add the seven SDLC metadata fields and a concise research,
+review and verification summary to its PR. Select risk from the actual changes;
+grouping does not establish acceptance. Metadata-only body edits rerun linkage
+validation; product and control workflows retain their existing event triggers
+and input selection. No auto-approval, metadata exemption, silent downgrade or
+second update service is supplied.
 
 Keep undisclosed security evidence in an approved restricted store. The Issue Form
 links to this repository's security page without claiming private reporting is
