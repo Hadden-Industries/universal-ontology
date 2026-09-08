@@ -105,6 +105,14 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   nonempty inventory, make the native route unavailable for complete assessment.
   After native launch, complete its required preflight and artifact steps; read
   every native inventory page and verify it still accounts for the required paths.
+- Before source analysis, verify artifact access in the authoritative scan
+  directory through each actual writer, runtime and identity. Prefer
+  a supported native capability check; otherwise use one task-owned,
+  non-sensitive create/read/delete probe within the authorized directory.
+  A host-side pass proves only host-side access. For the confirmed Windows
+  owner/sandbox mismatch, use the authorized artifact I/O procedure below.
+  If no approved writer works, stop the native assessment and preserve its
+  identity and failure evidence. Existing alternative-assessment rules still apply.
 - While this inventory defect persists, bounded R0/R1 changes may use direct
   review of the same frozen diff by an authorized reviewer, retaining applicable
   deterministic checks, scope, permissions and review-independence requirements.
@@ -133,6 +141,38 @@ measurements as unavailable. These are usage measures, not a billing calculation
 Keep the native bundle and existing task record as the evidence; no extra report
 or automated timer is required. Actual latency improvement remains unverified
 until a subsequent authorized assessment exercises this procedure.
+
+## Temporary Windows artifact I/O
+
+For the owner/sandbox directory-access defect tracked in
+[openai/codex#43791](https://github.com/openai/codex/issues/43791), an explicitly
+approved host file operation may retain required supporting artifacts while
+source analysis stays sandboxed. This continues the same native assessment;
+it does not replace its required phases or accept missing evidence.
+
+- Bind each host operation to the existing scan ID, authoritative directory,
+  exact destination, allowed file operations and frozen payload identity.
+  Obtain any missing access approval before dispatch. Use existing operating
+  system file tools; do not create a privileged service or wrap private plugin APIs.
+- Treat payloads strictly as data. Preserve the reviewer's canonical threat model
+  and conclusions. Run no repository code, tests or payloads with host access.
+  Create new artifacts without overwriting existing evidence, then verify their
+  bytes against the approved payload. Inspect a conflicting file and preserve it.
+- Verify the actual artifact writer before analysis. Retain a denied sandbox
+  check as a separate limitation; a successful host write does not clear it.
+  Preserve the directory and its permissions, sandbox mode, DCG and hook controls.
+  Delete only the named task-owned probe after its successful readback.
+- Keep canonical findings, coverage, validation, sealing and report generation
+  with the native plugin. Completion requires successful native finalization
+  and retrieval of its completed bundle. Report its actual coverage and retained
+  gaps; artifact access alone does not establish complete coverage. Leave failed
+  attempts incomplete.
+- Reuse still-valid assessment evidence when resuming a paused scan. Record the
+  host identity, operations, artifact hashes, remaining gaps and elapsed time in
+  the existing evidence. Preserve the normal review and recovery budgets.
+- Qualify this procedure against the existing paused scan, then verify it on
+  the next authorized real review's fresh directory. Retire it after an upstream
+  fix passes direct sandbox artifact I/O and native completion on a fresh scan.
 
 ## Store and validate native evidence
 
