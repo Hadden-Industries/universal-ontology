@@ -73,6 +73,67 @@ promise a `fork_turns` option in user commands; internal plugin delegation is no
 a stable user-facing CLI contract. A new chat avoids handing the full implementation
 conversation to the assessor, but does not provide organisational independence.
 
+## Bounded security assessment
+
+When a separate reviewer is authorized, the coordinator prepares the compact
+handoff, selects the assessment route below, starts one authorized reviewer, waits, then
+checks the returned target, coverage, findings and evidence bundle. The reviewer
+owns the selected review and, for native scans, its preflight and phase tools; the coordinator does not
+repeat those phases. If delegation is prohibited, use only an accepted parent
+fallback and report the lack of independent review. Assess time and usage across
+the coordinator and reviewer, with unavailable measurements stated explicitly.
+
+For a small R0/R1 diff that fits one combined review, use an initial ten-minute
+assessment budget unless the accepted task specifies another. Start at the inventory precheck;
+exclude explicit waits for user input and record those waits separately. Preserve
+the budget across retries and continuations. At five minutes, include remaining
+coverage and recovery time in the normal progress update. At the next safe tool
+boundary after exhaustion, preserve an incomplete handoff for the same assessment.
+A larger scope needs an appropriate stated budget; elapsed time never grants approval.
+
+- Supply a compact brief: exact target, accepted requirements, changed paths,
+  relevant threat assumptions, permissions and evidence references. Request a
+  threat model scoped to that change and its directly relevant support. Use a
+  fresh assessment task only when its creation is authorized; otherwise retain
+  the parent-review limitation. Inherit the selected model effort and delegation
+  limits. Read required native guidance once, refreshing only changed contracts.
+- Before starting a live review, obtain Git's complete changed-path list for the
+  agreed diff semantics, including deletions and both sides of renames. Run the
+  installed plugin's own inventory helper for that frozen target; do not copy its
+  exclusion rules or implement another selector. Compare paths, not only counts.
+  Every omission needs a scope disposition. Missing required paths, even from a
+  nonempty inventory, make the native route unavailable for complete assessment.
+  After native launch, complete its required preflight and artifact steps; read
+  every native inventory page and verify it still accounts for the required paths.
+- While this inventory defect persists, bounded R0/R1 changes may use direct
+  review of the same frozen diff by an authorized reviewer, retaining applicable
+  deterministic checks, scope, permissions and review-independence requirements.
+  This standing alternative applies only to the inventory omission; it does not
+  bypass an access denial or another required assurance control. Label its method,
+  reviewed paths, findings and limitations as an alternative assessment, not a
+  successful native scan. R2/R3 or an explicit native-assurance requirement needs
+  a separately accepted alternative. Preserve any already-started native scan and
+  its failure evidence. Keep the upstream repair outstanding; after an upgrade,
+  verify actual inventory coverage before returning affected work to the native route.
+- Limit plugin troubleshooting to two minutes total within the scan budget and
+  one documented recovery attempt per distinct failure. Attempt recovery only
+  when the error and native contract identify a concrete correction. Required
+  access still needs its existing authorization. A repeated failure or exhausted
+  recovery budget produces the same scan's incomplete handoff with failure
+  evidence, reviewed paths and remaining work. Further plugin diagnosis needs a
+  separately accepted scope. Preserve native continuation and finalization rules;
+  do not restart, mark failed/cancelled, or declare completion to clear a blocker.
+  Use native tool-owned identity/sealing fields and supported artifact writers;
+  do not patch plugin caches. Use only the approved alternative described above.
+
+At handoff or completion, report wall-clock elapsed time and explicit user-wait
+time separately. When native usage is available, report input tokens with cached
+input identified as a subset, output tokens and the native total; mark unavailable
+measurements as unavailable. These are usage measures, not a billing calculation.
+Keep the native bundle and existing task record as the evidence; no extra report
+or automated timer is required. Actual latency improvement remains unverified
+until a subsequent authorized assessment exercises this procedure.
+
 ## Store and validate native evidence
 
 The documented completed bundle includes `report.md`, `scan-manifest.json`,
