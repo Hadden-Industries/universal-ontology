@@ -1,0 +1,35 @@
+name: SDLC PR linkage
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out trusted default-branch policy only
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - name: Create isolated policy environment
+        run: python -m venv .venv
+      - name: Install trusted policy dependencies
+        run: .venv/bin/python -m pip install -r requirements-sdlc.txt
+      - name: Validate live metadata and immutable baseline blobs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: .venv/bin/python -B scripts/validate_sdlc_pr.py
+# No candidate checkout or execution. Bootstrap needs these files on the default branch;
+# a missing implementation must fail, never silently pass or run head policy.

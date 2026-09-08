@@ -4,8 +4,9 @@
 
 ### Development setup
 
-Install Git 2.46 or later, Node.js 24 or later, and the npm version declared by
-`packageManager` in `package.json`. Python 3.11 or later is also required. An
+Install Git 2.46 or later, the Node.js version in `.node-version`, and the npm
+version declared by `packageManager` in `package.json`. The Python version in
+`.python-version` is also required. An
 existing `.venv` is reused, or setup creates one using `python` on Windows and
 `python3` on macOS/Linux.
 The system interpreter must be available on `PATH` when creating `.venv`.
@@ -18,8 +19,10 @@ npm run configure:git-hooks
 ```
 
 The development setup command installs npm dependencies with
-`npm ci --include=dev`, which replaces `node_modules` using the existing lockfile.
-It also upgrades pip and installs `requirements.txt` inside `.venv`.
+`npm ci --include=dev --ignore-scripts`, which replaces `node_modules` using the
+existing lockfile without dependency lifecycle scripts. It also upgrades pip,
+installs `requirements.txt` and `requirements-sdlc.txt` inside `.venv`, then merges
+the approved repository Codex configuration and activates six local SDLC skills.
 An unusable existing `.venv` causes setup to
 stop so it can be repaired manually. AWS CLI is checked and produces a warning
 if unavailable; it is needed for S3 uploads, and setup does not install it.
@@ -40,6 +43,14 @@ runner, then calls the same `scripts/validate_ontologies.py` directly with
 `--diff-base` and `--diff-head` to select the commit range. It does not invoke
 the local pre-commit hook or require its `.venv`. Pushing commits to GitHub does
 not itself run the pre-commit hook.
+
+### Repository-owned SDLC
+
+The experimental [SDLC guide](docs/sdlc/howto.md) describes proportionate routes,
+npm entry points, verification boundaries and evaluation through real work.
+The methodology remains **1.0.0, pre-release, not deployed**. See
+[SDLC-BOOTSTRAP-01](docs/sdlc/SDLC-BOOTSTRAP-01.md) for the approved local integration
+and the separate host and GitHub actions.
 
 Portions of this software or document may use, include material copied from, or derive from the following standard vocabularies and ontologies:
 

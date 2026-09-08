@@ -12,10 +12,6 @@ const REPOSITORY_ROOT_PATH = resolve(
 export function setUpDevelopmentEnvironment({
   repositoryRoot = REPOSITORY_ROOT_PATH,
 } = {}) {
-  if (Number.parseInt(process.versions.node, 10) < 24) {
-    throw new Error("Development setup requires Node.js 24 or later.");
-  }
-
   // npm supplies its CLI path, allowing invocation without a platform shell.
   const npmCliPath = process.env.npm_execpath;
   if (!npmCliPath) {
@@ -28,6 +24,9 @@ export function setUpDevelopmentEnvironment({
     "package.json",
     "package-lock.json",
     "requirements.txt",
+    "requirements-sdlc.txt",
+    ".node-version",
+    ".python-version",
   ]) {
     const filePath = join(repositoryRoot, filename);
     if (!statSync(filePath, { throwIfNoEntry: false })?.isFile()) {
@@ -36,6 +35,20 @@ export function setUpDevelopmentEnvironment({
       );
     }
   }
+
+  const selectedNodeVersion = readFileSync(
+    join(repositoryRoot, ".node-version"),
+    "utf8",
+  ).trim();
+  if (process.versions.node !== selectedNodeVersion) {
+    throw new Error(
+      `Development setup requires Node.js ${selectedNodeVersion}; found ${process.versions.node}.`,
+    );
+  }
+  const selectedPythonVersion = readFileSync(
+    join(repositoryRoot, ".python-version"),
+    "utf8",
+  ).trim();
 
   function runRequiredCommand(
     description,
@@ -120,10 +133,9 @@ export function setUpDevelopmentEnvironment({
     ["--version"],
     { captureOutput: true },
   );
-  const pythonVersionMatch = /^Python 3\.(\d+)\./u.exec(pythonVersionOutput);
-  if (!pythonVersionMatch || Number(pythonVersionMatch[1]) < 11) {
+  if (pythonVersionOutput !== `Python ${selectedPythonVersion}`) {
     throw new Error(
-      `Development setup requires Python 3.11 or later; found ${pythonVersionOutput}.`,
+      `Development setup requires Python ${selectedPythonVersion}; found ${pythonVersionOutput}.`,
     );
   }
 
@@ -132,6 +144,7 @@ export function setUpDevelopmentEnvironment({
     npmCliPath,
     "ci",
     "--include=dev",
+    "--ignore-scripts",
   ]);
 
   if (!pythonVirtualEnvironmentStats) {
@@ -157,6 +170,22 @@ export function setUpDevelopmentEnvironment({
     "Python dependency installation",
     virtualEnvironmentPythonExecutablePath,
     ["-m", "pip", "install", "-r", join(repositoryRoot, "requirements.txt")],
+  );
+  runRequiredCommand(
+    "SDLC Python dependency installation",
+    virtualEnvironmentPythonExecutablePath,
+    [
+      "-m",
+      "pip",
+      "install",
+      "-r",
+      join(repositoryRoot, "requirements-sdlc.txt"),
+    ],
+  );
+  runRequiredCommand(
+    "Repository SDLC configuration",
+    virtualEnvironmentPythonExecutablePath,
+    ["-B", join(repositoryRoot, "scripts", "set_up_sdlc.py")],
   );
 
   try {

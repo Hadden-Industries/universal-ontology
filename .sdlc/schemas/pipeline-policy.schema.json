@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Risk-routed local evidence policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "routes"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "routes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "R0",
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "properties": {
+        "R0": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "requiredProfiles",
+            "priorBaselineRequired"
+          ],
+          "properties": {
+            "requiredProfiles": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              }
+            },
+            "priorBaselineRequired": {
+              "type": "boolean"
+            }
+          }
+        },
+        "R1": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "requiredProfiles",
+            "priorBaselineRequired"
+          ],
+          "properties": {
+            "requiredProfiles": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              }
+            },
+            "priorBaselineRequired": {
+              "type": "boolean"
+            }
+          }
+        },
+        "R2": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "requiredProfiles",
+            "priorBaselineRequired"
+          ],
+          "properties": {
+            "requiredProfiles": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              }
+            },
+            "priorBaselineRequired": {
+              "const": true
+            }
+          }
+        },
+        "R3": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "requiredProfiles",
+            "priorBaselineRequired"
+          ],
+          "properties": {
+            "requiredProfiles": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              }
+            },
+            "priorBaselineRequired": {
+              "const": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

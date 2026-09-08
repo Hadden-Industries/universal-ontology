@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/APPROVED/ABSOLUTE/PATH/dcg",
+            "commandWindows": "\"C:\\APPROVED\\ABSOLUTE\\PATH\\dcg.exe\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

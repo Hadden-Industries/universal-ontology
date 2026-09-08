@@ -2,12 +2,13 @@ name: Enterprise Ontology Validation Pipeline
 
 on:
   push:
-    branches: [ "**" ]
+    branches: [main]
   pull_request:
     branches: [ "**" ]
+  workflow_dispatch:
 
 permissions:
-  contents: read # access to check out code and install dependencies
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,40 +18,55 @@ jobs:
   validate-ontologies:
     name: OWL Differential Analysis
     runs-on: ubuntu-latest
+    env:
+      ONTOLOGY_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+      ONTOLOGY_DIFF_HEAD: ${{ github.sha }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Provision Python Runtime
         uses: actions/setup-python@v7
         with:
-          python-version: '3.14'
+          python-version-file: .python-version
           cache: 'pip'
 
-      - name: Hydrate Runtime Dependencies
+      - name: Create isolated Python environment
+        run: python -m venv .venv
+
+      - name: Select ontology validation before installing dependencies
+        id: scope
         shell: bash
         run: |
           set -euo pipefail
-          python -m pip install --upgrade pip >/dev/null
-
-          # Conditionally provision dependencies if a manifest boundary exists
-          if [[ -f "requirements.txt" ]]; then
-              pip install -r requirements.txt
-          else
-              echo "DEPENDENCY_STATE: No requirements.txt detected. Executing exclusively within Python standard library boundary."
+          args=(--diff-base "$ONTOLOGY_DIFF_BASE" --diff-head "$ONTOLOGY_DIFF_HEAD")
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            args=(--all-current)
           fi
+          .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --plan >> "$GITHUB_OUTPUT"
 
-      - name: Execute Deterministic Payload Validation
+      - name: Install ontology validation dependencies
+        if: steps.scope.outputs.validation_required == 'true'
+        run: .venv/bin/python -m pip install -r requirements.txt
+
+      - name: Test ontology validation runner
+        if: steps.scope.outputs.validator_changed == 'true'
+        run: .venv/bin/python -B -m unittest discover -s tests -p test_validate_ontologies.py -v
+
+      - name: Validate selected ontology files
+        if: steps.scope.outputs.validation_required == 'true'
         shell: bash
         run: |
           set -euo pipefail
-
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-              DIFF_BASE="${{ github.event.pull_request.base.sha }}"
-          else
-              DIFF_BASE="${{ github.event.before }}"
+          args=(--diff-base "$ONTOLOGY_DIFF_BASE" --diff-head "$ONTOLOGY_DIFF_HEAD")
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            args=(--all-current)
           fi
+          .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --github-actions
 
-          python scripts/validate_ontologies.py --diff-base "${DIFF_BASE}" --diff-head "${{ github.sha }}"
+      - name: Report unchanged ontology inputs
+        if: steps.scope.outputs.validation_required == 'false'
+        run: echo "Ontology validation not applicable; no supported ontology or validator input changed."

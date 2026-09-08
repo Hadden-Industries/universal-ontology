@@ -1,0 +1,58 @@
+name: SDLC control tests
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  scope:
+    name: Select relevant checks
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    outputs:
+      sdlc: ${{ steps.scope.outputs.sdlc }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version-file: .node-version
+      - name: Compare PR inputs before installing dependencies
+        id: scope
+        run: node scripts/selectPullRequestChecks.js --scope sdlc
+
+  controls:
+    needs: scope
+    if: needs.scope.outputs.sdlc == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - name: Select package manager and install locked dependencies
+        run: |
+          npm install --global --no-audit --no-fund npm@12.0.2
+          npm ci --ignore-scripts
+      - name: Create isolated Python environment
+        run: python -m venv .venv
+      - name: Install SDLC dependencies through repository interpreter
+        run: node scripts/runRepositoryPython.js -m pip install -r requirements-sdlc.txt
+      - run: npm run test:sdlc
+      - name: Test setup controls
+        run: node scripts/runRepositoryPython.js -m unittest discover -s tests -p "test_set_up_*.py"
+      - run: npm test -- --runInBand tests/configure-git-hooks.test.js tests/set-up-development-environment.test.js tests/run-repository-python.test.js tests/sdlc-issue-acceptance.test.js tests/pr-check-scopes.test.js
+# Synthetic control fixtures only: no source example product, DCG binary,
+# credentials, live model calls or security scans.

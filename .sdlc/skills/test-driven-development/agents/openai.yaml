@@ -1,0 +1,10 @@
+interface:
+  display_name: "Test-Driven Development — SDLC"
+  short_description: "Accepted behaviours, red-green-refactor, and honest evidence"
+  default_prompt: >
+    Use $test-driven-development for the accepted slice I provide. Read the
+    repository-adapted skill, preserve existing work, establish the independent
+    oracle and verification route, and return current evidence without taking
+    over review or release.
+policy:
+  allow_implicit_invocation: false

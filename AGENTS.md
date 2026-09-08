@@ -12,7 +12,7 @@
 
 ## Local Workspace Commits & Pushing
 
-- For any request to draft a commit message or commit current workspace changes, you MUST load and follow the `committing-to-git` skill.
+- For any request to draft a commit message or commit current workspace changes, you MUST load and follow the `committing-to-git` skill. Unless specified otherwise, use the template for a per-file detailed commit message when drafting a commit message.
 
 - **Explicit User Authorization**:
   - Creating a commit requires explicit user authorization.
@@ -36,13 +36,19 @@ Treat all existing working-tree changes as user-owned and potentially valuable.
 
 - Avoid executing destructive Git operations (such as force-pushing to protected branches or deleting remote branches) without explicit, case-by-case approval.
 
-## GitHub MCP Server
-
-- Prefer the GitHub MCP Server for GitHub platform operations, such as managing issues, pull requests, remote branches, repository metadata, and GitHub-hosted searches. Use local repository tools and Git for operations involving the current working tree, index, local branches, commits, or repository state.
-
-- **MCP Unavailability**: If the GitHub MCP Server is unavailable for GitHub platform operations, diagnose the cause first using non-destructive inspection. Do not modify configuration or connections without the approval required by the Configuration Safety rules. If the issue cannot be resolved without such changes, notify me before falling back to the Git CLI (`git`) or GitHub CLI (`gh`).
-- Before creating or modifying pull requests, issues, or remote branches through GitHub, use the MCP tools to verify the relevant remote repository state to prevent merge conflicts or duplicate work.
-
 # Python Guidance
 
 - Only use the local Python environment found in the .venv directory for the execution of Python scripts
+
+# Repository-owned SDLC
+
+- Read [the repository SDLC guide](docs/sdlc/howto.md) and, for material work, [the engineering principles](docs/sdlc/engineering-principles.md). The current user-approved task is the authority; reuse recorded approvals within their scope.
+- Select the smallest justified R0/R1/R2/R3 route. R0/R1 may use the accepted task or PR brief; R2/R3 require a previously accepted baseline for ordinary work. Do not create extra Issues, plans or reviewers merely to fill a template.
+- Select the repository-adapted `test-driven-development` from `.sdlc/skills` (activated in `.agents/skills`) as the sole implementation procedure. Do not combine it with a global or upstream TDD copy. Existing discovery/design skills retain their bounded purposes; all six SDLC skills are explicitly selected only when relevant. Installed roles do not authorize delegation against user limits.
+- Require semantically correct, precise names, including reassessment of retained names when responsibility changes. Do not introduce or extend shims without a specific prior user override. Do not rename a shim to conceal its purpose.
+- Before new functionality or material integration changes, research existing and maintained alternatives deeply; compare supported configuration, composition and extension. Select current stable or the latest patch of the newest applicable supported LTS line first; inspect exact licences, riders and rights decisions. Record the residual custom gap; integration difficulty does not justify downgrade.
+- Use consumer-owned parsers, schemas and validators, then check the higher-level ontology/product outcome independently. A schema, reference, checked box or passing test is not evidence of human acceptance or semantic correctness.
+- Use `npm run ...` entry points for routine controls; Python runs through the existing `.venv`. Inspect lifecycle side effects before executing commands. `npm run build` invokes auto-fixes; use the documented direct Vite command when verification must preserve tracked inputs. Deployment remains separately authorized.
+- Retain truthful failures and proof gaps. Follow [REVIEW.md](REVIEW.md), native Codex Security workflows when authorized, and existing command protections. Installation, trust, live scans, GitHub writes, commits and pushing are distinct actions; repository integration does not authorize them by itself.
+- Remove only spent task-owned temporary artifacts after checking remaining consumers and retention; never delete failed evidence to manufacture completion.
+- SDLC status remains **1.0.0, pre-release, not deployed** until Max explicitly confirms deployment. Apply the method to real work; no synthetic adoption pilot or cross-repository distribution platform is required.

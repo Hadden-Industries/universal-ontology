@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "status": "pre-release",
+  "deployed": false,
+  "deploymentConfirmation": null,
+  "versionPolicy": "Remain at 1.0.0 until Max explicitly states that this package has been deployed. Do not infer deployment from a commit, archive, install example or test run."
+}

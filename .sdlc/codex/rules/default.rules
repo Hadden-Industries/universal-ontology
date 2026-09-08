@@ -1,0 +1,22 @@
+# Project-specific lifecycle authorization only. Generic destructive-command
+# classification belongs to the accepted native DCG deployment (CMD-01).
+# These prefixes do not cover every CLI spelling, SDK, API, MCP or web action.
+# Provider permissions, sandboxing and accountable decisions remain authoritative.
+
+prefix_rule(
+    pattern = ["gh", "issue", "delete"],
+    decision = "forbidden",
+    justification = "SDLC Issues are retained lifecycle evidence; agent deletion is not authorized.",
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "merge"],
+    decision = "prompt",
+    justification = "Merge is an accountable lifecycle transition, even when DCG permits the command.",
+)
+
+prefix_rule(
+    pattern = ["gh", "issue", "edit"],
+    decision = "prompt",
+    justification = "An accepted Issue body is normative lifecycle state.",
+)

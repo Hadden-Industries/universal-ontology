@@ -1,0 +1,8 @@
+# Selected latest stable direct requirements, verified 2026-09-07.
+# Resolve a full transitive/hash lock with the consuming repository's native tooling.
+# These exact pins preserve this selection; refresh them under VER-01, not by age.
+jsonschema==4.26.0
+PyYAML==6.0.3
+# jsonschema's declared date-time/URI formats require these native providers.
+rfc3339-validator==0.1.4
+rfc3986-validator==0.1.1

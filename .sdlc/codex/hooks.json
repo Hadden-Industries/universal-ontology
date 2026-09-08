@@ -1,0 +1,18 @@
+{
+  "description": "Repository SDLC lifecycle hooks.",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "REPOSITORY_SDLC_STOP_COMMAND",
+            "commandWindows": "REPOSITORY_SDLC_STOP_COMMAND",
+            "timeout": 30,
+            "statusMessage": "Checking current SDLC verification evidence"
+          }
+        ]
+      }
+    ]
+  }
+}

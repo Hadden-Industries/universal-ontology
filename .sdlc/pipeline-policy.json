@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 2,
+  "routes": {
+    "R0": {
+      "requiredProfiles": [
+        "focused"
+      ],
+      "priorBaselineRequired": false
+    },
+    "R1": {
+      "requiredProfiles": [
+        "affected"
+      ],
+      "priorBaselineRequired": false
+    },
+    "R2": {
+      "requiredProfiles": [
+        "full"
+      ],
+      "priorBaselineRequired": true
+    },
+    "R3": {
+      "requiredProfiles": [
+        "full"
+      ],
+      "priorBaselineRequired": true
+    }
+  }
+}

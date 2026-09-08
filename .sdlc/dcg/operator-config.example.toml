@@ -1,0 +1,42 @@
+# Candidate operator-owned DCG v0.14.0 config. NOT auto-loaded by this package.
+# Review/merge into the documented user location or a protected explicit path.
+# Do not point a privileged hook at this agent-editable example in production.
+# Native Windows ignores automatic repository .dcg.toml discovery.
+# strict_git deliberately requires operator intervention for history rewriting,
+# bulk staging and worktree removal. See docs/sdlc/command-safety.md.
+[general]
+fail_closed = true
+unverified_decision = "deny"
+check_updates = false
+self_heal_hook = false
+update_pin = true
+
+[policy]
+default_mode = "deny"
+
+[packs]
+enabled = [
+  "strict_git",
+  "platform.github",
+  "cicd.github_actions",
+  "windows.filesystem",
+  "windows.system",
+  "windows.misc",
+  "windows.powershell",
+]
+# Always-on core.git/core.filesystem and default system.disk remain enabled.
+# Add relevant leaves only after native validation and review, for example:
+# cloud.aws, storage.s3, secrets.aws_secrets, database.postgresql, containers.docker.
+# No blanket category enablement, allow regex, disabled pack or agent exemption.
+
+[heredoc]
+enabled = true
+fallback_on_parse_error = false
+fallback_on_timeout = false
+
+# Do not automatically record sensitive command arguments or mutate existing logs.
+# Enable history/logging only under a reviewed redaction/access/retention policy.
+[history]
+enabled = false
+[logging]
+enabled = false

@@ -66,6 +66,13 @@ beforeEach(() => {
     JSON.stringify({ packageManager: "npm@12.0.2" }),
   );
   writeFileSync(join(repositoryRoot, "package-lock.json"), "{}");
+  writeFileSync(join(repositoryRoot, ".node-version"), "24.20.0\n");
+  writeFileSync(join(repositoryRoot, ".python-version"), "3.14.7\n");
+  writeFileSync(
+    join(repositoryRoot, "requirements-sdlc.txt"),
+    "jsonschema==4.26.0\n",
+  );
+  Object.defineProperty(process.versions, "node", { value: "24.20.0" });
   writeFileSync(
     join(repositoryRoot, "requirements.txt"),
     "defusedxml>=0.7.1\n",
@@ -96,7 +103,7 @@ beforeEach(() => {
         return createCommandResult("aws-cli/2.30.0\n");
       }
       if (commandArguments[0] === "--version") {
-        return createCommandResult("Python 3.13.7\n");
+        return createCommandResult("Python 3.14.7\n");
       }
       if (commandArguments[0] === "-m" && commandArguments[1] === "venv") {
         createPythonVirtualEnvironmentFixture();
@@ -149,7 +156,10 @@ test.each([
     expect(commands).toEqual([
       [process.execPath, [npmCliPath, "--version"]],
       [systemPythonExecutableName, ["--version"]],
-      [process.execPath, [npmCliPath, "ci", "--include=dev"]],
+      [
+        process.execPath,
+        [npmCliPath, "ci", "--include=dev", "--ignore-scripts"],
+      ],
       [
         systemPythonExecutableName,
         ["-m", "venv", join(repositoryRoot, ".venv")],
@@ -167,6 +177,20 @@ test.each([
           "-r",
           join(repositoryRoot, "requirements.txt"),
         ],
+      ],
+      [
+        virtualEnvironmentPythonExecutablePath,
+        [
+          "-m",
+          "pip",
+          "install",
+          "-r",
+          join(repositoryRoot, "requirements-sdlc.txt"),
+        ],
+      ],
+      [
+        virtualEnvironmentPythonExecutablePath,
+        ["-B", join(repositoryRoot, "scripts", "set_up_sdlc.py")],
       ],
       ["aws", ["--version"]],
     ]);
@@ -194,6 +218,8 @@ test("preserves an existing virtual environment and uses its interpreter", () =>
     getPythonVirtualEnvironmentExecutablePath(),
     getPythonVirtualEnvironmentExecutablePath(),
     getPythonVirtualEnvironmentExecutablePath(),
+    getPythonVirtualEnvironmentExecutablePath(),
+    getPythonVirtualEnvironmentExecutablePath(),
   ]);
   expect(
     pythonCommands.some(([, commandArguments]) =>
@@ -217,16 +243,19 @@ test("rejects an unusable existing virtual environment before installation", () 
   );
 });
 
-test.each(["package-lock.json", "requirements.txt"])(
-  "rejects a missing %s before starting subprocesses",
-  (filename) => {
-    rmSync(join(repositoryRoot, filename));
-    expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
-      filename,
-    );
-    expect(spawnSyncMock).not.toHaveBeenCalled();
-  },
-);
+test.each([
+  "package-lock.json",
+  "requirements.txt",
+  "requirements-sdlc.txt",
+  ".node-version",
+  ".python-version",
+])("rejects a missing %s before starting subprocesses", (filename) => {
+  rmSync(join(repositoryRoot, filename));
+  expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
+    filename,
+  );
+  expect(spawnSyncMock).not.toHaveBeenCalled();
+});
 
 test("requires invocation through npm before changing the environment", () => {
   delete process.env.npm_execpath;
@@ -255,6 +284,7 @@ test("rejects an npm version that differs from the packageManager declaration", 
 test.each([
   ["missing", { ...createCommandResult("", null), error: new Error("ENOENT") }],
   ["too old", createCommandResult("Python 3.10.0\n")],
+  ["older patch than selected", createCommandResult("Python 3.14.6\n")],
 ])(
   "rejects %s Python before installing npm packages",
   (_description, result) => {
@@ -278,6 +308,7 @@ test.each([
   ["virtual environment creation", "venv"],
   ["pip upgrade", "--upgrade"],
   ["Python dependency installation", "-r"],
+  ["repository SDLC configuration", "-B"],
 ])("stops after a failed %s", (_description, failingArgument) => {
   const successfulCommand = spawnSyncMock.getMockImplementation();
   spawnSyncMock.mockImplementation((executable, args, options) =>

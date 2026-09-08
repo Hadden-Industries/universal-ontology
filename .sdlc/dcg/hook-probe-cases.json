@@ -1,0 +1,132 @@
+[
+  {
+    "id": "read-status",
+    "command": "git status --short",
+    "expectedDecision": "allow"
+  },
+  {
+    "id": "read-diff",
+    "command": "git diff --check",
+    "expectedDecision": "allow"
+  },
+  {
+    "id": "read-log",
+    "command": "git log -1 --oneline",
+    "expectedDecision": "allow"
+  },
+  {
+    "id": "read-head",
+    "command": "git rev-parse HEAD",
+    "expectedDecision": "allow"
+  },
+  {
+    "id": "stage-explicit",
+    "command": "git add -- src/example.py",
+    "expectedDecision": "allow"
+  },
+  {
+    "id": "commit-normal",
+    "command": "git commit -m \"Implement accepted behaviour\"",
+    "expectedDecision": "allow"
+  },
+  {
+    "id": "test-command",
+    "command": "python -m pytest tests/unit",
+    "expectedDecision": "allow"
+  },
+  {
+    "id": "hard-reset",
+    "command": "git reset --hard HEAD~1",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "hard-reset-alternative",
+    "command": "git reset HEAD~1 --hard",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "force-long",
+    "command": "git push --force origin feature",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "force-after-remote",
+    "command": "git push origin feature --force",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "force-short",
+    "command": "git push -f origin feature",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "force-with-lease",
+    "command": "git push --force-with-lease origin feature",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "history-amend",
+    "command": "git commit --amend --no-edit",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "history-rebase",
+    "command": "git rebase main",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "stage-all",
+    "command": "git add --all",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "remove-worktree",
+    "command": "git worktree remove ../probe-worktree",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "remove-branch",
+    "command": "git branch -D probe-branch",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "drop-stashes",
+    "command": "git stash clear",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "clean-ignored",
+    "command": "git clean -fdx",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "remove-source",
+    "command": "rm -rf /dcg-probe-must-never-run/source",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "delete-issue",
+    "command": "gh issue delete 123 --repo example/probe --yes",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "delete-repository",
+    "command": "gh repo delete example/probe --yes",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "windows-remove-tree",
+    "command": "Remove-Item -LiteralPath C:\\dcg-probe-must-never-run -Recurse -Force",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "windows-rmdir",
+    "command": "cmd.exe /c rd /s /q C:\\dcg-probe-must-never-run",
+    "expectedDecision": "deny"
+  },
+  {
+    "id": "windows-shadows",
+    "command": "vssadmin delete shadows /all /quiet",
+    "expectedDecision": "deny"
+  }
+]

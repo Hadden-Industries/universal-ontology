@@ -1,0 +1,31 @@
+name: Invalidate edited accepted SDLC Issue
+
+on:
+  issues:
+    types: [edited]
+
+permissions:
+  issues: write
+
+jobs:
+  invalidate:
+    if: github.event.changes.body || github.event.changes.title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark a materially edited accepted dossier changed
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const issue_number = context.issue.number;
+            const live = await github.rest.issues.get({owner, repo, issue_number});
+            const states = ['state:accepted', 'state:implementing', 'state:verified', 'state:released', 'state:validated'];
+            const present = states.filter(s => live.data.labels.some(l => l.name === s));
+            if (!present.length) return;
+            for (const name of present) {
+              try { await github.rest.issues.removeLabel({owner, repo, issue_number, name}); }
+              catch (error) { if (error.status !== 404) throw error; }
+            }
+            await github.rest.issues.addLabels({owner, repo, issue_number, labels: ['state:changed']});
+            await github.rest.issues.createComment({owner, repo, issue_number, body:
+              'The Issue title/body changed after acceptance. Preserve prior evidence; reaccept the affected intent and rerun linked PR checks before merge/release. R1 may use an updated brief in the normal PR. R2/R3 require a new prior-baseline version. This event does not rewrite historical release results.'});
