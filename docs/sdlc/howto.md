@@ -1,7 +1,9 @@
 # Universal Ontology SDLC
 
-Version 1.0.0; pre-release; not deployed. This repository is the first test bed.
-The owner's explicit deployment confirmation is required to change that status.
+Version and repository deployment status are recorded in
+[PACKAGE_STATUS.json](../../.sdlc/PACKAGE_STATUS.json). Read the
+[adoption record](adoption.md) for accepted host scope, evidence and upstream
+limitations. This repository is the first test bed.
 
 ## Start and scope
 

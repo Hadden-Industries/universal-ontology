@@ -1,8 +1,9 @@
 # Native destructive-command protection
 
-Package 1.0.0 · Pre-release, not deployed · CMD-01 initial setup guide.
+Package 1.0.0 · Pre-release · CMD-01 initial setup guide.
+Current operator selection and accepted host scope: [adoption record](adoption.md#command-safety).
 
-**Owner decision:** Max explicitly authorizes DCG 0.14.0 use in this repository.
+**Bootstrap owner decision:** Max explicitly authorized DCG 0.14.0 use in this repository.
 The upstream licence still includes the non-standard OpenAI/Anthropic rider;
 this is not plain MIT or a claim of an upstream written exception. See
 [the recorded rights decision](package-reuse-assessment.md#dcg-owner-decision).
@@ -14,11 +15,11 @@ Use the native **Destructive Command Guard (DCG)** implementation maintained at
 `Dicklesworthstone/destructive_command_guard` rather than expanding our hand-written
 Git/rm patterns. This adopts a specialist implementation, not a claim that every
 command is safe or intercepted. Candidate configuration and inert protocol-probe
-orchestration are included; native DCG execution and actual Codex/Windows
-interception have not been accepted for this host. This
-package has never been deployed and contains no legacy generic command catalogue.
+orchestration are included. The adoption record identifies the later approved
+activation and bounded host evidence; this guide is not an acceptance record for
+another host or execution path.
 
-The reviewed candidate is **v0.14.0**, published September 1, 2026, source commit
+The reviewed bootstrap candidate was **v0.14.0**, published September 1, 2026, source commit
 `581accd259ed2f8294a7e3866d1489eeaaa58b19` (peeled from the annotated tag). Its Git tag
 is unsigned according to GitHub; this is distinct from release-binary signature
 verification. The exact source identity is recorded in `.sdlc/dcg/UPSTREAM.json`.

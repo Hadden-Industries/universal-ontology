@@ -11,7 +11,8 @@ The actual v0.14.0 LICENSE includes a non-standard OpenAI/Anthropic rider.
 Max authorizes repository use; retain that decision separately from the upstream
 terms and any author-issued exception. Read the decision in
 [package-reuse-assessment.md](package-reuse-assessment.md#dcg-owner-decision).
-Host setup and interception acceptance are still outstanding.
+The [adoption record](adoption.md#command-safety) identifies the later operator
+selection and bounded host acceptance. This blank template grants no additional scope.
 
 ## Identity and authorization
 

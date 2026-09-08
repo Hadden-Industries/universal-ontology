@@ -1,6 +1,6 @@
 # Software-selection research and adoption gate
 
-Version 1.0.0 · Pre-release, not deployed. Governing rules: REU-01, VER-01, LIC-01.
+Version 1.0.0 · Pre-release. Governing rules: REU-01, VER-01, LIC-01.
 
 ## Trigger and outcome
 

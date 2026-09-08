@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "status": "pre-release",
-  "deployed": false,
-  "deploymentConfirmation": null,
-  "versionPolicy": "Remain at 1.0.0 until Max explicitly states that this package has been deployed. Do not infer deployment from a commit, archive, install example or test run."
+  "deployed": true,
+  "deploymentConfirmation": "Max confirmed repository-local deployment on 2026-09-08 by approving SDLC-FOLLOWUPS-01. Scope and evidence: docs/sdlc/adoption.md.",
+  "versionPolicy": "Keep version 1.0.0 and pre-release status unless Max explicitly approves a release or version change. Repository deployment does not publish the source package or the ontology product."
 }

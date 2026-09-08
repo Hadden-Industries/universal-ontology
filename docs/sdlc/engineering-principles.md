@@ -1,8 +1,9 @@
 # Engineering principles and decision rules
 
-Version: 1.0.0 · Status: pre-release, not deployed · Verified-source date: 2026-09-07.
+Version: 1.0.0 · Pre-release · Verified-source date: 2026-09-07.
+Repository deployment status and accepted scope: [adoption record](adoption.md).
 
-The package version MUST remain 1.0.0 until Max explicitly confirms deployment.
+The package version MUST remain 1.0.0 until Max explicitly approves a version change.
 Do not generate package change notes, upgrade paths, compatibility layers or
 migration patches for earlier drafts. Maintain the current design and its evidence.
 Schema versions and actual product/data migrations are separate concerns.
@@ -367,10 +368,11 @@ A required check that is unavailable/skipped remains a gap. Restrict unsupported
 surfaces with real capabilities/permissions or stop the affected operation; do not
 claim that a matcher or a prompt closes an unhooked path.
 
-The owner authorizes native DCG 0.14.0 use. Preserve the exact licence rider and
-[owner decision](package-reuse-assessment.md#dcg-owner-decision); do not infer an
-upstream licence exception. Host interception remains unaccepted. Preserve actual
-sandbox/provider restrictions and do not construct a substitute classifier.
+Use the [adoption record](adoption.md#command-safety) for the selected DCG release,
+owner decisions, tested host scope and remaining gaps. Preserve the exact licence
+rider and [owner decision](package-reuse-assessment.md#dcg-owner-decision); do not
+infer an upstream licence exception. Preserve actual sandbox/provider restrictions
+and do not construct a substitute classifier.
 Run exactly one approved native DCG hook per supported dispatch.
 Read [DCG integration](command-safety.md) and [deployment acceptance](dcg-acceptance.md).
 
