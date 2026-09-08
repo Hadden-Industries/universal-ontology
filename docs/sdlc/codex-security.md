@@ -150,6 +150,10 @@ approved host file operation may retain required supporting artifacts while
 source analysis stays sandboxed. This continues the same native assessment;
 it does not replace its required phases or accept missing evidence.
 
+The [adoption record](adoption.md#codex-security-windows-artifact-access) retains
+the successful fresh-scan qualification and its limits. Reuse that evidence only
+for the matching host, writer and assessment scope.
+
 - Bind each host operation to the existing scan ID, authoritative directory,
   exact destination, allowed file operations and frozen payload identity.
   Obtain any missing access approval before dispatch. Use existing operating
@@ -170,9 +174,9 @@ it does not replace its required phases or accept missing evidence.
 - Reuse still-valid assessment evidence when resuming a paused scan. Record the
   host identity, operations, artifact hashes, remaining gaps and elapsed time in
   the existing evidence. Preserve the normal review and recovery budgets.
-- Qualify this procedure against the existing paused scan, then verify it on
-  the next authorized real review's fresh directory. Retire it after an upstream
-  fix passes direct sandbox artifact I/O and native completion on a fresh scan.
+- Reassess qualification after a relevant plugin, host, sandbox-identity or writer
+  change. Retire the procedure after an upstream fix passes direct sandbox artifact
+  I/O and native completion on a fresh authorized scan.
 
 ## Store and validate native evidence
 

@@ -31,7 +31,9 @@ The selected [upstream licence](https://github.com/Dicklesworthstone/destructive
 contains MIT-derived terms plus an OpenAI/Anthropic rider. The owner decision is
 not a claim that the upstream author granted a written exception or changed those
 terms. Do not call it plain MIT or remove the rider. No binary is redistributed
-with this repository. Host acceptance remains unverified.
+with this repository. Host acceptance was unverified at this bootstrap assessment;
+the [adoption record](adoption.md#command-safety) records the later operator selection
+and bounded host evidence.
 
 ## Distribution and validation boundaries
 

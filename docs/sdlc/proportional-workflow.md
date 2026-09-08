@@ -1,6 +1,6 @@
 # Proportionate workflow and verification
 
-Version 1.0.0 · Pre-release, not deployed.
+Version 1.0.0 · Pre-release.
 
 | Route | Documentation/approval | Required local profile | Research obligation |
 |---|---|---|---|

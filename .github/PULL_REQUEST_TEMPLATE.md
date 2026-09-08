@@ -59,4 +59,4 @@ measurement and cleanup owners. Implementation success is not outcome validation
 - Initial host acceptance or scoped-exception decision reference:
 
 After an actual host acceptance, ordinary changes may reference that record.
-This package itself has not been deployed. Do not create a new guard acceptance record for each edit.
+Use the current host scope and retained evidence in docs/sdlc/adoption.md. Do not create a new guard acceptance record for each edit.

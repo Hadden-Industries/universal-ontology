@@ -48,9 +48,10 @@ not itself run the pre-commit hook.
 
 The experimental [SDLC guide](docs/sdlc/howto.md) describes proportionate routes,
 npm entry points, verification boundaries and evaluation through real work.
-The methodology remains **1.0.0, pre-release, not deployed**. See
-[SDLC-BOOTSTRAP-01](docs/sdlc/SDLC-BOOTSTRAP-01.md) for the approved local integration
-and the separate host and GitHub actions.
+The methodology is deployed in this repository as **1.0.0, pre-release**. See
+[the adoption record](docs/sdlc/adoption.md) for the accepted host scope, evidence
+and upstream limitations, and [SDLC-BOOTSTRAP-01](docs/sdlc/SDLC-BOOTSTRAP-01.md)
+for the original integration approval.
 
 Portions of this software or document may use, include material copied from, or derive from the following standard vocabularies and ontologies:
 
