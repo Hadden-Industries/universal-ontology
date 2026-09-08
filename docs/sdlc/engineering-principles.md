@@ -147,6 +147,17 @@ be a concise before/after statement; it does not require a dashboard or KPI stud
 Selected verification profiles are mandatory; 'full' means all relevant obligations,
 not indiscriminately every test in an enterprise. Global CI floors still apply.
 
+For bounded work, load only the instructions and source needed for the current
+decision. Reuse material already read; refresh it when the target, contract or
+evidence changes. Batch independent reads with bounded output, retrieve only
+missing portions, and stop searching when the decision has sufficient evidence.
+Keep the existing task/PR record; additional investigation or artifacts must serve
+a named unresolved requirement. Report unrelated discoveries as follow-up work.
+
+For live security reviews, apply the
+[bounded assessment rules](codex-security.md#bounded-security-assessment).
+A process limit never waives required evidence or converts incomplete work to a pass.
+
 ## REU-01 — Mandatory deep research before building new functionality
 
 **Before designing or implementing new functionality, the SDLC MUST perform deep,
