@@ -1,0 +1,15 @@
+schema_version: 1
+id: hadden_industries.git_reset
+name: Git hard-reset argument ordering
+version: 1.0.0
+description: Block the full --hard option before or after the reset revision.
+keywords:
+  - git
+destructive_patterns:
+  - name: reset-hard-argument-order
+    pattern: >-
+      (?:^|[^[:alnum:]_-])git(?:\.exe)?\s+(?:(?:-[cC]|--(?:git-dir|work-tree|namespace|super-prefix|shallow-file|config-env|attr-source))\s+[^\s;&|<>]+\s+|--?[^\s;&|<>]+\s+)*reset\s+(?:(?!--(?:end-of-options)?(?:\s|$))[^\s;&|<>]+\s+)*--hard(?:\s|$)
+    severity: critical
+    description: Hard reset discards uncommitted work; the revision's position does not make it safe.
+    executables:
+      - git
