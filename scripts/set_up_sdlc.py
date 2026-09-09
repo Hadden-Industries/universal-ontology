@@ -76,13 +76,15 @@ def sdlc_stop_hook(source: Path | None = None) -> dict:
         raise SetupError("Review hook command quoting after changing the shared Node bootstrap.")
     command = ("node --input-type=module --eval '" + bootstrap
                + "' -- scripts/runRepositoryPython.js scripts/sdlc_stop_gate.py")
-    windows_command = (
+    windows_script = (
         "$sdlcRepositoryRoot = & git rev-parse --show-toplevel; "
         "if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; "
         "Set-Location -LiteralPath $sdlcRepositoryRoot -ErrorAction Stop; "
         "& node (Join-Path $sdlcRepositoryRoot 'scripts/runRepositoryPython.js') "
         "'scripts/sdlc_stop_gate.py'; exit $LASTEXITCODE"
     )
+    # Native Codex invokes Windows hooks through cmd.exe, so select the interpreter.
+    windows_command = 'powershell.exe -NoLogo -NoProfile -NonInteractive -Command "' + windows_script + '"'
     template_path = source or Path(__file__).resolve().parents[1] / SOURCE_ROOT / "hooks.json"
     template = _parse_json_without_duplicate_object_members(template_path.read_text(encoding="utf-8"), description="SDLC hook template")
     group = template["hooks"]["Stop"][0]

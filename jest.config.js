@@ -1,4 +1,5 @@
 export default {
   testEnvironment: 'node',
-  transform: {}
+  transform: {},
+  testPathIgnorePatterns: ['/node_modules/', '<rootDir>/.sdlc/runtime/']
 };

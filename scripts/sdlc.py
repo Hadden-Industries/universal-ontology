@@ -85,7 +85,7 @@ def verify_task(repo: Path, args: argparse.Namespace) -> None:
             started_at = utc_now()
             try:
                 executable = require_command(argv[0])
-                completed = subprocess.run([executable, *argv[1:]], cwd=repo, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=command.get('timeoutSeconds', 600), check=False)
+                completed = subprocess.run([executable, *argv[1:]], cwd=repo, text=True, encoding='utf-8', stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=command.get('timeoutSeconds', 600), check=False)
                 output = completed.stdout or ''
                 return_code = completed.returncode
                 status = 'passed' if return_code == 0 else 'failed'

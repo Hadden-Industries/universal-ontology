@@ -40,7 +40,7 @@ def baseline_document(risk: str = 'R2') -> dict:
 
 class LocalVerificationControlTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.temporary = tempfile.TemporaryDirectory(prefix='sdlc-controls-')
+        self.temporary = tempfile.TemporaryDirectory(prefix='sdlc controls ')
         self.addCleanup(self.temporary.cleanup)
         self.repo = Path(self.temporary.name)
         shutil.copytree(REPOSITORY / '.sdlc/schemas', self.repo / '.sdlc/schemas')
@@ -206,6 +206,14 @@ class LocalVerificationControlTests(unittest.TestCase):
         self.assertEqual(record['commands'][0]['status'], 'unavailable')
         self.assertFalse(record['passed'])
 
+    def test_verification_preserves_utf8_command_output(self):
+        self.configure('focused', "import sys; sys.stdout.buffer.write(bytes.fromhex('5554462d383a20e6bca2e5ad97e29c930a'))")
+        self.begin_task()
+        self.verify_task()
+        record = state.load_json(self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json')
+        self.assertTrue(record['passed'])
+        self.assertEqual(record['commands'][0]['output'], 'UTF-8: 漢字✓\n')
+
     def test_failed_run_is_retained_when_next_run_passes(self):
         self.configure('focused', "import pathlib; raise SystemExit(0 if pathlib.Path('switch.txt').exists() else 1)")
         self.begin_task()
@@ -300,19 +308,30 @@ class LocalVerificationControlTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout), {})
 
-    def test_native_hook_bootstrap_roots_the_entry_point_and_preserves_arguments(self):
+    def test_native_hook_preserves_repository_root_arguments_stdin_and_exit_status(self):
         (self.repo / 'package.json').write_text('{"type":"module"}')
         (self.repo / 'scripts/runRepositoryPython.js').write_text(
-            'console.log(JSON.stringify({cwd:process.cwd(),args:process.argv.slice(2)}));')
+            'import {readFileSync} from "node:fs";'
+            'const input=JSON.parse(readFileSync(0,"utf8"));'
+            'console.log(JSON.stringify({cwd:process.cwd(),args:process.argv.slice(2),input}));'
+            'process.exitCode=input.exitCode;')
         command = set_up_sdlc.sdlc_stop_hook()['hooks'][0]['commandWindows' if os.name == 'nt' else 'command']
-        shell = ['powershell', '-NoProfile', '-Command'] if os.name == 'nt' else ['sh', '-c']
-        result = subprocess.run([*shell, command],cwd=self.repo/'scripts',input='{}',text=True,capture_output=True)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        payload = json.loads(result.stdout)
-        self.assertEqual(set(payload), {'cwd', 'args'})
-        self.assertTrue(Path(payload['cwd']).is_absolute())
-        self.assertTrue(Path(payload['cwd']).samefile(self.repo))
-        self.assertEqual(payload['args'], ['scripts/sdlc_stop_gate.py'])
+        # Codex's Windows hook consumer uses cmd.exe /C with a raw outer-quoted
+        # command. Launching PowerShell here would hide a missing interpreter.
+        invocation = (f'"{os.environ["COMSPEC"]}" /C "{command}"' if os.name == 'nt'
+                      else ['sh', '-c', command])
+        for exit_code in (0, 2):
+            with self.subTest(exit_code=exit_code):
+                hook_input = {'stop_hook_active': False, 'exitCode': exit_code}
+                result = subprocess.run(invocation,cwd=self.repo/'scripts',input=json.dumps(hook_input),
+                                        text=True,capture_output=True,timeout=30)
+                self.assertEqual(result.returncode, exit_code, result.stderr)
+                payload = json.loads(result.stdout)
+                self.assertEqual(set(payload), {'cwd', 'args', 'input'})
+                self.assertTrue(Path(payload['cwd']).is_absolute())
+                self.assertTrue(Path(payload['cwd']).samefile(self.repo))
+                self.assertEqual(payload['args'], ['scripts/sdlc_stop_gate.py'])
+                self.assertEqual(payload['input'], hook_input)
 
     def test_unknown_end_command_does_not_execute_a_transition(self):
         result = subprocess.run([sys.executable, str(self.repo / 'scripts/sdlc.py'), 'end'],
