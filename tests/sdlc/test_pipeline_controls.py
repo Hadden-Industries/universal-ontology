@@ -958,6 +958,63 @@ with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout), {})
 
+    def test_stop_hook_validation_diagnostics_do_not_disclose_retained_output(self):
+        private_output = 'WP1_PRIVATE_OUTPUT_\u6f22\u5b57'
+        self.configure('focused', "import sys; sys.stdout.buffer.write(bytes.fromhex('" +
+                       private_output.encode('utf-8').hex() + "'))")
+        self.begin_task(); self.verify_task()
+        current = self.repo / '.sdlc/runtime/verification/focused.json'
+        original = state.load_json(current)
+        raw = self.repo / original['commands'][0]['capture']['path']
+        self.assertEqual(raw.read_bytes(), private_output.encode('utf-8'))
+        command = [sys.executable, str(self.repo / 'scripts/sdlc_stop_gate.py')]
+        valid = subprocess.run(command, input='{}', encoding='utf-8', capture_output=True)
+        self.assertEqual(valid.returncode, 0, valid.stderr)
+        self.assertEqual(json.loads(valid.stdout), {})
+        malformed = copy.deepcopy(original)
+        malformed['commands'][0]['decodeStatus'] = 'pending'
+        state.write_json_atomically(current, malformed)
+        retained_receipt = current.read_bytes()
+        for continuation in (False, True):
+            with self.subTest(continuation=continuation):
+                result = subprocess.run(command, input=json.dumps({'stop_hook_active': continuation}),
+                                        encoding='utf-8', capture_output=True)
+                self.assertEqual(result.returncode, 0 if continuation else 2)
+                diagnostic = json.loads(result.stdout)['systemMessage'] if continuation else result.stderr
+                self.assertNotIn('WP1_PRIVATE_OUTPUT', diagnostic)
+                self.assertIn('focused', diagnostic)
+                self.assertIn('output', diagnostic)
+                self.assertIn('validation', diagnostic.lower())
+                self.assertLess(len(diagnostic), 2048)
+                if continuation: self.assertIn('no completion', diagnostic)
+                self.assertEqual(current.read_bytes(), retained_receipt)
+                self.assertEqual(raw.read_bytes(), private_output.encode('utf-8'))
+
+    def test_schema_diagnostics_are_bounded_and_exclude_document_values_and_keys(self):
+        self.begin_task(); self.verify_task()
+        receipt = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        marker = 'WP1_PRIVATE_VALUE'
+        malformed_receipt = copy.deepcopy(receipt)
+        malformed_receipt['runtime']['utf8Mode'] = marker
+        malformed_receipt['commands'][0]['output'] = {marker: marker}
+        malformed_receipt[marker] = marker
+        many_errors = copy.deepcopy(receipt)
+        many_errors['commands'] = [dict(receipt['commands'][0], output={marker: marker}) for _ in range(100)]
+        malformed_config = copy.deepcopy(self.config)
+        malformed_config['profiles'][marker.lower()] = marker
+        for schema, document in [('verification-run.schema.json', malformed_receipt),
+                                 ('verification-run.schema.json', many_errors),
+                                 ('verification-config.schema.json', malformed_config)]:
+            with self.subTest(schema=schema, commands=len(document.get('commands', []))):
+                with self.assertRaises(SetupError) as failure:
+                    state.validate_document(self.repo, schema, document)
+                diagnostic = str(failure.exception)
+                self.assertNotIn(marker.lower(), diagnostic.lower())
+                self.assertIn('validation', diagnostic.lower())
+                self.assertLess(len(diagnostic), 2048)
+        state.validate_document(self.repo, 'verification-run.schema.json', receipt)
+        self.assertEqual(state.required_verification_gaps(self.repo), [])
+
     def test_native_hook_preserves_repository_root_arguments_stdin_and_exit_status(self):
         (self.repo / 'package.json').write_text('{"type":"module"}')
         (self.repo / 'scripts/runRepositoryPython.js').write_text(

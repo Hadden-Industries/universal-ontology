@@ -11,6 +11,7 @@ import os
 import subprocess
 import sys
 import tempfile
+from itertools import islice
 from pathlib import Path
 from typing import Any
 
@@ -33,18 +34,25 @@ def load_json(path: Path) -> Any:
 
 
 def validate_document(repo: Path, schema_name: str, document: Any) -> None:
-    """Use the maintained JSON Schema implementation, not a shadow interpreter."""
+    """Validate with native JSON Schema; report bounded schema-owned diagnostics."""
     schema = load_json(repo / '.sdlc/schemas' / schema_name)
     try:
         Draft202012Validator.check_schema(schema)
     except SchemaError as exc:
-        raise SetupError(f'Invalid maintained schema {schema_name}: {exc.message}') from exc
+        raise SetupError(f'Invalid maintained schema {schema_name}.') from exc
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
-    errors = sorted(validator.iter_errors(document), key=str)
+    errors = list(islice(validator.iter_errors(document), 6))
     if errors:
-        raise SetupError('; '.join(
-            f'{list(error.absolute_path)}: {error.message}' for error in errors
-        ))
+        # Native messages, instance paths and even str(error) can disclose values
+        # or arbitrary document keys. Only locations in the maintained schema
+        # and native constraint keywords belong in these public diagnostics.
+        diagnostics = [
+            (f'{json.dumps(list(error.absolute_schema_path))}: {error.validator}')[:240]
+            for error in errors[:5]
+        ]
+        if len(errors) > 5:
+            diagnostics.append('Additional validation errors omitted.')
+        raise SetupError(f'Schema validation failed ({schema_name}): ' + '; '.join(diagnostics))
 
 
 def reject_redirected_path(path: Path) -> None:
