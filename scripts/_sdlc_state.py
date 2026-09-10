@@ -9,7 +9,9 @@ import hashlib
 import json
 import os
 import subprocess
+import sys
 import tempfile
+from itertools import islice
 from pathlib import Path
 from typing import Any
 
@@ -32,25 +34,37 @@ def load_json(path: Path) -> Any:
 
 
 def validate_document(repo: Path, schema_name: str, document: Any) -> None:
-    """Use the maintained JSON Schema implementation, not a shadow interpreter."""
+    """Validate with native JSON Schema; report bounded schema-owned diagnostics."""
     schema = load_json(repo / '.sdlc/schemas' / schema_name)
     try:
         Draft202012Validator.check_schema(schema)
     except SchemaError as exc:
-        raise SetupError(f'Invalid maintained schema {schema_name}: {exc.message}') from exc
+        raise SetupError(f'Invalid maintained schema {schema_name}.') from exc
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
-    errors = sorted(validator.iter_errors(document), key=str)
+    errors = list(islice(validator.iter_errors(document), 6))
     if errors:
-        raise SetupError('; '.join(
-            f'{list(error.absolute_path)}: {error.message}' for error in errors
-        ))
+        # Native messages, instance paths and even str(error) can disclose values
+        # or arbitrary document keys. Only locations in the maintained schema
+        # and native constraint keywords belong in these public diagnostics.
+        diagnostics = [
+            (f'{json.dumps(list(error.absolute_schema_path))}: {error.validator}')[:240]
+            for error in errors[:5]
+        ]
+        if len(errors) > 5:
+            diagnostics.append('Additional validation errors omitted.')
+        raise SetupError(f'Schema validation failed ({schema_name}): ' + '; '.join(diagnostics))
+
+
+def reject_redirected_path(path: Path) -> None:
+    """Reject existing symlink/junction components before local evidence I/O."""
+    for component in (path, *path.parents):
+        if component.is_symlink() or component.is_junction():
+            raise SetupError(f'Refusing redirected state path: {component}')
 
 
 def write_json_atomically(path: Path, value: Any) -> None:
     """Atomically write local JSON state, rejecting existing path redirections."""
-    for component in (path, *path.parents):
-        if component.is_symlink() or component.is_junction():
-            raise SetupError(f'Refusing redirected state path: {component}')
+    reject_redirected_path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary_name = tempfile.mkstemp(prefix='.' + path.name + '-', dir=path.parent)
     try:
@@ -59,8 +73,14 @@ def write_json_atomically(path: Path, value: Any) -> None:
             output.write('\n')
         os.replace(temporary_name, path)
     finally:
-        if os.path.exists(temporary_name):
-            os.unlink(temporary_name)
+        primary_error = sys.exception()
+        try:
+            if os.path.exists(temporary_name):
+                os.unlink(temporary_name)
+        except OSError as cleanup_error:
+            if primary_error is None:
+                raise
+            primary_error.add_note(f'Temporary JSON cleanup also failed: {cleanup_error}')
 
 
 def json_content_digest(value: Any) -> str:
@@ -178,17 +198,58 @@ def required_verification_gaps(repo: Path) -> list[str]:
         if not record_path.is_file():
             gaps.append(f'Missing {profile} verification.')
             continue
-        verification_record = load_json(record_path)
-        if not isinstance(verification_record, dict):
-            gaps.append(f'{profile} verification record is malformed.')
-            continue
-        if verification_record.get('profile') != profile or verification_record.get('passed') is not True:
-            gaps.append(f'{profile} did not pass.')
-            continue
-        if (verification_record.get('identityBefore') != identity
-                or verification_record.get('identityAfter') != identity):
-            gaps.append(f'{profile} evidence is stale or inputs changed during execution.')
-        commands = verification_record.get('commands')
-        if not isinstance(commands, list) or len(commands) != len(configuration['profiles'][profile]):
-            gaps.append(f'{profile} did not execute every configured check.')
+        try:
+            reject_redirected_path(record_path)
+            verification_record = load_json(record_path)
+            validate_verification_success(repo, verification_record, profile, identity,
+                                          configuration['profiles'][profile])
+            canonical = repo / verification_run_path(verification_record)
+            reject_redirected_path(canonical)
+            if load_json(canonical) != verification_record:
+                raise SetupError('Current and canonical receipts disagree.')
+        except (SetupError, OSError, ValueError, KeyError, TypeError) as exc:
+            gaps.append(f'{profile} verification is incomplete, stale or invalid: {exc}')
     return gaps
+
+
+def verification_run_path(record: dict) -> Path:
+    """Return the canonical receipt path for an already schema-validated run."""
+    return RUNTIME_DIRECTORY / 'runs' / record['taskId'] / (record['runId'] + '.json')
+
+
+def verification_output_path(record: dict, ordinal: int) -> Path:
+    """Return the create-only raw output path within a validated run's ownership."""
+    return verification_run_path(record).with_suffix('') / 'commands' / f'{ordinal:04d}.output.bin'
+
+
+def validate_verification_success(repo: Path, record: dict, profile: str,
+                                  identity: dict, configured_commands: list[dict]) -> None:
+    """Validate structure and consumer relationships without rehashing large logs.
+
+    Raw hashes are produced at capture and checked by independent verification;
+    routine gates check ownership and file size, not adversarial authenticity.
+    """
+    validate_document(repo, 'verification-run.schema.json', record)
+    if record['passed'] is not True:
+        raise SetupError('Attempt did not pass; run fresh verification.')
+    if (record['taskId'] != identity['taskId'] or record['profile'] != profile
+            or record['identityBefore'] != identity or record['identityAfter'] != identity):
+        raise SetupError('Evidence is stale or belongs to different task/profile/inputs.')
+    if (record['expectedCommandCount'] != len(configured_commands)
+            or len(record['commands']) != len(configured_commands)):
+        raise SetupError('Not every configured check executed.')
+    for ordinal, (result, configured) in enumerate(zip(record['commands'], configured_commands), 1):
+        if (result['ordinal'] != ordinal or result['name'] != configured['name']
+                or result['argv'] != configured['argv']
+                or result['timeoutSeconds'] != configured.get('timeoutSeconds', 600)
+                or not result['resolvedExecutable'] or not result['finishedAt']):
+            raise SetupError('Executed command inventory differs from configured checks.')
+        capture = result['capture']
+        expected = verification_output_path(record, ordinal).as_posix()
+        if capture['path'] != expected:
+            raise SetupError('Raw capture is outside this command attempt.')
+        raw = repo / expected
+        reject_redirected_path(raw)
+        require_repository_file(repo, expected)
+        if raw.stat().st_size != capture['byteLength']:
+            raise SetupError('Raw capture size differs from recorded evidence.')
