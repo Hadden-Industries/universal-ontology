@@ -8,6 +8,7 @@ import io
 import json
 import os
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -565,7 +566,8 @@ with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc
         self.config['profiles']['focused'] = [
             {'name': 'completed', 'argv': [sys.executable, 'verification_process.py', '--hex', '66697273740a']},
             {'name': 'waiting', 'argv': [sys.executable, 'verification_process.py', '--hex', '7365636f6e640a',
-                '--ready', '.sdlc/runtime/ready', '--release', '.sdlc/runtime/release']}]
+                '--ready', '.sdlc/runtime/ready', '--release', '.sdlc/runtime/release',
+                '--output-closed', '.sdlc/runtime/output-closed']}]
         state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
         self.commit('Two process checkpoints'); self.begin_task()
         runner = subprocess.Popen([sys.executable, str(self.repo / 'scripts/sdlc.py'), 'verify'],
@@ -590,18 +592,14 @@ with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc
             (self.repo / '.sdlc/runtime/release').touch()
             if runner.poll() is None:
                 runner.terminate(); runner.wait(timeout=10)
-            # The deliberately detached fixture exits itself; wait for its output
-            # handle to close before TemporaryDirectory attempts Windows cleanup.
+            # The deliberately detached fixture signals after explicitly closing
+            # both output handles; opening a second writer would not prove that.
             deadline = time.monotonic() + 10
-            raw_files = list((self.repo / '.sdlc/runtime/runs').rglob('0002.output.bin'))
-            for raw in raw_files:
-                while True:
-                    try:
-                        with raw.open('ab'): pass
-                        break
-                    except PermissionError:
-                        if time.monotonic() >= deadline: raise
-                        time.sleep(0.01)
+            closed = self.repo / '.sdlc/runtime/output-closed'
+            if ready.exists():
+                while not closed.exists() and time.monotonic() < deadline:
+                    time.sleep(0.01)
+                self.assertTrue(closed.exists(), 'Owned fixture did not close its output handles')
 
     def test_caught_interrupt_stops_real_child_and_preserves_known_result(self):
         self.config['profiles']['focused'][0]['argv'] = [sys.executable, 'verification_process.py',
@@ -759,6 +757,78 @@ with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc
                     '--scope', 'sdlc'], env=environment, capture_output=True)
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertEqual(output.read_text(encoding='utf-8'), 'sdlc=true\n')
+
+    def test_recording_failure_after_child_or_at_final_canonical_stops_publication(self):
+        self.config['profiles']['focused'] = [
+            {'name':'first', 'argv':[sys.executable,'verification_process.py','--hex','66616374730a']},
+            {'name':'second', 'argv':[sys.executable,'-c',"from pathlib import Path; Path('.sdlc/runtime/second').touch()"]}]
+        state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
+        self.commit('Two commands for recording faults'); self.begin_task()
+        original_write = sdlc.write_json_atomically
+        for boundary in ('after-child', 'final-canonical'):
+            with self.subTest(boundary=boundary):
+                failed = False
+                marker = self.repo / '.sdlc/runtime/second'
+                marker.unlink(missing_ok=True)
+                def fail_at_boundary(path, value):
+                    nonlocal failed
+                    first = value['commands'][0] if value.get('commands') else None
+                    at_boundary = (first and first['returnCode'] == 0 and first['decodeStatus'] == 'pending'
+                                   if boundary == 'after-child' else value.get('passed') is True)
+                    if failed or (at_boundary and path.parent.name != 'verification'):
+                        failed = True
+                        raise PermissionError('recording unavailable at ' + boundary)
+                    original_write(path, value)
+                with patch.object(sdlc, 'write_json_atomically', side_effect=fail_at_boundary):
+                    with self.assertRaises(SystemExit): self.verify_task(keep_going=True)
+                self.assertTrue(failed)
+                current = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+                self.assertFalse(current['passed'])
+                self.assertEqual((self.repo / state.verification_output_path(current, 1)).read_bytes(), b'facts\n')
+                self.assertEqual(marker.exists(), boundary == 'final-canonical')
+                self.assertTrue(state.required_verification_gaps(self.repo))
+
+    def test_native_invalid_executable_is_unavailable_without_invented_output(self):
+        invalid = self.repo / 'invalid-executable.exe'
+        invalid.write_bytes(b'This is not an executable image.\n')
+        invalid.chmod(0o700)
+        self.config['profiles']['focused'][0]['argv'] = [str(invalid)]
+        state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
+        self.commit('Invalid native executable'); self.begin_task()
+        with self.assertRaises(SystemExit): self.verify_task()
+        record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        result = record['commands'][0]
+        self.assertEqual(result['resolvedExecutable'], str(invalid))
+        self.assertEqual(result['status'], 'unavailable')
+        self.assertIsNone(result['returnCode']); self.assertIsNone(result['output'])
+        self.assertEqual(record['problems'][0]['phase'], 'spawn')
+        self.assertFalse(record['passed'])
+
+    @unittest.skipUnless(os.name == 'posix', 'Native targeted SIGINT is qualified on POSIX; Windows uses caught-exception injection')
+    def test_native_sigint_retains_interrupted_receipt(self):
+        self.config['profiles']['focused'][0]['argv'] = [sys.executable, 'verification_process.py',
+            '--ready', '.sdlc/runtime/ready', '--release', '.sdlc/runtime/release']
+        state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
+        self.commit('Native signal fixture'); self.begin_task()
+        runner = subprocess.Popen([sys.executable, str(self.repo / 'scripts/sdlc.py'), 'verify'],
+                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        try:
+            ready = self.repo / '.sdlc/runtime/ready'
+            deadline = time.monotonic() + 15
+            while not ready.exists() and runner.poll() is None and time.monotonic() < deadline:
+                time.sleep(0.01)
+            self.assertTrue(ready.exists())
+            runner.send_signal(signal.SIGINT)
+            self.assertNotEqual(runner.wait(timeout=10), 0)
+            record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+            self.assertEqual(record['status'], 'interrupted')
+            self.assertEqual(record['commands'][0]['status'], 'interrupted')
+            self.assertIsInstance(record['commands'][0]['returnCode'], int)
+            self.assertFalse(record['passed'])
+        finally:
+            (self.repo / '.sdlc/runtime/release').touch()
+            if runner.poll() is None:
+                runner.terminate(); runner.wait(timeout=10)
 
     def test_reader_rejects_redirected_raw_ancestor(self):
         self.begin_task(); self.verify_task()
