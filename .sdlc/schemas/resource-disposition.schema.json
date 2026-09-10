@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Proposed WP3 resource-disposition input and retained handoff record",
-  "description": "Project proposal, not an installed format. Structural validation cannot authenticate authority, resolve references, prove record-graph integrity, establish path safety or perform preservation/removal readback. The native recorder owns record identity, timestamp, input digest, scope and confirmationObservation; user declarations cannot substitute for those observations. No field authorises executable deletion.",
-  "$comment": "Adopt only after exact approval. Reuse the existing repository Draft202012Validator/FormatChecker; no new dependency or network schema retrieval. Unknown fields reject. The root oneOf distinguishes caller input from writer output. Cross-record/path/identity constraints in the plan remain runtime checks.",
+  "title": "Resource-disposition input and retained handoff record",
+  "description": "Structural validation cannot authenticate authority, resolve references, prove record-graph integrity, establish path safety or perform preservation/removal readback. The native recorder owns record identity, timestamp, input digest, scope and confirmationObservation; user declarations cannot substitute for those observations. No field authorises executable deletion.",
+  "$comment": "Accepted WP3 format. Reuse the existing repository Draft202012Validator/FormatChecker; no new dependency or network schema retrieval. Unknown fields reject. The root oneOf distinguishes caller input from writer output. Cross-record/path/identity constraints in the plan remain runtime checks.",
   "oneOf": [
     {
       "$ref": "#/$defs/input"

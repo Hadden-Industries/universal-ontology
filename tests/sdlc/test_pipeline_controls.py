@@ -27,6 +27,7 @@ import _sdlc_state as state
 import _commands
 import set_up_agent_skills as skill_setup
 import validate_sdlc_pr as pull_request_validation
+from _sdlc_baseline import BaselineBlob
 import set_up_sdlc
 from _commands import SetupError
 
@@ -1541,10 +1542,14 @@ class PullRequestValidationTests(unittest.TestCase):
                        'baseline':'docs/sdlc/baselines/issue-123/v1.json', 'new_functionality':'no','software_selection':'none'}
 
     def validate_fixture_pr(self, *, paths=None, baseline=None, prior=None, existing=False):
+        def blob(document):
+            raw = json.dumps(document).encode('utf-8')
+            oid = hashlib.sha1(b'blob ' + str(len(raw)).encode('ascii') + b'\0' + raw).hexdigest()
+            return BaselineBlob('example/service', 'a' * 40, self.fields['baseline'], '100644', oid, raw)
         return pull_request_validation.validate_pull_request_linkage(REPOSITORY,self.fields,'example/service',
              self.issue, paths if paths is not None else ['src/claim_status.py'],
-             baseline if baseline is not None else self.baseline,
-             prior if prior is not None else self.baseline,existing)
+             blob(baseline if baseline is not None else self.baseline),
+             blob(prior if prior is not None else self.baseline),existing)
 
     def test_r2_prior_baseline_passes(self): self.assertEqual(self.validate_fixture_pr(), [])
 

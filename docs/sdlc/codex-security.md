@@ -113,16 +113,20 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   owner/sandbox mismatch, use the authorized artifact I/O procedure below.
   If no approved writer works, stop the native assessment and preserve its
   identity and failure evidence. Existing alternative-assessment rules still apply.
-- While this inventory defect persists, bounded R0/R1 changes may use direct
-  review of the same frozen diff by an authorized reviewer, retaining applicable
-  deterministic checks, scope, permissions and review-independence requirements.
-  This standing alternative applies only to the inventory omission; it does not
-  bypass an access denial or another required assurance control. Label its method,
-  reviewed paths, findings and limitations as an alternative assessment, not a
-  successful native scan. R2/R3 or an explicit native-assurance requirement needs
-  a separately accepted alternative. Preserve any already-started native scan and
-  its failure evidence. Keep the upstream repair outstanding; after an upgrade,
-  verify actual inventory coverage before returning affected work to the native route.
+- For an observed inventory omission that remains unresolved on the actual
+  installed route, bounded R0/R1 changes may use direct review of the same frozen
+  diff by an authorized reviewer, retaining applicable deterministic checks, exact
+  scope, permissions and review-independence requirements. This standing alternative
+  applies only to the inventory omission; it does not bypass an access denial or
+  another required assurance control. Label the method, reviewed paths, findings
+  and limitations as an alternative assessment, not a successful native scan.
+  R2/R3 or an explicit native-assurance requirement needs a separately accepted
+  alternative. Preserve any already-started native scan and its failure evidence.
+  After an update, qualify the actual installed selection path before returning
+  affected work to the native route. Repair of changed-workflow inclusion alone
+  does not resolve omissions of other required paths or content sides. Retire
+  only an alternative whose sole cause has been demonstrated removed for the
+  recorded host, route and diff modes; keep the general coverage precheck.
 - An accountable R2/R3 alternative decision may cover a named implementation
   programme as well as one revision. Reuse it within its recorded risk class,
   assessment method, deployment/threat assumptions, permissions and scope; a new
@@ -169,6 +173,46 @@ Keep the native bundle and existing task record as the evidence; no extra report
 or automated timer is required. Actual latency improvement remains unverified
 until a subsequent authorized assessment exercises this procedure.
 
+## Qualify installed workflow inventory changes
+
+Upstream source and installed-agent capability are separate evidence. PR #820
+adds changed `.github/workflows` paths to the canonical diff inventory and legacy
+changed-file rank input. Its path exception does not generally remove repository
+ranking, extension, binary or other scope exclusions. Record the actual host and
+plugin delivery channel, effective installed identity where exposed, native helper
+path/runtime and tested behavior before retiring a related alternative.
+
+Use only the operator-authorized update mechanism supported by that actual
+installation. A marketplace sync, displayed-list refresh, source merge or successful
+update command does not by itself demonstrate that the running assessment uses the
+new helper. Do not patch plugin caches, copy individual helpers/skills, install a
+second conflicting copy, broaden permissions or rerun full scans to poll rollout.
+An unavailable update remains an owned capability dependency with a reassessment
+trigger, not a completed native scan or a presumed propagation deadline.
+
+Use bounded offline fixtures through the actual installed selector, not a copied
+implementation. Cover workflow-only and mixed-code changes, `.yml` and `.yaml`,
+committed ranges and supported staged/unstaged/untracked states. Characterize
+supported deletion/rename behavior. Obtain the complete native Git change set
+independently, preserving both rename sides and content identities. Compare paths,
+not only counts; a nonempty list or equal counts can still omit required content.
+Do not infer that path membership covers both staged and working bytes. Every
+remaining omission needs a scope disposition under the accepted review route.
+
+A direct helper pass is not desktop-native adoption evidence. During the next
+separately authorized useful native assessment, confirm its authoritative target,
+prepare and read all native inventory pages, and reconcile the required path set.
+Keep preflight, artifact writing, source analysis and finalization with the native
+assessment owner. A selection-only fixture does not start or complete a scan.
+Preserve the same scan identity on recoverable failure; use its supported recovery
+and existing budget, rather than replacing it or editing its artifacts.
+
+Record workflow-specific retirement separately from other inventory limitations
+and the Windows artifact procedure. A qualifying workflow result cannot retire
+artifact-access handling. Keep original native bundles unchanged, append the
+qualification and owner disposition to the existing task/adoption record, and
+state exactly which hosts, modes, targets and remaining gaps the evidence covers.
+
 ## Temporary Windows artifact I/O
 
 For the owner/sandbox directory-access defect tracked in
@@ -204,6 +248,15 @@ for the matching host, writer and assessment scope.
 - Reassess qualification after a relevant plugin, host, sandbox-identity or writer
   change. Retire the procedure after an upstream fix passes direct sandbox artifact
   I/O and native completion on a fresh authorized scan.
+
+Workflow inventory qualification, including PR #820, is not evidence that this
+artifact-access defect has been repaired. Keep the two dispositions separate.
+Retirement requires the matching actual writer/identity and fresh native scan
+completion without this procedure. A host-assisted write to an old directory is
+not that evidence. If an upstream change removes the reviewer filesystem-write
+obligation by using a supported native writer instead, record that changed
+contract and obtain acceptance of the corresponding retirement criterion; do not
+represent a host write as a successful sandbox filesystem write.
 
 ## Store and validate native evidence
 

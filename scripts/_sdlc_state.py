@@ -19,6 +19,9 @@ from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
 
 from _commands import SetupError, require_command
+from _sdlc_baseline import (BaselineBlob, MAX_BASELINE_BYTES, METADATA_TIMEOUT_SECONDS,
+                            OBJECT_ID, require_baseline_path, require_plan_text,
+                            decode_baseline_text)
 
 RUNTIME_DIRECTORY = Path('.sdlc/runtime')
 ACTIVE_TASK_PATH = RUNTIME_DIRECTORY / 'active.json'
@@ -187,6 +190,64 @@ def require_repository_file(repo: Path, relative_path: str) -> Path:
     return candidate_file
 
 
+def read_local_baseline_bytes(repo: Path, path: str) -> bytes:
+    """Read a bounded baseline without following local parent redirects."""
+    require_baseline_path(path)
+    reject_redirected_path(repo / path)
+    candidate = require_repository_file(repo, path)
+    with candidate.open('rb') as stream:
+        raw = stream.read(MAX_BASELINE_BYTES + 1)
+    decode_baseline_text(raw)
+    return raw
+
+
+def read_local_baseline_at_revision(repo: Path, path: str, revision: str = 'HEAD') -> BaselineBlob:
+    """Resolve a literal regular Git entry; never checkout or text-convert it."""
+    require_baseline_path(path)
+    def git(*args):
+        try:
+            result = subprocess.run([require_command('git'), '--no-optional-locks', '-C', str(repo), *args],
+                check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                timeout=METADATA_TIMEOUT_SECONDS)
+            return result.stdout
+        except (subprocess.SubprocessError, OSError) as exc:
+            raise SetupError('Native local baseline metadata is unavailable.') from exc
+    commit = git('rev-parse', '--verify', '--end-of-options', revision + '^{commit}').decode('ascii').strip()
+    if not OBJECT_ID.fullmatch(commit):
+        raise SetupError('Native Git did not resolve a full baseline commit.')
+    rows = git('ls-tree', '-z', '--full-tree', commit, '--', ':(literal)' + path).split(b'\0')
+    if len(rows) != 2 or rows[-1] != b'' or b'\t' not in rows[0]:
+        raise SetupError('Baseline regular entry is absent or ambiguous in the committed tree.')
+    metadata, selected_path = rows[0].split(b'\t', 1)
+    fields = metadata.decode('ascii').split()
+    if (len(fields) != 3 or fields[0] not in {'100644', '100755'} or fields[1] != 'blob'
+            or not OBJECT_ID.fullmatch(fields[2]) or selected_path.decode('utf-8') != path):
+        raise SetupError('Baseline is not the exact regular-file Git entry.')
+    size = git('cat-file', '-s', fields[2]).strip()
+    if not size.isdigit() or int(size) > MAX_BASELINE_BYTES:
+        raise SetupError('Baseline exceeds the 1 MiB byte limit or has invalid native size.')
+    raw = git('cat-file', 'blob', fields[2])
+    if len(raw) != int(size):
+        raise SetupError('Native baseline blob size mismatch.')
+    return BaselineBlob(repo.resolve().as_posix(), commit, path, fields[0], fields[2], raw)
+
+
+def require_local_baseline(repo: Path, path: str, *, committed: bool) -> bytes:
+    raw = read_local_baseline_bytes(repo, path)
+    text = decode_baseline_text(raw)
+    if require_baseline_path(path) == 'plan':
+        require_plan_text(text)
+    else:
+        try:
+            document = json.loads(text)
+        except ValueError as exc:
+            raise SetupError('Issue baseline is not valid JSON.') from exc
+        validate_document(repo, 'accepted-baseline.schema.json', document)
+    if committed and read_local_baseline_at_revision(repo, path).raw != raw:
+        raise SetupError('Prior baseline differs from the committed native blob.')
+    return raw
+
+
 def load_verification_controls(repo: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     """Load validated route policy and verification configuration together."""
     policy = load_json(repo / PIPELINE_POLICY_PATH)
@@ -237,7 +298,7 @@ def verification_input_identity(repo: Path, active: dict, policy: dict, configur
     """Describe the exact task and declared inputs associated with a verification run."""
     baseline_path = active.get('baseline')
     baseline_digest = (
-        hashlib.sha256(require_repository_file(repo, baseline_path).read_bytes()).hexdigest()
+        hashlib.sha256(read_local_baseline_bytes(repo, baseline_path)).hexdigest()
         if baseline_path else None
     )
     return {

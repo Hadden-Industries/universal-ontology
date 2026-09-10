@@ -20,6 +20,8 @@ from _sdlc_state import ACTIVE_TASK_PATH, RUNTIME_DIRECTORY, json_content_digest
 from _sdlc_state import reject_redirected_path, verification_run_path, verification_output_path, validate_verification_success
 from _sdlc_state import create_active_task_exclusively
 from _sdlc_resource_disposition import build_status, record_disposition
+from _sdlc_state import require_local_baseline
+from _sdlc_baseline import is_canonical_plan_path, require_acceptance_reference
 
 def utc_now() -> str:
     """Return an explicit UTC timestamp for an actual local event."""
@@ -54,12 +56,10 @@ def begin_task(repo: Path, args: argparse.Namespace) -> None:
     if route['priorBaselineRequired'] and (not args.baseline):
         raise SetupError(f'{args.risk} requires a previously approved baseline.')
     if args.baseline:
-        baseline_file = require_repository_file(repo, args.baseline)
-        validate_document(repo, 'accepted-baseline.schema.json', load_json(baseline_file))
-        if route['priorBaselineRequired']:
-            committed_baseline = git_output_bytes(repo, 'show', f'HEAD:{args.baseline}')
-            if committed_baseline != baseline_file.read_bytes():
-                raise SetupError('Prior baseline is absent from HEAD or differs from it.')
+        plan_baseline = is_canonical_plan_path(args.baseline)
+        if plan_baseline:
+            require_acceptance_reference(args.intent_reference)
+        require_local_baseline(repo, args.baseline, committed=route['priorBaselineRequired'] or plan_baseline)
     active_task = {'schemaVersion': 2, 'taskId': uuid.uuid4().hex, 'task': args.task, 'riskClass': args.risk, 'baseline': args.baseline, 'intentReference': args.intent_reference, 'purpose': args.purpose, 'newFunctionality': args.new_functionality, 'softwareSelectionReference': args.software_selection_reference, 'startedAt': utc_now(), 'startingHead': git_output_bytes(repo, 'rev-parse', 'HEAD').decode().strip(), 'requiredProfiles': route['requiredProfiles'], 'policyDigest': json_content_digest(policy), 'configurationDigest': json_content_digest(config)}
     create_active_task_exclusively(repo, active_task)
     try:
@@ -313,10 +313,10 @@ def resume_task(repo: Path, args: argparse.Namespace) -> None:
         raise SetupError('Only an explicitly paused task may be resumed.')
     policy, config = load_verification_controls(repo)
     route = policy['routes'][previous_task['riskClass']]
-    if route['priorBaselineRequired']:
-        baseline = require_repository_file(repo, previous_task['baseline'])
-        if git_output_bytes(repo, 'show', f"HEAD:{previous_task['baseline']}") != baseline.read_bytes():
-            raise SetupError('Required prior baseline is not unchanged in HEAD.')
+    if route['priorBaselineRequired'] or is_canonical_plan_path(previous_task.get('baseline')):
+        require_local_baseline(repo, previous_task['baseline'], committed=True)
+        if is_canonical_plan_path(previous_task['baseline']):
+            require_acceptance_reference(previous_task['intentReference'])
     write_json_atomically(repo / RUNTIME_DIRECTORY / 'handoffs' / f"{previous_task['taskId']}-resume-{uuid.uuid4().hex}.json", {'disposition': 'superseded-on-explicit-resume', 'decisionReference': args.decision_reference, 'active': previous_task})
     resumed_task = {k: v for k, v in previous_task.items() if k not in {'paused', 'pauseReason'}}
     resumed_task.update(taskId=uuid.uuid4().hex, startedAt=utc_now(), requiredProfiles=route['requiredProfiles'], policyDigest=json_content_digest(policy), configurationDigest=json_content_digest(config), resumeDecisionReference=args.decision_reference)

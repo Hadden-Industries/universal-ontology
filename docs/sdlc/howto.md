@@ -15,10 +15,17 @@ quality-attribute-scenarios, thin-implementation-plan, test-driven-development,
 and release-readiness. Select only those the task needs. The adapted TDD skill
 owns implementation; the other skills do not impose six sequential ceremonies.
 
-R0/R1 need no artificial Issue or separate baseline. For normal R2/R3 work, capture
-an actually accepted Issue version and merge that baseline before implementation.
-The owner-approved bootstrap is handled under the pre-existing repository
-configuration rule; it does not fabricate a baseline for itself.
+R0/R1 need no artificial Issue or separate baseline. For normal R2/R3 work, use a
+previously accepted baseline supported by the actual trusted policy consumer.
+The Issue-snapshot route retains its native capture, schema, prior-baseline and
+live Issue linkage requirements. The committed-plan route uses the unchanged
+accepted UTF-8 Markdown file under `docs/plans/`, already present as a regular
+file in the PR's trusted base, with an inspectable owner decision bound to that
+exact content. It does not require inventing an Issue for previously accepted
+work. A plan file, quoted approval or matching checksum does not authenticate
+acceptance. Preserve the selected risk class and required verification profile.
+The owner-approved bootstrap remains separately authorised; neither route creates
+an approval for its own implementation.
 
 ## Independent executions and integration
 
@@ -103,9 +110,11 @@ npm run sdlc -- verify
 
 New functionality requires `--new-functionality` and a completed
 `--software-selection-reference`; a reference's presence does not prove research
-quality. R2/R3 require `--baseline docs/sdlc/baselines/issue-N/vN.json`.
-Use `snapshot --help` for capture arguments. Capture reads GitHub and writes
-a new local baseline; it does not approve it.
+quality. For R2/R3, `--baseline` names the selected accepted Issue JSON snapshot or the
+supported committed plan. For a plan, `--intent-reference` identifies the actual
+owner decision; its presence alone does not verify that decision. Use the native
+snapshot procedure only for Issue capture. Do not rewrite an accepted plan into
+a fictitious snapshot or edit accepted bytes merely to satisfy metadata syntax.
 
 Profiles in [.sdlc/verification.json](../../.sdlc/verification.json) are repository
 configuration. Focused checks cover whitespace and generated configuration; they
@@ -205,6 +214,55 @@ hook, and do not keep it artificially active merely to remember a cleanup
 obligation. Existing verification freshness and bounded Stop behavior are
 unchanged. A recorded eligibility assessment is not permission to delete;
 follow the existing native Git/operator procedure after fresh inspection.
+
+## Check the next execution boundary
+
+Before expensive qualification, use the existing task/PR record to establish
+only the prerequisites the next step needs: actual acceptance and baseline
+compatibility in the trusted consumer; required runtimes; native security
+inventory and artifact-writer coverage when applicable; and the dependency gate's
+actual threshold, scopes and unresolved dispositions. Reuse still-current native
+evidence. Record `ready for the stated next step`, `blocked`, `unknown/unavailable`
+or `not applicable with reason`, with a next actor for gaps. This is not a new
+universal dossier, scanner, installer or product-approval gate. Continue independent
+authorised work that does not depend on a blocked boundary.
+
+A local preflight may invoke the existing validator from an independently trusted
+policy checkout using a retained native PR input snapshot and its existing
+read-only API interface. Label that input as local preflight, not a delivered
+GitHub event. Before a PR exists, prospective fixtures establish compatibility
+only. No candidate policy runs with the trusted workflow's credentials.
+
+At push/PR handoff, read the actual PR base/head and the relevant workflow event,
+run, attempt and every applicable job. Distinguish the policy revision executed
+from the candidate revision and any synthetic merge tested. Read a failing job's
+native result, not only an aggregate or old PR description. Required skipped work,
+missing logs and inaccessible enforcement settings remain explicit gaps.
+
+Landing new trusted policy requires a new qualifying event whose actual policy
+checkout is verified. Re-running an older workflow retains that event's original
+SHA/ref; it does not automatically adopt current default-branch policy. Do not
+create meaningless commits, false events or a candidate-policy fallback to turn
+an old check green. Baseline linkage, product verification, human acceptance and
+release/publication authority remain separate conclusions.
+
+## Plan the next useful checkpoint
+
+Apply [execution cadence and evidence placement](proportional-workflow.md#execution-cadence-and-evidence-placement)
+in the existing task. `verify --profile focused` is narrower evidence, not a risk
+amendment or a substitute for the required final profile. Inspect what the actual
+configured commands execute; the focused profile does not automatically contain
+every behavioral test, and a profile named full does not imply every release job.
+Use the supported direct test runner for a slice where needed and retain its real
+output without fabricating a native profile receipt.
+
+Complete intended tracked summaries, tests and approved configuration before the
+final freeze. Record ensuing results outside those inputs. A tracked edit or a
+commit after verification still changes the applicable identity; follow the
+current freshness gate and permitted Git sequence rather than refreshing digests.
+Operational progress cannot rewrite accepted requirements, active state or native
+receipts. When a current task needs an unsupported scope/risk transition, retain
+its state and obtain an explicit supported decision; do not fake completion.
 
 ## Evaluation through useful work
 

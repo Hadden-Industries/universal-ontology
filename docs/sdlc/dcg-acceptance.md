@@ -52,10 +52,31 @@ record and whether it blocks adoption. A skipped test is never converted to pass
 | Coexisting controls | SDLC Stop hook, sandbox, Issue/merge controls and unrelated hooks still function |
 | Initial host smoke | Native interception and coexisting controls work under the adopted exact host configuration |
 
+| Selected shell and request provenance | Requested and effective execution context are distinguished; original versus synthetic/redacted hook payload is explicit; canonical tool name is not substituted for resolved shell identity. |
+| Benign rejection regression | Full original or explicitly accepted semantically faithful correction succeeds on the actual protected path; a shorter non-equivalent command or native explicit-dialect allowance is insufficient. |
+| Native safety-neighbor preservation | Corresponding forbidden-operation specimens remain denied by the native consumer; the accepted task's limits on live destructive testing are preserved. |
+| Guard-result attribution | Native process status, native protocol decision, host handling and target result remain separate; skipped/unsupported requests and another control's block do not count as DCG interception. |
+| Installed repair and scope | Actual selected binary/configuration/packs/hook/host identities are recorded after propagation; unrelated tool, worker and interactive-input coverage is not inferred. |
+
 Do not create real cloud/database resources, remotes, public Issues or vulnerable
 production data merely for a smoke test. Most rule evaluation uses inert command
 strings. Any actual destructive host probe belongs entirely in a disposable,
 authorized fixture with recovery and sentinel verification, never the working repo.
+
+For a suspected shell-context defect, keep the original request and each diagnostic
+variant separately identified. Record native Windows versus WSL/other process OS,
+actual shell arguments and relevant argument-passing modes. A replay on another
+OS or with a supplied dialect cannot establish the original host-selected path.
+
+The command-safety guide's diagnosis procedure defines capture, minimization and
+repair ownership. Use it within the accepted task, not as a mandatory per-task
+ceremony. If original raw evidence cannot be recovered, retain that historical
+gap and qualify a new attributable occurrence without inventing earlier metadata.
+
+Use the actual identified corpus and retained prior host acceptance. The blank
+26-case template and a later extended operator receipt are not interchangeable
+case counts. Changes to material native interpretation or policy require the
+relevant safety regressions, not merely a new positive example.
 
 ## Residual gaps
 

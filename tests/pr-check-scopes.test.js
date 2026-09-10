@@ -242,6 +242,7 @@ describe("native Git PR check selection", () => {
     ["docs/sdlc/verification.md", []],
     ["scripts/set_up_sdlc.py", ["sdlc"]],
     ["scripts/_sdlc_resource_disposition.py", ["sdlc"]],
+    ["scripts/_sdlc_baseline.py", ["sdlc"]],
     ["scripts/setUpDevelopmentEnvironment.js", ["sdlc"]],
     [".codex/agents/verifier.toml", ["sdlc"]],
     ["docs/sdlc/engineering-principles.md", ["sdlc"]],

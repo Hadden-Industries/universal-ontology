@@ -98,6 +98,41 @@ remain recorded as failure; never alter the helper or verification record to
 make a hook happy. Final profile success is necessary only to the extent the
 repository policy requires it; it is not by itself proof of correctness.
 
+Before expensive qualification, expose a known incompatible trusted baseline
+consumer, missing required runtime/security capability, or conflicting dependency
+gate in the existing record. Reuse the owning consumer's supported checks; do not
+create a second selector, approval oracle or preflight dossier. A blocked dependency
+limits only work that needs it. Final required evidence remains required.
+
+For a PR handoff, distinguish local results from the actual remote event, policy
+revision, PR base/head, tested revision, run/attempt and relevant jobs. Include
+unavailable/skipped evidence and the next owner decision. Preserving an R2 route
+does not require repeating a full profile after every small edit; verify the
+final frozen object and affected changes under the existing policy.
+
+## Cadence, historical evidence and current completion
+
+Apply the repository's proportionate cadence rule where supplied. A focused check
+inside an elevated task leaves the original route and final obligations intact.
+A fuller check can subsume an equivalent earlier obligation where permitted; it
+does not authorise skipping separately configured rows, converting profile receipts
+or substituting implementation evidence for required independent execution.
+
+Keep per-run output and current progress outside tracked product/control inputs
+using the existing approved evidence and handoff locations. Preserve historical
+execution notes and any accepted requirement to maintain them. Accepted plans,
+Markdown fixtures, executable examples and instructions remain inputs. Confirm
+retained reproduction snapshots are not accidentally discovered as active tests;
+archive them as evidence through the accepted procedure rather than hiding a
+legitimate failing test or changing test-discovery policy without approval.
+
+A historical result remains evidence of its original object. A later tracked
+summary, commit, oracle or relevant runtime/configuration change cannot inherit a
+current full pass by declaration. Complete intended tracked changes before final
+freeze where the authorised sequence permits; subsequent input changes still
+receive applicable fresh verification. Do not add caching or weakened fingerprints
+under the label of proportionality.
+
 ## One implementation writer
 
 The caller selects one implementation owner for a slice. Do not spawn research,
