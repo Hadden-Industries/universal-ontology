@@ -36,6 +36,7 @@ export const CHECK_INPUTS = {
     "scripts/_commands.py",
     "scripts/_repository.py",
     "scripts/_sdlc_state.py",
+    "scripts/_sdlc_resource_disposition.py",
     "scripts/bootstrap_github_sdlc.py",
     "scripts/probe_dcg_hook_protocol.py",
     "scripts/runRepositoryPython.js",

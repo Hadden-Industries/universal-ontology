@@ -110,6 +110,21 @@ fix, freeze the new object, reverify and rerun affected review. Preserve require
 raw scan/run evidence before releasing worktrees. No worker deletes another's
 scratch; the coordinator confirms consumers have finished under CLEAN-01.
 
+When resources survive a worker or implementation handoff, obtain their exact
+locations, candidate/evidence identity, originating owner, remaining consumers
+and proposed disposition with the worker's normal result. The coordinator names
+the next actor and reassessment event in the existing handoff and retains required
+evidence outside any disposable copy. Do not infer completion from a worker's
+exit, cancellation or silence.
+
+The coordinator may record dispositions without reopening a completed
+implementation. A guarded operator action remains a separately visible pending
+obligation, not authority to modify protection or dispatch the same operation
+through a different tool. Confirm consumer release and actual evidence retrieval
+before the normal disposal checkpoint. This adds neither automatic delegation
+nor a new cleanup worker. Use the resource-disposition procedure in
+`temporary-artefacts-howto.md`.
+
 ## Command-safety inheritance
 
 The coordinator MUST verify that any adopted DCG hook, trust/config and command-path

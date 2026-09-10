@@ -174,6 +174,38 @@ escalate under the temporary-artifact policy; do not remove active ownership.
 An unsupported publication capability remains an explicit setup/design decision,
 not permission to substitute a weaker copy or replacement operation.
 
+## Resource disposition after implementation handoff
+
+Use [the temporary-artefact procedure](temporary-artefacts-howto.md) when task-owned
+resources survive a handoff. The coordinator records the owner or explicit hold,
+remaining consumers, preserved evidence, next actor and reassessment event in the
+existing task/handoff channel. The actual preservation copy must outlive the
+resource being considered. Routine scratch removed in its creating task requires
+no additional resource record.
+
+The metadata-only command is
+`npm run sdlc -- record-resource-disposition --input <contained-json-file>`.
+It writes a new disposition record under the coordinator's existing handoff
+store; it does not begin a new implementation, modify the active pointer, change
+verification evidence, approve disposal or execute a recorded command. Its input
+and stored format use `.sdlc/schemas/resource-disposition.schema.json`.
+
+`npm run sdlc -- status` returns the documented versioned JSON envelope with the
+active task and retained resource obligations, including when no active task
+exists. This replaces the earlier flat active-task output; consumers must use
+the `active` field and explicit read state. Machine consumers use the silent npm
+form or direct existing Node entry so launcher messages are not mistaken for
+JSON. A complete status read can still show
+retention or operator work. A partial read is not evidence of an empty resource
+set, and a successful status command is not a verification or release verdict.
+
+Keep the native `handoff` evidence reference linked to the actual retained task
+summary and resource decisions. Do not remove active state manually to suppress a
+hook, and do not keep it artificially active merely to remember a cleanup
+obligation. Existing verification freshness and bounded Stop behavior are
+unchanged. A recorded eligibility assessment is not permission to delete;
+follow the existing native Git/operator procedure after fresh inspection.
+
 ## Evaluation through useful work
 
 The owner declined replaying historical changes or inventing features for a pilot.

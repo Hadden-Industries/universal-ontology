@@ -58,6 +58,26 @@ A worker reports its temporary outputs; the coordinator owns shared-resource
 release after collecting all workers' evidence. This skill grants no extra
 filesystem authority and does not create a new cleanup orchestrator.
 
+For a resource that survives the handoff, distinguish the originating execution,
+resource owner, coordinator and next actor. Supply its exact identity/location or
+safely scoped group, candidate, remaining consumers, retained-evidence/readback
+reference, proposed disposition and reassessment event. Use the normal handoff;
+no separate per-file register, reviewer or red-green commit is required.
+
+The receiving coordinator retains these obligations outside any resource or
+containing worktree that may be disposed of. Metadata can remain pending after
+implementation handoff without reopening an implementation task. Use the actual
+retained summary with the existing `--evidence-reference` argument. A record,
+field or hash is not proof that the evidence was preserved or the operator was
+notified.
+
+If native protection blocks an otherwise appropriate operation, return the exact
+observed denial and scoped operator request; do not execute another route to the
+same deletion. A worktree being dirty after preservation remains dirty for the
+native removal check. Do not clean away user edits or failed evidence to make it
+removable. Actual removal is a separate observed outcome, not an inference from
+this skill's successful implementation work.
+
 ## Verification order and freshness
 
 Use the approved test commands, then affected regression checks, then the required

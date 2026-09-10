@@ -13,11 +13,13 @@ import subprocess
 import sys
 import uuid
 from pathlib import Path
+from contextlib import redirect_stdout
 from _commands import SetupError, require_command, run, write_console_diagnostic
 from _repository import derive_repo_from_script
 from _sdlc_state import ACTIVE_TASK_PATH, RUNTIME_DIRECTORY, json_content_digest, required_verification_gaps, git_output_bytes, load_verification_controls, load_json, require_repository_file, write_json_atomically, verification_input_identity, validate_document
 from _sdlc_state import reject_redirected_path, verification_run_path, verification_output_path, validate_verification_success
 from _sdlc_state import create_active_task_exclusively
+from _sdlc_resource_disposition import build_status, record_disposition
 
 def utc_now() -> str:
     """Return an explicit UTC timestamp for an actual local event."""
@@ -321,6 +323,24 @@ def resume_task(repo: Path, args: argparse.Namespace) -> None:
     write_json_atomically(repo / ACTIVE_TASK_PATH, resumed_task)
     print('Resumed with a new evidence identity; old runs cannot satisfy this task.')
 
+def resource_status(repo: Path, args: argparse.Namespace) -> int:
+    """Report local obligations, without treating retention as failed execution."""
+    report = build_status(repo)
+    write_console_diagnostic(json.dumps(report, ensure_ascii=True, indent=2) + '\n')
+    return 1 if report['readProblems'] else 0
+
+
+def record_resource_disposition(repo: Path, args: argparse.Namespace) -> int:
+    """Retain a metadata snapshot; successful publication grants no disposal."""
+    result = record_disposition(repo, args.input)
+    try:
+        write_console_diagnostic(json.dumps(result, ensure_ascii=True) + '\n')
+    except (OSError, ValueError) as exc:
+        raise SetupError(f'Resource record {result["recordId"]} retained at '
+                         f'{result["recordPath"]}; acknowledgement failed; inspect before retry.') from exc
+    return 0
+
+
 def main() -> int:
     """Expose explicit authorised local lifecycle subcommands."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -351,7 +371,10 @@ def main() -> int:
     resume_parser.add_argument('--decision-reference', required=True)
     resume_parser.set_defaults(function=resume_task)
     status_parser = sub.add_parser('status')
-    status_parser.set_defaults(function=lambda repo, args: print(json.dumps(load_json(repo / ACTIVE_TASK_PATH), indent=2)))
+    status_parser.set_defaults(function=resource_status)
+    resource_parser = sub.add_parser('record-resource-disposition')
+    resource_parser.add_argument('--input', required=True)
+    resource_parser.set_defaults(function=record_resource_disposition)
     for name, completed in [('handoff', True), ('pause', False)]:
         disposition_parser = sub.add_parser(name)
         disposition_parser.add_argument('--reason', required=True)
@@ -360,6 +383,10 @@ def main() -> int:
         disposition_parser.set_defaults(function=lambda repo, args, is_complete=completed: record_task_disposition(repo, args, is_complete))
     args = parser.parse_args()
     try:
+        if args.command in {'status', 'record-resource-disposition'}:
+            with redirect_stdout(sys.stderr):
+                repo = derive_repo_from_script(__file__)
+            return args.function(repo, args)
         args.function(derive_repo_from_script(__file__), args)
         return 0
     except (SetupError, OSError, ValueError, KeyError, subprocess.CalledProcessError) as exc:

@@ -1202,7 +1202,7 @@ with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc
                 flushed.append(True)
                 raise OSError('stderr flush failed')
         with (patch.object(sys, 'argv', args),
-              patch.object(sdlc, 'load_json', side_effect=OSError('original \u2716')),
+              patch.object(sdlc, 'derive_repo_from_script', side_effect=OSError('original \u2716')),
               patch.object(sys, 'stderr', FailingErrorStream())):
             self.assertEqual(sdlc.main(), 1)
         self.assertTrue(flushed)
