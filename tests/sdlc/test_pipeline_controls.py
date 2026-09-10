@@ -11,8 +11,9 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
-from contextlib import redirect_stdout
+from contextlib import redirect_stdout, redirect_stderr
 from pathlib import Path
 from unittest.mock import patch
 
@@ -20,6 +21,7 @@ REPOSITORY = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPOSITORY / 'scripts'))
 import sdlc
 import _sdlc_state as state
+import _commands
 import set_up_agent_skills as skill_setup
 import validate_sdlc_pr as pull_request_validation
 import set_up_sdlc
@@ -46,6 +48,8 @@ class LocalVerificationControlTests(unittest.TestCase):
         shutil.copytree(REPOSITORY / '.sdlc/schemas', self.repo / '.sdlc/schemas')
         shutil.copytree(REPOSITORY / 'scripts', self.repo / 'scripts',
                         ignore=shutil.ignore_patterns('__pycache__'))
+        shutil.copy2(REPOSITORY / 'tests/sdlc/fixtures/verification_process.py',
+                     self.repo / 'verification_process.py')
         shutil.copy2(REPOSITORY / '.sdlc/pipeline-policy.json', self.repo / '.sdlc/pipeline-policy.json')
         (self.repo / '.gitignore').write_text('.sdlc/runtime/\n.sdlc/tmp/\n__pycache__/\n')
         (self.repo / 'value.txt').write_text('accepted\n')
@@ -218,10 +222,586 @@ class LocalVerificationControlTests(unittest.TestCase):
         self.configure('focused', "import pathlib; raise SystemExit(0 if pathlib.Path('switch.txt').exists() else 1)")
         self.begin_task()
         with self.assertRaises(SystemExit): self.verify_task()
+        retained = {path: path.read_bytes() for path in
+                    (self.repo / state.RUNTIME_DIRECTORY / 'runs').rglob('*') if path.is_file()}
         (self.repo / 'switch.txt').write_text('corrected fixture')
         self.verify_task()
+        self.assertTrue(retained)
+        for path, contents in retained.items(): self.assertEqual(path.read_bytes(), contents)
         records = [state.load_json(path) for path in (self.repo / state.RUNTIME_DIRECTORY / 'runs').rglob('*.json')]
         self.assertEqual(sorted(record['passed'] for record in records), [False, True])
+        self.assertEqual(state.required_verification_gaps(self.repo), [])
+
+    def test_real_launcher_selects_utf8_without_replacing_stream_override(self):
+        environment = dict(os.environ, PYTHONUTF8='0')
+        environment.pop('PYTHONIOENCODING', None)
+        code = "import json,sys; print(json.dumps([sys.flags.utf8_mode,sys.stdout.encoding,sys.argv[1:]]))"
+        command = ['node', str(REPOSITORY / 'scripts/runRepositoryPython.js'), '-c', code, 'space and;literal']
+        result = subprocess.run(command, env=environment, capture_output=True, check=True)
+        self.assertEqual(json.loads(result.stdout), [1, 'utf-8', ['space and;literal']])
+        environment['PYTHONIOENCODING'] = 'cp1252:strict'
+        overridden = subprocess.run(command, env=environment, capture_output=True, check=True)
+        self.assertEqual(json.loads(overridden.stdout), [1, 'cp1252', ['space and;literal']])
+
+    def test_real_cli_retains_unicode_child_failure(self):
+        self.config['profiles']['focused'][0]['argv'] = [sys.executable,
+            str(self.repo / 'verification_process.py'), '--exit-code', '7']
+        state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
+        self.commit('Unicode byte producer'); self.begin_task()
+        environment = dict(os.environ, PYTHONUTF8='0')
+        environment.pop('PYTHONIOENCODING', None)
+        result = subprocess.run(['node', str(REPOSITORY / 'scripts/runRepositoryPython.js'),
+            str(self.repo / 'scripts/sdlc.py'), 'verify'], env=environment, capture_output=True)
+        self.assertEqual(result.returncode, 1)
+        current = self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json'
+        self.assertTrue(current.is_file(), result.stderr)
+        receipt = state.load_json(current)
+        self.assertEqual(receipt['commands'][0]['returnCode'], 7)
+        self.assertEqual(receipt['commands'][0]['output'], '\u2716 \u6f22\u5b57 \U0001f600\n')
+        self.assertFalse(receipt['passed'])
+
+    @unittest.skipUnless(os.name == 'nt', 'Native legacy-default protocol boundary is Windows-specific')
+    def test_real_issue_protocol_does_not_use_legacy_default_decoding(self):
+        issue = baseline_document()['issue']
+        issue = dict(issue, body='Accepted \u2014 exact.\r\n', labels=[{'name':'risk:R2'}])
+        issue_bytes = json.dumps(issue, ensure_ascii=False).encode('utf-8')
+        code = f'''
+import argparse, json, sys
+from pathlib import Path
+from unittest.mock import patch
+sys.path.insert(0, {str(REPOSITORY / 'scripts')!r})
+import sdlc, _commands
+assert sys.flags.utf8_mode == 0
+def protocol(arguments, **kwargs):
+    assert arguments[0] == 'gh'
+    if arguments[1:4] == ['issue', 'view', '123']:
+        payload = bytes.fromhex({issue_bytes.hex()!r})
+    else:
+        assert arguments[1:] == ['repo', 'view', '--json', 'nameWithOwner']
+        payload = b'{{"nameWithOwner":"example/service"}}'
+    return _commands.run([sys.executable, '-c', 'import sys; sys.stdout.buffer.write(' + repr(payload) + ')'], **kwargs)
+with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc, 'run', side_effect=protocol):
+    sdlc.capture_issue_baseline(Path({str(self.repo)!r}), argparse.Namespace(issue=123, version=1,
+        accepted_by='fixture', accepted_at='2026-09-10T00:00:00Z', approval_reference='fixture-only'))
+'''
+        result = subprocess.run([sys.executable, '-B', '-X', 'utf8=0', '-c', code], capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        captured = state.load_json(self.repo / 'docs/sdlc/baselines/issue-123/v1.json')
+        self.assertEqual(captured['issue']['body'], 'Accepted \u2014 exact.\r\n')
+        markdown = (self.repo / 'docs/sdlc/baselines/issue-123/v1.md').read_bytes()
+        self.assertTrue(markdown.endswith('Accepted \u2014 exact.\r\n\n'.encode('utf-8')))
+
+    def test_completed_command_is_retained_before_report_failure(self):
+        self.configure('focused', "import sys; sys.stdout.buffer.write(bytes.fromhex('636f6d706c657465642d6368696c642d65766964656e63650a'))")
+        self.begin_task()
+        owner = self
+        class FailingReport(io.StringIO):
+            def write(self, text):
+                if text.startswith('completed-child-evidence'):
+                    saved = state.load_json(owner.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json')
+                    owner.assertEqual(saved['commands'][0]['returnCode'], 0)
+                    owner.assertEqual(saved['commands'][0]['output'], 'completed-child-evidence\n')
+                    owner.assertEqual((owner.repo / saved['commands'][0]['capture']['path']).read_bytes(),
+                                      b'completed-child-evidence\n')
+                    raise OSError('fixture report failure')
+                return super().write(text)
+        with redirect_stdout(FailingReport()):
+            try:
+                sdlc.verify_task(self.repo, argparse.Namespace(profile=None, keep_going=False))
+            except (OSError, SetupError, SystemExit):
+                pass
+        current = self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json'
+        self.assertTrue(current.is_file(), 'Completed evidence disappeared at the reporting boundary')
+        record = state.load_json(current)
+        self.assertEqual(record['commands'][0]['returnCode'], 0)
+        self.assertEqual(record['commands'][0]['output'], 'completed-child-evidence\n')
+        self.assertFalse(record['passed'])
+
+    def test_pending_attempt_replaces_same_input_success_before_child(self):
+        self.configure('focused', "import json; from pathlib import Path; "
+            "p=Path('.sdlc/runtime/check-admission'); "
+            "r=json.loads(Path('.sdlc/runtime/verification/focused.json').read_text()) if p.exists() else None; "
+            "assert r is None or r['passed'] is False")
+        self.begin_task(); self.verify_task()
+        first = (self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json').read_bytes()
+        (self.repo / state.RUNTIME_DIRECTORY / 'check-admission').touch()
+        self.verify_task()
+        records = list((self.repo / state.RUNTIME_DIRECTORY / 'runs').rglob('*.json'))
+        self.assertTrue(any(path.read_bytes() == first for path in records))
+        self.assertEqual(state.required_verification_gaps(self.repo), [])
+
+    def test_receipt_pair_preserves_exact_crlf_bytes(self):
+        self.configure('focused', "import sys; sys.stdout.buffer.write(b'exact\\r\\n')")
+        self.begin_task(); self.verify_task()
+        record = state.load_json(self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json')
+        self.assertEqual(record['schemaVersion'], 3)
+        canonical = self.repo / state.RUNTIME_DIRECTORY / 'runs' / record['taskId'] / (record['runId'] + '.json')
+        self.assertEqual(state.load_json(canonical), record)
+        command = record['commands'][0]
+        self.assertEqual(command['output'], 'exact\r\n')
+        raw = (self.repo / command['capture']['path']).read_bytes()
+        self.assertEqual(raw, b'exact\r\n')
+        self.assertEqual(command['capture']['byteLength'], 7)
+        self.assertEqual(command['capture']['sha256'], hashlib.sha256(b'exact\r\n').hexdigest())
+
+    def test_invalid_utf8_preserves_original_exit_and_raw_bytes(self):
+        self.configure('focused', "import sys; sys.stdout.buffer.write(b'original\\xff\\r\\n'); raise SystemExit(7)")
+        self.begin_task()
+        try:
+            self.verify_task()
+        except (SystemExit, UnicodeError):
+            pass
+        current = self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json'
+        self.assertTrue(current.is_file())
+        record = state.load_json(current)
+        command = record['commands'][0]
+        self.assertEqual(command['returnCode'], 7)
+        self.assertEqual(command['status'], 'failed')
+        self.assertEqual(command['decodeStatus'], 'invalid-utf8')
+        self.assertIsNone(command['output'])
+        self.assertEqual((self.repo / command['capture']['path']).read_bytes(), b'original\xff\r\n')
+        self.assertFalse(record['passed'])
+
+    def test_reader_rejects_substituted_command_inventory_and_legacy_receipts(self):
+        self.begin_task(); self.verify_task()
+        current = self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json'
+        original = state.load_json(current)
+        changed = copy.deepcopy(original)
+        changed['commands'][0]['name'] = 'not-the-required-check'
+        state.write_json_atomically(current, changed)
+        self.assertTrue(state.required_verification_gaps(self.repo))
+        legacy = copy.deepcopy(original); legacy['schemaVersion'] = 2
+        state.write_json_atomically(current, legacy)
+        self.assertTrue(state.required_verification_gaps(self.repo))
+
+    def test_first_recording_failure_starts_no_child(self):
+        self.configure('focused', "from pathlib import Path; Path('.sdlc/runtime/should-not-start').touch()")
+        self.begin_task()
+        with (patch.object(state, 'write_json_atomically', side_effect=PermissionError('unwritable fixture')),
+              patch.object(sdlc, 'write_json_atomically', side_effect=PermissionError('unwritable fixture'))):
+            try:
+                self.verify_task()
+            except (OSError, SetupError, SystemExit):
+                pass
+        self.assertFalse((self.repo / state.RUNTIME_DIRECTORY / 'should-not-start').exists())
+
+    def test_real_cli_escapes_explicit_legacy_streams_without_changing_evidence(self):
+        self.config['profiles']['focused'][0]['argv'] = [sys.executable, str(self.repo / 'verification_process.py')]
+        state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
+        self.commit('Unicode producer'); self.begin_task()
+        for encoding in ('cp1252:strict', 'ascii:ignore'):
+            with self.subTest(encoding=encoding):
+                result = subprocess.run(['node', str(REPOSITORY / 'scripts/runRepositoryPython.js'),
+                    str(self.repo / 'scripts/sdlc.py'), 'verify'],
+                    env=dict(os.environ, PYTHONIOENCODING=encoding), capture_output=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn(b'\\u2716', result.stdout)
+                receipt = state.load_json(self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json')
+                self.assertEqual(receipt['commands'][0]['output'], '\u2716 \u6f22\u5b57 \U0001f600\n')
+                self.assertEqual(receipt['commands'][0]['presentation'], 'escaped')
+
+    def test_canonical_admission_failure_invalidates_old_success_without_starting_child(self):
+        self.configure('focused', "from pathlib import Path; p=Path('.sdlc/runtime/started'); p.write_text(p.read_text()+'x' if p.exists() else 'x')")
+        self.begin_task(); self.verify_task()
+        original_write = sdlc.write_json_atomically
+        def refuse_canonical(path, value):
+            if value.get('status') == 'pending' and path.parent.name != 'verification':
+                raise PermissionError('canonical admission unavailable')
+            original_write(path, value)
+        with patch.object(sdlc, 'write_json_atomically', side_effect=refuse_canonical):
+            with self.assertRaises(SetupError): self.verify_task()
+        self.assertEqual((self.repo / '.sdlc/runtime/started').read_text(), 'x')
+        current = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        self.assertEqual(current['status'], 'pending')
+        self.assertFalse(current['passed'])
+        self.assertTrue(state.required_verification_gaps(self.repo))
+
+    def test_native_current_directory_collision_starts_no_child(self):
+        self.configure('focused', "from pathlib import Path; Path('.sdlc/runtime/started').touch()")
+        self.begin_task()
+        (self.repo / '.sdlc/runtime/verification/focused.json').mkdir(parents=True)
+        result = subprocess.run([sys.executable, str(self.repo / 'scripts/sdlc.py'), 'verify'], capture_output=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse((self.repo / '.sdlc/runtime/started').exists())
+
+    def test_final_split_publication_rejects_success(self):
+        self.begin_task()
+        original_write = sdlc.write_json_atomically
+        final_seen = False
+        def fail_current_and_subsequent_writes(path, value):
+            nonlocal final_seen
+            if final_seen or (value.get('passed') is True and path.parent.name == 'verification'):
+                final_seen = True
+                raise PermissionError('store failed after canonical success')
+            original_write(path, value)
+        with patch.object(sdlc, 'write_json_atomically', side_effect=fail_current_and_subsequent_writes):
+            with self.assertRaises(SystemExit): self.verify_task()
+        current = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        canonical = state.load_json(self.repo / state.verification_run_path(current))
+        self.assertFalse(current['passed']); self.assertTrue(canonical['passed'])
+        self.assertTrue(state.required_verification_gaps(self.repo))
+
+    def test_header_and_summary_write_or_flush_failure_never_publish_success(self):
+        self.configure('focused', "from pathlib import Path; Path('.sdlc/runtime/started').touch()")
+        self.begin_task()
+        marker = self.repo / '.sdlc/runtime/started'
+        for boundary in ('header', 'summary'):
+            for operation in ('write', 'flush'):
+                with self.subTest(boundary=boundary, operation=operation):
+                    marker.unlink(missing_ok=True)
+                    class FaultyConsole(io.StringIO):
+                        target = False
+                        def write(self, text):
+                            self.target = text.startswith('==') if boundary == 'header' else text.startswith('focused:')
+                            if self.target and operation == 'write': raise OSError('report write fault')
+                            return super().write(text)
+                        def flush(self):
+                            if self.target and operation == 'flush': raise OSError('report flush fault')
+                            return super().flush()
+                    with redirect_stdout(FaultyConsole()), self.assertRaises(SystemExit):
+                        sdlc.verify_task(self.repo, argparse.Namespace(profile=None, keep_going=True))
+                    self.assertEqual(marker.exists(), boundary == 'summary')
+                    self.assertTrue(state.required_verification_gaps(self.repo))
+
+    def test_final_identity_failure_preserves_completed_command(self):
+        self.begin_task()
+        actual_identity = sdlc.verification_input_identity
+        calls = 0
+        def fail_final(*args):
+            nonlocal calls
+            calls += 1
+            if calls == 2: raise OSError('final identity unreadable')
+            return actual_identity(*args)
+        with patch.object(sdlc, 'verification_input_identity', side_effect=fail_final):
+            with self.assertRaises(SystemExit): self.verify_task()
+        record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        self.assertEqual(record['commands'][0]['returnCode'], 0)
+        self.assertIsNone(record['identityAfter'])
+        self.assertEqual(record['problems'][-1]['phase'], 'identity')
+        self.assertFalse(record['passed'])
+
+    def test_reader_rejects_plausible_paired_inventory_and_capture_mutations(self):
+        self.begin_task(); self.verify_task()
+        current = self.repo / '.sdlc/runtime/verification/focused.json'
+        original = state.load_json(current)
+        for field, value in [('name', 'another check'), ('argv', ['other.exe']), ('ordinal', 2),
+                             ('timeoutSeconds', 601), ('returnCode', 7), ('presentation', 'pending')]:
+            with self.subTest(field=field):
+                changed = copy.deepcopy(original); changed['commands'][0][field] = value
+                state.write_json_atomically(current, changed)
+                state.write_json_atomically(self.repo / state.verification_run_path(original), changed)
+                self.assertTrue(state.required_verification_gaps(self.repo))
+        for capture_path in ('../outside.bin', '.sdlc/runtime/runs/foreign/0001.output.bin'):
+            changed = copy.deepcopy(original); changed['commands'][0]['capture']['path'] = capture_path
+            state.write_json_atomically(current, changed)
+            state.write_json_atomically(self.repo / state.verification_run_path(original), changed)
+            self.assertTrue(state.required_verification_gaps(self.repo))
+        state.write_json_atomically(current, original)
+        state.write_json_atomically(self.repo / state.verification_run_path(original), original)
+        raw = self.repo / original['commands'][0]['capture']['path']
+        raw.write_bytes(b'changed size')
+        self.assertTrue(state.required_verification_gaps(self.repo))
+
+    def test_atomic_cleanup_failure_preserves_primary_error_and_prior_json(self):
+        destination = self.repo / '.sdlc/runtime/owned.json'
+        state.write_json_atomically(destination, {'prior': True})
+        original = destination.read_bytes()
+        with (patch.object(state.os, 'replace', side_effect=PermissionError('primary replacement fault')),
+              patch.object(state.os, 'unlink', side_effect=OSError('secondary cleanup fault'))):
+            with self.assertRaisesRegex(PermissionError, 'primary replacement fault'):
+                state.write_json_atomically(destination, {'replacement': True})
+        self.assertEqual(destination.read_bytes(), original)
+
+    def test_existing_raw_output_is_never_overwritten(self):
+        self.begin_task()
+        owner = self
+        class CollisionConsole(io.StringIO):
+            def write(self, text):
+                if text.startswith('=='):
+                    record = state.load_json(owner.repo / '.sdlc/runtime/verification/focused.json')
+                    target = owner.repo / state.verification_output_path(record, 1)
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(b'preserved foreign bytes')
+                return super().write(text)
+        with redirect_stdout(CollisionConsole()), self.assertRaises(SystemExit):
+            sdlc.verify_task(self.repo, argparse.Namespace(profile=None, keep_going=False))
+        record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        self.assertIsNone(record['commands'][0]['returnCode'])
+        self.assertEqual((self.repo / state.verification_output_path(record, 1)).read_bytes(), b'preserved foreign bytes')
+
+    def test_keep_going_continues_ordinary_failure_but_stops_reporting_failure(self):
+        self.config['profiles']['focused'] = [
+            {'name': 'first', 'argv': [sys.executable, '-c', 'raise SystemExit(7)']},
+            {'name': 'second', 'argv': [sys.executable, '-c', "from pathlib import Path; Path('.sdlc/runtime/second').touch()"]}]
+        state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
+        self.commit('Two commands'); self.begin_task()
+        with self.assertRaises(SystemExit): self.verify_task(keep_going=True)
+        marker = self.repo / '.sdlc/runtime/second'
+        self.assertTrue(marker.exists()); marker.unlink()
+        with patch.object(sdlc, 'write_console_diagnostic', side_effect=OSError('report broken')):
+            with self.assertRaises(SystemExit): self.verify_task(keep_going=True)
+        self.assertFalse(marker.exists())
+
+    def test_timeout_retains_partial_utf8_and_observed_child_result(self):
+        ready = '.sdlc/runtime/ready'
+        self.config['profiles']['focused'][0].update(timeoutSeconds=2, argv=[sys.executable,
+            'verification_process.py', '--hex', '70726566697820e2', '--ready', ready,
+            '--release', '.sdlc/runtime/release'])
+        state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
+        self.commit('Ready timeout fixture'); self.begin_task()
+        with self.assertRaises(SystemExit): self.verify_task()
+        self.assertTrue((self.repo / ready).is_file(), 'Child never reached the byte-emitted readiness boundary')
+        record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        result = record['commands'][0]
+        self.assertEqual(result['status'], 'timeout')
+        self.assertIsInstance(result['returnCode'], int)
+        self.assertNotEqual(result['returnCode'], 0)
+        self.assertEqual(result['decodeStatus'], 'invalid-utf8')
+        self.assertIsNone(result['output'])
+        self.assertEqual((self.repo / result['capture']['path']).read_bytes(), b'prefix \xe2')
+        self.assertFalse(record['passed'])
+
+    def test_runner_termination_preserves_prior_checkpoint_and_unfinished_child(self):
+        self.config['profiles']['focused'] = [
+            {'name': 'completed', 'argv': [sys.executable, 'verification_process.py', '--hex', '66697273740a']},
+            {'name': 'waiting', 'argv': [sys.executable, 'verification_process.py', '--hex', '7365636f6e640a',
+                '--ready', '.sdlc/runtime/ready', '--release', '.sdlc/runtime/release']}]
+        state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
+        self.commit('Two process checkpoints'); self.begin_task()
+        runner = subprocess.Popen([sys.executable, str(self.repo / 'scripts/sdlc.py'), 'verify'],
+                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        ready = self.repo / '.sdlc/runtime/ready'
+        try:
+            deadline = time.monotonic() + 15
+            while not ready.exists() and runner.poll() is None and time.monotonic() < deadline:
+                time.sleep(0.01)
+            self.assertTrue(ready.exists(), 'Waiting child never signalled readiness')
+            runner.terminate(); runner.wait(timeout=10)
+            record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+            self.assertFalse(record['passed'])
+            first, second = record['commands']
+            self.assertEqual(first['returnCode'], 0)
+            self.assertEqual(first['output'], 'first\n')
+            self.assertEqual((self.repo / first['capture']['path']).read_bytes(), b'first\n')
+            self.assertIn(second['status'], ('pending', 'running'))
+            self.assertIsNone(second['returnCode']); self.assertIsNone(second['finishedAt'])
+            self.assertTrue(state.required_verification_gaps(self.repo))
+        finally:
+            (self.repo / '.sdlc/runtime/release').touch()
+            if runner.poll() is None:
+                runner.terminate(); runner.wait(timeout=10)
+            # The deliberately detached fixture exits itself; wait for its output
+            # handle to close before TemporaryDirectory attempts Windows cleanup.
+            deadline = time.monotonic() + 10
+            raw_files = list((self.repo / '.sdlc/runtime/runs').rglob('0002.output.bin'))
+            for raw in raw_files:
+                while True:
+                    try:
+                        with raw.open('ab'): pass
+                        break
+                    except PermissionError:
+                        if time.monotonic() >= deadline: raise
+                        time.sleep(0.01)
+
+    def test_caught_interrupt_stops_real_child_and_preserves_known_result(self):
+        self.config['profiles']['focused'][0]['argv'] = [sys.executable, 'verification_process.py',
+            '--ready', '.sdlc/runtime/ready', '--release', '.sdlc/runtime/release']
+        state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
+        self.commit('Caught interrupt fixture'); self.begin_task()
+        real_wait = subprocess.Popen.wait
+        injected = False
+        def interrupt_after_readiness(child, *args, **kwargs):
+            nonlocal injected
+            if 'verification_process.py' in child.args and not injected:
+                deadline = time.monotonic() + 10
+                while not (self.repo / '.sdlc/runtime/ready').exists() and time.monotonic() < deadline:
+                    time.sleep(0.01)
+                self.assertTrue((self.repo / '.sdlc/runtime/ready').exists())
+                injected = True
+                raise KeyboardInterrupt('controlled caught interruption')
+            return real_wait(child, *args, **kwargs)
+        with patch.object(subprocess.Popen, 'wait', new=interrupt_after_readiness):
+            with self.assertRaises(SystemExit): self.verify_task()
+        self.assertTrue(injected)
+        record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        self.assertEqual(record['status'], 'interrupted')
+        self.assertEqual(record['commands'][0]['status'], 'interrupted')
+        self.assertIsInstance(record['commands'][0]['returnCode'], int)
+        self.assertEqual((self.repo / record['commands'][0]['capture']['path']).read_bytes(),
+                         '\u2716 \u6f22\u5b57 \U0001f600\n'.encode('utf-8'))
+        self.assertFalse(record['passed'])
+
+    def test_capture_read_failure_preserves_observed_exit(self):
+        self.begin_task()
+        real_read = Path.read_bytes
+        def refuse_raw(path):
+            if path.name.endswith('.output.bin'): raise OSError('raw read fault')
+            return real_read(path)
+        with patch.object(Path, 'read_bytes', new=refuse_raw):
+            with self.assertRaises(SystemExit): self.verify_task()
+        record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        result = record['commands'][0]
+        self.assertEqual(result['returnCode'], 0)
+        self.assertIsNotNone(result['finishedAt'])
+        self.assertFalse(result['capture']['complete'])
+        self.assertTrue((self.repo / result['capture']['path']).is_file())
+        self.assertEqual(record['problems'][-1]['phase'], 'capture')
+
+    def test_issue_transport_failure_creates_no_baseline(self):
+        for payload, exit_code in ((b'\xff', 0), (b'{invalid JSON', 0), (b'{}', 7)):
+            with self.subTest(payload=payload, exit_code=exit_code):
+                def protocol(arguments, **kwargs):
+                    self.assertEqual(arguments[1:4], ['issue', 'view', '123'])
+                    source = f'import sys; sys.stdout.buffer.write(bytes.fromhex({payload.hex()!r})); raise SystemExit({exit_code})'
+                    return _commands.run([sys.executable, '-c', source], **kwargs)
+                with (patch.object(sdlc, 'require_command', return_value='gh'),
+                      patch.object(sdlc, 'run', side_effect=protocol),
+                      redirect_stderr(io.StringIO()) as diagnostic):
+                    # CPython's Windows pipe reader reports decoding failures on
+                    # its reader thread, leaving stdout=None. The JSON consumer
+                    # then rejects None with TypeError; no valid text is invented.
+                    expected_error = TypeError if os.name == 'nt' and payload == b'\xff' else (
+                        UnicodeError if payload == b'\xff' else ValueError if exit_code == 0 else subprocess.CalledProcessError)
+                    with self.assertRaises(expected_error):
+                        self.invoke(sdlc.capture_issue_baseline, argparse.Namespace(issue=123, version=1,
+                            accepted_by='fixture', accepted_at='2026-09-10T00:00:00Z', approval_reference='fixture'))
+                    if os.name == 'nt' and payload == b'\xff':
+                        self.assertIn('UnicodeDecodeError', diagnostic.getvalue())
+                self.assertFalse((self.repo / 'docs/sdlc/baselines/issue-123').exists())
+
+    def test_issue_capture_preserves_unicode_forms_crlf_and_prior_version(self):
+        body = '\u00e9 e\u0301 \u2716 \u6f22\u5b57 \U0001f600\r\n'
+        issue = dict(baseline_document()['issue'], body=body, labels=[{'name': 'risk:R2'}])
+        issue_bytes = json.dumps(issue, ensure_ascii=False).encode('utf-8')
+        def protocol(arguments, **kwargs):
+            payload = issue_bytes if arguments[1] == 'issue' else b'{"nameWithOwner":"example/service"}'
+            return _commands.run([sys.executable, '-c',
+                f'import sys; sys.stdout.buffer.write(bytes.fromhex({payload.hex()!r}))'], **kwargs)
+        args = argparse.Namespace(issue=123, version=1, accepted_by='fixture',
+            accepted_at='2026-09-10T00:00:00Z', approval_reference='fixture')
+        with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc, 'run', side_effect=protocol):
+            self.invoke(sdlc.capture_issue_baseline, args)
+            json_path = self.repo / 'docs/sdlc/baselines/issue-123/v1.json'
+            markdown_path = json_path.with_suffix('.md')
+            original = (json_path.read_bytes(), markdown_path.read_bytes())
+            record = state.load_json(json_path)
+            self.assertEqual(record['issue']['body'], body)
+            self.assertEqual(record['issue']['bodySha256'], hashlib.sha256(body.encode('utf-8')).hexdigest())
+            self.assertTrue(original[1].endswith(body.encode('utf-8') + b'\n'))
+            with self.assertRaises(SetupError): self.invoke(sdlc.capture_issue_baseline, args)
+            self.assertEqual((json_path.read_bytes(), markdown_path.read_bytes()), original)
+
+    def test_invalid_utf8_exit_zero_is_never_success(self):
+        self.configure('focused', "import sys; sys.stdout.buffer.write(bytes.fromhex('6f726967696e616cff0d0a'))")
+        self.begin_task()
+        with self.assertRaises(SystemExit): self.verify_task()
+        record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        result = record['commands'][0]
+        self.assertEqual(result['returnCode'], 0); self.assertEqual(result['status'], 'passed')
+        self.assertEqual(result['decodeStatus'], 'invalid-utf8'); self.assertIsNone(result['output'])
+        self.assertEqual((self.repo / result['capture']['path']).read_bytes(), b'original\xff\r\n')
+        self.assertFalse(record['passed']); self.assertTrue(state.required_verification_gaps(self.repo))
+
+    def test_infrastructure_failure_reports_original_problem_after_retention(self):
+        self.begin_task()
+        with (patch.object(sdlc, 'verification_input_identity', side_effect=OSError('specific identity failure')),
+              patch.object(sys, 'stderr', new_callable=io.StringIO) as diagnostic):
+            with self.assertRaises(SystemExit): self.verify_task()
+            self.assertIn('specific identity failure', diagnostic.getvalue())
+        record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        self.assertFalse(record['passed'])
+
+    def test_cli_error_flush_failure_preserves_nonzero_status(self):
+        args = ['sdlc.py', 'status']
+        flushed = []
+        class FailingErrorStream(io.StringIO):
+            def flush(self):
+                flushed.append(True)
+                raise OSError('stderr flush failed')
+        with (patch.object(sys, 'argv', args),
+              patch.object(sdlc, 'load_json', side_effect=OSError('original \u2716')),
+              patch.object(sys, 'stderr', FailingErrorStream())):
+            self.assertEqual(sdlc.main(), 1)
+        self.assertTrue(flushed)
+
+    def test_all_selected_profiles_are_admitted_before_first_command(self):
+        policy = state.load_json(self.repo / state.PIPELINE_POLICY_PATH)
+        policy['routes']['R0']['requiredProfiles'] = ['focused', 'affected']
+        state.write_json_atomically(self.repo / state.PIPELINE_POLICY_PATH, policy)
+        self.configure('focused', "import json; from pathlib import Path; "
+            "r=json.loads(Path('.sdlc/runtime/verification/affected.json').read_text()); "
+            "assert r['status']=='pending' and r['passed'] is False; "
+            "p=Path('.sdlc/runtime/runs')/r['taskId']/(r['runId']+'.json'); "
+            "assert json.loads(p.read_text())==r")
+        self.begin_task(); self.verify_task()
+        self.assertEqual(state.required_verification_gaps(self.repo), [])
+
+    def test_native_git_scope_selects_new_receipt_schema_and_process_fixture(self):
+        runtime = self.repo / '.sdlc/runtime'
+        runtime.mkdir(parents=True)
+        for relative in ('.sdlc/schemas/verification-run.schema.json',
+                         'tests/sdlc/fixtures/verification_process.py'):
+            with self.subTest(path=relative):
+                base = self.git('rev-parse', 'HEAD').strip()
+                destination = self.repo / relative
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes((REPOSITORY / relative).read_bytes() + b'\n')
+                self.commit('Isolated relevant input')
+                event = runtime / 'event.json'
+                event.write_text(json.dumps({'pull_request': {'base': {'sha': base}}}), encoding='utf-8')
+                output = runtime / 'selection.txt'
+                output.write_text('', encoding='utf-8')
+                environment = dict(os.environ, GITHUB_EVENT_NAME='pull_request',
+                    GITHUB_EVENT_PATH=str(event), GITHUB_SHA=self.git('rev-parse', 'HEAD').strip(),
+                    GITHUB_OUTPUT=str(output))
+                environment.pop('GITHUB_STEP_SUMMARY', None)
+                result = subprocess.run(['node', str(self.repo / 'scripts/selectPullRequestChecks.js'),
+                    '--scope', 'sdlc'], env=environment, capture_output=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(output.read_text(encoding='utf-8'), 'sdlc=true\n')
+
+    def test_reader_rejects_redirected_raw_ancestor(self):
+        self.begin_task(); self.verify_task()
+        record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        raw = self.repo / record['commands'][0]['capture']['path']
+        preserved = raw.parent.with_name('preserved')
+        raw.parent.rename(preserved)
+        raw.parent.symlink_to(preserved, target_is_directory=True)
+        self.assertTrue(state.required_verification_gaps(self.repo))
+
+    def test_reader_rejects_mismatched_run_profile_task_and_nonterminal_pairs(self):
+        self.begin_task(); self.verify_task()
+        current = self.repo / '.sdlc/runtime/verification/focused.json'
+        original = state.load_json(current)
+        for field, value in [('runId', 'a' * 32), ('taskId', 'b' * 32), ('profile', 'affected'),
+                             ('status', 'running'), ('finishedAt', None), ('expectedCommandCount', 2),
+                             ('problems', [{'phase':'capture','commandOrdinal':1,'exceptionType':None,'message':'incomplete'}])]:
+            with self.subTest(field=field):
+                changed = copy.deepcopy(original); changed[field] = value
+                state.write_json_atomically(current, changed)
+                state.write_json_atomically(self.repo / state.verification_run_path(original), changed)
+                self.assertTrue(state.required_verification_gaps(self.repo))
+
+    def test_default_unicode_success_records_actual_runtime_and_empty_output_is_captured(self):
+        self.config['profiles']['focused'] = [
+            {'name': 'unicode', 'argv': [sys.executable, 'verification_process.py']},
+            {'name': 'empty', 'argv': [sys.executable, 'verification_process.py', '--hex=']}]
+        state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
+        self.commit('Exact streams'); self.begin_task()
+        environment = dict(os.environ, PYTHONUTF8='0')
+        environment.pop('PYTHONIOENCODING', None)
+        result = subprocess.run(['node', str(REPOSITORY / 'scripts/runRepositoryPython.js'),
+            str(self.repo / 'scripts/sdlc.py'), 'verify'], env=environment, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        record = state.load_json(self.repo / '.sdlc/runtime/verification/focused.json')
+        self.assertEqual(record['runtime']['utf8Mode'], 1)
+        self.assertEqual(record['runtime']['stdoutEncoding'], 'utf-8')
+        self.assertEqual(record['commands'][0]['output'], '\u2716 \u6f22\u5b57 \U0001f600\n')
+        empty = record['commands'][1]
+        self.assertEqual(empty['output'], '')
+        self.assertEqual(empty['capture']['byteLength'], 0)
+        self.assertEqual(empty['capture']['sha256'], hashlib.sha256(b'').hexdigest())
+        self.assertEqual((self.repo / empty['capture']['path']).read_bytes(), b'')
         self.assertEqual(state.required_verification_gaps(self.repo), [])
 
     def test_early_failure_does_not_claim_unexecuted_checks_passed(self):

@@ -88,6 +88,30 @@ Use the helper's explicit pause/resume/handoff commands; never remove state to
 make the hook pass. Local records under .sdlc/runtime are mutable local evidence,
 not attested approvals. Preserve necessary evidence before temporary cleanup.
 
+The repository launcher selects Python UTF-8 mode while preserving an explicit
+caller `PYTHONIOENCODING`. Human diagnostics escape unsupported console glyphs;
+Issue JSON and command evidence are decoded strictly as UTF-8. Snapshot capture
+preserves the Issue body's Unicode and line endings without repairing old text.
+
+Each verification attempt first replaces its current profile receipt with a
+non-passing pending record. Version 3 receipts live at
+`.sdlc/runtime/runs/<taskId>/<runId>.json`, with an identical current copy at
+`.sdlc/runtime/verification/<profile>.json`. Command bytes are retained alongside
+the run in `<runId>/commands/0001.output.bin` and subsequent ordinal files.
+Results and raw bytes are checkpointed before decoding or console presentation.
+The gate requires matching receipts, current inputs, the exact configured checks,
+and complete captured, decoded and presented successful results. Historical
+version 2 receipts remain historical evidence; run fresh verification to qualify.
+
+Use one coordinated verifier per checkout. After an interrupted attempt, confirm
+that its producers have stopped before retrying; the next attempt gets a new ID.
+`--keep-going` continues ordinary check failures, not broken recording or reporting.
+A timeout stops the direct child; it does not prove every descendant has stopped.
+If the first pending receipt cannot be written, no check runs, but an older receipt
+may remain on disk. Retain that recording blocker and run a fresh attempt after
+restoring storage; do not use the old receipt to claim that attempt passed.
+Local atomic replacement is not a power-loss backup or an authenticated ledger.
+
 ## Evaluation through useful work
 
 The owner declined replaying historical changes or inventing features for a pilot.

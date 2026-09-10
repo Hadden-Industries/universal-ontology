@@ -133,3 +133,15 @@ transport files after their last consumer finishes.
 Repository adoption and actionable upstream reports complete these local follow-ups.
 The two upstream defects remain open until their stated resolution criteria pass;
 this record neither closes them nor grants an exception for new uses.
+
+## WP1 evidence qualification
+
+WP1 applies the already adopted method to the text-capture and verification
+retention defects under [accepted Issue 32](baselines/issue-32/v1.json).
+The implementation introduces version 3 run receipts and preserves historical
+version 2 evidence; it does not change the active-task version, SDLC package
+version, deployment confirmation, host trust or security-scan adoption claims.
+The [verification record](verification.md#wp1-text-and-evidence-repair-2026-09-10)
+distinguishes process/fixture checks from current-candidate full-profile, CI and
+independent review obligations. A retained receipt does not authenticate approval
+or establish an ontology/product outcome by itself.
