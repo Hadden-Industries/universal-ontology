@@ -86,6 +86,26 @@ may delegate independent read-only questions and later invoke a fresh verifier.
 Do not have concurrent agents modify the same source/tests/baseline or let the
 implementer revise held-out grading tests.
 
+The single-writer boundary concerns one physical copy. Independent implementations
+use separate worktrees even when their proposed paths differ. Separate copies may
+change the same logical contract; record its ownership, dependency and integration
+order rather than assuming a textually clean merge resolves semantic overlap.
+
+Use the existing handoff to identify the physical worktree, actual candidate,
+implementation owner, accepted intent, relevant shared mutable resources and
+integration owner. Link native local task/run identity where available; do not
+create a second task ledger or change active state merely to report progress.
+A verification copy may contain the same candidate bytes as the implementation;
+that does not substitute for an independent oracle, fresh context where required,
+and frozen inputs. Branch-local evidence must not be presented as evidence of an
+untested combined target.
+
+The coordinator releases shared resources only after their actual consumers finish
+and required evidence is retained. A wait in another worktree is not by itself a
+reason to pause this execution. Report the concrete dependency, capability or
+owner decision that prevents the next authorized step; this skill adds no automatic
+agent dispatch, global lock, lifecycle transition or cleanup authority.
+
 A verifier receives the accepted behaviour, source revision/diff, tests and actual
 run evidence, not a claim that the code is correct. It reruns evidence and checks
 neighbouring behaviour as required. A test run can write caches/build products:

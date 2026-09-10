@@ -123,6 +123,20 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   a separately accepted alternative. Preserve any already-started native scan and
   its failure evidence. Keep the upstream repair outstanding; after an upgrade,
   verify actual inventory coverage before returning affected work to the native route.
+- An accountable R2/R3 alternative decision may cover a named implementation
+  programme as well as one revision. Reuse it within its recorded risk class,
+  assessment method, deployment/threat assumptions, permissions and scope; a new
+  commit or work-package number alone does not require another approval. A broader
+  scope, higher assurance requirement or different blocker needs a new decision.
+  Always identify and review the current frozen target and complete changed-path
+  list; prior approval is reusable, prior findings are not current-code evidence.
+- When that approved alternative covers a reproduced inventory omission in the
+  same installed plugin version and relevant file categories, cite the retained
+  precheck and select the alternative directly. This is the exception to repeating
+  the inventory precheck above. Recheck after a plugin/version or relevant scope
+  change, or when native reassessment is requested. Do not repeat troubleshooting,
+  launch a knowingly incomplete native scan, copy its exclusion rules or describe
+  direct review as native scan completion.
 - Limit plugin troubleshooting to two minutes total within the scan budget and
   one documented recovery attempt per distinct failure. Attempt recovery only
   when the error and native contract identify a concrete correction. Required
@@ -133,6 +147,19 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   do not restart, mark failed/cancelled, or declare completion to clear a blocker.
   Use native tool-owned identity/sealing fields and supported artifact writers;
   do not patch plugin caches. Use only the approved alternative described above.
+
+### Accepted scope for the current SDLC implementation
+
+Max approved this standing decision on 2026-09-11:
+For the remaining R2 SDLC implementation work packages, reuse the approved
+independent direct review alternative for the confirmed Codex Security 0.1.24
+inventory omission. Start with a ten-minute assessment budget, complete current
+diff coverage and retain findings/evidence privately. An exhausted budget or
+unreviewed path remains an explicit gap, not a pass. This grants assessment only,
+not remediation, configuration expansion, publication or release. New trust or
+deployment assumptions, R3 work, another capability blocker or work outside this
+SDLC implementation requires a new decision. Native inventory is reassessed after
+a relevant plugin update or scope change.
 
 At handoff or completion, report wall-clock elapsed time and explicit user-wait
 time separately. When native usage is available, report input tokens with cached

@@ -20,6 +20,46 @@ an actually accepted Issue version and merge that baseline before implementation
 The owner-approved bootstrap is handled under the pre-existing repository
 configuration rule; it does not fabricate a baseline for itself.
 
+## Independent executions and integration
+
+Use a separate physical Git worktree for each independent implementation.
+One checkout has one active execution, including while that execution is paused.
+Separate logical files within a shared checkout do not isolate its Git index,
+active task or verification records. Coordinated work within one execution is
+still one execution; this does not prohibit ordinary subordinate test processes.
+
+In the existing task or PR record, identify the implementation owner, accepted
+intent/baseline, actual worktree, branch or detached HEAD, current candidate and
+owned change scope. For a dirty candidate, retain the relevant input identity as
+well as HEAD. Use native Git path resolution; do not infer per-worktree paths
+from a directory name. Keep sensitive locators in the approved restricted record.
+No new task database or active-state metadata migration is required.
+
+Before relying on another execution, record material shared contracts, dependencies,
+shared mutable resources and the integration owner. Prefer native isolation for
+mutable environments, outputs and endpoints. Separate worktrees do not isolate
+ordinary Git refs/configuration or every external resource. Coordinate the actual
+shared mutations; do not pause unrelated work merely because another task is active.
+
+At integration, record the actual input revisions and combined target, resolve
+semantic overlap as well as textual conflicts, and run the affected consumer
+checks and required final profile on that target. Preserve prior evidence with its
+original branch-local scope. A clean merge is not an integration verdict.
+Changed controls or accepted requirements require their actual owner decision;
+do not edit old digests or refresh a baseline merely to restore passing status.
+
+A source-only change within unchanged scope normally needs fresh verification,
+not a new task. The existing pause/resume operations can re-establish an explicitly
+authorized same-scope execution against accepted current controls. They do not
+accept new requirements or arbitrarily replace a task's baseline. If the required
+transition is unsupported, retain the incomplete record and expose the concrete
+decision rather than deleting state or inventing a reroute command.
+
+A pause must identify an unmet dependency, required unavailable capability, decision
+or separate authorization. Retain consumers and resource-disposition references
+in the existing handoff; initial task creation or implementation handoff does not
+authorize worktree removal, merge, deployment or publication.
+
 ## Development entry points
 
 Run the selected Node/Python versions in the root version files and npm declared
@@ -111,6 +151,28 @@ If the first pending receipt cannot be written, no check runs, but an older rece
 may remain on disk. Retain that recording blocker and run a fresh attempt after
 restoring storage; do not use the old receipt to claim that attempt passed.
 Local atomic replacement is not a power-loss backup or an authenticated ledger.
+
+### Competing or interrupted task starts
+
+Initial task publication is exclusive within the physical checkout. An occupied
+or paused task is not overwritten. Inspect the reported established task before
+continuing; independent work belongs in its own authorized worktree. A command's
+nonzero exit does not prove that no task was created: publication can succeed
+before a later output or private-temporary-name cleanup failure.
+
+The complete active record is the ownership marker. A preparation file that was
+never published is not an active lease. Preserve relevant failed-start material
+and inspect the actual state; do not automatically publish an old candidate,
+retry a collision, or take over using elapsed time or a process identifier.
+Existing empty, malformed or unsupported active state requires an explicit
+state decision and must not be treated as idle or cleared to bypass verification.
+
+The implementation's private staging name may temporarily refer to the same file
+as the published active record. It is not an independent backup and must never
+be edited. If its supported cleanup is blocked, retain its exact location and
+escalate under the temporary-artifact policy; do not remove active ownership.
+An unsupported publication capability remains an explicit setup/design decision,
+not permission to substitute a weaker copy or replacement operation.
 
 ## Evaluation through useful work
 

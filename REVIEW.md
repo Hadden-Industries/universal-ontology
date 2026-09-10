@@ -66,6 +66,15 @@ A semantic outcome concern triggers a scope/design decision, not unilateral scop
 expansion. Triage feedback against the cited evidence and accepted contract;
 do not require another skill installation for ordinary review.
 
+When cross-worktree integration is material, state whether each cited result covers
+an isolated branch/candidate or the actual combined target. Identify the integration
+owner, relevant input revisions, semantic overlap decisions and outstanding combined
+consumer checks. Check that source, baseline and control movement received fresh
+applicable evidence and the required owner decisions. Do not accept a clean merge,
+copied verification record or another branch's successful run as proof of combined
+behavior. Keep this in the normal risk-proportionate review and existing handoff;
+no separate reviewer or additional dossier is mandatory solely for this statement.
+
 Report target, accepted brief/baseline, passes performed, commands actually run,
 name/functionality pairs inspected (summarise groups where simple), findings,
 security bundle reference where applicable, unresolved gaps and outcome alignment.

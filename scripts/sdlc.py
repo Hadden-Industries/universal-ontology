@@ -17,6 +17,7 @@ from _commands import SetupError, require_command, run, write_console_diagnostic
 from _repository import derive_repo_from_script
 from _sdlc_state import ACTIVE_TASK_PATH, RUNTIME_DIRECTORY, json_content_digest, required_verification_gaps, git_output_bytes, load_verification_controls, load_json, require_repository_file, write_json_atomically, verification_input_identity, validate_document
 from _sdlc_state import reject_redirected_path, verification_run_path, verification_output_path, validate_verification_success
+from _sdlc_state import create_active_task_exclusively
 
 def utc_now() -> str:
     """Return an explicit UTC timestamp for an actual local event."""
@@ -41,8 +42,6 @@ def capture_issue_baseline(repo: Path, args: argparse.Namespace) -> None:
 
 def begin_task(repo: Path, args: argparse.Namespace) -> None:
     """Start one local task after loading its required verification route; preserve any existing active task."""
-    if (repo / ACTIVE_TASK_PATH).exists():
-        raise SetupError('An active record already exists. Use authorised handoff or pause; do not overwrite it.')
     if args.new_functionality and (
         not args.software_selection_reference
         or args.software_selection_reference.strip().lower() in {'', 'none', 'n/a', '-', 'pending'}
@@ -60,8 +59,12 @@ def begin_task(repo: Path, args: argparse.Namespace) -> None:
             if committed_baseline != baseline_file.read_bytes():
                 raise SetupError('Prior baseline is absent from HEAD or differs from it.')
     active_task = {'schemaVersion': 2, 'taskId': uuid.uuid4().hex, 'task': args.task, 'riskClass': args.risk, 'baseline': args.baseline, 'intentReference': args.intent_reference, 'purpose': args.purpose, 'newFunctionality': args.new_functionality, 'softwareSelectionReference': args.software_selection_reference, 'startedAt': utc_now(), 'startingHead': git_output_bytes(repo, 'rev-parse', 'HEAD').decode().strip(), 'requiredProfiles': route['requiredProfiles'], 'policyDigest': json_content_digest(policy), 'configurationDigest': json_content_digest(config)}
-    write_json_atomically(repo / ACTIVE_TASK_PATH, active_task)
-    print(f"Active {args.task}: {args.risk}; required profiles={route['requiredProfiles']}")
+    create_active_task_exclusively(repo, active_task)
+    try:
+        write_console_diagnostic(f"Active {args.task}: {args.risk}; required profiles={route['requiredProfiles']}\n")
+    except (OSError, ValueError) as exc:
+        raise SetupError(f'Task {active_task["taskId"]} was established, but acknowledgement failed '
+                         f'({type(exc).__name__}). Inspect status; do not start again.') from exc
 
 class ReceiptPersistenceError(SetupError):
     """A validated receipt could not be published; stop further execution."""

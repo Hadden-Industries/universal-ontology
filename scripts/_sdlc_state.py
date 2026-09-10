@@ -83,6 +83,82 @@ def write_json_atomically(path: Path, value: Any) -> None:
             primary_error.add_note(f'Temporary JSON cleanup also failed: {cleanup_error}')
 
 
+def active_task_conflict(path: Path) -> SetupError:
+    """Describe observed ownership after a collision without retrying acquisition."""
+    try:
+        reject_redirected_path(path)
+        existing = load_json(path)
+        if (not isinstance(existing, dict) or existing.get('schemaVersion') != 2
+                or not all(isinstance(existing.get(key), str) and existing[key]
+                           for key in ('task', 'taskId', 'riskClass'))):
+            raise ValueError('Unsupported ownership record')
+        # These are observed identity fields, not validation or approval of the task.
+        identity = ', '.join(f'{key}={json.dumps(existing[key][:256], ensure_ascii=True)}'
+                             for key in ('task', 'taskId', 'riskClass'))
+        baseline = json.dumps(str(existing.get('baseline'))[:256], ensure_ascii=True)
+        return SetupError(f'An active record already exists at {path}: {identity}, '
+                          f'baseline={baseline}, paused={existing.get("paused") is True}. '
+                          'Inspect status; independent work requires a separate worktree. No ownership changed.')
+    except (SetupError, OSError, ValueError) as exc:
+        return SetupError(f'Existing active state at {path} could not be identified '
+                          f'({type(exc).__name__}); it may be malformed, unsupported or changed during inspection. '
+                          'Preserve the state and obtain an explicit state decision; this start will not retry.')
+
+
+def create_active_task_exclusively(repo: Path, active: dict[str, Any]) -> None:
+    """Publish complete initial ownership once; retain evidence of interrupted starts."""
+    path = repo / ACTIVE_TASK_PATH
+    encoded = (json.dumps(active, indent=2, sort_keys=True) + '\n').encode('utf-8')
+    reject_redirected_path(path)
+    if os.path.lexists(path):
+        raise active_task_conflict(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, candidate = tempfile.mkstemp(prefix=f'.active-{active["taskId"]}-', dir=path.parent)
+    try:
+        stream = os.fdopen(descriptor, 'wb')
+    except BaseException:
+        os.close(descriptor)
+        raise
+    try:
+        try:
+            stream.write(encoded)
+            stream.flush()
+        except BaseException as primary_error:
+            try:
+                stream.close()
+            except (OSError, ValueError) as close_error:
+                primary_error.add_note(f'Closing preparation also failed: {close_error}')
+            raise
+        else:
+            stream.close()
+    except (OSError, ValueError) as exc:
+        details = '; '.join([str(exc), *getattr(exc, '__notes__', [])])
+        raise SetupError(f'Initial task preparation failed: {details}. '
+                         f'Preparation retained at {candidate}; no active record was published.') from exc
+    try:
+        reject_redirected_path(path)
+        reject_redirected_path(Path(candidate))
+        os.link(candidate, path)
+    except FileExistsError as exc:
+        conflict = active_task_conflict(path)
+        try:
+            os.unlink(candidate)
+        except OSError as cleanup_error:
+            conflict = SetupError(f'{conflict} Private preparation retained at {candidate}; '
+                                  f'cleanup failed ({type(cleanup_error).__name__}).')
+        raise conflict from exc
+    except (OSError, ValueError, SetupError) as exc:
+        raise SetupError(f'Initial task publication did not complete: {exc}. '
+                         f'Preparation retained at {candidate}; inspect {path} before retrying.') from exc
+    # The active name now owns the complete record. Cleanup never rolls it back.
+    try:
+        os.unlink(candidate)
+    except OSError as exc:
+        raise SetupError(f'Task {active["taskId"]} was established at {path}, but private-name '
+                         f'cleanup failed ({type(exc).__name__}); alias retained at {candidate}. '
+                         'Do not edit the alias. Inspect status; do not start again.') from exc
+
+
 def json_content_digest(value: Any) -> str:
     encoded = json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()
     return hashlib.sha256(encoded).hexdigest()
