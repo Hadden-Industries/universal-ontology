@@ -2,8 +2,7 @@ import {
   AbsoluteIriSchema,
   OntologyArtifactFamilyIdSchema,
   OntologyVersionTagSchema,
-  deepFreeze,
-} from "../ontologyQuery/ontologyQuerySchemas.js";
+} from "universal-ontology-query/schemas";
 
 const INDEXED_DOCUMENT_VERSION_ALIASES = new Set(["latest", "latest-unstable"]);
 
@@ -173,7 +172,7 @@ export function tryCreateDisplayedOntologyReleaseContext({
     );
   }
 
-  return deepFreeze({
+  return Object.freeze({
     ontologyArtifactFamilyId,
     versionTag,
     ontologyIri,

@@ -1,19 +1,17 @@
+import { freezeJsonValueDeeply } from "universal-ontology-query/json-value-immutability";
 import { stat } from "node:fs/promises";
 import { posix } from "node:path";
 
 import {
   calculateSha256,
   serializeCanonicalOntologyQueryJsonDocument,
-} from "../../src/ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
-import {
   MAX_ONTOLOGY_QUERY_CATALOG_BYTE_LENGTH,
   MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH,
-} from "../../src/ontologyQuery/ontologyQueryArtifactLimits.js";
-import {
-  OntologyQueryCatalogSchema,
-  deepFreeze,
-} from "../../src/ontologyQuery/ontologyQuerySchemas.js";
-import { parseOntologyReleaseQueryIndexBytes } from "../../src/ontologyQuery/ontologyQueryArtifactParsing.js";
+  parseOntologyReleaseQueryIndexBytes,
+} from "universal-ontology-query/artifacts";
+
+import { OntologyQueryCatalogSchema } from "universal-ontology-query/schemas";
+
 import { renderOntologyAssetsWithWorkers } from "./ontologyAssetWorkerPool.js";
 
 const PUBLIC_ONTOLOGY_ROOT = new URL("https://haddenindustries.com/ontology/");
@@ -198,7 +196,7 @@ export async function createOntologyQueryArtifacts({
     }),
   );
 
-  const catalog = deepFreeze(
+  const catalog = freezeJsonValueDeeply(
     OntologyQueryCatalogSchema.parse({
       queryArtifactKind: "universal_ontology_query_catalog",
       queryArtifactFormatVersion: 1,

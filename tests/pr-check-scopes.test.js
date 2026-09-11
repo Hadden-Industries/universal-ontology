@@ -250,7 +250,10 @@ describe("native Git PR check selection", () => {
     ["README.md", ["mcp_docs"]],
     ["docs/mcp/usage.md", ["mcp_docs"]],
     ["packages/universal-ontology-mcp-server/README.md", ["mcp_docs"]],
-    ["src/mcp/example.js", ["product_tests", "mcp_artifacts"]],
+    [
+      "packages/universal-ontology-mcp-server/src/example.js",
+      ["product_tests", "mcp_artifacts"],
+    ],
     ["scripts/distribution/example.js", ["product_tests", "mcp_artifacts"]],
     [
       "packages/universal-ontology-mcp-server/package.json",
@@ -258,10 +261,25 @@ describe("native Git PR check selection", () => {
     ],
     ["src/ontology.js", ["product_tests", "website_build"]],
     ["scripts/build/example.js", ["product_tests", "website_build"]],
-    [
-      "src/ontologyQuery/example.js",
+    ...[
+      "package.json",
+      "src/createOntologyQueryModule.js",
+      "tests/ontology-query-module.test.js",
+      "tests/fixtures/persistent-cache-worker.js",
+    ].map((path) => [
+      `packages/universal-ontology-query/${path}`,
       ["product_tests", "mcp_artifacts", "website_build"],
-    ],
+    ]),
+    ...[
+      "package.json",
+      "src/ontologyProjectionProperties.js",
+      "tests/ontology-projection-properties.test.js",
+      "data/field-property-history.v1.json",
+      "data/field-property-history.v1.schema.json",
+    ].map((path) => [
+      `packages/universal-ontology-projection-policy/${path}`,
+      ["product_tests", "mcp_artifacts", "website_build"],
+    ]),
     ["tests/mcp/example.test.js", ["product_tests"]],
     ["package-lock.json", SCOPES],
     [".node-version", SCOPES],
@@ -276,6 +294,25 @@ describe("native Git PR check selection", () => {
     expectSelection(expected);
   });
 
+  test.each([
+    "tests/fixtures/ontology-query/run-query-browser-build.js",
+    "tests/fixtures/ontology-query/ontology-query-browser-entries.js",
+  ])(
+    "runs product checks when only query browser helper %s changes",
+    (path) => {
+      // Use the actual helper at its maintained location, so a stale fixture
+      // path cannot silently stand in for the consuming browser test's input.
+      const contents = readFileSync(
+        new URL(`../${path}`, import.meta.url),
+        "utf8",
+      );
+      expect(contents.length).toBeGreaterThan(0);
+      write(path, contents);
+      commit([path]);
+      expectSelection(["product_tests"]);
+    },
+  );
+
   test("an ontology plus its accepted baseline does not select unrelated checks", () => {
     const paths = [
       "core/universal-core.owl",
@@ -287,7 +324,11 @@ describe("native Git PR check selection", () => {
   });
 
   test("mixed changes take the union of their applicable checks", () => {
-    const paths = ["scripts/set_up_sdlc.py", "src/mcp/example.js", "README.md"];
+    const paths = [
+      "scripts/set_up_sdlc.py",
+      "packages/universal-ontology-mcp-server/src/example.js",
+      "README.md",
+    ];
     paths.forEach((path) => write(path));
     commit(paths);
     expectSelection(["sdlc", "product_tests", "mcp_artifacts", "mcp_docs"]);
@@ -320,8 +361,8 @@ describe("native Git PR check selection", () => {
   test("unusual filenames are passed through native Git without line parsing", () => {
     const path =
       process.platform === "win32"
-        ? "src/mcp/quoted ' and café.js"
-        : "src/mcp/quoted ' and café\nline.js";
+        ? "packages/universal-ontology-mcp-server/src/quoted ' and café.js"
+        : "packages/universal-ontology-mcp-server/src/quoted ' and café\nline.js";
     write(path);
     commit([path]);
     expectSelection(["product_tests", "mcp_artifacts"]);
@@ -332,7 +373,9 @@ describe("native Git PR check selection", () => {
       { length: 3005 },
       (_, index) => `notes/${index}.md`,
     );
-    paths.push("src/mcp/last-relevant-input.js");
+    paths.push(
+      "packages/universal-ontology-mcp-server/src/last-relevant-input.js",
+    );
     paths.forEach((path) => write(path));
     // Batches keep Windows command lines bounded; all paths enter one commit.
     for (let index = 0; index < paths.length; index += 200) {

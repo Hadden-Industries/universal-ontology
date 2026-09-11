@@ -2,8 +2,11 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { parentPort } from "node:worker_threads";
 
-import { createOntologyReleaseQueryIndex } from "../../src/ontologyQuery/createOntologyReleaseQueryIndex.js";
-import { serializeCanonicalOntologyQueryJsonDocument } from "../../src/ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
+import {
+  createOntologyReleaseQueryIndex,
+  serializeCanonicalOntologyQueryJsonDocument,
+} from "universal-ontology-query/artifacts";
+
 import { renderOntologyCsvFromJsonLd } from "../jsonLdToCsv.js";
 import {
   parseRdfXmlToQuads,

@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 
 import { renderOntologyAssetsWithWorkers } from "../../scripts/build/ontologyAssetWorkerPool.js";
-import { OntologyReleaseQueryIndexSchema } from "../../src/ontologyQuery/ontologyQuerySchemas.js";
+import { OntologyReleaseQueryIndexSchema } from "universal-ontology-query/schemas";
 
 const workerUrl = new URL(
   "./fixtures/ontology-asset-worker-fixture.js",
