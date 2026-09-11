@@ -13,10 +13,15 @@ import subprocess
 import sys
 import uuid
 from pathlib import Path
+from contextlib import redirect_stdout
 from _commands import SetupError, require_command, run, write_console_diagnostic
 from _repository import derive_repo_from_script
 from _sdlc_state import ACTIVE_TASK_PATH, RUNTIME_DIRECTORY, json_content_digest, required_verification_gaps, git_output_bytes, load_verification_controls, load_json, require_repository_file, write_json_atomically, verification_input_identity, validate_document
 from _sdlc_state import reject_redirected_path, verification_run_path, verification_output_path, validate_verification_success
+from _sdlc_state import create_active_task_exclusively
+from _sdlc_resource_disposition import build_status, record_disposition
+from _sdlc_state import require_local_baseline
+from _sdlc_baseline import is_canonical_plan_path, require_acceptance_reference
 
 def utc_now() -> str:
     """Return an explicit UTC timestamp for an actual local event."""
@@ -41,8 +46,6 @@ def capture_issue_baseline(repo: Path, args: argparse.Namespace) -> None:
 
 def begin_task(repo: Path, args: argparse.Namespace) -> None:
     """Start one local task after loading its required verification route; preserve any existing active task."""
-    if (repo / ACTIVE_TASK_PATH).exists():
-        raise SetupError('An active record already exists. Use authorised handoff or pause; do not overwrite it.')
     if args.new_functionality and (
         not args.software_selection_reference
         or args.software_selection_reference.strip().lower() in {'', 'none', 'n/a', '-', 'pending'}
@@ -53,15 +56,17 @@ def begin_task(repo: Path, args: argparse.Namespace) -> None:
     if route['priorBaselineRequired'] and (not args.baseline):
         raise SetupError(f'{args.risk} requires a previously approved baseline.')
     if args.baseline:
-        baseline_file = require_repository_file(repo, args.baseline)
-        validate_document(repo, 'accepted-baseline.schema.json', load_json(baseline_file))
-        if route['priorBaselineRequired']:
-            committed_baseline = git_output_bytes(repo, 'show', f'HEAD:{args.baseline}')
-            if committed_baseline != baseline_file.read_bytes():
-                raise SetupError('Prior baseline is absent from HEAD or differs from it.')
+        plan_baseline = is_canonical_plan_path(args.baseline)
+        if plan_baseline:
+            require_acceptance_reference(args.intent_reference)
+        require_local_baseline(repo, args.baseline, committed=route['priorBaselineRequired'] or plan_baseline)
     active_task = {'schemaVersion': 2, 'taskId': uuid.uuid4().hex, 'task': args.task, 'riskClass': args.risk, 'baseline': args.baseline, 'intentReference': args.intent_reference, 'purpose': args.purpose, 'newFunctionality': args.new_functionality, 'softwareSelectionReference': args.software_selection_reference, 'startedAt': utc_now(), 'startingHead': git_output_bytes(repo, 'rev-parse', 'HEAD').decode().strip(), 'requiredProfiles': route['requiredProfiles'], 'policyDigest': json_content_digest(policy), 'configurationDigest': json_content_digest(config)}
-    write_json_atomically(repo / ACTIVE_TASK_PATH, active_task)
-    print(f"Active {args.task}: {args.risk}; required profiles={route['requiredProfiles']}")
+    create_active_task_exclusively(repo, active_task)
+    try:
+        write_console_diagnostic(f"Active {args.task}: {args.risk}; required profiles={route['requiredProfiles']}\n")
+    except (OSError, ValueError) as exc:
+        raise SetupError(f'Task {active_task["taskId"]} was established, but acknowledgement failed '
+                         f'({type(exc).__name__}). Inspect status; do not start again.') from exc
 
 class ReceiptPersistenceError(SetupError):
     """A validated receipt could not be published; stop further execution."""
@@ -308,15 +313,33 @@ def resume_task(repo: Path, args: argparse.Namespace) -> None:
         raise SetupError('Only an explicitly paused task may be resumed.')
     policy, config = load_verification_controls(repo)
     route = policy['routes'][previous_task['riskClass']]
-    if route['priorBaselineRequired']:
-        baseline = require_repository_file(repo, previous_task['baseline'])
-        if git_output_bytes(repo, 'show', f"HEAD:{previous_task['baseline']}") != baseline.read_bytes():
-            raise SetupError('Required prior baseline is not unchanged in HEAD.')
+    if route['priorBaselineRequired'] or is_canonical_plan_path(previous_task.get('baseline')):
+        require_local_baseline(repo, previous_task['baseline'], committed=True)
+        if is_canonical_plan_path(previous_task['baseline']):
+            require_acceptance_reference(previous_task['intentReference'])
     write_json_atomically(repo / RUNTIME_DIRECTORY / 'handoffs' / f"{previous_task['taskId']}-resume-{uuid.uuid4().hex}.json", {'disposition': 'superseded-on-explicit-resume', 'decisionReference': args.decision_reference, 'active': previous_task})
     resumed_task = {k: v for k, v in previous_task.items() if k not in {'paused', 'pauseReason'}}
     resumed_task.update(taskId=uuid.uuid4().hex, startedAt=utc_now(), requiredProfiles=route['requiredProfiles'], policyDigest=json_content_digest(policy), configurationDigest=json_content_digest(config), resumeDecisionReference=args.decision_reference)
     write_json_atomically(repo / ACTIVE_TASK_PATH, resumed_task)
     print('Resumed with a new evidence identity; old runs cannot satisfy this task.')
+
+def resource_status(repo: Path, args: argparse.Namespace) -> int:
+    """Report local obligations, without treating retention as failed execution."""
+    report = build_status(repo)
+    write_console_diagnostic(json.dumps(report, ensure_ascii=True, indent=2) + '\n')
+    return 1 if report['readProblems'] else 0
+
+
+def record_resource_disposition(repo: Path, args: argparse.Namespace) -> int:
+    """Retain a metadata snapshot; successful publication grants no disposal."""
+    result = record_disposition(repo, args.input)
+    try:
+        write_console_diagnostic(json.dumps(result, ensure_ascii=True) + '\n')
+    except (OSError, ValueError) as exc:
+        raise SetupError(f'Resource record {result["recordId"]} retained at '
+                         f'{result["recordPath"]}; acknowledgement failed; inspect before retry.') from exc
+    return 0
+
 
 def main() -> int:
     """Expose explicit authorised local lifecycle subcommands."""
@@ -348,7 +371,10 @@ def main() -> int:
     resume_parser.add_argument('--decision-reference', required=True)
     resume_parser.set_defaults(function=resume_task)
     status_parser = sub.add_parser('status')
-    status_parser.set_defaults(function=lambda repo, args: print(json.dumps(load_json(repo / ACTIVE_TASK_PATH), indent=2)))
+    status_parser.set_defaults(function=resource_status)
+    resource_parser = sub.add_parser('record-resource-disposition')
+    resource_parser.add_argument('--input', required=True)
+    resource_parser.set_defaults(function=record_resource_disposition)
     for name, completed in [('handoff', True), ('pause', False)]:
         disposition_parser = sub.add_parser(name)
         disposition_parser.add_argument('--reason', required=True)
@@ -357,6 +383,10 @@ def main() -> int:
         disposition_parser.set_defaults(function=lambda repo, args, is_complete=completed: record_task_disposition(repo, args, is_complete))
     args = parser.parse_args()
     try:
+        if args.command in {'status', 'record-resource-disposition'}:
+            with redirect_stdout(sys.stderr):
+                repo = derive_repo_from_script(__file__)
+            return args.function(repo, args)
         args.function(derive_repo_from_script(__file__), args)
         return 0
     except (SetupError, OSError, ValueError, KeyError, subprocess.CalledProcessError) as exc:

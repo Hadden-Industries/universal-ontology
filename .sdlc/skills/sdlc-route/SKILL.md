@@ -75,6 +75,16 @@ Identify relevant reuse/native input validation, no-shim constraints, the higher
 outcome/guardrails, security-scan trigger and cleanup obligations. A small diff in
 a security boundary may be R2. No extra process merely to fill a template.
 
+Within Required verification and Next lifecycle step, distinguish the next useful
+check from final assurance. Refer to
+`docs/sdlc/proportional-workflow.md#execution-cadence-and-evidence-placement`.
+A short execution statement can remain in the existing task; it is not another
+mandatory artifact. Do not lower risk, reset accepted scope or invent a separate
+release campaign to suit the chosen cadence. Route by the changed meaning and
+consumer, not by a Markdown extension or a prose-only label. Cite the actual
+accepted/governing basis for mandatory specialist work; an optional recommendation
+does not become a pre-existing acceptance requirement.
+
 ## Output contract
 
 Return exactly these headings:

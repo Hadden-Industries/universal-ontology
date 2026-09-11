@@ -7,11 +7,13 @@ import hashlib
 import io
 import json
 import os
+import queue
 import shutil
 import signal
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import unittest
 from contextlib import redirect_stdout, redirect_stderr
@@ -25,6 +27,7 @@ import _sdlc_state as state
 import _commands
 import set_up_agent_skills as skill_setup
 import validate_sdlc_pr as pull_request_validation
+from _sdlc_baseline import BaselineBlob
 import set_up_sdlc
 from _commands import SetupError
 
@@ -43,9 +46,18 @@ def baseline_document(risk: str = 'R2') -> dict:
 
 class LocalVerificationControlTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.temporary = tempfile.TemporaryDirectory(prefix='sdlc controls ')
-        self.addCleanup(self.temporary.cleanup)
-        self.repo = Path(self.temporary.name)
+        self.temporary = tempfile.TemporaryDirectory(prefix='wp2-', delete=False)
+        def retain_failed_fixture_or_cleanup():
+            result = self._outcome.result
+            if any(test.id().startswith(self.id()) for test, _ in result.failures + result.errors):
+                print('Failed fixture retained:', self.temporary.name)
+            else:
+                self.temporary.cleanup()
+        self.addCleanup(retain_failed_fixture_or_cleanup)
+        self.repo = Path(self.temporary.name) / 'seed'
+        self.repo.mkdir()
+        self.empty_git_directory = Path(self.temporary.name) / 'empty-git'
+        self.empty_git_directory.mkdir()
         shutil.copytree(REPOSITORY / '.sdlc/schemas', self.repo / '.sdlc/schemas')
         shutil.copytree(REPOSITORY / 'scripts', self.repo / 'scripts',
                         ignore=shutil.ignore_patterns('__pycache__'))
@@ -60,13 +72,14 @@ class LocalVerificationControlTests(unittest.TestCase):
             for name in ('focused', 'affected', 'full')},
             'additionalFingerprintInputs': ['.sdlc/verification.json']}
         state.write_json_atomically(self.repo / state.VERIFICATION_CONFIG_PATH, self.config)
-        self.git('init', '-q')
+        self.git('init', '-q', '--template=' + str(self.empty_git_directory))
         self.git('config', 'user.email', 'fixture@example.invalid')
         self.git('config', 'user.name', 'SDLC test fixture')
         self.commit('Initial fixture')
 
     def git(self, *arguments: str) -> str:
-        return subprocess.run(['git', '-C', str(self.repo), *arguments], check=True,
+        return subprocess.run(['git', '-c', 'core.hooksPath=' + str(self.empty_git_directory),
+                              '-C', str(self.repo), *arguments], check=True,
                               text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
 
     def commit(self, message: str) -> None:
@@ -160,6 +173,479 @@ class LocalVerificationControlTests(unittest.TestCase):
         self.begin_task(); prior = (self.repo / state.ACTIVE_TASK_PATH).read_bytes()
         with self.assertRaises(SetupError): self.begin_task('R1')
         self.assertEqual((self.repo / state.ACTIVE_TASK_PATH).read_bytes(), prior)
+
+    def start_arguments(self, name):
+        return ['begin', name, '--risk', 'R0', '--intent-reference', 'accepted-fixture',
+                '--purpose', 'Preserve exclusive fixture ownership', '--no-new-functionality']
+
+    def fixture_child(self, root, arguments, *, boundary=None, cwd=None, native_launcher=False):
+        # Direct owned children use the same UTF-8 mode as the native launcher.
+        # Keep direct ownership for precise interruption; qualify the launcher separately.
+        launcher = (['node', str(REPOSITORY / 'scripts/runRepositoryPython.js')]
+                    if native_launcher else [sys.executable, '-X', 'utf8'])
+        if boundary:
+            command = [*launcher, str(REPOSITORY / 'tests/sdlc/fixtures/concurrent_lifecycle_child.py'),
+                       boundary, str(root), *arguments]
+        else:
+            command = [*launcher, str(root / 'scripts/sdlc.py'), *arguments]
+        child = subprocess.Popen(command, cwd=cwd or root, stdin=subprocess.PIPE,
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                 env=dict(os.environ, PYTHONDONTWRITEBYTECODE='1'),
+                                 text=True, encoding='utf-8')
+
+        def stop_child():
+            if child.poll() is None:
+                child.kill()
+            child.wait(timeout=10)
+            for stream in (child.stdin, child.stdout, child.stderr):
+                stream.close()
+
+        self.addCleanup(stop_child)
+        return child
+
+    def await_child_barrier(self, child):
+        observed = queue.Queue()
+        def read_until_barrier():
+            preceding = []
+            for line in child.stdout:
+                if line.strip() == 'READY':
+                    observed.put(line)
+                    return
+                preceding.append(line)
+            observed.put(''.join(preceding))
+        reader = threading.Thread(target=read_until_barrier, daemon=True)
+        reader.start()
+        try:
+            line = observed.get(timeout=20)
+        except queue.Empty:
+            self.fail('Fixture did not reach the real lifecycle barrier')
+        self.assertEqual(line.strip(), 'READY', 'Fixture failed before the intended boundary')
+        reader.join(timeout=1)
+
+    def assert_competing_starts(self, root, boundary='validated'):
+        first = self.fixture_child(root, self.start_arguments('first'), boundary=boundary)
+        second = self.fixture_child(root, self.start_arguments('second'), boundary=boundary)
+        self.await_child_barrier(first)
+        self.await_child_barrier(second)
+        self.assertFalse((root / state.ACTIVE_TASK_PATH).exists())
+        results = []
+        for child in (first, second):
+            child.stdin.write('release\n')
+            child.stdin.flush()
+            results.append((child.communicate(timeout=20), child.returncode))
+        print('Competing native starts:', results)
+        self.assertEqual(sorted(code for _, code in results), [0, 1])
+        active = state.load_json(root / state.ACTIVE_TASK_PATH)
+        winner = 'first' if results[0][1] == 0 else 'second'
+        self.assertEqual(active['task'], winner)
+        self.assertEqual(active['purpose'], 'Preserve exclusive fixture ownership')
+        rejection = results[1 if winner == 'first' else 0][0][1]
+        self.assertIn(winner, rejection)
+        self.assertIn(active['taskId'], rejection)
+        prior = (root / state.ACTIVE_TASK_PATH).read_bytes()
+        public = self.fixture_child(root, self.start_arguments('third'))
+        _, error = public.communicate(timeout=20)
+        self.assertEqual(public.returncode, 1, error)
+        self.assertIn(active['taskId'], error)
+        self.assertEqual((root / state.ACTIVE_TASK_PATH).read_bytes(), prior)
+
+    def linked_worktrees(self, names=('a', 'b')):
+        roots = [Path(self.temporary.name) / name for name in names]
+        for index, root in enumerate(roots):
+            self.git('worktree', 'add', '-q', '-b', f'fixture-{index}', str(root), 'HEAD')
+        identities = []
+        for root in roots:
+            self.assertTrue((root / '.git').is_file())
+            def resolve(*args):
+                return Path(subprocess.check_output(['git', '-C', str(root), 'rev-parse',
+                    '--path-format=absolute', *args], text=True).strip()).resolve()
+            identities.append((resolve('--show-toplevel'), resolve('--absolute-git-dir'),
+                               resolve('--git-common-dir'), resolve('--git-path', 'index')))
+        self.assertEqual(identities[0][2], identities[1][2])
+        for position in (0, 1, 3):
+            self.assertNotEqual(identities[0][position], identities[1][position])
+        self.assertEqual([entry[0] for entry in identities], [root.resolve() for root in roots])
+        return roots
+
+    def test_competing_native_starts_preserve_one_owner(self):
+        self.assert_competing_starts(self.repo)
+
+    def test_competing_native_starts_in_linked_worktree_preserve_one_owner(self):
+        first, _ = self.linked_worktrees()
+        self.assert_competing_starts(first)
+
+    def test_competing_prepared_candidates_collide_at_native_link(self):
+        self.assert_competing_starts(self.repo, boundary='before-link')
+
+    def test_interrupted_publication_preserves_phase_specific_ownership(self):
+        before, after = self.linked_worktrees()
+        for root, boundary in ((before, 'before-link'), (after, 'after-link')):
+            with self.subTest(boundary=boundary):
+                child = self.fixture_child(root, self.start_arguments('interrupted'), boundary=boundary)
+                self.await_child_barrier(child)
+                candidates = list((root / state.RUNTIME_DIRECTORY).glob('.active-*'))
+                self.assertEqual(len(candidates), 1)
+                candidate = candidates[0]
+                prepared = candidate.read_bytes()
+                self.assertEqual(json.loads(prepared)['task'], 'interrupted')
+                active = root / state.ACTIVE_TASK_PATH
+                self.assertEqual(active.exists(), boundary == 'after-link')
+                if active.exists():
+                    self.assertTrue(candidate.samefile(active))
+                    self.assertEqual(active.read_bytes(), prepared)
+                child.kill()
+                child.communicate(timeout=10)
+                self.assertNotEqual(child.returncode, 0)
+                _, error = self.run_fixture_cli(root, *self.start_arguments('later'),
+                    expected=1 if boundary == 'after-link' else 0)
+                if boundary == 'after-link':
+                    self.assertIn(json.loads(prepared)['taskId'], error)
+                    self.assertEqual(active.read_bytes(), prepared)
+                    self.run_fixture_cli(root, 'pause', '--reason', 'Retain interrupted owner',
+                        '--evidence-reference', 'fixture', '--acknowledge-retained-evidence')
+                    self.assertTrue(state.load_json(active)['paused'])
+                    self.assertFalse(candidate.samefile(active))
+                else:
+                    self.assertEqual(state.load_json(active)['task'], 'later')
+                self.assertEqual(candidate.read_bytes(), prepared)
+
+    def test_exclusive_start_preserves_malformed_and_paused_holds(self):
+        self.begin_task()
+        active = self.repo / state.ACTIVE_TASK_PATH
+        self.disposition(completed=False)
+        paused = active.read_bytes()
+        cases = [paused, b'', b'{', b'[]', b'{"schemaVersion": 99}', b'{"schemaVersion": 2}']
+        for content in cases:
+            with self.subTest(content=content):
+                active.write_bytes(content)
+                prior = self.runtime_manifest(self.repo)
+                _, error = self.run_fixture_cli(self.repo, *self.start_arguments('rejected'), expected=1)
+                self.assertEqual(self.runtime_manifest(self.repo), prior)
+                self.assertIn('active', error)
+                if content == paused:
+                    self.assertIn('paused=True', error)
+                else:
+                    self.assertIn('explicit state decision', error)
+
+    def test_exclusive_start_retains_candidate_on_preparation_failure(self):
+        # Inject at the actual stream seam; os.link remains the native operation.
+        original_fdopen = state.os.fdopen
+        for phase in ('write', 'flush', 'close', 'write-close', 'flush-close'):
+            with self.subTest(phase=phase):
+                class FailingStream:
+                    def __init__(self, descriptor, *args, **kwargs):
+                        self.stream = original_fdopen(descriptor, *args, **kwargs)
+                    def __enter__(self):
+                        return self
+                    def write(self, value):
+                        if phase.startswith('write'):
+                            self.stream.write(value[:5])
+                            raise FileExistsError('injected preparation error')
+                        return self.stream.write(value)
+                    def flush(self):
+                        if phase.startswith('flush'):
+                            raise OSError('injected flush failure')
+                        return self.stream.flush()
+                    def __exit__(self, *args):
+                        self.close()
+                    def close(self):
+                        self.stream.close()
+                        if phase.endswith('close'):
+                            raise OSError('injected close failure')
+                prior = set((self.repo / state.RUNTIME_DIRECTORY).glob('.active-*'))
+                with patch.object(state.os, 'fdopen', FailingStream), patch.object(state.os, 'link') as link:
+                    with self.assertRaises(SetupError) as failure:
+                        self.begin_task()
+                    link.assert_not_called()
+                self.assertIn('Preparation retained', str(failure.exception))
+                if phase == 'write-close':
+                    self.assertIn('injected preparation error', str(failure.exception))
+                    self.assertIn('injected close failure', str(failure.exception))
+                if phase == 'flush-close':
+                    self.assertIn('injected flush failure', str(failure.exception))
+                    self.assertIn('injected close failure', str(failure.exception))
+                self.assertFalse((self.repo / state.ACTIVE_TASK_PATH).exists())
+                self.assertEqual(len(set((self.repo / state.RUNTIME_DIRECTORY).glob('.active-*')) - prior), 1)
+
+    def test_exclusive_start_serialization_failure_has_no_state_effect(self):
+        with patch.object(state.json, 'dumps', side_effect=ValueError('injected serialization')):
+            with self.assertRaises(ValueError):
+                self.begin_task()
+        self.assertFalse((self.repo / state.RUNTIME_DIRECTORY).exists())
+
+    def test_exclusive_start_reports_unsupported_link_without_fallback(self):
+        with patch.object(state.os, 'link', side_effect=OSError('unsupported native link')) as link:
+            with self.assertRaises(SetupError) as failure:
+                self.begin_task()
+            link.assert_called_once()
+        self.assertIn('unsupported native link', str(failure.exception))
+        self.assertIn('Preparation retained', str(failure.exception))
+        self.assertFalse((self.repo / state.ACTIVE_TASK_PATH).exists())
+        self.assertEqual(len(list((self.repo / state.RUNTIME_DIRECTORY).glob('.active-*'))), 1)
+
+    def test_exclusive_start_cleanup_failure_retains_established_owner(self):
+        with patch.object(state.os, 'unlink', side_effect=PermissionError('injected cleanup')):
+            with self.assertRaises(SetupError) as failure:
+                self.begin_task()
+        active = state.load_json(self.repo / state.ACTIVE_TASK_PATH)
+        self.assertIn(active['taskId'], str(failure.exception))
+        self.assertIn('was established', str(failure.exception))
+        candidate, = (self.repo / state.RUNTIME_DIRECTORY).glob('.active-*')
+        self.assertIn(str(candidate), str(failure.exception))
+        self.assertTrue(candidate.samefile(self.repo / state.ACTIVE_TASK_PATH))
+        before = self.runtime_manifest(self.repo)
+        self.run_fixture_cli(self.repo, *self.start_arguments('retry'), expected=1)
+        self.assertEqual(self.runtime_manifest(self.repo), before)
+
+    def test_exclusive_start_reporting_failure_retains_established_owner(self):
+        with patch.object(sdlc, 'write_console_diagnostic', side_effect=OSError('injected output failure')):
+            with self.assertRaises(SetupError) as failure:
+                self.begin_task()
+        active = state.load_json(self.repo / state.ACTIVE_TASK_PATH)
+        self.assertIn(active['taskId'], str(failure.exception))
+        self.assertIn('was established', str(failure.exception))
+        self.assertEqual(list((self.repo / state.RUNTIME_DIRECTORY).glob('.active-*')), [])
+
+    def test_exclusive_start_collision_diagnostic_never_retries(self):
+        with patch.object(state.os, 'link', side_effect=FileExistsError('collision')) as link:
+            with self.assertRaises(SetupError) as failure:
+                self.begin_task()
+            link.assert_called_once()
+        self.assertIn('changed during inspection', str(failure.exception))
+        self.assertIn('will not retry', str(failure.exception))
+        self.assertFalse((self.repo / state.ACTIVE_TASK_PATH).exists())
+        self.assertEqual(list((self.repo / state.RUNTIME_DIRECTORY).glob('.active-*')), [])
+
+    def test_exclusive_start_preserves_directory_destination(self):
+        active = self.repo / state.ACTIVE_TASK_PATH
+        active.mkdir(parents=True)
+        (active / 'retained.txt').write_bytes(b'owned evidence')
+        prior = self.runtime_manifest(self.repo)
+        self.run_fixture_cli(self.repo, *self.start_arguments('rejected'), expected=1)
+        self.assertTrue(active.is_dir())
+        self.assertEqual(self.runtime_manifest(self.repo), prior)
+
+    def test_exclusive_start_rejects_dangling_destination_link(self):
+        active = self.repo / state.ACTIVE_TASK_PATH
+        active.parent.mkdir(parents=True)
+        target = self.repo / 'missing-owner.json'
+        active.symlink_to(target)
+        self.assertTrue(active.is_symlink())
+        self.assertFalse(active.exists())
+        _, error = self.run_fixture_cli(self.repo, *self.start_arguments('rejected'), expected=1)
+        self.assertIn('redirected state path', error)
+        self.assertTrue(active.is_symlink())
+        self.assertFalse(target.exists())
+        self.assertEqual(list(active.parent.glob('.active-*')), [])
+
+    def test_linked_unicode_paths_use_script_root_from_other_checkout(self):
+        first, second = self.linked_worktrees(('a spaced \u6f22', 'b spaced \u03a9'))
+        self.run_fixture_cli(second, *self.start_arguments('unicode \u6f22'), cwd=first)
+        self.assertFalse((first / state.ACTIVE_TASK_PATH).exists())
+        self.assertEqual(state.load_json(second / state.ACTIVE_TASK_PATH)['task'], 'unicode \u6f22')
+        self.run_fixture_cli(second, 'verify', cwd=first)
+        self.assertEqual(state.required_verification_gaps(second), [])
+
+    def test_native_launcher_preserves_exclusive_start_contract(self):
+        for name, expected in (('established', 0), ('rejected', 1)):
+            child = self.fixture_child(self.repo, self.start_arguments(name), native_launcher=True)
+            output, error = child.communicate(timeout=20)
+            self.assertEqual(child.returncode, expected, (output, error))
+            active = state.load_json(self.repo / state.ACTIVE_TASK_PATH)
+            self.assertEqual(active['task'], 'established')
+            if expected:
+                self.assertIn(active['taskId'], error)
+
+    def run_fixture_cli(self, root, *arguments, expected=0, cwd=None):
+        child = self.fixture_child(root, list(arguments), cwd=cwd)
+        output, error = child.communicate(timeout=30)
+        self.assertEqual(child.returncode, expected, (output, error))
+        return output, error
+
+    def runtime_manifest(self, root):
+        return {path.relative_to(root).as_posix(): path.read_bytes()
+                for path in (root / state.RUNTIME_DIRECTORY).rglob('*') if path.is_file()}
+
+    def assert_current_capture(self, root, expected_output, passed):
+        current = root / state.RUNTIME_DIRECTORY / 'verification/focused.json'
+        receipt = state.load_json(current)
+        state.validate_document(root, 'verification-run.schema.json', receipt)
+        self.assertEqual(receipt['schemaVersion'], 3)
+        self.assertEqual(receipt['passed'], passed)
+        self.assertEqual(current.read_bytes(), (root / state.verification_run_path(receipt)).read_bytes())
+        command = receipt['commands'][0]
+        raw = (root / command['capture']['path']).read_bytes()
+        self.assertEqual(raw, expected_output)
+        self.assertEqual(command['output'], expected_output.decode('utf-8'))
+        self.assertEqual(command['capture']['sha256'], hashlib.sha256(raw).hexdigest())
+        self.assertEqual(command['capture']['byteLength'], len(raw))
+        self.assertEqual(command['returnCode'], 0 if passed else 7)
+        return receipt
+
+    def test_linked_lifecycle_preserves_other_worktree_failed_evidence(self):
+        first, second = self.linked_worktrees()
+        for root, marker, code in ((first, b'A passed\n', 0), (second, b'B failed\n', 7)):
+            config = copy.deepcopy(self.config)
+            config['profiles']['focused'][0]['argv'] = [sys.executable, 'verification_process.py',
+                '--hex', marker.hex(), '--exit-code', str(code), '--ready', '.sdlc/runtime/ready',
+                '--release', '.sdlc/runtime/release']
+            state.write_json_atomically(root / state.VERIFICATION_CONFIG_PATH, config)
+        starts = [self.fixture_child(root, self.start_arguments(name), boundary='validated')
+                  for root, name in ((first, 'A'), (second, 'B'))]
+        for child in starts:
+            self.await_child_barrier(child)
+        for child in starts:
+            output, error = child.communicate('release\n', timeout=20)
+            self.assertEqual(child.returncode, 0, (output, error))
+        runs = [self.fixture_child(root, ['verify']) for root in (first, second)]
+        self.await_paths([root / '.sdlc/runtime/ready' for root in (first, second)])
+        for root in (first, second):
+            (root / '.sdlc/runtime/release').write_text('release', encoding='ascii')
+        for child, expected in zip(runs, (0, 1)):
+            output, error = child.communicate(timeout=30)
+            self.assertEqual(child.returncode, expected, (output, error))
+        self.assert_current_capture(first, b'A passed\n', True)
+        failed = self.assert_current_capture(second, b'B failed\n', False)
+        other_before = self.runtime_manifest(second)
+        first_before = state.load_json(first / state.ACTIVE_TASK_PATH)
+        disposition = ['--reason', 'Accepted fixture transition', '--evidence-reference',
+                       'fixture-evidence', '--acknowledge-retained-evidence']
+        self.run_fixture_cli(first, 'pause', *disposition, cwd=second)
+        self.run_fixture_cli(first, 'resume', '--decision-reference', 'same-scope fixture decision')
+        self.assertNotEqual(state.load_json(first / state.ACTIVE_TASK_PATH)['taskId'], first_before['taskId'])
+        self.assertTrue(state.required_verification_gaps(first))
+        self.run_fixture_cli(first, 'verify')
+        self.assertEqual(state.required_verification_gaps(first), [])
+        self.run_fixture_cli(first, 'handoff', *disposition)
+        self.assertEqual(self.runtime_manifest(second), other_before)
+        retained_first = self.runtime_manifest(first)
+        self.run_fixture_cli(second, 'pause', *disposition)
+        config = state.load_json(second / state.VERIFICATION_CONFIG_PATH)
+        argv = config['profiles']['focused'][0]['argv']
+        argv[argv.index('--exit-code') + 1] = '0'
+        state.write_json_atomically(second / state.VERIFICATION_CONFIG_PATH, config)
+        self.run_fixture_cli(second, 'resume', '--decision-reference', 'accepted fixture correction')
+        self.run_fixture_cli(second, 'verify')
+        self.assert_current_capture(second, b'B failed\n', True)
+        self.assertFalse(state.load_json(second / state.verification_run_path(failed))['passed'])
+        for path, contents in other_before.items():
+            if '/runs/' in path:
+                self.assertEqual((second / path).read_bytes(), contents)
+        self.assertEqual(self.runtime_manifest(first), retained_first)
+
+    def await_paths(self, paths):
+        deadline = time.monotonic() + 20
+        while not all(path.exists() for path in paths):
+            if time.monotonic() >= deadline:
+                self.fail('Fixture processes did not report readiness: ' + str(paths))
+            time.sleep(0.01)
+
+    def commit_fixture_root(self, root, message):
+        for arguments in (['add', '--all'], ['commit', '-qm', message]):
+            subprocess.run(['git', '-c', 'core.hooksPath=' + str(self.empty_git_directory),
+                            '-C', str(root), *arguments], check=True, capture_output=True)
+
+    def test_linked_other_branch_commit_does_not_invalidate_local_evidence(self):
+        first, second = self.linked_worktrees()
+        for root in (first, second):
+            self.run_fixture_cli(root, *self.start_arguments(root.name))
+            self.run_fixture_cli(root, 'verify')
+        before = self.runtime_manifest(first)
+        (second / 'other-source.txt').write_text('B-owned source', encoding='utf-8')
+        self.commit_fixture_root(second, 'B-only source movement')
+        self.assertEqual(state.required_verification_gaps(first), [])
+        self.assertTrue(state.required_verification_gaps(second))
+        self.assertEqual(self.runtime_manifest(first), before)
+        (first / 'local-input.txt').write_text('A-owned input', encoding='utf-8')
+        self.assertTrue(state.required_verification_gaps(first))
+
+    def test_same_scope_resume_refreshes_controls_without_rewriting_history(self):
+        self.begin_task(); self.verify_task()
+        prior = self.runtime_manifest(self.repo)
+        original = state.load_json(self.repo / state.ACTIVE_TASK_PATH)
+        self.disposition(completed=False)
+        policy = state.load_json(self.repo / state.PIPELINE_POLICY_PATH)
+        policy['routes']['R0']['requiredProfiles'] = ['affected']
+        state.write_json_atomically(self.repo / state.PIPELINE_POLICY_PATH, policy)
+        self.invoke(sdlc.resume_task, argparse.Namespace(decision_reference='accepted same-scope controls'))
+        resumed = state.load_json(self.repo / state.ACTIVE_TASK_PATH)
+        self.assertNotEqual(resumed['taskId'], original['taskId'])
+        self.assertNotEqual(resumed['policyDigest'], original['policyDigest'])
+        for field in ('baseline', 'purpose', 'riskClass', 'startingHead'):
+            self.assertEqual(resumed[field], original[field])
+        self.assertEqual(resumed['requiredProfiles'], ['affected'])
+        self.assertTrue(state.required_verification_gaps(self.repo))
+        self.verify_task()
+        self.assertEqual(state.required_verification_gaps(self.repo), [])
+        for path, content in prior.items():
+            if '/runs/' in path:
+                self.assertEqual((self.repo / path).read_bytes(), content)
+
+    def test_raw_control_formatting_and_baseline_movement_stale_same_task(self):
+        baseline = self.repo / 'docs/sdlc/baselines/issue-123/v1.json'
+        state.write_json_atomically(baseline, baseline_document())
+        self.commit('Accepted prior fixture baseline')
+        self.begin_task('R2', baseline.relative_to(self.repo).as_posix()); self.verify_task()
+        original_task = state.load_json(self.repo / state.ACTIVE_TASK_PATH)['taskId']
+        original_receipt = (self.repo / state.RUNTIME_DIRECTORY / 'verification/full.json').read_bytes()
+        for control in (state.PIPELINE_POLICY_PATH, state.VERIFICATION_CONFIG_PATH):
+            path = self.repo / control
+            value = state.load_json(path)
+            with path.open('a', encoding='utf-8') as stream:
+                stream.write('\n')
+            self.assertEqual(state.load_json(path), value)
+            self.assertTrue(state.required_verification_gaps(self.repo))
+            self.assertEqual((self.repo / state.RUNTIME_DIRECTORY / 'verification/full.json').read_bytes(), original_receipt)
+            self.verify_task()
+            original_receipt = (self.repo / state.RUNTIME_DIRECTORY / 'verification/full.json').read_bytes()
+            self.assertEqual(state.required_verification_gaps(self.repo), [])
+        baseline.write_bytes(baseline.read_bytes() + b'\n')
+        self.assertTrue(state.required_verification_gaps(self.repo))
+        self.assertEqual(state.load_json(self.repo / state.ACTIVE_TASK_PATH)['taskId'], original_task)
+        self.disposition(completed=False)
+        with self.assertRaises(SetupError):
+            self.invoke(sdlc.resume_task, argparse.Namespace(decision_reference='Cannot accept a changed baseline'))
+        self.assertEqual((self.repo / state.RUNTIME_DIRECTORY / 'verification/full.json').read_bytes(), original_receipt)
+
+    def test_clean_merge_requires_fresh_combined_consumer_evidence(self):
+        # Each independently reversible transform preserves the literal value 5.
+        # Their composition requires reverse-order inverses, even with no text conflict.
+        for name in ('encode_a', 'encode_b', 'decode_a', 'decode_b'):
+            (self.repo / (name + '.py')).write_text('def transform(value):\n    return value\n')
+        consumer = ('from encode_a import transform as encode_a\n'
+                    'from encode_b import transform as encode_b\n'
+                    'from decode_a import transform as decode_a\n'
+                    'from decode_b import transform as decode_b\n'
+                    'def value():\n    return decode_b(decode_a(encode_b(encode_a(5))))\n')
+        (self.repo / 'consumer.py').write_text(consumer)
+        self.configure('focused', 'from consumer import value; assert value() == 5, value()')
+        first, second = self.linked_worktrees()
+        for root, suffix, forward, reverse in ((first, 'a', 'value + 1', 'value - 1'),
+                                                (second, 'b', 'value * 2', 'value / 2')):
+            (root / f'encode_{suffix}.py').write_text(f'def transform(value):\n    return {forward}\n')
+            (root / f'decode_{suffix}.py').write_text(f'def transform(value):\n    return {reverse}\n')
+            self.commit_fixture_root(root, 'Independently reversible transform ' + suffix)
+            self.run_fixture_cli(root, *self.start_arguments(suffix))
+            self.run_fixture_cli(root, 'verify')
+            self.assertEqual(state.required_verification_gaps(root), [])
+        first_receipt = (first / state.RUNTIME_DIRECTORY / 'verification/focused.json').read_bytes()
+        untouched_second = self.runtime_manifest(second)
+        merged = subprocess.run(['git', '-c', 'core.hooksPath=' + str(self.empty_git_directory),
+                                 '-C', str(first), 'merge', '--no-edit', 'fixture-1'],
+                                capture_output=True, text=True)
+        self.assertEqual(merged.returncode, 0, (merged.stdout, merged.stderr))
+        self.assertTrue(state.required_verification_gaps(first))
+        self.assertEqual((first / state.RUNTIME_DIRECTORY / 'verification/focused.json').read_bytes(), first_receipt)
+        self.run_fixture_cli(first, 'verify', expected=1)
+        failed = state.load_json(first / state.RUNTIME_DIRECTORY / 'verification/focused.json')
+        self.assertIn('AssertionError: 5.5', failed['commands'][0]['output'])
+        # Correct inverse composition at the combined consumer, preserving both transforms.
+        (first / 'consumer.py').write_text(consumer.replace(
+            'decode_b(decode_a(encode_b(encode_a(5))))', 'decode_a(decode_b(encode_b(encode_a(5))))'))
+        self.run_fixture_cli(first, 'verify')
+        self.assertEqual(state.required_verification_gaps(first), [])
+        self.assertFalse(state.load_json(first / state.verification_run_path(failed))['passed'])
+        self.assertEqual(self.runtime_manifest(second), untouched_second)
 
     def test_source_change_invalidates_success(self):
         self.begin_task(); self.verify_task(); (self.repo / 'value.txt').write_text('changed\n')
@@ -717,7 +1203,7 @@ with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc
                 flushed.append(True)
                 raise OSError('stderr flush failed')
         with (patch.object(sys, 'argv', args),
-              patch.object(sdlc, 'load_json', side_effect=OSError('original \u2716')),
+              patch.object(sdlc, 'derive_repo_from_script', side_effect=OSError('original \u2716')),
               patch.object(sys, 'stderr', FailingErrorStream())):
             self.assertEqual(sdlc.main(), 1)
         self.assertTrue(flushed)
@@ -1056,10 +1542,14 @@ class PullRequestValidationTests(unittest.TestCase):
                        'baseline':'docs/sdlc/baselines/issue-123/v1.json', 'new_functionality':'no','software_selection':'none'}
 
     def validate_fixture_pr(self, *, paths=None, baseline=None, prior=None, existing=False):
+        def blob(document):
+            raw = json.dumps(document).encode('utf-8')
+            oid = hashlib.sha1(b'blob ' + str(len(raw)).encode('ascii') + b'\0' + raw).hexdigest()
+            return BaselineBlob('example/service', 'a' * 40, self.fields['baseline'], '100644', oid, raw)
         return pull_request_validation.validate_pull_request_linkage(REPOSITORY,self.fields,'example/service',
              self.issue, paths if paths is not None else ['src/claim_status.py'],
-             baseline if baseline is not None else self.baseline,
-             prior if prior is not None else self.baseline,existing)
+             blob(baseline if baseline is not None else self.baseline),
+             blob(prior if prior is not None else self.baseline),existing)
 
     def test_r2_prior_baseline_passes(self): self.assertEqual(self.validate_fixture_pr(), [])
 

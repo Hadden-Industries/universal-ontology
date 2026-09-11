@@ -19,6 +19,9 @@ from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
 
 from _commands import SetupError, require_command
+from _sdlc_baseline import (BaselineBlob, MAX_BASELINE_BYTES, METADATA_TIMEOUT_SECONDS,
+                            OBJECT_ID, require_baseline_path, require_plan_text,
+                            decode_baseline_text)
 
 RUNTIME_DIRECTORY = Path('.sdlc/runtime')
 ACTIVE_TASK_PATH = RUNTIME_DIRECTORY / 'active.json'
@@ -83,6 +86,82 @@ def write_json_atomically(path: Path, value: Any) -> None:
             primary_error.add_note(f'Temporary JSON cleanup also failed: {cleanup_error}')
 
 
+def active_task_conflict(path: Path) -> SetupError:
+    """Describe observed ownership after a collision without retrying acquisition."""
+    try:
+        reject_redirected_path(path)
+        existing = load_json(path)
+        if (not isinstance(existing, dict) or existing.get('schemaVersion') != 2
+                or not all(isinstance(existing.get(key), str) and existing[key]
+                           for key in ('task', 'taskId', 'riskClass'))):
+            raise ValueError('Unsupported ownership record')
+        # These are observed identity fields, not validation or approval of the task.
+        identity = ', '.join(f'{key}={json.dumps(existing[key][:256], ensure_ascii=True)}'
+                             for key in ('task', 'taskId', 'riskClass'))
+        baseline = json.dumps(str(existing.get('baseline'))[:256], ensure_ascii=True)
+        return SetupError(f'An active record already exists at {path}: {identity}, '
+                          f'baseline={baseline}, paused={existing.get("paused") is True}. '
+                          'Inspect status; independent work requires a separate worktree. No ownership changed.')
+    except (SetupError, OSError, ValueError) as exc:
+        return SetupError(f'Existing active state at {path} could not be identified '
+                          f'({type(exc).__name__}); it may be malformed, unsupported or changed during inspection. '
+                          'Preserve the state and obtain an explicit state decision; this start will not retry.')
+
+
+def create_active_task_exclusively(repo: Path, active: dict[str, Any]) -> None:
+    """Publish complete initial ownership once; retain evidence of interrupted starts."""
+    path = repo / ACTIVE_TASK_PATH
+    encoded = (json.dumps(active, indent=2, sort_keys=True) + '\n').encode('utf-8')
+    reject_redirected_path(path)
+    if os.path.lexists(path):
+        raise active_task_conflict(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, candidate = tempfile.mkstemp(prefix=f'.active-{active["taskId"]}-', dir=path.parent)
+    try:
+        stream = os.fdopen(descriptor, 'wb')
+    except BaseException:
+        os.close(descriptor)
+        raise
+    try:
+        try:
+            stream.write(encoded)
+            stream.flush()
+        except BaseException as primary_error:
+            try:
+                stream.close()
+            except (OSError, ValueError) as close_error:
+                primary_error.add_note(f'Closing preparation also failed: {close_error}')
+            raise
+        else:
+            stream.close()
+    except (OSError, ValueError) as exc:
+        details = '; '.join([str(exc), *getattr(exc, '__notes__', [])])
+        raise SetupError(f'Initial task preparation failed: {details}. '
+                         f'Preparation retained at {candidate}; no active record was published.') from exc
+    try:
+        reject_redirected_path(path)
+        reject_redirected_path(Path(candidate))
+        os.link(candidate, path)
+    except FileExistsError as exc:
+        conflict = active_task_conflict(path)
+        try:
+            os.unlink(candidate)
+        except OSError as cleanup_error:
+            conflict = SetupError(f'{conflict} Private preparation retained at {candidate}; '
+                                  f'cleanup failed ({type(cleanup_error).__name__}).')
+        raise conflict from exc
+    except (OSError, ValueError, SetupError) as exc:
+        raise SetupError(f'Initial task publication did not complete: {exc}. '
+                         f'Preparation retained at {candidate}; inspect {path} before retrying.') from exc
+    # The active name now owns the complete record. Cleanup never rolls it back.
+    try:
+        os.unlink(candidate)
+    except OSError as exc:
+        raise SetupError(f'Task {active["taskId"]} was established at {path}, but private-name '
+                         f'cleanup failed ({type(exc).__name__}); alias retained at {candidate}. '
+                         'Do not edit the alias. Inspect status; do not start again.') from exc
+
+
 def json_content_digest(value: Any) -> str:
     encoded = json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()
     return hashlib.sha256(encoded).hexdigest()
@@ -109,6 +188,64 @@ def require_repository_file(repo: Path, relative_path: str) -> Path:
     if candidate_file.is_symlink() or not candidate_file.is_file():
         raise SetupError(f'Expected regular file: {relative_path}')
     return candidate_file
+
+
+def read_local_baseline_bytes(repo: Path, path: str) -> bytes:
+    """Read a bounded baseline without following local parent redirects."""
+    require_baseline_path(path)
+    reject_redirected_path(repo / path)
+    candidate = require_repository_file(repo, path)
+    with candidate.open('rb') as stream:
+        raw = stream.read(MAX_BASELINE_BYTES + 1)
+    decode_baseline_text(raw)
+    return raw
+
+
+def read_local_baseline_at_revision(repo: Path, path: str, revision: str = 'HEAD') -> BaselineBlob:
+    """Resolve a literal regular Git entry; never checkout or text-convert it."""
+    require_baseline_path(path)
+    def git(*args):
+        try:
+            result = subprocess.run([require_command('git'), '--no-optional-locks', '-C', str(repo), *args],
+                check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                timeout=METADATA_TIMEOUT_SECONDS)
+            return result.stdout
+        except (subprocess.SubprocessError, OSError) as exc:
+            raise SetupError('Native local baseline metadata is unavailable.') from exc
+    commit = git('rev-parse', '--verify', '--end-of-options', revision + '^{commit}').decode('ascii').strip()
+    if not OBJECT_ID.fullmatch(commit):
+        raise SetupError('Native Git did not resolve a full baseline commit.')
+    rows = git('ls-tree', '-z', '--full-tree', commit, '--', ':(literal)' + path).split(b'\0')
+    if len(rows) != 2 or rows[-1] != b'' or b'\t' not in rows[0]:
+        raise SetupError('Baseline regular entry is absent or ambiguous in the committed tree.')
+    metadata, selected_path = rows[0].split(b'\t', 1)
+    fields = metadata.decode('ascii').split()
+    if (len(fields) != 3 or fields[0] not in {'100644', '100755'} or fields[1] != 'blob'
+            or not OBJECT_ID.fullmatch(fields[2]) or selected_path.decode('utf-8') != path):
+        raise SetupError('Baseline is not the exact regular-file Git entry.')
+    size = git('cat-file', '-s', fields[2]).strip()
+    if not size.isdigit() or int(size) > MAX_BASELINE_BYTES:
+        raise SetupError('Baseline exceeds the 1 MiB byte limit or has invalid native size.')
+    raw = git('cat-file', 'blob', fields[2])
+    if len(raw) != int(size):
+        raise SetupError('Native baseline blob size mismatch.')
+    return BaselineBlob(repo.resolve().as_posix(), commit, path, fields[0], fields[2], raw)
+
+
+def require_local_baseline(repo: Path, path: str, *, committed: bool) -> bytes:
+    raw = read_local_baseline_bytes(repo, path)
+    text = decode_baseline_text(raw)
+    if require_baseline_path(path) == 'plan':
+        require_plan_text(text)
+    else:
+        try:
+            document = json.loads(text)
+        except ValueError as exc:
+            raise SetupError('Issue baseline is not valid JSON.') from exc
+        validate_document(repo, 'accepted-baseline.schema.json', document)
+    if committed and read_local_baseline_at_revision(repo, path).raw != raw:
+        raise SetupError('Prior baseline differs from the committed native blob.')
+    return raw
 
 
 def load_verification_controls(repo: Path) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -161,7 +298,7 @@ def verification_input_identity(repo: Path, active: dict, policy: dict, configur
     """Describe the exact task and declared inputs associated with a verification run."""
     baseline_path = active.get('baseline')
     baseline_digest = (
-        hashlib.sha256(require_repository_file(repo, baseline_path).read_bytes()).hexdigest()
+        hashlib.sha256(read_local_baseline_bytes(repo, baseline_path)).hexdigest()
         if baseline_path else None
     )
     return {
