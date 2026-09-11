@@ -142,6 +142,34 @@ async function runViteBuild(fixture) {
   );
 }
 
+test.each([
+  "field-property-history.v1.json",
+  "field-property-history.v1.schema.json",
+])(
+  "rejects a source asset that collides with the package policy asset %s",
+  async (name) => {
+    const fixture = await createWebsiteFixture();
+
+    try {
+      const outputPath = `projection/${name}`;
+      await put(
+        fixture.sourceDirectory,
+        outputPath,
+        "conflicting authored copy",
+      );
+      await expect(runViteBuild(fixture)).rejects.toThrow(
+        `Static asset output collision: ${outputPath}`,
+      );
+      await expect(
+        readFile(join(fixture.outputDirectory, "sentinel.txt"), "utf8"),
+      ).resolves.toBe("preserve me");
+      await expectMissing(fixture.outputDirectory, [outputPath]);
+    } finally {
+      await rm(fixture.root, { recursive: true, force: true });
+    }
+  },
+);
+
 test("builds multi-page website and ontology assets with stable public paths", async () => {
   const fixture = await createWebsiteFixture();
 

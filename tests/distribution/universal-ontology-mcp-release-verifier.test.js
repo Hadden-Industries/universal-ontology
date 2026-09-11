@@ -1,9 +1,11 @@
 import { createHash } from "node:crypto";
+import { execFile } from "node:child_process";
 import { createWriteStream } from "node:fs";
 import * as nodeFileSystem from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { pipeline } from "node:stream/promises";
+import { promisify } from "node:util";
 
 import * as tar from "tar";
 import yazl from "yazl";
@@ -255,6 +257,7 @@ describe("Universal Ontology MCP release verifier", () => {
   let fixtureParentDirectoryPath;
   let baseReleaseDirectoryPath;
   let baseBundleMetadataPath;
+  let nativeNpmSbom;
 
   beforeAll(async () => {
     fixtureParentDirectoryPath = await nodeFileSystem.mkdtemp(
@@ -267,6 +270,21 @@ describe("Universal Ontology MCP release verifier", () => {
       fixtureParentDirectoryPath,
       "bundle-metadata.json",
     );
+    const { stdout } = await promisify(execFile)(
+      process.execPath,
+      [
+        process.env.npm_execpath,
+        "sbom",
+        "--workspace",
+        PACKAGE_NAME,
+        "--sbom-format",
+        "spdx",
+        "--sbom-type",
+        "application",
+      ],
+      { cwd: new URL("../../", import.meta.url), maxBuffer: 8 * 1024 * 1024 },
+    );
+    nativeNpmSbom = JSON.parse(stdout);
   });
 
   afterAll(async () => {
@@ -323,14 +341,20 @@ describe("Universal Ontology MCP release verifier", () => {
     );
     await nodeFileSystem.writeFile(
       npmComparisonSbomPath,
-      `${JSON.stringify({
-        spdxVersion: "SPDX-2.3",
-        packages: [
-          { name: "universal-ontology", versionInfo: SOFTWARE_VERSION },
-          { name: PACKAGE_NAME, versionInfo: SOFTWARE_VERSION },
-        ],
-      })}\n`,
+      `${JSON.stringify(nativeNpmSbom)}\n`,
     );
+    const publicEntry = nativeNpmSbom.packages.find(
+      ({ name }) => name === PACKAGE_NAME,
+    );
+    const buildTool = nativeNpmSbom.packages.find(
+      ({ name }) => name === "esbuild",
+    );
+    expect(buildTool).toBeDefined();
+    expect(nativeNpmSbom.relationships).toContainEqual({
+      spdxElementId: buildTool.SPDXID,
+      relatedSpdxElement: publicEntry.SPDXID,
+      relationshipType: "DEV_DEPENDENCY_OF",
+    });
     await expect(
       verifyUniversalOntologyMcpRelease({
         releaseDirectoryPath: baseReleaseDirectoryPath,
@@ -509,16 +533,23 @@ describe("Universal Ontology MCP release verifier", () => {
       fixtureParentDirectoryPath,
       "insufficient-npm-comparison.spdx.json",
     );
+    const changedSbom = structuredClone(nativeNpmSbom);
+    changedSbom.packages.push({
+      name: "npm-only-runtime",
+      versionInfo: "9.9.9",
+      SPDXID: "SPDXRef-npm-only-runtime",
+    });
+    const publicEntry = changedSbom.packages.find(
+      ({ name }) => name === PACKAGE_NAME,
+    );
+    changedSbom.relationships.push({
+      spdxElementId: "SPDXRef-npm-only-runtime",
+      relatedSpdxElement: publicEntry.SPDXID,
+      relationshipType: "DEPENDENCY_OF",
+    });
     await nodeFileSystem.writeFile(
       npmComparisonSbomPath,
-      `${JSON.stringify({
-        spdxVersion: "SPDX-2.3",
-        packages: [
-          { name: "universal-ontology", versionInfo: SOFTWARE_VERSION },
-          { name: PACKAGE_NAME, versionInfo: SOFTWARE_VERSION },
-          { name: "npm-only-runtime", versionInfo: "9.9.9" },
-        ],
-      })}\n`,
+      `${JSON.stringify(changedSbom)}\n`,
     );
 
     await expect(

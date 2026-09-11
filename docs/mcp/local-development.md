@@ -61,6 +61,60 @@ process exit code.
 
 ## Runtime and artifact boundaries
 
+### Workspace ownership and maintainer entry points
+
+| Responsibility                                           | Owner and entry point                                                                                                                                                                      |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| MCP tool registration, schemas and transport composition | `packages/universal-ontology-mcp-server/src/`; start with `createUniversalOntologyMcpServer.js` and `universalOntologyMcpHttpHandlers.js`.                                                 |
+| Local listener, stdio process and application bundle     | The MCP workspace's `scripts/`; its package manifest owns the executable version and direct SDK/build/test dependencies.                                                                   |
+| Query interpretation, repositories and cache             | `packages/universal-ontology-query`; use its named package exports. The browser entry excludes Node repositories.                                                                          |
+| Authored projection-property policy                      | `packages/universal-ontology-projection-policy`; its implementation and declaration are shared by query generation and the website.                                                        |
+| Ontology generation and development orchestration        | Root `scripts/generateOntologyQueryIndexes.js` and `scripts/runOntologyMcpDevelopment.js`. `npm run mcp:dev` refreshes indexes before starting the workspace listener in the same process. |
+| Archive, Registry and release verification               | Root `scripts/distribution/`; product versions follow the public MCP manifest, while the root manifest owns the npm toolchain.                                                             |
+
+Run focused owner checks from the repository root:
+
+```powershell
+npm run test --workspace universal-ontology-mcp-server -- --runInBand
+npm run test --workspace universal-ontology-query -- --runInBand
+npm run build --workspace universal-ontology-mcp-server
+npm run stdio --workspace universal-ontology-mcp-server -- --help
+npm run serve --workspace universal-ontology-mcp-server
+```
+
+`serve` uses existing query artifacts. Root `mcp:serve` composes the same listener;
+root `mcp:dev` additionally generates artifacts, honoring `UNIVERSAL_ONTOLOGY_QUERY_ROOT`.
+The workspace listener does not own RDF/XML generation or accept `--refresh-index`.
+Root `npm test -- --runInBand` includes workspace suites and distribution/website
+consumers. A packed installation contains only the executable and four package
+documents, with no installed query workspace or SDK dependency.
+
+For an SDK update, first verify the current supported release and its complete
+terms, including the existing embedded `fast-uri` restriction in the
+[adoption record](../sdlc/adoption.md#mcp-sdk-embedded-fast-uri). Propose exact
+manifest/lock changes under repository configuration approval. Trace a tool from
+registration through the query package, then run workspace protocol/socket and
+semantic tests, bundle/pack/fresh-install tests, and root regressions. The builder
+attributes inputs to their actual package installation, checks embedded component
+identities, and requires full published direct-component license text in notices.
+The release verifier consumes npm's development-dependency relationships separately
+from the application's embedded-component SBOM. Preserve retained rejection cases
+and ontology definition/provenance assertions when evaluating the update.
+
+This responsibility map supports maintainer review; it does not establish measured
+onboarding savings or release/host acceptance.
+
+The Node listener bounds original POST bytes before passing its parsed value to
+the SDK's Node adapter and `createUniversalOntologyMcpHttpProtocolHandler`.
+Unsupported methods are rejected with connection closure before body conversion.
+`createUniversalOntologyMcpFetchHandler` owns the separate standalone Fetch byte
+limit and never treats caller-supplied `parsedBody` as the original request.
+Mounting a Fetch endpoint still requires deployment-specific Host/Origin and
+admission guards. The SDK owns modern/legacy classification and representation
+handling; clients must advertise both supported response media types. Legacy
+traffic retains its native Accept rejection, while modern responses do not impose
+that same local 406 rule.
+
 ```mermaid
 flowchart LR
     A[Immutable RDF/XML releases under src] --> B[npm run mcp:index]

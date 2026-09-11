@@ -1,4 +1,5 @@
 import { relative, resolve, sep } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
@@ -25,6 +26,25 @@ export async function createWebsiteConfig({
   headPartialPath = resolve(repositoryDirectory, "templates/head-icons.html"),
 }) {
   const inventory = await inventorySourceTree({ sourceDirectory });
+  const staticAssets = [
+    ...inventory.staticAssets,
+    ...[
+      "field-property-history.v1.json",
+      "field-property-history.v1.schema.json",
+    ].map((name) => ({
+      sourcePath: fileURLToPath(
+        import.meta.resolve(`universal-ontology-projection-policy/${name}`),
+      ),
+      outputPath: `projection/${name}`,
+    })),
+  ];
+  const reservedOutputPaths = new Set();
+  for (const { outputPath } of staticAssets) {
+    if (reservedOutputPaths.has(outputPath)) {
+      throw new Error(`Static asset output collision: ${outputPath}`);
+    }
+    reservedOutputPaths.add(outputPath);
+  }
   const input = Object.fromEntries(
     inventory.htmlEntries.map((htmlPath) => [
       pageName(sourceDirectory, htmlPath),
@@ -32,7 +52,7 @@ export async function createWebsiteConfig({
     ]),
   );
   const staticCopyTargets = createContentAwareStaticCopyTargets({
-    staticAssets: inventory.staticAssets,
+    staticAssets,
     outputDirectory,
     command,
   });
@@ -64,11 +84,7 @@ export async function createWebsiteConfig({
       globalHeadPlugin({ partialPath: headPartialPath }),
       ontologyAssetsPlugin({ ontologySources: inventory.ontologySources }),
       ...viteStaticCopy({ targets: staticCopyTargets }),
-      outputCollisionPlugin({
-        reservedOutputPaths: new Set(
-          inventory.staticAssets.map(({ outputPath }) => outputPath),
-        ),
-      }),
+      outputCollisionPlugin({ reservedOutputPaths }),
       preserveUnchangedOutputPlugin({ outputDirectory }),
     ],
   };

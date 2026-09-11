@@ -1,16 +1,17 @@
-import { createOntologyQueryModule } from "../ontologyQuery/createOntologyQueryModule.js";
-import { createFetchOntologyQueryArtifactRepository } from "../ontologyQuery/fetchOntologyQueryArtifactRepository.js";
+import { freezeJsonValueDeeply } from "universal-ontology-query/json-value-immutability";
 import {
+  createOntologyQueryModule,
   OntologyQueryError,
   isOntologyQueryError,
-} from "../ontologyQuery/ontologyQueryErrors.js";
+} from "universal-ontology-query";
+import { createFetchOntologyQueryArtifactRepository } from "universal-ontology-query/repositories/same-origin-fetch";
+
 import {
   AbsoluteIriSchema,
   ONTOLOGY_ENTITY_KIND_VALUES,
   NonBlankOntologyLookupTextSchema,
   UuidUrnSchema,
-  deepFreeze,
-} from "../ontologyQuery/ontologyQuerySchemas.js";
+} from "universal-ontology-query/schemas";
 import {
   MAX_ONTOLOGY_ENTITY_DEFINITION_CANDIDATES,
   MAX_ONTOLOGY_ENTITY_DEFINITION_SOURCE_IRIS,
@@ -349,7 +350,9 @@ function projectQueryResult({
 }
 
 function parseAndFreezeResult(result) {
-  return deepFreeze(OntologyEntityDefinitionResultSchema.parse(result));
+  return freezeJsonValueDeeply(
+    OntologyEntityDefinitionResultSchema.parse(result),
+  );
 }
 
 /**

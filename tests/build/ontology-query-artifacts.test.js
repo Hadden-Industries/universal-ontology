@@ -4,15 +4,13 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 
 import { createOntologyQueryArtifacts } from "../../scripts/build/createOntologyQueryArtifacts.js";
-import { serializeCanonicalOntologyQueryJsonDocument } from "../../src/ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
 import {
+  serializeCanonicalOntologyQueryJsonDocument,
   MAX_ONTOLOGY_QUERY_CATALOG_BYTE_LENGTH,
   MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH,
-} from "../../src/ontologyQuery/ontologyQueryArtifactLimits.js";
-import {
   parseOntologyQueryCatalogBytes,
   parseOntologyReleaseQueryIndexBytes,
-} from "../../src/ontologyQuery/ontologyQueryArtifactParsing.js";
+} from "universal-ontology-query/artifacts";
 
 const MINIMAL_ONTOLOGY_RELEASE_URL = new URL(
   "../fixtures/ontology-query/minimal-ontology-release",

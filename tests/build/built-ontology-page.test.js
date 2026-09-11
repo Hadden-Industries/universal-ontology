@@ -1,4 +1,5 @@
 import { execFile } from "node:child_process";
+import { createHash } from "node:crypto";
 import {
   access,
   copyFile,
@@ -94,20 +95,9 @@ async function createFixture() {
     "ontology.html",
     "ontology.js",
     "ontology.css",
-    "ontologyProjectionProperties.js",
     "ontologyViewModel.js",
     "OwlToUmlXmiConverter.js",
     "owl-to-uml-xmi.xsl",
-    "ontologyQuery/createOntologyQueryModule.js",
-    "ontologyQuery/createWaiterAwareSharedOperation.js",
-    "ontologyQuery/fetchOntologyQueryArtifactRepository.js",
-    "ontologyQuery/ontologyQueryArtifactCanonicalBytes.js",
-    "ontologyQuery/ontologyQueryArtifactLimits.js",
-    "ontologyQuery/ontologyQueryArtifactParsing.js",
-    "ontologyQuery/ontologyQueryArtifactRelativePath.js",
-    "ontologyQuery/ontologyQueryChannelManifestSchemas.js",
-    "ontologyQuery/ontologyQueryErrors.js",
-    "ontologyQuery/ontologyQuerySchemas.js",
     "webmcp/createOntologyEntityDefinitionResolver.js",
     "webmcp/ontologyEntityDefinitionResultSchemas.js",
     "webmcp/registerDisplayedOntologyEntityDefinitionTool.js",
@@ -115,17 +105,6 @@ async function createFixture() {
   ]) {
     await copySourceFile(repositorySource, sourceDirectory, relativePath);
   }
-
-  await copySourceFile(
-    repositorySource,
-    sourceDirectory,
-    "projection/field-property-history.v1.json",
-  );
-  await copySourceFile(
-    repositorySource,
-    sourceDirectory,
-    "projection/field-property-history.v1.schema.json",
-  );
 
   await put(sourceDirectory, "universal/core/20260714", RDF_XML);
   await put(sourceDirectory, "universal/core/20260714-full", RDF_XML);
@@ -246,25 +225,32 @@ test("loads the built master page and downloads its materialized CSV", async () 
     await expect(
       access(join(fixture.outputDirectory, "OwlToUmlXmiConverter.js")),
     ).resolves.toBeUndefined();
-    await expect(
-      access(
-        join(
-          fixture.outputDirectory,
-          "projection",
-          "field-property-history.v1.json",
-        ),
-      ),
-    ).resolves.toBeUndefined();
-    await expect(
-      access(
-        join(
-          fixture.outputDirectory,
-          "projection",
-          "field-property-history.v1.schema.json",
-        ),
-      ),
-    ).resolves.toBeUndefined();
     server = await startServer(fixture.outputDirectory);
+    // These are the authored policy bytes at the accepted pre-move revision,
+    // independent of the package resolver and Vite copy implementation.
+    for (const [name, expectedSha256] of [
+      [
+        "field-property-history.v1.json",
+        "abd590e4528c0d2c3005d7868d59d154428a34cf831e8a04a9be735b2d10cbcd",
+      ],
+      [
+        "field-property-history.v1.schema.json",
+        "4f0359c0eb58e2d901bf96c28cc44e0323a5600fab2bda8c2017a52a6e4eb82a",
+      ],
+    ]) {
+      const response = await fetch(
+        `${server.origin}/ontology/projection/${name}`,
+      );
+      expect(response.status).toBe(200);
+      expect(response.headers.get("content-type")).toBe(
+        "application/json; charset=utf-8",
+      );
+      expect(
+        createHash("sha256")
+          .update(new Uint8Array(await response.arrayBuffer()))
+          .digest("hex"),
+      ).toBe(expectedSha256);
+    }
     browser = await chromium.launch({ headless: true, channel: "chrome" });
     const page = await browser.newPage();
     const failures = [];

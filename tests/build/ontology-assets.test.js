@@ -7,7 +7,7 @@ import { createOntologyBuildAssets } from "../../scripts/build/ontologyAssets.js
 import {
   OntologyQueryCatalogSchema,
   OntologyReleaseQueryIndexSchema,
-} from "../../src/ontologyQuery/ontologyQuerySchemas.js";
+} from "universal-ontology-query/schemas";
 
 const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF

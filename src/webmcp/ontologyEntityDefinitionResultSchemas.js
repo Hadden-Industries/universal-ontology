@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { ONTOLOGY_QUERY_ERROR_CODE_VALUES } from "../ontologyQuery/ontologyQueryErrors.js";
+import { ONTOLOGY_QUERY_ERROR_CODE_VALUES } from "universal-ontology-query";
 import {
   AbsoluteIriSchema,
   ONTOLOGY_ENTITY_KIND_VALUES,
@@ -9,7 +9,7 @@ import {
   OntologyVersionTagSchema,
   SelectedLexicalAssertionSchema,
   UuidUrnSchema,
-} from "../ontologyQuery/ontologyQuerySchemas.js";
+} from "universal-ontology-query/schemas";
 
 export const ONTOLOGY_ENTITY_DEFINITION_RESULT_SCHEMA_VERSION = 1;
 export const MAX_ONTOLOGY_ENTITY_DEFINITION_CANDIDATES = 5;
