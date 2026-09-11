@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import ctypes
 import os
 import subprocess
 import sys
@@ -108,6 +109,58 @@ class PinnedSkillSourceTests(unittest.TestCase):
 
 
 class SkillActivationPreservationTests(unittest.TestCase):
+    def test_setup_uses_directory_identity_for_repository_aliases(self):
+        with tempfile.TemporaryDirectory() as directory:
+            canonical = Path(directory).resolve()
+            (canonical / "anchor").mkdir()
+            template = canonical / "empty-template"
+            template.mkdir()
+            subprocess.run(["git", "init", "--quiet", "--template=" + str(template),
+                            str(canonical)], check=True, capture_output=True)
+            (canonical / ".gitignore").write_text(".agents/skills/\n", encoding="utf-8")
+            lock = canonical / "skills-lock.json"
+            lock.write_text(json.dumps({"version": 1, "skills": {
+                "external": {"source": "example/skills", "sourceType": "github",
+                             "ref": "a" * 40, "computedHash": "0" * 64}}}), encoding="utf-8")
+            local = canonical / ".sdlc/skills/selected/SKILL.md"
+            local.parent.mkdir(parents=True)
+            contents = "---\nname: selected\ndescription: Fixture skill\n---\n"
+            local.write_text(contents, encoding="utf-8")
+            unrelated = canonical / ".agents/skills/external/SKILL.md"
+            unrelated.parent.mkdir(parents=True)
+            unrelated.write_text("User-owned bytes\n", encoding="utf-8")
+            before = lock.read_bytes(), unrelated.read_bytes()
+            spellings = [canonical, canonical / "anchor/.."]
+            if os.name == "nt":
+                native = ctypes.WinDLL("kernel32", use_last_error=True).GetShortPathNameW
+                native.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint32]
+                native.restype = ctypes.c_uint32
+                buffer = ctypes.create_unicode_buffer(32768)
+                length = native(str(canonical), buffer, len(buffer))
+                if not length or length >= len(buffer):
+                    raise ctypes.WinError(ctypes.get_last_error())
+                short = Path(buffer.value)
+                if short != canonical:
+                    spellings.append(short)
+            for repo in spellings:
+                with self.subTest(repo=repo):
+                    self.assertTrue(canonical.samefile(repo))
+                    roots = setup.selected_roots(repo, ("codex",))
+                    setup.ensure_generated_roots_are_safe(repo, roots)
+                    with self.assertRaises((ValueError, setup.SetupError)):
+                        setup.ensure_generated_roots_are_safe(repo, (canonical.parent,))
+                    installed = setup.unique_installed_skill_dirs(repo, "external", ("codex",))
+                    self.assertEqual(len(installed), 1)
+                    self.assertTrue(installed[0].samefile(unrelated.parent))
+                    selected = setup.preflight_local_skill_activation(repo, ("codex",))
+                    self.assertEqual(set(selected), {"selected"})
+                    self.assertTrue(selected["selected"].samefile(local.parent))
+                    self.assertEqual(setup.ensure_agent_skills(repo, ("codex",), local_only=True),
+                                     {"selected"})
+                    self.assertEqual((canonical / ".agents/skills/selected/SKILL.md").read_text(
+                        encoding="utf-8"), contents)
+                    self.assertEqual((lock.read_bytes(), unrelated.read_bytes()), before)
+
     def test_verification_preserves_an_unrelated_standalone_skill(self):
         with tempfile.TemporaryDirectory() as directory:
             path_anchor = Path(directory) / "path-anchor"

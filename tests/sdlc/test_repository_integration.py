@@ -76,6 +76,8 @@ class PullRequestReadConsistencyTests(unittest.TestCase):
     def setUp(self):
         self.pr = {"number": 1, "head": {"sha": "a" * 40}, "base": {"sha": "b" * 40},
                    "changed_files": 1, "body": "Change issue: none\nAccepted baseline: none\nRisk class: R0\nAcceptance IDs implemented: none\nBaseline-only: no\nNew functionality: no\nSoftware selection: none\n"}
+        self.pr['head'].update(repo={'full_name': 'example/service'}, ref='feature')
+        self.pr['base'].update(repo={'full_name': 'example/service'}, ref='main')
         self.event = {"pull_request": copy.deepcopy(self.pr)}
 
     def invoke(self, responses):

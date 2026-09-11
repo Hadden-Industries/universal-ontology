@@ -58,6 +58,26 @@ A worker reports its temporary outputs; the coordinator owns shared-resource
 release after collecting all workers' evidence. This skill grants no extra
 filesystem authority and does not create a new cleanup orchestrator.
 
+For a resource that survives the handoff, distinguish the originating execution,
+resource owner, coordinator and next actor. Supply its exact identity/location or
+safely scoped group, candidate, remaining consumers, retained-evidence/readback
+reference, proposed disposition and reassessment event. Use the normal handoff;
+no separate per-file register, reviewer or red-green commit is required.
+
+The receiving coordinator retains these obligations outside any resource or
+containing worktree that may be disposed of. Metadata can remain pending after
+implementation handoff without reopening an implementation task. Use the actual
+retained summary with the existing `--evidence-reference` argument. A record,
+field or hash is not proof that the evidence was preserved or the operator was
+notified.
+
+If native protection blocks an otherwise appropriate operation, return the exact
+observed denial and scoped operator request; do not execute another route to the
+same deletion. A worktree being dirty after preservation remains dirty for the
+native removal check. Do not clean away user edits or failed evidence to make it
+removable. Actual removal is a separate observed outcome, not an inference from
+this skill's successful implementation work.
+
 ## Verification order and freshness
 
 Use the approved test commands, then affected regression checks, then the required
@@ -78,6 +98,41 @@ remain recorded as failure; never alter the helper or verification record to
 make a hook happy. Final profile success is necessary only to the extent the
 repository policy requires it; it is not by itself proof of correctness.
 
+Before expensive qualification, expose a known incompatible trusted baseline
+consumer, missing required runtime/security capability, or conflicting dependency
+gate in the existing record. Reuse the owning consumer's supported checks; do not
+create a second selector, approval oracle or preflight dossier. A blocked dependency
+limits only work that needs it. Final required evidence remains required.
+
+For a PR handoff, distinguish local results from the actual remote event, policy
+revision, PR base/head, tested revision, run/attempt and relevant jobs. Include
+unavailable/skipped evidence and the next owner decision. Preserving an R2 route
+does not require repeating a full profile after every small edit; verify the
+final frozen object and affected changes under the existing policy.
+
+## Cadence, historical evidence and current completion
+
+Apply the repository's proportionate cadence rule where supplied. A focused check
+inside an elevated task leaves the original route and final obligations intact.
+A fuller check can subsume an equivalent earlier obligation where permitted; it
+does not authorise skipping separately configured rows, converting profile receipts
+or substituting implementation evidence for required independent execution.
+
+Keep per-run output and current progress outside tracked product/control inputs
+using the existing approved evidence and handoff locations. Preserve historical
+execution notes and any accepted requirement to maintain them. Accepted plans,
+Markdown fixtures, executable examples and instructions remain inputs. Confirm
+retained reproduction snapshots are not accidentally discovered as active tests;
+archive them as evidence through the accepted procedure rather than hiding a
+legitimate failing test or changing test-discovery policy without approval.
+
+A historical result remains evidence of its original object. A later tracked
+summary, commit, oracle or relevant runtime/configuration change cannot inherit a
+current full pass by declaration. Complete intended tracked changes before final
+freeze where the authorised sequence permits; subsequent input changes still
+receive applicable fresh verification. Do not add caching or weakened fingerprints
+under the label of proportionality.
+
 ## One implementation writer
 
 The caller selects one implementation owner for a slice. Do not spawn research,
@@ -85,6 +140,26 @@ implementation, or review agents automatically from this skill. The outer SDLC
 may delegate independent read-only questions and later invoke a fresh verifier.
 Do not have concurrent agents modify the same source/tests/baseline or let the
 implementer revise held-out grading tests.
+
+The single-writer boundary concerns one physical copy. Independent implementations
+use separate worktrees even when their proposed paths differ. Separate copies may
+change the same logical contract; record its ownership, dependency and integration
+order rather than assuming a textually clean merge resolves semantic overlap.
+
+Use the existing handoff to identify the physical worktree, actual candidate,
+implementation owner, accepted intent, relevant shared mutable resources and
+integration owner. Link native local task/run identity where available; do not
+create a second task ledger or change active state merely to report progress.
+A verification copy may contain the same candidate bytes as the implementation;
+that does not substitute for an independent oracle, fresh context where required,
+and frozen inputs. Branch-local evidence must not be presented as evidence of an
+untested combined target.
+
+The coordinator releases shared resources only after their actual consumers finish
+and required evidence is retained. A wait in another worktree is not by itself a
+reason to pause this execution. Report the concrete dependency, capability or
+owner decision that prevents the next authorized step; this skill adds no automatic
+agent dispatch, global lock, lifecycle transition or cleanup authority.
 
 A verifier receives the accepted behaviour, source revision/diff, tests and actual
 run evidence, not a claim that the code is correct. It reruns evidence and checks

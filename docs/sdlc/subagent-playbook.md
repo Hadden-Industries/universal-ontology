@@ -110,6 +110,21 @@ fix, freeze the new object, reverify and rerun affected review. Preserve require
 raw scan/run evidence before releasing worktrees. No worker deletes another's
 scratch; the coordinator confirms consumers have finished under CLEAN-01.
 
+When resources survive a worker or implementation handoff, obtain their exact
+locations, candidate/evidence identity, originating owner, remaining consumers
+and proposed disposition with the worker's normal result. The coordinator names
+the next actor and reassessment event in the existing handoff and retains required
+evidence outside any disposable copy. Do not infer completion from a worker's
+exit, cancellation or silence.
+
+The coordinator may record dispositions without reopening a completed
+implementation. A guarded operator action remains a separately visible pending
+obligation, not authority to modify protection or dispatch the same operation
+through a different tool. Confirm consumer release and actual evidence retrieval
+before the normal disposal checkpoint. This adds neither automatic delegation
+nor a new cleanup worker. Use the resource-disposition procedure in
+`temporary-artefacts-howto.md`.
+
 ## Command-safety inheritance
 
 The coordinator MUST verify that any adopted DCG hook, trust/config and command-path
@@ -129,3 +144,22 @@ native consumer validators and residual custom gap. Share accepted requirements,
 not a predetermined custom design. Both are read-only and must not recursively
 spawn agents. The coordinator waits, reconciles evidence and records actual decisions.
 No new research platform or extra reviewer is mandatory solely to satisfy this rule.
+
+## Questions and bounded follow-up
+
+Before dispatch, identify the unresolved question, affected object, required evidence
+and why existing accepted work does not answer it. A role's availability is not a
+requirement or permission to spawn it. Use the ordinary combined review and the
+specialists justified by actual risk; do not repeat a completed selection survey
+or native security campaign at each checkpoint without a material trigger.
+
+A follow-up reviewer receives the earlier reviewed target, accepted scope, actual
+delta and remaining questions. Recheck affected conclusions and widen scope where
+needed; do not imply an unreviewed final delta is covered by old approval. Required
+independent verifier execution is not redundant simply because the writer ran the
+same command. Freeze the input before verification, preserve failed workers and
+counterevidence, and follow the existing evidence/consumer-release procedure.
+
+Refer to the execution-cadence section of `proportional-workflow.md`. These rules
+change neither the autonomy ceiling nor the authority to install tools, amend
+requirements, change assurance, grant access, publish or dispose of resources.

@@ -1,8 +1,10 @@
 # Applying the temporary-artefact policy
 
-This is a proposed extension to the supplied SDLC and repository-owned TDD
-adaptation. It adds statements, handoff fields and review checks, not a new
-orchestrator, permission grant or deletion daemon.
+This procedure applies the temporary-artefact policy through the existing task
+and handoff workflow. The approved resource-disposition helper records metadata
+and presents read-only status. It does not execute resource disposal, create a
+new orchestrator, grant permission or run cleanup from a hook. Policy and helper
+adoption status remain recorded in the repository's existing approval records.
 
 ## Operating sequence
 
@@ -28,6 +30,66 @@ orchestrator, permission grant or deletion daemon.
 7. **Close out:** state what was removed, what was promoted, what was archived and
    what remains with an owner and reason. Do not claim that an unapplied deletion
    or inaccessible archive has been completed.
+
+## Keep the post-handoff obligation visible
+
+Retained source-named review copies must not enter product test discovery. Git
+ignore rules do not constrain Jest or other test runners. Prefer a verified archive
+that preserves original relative paths and entry hashes, or a separately owned
+evidence location outside the runner's discovery roots. Before removing redundant
+unpacked copies, verify archive readback and remaining reviewer/consumer needs.
+If unpacked evidence must remain inside a checkout, qualify the actual configured
+discovery: the real product test must be selected and the retained copy excluded.
+Any necessary discovery configuration change needs its normal explicit approval.
+Preserve original failed runs; never suppress a real source-test failure or broaden
+fingerprint exclusions to conceal an evidence/discovery mismatch.
+
+Select an explicitly authorised coordinator location that will outlive the
+resources being considered. Use its existing task/Issue/PR and
+`.sdlc/runtime/handoffs/` records. Pending records and required evidence must not
+exist solely inside a worktree, or a containing worktree, proposed for disposal.
+Identify the receiving evidence owner and actual readback, not just a directory
+name, digest or download link.
+
+Record one resource or one genuinely common owned group. Split groups whose
+owners, consumers, preservation or dispositions differ. The metadata includes
+identity, owner or ownership hold, purpose, candidate, consumers, preservation,
+next actor and reassessment event. A completed task with a retained review
+worktree is normal when its consumer and future obligation are explicit.
+
+From the selected coordinator checkout, use:
+
+`npm run sdlc -- record-resource-disposition --input <contained-json-file>`
+
+The input is a contained regular UTF-8 JSON document conforming to the caller-input
+branch of the maintained resource-disposition schema. A stored-output record is
+not accepted as input. A new resource uses a null resource ID; the helper
+returns the assigned identity. A later full snapshot names the same resource and
+the exact record it supersedes. Retain earlier records. Conflicting successors
+require an explicit reconciled snapshot; clock time does not select a winner.
+
+The command only retains metadata. Its successful exit does not mean that a
+resource is eligible, approved or removed. References and recorded command text
+are data; the helper does not fetch them or execute them. An anticipated guard
+restriction is held with a policy reference, not labelled as an actual denial.
+
+`npm run sdlc -- status` presents the active task, retained resource dispositions,
+a read-only native worktree inventory and explicit read problems. It works when
+there is no active implementation. The JSON envelope separates recorded facts
+from current observations and names its coordinator/host scope. Unattributed
+worktrees must be reconciled with their owners, not cleaned up automatically.
+Status neither crawls other worktrees' private evidence nor hashes their entire
+contents; a same-HEAD observation is not fresh dirty-candidate verification.
+
+For machine consumption use `npm --silent run sdlc -- status`, or the existing
+direct Node/repository-Python entry. Ordinary npm lifecycle messages are not part
+of the application JSON. This is an invocation-local logging selection, not a
+change to `.npmrc` or the project's diagnostic retention.
+
+A successful status read can contain held or operator-blocked resources.
+A partial or failed read returns nonzero while retaining the available report.
+Neither exit status means that implementation is verified or cleanup complete.
+The verification and Stop controls keep their separate existing responsibilities.
 
 ## Practical example (illustrative, not executed)
 
@@ -136,3 +198,32 @@ If blocked, report the exact operation and seek a scoped operator decision; do n
 substitute `rm`, PowerShell, Python or a file tool to accomplish the same forbidden
 action. The operator can perform approved maintenance outside the agent or use an
 appropriately scoped native exception. Do not grant that exception yourself.
+
+Retain the exact denied operation as data, its native rule or permission diagnostic
+and actual result, the named
+resource/owner, available preservation evidence and the scoped operator request.
+Use the existing handoff/Issue channel; record whether the operator has actually
+received or acknowledged the request. A local record alone does not notify an
+operator. Continue independent authorised work where the blocked operation is
+not a real dependency.
+
+Before an authorised operator acts, recheck TA-02 against the actual resource,
+including nested registrations, relevant dirty/untracked/ignored data, consumers,
+retention and preserved evidence. A backup does not make a dirty worktree clean:
+if non-forced Git removal refuses it, retain the refusal and seek the actual
+next decision. Do not discard edits, stage/commit merely to clear the warning,
+add `--force`, or use another deletion tool as a shortcut.
+
+Record removal as confirmed only after the authorised native operation succeeds,
+Git's registration inventory can be read, and the exact resource path is verified
+absent through a permitted metadata check. Distinguish missing from inaccessible
+paths and missing parent storage. Missing registration with a remaining directory
+is not complete removal. A resource disappearing without operation evidence is
+an unexplained observation, not retrospective approval. Retained evidence must
+still be readable outside the disposed resource.
+
+A branch, shared Git objects, evidence retention and secure erasure are separate
+lifecycles. Worktree removal does not authorise those additional operations.
+If no real resource is eligible and independently authorised, do not remove one
+merely to complete an adoption exercise; state that live removal confirmation
+remains unqualified.

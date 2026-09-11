@@ -23,7 +23,7 @@ export function runRepositoryPython(
   if (!args.length) {
     throw new Error("Provide a repository Python script or module arguments.");
   }
-  const result = spawnSync(executable, ["-B", ...args], {
+  const result = spawnSync(executable, ["-B", "-X", "utf8", ...args], {
     cwd: root,
     stdio: "inherit",
     windowsHide: true,
