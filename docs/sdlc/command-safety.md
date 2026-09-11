@@ -345,6 +345,17 @@ result does not establish propagation into the running host. Retain the local
 acceptance item until its installed-path criteria pass. Continue other independent
 authorised work without retrying the denied effect through a weaker channel.
 
+For the Windows occurrence in [Issue 48](https://github.com/Hadden-Industries/universal-ontology/issues/48),
+selecting PowerShell explicitly on `exec_command` still produced the native
+`core.git:branch-force-delete` denial on September 11, 2026. The inspected Codex
+0.153.4 producer emits the canonical `Bash` name and command text without the
+selected shell. The inspected DCG 0.14.1 source deliberately retains an unknown
+dialect for ambiguous Windows Codex requests rather than trusting that name.
+This is source-supported evidence of a producer/consumer metadata gap, not a
+captured runtime envelope or proof of the desktop binary's exact source. Sources:
+[S10], [S11]. Keep the original host failure and inert dialect comparisons;
+do not prescribe an explicit shell argument alone as a demonstrated repair.
+
 ## 8. Sources and verification boundaries
 
 - [S1] [DCG README at the reviewed source](https://github.com/Dicklesworthstone/destructive_command_guard/blob/581accd259ed2f8294a7e3866d1489eeaaa58b19/README.md): defaults, packs, update/exception behaviour and limitations.
@@ -356,6 +367,8 @@ authorised work without retrying the denied effect through a weaker channel.
 - [S7] [v0.14.0 release](https://github.com/Dicklesworthstone/destructive_command_guard/releases/tag/v0.14.0): September 1, 2026 release and hook reachability checks.
 - [S8] [Official Codex hooks](https://developers.openai.com/codex/hooks/), checked September 7, 2026: current shell/unified-exec coverage, stdin limitations, trust and managed hooks.
 - [S9] [Official Codex rules](https://developers.openai.com/codex/rules/): prefix-based rules and native limitations.
+- [S10] [Codex 0.153.4 exec command hook producer](https://github.com/openai/codex/blob/rust-v0.153.4/codex-rs/core/src/tools/handlers/unified_exec/exec_command.rs): `pre_tool_use_payload` retains command text but not the selected shell.
+- [S11] [DCG 0.14.1 hook source at its reported build commit](https://github.com/Dicklesworthstone/destructive_command_guard/blob/9569d4f181e43e7bdd4fba254834762a092b4b29/src/hook.rs): `codex_host_shell_dialect` documents missing producer metadata and conservative Windows resolution.
 
 The native-policy choices are proposed repository policy, not a scientific finding
 or an independent audit of DCG. Source identity is not installed-binary identity;
