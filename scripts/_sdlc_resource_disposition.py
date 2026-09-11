@@ -424,14 +424,18 @@ def record_disposition(repo: Path, relative_input: str) -> dict:
             raise SetupError('A same-host resource location must be absolute.')
     if entry['disposition'] in {'eligible-for-approved-removal', 'removed-confirmed'}:
         protected = [str(repo), inventory[0]['nativePath']]
-        if entry['host'] == scope['host'] and any(contains(location, root)
-                for location in entry['locations'] for root in protected):
-            raise SetupError('Disposal claim includes the coordinator or main worktree.')
         if entry['host'] == scope['host']:
+            resolved_locations = {}
             for location in entry['locations']:
                 reject_redirected_path(Path(location))
-                if any(path_key(location) != path_key(item['nativePath'])
-                       and contains(location, item['nativePath']) for item in inventory):
+                # Resolve native short-name aliases only for the explicit local
+                # disposal assessment. Retained declarations stay unchanged.
+                resolved = Path(location).resolve()
+                resolved_locations[location] = resolved
+                if any(contains(resolved, root) for root in protected):
+                    raise SetupError('Disposal claim includes the coordinator or main worktree.')
+                if any(path_key(resolved) != path_key(item['nativePath'])
+                       and contains(resolved, item['nativePath']) for item in inventory):
                     raise SetupError('Disposal claim contains an unresolved nested worktree.')
     confirmation = None
     if entry['disposition'] == 'removed-confirmed':
@@ -442,7 +446,7 @@ def record_disposition(repo: Path, relative_input: str) -> dict:
             raise SetupError('Declared readback members differ from the resource.')
         members = []
         for location in entry['locations']:
-            if any(contains(location, item['nativePath']) for item in inventory):
+            if any(contains(resolved_locations[location], item['nativePath']) for item in inventory):
                 raise SetupError('Resource or contained worktree remains registered.')
             observation = observe_member(location)
             if observation['filesystem'] != 'absent' or not observation['containingLocationAccessible']:

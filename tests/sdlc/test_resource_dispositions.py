@@ -69,7 +69,7 @@ class ResourceDispositionTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix='wp3-', delete=False)
         self.addCleanup(self.finish_fixture)
-        self.root = Path(self.temporary.name)
+        self.root = Path(self.temporary.name).resolve()
         self.repo = self.root / 'seed'
         self.repo.mkdir()
         self.empty_git = self.root / 'empty-git'
@@ -134,6 +134,41 @@ class ResourceDispositionTests(unittest.TestCase):
         self.assertEqual({Path(w['nativePath']) for w in report['unattributedWorktrees']},
                          {self.repo, self.linked})
         self.assertEqual(report['readProblems'], [])
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows native short-path aliases')
+    def test_short_paths_cannot_bypass_protected_or_nested_worktrees(self):
+        import ctypes
+        from ctypes import wintypes
+
+        get_short_path = ctypes.WinDLL('kernel32', use_last_error=True).GetShortPathNameW
+        get_short_path.argtypes = (wintypes.LPCWSTR, wintypes.LPWSTR, wintypes.DWORD)
+        get_short_path.restype = wintypes.DWORD
+        buffer = ctypes.create_unicode_buffer(32768)
+        length = get_short_path(str(self.root), buffer, len(buffer))
+        self.assertGreater(length, 0)
+        self.assertLess(length, len(buffer))
+        alias = Path(buffer.value)
+        if alias == self.root:
+            self.skipTest('This volume does not provide a distinct short-path alias.')
+        self.assertTrue(alias.samefile(self.root))
+        nested = self.linked / 'nested'
+        self.git('worktree', 'add', '--detach', str(nested), 'HEAD')
+        for location in (alias, alias / 'seed', alias / self.linked.name):
+            with self.subTest(location=location):
+                self.write_input(eligible_input(location))
+                result = self.cli('record-resource-disposition', '--input', '.sdlc/tmp/resource.json')
+                self.assertNotEqual(result.returncode, 0, result.stdout)
+                self.assertFalse((self.repo / '.sdlc/runtime/handoffs').exists())
+        leaf_alias = alias / self.linked.name / 'nested'
+        self.write_input(removed_input(leaf_alias))
+        result = self.cli('record-resource-disposition', '--input', '.sdlc/tmp/resource.json')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('registered', result.stderr)
+        self.assertFalse((self.repo / '.sdlc/runtime/handoffs').exists())
+        self.write_input(eligible_input(leaf_alias))
+        self.record()  # A distinct disposable leaf remains eligible through its alias.
+        self.write_input(held_input(alias / self.linked.name))
+        self.record()  # Holding an alias remains safe and retains the declaration.
 
     def test_record_is_visible_without_active_task_and_preserves_resource_bytes(self):
         sentinel = self.linked / 'consumer-evidence.txt'
