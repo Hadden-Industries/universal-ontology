@@ -101,14 +101,17 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   agreed diff semantics, including deletions and both sides of renames. Run the
   installed plugin's own inventory helper for that frozen target; do not copy its
   exclusion rules or implement another selector. Compare paths, not only counts.
-  Every omission needs a scope disposition. Missing required paths, even from a
-  nonempty inventory, make the native route unavailable for complete assessment.
+  Every omission needs a scope disposition. Git's inventory establishes complete
+  change accountability; the native inventory establishes the plugin's selected
+  analysis scope. They need not be identical. Missing required paths, even from a
+  nonempty inventory, prevent a native-only claim of complete assessment.
   Distinguish supported exclusions from a reproduced selector defect. Tests,
   documentation, lockfiles and old rename paths can still affect the accepted
   security question; an intentional native exclusion is not automatically an
   accepted scope exclusion. Record how every relevant omission is assessed or
   explicitly left unassessed. If the native interface cannot include required
-  scope, use a separately accepted complete-scope alternative or retain that gap.
+  scope, use the coverage reconciliation route below, an already accepted
+  complete-scope alternative, or retain that gap.
   Do not implement a second selector, patch plugin internals, repeatedly retry an
   unchanged inventory, or label an alternative review as native scan completion.
   After native launch, complete its required preflight and artifact steps; read
@@ -128,7 +131,8 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   applies only to the inventory omission; it does not bypass an access denial or
   another required assurance control. Label the method, reviewed paths, findings
   and limitations as an alternative assessment, not a successful native scan.
-  R2/R3 or an explicit native-assurance requirement needs a separately accepted
+  R2 may also use the documented-exclusion route below. Other R2 omissions, R3
+  or an explicit native-assurance requirement need a separately accepted
   alternative. Preserve any already-started native scan and its failure evidence.
   After an update, qualify the actual installed selection path before returning
   affected work to the native route. Repair of changed-workflow inclusion alone
@@ -159,6 +163,51 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   do not restart, mark failed/cancelled, or declare completion to clear a blocker.
   Use native tool-owned identity/sealing fields and supported artifact writers;
   do not patch plugin caches. Use only the approved alternative described above.
+
+### Reconcile documented exclusions without a new exception
+
+For ordinary R2 work, this policy accepts complete independent assessment of the
+frozen change when the native helper's omissions are accounted for by its
+documented exclusions or supported rename representation. This is a standing
+assessment route, not permission to exclude those files from required review.
+It does not grant scan, delegation, access, remediation or publication authority.
+Keep the accepted threat model, deterministic checks, reviewer independence and
+required assurance. R3 and an explicit requirement for native analysis of the
+omitted content still need their own accepted alternative.
+
+Use the existing review record, not another selector or mandatory report format:
+
+1. Retain the complete Git path set and content identities, native helper output
+   and version, and the exact difference. Include deletions, both rename sides
+   and each relevant staged or working version. Reuse a still-current native
+   characterization for the same helper, diff modes and omission categories;
+   reconcile the actual new target without repeating unchanged troubleshooting.
+2. Give every omitted path a disposition with an evidence reference: reviewed
+   directly, covered by an identified equivalent content/diff reviewed elsewhere,
+   outside the accepted security question with a specific reason, or unassessed.
+   A file extension, generated status or rename destination alone is not a reason
+   to omit review. Check removed behavior and rename edits, dependency resolution
+   in lockfiles, executable test/support inputs, and instructions or configuration
+   carried in documentation. Group paths only when the same reasoning applies to
+   each listed member. Preserve complete membership and any counterevidence.
+3. Use one authorized independent reviewer for the complete assessment. If native
+   analysis is useful, finish its normal workflow for its supported scope and
+   supplement required omissions through direct review outside the native bundle.
+   Otherwise select one direct review of the complete frozen diff. Do not launch
+   a native scan merely to produce a second report. Neither method extends the
+   plugin inventory or rewrites its artifacts. Record the method and actual
+   coverage of each result separately.
+4. Completion requires evidence for every required path/content side and a
+   disposition of findings. An unassessed required path blocks complete assurance;
+   zero findings or a completed native bundle cannot clear it. Report a combined
+   or direct assessment as such, never as native analysis of excluded files.
+
+Known exclusions satisfying these conditions do not require a new owner exception
+for every task. A reproduced selector defect, unexplained omission, inaccessible
+required content, missing reviewer authority or unmet assurance requirement is
+outside this route: reuse an applicable accepted decision or retain the blocker
+and request only the missing decision. Do not classify an unexplained omission as
+documented merely because a prior task also missed that file extension.
 
 ### Accepted scope for the current SDLC implementation
 
