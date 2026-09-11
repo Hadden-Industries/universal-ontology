@@ -163,6 +163,34 @@ class LocalVerificationControlTests(unittest.TestCase):
         self.assertEqual(state.required_verification_gaps(self.repo), [])
         self.assertTrue((self.repo / state.RUNTIME_DIRECTORY / 'verification/full.json').is_file())
 
+    def test_r2_edit_loop_preserves_full_obligation_and_blocks_handoff(self):
+        baseline_path = 'docs/sdlc/baselines/issue-123/v1.json'
+        state.write_json_atomically(self.repo / baseline_path, baseline_document())
+        self.commit('Prior accepted fixture baseline')
+        self.begin_task('R2', baseline_path)
+        active_path = self.repo / state.ACTIVE_TASK_PATH
+        original_active = active_path.read_bytes()
+        active = state.load_json(active_path)
+        self.assertEqual(active['riskClass'], 'R2')
+        self.assertEqual(active['requiredProfiles'], ['full'])
+        for profile in ('focused', 'affected'):
+            with self.subTest(profile=profile):
+                self.verify_task(profile)
+                receipt = state.load_json(self.repo / state.RUNTIME_DIRECTORY / f'verification/{profile}.json')
+                self.assertTrue(receipt['passed'])
+                self.assertEqual(receipt['taskId'], active['taskId'])
+                self.assertEqual(state.required_verification_gaps(self.repo), ['Missing full verification.'])
+                retained = self.runtime_manifest(self.repo)
+                with self.assertRaisesRegex(SetupError, 'Missing full verification'):
+                    self.disposition(completed=True)
+                self.assertEqual(self.runtime_manifest(self.repo), retained)
+                self.assertEqual(active_path.read_bytes(), original_active)
+        self.verify_task('full')
+        self.assertEqual(state.required_verification_gaps(self.repo), [])
+        self.assertEqual(active_path.read_bytes(), original_active)
+        self.disposition(completed=True)
+        self.assertFalse(active_path.exists())
+
     def test_r2_refuses_uncommitted_baseline(self):
         baseline_path = 'docs/sdlc/baselines/issue-123/v1.json'
         state.write_json_atomically(self.repo / baseline_path, baseline_document())
@@ -669,6 +697,93 @@ class LocalVerificationControlTests(unittest.TestCase):
         (scratch / 'disposable-note.txt').write_text('not a test input')
         self.assertEqual(state.required_verification_gaps(self.repo), [])
 
+    def test_runtime_progress_preserves_identity_and_all_existing_evidence(self):
+        self.begin_task(); self.verify_task()
+        retained = self.runtime_manifest(self.repo)
+        current = state.load_json(self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json')
+        self.assertTrue(current['passed'])
+        self.assertIn(state.verification_run_path(current).as_posix(), retained)
+        self.assertIn(state.verification_output_path(current, 1).as_posix(), retained)
+        note_path = '.sdlc/runtime/verification/progress.md'
+        self.assertTrue(self.git('check-ignore', note_path).strip())
+        active = state.load_json(self.repo / state.ACTIVE_TASK_PATH)
+        policy, configuration = state.load_verification_controls(self.repo)
+        for progress in ('Focused check passed.\n', 'Next consumer remains pending.\n'):
+            with self.subTest(progress=progress):
+                (self.repo / note_path).write_bytes(progress.encode('utf-8'))
+                self.assertEqual(state.verification_input_identity(self.repo, active, policy, configuration),
+                                 current['identityAfter'])
+                self.assertEqual(state.required_verification_gaps(self.repo), [])
+                observed = self.runtime_manifest(self.repo)
+                self.assertEqual(observed.pop(note_path), progress.encode('utf-8'))
+                self.assertEqual(observed, retained)
+
+    def test_tracked_markdown_remains_an_input_even_beneath_ignored_runtime(self):
+        notes = {
+            'docs/execution.md': '# Execution\nAccepted deliverable remains required.\n',
+            'docs/example.md': '# Example\n```python\nassert result == 42\n```\n',
+            '.sdlc/runtime/verification/retained-requirement.md': '# Requirement\nPreserve the consumer result.\n',
+        }
+        for relative_path, text in notes.items():
+            path = self.repo / relative_path
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(text.encode('utf-8'))
+            self.git('add', '-f', '--', relative_path)
+        self.commit('Tracked prose, executable example and retained requirement')
+        tracked = self.git('ls-files', '-z').split('\0')
+        self.assertTrue(set(notes).issubset(tracked))
+        self.assertTrue(self.git('check-ignore', '--no-index',
+                                '.sdlc/runtime/verification/retained-requirement.md').strip())
+        self.begin_task()
+        for relative_path in notes:
+            with self.subTest(path=relative_path):
+                self.verify_task()
+                self.assertEqual(state.required_verification_gaps(self.repo), [])
+                current_path = self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json'
+                current_bytes = current_path.read_bytes()
+                receipt = state.load_json(current_path)
+                canonical_path = self.repo / state.verification_run_path(receipt)
+                raw_path = self.repo / state.verification_output_path(receipt, 1)
+                canonical_bytes, raw_bytes = canonical_path.read_bytes(), raw_path.read_bytes()
+                with (self.repo / relative_path).open('ab') as note:
+                    note.write(b'Additional accepted constraint.\n')
+                self.assertIn('stale', '; '.join(state.required_verification_gaps(self.repo)))
+                self.assertEqual(current_path.read_bytes(), current_bytes)
+                self.assertEqual(canonical_path.read_bytes(), canonical_bytes)
+                self.assertEqual(raw_path.read_bytes(), raw_bytes)
+
+    def test_same_tree_new_head_invalidates_success_without_rewriting_evidence(self):
+        self.begin_task(); self.verify_task()
+        self.assertEqual(state.required_verification_gaps(self.repo), [])
+        retained = self.runtime_manifest(self.repo)
+        before_head, before_tree = self.git('rev-parse', 'HEAD'), self.git('rev-parse', 'HEAD^{tree}')
+        self.git('commit', '--allow-empty', '-qm', 'New checkpoint with the same tree')
+        self.assertNotEqual(self.git('rev-parse', 'HEAD'), before_head)
+        self.assertEqual(self.git('rev-parse', 'HEAD^{tree}'), before_tree)
+        self.assertIn('stale', '; '.join(state.required_verification_gaps(self.repo)))
+        with self.assertRaisesRegex(SetupError, 'stale'):
+            self.disposition(completed=True)
+        self.assertEqual(self.runtime_manifest(self.repo), retained)
+
+    def test_identity_rejects_runtime_and_scratch_dependencies(self):
+        self.begin_task(); self.verify_task()
+        retained = self.runtime_manifest(self.repo)
+        active = state.load_json(self.repo / state.ACTIVE_TASK_PATH)
+        policy, configuration = state.load_verification_controls(self.repo)
+        for relative_path in ('.sdlc/runtime/verification/progress.md', '.sdlc/tmp/input.txt'):
+            with self.subTest(path=relative_path):
+                path = self.repo / relative_path
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b'Excluded output exists.\n')
+                proposed = copy.deepcopy(configuration)
+                proposed['additionalFingerprintInputs'].append(relative_path)
+                # Exercise the real identity consumer without persisting a control change.
+                with self.assertRaisesRegex(SetupError, 'must not depend on runtime records or task scratch'):
+                    state.verification_input_identity(self.repo, active, policy, proposed)
+        self.assertEqual(state.required_verification_gaps(self.repo), [])
+        for relative_path, original_bytes in retained.items():
+            self.assertEqual((self.repo / relative_path).read_bytes(), original_bytes)
+
     def test_control_change_requires_explicit_reroute(self):
         self.begin_task(); self.verify_task()
         self.config['profiles']['focused'][0]['name'] = 'Different check identity'
@@ -681,6 +796,21 @@ class LocalVerificationControlTests(unittest.TestCase):
         self.begin_task()
         with self.assertRaises(SystemExit): self.verify_task()
         self.assertFalse(state.load_json(self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json')['passed'])
+
+    def test_zero_exit_after_modifying_tracked_markdown_is_not_passing_evidence(self):
+        note = self.repo / 'execution.md'
+        note.write_bytes(b'# Original execution note\n')
+        self.configure('focused', "from pathlib import Path; Path('execution.md').write_bytes(b'Updated note\\n')")
+        self.assertEqual(self.git('ls-files', '--', 'execution.md').strip(), 'execution.md')
+        self.begin_task()
+        with self.assertRaises(SystemExit):
+            self.verify_task()
+        self.assertEqual(note.read_bytes(), b'Updated note\n')
+        receipt = state.load_json(self.repo / state.RUNTIME_DIRECTORY / 'verification/focused.json')
+        self.assertEqual(receipt['commands'][0]['returnCode'], 0)
+        self.assertFalse(receipt['passed'])
+        self.assertNotEqual(receipt['identityBefore'], receipt['identityAfter'])
+        self.assertTrue(state.required_verification_gaps(self.repo))
 
     def test_zero_exit_after_modifying_active_record_is_not_passing_evidence(self):
         self.configure('focused', "import json; from pathlib import Path; p=Path('.sdlc/runtime/active.json'); "
