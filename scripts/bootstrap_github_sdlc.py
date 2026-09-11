@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Create/update the portable GitHub labels used by the SDLC scaffold."""
+"""Install SDLC labels or explicitly check the read-only Issue prerequisite."""
 
 from __future__ import annotations
 
+import argparse
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -29,14 +31,32 @@ LABELS = [
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--check-issue-readiness', action='store_true',
+                        help='Check whether Issues is enabled without installing labels or changing settings.')
+    args = parser.parse_args()
     try:
         repo = derive_repo_from_script(__file__)
         gh = require_command('gh')
+        if args.check_issue_readiness:
+            result = run((gh, 'repo', 'view', '--json', 'nameWithOwner,hasIssuesEnabled'),
+                         cwd=repo, capture=True, encoding='utf-8', errors='strict')
+            metadata = json.loads(result.stdout)
+            if (not isinstance(metadata, dict)
+                    or not isinstance(metadata.get('nameWithOwner'), str)
+                    or not metadata['nameWithOwner'].strip()
+                    or type(metadata.get('hasIssuesEnabled')) is not bool):
+                raise SetupError('GitHub Issue availability was not returned as valid repository metadata.')
+            if not metadata['hasIssuesEnabled']:
+                raise SetupError('Issues is disabled. Issue-based readiness is blocked; obtain explicit '
+                                 'owner approval for has_issues=true before changing that setting.')
+            print('Issues is enabled. Baseline linkage, permissions and required-check enforcement are not verified.')
+            return 0
         for name, color, description in LABELS:
             run((gh, 'label', 'create', name, '--color', color, '--description', description, '--force'), cwd=repo)
         print(f'Created or updated {len(LABELS)} SDLC labels.')
         return 0
-    except (SetupError, subprocess.CalledProcessError, OSError) as exc:
+    except (SetupError, subprocess.CalledProcessError, OSError, ValueError) as exc:
         print(f'ERROR: {exc}', file=sys.stderr)
         return 1
 

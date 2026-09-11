@@ -40,7 +40,8 @@ def capture_issue_baseline(repo: Path, args: argparse.Namespace) -> None:
     if baseline_json_path.exists() or baseline_markdown_path.exists():
         raise SetupError('Snapshot already exists. Create a new version; overwriting accepted history is not supported.')
     write_json_atomically(baseline_json_path, baseline_record)
-    baseline_markdown_path.write_text(f"# Issue #{args.issue}, snapshot v{args.version}\n\nAcceptance decision reference: {args.approval_reference}\n\nReported accepted-by: {args.accepted_by}; reported accepted-at: {args.accepted_at}.\nThese supplied values require independent confirmation; capture does not approve.\n\nBody SHA-256: `{baseline_record['issue']['bodySha256']}`\n\n{issue_body}\n", encoding='utf-8', newline='\n')
+    markdown_body = issue_body if issue_body.endswith('\n') else issue_body + '\n'
+    baseline_markdown_path.write_text(f"# Issue #{args.issue}, snapshot v{args.version}\n\nAcceptance decision reference: {args.approval_reference}\n\nReported accepted-by: {args.accepted_by}; reported accepted-at: {args.accepted_at}.\nThese supplied values require independent confirmation; capture does not approve.\n\nBody SHA-256: `{baseline_record['issue']['bodySha256']}`\n\n{markdown_body}", encoding='utf-8', newline='\n')
     print(baseline_json_path.relative_to(repo))
     print(baseline_markdown_path.relative_to(repo))
 
@@ -307,19 +308,47 @@ def record_task_disposition(repo: Path, args: argparse.Namespace, completed: boo
     print(disposition_record['disposition'] + '. This does not approve, merge, deploy or close an Issue.')
 
 def resume_task(repo: Path, args: argparse.Namespace) -> None:
-    """Resume an explicitly paused task with a new evidence identity and owner decision reference."""
+    """Resume paused work, optionally applying an explicitly accepted scope amendment."""
     previous_task = load_json(repo / ACTIVE_TASK_PATH)
     if not previous_task.get('paused'):
         raise SetupError('Only an explicitly paused task may be resumed.')
     policy, config = load_verification_controls(repo)
-    route = policy['routes'][previous_task['riskClass']]
-    if route['priorBaselineRequired'] or is_canonical_plan_path(previous_task.get('baseline')):
-        require_local_baseline(repo, previous_task['baseline'], committed=True)
-        if is_canonical_plan_path(previous_task['baseline']):
-            require_acceptance_reference(previous_task['intentReference'])
-    write_json_atomically(repo / RUNTIME_DIRECTORY / 'handoffs' / f"{previous_task['taskId']}-resume-{uuid.uuid4().hex}.json", {'disposition': 'superseded-on-explicit-resume', 'decisionReference': args.decision_reference, 'active': previous_task})
+    require_acceptance_reference(args.decision_reference)
     resumed_task = {k: v for k, v in previous_task.items() if k not in {'paused', 'pauseReason'}}
-    resumed_task.update(taskId=uuid.uuid4().hex, startedAt=utc_now(), requiredProfiles=route['requiredProfiles'], policyDigest=json_content_digest(policy), configurationDigest=json_content_digest(config), resumeDecisionReference=args.decision_reference)
+    amendment_fields = ('risk', 'baseline', 'intent_reference', 'purpose',
+                        'new_functionality', 'software_selection_reference')
+    if getattr(args, 'amend_scope', False):
+        if getattr(args, 'risk', None) not in policy['routes']:
+            raise SetupError('Scope amendment requires a supported explicit risk class.')
+        if not isinstance(getattr(args, 'purpose', None), str) or not args.purpose.strip():
+            raise SetupError('Scope amendment requires an explicit purpose.')
+        require_acceptance_reference(getattr(args, 'intent_reference', None))
+        if type(getattr(args, 'new_functionality', None)) is not bool:
+            raise SetupError('Scope amendment requires an explicit functionality declaration.')
+        if args.new_functionality:
+            require_acceptance_reference(getattr(args, 'software_selection_reference', None))
+        resumed_task.update(riskClass=args.risk, baseline=getattr(args, 'baseline', None),
+            intentReference=args.intent_reference, purpose=args.purpose,
+            newFunctionality=args.new_functionality,
+            softwareSelectionReference=getattr(args, 'software_selection_reference', None))
+    elif any(getattr(args, field, None) is not None for field in amendment_fields):
+        raise SetupError('Scope fields require explicit --amend-scope; ordinary resume preserves intent.')
+    route = policy['routes'][resumed_task['riskClass']]
+    baseline = resumed_task.get('baseline')
+    if route['priorBaselineRequired'] and not baseline:
+        raise SetupError(f"{resumed_task['riskClass']} requires a previously approved baseline.")
+    if baseline:
+        plan_baseline = is_canonical_plan_path(baseline)
+        if plan_baseline:
+            require_acceptance_reference(resumed_task['intentReference'])
+        require_local_baseline(repo, baseline, committed=route['priorBaselineRequired'] or plan_baseline)
+    resumed_task.update(taskId=uuid.uuid4().hex, previousTaskId=previous_task['taskId'],
+        startedAt=utc_now(), requiredProfiles=route['requiredProfiles'],
+        policyDigest=json_content_digest(policy), configurationDigest=json_content_digest(config),
+        resumeDecisionReference=args.decision_reference)
+    write_json_atomically(repo / RUNTIME_DIRECTORY / 'handoffs' / f"{previous_task['taskId']}-resume-{uuid.uuid4().hex}.json",
+        {'disposition': 'resume-prepared', 'decisionReference': args.decision_reference,
+         'active': previous_task, 'proposedActive': resumed_task})
     write_json_atomically(repo / ACTIVE_TASK_PATH, resumed_task)
     print('Resumed with a new evidence identity; old runs cannot satisfy this task.')
 
@@ -369,6 +398,14 @@ def main() -> int:
     verify_parser.set_defaults(function=verify_task)
     resume_parser = sub.add_parser('resume')
     resume_parser.add_argument('--decision-reference', required=True)
+    resume_parser.add_argument('--amend-scope', action='store_true',
+                               help='Apply an explicitly accepted replacement scope while preserving task lineage.')
+    resume_parser.add_argument('--risk', choices=['R0', 'R1', 'R2', 'R3'])
+    resume_parser.add_argument('--baseline')
+    resume_parser.add_argument('--intent-reference')
+    resume_parser.add_argument('--purpose')
+    resume_parser.add_argument('--new-functionality', action=argparse.BooleanOptionalAction, default=None)
+    resume_parser.add_argument('--software-selection-reference')
     resume_parser.set_defaults(function=resume_task)
     status_parser = sub.add_parser('status')
     status_parser.set_defaults(function=resource_status)

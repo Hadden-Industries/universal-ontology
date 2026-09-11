@@ -17,6 +17,16 @@ local fixture tests do not prove live delivery or permissions.
 
 ## Trusted policy and bootstrap
 
+Before declaring the Issue-based route operational or requiring its linkage gate,
+run `npm run setup:sdlc:github -- --check-issue-readiness` with the intended
+repository and authorized GitHub identity. This explicit read-only mode uses
+native repository metadata and installs no labels. Disabled or unavailable Issues
+blocks that readiness claim; enabling `has_issues` requires explicit owner approval
+and readback. Enabled Issues alone does not establish write permissions, accepted
+baseline linkage or required-check enforcement. Qualify those through the real
+route separately. The committed-plan route does not imply that Issues was enabled.
+The helper without this option retains its separately authorized label operation.
+
 SDLC PR linkage executes the trusted revision selected by the workflow event,
 using that checkout's policy code, schemas and environment. Record the actual
 checked-out policy SHA; it may differ from the current PR base or candidate head.

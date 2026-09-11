@@ -103,6 +103,14 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   exclusion rules or implement another selector. Compare paths, not only counts.
   Every omission needs a scope disposition. Missing required paths, even from a
   nonempty inventory, make the native route unavailable for complete assessment.
+  Distinguish supported exclusions from a reproduced selector defect. Tests,
+  documentation, lockfiles and old rename paths can still affect the accepted
+  security question; an intentional native exclusion is not automatically an
+  accepted scope exclusion. Record how every relevant omission is assessed or
+  explicitly left unassessed. If the native interface cannot include required
+  scope, use a separately accepted complete-scope alternative or retain that gap.
+  Do not implement a second selector, patch plugin internals, repeatedly retry an
+  unchanged inventory, or label an alternative review as native scan completion.
   After native launch, complete its required preflight and artifact steps; read
   every native inventory page and verify it still accounts for the required paths.
 - Before source analysis, verify artifact access in the authoritative scan

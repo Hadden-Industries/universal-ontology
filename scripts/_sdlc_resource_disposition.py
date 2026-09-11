@@ -189,7 +189,7 @@ def read_handoffs(repo: Path):
                     raise SetupError('Resource record filename/identity mismatch.')
                 records[identity] = document
             elif document.get('disposition') in {
-                    'paused-incomplete', 'implementation-handoff', 'superseded-on-explicit-resume'}:
+                    'paused-incomplete', 'implementation-handoff', 'superseded-on-explicit-resume', 'resume-prepared'}:
                 legacy += 1
             else:
                 raise SetupError('Unsupported handoff record.')
