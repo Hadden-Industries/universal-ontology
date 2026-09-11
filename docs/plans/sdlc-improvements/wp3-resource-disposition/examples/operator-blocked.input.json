@@ -1,0 +1,68 @@
+{
+  "recordType": "resource-disposition-input",
+  "schemaVersion": 1,
+  "coordinationReference": "fixture-task:wp3",
+  "recordedBy": "fixture-coordinator",
+  "recordingAuthorityReference": "fixture-decision:metadata-recording",
+  "decisionReference": "fixture-decision:operator-blocked",
+  "entry": {
+    "resourceId": null,
+    "supersedes": [],
+    "kind": "worktree",
+    "host": "fixture-host",
+    "locations": [
+      "C:/fixture/worktrees/review-a"
+    ],
+    "identityReference": "fixture-record:native-worktree-identity",
+    "owningTaskReference": null,
+    "owningTaskId": null,
+    "owner": null,
+    "coordinator": "fixture-coordinator",
+    "nextActor": "fixture-owner-decision",
+    "purpose": "Illustrative review workspace; no actual user resource is represented.",
+    "candidate": {
+      "head": null,
+      "observedAt": null,
+      "inputsReference": null
+    },
+    "consumers": [],
+    "preservation": {
+      "state": "required",
+      "locationReference": null,
+      "readbackReference": null,
+      "independentOfDisposedTree": null,
+      "reason": "Actual required content must be identified and preserved."
+    },
+    "disposition": "operator-blocked",
+    "rationale": "SYNTHETIC example of a blocked metadata record; not a real dispatch claim.",
+    "blockers": [
+      {
+        "kind": "ownership",
+        "description": "Resolve the originating owner before disposal.",
+        "reference": "fixture-record:ownership-question"
+      },
+      {
+        "kind": "guard",
+        "description": "Synthetic recorded denial; no command was executed.",
+        "reference": "fixture-record:denial"
+      }
+    ],
+    "reassessment": {
+      "event": "The named operator acknowledges and dispositions the scoped blocked-operation request.",
+      "reviewAt": null
+    },
+    "inspectionReference": null,
+    "assessmentReference": null,
+    "disposalAuthorityReference": null,
+    "operation": {
+      "operationReference": "fixture-record:simulated-denial",
+      "authorityReference": null,
+      "outcome": "denied",
+      "commandText": "git worktree remove C:/fixture/worktrees/review-a",
+      "denialRule": "fixture.guard:remove-denied",
+      "operatorRequestReference": "fixture-record:operator-request",
+      "permissionError": null
+    },
+    "postRemovalReadback": null
+  }
+}

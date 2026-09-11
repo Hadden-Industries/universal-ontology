@@ -1,0 +1,53 @@
+{
+  "documentKind": "Planning-package integrity manifest; not an attestation",
+  "preparedDate": "2026-09-11",
+  "hashAlgorithm": "SHA-256",
+  "selfExcluded": true,
+  "files": [
+    {
+      "path": "wp8-README.md",
+      "byteLength": 1841,
+      "sha256": "38c174047187f7e95f8b8d3f25ca1ebea5fca888bd6e7acca895d1410e0fbfdd"
+    },
+    {
+      "path": "wp8-product-closure-and-selective-adoption-implementation-plan-2026-09-11.md",
+      "byteLength": 96942,
+      "sha256": "f1823feaae360887b6b3470f8c26a27d9a7c7826d1e70212b39e1d32fdfdcf06"
+    },
+    {
+      "path": "wp8-adoption-and-integration-worksheet.proposed.md",
+      "byteLength": 13690,
+      "sha256": "d5c71420c806a27b561b5a8e9744f91f3d6adc3ea6c2394e6d4233cf90cd8506"
+    },
+    {
+      "path": "wp8-adoption-record-amendments.proposed.md",
+      "byteLength": 9155,
+      "sha256": "3b248dff8569f13373b2b1ebdb7d134a6f6cd7598dbbbcce1faccd544696e0f7"
+    },
+    {
+      "path": "wp8-verification-catalogue.proposed.json",
+      "byteLength": 29735,
+      "sha256": "ee76c26a9807281456bf6cd2e81bbcae7be38a57fc4ed0b3d8f68d3cbb15c857"
+    },
+    {
+      "path": "wp8-research-observations-2026-09-11.json",
+      "byteLength": 18374,
+      "sha256": "ce010da96e5b080727067e2ccbde9490a464b0c78941e438df900f31ebdfc7bd"
+    },
+    {
+      "path": "wp8-input-identities-2026-09-11.json",
+      "byteLength": 5244,
+      "sha256": "bfb36ffc9c515e9d743dfe096c4903fa2b23c08c4d5a403c252c0994146ddc1b"
+    },
+    {
+      "path": "wp8-check-deliverables.py",
+      "byteLength": 9502,
+      "sha256": "76c97d253c47e95bf5c2e59ae9d38b55ef02a1cd38ae107d677b0a0f4194e8b1"
+    },
+    {
+      "path": "wp8-deliverable-checks-2026-09-11.json",
+      "byteLength": 5789,
+      "sha256": "5c2fba5ebdb493025c93da8961eda07bfa47893a11d6a592114321597c385872"
+    }
+  ]
+}

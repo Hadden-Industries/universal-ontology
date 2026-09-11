@@ -1,0 +1,43 @@
+.venv/Scripts/python.exe -c @'
+import ast
+import collections
+import pathlib
+import re
+
+root = pathlib.Path.cwd()
+files = [
+    root / 'docs/plans/2026-09-09-shacl-policy-source-of-truth.md',
+    root / 'docs/specs/2026-09-09-shacl-policy-source-of-truth-dossier.md',
+    root / 'docs/specs/2026-09-09-shacl-policy-rule-inventory.md',
+    root / 'docs/specs/2026-09-09-shacl-policy-source-of-truth-issue-body.md',
+]
+texts = {p: p.read_text(encoding='utf-8') for p in files}
+inventory = texts[files[2]]
+legacy = ast.parse((root / 'tests/universalontologytest.py').read_text(encoding='utf-8-sig'))
+assertions = sorted(node.lineno for node in ast.walk(legacy) if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name) and node.func.value.id == 'self' and (node.func.attr.startswith('assert') or node.func.attr == 'fail'))
+mapped = []
+for row in inventory.splitlines():
+    if re.match(r'^\| P\d{2}\s*\|', row):
+        mapped.extend(map(int, re.findall(r'\d+', row.split('|')[2])))
+assert len(assertions) == 58, assertions
+assert sorted(mapped) == assertions, (collections.Counter(mapped) - collections.Counter(assertions), collections.Counter(assertions) - collections.Counter(mapped))
+source_lines = len((root / '.agent-tools/shacl-policy-baseline/Editing-Policy.source.md').read_text(encoding='utf-8').splitlines())
+wiki_rows = re.findall(r'^\| W(\d{2}):\s*([^|]+)\|', inventory, re.M)
+assert len(wiki_rows) == 33, len(wiki_rows)
+assert sorted(int(w[0]) for w in wiki_rows) == list(range(1, 34))
+for _, source_range in wiki_rows:
+    positions = list(map(int, re.findall(r'\d+', source_range)))
+    assert positions and all(1 <= n <= source_lines for n in positions), source_range
+for p in (files[1], files[3]):
+    ids = sorted(map(int, re.findall(r'^\| DEC-(\d+)\s*\|', texts[p], re.M)))
+    assert ids == list(range(1, 28)), (p.name, ids)
+checked_links = 0
+for p, content in texts.items():
+    for raw in re.findall(r'(?<!!)\[[^\]]*\]\(([^)]+)\)', content):
+        target = raw.strip('<>').split('#', 1)[0]
+        if not target or re.match(r'^[a-zA-Z][a-zA-Z0-9+.-]*:', target):
+            continue
+        assert (p.parent / target).resolve().exists(), (p.name, target)
+        checked_links += 1
+print(f'PASS: 58 assertion sites mapped exactly once; 33 Wiki groups reference {source_lines} source lines; all 27 decision IDs occur once in both tables; {checked_links} relative file links resolve.')
+'@

@@ -1,0 +1,376 @@
+{
+  "kind": "wp6-proposed-verification-catalogue",
+  "status": "proposal-not-implementation-evidence",
+  "parentCriteria": [
+    "A11",
+    "A12"
+  ],
+  "scenarioCount": 40,
+  "operationalExerciseCount": 2,
+  "acceptanceCriterionCount": 12,
+  "scenarios": [
+    {
+      "id": "T601",
+      "scenario": "Old trusted validator versus adapted candidate",
+      "boundaryAndExpectedResult": "Synthetic P/B/H with real native baseline: old P rejects plan; candidate-only pass is not trusted acceptance",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T602",
+      "scenario": "Existing Issue success",
+      "boundaryAndExpectedResult": "Valid independently authored Issue JSON, live body/risk linkage and prior baseline continue to pass linkage",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T603",
+      "scenario": "Issue corruption / metadata mismatch",
+      "boundaryAndExpectedResult": "Bad body hash/title/repository/number/version/risk/state fail applicable maintained checks",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T604",
+      "scenario": "Issue baseline history",
+      "boundaryAndExpectedResult": "Changed existing snapshot and out-of-scope baseline-only paths rejected; old failure bytes unchanged",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T605",
+      "scenario": "Valid committed plan",
+      "boundaryAndExpectedResult": "Native B/H regular blob, Unicode text and distinct source references link without a fictitious Issue",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T606",
+      "scenario": "Noncanonical paths",
+      "boundaryAndExpectedResult": "Absolute, traversal, dot/repeated separator and backslash forms fail before reading outside scope",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T607",
+      "scenario": "Path protocol/host ambiguity",
+      "boundaryAndExpectedResult": "NUL/control/stream colon and unsupported whitespace paths reject; valid Unicode/bracket literal path succeeds",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T608",
+      "scenario": "Text boundary",
+      "boundaryAndExpectedResult": "Empty/blank/NUL/invalid UTF-8 fail with exact reason; no replacement decoder",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T609",
+      "scenario": "Byte identity",
+      "boundaryAndExpectedResult": "LF/CRLF, BOM and Unicode-normalization differences do not disappear through text comparison",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T610",
+      "scenario": "Reference/metadata shape",
+      "boundaryAndExpectedResult": "Missing/placeholder/duplicate acceptance fields; malformed/empty/duplicate/nonexistent/ambiguous source-line arrays fail",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T611",
+      "scenario": "No fabricated authority output",
+      "boundaryAndExpectedResult": "Plausible supplied approval string never creates an authenticated-approval result/state; O61 tests actual acceptance refusal",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T612",
+      "scenario": "Candidate-only plan",
+      "boundaryAndExpectedResult": "Exists at H/local HEAD but absent at B: remote prior-baseline failure, no candidate fallback",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T613",
+      "scenario": "Changed selected plan",
+      "boundaryAndExpectedResult": "Candidate edit/delete/rename-old/rename-new/mode change rejected even when misleading metadata says unchanged",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T614",
+      "scenario": "Git types and local containment",
+      "boundaryAndExpectedResult": "Regular files distinguished from symlink/submodule/directory; redirected local parents reported safely",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T615",
+      "scenario": "Contents API alias trap",
+      "boundaryAndExpectedResult": "A file-shaped symlink-target response cannot substitute for a regular selected tree entry",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T616",
+      "scenario": "Blob transport integrity",
+      "boundaryAndExpectedResult": "Wrong ID/type/size/base64 or exceeded finite limit fails without using old bytes",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T617",
+      "scenario": "Remote failure classification",
+      "boundaryAndExpectedResult": "403/rate limit/network/truncated tree cannot become proven absence, empty plan or success",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T618",
+      "scenario": "Complete changed-path accounting",
+      "boundaryAndExpectedResult": "Multi-page files and both rename sides consumed; count mismatch/incomplete listing fails",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T619",
+      "scenario": "Target/Issue movement",
+      "boundaryAndExpectedResult": "Change B/H/body or relevant Issue during readback; preserve earlier result as stale, not current success",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T620",
+      "scenario": "Repository and endpoint binding",
+      "boundaryAndExpectedResult": "Fork head/base identities use actual PR metadata; no candidate-provided remote URL or token expansion",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T621",
+      "scenario": "Small-route preservation",
+      "boundaryAndExpectedResult": "R0/R1 tasks requiring no baseline retain their native route without extra Issue/dossier/network dependency",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T622",
+      "scenario": "Elevated-route preservation",
+      "boundaryAndExpectedResult": "Plan route retains configured R2/R3 prior baseline and required full profile; no risk downgrade",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T623",
+      "scenario": "Native local lifecycle",
+      "boundaryAndExpectedResult": "Begin through actual approved interpreter in spaces/Unicode checkout; rejected admission preserves incumbent state/runs",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T624",
+      "scenario": "Resume and input freshness",
+      "boundaryAndExpectedResult": "Plan/control changes invalidate evidence; supported explicit transition preserved; no baseline/digest hand edit",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T625",
+      "scenario": "Local/remote compatibility preflight",
+      "boundaryAndExpectedResult": "Same selected plan tested from actual trusted P; missing format capability found before expensive qualification",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T626",
+      "scenario": "Candidate code remains data",
+      "boundaryAndExpectedResult": "Candidate import/hook/build sentinel never executes; process trace shows only allowed trusted/native reads",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T627",
+      "scenario": "Credential and codec boundary",
+      "boundaryAndExpectedResult": "Synthetic token stays with trusted read subprocess; no command interpolation or token logging; JSON decoded explicitly",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T628",
+      "scenario": "Helper-only CI selection",
+      "boundaryAndExpectedResult": "Real Git change touching only `_sdlc_baseline.py` selects required SDLC checks",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T629",
+      "scenario": "Actual projection/import closure",
+      "boundaryAndExpectedResult": "Any selected code projection includes helper and imports; irrelevant historical manifests are not rewritten",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T630",
+      "scenario": "Security inventory limitation",
+      "boundaryAndExpectedResult": "Missing required paths remains a scoped assurance gap even if workflow paths are present; no copied selector",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T631",
+      "scenario": "Artifact-writer independence",
+      "boundaryAndExpectedResult": "Inventory success with unavailable required writer is not a completed native security capability",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T632",
+      "scenario": "Missing runtime",
+      "boundaryAndExpectedResult": "Missing interpreter/tool/dependency produces precise unavailable result; no install/global fallback or old evidence reuse",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T633",
+      "scenario": "Dependency threshold/scope mismatch",
+      "boundaryAndExpectedResult": "Independent native-report/config fixture exposes moderate comparison dependency versus low/all-scope gate; local high-only result insufficient",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T634",
+      "scenario": "Existing early-gate preservation",
+      "boundaryAndExpectedResult": "Actual aggregate failure cases and dependency chain keep required skipped work non-passing; no reduced mutation obligation",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T635",
+      "scenario": "P/B/H/T distinction",
+      "boundaryAndExpectedResult": "Trusted policy SHA, candidate SHA and synthetic product merge kept distinct in readback and claims",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T636",
+      "scenario": "Workflow attempts and pagination",
+      "boundaryAndExpectedResult": "Exact attempt jobs fully read; old/latest attempts, unrelated green and required skipped jobs cannot be conflated",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T637",
+      "scenario": "Rerun versus new event",
+      "boundaryAndExpectedResult": "Original-event P remains on rerun; accepted new event’s actual P demonstrated, not inferred from current main",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T638",
+      "scenario": "Unavailable remote evidence",
+      "boundaryAndExpectedResult": "API/log/artifact/rules access failure leaves explicit gap, not an empty-success result or automatic permission grant",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T639",
+      "scenario": "Fresh external state",
+      "boundaryAndExpectedResult": "New advisory/result/owner decision after earlier read remains linked to its actual time/target; historical evidence retained",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "T640",
+      "scenario": "Handoff side-effect boundary",
+      "boundaryAndExpectedResult": "Preflight/remote-read routines do not mutate active records, baseline bytes, candidate source, PRs or policy without separate authority",
+      "executionStatus": "not-run",
+      "evidence": null
+    }
+  ],
+  "operationalExercises": [
+    {
+      "id": "O61",
+      "name": "real acceptance and trusted-format adoption.",
+      "requirement": "Use the real pre-existing accepted ONI plan and an actual Issue-snapshot case through their qualified trusted consumers. Independently verify the real owner decision and exact content binding. Challenge a fabricated/incorrect acceptance reference without granting authority; report the distinction between syntactic linkage and acceptance. Do not create public fake approvals for testing. Evidence includes the actual new policy revision and linkage run, not merely local fixture output.",
+      "executionStatus": "not-run",
+      "evidence": null
+    },
+    {
+      "id": "O62",
+      "name": "actual ONI readiness handoff.",
+      "requirement": "Read the current PR and exact dependency/linkage run/attempt/jobs, bind every failed/skipped result correctly, and record the owner’s D61–D64 disposition. A maintainer starting from the handoff can find the next action without confusing `f92f16d…` with the new head or declaring that a skipped mutation suite passed. An accepted hold is a legitimate outcome; unsupported feature/release completion is not.",
+      "executionStatus": "not-run",
+      "evidence": null
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC6-01",
+      "requirement": "Accepted WP6 scope/route and exact policy/configuration changes are attributable; converter intent is not fabricated or rewritten.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-02",
+      "requirement": "Existing Issue-snapshot behavior and immutable history remain intact through actual consumers.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-03",
+      "requirement": "Canonical committed-plan path/text/source-reference route works without a fictitious Issue.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-04",
+      "requirement": "Native B/H mode/path/blob identity and local raw-byte checks reject candidate-only, altered and redirected baseline representations.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-05",
+      "requirement": "Acceptance references never substitute for approval; actual accountable gate rejects forged/unrelated/unverifiable acceptance, with enforcement limitations explicit.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-06",
+      "requirement": "Trusted P reads H as data; candidate code, requirements, hooks and credentials never cross into privileged policy execution.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-07",
+      "requirement": "Local lifecycle ownership, required profiles, evidence freshness and prior failure retention are preserved, including actual supported Windows execution.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-08",
+      "requirement": "Actual trusted-base format support is landed separately and observed through a new eligible run; local candidate success and old reruns are not deployment proof.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-09",
+      "requirement": "Small preflight exposes actual baseline/security/writer/dependency/runtime blockers before dependent costly qualification without creating a universal dossier or silent mutation.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-10",
+      "requirement": "ONI dependency policy has the actual failed result and an explicit owner D61–D64 disposition; existing early gating and assurance are preserved.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-11",
+      "requirement": "Handoff distinguishes P/B/H/T, exact workflow event/run/attempt/jobs, stale narrative, skipped work, read gaps and remaining release authority.",
+      "acceptanceStatus": "not-assessed"
+    },
+    {
+      "id": "AC6-12",
+      "requirement": "Required final routed verification, actual trusted/adopter observations, independent assurance and retained readback qualify the stated scope; no unperformed test is labelled passed.",
+      "acceptanceStatus": "not-assessed"
+    }
+  ],
+  "limits": [
+    "No proposed validator, Windows host, live workflow, installed security scan or owner-acceptance exercise ran for this catalogue.",
+    "The separate 18-check native Git/codec research report is not evidence that these implementation requirements pass.",
+    "Parameterized rows may share tests and existing preservation tests; this is not 40 pipelines or mandatory reviewer fan-out."
+  ]
+}

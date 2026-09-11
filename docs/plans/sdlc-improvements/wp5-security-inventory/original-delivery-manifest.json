@@ -1,0 +1,81 @@
+{
+  "kind": "wp5-package-integrity-not-attestation",
+  "recordedAt": "2026-09-10T18:01:08.789832Z",
+  "sourceInputs": [
+    {
+      "name": "sdlc-implementation-plan-2026-09-10.md",
+      "sha256": "b560e4b15685c2af42f1cafd1a223ff718d968cc8a0648e9a33522fb07601c82"
+    },
+    {
+      "name": "sdlcworktreelifecyclehandoff20260910.md",
+      "sha256": "a9cf76ae85ab314b15e80164150e0a69d8c18af836c32a83e8ca689e1a4d16d6"
+    },
+    {
+      "name": "wp0-worktree-preservation-implementation-plan-2026-09-10.md",
+      "sha256": "5c789f1250de378b46388c0d9806a7d4c0527cbaf425beaa976e8356e052eba7"
+    },
+    {
+      "name": "wp1-text-boundaries-evidence-retention-implementation-plan-2026-09-10.md",
+      "sha256": "68594f4df7bb0144c633054ba1decba5a9540580aff8a1ba974af94de15409b1"
+    },
+    {
+      "name": "wp2-independent-worktree-execution-implementation-plan-2026-09-10.md",
+      "sha256": "36263bd280bf331e855a9487590d8615d474d68ee1f494a5e4d56e23a0f11adf"
+    },
+    {
+      "name": "wp3-resource-release-visibility-implementation-plan-2026-09-10.md",
+      "sha256": "2a78c43583efa96b5082b95077f1b38629198dd84e79e395f1ced512c9dcf82f"
+    },
+    {
+      "name": "wp4-command-dispatch-diagnosis-implementation-plan-2026-09-10.md",
+      "sha256": "862266cc6b2adf253dbf035f178f115cfe9659fdcffc7d5879ad753fa31f6223"
+    }
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1302,
+      "sha256": "dd60dc817dce6e992044a82aba701f4e38971ed941d2982e78bbde0c2121b609"
+    },
+    {
+      "path": "wp5-artifact-checks-2026-09-10.json",
+      "bytes": 3221,
+      "sha256": "4821e78bfc5724b6a4dcfd33a8137d8f03ca20d127a54406c8441e0b122af8e3"
+    },
+    {
+      "path": "wp5-git-oracle-check-2026-09-10.json",
+      "bytes": 18044,
+      "sha256": "2db794ad344c4931a628aa1cc0a8888752882351b08d41c8c2a5bb0c82ce2938"
+    },
+    {
+      "path": "wp5-installed-security-inventory-qualification-implementation-plan-2026-09-10.md",
+      "bytes": 65565,
+      "sha256": "acab2f5bfb97398d90973648a7647da199bfc53e4b13134f2a30b8134684def9"
+    },
+    {
+      "path": "wp5-operator-qualification-worksheet.proposed.md",
+      "bytes": 9123,
+      "sha256": "2b5d4b4783103db45b0ca1889057a0e8766f2793acfd3f257192c3fc49c8abf2"
+    },
+    {
+      "path": "wp5-policy-amendments.proposed.md",
+      "bytes": 9532,
+      "sha256": "cbf259d3682815f65761a192ade9850cadcd9837925ac5288df4b1bf9b7d259b"
+    },
+    {
+      "path": "wp5-qualification-fixture-recipe.proposed.md",
+      "bytes": 8122,
+      "sha256": "e444fb2692f53c12c5e9b9eb9899dcbdd55cac27a64c4f67d9743e09f6f091da"
+    },
+    {
+      "path": "wp5-verification-catalogue.proposed.json",
+      "bytes": 15660,
+      "sha256": "97b83cbd13d1fdd1476f4b561c4f9e031ff1c25783eb6b4f691930f0ff637bd2"
+    },
+    {
+      "path": "wp5_git_oracle_check.py",
+      "bytes": 11993,
+      "sha256": "aca6a659012744b7bc667183d37fd0b5b332c6c10c38ba5091522b84d49af7e0"
+    }
+  ]
+}

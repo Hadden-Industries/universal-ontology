@@ -1,0 +1,383 @@
+{
+  "kind": "wp6-native-baseline-boundary-research",
+  "recordedAt": "2026-09-10T20:31:56.170950+00:00",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "git": "git version 2.47.3"
+  },
+  "checks": [
+    {
+      "name": "committed_blob_preserves_exact_utf8",
+      "passed": true,
+      "evidence": {
+        "revision": "2d07495f564d32932da078045dcf3912c7c1fe56",
+        "blob": "61f0be15bd2e9aaa70af9783b6eb7f523a8bc724",
+        "sha256": "ae936077d88052b9bf15b1c58842a5a70c602c241ac77b95ca04494fa58cba14"
+      }
+    },
+    {
+      "name": "unchanged_plan_reuses_blob_at_distinct_revisions",
+      "passed": true,
+      "evidence": {
+        "base": "2d07495f564d32932da078045dcf3912c7c1fe56",
+        "head": "f637c23967ce72d1ea5d830e2a05e7ce56b7f699",
+        "blob": "61f0be15bd2e9aaa70af9783b6eb7f523a8bc724"
+      }
+    },
+    {
+      "name": "candidate_only_file_missing_from_base",
+      "passed": true,
+      "evidence": {
+        "exitCode": 128
+      }
+    },
+    {
+      "name": "newline_translation_changes_raw_identity",
+      "passed": true,
+      "evidence": {
+        "originalSha256": "ae936077d88052b9bf15b1c58842a5a70c602c241ac77b95ca04494fa58cba14",
+        "changedSha256": "b29bda69f5743b8b34a66bf9e6ad19943137dcbab219e23d97d241f097167554"
+      }
+    },
+    {
+      "name": "text_reader_can_hide_newline_change",
+      "passed": true,
+      "evidence": "Text-mode universal-newline equality is not the raw-blob equality contract."
+    },
+    {
+      "name": "bom_is_part_of_byte_identity",
+      "passed": true,
+      "evidence": "No decoder or normalization policy was adopted by this probe."
+    },
+    {
+      "name": "unicode_normalization_forms_have_distinct_bytes",
+      "passed": true,
+      "evidence": {
+        "composed": "636166c3a9",
+        "decomposed": "63616665cc81"
+      }
+    },
+    {
+      "name": "index_and_working_content_are_distinct",
+      "passed": true,
+      "evidence": {
+        "stagedSha256": "905f4348d0027fefe5f520aa4291d6f0e1fd135fffa045380965f8a88d0e0bd7",
+        "workingSha256": "229981be1e25763c8394138aeb96047983d500449bc7fdd999d9590cb4561a2b"
+      }
+    },
+    {
+      "name": "head_blob_ignores_incidental_index_working_edits",
+      "passed": true,
+      "evidence": {
+        "originalBlob": "61f0be15bd2e9aaa70af9783b6eb7f523a8bc724"
+      }
+    },
+    {
+      "name": "git_tree_exposes_symlink_mode",
+      "passed": true,
+      "evidence": {
+        "row": "120000 blob aad4819092f0b6a115a2ac93e8b4304a8bbcf7b0\tdocs/plans/linked.md\\0"
+      }
+    },
+    {
+      "name": "symlink_blob_contains_link_target_not_target_file",
+      "passed": true,
+      "evidence": {
+        "linkBlob": "aad4819092f0b6a115a2ac93e8b4304a8bbcf7b0"
+      }
+    },
+    {
+      "name": "regular_plan_mode_distinguishable",
+      "passed": true,
+      "evidence": {
+        "row": "100644 blob 61f0be15bd2e9aaa70af9783b6eb7f523a8bc724\tdocs/plans/accepted.md\\0"
+      }
+    },
+    {
+      "name": "same_blob_can_have_different_tree_mode",
+      "passed": true,
+      "evidence": {
+        "row": "100755 blob 61f0be15bd2e9aaa70af9783b6eb7f523a8bc724\tdocs/plans/accepted.md\\0"
+      }
+    },
+    {
+      "name": "literal_path_lookup_preserves_unicode_and_brackets",
+      "passed": true,
+      "evidence": {
+        "row": "100644 blob bdee0111c23ec731562f440e2537e97fefeef244\tdocs/plans/évidence[1].md\\0"
+      }
+    },
+    {
+      "name": "strict_utf8_rejects_invalid_protocol_bytes",
+      "passed": true,
+      "evidence": "No replacement decoding applied."
+    },
+    {
+      "name": "json_utf8_roundtrip_preserves_decoded_body",
+      "passed": true,
+      "evidence": {
+        "bodySha256": "71b16f467088d3bb869fe95fd1ee90904af509a983cff99b35a6d363b5ffcb38"
+      }
+    },
+    {
+      "name": "opaque_markdown_was_not_executed",
+      "passed": true,
+      "evidence": "Only native Git and stdlib codec operations were invoked; the example fenced code was data."
+    },
+    {
+      "name": "fixture_has_no_remotes",
+      "passed": true,
+      "evidence": "No network operations were invoked."
+    }
+  ],
+  "passed": true,
+  "checkCount": 18,
+  "executedRepositoryValidator": false,
+  "windowsQualified": false,
+  "humanAcceptanceAuthenticated": false,
+  "limitations": [
+    "Synthetic local Git fixture only; no candidate SDLC implementation was executed.",
+    "No GitHub API behavior, live tokens, branch enforcement or operational preflight was qualified.",
+    "An unexecuted data string and a matching blob cannot establish owner acceptance."
+  ],
+  "nativeCalls": [
+    {
+      "arguments": [
+        "init",
+        "-q"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "add",
+        "--",
+        "docs/plans/accepted.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "commit",
+        "-qm",
+        "Synthetic baseline"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "rev-parse",
+        "2d07495f564d32932da078045dcf3912c7c1fe56:docs/plans/accepted.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "cat-file",
+        "blob",
+        "61f0be15bd2e9aaa70af9783b6eb7f523a8bc724"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "add",
+        "--",
+        "ordinary.txt"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "commit",
+        "-qm",
+        "Synthetic implementation"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "rev-parse",
+        "f637c23967ce72d1ea5d830e2a05e7ce56b7f699:docs/plans/accepted.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "add",
+        "--",
+        "docs/plans/candidate-only.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "commit",
+        "-qm",
+        "Synthetic candidate-only file"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "cat-file",
+        "-e",
+        "2d07495f564d32932da078045dcf3912c7c1fe56:docs/plans/candidate-only.md"
+      ],
+      "exitCode": 128
+    },
+    {
+      "arguments": [
+        "add",
+        "--",
+        "docs/plans/accepted.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "show",
+        ":docs/plans/accepted.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "cat-file",
+        "blob",
+        "61f0be15bd2e9aaa70af9783b6eb7f523a8bc724"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "hash-object",
+        "-w",
+        "--stdin"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "update-index",
+        "--add",
+        "--cacheinfo",
+        "120000,aad4819092f0b6a115a2ac93e8b4304a8bbcf7b0,docs/plans/linked.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "write-tree"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "--literal-pathspecs",
+        "ls-tree",
+        "-z",
+        "9a01f9b6150ac957186676cfd296886f0cfc841c",
+        "--",
+        "docs/plans/linked.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "cat-file",
+        "blob",
+        "aad4819092f0b6a115a2ac93e8b4304a8bbcf7b0"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "--literal-pathspecs",
+        "ls-tree",
+        "-z",
+        "2d07495f564d32932da078045dcf3912c7c1fe56",
+        "--",
+        "docs/plans/accepted.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "update-index",
+        "--cacheinfo",
+        "100755,61f0be15bd2e9aaa70af9783b6eb7f523a8bc724,docs/plans/accepted.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "write-tree"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "--literal-pathspecs",
+        "ls-tree",
+        "-z",
+        "1dd515b28e1f437410e7ae85548cd9b768f2e445",
+        "--",
+        "docs/plans/accepted.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "add",
+        "--",
+        "docs/plans/évidence[1].md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "write-tree"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "--literal-pathspecs",
+        "ls-tree",
+        "-z",
+        "4bdc45e7a7284e63bdf0ad99d2615f9701b7a36b",
+        "--",
+        "docs/plans/évidence[1].md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "remote"
+      ],
+      "exitCode": 0
+    },
+    {
+      "arguments": [
+        "--version"
+      ],
+      "exitCode": 0
+    }
+  ]
+}

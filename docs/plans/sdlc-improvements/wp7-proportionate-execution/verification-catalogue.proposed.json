@@ -1,0 +1,261 @@
+{
+  "kind": "wp7-implementation-planning-catalogue",
+  "prepared": "2026-09-11",
+  "purpose": "Planning data only. Not a new SDLC runtime schema, acceptance record or mandatory ordinary-task document.",
+  "parentFile": "sdlc-implementation-plan-2026-09-10.md",
+  "parentCriteria": [
+    "A13",
+    "A14 (shared with WP8)"
+  ],
+  "sourcePlan": "wp7-proportionate-execution-implementation-plan-2026-09-11.md",
+  "nativeOrProductTestsExecutedDuringPreparation": false,
+  "scenarios": [
+    {
+      "id": "T701",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Reuse `test_r0_requires_only_focused_evidence`",
+      "expectedObservation": "Valid R0 has required focused evidence, no invented full profile or baseline requirement. This does not classify arbitrary prose automatically.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T702",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Reuse R1 affected and focused-insufficiency tests",
+      "expectedObservation": "The affected obligation is required; focused alone cannot satisfy it.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T703",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Add/extend R2 focused/affected-before-full case",
+      "expectedObservation": "Accepted fixture baseline; focused and affected runs do not change R2, starting scope or full requirement; completed handoff is rejected until current full passes.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T704",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Reuse failed-run retention and current receipt checks",
+      "expectedObservation": "Original failing receipt/raw output survives a later pass byte-for-byte; the new pass belongs to its actual task/input identity.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T705",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Add `test_runtime_progress_output_preserves_current_verification`",
+      "expectedObservation": "With a native current fixture receipt, create/update a noninput progress file in an existing excluded runtime output directory; active/current/canonical/raw bytes and verification identity remain unchanged.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T706",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Add `test_tracked_execution_note_invalidates_current_verification`",
+      "expectedObservation": "Append the same progress text to a tracked Markdown note; the native reader reports stale evidence. Do not weaken this expected failure.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T707",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Parameterise Markdown input variants",
+      "expectedObservation": "Tracked accepted instructions, a Markdown fixture and executable-example content each invalidate earlier evidence after an edit; `.md` grants no exclusion.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T708",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Add tracked-file-under-ignored-prefix boundary",
+      "expectedObservation": "A fixture file deliberately tracked under an otherwise ignored runtime prefix remains covered by the tracked diff. Its change is not silently treated as output.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T709",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Extend zero-exit-after-input-write with a Markdown input",
+      "expectedObservation": "A configured command that changes tracked Markdown then exits zero cannot publish accepted passing evidence for unchanged inputs.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T710",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Add same-tree/new-HEAD fixture",
+      "expectedObservation": "A metadata-only/empty fixture commit moves HEAD; prior current evidence becomes stale even if file-tree content is identical. Only owned test Git state is used.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T711",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Reuse control/baseline/input-change cases",
+      "expectedObservation": "Changed policy/config/baseline cannot be accepted by refreshing a digest, editing the active record or reusing old success.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T712",
+      "kind": "automated-lifecycle-preservation",
+      "boundary": "Exercise declared-input/output separation",
+      "expectedObservation": "Declaring reserved runtime/tmp as an additional verification input is rejected by the actual configuration consumer; genuine ignored inputs outside those output locations retain their existing fingerprint test.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T713",
+      "kind": "instruction-and-review",
+      "boundary": "Pure operational output versus inaccessible evidence",
+      "expectedObservation": "Progress uses an authorised output destination; a failed write/readback stays a gap rather than a fabricated retained record or hidden source edit.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T714",
+      "kind": "instruction-and-review",
+      "boundary": "Harmless prose versus security/control Markdown",
+      "expectedObservation": "Reviewers allow the genuinely low-risk route but reject a prose-only label concealing changed permissions, executable instructions or a public contract. A dishonest CLI risk argument is not assumed self-detecting.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T715",
+      "kind": "instruction-and-review",
+      "boundary": "Invented mandatory specialist or counsel prerequisite",
+      "expectedObservation": "Reviewer requires its accepted/governing source; an unsupported recommendation is not silently enforced as an existing obligation. Concrete unresolved material risks still reach the owner.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T716",
+      "kind": "instruction-and-review",
+      "boundary": "One-off description versus accepted reusable package",
+      "expectedObservation": "Neither automatic scope expansion nor retrospective downgrade is accepted; current deliverable and deferred obligations are explicit.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T717",
+      "kind": "instruction-and-review",
+      "boundary": "Small final delta after broader review",
+      "expectedObservation": "Reviewer sees the prior target and real delta; affected questions are rechecked, unrelated conclusions remain scoped, and an unreviewed delta cannot inherit whole-diff approval.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T718",
+      "kind": "instruction-and-review",
+      "boundary": "Research reuse and changed assumption",
+      "expectedObservation": "Unchanged applicable research is reused; actual version, terms, interface or threat changes reopen the relevant question rather than being ignored or causing an unrelated market survey.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T719",
+      "kind": "instruction-and-review",
+      "boundary": "Installed role and failed worker",
+      "expectedObservation": "A role file is not delegation authority; timeout, unavailable run or silent worker is missing evidence, not approval.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T720",
+      "kind": "instruction-and-review",
+      "boundary": "Verifier starts while source is changing",
+      "expectedObservation": "The qualification target is held/unqualified until frozen; the verifier does not edit source or derive expected values from the implementation.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T721",
+      "kind": "instruction-and-review",
+      "boundary": "Incremental mutation proposal",
+      "expectedObservation": "The command-runner test-change limitation and other input gaps are retained; no automatic incremental mode, threshold reduction or old-result promotion enters WP7.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T722",
+      "kind": "instruction-and-review",
+      "boundary": "Scheduling-only change with expensive downstream assurance",
+      "expectedObservation": "Existing scheduling/aggregate-preservation checks are used under accepted scope; no fresh mutant outcome or real CI behavior is claimed from syntax/startup checks alone.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T723",
+      "kind": "product-finalisation-and-observation",
+      "boundary": "Real description through the actual packed ONI consumer",
+      "expectedObservation": "Exact input and archive, installed API/CLI behavior, literal/structure/loss expectations and applicable declaration consumers are evidenced; missing real input remains unverified.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T724",
+      "kind": "product-finalisation-and-observation",
+      "boundary": "AQFO through the actual delivered WebVOWL path",
+      "expectedObservation": "Native load, exact entity/direction, framing, actual SVG inspection and truthful delivery/coverage; development-only or failed retrieval is not production success.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T725",
+      "kind": "product-finalisation-and-observation",
+      "boundary": "Green outer result with absent/mismatched consumer result",
+      "expectedObservation": "No whole-product claim based on an unrun child, skipped matrix, HTTP status, empty result or stale branch narrative. Relevant remote evidence follows the existing WP6 boundary.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T726",
+      "kind": "product-finalisation-and-observation",
+      "boundary": "Tracked summary or commit after final verification",
+      "expectedObservation": "Native freshness is preserved; actual new input/HEAD requires fresh required qualification. External output-only reporting remains separate.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T727",
+      "kind": "product-finalisation-and-observation",
+      "boundary": "Native security/guard/writer gap",
+      "expectedObservation": "Retain the exact limitation and only its accepted alternative; no channel switch, self-granted exception, duplicate scan or missing phase disguised as completion.",
+      "status": "not-run",
+      "actualResult": null
+    },
+    {
+      "id": "T728",
+      "kind": "product-finalisation-and-observation",
+      "boundary": "Claimed efficiency improvement",
+      "expectedObservation": "Existing attributable intervals and comparable workload support any claim; parallel duration sum, cancelled work, unknown tokens and test count are not treated as demonstrated savings or outcomes.",
+      "status": "not-run",
+      "actualResult": null
+    }
+  ],
+  "operationalExercises": [
+    {
+      "id": "O71",
+      "title": "Genuinely low-risk prose",
+      "status": "not-run",
+      "actualResult": null,
+      "requirement": "Use genuine separately authorised work; do not invent a product pilot, replay project or permission."
+    },
+    {
+      "id": "O72",
+      "title": "Elevated implementation with stable output reporting",
+      "status": "not-run",
+      "actualResult": null,
+      "requirement": "Use genuine separately authorised work; do not invent a product pilot, replay project or permission."
+    },
+    {
+      "id": "O73",
+      "title": "ONI and WebVOWL representative delivered outcomes",
+      "status": "not-run",
+      "actualResult": null,
+      "requirement": "Use genuine separately authorised work; do not invent a product pilot, replay project or permission."
+    }
+  ]
+}

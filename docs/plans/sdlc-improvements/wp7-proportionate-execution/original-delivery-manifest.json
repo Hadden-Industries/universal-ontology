@@ -1,0 +1,27 @@
+{
+  "kind": "wp7-package-integrity-manifest",
+  "prepared": "2026-09-11",
+  "scope": "Content identity only, not authentication, approval or executed qualification. The manifest does not hash itself.",
+  "files": [
+    {
+      "path": "wp7-proportionate-execution-implementation-plan-2026-09-11.md",
+      "bytes": 86473,
+      "sha256": "222928fef535acae1557e2e2b9e6d55e4675038a10c88f6bac0c031d9162cad4"
+    },
+    {
+      "path": "wp7-policy-amendments.proposed.md",
+      "bytes": 12888,
+      "sha256": "cd2ec956b1e2ac17db7deefbce28a6ccf5c624c101e946403e40ea5b0d58c296"
+    },
+    {
+      "path": "wp7-verification-catalogue.proposed.json",
+      "bytes": 12352,
+      "sha256": "f8f5300e47b69600d2ccf895b9e7a33b4ceabc19343f997fcf59a1b34c720760"
+    },
+    {
+      "path": "wp7-deliverable-checks-2026-09-11.json",
+      "bytes": 3181,
+      "sha256": "8462c6da569edb4305e6ccffeeb71e2ac278b6adb2817905f7d0e3d146c6e92a"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "kind": "wp5-artifact-consistency-check",
+  "recordedAt": "2026-09-10T18:01:08.789832Z",
+  "passed": true,
+  "checksTotal": 26,
+  "checks": [
+    {
+      "name": "32 consecutive distinct proposed test IDs",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "all native qualification cases not-run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "two operational exercises remain not-run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "parent acceptance A10 retained",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "eight ordered implementation slices",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "twelve distinct acceptance criteria",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "upstream source merge preserved",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "upstream and installed identities separated",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "canonical invocation contains source-verified options",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "legacy route conditionally qualified",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "other omissions retained",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Windows procedure independently scoped",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "no native scan claim from helper pass",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "original artifacts preserved",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "R2/R3 alternative not inferred",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "actual update channel distinguished",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "source index includes R01-R17",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "all source-reference IDs defined",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "markdown code fences balanced",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "no unsupported chat citation tokens in downloadable files",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "independent mechanical check actually reports twelve passes",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "mechanical check limits explicitly false",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "synthetic Git fixture has no remote",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fixture recipe includes seven groups",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "proposed amendments have no prepopulated host success",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "operator worksheet is explicitly blank",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "notEvidenceOf": [
+    "Installed plugin propagation",
+    "Native inventory helper execution",
+    "Security scan",
+    "Windows qualification",
+    "Operator approval",
+    "T501-T532 or O51/O52 completion"
+  ]
+}

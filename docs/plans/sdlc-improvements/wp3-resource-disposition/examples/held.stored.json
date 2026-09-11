@@ -1,0 +1,64 @@
+{
+  "recordType": "resource-disposition",
+  "schemaVersion": 1,
+  "coordinationReference": "fixture-task:wp3",
+  "recordedBy": "fixture-coordinator",
+  "recordingAuthorityReference": "fixture-decision:metadata-recording",
+  "decisionReference": "fixture-decision:held",
+  "entry": {
+    "resourceId": "22222222222222222222222222222222",
+    "supersedes": [],
+    "kind": "worktree",
+    "host": "fixture-host",
+    "locations": [
+      "C:/fixture/worktrees/review-a"
+    ],
+    "identityReference": "fixture-record:native-worktree-identity",
+    "owningTaskReference": null,
+    "owningTaskId": null,
+    "owner": null,
+    "coordinator": "fixture-coordinator",
+    "nextActor": "fixture-owner-decision",
+    "purpose": "Illustrative review workspace; no actual user resource is represented.",
+    "candidate": {
+      "head": null,
+      "observedAt": null,
+      "inputsReference": null
+    },
+    "consumers": [],
+    "preservation": {
+      "state": "required",
+      "locationReference": null,
+      "readbackReference": null,
+      "independentOfDisposedTree": null,
+      "reason": "Actual required content must be identified and preserved."
+    },
+    "disposition": "held",
+    "rationale": "Originating ownership is unconfirmed in this illustration.",
+    "blockers": [
+      {
+        "kind": "ownership",
+        "description": "Resolve the originating owner before disposal.",
+        "reference": "fixture-record:ownership-question"
+      }
+    ],
+    "reassessment": {
+      "event": "Originating owner responds to the recorded ownership question.",
+      "reviewAt": null
+    },
+    "inspectionReference": null,
+    "assessmentReference": null,
+    "disposalAuthorityReference": null,
+    "operation": null,
+    "postRemovalReadback": null
+  },
+  "recordId": "11111111111111111111111111111111",
+  "recordedAt": "2026-09-10T12:01:00Z",
+  "inputSha256": "5ad1f92ec07053f993b3a87b383fe6083c041290df0c56f56872aa506810f1e7",
+  "scope": {
+    "coordinatorRoot": "C:/fixture/coordinator",
+    "gitCommonDirectory": "C:/fixture/coordinator/.git",
+    "host": "fixture-host"
+  },
+  "confirmationObservation": null
+}

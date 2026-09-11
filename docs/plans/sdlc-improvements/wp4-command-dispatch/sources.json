@@ -1,0 +1,197 @@
+{
+  "kind": "wp4-source-register",
+  "preparedOn": "2026-09-10",
+  "repositoryObservationSha": "79d187802f9255134c03d0786ff75181ed1070ee",
+  "nativeReportedBaseline": {
+    "version": "0.14.1",
+    "source": "9569d4f181e43e7bdd4fba254834762a092b4b29"
+  },
+  "nativeLatestObserved": {
+    "version": "0.14.2",
+    "publishedAt": "2026-09-09T11:10:21Z",
+    "targetSource": "e4a2fed44e3813e4344d6f3029c0d8a32ac1c75e",
+    "executed": false,
+    "selectedForInstallation": false
+  },
+  "localInputIdentities": [
+    {
+      "name": "sdlc-implementation-plan-2026-09-10.md",
+      "sha256": "b560e4b15685c2af42f1cafd1a223ff718d968cc8a0648e9a33522fb07601c82",
+      "byteLength": 62272,
+      "role": "Requested parent"
+    },
+    {
+      "name": "sdlcworktreelifecyclehandoff20260910.md",
+      "sha256": "a9cf76ae85ab314b15e80164150e0a69d8c18af836c32a83e8ca689e1a4d16d6",
+      "byteLength": 13079,
+      "role": "Provided source or predecessor plan; not execution evidence"
+    },
+    {
+      "name": "wp0-worktree-preservation-implementation-plan-2026-09-10.md",
+      "sha256": "5c789f1250de378b46388c0d9806a7d4c0527cbaf425beaa976e8356e052eba7",
+      "byteLength": 57329,
+      "role": "Provided source or predecessor plan; not execution evidence"
+    },
+    {
+      "name": "wp1-text-boundaries-evidence-retention-implementation-plan-2026-09-10.md",
+      "sha256": "68594f4df7bb0144c633054ba1decba5a9540580aff8a1ba974af94de15409b1",
+      "byteLength": 92462,
+      "role": "Provided source or predecessor plan; not execution evidence"
+    },
+    {
+      "name": "wp2-independent-worktree-execution-implementation-plan-2026-09-10.md",
+      "sha256": "36263bd280bf331e855a9487590d8615d474d68ee1f494a5e4d56e23a0f11adf",
+      "byteLength": 90978,
+      "role": "Provided source or predecessor plan; not execution evidence"
+    },
+    {
+      "name": "wp3-resource-release-visibility-implementation-plan-2026-09-10.md",
+      "sha256": "2a78c43583efa96b5082b95077f1b38629198dd84e79e395f1ced512c9dcf82f",
+      "byteLength": 78929,
+      "role": "Provided source or predecessor plan; not execution evidence"
+    }
+  ],
+  "parentWp4TextAfterHeadingSha256": "c6a52c44fe193e61586301c9e0d8cf9f822bd458e7f5ef49aa7f8e7a873dc7db",
+  "references": [
+    {
+      "id": "P01",
+      "description": "Supplied `sdlc-implementation-plan-2026-09-10.md`, WP4 and A09; original file preserved. Parent digest is in `sources.json`.",
+      "urls": []
+    },
+    {
+      "id": "P02",
+      "description": "Supplied `sdlcworktreelifecyclehandoff20260910.md`, especially §§3–4 and 6. It reports worktree observations and guard restrictions, not an established cause of accumulation.",
+      "urls": []
+    },
+    {
+      "id": "P03",
+      "description": "Supplied WP0–WP3 detailed plans. Used only for package boundaries and proposed contracts; their existence is not evidence of implementation or host deployment.",
+      "urls": []
+    },
+    {
+      "id": "R00",
+      "description": "[Universal Ontology main branch readback](https://api.github.com/repos/Hadden-Industries/universal-ontology/branches/main), resolved to `79d187802f9255134c03d0786ff75181ed1070ee`.",
+      "urls": [
+        "https://api.github.com/repos/Hadden-Industries/universal-ontology/branches/main"
+      ]
+    },
+    {
+      "id": "R01",
+      "description": "[Issue #30](https://github.com/Hadden-Industries/universal-ontology/issues/30), full original command, native diagnostic table and missing host context.",
+      "urls": [
+        "https://github.com/Hadden-Industries/universal-ontology/issues/30"
+      ]
+    },
+    {
+      "id": "R02",
+      "description": "[Issue #30 comment 5600691267](https://github.com/Hadden-Industries/universal-ontology/issues/30#issuecomment-5600691267), WebVOWL cmd request and reduced positive comparison.",
+      "urls": [
+        "https://github.com/Hadden-Industries/universal-ontology/issues/30#issuecomment-5600691267"
+      ]
+    },
+    {
+      "id": "R03",
+      "description": "[Native command-safety guide at the observation commit](https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/docs/sdlc/command-safety.md).",
+      "urls": [
+        "https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/docs/sdlc/command-safety.md"
+      ]
+    },
+    {
+      "id": "R04",
+      "description": "[Adoption record at the observation commit](https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/docs/sdlc/adoption.md), limited DCG 0.14.1 host receipt and recorded identities.",
+      "urls": [
+        "https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/docs/sdlc/adoption.md"
+      ]
+    },
+    {
+      "id": "R05",
+      "description": "[Existing native protocol probe](https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/scripts/probe_dcg_hook_protocol.py), especially `isolated_environment`, `invoke_native`, `decode_hook_decision`, `load_cases`, `probe`, `main`.",
+      "urls": [
+        "https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/scripts/probe_dcg_hook_protocol.py"
+      ]
+    },
+    {
+      "id": "R06",
+      "description": "[DCG environment acceptance template](https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/docs/sdlc/dcg-acceptance.md), blank procedure and separate host qualification.",
+      "urls": [
+        "https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/docs/sdlc/dcg-acceptance.md"
+      ]
+    },
+    {
+      "id": "R07",
+      "description": "[Checked-in 26-case corpus](https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/.sdlc/dcg/hook-probe-cases.json), diagnostic input only.",
+      "urls": [
+        "https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/.sdlc/dcg/hook-probe-cases.json"
+      ]
+    },
+    {
+      "id": "R08",
+      "description": "[Existing probe tests](https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/tests/sdlc/test_dcg_protocol_probe.py), orchestration/contract fixtures and declared limits.",
+      "urls": [
+        "https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/tests/sdlc/test_dcg_protocol_probe.py"
+      ]
+    },
+    {
+      "id": "R09",
+      "description": "[Existing Windows/Ubuntu SDLC workflow](https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/.github/workflows/sdlc-control-tests.yml).",
+      "urls": [
+        "https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/.github/workflows/sdlc-control-tests.yml"
+      ]
+    },
+    {
+      "id": "R10",
+      "description": "[Existing check-scope selector](https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/scripts/selectPullRequestChecks.js).",
+      "urls": [
+        "https://github.com/Hadden-Industries/universal-ontology/blob/79d187802f9255134c03d0786ff75181ed1070ee/scripts/selectPullRequestChecks.js"
+      ]
+    },
+    {
+      "id": "U01",
+      "description": "[DCG 0.14.1 `src/hook.rs`](https://github.com/Dicklesworthstone/destructive_command_guard/blob/9569d4f181e43e7bdd4fba254834762a092b4b29/src/hook.rs), `ToolInput`, protocol/shell distinction and Windows `codex_host_shell_dialect` behavior. Source evidence is not the missing local hook trace.",
+      "urls": [
+        "https://github.com/Dicklesworthstone/destructive_command_guard/blob/9569d4f181e43e7bdd4fba254834762a092b4b29/src/hook.rs"
+      ]
+    },
+    {
+      "id": "U02",
+      "description": "[DCG latest-release endpoint](https://api.github.com/repos/Dicklesworthstone/destructive_command_guard/releases/latest) and [v0.14.2 release](https://github.com/Dicklesworthstone/destructive_command_guard/releases/tag/v0.14.2), observed publication 2026-09-09T11:10:21Z; target/source `e4a2fed44e3813e4344d6f3029c0d8a32ac1c75e`. No installation or fix qualification performed here.",
+      "urls": [
+        "https://api.github.com/repos/Dicklesworthstone/destructive_command_guard/releases/latest",
+        "https://github.com/Dicklesworthstone/destructive_command_guard/releases/tag/v0.14.2"
+      ]
+    },
+    {
+      "id": "U03",
+      "description": "[DCG v0.14.2 changelog at its source identity](https://github.com/Dicklesworthstone/destructive_command_guard/blob/e4a2fed44e3813e4344d6f3029c0d8a32ac1c75e/CHANGELOG.md), first release section. Its POSIX heredoc/doctor changes do not establish #30 resolution.",
+      "urls": [
+        "https://github.com/Dicklesworthstone/destructive_command_guard/blob/e4a2fed44e3813e4344d6f3029c0d8a32ac1c75e/CHANGELOG.md"
+      ]
+    },
+    {
+      "id": "H01",
+      "description": "[Official Codex hooks](https://developers.openai.com/codex/hooks), retrieved official redirect to ChatGPT Learn. Used for current canonical tool coverage, separate trust/configuration concerns and observation caveats; not an installed-version attestation.",
+      "urls": [
+        "https://developers.openai.com/codex/hooks"
+      ]
+    },
+    {
+      "id": "H02",
+      "description": "[Microsoft PowerShell about_Parsing](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_parsing?view=powershell-7.5), native argument-passing and quoting differences.",
+      "urls": [
+        "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_parsing?view=powershell-7.5"
+      ]
+    },
+    {
+      "id": "H03",
+      "description": "[Microsoft cmd documentation](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cmd), explicit command-processor arguments and quoting. It does not establish which flags the reported host used.",
+      "urls": [
+        "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cmd"
+      ]
+    }
+  ],
+  "limitations": [
+    "Remote source inspection does not establish local Windows state.",
+    "Published command text is not a raw hook capture.",
+    "No native guard, shell or host qualification performed during preparation."
+  ]
+}
