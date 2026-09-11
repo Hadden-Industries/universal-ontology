@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 
 import { parseRdfXmlToQuads } from "../../../scripts/rdfXmlToJsonLd.js";
-import { createOntologyReleaseQueryIndex } from "../../../src/ontologyQuery/createOntologyReleaseQueryIndex.js";
+import { createOntologyReleaseQueryIndex } from "universal-ontology-query/artifacts";
 
 const MINIMAL_ONTOLOGY_RELEASE_URL = new URL(
   "./minimal-ontology-release",

@@ -1,7 +1,9 @@
-import { serializeCanonicalOntologyQueryJsonDocument } from "../../src/ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
-import { MAX_ONTOLOGY_QUERY_CHANNEL_MANIFEST_BYTE_LENGTH } from "../../src/ontologyQuery/ontologyQueryArtifactLimits.js";
-import { OntologyQueryChannelManifestSchema } from "../../src/ontologyQuery/ontologyQueryChannelManifestSchemas.js";
-import { deepFreeze } from "../../src/ontologyQuery/ontologyQuerySchemas.js";
+import { freezeJsonValueDeeply } from "universal-ontology-query/json-value-immutability";
+import {
+  serializeCanonicalOntologyQueryJsonDocument,
+  MAX_ONTOLOGY_QUERY_CHANNEL_MANIFEST_BYTE_LENGTH,
+  OntologyQueryChannelManifestSchema,
+} from "universal-ontology-query/artifacts";
 
 /**
  * Build the canonical v1 channel document that binds one mutable channel name
@@ -12,7 +14,7 @@ export function createOntologyQueryChannelManifest({
   ontologyQueryArtifactChannelName,
   ontologyQueryCatalogReference,
 }) {
-  const channelManifest = deepFreeze(
+  const channelManifest = freezeJsonValueDeeply(
     OntologyQueryChannelManifestSchema.parse({
       queryArtifactKind: "universal_ontology_query_channel_manifest",
       queryArtifactFormatVersion: 1,

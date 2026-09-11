@@ -6,7 +6,6 @@ import { fileURLToPath } from "node:url";
 import { readUniversalOntologyMcpReleaseInputs } from "./buildUniversalOntologyMcpPlatformArchive.js";
 
 const REPOSITORY_ROOT_PATH = fileURLToPath(new URL("../../", import.meta.url));
-const ROOT_PACKAGE_JSON_PATH = join(REPOSITORY_ROOT_PATH, "package.json");
 const PUBLIC_PACKAGE_JSON_PATH = join(
   REPOSITORY_ROOT_PATH,
   "packages",
@@ -372,14 +371,12 @@ export async function createUniversalOntologyMcpSpdxSboms({
   );
   const created = new Date(sourceDateEpochSeconds * 1000).toISOString();
   const [
-    rootPackage,
     publicPackage,
     serverDocument,
     dockerfileText,
     releaseInputs,
     bundleMetadata,
   ] = await Promise.all([
-    readJsonDocument(ROOT_PACKAGE_JSON_PATH),
     readJsonDocument(PUBLIC_PACKAGE_JSON_PATH),
     readJsonDocument(SERVER_DOCUMENT_PATH),
     nodeFileSystem.readFile(DOCKERFILE_PATH, "utf8"),
@@ -387,7 +384,6 @@ export async function createUniversalOntologyMcpSpdxSboms({
     readJsonDocument(applicationBundleMetadataPath),
   ]);
   if (
-    rootPackage.version !== publicPackage.version ||
     serverDocument.version !== publicPackage.version ||
     serverDocument.name !== publicPackage.mcpName
   ) {

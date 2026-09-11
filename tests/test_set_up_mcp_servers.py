@@ -2379,7 +2379,10 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
         run_command.assert_called_once_with(
             [
                 "node-path",
-                setup_script_directory_path
+                setup_script_directory_path.parent
+                / "packages"
+                / "universal-ontology-mcp-server"
+                / "scripts"
                 / "verifyUniversalOntologyMcpApplicationBundle.js",
                 "--application-bundle",
                 staged_program_path,

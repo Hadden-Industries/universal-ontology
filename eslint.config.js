@@ -37,9 +37,16 @@ const strictRules = {
 export default [
   js.configs.recommended,
 
-  // 1. Frontend Code: Browser globals only
+  // 1. Browser-compatible source: Browser globals only
   {
-    files: ["src/**/*.js"],
+    files: ["src/**/*.js", "packages/universal-ontology-query/src/**/*.js", "packages/universal-ontology-projection-policy/src/**/*.js"],
+    ignores: [
+      "packages/universal-ontology-query/src/fileSystemOntologyQueryArtifactRepository.js",
+      "packages/universal-ontology-query/src/httpOntologyQueryArtifactReader.js",
+      "packages/universal-ontology-query/src/persistentOntologyQueryArtifactCache.js",
+      "packages/universal-ontology-query/src/persistentHttpOntologyQueryArtifactRepository.js",
+      "packages/universal-ontology-query/src/persistentHttpRepository.js"
+    ],
     languageOptions: {
       ecmaVersion: 2025,
       sourceType: "module",
@@ -50,16 +57,16 @@ export default [
     rules: strictRules
   },
 
-  // Node-only installed-server adapters retain the source rule set while
+  // Node-only query repositories and installed-server adapters retain the source rule set while
   // receiving only the platform globals required by their runtime boundary.
   {
     files: [
-      "src/mcp/runUniversalOntologyMcpStdioServer.js",
-      "src/mcp/universalOntologyMcpStdioConfiguration.js",
-      "src/mcp/universalOntologyMcpOperationalEvents.js",
-      "src/ontologyQuery/httpOntologyQueryArtifactReader.js",
-      "src/ontologyQuery/persistentHttpOntologyQueryArtifactRepository.js",
-      "src/ontologyQuery/persistentOntologyQueryArtifactCache.js"
+      "packages/universal-ontology-mcp-server/src/**/*.js",
+      "packages/universal-ontology-query/src/fileSystemOntologyQueryArtifactRepository.js",
+      "packages/universal-ontology-query/src/httpOntologyQueryArtifactReader.js",
+      "packages/universal-ontology-query/src/persistentOntologyQueryArtifactCache.js",
+      "packages/universal-ontology-query/src/persistentHttpOntologyQueryArtifactRepository.js",
+      "packages/universal-ontology-query/src/persistentHttpRepository.js"
     ],
     languageOptions: {
       ecmaVersion: 2025,
@@ -86,7 +93,7 @@ export default [
 
   // 3. Test Files: Jest, Node, and Browser globals
   {
-    files: ["**/*.test.js", "**/*.spec.js", "tests/**/*.js"],
+    files: ["**/*.test.js", "**/*.spec.js", "tests/**/*.js", "packages/*/tests/**/*.js"],
     languageOptions: {
       ecmaVersion: 2024,
       sourceType: "module",
@@ -100,7 +107,7 @@ export default [
   },
 
   {
-    files: ['scripts/**/*.js'],
+    files: ['scripts/**/*.js', 'packages/*/scripts/**/*.js'],
     languageOptions: {
       globals: globals.nodeBuiltin,
     },

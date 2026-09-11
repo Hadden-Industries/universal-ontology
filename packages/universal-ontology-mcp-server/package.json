@@ -39,6 +39,20 @@
     "url": "https://github.com/hadden-industries/universal-ontology/issues"
   },
   "scripts": {
-    "prepack": "node ../../scripts/distribution/buildUniversalOntologyMcpApplicationBundle.js"
+    "build": "node scripts/buildUniversalOntologyMcpApplicationBundle.js",
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config ../../jest.config.js --rootDir .",
+    "stdio": "node scripts/runUniversalOntologyMcpStdioServer.js",
+    "serve": "node scripts/runLocalOntologyMcpServer.js",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@jest/globals": "30.5.1",
+    "@modelcontextprotocol/client": "2.0.0",
+    "@modelcontextprotocol/node": "2.0.0",
+    "@modelcontextprotocol/server": "2.0.0",
+    "esbuild": "0.28.2",
+    "jest": "30.5.1",
+    "universal-ontology-query": "1.0.0",
+    "zod": "4.5.4"
   }
 }

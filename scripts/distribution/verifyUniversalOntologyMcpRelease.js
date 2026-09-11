@@ -86,7 +86,7 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "00a97e2d849dfb1e0aa254133fd75dca326b206879e6f4fb4f42a16a1b99da75";
+  "a8b2e426ced4d7d00f12df81ab948de2fd2c332a3254232fcbef8529d09a4da7";
 
 const FORBIDDEN_ARCHIVE_CONTENT_MARKERS = Object.freeze([
   "A natural or legal person recognised by law.",
@@ -558,7 +558,6 @@ function requireVersionAuthorities({
 }) {
   const versions = [
     tagVersion,
-    rootPackage.version,
     publicPackage.version,
     repositoryServerDocument.version,
     releaseServerDocument.version,
@@ -1294,47 +1293,91 @@ function verifySpdxDocuments({
   requireSpdxRelationshipCoverage(releaseSbom, "release SBOM");
 }
 
-function verifyIndependentNpmSbomCoverage({
+function verifyIndependentNpmInstalledDependencyContract({
   npmComparisonSbom,
-  packageSbom,
-  rootPackage,
+  publicPackage,
 }) {
   if (
     npmComparisonSbom.spdxVersion !== "SPDX-2.3" ||
-    !Array.isArray(npmComparisonSbom.packages)
+    !Array.isArray(npmComparisonSbom.packages) ||
+    !Array.isArray(npmComparisonSbom.relationships)
   ) {
     throw new Error("Independent npm SBOM is not a valid SPDX 2.3 report.");
   }
-  const customPackageIdentities = new Set(
-    packageSbom.packages.map(({ name, versionInfo }) =>
-      createExpectedSbomPackageIdentity(name, versionInfo),
-    ),
-  );
-  const ignoredPrivateWorkspaceIdentity = createExpectedSbomPackageIdentity(
-    rootPackage.name,
-    rootPackage.version,
+  const packagesById = new Map(
+    npmComparisonSbom.packages.map((entry) => [entry.SPDXID, entry]),
   );
   const npmReportedIdentities = npmComparisonSbom.packages.map(
     ({ name, versionInfo }) =>
       createExpectedSbomPackageIdentity(name, versionInfo),
   );
-  if (new Set(npmReportedIdentities).size !== npmReportedIdentities.length) {
+  if (
+    new Set(npmReportedIdentities).size !== npmReportedIdentities.length ||
+    packagesById.size !== npmComparisonSbom.packages.length ||
+    npmComparisonSbom.packages.some(({ SPDXID }) => typeof SPDXID !== "string")
+  ) {
     throw new Error(
       "Independent npm SBOM contains duplicate package identities.",
     );
   }
-  for (const npmReportedIdentity of npmReportedIdentities) {
-    // npm describes the private monorepo root as the application even though it
-    // is not shipped. Every other npm-reported package must be represented by
-    // the package-specific custom SBOM.
+  const publicEntry = npmComparisonSbom.packages.find(
+    ({ name, versionInfo }) =>
+      name === publicPackage.name && versionInfo === publicPackage.version,
+  );
+  if (!publicEntry) {
+    throw new Error("Independent npm SBOM omits the exact public MCP package.");
+  }
+  const reportedDevelopmentDependencies = new Set();
+  for (const {
+    spdxElementId,
+    relatedSpdxElement,
+    relationshipType,
+  } of npmComparisonSbom.relationships) {
     if (
-      npmReportedIdentity !== ignoredPrivateWorkspaceIdentity &&
-      !customPackageIdentities.has(npmReportedIdentity)
+      (!packagesById.has(spdxElementId) &&
+        spdxElementId !== npmComparisonSbom.SPDXID) ||
+      !packagesById.has(relatedSpdxElement)
     ) {
       throw new Error(
-        "Custom package SBOM omits a runtime package reported by the independent npm SBOM.",
+        "Independent npm SBOM contains an unresolved relationship.",
       );
     }
+    // npm's native SPDX writer marks devDependencies explicitly. Retain that
+    // complete build inventory without calling those packages installed runtime
+    // dependencies. The executable package must require none; its embedded
+    // components are checked independently against the bundle and package SBOM.
+    if (
+      relatedSpdxElement === publicEntry.SPDXID &&
+      relationshipType !== "DESCRIBES"
+    ) {
+      const dependency = packagesById.get(spdxElementId);
+      if (
+        relationshipType !== "DEV_DEPENDENCY_OF" ||
+        !dependency ||
+        !Object.hasOwn(publicPackage.devDependencies, dependency.name)
+      ) {
+        throw new Error(
+          "Independent npm SBOM reports an unexpected installed dependency of the public MCP package.",
+        );
+      }
+      reportedDevelopmentDependencies.add(dependency.name);
+    }
+    if (
+      spdxElementId === publicEntry.SPDXID &&
+      ["DEPENDS_ON", "HAS_PREREQUISITE"].includes(relationshipType)
+    ) {
+      throw new Error(
+        "Independent npm SBOM reports an unexpected installed dependency of the public MCP package.",
+      );
+    }
+  }
+  if (
+    reportedDevelopmentDependencies.size !==
+    Object.keys(publicPackage.devDependencies).length
+  ) {
+    throw new Error(
+      "Independent npm SBOM omits declared MCP development dependencies.",
+    );
   }
 }
 
@@ -1489,10 +1532,9 @@ export async function verifyUniversalOntologyMcpRelease({
     integrityByFileName,
   });
   if (npmComparisonSbomPath !== undefined) {
-    verifyIndependentNpmSbomCoverage({
+    verifyIndependentNpmInstalledDependencyContract({
       npmComparisonSbom: await readJsonDocument(npmComparisonSbomPath),
-      packageSbom,
-      rootPackage,
+      publicPackage,
     });
   }
 

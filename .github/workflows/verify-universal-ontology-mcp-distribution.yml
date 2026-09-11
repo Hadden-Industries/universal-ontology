@@ -91,14 +91,13 @@ jobs:
             ),
           );
           const versions = [
-            rootPackage.version,
             distributablePackage.version,
             serverDocument.version,
             ...serverDocument.packages
               .map(({ version }) => version)
               .filter((version) => version !== undefined),
           ];
-          if (versions.some((version) => version !== rootPackage.version)) {
+          if (versions.some((version) => version !== distributablePackage.version)) {
             throw new Error("Development candidate versions disagree.");
           }
           if (
@@ -125,7 +124,7 @@ jobs:
           appendFileSync(
             process.env.GITHUB_OUTPUT,
             [
-              `software-version=${rootPackage.version}`,
+              `software-version=${distributablePackage.version}`,
               `source-date-epoch=${sourceDateEpoch}`,
               `target-matrix=${JSON.stringify(targetMatrix)}`,
               "",

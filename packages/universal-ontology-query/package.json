@@ -1,0 +1,27 @@
+{
+  "name": "universal-ontology-query",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.js",
+    "./schemas": "./src/ontologyQuerySchemas.js",
+    "./artifacts": "./src/artifacts.js",
+    "./repositories/same-origin-fetch": "./src/fetchOntologyQueryArtifactRepository.js",
+    "./repositories/file-system": "./src/fileSystemOntologyQueryArtifactRepository.js",
+    "./repositories/persistent-http": "./src/persistentHttpRepository.js",
+    "./json-value-immutability": "./src/jsonValueImmutability.js"
+  },
+  "dependencies": {
+    "universal-ontology-projection-policy": "1.0.0",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@jest/globals": "30.5.1",
+    "jest": "30.5.1"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config ../../jest.config.js --rootDir ."
+  }
+}

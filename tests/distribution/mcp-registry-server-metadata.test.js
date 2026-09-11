@@ -99,7 +99,6 @@ describe("MCP Registry server metadata", () => {
     });
     expect(registrySchema.$id).toBe(serverDocument.$schema);
     expect(serverDocument.name).toBe(publicPackage.mcpName);
-    expect(serverDocument.version).toBe(rootPackage.version);
     expect(serverDocument.version).toBe(publicPackage.version);
     expect(serverDocument.packages[0]).toMatchObject({
       identifier: publicPackage.name,

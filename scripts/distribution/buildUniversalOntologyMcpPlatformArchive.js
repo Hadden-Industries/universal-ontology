@@ -11,7 +11,7 @@ import * as tar from "tar";
 import yauzl from "yauzl";
 import yazl from "yazl";
 
-import { buildUniversalOntologyMcpApplicationBundle } from "./buildUniversalOntologyMcpApplicationBundle.js";
+import { buildUniversalOntologyMcpApplicationBundle } from "../../packages/universal-ontology-mcp-server/scripts/buildUniversalOntologyMcpApplicationBundle.js";
 
 const REPOSITORY_ROOT_PATH = fileURLToPath(new URL("../../", import.meta.url));
 const ROOT_PACKAGE_JSON_PATH = join(REPOSITORY_ROOT_PATH, "package.json");
@@ -1070,11 +1070,10 @@ export async function buildUniversalOntologyMcpPlatformArchive({
       : readUniversalOntologyMcpReleaseInputs(),
   ]);
   if (
-    rootPackage.version !== publicPackage.version ||
     rootPackage.packageManager !== `npm@${releaseInputs.selectedNpmVersion}`
   ) {
     throw new Error(
-      "Root package, public package, and selected npm release identities disagree.",
+      "Root package manager and selected npm release identities disagree.",
     );
   }
 
