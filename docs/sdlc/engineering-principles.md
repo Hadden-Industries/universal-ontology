@@ -26,6 +26,22 @@ Routine tasks MUST NOT expand into unrelated repository-wide renaming, refactori
 research or replacement. A discovered issue outside scope is reported separately.
 A material conflict inside scope blocks the affected work until resolved.
 
+## Reasoning order
+
+For choices not already fixed by an explicit requirement or binding constraint,
+reason from the intended outcome and first principles, then examine maintained
+modern best practice, then authoritative specifications and guidance, and finally
+individual preferences. Explain material disagreements using evidence and concrete
+trade-offs; popularity or an owner's preference alone is not a correctness proof.
+Specifications that define a required interoperability contract, legal obligations,
+explicit requirements and permission boundaries remain constraints throughout.
+This order guides engineering judgment; it does not authorize ignoring those
+constraints or changing accepted scope without the applicable decision.
+
+Apply NAM-01 while making and implementing these choices. Check that both new
+names and retained names whose responsibilities change remain semantically correct
+and precise; passing tests or preferred wording cannot substitute for that check.
+
 ## NAM-01 — Semantic correctness and precision (NOISE)
 
 **Names of every added or changed code object or filesystem object MUST be

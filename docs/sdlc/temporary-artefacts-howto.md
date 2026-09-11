@@ -33,6 +33,17 @@ adoption status remain recorded in the repository's existing approval records.
 
 ## Keep the post-handoff obligation visible
 
+Retained source-named review copies must not enter product test discovery. Git
+ignore rules do not constrain Jest or other test runners. Prefer a verified archive
+that preserves original relative paths and entry hashes, or a separately owned
+evidence location outside the runner's discovery roots. Before removing redundant
+unpacked copies, verify archive readback and remaining reviewer/consumer needs.
+If unpacked evidence must remain inside a checkout, qualify the actual configured
+discovery: the real product test must be selected and the retained copy excluded.
+Any necessary discovery configuration change needs its normal explicit approval.
+Preserve original failed runs; never suppress a real source-test failure or broaden
+fingerprint exclusions to conceal an evidence/discovery mismatch.
+
 Select an explicitly authorised coordinator location that will outlive the
 resources being considered. Use its existing task/Issue/PR and
 `.sdlc/runtime/handoffs/` records. Pending records and required evidence must not

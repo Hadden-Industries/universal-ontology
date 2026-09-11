@@ -587,6 +587,83 @@ class LocalVerificationControlTests(unittest.TestCase):
         (first / 'local-input.txt').write_text('A-owned input', encoding='utf-8')
         self.assertTrue(state.required_verification_gaps(first))
 
+    def test_scope_amendment_preserves_lineage_and_requires_new_route_evidence(self):
+        self.begin_task('R1'); self.verify_task('full')
+        original = state.load_json(self.repo / state.ACTIVE_TASK_PATH)
+        self.disposition(completed=False)
+        paused = state.load_json(self.repo / state.ACTIVE_TASK_PATH)
+        retained = self.runtime_manifest(self.repo)
+        baseline = 'docs/sdlc/baselines/issue-123/v1.json'
+        state.write_json_atomically(self.repo / baseline, baseline_document())
+        self.commit('Accept expanded scope after task start')
+        self.assertNotEqual(self.git('rev-parse', 'HEAD').strip(), original['startingHead'])
+        self.invoke(sdlc.resume_task, argparse.Namespace(decision_reference='owner accepts expanded scope',
+            amend_scope=True, risk='R2', baseline=baseline, intent_reference='owner scope decision',
+            purpose='Preserve expanded ontology consumer contract', new_functionality=False,
+            software_selection_reference=None))
+        amended = state.load_json(self.repo / state.ACTIVE_TASK_PATH)
+        self.assertEqual(amended['riskClass'], 'R2')
+        self.assertEqual(amended['requiredProfiles'], ['full'])
+        self.assertEqual(amended['baseline'], baseline)
+        self.assertEqual(amended['purpose'], 'Preserve expanded ontology consumer contract')
+        self.assertEqual(amended['startingHead'], original['startingHead'])
+        self.assertEqual(amended['previousTaskId'], original['taskId'])
+        self.assertNotEqual(amended['taskId'], original['taskId'])
+        history = [state.load_json(p) for p in (self.repo / '.sdlc/runtime/handoffs').glob('*resume-*.json')]
+        self.assertEqual(len(history), 1)
+        self.assertEqual(history[0]['active'], paused)
+        self.assertEqual(history[0]['proposedActive'], amended)
+        self.assertEqual(history[0]['disposition'], 'resume-prepared')
+        self.assertEqual(sdlc.build_status(self.repo)['readProblems'], [])
+        self.assertTrue(state.required_verification_gaps(self.repo))
+        self.verify_task()
+        self.assertEqual(state.required_verification_gaps(self.repo), [])
+        for path, content in retained.items():
+            if '/runs/' in path:
+                self.assertEqual((self.repo / path).read_bytes(), content)
+
+    def test_rejected_scope_amendment_keeps_active_and_evidence_unchanged(self):
+        self.begin_task('R1'); self.disposition(completed=False)
+        baseline = 'docs/sdlc/baselines/issue-123/v1.json'
+        state.write_json_atomically(self.repo / baseline, baseline_document())
+        self.commit('Accept expansion baseline')
+        valid = dict(decision_reference='owner decision', amend_scope=True, risk='R2',
+            baseline=baseline, intent_reference='owner scope decision', purpose='Expanded accepted scope',
+            new_functionality=False, software_selection_reference=None)
+        for invalid in ({'baseline': None}, {'decision_reference': 'pending'}, {'risk': 'R9'},
+                        {'purpose': ''}, {'intent_reference': 'none'}, {'new_functionality': None},
+                        {'new_functionality': True}, {'baseline': '../outside.json'}):
+            with self.subTest(invalid=invalid):
+                before = self.runtime_manifest(self.repo)
+                with self.assertRaises(SetupError):
+                    self.invoke(sdlc.resume_task, argparse.Namespace(**(valid | invalid)))
+                self.assertEqual(self.runtime_manifest(self.repo), before)
+
+    def test_amendment_requires_explicit_mode_and_keeps_failed_publication_history(self):
+        self.begin_task(); self.disposition(completed=False)
+        original = (self.repo / state.ACTIVE_TASK_PATH).read_bytes()
+        with self.assertRaises(SetupError):
+            self.invoke(sdlc.resume_task, argparse.Namespace(decision_reference='owner decision', risk='R1'))
+        self.assertEqual((self.repo / state.ACTIVE_TASK_PATH).read_bytes(), original)
+        real_write = sdlc.write_json_atomically
+        def reject_final_publication(path, value):
+            if path == self.repo / state.ACTIVE_TASK_PATH:
+                raise OSError('controlled final publication failure')
+            real_write(path, value)
+        with patch.object(sdlc, 'write_json_atomically', side_effect=reject_final_publication):
+            with self.assertRaises(OSError):
+                self.invoke(sdlc.resume_task, argparse.Namespace(decision_reference='owner decision',
+                    amend_scope=True, risk='R1', baseline=None, intent_reference='owner intent',
+                    purpose='Accepted bounded expansion', new_functionality=True,
+                    software_selection_reference='existing native design'))
+        self.assertEqual((self.repo / state.ACTIVE_TASK_PATH).read_bytes(), original)
+        prepared = [state.load_json(p) for p in (self.repo / '.sdlc/runtime/handoffs').glob('*resume-*.json')]
+        self.assertEqual(len(prepared), 1)
+        self.assertEqual(prepared[0]['disposition'], 'resume-prepared')
+        self.assertEqual(prepared[0]['active'], json.loads(original))
+        self.assertEqual(prepared[0]['proposedActive']['riskClass'], 'R1')
+        self.assertEqual(sdlc.build_status(self.repo)['readProblems'], [])
+
     def test_same_scope_resume_refreshes_controls_without_rewriting_history(self):
         self.begin_task(); self.verify_task()
         prior = self.runtime_manifest(self.repo)
@@ -906,7 +983,7 @@ with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc
         captured = state.load_json(self.repo / 'docs/sdlc/baselines/issue-123/v1.json')
         self.assertEqual(captured['issue']['body'], 'Accepted \u2014 exact.\r\n')
         markdown = (self.repo / 'docs/sdlc/baselines/issue-123/v1.md').read_bytes()
-        self.assertTrue(markdown.endswith('Accepted \u2014 exact.\r\n\n'.encode('utf-8')))
+        self.assertTrue(markdown.endswith('Accepted \u2014 exact.\r\n'.encode('utf-8')))
 
     def test_completed_command_is_retained_before_report_failure(self):
         self.configure('focused', "import sys; sys.stdout.buffer.write(bytes.fromhex('636f6d706c657465642d6368696c642d65766964656e63650a'))")
@@ -1283,6 +1360,31 @@ with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc
                         self.assertIn('UnicodeDecodeError', diagnostic.getvalue())
                 self.assertFalse((self.repo / 'docs/sdlc/baselines/issue-123').exists())
 
+    def test_issue_markdown_does_not_add_an_eof_blank_line(self):
+        for version, (body, expected_body) in enumerate((
+            ('Accepted Unicode: \u6f22\u5b57', 'Accepted Unicode: \u6f22\u5b57\n'),
+            ('Accepted Unicode: \u6f22\u5b57\n', 'Accepted Unicode: \u6f22\u5b57\n'),
+            ('Accepted Unicode: \u6f22\u5b57\r\n', 'Accepted Unicode: \u6f22\u5b57\r\n'),
+        ), start=1):
+            with self.subTest(body=body):
+                issue = dict(baseline_document()['issue'], body=body, labels=[])
+                def protocol(arguments, **kwargs):
+                    payload = issue if arguments[1] == 'issue' else {'nameWithOwner': 'example/service'}
+                    return subprocess.CompletedProcess(arguments, 0, stdout=json.dumps(payload))
+                args = argparse.Namespace(issue=123, version=version, accepted_by='fixture',
+                    accepted_at='2026-09-10T00:00:00Z', approval_reference='fixture')
+                with (patch.object(sdlc, 'require_command', return_value='gh'),
+                      patch.object(sdlc, 'run', side_effect=protocol)):
+                    self.invoke(sdlc.capture_issue_baseline, args)
+                relative = f'docs/sdlc/baselines/issue-123/v{version}.md'
+                markdown = (self.repo / relative).read_bytes()
+                record = state.load_json((self.repo / relative).with_suffix('.json'))
+                self.assertEqual(record['issue']['body'], body)
+                self.assertEqual(record['issue']['bodySha256'], hashlib.sha256(body.encode('utf-8')).hexdigest())
+                self.assertEqual(markdown.split(b'`\n\n', 1)[1], expected_body.encode('utf-8'))
+                self.git('add', '--intent-to-add', '--', relative)
+                self.assertEqual(self.git('diff', '--check', '--', relative), '')
+
     def test_issue_capture_preserves_unicode_forms_crlf_and_prior_version(self):
         body = '\u00e9 e\u0301 \u2716 \u6f22\u5b57 \U0001f600\r\n'
         issue = dict(baseline_document()['issue'], body=body, labels=[{'name': 'risk:R2'}])
@@ -1301,7 +1403,7 @@ with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc
             record = state.load_json(json_path)
             self.assertEqual(record['issue']['body'], body)
             self.assertEqual(record['issue']['bodySha256'], hashlib.sha256(body.encode('utf-8')).hexdigest())
-            self.assertTrue(original[1].endswith(body.encode('utf-8') + b'\n'))
+            self.assertTrue(original[1].endswith(body.encode('utf-8')))
             with self.assertRaises(SetupError): self.invoke(sdlc.capture_issue_baseline, args)
             self.assertEqual((json_path.read_bytes(), markdown_path.read_bytes()), original)
 

@@ -71,7 +71,7 @@ def require_plan_text(content: object) -> str:
 def require_acceptance_reference(reference: str) -> None:
     """Reject placeholders without treating a supplied reference as approval."""
     if not isinstance(reference, str) or reference.strip().lower() in {'', 'none', 'n/a', '-', 'pending'}:
-        raise SetupError('A committed plan requires an inspectable owner acceptance reference.')
+        raise SetupError('An inspectable non-placeholder owner decision reference is required.')
 
 
 def decode_baseline_text(raw: bytes) -> str:

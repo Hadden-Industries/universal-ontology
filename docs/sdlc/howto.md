@@ -56,11 +56,22 @@ Changed controls or accepted requirements require their actual owner decision;
 do not edit old digests or refresh a baseline merely to restore passing status.
 
 A source-only change within unchanged scope normally needs fresh verification,
-not a new task. The existing pause/resume operations can re-establish an explicitly
-authorized same-scope execution against accepted current controls. They do not
-accept new requirements or arbitrarily replace a task's baseline. If the required
-transition is unsupported, retain the incomplete record and expose the concrete
-decision rather than deleting state or inventing a reroute command.
+not a new task. Ordinary pause/resume preserves scope while re-establishing work
+against explicitly accepted current controls. For an accepted scope change, pause
+the execution and use `resume --amend-scope` with `--decision-reference`, `--risk`,
+`--intent-reference`, `--purpose`, an explicit functionality declaration, and the
+applicable `--baseline` and `--software-selection-reference`. For example,
+`--no-new-functionality` declares a correction; it must not conceal a new capability.
+R2/R3 still require a previously accepted committed baseline. The native consumer
+checks references and baseline identity; it does not authenticate owner acceptance.
+
+Amended resume retains the original starting revision, archives the previous
+record and proposed replacement, records predecessor lineage and allocates a new
+task ID. Old verification stays historical and cannot satisfy the new route.
+Validation failures leave existing state untouched. A `resume-prepared` history
+record may survive a failed final publication; inspect active state before retrying
+and do not treat preparation alone as a completed transition. No direct runtime
+rewrite, invented completion or risk downgrade substitutes for an owner decision.
 
 A pause must identify an unmet dependency, required unavailable capability, decision
 or separate authorization. Retain consumers and resource-disposition references
