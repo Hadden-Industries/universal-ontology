@@ -1383,7 +1383,17 @@ with patch.object(sdlc, 'require_command', return_value='gh'), patch.object(sdlc
                 self.assertEqual(record['issue']['bodySha256'], hashlib.sha256(body.encode('utf-8')).hexdigest())
                 self.assertEqual(markdown.split(b'`\n\n', 1)[1], expected_body.encode('utf-8'))
                 self.git('add', '--intent-to-add', '--', relative)
-                self.assertEqual(self.git('diff', '--check', '--', relative), '')
+                # Preserve the accepted CRLF body without depending on the host's
+                # checkout conversion; CR is a terminator, not trailing space.
+                whitespace_check = ('-c', 'core.autocrlf=false', '-c',
+                    'core.whitespace=trailing-space,space-before-tab,cr-at-eol',
+                    'diff', '--check', '--', relative)
+                self.assertEqual(self.git(*whitespace_check), '')
+                (self.repo / relative).write_bytes(markdown + b'\n')
+                with self.assertRaises(subprocess.CalledProcessError) as rejected:
+                    self.git(*whitespace_check)
+                self.assertIn('new blank line at EOF', rejected.exception.stdout)
+                (self.repo / relative).write_bytes(markdown)
 
     def test_issue_capture_preserves_unicode_forms_crlf_and_prior_version(self):
         body = '\u00e9 e\u0301 \u2716 \u6f22\u5b57 \U0001f600\r\n'
