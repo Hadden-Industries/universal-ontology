@@ -144,3 +144,40 @@ Its proposal title/comment preserve provenance; the maintained consumer now uses
 it. Active state stays version 2. Historical receipts and baselines are not
 migrated or repaired. Keep the WP0 recovery store and original paused worktrees
 until their recorded owners and consumers release them; WP1 does not release them.
+
+## WP8 selective adoption and product evidence
+
+On 11 September 2026, the selected ports completed final native verification,
+hosted required checks and normal main integration. The [adoption record](adoption.md#wp8-selective-adoption--11-september-2026)
+identifies source, tested candidates, actual merges and Max's final scope decision.
+
+| Recipient | Native full run | Results and durable reference |
+|---|---|---|
+| ONI | `0874f3ec589340319f3e1d702118bcae` | SDLC/setup tests and 75 JavaScript tests; [PR qualification](https://github.com/MaksymShostak/oxygen-not-included/pull/11#issuecomment-5637919041). Native selection was SDLC only, not a full game/mod release. |
+| WebVOWL | `be91c519cc6940c7b8322ba35fc7d7bd` | SDLC/setup/control tests, 1,800 application tests, formatting/lint and production build; [PR qualification](https://github.com/Hadden-Industries/webvowl/pull/20#issuecomment-5637920033). |
+
+Both v3 receipts retained complete raw output and matching before/after identities.
+The independent adaptation assessment accounted for all 37 ONI and 36 WebVOWL
+changed paths and verified all 70 source/adopter mappings, with no material finding.
+Hosted controls passed on Windows and Ubuntu. Each actual main merge has the
+tested candidate's tree; no duplicate suite on identical merged bytes is claimed.
+
+The real built WebVOWL AQFO job exported a 2,483,177-byte SVG, 1600 by 845,
+SHA-256 `1b352769d7d00ce07deb5f8811f973d49ab8d5b8a640c11739a6ce0b75353b10`.
+Max opened the downloaded artifact in a browser and accepted its appearance.
+Independent source and SVG readback checked the person/family framing. Export
+reported best-effort/timeout; the earlier strict layout timeout remains retained.
+This is actual artifact acceptance, not evidence that the layout settled.
+
+ONI's completed installed-consumer campaign was read back against its real
+README/description input and five CLI scenarios, preserving the API/type/rendering
+scope. The `steam-community-bbcode@1.0.0-rc.1` archive SHA-256 was
+`3f32c0f0f944f02fc9001a3f6be72ec26e2d97f51c16e3c5f1e78ea3d29bd7e3`.
+Historical unrelated mod failures and publication-provenance limits remain;
+this port does not recertify a full mod release.
+
+Private source/artifact identities, native captures, adaptation assurance and
+retention obligations remain in the existing coordinator execution and recovery
+records. Max subsequently removed the combined MCP/SHACL obligation from this
+activity and requested use of the improved SDLC to test its changes. AC8-09 is
+out of this activity's final scope; no combined product pass is claimed.
