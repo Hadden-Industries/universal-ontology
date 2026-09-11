@@ -1,0 +1,341 @@
+{
+  "kind": "wp5-proposed-qualification-catalogue",
+  "parentAcceptance": "A10",
+  "status": "proposal-not-executed",
+  "cases": [
+    {
+      "id": "T501",
+      "scenario": "Effective installed path",
+      "independentExpectedObservation": "Run bound to the actual selected helper/runtime, not a copied source version.",
+      "layer": "installed-identity",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T502",
+      "scenario": "Supported update and reload",
+      "independentExpectedObservation": "Post-update effective capability recorded; stale/unchanged loading remains explicit.",
+      "layer": "installed-identity",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T503",
+      "scenario": "Workflow-only committed `.yml`",
+      "independentExpectedObservation": "Exact expected path included; empty result fails.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T504",
+      "scenario": "Workflow-only committed `.yaml`",
+      "independentExpectedObservation": "Exact expected path included.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T505",
+      "scenario": "Mixed committed paths",
+      "independentExpectedObservation": "Literal eligible workflow/source set matches; other omissions individually visible.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T506",
+      "scenario": "Staged workflow addition/change",
+      "independentExpectedObservation": "Present supported staged path included once; its content side is identified.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T507",
+      "scenario": "Unstaged tracked workflow",
+      "independentExpectedObservation": "Present supported workflow included against the selected base.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T508",
+      "scenario": "Untracked workflow",
+      "independentExpectedObservation": "Non-ignored new workflow included; output artifacts do not contaminate input.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T509",
+      "scenario": "Both suffixes in local states",
+      "independentExpectedObservation": "`.yml`/`.yaml` behavior qualified across staged/unstaged/untracked states.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T510",
+      "scenario": "Deleted workflow",
+      "independentExpectedObservation": "Candidate retained where supported; baseline content obligation explicit.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T511",
+      "scenario": "Rename within workflow tree",
+      "independentExpectedObservation": "Destination representation plus old-path/baseline accounting, no lost obligation.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T512",
+      "scenario": "Rename into workflow tree",
+      "independentExpectedObservation": "New workflow inclusion and source obligation retained.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T513",
+      "scenario": "Rename out of workflow tree",
+      "independentExpectedObservation": "Old workflow removal is not hidden by destination exclusion.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T514",
+      "scenario": "Revision selection vs dirty checkout",
+      "independentExpectedObservation": "Committed claim stays bound to base/head blobs, not incidental current edits.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T515",
+      "scenario": "Partial staging / different bytes",
+      "independentExpectedObservation": "Index and working identities distinguishable; no false claim to review both from one name.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T516",
+      "scenario": "Index-only then absent on disk",
+      "independentExpectedObservation": "Canonical/legacy difference recorded; missing required content remains a gap.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T517",
+      "scenario": "Unrelated `.github` paths",
+      "independentExpectedObservation": "#820 does not silently broaden all `.github` coverage; actual required omissions dispositioned.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T518",
+      "scenario": "Repository ranking control",
+      "independentExpectedObservation": "General ranking exclusions remain as the installed native contract states.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": true,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T519",
+      "scenario": "Unsupported suffix / binary",
+      "independentExpectedObservation": "Controlled items excluded as characterised; exclusion is not a safety verdict.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T520",
+      "scenario": "Spaces, Unicode, supported case spellings",
+      "independentExpectedObservation": "Path identity preserved without trimming, case folding or display-quote corruption.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T521",
+      "scenario": "CR/LF path or unrepresentable name",
+      "independentExpectedObservation": "Explicit unsupported/error result; no split/fabricated path. Conditional on host support.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": true,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T522",
+      "scenario": "Symlink/type-change/conflict",
+      "independentExpectedObservation": "Native behavior characterised without path escape; unhandled status is not silently complete.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": true,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T523",
+      "scenario": "Legitimately empty change",
+      "independentExpectedObservation": "Empty result recognised only when independent E is empty; no vulnerability verdict.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T524",
+      "scenario": "Missing helper/runtime, bad ref or unreadable input",
+      "independentExpectedObservation": "Nonzero/unavailable retained; no previous output substituted.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T525",
+      "scenario": "Output failure or reused artifact",
+      "independentExpectedObservation": "Original evidence preserved; failed attempt does not inherit a previous success.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T526",
+      "scenario": "Target/control/plugin movement",
+      "independentExpectedObservation": "A relevant change invalidates affected qualification; no stale claim.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T527",
+      "scenario": "Equal counts, different paths",
+      "independentExpectedObservation": "Exact-set negative control detects substitution/missing workflow despite equal totals.",
+      "layer": "comparison-oracle",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T528",
+      "scenario": "Applicable legacy selector",
+      "independentExpectedObservation": "Common contract qualified separately; unsupported/unused route not guessed or emulated.",
+      "layer": "installed-native-selector",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": true,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T529",
+      "scenario": "Desktop prepared inventory and all pages",
+      "independentExpectedObservation": "Authoritative scan target and every page reconcile; count/first page alone insufficient.",
+      "layer": "desktop-route",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": true,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T530",
+      "scenario": "Other omissions and R2 alternative",
+      "independentExpectedObservation": "#820 pass does not retire unrelated omissions or grant R0/R1 exception to R2/R3.",
+      "layer": "policy-and-evidence",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T531",
+      "scenario": "Windows artifact independence",
+      "independentExpectedObservation": "Selection pass cannot retire I/O procedure; actual new-scan writer/finalisation evidence required for its retirement.",
+      "layer": "policy-and-evidence",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": true,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    },
+    {
+      "id": "T532",
+      "scenario": "Native evidence and final handoff",
+      "independentExpectedObservation": "Original runs/bundles intact; each qualified or pending cause has evidence, owner and next step.",
+      "layer": "policy-and-evidence",
+      "status": "not-run",
+      "actualEvidence": null,
+      "conditional": false,
+      "note": "Proposed qualification. The separately executed synthetic Git/oracle check is not evidence that this scenario passed."
+    }
+  ],
+  "operationalExercises": [
+    {
+      "id": "O51",
+      "name": "Next useful authorised native diff assessment",
+      "status": "not-run",
+      "requiredEvidence": "Actual bound target, prepared inventory and all pages, required coverage, writer and native assessment status."
+    },
+    {
+      "id": "O52",
+      "name": "Separate Windows artifact-workaround retirement, only when pursued",
+      "status": "not-run",
+      "requiredEvidence": "Fresh actual native scan/writer without workaround, finalisation and retained/restarted retrieval as accepted."
+    }
+  ]
+}

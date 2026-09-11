@@ -1,0 +1,90 @@
+{
+  "kind": "published-reproduction-transcriptions",
+  "preparedOn": "2026-09-10",
+  "notAnInstalledProbeCasesFile": true,
+  "note": "Does not match the existing {id, command, expectedDecision} native probe input contract. Do not pass this planning manifest to that CLI.",
+  "cases": [
+    {
+      "id": "C4-PS",
+      "file": "reproductions/issue-30-powershell-command.ps1.txt",
+      "sourceReference": "R01",
+      "sourceUrl": "https://github.com/Hadden-Industries/universal-ontology/issues/30",
+      "role": "Full published benign PowerShell/Python inventory command",
+      "reportedRequestedShell": "PowerShell workspace; exact original dispatch parameters not supplied",
+      "reportedLogin": null,
+      "historicalHookRawSha256": null,
+      "historicalDiagnosticComparisons": [
+        {
+          "dialect": "unknown",
+          "reportedDecision": "deny",
+          "reportedProcessExitCode": 0,
+          "reportedRule": "windows.filesystem:windows-filesystem-semantic-unverified"
+        },
+        {
+          "dialect": "ps",
+          "reportedDecision": "allow",
+          "reportedProcessExitCode": 0,
+          "reportedRule": null
+        },
+        {
+          "dialect": "cmd",
+          "reportedDecision": "deny",
+          "reportedProcessExitCode": 0,
+          "reportedRule": "windows.filesystem:windows-filesystem-semantic-unverified"
+        }
+      ],
+      "unresolved": [
+        "Original raw hook envelope",
+        "Original host build and effective context",
+        "Minimum failure-preserving input",
+        "Actual current protected-host qualification"
+      ],
+      "transcriptionSha256": "f589a12b56fc735790968a03480926ce17bb087864fb2a45284eee5f2a9f91de",
+      "transcriptionByteLength": 2463,
+      "representation": "UTF-8 without BOM; LF and a final LF chosen for this package. Not original dispatch bytes.",
+      "permittedUseInThisPackage": "Text data for review/diagnostic preparation only; not permission to execute.",
+      "currentExecutionStatus": "not-run"
+    },
+    {
+      "id": "C4-CMD",
+      "file": "reproductions/issue-30-webvowl-blocked-command.cmd.txt",
+      "sourceReference": "R02",
+      "sourceUrl": "https://github.com/Hadden-Industries/universal-ontology/issues/30#issuecomment-5600691267",
+      "role": "Full published blocked cmd/ripgrep search",
+      "reportedRequestedShell": "C:\\Windows\\System32\\cmd.exe",
+      "reportedLogin": false,
+      "historicalHookRawSha256": null,
+      "reportedReason": "PowerShell substitution contains comment syntax that dcg cannot statically disambiguate",
+      "reportedRule": null,
+      "unresolved": [
+        "Correct intended regex quoting",
+        "Original raw hook envelope",
+        "Native binary identity for this occurrence",
+        "Same cause as C4-PS not established"
+      ],
+      "transcriptionSha256": "09a03bddbece3f0fef6412125eed9f9e5e84d05b9b2c7f4c92ca833d829fe11f",
+      "transcriptionByteLength": 109,
+      "representation": "UTF-8 without BOM; LF and a final LF chosen for this package. Not original dispatch bytes.",
+      "permittedUseInThisPackage": "Text data for review/diagnostic preparation only; not permission to execute.",
+      "currentExecutionStatus": "not-run"
+    },
+    {
+      "id": "C4-CMD-CONTROL",
+      "file": "reproductions/issue-30-webvowl-reduced-control.cmd.txt",
+      "sourceReference": "R02",
+      "sourceUrl": "https://github.com/Hadden-Industries/universal-ontology/issues/30#issuecomment-5600691267",
+      "role": "Published successful reduced comparison, not semantically equivalent to C4-CMD",
+      "reportedRequestedShell": "C:\\Windows\\System32\\cmd.exe",
+      "reportedLogin": false,
+      "historicalHookRawSha256": null,
+      "reportedOutcome": "The comment reports successful execution of this reduced read-only search.",
+      "equivalenceToOriginalClaimed": false,
+      "transcriptionSha256": "fb487edb25b1c290ad2d4c74db24d087833ccd82d5e3b9f5f783a4f3e7756ba0",
+      "transcriptionByteLength": 95,
+      "representation": "UTF-8 without BOM; LF and a final LF chosen for this package. Not original dispatch bytes.",
+      "permittedUseInThisPackage": "Text data for review/diagnostic preparation only; not permission to execute.",
+      "currentExecutionStatus": "not-run"
+    }
+  ],
+  "unavailableHistoricalControls": "The eight smaller PowerShell control descriptions have no complete command bytes in Issue #30. None are manufactured here."
+}

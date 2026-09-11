@@ -1,0 +1,1307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Proposed WP3 resource-disposition input and retained handoff record",
+  "description": "Project proposal, not an installed format. Structural validation cannot authenticate authority, resolve references, prove record-graph integrity, establish path safety or perform preservation/removal readback. The native recorder owns record identity, timestamp, input digest, scope and confirmationObservation; user declarations cannot substitute for those observations. No field authorises executable deletion.",
+  "$comment": "Adopt only after exact approval. Reuse the existing repository Draft202012Validator/FormatChecker; no new dependency or network schema retrieval. Unknown fields reject. The root oneOf distinguishes caller input from writer output. Cross-record/path/identity constraints in the plan remain runtime checks.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/stored"
+    }
+  ],
+  "$defs": {
+    "consumer": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "state": {
+          "enum": [
+            "required",
+            "released",
+            "unknown"
+          ]
+        },
+        "releaseEvidenceReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "reference",
+        "state",
+        "releaseEvidenceReference"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "released"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "releaseEvidenceReference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "preservation": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "required",
+            "not-required",
+            "incomplete",
+            "verified"
+          ]
+        },
+        "locationReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "readbackReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "independentOfDisposedTree": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "state",
+        "locationReference",
+        "readbackReference",
+        "independentOfDisposedTree",
+        "reason"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "verified"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "locationReference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "readbackReference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "independentOfDisposedTree": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    "blocker": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "ownership",
+            "consumer",
+            "preservation",
+            "retention",
+            "nested-resource",
+            "identity",
+            "guard",
+            "permission",
+            "verification",
+            "other"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "description",
+        "reference"
+      ],
+      "additionalProperties": false
+    },
+    "candidate": {
+      "type": "object",
+      "properties": {
+        "head": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}([0-9a-f]{24})?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inputsReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "head",
+        "observedAt",
+        "inputsReference"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "head": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "observedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "operation": {
+      "type": "object",
+      "properties": {
+        "operationReference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "authorityReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "denied",
+            "failed",
+            "succeeded"
+          ]
+        },
+        "commandText": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "denialRule": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operatorRequestReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "permissionError": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "operationReference",
+        "authorityReference",
+        "outcome",
+        "commandText",
+        "denialRule",
+        "operatorRequestReference",
+        "permissionError"
+      ],
+      "additionalProperties": false
+    },
+    "memberObservation": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "registration": {
+          "enum": [
+            "absent",
+            "present",
+            "unknown",
+            "not-applicable"
+          ]
+        },
+        "filesystem": {
+          "enum": [
+            "absent",
+            "present",
+            "unknown"
+          ]
+        },
+        "containingLocationAccessible": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "registration",
+        "filesystem",
+        "containingLocationAccessible"
+      ],
+      "additionalProperties": false
+    },
+    "readback": {
+      "type": "object",
+      "properties": {
+        "observedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "observedBy": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "inventoryReference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "filesystemReference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "evidenceReadbackReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "members": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/memberObservation"
+          }
+        }
+      },
+      "required": [
+        "observedAt",
+        "observedBy",
+        "inventoryReference",
+        "filesystemReference",
+        "evidenceReadbackReference",
+        "members"
+      ],
+      "additionalProperties": false
+    },
+    "entry": {
+      "type": "object",
+      "properties": {
+        "resourceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{32}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "supersedes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{32}$"
+          }
+        },
+        "kind": {
+          "enum": [
+            "worktree",
+            "owned-directory-group"
+          ]
+        },
+        "host": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "locations": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "identityReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "owningTaskReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "owningTaskId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{32}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coordinator": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "nextActor": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "candidate": {
+          "$ref": "#/$defs/candidate"
+        },
+        "consumers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/consumer"
+          }
+        },
+        "preservation": {
+          "$ref": "#/$defs/preservation"
+        },
+        "disposition": {
+          "enum": [
+            "held",
+            "retained-for-consumer",
+            "preserved-pending-review",
+            "operator-blocked",
+            "eligible-for-approved-removal",
+            "removed-confirmed"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/blocker"
+          }
+        },
+        "reassessment": {
+          "type": "object",
+          "properties": {
+            "event": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "reviewAt": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "event",
+            "reviewAt"
+          ],
+          "additionalProperties": false
+        },
+        "inspectionReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "assessmentReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "disposalAuthorityReference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/operation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "postRemovalReadback": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/readback"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "resourceId",
+        "supersedes",
+        "kind",
+        "host",
+        "locations",
+        "identityReference",
+        "owningTaskReference",
+        "owningTaskId",
+        "owner",
+        "coordinator",
+        "nextActor",
+        "purpose",
+        "candidate",
+        "consumers",
+        "preservation",
+        "disposition",
+        "rationale",
+        "blockers",
+        "reassessment",
+        "inspectionReference",
+        "assessmentReference",
+        "disposalAuthorityReference",
+        "operation",
+        "postRemovalReadback"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "worktree"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "locations": {
+                "maxItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "resourceId": {
+                "const": null
+              }
+            },
+            "required": [
+              "resourceId"
+            ]
+          },
+          "then": {
+            "properties": {
+              "supersedes": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "held"
+              }
+            },
+            "required": [
+              "disposition"
+            ]
+          },
+          "then": {
+            "properties": {
+              "blockers": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "retained-for-consumer"
+              }
+            },
+            "required": [
+              "disposition"
+            ]
+          },
+          "then": {
+            "properties": {
+              "consumers": {
+                "contains": {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "required",
+                        "unknown"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "preserved-pending-review"
+              }
+            },
+            "required": [
+              "disposition"
+            ]
+          },
+          "then": {
+            "properties": {
+              "preservation": {
+                "properties": {
+                  "state": {
+                    "const": "verified"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "operator-blocked"
+              }
+            },
+            "required": [
+              "disposition"
+            ]
+          },
+          "then": {
+            "properties": {
+              "operation": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/operation"
+                  },
+                  {
+                    "properties": {
+                      "outcome": {
+                        "const": "denied"
+                      },
+                      "operatorRequestReference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "anyOf": [
+                      {
+                        "properties": {
+                          "denialRule": {
+                            "type": "string",
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        }
+                      },
+                      {
+                        "properties": {
+                          "permissionError": {
+                            "type": "string",
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "blockers": {
+                "contains": {
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "guard",
+                        "permission"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "owner": {
+                "type": "null"
+              },
+              "disposalAuthorityReference": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "disposition": {
+                "enum": [
+                  "held",
+                  "operator-blocked"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "enum": [
+                  "eligible-for-approved-removal",
+                  "removed-confirmed"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "blockers": {
+                "maxItems": 0
+              },
+              "consumers": {
+                "items": {
+                  "properties": {
+                    "state": {
+                      "const": "released"
+                    },
+                    "releaseEvidenceReference": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    }
+                  }
+                }
+              },
+              "preservation": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "verified",
+                      "not-required"
+                    ]
+                  }
+                }
+              },
+              "inspectionReference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "assessmentReference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "removed-confirmed"
+              }
+            },
+            "required": [
+              "disposition"
+            ]
+          },
+          "then": {
+            "properties": {
+              "operation": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/operation"
+                  },
+                  {
+                    "properties": {
+                      "outcome": {
+                        "const": "succeeded"
+                      },
+                      "authorityReference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                ]
+              },
+              "postRemovalReadback": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/readback"
+                  },
+                  {
+                    "properties": {
+                      "members": {
+                        "items": {
+                          "properties": {
+                            "registration": {
+                              "enum": [
+                                "absent",
+                                "not-applicable"
+                              ]
+                            },
+                            "filesystem": {
+                              "const": "absent"
+                            },
+                            "containingLocationAccessible": {
+                              "const": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "worktree"
+              },
+              "disposition": {
+                "const": "removed-confirmed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "postRemovalReadback": {
+                "properties": {
+                  "members": {
+                    "maxItems": 1,
+                    "items": {
+                      "properties": {
+                        "registration": {
+                          "const": "absent"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "preservation": {
+                "properties": {
+                  "state": {
+                    "const": "verified"
+                  }
+                }
+              },
+              "disposition": {
+                "const": "removed-confirmed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "postRemovalReadback": {
+                "properties": {
+                  "evidenceReadbackReference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "input": {
+      "type": "object",
+      "properties": {
+        "recordType": {
+          "const": "resource-disposition-input"
+        },
+        "schemaVersion": {
+          "const": 1
+        },
+        "coordinationReference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "recordedBy": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "recordingAuthorityReference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "decisionReference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "entry": {
+          "$ref": "#/$defs/entry"
+        }
+      },
+      "required": [
+        "recordType",
+        "schemaVersion",
+        "coordinationReference",
+        "recordedBy",
+        "recordingAuthorityReference",
+        "decisionReference",
+        "entry"
+      ],
+      "additionalProperties": false
+    },
+    "stored": {
+      "type": "object",
+      "properties": {
+        "recordType": {
+          "const": "resource-disposition"
+        },
+        "schemaVersion": {
+          "const": 1
+        },
+        "coordinationReference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "recordedBy": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "recordingAuthorityReference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "decisionReference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "recordId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "recordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "inputSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "coordinatorRoot": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "gitCommonDirectory": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "host": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          },
+          "required": [
+            "coordinatorRoot",
+            "gitCommonDirectory",
+            "host"
+          ],
+          "additionalProperties": false
+        },
+        "entry": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/entry"
+            },
+            {
+              "properties": {
+                "resourceId": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{32}$"
+                }
+              }
+            }
+          ]
+        },
+        "confirmationObservation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/readback"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "recordType",
+        "schemaVersion",
+        "coordinationReference",
+        "recordedBy",
+        "recordingAuthorityReference",
+        "decisionReference",
+        "recordId",
+        "recordedAt",
+        "inputSha256",
+        "scope",
+        "entry",
+        "confirmationObservation"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "entry": {
+                "properties": {
+                  "disposition": {
+                    "const": "removed-confirmed"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "confirmationObservation": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/readback"
+                  },
+                  {
+                    "properties": {
+                      "members": {
+                        "items": {
+                          "properties": {
+                            "registration": {
+                              "enum": [
+                                "absent",
+                                "not-applicable"
+                              ]
+                            },
+                            "filesystem": {
+                              "const": "absent"
+                            },
+                            "containingLocationAccessible": {
+                              "const": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "confirmationObservation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entry": {
+                "properties": {
+                  "kind": {
+                    "const": "worktree"
+                  },
+                  "disposition": {
+                    "const": "removed-confirmed"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "confirmationObservation": {
+                "properties": {
+                  "members": {
+                    "maxItems": 1,
+                    "items": {
+                      "properties": {
+                        "registration": {
+                          "const": "absent"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

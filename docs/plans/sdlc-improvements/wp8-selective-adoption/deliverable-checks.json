@@ -1,0 +1,155 @@
+{
+  "documentKind": "WP8 planning-file checks only",
+  "checkedAt": "2026-09-10T22:37:04.123347+00:00",
+  "implementationTestsExecuted": false,
+  "productOrHostQualification": false,
+  "inputPreservationChecked": true,
+  "passed": true,
+  "counts": {
+    "passed": 26,
+    "failed": 0,
+    "not-checked": 0
+  },
+  "checks": [
+    {
+      "check": "Required payload files exist",
+      "result": "passed",
+      "detail": "Checks planning-package file existence, not completeness of implementation."
+    },
+    {
+      "check": "Payloads decode as UTF-8",
+      "result": "passed",
+      "detail": "Readability only; semantic source text was not normalised by this check."
+    },
+    {
+      "check": "JSON payloads are objects",
+      "result": "passed",
+      "detail": "Native JSON parsing; not an SDLC schema validation."
+    },
+    {
+      "check": "36 scenario IDs are unique and contiguous",
+      "result": "passed",
+      "detail": "T801 through T836 are the declared planning catalogue."
+    },
+    {
+      "check": "Every scenario remains not-run",
+      "result": "passed",
+      "detail": "No planned product check is relabelled as an executed research check."
+    },
+    {
+      "check": "Every scenario has the defined planning fields",
+      "result": "passed",
+      "detail": "Presence of a proposed oracle does not prove its quality or execution."
+    },
+    {
+      "check": "Twelve unique acceptance definitions",
+      "result": "passed",
+      "detail": "AC8-01 through AC8-12 occur in the acceptance table."
+    },
+    {
+      "check": "Scenario acceptance references resolve",
+      "result": "passed",
+      "detail": "Structural traceability only, not fulfillment."
+    },
+    {
+      "check": "Four operational IDs and statuses agree",
+      "result": "passed",
+      "detail": "Useful-work exercises have not been performed for this deliverable."
+    },
+    {
+      "check": "All acceptance criteria have catalogue coverage",
+      "result": "passed",
+      "detail": "Coverage is planned, not tested."
+    },
+    {
+      "check": "Eight unique implementation slices",
+      "result": "passed",
+      "detail": "The prose decomposition matches the stated slice count."
+    },
+    {
+      "check": "Parent A06 and A14 explicit",
+      "result": "passed",
+      "detail": "Both parent acceptance boundaries remain named."
+    },
+    {
+      "check": "Source identifiers resolve",
+      "result": "passed",
+      "detail": "Source register exists for cited identifiers; this script makes no network requests."
+    },
+    {
+      "check": "Source identifiers unique",
+      "result": "passed",
+      "detail": "No duplicate source identity aliases."
+    },
+    {
+      "check": "Relative WP8 document links resolve",
+      "result": "passed",
+      "detail": "Companions are present; external links are not availability-tested."
+    },
+    {
+      "check": "Fenced blocks are balanced",
+      "result": "passed",
+      "detail": "Simple formatting integrity only."
+    },
+    {
+      "check": "UO research pin consistent",
+      "result": "passed",
+      "detail": "Current at the research read, not a future ref assertion."
+    },
+    {
+      "check": "WebVOWL research pin consistent",
+      "result": "passed",
+      "detail": "Recorded immutable source identity occurs in plan."
+    },
+    {
+      "check": "ONI head/base pins consistent",
+      "result": "passed",
+      "detail": "The stale PR description is not the selected head."
+    },
+    {
+      "check": "Separate product and linkage observations",
+      "result": "passed",
+      "detail": "Checks consistency of the curated observation, not a fresh API read."
+    },
+    {
+      "check": "Ten recorded product jobs with actual-step success",
+      "result": "passed",
+      "detail": "Metadata readback is not independent inspection of produced archive contents."
+    },
+    {
+      "check": "Actual header-contract distinction retained",
+      "result": "passed",
+      "detail": "Preserves researched contract instead of copying an obsolete implementation prescription."
+    },
+    {
+      "check": "Not an implementation or runtime schema",
+      "result": "passed",
+      "detail": "Planning catalogue and research evidence explicitly limit their claims."
+    },
+    {
+      "check": "Archive and user-input gaps are explicit",
+      "result": "passed",
+      "detail": "A missing actual description is not replaced silently with a synthetic one."
+    },
+    {
+      "check": "Complete original-input identity list retained",
+      "result": "passed",
+      "detail": "41 supplied files existed before WP8 creation; no source copies are included in the ZIP."
+    },
+    {
+      "check": "All original supplied inputs unchanged",
+      "result": "passed",
+      "detail": "Compared all 41 original input files. Mismatches: []"
+    }
+  ],
+  "checkedPayloads": {
+    "wp8-product-closure-and-selective-adoption-implementation-plan-2026-09-11.md": "f1823feaae360887b6b3470f8c26a27d9a7c7826d1e70212b39e1d32fdfdcf06",
+    "wp8-verification-catalogue.proposed.json": "ee76c26a9807281456bf6cd2e81bbcae7be38a57fc4ed0b3d8f68d3cbb15c857",
+    "wp8-research-observations-2026-09-11.json": "ce010da96e5b080727067e2ccbde9490a464b0c78941e438df900f31ebdfc7bd",
+    "wp8-input-identities-2026-09-11.json": "bfb36ffc9c515e9d743dfe096c4903fa2b23c08c4d5a403c252c0994146ddc1b",
+    "wp8-README.md": "38c174047187f7e95f8b8d3f25ca1ebea5fca888bd6e7acca895d1410e0fbfdd",
+    "wp8-adoption-and-integration-worksheet.proposed.md": "d5c71420c806a27b561b5a8e9744f91f3d6adc3ea6c2394e6d4233cf90cd8506",
+    "wp8-adoption-record-amendments.proposed.md": "3b248dff8569f13373b2b1ebdb7d134a6f6cd7598dbbbcce1faccd544696e0f7",
+    "wp8-check-deliverables.py": "76c97d253c47e95bf5c2e59ae9d38b55ef02a1cd38ae107d677b0a0f4194e8b1"
+  }
+}

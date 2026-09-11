@@ -1,0 +1,65 @@
+{
+  "kind": "wp6-package-integrity",
+  "algorithm": "sha256",
+  "files": [
+    {
+      "path": "wp6-trusted-baseline-and-preflight-implementation-plan-2026-09-10.md",
+      "bytes": 73777,
+      "sha256": "21923f8abc7f1644e39ede0da8a40e05813f3dcabe851846a2b64c9db0ed4e5e"
+    },
+    {
+      "path": "wp6-policy-amendments.proposed.md",
+      "bytes": 14325,
+      "sha256": "002c4531b8f247716748f8f43e42db8f46523ebcf8c3d7de469970d7e22f64ff"
+    },
+    {
+      "path": "wp6-preflight-and-remote-handoff.proposed.md",
+      "bytes": 14942,
+      "sha256": "88ae71d6bd65252c5dc765a2d969a980bf87f11863a80d51de1d1efbe5f80dba"
+    },
+    {
+      "path": "wp6-verification-catalogue.proposed.json",
+      "bytes": 16253,
+      "sha256": "e2307664d2785fbffe923dc8bfdc9d35d7de5b87e67ea050de703570bead14b5"
+    },
+    {
+      "path": "wp6-remote-observations-2026-09-10.json",
+      "bytes": 3641,
+      "sha256": "a7eea64e25f7930d2613030a1bd82a75282b64dcd6931d43935b6d752e90b0c2"
+    },
+    {
+      "path": "wp6-baseline-boundary-check-2026-09-10.json",
+      "bytes": 8805,
+      "sha256": "ecfded3b953a580f7739971ea1e98911f0791c6a9abf6a5835b94c77542728ef"
+    },
+    {
+      "path": "wp6-artifact-checks-2026-09-10.json",
+      "bytes": 6394,
+      "sha256": "2fb52da4741a92d0b23ec234724a82ea4ec23e4114ebb397b336639433030bd2"
+    },
+    {
+      "path": "wp6-support/baseline-boundary-probe.py",
+      "bytes": 8839,
+      "sha256": "6d84eba6c41501a1617c0bc1adb442cd304d7a9d317501e27be274aa034ce1b9"
+    },
+    {
+      "path": "wp6-support/check_artifacts.py",
+      "bytes": 7406,
+      "sha256": "1f1c7b01da0299944bdd669dfb114a1c391a7178ed2488f3abbffc05129b84e7"
+    },
+    {
+      "path": "wp6-support/artifact-check-initial-failure.json",
+      "bytes": 411,
+      "sha256": "ab839eba5bc5a08d07204accc19ab381e7e21edda4c82437510b0428015eea15"
+    },
+    {
+      "path": "wp6-support/README.md",
+      "bytes": 1557,
+      "sha256": "197792581aeb1945e9c6fb71ab72ca88d0430f17ee952f8f1901072bd421dd18"
+    }
+  ],
+  "exclusions": [
+    "integrity-manifest.json cannot include its own checksum"
+  ],
+  "notAnAcceptanceRecord": true
+}

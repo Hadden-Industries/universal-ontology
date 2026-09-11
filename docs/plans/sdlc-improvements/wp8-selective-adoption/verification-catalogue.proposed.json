@@ -1,0 +1,611 @@
+{
+  "documentKind": "WP8 implementation verification catalogue",
+  "status": "proposal",
+  "preparedDate": "2026-09-11",
+  "parent": "sdlc-implementation-plan-2026-09-10.md",
+  "notAnSdlcRuntimeSchema": true,
+  "executionClaim": "No proposed test or operational exercise was executed for this planning deliverable.",
+  "scenarios": [
+    {
+      "id": "T801",
+      "title": "Current facts and selected scope",
+      "type": "inspection",
+      "acceptanceCriteria": [
+        "AC8-01",
+        "AC8-02"
+      ],
+      "status": "not-run",
+      "preconditions": "Current accepted task, refs, source decisions and historical parent observations.",
+      "procedure": "Read native refs and existing decisions; distinguish repaired, pending, superseded and unselected obligations.",
+      "independentOracle": "Pinned source/API observations plus actual owner scope, not a stale PR paragraph.",
+      "expectedResult": "No obsolete dependency repair or baseline-only deployment claim enters the plan.",
+      "evidenceRequired": "Current scope table and evidence links.",
+      "limitation": "A scope read is not authority for a repository write."
+    },
+    {
+      "id": "T802",
+      "title": "Source component qualification precedes adoption",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-03"
+      ],
+      "status": "not-run",
+      "preconditions": "A selected accepted source correction and its actual dependency closure.",
+      "procedure": "Inspect and run the relevant source regression and routed qualification before authorising its downstream candidate.",
+      "independentOracle": "Owning WP acceptance and independently specified failure/preservation assertion.",
+      "expectedResult": "Source failure blocks that component’s propagation; accepted prior unchanged evidence remains usable for its own scope.",
+      "evidenceRequired": "Exact source commit, native tests and independent review.",
+      "limitation": "Other unrelated work need not wait."
+    },
+    {
+      "id": "T803",
+      "title": "Three-way overlay conflict",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-04"
+      ],
+      "status": "not-run",
+      "preconditions": "Known per-file import B, selected U and current adopter D in owned fixtures.",
+      "procedure": "Apply the intended correction while D contains a relevant baseline/layout/command adaptation.",
+      "independentOracle": "Independently specified upstream fix and retained adopter behavior.",
+      "expectedResult": "Local overlay survives, or conflict is held; clean patch application alone is insufficient.",
+      "evidenceRequired": "B/U/D identities, diff, expected consumer outputs.",
+      "limitation": "No universal file synchronizer is being implemented."
+    },
+    {
+      "id": "T804",
+      "title": "Generated configuration versus host loading",
+      "type": "host",
+      "acceptanceCriteria": [
+        "AC8-04",
+        "AC8-10"
+      ],
+      "status": "not-run",
+      "preconditions": "Approved setup delta and known generated-file consumer.",
+      "procedure": "Use existing generation/check entry, then observe actual host loading only where authorised.",
+      "independentOracle": "Expected generated files and the actual used host/tool boundary.",
+      "expectedResult": "Generation may pass while host qualification remains pending; unrelated configuration stays unchanged.",
+      "evidenceRequired": "Before/after file identities and separate host evidence.",
+      "limitation": "Do not grant trust from a check command."
+    },
+    {
+      "id": "T805",
+      "title": "Receipt freshness survives selected port",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-04",
+        "AC8-10"
+      ],
+      "status": "not-run",
+      "preconditions": "Actual writer/reader/schema set and an owned passing task fixture.",
+      "procedure": "Change source, configuration or required command identity; inspect the existing completion reader.",
+      "independentOracle": "Expected changed input and exact configured-command contract.",
+      "expectedResult": "Old success cannot qualify the altered object.",
+      "evidenceRequired": "Original receipt, changed identity and actual rejection.",
+      "limitation": "No editing saved receipts or digests."
+    },
+    {
+      "id": "T806",
+      "title": "Historical receipt and coherent format boundary",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-04",
+        "AC8-10"
+      ],
+      "status": "not-run",
+      "preconditions": "Selected WP1 v3 adoption with retained older evidence.",
+      "procedure": "Run the actual v3 reader against historical v2/current mismatched evidence, then execute a fresh valid run.",
+      "independentOracle": "Owning receipt contract and immutable before bytes.",
+      "expectedResult": "Old evidence remains historical; only proper new compatible evidence qualifies.",
+      "evidenceRequired": "Preservation/readback and fresh native receipt.",
+      "limitation": "Not a new migration or compatibility fallback."
+    },
+    {
+      "id": "T807",
+      "title": "Execution ownership in an adopter",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-03",
+        "AC8-10"
+      ],
+      "status": "not-run",
+      "preconditions": "WP2 actually accepted and selected; owned fixture checkouts.",
+      "procedure": "Reuse its controlled competing-start and linked-worktree lifecycle regressions through adopter paths.",
+      "independentOracle": "Exactly one owner per physical checkout; independent linked worktree evidence.",
+      "expectedResult": "Existing ownership and failed histories survive; isolated checkouts can work independently.",
+      "evidenceRequired": "Actual process outputs and task/evidence identities.",
+      "limitation": "Conditional on selecting the real WP2 implementation; do not exercise old user worktrees."
+    },
+    {
+      "id": "T808",
+      "title": "Evidence snapshots stay out of product test discovery",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-04",
+        "AC8-11"
+      ],
+      "status": "not-run",
+      "preconditions": "Owned retained review snapshot and actual adopter test-discovery command.",
+      "procedure": "Inspect discovery under the approved archive/evidence placement; retain source inputs.",
+      "independentOracle": "Expected maintained test inventory, not snapshot filenames alone.",
+      "expectedResult": "No accidental duplicated suite or blanket evidence/input suppression.",
+      "evidenceRequired": "Discovery output and preserved archive identities.",
+      "limitation": "Do not change global test ignores to hide failed tests."
+    },
+    {
+      "id": "T809",
+      "title": "Explicit empty version is accepted at current owner",
+      "type": "regression",
+      "acceptanceCriteria": [
+        "AC8-05"
+      ],
+      "status": "not-run",
+      "preconditions": "Independent valid VOWL fixture with header.version empty string.",
+      "procedure": "Pass through the actual projector and snapshot constructor.",
+      "independentOracle": "Current string-or-null contract; exact class/metadata expectation independently authored.",
+      "expectedResult": "Loadable inspection snapshot preserves empty string and expected entity.",
+      "evidenceRequired": "Test output and source pin.",
+      "limitation": "Characterization if already passing; no mandated null rewrite."
+    },
+    {
+      "id": "T810",
+      "title": "Absent version remains optional",
+      "type": "regression",
+      "acceptanceCriteria": [
+        "AC8-05"
+      ],
+      "status": "not-run",
+      "preconditions": "Independently valid model without version plus a constructor-null case.",
+      "procedure": "Exercise actual projection/constructor.",
+      "independentOracle": "Expected optional metadata and unchanged entity/relationship facts.",
+      "expectedResult": "No invented version or rejection merely for absent metadata.",
+      "evidenceRequired": "Native assertions and resulting record.",
+      "limitation": "Does not weaken other required fields."
+    },
+    {
+      "id": "T811",
+      "title": "Explicit version Unicode/text preservation",
+      "type": "regression",
+      "acceptanceCriteria": [
+        "AC8-05"
+      ],
+      "status": "not-run",
+      "preconditions": "Valid header with independently chosen nonempty Unicode/space-bearing version.",
+      "procedure": "Construct/project with actual owner functions.",
+      "independentOracle": "Exact supplied version text.",
+      "expectedResult": "Preserve meaningful bytes/text under the accepted string contract.",
+      "evidenceRequired": "Expected versus actual value assertion.",
+      "limitation": "Do not normalize to make fixtures pass."
+    },
+    {
+      "id": "T812",
+      "title": "Invalid typed header rejects at its boundary",
+      "type": "regression",
+      "acceptanceCriteria": [
+        "AC8-05"
+      ],
+      "status": "not-run",
+      "preconditions": "Actual constructor fixture with number/object version or another invalid required header field.",
+      "procedure": "Invoke the real typed contract owner.",
+      "independentOracle": "Current type/field contract.",
+      "expectedResult": "Invalid constructor input rejects without making the whole header permissive.",
+      "evidenceRequired": "Observed rejection and preserved neighboring positive case.",
+      "limitation": "Do not invent a stricter projector rule than accepted."
+    },
+    {
+      "id": "T813",
+      "title": "Unexpected load failure is not cancellation",
+      "type": "regression",
+      "acceptanceCriteria": [
+        "AC8-05"
+      ],
+      "status": "not-run",
+      "preconditions": "Valid current generation; no abort; existing injected dependency throws an uncoded TypeError.",
+      "procedure": "Invoke actual controller replacement/load path and public result.",
+      "independentOracle": "LOAD_FAILED behavior and independently expected retained state for that seam.",
+      "expectedResult": "Truthful failure, not LOAD_ABORTED; no fabricated new ontology success.",
+      "evidenceRequired": "Public error and source/generation state assertions.",
+      "limitation": "No production failure-injection flag; private diagnostics stay private."
+    },
+    {
+      "id": "T814",
+      "title": "Cancellation and supersession remain cancellation",
+      "type": "regression",
+      "acceptanceCriteria": [
+        "AC8-05"
+      ],
+      "status": "not-run",
+      "preconditions": "Controlled pending load and actual accepted abort/supersession mechanism.",
+      "procedure": "Cancel and supersede using readiness barriers.",
+      "independentOracle": "Expected abort classification, winning generation and retained source.",
+      "expectedResult": "No stale completion overwrites current state; true abort does not become ordinary failure.",
+      "evidenceRequired": "Execution order, public results and final state.",
+      "limitation": "Timing-only sleeps are not decisive race evidence."
+    },
+    {
+      "id": "T815",
+      "title": "Coded fetch and parse failures keep their meaning",
+      "type": "regression",
+      "acceptanceCriteria": [
+        "AC8-05"
+      ],
+      "status": "not-run",
+      "preconditions": "Known fetch and parse failures supplied through supported dependency boundary.",
+      "procedure": "Exercise actual catch/projection paths.",
+      "independentOracle": "Expected existing error code and usable previous-source policy.",
+      "expectedResult": "Error not reclassified as generic cancellation or false success.",
+      "evidenceRequired": "Result plus generation/source assertions.",
+      "limitation": "Does not assert actual remote CORS behavior from a unit double."
+    },
+    {
+      "id": "T816",
+      "title": "Failed replacement retains only the accepted graph",
+      "type": "regression",
+      "acceptanceCriteria": [
+        "AC8-05"
+      ],
+      "status": "not-run",
+      "preconditions": "A visible accepted source and independently failing second replacement.",
+      "procedure": "Exercise failure before/after the relevant mount boundary using existing tests.",
+      "independentOracle": "Expected accepted generation/view and recovery result.",
+      "expectedResult": "Retained old graph is not reported as successful new load.",
+      "evidenceRequired": "Source identity, state and test result.",
+      "limitation": "Broader renderer redesign is not authorised."
+    },
+    {
+      "id": "T817",
+      "title": "Production bundle resolves shipped modules",
+      "type": "regression",
+      "acceptanceCriteria": [
+        "AC8-05",
+        "AC8-06"
+      ],
+      "status": "not-run",
+      "preconditions": "Actual Vite configuration and existing productionBundle integration test.",
+      "procedure": "Run the maintained production-link regression and applicable retained old-external negative control.",
+      "independentOracle": "Native emitted module graph must resolve using shipped chunks.",
+      "expectedResult": "No bare unshipped D3 import; original build assets and approved hooks preserved.",
+      "evidenceRequired": "Build/test output and unchanged-source/artifact observations.",
+      "limitation": "Module linking alone does not complete browser behavior."
+    },
+    {
+      "id": "T818",
+      "title": "Native built-candidate AQFO job",
+      "type": "product",
+      "acceptanceCriteria": [
+        "AC8-06"
+      ],
+      "status": "not-run",
+      "preconditions": "Frozen actual built candidate, authorised native host and verified pinned source.",
+      "procedure": "Load, resolve person, inspect relations, frame, export, retrieve, parse/open and deliver actual SVG.",
+      "independentOracle": "Independent RDF/XML facts, actual view and independently opened artifact.",
+      "expectedResult": "Correct source-grounded result or truthful failure at the precise boundary.",
+      "evidenceRequired": "Source/build/host identities, native results, SVG and delivery evidence.",
+      "limitation": "Honest failure is not positive product acceptance."
+    },
+    {
+      "id": "T819",
+      "title": "Reject misleading artifact success",
+      "type": "product",
+      "acceptanceCriteria": [
+        "AC8-06"
+      ],
+      "status": "not-run",
+      "preconditions": "Owned diagnostic cases for HTML/missing Blob, wrong generation or best-effort layout.",
+      "procedure": "Apply the actual artifact consumer checks to the returned output.",
+      "independentOracle": "Media/XML/source/layout identity independently inspected.",
+      "expectedResult": "Wrong content never called SVG; timeout/best-effort never called settled; attachment gap explicit.",
+      "evidenceRequired": "Original failed output and diagnostic.",
+      "limitation": "No generated replacement diagram."
+    },
+    {
+      "id": "T820",
+      "title": "Current native dependency result",
+      "type": "remote-readback",
+      "acceptanceCriteria": [
+        "AC8-02",
+        "AC8-07"
+      ],
+      "status": "not-run",
+      "preconditions": "Exact current PR target and all relevant workflow family observations.",
+      "procedure": "Inspect dependency action and exact attempt; compare historical failure/repair/new result.",
+      "independentOracle": "Actual job/step identity and current scope.",
+      "expectedResult": "Latest observed native pass recorded without reopening old repair; new failure remains held.",
+      "evidenceRequired": "Run/attempt/job and decision reference.",
+      "limitation": "Pass on a prior candidate is historical."
+    },
+    {
+      "id": "T821",
+      "title": "Comparator retirement preserves historical evidence",
+      "type": "preservation",
+      "acceptanceCriteria": [
+        "AC8-07",
+        "AC8-11"
+      ],
+      "status": "not-run",
+      "preconditions": "Accepted retirement, historical report and four retained providers.",
+      "procedure": "Inspect preserved history/current source; reuse or rerun applicable equivalence verification under authority.",
+      "independentOracle": "Original historical bytes and independently retained 200-result subset/corpus.",
+      "expectedResult": "Retired executable not restored; historical 250 results not labelled fresh current output.",
+      "evidenceRequired": "Report/source identities and consumer disposition.",
+      "limitation": "Recovery installation is not active tooling."
+    },
+    {
+      "id": "T822",
+      "title": "Installed archive rather than development source",
+      "type": "product",
+      "acceptanceCriteria": [
+        "AC8-08"
+      ],
+      "status": "not-run",
+      "preconditions": "Approved exact .tgz and independent consumer outside source ancestry.",
+      "procedure": "Use native package consumer/install; inspect resolved API/CLI and installed graph.",
+      "independentOracle": "Exact archive identity and expected package paths/content.",
+      "expectedResult": "Missing packed file or source-link fallback is detected; actual installed graph retained.",
+      "evidenceRequired": "Archive hash, install/resolution and package-content evidence.",
+      "limitation": "No unapproved registry publishing or global install."
+    },
+    {
+      "id": "T823",
+      "title": "Real-description API semantics",
+      "type": "product",
+      "acceptanceCriteria": [
+        "AC8-08"
+      ],
+      "status": "not-run",
+      "preconditions": "Actual accepted description bytes, profile and independent expectations.",
+      "procedure": "Convert with installed public API and inspect required literals, structure and diagnostics.",
+      "independentOracle": "Source/registry-grounded expected semantic details, not generated output as oracle.",
+      "expectedResult": "Required behavior and declared loss preserved; unknown real input remains pending.",
+      "evidenceRequired": "Input identity, output, diagnostics and assertions.",
+      "limitation": "Does not require an unaccepted universal round trip."
+    },
+    {
+      "id": "T824",
+      "title": "Installed CLI and declared types",
+      "type": "product",
+      "acceptanceCriteria": [
+        "AC8-08"
+      ],
+      "status": "not-run",
+      "preconditions": "Same archive/real input and supported selected compiler; actual CLI help contract.",
+      "procedure": "Run installed CLI, invalid-input control and applicable generated-declaration consumer.",
+      "independentOracle": "Accepted API/CLI/type contract and actual process result.",
+      "expectedResult": "Expected output and truthful status; installed declarations usable without undeclared source path.",
+      "evidenceRequired": "Commands/results, output identity and compiler/runtime.",
+      "limitation": "No invented CLI switches or replaced compiler role."
+    },
+    {
+      "id": "T825",
+      "title": "New dependency failure cannot be suppressed for adoption",
+      "type": "decision",
+      "acceptanceCriteria": [
+        "AC8-07",
+        "AC8-10"
+      ],
+      "status": "not-run",
+      "preconditions": "An actual new advisory/gate failure or an explicitly labelled policy exercise.",
+      "procedure": "Apply the existing dependency decision route.",
+      "independentOracle": "Exact native scope/threshold and accountable accepted disposition.",
+      "expectedResult": "No blanket scope/severity lowering or prior-advisory exemption.",
+      "evidenceRequired": "Failure, decision and required new verification.",
+      "limitation": "A policy exercise is not a live dependency finding."
+    },
+    {
+      "id": "T826",
+      "title": "Local delivery is not remote publication",
+      "type": "decision",
+      "acceptanceCriteria": [
+        "AC8-01",
+        "AC8-08"
+      ],
+      "status": "not-run",
+      "preconditions": "Current local-only or separately bounded publication authority.",
+      "procedure": "Review proposed archive, rendering, PR/CI and destination actions.",
+      "independentOracle": "Actual scope/permission decision.",
+      "expectedResult": "Local results remain usable; unauthorised pushes/dispatches/publication are not performed.",
+      "evidenceRequired": "Handoff with action-specific authority and limits.",
+      "limitation": "Past authorised push is not future blanket permission."
+    },
+    {
+      "id": "T827",
+      "title": "Combined integration admission",
+      "type": "inspection",
+      "acceptanceCriteria": [
+        "AC8-01",
+        "AC8-09"
+      ],
+      "status": "not-run",
+      "preconditions": "Real MCP/SHACL owner handoffs and accepted source context.",
+      "procedure": "Inspect readiness and bind exact implementation identities.",
+      "independentOracle": "Actual accepted implementations, not a proposal branch or untracked file count.",
+      "expectedResult": "Missing side/authority yields named pending integration; no invented merged SHA.",
+      "evidenceRequired": "Input/owner table and next event.",
+      "limitation": "Independent product/adoption work can continue."
+    },
+    {
+      "id": "T828",
+      "title": "Staged and context-specific SHACL input",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-09"
+      ],
+      "status": "not-run",
+      "preconditions": "Accepted implemented staged/context contract and owned differing staged/working fixture.",
+      "procedure": "Validate the selected actual source context through native entry.",
+      "independentOracle": "Independent source bytes/context and expected valid/violating case.",
+      "expectedResult": "No silent working-file substitution or mixed release context.",
+      "evidenceRequired": "Input/object IDs, command and focused result.",
+      "limitation": "Conditional on the accepted SHACL contract, not activation of draft policy."
+    },
+    {
+      "id": "T829",
+      "title": "Context graph, audit scope and target count",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-09"
+      ],
+      "status": "not-run",
+      "preconditions": "Accepted changed-only/full-audit rules and independently authored cross-module/legacy fixtures.",
+      "procedure": "Exercise conforming, cross-file violation, untouched legacy and zero-target/unavailable cases.",
+      "independentOracle": "Accepted rule/focus-node expectations from independent source facts.",
+      "expectedResult": "Scope and conformance reported truthfully; zero targets or unavailable graph not universal pass.",
+      "evidenceRequired": "Native reports, target scope and data/policy identities.",
+      "limitation": "Meta-SHACL and second-engine checks keep their distinct claims."
+    },
+    {
+      "id": "T830",
+      "title": "Validated source reaches actual MCP consumer",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-09"
+      ],
+      "status": "not-run",
+      "preconditions": "Combined accepted code, explicit data context and current generated/query artifacts.",
+      "procedure": "Trace an independently selected fact through validation, build/index and native MCP request.",
+      "independentOracle": "Independent entity/relationship fact and artifact source identities.",
+      "expectedResult": "Correct selected fact served; stale/missing artifact fails or remains explicit supported limitation.",
+      "evidenceRequired": "Source, output and MCP consumer result.",
+      "limitation": "Starting a server or missing-only generator exiting zero is insufficient."
+    },
+    {
+      "id": "T831",
+      "title": "Real combined R2 qualification",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-03",
+        "AC8-09"
+      ],
+      "status": "not-run",
+      "preconditions": "Final actual combined candidate and approved verification configuration.",
+      "procedure": "Run actual required full profile plus accepted SHACL/MCP/independent consumers.",
+      "independentOracle": "Owning accepted baseline and concrete product semantics.",
+      "expectedResult": "Required executed checks cover actual object; synthetic full fixture cannot substitute.",
+      "evidenceRequired": "Native receipt/raw outputs, semantic reports and reviewer.",
+      "limitation": "No release, Wiki or remote channel publication authority."
+    },
+    {
+      "id": "T832",
+      "title": "Combined identity movement invalidates earlier evidence",
+      "type": "integration",
+      "acceptanceCriteria": [
+        "AC8-09",
+        "AC8-10"
+      ],
+      "status": "not-run",
+      "preconditions": "Owned combined-state fixture with a legitimate passing receipt.",
+      "procedure": "Move relevant source, baseline or controls; exercise actual existing gate and consumer.",
+      "independentOracle": "Independently known changed identity.",
+      "expectedResult": "Incompatible branch/earlier evidence rejected; original history intact.",
+      "evidenceRequired": "Before/after identity and rejection/current verification.",
+      "limitation": "Do not reset task lineage or manually refresh digests."
+    },
+    {
+      "id": "T833",
+      "title": "Per-adopter effective host claim",
+      "type": "host",
+      "acceptanceCriteria": [
+        "AC8-10",
+        "AC8-12"
+      ],
+      "status": "not-run",
+      "preconditions": "Actual selected host, runtime, plugin/guard and approved scope.",
+      "procedure": "Exercise required adopted entry and supported guard/security/writer obligations or reuse exactly applicable evidence.",
+      "independentOracle": "Actual loaded/invoked identity and existing WP4/WP5 acceptance.",
+      "expectedResult": "Only observed scope is claimed; UI visibility/source merge not a capability pass.",
+      "evidenceRequired": "Host/tool identities, raw results and explicit gaps.",
+      "limitation": "No guard-disable test or unsafe destructive negative control."
+    },
+    {
+      "id": "T834",
+      "title": "Trusted policy and remote attempt identity",
+      "type": "remote-readback",
+      "acceptanceCriteria": [
+        "AC8-10"
+      ],
+      "status": "not-run",
+      "preconditions": "Approved trusted-consumer update and subsequent qualifying event where in scope.",
+      "procedure": "Read policy checkout, PR base/head, tested object, event/run/attempt and all relevant job families.",
+      "independentOracle": "Native workflow metadata/logs and accepted trusted-policy revision.",
+      "expectedResult": "Candidate policy not used to approve itself; product-green does not hide failed linkage.",
+      "evidenceRequired": "Exact policy/product revisions, jobs and remaining failure.",
+      "limitation": "Rerun of old event does not implicitly load new default-branch policy."
+    },
+    {
+      "id": "T835",
+      "title": "Failed propagation and compatible recovery",
+      "type": "recovery",
+      "acceptanceCriteria": [
+        "AC8-11"
+      ],
+      "status": "not-run",
+      "preconditions": "Owned test/example delta with a failing adopted contract and retained prior state.",
+      "procedure": "Exercise decision and bounded authorised forward-fix/revert procedure without deleting runtime.",
+      "independentOracle": "Known selected change and writer/reader compatibility obligations.",
+      "expectedResult": "Propagation stops; failed evidence/active ownership survive; incompatible old reader remains a hold.",
+      "evidenceRequired": "Failure, preserved state, decision and requalification.",
+      "limitation": "No hard reset or blanket rollback."
+    },
+    {
+      "id": "T836",
+      "title": "Evidence retrieval and outstanding resource ownership",
+      "type": "preservation",
+      "acceptanceCriteria": [
+        "AC8-11",
+        "AC8-12"
+      ],
+      "status": "not-run",
+      "preconditions": "Required bundles/resources, receiving maintainer and approved retained store.",
+      "procedure": "Read back required retained content; inspect held consumers/nested/guard-blocked disposition.",
+      "independentOracle": "Actual content identities and receiving-owner acknowledgement.",
+      "expectedResult": "Resources remain if preservation/release unresolved; next actor/event visible after task completion.",
+      "evidenceRequired": "Readback, existing adoption/handoff and resource obligations.",
+      "limitation": "Manifest or checksum alone is not recoverability; no deletion required."
+    }
+  ],
+  "operationalExercises": [
+    {
+      "id": "O81",
+      "title": "UO source and real combined integration",
+      "status": "not-run",
+      "acceptanceCriteria": [
+        "AC8-03",
+        "AC8-09",
+        "AC8-10"
+      ],
+      "requiredObservation": "Actual accepted implementations/context, final combined full and semantic consumer evidence; missing implementation remains pending."
+    },
+    {
+      "id": "O82",
+      "title": "WebVOWL actual AQFO artifact",
+      "status": "not-run",
+      "acceptanceCriteria": [
+        "AC8-05",
+        "AC8-06"
+      ],
+      "requiredObservation": "Native built-candidate source-grounded job, actual independently inspected SVG and exact delivery outcome."
+    },
+    {
+      "id": "O83",
+      "title": "ONI real installed description consumer",
+      "status": "not-run",
+      "acceptanceCriteria": [
+        "AC8-07",
+        "AC8-08"
+      ],
+      "requiredObservation": "Current dependency disposition and actual real-input archive/API/CLI/type/rendering scope."
+    },
+    {
+      "id": "O84",
+      "title": "Selective adopter and receiving-maintainer handoff",
+      "status": "not-run",
+      "acceptanceCriteria": [
+        "AC8-04",
+        "AC8-10",
+        "AC8-11",
+        "AC8-12"
+      ],
+      "requiredObservation": "Each selected adopter can identify its fix, overlays, actual host evidence, retrieval and next actor."
+    }
+  ]
+}

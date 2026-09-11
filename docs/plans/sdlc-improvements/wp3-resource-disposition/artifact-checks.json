@@ -1,0 +1,515 @@
+{
+  "recordType": "wp3-proposal-mechanical-checks",
+  "recordedAt": "2026-09-10T16:57:52.285527+00:00",
+  "environment": {
+    "system": "Linux",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+    "jsonschema": "4.26.0"
+  },
+  "executed": [
+    "Draft202012Validator.check_schema against proposed schema",
+    "Validation of eight synthetic input/stored examples",
+    "Independent malformed variants and explicit demonstrations of schema limits",
+    "SHA-256 identity of named local source and proposal files"
+  ],
+  "notExecuted": [
+    "The proposed record-resource-disposition CLI or new status view",
+    "Repository test catalogue T301-T336",
+    "Operational observations O31/O32",
+    "Windows, NTFS, PowerShell, Codex or DCG qualification",
+    "Worktree preservation, removal, operator notification or GitHub writes",
+    "Supersession graph, native inventory, path containment or live removal readback implementation"
+  ],
+  "schemaValidated": true,
+  "scenarioCount": 43,
+  "matchingExpectations": 43,
+  "scenarios": [
+    {
+      "name": "example:eligible-assessment.input",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "example:held.input",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "example:held.stored",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "example:operator-blocked.input",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "example:preserved-pending-review.input",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "example:removed-confirmation.input",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "example:removed-confirmation.stored",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "example:retained-for-consumer.input",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "caller-input branch accepts its input",
+      "claim": "structural-contract",
+      "validationTarget": "caller-input",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "caller-input branch rejects stored output",
+      "claim": "structural-contract",
+      "validationTarget": "caller-input",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 2
+    },
+    {
+      "name": "unknown input field",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "unsupported format",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "writer ID cannot be supplied in input",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "empty next actor",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "hold requires specific blocker",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "new resource cannot supersede prior identity",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "one worktree cannot name several roots",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "candidate SHA requires dated observation",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "retention requires unreleased consumer",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "verified preservation requires readback reference",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "verified preservation cannot exist solely inside disposable tree",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "eligibility cannot retain active consumer",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "released consumer requires release reference",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "eligibility cannot retain incomplete preservation",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "eligibility requires actual assessment reference",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "unknown owner without disposal authority cannot assert eligibility",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "eligibility cannot retain nesting blocker",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "anticipated restriction is not executed denial",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "denial requires operator request reference",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "denial requires rule or permission diagnostic",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "permission denial needs no invented native guard rule",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "failed operation cannot confirm removal",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "present path prevents confirmed declaration",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "inaccessible parent cannot be unambiguous absence",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "worktree registration check cannot be inapplicable",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "required external evidence must be read after removal",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "stored removal requires writer confirmation",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "stored resource ID cannot be null",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "stored record timestamp requires timezone",
+      "claim": "structural-contract",
+      "validationTarget": "root-union",
+      "expectedValid": false,
+      "observedValid": false,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 1
+    },
+    {
+      "name": "schema cannot authenticate preservation references",
+      "claim": "explicit-schema-limit",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "schema cannot validate supersession graph",
+      "claim": "explicit-schema-limit",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "schema cannot bind observed members to resource paths",
+      "claim": "explicit-schema-limit",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    },
+    {
+      "name": "declared explicit disposal authority with unknown originating owner",
+      "claim": "structural-contract-not-authorization",
+      "validationTarget": "root-union",
+      "expectedValid": true,
+      "observedValid": true,
+      "matchedExpectation": true,
+      "topLevelErrorCount": 0
+    }
+  ],
+  "sourceDocuments": [
+    {
+      "file": "sdlc-implementation-plan-2026-09-10.md",
+      "bytes": 62272,
+      "sha256": "b560e4b15685c2af42f1cafd1a223ff718d968cc8a0648e9a33522fb07601c82"
+    },
+    {
+      "file": "sdlcworktreelifecyclehandoff20260910.md",
+      "bytes": 13079,
+      "sha256": "a9cf76ae85ab314b15e80164150e0a69d8c18af836c32a83e8ca689e1a4d16d6"
+    },
+    {
+      "file": "wp0-worktree-preservation-implementation-plan-2026-09-10.md",
+      "bytes": 57329,
+      "sha256": "5c789f1250de378b46388c0d9806a7d4c0527cbaf425beaa976e8356e052eba7"
+    },
+    {
+      "file": "wp1-text-boundaries-evidence-retention-implementation-plan-2026-09-10.md",
+      "bytes": 92462,
+      "sha256": "68594f4df7bb0144c633054ba1decba5a9540580aff8a1ba974af94de15409b1"
+    },
+    {
+      "file": "wp2-independent-worktree-execution-implementation-plan-2026-09-10.md",
+      "bytes": 90978,
+      "sha256": "36263bd280bf331e855a9487590d8615d474d68ee1f494a5e4d56e23a0f11adf"
+    },
+    {
+      "file": "wp2-policy-amendments.proposed.md",
+      "bytes": 8561,
+      "sha256": "7ba72bf5989360caf8b27f331e1d40d81ec555ffd0c35642a47e21f5187090c7"
+    }
+  ],
+  "artifactIdentities": [
+    {
+      "file": "README.md",
+      "bytes": 4786,
+      "sha256": "d3e0f1be308fb9ac3bab9acc5a15b0e6a796249e67365459454e9052a004f89a"
+    },
+    {
+      "file": "check_wp3_artifacts.py",
+      "bytes": 10079,
+      "sha256": "2f3c7418dbab2706ee901fbf7247d2e861b07575214e571740172048ba1e3bc8"
+    },
+    {
+      "file": "examples/eligible-assessment.input.json",
+      "bytes": 1952,
+      "sha256": "b4ee0ea6cec7f93f761470e7a0090102978086fc691106d33ee87b97cd16064f"
+    },
+    {
+      "file": "examples/held.input.json",
+      "bytes": 1739,
+      "sha256": "5ad1f92ec07053f993b3a87b383fe6083c041290df0c56f56872aa506810f1e7"
+    },
+    {
+      "file": "examples/held.stored.json",
+      "bytes": 2124,
+      "sha256": "c4bd453467fc25a57e285617506235c6bdb0230250e2393c49c7b0f17211393c"
+    },
+    {
+      "file": "examples/operator-blocked.input.json",
+      "bytes": 2319,
+      "sha256": "3d7d51b6bbb487cb721d56476c206fbb4a500e6738bba1e684185a0d972d6f74"
+    },
+    {
+      "file": "examples/preserved-pending-review.input.json",
+      "bytes": 1722,
+      "sha256": "a4c4db65073977f1a0e9120970b137d4120475d8194ab47de5f729e1b8b74c11"
+    },
+    {
+      "file": "examples/removed-confirmation.input.json",
+      "bytes": 2798,
+      "sha256": "a7b6290151cb89ed6cd287978995bfc6bd7f610fbdd627cd18ad29c435a8b296"
+    },
+    {
+      "file": "examples/removed-confirmation.stored.json",
+      "bytes": 3662,
+      "sha256": "bb37f99f30b8ef8dd72e8e0292741f7b91d23b944efa38c0dea564416f2a47c8"
+    },
+    {
+      "file": "examples/retained-for-consumer.input.json",
+      "bytes": 1777,
+      "sha256": "926d09a2a46f2c9ffbccf9fe8817b42b0438c3b01bce3a6b9fedec783d997ebb"
+    },
+    {
+      "file": "wp3-policy-amendments.proposed.md",
+      "bytes": 17043,
+      "sha256": "f48550f91a9c13391b7cacb456dda3c23f69d4f43f864cfeec273474fe93b257"
+    },
+    {
+      "file": "wp3-resource-disposition.schema.proposed.json",
+      "bytes": 31257,
+      "sha256": "f54cdd769935298add45ac32845c2bcd93e29cfb2671920565d2072db5f4b8f5"
+    },
+    {
+      "file": "wp3-resource-release-visibility-implementation-plan-2026-09-10.md",
+      "bytes": 78929,
+      "sha256": "2a78c43583efa96b5082b95077f1b38629198dd84e79e395f1ced512c9dcf82f"
+    }
+  ]
+}

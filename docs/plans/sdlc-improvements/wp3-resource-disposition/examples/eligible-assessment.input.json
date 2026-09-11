@@ -1,0 +1,55 @@
+{
+  "recordType": "resource-disposition-input",
+  "schemaVersion": 1,
+  "coordinationReference": "fixture-task:wp3",
+  "recordedBy": "fixture-coordinator",
+  "recordingAuthorityReference": "fixture-decision:metadata-recording",
+  "decisionReference": "fixture-decision:eligible-assessment",
+  "entry": {
+    "resourceId": null,
+    "supersedes": [],
+    "kind": "worktree",
+    "host": "fixture-host",
+    "locations": [
+      "C:/fixture/worktrees/review-a"
+    ],
+    "identityReference": "fixture-record:native-worktree-identity",
+    "owningTaskReference": "fixture-task:review",
+    "owningTaskId": null,
+    "owner": "fixture-resource-owner",
+    "coordinator": "fixture-coordinator",
+    "nextActor": "fixture-owner-decision",
+    "purpose": "Illustrative review workspace; no actual user resource is represented.",
+    "candidate": {
+      "head": null,
+      "observedAt": null,
+      "inputsReference": null
+    },
+    "consumers": [
+      {
+        "reference": "fixture-task:reviewer",
+        "state": "released",
+        "releaseEvidenceReference": "fixture-record:consumer-release"
+      }
+    ],
+    "preservation": {
+      "state": "verified",
+      "locationReference": "fixture-store:snapshot-a",
+      "readbackReference": "fixture-record:readback-a",
+      "independentOfDisposedTree": true,
+      "reason": "Illustrative external preservation/readback declarations, not actual preservation."
+    },
+    "disposition": "eligible-for-approved-removal",
+    "rationale": "Illustrative historical assessment only; never deletion permission.",
+    "blockers": [],
+    "reassessment": {
+      "event": "Fresh exact-resource inspection immediately before an independently authorised operation.",
+      "reviewAt": null
+    },
+    "inspectionReference": "fixture-record:inspection-a",
+    "assessmentReference": "fixture-record:ta02-a",
+    "disposalAuthorityReference": null,
+    "operation": null,
+    "postRemovalReadback": null
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "purpose": "Mechanical validation of the proposed WP1 verification-run JSON Schema, not SDLC runtime or Windows acceptance",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "Linux"
+  },
+  "schemaSha256": "af0ab4a271e938bece719f7502afb729f45c532797a25c2812dfcd4ed3914d28",
+  "repositoryCodeExecuted": false,
+  "windowsHostQualified": false,
+  "allChecksPassed": true,
+  "checks": [
+    {
+      "name": "pending_admission",
+      "expectedValid": true,
+      "observedValid": true,
+      "passed": true
+    },
+    {
+      "name": "completed_success",
+      "expectedValid": true,
+      "observedValid": true,
+      "passed": true
+    },
+    {
+      "name": "completed_check_failure",
+      "expectedValid": true,
+      "observedValid": true,
+      "passed": true
+    },
+    {
+      "name": "zero_exit_with_invalid_output_is_incomplete",
+      "expectedValid": true,
+      "observedValid": true,
+      "passed": true
+    },
+    {
+      "name": "interrupted_without_invented_identity",
+      "expectedValid": true,
+      "observedValid": true,
+      "passed": true
+    },
+    {
+      "name": "escaped_presentation_exact_evidence",
+      "expectedValid": true,
+      "observedValid": true,
+      "passed": true
+    },
+    {
+      "name": "old_schema",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "pending_success",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "incomplete_success",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "missing_initial_identity",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "nonzero_success",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "invalid_utf8_success",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "report_failure_success",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "incomplete_capture_success",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "missing_digest_success",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "empty_success",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "unknown_field",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "invalid_timestamp",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "finished_running_command",
+      "expectedValid": false,
+      "observedValid": false,
+      "passed": true
+    },
+    {
+      "name": "schema_cannot_prove_equal_identities",
+      "expectedValid": true,
+      "observedValid": true,
+      "passed": true
+    },
+    {
+      "name": "schema_cannot_prove_exact_command_count",
+      "expectedValid": true,
+      "observedValid": true,
+      "passed": true
+    },
+    {
+      "name": "schema_cannot_prove_path_containment",
+      "expectedValid": true,
+      "observedValid": true,
+      "passed": true
+    }
+  ],
+  "consumerObligations": [
+    "Input identity equality and correspondence to current controls",
+    "Exact configured command count, order, argv, names and timeouts",
+    "Run/profile pair correspondence",
+    "Contained task/run-owned raw output references, lengths, hashes and access",
+    "Approval and trust remain external"
+  ]
+}

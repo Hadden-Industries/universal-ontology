@@ -1,0 +1,102 @@
+{
+  "kind": "wp6-derived-remote-observations",
+  "asOfDate": "2026-09-10",
+  "provenance": "Derived from repository, PR, attempt-specific job and decoded-log reads through the GitHub connector. This is not a native GitHub export, a new run, or an approval record.",
+  "uo": {
+    "main": "4aeae598b12aa005570bfe597b820fdf6aad706a",
+    "baselineMerge": {
+      "pr": 34,
+      "mergedAt": "2026-09-10T19:02:17Z",
+      "scope": "WP1 accepted baseline, not WP1 implementation"
+    },
+    "source": "https://api.github.com/repos/Hadden-Industries/universal-ontology/branches/main"
+  },
+  "oni": {
+    "repository": "MaksymShostak/oxygen-not-included",
+    "pullRequest": 4,
+    "state": "open",
+    "draft": true,
+    "base": "975acf599d06ec3d274c55bac8d1731278ffa153",
+    "head": "c8b9d0495e2e163d9a8a1812f8124efb04b5c7b1",
+    "staleDescriptionCandidate": "f92f16d943cb612350b706c8479358245671894c",
+    "baseline": {
+      "path": "docs/plans/2026-09-08-steam-community-bbcode-implementation-plan-v2.md",
+      "reportedBlobAtBaseAndHead": "28cf4f2b74026b4f79e6304e6ecc61bf8fdca1e8",
+      "acceptanceAuthenticatedByThisRead": false,
+      "fullTreeModeQualified": false
+    },
+    "linkage": {
+      "runId": 34524389602,
+      "attempt": 1,
+      "event": "pull_request_target",
+      "jobId": 103029579766,
+      "conclusion": "failure",
+      "actualPolicyCheckout": "975acf599d06ec3d274c55bac8d1731278ffa153",
+      "error": "SDLC PR linkage failed: Invalid baseline path.",
+      "source": "https://github.com/MaksymShostak/oxygen-not-included/actions/runs/34524389602/job/103029579766"
+    },
+    "bbcode": {
+      "runId": 34524391937,
+      "attempt": 1,
+      "event": "pull_request",
+      "actualProductCheckout": "5b4a9b95d8976cddc971cca3c8fdea3f03525321",
+      "jobs": [
+        {
+          "id": 103029588085,
+          "role": "dependency-review",
+          "conclusion": "failure"
+        },
+        {
+          "id": 103029708307,
+          "role": "aggregate",
+          "conclusion": "failure"
+        },
+        {
+          "id": 103029708641,
+          "role": "converter-matrix",
+          "conclusion": "skipped"
+        },
+        {
+          "id": 103029709230,
+          "role": "mutation-matrix",
+          "conclusion": "skipped"
+        }
+      ],
+      "dependencyPolicy": {
+        "actionCommit": "a1d282b36b6f3519aa1f3fc636f609c47dddb294",
+        "failOnSeverity": "low",
+        "failOnScopes": [
+          "runtime",
+          "development",
+          "unknown"
+        ]
+      },
+      "reportedVulnerabilities": [
+        {
+          "package": "qs",
+          "version": "6.5.5",
+          "manifest": "tools/steam-community-bbcode/comparison/node/package-lock.json",
+          "severity": "moderate",
+          "advisory": "GHSA-6rw7-vpxm-498p"
+        },
+        {
+          "package": "qs",
+          "version": "6.5.5",
+          "manifest": "tools/steam-community-bbcode/comparison/node/package-lock.json",
+          "severity": "moderate",
+          "advisory": "GHSA-4mjr-xmp4-gh2g"
+        }
+      ],
+      "source": "https://github.com/MaksymShostak/oxygen-not-included/actions/runs/34524391937/job/103029588085",
+      "interpretationLimit": "Observations of this native dependency job, not a new reachability assessment, selected repair, or owner disposition."
+    }
+  },
+  "notEstablished": [
+    "Future current refs/results",
+    "Actual Windows installation or local worktree state",
+    "Owner acceptance from an authoritative decision read",
+    "Native branch/ruleset enforcement",
+    "New trusted plan-format deployment",
+    "Successful feature or release qualification"
+  ]
+}

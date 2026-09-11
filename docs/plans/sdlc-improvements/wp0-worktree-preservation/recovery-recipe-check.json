@@ -1,0 +1,33 @@
+{
+  "purpose": "Bounded qualification of proposed WP0 Git recovery recipe, not target worktree execution or SDLC adoption acceptance",
+  "platform": "Linux",
+  "gitVersion": "git version 2.47.3",
+  "checks": [
+    {
+      "check": "self-contained bundle includes explicit reflog-only detached commit with HEAD named",
+      "result": "passed"
+    },
+    {
+      "check": "bundle-only negative control lacks staged-only blob",
+      "result": "detected expected omission"
+    },
+    {
+      "check": "partial staging, staged binary, unstaged deletion, Unicode untracked path restore with identical logical Git state",
+      "result": "passed"
+    },
+    {
+      "check": "raw bytes, CRLF, ignored failure/success history and deliberate absence retained",
+      "result": "passed"
+    },
+    {
+      "check": "capture/recovery leave synthetic source index and status unchanged",
+      "result": "passed"
+    }
+  ],
+  "limits": [
+    "No access to the six Windows worktrees",
+    "PowerShell/NTFS/reparse points/alternate streams/ACLs not exercised",
+    "No concurrent-writer snapshot or unmerged-index recovery qualification",
+    "No product tests or native DCG/host qualification performed"
+  ]
+}

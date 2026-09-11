@@ -1,0 +1,77 @@
+{
+  "recordType": "resource-disposition-input",
+  "schemaVersion": 1,
+  "coordinationReference": "fixture-task:wp3",
+  "recordedBy": "fixture-coordinator",
+  "recordingAuthorityReference": "fixture-decision:metadata-recording",
+  "decisionReference": "fixture-decision:removed-confirmation",
+  "entry": {
+    "resourceId": null,
+    "supersedes": [],
+    "kind": "worktree",
+    "host": "fixture-host",
+    "locations": [
+      "C:/fixture/worktrees/review-a"
+    ],
+    "identityReference": "fixture-record:native-worktree-identity",
+    "owningTaskReference": "fixture-task:review",
+    "owningTaskId": null,
+    "owner": "fixture-resource-owner",
+    "coordinator": "fixture-coordinator",
+    "nextActor": "fixture-owner-decision",
+    "purpose": "Illustrative review workspace; no actual user resource is represented.",
+    "candidate": {
+      "head": null,
+      "observedAt": null,
+      "inputsReference": null
+    },
+    "consumers": [
+      {
+        "reference": "fixture-task:reviewer",
+        "state": "released",
+        "releaseEvidenceReference": "fixture-record:consumer-release"
+      }
+    ],
+    "preservation": {
+      "state": "verified",
+      "locationReference": "fixture-store:snapshot-a",
+      "readbackReference": "fixture-record:readback-a",
+      "independentOfDisposedTree": true,
+      "reason": "Illustrative external preservation/readback declarations, not actual preservation."
+    },
+    "disposition": "removed-confirmed",
+    "rationale": "SYNTHETIC declared confirmation; recorder must obtain its own authorised fresh readback.",
+    "blockers": [],
+    "reassessment": {
+      "event": "The receiving evidence owner reviews the remaining evidence-retention obligation.",
+      "reviewAt": null
+    },
+    "inspectionReference": "fixture-record:inspection-a",
+    "assessmentReference": "fixture-record:ta02-a",
+    "disposalAuthorityReference": null,
+    "operation": {
+      "operationReference": "fixture-record:authorised-native-removal",
+      "authorityReference": "fixture-decision:exact-removal",
+      "outcome": "succeeded",
+      "commandText": "git worktree remove C:/fixture/worktrees/review-a",
+      "denialRule": null,
+      "operatorRequestReference": null,
+      "permissionError": null
+    },
+    "postRemovalReadback": {
+      "observedAt": "2026-09-10T12:00:00Z",
+      "observedBy": "fixture-operator",
+      "inventoryReference": "fixture-record:git-inventory-after",
+      "filesystemReference": "fixture-record:metadata-after",
+      "evidenceReadbackReference": "fixture-record:external-evidence-after",
+      "members": [
+        {
+          "path": "C:/fixture/worktrees/review-a",
+          "registration": "absent",
+          "filesystem": "absent",
+          "containingLocationAccessible": true
+        }
+      ]
+    }
+  }
+}

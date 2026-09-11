@@ -1,0 +1,80 @@
+{
+  "purpose": "Delivery integrity and mechanical document checks only; not implementation acceptance",
+  "files": [
+    {
+      "path": "wp2-independent-worktree-execution-implementation-plan-2026-09-10.md",
+      "bytes": 90978,
+      "sha256": "36263bd280bf331e855a9487590d8615d474d68ee1f494a5e4d56e23a0f11adf"
+    },
+    {
+      "path": "wp2-policy-amendments.proposed.md",
+      "bytes": 8561,
+      "sha256": "7ba72bf5989360caf8b27f331e1d40d81ec555ffd0c35642a47e21f5187090c7"
+    },
+    {
+      "path": "wp2-publication-mechanism-probe.py",
+      "bytes": 13657,
+      "sha256": "53046a2398d72be68bdb4af276d16d3a8231e56c36870dee0f18f8468747d2e4"
+    },
+    {
+      "path": "wp2-publication-mechanism-probe-2026-09-10.json",
+      "bytes": 6770,
+      "sha256": "b5db2c6aa9870db1fd1aff37191458754286185758f231f87b8c9c75a89770b1"
+    },
+    {
+      "path": "wp2-package-README.md",
+      "bytes": 1463,
+      "sha256": "d651caa102a8966b10d903aa977fdc31e17dc4290a8dc6c9bc9c07be801a1029"
+    }
+  ],
+  "checks": [
+    {
+      "check": "Nine implementation slices",
+      "passed": true
+    },
+    {
+      "check": "32 numbered regression scenarios",
+      "passed": true
+    },
+    {
+      "check": "12 numbered acceptance criteria",
+      "passed": true
+    },
+    {
+      "check": "Balanced main Markdown fences",
+      "passed": true
+    },
+    {
+      "check": "Balanced policy Markdown fences",
+      "passed": true
+    },
+    {
+      "check": "Three policy amendments",
+      "passed": true
+    },
+    {
+      "check": "Input identity: sdlc-implementation-plan-2026-09-10.md",
+      "passed": true
+    },
+    {
+      "check": "Input identity: wp1-text-boundaries-evidence-retention-implementation-plan-2026-09-10.md",
+      "passed": true
+    },
+    {
+      "check": "Input identity: sdlcworktreelifecyclehandoff20260910.md",
+      "passed": true
+    },
+    {
+      "check": "Research probe source parses",
+      "passed": true
+    },
+    {
+      "check": "Research result has 14 matching observations",
+      "passed": true
+    },
+    {
+      "check": "Research limitations labelled",
+      "passed": true
+    }
+  ]
+}

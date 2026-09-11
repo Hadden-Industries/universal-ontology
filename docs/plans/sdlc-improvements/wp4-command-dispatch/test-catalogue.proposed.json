@@ -1,0 +1,202 @@
+{
+  "kind": "proposed-wp4-verification-catalogue",
+  "preparedOn": "2026-09-10",
+  "authority": "Planning projection of section 11 of the main plan; not a runtime schema or execution report.",
+  "mainPlan": "wp4-command-dispatch-diagnosis-implementation-plan-2026-09-10.md",
+  "mainPlanSha256": "862266cc6b2adf253dbf035f178f115cfe9659fdcffc7d5879ad753fa31f6223",
+  "targetCommandExecutionPermittedByThisFile": false,
+  "tests": [
+    {
+      "id": "T401",
+      "requiredObservation": "Published full C4-PS text retained separately from actual captured bytes; digest/newline provenance correct.",
+      "responsibility": "Evidence preparation",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T402",
+      "requiredObservation": "Full C4-PS explicit native `unknown`/`ps`/`cmd` comparison retains decision, reason and process exit separately.",
+      "responsibility": "Native diagnosis",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T403",
+      "requiredObservation": "Full C4-CMD and reduced control retained as different semantics; no borrowed rule/binary identity.",
+      "responsibility": "Evidence preparation",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T404",
+      "requiredObservation": "Actual native cmd argument/match observation detects quoting error or establishes intended predicates.",
+      "responsibility": "Semantic consumer",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T405",
+      "requiredObservation": "Captured request, host resolution, native invocation and result are correlated; missing fields explicit.",
+      "responsibility": "Host diagnosis",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T406",
+      "requiredObservation": "Native Windows command-only Bash-envelope replay exercises its actual platform-specific branch, not a Linux substitute.",
+      "responsibility": "Native consumer",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T407",
+      "requiredObservation": "A permitted captured-envelope replay remains distinct from synthetic label/dialect experiments.",
+      "responsibility": "Native diagnosis",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T408",
+      "requiredObservation": "Candidate reduction failing syntax, fixture setup or another rule is rejected as non-reproduction.",
+      "responsibility": "Diagnosis",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T409",
+      "requiredObservation": "Final minimized trigger and full original preserve the observable failure before repair; positive neighbor remains valid.",
+      "responsibility": "Native regression",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T410",
+      "requiredObservation": "Guard diagnostic/protocol/process and target return codes are not conflated.",
+      "responsibility": "Probe orchestration",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T411",
+      "requiredObservation": "Replay executes only the approved DCG process; malicious-looking strings and metadata are never shell-dispatched.",
+      "responsibility": "Probe orchestration",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T412",
+      "requiredObservation": "Invalid output, partial timeout and recording failure retain explicit incomplete evidence and never pass.",
+      "responsibility": "Conditional capture repair",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T413",
+      "requiredObservation": "Default isolated probe still excludes live credentials/bypasses and never claims deployed effective state.",
+      "responsibility": "Probe orchestration",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T414",
+      "requiredObservation": "Consumer-generated schema and actual loaded policy/pack identity remain checked; malformed/missing pack is not omitted.",
+      "responsibility": "Native deployment",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T415",
+      "requiredObservation": "Current candidate compared against the retained old binary with input/configuration differences explicit.",
+      "responsibility": "Candidate qualification",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T416",
+      "requiredObservation": "Effective-shell metadata, when implemented, agrees with actual resolution including fallback; requested label alone cannot narrow interpretation.",
+      "responsibility": "Conditional host/consumer repair",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T417",
+      "requiredObservation": "Missing, conflicting, malformed or unrecognized context retains a documented safe disposition.",
+      "responsibility": "Conditional native repair",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T418",
+      "requiredObservation": "Literal data versus executable/expanding text distinguishes benign and forbidden semantics without broad masks.",
+      "responsibility": "Conditional parser repair",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T419",
+      "requiredObservation": "Nested interpreter, trailing operation and affected size/error boundaries retain native safety analysis.",
+      "responsibility": "Conditional native repair",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T420",
+      "requiredObservation": "Existing hard-reset option-order and external-pack expectations are preserved as inert native data.",
+      "responsibility": "Native preservation",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T421",
+      "requiredObservation": "Existing strict worktree/history/force expectations remain denied; no workaround silently relaxes them.",
+      "responsibility": "Native preservation",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T422",
+      "requiredObservation": "Actual installed C4-PS guarded path executes all intended checks against independent known input and result.",
+      "responsibility": "Host A09",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T423",
+      "requiredObservation": "Actual installed C4-CMD guarded path achieves intended matches; any corrected input disposition explicitly recorded.",
+      "responsibility": "Host A09",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T424",
+      "requiredObservation": "Attributable non-destructive-by-construction host-denial challenge remains harmless even on a missed block; missing-target failure is not interception.",
+      "responsibility": "Authorised host qualification",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T425",
+      "requiredObservation": "Silent skipped/untrusted/incorrectly matched or duplicated hooks cannot masquerade as a successful repair.",
+      "responsibility": "Host qualification",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T426",
+      "requiredObservation": "Coexisting Stop, sandbox and lifecycle behavior remains; no recurring stdin/tool coverage is inferred.",
+      "responsibility": "Integration preservation",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T427",
+      "requiredObservation": "Source/binary/config/hook drift during a run invalidates affected comparison; older evidence stays intact.",
+      "responsibility": "Evidence identity",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T428",
+      "requiredObservation": "Existing raw evidence and output files are not overwritten; permitted trace data remain restricted and retrievable.",
+      "responsibility": "Evidence retention",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T429",
+      "requiredObservation": "Actual repository CI/test selection and accepted final routed profile cover delivered local changes; stub-only green is labelled.",
+      "responsibility": "Repository verification",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "T430",
+      "requiredObservation": "Current installed acceptance is not inferred from upstream merge, release title, doctor success or an unrelated repository's receipt.",
+      "responsibility": "Handoff/independent review",
+      "executionStatus": "not-run"
+    }
+  ],
+  "operationalExercises": [
+    {
+      "id": "O41",
+      "name": "Original useful work through the actual qualified guarded path",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "O42",
+      "name": "Receiving-maintainer handoff of actual evidence and remaining scope",
+      "executionStatus": "not-run"
+    }
+  ]
+}

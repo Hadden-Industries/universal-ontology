@@ -1,0 +1,225 @@
+{
+  "researchOnly": true,
+  "executedAtUnixSeconds": 1789056031.655956,
+  "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+  "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+  "git": "git version 2.47.3",
+  "workspace": "/tmp/wp2-mechanism-probe-3bdeh603",
+  "filesystemScope": "This run: Linux container overlay filesystem, not NTFS",
+  "observations": [
+    {
+      "id": "M01",
+      "name": "check-replace",
+      "expected": "[0, 0]",
+      "actual": {
+        "ready": [
+          {
+            "event": "ready",
+            "candidate": "/tmp/wp2-mechanism-probe-3bdeh603/check-replace/.active-alpha-klhq_eqk"
+          },
+          {
+            "event": "ready",
+            "candidate": "/tmp/wp2-mechanism-probe-3bdeh603/check-replace/.active-beta-jgf51kmb"
+          }
+        ],
+        "results": [
+          {
+            "returnCode": 0,
+            "stdout": "{\"event\": \"success\", \"task\": \"alpha\"}\n",
+            "stderr": ""
+          },
+          {
+            "returnCode": 0,
+            "stdout": "{\"event\": \"success\", \"task\": \"beta\"}\n",
+            "stderr": ""
+          }
+        ],
+        "activeTask": "beta",
+        "historySha256": "76bb832bfab7143dc684f8dabfa1f0d331805cf3f0c5fcac92cf727105360fe4"
+      },
+      "passed": true
+    },
+    {
+      "id": "M02",
+      "name": "exclusive-link",
+      "expected": "[0, 1]",
+      "actual": {
+        "ready": [
+          {
+            "event": "ready",
+            "candidate": "/tmp/wp2-mechanism-probe-3bdeh603/exclusive-link/.active-alpha-ntrzdfdc"
+          },
+          {
+            "event": "ready",
+            "candidate": "/tmp/wp2-mechanism-probe-3bdeh603/exclusive-link/.active-beta-o5wk4aob"
+          }
+        ],
+        "results": [
+          {
+            "returnCode": 1,
+            "stdout": "",
+            "stderr": "{\"event\": \"rejected\", \"established\": {\"probeTask\": \"beta\", \"purpose\": \"synthetic publication test\"}}\n"
+          },
+          {
+            "returnCode": 0,
+            "stdout": "{\"event\": \"success\", \"task\": \"beta\"}\n",
+            "stderr": ""
+          }
+        ],
+        "activeTask": "beta",
+        "historySha256": "76bb832bfab7143dc684f8dabfa1f0d331805cf3f0c5fcac92cf727105360fe4"
+      },
+      "passed": true
+    },
+    {
+      "id": "M03",
+      "name": "occupied-valid",
+      "expected": "reject; byte-identical target",
+      "actual": {
+        "sha256": "048a1b89f2d036ff5f9a429ffbe2d9d80babafb89139231365a94c9c477c057e",
+        "rejected": true
+      },
+      "passed": true
+    },
+    {
+      "id": "M04",
+      "name": "occupied-empty",
+      "expected": "reject; byte-identical target",
+      "actual": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "rejected": true
+      },
+      "passed": true
+    },
+    {
+      "id": "M05",
+      "name": "occupied-malformed",
+      "expected": "reject; byte-identical target",
+      "actual": {
+        "sha256": "cbdf3b1f91ae32fe1ea292ac6cccf19222f97929f531523f0d15d885052c00c4",
+        "rejected": true
+      },
+      "passed": true
+    },
+    {
+      "id": "M06",
+      "name": "occupied-paused",
+      "expected": "reject; byte-identical target",
+      "actual": {
+        "sha256": "f6506be11b0afb7c8295bca5c522ce418fabfe405483d1ff7850bd9e5b6b3260",
+        "rejected": true
+      },
+      "passed": true
+    },
+    {
+      "id": "M07",
+      "name": "interrupted-before-publication",
+      "expected": "no active ownership; candidate retained",
+      "actual": {
+        "returnCode": -9,
+        "ready": {
+          "event": "ready",
+          "candidate": "/tmp/wp2-mechanism-probe-3bdeh603/interrupted-before/.active-before-qo7onfyz"
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "M08",
+      "name": "new-explicit-request-after-prepublication-interruption",
+      "expected": "new request may acquire",
+      "actual": {
+        "returnCode": 0,
+        "stdout": "{\"event\": \"success\", \"task\": \"replacement\"}\n",
+        "stderr": ""
+      },
+      "passed": true
+    },
+    {
+      "id": "M09",
+      "name": "interrupted-after-publication",
+      "expected": "complete owner remains; later request rejected",
+      "actual": {
+        "ready": {
+          "event": "ready",
+          "candidate": "/tmp/wp2-mechanism-probe-3bdeh603/interrupted-after/.active-published-haq4i96i"
+        },
+        "published": {
+          "event": "published",
+          "task": "published"
+        },
+        "rejected": true
+      },
+      "passed": true
+    },
+    {
+      "id": "M10",
+      "name": "unlink-only-private-alias",
+      "expected": "active survives unchanged",
+      "actual": {
+        "sameFileBefore": true,
+        "activeSha256": "f84c3ceb36c0e97632c66809daf874752d78ce474a48dfdb85d5e13f6ca9fe18"
+      },
+      "passed": true
+    },
+    {
+      "id": "M11",
+      "name": "subsequent-atomic-update",
+      "expected": "new active bytes; old alias unchanged",
+      "actual": {
+        "sameFileAfter": false
+      },
+      "passed": true
+    },
+    {
+      "id": "M12",
+      "name": "occupied-directory",
+      "expected": "failure without replacement",
+      "actual": {
+        "exception": "FileExistsError"
+      },
+      "passed": true
+    },
+    {
+      "id": "M13",
+      "name": "occupied-symlink",
+      "expected": "reject; link and target unchanged",
+      "actual": {
+        "rejected": true
+      },
+      "passed": true
+    },
+    {
+      "id": "M14",
+      "name": "real-linked-worktree-publication",
+      "expected": "same common repo; distinct gitdirs/indexes; both independent publications pass",
+      "actual": {
+        "commonDirectories": [
+          "/tmp/wp2-mechanism-probe-3bdeh603/seed/.git",
+          "/tmp/wp2-mechanism-probe-3bdeh603/seed/.git"
+        ],
+        "gitDirectories": [
+          "/tmp/wp2-mechanism-probe-3bdeh603/seed/.git/worktrees/linked-A",
+          "/tmp/wp2-mechanism-probe-3bdeh603/seed/.git/worktrees/linked-B"
+        ],
+        "indexPaths": [
+          "/tmp/wp2-mechanism-probe-3bdeh603/seed/.git/worktrees/linked-A/index",
+          "/tmp/wp2-mechanism-probe-3bdeh603/seed/.git/worktrees/linked-B/index"
+        ],
+        "returnCodes": [
+          0,
+          0
+        ]
+      },
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "Not the repository's sdlc.py or lifecycle regression suite",
+    "No Windows, NTFS, adopted Codex/DCG or power-loss qualification",
+    "Original variant is a transparent algorithmic reproduction, not a claimed operational incident",
+    "Linked-worktree test covers native Git topology and publication only, not begin/verify/pause/resume",
+    "Synthetic fixtures retained; no user checkout read or changed"
+  ]
+}
