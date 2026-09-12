@@ -633,3 +633,18 @@ Remaining SLICE-008 items: live publication with served-version readback
 #31 reconciliation (owner approval for the comment and label), and cleanup of
 task-owned transports (`.agent-tools/`, the spent Wiki clones, the
 `dependabot-skills-1-5-26` worktree and branch).
+
+### OASIS import catalogs updated (12 September 2026)
+
+Max identified a step missing from the version-increment procedure: the OASIS
+XML catalogs (`core/`, `extended/`, `reference-data/`, `iso-iec11179-3/`
+`catalog-v001.xml`) map each module's `owl:imports` IRIs to local paths so
+Protégé and similar tools resolve imports without the network, and they still
+pointed at the 20260714 versions. The dated owned entries now name the
+20260912 versions (`../dist/...` targets, as before). `tests/test_import_catalogs.py`
+makes the step unforgettable: for every module it walks the owned
+`owl:imports` closure through the tracked `src/` artifacts and requires a
+catalog entry with the matching `../dist/` target for each dated IRI, and no
+stale dated entry; it fails on the previous catalogs and passes now. The
+version-increment change set is therefore: working file, dated `src/`
+artifact, `policy/activation.ttl` at activation, and the catalogs.
