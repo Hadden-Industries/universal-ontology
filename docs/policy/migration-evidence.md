@@ -583,3 +583,17 @@ selected bytes go unvalidated and none are merged. Qualification purposes keep
 the refusal. Reproduced locally on the same range (one pass, 0 violations) and
 with a differing scratch artifact (two passes, both reported); tests cover the
 merge, the split and the qualification refusal.
+
+### QA-007 budgets accepted; ISO 31073 prefix closed (12 September 2026)
+
+Max accepted the QA-007 budgets as proposed: hook-style draft of one module
+≤ 60 s typical and ≤ 180 s ceiling; full active or candidate qualification
+≤ 120 s; adverse shared-structure inputs ≤ 300 s; peak memory ≤ 512 MB; the
+600 s command timeout remains the control ceiling. Measured values on this
+host (draft one module 31 s, full set 28 s pySHACL / 2.5 s Jena, adverse 134 s,
+< 100 MB) sit inside them. Decision 4 is closed.
+
+Max also decided that ISO 31073 needs no `vann:preferredNamespacePrefix`; that
+item is closed without a data change. Remaining SLICE-007/008 owner items: the
+policy-editing walkthrough, the merge of PR #61, the Wiki write and the live
+publication (each its own authorisation).
