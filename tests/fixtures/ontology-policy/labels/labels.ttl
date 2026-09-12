@@ -1,0 +1,107 @@
+# Labels, preferred labels, definitions, descriptive language, descriptions, acronyms.
+# Entities are valid for every declared rule except the one they exercise.
+@prefix ex:      <https://example.org/fixtures/entity/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix uc:      <https://haddenindustries.com/ontology/universal/core/> .
+
+ex: a owl:Ontology ; owl:versionIRI ex:20260101 ; owl:versionInfo "2026-01-01" ;
+    rdfs:label "Fixture"@en .
+
+# Baseline valid entity
+ex:Bank a owl:Class ;
+    rdfs:label "Bank"@en ; skos:prefLabel "Bank"@en ; skos:definition "A financial institution"@en .
+ex:OtherBank a owl:Class ;
+    rdfs:label "Bank"@en , "Other bank"@en ; skos:prefLabel "Other bank"@en ; skos:definition "Another institution"@en .
+
+# EP-LABEL
+ex:NoLabel a owl:Class ;
+    skos:prefLabel "No label"@en ; skos:definition "d"@en .
+ex:UntaggedLabel a owl:Class ;
+    rdfs:label "Untagged label" ; skos:prefLabel "Untagged label"@en ; skos:definition "d"@en .
+ex:ManyEnglishLabels a owl:Class ;
+    rdfs:label "Many English labels"@en , "Many labels"@en , "Lots of labels"@en ;
+    skos:prefLabel "Many English labels"@en ; skos:definition "d"@en .
+
+# EP-PREFLABEL-LANGUAGE
+ex:RomanianOnly a owl:Class ;
+    rdfs:label "Numai română"@ro ; skos:prefLabel "Numai română"@ro ; skos:definition "d"@en .
+ex:EnglishPlusRomanian a owl:Class ;
+    rdfs:label "English plus romanian"@en-GB , "Engleză"@ro ; skos:prefLabel "English plus romanian"@en-GB , "Engleză"@ro ; skos:definition "d"@en .
+ex:TwoEnglishPrefLabels a owl:Class ;
+    rdfs:label "Two english pref labels"@en , "Second"@en ; skos:prefLabel "Two english pref labels"@en , "Second"@en ; skos:definition "d"@en .
+ex:UntaggedPrefLabel a owl:Class ;
+    rdfs:label "Untagged pref label" , "Untagged pref label"@en ; skos:prefLabel "Untagged pref label" ; skos:definition "d"@en .
+
+# EP-PREFLABEL-IRI
+ex:Colour a owl:Class ;
+    rdfs:label "Colour"@en-GB , "Color"@en-US ; skos:prefLabel "Colour"@en-GB , "Color"@en-US ; skos:definition "d"@en .
+ex:ThreeDModel a owl:Class ;
+    rdfs:label "3D Model"@en ; skos:prefLabel "3D Model"@en ; skos:definition "d"@en .
+ex:ThreeDPrinter a owl:Class ;
+    rdfs:label "Three D Printer"@en ; skos:prefLabel "Three D Printer"@en ; skos:definition "d"@en .
+ex:BankAccount a owl:Class ;
+    rdfs:label "Bank account"@en ; skos:prefLabel "Bank account"@en ; skos:definition "d"@en .
+ex:Colour_Red a owl:NamedIndividual , ex:Colour ;
+    rdfs:label "Red"@en ; skos:prefLabel "Red"@en ; skos:definition "d"@en .
+ex:hasPart a owl:ObjectProperty ;
+    rdfs:label "has part"@en ; skos:prefLabel "has part"@en .
+ex:Mismatch a owl:Class ;
+    rdfs:label "Something else"@en ; skos:prefLabel "Something else"@en ; skos:definition "d"@en .
+ex:OnlyFrenchMatches a owl:Class ;
+    rdfs:label "Only french matches"@fr , "Nothing"@en ; skos:prefLabel "Only french matches"@fr , "Nothing"@en ; skos:definition "d"@en .
+
+# EP-PREFLABEL-LABEL
+ex:PrefLabelNotLabel a owl:Class ;
+    rdfs:label "Pref label not label"@en-GB ; skos:prefLabel "Pref label not label"@en ; skos:definition "d"@en .
+ex:PrefLabelCaseDiffers a owl:Class ;
+    rdfs:label "pref label case differs"@en ; skos:prefLabel "Pref label case differs"@en ; skos:definition "d"@en .
+
+# EP-DEFINITION
+ex:ClassWithoutDefinition a owl:Class ;
+    rdfs:label "Class without definition"@en ; skos:prefLabel "Class without definition"@en .
+ex:IndividualWithoutDefinition a owl:NamedIndividual ;
+    rdfs:label "Individual without definition"@en ; skos:prefLabel "Individual without definition"@en .
+ex:propertyWithoutDefinition a owl:ObjectProperty ;
+    rdfs:label "property without definition"@en ; skos:prefLabel "property without definition"@en .
+ex:UntaggedDefinition a owl:Class ;
+    rdfs:label "Untagged definition"@en ; skos:prefLabel "Untagged definition"@en ; skos:definition "untagged" .
+ex:TwoEnglishDefinitions a owl:Class ;
+    rdfs:label "Two english definitions"@en ; skos:prefLabel "Two english definitions"@en ;
+    skos:definition "first"@en , "second"@en .
+ex:propertyWithBadDefinition a owl:DatatypeProperty ;
+    rdfs:label "property with bad definition"@en ; skos:prefLabel "property with bad definition"@en ;
+    skos:definition "first"@en , "second"@en .
+
+# EP-DESCRIPTIVE-LANGUAGE
+ex:UntaggedEditorialNote a owl:Class ;
+    rdfs:label "Untagged editorial note"@en ; skos:prefLabel "Untagged editorial note"@en ; skos:definition "d"@en ;
+    skos:editorialNote "no language" .
+ex:TaggedNotes a owl:Class ;
+    rdfs:label "Tagged notes"@en ; skos:prefLabel "Tagged notes"@en ; skos:definition "d"@en ;
+    skos:editorialNote "with language"@en ; skos:example "example"@en ; dcterms:alternative "alt"@en .
+ex:OtherPredicateUntagged a owl:Class ;
+    rdfs:label "Other predicate untagged"@en ; skos:prefLabel "Other predicate untagged"@en ; skos:definition "d"@en ;
+    dcterms:bibliographicCitation "not one of the sixteen" .
+
+# EP-DESCRIPTION-LANGUAGE
+ex:TwoEnglishDescriptions a owl:Class ;
+    rdfs:label "Two english descriptions"@en ; skos:prefLabel "Two english descriptions"@en ; skos:definition "d"@en ;
+    dcterms:description "one"@en , "two"@en .
+ex:TwoLanguageDescriptions a owl:Class ;
+    rdfs:label "Two language descriptions"@en ; skos:prefLabel "Two language descriptions"@en ; skos:definition "d"@en ;
+    dcterms:description "one"@en , "deux"@fr .
+
+# EP-OPTIONAL-ANNOTATIONS
+ex:UntaggedAcronym a owl:Class ;
+    rdfs:label "Untagged acronym"@en ; skos:prefLabel "Untagged acronym"@en ; skos:definition "d"@en ;
+    uc:acronym "UA" .
+ex:SharedAcronymA a owl:Class ;
+    rdfs:label "Shared acronym a"@en ; skos:prefLabel "Shared acronym a"@en ; skos:definition "d"@en ;
+    uc:acronym "SA"@en ; dcterms:references <https://example.org/r1> , <https://example.org/r2> ; dcterms:source "a book" ; rdfs:seeAlso <https://example.org/s1> .
+ex:SharedAcronymB a owl:Class ;
+    rdfs:label "Shared acronym b"@en ; skos:prefLabel "Shared acronym b"@en ; skos:definition "d"@en ;
+    uc:acronym "SA"@en .

@@ -1,0 +1,119 @@
+# Entity metadata negatives: UUID, identifier uniqueness, creator, modified, contributor.
+# Every entity carries a valid UUID and creator unless it is that rule's negative case.
+@prefix ex:      <https://example.org/fixtures/entity/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+ex: a owl:Ontology ; owl:versionIRI ex:20260101 ; owl:versionInfo "2026-01-01" .
+
+# EP-ENTITY-UUID
+ex:ValidUuidPlusOther a owl:Class ;
+    dcterms:identifier <urn:uuid:9f1c0a52-3b7e-4d21-8a6f-2c4e5b7d9a10> , "LEGACY-ID-7" ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:UppercaseHexUuid a owl:Class ;
+    dcterms:identifier <urn:uuid:9F1C0A52-3B7E-4D21-AA6F-2C4E5B7D9A11> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:NoIdentifier a owl:Class ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:VersionOneUuid a owl:Class ;
+    dcterms:identifier <urn:uuid:6ba7b810-9dad-11d1-80b4-00c04fd430c8> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:BadVariantUuid a owl:Class ;
+    dcterms:identifier <urn:uuid:9f1c0a52-3b7e-4d21-0a6f-2c4e5b7d9a12> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:LiteralUuid a owl:Class ;
+    dcterms:identifier "urn:uuid:9f1c0a52-3b7e-4d21-8a6f-2c4e5b7d9a13" ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:onlyOtherIdentifier a owl:ObjectProperty ;
+    dcterms:identifier "PROP-1" ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+
+# EP-IDENTIFIER-UNIQUE
+ex:DuplicateHolderA a owl:Class ;
+    dcterms:identifier <urn:uuid:aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:duplicateHolderB a owl:ObjectProperty ;
+    dcterms:identifier <urn:uuid:aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:CaseVariantLower a owl:Class ;
+    dcterms:identifier <urn:uuid:bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:CaseVariantUpper a owl:Class ;
+    dcterms:identifier <urn:uuid:BBBBBBBB-BBBB-4BBB-8BBB-BBBBBBBBBBBB> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:SharedLegacyA a owl:Class ;
+    dcterms:identifier <urn:uuid:cccccccc-cccc-4ccc-8ccc-cccccccccccc> , "SHARED-LEGACY" ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:SharedLegacyB a owl:Class ;
+    dcterms:identifier <urn:uuid:dddddddd-dddd-4ddd-8ddd-dddddddddddd> , "SHARED-LEGACY" ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:RepeatedOnSelf a owl:Class ;
+    dcterms:identifier <urn:uuid:eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> .
+ex:RepeatedOnSelf dcterms:identifier <urn:uuid:eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee> .
+
+# EP-ENTITY-CREATOR
+ex:NoCreator a owl:Class ;
+    dcterms:identifier <urn:uuid:10000000-0000-4000-8000-000000000001> .
+ex:TwoCreators a owl:Class ;
+    dcterms:identifier <urn:uuid:10000000-0000-4000-8000-000000000002> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> , <https://orcid.org/0000-0002-1825-009X> .
+ex:LiteralCreator a owl:Class ;
+    dcterms:identifier <urn:uuid:10000000-0000-4000-8000-000000000003> ;
+    dcterms:creator "https://orcid.org/0000-0001-8017-8797" .
+ex:ShortOrcid a owl:Class ;
+    dcterms:identifier <urn:uuid:10000000-0000-4000-8000-000000000004> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-879> .
+ex:OrcidWithSuffix a owl:Class ;
+    dcterms:identifier <urn:uuid:10000000-0000-4000-8000-000000000005> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797/person> .
+ex:HttpOrcid a owl:Class ;
+    dcterms:identifier <urn:uuid:10000000-0000-4000-8000-000000000006> ;
+    dcterms:creator <http://orcid.org/0000-0001-8017-8797> .
+ex:WrongChecksumButWellFormed a owl:Class ;
+    dcterms:identifier <urn:uuid:10000000-0000-4000-8000-000000000007> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8790> .
+ex:LowercaseXOrcid a owl:Class ;
+    dcterms:identifier <urn:uuid:10000000-0000-4000-8000-000000000008> ;
+    dcterms:creator <https://orcid.org/0000-0002-1825-009x> .
+
+# EP-MODIFIED (static form only; the change obligation needs comparison facts)
+ex:ModifiedDateOk a owl:Class ;
+    dcterms:identifier <urn:uuid:20000000-0000-4000-8000-000000000001> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> ;
+    dcterms:modified "2026-01-03"^^xsd:date .
+ex:ModifiedDateTimeOk a owl:Class ;
+    dcterms:identifier <urn:uuid:20000000-0000-4000-8000-000000000002> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> ;
+    dcterms:modified "2026-01-03T04:05:06Z"^^xsd:dateTime .
+ex:TwoModified a owl:Class ;
+    dcterms:identifier <urn:uuid:20000000-0000-4000-8000-000000000003> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> ;
+    dcterms:modified "2026-01-03"^^xsd:date , "2026-01-04"^^xsd:date .
+ex:ModifiedOffset a owl:Class ;
+    dcterms:identifier <urn:uuid:20000000-0000-4000-8000-000000000004> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> ;
+    dcterms:modified "2026-01-03T04:05:06+00:00"^^xsd:dateTime .
+ex:ModifiedPlainString a owl:Class ;
+    dcterms:identifier <urn:uuid:20000000-0000-4000-8000-000000000005> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> ;
+    dcterms:modified "2026-01-03" .
+ex:ModifiedImpossibleDate a owl:Class ;
+    dcterms:identifier <urn:uuid:20000000-0000-4000-8000-000000000006> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> ;
+    dcterms:modified "2026-02-30"^^xsd:date .
+
+# EP-CONTRIBUTOR
+ex:ContributorsOk a owl:Class ;
+    dcterms:identifier <urn:uuid:30000000-0000-4000-8000-000000000001> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> ;
+    dcterms:contributor <https://orcid.org/0000-0002-1825-009X> , <https://orcid.org/0000-0001-8017-8797> .
+ex:LiteralContributor a owl:Class ;
+    dcterms:identifier <urn:uuid:30000000-0000-4000-8000-000000000002> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> ;
+    dcterms:contributor "https://orcid.org/0000-0002-1825-009X" .
+ex:MalformedContributor a owl:Class ;
+    dcterms:identifier <urn:uuid:30000000-0000-4000-8000-000000000003> ;
+    dcterms:creator <https://orcid.org/0000-0001-8017-8797> ;
+    dcterms:contributor <https://orcid.org/0000-0002-1825-009X> , <https://orcid.org/not-an-orcid> .

@@ -1,0 +1,27 @@
+{
+  "oracle": "Wiki W33 and DEC-007: schema:position on owned owl:Axiom nodes is xsd:integer; elsewhere, on foreign axioms, or under an https look-alike predicate it is not this rule. Authored before the shapes were written.",
+  "rules": [
+    "EP-AXIOM-POSITION"
+  ],
+  "targeted_focus_nodes": [
+    "https://example.org/fixtures/entity/Colour",
+    "https://example.org/fixtures/entity/Red"
+  ],
+  "results": [
+    {
+      "requirement_id": "EP-AXIOM-POSITION",
+      "focus_node": "https://example.org/fixtures/entity/NamedAxiom",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:DatatypeConstraintComponent"
+      ]
+    }
+  ],
+  "notes": [
+    "Owned anonymous axioms: position 1 passes; \"2\" (plain string) and 3.5 (decimal) fail, so two anonymous violations are expected by count, plus the named axiom with an ill-typed integer.",
+    "The foreign axiom annotating schema:Thing and the https://schema.org/ look-alike predicate produce nothing."
+  ],
+  "anonymous_results": {
+    "EP-AXIOM-POSITION": 2
+  }
+}

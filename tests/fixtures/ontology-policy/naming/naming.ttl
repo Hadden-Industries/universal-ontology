@@ -1,0 +1,34 @@
+# Naming negatives for a non-ISO module: classes, individuals, properties.
+@prefix ex:      <https://example.org/fixtures/entity/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix dcat:    <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+ex: a owl:Ontology ; owl:versionIRI ex:20260101 ; owl:versionInfo "2026-01-01" .
+
+# EP-CLASS-NAME
+ex:RiskEvent a owl:Class .
+ex:Risk2Event a owl:Class .
+ex:risk_event a owl:Class .
+ex:riskEvent a owl:Class .
+ex:Risk_Event a owl:Class .
+
+# EP-INDIVIDUAL-NAME
+ex:Colour a owl:Class .
+ex:Size a owl:Class .
+ex:Red a owl:NamedIndividual , ex:Colour .
+ex:Colour_Red a owl:NamedIndividual , ex:Colour .
+ex:Colour_Blue a owl:NamedIndividual , ex:Colour , ex:Size .
+ex:Size_Green a owl:NamedIndividual , ex:Colour .
+ex:Colour_ a owl:NamedIndividual , ex:Colour .
+ex:Hue_Red a owl:NamedIndividual , ex:Colour .
+ex:Colour_red a owl:NamedIndividual , ex:Colour .
+ex:red a owl:NamedIndividual , ex:Colour .
+
+# EP-PROPERTY-NAME (non-ISO module: camelCase MUST)
+ex:hasPart a owl:ObjectProperty .
+ex:Thing_hasPart a owl:ObjectProperty .
+ex:thing_hasPart a owl:ObjectProperty .
+ex:HasPart a owl:ObjectProperty .
+ex:has_part a owl:DatatypeProperty .
+ex:has-part a owl:DatatypeProperty .

@@ -1,0 +1,21 @@
+{
+  "oracle": "DEC-027 header profile (Wiki W01, DEC-001, DEC-025). Authored before the shapes were written.",
+  "rules": [
+    "EP-ONT-VERSION"
+  ],
+  "passing_rules": [],
+  "targeted_focus_nodes": [
+    "https://example.org/fixtures/entity/Thing"
+  ],
+  "header_focus": "https://example.org/fixtures/entity/",
+  "results": [
+    {
+      "requirement_id": "EP-ONT-VERSION",
+      "focus_node": "https://example.org/fixtures/entity/",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:DatatypeConstraintComponent"
+      ]
+    }
+  ]
+}

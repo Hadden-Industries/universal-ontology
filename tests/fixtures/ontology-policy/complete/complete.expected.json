@@ -1,0 +1,27 @@
+{
+  "oracle": "A module that satisfies every accepted rule produces no result. Authored from the Wiki/decision text; positive control for every executable rule.",
+  "rules": [
+    "EP-ENTITY-UUID", "EP-IDENTIFIER-UNIQUE", "EP-ENTITY-CREATOR", "EP-ENTITY-CREATED", "EP-MODIFIED",
+    "EP-CONTRIBUTOR", "EP-CLASS-NAME", "EP-INDIVIDUAL-NAME", "EP-PROPERTY-NAME", "EP-PROPERTY-NAME-ISO",
+    "EP-LABEL", "EP-PREFLABEL-LANGUAGE", "EP-PREFLABEL-IRI", "EP-PREFLABEL-LABEL", "EP-DEFINITION",
+    "EP-DESCRIPTIVE-LANGUAGE", "EP-DESCRIPTION-LANGUAGE", "EP-OPTIONAL-ANNOTATIONS", "EP-ONT-VERSION",
+    "EP-AXIOM-POSITION"
+  ],
+  "passing_rules": [
+    "EP-ENTITY-UUID", "EP-IDENTIFIER-UNIQUE", "EP-ENTITY-CREATOR", "EP-ENTITY-CREATED", "EP-MODIFIED",
+    "EP-CONTRIBUTOR", "EP-CLASS-NAME", "EP-INDIVIDUAL-NAME", "EP-PROPERTY-NAME", "EP-PROPERTY-NAME-ISO",
+    "EP-LABEL", "EP-PREFLABEL-LANGUAGE", "EP-PREFLABEL-IRI", "EP-PREFLABEL-LABEL", "EP-DEFINITION",
+    "EP-DESCRIPTIVE-LANGUAGE", "EP-DESCRIPTION-LANGUAGE", "EP-OPTIONAL-ANNOTATIONS", "EP-ONT-VERSION",
+    "EP-AXIOM-POSITION"
+  ],
+  "targeted_focus_nodes": [
+    "https://example.org/fixtures/entity/Colour",
+    "https://example.org/fixtures/entity/Colour_Red",
+    "https://example.org/fixtures/entity/ThreeDModel",
+    "https://example.org/fixtures/entity/Thing_hasPart",
+    "https://example.org/fixtures/entity/numericalValue"
+  ],
+  "not_targeted": ["http://schema.org/Thing"],
+  "qualification_purpose": true,
+  "results": []
+}
