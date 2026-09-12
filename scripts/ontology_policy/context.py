@@ -80,13 +80,21 @@ def owned_subjects(source: ModuleSource):
     return owned
 
 
-def build_validation_graph(sources: list[ModuleSource], purpose: RunPurpose) -> tuple[Graph, Graph]:
+def build_validation_graph(
+    sources: list[ModuleSource], purpose: RunPurpose, comparisons: dict | None = None
+) -> tuple[Graph, Graph]:
     """Assemble the engine input: the union of all module graphs plus the context graph.
 
     The union is what the engine evaluates, so targets can combine ownership facts
     with asserted types. Blank nodes keep their in-process identity, so anonymous
-    axioms are reachable from the context facts that name them.
+    axioms are reachable from the context facts that name them. ``comparisons``
+    maps a module IRI to the previous ``ModuleSource`` (or ``None`` when no
+    comparison exists); change kinds are asserted only where a comparison is
+    available, so an absent comparison is visible, never invented.
     """
+    from .changes import ChangeKind, classify_changes
+
+    comparisons = comparisons or {}
     if not sources:
         raise ContextError("No module sources were supplied; a nonempty corpus is required.")
     seen = set()
@@ -114,6 +122,25 @@ def build_validation_graph(sources: list[ModuleSource], purpose: RunPurpose) -> 
         context.add((module.iri, UOC.sourceLocator, Literal(source.locator)))
         for subject in owned_subjects(source):
             context.add((subject, UOC.ownedBy, module.iri))
+        previous = comparisons.get(module.iri)
+        if previous is None:
+            context.add((module.iri, UOC.comparison, UOC.Unavailable))
+            continue
+        context.add((module.iri, UOC.comparison, UOC.Available))
+        context.add((module.iri, UOC.comparedWith, Literal(f"{previous.locator} {previous.digest}")))
+        deleted = set()
+        for subject, kind in classify_changes(source, previous).items():
+            if kind == ChangeKind.DELETED:
+                deleted.add(subject)
+                context.add((module.iri, UOC.deletedSubject, subject))
+            else:
+                context.add((subject, UOC.changeKind, {
+                    ChangeKind.ADDED: UOC.Added, ChangeKind.CHANGED: UOC.Changed, ChangeKind.UNCHANGED: UOC.Unchanged,
+                }[kind]))
+        for gone in deleted:
+            for referrer in set(source.graph.subjects(None, gone)):
+                if isinstance(referrer, URIRef):
+                    context.add((referrer, UOC.refersToDeleted, gone))
 
     union = Graph()
     for source in sources:

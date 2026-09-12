@@ -44,6 +44,20 @@ uoc:ModuleShape
     sh:property [ sh:path uoc:sourceLocator ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
     sh:property [ sh:path uoc:isoNaming ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
 
+uoc:ComparisonShape
+    a sh:NodeShape ;
+    sh:targetClass uoc:Module ;
+    sh:property [ sh:path uoc:comparison ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( uoc:Available uoc:Unavailable ) ;
+                  sh:message "Every module states whether a comparison snapshot was available."@en ] ;
+    sh:property [ sh:path uoc:comparedWith ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+
+uoc:ChangeKindShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf uoc:changeKind ;
+    sh:property [ sh:path uoc:changeKind ; sh:maxCount 1 ; sh:in ( uoc:Added uoc:Changed uoc:Unchanged ) ;
+                  sh:message "A subject has at most one change kind."@en ] ;
+    sh:property [ sh:path uoc:ownedBy ; sh:minCount 1 ; sh:message "Only owned subjects carry change facts."@en ] .
+
 uoc:OwnershipShape
     a sh:NodeShape ;
     sh:targetSubjectsOf uoc:ownedBy ;

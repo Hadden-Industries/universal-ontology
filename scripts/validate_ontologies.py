@@ -180,6 +180,7 @@ def main() -> None:
         help="Run the canonical SHACL editing policy for this purpose instead of the legacy invariant checker",
     )
     parser.add_argument("--authorities", type=Path, default=AUTHORITIES_DIRECTORY, help="Directory of pinned authority snapshots")
+    parser.add_argument("--critical-fix-scope", help="Approved scope reference for a critical-fix run")
 
     args = parser.parse_args()
     if args.diff_head and not args.diff_base:
@@ -219,8 +220,11 @@ def main() -> None:
         # The SHACL path validates exact bytes: staged blobs for --staged, the
         # requested head commit for --diff-head, otherwise the working tree.
         revision = "" if args.staged else (selection.head if selection.head else None)
-        selected = [SelectedSource(path, revision) for path in selection.files]
-        sys.exit(run_policy_validation(purpose, selected, repository=Path.cwd(), github_actions=is_ci, authorities_directory=args.authorities))
+        selected = [SelectedSource(path, revision, selection.base) for path in selection.files]
+        sys.exit(run_policy_validation(
+            purpose, selected, repository=Path.cwd(), github_actions=is_ci, authorities_directory=args.authorities,
+            scope_reference=args.critical_fix_scope,
+        ))
     if not selection.files:
         if selection.removed_files:
             print("Only removed ontology files were selected; no remaining document was parsed.")

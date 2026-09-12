@@ -7,7 +7,7 @@ from pathlib import Path
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPOSITORY_ROOT / "scripts"))
 
-from ontology_policy.cli import SelectedSource, assemble_sources, module_for_path  # noqa: E402
+from ontology_policy.cli import SelectedSource, assemble_comparisons, assemble_sources, module_for_path  # noqa: E402
 from ontology_policy.context import ContextError, RunPurpose  # noqa: E402
 from ontology_policy.modules import load_owned_modules  # noqa: E402
 
@@ -42,6 +42,17 @@ class SourceAssemblyTest(unittest.TestCase):
         self.assertEqual(by_label["Universal Extended"], "extended/universal-extended.owl")
         self.assertEqual(by_label["Universal Core"], "src/universal/core/20260714")
         self.assertEqual(len(sources), len(self.modules))
+
+    def test_comparisons_come_from_the_active_artifact_or_the_base_commit_and_never_for_latest_active(self):
+        selected = [SelectedSource("extended/universal-extended.owl", None)]
+        comparisons = assemble_comparisons(RunPurpose.CANDIDATE, selected, self.modules, REPOSITORY_ROOT)
+        by_label = {module.label: comparisons[module.iri] for module in self.modules}
+        self.assertEqual(by_label["Universal Extended"].locator, "src/universal/extended/20260714")
+        self.assertEqual(by_label["Universal Core"].locator, "src/universal/core/20260714")
+        self.assertTrue(all(value is None for value in assemble_comparisons(RunPurpose.LATEST_ACTIVE, selected, self.modules, REPOSITORY_ROOT).values()))
+        based = assemble_comparisons(RunPurpose.DRAFT, [SelectedSource("extended/universal-extended.owl", None, "HEAD")], self.modules, REPOSITORY_ROOT)
+        self.assertTrue(by_label["Universal Extended"].locator != based[[m for m in self.modules if m.label == "Universal Extended"][0].iri].locator)
+        self.assertTrue(based[[m for m in self.modules if m.label == "Universal Extended"][0].iri].locator.startswith("HEAD:"))
 
     def test_an_input_outside_the_reviewed_modules_is_a_context_error(self):
         with self.assertRaises(ContextError):
@@ -80,6 +91,12 @@ class CommandContractTest(unittest.TestCase):
         completed = run_command("--purpose", "draft", "--all-current", "--plan")
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertIn("validation_required=true", completed.stdout)
+
+    def test_draft_run_reports_change_obligations_and_comparisons(self):
+        completed = run_command("--purpose", "draft", "--authorities", FIXTURE_AUTHORITIES, "extended/universal-extended.owl")
+        self.assertIn(completed.returncode, (0, 1), completed.stderr)
+        self.assertIn("comparison https://haddenindustries.com/ontology/policy/activation/extended: src/universal/extended/20260714 sha256:", completed.stdout)
+        self.assertIn("(diagnostic purpose)", completed.stdout)
 
     def test_legacy_path_is_unchanged_without_a_purpose(self):
         completed = run_command("--all-current", "--plan")

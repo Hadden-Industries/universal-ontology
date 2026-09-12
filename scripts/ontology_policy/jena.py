@@ -66,12 +66,12 @@ class JenaOutcome:
 
 def validate_with_jena(
     sources: list[ModuleSource], purpose: RunPurpose, policy: Policy, runtime: JenaRuntime,
-    authorities_directory: Path = AUTHORITIES_DIRECTORY,
+    authorities_directory: Path = AUTHORITIES_DIRECTORY, comparisons: dict | None = None,
 ) -> JenaOutcome:
     """Run Jena on exactly the graphs pySHACL saw; blank nodes survive through one Turtle file each."""
     from .validation import required_authorities
 
-    data, _ = build_validation_graph(sources, purpose)
+    data, _ = build_validation_graph(sources, purpose, comparisons)
     required = required_authorities(policy)
     if required:
         data += load_authority_graph(authorities_directory, required)

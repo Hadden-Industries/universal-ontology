@@ -58,6 +58,18 @@ class CreatedTimestampCrossEngineTest(unittest.TestCase):
                         rule,
                     )
 
+    def test_both_engines_agree_on_the_conditional_modified_obligation(self):
+        from tests.test_ontology_entity_changes import ConditionalModifiedTest, graph
+        from tests.test_ontology_policy import FIXTURE_MODULE
+
+        current = graph(ConditionalModifiedTest.CURRENT, "current.ttl")
+        previous = graph(ConditionalModifiedTest.PREVIOUS, "previous.ttl")
+        comparisons = {FIXTURE_MODULE.iri: previous}
+        pyshacl_outcome = validate_sources([current], RunPurpose.DRAFT, self.policy, authorities_directory=FIXTURE_AUTHORITIES, comparisons=comparisons)
+        jena_outcome = validate_with_jena([current], RunPurpose.DRAFT, self.policy, self.runtime, authorities_directory=FIXTURE_AUTHORITIES, comparisons=comparisons)
+        self.assertEqual(comparable(pyshacl_outcome.results), comparable(jena_outcome.results))
+        self.assertIn("EP-MODIFIED", {r.requirement_id for r in jena_outcome.results})
+
     def test_runtime_identity_is_the_qualified_jena_and_jdk(self):
         identity = self.runtime.identity()
         self.assertEqual(identity["jena"], "6.2.0")

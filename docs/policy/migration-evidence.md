@@ -198,3 +198,49 @@ restrictions; EU Vocabularies reuse under Commission Decision 2011/833/EU
 (CC BY 4.0, attribution required); IANA registry data terms to be confirmed by
 the owner. Until approval, `policy/authorities/` does not exist and every
 qualification run must name a snapshot directory explicitly.
+
+## SLICE-005 — latest versions, candidates and conditional change facts
+
+**Change facts (DEC-016):** `scripts/ontology_policy/changes.py` computes each
+owned IRI subject's rooted closure — outgoing assertions, every reachable blank
+node (restrictions, lists, nested expressions) and its axiom annotations — and
+compares closures with native RDFLib isomorphism. Serialisation, prefixes,
+triple order and blank-node labels do not count; a shared anonymous structure
+changes every owner that attaches it; changing a property's range changes the
+property, not its targets; deleted subjects are recorded on the module and
+survivors referring to them carry `uoc:refersToDeleted`. Facts:
+`uoc:changeKind` Added/Changed/Unchanged per subject and, per module,
+`uoc:comparison` Available/Unavailable with `uoc:comparedWith` identity.
+
+**Oracles:** `tests/test_ontology_entity_changes.py` — 15 contracts, all
+passing on first execution: reordering/relabelling, outgoing change, range
+change, restriction and list edits, axiom annotation edit, shared named and
+anonymous structure, add/delete/revert, closure contents, and a real temporary
+Git repository proving staged versus worktree bytes are distinguished in both
+directions, a byte-identical re-read is unchanged, and a missing blob is an
+input error.
+
+**Conditional modified:** `ep:EP-MODIFIED-changed-shape` (a part of
+EP-MODIFIED) targets existing owned entities whose content changed and that
+carry no `dcterms:modified`; an unchanged valid value suffices (DEC-017) and
+added entities need none. The mutation proof holds: changing only the SHACL
+applicability condition (`uoc:Changed` → `uoc:Unchanged` in the candidate
+target) removes the obligation while the runner still supplies identical
+change facts, so Python never decides the obligation. Jena agrees with pySHACL
+on the comparison run.
+
+**Purposes:** a candidate qualification refuses to run without a comparison
+for every module (exit 2); latest-active runs without a supplied comparison
+report change obligations as *unevaluated* per module rather than inventing
+them; draft runs show findings but never qualify; a critical-fix run requires
+an approved scope reference, restricts results to changed/added subjects and
+survivors referring to deleted ones, and never qualifies — an untouched
+historic defect stays outside its results while a draft run still shows it.
+
+**Command:** for candidate/draft runs the comparison of a replaced module is
+its recorded active artifact, or the base commit's blob of the same path when
+`--diff-base` is given (an added file has no comparison); unreplaced modules
+compare with themselves. `--critical-fix-scope <reference>` supplies the
+approved scope. Real drafts on 12 September: both `extended/universal-extended.owl`
+(candidate 20260721) and the reference-data draft carry `modified` on every
+changed entity; the only conditional finding remains `Duty`'s malformed value.

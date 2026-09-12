@@ -174,6 +174,39 @@ ep:EP-MODIFIED-count
     sh:maxCount 1 ;
     sh:message "An owned entity carries at most one dcterms:modified value."@en .
 
+ep:EP-MODIFIED-changed-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-MODIFIED ;
+    sh:target ep:EP-MODIFIED-changed-candidates ;
+    sh:sparql ep:EP-MODIFIED-changed .
+
+ep:EP-MODIFIED-changed-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "existing owned entities whose content changed relative to the comparison snapshot and that carry no dcterms:modified"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this uoc:changeKind uoc:Changed .
+            ?this uoc:ownedBy ?module . ?this a ?kind .
+            FILTER ( ?kind IN ( owl:Class, owl:NamedIndividual, owl:ObjectProperty, owl:DatatypeProperty ) )
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
+            FILTER NOT EXISTS { ?this dcterms:modified ?modified }
+        }
+        """ .
+
+ep:EP-MODIFIED-changed
+    a sh:SPARQLConstraint ;
+    sh:message "An existing entity whose content changed carries a dcterms:modified value."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?path WHERE {
+            BIND ( dcterms:modified AS ?path )
+            $this uoc:changeKind uoc:Changed .
+            FILTER NOT EXISTS { $this dcterms:modified ?modified }
+        }
+        """ .
+
 ep:EP-MODIFIED-form
     a sh:PropertyShape ;
     sh:path dcterms:modified ;

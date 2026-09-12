@@ -44,14 +44,13 @@ def module_for_path(modules: tuple[OwnedModule, ...], path: str) -> OwnedModule 
 class SelectedSource:
     path: str
     revision: str | None  # None: working tree; "": index; otherwise a commit
+    comparison_revision: str | None = None  # commit whose blob of the same path is the comparison; None: the active artifact
 
 
 def assemble_sources(
     purpose: RunPurpose, selected: list[SelectedSource], modules: tuple[OwnedModule, ...], repository: Path | None = None
 ) -> list[ModuleSource]:
     """Resolve the exact module set for the purpose; unaccounted inputs are errors, not omissions."""
-    if purpose == RunPurpose.CRITICAL_FIX:
-        raise ContextError("critical-fix runs require an explicitly approved scope; not supported by this command yet.")
     replacements: dict = {}
     if purpose != RunPurpose.LATEST_ACTIVE:
         for item in selected:
@@ -73,9 +72,39 @@ def assemble_sources(
     return sources
 
 
+def assemble_comparisons(
+    purpose: RunPurpose, selected: list[SelectedSource], modules: tuple[OwnedModule, ...], repository: Path | None = None
+) -> dict:
+    """Previous snapshot per module: the active artifact for a replaced module, or the base commit's blob.
+
+    A latest-active run has no comparison unless one is supplied, so its change
+    obligations are reported as unevaluated rather than invented.
+    """
+    comparisons: dict = {module.iri: None for module in modules}
+    if purpose == RunPurpose.LATEST_ACTIVE:
+        return comparisons
+    for item in selected:
+        module = module_for_path(modules, item.path)
+        if module is None:
+            continue
+        if item.comparison_revision is not None:
+            try:
+                comparisons[module.iri] = read_module_source(module, item.path, revision=item.comparison_revision, repository=repository)
+            except InputError:
+                comparisons[module.iri] = None  # added in this change: no previous blob
+        elif module.active_artifact_path:
+            comparisons[module.iri] = read_module_source(module, module.active_artifact_path, repository=repository)
+    for module in modules:
+        if comparisons[module.iri] is None and module.iri not in {module_for_path(modules, i.path).iri for i in selected if module_for_path(modules, i.path)}:
+            # unreplaced modules are their own active artifact: unchanged by construction
+            if module.active_artifact_path:
+                comparisons[module.iri] = read_module_source(module, module.active_artifact_path, repository=repository)
+    return comparisons
+
+
 def run_policy_validation(
     purpose: RunPurpose, selected: list[SelectedSource], *, repository: Path | None = None, github_actions: bool = False,
-    stream=None, authorities_directory: Path = AUTHORITIES_DIRECTORY,
+    stream=None, authorities_directory: Path = AUTHORITIES_DIRECTORY, scope_reference: str | None = None,
 ) -> int:
     """Execute the policy and present results; returns the documented status (0, 1 or 2)."""
     stream = stream or sys.stdout
@@ -83,7 +112,11 @@ def run_policy_validation(
         policy = load_policy()
         modules = load_owned_modules()
         sources = assemble_sources(purpose, selected, modules, repository)
-        outcome = validate_sources(sources, purpose, policy, authorities_directory=authorities_directory)
+        comparisons = assemble_comparisons(purpose, selected, modules, repository)
+        outcome = validate_sources(
+            sources, purpose, policy, authorities_directory=authorities_directory, comparisons=comparisons,
+            scope_reference=scope_reference,
+        )
     except (AuthorityError, ContextError, InputError, PolicyDefinitionError) as error:
         print(f"POLICY_VALIDATION_ERROR ({type(error).__name__}): {error}", file=sys.stderr)
         return STATUS_ERROR
@@ -97,6 +130,10 @@ def present(outcome: ValidationOutcome, *, github_actions: bool, stream) -> None
         print(f"  module {module_iri}\n    {locator} {digest}", file=stream)
     for name, digest in outcome.authority_identities:
         print(f"  authority {name} {digest}", file=stream)
+    for module_iri, compared in outcome.comparisons:
+        print(f"  comparison {module_iri}: {compared or 'unavailable (change obligations unevaluated)'}", file=stream)
+    if outcome.scope_reference:
+        print(f"Critical-fix scope: {outcome.scope_reference}; results limited to changed subjects and affected referrers.", file=stream)
     print(f"Targeted owned entities: {outcome.targeted_focus_count}", file=stream)
     if outcome.results:
         print(format_results(outcome.results), file=stream)

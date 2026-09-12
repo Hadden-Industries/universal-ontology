@@ -2,7 +2,7 @@
 
 Structural editing requirements for every owned entity, ontology header and axiom in each latest active ontology version and in every replacement candidate. Human conceptual review remains separate and is documented here as explicit human clauses.
 
-Generated from the canonical policy graph (policy identity `sha256:8937e3e9a27b97f7e267b586fc3c7f0a91348b1c5f53b6eb83e503cd5c3f9e86`). Do not edit this page by hand; change the policy sources under `policy/` and regenerate.
+Generated from the canonical policy graph (policy identity `sha256:9361f7ea7e341b5787fc87b4c9a4118802e18c1ebdd6f4ebb6bd8d2c5253d2c7`). Do not edit this page by hand; change the policy sources under `policy/` and regenerate.
 
 ## Ontology header
 
@@ -91,6 +91,7 @@ An owned entity carries at most one `dcterms:modified` value. When present it is
 **Executable constraints:**
 
 - `dcterms:modified`: at most one value
+- the entity: An existing entity whose content changed carries a dcterms:modified value. (SPARQL-based check; see the policy source)
 
 **Source:** Editing Policy Wiki W17 (lines 129-139); DEC-016; DEC-017; DEC-022
 
