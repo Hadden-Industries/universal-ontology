@@ -38,6 +38,23 @@ The native security workflow owns its internal workers; no generic scanner fan-o
 `security_requirements_reviewer` checks actual deployment assumptions, accepted
 security requirements and scan gaps without reproducing the scanner's job.
 
+## Review scope and evidence applicability
+
+Apply `docs/sdlc/proportional-workflow.md#execution-cadence-and-evidence-placement`.
+Inspect the actual meaning and consumer of prose changes: a Markdown permission,
+fixture, executable example or public contract is not low-risk because of its file
+extension. Conversely, do not impose unrelated release qualification on a genuinely
+bounded prose correction. Require an accepted/governing source or an explicit owner
+decision for a mandatory prerequisite; label additional recommendations as proposals.
+Preserve all mandatory principle findings and independent assurance.
+
+For a bounded follow-up, identify the prior reviewed object and the real subsequent
+delta. State which conclusions remain applicable, which questions were rechecked
+and what is unverified. A previous whole-diff review does not automatically cover
+new code, packaging, environment or policy. Inspect the representative delivered
+artifact and its actual execution boundary when that supports the claimed outcome;
+internal test totals and development-only runs do not establish production behavior.
+
 ## Findings and blocking rules
 
 For every finding provide exact anchor, changed object, governing rule or contract,
@@ -65,6 +82,15 @@ keep disagreement and ask an accountable decision-maker for disputed meaning/ris
 A semantic outcome concern triggers a scope/design decision, not unilateral scope
 expansion. Triage feedback against the cited evidence and accepted contract;
 do not require another skill installation for ordinary review.
+
+When cross-worktree integration is material, state whether each cited result covers
+an isolated branch/candidate or the actual combined target. Identify the integration
+owner, relevant input revisions, semantic overlap decisions and outstanding combined
+consumer checks. Check that source, baseline and control movement received fresh
+applicable evidence and the required owner decisions. Do not accept a clean merge,
+copied verification record or another branch's successful run as proof of combined
+behavior. Keep this in the normal risk-proportionate review and existing handoff;
+no separate reviewer or additional dossier is mandatory solely for this statement.
 
 Report target, accepted brief/baseline, passes performed, commands actually run,
 name/functionality pairs inspected (summarise groups where simple), findings,

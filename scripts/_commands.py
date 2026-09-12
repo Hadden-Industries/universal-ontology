@@ -19,12 +19,27 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 from typing import Iterable
 
 
 class SetupError(RuntimeError):
     """Raised for a safe, user-actionable setup failure."""
+
+
+def write_console_diagnostic(text: str, *, stream=None) -> str:
+    """Flush readable diagnostics without losing glyphs to inherited error modes.
+
+    This adapts presentation only. Protocol decoding and retained evidence must
+    never use this escaping policy. Actual write/flush failures propagate.
+    """
+    destination = sys.stdout if stream is None else stream
+    encoding = getattr(destination, 'encoding', None)
+    displayed = text.encode(encoding, errors='backslashreplace').decode(encoding) if encoding else text
+    destination.write(displayed)
+    destination.flush()
+    return 'written' if displayed == text else 'escaped'
 
 
 def run(
@@ -34,6 +49,8 @@ def run(
     capture: bool = False,
     check: bool = True,
     env: dict[str, str] | None = None,
+    encoding: str | None = None,
+    errors: str | None = None,
 ) -> subprocess.CompletedProcess[str]:
     """
     Runs a command, echoing it first so the log doubles as a transcript.
@@ -43,7 +60,7 @@ def run(
     the failure without reading this script.
     """
     command = [str(arg) for arg in args]
-    print(f"> {subprocess.list2cmdline(command)}")
+    write_console_diagnostic(f"> {subprocess.list2cmdline(command)}\n")
 
     return subprocess.run(
         command,
@@ -52,6 +69,8 @@ def run(
         text=True,
         capture_output=capture,
         env=env,
+        encoding=encoding,
+        errors=errors,
     )
 
 

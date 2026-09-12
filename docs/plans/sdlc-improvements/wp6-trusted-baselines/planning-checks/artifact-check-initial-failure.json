@@ -1,0 +1,8 @@
+{
+  "kind": "wp6-artifact-check-attempt",
+  "status": "failed-before-checks",
+  "scriptSha256": "b639a5f95fa9cf55e17a6d1727b645f3fd83a9027e20966888d4aa88ae4ac1ed",
+  "observedError": "SyntaxError: unmatched ')' at line 62",
+  "disposition": "Correct excess closing parentheses in the artifact checker; this attempt is not counted as a passing consistency run.",
+  "implementationOrNativeTestsExecuted": false
+}

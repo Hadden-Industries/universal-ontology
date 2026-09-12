@@ -10,11 +10,14 @@ import { promisify } from "node:util";
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 
-import { UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO } from "../../src/mcp/universalOntologyMcpMetadata.js";
 import {
   calculateSha256 as calculateOntologyArtifactSha256,
   serializeCanonicalOntologyQueryJsonDocument,
-} from "../../src/ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
+} from "universal-ontology-query/artifacts";
+import {
+  OntologyEntityResolutionSuccessSchema,
+  OntologyEntitySearchSuccessSchema,
+} from "universal-ontology-query/schemas";
 import { createInMemoryOntologyReleaseArtifact } from "../fixtures/ontology-query/createInMemoryOntologyQueryFixture.js";
 import { createOntologyQueryArtifactHttpFixture } from "../fixtures/ontology-query/createOntologyQueryArtifactHttpFixture.js";
 
@@ -38,7 +41,7 @@ const APPLICATION_BUNDLE_METADATA_URL = new URL(
   import.meta.url,
 );
 const APPLICATION_BUNDLE_BUILD_SCRIPT_URL = new URL(
-  "../../scripts/distribution/buildUniversalOntologyMcpApplicationBundle.js",
+  "../../packages/universal-ontology-mcp-server/scripts/buildUniversalOntologyMcpApplicationBundle.js",
   import.meta.url,
 );
 const REPOSITORY_ROOT_PATH = fileURLToPath(new URL("../../", import.meta.url));
@@ -60,7 +63,6 @@ const EXPECTED_PUBLIC_PACKAGE_FILES = Object.freeze([
 const EXPECTED_PACKAGING_DEV_DEPENDENCIES = Object.freeze({
   ajv: "8.20.0",
   "ajv-formats": "3.0.1",
-  esbuild: "0.28.2",
   tar: "7.5.22",
   yaml: "2.9.0",
   yazl: "3.3.1",
@@ -149,6 +151,15 @@ async function listRelativeFilePaths(directoryPath) {
 }
 
 async function createPackagedPersonQueryFixture() {
+  const sourceBytes = await nodeFileSystem.readFile(
+    new URL(
+      "../fixtures/ontology-query/minimal-ontology-release",
+      import.meta.url,
+    ),
+  );
+  expect(calculateSha256(sourceBytes)).toBe(
+    "efbb5401bbe45464f916875b81777c9132fac63f56c8d34b0b3af27601aa163b",
+  );
   const httpFixture = await createOntologyQueryArtifactHttpFixture();
   const releaseArtifact = await createInMemoryOntologyReleaseArtifact({
     ontologyArtifactFamilyId: "universal/core",
@@ -187,7 +198,7 @@ async function createPackagedPersonQueryFixture() {
 }
 
 describe("public Universal Ontology MCP npm package", () => {
-  test("declares one version-aligned, data-free public package contract", async () => {
+  test("declares one public executable workspace without installed runtime dependencies or ontology artifacts", async () => {
     const [rootPackage, publicPackage] = await Promise.all([
       readJsonDocument(ROOT_PACKAGE_JSON_URL),
       readJsonDocument(PUBLIC_PACKAGE_JSON_URL),
@@ -196,11 +207,15 @@ describe("public Universal Ontology MCP npm package", () => {
     expect(rootPackage).toMatchObject({
       private: true,
       packageManager: "npm@12.0.2",
-      workspaces: ["packages/universal-ontology-mcp-server"],
+      workspaces: [
+        "packages/universal-ontology-mcp-server",
+        "packages/universal-ontology-query",
+        "packages/universal-ontology-projection-policy",
+      ],
     });
     expect(publicPackage).toMatchObject({
       name: "universal-ontology-mcp-server",
-      version: rootPackage.version,
+      version: "1.0.0",
       description:
         "Read-only local MCP access to versioned Universal Ontology definitions and entity descriptions.",
       type: "module",
@@ -224,8 +239,11 @@ describe("public Universal Ontology MCP npm package", () => {
         url: "https://github.com/hadden-industries/universal-ontology/issues",
       },
       scripts: {
-        prepack:
-          "node ../../scripts/distribution/buildUniversalOntologyMcpApplicationBundle.js",
+        build: "node scripts/buildUniversalOntologyMcpApplicationBundle.js",
+        test: "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config ../../jest.config.js --rootDir .",
+        stdio: "node scripts/runUniversalOntologyMcpStdioServer.js",
+        serve: "node scripts/runLocalOntologyMcpServer.js",
+        prepack: "npm run build",
       },
     });
     expect(publicPackage.files).toEqual(EXPECTED_PUBLIC_PACKAGE_FILES);
@@ -240,13 +258,23 @@ describe("public Universal Ontology MCP npm package", () => {
 
     for (const dependencyFieldName of [
       "dependencies",
-      "devDependencies",
       "optionalDependencies",
       "peerDependencies",
       "bundledDependencies",
     ]) {
       expect(publicPackage).not.toHaveProperty(dependencyFieldName);
     }
+    expect(publicPackage).not.toHaveProperty("exports");
+    expect(publicPackage.devDependencies).toEqual({
+      "@jest/globals": "30.5.1",
+      "@modelcontextprotocol/client": "2.0.0",
+      "@modelcontextprotocol/node": "2.0.0",
+      "@modelcontextprotocol/server": "2.0.0",
+      esbuild: "0.28.2",
+      jest: "30.5.1",
+      "universal-ontology-query": "1.0.0",
+      zod: "4.5.4",
+    });
 
     for (const forbiddenLifecycleScriptName of [
       "preinstall",
@@ -260,22 +288,31 @@ describe("public Universal Ontology MCP npm package", () => {
     }
   });
 
-  test("pins the approved build toolchain in the selected npm workspace", async () => {
+  test("retains repository distribution tooling and delegates application commands to the MCP owner", async () => {
     const rootPackage = await readJsonDocument(ROOT_PACKAGE_JSON_URL);
 
     expect(rootPackage.packageManager).toBe("npm@12.0.2");
     expect(rootPackage.workspaces).toEqual([
       "packages/universal-ontology-mcp-server",
+      "packages/universal-ontology-query",
+      "packages/universal-ontology-projection-policy",
     ]);
     expect(rootPackage.devDependencies).toMatchObject(
       EXPECTED_PACKAGING_DEV_DEPENDENCIES,
     );
     expect(rootPackage.scripts).toMatchObject({
       "mcp:package:build":
-        "node scripts/distribution/buildUniversalOntologyMcpApplicationBundle.js",
+        "npm run build --workspace universal-ontology-mcp-server",
       "mcp:package:pack":
         "npm pack --workspace universal-ontology-mcp-server --pack-destination dist/releases",
     });
+    expect(rootPackage.devDependencies).not.toHaveProperty("esbuild");
+    expect(rootPackage.dependencies).not.toHaveProperty(
+      "@modelcontextprotocol/server",
+    );
+    expect(rootPackage.dependencies).not.toHaveProperty(
+      "@modelcontextprotocol/node",
+    );
   });
 
   test("copies the complete repository license into the public package", async () => {
@@ -377,7 +414,7 @@ describe("public Universal Ontology MCP npm package", () => {
     ]);
     expect(helpText).toContain("Usage:");
     expect(helpText).toContain("universal-ontology-mcp-server [options]");
-    expect(versionText).toBe(`${UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO.version}\n`);
+    expect(versionText).toBe("1.0.0\n");
   });
 
   test("keeps the canonical application bundle continuously available while rebuilding", async () => {
@@ -560,6 +597,31 @@ describe("public Universal Ontology MCP npm package", () => {
           left.localeCompare(right),
         ),
       );
+      const installedNotices = await nodeFileSystem.readFile(
+        join(installedPackageDirectoryPath, "THIRD_PARTY_NOTICES.md"),
+        "utf8",
+      );
+      for (const name of ["core", "server"]) {
+        const licenseText = await nodeFileSystem.readFile(
+          join(
+            REPOSITORY_ROOT_PATH,
+            "node_modules/@modelcontextprotocol",
+            name,
+            "LICENSE",
+          ),
+          "utf8",
+        );
+        expect(installedNotices.replaceAll("\r\n", "\n")).toContain(
+          licenseText.replaceAll("\r\n", "\n").trimEnd(),
+        );
+      }
+      expect(
+        (
+          await nodeFileSystem.readdir(
+            join(installationDirectoryPath, "node_modules"),
+          )
+        ).filter((name) => !name.startsWith(".")),
+      ).toEqual(["universal-ontology-mcp-server"]);
       await expect(
         nodeFileSystem.lstat(
           join(
@@ -620,6 +682,7 @@ describe("public Universal Ontology MCP npm package", () => {
         name: "search_entities",
         arguments: {
           queryText: "Person",
+          preferredLanguageTags: ["en-GB", "en"],
           ontologyReleaseSelection: {
             selectionKind: "specified_releases",
             ontologyReleases: [
@@ -646,6 +709,37 @@ describe("public Universal Ontology MCP npm package", () => {
           ],
         },
       });
+      expect(result.isError).not.toBe(true);
+      const searchContent = OntologyEntitySearchSuccessSchema.parse(
+        result.structuredContent,
+      );
+      expectPackagedAuthoredPerson(searchContent.matches[0].ontologyEntity);
+      const resolution = await client.callTool({
+        name: "resolve_entity",
+        arguments: {
+          entityIdentifier: {
+            identifierKind: "entity_iri",
+            identifierValue: "https://example.com/ontology/test/Person",
+          },
+          preferredLanguageTags: ["en-GB", "en"],
+          ontologyReleaseSelection: {
+            selectionKind: "specified_releases",
+            ontologyReleases: [
+              {
+                ontologyArtifactFamilyId: "universal/core",
+                versionTag: "20260714",
+              },
+            ],
+          },
+        },
+      });
+      expect(resolution.isError).not.toBe(true);
+      const resolutionContent = OntologyEntityResolutionSuccessSchema.parse(
+        resolution.structuredContent,
+      );
+      expect(resolutionContent.resolutionStatus).toBe("found");
+      expect(resolutionContent.ontologyEntities).toHaveLength(1);
+      expectPackagedAuthoredPerson(resolutionContent.ontologyEntities[0]);
     } finally {
       await client?.close().catch(() => {});
       await personQueryFixture?.httpFixture.close().catch(() => {});
@@ -656,3 +750,65 @@ describe("public Universal Ontology MCP npm package", () => {
     }
   }, 60_000);
 });
+
+// Independently authored expectations from the digest-bound RDF/XML fixture.
+// Entity provenance and definition-axiom provenance have different subjects.
+function expectPackagedAuthoredPerson(entity) {
+  const expectedRelease = {
+    ontologyArtifactFamilyId: "universal/core",
+    versionTag: "20260714",
+    sourceArtifactUrl: "https://example.com/ontology/universal/core/20260714",
+    sourceArtifactSha256:
+      "efbb5401bbe45464f916875b81777c9132fac63f56c8d34b0b3af27601aa163b",
+    ontologyIri: "https://example.com/ontology/test",
+    versionIri: "https://example.com/ontology/test/20260830",
+  };
+  const definitionValue = {
+    lexicalForm: "A natural or legal person recognised by law.",
+    datatypeIri: "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+    languageTag: "en-gb",
+  };
+  expect(entity.entityIri).toBe("https://example.com/ontology/test/Person");
+  expect(entity.selectedLexicalDefinition).toEqual({
+    resolvedOntologyRelease: expectedRelease,
+    assertionPropertyIri: "http://www.w3.org/2004/02/skos/core#definition",
+    literalValue: definitionValue,
+    selectionBasis: "preferred_language_exact",
+  });
+  expect(entity.sourceArtifactDescriptions).toHaveLength(1);
+  const [description] = entity.sourceArtifactDescriptions;
+  expect(description).toMatchObject({
+    resolvedOntologyRelease: expectedRelease,
+    assertionScope: "source_artifact_graph",
+    entityKinds: ["owl_class"],
+    entitySourceIris: ["urn:iso:std:iso:example:term:person"],
+    directNamedSuperclassIris: ["https://example.com/ontology/test/Agent"],
+  });
+  expect(description.lexicalDefinitionAssertions).toHaveLength(2);
+  expect(description.lexicalDefinitionAssertions).toEqual(
+    expect.arrayContaining([
+      {
+        assertionPropertyIri: "http://www.w3.org/2004/02/skos/core#definition",
+        literalValue: definitionValue,
+        assertionAnnotations: [
+          {
+            annotationPropertyIri: "http://purl.org/dc/terms/source",
+            annotationValue: {
+              termKind: "named_node",
+              iri: "https://example.com/standard/person-definition",
+            },
+          },
+        ],
+      },
+      {
+        assertionPropertyIri: "http://www.w3.org/2004/02/skos/core#definition",
+        literalValue: {
+          lexicalForm: "A person with legal standing.",
+          datatypeIri: "http://www.w3.org/2001/XMLSchema#string",
+          languageTag: null,
+        },
+        assertionAnnotations: [],
+      },
+    ]),
+  );
+}

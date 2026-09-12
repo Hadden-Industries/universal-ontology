@@ -10,7 +10,7 @@ import {
 import {
   calculateSha256,
   serializeCanonicalOntologyQueryJsonDocument,
-} from "../../src/ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
+} from "universal-ontology-query/artifacts";
 import { createInMemoryOntologyReleaseArtifact } from "../fixtures/ontology-query/createInMemoryOntologyQueryFixture.js";
 import { createOntologyQueryArtifactHttpFixture } from "../fixtures/ontology-query/createOntologyQueryArtifactHttpFixture.js";
 
@@ -32,7 +32,7 @@ const EXPECTED_PERSON_DEFINITION =
   "A natural or legal person recognised by law.";
 const STDIO_SERVER_SCRIPT_PATH = fileURLToPath(
   new URL(
-    "../../scripts/runUniversalOntologyMcpStdioServer.js",
+    "../../packages/universal-ontology-mcp-server/scripts/runUniversalOntologyMcpStdioServer.js",
     import.meta.url,
   ),
 );

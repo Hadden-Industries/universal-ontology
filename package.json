@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "packageManager": "npm@12.0.2",
   "workspaces": [
-    "packages/universal-ontology-mcp-server"
+    "packages/universal-ontology-mcp-server",
+    "packages/universal-ontology-query",
+    "packages/universal-ontology-projection-policy"
   ],
   "type": "module",
   "scripts": {
@@ -23,18 +25,18 @@
     "lint": "npm run lint:html && npm run lint:css && npm run lint:js",
     "lint:css": "stylelint \"src/**/*.css\"",
     "lint:html": "html-validate \"src/**/*.html\"",
-    "lint:js": "eslint \"src/**/*.js\" \"scripts/**/*.js\" \"tests/**/*.js\" \"vite.config.mjs\"",
-    "format": "prettier --write \"src/**/*.{js,css,html}\" \"scripts/**/*.js\" \"templates/**/*.html\" \"tests/**/*.js\" \"vite.config.mjs\" \"package.json\" \"packages/universal-ontology-mcp-server/**/*.{json,md}\" \"server.json\" \"scripts/distribution/*.json\" \"docs/mcp/*.md\"",
-    "format:check": "prettier --check \"src/**/*.{js,css,html}\" \"scripts/**/*.js\" \"templates/**/*.html\" \"tests/**/*.js\" \"vite.config.mjs\" \"package.json\" \"packages/universal-ontology-mcp-server/**/*.{json,md}\" \"server.json\" \"scripts/distribution/*.json\" \"docs/mcp/*.md\"",
-    "fix:all": "stylelint \"src/**/*.css\" --fix && eslint \"src/**/*.js\" \"scripts/**/*.js\" \"tests/**/*.js\" \"vite.config.mjs\" --fix && npm run format",
+    "lint:js": "eslint \"src/**/*.js\" \"scripts/**/*.js\" \"tests/**/*.js\" \"packages/*/src/**/*.js\" \"packages/*/scripts/**/*.js\" \"packages/*/tests/**/*.js\" \"vite.config.mjs\"",
+    "format": "prettier --write \"src/**/*.{js,css,html}\" \"scripts/**/*.js\" \"templates/**/*.html\" \"tests/**/*.js\" \"vite.config.mjs\" \"package.json\" \"packages/*/package.json\" \"packages/*/*.md\" \"packages/*/src/**/*.{js,json}\" \"packages/*/scripts/**/*.js\" \"packages/*/tests/**/*.js\" \"packages/*/data/*.json\" \"server.json\" \"scripts/distribution/*.json\" \"docs/mcp/*.md\"",
+    "format:check": "prettier --check \"src/**/*.{js,css,html}\" \"scripts/**/*.js\" \"templates/**/*.html\" \"tests/**/*.js\" \"vite.config.mjs\" \"package.json\" \"packages/*/package.json\" \"packages/*/*.md\" \"packages/*/src/**/*.{js,json}\" \"packages/*/scripts/**/*.js\" \"packages/*/tests/**/*.js\" \"packages/*/data/*.json\" \"server.json\" \"scripts/distribution/*.json\" \"docs/mcp/*.md\"",
+    "fix:all": "stylelint \"src/**/*.css\" --fix && eslint \"src/**/*.js\" \"scripts/**/*.js\" \"tests/**/*.js\" \"packages/*/src/**/*.js\" \"packages/*/scripts/**/*.js\" \"packages/*/tests/**/*.js\" \"vite.config.mjs\" --fix && npm run format",
     "generate:jsonld": "node scripts/generateJsonLd.js --missing-only",
     "generate:jsonld:all": "node scripts/generateJsonLd.js",
     "mcp:index": "node scripts/generateOntologyQueryIndexes.js",
     "mcp:channel:stage": "node scripts/stageOntologyQueryArtifactChannel.js",
-    "mcp:serve": "node scripts/runLocalOntologyMcpServer.js",
-    "mcp:stdio": "node scripts/runUniversalOntologyMcpStdioServer.js",
-    "mcp:dev": "node scripts/runLocalOntologyMcpServer.js --refresh-index",
-    "mcp:package:build": "node scripts/distribution/buildUniversalOntologyMcpApplicationBundle.js",
+    "mcp:serve": "node scripts/runOntologyMcpDevelopment.js",
+    "mcp:stdio": "node packages/universal-ontology-mcp-server/scripts/runUniversalOntologyMcpStdioServer.js",
+    "mcp:dev": "node scripts/runOntologyMcpDevelopment.js --refresh-index",
+    "mcp:package:build": "npm run build --workspace universal-ontology-mcp-server",
     "mcp:package:pack": "npm pack --workspace universal-ontology-mcp-server --pack-destination dist/releases",
     "mcp:archives:build": "node scripts/distribution/buildUniversalOntologyMcpPlatformArchive.js",
     "mcp:sbom:create": "node scripts/distribution/createUniversalOntologyMcpSpdxSbom.js",
@@ -44,6 +46,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@jest/globals": "30.5.1",
     "@modelcontextprotocol/client": "2.0.0",
     "@rdfjs/serializer-jsonld-ext": "^4.0.2",
     "@rdfjs/serializer-ntriples": "^2.0.1",
@@ -51,7 +54,6 @@
     "@xmldom/xmldom": "^0.9.12",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
-    "esbuild": "0.28.2",
     "eslint": "^10.10.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.12.0",
@@ -78,8 +80,8 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@modelcontextprotocol/node": "2.0.0",
-    "@modelcontextprotocol/server": "2.0.0",
+    "universal-ontology-projection-policy": "1.0.0",
+    "universal-ontology-query": "1.0.0",
     "zod": "4.5.4"
   }
 }

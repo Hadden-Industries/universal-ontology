@@ -1,0 +1,190 @@
+{
+  "kind": "wp4-delivery-artifact-checks",
+  "preparedOn": "2026-09-10",
+  "runtime": {
+    "python": "3.13.5",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
+  },
+  "passed": true,
+  "checkCount": 31,
+  "checks": [
+    {
+      "name": "catalogue-main-identity",
+      "passed": true,
+      "scope": "Projection identity only"
+    },
+    {
+      "name": "thirty-unique-test-identifiers",
+      "passed": true,
+      "scope": "Planned identifiers, not executed tests"
+    },
+    {
+      "name": "test-statuses-not-run",
+      "passed": true,
+      "scope": "Truthful preparation status"
+    },
+    {
+      "name": "two-operational-exercises-not-run",
+      "passed": true,
+      "scope": "Truthful preparation status"
+    },
+    {
+      "name": "catalogue-preserves-authored-observations",
+      "passed": true,
+      "scope": "Document projection consistency, not oracle validity"
+    },
+    {
+      "name": "eight-implementation-slices",
+      "passed": true,
+      "scope": "Plan structure"
+    },
+    {
+      "name": "twelve-acceptance-criteria",
+      "passed": true,
+      "scope": "Plan structure"
+    },
+    {
+      "name": "six-conditional-repair-branches",
+      "passed": true,
+      "scope": "Presence, not technical validation"
+    },
+    {
+      "name": "all-source-references-resolve-in-register",
+      "passed": true,
+      "scope": "Source ID integrity; no URLs fetched"
+    },
+    {
+      "name": "no-duplicate-source-identifiers",
+      "passed": true,
+      "scope": "Source register integrity"
+    },
+    {
+      "name": "transcriptions-are-not-probe-input",
+      "passed": true,
+      "scope": "Manifest is not the installed probe cases format"
+    },
+    {
+      "name": "no-invented-historical-wire-hash",
+      "passed": true,
+      "scope": "Historical provenance explicitly unknown"
+    },
+    {
+      "name": "C4-PS-contained-text-file",
+      "passed": true,
+      "scope": "Package containment and data naming"
+    },
+    {
+      "name": "C4-PS-identity",
+      "passed": true,
+      "scope": "Transcribed package bytes only"
+    },
+    {
+      "name": "C4-PS-utf8-lf-representation",
+      "passed": true,
+      "scope": "Chosen package serialization, not original host bytes"
+    },
+    {
+      "name": "C4-PS-not-run",
+      "passed": true,
+      "scope": "No native execution result claimed"
+    },
+    {
+      "name": "C4-CMD-contained-text-file",
+      "passed": true,
+      "scope": "Package containment and data naming"
+    },
+    {
+      "name": "C4-CMD-identity",
+      "passed": true,
+      "scope": "Transcribed package bytes only"
+    },
+    {
+      "name": "C4-CMD-utf8-lf-representation",
+      "passed": true,
+      "scope": "Chosen package serialization, not original host bytes"
+    },
+    {
+      "name": "C4-CMD-not-run",
+      "passed": true,
+      "scope": "No native execution result claimed"
+    },
+    {
+      "name": "C4-CMD-CONTROL-contained-text-file",
+      "passed": true,
+      "scope": "Package containment and data naming"
+    },
+    {
+      "name": "C4-CMD-CONTROL-identity",
+      "passed": true,
+      "scope": "Transcribed package bytes only"
+    },
+    {
+      "name": "C4-CMD-CONTROL-utf8-lf-representation",
+      "passed": true,
+      "scope": "Chosen package serialization, not original host bytes"
+    },
+    {
+      "name": "C4-CMD-CONTROL-not-run",
+      "passed": true,
+      "scope": "No native execution result claimed"
+    },
+    {
+      "name": "embedded-python-syntax-only",
+      "passed": true,
+      "scope": "ast.parse only: no execution, no PowerShell parsing and no inventory verification"
+    },
+    {
+      "name": "different-ripgrep-pattern-sets-retained",
+      "passed": true,
+      "scope": "Textual non-equivalence, not actual shell interpretation"
+    },
+    {
+      "name": "webvowl-rule-not-invented",
+      "passed": true,
+      "scope": "Reported absence preserved"
+    },
+    {
+      "name": "native-release-not-executed-or-selected",
+      "passed": true,
+      "scope": "Truthful release research boundary"
+    },
+    {
+      "name": "supporting-documents-present",
+      "passed": true,
+      "scope": "Artifact presence"
+    },
+    {
+      "name": "no-native-executable-bundled",
+      "passed": true,
+      "scope": "Delivery content only"
+    },
+    {
+      "name": "main-markdown-fences-balanced",
+      "passed": true,
+      "scope": "Markdown fence count, not visual rendering"
+    }
+  ],
+  "scope": "Consistency and syntax of delivered planning artifacts only.",
+  "inputIdentities": {
+    "README.md": "920db825f7a2c02a21cf8cbb5dfd047dccb1cadd075e0117e4207fe1c61c0a1e",
+    "check_wp4_artifacts.py": "d773bac7fb657f5b64c64219ca4cbdc960373050dda1883d359f70b10a304fa1",
+    "reproductions/README.md": "9f0ec056170f108c6208730b58edbb6395803b700a9377f6eb7f75099f0ba98d",
+    "reproductions/issue-30-powershell-command.ps1.txt": "f589a12b56fc735790968a03480926ce17bb087864fb2a45284eee5f2a9f91de",
+    "reproductions/issue-30-webvowl-blocked-command.cmd.txt": "09a03bddbece3f0fef6412125eed9f9e5e84d05b9b2c7f4c92ca833d829fe11f",
+    "reproductions/issue-30-webvowl-reduced-control.cmd.txt": "fb487edb25b1c290ad2d4c74db24d087833ccd82d5e3b9f5f783a4f3e7756ba0",
+    "sources.json": "1452caae4f03d9f06bdc33677e02ec18c202ed41a0e5ee55e7a37da2d65c8e41",
+    "wp4-command-dispatch-diagnosis-implementation-plan-2026-09-10.md": "862266cc6b2adf253dbf035f178f115cfe9659fdcffc7d5879ad753fa31f6223",
+    "wp4-diagnostic-cases.proposed.json": "e379d55f73877f5eb4e75501a6688014b8cba4eb9e0cb8942fd4fc8d4c80bc97",
+    "wp4-operator-diagnostic-worksheet.proposed.md": "bba23f436f98c6e2e630398ee389d95a04618556fe2a747ce3eb4b56ebd36aed",
+    "wp4-policy-amendments.proposed.md": "615b7d7ea3914ad764cfd4f9816d9283da62b629f463d0a8a8ea0dcbd7130a2f",
+    "wp4-test-catalogue.proposed.json": "1ee3dcf9f9b1f3c8ae03a2574ef2fef70b986a53a8af2dd56f2c8af42519129e"
+  },
+  "notEstablished": [
+    "DCG classification",
+    "Original hook payload bytes",
+    "Windows/WSL or host interception",
+    "Causal repair correctness",
+    "Execution of T401–T430 or O41/O42",
+    "Runtime deployment or authority"
+  ]
+}

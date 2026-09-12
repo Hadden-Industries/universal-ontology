@@ -101,8 +101,19 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   agreed diff semantics, including deletions and both sides of renames. Run the
   installed plugin's own inventory helper for that frozen target; do not copy its
   exclusion rules or implement another selector. Compare paths, not only counts.
-  Every omission needs a scope disposition. Missing required paths, even from a
-  nonempty inventory, make the native route unavailable for complete assessment.
+  Every omission needs a scope disposition. Git's inventory establishes complete
+  change accountability; the native inventory establishes the plugin's selected
+  analysis scope. They need not be identical. Missing required paths, even from a
+  nonempty inventory, prevent a native-only claim of complete assessment.
+  Distinguish supported exclusions from a reproduced selector defect. Tests,
+  documentation, lockfiles and old rename paths can still affect the accepted
+  security question; an intentional native exclusion is not automatically an
+  accepted scope exclusion. Record how every relevant omission is assessed or
+  explicitly left unassessed. If the native interface cannot include required
+  scope, use the coverage reconciliation route below, an already accepted
+  complete-scope alternative, or retain that gap.
+  Do not implement a second selector, patch plugin internals, repeatedly retry an
+  unchanged inventory, or label an alternative review as native scan completion.
   After native launch, complete its required preflight and artifact steps; read
   every native inventory page and verify it still accounts for the required paths.
 - Before source analysis, verify artifact access in the authoritative scan
@@ -113,16 +124,35 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   owner/sandbox mismatch, use the authorized artifact I/O procedure below.
   If no approved writer works, stop the native assessment and preserve its
   identity and failure evidence. Existing alternative-assessment rules still apply.
-- While this inventory defect persists, bounded R0/R1 changes may use direct
-  review of the same frozen diff by an authorized reviewer, retaining applicable
-  deterministic checks, scope, permissions and review-independence requirements.
-  This standing alternative applies only to the inventory omission; it does not
-  bypass an access denial or another required assurance control. Label its method,
-  reviewed paths, findings and limitations as an alternative assessment, not a
-  successful native scan. R2/R3 or an explicit native-assurance requirement needs
-  a separately accepted alternative. Preserve any already-started native scan and
-  its failure evidence. Keep the upstream repair outstanding; after an upgrade,
-  verify actual inventory coverage before returning affected work to the native route.
+- For an observed inventory omission that remains unresolved on the actual
+  installed route, bounded R0/R1 changes may use direct review of the same frozen
+  diff by an authorized reviewer, retaining applicable deterministic checks, exact
+  scope, permissions and review-independence requirements. This standing alternative
+  applies only to the inventory omission; it does not bypass an access denial or
+  another required assurance control. Label the method, reviewed paths, findings
+  and limitations as an alternative assessment, not a successful native scan.
+  R2 may also use the documented-exclusion route below. Other R2 omissions, R3
+  or an explicit native-assurance requirement need a separately accepted
+  alternative. Preserve any already-started native scan and its failure evidence.
+  After an update, qualify the actual installed selection path before returning
+  affected work to the native route. Repair of changed-workflow inclusion alone
+  does not resolve omissions of other required paths or content sides. Retire
+  only an alternative whose sole cause has been demonstrated removed for the
+  recorded host, route and diff modes; keep the general coverage precheck.
+- An accountable R2/R3 alternative decision may cover a named implementation
+  programme as well as one revision. Reuse it within its recorded risk class,
+  assessment method, deployment/threat assumptions, permissions and scope; a new
+  commit or work-package number alone does not require another approval. A broader
+  scope, higher assurance requirement or different blocker needs a new decision.
+  Always identify and review the current frozen target and complete changed-path
+  list; prior approval is reusable, prior findings are not current-code evidence.
+- When that approved alternative covers a reproduced inventory omission in the
+  same installed plugin version and relevant file categories, cite the retained
+  precheck and select the alternative directly. This is the exception to repeating
+  the inventory precheck above. Recheck after a plugin/version or relevant scope
+  change, or when native reassessment is requested. Do not repeat troubleshooting,
+  launch a knowingly incomplete native scan, copy its exclusion rules or describe
+  direct review as native scan completion.
 - Limit plugin troubleshooting to two minutes total within the scan budget and
   one documented recovery attempt per distinct failure. Attempt recovery only
   when the error and native contract identify a concrete correction. Required
@@ -134,6 +164,64 @@ A larger scope needs an appropriate stated budget; elapsed time never grants app
   Use native tool-owned identity/sealing fields and supported artifact writers;
   do not patch plugin caches. Use only the approved alternative described above.
 
+### Reconcile documented exclusions without a new exception
+
+For ordinary R2 work, this policy accepts complete independent assessment of the
+frozen change when the native helper's omissions are accounted for by its
+documented exclusions or supported rename representation. This is a standing
+assessment route, not permission to exclude those files from required review.
+It does not grant scan, delegation, access, remediation or publication authority.
+Keep the accepted threat model, deterministic checks, reviewer independence and
+required assurance. R3 and an explicit requirement for native analysis of the
+omitted content still need their own accepted alternative.
+
+Use the existing review record, not another selector or mandatory report format:
+
+1. Retain the complete Git path set and content identities, native helper output
+   and version, and the exact difference. Include deletions, both rename sides
+   and each relevant staged or working version. Reuse a still-current native
+   characterization for the same helper, diff modes and omission categories;
+   reconcile the actual new target without repeating unchanged troubleshooting.
+2. Give every omitted path a disposition with an evidence reference: reviewed
+   directly, covered by an identified equivalent content/diff reviewed elsewhere,
+   outside the accepted security question with a specific reason, or unassessed.
+   A file extension, generated status or rename destination alone is not a reason
+   to omit review. Check removed behavior and rename edits, dependency resolution
+   in lockfiles, executable test/support inputs, and instructions or configuration
+   carried in documentation. Group paths only when the same reasoning applies to
+   each listed member. Preserve complete membership and any counterevidence.
+3. Use one authorized independent reviewer for the complete assessment. If native
+   analysis is useful, finish its normal workflow for its supported scope and
+   supplement required omissions through direct review outside the native bundle.
+   Otherwise select one direct review of the complete frozen diff. Do not launch
+   a native scan merely to produce a second report. Neither method extends the
+   plugin inventory or rewrites its artifacts. Record the method and actual
+   coverage of each result separately.
+4. Completion requires evidence for every required path/content side and a
+   disposition of findings. An unassessed required path blocks complete assurance;
+   zero findings or a completed native bundle cannot clear it. Report a combined
+   or direct assessment as such, never as native analysis of excluded files.
+
+Known exclusions satisfying these conditions do not require a new owner exception
+for every task. A reproduced selector defect, unexplained omission, inaccessible
+required content, missing reviewer authority or unmet assurance requirement is
+outside this route: reuse an applicable accepted decision or retain the blocker
+and request only the missing decision. Do not classify an unexplained omission as
+documented merely because a prior task also missed that file extension.
+
+### Accepted scope for the current SDLC implementation
+
+Max approved this standing decision on 2026-09-11:
+For the remaining R2 SDLC implementation work packages, reuse the approved
+independent direct review alternative for the confirmed Codex Security 0.1.24
+inventory omission. Start with a ten-minute assessment budget, complete current
+diff coverage and retain findings/evidence privately. An exhausted budget or
+unreviewed path remains an explicit gap, not a pass. This grants assessment only,
+not remediation, configuration expansion, publication or release. New trust or
+deployment assumptions, R3 work, another capability blocker or work outside this
+SDLC implementation requires a new decision. Native inventory is reassessed after
+a relevant plugin update or scope change.
+
 At handoff or completion, report wall-clock elapsed time and explicit user-wait
 time separately. When native usage is available, report input tokens with cached
 input identified as a subset, output tokens and the native total; mark unavailable
@@ -141,6 +229,46 @@ measurements as unavailable. These are usage measures, not a billing calculation
 Keep the native bundle and existing task record as the evidence; no extra report
 or automated timer is required. Actual latency improvement remains unverified
 until a subsequent authorized assessment exercises this procedure.
+
+## Qualify installed workflow inventory changes
+
+Upstream source and installed-agent capability are separate evidence. PR #820
+adds changed `.github/workflows` paths to the canonical diff inventory and legacy
+changed-file rank input. Its path exception does not generally remove repository
+ranking, extension, binary or other scope exclusions. Record the actual host and
+plugin delivery channel, effective installed identity where exposed, native helper
+path/runtime and tested behavior before retiring a related alternative.
+
+Use only the operator-authorized update mechanism supported by that actual
+installation. A marketplace sync, displayed-list refresh, source merge or successful
+update command does not by itself demonstrate that the running assessment uses the
+new helper. Do not patch plugin caches, copy individual helpers/skills, install a
+second conflicting copy, broaden permissions or rerun full scans to poll rollout.
+An unavailable update remains an owned capability dependency with a reassessment
+trigger, not a completed native scan or a presumed propagation deadline.
+
+Use bounded offline fixtures through the actual installed selector, not a copied
+implementation. Cover workflow-only and mixed-code changes, `.yml` and `.yaml`,
+committed ranges and supported staged/unstaged/untracked states. Characterize
+supported deletion/rename behavior. Obtain the complete native Git change set
+independently, preserving both rename sides and content identities. Compare paths,
+not only counts; a nonempty list or equal counts can still omit required content.
+Do not infer that path membership covers both staged and working bytes. Every
+remaining omission needs a scope disposition under the accepted review route.
+
+A direct helper pass is not desktop-native adoption evidence. During the next
+separately authorized useful native assessment, confirm its authoritative target,
+prepare and read all native inventory pages, and reconcile the required path set.
+Keep preflight, artifact writing, source analysis and finalization with the native
+assessment owner. A selection-only fixture does not start or complete a scan.
+Preserve the same scan identity on recoverable failure; use its supported recovery
+and existing budget, rather than replacing it or editing its artifacts.
+
+Record workflow-specific retirement separately from other inventory limitations
+and the Windows artifact procedure. A qualifying workflow result cannot retire
+artifact-access handling. Keep original native bundles unchanged, append the
+qualification and owner disposition to the existing task/adoption record, and
+state exactly which hosts, modes, targets and remaining gaps the evidence covers.
 
 ## Temporary Windows artifact I/O
 
@@ -177,6 +305,15 @@ for the matching host, writer and assessment scope.
 - Reassess qualification after a relevant plugin, host, sandbox-identity or writer
   change. Retire the procedure after an upstream fix passes direct sandbox artifact
   I/O and native completion on a fresh authorized scan.
+
+Workflow inventory qualification, including PR #820, is not evidence that this
+artifact-access defect has been repaired. Keep the two dispositions separate.
+Retirement requires the matching actual writer/identity and fresh native scan
+completion without this procedure. A host-assisted write to an old directory is
+not that evidence. If an upstream change removes the reviewer filesystem-write
+obligation by using a supported native writer instead, record that changed
+contract and obtain acceptance of the corresponding retirement criterion; do not
+represent a host write as a successful sandbox filesystem write.
 
 ## Store and validate native evidence
 

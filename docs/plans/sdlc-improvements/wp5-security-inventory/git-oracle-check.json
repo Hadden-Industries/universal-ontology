@@ -1,0 +1,599 @@
+{
+  "kind": "wp5-native-git-and-exact-set-oracle-mechanical-check",
+  "startedAt": "2026-09-10T18:00:03.984269Z",
+  "python": "3.13.5",
+  "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+  "scriptSha256": "aca6a659012744b7bc667183d37fd0b5b332c6c10c38ba5091522b84d49af7e0",
+  "installedCodexSecurityTested": false,
+  "nativeInventoryHelperExecuted": false,
+  "desktopHostTested": false,
+  "securityScanStarted": false,
+  "limitations": [
+    "Uses synthetic fresh local Git data, not user repositories.",
+    "Does not execute either native inventory helper or validate #820 deployment.",
+    "Does not establish Windows/sandbox/plugin/scan capability.",
+    "Not a result for T501-T532 or O51/O52."
+  ],
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "--version"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "Z2l0IHZlcnNpb24gMi40Ny4zCg==",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "init",
+        "-q"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "add",
+        "--",
+        ".gitignore",
+        ".github/workflows/keep.yml",
+        ".github/workflows/delete.yml",
+        ".github/workflows/old.yml",
+        "src/handler.py",
+        "README.md"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "commit",
+        "-qm",
+        "Synthetic WP5 baseline"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "NzMwNDI2YjcwM2M4MDNkMTZmNDQxYmVlYTk5ZjAxZDQ4NzgwMGZlYQo=",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "add",
+        "--",
+        ".github/workflows/keep.yml",
+        ".github/workflows/added.yaml",
+        ".github/workflows/évidence flow.yml",
+        ".github/workflows/delete.yml",
+        ".github/workflows/old.yml",
+        ".github/workflows/new.yml",
+        "src/handler.py",
+        "README.md"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "commit",
+        "-qm",
+        "Synthetic WP5 candidate"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "NzJjYTcxNGIwYmQyOTljMWExNjhhNjhkYzZkMDU5NTU0OGZmNGNkNwo=",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "diff",
+        "--no-ext-diff",
+        "--no-textconv",
+        "--name-status",
+        "-z",
+        "--no-renames",
+        "730426b703c803d16f441beea99f01d487800fea",
+        "72ca714b0bd299c1a168a68dc6d0595548ff4cd7",
+        "--"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "QQAuZ2l0aHViL3dvcmtmbG93cy9hZGRlZC55YW1sAEQALmdpdGh1Yi93b3JrZmxvd3MvZGVsZXRlLnltbABNAC5naXRodWIvd29ya2Zsb3dzL2tlZXAueW1sAEEALmdpdGh1Yi93b3JrZmxvd3MvbmV3LnltbABEAC5naXRodWIvd29ya2Zsb3dzL29sZC55bWwAQQAuZ2l0aHViL3dvcmtmbG93cy/DqXZpZGVuY2UgZmxvdy55bWwATQBSRUFETUUubWQATQBzcmMvaGFuZGxlci5weQA=",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "diff",
+        "--name-status",
+        "-z",
+        "--find-renames=100%",
+        "730426b703c803d16f441beea99f01d487800fea",
+        "72ca714b0bd299c1a168a68dc6d0595548ff4cd7",
+        "--"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "QQAuZ2l0aHViL3dvcmtmbG93cy9hZGRlZC55YW1sAE0ALmdpdGh1Yi93b3JrZmxvd3Mva2VlcC55bWwAUjEwMAAuZ2l0aHViL3dvcmtmbG93cy9kZWxldGUueW1sAC5naXRodWIvd29ya2Zsb3dzL25ldy55bWwARAAuZ2l0aHViL3dvcmtmbG93cy9vbGQueW1sAEEALmdpdGh1Yi93b3JrZmxvd3Mvw6l2aWRlbmNlIGZsb3cueW1sAE0AUkVBRE1FLm1kAE0Ac3JjL2hhbmRsZXIucHkA",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "show",
+        "730426b703c803d16f441beea99f01d487800fea:.github/workflows/delete.yml"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "bmFtZTogV1A1IGZpeHR1cmUKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQo=",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "show",
+        "72ca714b0bd299c1a168a68dc6d0595548ff4cd7:.github/workflows/keep.yml"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "bmFtZTogV1A1IGNoYW5nZWQKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQo=",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "add",
+        "--",
+        ".github/workflows/keep.yml"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "diff",
+        "--name-status",
+        "-z",
+        "--no-renames",
+        "730426b703c803d16f441beea99f01d487800fea",
+        "72ca714b0bd299c1a168a68dc6d0595548ff4cd7",
+        "--"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "QQAuZ2l0aHViL3dvcmtmbG93cy9hZGRlZC55YW1sAEQALmdpdGh1Yi93b3JrZmxvd3MvZGVsZXRlLnltbABNAC5naXRodWIvd29ya2Zsb3dzL2tlZXAueW1sAEEALmdpdGh1Yi93b3JrZmxvd3MvbmV3LnltbABEAC5naXRodWIvd29ya2Zsb3dzL29sZC55bWwAQQAuZ2l0aHViL3dvcmtmbG93cy/DqXZpZGVuY2UgZmxvdy55bWwATQBSRUFETUUubWQATQBzcmMvaGFuZGxlci5weQA=",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "show",
+        "72ca714b0bd299c1a168a68dc6d0595548ff4cd7:.github/workflows/keep.yml"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "bmFtZTogV1A1IGNoYW5nZWQKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQo=",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "show",
+        ":.github/workflows/keep.yml"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "bmFtZTogV1A1IGZpeHR1cmUKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQojIHN0YWdlZC1vbmx5IG1hcmtlcgo=",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "add",
+        "--",
+        ".github/workflows/index-only.yml"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "diff",
+        "--cached",
+        "--name-only",
+        "-z",
+        "72ca714b0bd299c1a168a68dc6d0595548ff4cd7",
+        "--"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "LmdpdGh1Yi93b3JrZmxvd3MvaW5kZXgtb25seS55bWwALmdpdGh1Yi93b3JrZmxvd3Mva2VlcC55bWwA",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "show",
+        ":.github/workflows/index-only.yml"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "bmFtZTogV1A1IGZpeHR1cmUKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQo=",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "ls-files",
+        "--others",
+        "--exclude-standard",
+        "-z"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "LmdpdGh1Yi93b3JrZmxvd3MvdW50cmFja2VkLnlhbWwA",
+      "stderrBase64": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "core.hooksPath=/tmp/wp5-git-oracle-c9sn685m/empty-fixture-hooks",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "/tmp/wp5-git-oracle-c9sn685m/synthetic-repo",
+        "remote"
+      ],
+      "returnCode": 0,
+      "stdoutBase64": "",
+      "stderrBase64": ""
+    }
+  ],
+  "checks": [
+    {
+      "name": "complete no-renames path/status obligations",
+      "observed": [
+        [
+          "A",
+          ".github/workflows/added.yaml"
+        ],
+        [
+          "D",
+          ".github/workflows/delete.yml"
+        ],
+        [
+          "M",
+          ".github/workflows/keep.yml"
+        ],
+        [
+          "A",
+          ".github/workflows/new.yml"
+        ],
+        [
+          "D",
+          ".github/workflows/old.yml"
+        ],
+        [
+          "A",
+          ".github/workflows/évidence flow.yml"
+        ],
+        [
+          "M",
+          "README.md"
+        ],
+        [
+          "M",
+          "src/handler.py"
+        ]
+      ],
+      "expected": [
+        [
+          "A",
+          ".github/workflows/added.yaml"
+        ],
+        [
+          "D",
+          ".github/workflows/delete.yml"
+        ],
+        [
+          "M",
+          ".github/workflows/keep.yml"
+        ],
+        [
+          "A",
+          ".github/workflows/new.yml"
+        ],
+        [
+          "D",
+          ".github/workflows/old.yml"
+        ],
+        [
+          "A",
+          ".github/workflows/évidence flow.yml"
+        ],
+        [
+          "M",
+          "README.md"
+        ],
+        [
+          "M",
+          "src/handler.py"
+        ]
+      ],
+      "passed": true
+    },
+    {
+      "name": "Unicode and spaces retain one exact path",
+      "observed": 1,
+      "expected": 1,
+      "passed": true
+    },
+    {
+      "name": "rename represents both an old and a new path",
+      "observed": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "name": "deleted workflow content readable at baseline",
+      "observed": "name: WP5 fixture\non: workflow_dispatch\npermissions: {}\njobs: {}\n",
+      "expected": "name: WP5 fixture\non: workflow_dispatch\npermissions: {}\njobs: {}\n",
+      "passed": true
+    },
+    {
+      "name": "committed range unaffected by subsequent local edits",
+      "observed": {
+        "base64": "QQAuZ2l0aHViL3dvcmtmbG93cy9hZGRlZC55YW1sAEQALmdpdGh1Yi93b3JrZmxvd3MvZGVsZXRlLnltbABNAC5naXRodWIvd29ya2Zsb3dzL2tlZXAueW1sAEEALmdpdGh1Yi93b3JrZmxvd3MvbmV3LnltbABEAC5naXRodWIvd29ya2Zsb3dzL29sZC55bWwAQQAuZ2l0aHViL3dvcmtmbG93cy/DqXZpZGVuY2UgZmxvdy55bWwATQBSRUFETUUubWQATQBzcmMvaGFuZGxlci5weQA=",
+        "sha256": "f74f8f4ea54e7d45b19bf7257e6ff12f8b0bde2d012501097cb3fa879669e3c6"
+      },
+      "expected": {
+        "base64": "QQAuZ2l0aHViL3dvcmtmbG93cy9hZGRlZC55YW1sAEQALmdpdGh1Yi93b3JrZmxvd3MvZGVsZXRlLnltbABNAC5naXRodWIvd29ya2Zsb3dzL2tlZXAueW1sAEEALmdpdGh1Yi93b3JrZmxvd3MvbmV3LnltbABEAC5naXRodWIvd29ya2Zsb3dzL29sZC55bWwAQQAuZ2l0aHViL3dvcmtmbG93cy/DqXZpZGVuY2UgZmxvdy55bWwATQBSRUFETUUubWQATQBzcmMvaGFuZGxlci5weQA=",
+        "sha256": "f74f8f4ea54e7d45b19bf7257e6ff12f8b0bde2d012501097cb3fa879669e3c6"
+      },
+      "passed": true
+    },
+    {
+      "name": "head blob remains its committed content",
+      "observed": {
+        "base64": "bmFtZTogV1A1IGNoYW5nZWQKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQo=",
+        "sha256": "6e33e58d2240ef479d0e33e4037a5b3430a5a4c098850d3d4bb46c513c572579"
+      },
+      "expected": {
+        "base64": "bmFtZTogV1A1IGNoYW5nZWQKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQo=",
+        "sha256": "6e33e58d2240ef479d0e33e4037a5b3430a5a4c098850d3d4bb46c513c572579"
+      },
+      "passed": true
+    },
+    {
+      "name": "index stores the independently staged bytes",
+      "observed": {
+        "base64": "bmFtZTogV1A1IGZpeHR1cmUKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQojIHN0YWdlZC1vbmx5IG1hcmtlcgo=",
+        "sha256": "81a242426bb8e26c746a293c5cb346c44c106897ab74d4a78799f184da95817a"
+      },
+      "expected": {
+        "base64": "bmFtZTogV1A1IGZpeHR1cmUKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQojIHN0YWdlZC1vbmx5IG1hcmtlcgo=",
+        "sha256": "81a242426bb8e26c746a293c5cb346c44c106897ab74d4a78799f184da95817a"
+      },
+      "passed": true
+    },
+    {
+      "name": "working file is a distinct content side",
+      "observed": {
+        "base64": "bmFtZTogV1A1IGZpeHR1cmUKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQojIGRpZmZlcmVudCB3b3JraW5nIG1hcmtlcgo=",
+        "sha256": "08ae3d4399c287271cd8e47acfc40d06c12d7b957b77b793d9486b89436c6d02"
+      },
+      "expected": {
+        "base64": "bmFtZTogV1A1IGZpeHR1cmUKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQojIGRpZmZlcmVudCB3b3JraW5nIG1hcmtlcgo=",
+        "sha256": "08ae3d4399c287271cd8e47acfc40d06c12d7b957b77b793d9486b89436c6d02"
+      },
+      "passed": true
+    },
+    {
+      "name": "staged added path survives filesystem absence",
+      "observed": [
+        true,
+        false
+      ],
+      "expected": [
+        true,
+        false
+      ],
+      "passed": true
+    },
+    {
+      "name": "index-only file content remains retrievable",
+      "observed": {
+        "base64": "bmFtZTogV1A1IGZpeHR1cmUKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQo=",
+        "sha256": "4685f5b202206ee447dffbcd7c5aee25ce5adff2356ed2ddabe0649d429c2c37"
+      },
+      "expected": {
+        "base64": "bmFtZTogV1A1IGZpeHR1cmUKb246IHdvcmtmbG93X2Rpc3BhdGNoCnBlcm1pc3Npb25zOiB7fQpqb2JzOiB7fQo=",
+        "sha256": "4685f5b202206ee447dffbcd7c5aee25ce5adff2356ed2ddabe0649d429c2c37"
+      },
+      "passed": true
+    },
+    {
+      "name": "non-ignored untracked path set is exact",
+      "observed": [
+        ".github/workflows/untracked.yaml"
+      ],
+      "expected": [
+        ".github/workflows/untracked.yaml"
+      ],
+      "passed": true
+    },
+    {
+      "name": "equal-count substitution detected by exact set comparison",
+      "observed": {
+        "countsEqual": true,
+        "missing": [
+          ".github/workflows/build.yml"
+        ],
+        "unexpected": [
+          ".github/scripts/support.py"
+        ]
+      },
+      "expected": {
+        "countsEqual": true,
+        "missing": [
+          ".github/workflows/build.yml"
+        ],
+        "unexpected": [
+          ".github/scripts/support.py"
+        ]
+      },
+      "passed": true
+    }
+  ],
+  "gitVersion": "git version 2.47.3",
+  "fixture": {
+    "base": "730426b703c803d16f441beea99f01d487800fea",
+    "head": "72ca714b0bd299c1a168a68dc6d0595548ff4cd7",
+    "containsRemote": false
+  },
+  "finishedAt": "2026-09-10T18:00:04.059062Z",
+  "passed": true,
+  "checksTotal": 12
+}

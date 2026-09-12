@@ -21,7 +21,7 @@ import {
 import {
   calculateSha256 as calculateOntologyArtifactSha256,
   serializeCanonicalOntologyQueryJsonDocument,
-} from "../../src/ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
+} from "universal-ontology-query/artifacts";
 import { createInMemoryOntologyReleaseArtifact } from "../fixtures/ontology-query/createInMemoryOntologyQueryFixture.js";
 import { createOntologyQueryArtifactHttpFixture } from "../fixtures/ontology-query/createOntologyQueryArtifactHttpFixture.js";
 

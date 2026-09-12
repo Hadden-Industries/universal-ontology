@@ -1,0 +1,787 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Repository SDLC verification run, version 3 \u2014 WP1 proposal",
+  "$comment": "Proposed WP1 contract, not an adopted configuration. Cross-document identity, configured-command equality, safe paths, raw content and evidence publication must also be checked by the owning consumer.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 3
+    },
+    "runId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "taskId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recordedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finishedAt": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "status": {
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "interrupted",
+        "incomplete"
+      ]
+    },
+    "passed": {
+      "type": "boolean"
+    },
+    "identityBefore": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "identityAfter": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/identity"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expectedCommandCount": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/command"
+      }
+    },
+    "runtime": {
+      "$ref": "#/$defs/runtime"
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/problem"
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "runId",
+    "taskId",
+    "profile",
+    "startedAt",
+    "recordedAt",
+    "finishedAt",
+    "status",
+    "passed",
+    "identityBefore",
+    "identityAfter",
+    "expectedCommandCount",
+    "commands",
+    "runtime",
+    "problems"
+  ],
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "activeDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "head": {
+          "type": "string",
+          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+        },
+        "workspaceFingerprint": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "policyDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "configurationDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "policyFileDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "configurationFileDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "baselineDigest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "taskId",
+        "activeDigest",
+        "head",
+        "workspaceFingerprint",
+        "policyDigest",
+        "configurationDigest",
+        "policyFileDigest",
+        "configurationFileDigest",
+        "baselineDigest"
+      ]
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "byteLength": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "complete": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "sha256",
+        "complete"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "complete": {
+                "const": true
+              }
+            },
+            "required": [
+              "complete"
+            ]
+          },
+          "then": {
+            "properties": {
+              "byteLength": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "problem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "phase": {
+          "enum": [
+            "initialization",
+            "spawn",
+            "capture",
+            "decode",
+            "report",
+            "identity",
+            "persistence",
+            "cleanup",
+            "interruption"
+          ]
+        },
+        "commandOrdinal": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "exceptionType": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "phase",
+        "commandOrdinal",
+        "exceptionType",
+        "message"
+      ]
+    },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ordinal": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "argv": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "resolvedExecutable": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "timeoutSeconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "finishedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "running",
+            "passed",
+            "failed",
+            "timeout",
+            "unavailable",
+            "interrupted"
+          ]
+        },
+        "returnCode": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "output": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "decodeStatus": {
+          "enum": [
+            "pending",
+            "decoded",
+            "invalid-utf8",
+            "not-captured"
+          ]
+        },
+        "capture": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/capture"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "presentation": {
+          "enum": [
+            "pending",
+            "written",
+            "escaped",
+            "failed",
+            "not-attempted"
+          ]
+        }
+      },
+      "required": [
+        "ordinal",
+        "name",
+        "argv",
+        "resolvedExecutable",
+        "timeoutSeconds",
+        "startedAt",
+        "finishedAt",
+        "status",
+        "returnCode",
+        "output",
+        "decodeStatus",
+        "capture",
+        "presentation"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "passed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "returnCode": {
+                "const": 0
+              },
+              "finishedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "resolvedExecutable": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "failed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "returnCode": {
+                "type": "integer",
+                "not": {
+                  "const": 0
+                }
+              },
+              "finishedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "decodeStatus": {
+                "const": "decoded"
+              }
+            },
+            "required": [
+              "decodeStatus"
+            ]
+          },
+          "then": {
+            "properties": {
+              "output": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "decodeStatus": {
+                "enum": [
+                  "invalid-utf8",
+                  "not-captured",
+                  "pending"
+                ]
+              }
+            },
+            "required": [
+              "decodeStatus"
+            ]
+          },
+          "then": {
+            "properties": {
+              "output": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "pending"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "finishedAt": {
+                "type": "null"
+              },
+              "returnCode": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "running"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "finishedAt": {
+                "type": "null"
+              },
+              "returnCode": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pythonExecutable": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pythonVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "utf8Mode": {
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "stdoutEncoding": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stdoutErrors": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stderrEncoding": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stderrErrors": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "pythonExecutable",
+        "pythonVersion",
+        "utf8Mode",
+        "stdoutEncoding",
+        "stdoutErrors",
+        "stderrEncoding",
+        "stderrErrors"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "pending",
+              "running",
+              "interrupted",
+              "incomplete"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "passed": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "pending",
+              "running"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "finishedAt": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "completed",
+              "interrupted",
+              "incomplete"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "passed": {
+            "const": true
+          }
+        },
+        "required": [
+          "passed"
+        ]
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "const": "completed"
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "identityBefore": {
+            "$ref": "#/$defs/identity"
+          },
+          "identityAfter": {
+            "$ref": "#/$defs/identity"
+          },
+          "problems": {
+            "maxItems": 0
+          },
+          "commands": {
+            "minItems": 1,
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/command"
+                },
+                {
+                  "properties": {
+                    "status": {
+                      "const": "passed"
+                    },
+                    "returnCode": {
+                      "const": 0
+                    },
+                    "decodeStatus": {
+                      "const": "decoded"
+                    },
+                    "output": {
+                      "type": "string"
+                    },
+                    "presentation": {
+                      "enum": [
+                        "written",
+                        "escaped"
+                      ]
+                    },
+                    "capture": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/capture"
+                        },
+                        {
+                          "properties": {
+                            "complete": {
+                              "const": true
+                            },
+                            "byteLength": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

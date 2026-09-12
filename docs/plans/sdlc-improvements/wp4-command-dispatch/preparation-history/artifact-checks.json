@@ -1,0 +1,176 @@
+{
+  "kind": "wp4-delivery-artifact-checks",
+  "preparedOn": "2026-09-10",
+  "runtime": {
+    "python": "3.13.5",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
+  },
+  "passed": true,
+  "checkCount": 31,
+  "checks": [
+    {
+      "name": "catalogue-main-identity",
+      "passed": true,
+      "scope": "Projection identity only"
+    },
+    {
+      "name": "thirty-unique-test-identifiers",
+      "passed": true,
+      "scope": "Planned identifiers, not executed tests"
+    },
+    {
+      "name": "test-statuses-not-run",
+      "passed": true,
+      "scope": "Truthful preparation status"
+    },
+    {
+      "name": "two-operational-exercises-not-run",
+      "passed": true,
+      "scope": "Truthful preparation status"
+    },
+    {
+      "name": "catalogue-preserves-authored-observations",
+      "passed": true,
+      "scope": "Document projection consistency, not oracle validity"
+    },
+    {
+      "name": "eight-implementation-slices",
+      "passed": true,
+      "scope": "Plan structure"
+    },
+    {
+      "name": "twelve-acceptance-criteria",
+      "passed": true,
+      "scope": "Plan structure"
+    },
+    {
+      "name": "six-conditional-repair-branches",
+      "passed": true,
+      "scope": "Presence, not technical validation"
+    },
+    {
+      "name": "all-source-references-resolve-in-register",
+      "passed": true,
+      "scope": "Source ID integrity; no URLs fetched"
+    },
+    {
+      "name": "no-duplicate-source-identifiers",
+      "passed": true,
+      "scope": "Source register integrity"
+    },
+    {
+      "name": "transcriptions-are-not-probe-input",
+      "passed": true,
+      "scope": "Manifest is not the installed probe cases format"
+    },
+    {
+      "name": "no-invented-historical-wire-hash",
+      "passed": true,
+      "scope": "Historical provenance explicitly unknown"
+    },
+    {
+      "name": "C4-PS-contained-text-file",
+      "passed": true,
+      "scope": "Package containment and data naming"
+    },
+    {
+      "name": "C4-PS-identity",
+      "passed": true,
+      "scope": "Transcribed package bytes only"
+    },
+    {
+      "name": "C4-PS-utf8-lf-representation",
+      "passed": true,
+      "scope": "Chosen package serialization, not original host bytes"
+    },
+    {
+      "name": "C4-PS-not-run",
+      "passed": true,
+      "scope": "No native execution result claimed"
+    },
+    {
+      "name": "C4-CMD-contained-text-file",
+      "passed": true,
+      "scope": "Package containment and data naming"
+    },
+    {
+      "name": "C4-CMD-identity",
+      "passed": true,
+      "scope": "Transcribed package bytes only"
+    },
+    {
+      "name": "C4-CMD-utf8-lf-representation",
+      "passed": true,
+      "scope": "Chosen package serialization, not original host bytes"
+    },
+    {
+      "name": "C4-CMD-not-run",
+      "passed": true,
+      "scope": "No native execution result claimed"
+    },
+    {
+      "name": "C4-CMD-CONTROL-contained-text-file",
+      "passed": true,
+      "scope": "Package containment and data naming"
+    },
+    {
+      "name": "C4-CMD-CONTROL-identity",
+      "passed": true,
+      "scope": "Transcribed package bytes only"
+    },
+    {
+      "name": "C4-CMD-CONTROL-utf8-lf-representation",
+      "passed": true,
+      "scope": "Chosen package serialization, not original host bytes"
+    },
+    {
+      "name": "C4-CMD-CONTROL-not-run",
+      "passed": true,
+      "scope": "No native execution result claimed"
+    },
+    {
+      "name": "embedded-python-syntax-only",
+      "passed": true,
+      "scope": "ast.parse only: no execution, no PowerShell parsing and no inventory verification"
+    },
+    {
+      "name": "different-ripgrep-pattern-sets-retained",
+      "passed": true,
+      "scope": "Textual non-equivalence, not actual shell interpretation"
+    },
+    {
+      "name": "webvowl-rule-not-invented",
+      "passed": true,
+      "scope": "Reported absence preserved"
+    },
+    {
+      "name": "native-release-not-executed-or-selected",
+      "passed": true,
+      "scope": "Truthful release research boundary"
+    },
+    {
+      "name": "supporting-documents-present",
+      "passed": true,
+      "scope": "Artifact presence"
+    },
+    {
+      "name": "no-native-executable-bundled",
+      "passed": true,
+      "scope": "Delivery content only"
+    },
+    {
+      "name": "main-markdown-fences-balanced",
+      "passed": true,
+      "scope": "Markdown fence count, not visual rendering"
+    }
+  ],
+  "scope": "Consistency and syntax of delivered planning artifacts only.",
+  "notEstablished": [
+    "DCG classification",
+    "Original hook payload bytes",
+    "Windows/WSL or host interception",
+    "Causal repair correctness",
+    "Execution of T401–T430 or O41/O42",
+    "Runtime deployment or authority"
+  ]
+}

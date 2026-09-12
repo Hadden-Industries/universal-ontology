@@ -2820,8 +2820,12 @@ def verify_staged_universal_ontology_mcp_server_installation(
 ) -> dict[str, object]:
     """Verify staged bytes and query readiness through the official client."""
     node_command = require_command("node")
-    verifier_path = SETUP_SCRIPT_PATH.with_name(
-        "verifyUniversalOntologyMcpApplicationBundle.js"
+    verifier_path = (
+        SETUP_SCRIPT_PATH.parent.parent
+        / "packages"
+        / "universal-ontology-mcp-server"
+        / "scripts"
+        / "verifyUniversalOntologyMcpApplicationBundle.js"
     )
     result = run(
         [

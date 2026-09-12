@@ -1,7 +1,10 @@
 import { jest } from "@jest/globals";
 
-import { createOntologyQueryModule } from "../../src/ontologyQuery/createOntologyQueryModule.js";
-import { OntologyQueryError } from "../../src/ontologyQuery/ontologyQueryErrors.js";
+import {
+  createOntologyQueryModule,
+  OntologyQueryError,
+} from "universal-ontology-query";
+
 import {
   createBrowserOntologyEntityDefinitionResolver,
   createOntologyEntityDefinitionResolver,

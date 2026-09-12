@@ -1,0 +1,402 @@
+{
+  "documentKind": "Curated research observations; not original raw API responses",
+  "preparedDate": "2026-09-11",
+  "timeZone": "Asia/Nicosia",
+  "method": "Read-only GitHub connector source/metadata inspection and primary web documentation; facts curated from the returned results.",
+  "notExecuted": [
+    "Native Windows tests",
+    "Browser AQFO job",
+    "Converter install/API/CLI tests",
+    "MCP/SHACL integration",
+    "Codex Security scan",
+    "New CI workflow or rerun",
+    "Any repository write"
+  ],
+  "researchPins": {
+    "universalOntologyMain": "a0374bad8203aa95f87a0e47a85013fd4b938c7e",
+    "shaclProposalBranch": "22bcfddfa538d04be22c811169069dbc4ea56f1d",
+    "exclusiveStartCandidateBranch": "eb631007ff143a23b2e2ae450fd84591faec48b0",
+    "webvowlFeature": "80b302214d24bce195986af89ef7a34d24274928",
+    "oniHead": "fe75c5d8e29f68e43812439fbc6ec73df2f43b05",
+    "oniBase": "975acf599d06ec3d274c55bac8d1731278ffa153"
+  },
+  "oniProductWorkflow": {
+    "runId": 34529893438,
+    "runAttempt": 1,
+    "headSha": "fe75c5d8e29f68e43812439fbc6ec73df2f43b05",
+    "conclusion": "success",
+    "jobsTotal": 10,
+    "sourceUrl": "https://api.github.com/repos/MaksymShostak/oxygen-not-included/actions/runs/34529893438/attempts/1/jobs?per_page=100",
+    "jobs": [
+      {
+        "jobId": 103047780807,
+        "name": "BBCode / Dependency review",
+        "conclusion": "success",
+        "relevantStep": "Review introduced dependencies",
+        "relevantStepConclusion": "success"
+      },
+      {
+        "jobId": 103047973631,
+        "name": "BBCode / windows-latest / Node 22.23.2",
+        "conclusion": "success",
+        "relevantStep": "Check the converter and real packed consumer",
+        "relevantStepConclusion": "success"
+      },
+      {
+        "jobId": 103047973656,
+        "name": "BBCode / windows-latest / Node 26.8.1",
+        "conclusion": "success",
+        "relevantStep": "Check the converter and real packed consumer",
+        "relevantStepConclusion": "success"
+      },
+      {
+        "jobId": 103047973659,
+        "name": "BBCode / windows-latest / Node 24.20.0",
+        "conclusion": "success",
+        "relevantStep": "Check the converter and real packed consumer",
+        "relevantStepConclusion": "success"
+      },
+      {
+        "jobId": 103047973673,
+        "name": "BBCode / ubuntu-latest / Node 24.20.0 / checks",
+        "conclusion": "success",
+        "relevantStep": "Check the converter and real packed consumer",
+        "relevantStepConclusion": "success"
+      },
+      {
+        "jobId": 103047973708,
+        "name": "BBCode / ubuntu-latest / Node 26.8.1",
+        "conclusion": "success",
+        "relevantStep": "Check the converter and real packed consumer",
+        "relevantStepConclusion": "success"
+      },
+      {
+        "jobId": 103047973785,
+        "name": "BBCode / ubuntu-latest / Node 22.23.2",
+        "conclusion": "success",
+        "relevantStep": "Check the converter and real packed consumer",
+        "relevantStepConclusion": "success"
+      },
+      {
+        "jobId": 103048991149,
+        "name": "BBCode / Mutation / library",
+        "conclusion": "success",
+        "relevantStep": "Qualify mutation sensitivity",
+        "relevantStepConclusion": "success"
+      },
+      {
+        "jobId": 103048991235,
+        "name": "BBCode / Mutation / cli",
+        "conclusion": "success",
+        "relevantStep": "Qualify mutation sensitivity",
+        "relevantStepConclusion": "success"
+      },
+      {
+        "jobId": 103062661301,
+        "name": "BBCode / ubuntu-latest / Node 24.20.0",
+        "conclusion": "success",
+        "relevantStep": "Require dependency review, converter checks and both mutation profiles",
+        "relevantStepConclusion": "success"
+      }
+    ],
+    "limit": "API step success was inspected; archives, live runtime and numeric mutation scores were not independently inspected."
+  },
+  "oniLinkageWorkflow": {
+    "runId": 34529892678,
+    "runAttempt": 1,
+    "headSha": "fe75c5d8e29f68e43812439fbc6ec73df2f43b05",
+    "baseSha": "975acf599d06ec3d274c55bac8d1731278ffa153",
+    "event": "pull_request_target",
+    "conclusion": "failure",
+    "createdAt": "2026-09-10T21:02:25Z",
+    "sourceUrl": "https://github.com/MaksymShostak/oxygen-not-included/actions/runs/34529892678",
+    "limit": "Current failure confirmed; exact latest job diagnostic was not read in this WP8 research. Do not copy the earlier error string as a new observation."
+  },
+  "webVowlHeader": {
+    "sourceRevision": "80b302214d24bce195986af89ef7a34d24274928",
+    "projector": "Preserves string-valued version including empty string; otherwise null.",
+    "consumer": "Accepts string or null; rejects other typed values at constructor.",
+    "status": "source-inspected, not executed",
+    "sources": [
+      "S08",
+      "S09"
+    ]
+  },
+  "webVowlNativeOutcome": {
+    "sourceRevision": "80b302214d24bce195986af89ef7a34d24274928",
+    "status": "Existing completion record reports successful AQFO job and later bounded production-preview correction.",
+    "limit": "Local bundles not reopened here; later preview subset is not a fresh full AQFO job in this research.",
+    "sources": [
+      "S11",
+      "S12",
+      "S13"
+    ]
+  },
+  "combinedIntegration": {
+    "status": "not-qualified-by-this-research",
+    "source": "S21",
+    "limit": "Published SHACL proposal/branch and historical local MCP worktree handoff are not proof of a ready accepted combined implementation."
+  },
+  "sources": [
+    {
+      "id": "S01",
+      "title": "UO main ref read",
+      "url": "https://api.github.com/repos/Hadden-Industries/universal-ontology/branches/main",
+      "scope": "Mutable ref read; research pin a0374bad8203aa95f87a0e47a85013fd4b938c7e."
+    },
+    {
+      "id": "S02",
+      "title": "UO branch inventory",
+      "url": "https://api.github.com/repos/Hadden-Industries/universal-ontology/branches?per_page=100",
+      "scope": "Proposal/candidate refs, not acceptance of their implementations."
+    },
+    {
+      "id": "S03",
+      "title": "UO adoption record",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/blob/a0374bad8203aa95f87a0e47a85013fd4b938c7e/docs/sdlc/adoption.md",
+      "scope": "Existing source/host and WP1 claims; local bundles not independently reopened here."
+    },
+    {
+      "id": "S04",
+      "title": "WebVOWL production-preview repair commit",
+      "url": "https://github.com/Hadden-Industries/webvowl/commit/80b302214d24bce195986af89ef7a34d24274928",
+      "scope": "Commit and stated repair scope."
+    },
+    {
+      "id": "S05",
+      "title": "ONI PR #4",
+      "url": "https://github.com/MaksymShostak/oxygen-not-included/pull/4",
+      "scope": "Mutable metadata; base 975acf599d06ec3d274c55bac8d1731278ffa153 and head fe75c5d8e29f68e43812439fbc6ec73df2f43b05 at read."
+    },
+    {
+      "id": "S06",
+      "title": "ONI exact BBCode workflow attempt jobs",
+      "url": "https://api.github.com/repos/MaksymShostak/oxygen-not-included/actions/runs/34529893438/attempts/1/jobs?per_page=100",
+      "scope": "Ten jobs; each succeeded; actual dependency, converter and mutation steps ran. Metadata is not archive-content inspection."
+    },
+    {
+      "id": "S07",
+      "title": "ONI trusted-linkage run for the same candidate",
+      "url": "https://github.com/MaksymShostak/oxygen-not-included/actions/runs/34529892678",
+      "scope": "Attempt 1, pull_request_target, failed. Current diagnostic not retrieved in this research."
+    },
+    {
+      "id": "S08",
+      "title": "WebVOWL VOWL inspection projector",
+      "url": "https://github.com/Hadden-Industries/webvowl/blob/80b302214d24bce195986af89ef7a34d24274928/src/app/js/controller/vowlModelInspectionProjector.js",
+      "scope": "String version including empty string is forwarded; other values become null."
+    },
+    {
+      "id": "S09",
+      "title": "WebVOWL rendered-graph contracts",
+      "url": "https://github.com/Hadden-Industries/webvowl/blob/80b302214d24bce195986af89ef7a34d24274928/src/app/js/controller/renderedGraphRuntimeContracts.js",
+      "scope": "createOntologyHeaderRecord accepts string or null; no nonempty version constraint."
+    },
+    {
+      "id": "S10",
+      "title": "WebVOWL controller",
+      "url": "https://github.com/Hadden-Industries/webvowl/blob/80b302214d24bce195986af89ef7a34d24274928/src/app/js/controller/webVowlController.js",
+      "scope": "Separate LOAD_FAILED / LOAD_ABORTED constructors and abort recognition inspected; complete runtime qualification not performed."
+    },
+    {
+      "id": "S11",
+      "title": "WebVOWL original and later evaluation",
+      "url": "https://github.com/Hadden-Industries/webvowl/blob/80b302214d24bce195986af89ef7a34d24274928/docs/evaluations/webmcp-integration.md",
+      "scope": "Pinned AQFO source facts, historical failure and later outcome references."
+    },
+    {
+      "id": "S12",
+      "title": "WebVOWL completion and later production correction",
+      "url": "https://github.com/Hadden-Industries/webvowl/blob/80b302214d24bce195986af89ef7a34d24274928/docs/evaluations/2026-09-10-webmcp-completion.md",
+      "scope": "Reported native user outcomes and scoped limits; private/local artifacts not retrieved."
+    },
+    {
+      "id": "S13",
+      "title": "WebVOWL production module-link regression",
+      "url": "https://github.com/Hadden-Industries/webvowl/blob/80b302214d24bce195986af89ef7a34d24274928/src/productionBundle.integration.test.js",
+      "scope": "Actual test source read; not executed by this research."
+    },
+    {
+      "id": "S14",
+      "title": "WebVOWL import provenance",
+      "url": "https://github.com/Hadden-Industries/webvowl/blob/80b302214d24bce195986af89ef7a34d24274928/.sdlc/UPSTREAM.json",
+      "scope": "First portion read: ONI immediate source, UO target lineage and per-file adaptation."
+    },
+    {
+      "id": "S15",
+      "title": "UO Issue #36: active scope/risk amendment",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/issues/36",
+      "scope": "Existing separately reported interface gap, not repaired by a cadence or adoption document."
+    },
+    {
+      "id": "S16",
+      "title": "ONI affected-component runner",
+      "url": "https://github.com/MaksymShostak/oxygen-not-included/blob/fe75c5d8e29f68e43812439fbc6ec73df2f43b05/scripts/runAffectedChecks.js",
+      "scope": "Actual base selection and maintained consumer command composition."
+    },
+    {
+      "id": "S17",
+      "title": "ONI execution/retirement evidence",
+      "url": "https://github.com/MaksymShostak/oxygen-not-included/blob/fe75c5d8e29f68e43812439fbc6ec73df2f43b05/docs/plans/2026-09-08-steam-community-bbcode-execution.md",
+      "scope": "Recorded decisions, local results and retained-history distinctions; supplemented by S06/S07."
+    },
+    {
+      "id": "S18",
+      "title": "ONI converter package scripts",
+      "url": "https://github.com/MaksymShostak/oxygen-not-included/blob/fe75c5d8e29f68e43812439fbc6ec73df2f43b05/tools/steam-community-bbcode/package.json",
+      "scope": "Existing check, pack and consumer interfaces; not installation or publication evidence."
+    },
+    {
+      "id": "S19",
+      "title": "UO package scripts",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/blob/a0374bad8203aa95f87a0e47a85013fd4b938c7e/package.json",
+      "scope": "Actual source-side interface list, including missing-only JSON-LD and mutating prebuild."
+    },
+    {
+      "id": "S20",
+      "title": "UO verification profile",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/blob/a0374bad8203aa95f87a0e47a85013fd4b938c7e/.sdlc/verification.json",
+      "scope": "Actual eleven-command full profile at the inspected pin."
+    },
+    {
+      "id": "S21",
+      "title": "UO Issue #31: SHACL proposal",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/issues/31",
+      "scope": "Draft scope and proposed semantic contracts; not implemented or accepted by WP8."
+    },
+    {
+      "id": "S22",
+      "title": "UO state and receipt consumer",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/blob/a0374bad8203aa95f87a0e47a85013fd4b938c7e/scripts/_sdlc_state.py",
+      "scope": "Current v3 receipt validation and fingerprint behavior; not host execution."
+    },
+    {
+      "id": "S23",
+      "title": "UO Issue #33: independent worktree execution",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/issues/33",
+      "scope": "Existing scope excludes a cross-repository distribution mechanism; true combined integration required."
+    },
+    {
+      "id": "S24",
+      "title": "UO proportionate workflow",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/blob/a0374bad8203aa95f87a0e47a85013fd4b938c7e/docs/sdlc/proportional-workflow.md",
+      "scope": "Existing route/assurance boundaries, not automatic scope approval."
+    },
+    {
+      "id": "S25",
+      "title": "UO independent review playbook",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/blob/a0374bad8203aa95f87a0e47a85013fd4b938c7e/docs/sdlc/subagent-playbook.md",
+      "scope": "Existing independence, coordination and preservation instructions."
+    },
+    {
+      "id": "S26",
+      "title": "UO TDD evidence/handoff reference",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/blob/a0374bad8203aa95f87a0e47a85013fd4b938c7e/.sdlc/skills/test-driven-development/references/evidence-and-handoffs.md",
+      "scope": "Existing execution/evidence ownership; native histories and accepted scope."
+    },
+    {
+      "id": "S27",
+      "title": "UO package status",
+      "url": "https://github.com/Hadden-Industries/universal-ontology/blob/a0374bad8203aa95f87a0e47a85013fd4b938c7e/.sdlc/PACKAGE_STATUS.json",
+      "scope": "Pre-release repository-local deployment metadata; not global current byte/host equivalence."
+    },
+    {
+      "id": "W01",
+      "title": "Git native worktree semantics",
+      "url": "https://git-scm.com/docs/git-worktree.html",
+      "scope": "Shared versus per-worktree refs/configuration; resolve through native Git."
+    },
+    {
+      "id": "W02",
+      "title": "Vite local static-build preview",
+      "url": "https://vite.dev/guide/static-deploy.html",
+      "scope": "Preview is local built-application testing, not a production server."
+    },
+    {
+      "id": "W03",
+      "title": "npm install package and tarball semantics",
+      "url": "https://docs.npmjs.com/cli/install/",
+      "scope": "Native tarball install differs from a development directory/link. Read matching installed-version help for execution."
+    },
+    {
+      "id": "W04",
+      "title": "OpenAI plugin capability/permission guidance",
+      "url": "https://help.openai.com/en/articles/20001256-plugins-in-codex",
+      "scope": "Installation, account/workspace/surface availability and app permissions are separate."
+    },
+    {
+      "id": "W05",
+      "title": "GitHub rerun identity",
+      "url": "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/re-run-workflows-and-jobs",
+      "scope": "Reruns retain original event SHA/ref; not implicit trusted-policy refresh."
+    },
+    {
+      "id": "W06",
+      "title": "GitHub workflow event semantics",
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows",
+      "scope": "Distinguish pull_request and pull_request_target; preserve trusted execution boundary."
+    }
+  ],
+  "suppliedInputs": [
+    {
+      "id": "P0",
+      "file": "sdlc-implementation-plan-2026-09-10.md",
+      "sha256": "b560e4b15685c2af42f1cafd1a223ff718d968cc8a0648e9a33522fb07601c82",
+      "scope": "Parent WP8 and acceptance matrix; controlling requested scope."
+    },
+    {
+      "id": "P1",
+      "file": "sdlcworktreelifecyclehandoff20260910.md",
+      "sha256": "a9cf76ae85ab314b15e80164150e0a69d8c18af836c32a83e8ca689e1a4d16d6",
+      "scope": "Historical observations/questions; not a current inventory or deletion authority."
+    },
+    {
+      "id": "P2",
+      "file": "wp0-worktree-preservation-implementation-plan-2026-09-10.md",
+      "sha256": "5c789f1250de378b46388c0d9806a7d4c0527cbaf425beaa976e8356e052eba7",
+      "scope": "Preservation design; its existence is not executed preservation."
+    },
+    {
+      "id": "P3",
+      "file": "wp1-text-boundaries-evidence-retention-implementation-plan-2026-09-10.md",
+      "sha256": "68594f4df7bb0144c633054ba1decba5a9540580aff8a1ba974af94de15409b1",
+      "scope": "Writer/reader/text design; use actual accepted delivered implementation."
+    },
+    {
+      "id": "P4",
+      "file": "wp3-resource-release-visibility-implementation-plan-2026-09-10.md",
+      "sha256": "2a78c43583efa96b5082b95077f1b38629198dd84e79e395f1ced512c9dcf82f",
+      "scope": "Resource-disposition proposal; check actual implementation/acceptance before adoption."
+    },
+    {
+      "id": "P5",
+      "file": "wp4-command-dispatch-diagnosis-implementation-plan-2026-09-10.md",
+      "sha256": "862266cc6b2adf253dbf035f178f115cfe9659fdcffc7d5879ad753fa31f6223",
+      "scope": "Actual protected-host qualification, not a source-only classifier pass."
+    },
+    {
+      "id": "P6",
+      "file": "wp5-installed-security-inventory-qualification-implementation-plan-2026-09-10.md",
+      "sha256": "acab2f5bfb97398d90973648a7647da199bfc53e4b13134f2a30b8134684def9",
+      "scope": "Installed scope and separate artifact-workaround obligations."
+    },
+    {
+      "id": "P7",
+      "file": "wp6-trusted-baseline-and-preflight-implementation-plan-2026-09-10.md",
+      "sha256": "21923f8abc7f1644e39ede0da8a40e05813f3dcabe851846a2b64c9db0ed4e5e",
+      "scope": "Trusted baseline and current remote-readback boundary."
+    },
+    {
+      "id": "P8",
+      "file": "wp7-proportionate-execution-implementation-plan-2026-09-11.md",
+      "sha256": "222928fef535acae1557e2e2b9e6d55e4675038a10c88f6bac0c031d9162cad4",
+      "scope": "Execution cadence, output placement and shared A14 exercises."
+    },
+    {
+      "id": "P9",
+      "file": "wp2-independent-worktree-execution-implementation-plan-2026-09-10.md",
+      "sha256": "36263bd280bf331e855a9487590d8615d474d68ee1f494a5e4d56e23a0f11adf",
+      "scope": "Independent worktree execution and shared A06 integration boundary."
+    }
+  ]
+}

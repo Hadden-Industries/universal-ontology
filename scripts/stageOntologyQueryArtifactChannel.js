@@ -5,17 +5,15 @@ import { pathToFileURL } from "node:url";
 
 import { createOntologyQueryChannelManifest } from "./build/createOntologyQueryChannelManifest.js";
 import { resolveOutputPath } from "./build/sourceInventory.js";
-import { calculateSha256 } from "../src/ontologyQuery/ontologyQueryArtifactCanonicalBytes.js";
 import {
+  calculateSha256,
   MAX_ONTOLOGY_QUERY_CATALOG_BYTE_LENGTH,
   MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH,
-} from "../src/ontologyQuery/ontologyQueryArtifactLimits.js";
-import {
   parseOntologyQueryCatalogBytes,
   parseOntologyReleaseQueryIndexBytes,
-} from "../src/ontologyQuery/ontologyQueryArtifactParsing.js";
-import { parseOntologyReleaseQueryIndexRelativePath } from "../src/ontologyQuery/ontologyQueryArtifactRelativePath.js";
-import { OntologyQueryArtifactChannelNameSchema } from "../src/ontologyQuery/ontologyQueryChannelManifestSchemas.js";
+  parseOntologyReleaseQueryIndexRelativePath,
+  OntologyQueryArtifactChannelNameSchema,
+} from "universal-ontology-query/artifacts";
 
 const DEFAULT_FILE_SYSTEM = Object.freeze({
   mkdir,

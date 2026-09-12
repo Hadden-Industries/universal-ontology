@@ -133,3 +133,51 @@ transport files after their last consumer finishes.
 Repository adoption and actionable upstream reports complete these local follow-ups.
 The two upstream defects remain open until their stated resolution criteria pass;
 this record neither closes them nor grants an exception for new uses.
+
+## WP1 evidence qualification
+
+WP1 applies the already adopted method to the text-capture and verification
+retention defects under [accepted Issue 32](baselines/issue-32/v1.json).
+The implementation introduces version 3 run receipts and preserves historical
+version 2 evidence; it does not change the active-task version, SDLC package
+version, deployment confirmation, host trust or security-scan adoption claims.
+The [verification record](verification.md#wp1-text-and-evidence-repair-2026-09-10)
+distinguishes process/fixture checks from current-candidate full-profile, CI and
+independent review obligations. A retained receipt does not authenticate approval
+or establish an ontology/product outcome by itself.
+
+## WP8 selective adoption — 11 September 2026
+
+Max authorized the selected SDLC improvements on the WebVOWL and ONI `main`
+branches. Both ports reuse qualified UO source
+`777cddda00ec1536c56ce7dc64f933c2cd20bd1c`, whose tree matches merged source
+`557d4bb3e4013b34a95ad8be6189b975222fb47e`. Each recipient's existing
+`.sdlc/UPSTREAM.json` retains its original lineage and adds 35 explicit
+source/adopter hash mappings; recipient overlays, licences, product dependencies,
+verification profiles and package status are preserved.
+
+- [ONI PR 11](https://github.com/MaksymShostak/oxygen-not-included/pull/11)
+  merged as `8545782d71a8ac6f33dd1e9629640db6839b7849`, with the same tree as
+  tested candidate `d4289a0d32ab7591dd68a42afaf725e429267f14`.
+- [WebVOWL PR 20](https://github.com/Hadden-Industries/webvowl/pull/20)
+  merged as `ba7cc2af89c5760d818b861182a52b7629a1f960`, with the same tree as
+  tested combined candidate `039dd4efb51ad2e7693f5e7b41f6dd46eb3030a8`.
+
+Both recipients passed native final verification and required hosted checks,
+including Windows and Ubuntu controls. The bounded independent adaptation review
+found no material issue; it reused qualified source assurance and the approved
+security alternative. This does not claim a new native scan, host trust or a
+package/version promotion. See the [qualification record](verification.md#wp8-selective-adoption-and-product-evidence).
+
+**Programme scope decision — 11 September 2026:** after the ports completed,
+Max explicitly directed this activity to stop requiring SHACL and MCP inputs
+and to use the improved SDLC to test its own improvements. AC8-09 is therefore
+removed from this activity's completion scope, not reported as passed. Future
+MCP/SHACL product implementation and integration remain with their owning tasks;
+this decision neither accepts their policy nor closes their Issues.
+
+The completed SDLC changes and selected ports can be closed independently of
+that product integration. Exercise the improved controls through their native
+regression suite and the real documentation/verification/handoff workflow; no
+synthetic product pilot or repeated source review is required. Preserve existing
+worktrees and recovery evidence until their recorded consumers release them.

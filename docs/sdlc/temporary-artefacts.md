@@ -191,6 +191,52 @@ or make the workspace appear complete. Closing control state requires a separate
 authorised lifecycle transition, after the necessary evidence is retained. The v2 helper provides explicit `handoff`/`pause`/`resume` operations; these do not
 authorise release or delete retained run history. See the proportional workflow.
 
+### Resource disposition across handoffs
+
+When a temporary resource survives an implementation or review handoff, the
+coordinator MUST make its disposition discoverable through the existing task,
+Issue, PR or retained handoff record. Record the exact resource or safely scoped
+owned group; originating execution and owner when known; purpose and remaining
+consumers; relevant candidate/evidence identity; preservation location and
+readback; recorded disposition; next actor; and reassessment event. Identify
+unknown ownership explicitly rather than assigning it from a directory name.
+Routine scratch removed within its creating task needs no additional register.
+
+The coordinator collects worker results and consumer-release decisions. A worker
+reports its resources but does not dispose of another worker's workspace. When
+an operator must act, the coordinator records the actual scoped request and
+remaining blocker. These responsibilities confer no new filesystem, Git,
+credential, configuration or publication authority.
+
+Implementation handoff and resource disposal are different outcomes. Removing an
+active implementation pointer MUST NOT hide a retained resource obligation.
+A justified retained or operator-blocked resource need not prevent an otherwise
+valid implementation handoff; report that resource state separately. Actual
+eligible, authorised and unblocked disposal remains a completion responsibility
+under TA-02, not a task to defer indefinitely through repeated metadata updates.
+
+Keep pending disposition records and required evidence retrievable outside any
+resource or containing worktree that may be disposed of. An ignored local runtime
+record is not by itself a backup. Before its coordinator location is retired,
+obtain the receiving owner's acknowledgement of a retrievable transfer under the
+existing evidence policy. Preserve earlier denials and failed results.
+
+For an existing nested worktree, record both the inner resource and the outer
+owner's containment dependency. Outer disposal MUST remain held while the inner
+registration, consumer, ownership or retention obligation is unresolved. Avoid
+creating a new managed worktree inside another task's worktree unless the actual
+need and containment obligations are recorded. Do not repair this arrangement
+by moving, pruning, forcing removal or recursively deleting without the normal
+separate authority and native operation.
+
+The resource-disposition helper records declarations and presents observations;
+it does not decide deletion permission or execute cleanup. A recorded eligibility
+assessment always requires fresh inspection and the existing authority before an
+operation. `removed-confirmed` requires the actual authorised operation and
+registration/filesystem readback; it is not a claim of secure erasure or branch
+removal. File absence, an expired date, a merged branch or successful schema
+validation supplies none of those decisions.
+
 ## TA-08 — Make disposition part of completion
 
 At handoff, report a concise summary in the existing task/PR record:
@@ -207,6 +253,19 @@ necessary survivor has an explicit disposition. Pending rollout/recovery use is
 not a reason to withhold an otherwise valid implementation handoff, provided its
 owner and future cleanup obligation are recorded. Unexplained leftovers and
 missing required evidence are unresolved completion items.
+
+The handoff summary MUST distinguish implementation verification, required
+preservation, recorded resource disposition and actual removal. Name the next
+actor and concrete reassessment event for every survivor or unresolved group.
+Use the existing record rather than opening a new Issue for every resource.
+A remaining ownership question can have Max as its decision owner without
+retroactively making Max the resource's creator.
+
+Read-only status can expose retained handoffs after implementation ends. It MUST
+show its scope and read limitations, and distinguish recorded assessment from
+current observation. An unrecorded worktree is unattributed in that view, not
+abandoned. Access failure, malformed metadata, conflicting snapshots or a read
+limit MUST NOT be reported as an empty inventory or a successful cleanup.
 
 ## Evidence basis and implementation limits
 

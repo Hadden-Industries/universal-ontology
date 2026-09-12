@@ -1,0 +1,55 @@
+{
+  "recordType": "resource-disposition-input",
+  "schemaVersion": 1,
+  "coordinationReference": "fixture-task:wp3",
+  "recordedBy": "fixture-coordinator",
+  "recordingAuthorityReference": "fixture-decision:metadata-recording",
+  "decisionReference": "fixture-decision:retained-for-consumer",
+  "entry": {
+    "resourceId": null,
+    "supersedes": [],
+    "kind": "worktree",
+    "host": "fixture-host",
+    "locations": [
+      "C:/fixture/worktrees/review-a"
+    ],
+    "identityReference": "fixture-record:native-worktree-identity",
+    "owningTaskReference": "fixture-task:review",
+    "owningTaskId": null,
+    "owner": "fixture-resource-owner",
+    "coordinator": "fixture-coordinator",
+    "nextActor": "fixture-owner-decision",
+    "purpose": "Illustrative review workspace; no actual user resource is represented.",
+    "candidate": {
+      "head": null,
+      "observedAt": null,
+      "inputsReference": null
+    },
+    "consumers": [
+      {
+        "reference": "fixture-task:reviewer",
+        "state": "required",
+        "releaseEvidenceReference": null
+      }
+    ],
+    "preservation": {
+      "state": "required",
+      "locationReference": null,
+      "readbackReference": null,
+      "independentOfDisposedTree": null,
+      "reason": "Actual required content must be identified and preserved."
+    },
+    "disposition": "retained-for-consumer",
+    "rationale": "Illustrative reviewer still consumes the candidate.",
+    "blockers": [],
+    "reassessment": {
+      "event": "The named reviewer releases the candidate and its required evidence is secured.",
+      "reviewAt": null
+    },
+    "inspectionReference": null,
+    "assessmentReference": null,
+    "disposalAuthorityReference": null,
+    "operation": null,
+    "postRemovalReadback": null
+  }
+}

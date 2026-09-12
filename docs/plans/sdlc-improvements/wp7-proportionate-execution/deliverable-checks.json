@@ -1,0 +1,92 @@
+{
+  "kind": "wp7-planning-deliverable-checks",
+  "checkedOn": "2026-09-11",
+  "scope": "Authored planning-file structure and preservation only. Not repository, Windows, guard, browser, mutation, security-agent or useful-work qualification.",
+  "passed": true,
+  "checks": [
+    {
+      "name": "UTF-8 text and no NUL",
+      "passed": true,
+      "detail": "All three authored planning files decode strictly as UTF-8 without NUL."
+    },
+    {
+      "name": "Parent file preserved",
+      "passed": true,
+      "detail": "The supplied parent retains its recorded bytes."
+    },
+    {
+      "name": "Worktree handoff preserved",
+      "passed": true,
+      "detail": "The supplied historical handoff retains its recorded bytes."
+    },
+    {
+      "name": "Eight implementation slices",
+      "passed": true,
+      "detail": "WP7.1–WP7.8 occur as ordered implementation headings."
+    },
+    {
+      "name": "Twelve acceptance criteria",
+      "passed": true,
+      "detail": "AC7-01–AC7-12 are unique table rows."
+    },
+    {
+      "name": "Twenty-eight consistent scenarios",
+      "passed": true,
+      "detail": "Markdown and JSON contain the same scenario identities and expected observations."
+    },
+    {
+      "name": "No claimed future executions",
+      "passed": true,
+      "detail": "All proposed scenarios and useful-work exercises remain explicitly not-run."
+    },
+    {
+      "name": "Operational exercise identities",
+      "passed": true,
+      "detail": "Both files identify the same three useful-work exercises."
+    },
+    {
+      "name": "Six amendment targets",
+      "passed": true,
+      "detail": "M701–M706 provide six ordered source-of-truth amendments."
+    },
+    {
+      "name": "Balanced fenced blocks",
+      "passed": true,
+      "detail": "Main plan and amendments have paired code fences."
+    },
+    {
+      "name": "Companion links resolve",
+      "passed": true,
+      "detail": "Authored companion file links resolve locally; the proposed repository link is checked as an intended edit, not a deployed file."
+    },
+    {
+      "name": "Source labels have definitions",
+      "passed": true,
+      "detail": "All referenced source labels resolve to the supplied-source or primary-source list; this does not verify external source truth."
+    }
+  ],
+  "planningScenarios": {
+    "proposed": 28,
+    "executed": 0,
+    "operationalExercisesProposed": 3,
+    "operationalExercisesExecuted": 0
+  },
+  "files": [
+    {
+      "path": "wp7-proportionate-execution-implementation-plan-2026-09-11.md",
+      "bytes": 86473,
+      "sha256": "222928fef535acae1557e2e2b9e6d55e4675038a10c88f6bac0c031d9162cad4"
+    },
+    {
+      "path": "wp7-policy-amendments.proposed.md",
+      "bytes": 12888,
+      "sha256": "cd2ec956b1e2ac17db7deefbce28a6ccf5c624c101e946403e40ea5b0d58c296"
+    },
+    {
+      "path": "wp7-verification-catalogue.proposed.json",
+      "bytes": 12352,
+      "sha256": "f8f5300e47b69600d2ccf895b9e7a33b4ceabc19343f997fcf59a1b34c720760"
+    }
+  ],
+  "packageReadback": "Performed after writing this payload; the archive is checked against its enclosed manifest. This report does not contain a self-referential archive hash."
+}

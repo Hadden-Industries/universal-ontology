@@ -14,7 +14,7 @@ import { dirname, join } from "node:path";
 
 import { createOntologyQueryArtifacts } from "../../scripts/build/createOntologyQueryArtifacts.js";
 import { stageOntologyQueryArtifactChannel } from "../../scripts/stageOntologyQueryArtifactChannel.js";
-import { parseOntologyQueryChannelManifestBytes } from "../../src/ontologyQuery/ontologyQueryArtifactParsing.js";
+import { parseOntologyQueryChannelManifestBytes } from "universal-ontology-query/artifacts";
 
 const MINIMAL_ONTOLOGY_RELEASE_URL = new URL(
   "../fixtures/ontology-query/minimal-ontology-release",

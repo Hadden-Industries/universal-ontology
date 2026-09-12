@@ -1,0 +1,49 @@
+{
+  "recordType": "resource-disposition-input",
+  "schemaVersion": 1,
+  "coordinationReference": "fixture-task:wp3",
+  "recordedBy": "fixture-coordinator",
+  "recordingAuthorityReference": "fixture-decision:metadata-recording",
+  "decisionReference": "fixture-decision:preserved-pending-review",
+  "entry": {
+    "resourceId": null,
+    "supersedes": [],
+    "kind": "worktree",
+    "host": "fixture-host",
+    "locations": [
+      "C:/fixture/worktrees/review-a"
+    ],
+    "identityReference": "fixture-record:native-worktree-identity",
+    "owningTaskReference": "fixture-task:review",
+    "owningTaskId": null,
+    "owner": "fixture-resource-owner",
+    "coordinator": "fixture-coordinator",
+    "nextActor": "fixture-owner-decision",
+    "purpose": "Illustrative review workspace; no actual user resource is represented.",
+    "candidate": {
+      "head": null,
+      "observedAt": null,
+      "inputsReference": null
+    },
+    "consumers": [],
+    "preservation": {
+      "state": "verified",
+      "locationReference": "fixture-store:snapshot-a",
+      "readbackReference": "fixture-record:readback-a",
+      "independentOfDisposedTree": true,
+      "reason": "Illustrative external preservation/readback declarations, not actual preservation."
+    },
+    "disposition": "preserved-pending-review",
+    "rationale": "Illustrative preservation completed, review not yet completed.",
+    "blockers": [],
+    "reassessment": {
+      "event": "Review finishes and the coordinator reassesses the resource against TA-02.",
+      "reviewAt": null
+    },
+    "inspectionReference": null,
+    "assessmentReference": null,
+    "disposalAuthorityReference": null,
+    "operation": null,
+    "postRemovalReadback": null
+  }
+}

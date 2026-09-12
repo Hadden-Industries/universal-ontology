@@ -1,4 +1,7 @@
 import * as nodeFileSystem from "node:fs/promises";
+import { execFileSync, spawnSync } from "node:child_process";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { parse as parseYaml } from "yaml";
 
@@ -137,6 +140,123 @@ describe("Universal Ontology MCP development distribution workflow", () => {
       readUniversalOntologyMcpReleaseInputs(),
     ]);
     workflow = parseYaml(workflowText);
+  });
+
+  test.each([
+    { name: "matching product versions", rootVersion: "1.0.0", exitCode: 0 },
+    { name: "independent root version", rootVersion: "99.0.0", exitCode: 0 },
+    {
+      name: "Registry version mismatch",
+      rootVersion: "99.0.0",
+      registryVersion: "99.0.0",
+      exitCode: 1,
+    },
+    {
+      name: "Registry package version mismatch",
+      rootVersion: "99.0.0",
+      registryPackageVersion: "99.0.0",
+      exitCode: 1,
+    },
+    {
+      name: "npm toolchain mismatch",
+      rootVersion: "99.0.0",
+      npmVersion: "0.0.0",
+      exitCode: 1,
+    },
+  ])("executes the actual candidate metadata step: $name", async (scenario) => {
+    const repositoryPath = fileURLToPath(new URL("../../", import.meta.url));
+    const runtimePath = join(repositoryPath, ".sdlc", "runtime");
+    await nodeFileSystem.mkdir(runtimePath, { recursive: true });
+    const fixturePath = await nodeFileSystem.mkdtemp(
+      join(runtimePath, "mcp-candidate-metadata-test-"),
+    );
+    const outputPath = join(fixturePath, "github-output.txt");
+    const body =
+      /^node --input-type=module <<'NODE'\n([\s\S]+)\nNODE\n?$/u.exec(
+        workflow.jobs.validate.steps.find(
+          ({ id }) => id === "candidate-metadata",
+        ).run,
+      )?.[1];
+    expect(body).toBeDefined();
+    const registry = {
+      name: "io.github.hadden-industries/universal-ontology",
+      version: scenario.registryVersion ?? "1.0.0",
+      packages: [
+        {
+          registryType: "npm",
+          version: scenario.registryPackageVersion ?? "1.0.0",
+        },
+      ],
+    };
+    try {
+      for (const [path, value] of [
+        [
+          "package.json",
+          {
+            version: scenario.rootVersion,
+            packageManager: `npm@${scenario.npmVersion ?? "12.0.2"}`,
+          },
+        ],
+        [
+          "packages/universal-ontology-mcp-server/package.json",
+          { version: "1.0.0", mcpName: registry.name },
+        ],
+        ["server.json", registry],
+        [
+          "scripts/distribution/universalOntologyMcpReleaseInputs.json",
+          {
+            selectedNpmVersion: "12.0.2",
+            nodeRuntime: {
+              targets: [
+                {
+                  targetName: "fixture-target",
+                  runnerLabel: "fixture-runner",
+                  releaseArchiveFormat: "zip",
+                },
+              ],
+            },
+          },
+        ],
+      ]) {
+        const targetPath = join(fixturePath, path);
+        await nodeFileSystem.mkdir(dirname(targetPath), { recursive: true });
+        await nodeFileSystem.writeFile(targetPath, JSON.stringify(value));
+      }
+      const result = spawnSync(
+        process.execPath,
+        ["--input-type=module", "--eval", body],
+        {
+          cwd: fixturePath,
+          env: { ...process.env, GITHUB_OUTPUT: outputPath },
+          encoding: "utf8",
+          timeout: 10_000,
+          windowsHide: true,
+        },
+      );
+      expect(result.error).toBeUndefined();
+      expect(result.status).toBe(scenario.exitCode);
+      if (scenario.exitCode === 0) {
+        const epoch = execFileSync(
+          "git",
+          ["show", "-s", "--format=%ct", "HEAD"],
+          { cwd: repositoryPath, encoding: "utf8", windowsHide: true },
+        ).trim();
+        expect(await nodeFileSystem.readFile(outputPath, "utf8")).toBe(
+          `software-version=1.0.0\nsource-date-epoch=${epoch}\ntarget-matrix=[{"targetName":"fixture-target","runnerLabel":"fixture-runner","releaseArchiveFormat":"zip"}]\n`,
+        );
+      } else {
+        expect(result.stderr).toContain(
+          scenario.npmVersion
+            ? "Development toolchain or future Registry identity disagrees."
+            : "Development candidate versions disagree.",
+        );
+        await expect(nodeFileSystem.stat(outputPath)).rejects.toMatchObject({
+          code: "ENOENT",
+        });
+      }
+    } finally {
+      await nodeFileSystem.rm(fixturePath, { recursive: true, force: true });
+    }
   });
 
   test("selects checks within PR, main-push and manual verification runs", () => {

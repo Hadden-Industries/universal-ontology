@@ -1,0 +1,243 @@
+{
+  "kind": "wp6-deliverable-consistency-check",
+  "recordedAt": "2026-09-10T20:47:23.395737+00:00",
+  "python": "3.13.5",
+  "checks": [
+    {
+      "name": "all_payloads_strict_utf8",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "main_retains_parent_wp6_title",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "parent_a11_a12_present",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "eight_ordered_slices",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "forty_catalogue_rows",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "ordered_unique_test_ids",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "main_and_catalogue_ids_agree",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "all_implementation_tests_not_run",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "two_operational_exercises",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "operational_exercises_not_run",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "twelve_acceptance_criteria",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "acceptance_not_assessed",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "scenario_text_exact_agreement",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "research_check_count_is_eighteen",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "research_records_all_pass",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "research_runtime_is_recorded",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "research_source_syntax_valid",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "worksheet_recipe_syntax_valid_not_executed",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "worksheet_marks_local_input_not_event",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "child_environment_assignment_not_parent_mutation",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "recipe_executes_trusted_existing_script",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "recipe_captures_binary_outputs",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "recipe_keeps_started_and_finished_separate",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "no_new_preflight_cli_selected",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "acceptance_limit_not_silently_hidden",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "existing_issue_route_explicit",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "two_native_ref_versions_separated",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "current_linkage_run_retained",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "current_dependency_run_retained",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "dependency_cause_and_threshold_distinct",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "all_disposition_branches_present",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "rerun_and_new_event_distinguished",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "no_default_dependency_policy_change",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "conditional_field_does_not_replace_seven",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "plan_code_fences_balanced",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "policy_code_fences_balanced",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "worksheet_code_fences_balanced",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "relative_companion_links_resolve",
+      "passed": true,
+      "scope": "artifact consistency"
+    },
+    {
+      "name": "research_is_explicitly_not_acceptance",
+      "passed": true,
+      "scope": "artifact consistency"
+    }
+  ],
+  "total": 39,
+  "passed": 39,
+  "allPassed": true,
+  "inputs": [
+    {
+      "path": "wp6-trusted-baseline-and-preflight-implementation-plan-2026-09-10.md",
+      "sha256": "21923f8abc7f1644e39ede0da8a40e05813f3dcabe851846a2b64c9db0ed4e5e",
+      "bytes": 73777
+    },
+    {
+      "path": "wp6-policy-amendments.proposed.md",
+      "sha256": "002c4531b8f247716748f8f43e42db8f46523ebcf8c3d7de469970d7e22f64ff",
+      "bytes": 14325
+    },
+    {
+      "path": "wp6-preflight-and-remote-handoff.proposed.md",
+      "sha256": "88ae71d6bd65252c5dc765a2d969a980bf87f11863a80d51de1d1efbe5f80dba",
+      "bytes": 14942
+    },
+    {
+      "path": "wp6-verification-catalogue.proposed.json",
+      "sha256": "e2307664d2785fbffe923dc8bfdc9d35d7de5b87e67ea050de703570bead14b5",
+      "bytes": 16253
+    },
+    {
+      "path": "wp6-baseline-boundary-check-2026-09-10.json",
+      "sha256": "ecfded3b953a580f7739971ea1e98911f0791c6a9abf6a5835b94c77542728ef",
+      "bytes": 8805
+    },
+    {
+      "path": "wp6-support/baseline-boundary-probe.py",
+      "sha256": "6d84eba6c41501a1617c0bc1adb442cd304d7a9d317501e27be274aa034ce1b9",
+      "bytes": 8839
+    }
+  ],
+  "limitations": [
+    "Checks validate the delivered documents, catalogue and retained research report only.",
+    "No proposed validator, live token, native acceptance gate, Windows host or remote CI was executed by this script.",
+    "Syntax checks did not execute the worksheet recipe.",
+    "ZIP integrity is checked separately after packaging."
+  ]
+}

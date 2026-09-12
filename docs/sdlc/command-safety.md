@@ -297,6 +297,65 @@ automation and retain the failure evidence. Do not automatically uninstall DCG o
 restore old prefix rules and announce equivalent protection. Old rules were incomplete.
 Preserve unrelated native/SDLC hooks and configurations throughout.
 
+### Diagnose a suspected benign-command rejection
+
+Keep the original denied operation and the actual native result. A successful
+shorter command or explicit-dialect diagnostic is comparison evidence, not proof
+that the original protected dispatch is repaired. Separate a valid safe command
+from a quoting or argument-construction error; correct intended semantics as well
+as classification.
+
+For the affected occurrence, identify the requested tool/shell/login/cwd, actual
+selected executable and arguments, permitted raw hook request, native protocol
+and resolved dialect where observable, host and DCG versions, effective native
+configuration and loaded packs, and hook enabled/trusted state. Record missing
+facts rather than infer them from defaults. The canonical hook name `Bash` is not
+proof that the command executes in a POSIX shell. A model-requested shell is not
+necessarily the effective shell after host resolution.
+
+Keep original and derived/redacted payloads separately identified. Use existing
+protected operational evidence storage; do not turn on blanket command logging,
+dump credentials, or install a forwarding/classifying wrapper. A separately
+approved observation change must preserve the actual command and native verdict,
+keep protocol stdout clean, and have a bounded removal condition.
+
+Native `explain` and hook replay examine text as data. Their process exit codes,
+JSON decisions and actual host interception establish different facts. A silent
+reply is not proof that an unsupported request was classified. The repository
+protocol probe deliberately uses isolated candidate state and synthetic envelopes;
+it must not be described as a deployed-policy or host-interception test.
+
+Minimize the full benign input while preserving its valid intended syntax and
+material native failure. Retain the original, reduction lineage and safety
+neighbors. Choose the repair at the demonstrated producer, host, native DCG or
+deployment owner. Do not force all Windows requests to one dialect, relabel a
+canonical hook event, mask entire interpreter bodies, or allowlist an executable
+merely to remove a false positive.
+
+Qualify the actual installed combination after repair. Require the original safe
+semantics through the protected host, and corresponding forbidden-operation text
+still denied as inert native diagnostic input. Where the accepted work package
+prohibits real destructive testing, that boundary overrides the broader example
+matrix: use only non-destructive-by-construction host challenges or record the
+unproved subclaim and retain its restriction. Another control's block, a missing
+executable, an absent-target error or agent refusal is not native DCG attribution.
+
+An upstream fix, current release number, successful installation or `doctor`
+result does not establish propagation into the running host. Retain the local
+acceptance item until its installed-path criteria pass. Continue other independent
+authorised work without retrying the denied effect through a weaker channel.
+
+For the Windows occurrence in [Issue 48](https://github.com/Hadden-Industries/universal-ontology/issues/48),
+selecting PowerShell explicitly on `exec_command` still produced the native
+`core.git:branch-force-delete` denial on September 11, 2026. The inspected Codex
+0.153.4 producer emits the canonical `Bash` name and command text without the
+selected shell. The inspected DCG 0.14.1 source deliberately retains an unknown
+dialect for ambiguous Windows Codex requests rather than trusting that name.
+This is source-supported evidence of a producer/consumer metadata gap, not a
+captured runtime envelope or proof of the desktop binary's exact source. Sources:
+[S10], [S11]. Keep the original host failure and inert dialect comparisons;
+do not prescribe an explicit shell argument alone as a demonstrated repair.
+
 ## 8. Sources and verification boundaries
 
 - [S1] [DCG README at the reviewed source](https://github.com/Dicklesworthstone/destructive_command_guard/blob/581accd259ed2f8294a7e3866d1489eeaaa58b19/README.md): defaults, packs, update/exception behaviour and limitations.
@@ -308,6 +367,8 @@ Preserve unrelated native/SDLC hooks and configurations throughout.
 - [S7] [v0.14.0 release](https://github.com/Dicklesworthstone/destructive_command_guard/releases/tag/v0.14.0): September 1, 2026 release and hook reachability checks.
 - [S8] [Official Codex hooks](https://developers.openai.com/codex/hooks/), checked September 7, 2026: current shell/unified-exec coverage, stdin limitations, trust and managed hooks.
 - [S9] [Official Codex rules](https://developers.openai.com/codex/rules/): prefix-based rules and native limitations.
+- [S10] [Codex 0.153.4 exec command hook producer](https://github.com/openai/codex/blob/rust-v0.153.4/codex-rs/core/src/tools/handlers/unified_exec/exec_command.rs): `pre_tool_use_payload` retains command text but not the selected shell.
+- [S11] [DCG 0.14.1 hook source at its reported build commit](https://github.com/Dicklesworthstone/destructive_command_guard/blob/9569d4f181e43e7bdd4fba254834762a092b4b29/src/hook.rs): `codex_host_shell_dialect` documents missing producer metadata and conservative Windows resolution.
 
 The native-policy choices are proposed repository policy, not a scientific finding
 or an independent audit of DCG. Source identity is not installed-binary identity;

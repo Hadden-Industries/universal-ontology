@@ -1,0 +1,66 @@
+{
+  "purpose": "Text/process boundary research supporting the WP1 implementation proposal",
+  "environment": {
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "python": "3.13.5"
+  },
+  "repositoryCodeExecuted": false,
+  "windowsHostQualified": false,
+  "qualificationLimits": [
+    "No Windows, PowerShell, Codex, DCG, repository npm launcher, SDLC CLI, state gate, or GitHub live capture execution.",
+    "The cp1252 protocol experiment explicitly selects that decoder on Linux; it is not a Windows default-codec reproduction.",
+    "No production repair is implemented or accepted by these checks."
+  ],
+  "checks": [
+    {
+      "name": "utf8_default_for_redirected_stream",
+      "passed": true,
+      "observation": {
+        "exitCode": 0,
+        "stdoutHex": "e29c960a"
+      }
+    },
+    {
+      "name": "explicit_stream_encoding_still_overrides_utf8_mode",
+      "passed": true,
+      "observation": {
+        "exitCode": 1,
+        "diagnosticContainsUnicodeEncodeError": true
+      }
+    },
+    {
+      "name": "presentation_escape_preserves_observability_on_legacy_stream",
+      "passed": true,
+      "observation": {
+        "exitCode": 0,
+        "stdoutAscii": "\\u2716\n"
+      }
+    },
+    {
+      "name": "protocol_codec_can_silently_corrupt_valid_json",
+      "passed": true,
+      "observation": {
+        "corruptedBody": "Accepted â€” no silent repair\r\n",
+        "jsonRemainsValid": true
+      }
+    },
+    {
+      "name": "explicit_utf8_protocol_decode_preserves_body",
+      "passed": true,
+      "observation": {
+        "expectedBodySha256": "795952f2f61565c617f95cb66565f756c2709afb86258df1a0b46de573974b8b",
+        "crlfPreservedInsideJsonValue": true
+      }
+    },
+    {
+      "name": "binary_capture_keeps_original_exit_and_invalid_bytes",
+      "passed": true,
+      "observation": {
+        "exitCode": 7,
+        "rawHex": "6f726967696e616cff0d0a",
+        "sha256": "f47c8e67d425769546782803d77786994a08e1bf3cdf5b6bda888bc71ea9008a",
+        "strictUtf8DecodeFailed": true
+      }
+    }
+  ]
+}
