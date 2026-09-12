@@ -606,3 +606,30 @@ agrees with them. Decision 5 is closed by the owner's own review. In the same
 message he authorised the merge of PR #61 (merge commit) and the Wiki write
 portion of SLICE-008. Live publication with served-version readback and the
 first real post-crossover contribution remain open.
+
+### PR #61 merged; Wiki published and read back (12 September 2026)
+
+PR #61 was merged into `main` with merge commit `03b8656` after all 21 checks
+passed on `363a830` (both Latest-active qualification rows exit 0). The
+generated header now links the canonical `policy/` directory and states that
+the repository governs when the page and the repository differ, so stale Wiki
+content is identifiable.
+
+Wiki write: the Wiki repository (`universal-ontology.wiki.git`, single branch
+`master`) was at `d881f9b`, byte-identical to the frozen baseline, when the
+replacement was prepared; no concurrent change needed reconciling. Max pushed
+commit `ae936a0` himself (the command guard blocks pushes to any `master`;
+a first attempt with a private author email was rejected by GitHub and never
+published; the commit was recreated with the no-reply identity, not amended).
+Readback from a fresh clone: Wiki HEAD `ae936a0`, `Editing-Policy.md` SHA-256
+`2cb32bcb3165e01ce125a59e3791e5356cc78d429d8a178a927a4114f3605cf3`, equal to
+`docs/policy/Editing-Policy.generated.md` at `main` `03b8656`; the page serves
+at https://github.com/Hadden-Industries/universal-ontology/wiki/Editing-Policy
+(HTTP 200). The previous hand-written policy remains in Wiki history at
+`d881f9b`. Sidebar and Home links are unchanged and still resolve.
+
+Remaining SLICE-008 items: live publication with served-version readback
+(separate authorisation), the first real post-crossover contribution, Issue
+#31 reconciliation (owner approval for the comment and label), and cleanup of
+task-owned transports (`.agent-tools/`, the spent Wiki clones, the
+`dependabot-skills-1-5-26` worktree and branch).
