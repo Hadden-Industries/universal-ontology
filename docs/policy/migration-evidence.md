@@ -406,3 +406,16 @@ freshness, every policy contract). Two genuine defects surfaced and are fixed:
 
 The qualification matrix therefore has not yet executed past JDK provisioning;
 its next run is the evidence.
+
+### Second remote execution (PR #61, after `30aae73`)
+
+Both qualification rows now execute the complete toolchain: Temurin JDK
+`25.0.4.1` provisioned with package-signature verification on `ubuntu-24.04`
+and `windows-2025`; Jena 6.2.0 downloaded from downloads.apache.org with
+`jena.zip: OK` (SHA-512) and `VALIDSIG D99038A1731B8B31B71549EF04C95136D236A58F`
+(Andy Seaborne); `jena.version` 6.2.0; Python 3.14.7 hash-locked install and
+`pip check` clean. Both then stop at the designed boundary:
+`POLICY_VALIDATION_ERROR (AuthorityError): Authority snapshot eu-file-type is
+missing` (exit 2), as does the draft-diagnostics step of the differential job.
+`Editing policy QA` passes. The remaining red is the pending rights decision
+(SLICE-004), not a defect.
