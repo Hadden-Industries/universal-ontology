@@ -93,7 +93,10 @@ class CommandContractTest(unittest.TestCase):
         self.assertIn("validation_required=true", completed.stdout)
 
     def test_draft_run_reports_change_obligations_and_comparisons(self):
-        completed = run_command("--purpose", "draft", "--authorities", FIXTURE_AUTHORITIES, "extended/universal-extended.owl")
+        # The working files are the coherent 20260912 replacement set: each
+        # re-pinned owl:imports needs its dependency in the same run (DEC-030),
+        # so the draft selects all five current sources rather than one file.
+        completed = run_command("--purpose", "draft", "--authorities", FIXTURE_AUTHORITIES, "--all-current")
         self.assertIn(completed.returncode, (0, 1), completed.stderr)
         self.assertIn("comparison https://haddenindustries.com/ontology/policy/activation/extended: src/universal/extended/20260714 sha256:", completed.stdout)
         self.assertIn("(diagnostic purpose)", completed.stdout)

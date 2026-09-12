@@ -333,7 +333,7 @@ Every SHACL rule and every retired legacy difference therefore has a
 disposition; no unexplained engine difference remains (identity parity holds
 on all fixtures, the active set and the candidate set).
 
-### Remediation proposal (untracked candidates, awaiting owner approval)
+### Remediation proposal (candidates, approved 12 September 2026)
 
 Built mechanically by a scratch tool into `.agent-tools/remediation/candidates/`
 (ledger in `ledger.json`), from the working files, as a coherent replacement
@@ -448,3 +448,34 @@ recorded in the rule's `dcterms:source`. The fixture oracle's
 Effect: the latest active set reports 740 blockers (737 property UUIDs, the
 shared UUID pair, `Duty`); the remediation candidate set reports **0
 violations and qualifies** on pySHACL and Jena (191 warnings remain visible).
+
+### Remediation applied (12 September 2026)
+
+Max approved the remediation candidates as proposed (decision 2 closed: the
+extended class keeps the shared UUID, every touched property carries the
+remediation `modified` time). The candidates were copied byte-for-byte over
+the five working files and promoted to the dated artifacts
+`src/universal/core/20260912`, `src/universal/extended/20260912`,
+`src/universal/reference-data/20260912`, `src/iso/31073/ed-1/20260912` and
+`src/iso-iec/11179/-3/ed-4/20260912` (identical bytes to the working files;
+no `*-full` merged artifact is produced for this set).
+
+Qualification through the real command on the dated artifacts,
+`validate_ontologies.py --purpose candidate <five src paths>` (comparisons =
+the 20260714/20260626 active artifacts): **0 violations, 191 warnings,
+qualifies activation**; receipt
+`.sdlc/runtime/policy-reports/qualification-receipt.json` issued
+`20260912T104720Z`, policy `sha256:25075397…`, module digests core
+`95e75e9f…`, extended `92ad97cc…`, ISO 31073 `bca8f977…`, ISO/IEC 11179-3
+`b992873d…`, reference-data `1354d260…`. Jena on the same sources and
+comparisons: 191 results, identity parity with pySHACL, no multiplicity
+difference, 0 violations (25 s pySHACL, 4 s Jena). The legacy validator
+(`--all-current`) still passes on the working files, so the retained full
+profile invariant holds until cutover.
+
+`policy/activation.ttl` is deliberately unchanged: the active set remains the
+served 20260714/20260626 versions until the SLICE-008 activation, which binds
+the receipt to `uop:activeArtifactPath` entries for 20260912. Because the
+working files now import the 20260912 versions, a single-file draft run of a
+dependant reports the DEC-030 pin mismatch as designed; the CLI contract test
+selects the coherent five-file working set instead.
