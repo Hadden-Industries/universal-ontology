@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/Hadden-Industries/universal-ontology/security
-    about: Review the repository's security reporting options before sharing a suspected vulnerability.
+    url: https://github.com/Hadden-Industries/universal-ontology/security/advisories/new
+    about: Report a suspected vulnerability privately. See SECURITY.md for the email fallback.
+  - name: Code of Conduct concern
+    url: https://github.com/Hadden-Industries/universal-ontology/blob/main/CODE_OF_CONDUCT.md#reporting-an-issue
+    about: Follow the private conduct reporting process; do not post incident details in public issues.
