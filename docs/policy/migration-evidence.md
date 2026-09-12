@@ -652,3 +652,36 @@ target exists on a clean checkout and none points into `dist/`, and no
 stale dated entry; it fails on the previous catalogs and passes now. The
 version-increment change set is therefore: working file, dated `src/`
 artifact, `policy/activation.ttl` at activation, and the catalogs.
+
+### Live publication and served-version readback (12 September 2026)
+
+Two defects surfaced on the way to publishing and were fixed through their own
+PRs before the upload: the uploader resolved the `amazon-aws` helper beside
+the checkout directory, which a linked worktree does not have (PR #64,
+`81ced11`), and it ran the helper with this repository's hash-locked
+interpreter, which deliberately lacks the helper's `awscrt` dependency; the
+helper now runs under its own repository's `.venv` (PR #65, `01a6de0`). The
+catalogs fix (PR #63, `bdf5fc1`) was merged first so the served set and the
+local catalogs agree.
+
+Publication from `main` `01a6de0`: `npm run build`, a fresh latest-active
+receipt (0 violations, qualifies), and `scripts/upload_to_s3.py` with the gate
+binding all five `src/**/20260912` artifacts (policy `sha256:25075397…`).
+Helper result: 172 uploads, 3 remote-only stale objects deleted
+(`OntologyToCsvConverter.js`, `external/oeo-social.omn`, `ontologyCsv.js`),
+576 unchanged; CloudFront distribution `E5R9EPFOCX1JR`, invalidation
+`IERH0R3Q05OPMWQJ6QJIG1PQ5T` completed after 17 s.
+
+Served-version readback (fresh `curl`, `Accept: application/rdf+xml`): every
+`latest` alias now serves its 20260912 version, byte-identical (SHA-256) to
+the activated artifact and to the receipt and `activation.ttl` digests —
+core `214f21e9…`, extended `92ad97cc…`, reference-data `1354d260…`,
+ISO 31073 `bca8f977…`, ISO/IEC 11179-3 `f532f33c…`; the dated
+`universal/core/20260912` URL answers 200. Before publication the same
+aliases served the 20260714/20260626 set.
+
+SLICE-008 proof/exit: exact active and publication identity, actual command
+and gate observation, Wiki readback, and the owner's acceptance are recorded.
+Remaining: the first real post-crossover contribution (observed as it happens)
+and cleanup of task-owned transports (`.agent-tools/`, the scratch Wiki
+clones, the spent `dependabot-skills-1-5-26` worktree and branch).
