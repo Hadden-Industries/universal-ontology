@@ -14,25 +14,33 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  # Apache Jena 6.2.0 command distribution, verified against the published
+  # SHA-512 and the release manager's signature (KEYS fingerprint below).
+  JENA_VERSION: 6.2.0
+  JENA_SHA512: fb97634215b4667124bdbe4f42efc25d4dc4e9046b70bfa702d7a71e1a8aed049ec79a38eb469cf0e13b18724cc024adec3cc35113a24e8fa62aa66091d7431e
+  JENA_SIGNER_FINGERPRINT: D99038A1731B8B31B71549EF04C95136D236A58F
+
 jobs:
   validate-ontologies:
     name: OWL Differential Analysis
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       ONTOLOGY_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
       ONTOLOGY_DIFF_HEAD: ${{ github.sha }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: Provision Python Runtime
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
           cache: 'pip'
+          cache-dependency-path: requirements.lock.txt
 
       - name: Create isolated Python environment
         run: python -m venv .venv
@@ -48,9 +56,9 @@ jobs:
           fi
           .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --plan >> "$GITHUB_OUTPUT"
 
-      - name: Install ontology validation dependencies
+      - name: Install the hash-locked Python environment
         if: steps.scope.outputs.validation_required == 'true'
-        run: .venv/bin/python -m pip install -r requirements.txt
+        run: .venv/bin/python -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt
 
       - name: Test ontology validation runner
         if: steps.scope.outputs.validator_changed == 'true'
@@ -67,6 +75,127 @@ jobs:
           fi
           .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --github-actions
 
+      - name: Editing-policy draft diagnostics for the changed sources
+        if: steps.scope.outputs.validation_required == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(--diff-base "$ONTOLOGY_DIFF_BASE" --diff-head "$ONTOLOGY_DIFF_HEAD")
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            args=(--all-current)
+          fi
+          .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --purpose draft --github-actions --report-directory policy-reports
+
+      - name: Retain policy reports
+        if: always() && steps.scope.outputs.validation_required == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: policy-reports-differential
+          path: policy-reports
+          if-no-files-found: ignore
+
       - name: Report unchanged ontology inputs
         if: steps.scope.outputs.validation_required == 'false'
         run: echo "Ontology validation not applicable; no supported ontology or validator input changed."
+
+  policy-qa:
+    name: Editing policy QA
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+          cache: 'pip'
+          cache-dependency-path: requirements.lock.txt
+      - name: Install the hash-locked Python environment
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt
+          .venv/bin/python -m pip check
+      - name: Generated policy is current
+        run: .venv/bin/python -B scripts/render_editing_policy.py --check
+      - name: Policy, rendering, authority, change and publication-gate contracts
+        run: .venv/bin/python -B -m unittest discover -s tests -p "test_*polic*.py" -v
+      - name: Entity change and publication gate contracts
+        run: .venv/bin/python -B -m unittest tests.test_ontology_entity_changes tests.test_publication_gate -v
+
+  qualify:
+    name: Latest-active qualification (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+          cache: 'pip'
+          cache-dependency-path: requirements.lock.txt
+      - name: Provision the qualified Temurin JDK
+        id: java
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version-file: .java-version
+          check-latest: false
+      - name: Cache the verified Jena distribution
+        id: jena-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .agent-tools/jena/apache-jena-${{ env.JENA_VERSION }}
+          key: jena-${{ env.JENA_VERSION }}-${{ env.JENA_SHA512 }}-${{ runner.os }}-${{ runner.arch }}
+      - name: Download and verify Apache Jena
+        if: steps.jena-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .agent-tools/jena && cd .agent-tools/jena
+          base="https://downloads.apache.org/jena/binaries"
+          curl -sSfL -o jena.zip "$base/apache-jena-${JENA_VERSION}.zip"
+          curl -sSfL -o jena.zip.asc "$base/apache-jena-${JENA_VERSION}.zip.asc"
+          curl -sSfL -o KEYS "https://downloads.apache.org/jena/KEYS"
+          echo "${JENA_SHA512}  jena.zip" | sha512sum -c -
+          export GNUPGHOME="$(mktemp -d)"
+          gpg --batch --quiet --import KEYS
+          gpg --batch --status-fd 1 --verify jena.zip.asc jena.zip | tee verify.log
+          grep -q "VALIDSIG ${JENA_SIGNER_FINGERPRINT}" verify.log
+          unzip -q jena.zip
+          test -d "apache-jena-${JENA_VERSION}/lib"
+      - name: Install the hash-locked Python environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv .venv
+          if [ -x .venv/bin/python ]; then py=.venv/bin/python; else py=.venv/Scripts/python.exe; fi
+          "$py" -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt
+          "$py" -m pip check
+          echo "PY=$py" >> "$GITHUB_ENV"
+      - name: Record runtime identities
+        shell: bash
+        run: |
+          "$PY" --version
+          java -version 2>&1 | head -1
+          java -cp ".agent-tools/jena/apache-jena-${JENA_VERSION}/lib/*" jena.version
+      - name: Qualify the complete latest active set (pySHACL)
+        shell: bash
+        run: '"$PY" -B scripts/validate_ontologies.py --purpose latest-active --github-actions --report-directory policy-reports'
+      - name: Cross-engine parity (Apache Jena)
+        shell: bash
+        env:
+          UNIVERSAL_ONTOLOGY_JENA_HOME: ${{ github.workspace }}/.agent-tools/jena/apache-jena-${{ env.JENA_VERSION }}
+          UNIVERSAL_ONTOLOGY_JAVA_HOME: ${{ steps.java.outputs.path }}
+        run: '"$PY" -B -m unittest tests.test_ontology_policy_engines -v'
+      - name: Retain qualification reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: policy-reports-${{ matrix.os }}
+          path: policy-reports
+          if-no-files-found: ignore

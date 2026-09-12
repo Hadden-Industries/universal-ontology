@@ -244,3 +244,55 @@ compare with themselves. `--critical-fix-scope <reference>` supplies the
 approved scope. Real drafts on 12 September: both `extended/universal-extended.owl`
 (candidate 20260721) and the reference-data draft carry `modified` on every
 changed entity; the only conditional finding remains `Duty`'s malformed value.
+
+## SLICE-006 — diagnostics integration and the publication qualification gate
+
+**Reports:** every `--purpose` run retains its native results graph
+(`results.ttl`) and a JSON summary (`report.json`) under
+`.sdlc/runtime/policy-reports/<utc-stamp>-<purpose>/` (or `--report-directory`):
+purpose, status, policy/lock/authority identities, runtime versions, every
+module locator and digest, comparisons used, unevaluated change obligations,
+critical-fix scope, and per result the rule, focus, path, value, severity,
+component, message, the anchor into the generated policy and the rule's
+repair guidance. A qualifying latest-active or candidate run also writes
+`qualification-receipt.json` keyed to those identities; a failing run writes
+its report and no receipt. GitHub annotations escape message text (`%`,
+newlines), so an untrusted literal cannot inject a workflow command.
+
+**Status contract:** 0 no blockers (warnings visible), 1 MUST violations,
+2 input/context/authority/engine/policy error. The legacy
+`output.strip()`-means-failure path is untouched until cutover (SLICE-008).
+A draft run with nothing selected reports that and exits 0, so the ordinary
+hook boundary stays cheap.
+
+**Publication gate:** `scripts/ontology_policy/publication.py`, consulted by
+`scripts/upload_to_s3.py` before the external helper runs, refuses a missing,
+non-qualifying or diagnostic receipt; any active artifact whose bytes differ
+from the qualified digest; a changed policy, authority or lock identity; a
+module set only partly covered; and a `dist/` copy that differs from the exact
+source bytes (`tests/test_publication_gate.py` 7, `tests/test_upload_to_s3.py`
++2 with the helper mocked). The external `../../amazon-aws` helper itself and
+any branch protection remain outside this repository's proof.
+
+**Verification profile:** `.sdlc/verification.json` `full` replaces the legacy
+"Ontology source invariants" with "Latest active editing policy"
+(`validate_ontologies.py --purpose latest-active`, 600 s) and "Generated
+editing policy freshness" (`npm run check:editing-policy`). Both fail today
+by design: the active set carries 750 blocking violations and
+`policy/authorities/` awaits the rights decision.
+
+**Workflow:** `.github/workflows/ontology-validation.yml` keeps the
+`OWL Differential Analysis` check name and pre-install selection, installs the
+hash-locked environment, adds draft diagnostics for changed sources with
+retained reports, a `policy-qa` job (policy freshness and all policy contracts)
+and a `qualify` matrix on explicit `ubuntu-24.04` and `windows-2025` images
+that provisions Temurin from `.java-version` (`25.0.4+101`, Adoptium's semver
+for build 25.0.4.1+1), downloads Jena 6.2.0 from downloads.apache.org, verifies
+the pinned SHA-512 and the release signature against KEYS (fingerprint
+`D99038A1731B8B31B71549EF04C95136D236A58F`), caches by OS/architecture and
+digest, records `java -version`/`jena.version`, runs the latest-active
+qualification and the cross-engine parity tests. Actions are pinned by commit
+(checkout v7.0.1, setup-python v7.0.0, setup-java v6.0.1, cache v6.1.0,
+upload-artifact v7.0.1). `contents: read` is preserved; no Wiki write.
+**Gap:** this workflow has not executed yet; it runs on the implementation
+PR. The `.java-version` spelling is unverified until then.

@@ -1,12 +1,23 @@
 #!/usr/bin/env python3
 """
 Python runner to upload compiled static web assets to AWS S3.
+
+Publication is gated: the exact active ontology artifacts must carry a current
+qualification receipt from the SHACL editing policy, and their derived dist/
+copies must match those bytes, or nothing is uploaded.
 """
 
 import argparse
 import subprocess
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from ontology_policy.publication import PublicationRefusal, check_repository_publication  # noqa: E402
+
+SCRIPT_DIRECTORY = Path(__file__).resolve().parent
+HELPER_SCRIPT_PATH = (SCRIPT_DIRECTORY / "../../amazon-aws/scripts/upload_to_s3.py").resolve()
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -53,15 +64,19 @@ def build_upload_command(
 def main(argv: list[str] | None = None) -> None:
     args = parse_args(argv)
 
-    # Resolve script directory dynamically
-    script_dir = Path(__file__).resolve().parent
-    upload_script = (script_dir / "../../amazon-aws/scripts/upload_to_s3.py").resolve()
-
+    upload_script = HELPER_SCRIPT_PATH
     if not upload_script.is_file():
         print(f"[ERROR] Helper script not found at '{upload_script}'", file=sys.stderr)
         sys.exit(1)
 
-    local_directory = (script_dir / "../dist/").resolve()
+    try:
+        verdict = check_repository_publication()
+    except PublicationRefusal as refusal:
+        print(f"PUBLICATION_REFUSED: {refusal}", file=sys.stderr)
+        sys.exit(2)
+    print(f"Publication gate: {verdict.receipt_purpose} qualification covers {len(verdict.bound_artifacts)} active artifact(s); policy {verdict.policy_identity}.")
+
+    local_directory = (SCRIPT_DIRECTORY / "../dist/").resolve()
     command = build_upload_command(
         upload_script,
         local_directory,

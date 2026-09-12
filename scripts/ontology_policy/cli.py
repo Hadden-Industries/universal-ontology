@@ -19,7 +19,7 @@ from pathlib import Path
 from .context import ContextError, RunPurpose
 from .modules import OwnedModule, PolicyDefinitionError, load_owned_modules
 from .policy import load_policy
-from .reports import format_results
+from .reports import REPORT_DIRECTORY, format_results, github_annotation, write_report
 from .authorities import AUTHORITIES_DIRECTORY, AuthorityError
 from .snapshots import InputError, ModuleSource, read_module_source
 from .validation import STATUS_ERROR, ValidationOutcome, validate_sources
@@ -105,9 +105,13 @@ def assemble_comparisons(
 def run_policy_validation(
     purpose: RunPurpose, selected: list[SelectedSource], *, repository: Path | None = None, github_actions: bool = False,
     stream=None, authorities_directory: Path = AUTHORITIES_DIRECTORY, scope_reference: str | None = None,
+    report_directory: Path = REPORT_DIRECTORY,
 ) -> int:
     """Execute the policy and present results; returns the documented status (0, 1 or 2)."""
     stream = stream or sys.stdout
+    if purpose == RunPurpose.DRAFT and not selected:
+        print("Draft diagnostics: no ontology source selected; nothing validated.", file=stream)
+        return 0
     try:
         policy = load_policy()
         modules = load_owned_modules()
@@ -120,7 +124,9 @@ def run_policy_validation(
     except (AuthorityError, ContextError, InputError, PolicyDefinitionError) as error:
         print(f"POLICY_VALIDATION_ERROR ({type(error).__name__}): {error}", file=sys.stderr)
         return STATUS_ERROR
+    written = write_report(outcome, report_directory, policy)
     present(outcome, github_actions=github_actions, stream=stream)
+    print(f"Report: {written.summary_path}" + (f"; receipt: {written.receipt_path}" if written.receipt_path else ""), file=stream)
     return outcome.status
 
 
@@ -139,8 +145,7 @@ def present(outcome: ValidationOutcome, *, github_actions: bool, stream) -> None
         print(format_results(outcome.results), file=stream)
         if github_actions:
             for result in outcome.results:
-                level = "error" if result.blocks else "warning"
-                print(f"::{level}::{result.requirement_id} {result.focus_node}: {result.message}", file=stream)
+                print(github_annotation("error" if result.blocks else "warning", result.requirement_id, result.focus_node, result.message), file=stream)
     print(
         f"{len(outcome.violations)} violation(s), {len(outcome.warnings)} warning(s); "
         f"{'qualifies activation' if outcome.qualifies else 'does not qualify activation'}"

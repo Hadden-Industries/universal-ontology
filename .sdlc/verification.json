@@ -132,18 +132,24 @@
         "timeoutSeconds": 600
       },
       {
-        "name": "Ontology source invariants",
+        "name": "Latest active editing policy",
         "argv": [
           "node",
           "scripts/runRepositoryPython.js",
           "scripts/validate_ontologies.py",
-          "core/universal-core.owl",
-          "extended/universal-extended.owl",
-          "reference-data/reference-data.owl",
-          "iso-31073/iso-31073.owl",
-          "iso-iec11179-3/iso-iec11179-3.owl"
+          "--purpose",
+          "latest-active"
         ],
         "timeoutSeconds": 600
+      },
+      {
+        "name": "Generated editing policy freshness",
+        "argv": [
+          "npm",
+          "run",
+          "check:editing-policy"
+        ],
+        "timeoutSeconds": 300
       },
       {
         "name": "Product build without prebuild auto-fixes",

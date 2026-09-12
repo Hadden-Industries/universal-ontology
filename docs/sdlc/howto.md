@@ -132,7 +132,8 @@ configuration. Focused checks cover whitespace and generated configuration; they
 are a minimum floor, not a product correctness verdict. Run the actual changed
 behavior's tests and record their independent oracle in the task/PR. The affected
 profile runs the JavaScript, Python and SDLC suites. Full additionally runs lint,
-format checks, the five source ontology invariant checks, a direct Vite build,
+format checks, the blocking latest-active editing-policy qualification of the
+recorded active module set, the generated-policy freshness check, a direct Vite build,
 JSON-LD generation and the MCP application bundle.
 
 Build/generation write ignored dist outputs. The direct

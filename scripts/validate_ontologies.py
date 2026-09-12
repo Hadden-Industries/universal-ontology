@@ -181,6 +181,7 @@ def main() -> None:
     )
     parser.add_argument("--authorities", type=Path, default=AUTHORITIES_DIRECTORY, help="Directory of pinned authority snapshots")
     parser.add_argument("--critical-fix-scope", help="Approved scope reference for a critical-fix run")
+    parser.add_argument("--report-directory", type=Path, default=None, help="Where native policy reports and receipts are retained")
 
     args = parser.parse_args()
     if args.diff_head and not args.diff_base:
@@ -221,9 +222,10 @@ def main() -> None:
         # requested head commit for --diff-head, otherwise the working tree.
         revision = "" if args.staged else (selection.head if selection.head else None)
         selected = [SelectedSource(path, revision, selection.base) for path in selection.files]
+        extra = {"report_directory": args.report_directory} if args.report_directory else {}
         sys.exit(run_policy_validation(
             purpose, selected, repository=Path.cwd(), github_actions=is_ci, authorities_directory=args.authorities,
-            scope_reference=args.critical_fix_scope,
+            scope_reference=args.critical_fix_scope, **extra,
         ))
     if not selection.files:
         if selection.removed_files:

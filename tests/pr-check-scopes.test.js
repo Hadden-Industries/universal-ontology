@@ -58,7 +58,7 @@ test("the stable ontology check selects files before installing its dependencies
   });
   const scopeIndex = job.steps.findIndex(({ id }) => id === "scope");
   const installationIndex = job.steps.findIndex(
-    ({ name }) => name === "Install ontology validation dependencies",
+    ({ name }) => name === "Install the hash-locked Python environment",
   );
   expect(scopeIndex).toBeGreaterThanOrEqual(0);
   expect(installationIndex).toBeGreaterThan(scopeIndex);
@@ -66,7 +66,7 @@ test("the stable ontology check selects files before installing its dependencies
   expect(job.steps[scopeIndex].run).toContain("args=(--all-current)");
   expect(job.steps[installationIndex]).toMatchObject({
     if: "steps.scope.outputs.validation_required == 'true'",
-    run: ".venv/bin/python -m pip install -r requirements.txt",
+    run: '.venv/bin/python -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt',
   });
   expect(
     job.steps.find(({ name }) => name === "Test ontology validation runner"),
