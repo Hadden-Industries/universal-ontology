@@ -57,3 +57,43 @@ class UploadToS3CommandTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PublicationGateIntegrationTests(unittest.TestCase):
+    """The uploader consults the publication gate before running the external helper."""
+
+    def test_main_refuses_to_upload_when_the_gate_refuses(self):
+        import tempfile
+        from unittest import mock
+
+        from ontology_policy.publication import PublicationRefusal
+
+        with tempfile.TemporaryDirectory() as temporary:
+            helper = Path(temporary) / "amazon-aws" / "scripts" / "upload_to_s3.py"
+            helper.parent.mkdir(parents=True)
+            helper.write_text("print('should not run')", encoding="utf-8")
+            with mock.patch.object(upload_to_s3, "check_repository_publication", side_effect=PublicationRefusal("stale receipt")), \
+                 mock.patch.object(upload_to_s3.subprocess, "run") as run, \
+                 mock.patch.object(upload_to_s3, "HELPER_SCRIPT_PATH", helper):
+                with self.assertRaises(SystemExit) as stop:
+                    upload_to_s3.main([])
+                self.assertEqual(stop.exception.code, 2)
+                run.assert_not_called()
+
+    def test_main_runs_the_helper_only_after_the_gate_passes(self):
+        import tempfile
+        from unittest import mock
+
+        from ontology_policy.publication import GateVerdict
+
+        with tempfile.TemporaryDirectory() as temporary:
+            helper = Path(temporary) / "amazon-aws" / "scripts" / "upload_to_s3.py"
+            helper.parent.mkdir(parents=True)
+            helper.write_text("", encoding="utf-8")
+            verdict = GateVerdict("latest-active", ("src/universal/core/20260714",), "sha256:policy")
+            with mock.patch.object(upload_to_s3, "check_repository_publication", return_value=verdict), \
+                 mock.patch.object(upload_to_s3.subprocess, "run") as run, \
+                 mock.patch.object(upload_to_s3, "HELPER_SCRIPT_PATH", helper):
+                upload_to_s3.main([])
+                run.assert_called_once()
+                self.assertEqual(run.call_args.args[0][1], str(helper))

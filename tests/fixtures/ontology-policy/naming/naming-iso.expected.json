@@ -1,0 +1,59 @@
+{
+  "oracle": "DEC-002 and DEC-013: in an ISO-naming module the whole local name should be lower snake_case (warning only); the non-ISO camelCase MUST does not apply. Authored before the shapes were written.",
+  "module": {
+    "iri": "https://example.org/policy-fixture/module/iso",
+    "label": "Fixture ISO module",
+    "ontology_iri": "https://example.org/fixtures/iso/ed-1/",
+    "owned_namespaces": [
+      "https://example.org/fixtures/iso/ed-1/"
+    ],
+    "iso_naming": true
+  },
+  "rules": [
+    "EP-PROPERTY-NAME",
+    "EP-PROPERTY-NAME-ISO",
+    "EP-CLASS-NAME"
+  ],
+  "passing_rules": [
+    "EP-PROPERTY-NAME"
+  ],
+  "targeted_focus_nodes": [
+    "https://example.org/fixtures/iso/ed-1/term/Consequence",
+    "https://example.org/fixtures/iso/ed-1/registration_status",
+    "https://example.org/fixtures/iso/ed-1/AdministeredItem_registration_status",
+    "https://example.org/fixtures/iso/ed-1/acceptsGainOrLossFrom",
+    "https://example.org/fixtures/iso/ed-1/change_description",
+    "https://example.org/fixtures/iso/ed-1/Change_Description"
+  ],
+  "results": [
+    {
+      "requirement_id": "EP-PROPERTY-NAME-ISO",
+      "focus_node": "https://example.org/fixtures/iso/ed-1/AdministeredItem_registration_status",
+      "severity": "Warning",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PROPERTY-NAME-ISO",
+      "focus_node": "https://example.org/fixtures/iso/ed-1/acceptsGainOrLossFrom",
+      "severity": "Warning",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PROPERTY-NAME-ISO",
+      "focus_node": "https://example.org/fixtures/iso/ed-1/Change_Description",
+      "severity": "Warning",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    }
+  ],
+  "notes": [
+    "Change_Description would fail the non-ISO camelCase MUST but only warns here because the module follows ISO naming.",
+    "Warnings from the declared rules never block: SHOULD results are visible and non-blocking."
+  ],
+  "declared_rules_block": false
+}

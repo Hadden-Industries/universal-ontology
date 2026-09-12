@@ -1,0 +1,17 @@
+{
+  "oracle": "DEC-027 header profile (Wiki W01, DEC-001, DEC-025). Authored before the shapes were written.",
+  "rules": [
+    "EP-ONT-VERSION"
+  ],
+  "passing_rules": [
+    "EP-ONT-VERSION"
+  ],
+  "targeted_focus_nodes": [
+    "https://example.org/fixtures/entity/Thing"
+  ],
+  "header_focus": "https://example.org/fixtures/entity/",
+  "results": [],
+  "notes": [
+    "The imported header https://example.org/other/ is not owned and is never checked as a second header."
+  ]
+}

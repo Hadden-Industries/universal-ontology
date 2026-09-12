@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+  <skos:ConceptScheme rdf:about="http://publications.europa.eu/resource/authority/file-type"/>
+  <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/file-type/GIF">
+    <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/file-type"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/file-type/CSV">
+    <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/file-type"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://publications.europa.eu/resource/authority/language/ENG">
+    <skos:inScheme rdf:resource="http://publications.europa.eu/resource/authority/language"/>
+  </rdf:Description>
+</rdf:RDF>

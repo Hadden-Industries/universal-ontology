@@ -1,0 +1,25 @@
+# Axiom position: owned named and anonymous axioms; the same predicate elsewhere is not this rule.
+@prefix ex:     <https://example.org/fixtures/entity/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <http://schema.org/> .
+@prefix wrong:  <https://schema.org/> .
+
+ex: a owl:Ontology ; owl:versionIRI ex:20260101 ; owl:versionInfo "2026-01-01" .
+ex:Colour a owl:Class .
+ex:Red a owl:NamedIndividual , ex:Colour ; schema:position "not on an axiom" .
+
+[] a owl:Axiom ; owl:annotatedSource ex:Red ; owl:annotatedProperty rdf:type ; owl:annotatedTarget ex:Colour ;
+   schema:position 1 .
+[] a owl:Axiom ; owl:annotatedSource ex:Red ; owl:annotatedProperty rdfs:label ; owl:annotatedTarget "Red"@en ;
+   schema:position "2" .
+[] a owl:Axiom ; owl:annotatedSource ex:Red ; owl:annotatedProperty rdfs:comment ; owl:annotatedTarget "c"@en ;
+   schema:position "3.5"^^xsd:decimal .
+ex:NamedAxiom a owl:Axiom ; owl:annotatedSource ex:Colour ; owl:annotatedProperty rdfs:label ; owl:annotatedTarget "Colour"@en ;
+   schema:position "four"^^xsd:integer .
+[] a owl:Axiom ; owl:annotatedSource <http://schema.org/Thing> ; owl:annotatedProperty rdfs:label ; owl:annotatedTarget "Thing"@en ;
+   schema:position "foreign" .
+[] a owl:Axiom ; owl:annotatedSource ex:Red ; owl:annotatedProperty rdfs:label ; owl:annotatedTarget "Rouge"@fr ;
+   wrong:position "https look-alike predicate" .

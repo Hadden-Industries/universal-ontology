@@ -1,0 +1,17 @@
+{
+  "authority": "iana-media-types",
+  "authorityIri": "https://haddenindustries.com/ontology/policy/authority/iana-media-types",
+  "derivedSha256": "d84701a50a16cd3636a2eff5706bcae0d560c684e9d39e503a01e156317f8b6b",
+  "licence": "IANA protocol registry data (https://www.iana.org/assignments/media-types/); registry updated 2026-09-03",
+  "mediaType": "application/xml",
+  "memberCount": 2346,
+  "parser": "defusedxml",
+  "parserVersion": "0.7.1",
+  "rawByteCount": 606981,
+  "rawSha256": "2af32eea294667f49c55c7121ba99c927764b5e465f4d3853d26a754ebb68490",
+  "retrievedOn": "2026-09-12",
+  "rightsDecision": "Max approved authority rights on 2026-09-12 (implementation session, PR #61)",
+  "sourceUpdated": "2026-09-03",
+  "sourceUrl": "https://www.iana.org/assignments/media-types/media-types.xml",
+  "transformation": "template file names prefixed with the registry URL"
+}

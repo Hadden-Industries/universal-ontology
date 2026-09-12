@@ -1,0 +1,6 @@
+@prefix ex:      <https://example.org/fixtures/entity/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+ex: a owl:Ontology ; owl:versionIRI ex:20260101 ; owl:versionInfo "2026-01-01" ; dcterms:modified "2026-01-02"^^xsd:date .
+ex:Thing a owl:Class .

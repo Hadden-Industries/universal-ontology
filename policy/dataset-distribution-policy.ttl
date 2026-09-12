@@ -1,0 +1,462 @@
+@prefix dcat:    <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix uop:     <https://haddenindustries.com/ontology/policy#> .
+@prefix ep:      <https://haddenindustries.com/ontology/policy/editing/> .
+@prefix auth:    <https://haddenindustries.com/ontology/policy/authority/> .
+
+# DCAT dataset and distribution profiles (Wiki W19-W32, DEC-008, DEC-011,
+# DEC-012, DEC-024). Membership checks read the pinned authority snapshots
+# under policy/authorities/, loaded by the runner as trusted context; a missing
+# or corrupt snapshot is an execution error, never an empty authority.
+
+ep:DatasetDistributionPolicy a uop:PolicyModule ; rdfs:label "Dataset and distribution policy"@en .
+
+ep:DatasetGroup
+    a sh:PropertyGroup ;
+    rdfs:label "Datasets"@en ;
+    rdfs:comment "The DCAT dataset profile for owned dataset individuals."@en ;
+    sh:order 60 .
+
+ep:DistributionGroup
+    a sh:PropertyGroup ;
+    rdfs:label "Distributions"@en ;
+    rdfs:comment "The DCAT distribution profile for owned distribution individuals."@en ;
+    sh:order 70 .
+
+auth:iana-media-types a uop:Authority ; rdfs:label "IANA Media Types registry"@en ; uop:snapshotName "iana-media-types" .
+auth:loc-iso639-1     a uop:Authority ; rdfs:label "Library of Congress ISO 639-1 languages"@en ; uop:snapshotName "loc-iso639-1" .
+auth:eu-file-type     a uop:Authority ; rdfs:label "EU Vocabularies File Type authority table"@en ; uop:snapshotName "eu-file-type" .
+
+# Profile targets combine the namespace and the explicit type so that dropping
+# a type cannot make an invalid resource disappear from the checks.
+
+ep:DatasetProfileTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "every owned subject in the dataset/ namespace or explicitly typed dcat:Dataset"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this uoc:ownedBy ?module .
+            { ?this a dcat:Dataset }
+            UNION
+            { ?this ?p ?o . FILTER ( STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/") ) }
+        }
+        """ .
+
+ep:DistributionProfileTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "every owned subject in the distribution/ namespace or explicitly typed dcat:Distribution"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this uoc:ownedBy ?module .
+            { ?this a dcat:Distribution }
+            UNION
+            { ?this ?p ?o . FILTER ( STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") ) }
+        }
+        """ .
+
+# ---------------------------------------------------------------------------
+# Datasets
+# ---------------------------------------------------------------------------
+
+ep:EP-DATASET-TYPE-IRI
+    a sh:NodeShape ;
+    uop:requirementId "EP-DATASET-TYPE-IRI" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:DatasetGroup ;
+    sh:order 10 ;
+    sh:name "Dataset type and IRI"@en ;
+    sh:description """A dataset is explicitly typed both `owl:NamedIndividual` and `dcat:Dataset`, and its IRI is `https://haddenindustries.com/ontology/dataset/` followed by a canonical lowercase version-4 UUID. A subject in that namespace missing a type, or a `dcat:Dataset` outside it, fails; an uppercase or non-version-4 suffix fails. Dataset individuals follow this profile instead of the generic PascalCase naming rules."""@en ;
+    dcterms:source "Editing Policy Wiki W19 (lines 151-161, 222-227); DEC-012" ;
+    sh:target ep:DatasetProfileTarget ;
+    sh:property ep:EP-DATASET-TYPE-IRI-individual , ep:EP-DATASET-TYPE-IRI-dcat-type ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https://haddenindustries\\.com/ontology/dataset/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$" ;
+    sh:message "A dataset IRI is the dataset/ namespace followed by a canonical lowercase UUIDv4."@en .
+
+ep:EP-DATASET-TYPE-IRI-individual
+    a sh:PropertyShape ;
+    sh:path rdf:type ;
+    sh:hasValue owl:NamedIndividual ;
+    sh:message "A dataset is explicitly typed owl:NamedIndividual."@en .
+
+ep:EP-DATASET-TYPE-IRI-dcat-type
+    a sh:PropertyShape ;
+    sh:path rdf:type ;
+    sh:hasValue dcat:Dataset ;
+    sh:message "A dataset is explicitly typed dcat:Dataset."@en .
+
+ep:EP-DATASET-REQUIRED
+    a sh:NodeShape ;
+    uop:requirementId "EP-DATASET-REQUIRED" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:DatasetGroup ;
+    sh:order 20 ;
+    sh:name "Required dataset metadata"@en ;
+    sh:description """A dataset has at least one `dcat:theme` and every theme is an IRI; at least one `dcterms:title`, one `dcterms:description` and one `rdfs:label`, each language-tagged and not blank; and at most one description per language. Distinct titles or labels in the same language remain allowed."""@en ;
+    dcterms:source "Editing Policy Wiki W20-W22 (lines 164-194); DEC-023; DEC-024" ;
+    sh:target ep:DatasetProfileTarget ;
+    sh:property ep:EP-DATASET-REQUIRED-theme , ep:EP-DATASET-REQUIRED-title , ep:EP-DATASET-REQUIRED-description , ep:EP-DATASET-REQUIRED-label .
+
+ep:EP-DATASET-REQUIRED-theme
+    a sh:PropertyShape ;
+    sh:path dcat:theme ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "A dataset has at least one dcat:theme and every theme is an IRI."@en .
+
+ep:EP-DATASET-REQUIRED-title
+    a sh:PropertyShape ;
+    sh:path dcterms:title ;
+    sh:minCount 1 ;
+    sh:datatype rdf:langString ;
+    sh:pattern "\\S" ;
+    sh:message "A dataset has at least one language-tagged, non-blank dcterms:title."@en .
+
+ep:EP-DATASET-REQUIRED-description
+    a sh:PropertyShape ;
+    sh:path dcterms:description ;
+    sh:minCount 1 ;
+    sh:datatype rdf:langString ;
+    sh:pattern "\\S" ;
+    sh:uniqueLang true ;
+    sh:message "A dataset has at least one language-tagged, non-blank dcterms:description, at most one per language."@en .
+
+ep:EP-DATASET-REQUIRED-label
+    a sh:PropertyShape ;
+    sh:path rdfs:label ;
+    sh:minCount 1 ;
+    sh:datatype rdf:langString ;
+    sh:pattern "\\S" ;
+    sh:message "A dataset has at least one language-tagged, non-blank rdfs:label."@en .
+
+ep:EP-DATASET-DISTRIBUTION
+    a sh:NodeShape ;
+    uop:requirementId "EP-DATASET-DISTRIBUTION" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:DatasetGroup ;
+    sh:order 30 ;
+    sh:name "Dataset distributions"@en ;
+    sh:description """`dcat:distribution` is optional and may repeat. Every value is an IRI that the validated module set explicitly types both `owl:NamedIndividual` and `dcat:Distribution`; the declaration must be present in the local context, never fetched. A literal, an untyped target or a target of another type fails."""@en ;
+    dcterms:source "Editing Policy Wiki W23 (lines 198-204); DEC-008" ;
+    sh:target ep:DatasetProfileTarget ;
+    sh:property ep:EP-DATASET-DISTRIBUTION-target .
+
+ep:EP-DATASET-DISTRIBUTION-target
+    a sh:PropertyShape ;
+    sh:path dcat:distribution ;
+    sh:nodeKind sh:IRI ;
+    sh:node ep:DeclaredDistributionShape ;
+    sh:message "Every dcat:distribution value is an IRI declared as owl:NamedIndividual and dcat:Distribution in the module set."@en .
+
+ep:DeclaredDistributionShape
+    a sh:NodeShape ;
+    sh:property ep:DeclaredDistributionShape-individual , ep:DeclaredDistributionShape-dcat-type .
+
+ep:DeclaredDistributionShape-individual a sh:PropertyShape ; sh:path rdf:type ; sh:hasValue owl:NamedIndividual .
+ep:DeclaredDistributionShape-dcat-type a sh:PropertyShape ; sh:path rdf:type ; sh:hasValue dcat:Distribution .
+
+ep:EP-DATASET-LANDING
+    a uop:HumanClause ;
+    uop:requirementId "EP-DATASET-LANDING" ;
+    uop:normativeStrength "SHOULD" ;
+    sh:group ep:DatasetGroup ;
+    sh:order 40 ;
+    sh:name "Landing pages"@en ;
+    sh:description """`dcat:landingPage` is optional and may repeat. Point it at the original data provider's page for the dataset rather than an intermediary. Whether a page belongs to the original provider is a human judgement; no cardinality, IRI shape or ownership check is executed."""@en ;
+    dcterms:source "Editing Policy Wiki W24 (lines 206-212); DEC-008" .
+
+ep:EP-DATASET-ACCESS-RIGHTS
+    a sh:NodeShape ;
+    uop:requirementId "EP-DATASET-ACCESS-RIGHTS" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:DatasetGroup ;
+    sh:order 50 ;
+    sh:name "Access rights cardinality"@en ;
+    sh:description """`dcterms:accessRights` is optional; a dataset carries at most one value."""@en ;
+    dcterms:source "Editing Policy Wiki W25 (lines 214-220); DEC-008" ;
+    sh:target ep:DatasetProfileTarget ;
+    sh:property ep:EP-DATASET-ACCESS-RIGHTS-count .
+
+ep:EP-DATASET-ACCESS-RIGHTS-count
+    a sh:PropertyShape ;
+    sh:path dcterms:accessRights ;
+    sh:maxCount 1 ;
+    sh:message "At most one dcterms:accessRights."@en .
+
+ep:EP-DATASET-ACCESS-RIGHTS-IRI
+    a sh:NodeShape ;
+    uop:requirementId "EP-DATASET-ACCESS-RIGHTS-IRI" ;
+    uop:normativeStrength "SHOULD" ;
+    sh:severity sh:Warning ;
+    sh:group ep:DatasetGroup ;
+    sh:order 55 ;
+    sh:name "Access rights should be an IRI"@en ;
+    sh:description """When present, `dcterms:accessRights` should be an IRI such as a term of the EU access-right authority table; a literal is reported as a warning. No membership in a particular vocabulary is required."""@en ;
+    dcterms:source "Editing Policy Wiki W25 (lines 214-220); DEC-008" ;
+    sh:target ep:DatasetProfileTarget ;
+    sh:property ep:EP-DATASET-ACCESS-RIGHTS-IRI-kind .
+
+ep:EP-DATASET-ACCESS-RIGHTS-IRI-kind
+    a sh:PropertyShape ;
+    sh:path dcterms:accessRights ;
+    sh:severity sh:Warning ;
+    sh:nodeKind sh:IRI ;
+    sh:message "dcterms:accessRights should be an IRI."@en .
+
+# ---------------------------------------------------------------------------
+# Distributions
+# ---------------------------------------------------------------------------
+
+ep:EP-DISTRIBUTION-REQUIRED
+    a sh:NodeShape ;
+    uop:requirementId "EP-DISTRIBUTION-REQUIRED" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:DistributionGroup ;
+    sh:order 10 ;
+    sh:name "Distribution type, IRI and required metadata"@en ;
+    sh:description """A distribution is explicitly typed both `owl:NamedIndividual` and `dcat:Distribution`; its IRI is `https://haddenindustries.com/ontology/distribution/` followed by a canonical lowercase version-4 UUID. It has at least one `dcat:accessURL`, every access URL is an IRI, and at least one language-tagged, non-blank `rdfs:label`. Every supplied value is checked: a valid first access URL cannot hide an invalid second one."""@en ;
+    dcterms:source "Editing Policy Wiki W19 and W26 (lines 222-247); DEC-012; DEC-024" ;
+    sh:target ep:DistributionProfileTarget ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https://haddenindustries\\.com/ontology/distribution/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$" ;
+    sh:message "A distribution IRI is the distribution/ namespace followed by a canonical lowercase UUIDv4."@en ;
+    sh:property ep:EP-DISTRIBUTION-REQUIRED-individual , ep:EP-DISTRIBUTION-REQUIRED-dcat-type , ep:EP-DISTRIBUTION-REQUIRED-accessURL , ep:EP-DISTRIBUTION-REQUIRED-label .
+
+ep:EP-DISTRIBUTION-REQUIRED-individual
+    a sh:PropertyShape ;
+    sh:path rdf:type ;
+    sh:hasValue owl:NamedIndividual ;
+    sh:message "A distribution is explicitly typed owl:NamedIndividual."@en .
+
+ep:EP-DISTRIBUTION-REQUIRED-dcat-type
+    a sh:PropertyShape ;
+    sh:path rdf:type ;
+    sh:hasValue dcat:Distribution ;
+    sh:message "A distribution is explicitly typed dcat:Distribution."@en .
+
+ep:EP-DISTRIBUTION-REQUIRED-accessURL
+    a sh:PropertyShape ;
+    sh:path dcat:accessURL ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "A distribution has at least one dcat:accessURL and every access URL is an IRI."@en .
+
+ep:EP-DISTRIBUTION-REQUIRED-label
+    a sh:PropertyShape ;
+    sh:path rdfs:label ;
+    sh:minCount 1 ;
+    sh:datatype rdf:langString ;
+    sh:pattern "\\S" ;
+    sh:message "A distribution has at least one language-tagged, non-blank rdfs:label."@en .
+
+ep:EP-DISTRIBUTION-DOWNLOAD
+    a sh:NodeShape ;
+    uop:requirementId "EP-DISTRIBUTION-DOWNLOAD" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:DistributionGroup ;
+    sh:order 20 ;
+    sh:name "Download URLs"@en ;
+    sh:description """`dcat:downloadURL` is optional and may repeat; every value is an IRI. The predicate is the standard `dcat:downloadURL` (the earlier `downloadUrl` spelling is not accepted as an alias)."""@en ;
+    dcterms:source "Editing Policy Wiki W27 (lines 251-257); DEC-008; DEC-011" ;
+    sh:target ep:DistributionProfileTarget ;
+    sh:property ep:EP-DISTRIBUTION-DOWNLOAD-iri .
+
+ep:EP-DISTRIBUTION-DOWNLOAD-iri
+    a sh:PropertyShape ;
+    sh:path dcat:downloadURL ;
+    sh:nodeKind sh:IRI ;
+    sh:message "Every dcat:downloadURL is an IRI."@en .
+
+ep:EP-DISTRIBUTION-MEDIA
+    a sh:NodeShape ;
+    uop:requirementId "EP-DISTRIBUTION-MEDIA" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:DistributionGroup ;
+    sh:order 30 ;
+    sh:name "Media type"@en ;
+    sh:description """`dcat:mediaType` is optional; at most one value, and it is an IRI that is a member of the pinned IANA Media Types snapshot (for example `https://www.iana.org/assignments/media-types/image/gif`). A fabricated IRI under the correct prefix, a literal, or two values fail."""@en ;
+    dcterms:source "Editing Policy Wiki W28 (lines 259-265); DEC-008" ;
+    sh:target ep:DistributionProfileTarget ;
+    sh:property ep:EP-DISTRIBUTION-MEDIA-value .
+
+ep:EP-DISTRIBUTION-MEDIA-value
+    a sh:PropertyShape ;
+    sh:path dcat:mediaType ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "At most one dcat:mediaType, and it is an IRI."@en .
+
+ep:EP-DISTRIBUTION-MEDIA-membership-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-DISTRIBUTION-MEDIA ;
+    sh:target ep:EP-DISTRIBUTION-MEDIA-membership-candidates ;
+    sh:sparql ep:EP-DISTRIBUTION-MEDIA-membership .
+
+ep:EP-DISTRIBUTION-MEDIA-membership-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "distributions whose media type is not a member of the IANA snapshot"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this dcat:mediaType ?value . ?this uoc:ownedBy ?module .
+            FILTER NOT EXISTS { ?value uop:memberOf <https://haddenindustries.com/ontology/policy/authority/iana-media-types> }
+        }
+        """ .
+
+ep:EP-DISTRIBUTION-MEDIA-membership
+    a sh:SPARQLConstraint ;
+    sh:message "dcat:mediaType is a member of the pinned IANA Media Types snapshot."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value ?path WHERE {
+            BIND ( dcat:mediaType AS ?path )
+            $this dcat:mediaType ?value .
+            FILTER NOT EXISTS { ?value uop:memberOf <https://haddenindustries.com/ontology/policy/authority/iana-media-types> }
+        }
+        """ .
+
+ep:EP-DISTRIBUTION-FORMAT
+    a sh:NodeShape ;
+    uop:requirementId "EP-DISTRIBUTION-FORMAT" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:DistributionGroup ;
+    sh:order 40 ;
+    sh:name "Format cardinality"@en ;
+    sh:description """`dcterms:format` is optional; a distribution carries at most one value."""@en ;
+    dcterms:source "Editing Policy Wiki W29 (lines 267-273); DEC-008" ;
+    sh:target ep:DistributionProfileTarget ;
+    sh:property ep:EP-DISTRIBUTION-FORMAT-count .
+
+ep:EP-DISTRIBUTION-FORMAT-count
+    a sh:PropertyShape ;
+    sh:path dcterms:format ;
+    sh:maxCount 1 ;
+    sh:message "At most one dcterms:format."@en .
+
+ep:EP-DISTRIBUTION-FORMAT-EU
+    a sh:NodeShape ;
+    uop:requirementId "EP-DISTRIBUTION-FORMAT-EU" ;
+    uop:normativeStrength "SHOULD" ;
+    sh:severity sh:Warning ;
+    sh:group ep:DistributionGroup ;
+    sh:order 45 ;
+    sh:name "Format should be an EU file type"@en ;
+    sh:description """When present, `dcterms:format` should be a member of the pinned EU Vocabularies File Type snapshot (for example `http://publications.europa.eu/resource/authority/file-type/GIF`); a non-member is reported as a warning."""@en ;
+    dcterms:source "Editing Policy Wiki W29 (lines 267-273); DEC-008" ;
+    sh:target ep:DistributionProfileTarget .
+
+ep:EP-DISTRIBUTION-FORMAT-EU-membership-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-DISTRIBUTION-FORMAT-EU ;
+    sh:severity sh:Warning ;
+    sh:target ep:EP-DISTRIBUTION-FORMAT-EU-membership-candidates ;
+    sh:sparql ep:EP-DISTRIBUTION-FORMAT-EU-membership .
+
+ep:EP-DISTRIBUTION-FORMAT-EU-membership-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "distributions whose format is not a member of the EU file-type snapshot"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this dcterms:format ?value . ?this uoc:ownedBy ?module .
+            FILTER NOT EXISTS { ?value uop:memberOf <https://haddenindustries.com/ontology/policy/authority/eu-file-type> }
+        }
+        """ .
+
+ep:EP-DISTRIBUTION-FORMAT-EU-membership
+    a sh:SPARQLConstraint ;
+    sh:message "dcterms:format should be a member of the pinned EU file-type snapshot."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value ?path WHERE {
+            BIND ( dcterms:format AS ?path )
+            $this dcterms:format ?value .
+            FILTER NOT EXISTS { ?value uop:memberOf <https://haddenindustries.com/ontology/policy/authority/eu-file-type> }
+        }
+        """ .
+
+ep:EP-DISTRIBUTION-LANGUAGE
+    a sh:NodeShape ;
+    uop:requirementId "EP-DISTRIBUTION-LANGUAGE" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:DistributionGroup ;
+    sh:order 50 ;
+    sh:name "Languages"@en ;
+    sh:description """`dcterms:language` is optional and may repeat; every value is a member of the pinned Library of Congress ISO 639-1 snapshot (for example `http://id.loc.gov/vocabulary/iso639-1/en`). A plausible but unregistered code, a term of another vocabulary, or a literal fails. Authority IRIs are compared exactly as supplied, without http/https aliasing."""@en ;
+    dcterms:source "Editing Policy Wiki W30 (lines 275-281); DEC-008" ;
+    sh:target ep:DistributionProfileTarget .
+
+ep:EP-DISTRIBUTION-LANGUAGE-membership-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-DISTRIBUTION-LANGUAGE ;
+    sh:target ep:EP-DISTRIBUTION-LANGUAGE-membership-candidates ;
+    sh:sparql ep:EP-DISTRIBUTION-LANGUAGE-membership .
+
+ep:EP-DISTRIBUTION-LANGUAGE-membership-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "distributions with a language value outside the LOC ISO 639-1 snapshot"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this dcterms:language ?value . ?this uoc:ownedBy ?module .
+            FILTER NOT EXISTS { ?value uop:memberOf <https://haddenindustries.com/ontology/policy/authority/loc-iso639-1> }
+        }
+        """ .
+
+ep:EP-DISTRIBUTION-LANGUAGE-membership
+    a sh:SPARQLConstraint ;
+    sh:message "Every dcterms:language is a member of the pinned LOC ISO 639-1 snapshot."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value ?path WHERE {
+            BIND ( dcterms:language AS ?path )
+            $this dcterms:language ?value .
+            FILTER NOT EXISTS { ?value uop:memberOf <https://haddenindustries.com/ontology/policy/authority/loc-iso639-1> }
+        }
+        """ .
+
+ep:EP-DISTRIBUTION-LICENCE
+    a sh:NodeShape ;
+    uop:requirementId "EP-DISTRIBUTION-LICENCE" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:DistributionGroup ;
+    sh:order 60 ;
+    sh:name "Licence"@en ;
+    sh:description """`dcterms:license` is optional; at most one value, and it is an IRI. Membership in SPDX or any other list is not required."""@en ;
+    dcterms:source "Editing Policy Wiki W31 (lines 283-289); DEC-008" ;
+    sh:target ep:DistributionProfileTarget ;
+    sh:property ep:EP-DISTRIBUTION-LICENCE-value .
+
+ep:EP-DISTRIBUTION-LICENCE-value
+    a sh:PropertyShape ;
+    sh:path dcterms:license ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "At most one dcterms:license, and it is an IRI."@en .
+
+ep:EP-DISTRIBUTION-RIGHTS
+    a sh:NodeShape ;
+    uop:requirementId "EP-DISTRIBUTION-RIGHTS" ;
+    uop:normativeStrength "SHOULD" ;
+    sh:severity sh:Warning ;
+    sh:group ep:DistributionGroup ;
+    sh:order 70 ;
+    sh:name "Rights should be IRIs"@en ;
+    sh:description """`dcterms:rights` is optional and may repeat; each value should be an IRI. A literal is reported as a warning and no maximum is imposed."""@en ;
+    dcterms:source "Editing Policy Wiki W32 (lines 291-297); DEC-008" ;
+    sh:target ep:DistributionProfileTarget ;
+    sh:property ep:EP-DISTRIBUTION-RIGHTS-kind .
+
+ep:EP-DISTRIBUTION-RIGHTS-kind
+    a sh:PropertyShape ;
+    sh:path dcterms:rights ;
+    sh:severity sh:Warning ;
+    sh:nodeKind sh:IRI ;
+    sh:message "dcterms:rights values should be IRIs."@en .

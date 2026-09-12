@@ -1,0 +1,148 @@
+# DCAT dataset and distribution profile cases. The fixture module owns the real
+# dataset/ and distribution/ namespaces (see dcat.expected.json).
+@prefix ds:      <https://haddenindustries.com/ontology/dataset/> .
+@prefix di:      <https://haddenindustries.com/ontology/distribution/> .
+@prefix ex:      <https://example.org/fixtures/entity/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcat:    <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+ex: a owl:Ontology ; owl:versionIRI ex:20260101 ; owl:versionInfo "2026-01-01" .
+ex:Statistics a owl:Class ; rdfs:label "Statistics"@en .
+
+# --- Datasets ---------------------------------------------------------------
+
+# Fully valid dataset with two distributions, a landing page and one access right.
+ds:0f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a2b a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ;
+    dcterms:title "Population estimates"@en ;
+    dcterms:description "Annual population estimates"@en , "Estimations annuelles"@fr ;
+    rdfs:label "Population estimates"@en ;
+    dcat:distribution di:1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d , di:2b3c4d5e-6f70-4b8c-9d0e-1f2a3b4c5d6e ;
+    dcat:landingPage <https://example.org/provider/population> , <https://example.org/provider/population-2> ;
+    dcterms:accessRights <http://publications.europa.eu/resource/authority/access-right/PUBLIC> .
+
+# EP-DATASET-TYPE-IRI negatives
+ds:UPPERCASE-UUID-3D4E-4F50-8A6B-7C8D9E0F1A2C a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en .
+ds:1f6b2a9c-3d4e-1f50-8a6b-7c8d9e0f1a2d a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en .
+ds:2f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a2e a dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en .
+ds:3f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a2f a owl:NamedIndividual ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en .
+ex:WrongNamespaceDataset a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en .
+
+# EP-DATASET-REQUIRED negatives
+ds:4f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a30 a owl:NamedIndividual , dcat:Dataset ;
+    dcterms:title "no theme"@en ; dcterms:description "d"@en ; rdfs:label "l"@en .
+ds:5f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a31 a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics , "literal theme" ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en .
+ds:6f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a32 a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:description "d"@en ; rdfs:label "l"@en .
+ds:7f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a33 a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "   "@en ; dcterms:description "d"@en ; rdfs:label "l"@en .
+ds:8f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a34 a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "one"@en , "two"@en ; rdfs:label "l"@en .
+ds:9f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a35 a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "untagged label" .
+ds:af6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a36 a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "Two titles"@en , "Second title"@en ; dcterms:description "d"@en ; rdfs:label "l"@en .
+
+# EP-DATASET-DISTRIBUTION negatives
+ds:bf6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a37 a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en ;
+    dcat:distribution di:1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d , di:9999aaaa-5e6f-4a7b-8c9d-0e1f2a3b4c5d .
+ds:cf6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a38 a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en ;
+    dcat:distribution "https://haddenindustries.com/ontology/distribution/1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d" .
+ds:df6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a39 a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en ;
+    dcat:distribution ex:Statistics .
+
+# EP-DATASET-ACCESS-RIGHTS negatives
+ds:ef6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a3a a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en ;
+    dcterms:accessRights <http://publications.europa.eu/resource/authority/access-right/PUBLIC> , <http://publications.europa.eu/resource/authority/access-right/RESTRICTED> .
+ds:ff6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a3b a owl:NamedIndividual , dcat:Dataset ;
+    dcat:theme ex:Statistics ; dcterms:title "t"@en ; dcterms:description "d"@en ; rdfs:label "l"@en ;
+    dcterms:accessRights "public" .
+
+# --- Distributions -----------------------------------------------------------
+
+# Fully valid distributions (all optional properties on the second).
+di:1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/data/population.csv> ;
+    rdfs:label "CSV download"@en .
+di:2b3c4d5e-6f70-4b8c-9d0e-1f2a3b4c5d6e a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/data/population> , <https://example.org/data/population-mirror> ;
+    rdfs:label "GIF chart"@en ;
+    dcat:downloadURL <https://example.org/data/population.gif> , <https://example.org/data/population-2.gif> ;
+    dcat:mediaType <https://www.iana.org/assignments/media-types/image/gif> ;
+    dcterms:format <http://publications.europa.eu/resource/authority/file-type/GIF> ;
+    dcterms:language <http://id.loc.gov/vocabulary/iso639-1/en> , <http://id.loc.gov/vocabulary/iso639-1/fr> ;
+    dcterms:license <https://spdx.org/licenses/OGL-UK-3.0> ;
+    dcterms:rights <https://example.org/terms> , <https://example.org/terms-2> .
+
+# EP-DISTRIBUTION-REQUIRED negatives
+di:3c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7f a dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en .
+di:4c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e70 a owl:NamedIndividual , dcat:Distribution ;
+    rdfs:label "no access url"@en .
+di:5c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e71 a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> , "https://example.org/second-is-a-literal" ; rdfs:label "l"@en .
+di:6c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e72 a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> .
+di:7C4D5E6F-7081-4C9D-8E0F-2A3B4C5D6E73 a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en .
+
+# EP-DISTRIBUTION-DOWNLOAD negative
+di:8c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e74 a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcat:downloadURL "https://example.org/literal-download" .
+
+# EP-DISTRIBUTION-MEDIA negatives
+di:9c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e75 a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcat:mediaType <https://www.iana.org/assignments/media-types/image/fabricated> .
+di:ac4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e76 a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcat:mediaType "image/gif" .
+di:bc4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e77 a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcat:mediaType <https://www.iana.org/assignments/media-types/image/gif> , <https://www.iana.org/assignments/media-types/image/png> .
+
+# EP-DISTRIBUTION-FORMAT negatives
+di:cc4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e78 a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcterms:format <http://publications.europa.eu/resource/authority/file-type/GIF> , <http://publications.europa.eu/resource/authority/file-type/CSV> .
+di:dc4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e79 a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcterms:format <http://publications.europa.eu/resource/authority/file-type/NOT_A_MEMBER> .
+
+# EP-DISTRIBUTION-LANGUAGE negatives
+di:ec4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7a a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcterms:language <http://id.loc.gov/vocabulary/iso639-1/en> , <http://id.loc.gov/vocabulary/iso639-1/xx> .
+di:fc4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7b a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcterms:language <http://id.loc.gov/vocabulary/iso639-2/eng> .
+di:0d4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7c a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcterms:language <https://id.loc.gov/vocabulary/iso639-1/en> .
+
+# EP-DISTRIBUTION-LICENCE negatives
+di:1d4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7d a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcterms:license "OGL-UK-3.0" .
+di:2d4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7e a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcterms:license <https://spdx.org/licenses/OGL-UK-3.0> , <https://spdx.org/licenses/CC-BY-4.0> .
+
+# EP-DISTRIBUTION-RIGHTS negative (warning only)
+di:3d4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7f a owl:NamedIndividual , dcat:Distribution ;
+    dcat:accessURL <https://example.org/a> ; rdfs:label "l"@en ;
+    dcterms:rights "All rights reserved" .

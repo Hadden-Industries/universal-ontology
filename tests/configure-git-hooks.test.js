@@ -259,9 +259,9 @@ test.each([".venv/Scripts/python.exe", ".venv/bin/python"])(
       ),
     ).toEqual([
       "scripts/validate_ontologies.py",
+      "--purpose",
+      "draft",
       "--staged",
-      "--python-exec",
-      pythonExecutablePath,
       "",
     ]);
   },

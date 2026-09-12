@@ -58,7 +58,7 @@ test("the stable ontology check selects files before installing its dependencies
   });
   const scopeIndex = job.steps.findIndex(({ id }) => id === "scope");
   const installationIndex = job.steps.findIndex(
-    ({ name }) => name === "Install ontology validation dependencies",
+    ({ name }) => name === "Install the hash-locked Python environment",
   );
   expect(scopeIndex).toBeGreaterThanOrEqual(0);
   expect(installationIndex).toBeGreaterThan(scopeIndex);
@@ -66,7 +66,7 @@ test("the stable ontology check selects files before installing its dependencies
   expect(job.steps[scopeIndex].run).toContain("args=(--all-current)");
   expect(job.steps[installationIndex]).toMatchObject({
     if: "steps.scope.outputs.validation_required == 'true'",
-    run: ".venv/bin/python -m pip install -r requirements.txt",
+    run: '.venv/bin/python -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt',
   });
   expect(
     job.steps.find(({ name }) => name === "Test ontology validation runner"),
@@ -74,14 +74,20 @@ test("the stable ontology check selects files before installing its dependencies
     if: "steps.scope.outputs.validator_changed == 'true'",
     run: ".venv/bin/python -B -m unittest discover -s tests -p test_validate_ontologies.py -v",
   });
+  // The SHACL editing policy is the only validator; the legacy per-file
+  // invariant step no longer exists.
+  expect(
+    job.steps.find(({ name }) => name === "Validate selected ontology files"),
+  ).toBeUndefined();
   const validation = job.steps.find(
-    ({ name }) => name === "Validate selected ontology files",
+    ({ name }) =>
+      name === "Editing-policy draft diagnostics for the changed sources",
   );
   expect(validation.if).toBe(
     "steps.scope.outputs.validation_required == 'true'",
   );
   expect(validation.run).toContain(
-    'scripts/validate_ontologies.py "${args[@]}" --github-actions',
+    'scripts/validate_ontologies.py "${args[@]}" --purpose draft --github-actions',
   );
   expect(job.steps.at(-1).if).toBe(
     "steps.scope.outputs.validation_required == 'false'",

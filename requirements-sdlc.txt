@@ -6,3 +6,6 @@ PyYAML==6.0.3
 # jsonschema's declared date-time/URI formats require these native providers.
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
+# Resolver for requirements.lock.txt (BSD-3-Clause); selected 2026-09-12 under VER-01
+# because native `pip lock` hashes only the running platform's wheels.
+pip-tools==7.6.1

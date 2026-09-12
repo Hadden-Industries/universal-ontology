@@ -1,0 +1,116 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix uop:     <https://haddenindustries.com/ontology/policy#> .
+
+# SHACL validation of the policy graph's own documentary contract, consumed by
+# the renderer and the runner. This is not a second encoding of editing rules:
+# it only requires that every executable rule and human clause carries the
+# metadata the generated policy and the stable report identity depend on.
+
+uop:RequirementShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf uop:requirementId ;
+    sh:property [
+        sh:path uop:requirementId ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^EP-[A-Z0-9]+(-[A-Z0-9]+)*$" ;
+        sh:message "Every requirement carries exactly one stable EP-* identifier."@en ;
+    ] ;
+    sh:property [
+        sh:path uop:normativeStrength ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( "MUST" "SHOULD" "MAY" ) ;
+        sh:message "Every requirement states its normative strength."@en ;
+    ] ;
+    sh:property [
+        sh:path sh:name ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype rdf:langString ;
+        sh:languageIn ( "en" ) ;
+        sh:message "Every requirement has one English name."@en ;
+    ] ;
+    sh:property [
+        sh:path sh:description ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype rdf:langString ;
+        sh:languageIn ( "en" ) ;
+        sh:message "Every requirement has one English description."@en ;
+    ] ;
+    sh:property [
+        sh:path sh:group ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:class sh:PropertyGroup ;
+        sh:message "Every requirement belongs to one declared group."@en ;
+    ] ;
+    sh:property [
+        sh:path sh:order ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:integer ;
+    ] ;
+    sh:property [
+        sh:path dcterms:source ;
+        sh:minCount 1 ;
+        sh:message "Every requirement cites its accepted source."@en ;
+    ] ;
+    sh:property [
+        sh:path sh:property ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Constraint shapes of a requirement carry stable IRIs so every engine's report resolves to the rule."@en ;
+    ] ;
+    sh:xone (
+        [ sh:class sh:NodeShape ]
+        [ sh:class uop:HumanClause ]
+    ) .
+
+# An executable requirement's severity must agree with its normative strength,
+# so a SHOULD can never block and a MUST can never be downgraded silently.
+
+uop:ExecutableRequirementShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf uop:requirementId ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Executable MUST rules use sh:Violation on every constraint; SHOULD rules use sh:Warning."@en ;
+        sh:prefixes uop:PolicyMetadataPrefixes ;
+        sh:select """
+            SELECT $this ?value WHERE {
+                $this a sh:NodeShape ; uop:normativeStrength ?strength .
+                { $this sh:property ?constraint } UNION { BIND($this AS ?constraint) } UNION { ?constraint uop:partOf $this }
+                OPTIONAL { ?constraint sh:severity ?declared }
+                BIND(COALESCE(?declared, sh:Violation) AS ?value)
+                FILTER (
+                    ( ?strength = "MUST" && ?value != sh:Violation ) ||
+                    ( ?strength = "SHOULD" && ?value != sh:Warning )
+                )
+            }
+            """ ;
+    ] .
+
+# A part shape carries one SPARQL check on its own candidate target; the
+# candidates it selects are the failures within the requirement's population.
+
+uop:PartShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf uop:partOf ;
+    sh:nodeKind sh:IRI ;
+    sh:property [ sh:path uop:partOf ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path sh:target ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path sh:sparql ; sh:minCount 1 ; sh:nodeKind sh:IRI ] .
+
+uop:PropertyGroupShape
+    a sh:NodeShape ;
+    sh:targetClass sh:PropertyGroup ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:maxCount 1 ; sh:languageIn ( "en" ) ] ;
+    sh:property [ sh:path rdfs:comment ; sh:minCount 1 ; sh:maxCount 1 ; sh:languageIn ( "en" ) ] ;
+    sh:property [ sh:path sh:order ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] .
+
+uop:PolicyMetadataPrefixes
+    a owl:Ontology ;
+    sh:declare
+        [ sh:prefix "sh" ;  sh:namespace "http://www.w3.org/ns/shacl#"^^xsd:anyURI ] ,
+        [ sh:prefix "uop" ; sh:namespace "https://haddenindustries.com/ontology/policy#"^^xsd:anyURI ] .

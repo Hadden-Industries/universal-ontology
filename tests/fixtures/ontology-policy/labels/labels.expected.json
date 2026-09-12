@@ -1,0 +1,82 @@
+{
+  "oracle": "Wiki W09-W16 with DEC-004, DEC-006, DEC-014, DEC-022, DEC-023, DEC-024 and the legacy P03 sixteen-predicate language requirement. Authored before the shapes were written.",
+  "rules": ["EP-LABEL", "EP-PREFLABEL-LANGUAGE", "EP-PREFLABEL-IRI", "EP-PREFLABEL-LABEL", "EP-DEFINITION", "EP-DESCRIPTIVE-LANGUAGE", "EP-DESCRIPTION-LANGUAGE", "EP-OPTIONAL-ANNOTATIONS"],
+  "targeted_focus_nodes": [
+    "https://example.org/fixtures/entity/Bank",
+    "https://example.org/fixtures/entity/OtherBank",
+    "https://example.org/fixtures/entity/NoLabel",
+    "https://example.org/fixtures/entity/UntaggedLabel",
+    "https://example.org/fixtures/entity/ManyEnglishLabels",
+    "https://example.org/fixtures/entity/RomanianOnly",
+    "https://example.org/fixtures/entity/EnglishPlusRomanian",
+    "https://example.org/fixtures/entity/TwoEnglishPrefLabels",
+    "https://example.org/fixtures/entity/UntaggedPrefLabel",
+    "https://example.org/fixtures/entity/Colour",
+    "https://example.org/fixtures/entity/ThreeDModel",
+    "https://example.org/fixtures/entity/ThreeDPrinter",
+    "https://example.org/fixtures/entity/BankAccount",
+    "https://example.org/fixtures/entity/Colour_Red",
+    "https://example.org/fixtures/entity/hasPart",
+    "https://example.org/fixtures/entity/Mismatch",
+    "https://example.org/fixtures/entity/OnlyFrenchMatches",
+    "https://example.org/fixtures/entity/PrefLabelNotLabel",
+    "https://example.org/fixtures/entity/PrefLabelCaseDiffers",
+    "https://example.org/fixtures/entity/ClassWithoutDefinition",
+    "https://example.org/fixtures/entity/IndividualWithoutDefinition",
+    "https://example.org/fixtures/entity/propertyWithoutDefinition",
+    "https://example.org/fixtures/entity/UntaggedDefinition",
+    "https://example.org/fixtures/entity/TwoEnglishDefinitions",
+    "https://example.org/fixtures/entity/propertyWithBadDefinition",
+    "https://example.org/fixtures/entity/UntaggedEditorialNote",
+    "https://example.org/fixtures/entity/TaggedNotes",
+    "https://example.org/fixtures/entity/OtherPredicateUntagged",
+    "https://example.org/fixtures/entity/TwoEnglishDescriptions",
+    "https://example.org/fixtures/entity/TwoLanguageDescriptions",
+    "https://example.org/fixtures/entity/UntaggedAcronym",
+    "https://example.org/fixtures/entity/SharedAcronymA",
+    "https://example.org/fixtures/entity/SharedAcronymB"
+  ],
+  "results": [
+    {"requirement_id": "EP-LABEL", "focus_node": "https://example.org/fixtures/entity/NoLabel", "severity": "Violation", "minimum_components": ["sh:MinCountConstraintComponent"]},
+    {"requirement_id": "EP-PREFLABEL-LABEL", "focus_node": "https://example.org/fixtures/entity/NoLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-LABEL", "focus_node": "https://example.org/fixtures/entity/UntaggedLabel", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent"]},
+    {"requirement_id": "EP-DESCRIPTIVE-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-PREFLABEL-LABEL", "focus_node": "https://example.org/fixtures/entity/UntaggedLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+
+    {"requirement_id": "EP-PREFLABEL-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/RomanianOnly", "severity": "Violation", "minimum_components": ["sh:QualifiedMinCountConstraintComponent"]},
+    {"requirement_id": "EP-PREFLABEL-IRI", "focus_node": "https://example.org/fixtures/entity/RomanianOnly", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-PREFLABEL-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/TwoEnglishPrefLabels", "severity": "Violation", "minimum_components": ["sh:UniqueLangConstraintComponent"]},
+    {"requirement_id": "EP-PREFLABEL-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent", "sh:QualifiedMinCountConstraintComponent"]},
+    {"requirement_id": "EP-PREFLABEL-IRI", "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-LABEL", "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent"]},
+    {"requirement_id": "EP-DESCRIPTIVE-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+
+    {"requirement_id": "EP-PREFLABEL-IRI", "focus_node": "https://example.org/fixtures/entity/Mismatch", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-PREFLABEL-IRI", "focus_node": "https://example.org/fixtures/entity/OnlyFrenchMatches", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+
+    {"requirement_id": "EP-PREFLABEL-LABEL", "focus_node": "https://example.org/fixtures/entity/PrefLabelNotLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-PREFLABEL-LABEL", "focus_node": "https://example.org/fixtures/entity/PrefLabelCaseDiffers", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+
+    {"requirement_id": "EP-DEFINITION", "focus_node": "https://example.org/fixtures/entity/ClassWithoutDefinition", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-DEFINITION", "focus_node": "https://example.org/fixtures/entity/IndividualWithoutDefinition", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-DEFINITION", "focus_node": "https://example.org/fixtures/entity/UntaggedDefinition", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent"]},
+    {"requirement_id": "EP-DESCRIPTIVE-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedDefinition", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-DEFINITION", "focus_node": "https://example.org/fixtures/entity/TwoEnglishDefinitions", "severity": "Violation", "minimum_components": ["sh:UniqueLangConstraintComponent"]},
+    {"requirement_id": "EP-DEFINITION", "focus_node": "https://example.org/fixtures/entity/propertyWithBadDefinition", "severity": "Violation", "minimum_components": ["sh:UniqueLangConstraintComponent"]},
+
+    {"requirement_id": "EP-DESCRIPTIVE-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedEditorialNote", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+
+    {"requirement_id": "EP-DESCRIPTION-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/TwoEnglishDescriptions", "severity": "Violation", "minimum_components": ["sh:UniqueLangConstraintComponent"]},
+
+    {"requirement_id": "EP-OPTIONAL-ANNOTATIONS", "focus_node": "https://example.org/fixtures/entity/UntaggedAcronym", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent"]},
+    {"requirement_id": "EP-DESCRIPTIVE-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedAcronym", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]}
+  ],
+  "notes": [
+    "Bank and OtherBank share \"Bank\"@en as a label: allowed (DEC-006).",
+    "Colour passes correspondence through Colour@en-GB while Color@en-US coexists (DEC-014).",
+    "3D Model and Three D Printer correspond to ThreeDModel and ThreeDPrinter through leading-digit expansion.",
+    "propertyWithoutDefinition passes: definitions are optional for properties (DEC-022).",
+    "OtherPredicateUntagged passes: dcterms:bibliographicCitation is not one of the sixteen predicates.",
+    "SharedAcronymA and SharedAcronymB share SA@en: allowed."
+  ]
+}

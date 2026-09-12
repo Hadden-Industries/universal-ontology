@@ -1,0 +1,69 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix uoc:  <https://haddenindustries.com/ontology/policy/context#> .
+
+# Native validation of the runner-supplied context graph. The context carries
+# trusted facts only (run purpose, module identities, ownership, change kinds);
+# every editing obligation stays in the owning policy rule. A violation here is
+# a context error (exit status 2), never a policy result.
+
+uoc:RunShape
+    a sh:NodeShape ;
+    sh:targetClass uoc:Run ;
+    sh:property [
+        sh:path uoc:purpose ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( uoc:LatestActiveQualification uoc:CandidateQualification uoc:DraftDiagnostics uoc:CriticalHistoricalFix ) ;
+        sh:message "A run declares exactly one accepted purpose."@en ;
+    ] ;
+    sh:property [
+        sh:path uoc:module ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:class uoc:Module ;
+        sh:message "A run names at least one owned module."@en ;
+    ] .
+
+uoc:ExactlyOneRunShape
+    a sh:NodeShape ;
+    sh:targetNode uoc:context ;
+    sh:property [
+        sh:path uoc:run ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:class uoc:Run ;
+        sh:message "The context graph carries exactly one run."@en ;
+    ] .
+
+uoc:ModuleShape
+    a sh:NodeShape ;
+    sh:targetClass uoc:Module ;
+    sh:property [ sh:path uoc:ontologyIri ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path uoc:ownedNamespace ; sh:minCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path uoc:sourceDigest ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^sha256:[0-9a-f]{64}$" ] ;
+    sh:property [ sh:path uoc:sourceLocator ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path uoc:isoNaming ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
+
+uoc:ComparisonShape
+    a sh:NodeShape ;
+    sh:targetClass uoc:Module ;
+    sh:property [ sh:path uoc:comparison ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( uoc:Available uoc:Unavailable ) ;
+                  sh:message "Every module states whether a comparison snapshot was available."@en ] ;
+    sh:property [ sh:path uoc:comparedWith ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+
+uoc:ChangeKindShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf uoc:changeKind ;
+    sh:property [ sh:path uoc:changeKind ; sh:maxCount 1 ; sh:in ( uoc:Added uoc:Changed uoc:Unchanged ) ;
+                  sh:message "A subject has at most one change kind."@en ] ;
+    sh:property [ sh:path uoc:ownedBy ; sh:minCount 1 ; sh:message "Only owned subjects carry change facts."@en ] .
+
+uoc:OwnershipShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf uoc:ownedBy ;
+    sh:property [
+        sh:path uoc:ownedBy ;
+        sh:maxCount 1 ;
+        sh:class uoc:Module ;
+        sh:message "An owned subject belongs to exactly one declared module."@en ;
+    ] .

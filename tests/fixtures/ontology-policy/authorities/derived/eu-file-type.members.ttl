@@ -1,0 +1,4 @@
+# Derived membership snapshot of eu-file-type; regenerate with scripts/update_policy_authorities.py.
+<https://haddenindustries.com/ontology/policy/authority/eu-file-type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://haddenindustries.com/ontology/policy#Authority> .
+<http://publications.europa.eu/resource/authority/file-type/CSV> <https://haddenindustries.com/ontology/policy#memberOf> <https://haddenindustries.com/ontology/policy/authority/eu-file-type> .
+<http://publications.europa.eu/resource/authority/file-type/GIF> <https://haddenindustries.com/ontology/policy#memberOf> <https://haddenindustries.com/ontology/policy/authority/eu-file-type> .

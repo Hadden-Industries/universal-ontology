@@ -1,0 +1,101 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix uop:     <https://haddenindustries.com/ontology/policy#> .
+@prefix uoa:     <https://haddenindustries.com/ontology/policy/activation/> .
+
+# Reviewed owned modules and the latest active version of each.
+#
+# Ownership: a subject declared in a module's document is owned by that module
+# when its IRI begins with one of the module's owned namespaces. Everything else
+# declared in the document (schema.org, dcterms, dcat, time, skos terms) is
+# foreign support context and carries no owned metadata duty.
+#
+# The first record (uoa:ActiveSet-20260714) was identified on 12 September 2026
+# by fetching the served `latest` aliases at https://haddenindustries.com/ontology/
+# and comparing them byte-for-byte with the tracked dated artifacts; see
+# docs/specs/2026-09-12-shacl-policy-active-set-inventory.md. The current set
+# names the exact artifact and its SHA-256 content digest. Replace an entry only
+# through the qualified activation procedure (a qualifying candidate receipt on
+# the dated artifacts, then this record, then the latest-active qualification
+# that binds the publication gate); do not bump it to the largest dated filename.
+
+uoa:ActiveSet
+    a uop:ActiveSet ;
+    rdfs:label "Latest active Universal Ontology module set"@en ;
+    dcterms:date "2026-09-12"^^xsd:date ;
+    rdfs:comment "Activated on 12 September 2026 under the owner's SLICE-008 authority after the candidate qualification receipt 20260912T110813Z (0 violations, 191 warnings, pySHACL and Jena in identity parity) on the exact dated artifacts recorded below; the remediation is described in docs/policy/migration-evidence.md."@en ;
+    uop:policyIdentity "sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb" ;
+    uop:qualificationReceipt "20260912T110813Z" ;
+    uop:predecessor uoa:ActiveSet-20260714 ;
+    uop:module uoa:core , uoa:extended , uoa:reference-data , uoa:iso-31073 , uoa:iso-iec-11179-3 .
+
+uoa:ActiveSet-20260714
+    a uop:ActiveSet ;
+    rdfs:label "Served module set identified on 12 September 2026 (superseded)"@en ;
+    dcterms:date "2026-09-12"^^xsd:date ;
+    rdfs:comment "The versions served as latest when the activation record was first written; they reported 740 editing-policy blockers and were replaced by the remediated 20260912 set."@en ;
+    uop:predecessor uoa:ActiveSet-initial-unrecorded ;
+    uop:activatedVersionIri <https://haddenindustries.com/ontology/universal/core/20260714> ,
+                            <https://haddenindustries.com/ontology/universal/extended/20260714> ,
+                            <https://haddenindustries.com/ontology/universal/reference-data/20260714> ,
+                            <https://haddenindustries.com/ontology/iso/31073/ed-1/20260626> ,
+                            <https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714> .
+
+uoa:ActiveSet-initial-unrecorded
+    a uop:ActiveSet ;
+    rdfs:comment "Placeholder for the state before the first recorded activation; no earlier record exists."@en .
+
+uoa:core
+    a uop:OwnedModule ;
+    rdfs:label "Universal Core"@en ;
+    uop:ontologyIri <https://haddenindustries.com/ontology/universal/core/> ;
+    uop:ownedNamespace <https://haddenindustries.com/ontology/universal/core/> ;
+    uop:workingPath "core/universal-core.owl" ;
+    uop:activeVersionIri <https://haddenindustries.com/ontology/universal/core/20260912> ;
+    uop:activeArtifactPath "src/universal/core/20260912" ;
+    uop:activeContentDigest "sha256:214f21e9116c0515bd52e5e8e893c83fcf93eb4ce586a49dbd8afc8a05e2c190" .
+
+uoa:extended
+    a uop:OwnedModule ;
+    rdfs:label "Universal Extended"@en ;
+    uop:ontologyIri <https://haddenindustries.com/ontology/universal/extended/> ;
+    uop:ownedNamespace <https://haddenindustries.com/ontology/universal/extended/> ;
+    uop:workingPath "extended/universal-extended.owl" ;
+    uop:activeVersionIri <https://haddenindustries.com/ontology/universal/extended/20260912> ;
+    uop:activeArtifactPath "src/universal/extended/20260912" ;
+    uop:activeContentDigest "sha256:92ad97ccb1acf4f2413dc3f1100433adbaa965ce98821f863de9df22eced7f24" .
+
+uoa:reference-data
+    a uop:OwnedModule ;
+    rdfs:label "Universal Reference Data"@en ;
+    uop:ontologyIri <https://haddenindustries.com/ontology/universal/reference-data/> ;
+    uop:ownedNamespace <https://haddenindustries.com/ontology/universal/reference-data/> ,
+                       <https://haddenindustries.com/ontology/dataset/> ,
+                       <https://haddenindustries.com/ontology/distribution/> ;
+    uop:workingPath "reference-data/reference-data.owl" ;
+    uop:activeVersionIri <https://haddenindustries.com/ontology/universal/reference-data/20260912> ;
+    uop:activeArtifactPath "src/universal/reference-data/20260912" ;
+    uop:activeContentDigest "sha256:1354d260a8bf33d0e67b6145b45438be719203f71e0280d61fc498b697860260" .
+
+uoa:iso-31073
+    a uop:OwnedModule ;
+    rdfs:label "ISO 31073 (edition 1)"@en ;
+    uop:ontologyIri <https://haddenindustries.com/ontology/iso/31073/ed-1/> ;
+    uop:ownedNamespace <https://haddenindustries.com/ontology/iso/31073/ed-1/> ;
+    uop:isoNaming true ;
+    uop:workingPath "iso-31073/iso-31073.owl" ;
+    uop:activeVersionIri <https://haddenindustries.com/ontology/iso/31073/ed-1/20260912> ;
+    uop:activeArtifactPath "src/iso/31073/ed-1/20260912" ;
+    uop:activeContentDigest "sha256:bca8f977bd70ef6e9bedfc15ada68c52276b6a65a00712329fb977783a621319" .
+
+uoa:iso-iec-11179-3
+    a uop:OwnedModule ;
+    rdfs:label "ISO/IEC 11179-3 (edition 4)"@en ;
+    uop:ontologyIri <https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/> ;
+    uop:ownedNamespace <https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/> ;
+    uop:isoNaming true ;
+    uop:workingPath "iso-iec11179-3/iso-iec11179-3.owl" ;
+    uop:activeVersionIri <https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260912> ;
+    uop:activeArtifactPath "src/iso-iec/11179/-3/ed-4/20260912" ;
+    uop:activeContentDigest "sha256:f532f33c8a511261d17bd645b5ded1a538c896aebb83eee4a4d9681e75ed2213" .

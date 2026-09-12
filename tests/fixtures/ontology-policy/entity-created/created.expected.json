@@ -1,0 +1,62 @@
+{
+  "oracle": "Wiki W05 (lines 41-49) and DEC-022: every owned Class, NamedIndividual, ObjectProperty and DatatypeProperty has exactly one dcterms:created, an xsd:dateTime with a real calendar date whose lexical form ends in Z. Foreign declarations carry no duty. Authored 2026-09-12 before the rule was written.",
+  "rules": ["EP-ENTITY-CREATED"],
+  "targeted_focus_nodes": [
+    "https://example.org/fixtures/entity/ValidClass",
+    "https://example.org/fixtures/entity/ValidIndividual",
+    "https://example.org/fixtures/entity/validObjectProperty",
+    "https://example.org/fixtures/entity/validDatatypeProperty",
+    "https://example.org/fixtures/entity/MissingCreated",
+    "https://example.org/fixtures/entity/TwoCreatedValues",
+    "https://example.org/fixtures/entity/PlainStringCreated",
+    "https://example.org/fixtures/entity/ImpossibleDate",
+    "https://example.org/fixtures/entity/OffsetInsteadOfZ",
+    "https://example.org/fixtures/entity/DateOnlyCreated",
+    "https://example.org/fixtures/entity/missingCreatedProperty"
+  ],
+  "not_targeted": ["http://schema.org/Thing"],
+  "results": [
+    {
+      "requirement_id": "EP-ENTITY-CREATED",
+      "focus_node": "https://example.org/fixtures/entity/MissingCreated",
+      "severity": "Violation",
+      "minimum_components": ["sh:MinCountConstraintComponent"]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATED",
+      "focus_node": "https://example.org/fixtures/entity/missingCreatedProperty",
+      "severity": "Violation",
+      "minimum_components": ["sh:MinCountConstraintComponent"]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATED",
+      "focus_node": "https://example.org/fixtures/entity/TwoCreatedValues",
+      "severity": "Violation",
+      "minimum_components": ["sh:MaxCountConstraintComponent"]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATED",
+      "focus_node": "https://example.org/fixtures/entity/PlainStringCreated",
+      "severity": "Violation",
+      "minimum_components": ["sh:DatatypeConstraintComponent"]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATED",
+      "focus_node": "https://example.org/fixtures/entity/ImpossibleDate",
+      "severity": "Violation",
+      "minimum_components": ["sh:DatatypeConstraintComponent"]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATED",
+      "focus_node": "https://example.org/fixtures/entity/OffsetInsteadOfZ",
+      "severity": "Violation",
+      "minimum_components": ["sh:PatternConstraintComponent"]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATED",
+      "focus_node": "https://example.org/fixtures/entity/DateOnlyCreated",
+      "severity": "Violation",
+      "minimum_components": ["sh:PatternConstraintComponent"]
+    }
+  ]
+}

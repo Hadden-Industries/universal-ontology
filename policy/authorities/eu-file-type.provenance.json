@@ -1,0 +1,17 @@
+{
+  "authority": "eu-file-type",
+  "authorityIri": "https://haddenindustries.com/ontology/policy/authority/eu-file-type",
+  "derivedSha256": "2a5bbde3ffcf5718aa48f5aa437098bf7ebc4d00e8235354ec3f8d508ab9f0a7",
+  "licence": "EU Vocabularies File Type authority table; reuse under Commission Decision 2011/833/EU (CC BY 4.0), source acknowledged",
+  "mediaType": "application/rdf+xml",
+  "memberCount": 228,
+  "parser": "rdflib",
+  "parserVersion": "7.6.0",
+  "rawByteCount": 97788,
+  "rawSha256": "95854a6a6aae5722c3b506b135f8e0eaa979a963ded515f05edbd17b519f03d5",
+  "retrievedOn": "2026-09-12",
+  "rightsDecision": "Max approved authority rights on 2026-09-12 (implementation session, PR #61)",
+  "sourceUrl": "http://publications.europa.eu/resource/authority/file-type",
+  "transformation": "subjects with skos:inScheme file-type",
+  "tripleCount": 700
+}

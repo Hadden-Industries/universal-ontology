@@ -1,0 +1,17 @@
+{
+  "authority": "loc-iso639-1",
+  "authorityIri": "https://haddenindustries.com/ontology/policy/authority/loc-iso639-1",
+  "derivedSha256": "920d87fe71602fb9c4bd547e8c8e25adaa8fc891ef72395fc5b6ec48a9536dde",
+  "licence": "fixture",
+  "mediaType": "application/rdf+xml",
+  "memberCount": 3,
+  "parser": "rdflib",
+  "parserVersion": "7.6.0",
+  "rawByteCount": 736,
+  "rawSha256": "cc9a1b5cbbe5c88c03a2e5d2fe90e09b43c70123f0d9232e3aca6ce4d48d346d",
+  "retrievedOn": "2026-09-12",
+  "rightsDecision": "fixture",
+  "sourceUrl": "https://id.loc.gov/vocabulary/iso639-1.rdf",
+  "transformation": "skos:Concept subjects under the iso639-1 namespace",
+  "tripleCount": 8
+}

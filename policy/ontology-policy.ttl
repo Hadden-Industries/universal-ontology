@@ -1,0 +1,93 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix uop:     <https://haddenindustries.com/ontology/policy#> .
+@prefix ep:      <https://haddenindustries.com/ontology/policy/editing/> .
+
+# Ontology header rules: the accepted DEC-027 version profile.
+
+ep:OntologyPolicy a uop:PolicyModule ; rdfs:label "Ontology policy"@en .
+
+ep:EP-ONT-VERSION
+    a sh:NodeShape ;
+    uop:requirementId "EP-ONT-VERSION" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:OntologyHeaderGroup ;
+    sh:order 10 ;
+    sh:name "Version identity"@en ;
+    sh:description """Each authored module document has one `owl:Ontology` header with exactly one IRI-valued `owl:versionIRI` and exactly one `owl:versionInfo`. The version info is a valid calendar date written `YYYY-MM-DD`; the final path segment of the version IRI (an existing trailing slash is allowed) is that date written `YYYYMMDD`. An optional `dcterms:modified` on the header has at most one value, an `xsd:date` written `YYYY-MM-DD` or `YYYY-MM-DDZ`, whose calendar date equals the version info; a numeric offset or an `xsd:dateTime` fails. Imported headers belong to other modules and never cause a false multiple-header result."""@en ;
+    dcterms:source "Editing Policy Wiki W01 (lines 18-23); DEC-001; DEC-025; DEC-027" ;
+    sh:target ep:OwnedOntologyHeaderTarget ;
+    sh:property ep:EP-ONT-VERSION-iri , ep:EP-ONT-VERSION-info , ep:EP-ONT-VERSION-modified ;
+    sh:sparql ep:EP-ONT-VERSION-alignment , ep:EP-ONT-VERSION-modified-alignment , ep:EP-ONT-VERSION-calendar .
+
+ep:EP-ONT-VERSION-iri
+    a sh:PropertyShape ;
+    sh:path owl:versionIRI ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:nodeKind sh:IRI ;
+    sh:message "The header carries exactly one IRI-valued owl:versionIRI."@en .
+
+ep:EP-ONT-VERSION-info
+    a sh:PropertyShape ;
+    sh:path owl:versionInfo ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:string ;
+    sh:pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" ;
+    sh:message "The header carries exactly one owl:versionInfo written YYYY-MM-DD."@en .
+
+ep:EP-ONT-VERSION-modified
+    a sh:PropertyShape ;
+    sh:path dcterms:modified ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:date ;
+    sh:pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}Z?$" ;
+    sh:message "An optional header dcterms:modified is a single xsd:date written YYYY-MM-DD or YYYY-MM-DDZ."@en .
+
+ep:EP-ONT-VERSION-alignment
+    a sh:SPARQLConstraint ;
+    sh:message "The owl:versionIRI ends in the owl:versionInfo date written YYYYMMDD."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value ?path WHERE {
+            BIND ( owl:versionIRI AS ?path )
+            $this owl:versionIRI ?value ; owl:versionInfo ?info .
+            BIND ( REPLACE(REPLACE(STR(?value), "/$", ""), "^.*/", "") AS ?tail )
+            FILTER ( ?tail != REPLACE(STR(?info), "-", "") )
+        }
+        """ .
+
+ep:EP-ONT-VERSION-modified-alignment
+    a sh:SPARQLConstraint ;
+    sh:message "The header dcterms:modified date equals the owl:versionInfo date."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value ?path WHERE {
+            BIND ( dcterms:modified AS ?path )
+            $this dcterms:modified ?value ; owl:versionInfo ?info .
+            FILTER ( REPLACE(STR(?value), "Z$", "") != STR(?info) )
+        }
+        """ .
+
+ep:EP-ONT-VERSION-calendar
+    a sh:SPARQLConstraint ;
+    sh:message "The owl:versionInfo is a real calendar date."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value ?path WHERE {
+            BIND ( owl:versionInfo AS ?path )
+            $this owl:versionInfo ?value .
+            FILTER ( REGEX(STR(?value), "^[0-9]{4}-[0-9]{2}-[0-9]{2}$") )
+            BIND ( xsd:integer(SUBSTR(STR(?value), 1, 4)) AS ?year )
+            BIND ( xsd:integer(SUBSTR(STR(?value), 6, 2)) AS ?month )
+            BIND ( xsd:integer(SUBSTR(STR(?value), 9, 2)) AS ?day )
+            BIND ( IF ( ?month IN (1, 3, 5, 7, 8, 10, 12), 31,
+                   IF ( ?month IN (4, 6, 9, 11), 30,
+                   IF ( ?month = 2, IF ( (?year - 4 * FLOOR(?year / 4)) = 0 && ((?year - 100 * FLOOR(?year / 100)) != 0 || (?year - 400 * FLOOR(?year / 400)) = 0), 29, 28 ), 0 ) ) ) AS ?maximum )
+            FILTER ( ?month < 1 || ?day < 1 || ?day > ?maximum )
+        }
+        """ .

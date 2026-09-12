@@ -1,0 +1,13 @@
+# ISO-naming module (expected.json sets module.iso_naming): the camelCase MUST does
+# not apply; the whole-name lower snake_case SHOULD warns.
+@prefix ex:  <https://example.org/fixtures/iso/ed-1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+ex: a owl:Ontology ; owl:versionIRI ex:20260101 ; owl:versionInfo "2026-01-01" .
+
+<https://example.org/fixtures/iso/ed-1/term/Consequence> a owl:Class .
+ex:registration_status a owl:ObjectProperty .
+ex:AdministeredItem_registration_status a owl:ObjectProperty .
+ex:acceptsGainOrLossFrom a owl:ObjectProperty .
+ex:change_description a owl:DatatypeProperty .
+ex:Change_Description a owl:DatatypeProperty .

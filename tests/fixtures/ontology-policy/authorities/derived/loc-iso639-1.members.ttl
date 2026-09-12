@@ -1,0 +1,5 @@
+# Derived membership snapshot of loc-iso639-1; regenerate with scripts/update_policy_authorities.py.
+<https://haddenindustries.com/ontology/policy/authority/loc-iso639-1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://haddenindustries.com/ontology/policy#Authority> .
+<http://id.loc.gov/vocabulary/iso639-1/de> <https://haddenindustries.com/ontology/policy#memberOf> <https://haddenindustries.com/ontology/policy/authority/loc-iso639-1> .
+<http://id.loc.gov/vocabulary/iso639-1/en> <https://haddenindustries.com/ontology/policy#memberOf> <https://haddenindustries.com/ontology/policy/authority/loc-iso639-1> .
+<http://id.loc.gov/vocabulary/iso639-1/fr> <https://haddenindustries.com/ontology/policy#memberOf> <https://haddenindustries.com/ontology/policy/authority/loc-iso639-1> .
