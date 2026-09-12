@@ -2,7 +2,7 @@
 
 Structural editing requirements for every owned entity, ontology header and axiom in each latest active ontology version and in every replacement candidate. Human conceptual review remains separate and is documented here as explicit human clauses.
 
-Generated from the canonical policy graph (policy identity `sha256:90185a6809d9c7262e2b707c557fc2d9da7a6ac91a011a2d946b260b1b8b8b80`). Do not edit this page by hand; change the policy sources under `policy/` and regenerate.
+Generated from the canonical policy graph (policy identity `sha256:8937e3e9a27b97f7e267b586fc3c7f0a91348b1c5f53b6eb83e503cd5c3f9e86`). Do not edit this page by hand; change the policy sources under `policy/` and regenerate.
 
 ## Ontology header
 
@@ -282,6 +282,203 @@ On every owned `owl:Axiom` annotation node, named or anonymous, each `http://sch
 - `schema:position`: datatype `xsd:integer`
 
 **Source:** Editing Policy Wiki W33 (lines 301-307); DEC-007
+
+## Datasets
+
+The DCAT dataset profile for owned dataset individuals.
+
+### EP-DATASET-TYPE-IRI — Dataset type and IRI (MUST)
+
+A dataset is explicitly typed both `owl:NamedIndividual` and `dcat:Dataset`, and its IRI is `https://haddenindustries.com/ontology/dataset/` followed by a canonical lowercase version-4 UUID. A subject in that namespace missing a type, or a `dcat:Dataset` outside it, fails; an uppercase or non-version-4 suffix fails. Dataset individuals follow this profile instead of the generic PascalCase naming rules.
+
+**Applies to:** every owned subject in the dataset/ namespace or explicitly typed dcat:Dataset
+
+**Executable constraints:**
+
+- `rdf:type`: includes the value `dcat:Dataset`
+- `rdf:type`: includes the value `owl:NamedIndividual`
+- the entity: node kind `sh:IRI`
+- the entity: matches the pattern `^https://haddenindustries\.com/ontology/dataset/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$`
+
+**Source:** Editing Policy Wiki W19 (lines 151-161, 222-227); DEC-012
+
+### EP-DATASET-REQUIRED — Required dataset metadata (MUST)
+
+A dataset has at least one `dcat:theme` and every theme is an IRI; at least one `dcterms:title`, one `dcterms:description` and one `rdfs:label`, each language-tagged and not blank; and at most one description per language. Distinct titles or labels in the same language remain allowed.
+
+**Applies to:** every owned subject in the dataset/ namespace or explicitly typed dcat:Dataset
+
+**Executable constraints:**
+
+- `dcterms:description`: at least one value
+- `dcterms:description`: datatype `rdf:langString`
+- `dcterms:description`: matches the pattern `\S`
+- `dcterms:description`: at most one value per language
+- `rdfs:label`: at least one value
+- `rdfs:label`: datatype `rdf:langString`
+- `rdfs:label`: matches the pattern `\S`
+- `dcat:theme`: at least one value
+- `dcat:theme`: node kind `sh:IRI`
+- `dcterms:title`: at least one value
+- `dcterms:title`: datatype `rdf:langString`
+- `dcterms:title`: matches the pattern `\S`
+
+**Source:** Editing Policy Wiki W20-W22 (lines 164-194); DEC-023; DEC-024
+
+### EP-DATASET-DISTRIBUTION — Dataset distributions (MUST)
+
+`dcat:distribution` is optional and may repeat. Every value is an IRI that the validated module set explicitly types both `owl:NamedIndividual` and `dcat:Distribution`; the declaration must be present in the local context, never fetched. A literal, an untyped target or a target of another type fails.
+
+**Applies to:** every owned subject in the dataset/ namespace or explicitly typed dcat:Dataset
+
+**Executable constraints:**
+
+- `dcat:distribution`: node kind `sh:IRI`
+
+**Source:** Editing Policy Wiki W23 (lines 198-204); DEC-008
+
+### EP-DATASET-LANDING — Landing pages (SHOULD, human review)
+
+`dcat:landingPage` is optional and may repeat. Point it at the original data provider's page for the dataset rather than an intermediary. Whether a page belongs to the original provider is a human judgement; no cardinality, IRI shape or ownership check is executed.
+
+**Review obligation:** this clause is discharged by human review and recorded in the pull request; no executable check establishes it.
+
+**Source:** Editing Policy Wiki W24 (lines 206-212); DEC-008
+
+### EP-DATASET-ACCESS-RIGHTS — Access rights cardinality (MUST)
+
+`dcterms:accessRights` is optional; a dataset carries at most one value.
+
+**Applies to:** every owned subject in the dataset/ namespace or explicitly typed dcat:Dataset
+
+**Executable constraints:**
+
+- `dcterms:accessRights`: at most one value
+
+**Source:** Editing Policy Wiki W25 (lines 214-220); DEC-008
+
+### EP-DATASET-ACCESS-RIGHTS-IRI — Access rights should be an IRI (SHOULD)
+
+When present, `dcterms:accessRights` should be an IRI such as a term of the EU access-right authority table; a literal is reported as a warning. No membership in a particular vocabulary is required.
+
+**Applies to:** every owned subject in the dataset/ namespace or explicitly typed dcat:Dataset
+
+**Executable constraints:**
+
+- `dcterms:accessRights`: node kind `sh:IRI` — recommendation (SHOULD), reported as a warning
+
+**Source:** Editing Policy Wiki W25 (lines 214-220); DEC-008
+
+## Distributions
+
+The DCAT distribution profile for owned distribution individuals.
+
+### EP-DISTRIBUTION-REQUIRED — Distribution type, IRI and required metadata (MUST)
+
+A distribution is explicitly typed both `owl:NamedIndividual` and `dcat:Distribution`; its IRI is `https://haddenindustries.com/ontology/distribution/` followed by a canonical lowercase version-4 UUID. It has at least one `dcat:accessURL`, every access URL is an IRI, and at least one language-tagged, non-blank `rdfs:label`. Every supplied value is checked: a valid first access URL cannot hide an invalid second one.
+
+**Applies to:** every owned subject in the distribution/ namespace or explicitly typed dcat:Distribution
+
+**Executable constraints:**
+
+- `dcat:accessURL`: at least one value
+- `dcat:accessURL`: node kind `sh:IRI`
+- `rdf:type`: includes the value `dcat:Distribution`
+- `rdf:type`: includes the value `owl:NamedIndividual`
+- `rdfs:label`: at least one value
+- `rdfs:label`: datatype `rdf:langString`
+- `rdfs:label`: matches the pattern `\S`
+- the entity: node kind `sh:IRI`
+- the entity: matches the pattern `^https://haddenindustries\.com/ontology/distribution/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$`
+
+**Source:** Editing Policy Wiki W19 and W26 (lines 222-247); DEC-012; DEC-024
+
+### EP-DISTRIBUTION-DOWNLOAD — Download URLs (MUST)
+
+`dcat:downloadURL` is optional and may repeat; every value is an IRI. The predicate is the standard `dcat:downloadURL` (the earlier `downloadUrl` spelling is not accepted as an alias).
+
+**Applies to:** every owned subject in the distribution/ namespace or explicitly typed dcat:Distribution
+
+**Executable constraints:**
+
+- `dcat:downloadURL`: node kind `sh:IRI`
+
+**Source:** Editing Policy Wiki W27 (lines 251-257); DEC-008; DEC-011
+
+### EP-DISTRIBUTION-MEDIA — Media type (MUST)
+
+`dcat:mediaType` is optional; at most one value, and it is an IRI that is a member of the pinned IANA Media Types snapshot (for example `https://www.iana.org/assignments/media-types/image/gif`). A fabricated IRI under the correct prefix, a literal, or two values fail.
+
+**Applies to:** every owned subject in the distribution/ namespace or explicitly typed dcat:Distribution
+
+**Executable constraints:**
+
+- `dcat:mediaType`: at most one value
+- `dcat:mediaType`: node kind `sh:IRI`
+- the entity: dcat:mediaType is a member of the pinned IANA Media Types snapshot. (SPARQL-based check; see the policy source)
+
+**Source:** Editing Policy Wiki W28 (lines 259-265); DEC-008
+
+### EP-DISTRIBUTION-FORMAT — Format cardinality (MUST)
+
+`dcterms:format` is optional; a distribution carries at most one value.
+
+**Applies to:** every owned subject in the distribution/ namespace or explicitly typed dcat:Distribution
+
+**Executable constraints:**
+
+- `dcterms:format`: at most one value
+
+**Source:** Editing Policy Wiki W29 (lines 267-273); DEC-008
+
+### EP-DISTRIBUTION-FORMAT-EU — Format should be an EU file type (SHOULD)
+
+When present, `dcterms:format` should be a member of the pinned EU Vocabularies File Type snapshot (for example `http://publications.europa.eu/resource/authority/file-type/GIF`); a non-member is reported as a warning.
+
+**Applies to:** every owned subject in the distribution/ namespace or explicitly typed dcat:Distribution
+
+**Executable constraints:**
+
+- the entity: dcterms:format should be a member of the pinned EU file-type snapshot. (SPARQL-based check; see the policy source) — recommendation (SHOULD), reported as a warning
+
+**Source:** Editing Policy Wiki W29 (lines 267-273); DEC-008
+
+### EP-DISTRIBUTION-LANGUAGE — Languages (MUST)
+
+`dcterms:language` is optional and may repeat; every value is a member of the pinned Library of Congress ISO 639-1 snapshot (for example `http://id.loc.gov/vocabulary/iso639-1/en`). A plausible but unregistered code, a term of another vocabulary, or a literal fails. Authority IRIs are compared exactly as supplied, without http/https aliasing.
+
+**Applies to:** every owned subject in the distribution/ namespace or explicitly typed dcat:Distribution
+
+**Executable constraints:**
+
+- the entity: Every dcterms:language is a member of the pinned LOC ISO 639-1 snapshot. (SPARQL-based check; see the policy source)
+
+**Source:** Editing Policy Wiki W30 (lines 275-281); DEC-008
+
+### EP-DISTRIBUTION-LICENCE — Licence (MUST)
+
+`dcterms:license` is optional; at most one value, and it is an IRI. Membership in SPDX or any other list is not required.
+
+**Applies to:** every owned subject in the distribution/ namespace or explicitly typed dcat:Distribution
+
+**Executable constraints:**
+
+- `dcterms:license`: at most one value
+- `dcterms:license`: node kind `sh:IRI`
+
+**Source:** Editing Policy Wiki W31 (lines 283-289); DEC-008
+
+### EP-DISTRIBUTION-RIGHTS — Rights should be IRIs (SHOULD)
+
+`dcterms:rights` is optional and may repeat; each value should be an IRI. A literal is reported as a warning and no maximum is imposed.
+
+**Applies to:** every owned subject in the distribution/ namespace or explicitly typed dcat:Distribution
+
+**Executable constraints:**
+
+- `dcterms:rights`: node kind `sh:IRI` — recommendation (SHOULD), reported as a warning
+
+**Source:** Editing Policy Wiki W32 (lines 291-297); DEC-008
 
 ## Human review
 

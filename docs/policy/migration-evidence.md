@@ -144,3 +144,57 @@ component multiplicity, never as lost results). Jena's parser also flags the
 | EP-PROPERTY-NAME-ISO warnings | 191 | accepted recommendation (DEC-002): ISO 31073 uses camelCase, ISO/IEC 11179-3 uses PascalCase_snake prefixes; visible, non-blocking |
 
 No other rule reports on the current active set.
+
+## SLICE-004 — DCAT rules and cross-file/authority context
+
+**Rules added (13 executable, 1 human):** EP-DATASET-TYPE-IRI, EP-DATASET-REQUIRED,
+EP-DATASET-DISTRIBUTION, EP-DATASET-LANDING (human), EP-DATASET-ACCESS-RIGHTS
+(MUST cardinality), EP-DATASET-ACCESS-RIGHTS-IRI (SHOULD), EP-DISTRIBUTION-REQUIRED,
+EP-DISTRIBUTION-DOWNLOAD, EP-DISTRIBUTION-MEDIA, EP-DISTRIBUTION-FORMAT (MUST
+cardinality), EP-DISTRIBUTION-FORMAT-EU (SHOULD), EP-DISTRIBUTION-LANGUAGE,
+EP-DISTRIBUTION-LICENCE, EP-DISTRIBUTION-RIGHTS (SHOULD). Profile targets
+combine the `dataset/`/`distribution/` namespace with the explicit DCAT type so
+that dropping a type cannot evade the profile.
+
+**Ownership correction:** an early fixture showed that a dataset typed only
+`dcat:Dataset` was not even owned, because ownership derived from the four
+entity types. Ownership is now namespace plus presence in the module document;
+types only select rules (`scripts/ontology_policy/context.py`).
+
+**Authorities:** `scripts/ontology_policy/authorities.py` and
+`scripts/update_policy_authorities.py` ingest the raw payloads with native
+parsers (defusedxml for IANA's registry XML, RDFLib for LOC and EU RDF/XML),
+derive `<name>.members.ttl` (`uop:memberOf`) plus `<name>.provenance.json`
+(source URL, retrieval date, raw SHA-256 and byte count, media type, licence,
+rights decision, parser and version, transformation, member count, derived
+digest). Regeneration must reconcile the stored set; a missing, corrupt or
+unreconciled snapshot is an execution error (exit 2), never an empty
+authority. Authored data using the policy, context or authority namespaces is
+rejected as impersonation. The LOC N-Triples download contains a
+scheme-relative IRI (`<//www.loc.gov/...>`) that RDFLib rejects, so the RDF/XML
+serialisation is the selected payload.
+
+**Oracles:** `tests/fixtures/ontology-policy/dcat/` (33 expected results over 13
+rules against fixture snapshots derived from minimal native-format raws under
+`tests/fixtures/ontology-policy/authorities/`; a guard test reconciles them) and
+`tests/test_policy_authorities.py` (ingestion, exact IRIs, tampered derived
+file, changed payload, missing/corrupt snapshot, wrong-format payload).
+One engine fact: pySHACL honours only one of two `sh:hasValue` values on one
+shape, so each required type is its own constraint shape; pySHACL also surfaces
+nested `sh:node` details as results, so extraction now reads the report's
+top-level `sh:result` list only. Jena parity holds on every fixture.
+
+**Real snapshots (12 September 2026, untracked pending rights approval):**
+IANA 2,346 members (registry updated 2026-09-03; 2,348 template entries, two
+duplicates), LOC 183, EU 228, derived into `.agent-tools/authorities/derived/`.
+Run with `--authorities .agent-tools/authorities/derived`, the full active set
+reports **no DCAT finding**: all 139 datasets and 147 distributions conform,
+including every media type, format and language value. Full run 28 s.
+
+**Owner decision pending:** exact rights approval to track the three raw
+payloads and derived snapshots under `policy/authorities/`. Recorded terms:
+LOC id.loc.gov data is a US Government work with no known copyright
+restrictions; EU Vocabularies reuse under Commission Decision 2011/833/EU
+(CC BY 4.0, attribution required); IANA registry data terms to be confirmed by
+the owner. Until approval, `policy/authorities/` does not exist and every
+qualification run must name a snapshot directory explicitly.

@@ -1,0 +1,17 @@
+{
+  "authority": "eu-file-type",
+  "authorityIri": "https://haddenindustries.com/ontology/policy/authority/eu-file-type",
+  "derivedSha256": "7f22edf714c9662a33098eea08af2aae8c1e7fcf1def027a74be9175d6012b96",
+  "licence": "fixture",
+  "mediaType": "application/rdf+xml",
+  "memberCount": 2,
+  "parser": "rdflib",
+  "parserVersion": "7.6.0",
+  "rawByteCount": 893,
+  "rawSha256": "46865e9af15f057229b63398a45bb98104134a6643ec3955c2bcfe1bb87e580e",
+  "retrievedOn": "2026-09-12",
+  "rightsDecision": "fixture",
+  "sourceUrl": "http://publications.europa.eu/resource/authority/file-type",
+  "transformation": "subjects with skos:inScheme file-type",
+  "tripleCount": 4
+}

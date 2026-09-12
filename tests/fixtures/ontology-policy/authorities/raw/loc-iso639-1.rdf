@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+  <skos:Concept rdf:about="http://id.loc.gov/vocabulary/iso639-1/en"><skos:prefLabel xml:lang="en">English</skos:prefLabel></skos:Concept>
+  <skos:Concept rdf:about="http://id.loc.gov/vocabulary/iso639-1/de"><skos:prefLabel xml:lang="en">German</skos:prefLabel></skos:Concept>
+  <skos:Concept rdf:about="http://id.loc.gov/vocabulary/iso639-1/fr"><skos:prefLabel xml:lang="en">French</skos:prefLabel></skos:Concept>
+  <skos:Concept rdf:about="http://id.loc.gov/vocabulary/iso639-2/eng"><skos:prefLabel xml:lang="en">Not in this vocabulary</skos:prefLabel></skos:Concept>
+</rdf:RDF>

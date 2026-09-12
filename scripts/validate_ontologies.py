@@ -15,6 +15,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from ontology_policy.authorities import AUTHORITIES_DIRECTORY  # noqa: E402
 from ontology_policy.cli import PURPOSE_CHOICES, SelectedSource, run_policy_validation  # noqa: E402
 from ontology_policy.context import RunPurpose  # noqa: E402
 
@@ -178,6 +179,7 @@ def main() -> None:
         "--purpose", choices=PURPOSE_CHOICES,
         help="Run the canonical SHACL editing policy for this purpose instead of the legacy invariant checker",
     )
+    parser.add_argument("--authorities", type=Path, default=AUTHORITIES_DIRECTORY, help="Directory of pinned authority snapshots")
 
     args = parser.parse_args()
     if args.diff_head and not args.diff_base:
@@ -218,7 +220,7 @@ def main() -> None:
         # requested head commit for --diff-head, otherwise the working tree.
         revision = "" if args.staged else (selection.head if selection.head else None)
         selected = [SelectedSource(path, revision) for path in selection.files]
-        sys.exit(run_policy_validation(purpose, selected, repository=Path.cwd(), github_actions=is_ci))
+        sys.exit(run_policy_validation(purpose, selected, repository=Path.cwd(), github_actions=is_ci, authorities_directory=args.authorities))
     if not selection.files:
         if selection.removed_files:
             print("Only removed ontology files were selected; no remaining document was parsed.")

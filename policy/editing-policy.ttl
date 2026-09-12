@@ -33,7 +33,8 @@ ep:EditingPolicy
         [ sh:prefix "dcat" ;    sh:namespace "http://www.w3.org/ns/dcat#"^^xsd:anyURI ] ,
         [ sh:prefix "schema" ;  sh:namespace "http://schema.org/"^^xsd:anyURI ] ,
         [ sh:prefix "uc" ;      sh:namespace "https://haddenindustries.com/ontology/universal/core/"^^xsd:anyURI ] ,
-        [ sh:prefix "uoc" ;     sh:namespace "https://haddenindustries.com/ontology/policy/context#"^^xsd:anyURI ] .
+        [ sh:prefix "uoc" ;     sh:namespace "https://haddenindustries.com/ontology/policy/context#"^^xsd:anyURI ] ,
+        [ sh:prefix "uop" ;     sh:namespace "https://haddenindustries.com/ontology/policy#"^^xsd:anyURI ] .
 
 # Rule groups order the generated document. sh:order is the document order.
 

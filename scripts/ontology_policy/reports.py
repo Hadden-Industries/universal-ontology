@@ -41,7 +41,10 @@ class PolicyResult:
 def extract_results(results_graph: Graph, policy: Policy) -> list[PolicyResult]:
     ids = policy.requirement_ids()
     results = []
-    for result in results_graph.subjects(SH.sourceShape, None):
+    # Only the report's top-level results carry requirement identity; nested
+    # sh:node details are engine-specific explanations, not additional results.
+    top_level = [result for report in results_graph.subjects(SH.conforms, None) for result in results_graph.objects(report, SH.result)]
+    for result in top_level:
         shape = results_graph.value(result, SH.sourceShape)
         owner = policy.requirement_for_shape(shape)
         requirement_id = ids.get(owner, "UNIDENTIFIED-RULE")

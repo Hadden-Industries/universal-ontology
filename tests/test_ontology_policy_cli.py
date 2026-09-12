@@ -12,6 +12,7 @@ from ontology_policy.context import ContextError, RunPurpose  # noqa: E402
 from ontology_policy.modules import load_owned_modules  # noqa: E402
 
 COMMAND = [sys.executable, "-B", str(REPOSITORY_ROOT / "scripts" / "validate_ontologies.py")]
+FIXTURE_AUTHORITIES = str(REPOSITORY_ROOT / "tests" / "fixtures" / "ontology-policy" / "authorities" / "derived")
 
 
 def run_command(*arguments, cwd=REPOSITORY_ROOT):
@@ -57,12 +58,18 @@ class SourceAssemblyTest(unittest.TestCase):
 
 class CommandContractTest(unittest.TestCase):
     def test_latest_active_purpose_runs_the_complete_active_set_through_the_normal_command(self):
-        completed = run_command("--purpose", "latest-active")
+        completed = run_command("--purpose", "latest-active", "--authorities", FIXTURE_AUTHORITIES)
         self.assertIn(completed.returncode, (0, 1), completed.stderr)
+        self.assertIn("authority iana-media-types sha256:", completed.stdout)
         self.assertIn("Run purpose: latest-active", completed.stdout)
         self.assertIn("src/universal/core/20260714 sha256:", completed.stdout)
         self.assertIn("Targeted owned entities: ", completed.stdout)
         self.assertNotIn("universalontologytest", completed.stdout + completed.stderr)
+
+    def test_missing_authority_snapshots_are_an_execution_error(self):
+        completed = run_command("--purpose", "latest-active", "--authorities", str(REPOSITORY_ROOT / "does-not-exist"))
+        self.assertEqual(completed.returncode, 2)
+        self.assertIn("AuthorityError", completed.stderr)
 
     def test_draft_purpose_with_an_unowned_explicit_file_exits_2(self):
         completed = run_command("--purpose", "draft", "tests/fixtures/ontology-policy/entity-created/created.ttl")

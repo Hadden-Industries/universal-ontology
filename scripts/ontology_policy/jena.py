@@ -13,6 +13,7 @@ from pathlib import Path
 
 from rdflib import SH, Graph, Literal
 
+from .authorities import AUTHORITIES_DIRECTORY, load_authority_graph
 from .context import RunPurpose, build_validation_graph
 from .policy import Policy
 from .reports import PolicyResult, extract_results
@@ -63,9 +64,17 @@ class JenaOutcome:
     diagnostics: tuple[str, ...] = ()
 
 
-def validate_with_jena(sources: list[ModuleSource], purpose: RunPurpose, policy: Policy, runtime: JenaRuntime) -> JenaOutcome:
+def validate_with_jena(
+    sources: list[ModuleSource], purpose: RunPurpose, policy: Policy, runtime: JenaRuntime,
+    authorities_directory: Path = AUTHORITIES_DIRECTORY,
+) -> JenaOutcome:
     """Run Jena on exactly the graphs pySHACL saw; blank nodes survive through one Turtle file each."""
+    from .validation import required_authorities
+
     data, _ = build_validation_graph(sources, purpose)
+    required = required_authorities(policy)
+    if required:
+        data += load_authority_graph(authorities_directory, required)
     with tempfile.TemporaryDirectory() as temporary:
         directory = Path(temporary)
         shapes_path = directory / "shapes.ttl"

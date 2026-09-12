@@ -15,7 +15,7 @@ sys.path.insert(0, str(REPOSITORY_ROOT))
 from ontology_policy import RunPurpose, validate_sources  # noqa: E402
 from ontology_policy.jena import JenaRuntime, JenaUnavailable, comparable, validate_with_jena  # noqa: E402
 from ontology_policy.policy import load_policy  # noqa: E402
-from tests.test_ontology_policy import assert_matches_expected, expected, fixture_source  # noqa: E402
+from tests.test_ontology_policy import FIXTURE_AUTHORITIES, assert_matches_expected, expected, fixture_source  # noqa: E402
 
 
 def jena_runtime_or_skip(test: unittest.TestCase) -> JenaRuntime:
@@ -32,7 +32,7 @@ class CreatedTimestampCrossEngineTest(unittest.TestCase):
 
     def test_jena_reproduces_the_independent_expectation(self):
         source = fixture_source("entity-created/created.ttl")
-        outcome = validate_with_jena([source], RunPurpose.DRAFT, self.policy, self.runtime)
+        outcome = validate_with_jena([source], RunPurpose.DRAFT, self.policy, self.runtime, authorities_directory=FIXTURE_AUTHORITIES)
         assert_matches_expected(self, outcome, expected("entity-created/created.expected.json"))
 
     def test_both_engines_agree_on_rule_focus_path_value_and_severity(self):
@@ -46,8 +46,8 @@ class CreatedTimestampCrossEngineTest(unittest.TestCase):
                 expectation_path = FIXTURES / relative.replace(".ttl", ".expected.json").replace(".owl", ".expected.json")
                 module = module_from_expectation(json.loads(expectation_path.read_text(encoding="utf-8")))
                 source = fixture_source(relative, module)
-                pyshacl_outcome = validate_sources([source], RunPurpose.DRAFT, self.policy)
-                jena_outcome = validate_with_jena([source], RunPurpose.DRAFT, self.policy, self.runtime)
+                pyshacl_outcome = validate_sources([source], RunPurpose.DRAFT, self.policy, authorities_directory=FIXTURE_AUTHORITIES)
+                jena_outcome = validate_with_jena([source], RunPurpose.DRAFT, self.policy, self.runtime, authorities_directory=FIXTURE_AUTHORITIES)
                 self.assertEqual(comparable(pyshacl_outcome.results), comparable(jena_outcome.results))
                 self.assertEqual(pyshacl_outcome.conforms, jena_outcome.conforms)
                 # Anonymous focus nodes must not be lost: compare their multiplicity per rule.

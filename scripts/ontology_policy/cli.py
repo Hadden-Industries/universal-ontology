@@ -20,6 +20,7 @@ from .context import ContextError, RunPurpose
 from .modules import OwnedModule, PolicyDefinitionError, load_owned_modules
 from .policy import load_policy
 from .reports import format_results
+from .authorities import AUTHORITIES_DIRECTORY, AuthorityError
 from .snapshots import InputError, ModuleSource, read_module_source
 from .validation import STATUS_ERROR, ValidationOutcome, validate_sources
 
@@ -74,7 +75,7 @@ def assemble_sources(
 
 def run_policy_validation(
     purpose: RunPurpose, selected: list[SelectedSource], *, repository: Path | None = None, github_actions: bool = False,
-    stream=None,
+    stream=None, authorities_directory: Path = AUTHORITIES_DIRECTORY,
 ) -> int:
     """Execute the policy and present results; returns the documented status (0, 1 or 2)."""
     stream = stream or sys.stdout
@@ -82,8 +83,8 @@ def run_policy_validation(
         policy = load_policy()
         modules = load_owned_modules()
         sources = assemble_sources(purpose, selected, modules, repository)
-        outcome = validate_sources(sources, purpose, policy)
-    except (ContextError, InputError, PolicyDefinitionError) as error:
+        outcome = validate_sources(sources, purpose, policy, authorities_directory=authorities_directory)
+    except (AuthorityError, ContextError, InputError, PolicyDefinitionError) as error:
         print(f"POLICY_VALIDATION_ERROR ({type(error).__name__}): {error}", file=sys.stderr)
         return STATUS_ERROR
     present(outcome, github_actions=github_actions, stream=stream)
@@ -94,6 +95,8 @@ def present(outcome: ValidationOutcome, *, github_actions: bool, stream) -> None
     print(f"Run purpose: {outcome.purpose.value}; policy {outcome.policy_identity}", file=stream)
     for module_iri, locator, digest in outcome.module_identities:
         print(f"  module {module_iri}\n    {locator} {digest}", file=stream)
+    for name, digest in outcome.authority_identities:
+        print(f"  authority {name} {digest}", file=stream)
     print(f"Targeted owned entities: {outcome.targeted_focus_count}", file=stream)
     if outcome.results:
         print(format_results(outcome.results), file=stream)

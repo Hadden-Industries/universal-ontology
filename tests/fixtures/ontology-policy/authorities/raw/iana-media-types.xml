@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<registry xmlns="http://www.iana.org/assignments" id="media-types">
+  <title>Media Types</title>
+  <updated>2026-09-03</updated>
+  <registry id="image">
+    <title>image</title>
+    <record><name>gif</name><file type="template">image/gif</file></record>
+    <record><name>png</name><file type="template">image/png</file></record>
+  </registry>
+  <registry id="text">
+    <title>text</title>
+    <record><name>csv</name><file type="template">text/csv</file></record>
+    <record><name>withdrawn-no-template</name></record>
+  </registry>
+</registry>

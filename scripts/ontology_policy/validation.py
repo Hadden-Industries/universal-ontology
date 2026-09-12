@@ -3,10 +3,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from pathlib import Path
+
 import pyshacl
 from rdflib import Graph
 
+from .authorities import AUTHORITIES_DIRECTORY, AuthorityError, authority_identities, load_authority_graph
 from .context import ContextError, RunPurpose, build_validation_graph
+from .namespaces import UOP
 from .modules import PolicyDefinitionError
 from .policy import Policy, load_policy
 from .reports import PolicyResult, extract_results
@@ -26,6 +30,7 @@ class ValidationOutcome:
     results: tuple[PolicyResult, ...]
     results_graph: Graph = field(compare=False, repr=False)
     targeted_focus_count: int = 0
+    authority_identities: tuple[tuple[str, str], ...] = ()
 
     @property
     def violations(self) -> tuple[PolicyResult, ...]:
@@ -52,15 +57,26 @@ def _prove_context(context: Graph, policy: Policy) -> None:
         raise ContextError(f"Validation context is invalid:\n{text}")
 
 
-def validate_sources(sources: list[ModuleSource], purpose: RunPurpose, policy: Policy | None = None) -> ValidationOutcome:
+def required_authorities(policy: Policy) -> tuple[str, ...]:
+    return tuple(sorted(str(name) for name in policy.rules.objects(None, UOP.snapshotName)))
+
+
+def validate_sources(
+    sources: list[ModuleSource], purpose: RunPurpose, policy: Policy | None = None,
+    authorities_directory: Path = AUTHORITIES_DIRECTORY,
+) -> ValidationOutcome:
     """Validate the complete supplied corpus; every owned subject receives every static rule.
 
-    Raises ``ContextError``, ``InputError`` or ``PolicyDefinitionError`` for
-    status 2 conditions rather than reporting them as (non-)conformance.
+    Raises ``ContextError``, ``InputError``, ``AuthorityError`` or
+    ``PolicyDefinitionError`` for status 2 conditions rather than reporting
+    them as (non-)conformance.
     """
     policy = policy or load_policy()
     data, context = build_validation_graph(sources, purpose)
     _prove_context(context, policy)
+    required = required_authorities(policy)
+    if required:
+        data += load_authority_graph(authorities_directory, required)
     try:
         conforms, results_graph, _ = pyshacl.validate(
             data, shacl_graph=policy.rules, advanced=True, inference="none", allow_warnings=False
@@ -75,6 +91,7 @@ def validate_sources(sources: list[ModuleSource], purpose: RunPurpose, policy: P
         purpose=purpose,
         policy_identity=policy.identity,
         module_identities=tuple((str(s.module.iri), s.locator, s.digest) for s in sources),
+        authority_identities=authority_identities(authorities_directory, required) if required else (),
         conforms=conforms and not results,
         results=results,
         results_graph=results_graph,
@@ -93,6 +110,7 @@ def _count_targeted(data: Graph, policy: Policy) -> int:
 
 
 __all__ = [
+    "AuthorityError",
     "ContextError",
     "InputError",
     "PolicyDefinitionError",

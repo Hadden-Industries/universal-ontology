@@ -1,0 +1,76 @@
+{
+  "oracle": "Wiki W19-W32 with DEC-008, DEC-011, DEC-012 and DEC-024, evaluated against the fixture authority snapshots (IANA: image/gif, image/png, text/csv; LOC: en, de, fr; EU: GIF, CSV). Authored before the shapes were written.",
+  "module": {
+    "iri": "https://example.org/policy-fixture/module/reference",
+    "label": "Fixture reference module",
+    "ontology_iri": "https://example.org/fixtures/entity/",
+    "owned_namespaces": [
+      "https://example.org/fixtures/entity/",
+      "https://haddenindustries.com/ontology/dataset/",
+      "https://haddenindustries.com/ontology/distribution/"
+    ]
+  },
+  "rules": [
+    "EP-DATASET-TYPE-IRI", "EP-DATASET-REQUIRED", "EP-DATASET-DISTRIBUTION", "EP-DATASET-ACCESS-RIGHTS",
+    "EP-DATASET-ACCESS-RIGHTS-IRI", "EP-DISTRIBUTION-REQUIRED", "EP-DISTRIBUTION-DOWNLOAD", "EP-DISTRIBUTION-MEDIA",
+    "EP-DISTRIBUTION-FORMAT", "EP-DISTRIBUTION-FORMAT-EU", "EP-DISTRIBUTION-LANGUAGE", "EP-DISTRIBUTION-LICENCE",
+    "EP-DISTRIBUTION-RIGHTS"
+  ],
+  "passing_rules": [
+    "EP-DATASET-TYPE-IRI", "EP-DATASET-REQUIRED", "EP-DATASET-DISTRIBUTION", "EP-DATASET-ACCESS-RIGHTS",
+    "EP-DATASET-ACCESS-RIGHTS-IRI", "EP-DISTRIBUTION-REQUIRED", "EP-DISTRIBUTION-DOWNLOAD", "EP-DISTRIBUTION-MEDIA",
+    "EP-DISTRIBUTION-FORMAT", "EP-DISTRIBUTION-FORMAT-EU", "EP-DISTRIBUTION-LANGUAGE", "EP-DISTRIBUTION-LICENCE",
+    "EP-DISTRIBUTION-RIGHTS"
+  ],
+  "results": [
+    {"requirement_id": "EP-DATASET-TYPE-IRI", "focus_node": "https://haddenindustries.com/ontology/dataset/UPPERCASE-UUID-3D4E-4F50-8A6B-7C8D9E0F1A2C", "severity": "Violation", "minimum_components": ["sh:PatternConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-TYPE-IRI", "focus_node": "https://haddenindustries.com/ontology/dataset/1f6b2a9c-3d4e-1f50-8a6b-7c8d9e0f1a2d", "severity": "Violation", "minimum_components": ["sh:PatternConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-TYPE-IRI", "focus_node": "https://haddenindustries.com/ontology/dataset/2f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a2e", "severity": "Violation", "minimum_components": ["sh:HasValueConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-TYPE-IRI", "focus_node": "https://haddenindustries.com/ontology/dataset/3f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a2f", "severity": "Violation", "minimum_components": ["sh:HasValueConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-TYPE-IRI", "focus_node": "https://example.org/fixtures/entity/WrongNamespaceDataset", "severity": "Violation", "minimum_components": ["sh:PatternConstraintComponent"]},
+
+    {"requirement_id": "EP-DATASET-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/dataset/4f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a30", "severity": "Violation", "minimum_components": ["sh:MinCountConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/dataset/5f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a31", "severity": "Violation", "minimum_components": ["sh:NodeKindConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/dataset/6f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a32", "severity": "Violation", "minimum_components": ["sh:MinCountConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/dataset/7f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a33", "severity": "Violation", "minimum_components": ["sh:PatternConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/dataset/8f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a34", "severity": "Violation", "minimum_components": ["sh:UniqueLangConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/dataset/9f6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a35", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent"]},
+
+    {"requirement_id": "EP-DATASET-DISTRIBUTION", "focus_node": "https://haddenindustries.com/ontology/dataset/bf6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a37", "severity": "Violation", "minimum_components": ["sh:NodeConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-DISTRIBUTION", "focus_node": "https://haddenindustries.com/ontology/dataset/cf6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a38", "severity": "Violation", "minimum_components": ["sh:NodeKindConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-DISTRIBUTION", "focus_node": "https://haddenindustries.com/ontology/dataset/df6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a39", "severity": "Violation", "minimum_components": ["sh:NodeConstraintComponent"]},
+
+    {"requirement_id": "EP-DATASET-ACCESS-RIGHTS", "focus_node": "https://haddenindustries.com/ontology/dataset/ef6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a3a", "severity": "Violation", "minimum_components": ["sh:MaxCountConstraintComponent"]},
+    {"requirement_id": "EP-DATASET-ACCESS-RIGHTS-IRI", "focus_node": "https://haddenindustries.com/ontology/dataset/ff6b2a9c-3d4e-4f50-8a6b-7c8d9e0f1a3b", "severity": "Warning", "minimum_components": ["sh:NodeKindConstraintComponent"]},
+
+    {"requirement_id": "EP-DISTRIBUTION-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/distribution/3c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7f", "severity": "Violation", "minimum_components": ["sh:HasValueConstraintComponent"]},
+    {"requirement_id": "EP-DISTRIBUTION-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/distribution/4c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e70", "severity": "Violation", "minimum_components": ["sh:MinCountConstraintComponent"]},
+    {"requirement_id": "EP-DISTRIBUTION-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/distribution/5c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e71", "severity": "Violation", "minimum_components": ["sh:NodeKindConstraintComponent"]},
+    {"requirement_id": "EP-DISTRIBUTION-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/distribution/6c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e72", "severity": "Violation", "minimum_components": ["sh:MinCountConstraintComponent"]},
+    {"requirement_id": "EP-DISTRIBUTION-REQUIRED", "focus_node": "https://haddenindustries.com/ontology/distribution/7C4D5E6F-7081-4C9D-8E0F-2A3B4C5D6E73", "severity": "Violation", "minimum_components": ["sh:PatternConstraintComponent"]},
+
+    {"requirement_id": "EP-DISTRIBUTION-DOWNLOAD", "focus_node": "https://haddenindustries.com/ontology/distribution/8c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e74", "severity": "Violation", "minimum_components": ["sh:NodeKindConstraintComponent"]},
+
+    {"requirement_id": "EP-DISTRIBUTION-MEDIA", "focus_node": "https://haddenindustries.com/ontology/distribution/9c4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e75", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-DISTRIBUTION-MEDIA", "focus_node": "https://haddenindustries.com/ontology/distribution/ac4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e76", "severity": "Violation", "minimum_components": ["sh:NodeKindConstraintComponent"]},
+    {"requirement_id": "EP-DISTRIBUTION-MEDIA", "focus_node": "https://haddenindustries.com/ontology/distribution/bc4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e77", "severity": "Violation", "minimum_components": ["sh:MaxCountConstraintComponent"]},
+
+    {"requirement_id": "EP-DISTRIBUTION-FORMAT", "focus_node": "https://haddenindustries.com/ontology/distribution/cc4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e78", "severity": "Violation", "minimum_components": ["sh:MaxCountConstraintComponent"]},
+    {"requirement_id": "EP-DISTRIBUTION-FORMAT-EU", "focus_node": "https://haddenindustries.com/ontology/distribution/dc4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e79", "severity": "Warning", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+
+    {"requirement_id": "EP-DISTRIBUTION-LANGUAGE", "focus_node": "https://haddenindustries.com/ontology/distribution/ec4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7a", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-DISTRIBUTION-LANGUAGE", "focus_node": "https://haddenindustries.com/ontology/distribution/fc4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7b", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+    {"requirement_id": "EP-DISTRIBUTION-LANGUAGE", "focus_node": "https://haddenindustries.com/ontology/distribution/0d4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7c", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
+
+    {"requirement_id": "EP-DISTRIBUTION-LICENCE", "focus_node": "https://haddenindustries.com/ontology/distribution/1d4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7d", "severity": "Violation", "minimum_components": ["sh:NodeKindConstraintComponent"]},
+    {"requirement_id": "EP-DISTRIBUTION-LICENCE", "focus_node": "https://haddenindustries.com/ontology/distribution/2d4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7e", "severity": "Violation", "minimum_components": ["sh:MaxCountConstraintComponent"]},
+
+    {"requirement_id": "EP-DISTRIBUTION-RIGHTS", "focus_node": "https://haddenindustries.com/ontology/distribution/3d4d5e6f-7081-4c9d-8e0f-2a3b4c5d6e7f", "severity": "Warning", "minimum_components": ["sh:NodeKindConstraintComponent"]}
+  ],
+  "notes": [
+    "The valid dataset carries two landing pages and two declared distributions; the valid second distribution carries every optional property with member values.",
+    "af6b...: two distinct English titles are allowed.",
+    "ef6b...: two access-rights IRIs violate the MUST cardinality but produce no SHOULD warning.",
+    "0d4d...: the https:// spelling of a LOC IRI is not a member; authority IRIs are compared exactly."
+  ]
+}

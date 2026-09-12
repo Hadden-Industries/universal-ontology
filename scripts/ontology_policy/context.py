@@ -9,7 +9,7 @@ from enum import Enum
 
 from rdflib import OWL, RDF, Graph, Literal, URIRef
 
-from .namespaces import UOC
+from .namespaces import UOC, UOP
 from .snapshots import InputError, ModuleSource
 
 ENTITY_KINDS = (OWL.Class, OWL.NamedIndividual, OWL.ObjectProperty, OWL.DatatypeProperty)
@@ -40,31 +40,35 @@ class ContextError(Exception):
     """Required facts are missing, contradictory or impersonated; exit status 2."""
 
 
+RESERVED_NAMESPACES = (str(UOC), str(UOP), "https://haddenindustries.com/ontology/policy/authority/")
+
+
 def reject_context_impersonation(source: ModuleSource) -> None:
-    namespace = str(UOC)
+    """Authored data may not carry context facts, policy vocabulary or authority membership."""
     for subject, predicate, obj in source.graph:
         for term in (subject, predicate, obj):
-            if isinstance(term, URIRef) and str(term).startswith(namespace):
+            if isinstance(term, URIRef) and str(term).startswith(RESERVED_NAMESPACES):
                 raise ContextError(
-                    f"{source.locator}: authored data uses the reserved context namespace ({term}); "
-                    "context facts are supplied by the runner only."
+                    f"{source.locator}: authored data uses a reserved policy namespace ({term}); "
+                    "context and authority facts are supplied by the runner only."
                 )
 
 
 def owned_subjects(source: ModuleSource):
-    """Owned entities, the module's own ontology header and its axiom nodes.
+    """Owned subjects, the module's own ontology header and its axiom nodes.
 
-    Ownership of an IRI subject is its declared type in this document plus the
-    module's reviewed namespaces. Axioms are owned when their annotated source is
-    an owned subject; anonymous axioms keep their original blank-node identity.
+    An IRI subject of any triple in this document is owned when it lies in one
+    of the module's reviewed namespaces; the asserted type only selects which
+    rules apply, so dropping a type can never remove a subject from ownership.
+    Axioms are owned when their annotated source is an owned subject; anonymous
+    axioms keep their original blank-node identity.
     """
     graph = source.graph
     module = source.module
     owned: set = set()
-    for kind in ENTITY_KINDS:
-        for subject in graph.subjects(RDF.type, kind):
-            if isinstance(subject, URIRef) and module.owns(subject):
-                owned.add(subject)
+    for subject in set(graph.subjects()):
+        if isinstance(subject, URIRef) and module.owns(subject):
+            owned.add(subject)
     for subject in graph.subjects(RDF.type, OWL.Ontology):
         if isinstance(subject, URIRef) and str(subject).rstrip("/") == str(module.ontology_iri).rstrip("/"):
             owned.add(subject)

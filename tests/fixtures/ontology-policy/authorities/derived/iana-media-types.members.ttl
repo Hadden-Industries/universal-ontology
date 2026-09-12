@@ -1,0 +1,5 @@
+# Derived membership snapshot of iana-media-types; regenerate with scripts/update_policy_authorities.py.
+<https://haddenindustries.com/ontology/policy/authority/iana-media-types> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://haddenindustries.com/ontology/policy#Authority> .
+<https://www.iana.org/assignments/media-types/image/gif> <https://haddenindustries.com/ontology/policy#memberOf> <https://haddenindustries.com/ontology/policy/authority/iana-media-types> .
+<https://www.iana.org/assignments/media-types/image/png> <https://haddenindustries.com/ontology/policy#memberOf> <https://haddenindustries.com/ontology/policy/authority/iana-media-types> .
+<https://www.iana.org/assignments/media-types/text/csv> <https://haddenindustries.com/ontology/policy#memberOf> <https://haddenindustries.com/ontology/policy/authority/iana-media-types> .

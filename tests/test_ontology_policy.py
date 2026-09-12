@@ -21,6 +21,7 @@ from ontology_policy.policy import load_policy  # noqa: E402
 from ontology_policy.snapshots import parse_module_bytes  # noqa: E402
 
 FIXTURES = REPOSITORY_ROOT / "tests" / "fixtures" / "ontology-policy"
+FIXTURE_AUTHORITIES = FIXTURES / "authorities" / "derived"
 
 FIXTURE_MODULE = OwnedModule(
     iri=URIRef("https://example.org/policy-fixture/module/entity"),
@@ -100,13 +101,22 @@ class EveryFixtureExpectationTest(unittest.TestCase):
                 relative = path.relative_to(FIXTURES).as_posix().replace(".expected.json", ".ttl")
                 source = fixture_source(relative, module)
                 purpose = RunPurpose.LATEST_ACTIVE if expectation.get("qualification_purpose") else RunPurpose.DRAFT
-                outcome = validate_sources([source], purpose, policy)
+                outcome = validate_sources([source], purpose, policy, authorities_directory=FIXTURE_AUTHORITIES)
                 assert_matches_expected(self, outcome, expectation)
                 if "targeted_focus_nodes" in expectation:
                     self.assertEqual(outcome.targeted_focus_count, len(expectation["targeted_focus_nodes"]))
                 if "declared_rules_block" in expectation:
                     blocking = any(r.blocks and r.requirement_id in set(expectation["rules"]) for r in outcome.results)
                     self.assertEqual(blocking, expectation["declared_rules_block"])
+
+
+class FixtureAuthorityGuardTest(unittest.TestCase):
+    def test_fixture_snapshots_reconcile_with_their_raw_payloads(self):
+        from ontology_policy.authorities import AUTHORITY_SPECIFICATIONS, reconcile_snapshot
+
+        for name, specification in AUTHORITY_SPECIFICATIONS.items():
+            raw = (FIXTURES / "authorities" / "raw" / specification.raw_filename).read_bytes()
+            self.assertEqual(reconcile_snapshot(name, raw, FIXTURE_AUTHORITIES), (), name)
 
 
 class PolicySelfContractTest(unittest.TestCase):
@@ -124,7 +134,7 @@ class CreatedTimestampRuleTest(unittest.TestCase):
         self.expectation = expected("entity-created/created.expected.json")
 
     def test_turtle_fixture_matches_independent_expectation(self):
-        outcome = validate_sources([fixture_source("entity-created/created.ttl")], RunPurpose.DRAFT, self.policy)
+        outcome = validate_sources([fixture_source("entity-created/created.ttl")], RunPurpose.DRAFT, self.policy, authorities_directory=FIXTURE_AUTHORITIES)
         assert_matches_expected(self, outcome, self.expectation)
         self.assertEqual(outcome.status, 1)
         self.assertFalse(outcome.qualifies)
@@ -134,11 +144,11 @@ class CreatedTimestampRuleTest(unittest.TestCase):
         turtle = fixture_source("entity-created/created.ttl")
         xml = fixture_source("entity-created/created.owl")
         self.assertTrue(isomorphic(turtle.graph, xml.graph), "fixture twins must be the same RDF graph")
-        outcome = validate_sources([xml], RunPurpose.DRAFT, self.policy)
+        outcome = validate_sources([xml], RunPurpose.DRAFT, self.policy, authorities_directory=FIXTURE_AUTHORITIES)
         assert_matches_expected(self, outcome, self.expectation)
 
     def test_every_result_carries_rule_focus_path_value_severity_and_source(self):
-        outcome = validate_sources([fixture_source("entity-created/created.ttl")], RunPurpose.DRAFT, self.policy)
+        outcome = validate_sources([fixture_source("entity-created/created.ttl")], RunPurpose.DRAFT, self.policy, authorities_directory=FIXTURE_AUTHORITIES)
         by_focus = {r.focus_node: r for r in outcome.results if r.requirement_id == "EP-ENTITY-CREATED"}
         offset = by_focus["https://example.org/fixtures/entity/OffsetInsteadOfZ"]
         self.assertEqual(offset.path, "http://purl.org/dc/terms/created")
@@ -148,7 +158,7 @@ class CreatedTimestampRuleTest(unittest.TestCase):
         self.assertTrue(offset.message)
 
     def test_valid_only_corpus_qualifies_under_a_qualification_purpose(self):
-        outcome = validate_sources([fixture_source("complete/complete.ttl")], RunPurpose.LATEST_ACTIVE, self.policy)
+        outcome = validate_sources([fixture_source("complete/complete.ttl")], RunPurpose.LATEST_ACTIVE, self.policy, authorities_directory=FIXTURE_AUTHORITIES)
         self.assertEqual(outcome.results, ())
         self.assertEqual(outcome.status, 0)
         self.assertTrue(outcome.qualifies)
@@ -167,7 +177,7 @@ class ContextContractTest(unittest.TestCase):
         ))
         source = parse_module_bytes(FIXTURE_MODULE, "forged.ttl", forged.serialize(format="turtle").encode("utf-8"))
         with self.assertRaises(ContextError):
-            validate_sources([source], RunPurpose.DRAFT, self.policy)
+            validate_sources([source], RunPurpose.DRAFT, self.policy, authorities_directory=FIXTURE_AUTHORITIES)
 
     def test_a_corpus_that_targets_nothing_is_an_error_not_a_pass(self):
         foreign_only = OwnedModule(
@@ -180,10 +190,10 @@ class ContextContractTest(unittest.TestCase):
             active_artifact_path=None,
         )
         with self.assertRaises(ContextError):
-            validate_sources([fixture_source("entity-created/created.ttl", foreign_only)], RunPurpose.DRAFT, self.policy)
+            validate_sources([fixture_source("entity-created/created.ttl", foreign_only)], RunPurpose.DRAFT, self.policy, authorities_directory=FIXTURE_AUTHORITIES)
 
     def test_draft_purpose_never_qualifies_even_when_clean(self):
-        outcome = validate_sources([fixture_source("complete/complete.ttl")], RunPurpose.DRAFT, self.policy)
+        outcome = validate_sources([fixture_source("complete/complete.ttl")], RunPurpose.DRAFT, self.policy, authorities_directory=FIXTURE_AUTHORITIES)
         self.assertEqual(outcome.status, 0)
         self.assertFalse(outcome.qualifies)
 
@@ -236,7 +246,7 @@ class TargetMutationControlTest(unittest.TestCase):
                 'dcterms:source "Editing Policy Wiki W05 (lines 41-49); DEC-022" ;',
             )
             policy = load_policy(directory)
-            outcome = validate_sources([fixture_source("entity-created/created.ttl")], RunPurpose.DRAFT, policy)
+            outcome = validate_sources([fixture_source("entity-created/created.ttl")], RunPurpose.DRAFT, policy, authorities_directory=FIXTURE_AUTHORITIES)
             expectation = expected("entity-created/created.expected.json")
             wanted = {(e["requirement_id"], e["focus_node"], e["severity"]) for e in expectation["results"]}
             self.assertNotEqual(observed_triples(outcome, set(expectation["rules"])), wanted)
