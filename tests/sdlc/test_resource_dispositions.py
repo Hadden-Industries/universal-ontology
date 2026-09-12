@@ -135,6 +135,108 @@ class ResourceDispositionTests(unittest.TestCase):
                          {self.repo, self.linked})
         self.assertEqual(report['readProblems'], [])
 
+    def test_external_reconstruction_copy_remains_visible_after_producer_retirement(self):
+        recovery = self.root / 'recovery'
+        capture = recovery / 'capture'
+        restored = recovery / 'restore'
+        capture.mkdir(parents=True)
+        restored.mkdir()
+        payload = b'required recovery evidence\x00\xff'
+        (capture / 'evidence.bin').write_bytes(payload)
+        (restored / 'evidence.bin').write_bytes(payload)
+        self.assertEqual((capture / 'evidence.bin').read_bytes(),
+                         (restored / 'evidence.bin').read_bytes())
+        document = held_input(restored)
+        document['entry'].update(kind='owned-directory-group', owner='fixture-owner',
+            owningTaskReference='fixture:producer',
+            purpose=f'Reconstruction copy; {len(payload)} logical bytes at fixture checkpoint.',
+            consumers=[{'reference': 'fixture:reconstruction-review', 'state': 'required',
+                        'releaseEvidenceReference': None}],
+            blockers=[{'kind': 'consumer', 'description': 'Reconstruction review pending.',
+                       'reference': 'fixture:reconstruction-review'}])
+        document['entry']['preservation'].update(state='verified',
+            locationReference=str(capture), readbackReference='fixture:byte-comparison',
+            independentOfDisposedTree=True, reason='Capture survives reconstruction scratch.')
+        self.write_input(document)
+        first = self.record()
+        first_bytes = (self.repo / first['recordPath']).read_bytes()
+
+        # Retiring the producer does not release the independent copy's consumer.
+        self.git('worktree', 'remove', str(self.linked))
+        report = json.loads(self.cli('status').stdout)
+        self.assertIsNone(report['active'])
+        self.assertNotIn(str(self.linked), [w['nativePath'] for w in report['unattributedWorktrees']])
+        held = report['resourceDispositions'][0]['recorded']['entry']
+        self.assertEqual(held['locations'], [str(restored)])
+        self.assertEqual(held['disposition'], 'held')
+        self.assertEqual(held['consumers'][0]['state'], 'required')
+        self.assertTrue(restored.is_dir())
+
+        document['entry'].update(resourceId=first['resourceId'], supersedes=[first['recordId']],
+            disposition='eligible-for-approved-removal', blockers=[],
+            inspectionReference='fixture:fresh-exact-paths', assessmentReference='fixture:all-conditions')
+        self.write_input(document)
+        refused = self.cli('record-resource-disposition', '--input', '.sdlc/tmp/resource.json')
+        self.assertNotEqual(refused.returncode, 0)  # An active consumer still blocks eligibility.
+        document['entry']['consumers'][0].update(state='released',
+            releaseEvidenceReference='fixture:review-accepted')
+        self.write_input(document)
+        eligible = self.record()
+        self.assertEqual((self.repo / first['recordPath']).read_bytes(), first_bytes)
+        self.assertTrue(restored.is_dir())  # Recording is never deletion.
+
+        report = json.loads(self.cli('status').stdout)
+        self.assertEqual(report['readProblems'], [])
+        self.assertIn('recorded-eligibility-requires-fresh-operator-inspection',
+                      report['resourceDispositions'][0]['attention'])
+        confirmed = removed_input(restored)
+        confirmed['entry'].update(document['entry'])
+        removal = removed_input(restored)['entry']
+        confirmed['entry'].update(disposition='removed-confirmed',
+            supersedes=[eligible['recordId']], operation=removal['operation'],
+            postRemovalReadback=removal['postRemovalReadback'])
+        confirmed['entry']['postRemovalReadback']['evidenceReadbackReference'] = 'fixture:capture-still-readable'
+        self.write_input(confirmed)
+        refused = self.cli('record-resource-disposition', '--input', '.sdlc/tmp/resource.json')
+        self.assertNotEqual(refused.returncode, 0)  # A claimed operation cannot hide present bytes.
+
+        # Only the test-owned, inspected reconstruction copy is removed by the fixture.
+        restored.relative_to(self.root)
+        (restored / 'evidence.bin').unlink()
+        restored.rmdir()
+        self.record()
+        report = json.loads(self.cli('status').stdout)
+        result = report['resourceDispositions'][0]['recorded']
+        self.assertEqual(result['entry']['disposition'], 'removed-confirmed')
+        self.assertEqual(result['confirmationObservation']['members'][0]['filesystem'], 'absent')
+        self.assertEqual((capture / 'evidence.bin').read_bytes(), payload)
+        self.assertEqual((self.repo / first['recordPath']).read_bytes(), first_bytes)
+
+    def test_external_reconstruction_denial_preserves_copy_and_reports_operator_block(self):
+        restored = self.root / 'reconstruction'
+        restored.mkdir()
+        sentinel = restored / 'evidence.txt'
+        sentinel.write_text('retained after simulated denial', encoding='utf-8')
+        document = eligible_input(restored)
+        document['entry'].update(kind='owned-directory-group', disposition='operator-blocked',
+            nextActor='fixture-operator',
+            operation={'operationReference': 'fixture:simulated-denial',
+                'authorityReference': 'fixture:scoped-authority', 'outcome': 'denied',
+                'commandText': 'opaque fixture operation; never executed',
+                'denialRule': 'fixture-rule', 'operatorRequestReference': 'fixture:received-request',
+                'permissionError': None},
+            blockers=[{'kind': 'guard', 'description': 'Simulated denied operation.',
+                       'reference': 'fixture:simulated-denial'}])
+        self.write_input(document)
+        recorded = self.record()
+        report = json.loads(self.cli('status').stdout)
+        result = report['resourceDispositions'][0]['recorded']
+        self.assertEqual(result['recordId'], recorded['recordId'])
+        self.assertEqual(result['entry']['disposition'], 'operator-blocked')
+        self.assertEqual(result['entry']['nextActor'], 'fixture-operator')
+        self.assertIsNone(result['confirmationObservation'])
+        self.assertEqual(sentinel.read_text(encoding='utf-8'), 'retained after simulated denial')
+
     @unittest.skipUnless(os.name == 'nt', 'Windows native short-path aliases')
     def test_short_paths_cannot_bypass_protected_or_nested_worktrees(self):
         import ctypes

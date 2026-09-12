@@ -20,16 +20,66 @@ adoption status remain recorded in the repository's existing approval records.
 4. **Review:** freeze the reviewed source as usual. Keep any precise inputs needed
    by an active verifier/reviewer. The reviewer checks the disposition but does
    not delete files from another task.
-5. **After the agreed commit/handoff:** collect workers' results, check downstream
-   consumers, secure required evidence and dispose of remaining eligible scratch.
-   Inspect the actual paths immediately before deletion. Do not force a tool past
-   a dirty-worktree or permission warning.
-6. **Retain deliberately:** use an existing Issue/PR table for the few things still
-   needed by rollout, a named next task, recovery or retention policy. Record when
-   to reassess; at that checkpoint remove, promote or justify a new bounded use.
-7. **Close out:** state what was removed, what was promoted, what was archived and
-   what remains with an owner and reason. Do not claim that an unapplied deletion
-   or inaccessible archive has been completed.
+5. **At the agreed handoff and each applicable release checkpoint:** reconcile
+   task-created locations using the procedure below. Merge, consumer acceptance
+   and producer/coordinator retirement can release different resources. Collect
+   results, secure required evidence and remove eligible, authorised and unblocked
+   scratch. Inspect actual paths immediately before disposal; do not force a tool
+   past a dirty-worktree or permission warning.
+6. **Retain deliberately:** record a concrete remaining consumer or obligation,
+   owner, next actor and reassessment checkpoint for each surviving owned group.
+   When its checkpoint occurs, remove, promote or justify a new bounded use;
+   do not carry forward an obsolete hold without checking its current basis.
+7. **Close out:** report actual removals, retained evidence and remaining resources
+   with scoped locations and approximate sizes, stating unknown sizes honestly.
+   Separate justified retention, unresolved decisions and actual blocked operations.
+   A metadata write or absent Git registration is not completed filesystem cleanup.
+
+## Reconcile all task-created locations
+
+Start with the creating task's output locations, capture/restoration manifests,
+prior handoffs and recorded resource identities. Include external recovery copies,
+archives and reconstruction-test directories; Git's worktree inventory cannot
+discover these. Search only the known task scope. An empty disposition list means
+no resources were recorded in that coordinator, not that no resources exist.
+
+Separate retained captures/evidence from their disposable reconstruction copies
+when their consumers or removal conditions differ. Use `owned-directory-group`
+for such copies in the existing schema. Record approximate logical bytes and the
+measurement checkpoint in the existing purpose/rationale or linked assessment;
+do not extend the schema or recursively inspect unrelated storage just to obtain
+a total. Resource records describe groups, not a new per-file asset register.
+
+At the applicable checkpoint, inspect the authoritative consumer-release decision
+and follow the producer's recorded locations to its related copies. Reassess each
+group under TA-02; a merged source or retired worktree does not release an
+independent recovery consumer. If a hold is superseded, record the decision and
+release reference in a successor snapshot rather than rewriting historical records.
+If any condition remains unresolved, name that condition and the next actor.
+
+Before retiring the coordinator, reconcile its complete known resource list with
+the receiving coordinator. Read back the receiving records and required evidence,
+and obtain the receiving owner's acknowledgement. Stored records are scoped to
+their coordinator: copying their JSON unchanged into another checkout is not a
+valid transfer. Use new caller-input records in the receiving coordinator, link the
+source record identities and transfer decision, and preserve the source history
+outside the resource being retired. A scope error or missing record blocks a claim
+of completed reconciliation, not unrelated implementation work.
+
+Run native status after recording the current dispositions and compare its returned
+locations with the scoped list above. For ordinary directory groups, status retains
+the declaration without inspecting their contents; independently inspect the exact
+authorised candidates before disposal. Required captures and active consumers must
+survive. After a successful authorised operation, verify exact-path absence and
+retained-evidence readability before recording `removed-confirmed`. For a real
+denial, record `operator-blocked` with the actual result and received operator
+request. Before an operation is attempted, keep an unresolved permission decision
+as a hold; do not manufacture a denial.
+
+Once every condition holds, carry out eligible disposal in the authorised scope;
+do not replace action with another status update. When the user requires a merge
+before cleanup, record that precise hold and revisit it after merge. The existing
+implementation handoff remains distinct from disposal completion.
 
 ## Keep the post-handoff obligation visible
 
