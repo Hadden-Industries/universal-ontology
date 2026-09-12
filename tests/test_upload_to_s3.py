@@ -54,6 +54,31 @@ class UploadToS3CommandTests(unittest.TestCase):
         self.assertFalse(upload_to_s3.parse_args([]).force)
         self.assertTrue(upload_to_s3.parse_args(["--force"]).force)
 
+    def test_helper_is_found_beside_the_main_repository_from_a_linked_worktree(self):
+        """A linked worktree elsewhere on disk still resolves the helper beside the main checkout."""
+        import subprocess
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            main_repository = root / "main-checkout" / "universal-ontology"
+            main_repository.mkdir(parents=True)
+            subprocess.run(["git", "init", "-q", "--initial-branch=main", str(main_repository)], check=True)
+            subprocess.run(["git", "-C", str(main_repository), "-c", "user.name=t", "-c", "user.email=t@example.invalid",
+                            "-c", "commit.gpgsign=false", "commit", "-q", "--allow-empty", "-m", "root"], check=True)
+            helper = root / "main-checkout" / "amazon-aws" / "scripts" / "upload_to_s3.py"
+            helper.parent.mkdir(parents=True)
+            helper.write_text("", encoding="utf-8")
+            worktree = root / "worktrees" / "feature"
+            subprocess.run(["git", "-C", str(main_repository), "worktree", "add", "-q", "--detach", str(worktree)], check=True)
+            self.assertEqual(upload_to_s3.locate_helper_script(worktree), helper)
+            # Beside the checkout itself still wins when present.
+            sibling = root / "worktrees" / "amazon-aws" / "scripts" / "upload_to_s3.py"
+            sibling.parent.mkdir(parents=True)
+            sibling.write_text("", encoding="utf-8")
+            self.assertEqual(upload_to_s3.locate_helper_script(worktree), sibling)
+            subprocess.run(["git", "-C", str(main_repository), "worktree", "remove", "--force", str(worktree)], check=True)
+
 
 if __name__ == "__main__":
     unittest.main()

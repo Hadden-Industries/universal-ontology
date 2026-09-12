@@ -17,7 +17,33 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ontology_policy.publication import PublicationRefusal, check_repository_publication  # noqa: E402
 
 SCRIPT_DIRECTORY = Path(__file__).resolve().parent
-HELPER_SCRIPT_PATH = (SCRIPT_DIRECTORY / "../../amazon-aws/scripts/upload_to_s3.py").resolve()
+HELPER_RELATIVE_PATH = Path("amazon-aws/scripts/upload_to_s3.py")
+
+
+def locate_helper_script(repository_root: Path = SCRIPT_DIRECTORY.parent) -> Path:
+    """The amazon-aws helper is a sibling of the main repository checkout.
+
+    A linked worktree lives elsewhere (for example under
+    ``universal-ontology-worktrees/``), so the sibling of the Git common
+    directory's repository is tried when the sibling of this checkout is absent.
+    """
+    candidates = [repository_root.parent / HELPER_RELATIVE_PATH]
+    try:
+        common = subprocess.run(
+            ["git", "-C", str(repository_root), "rev-parse", "--git-common-dir"],
+            capture_output=True, text=True, check=True, encoding="utf-8",
+        ).stdout.strip()
+        main_repository = (repository_root / common).resolve().parent
+        candidates.append(main_repository.parent / HELPER_RELATIVE_PATH)
+    except (OSError, subprocess.CalledProcessError):
+        pass
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+    return candidates[0]
+
+
+HELPER_SCRIPT_PATH = locate_helper_script()
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
