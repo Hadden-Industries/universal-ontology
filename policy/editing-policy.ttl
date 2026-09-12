@@ -1,0 +1,77 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix uop:     <https://haddenindustries.com/ontology/policy#> .
+@prefix uoc:     <https://haddenindustries.com/ontology/policy/context#> .
+@prefix ep:      <https://haddenindustries.com/ontology/policy/editing/> .
+
+# Canonical root of the Universal Ontology editing policy.
+#
+# Every executable rule and every human/procedural clause in the generated
+# Editing Policy comes from the policy graph rooted here. Rule shapes live in the
+# domain files (entity-policy.ttl, ontology-policy.ttl, axiom-policy.ttl,
+# dataset-distribution-policy.ttl). Trusted run facts arrive in the reserved
+# uoc: namespace and are validated by validation-context-shapes.ttl; this file
+# never authorises HTTP imports of anything.
+
+ep:EditingPolicy
+    a owl:Ontology , uop:Policy ;
+    rdfs:label "Universal Ontology Editing Policy"@en ;
+    dcterms:title "Universal Ontology Editing Policy"@en ;
+    dcterms:description """Structural editing requirements for every owned entity, ontology header and axiom in each latest active ontology version and in every replacement candidate. Human conceptual review remains separate and is documented here as explicit human clauses."""@en ;
+    dcterms:source <https://github.com/Hadden-Industries/universal-ontology/wiki/Editing-Policy/819704130dee55bf04712d4cd09723d8df35581c> ;
+    uop:policyModule ep:EntityPolicy ;
+    sh:declare
+        [ sh:prefix "owl" ;     sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ] ,
+        [ sh:prefix "rdf" ;     sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ] ,
+        [ sh:prefix "rdfs" ;    sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ] ,
+        [ sh:prefix "xsd" ;     sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] ,
+        [ sh:prefix "dcterms" ; sh:namespace "http://purl.org/dc/terms/"^^xsd:anyURI ] ,
+        [ sh:prefix "skos" ;    sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ] ,
+        [ sh:prefix "dcat" ;    sh:namespace "http://www.w3.org/ns/dcat#"^^xsd:anyURI ] ,
+        [ sh:prefix "uoc" ;     sh:namespace "https://haddenindustries.com/ontology/policy/context#"^^xsd:anyURI ] .
+
+# Rule groups order the generated document. sh:order is the document order.
+
+ep:EntityMetadataGroup
+    a sh:PropertyGroup ;
+    rdfs:label "Entity metadata"@en ;
+    rdfs:comment "Metadata every owned Class, NamedIndividual, ObjectProperty and DatatypeProperty must carry."@en ;
+    sh:order 10 .
+
+ep:HumanReviewGroup
+    a sh:PropertyGroup ;
+    rdfs:label "Human review"@en ;
+    rdfs:comment "Obligations whose truth is established by human review, not by SHACL."@en ;
+    sh:order 90 .
+
+# Reusable target: every owned entity of the four accepted kinds. Ownership is a
+# trusted fact supplied in the context graph; the asserted type is read from the
+# data graph exactly, without inference.
+
+ep:OwnedEntityTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "every owned Class, NamedIndividual, ObjectProperty and DatatypeProperty in the validated module set"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this
+        WHERE {
+            ?this uoc:ownedBy ?module .
+            ?this a ?kind .
+            FILTER ( ?kind IN ( owl:Class, owl:NamedIndividual, owl:ObjectProperty, owl:DatatypeProperty ) )
+        }
+        """ .
+
+# Human/procedural clause. Rendered into the policy; never executed.
+
+ep:EP-HUMAN-CONCEPT-REUSE
+    a uop:HumanClause ;
+    uop:requirementId "EP-HUMAN-CONCEPT-REUSE" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:HumanReviewGroup ;
+    sh:order 10 ;
+    sh:name "Search for an existing concept before adding one"@en ;
+    sh:description """Before creating a new Class, NamedIndividual or property, search the latest active ontologies for an existing concept with the same meaning, including synonyms and differently spelled designations. If a concept exists, reuse it; if a broader concept exists, add the new one beneath it. A graph that passes every executable rule can still duplicate an existing concept, so this obligation is discharged only by the reviewer's search and judgement, which the pull request must describe."""@en ;
+    dcterms:source "Editing Policy Wiki W02 (lines 27-29)" .

@@ -1,0 +1,39 @@
+# EP-ENTITY-CREATED fixture (Turtle). Expected results: created.expected.json,
+# authored from Wiki W05 and DEC-022 before the rule existed.
+@prefix ex:      <https://example.org/fixtures/entity/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema:  <http://schema.org/> .
+
+ex: a owl:Ontology ;
+    owl:versionIRI ex:20260101 ;
+    owl:versionInfo "2026-01-01" .
+
+# Passing examples, one per owned entity kind.
+ex:ValidClass a owl:Class ;
+    dcterms:created "2026-01-02T03:04:05Z"^^xsd:dateTime .
+ex:ValidIndividual a owl:NamedIndividual ;
+    dcterms:created "2026-01-02T03:04:05Z"^^xsd:dateTime .
+ex:validObjectProperty a owl:ObjectProperty ;
+    dcterms:created "2026-01-02T03:04:05.250Z"^^xsd:dateTime .
+ex:validDatatypeProperty a owl:DatatypeProperty ;
+    dcterms:created "2026-01-02T03:04:05Z"^^xsd:dateTime .
+
+# Failing examples.
+ex:MissingCreated a owl:Class .
+ex:TwoCreatedValues a owl:Class ;
+    dcterms:created "2026-01-02T03:04:05Z"^^xsd:dateTime , "2026-01-03T03:04:05Z"^^xsd:dateTime .
+ex:PlainStringCreated a owl:Class ;
+    dcterms:created "2026-01-02T03:04:05Z" .
+ex:ImpossibleDate a owl:Class ;
+    dcterms:created "2026-02-30T00:00:00Z"^^xsd:dateTime .
+ex:OffsetInsteadOfZ a owl:Class ;
+    dcterms:created "2026-01-02T03:04:05+00:00"^^xsd:dateTime .
+ex:DateOnlyCreated a owl:Class ;
+    dcterms:created "2026-01-02"^^xsd:dateTime .
+ex:missingCreatedProperty a owl:ObjectProperty .
+
+# Foreign support declaration in the same document: no owned metadata duty.
+schema:Thing a owl:Class .

@@ -1,0 +1,45 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix uop:     <https://haddenindustries.com/ontology/policy#> .
+@prefix ep:      <https://haddenindustries.com/ontology/policy/editing/> .
+
+# Metadata rules for owned Classes, NamedIndividuals, ObjectProperties and
+# DatatypeProperties. Each rule is one named shape with a stable EP-* identifier;
+# its Core/SPARQL constraints and documentary prose live together here.
+
+ep:EntityPolicy a uop:PolicyModule ; rdfs:label "Entity policy"@en .
+
+ep:EP-ENTITY-CREATED
+    a sh:NodeShape ;
+    uop:requirementId "EP-ENTITY-CREATED" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:EntityMetadataGroup ;
+    sh:order 30 ;
+    sh:name "Creation timestamp"@en ;
+    sh:description """Every owned Class, NamedIndividual, ObjectProperty and DatatypeProperty has exactly one `dcterms:created` value. The value is an `xsd:dateTime` with a real calendar date and time, written in UTC with the lexical `Z` designator (for example `2026-01-02T03:04:05Z`). A missing value, two different values, a plain string, an impossible date such as 30 February, a numeric offset such as `+00:00`, or a date without a time all fail."""@en ;
+    dcterms:source "Editing Policy Wiki W05 (lines 41-49); DEC-022" ;
+    sh:target ep:OwnedEntityTarget ;
+    sh:property ep:EP-ENTITY-CREATED-count , ep:EP-ENTITY-CREATED-datatype , ep:EP-ENTITY-CREATED-lexical .
+
+# Constraint shapes carry stable IRIs so every engine's report resolves to the rule.
+ep:EP-ENTITY-CREATED-count
+    a sh:PropertyShape ;
+    sh:path dcterms:created ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "An owned entity carries exactly one dcterms:created value."@en .
+
+ep:EP-ENTITY-CREATED-datatype
+    a sh:PropertyShape ;
+    sh:path dcterms:created ;
+    sh:datatype xsd:dateTime ;
+    sh:message "dcterms:created is an xsd:dateTime with a valid calendar date and time."@en .
+
+ep:EP-ENTITY-CREATED-lexical
+    a sh:PropertyShape ;
+    sh:path dcterms:created ;
+    sh:pattern "^-?[0-9]{4,}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$" ;
+    sh:message "dcterms:created is a full date and time in UTC written with the lexical Z designator."@en .

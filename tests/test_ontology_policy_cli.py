@@ -1,0 +1,84 @@
+"""The retained operational command routes --purpose runs to the SHACL policy with the documented status contract."""
+import subprocess
+import sys
+import unittest
+from pathlib import Path
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPOSITORY_ROOT / "scripts"))
+
+from ontology_policy.cli import SelectedSource, assemble_sources, module_for_path  # noqa: E402
+from ontology_policy.context import ContextError, RunPurpose  # noqa: E402
+from ontology_policy.modules import load_owned_modules  # noqa: E402
+
+COMMAND = [sys.executable, "-B", str(REPOSITORY_ROOT / "scripts" / "validate_ontologies.py")]
+
+
+def run_command(*arguments, cwd=REPOSITORY_ROOT):
+    return subprocess.run([*COMMAND, *arguments], cwd=cwd, capture_output=True, text=True, encoding="utf-8", stdin=subprocess.DEVNULL)
+
+
+class SourceAssemblyTest(unittest.TestCase):
+    def setUp(self):
+        self.modules = load_owned_modules()
+
+    def test_working_and_dated_paths_map_to_their_module_but_full_artifacts_do_not(self):
+        core = module_for_path(self.modules, "core/universal-core.owl")
+        self.assertEqual(core.label, "Universal Core")
+        self.assertEqual(module_for_path(self.modules, "src/universal/core/20260714").label, "Universal Core")
+        self.assertEqual(module_for_path(self.modules, "src/iso-iec/11179/-3/ed-4/20260714").label, "ISO/IEC 11179-3 (edition 4)")
+        self.assertIsNone(module_for_path(self.modules, "src/universal/core/20260714-full"))
+        self.assertIsNone(module_for_path(self.modules, "docs/README.md"))
+
+    def test_latest_active_uses_exactly_the_recorded_active_artifacts(self):
+        sources = assemble_sources(RunPurpose.LATEST_ACTIVE, [SelectedSource("extended/universal-extended.owl", None)], self.modules, REPOSITORY_ROOT)
+        locators = sorted(source.locator for source in sources)
+        self.assertEqual(locators, sorted(module.active_artifact_path for module in self.modules))
+
+    def test_candidate_replaces_only_the_selected_module_and_keeps_the_rest_active(self):
+        sources = assemble_sources(RunPurpose.CANDIDATE, [SelectedSource("extended/universal-extended.owl", None)], self.modules, REPOSITORY_ROOT)
+        by_label = {source.module.label: source.locator for source in sources}
+        self.assertEqual(by_label["Universal Extended"], "extended/universal-extended.owl")
+        self.assertEqual(by_label["Universal Core"], "src/universal/core/20260714")
+        self.assertEqual(len(sources), len(self.modules))
+
+    def test_an_input_outside_the_reviewed_modules_is_a_context_error(self):
+        with self.assertRaises(ContextError):
+            assemble_sources(RunPurpose.DRAFT, [SelectedSource("tests/fixtures/ontology-policy/entity-created/created.ttl", None)], self.modules, REPOSITORY_ROOT)
+
+    def test_two_inputs_for_one_module_are_a_context_error(self):
+        with self.assertRaises(ContextError):
+            assemble_sources(
+                RunPurpose.DRAFT,
+                [SelectedSource("core/universal-core.owl", None), SelectedSource("src/universal/core/20260714", None)],
+                self.modules, REPOSITORY_ROOT,
+            )
+
+
+class CommandContractTest(unittest.TestCase):
+    def test_latest_active_purpose_runs_the_complete_active_set_through_the_normal_command(self):
+        completed = run_command("--purpose", "latest-active")
+        self.assertIn(completed.returncode, (0, 1), completed.stderr)
+        self.assertIn("Run purpose: latest-active", completed.stdout)
+        self.assertIn("src/universal/core/20260714 sha256:", completed.stdout)
+        self.assertIn("Targeted owned entities: ", completed.stdout)
+        self.assertNotIn("universalontologytest", completed.stdout + completed.stderr)
+
+    def test_draft_purpose_with_an_unowned_explicit_file_exits_2(self):
+        completed = run_command("--purpose", "draft", "tests/fixtures/ontology-policy/entity-created/created.ttl")
+        self.assertEqual(completed.returncode, 2)
+        self.assertIn("POLICY_VALIDATION_ERROR", completed.stderr)
+
+    def test_purpose_and_plan_remain_compatible_with_pre_install_selection(self):
+        completed = run_command("--purpose", "draft", "--all-current", "--plan")
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("validation_required=true", completed.stdout)
+
+    def test_legacy_path_is_unchanged_without_a_purpose(self):
+        completed = run_command("--all-current", "--plan")
+        self.assertEqual(completed.returncode, 0)
+        self.assertIn("validator_changed=true", completed.stdout)
+
+
+if __name__ == "__main__":
+    unittest.main()

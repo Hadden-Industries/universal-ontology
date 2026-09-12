@@ -1,0 +1,79 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix uop:     <https://haddenindustries.com/ontology/policy#> .
+@prefix uoa:     <https://haddenindustries.com/ontology/policy/activation/> .
+
+# Reviewed owned modules and the latest active version of each.
+#
+# Ownership: a subject declared in a module's document is owned by that module
+# when its IRI begins with one of the module's owned namespaces. Everything else
+# declared in the document (schema.org, dcterms, dcat, time, skos terms) is
+# foreign support context and carries no owned metadata duty.
+#
+# Active versions were identified on 12 September 2026 by fetching the served
+# `latest` aliases at https://haddenindustries.com/ontology/ and comparing them
+# byte-for-byte with the tracked dated artifacts; see
+# docs/specs/2026-09-12-shacl-policy-active-set-inventory.md. Replace an entry
+# only through the qualified activation procedure; do not bump it to the largest
+# dated filename.
+
+uoa:ActiveSet
+    a uop:ActiveSet ;
+    rdfs:label "Latest active Universal Ontology module set"@en ;
+    dcterms:date "2026-09-12"^^xsd:date ;
+    uop:predecessor uoa:ActiveSet-initial-unrecorded ;
+    uop:module uoa:core , uoa:extended , uoa:reference-data , uoa:iso-31073 , uoa:iso-iec-11179-3 .
+
+uoa:ActiveSet-initial-unrecorded
+    a uop:ActiveSet ;
+    rdfs:comment "Placeholder for the state before the first recorded activation; no earlier record exists."@en .
+
+uoa:core
+    a uop:OwnedModule ;
+    rdfs:label "Universal Core"@en ;
+    uop:ontologyIri <https://haddenindustries.com/ontology/universal/core/> ;
+    uop:ownedNamespace <https://haddenindustries.com/ontology/universal/core/> ;
+    uop:workingPath "core/universal-core.owl" ;
+    uop:activeVersionIri <https://haddenindustries.com/ontology/universal/core/20260714> ;
+    uop:activeArtifactPath "src/universal/core/20260714" .
+
+uoa:extended
+    a uop:OwnedModule ;
+    rdfs:label "Universal Extended"@en ;
+    uop:ontologyIri <https://haddenindustries.com/ontology/universal/extended/> ;
+    uop:ownedNamespace <https://haddenindustries.com/ontology/universal/extended/> ;
+    uop:workingPath "extended/universal-extended.owl" ;
+    uop:activeVersionIri <https://haddenindustries.com/ontology/universal/extended/20260714> ;
+    uop:activeArtifactPath "src/universal/extended/20260714" .
+
+uoa:reference-data
+    a uop:OwnedModule ;
+    rdfs:label "Universal Reference Data"@en ;
+    uop:ontologyIri <https://haddenindustries.com/ontology/universal/reference-data/> ;
+    uop:ownedNamespace <https://haddenindustries.com/ontology/universal/reference-data/> ,
+                       <https://haddenindustries.com/ontology/dataset/> ,
+                       <https://haddenindustries.com/ontology/distribution/> ;
+    uop:workingPath "reference-data/reference-data.owl" ;
+    uop:activeVersionIri <https://haddenindustries.com/ontology/universal/reference-data/20260714> ;
+    uop:activeArtifactPath "src/universal/reference-data/20260714" .
+
+uoa:iso-31073
+    a uop:OwnedModule ;
+    rdfs:label "ISO 31073 (edition 1)"@en ;
+    uop:ontologyIri <https://haddenindustries.com/ontology/iso/31073/ed-1/> ;
+    uop:ownedNamespace <https://haddenindustries.com/ontology/iso/31073/ed-1/> ;
+    uop:isoNaming true ;
+    uop:workingPath "iso-31073/iso-31073.owl" ;
+    uop:activeVersionIri <https://haddenindustries.com/ontology/iso/31073/ed-1/20260626> ;
+    uop:activeArtifactPath "src/iso/31073/ed-1/20260626" .
+
+uoa:iso-iec-11179-3
+    a uop:OwnedModule ;
+    rdfs:label "ISO/IEC 11179-3 (edition 4)"@en ;
+    uop:ontologyIri <https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/> ;
+    uop:ownedNamespace <https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/> ;
+    uop:isoNaming true ;
+    uop:workingPath "iso-iec11179-3/iso-iec11179-3.owl" ;
+    uop:activeVersionIri <https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714> ;
+    uop:activeArtifactPath "src/iso-iec/11179/-3/ed-4/20260714" .

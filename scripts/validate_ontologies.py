@@ -13,6 +13,11 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from ontology_policy.cli import PURPOSE_CHOICES, SelectedSource, run_policy_validation  # noqa: E402
+from ontology_policy.context import RunPurpose  # noqa: E402
+
 # Centralized target ontology pattern
 TARGET_PATTERN = re.compile(
     r"^(iso-31073/iso-31073\.owl"
@@ -169,6 +174,10 @@ def main() -> None:
     parser.add_argument("--plan", action="store_true", help="Report applicability without running the invariant checker")
     parser.add_argument("--python-exec", type=str, default=sys.executable, help="Python executable to use for tests")
     parser.add_argument("--github-actions", action="store_true", help="Format failure logs for GitHub Actions annotations")
+    parser.add_argument(
+        "--purpose", choices=PURPOSE_CHOICES,
+        help="Run the canonical SHACL editing policy for this purpose instead of the legacy invariant checker",
+    )
 
     args = parser.parse_args()
     if args.diff_head and not args.diff_base:
@@ -197,6 +206,19 @@ def main() -> None:
         print(f"validation_required={str(selection.validation_required).lower()}")
         print(f"validator_changed={str(selection.validator_changed).lower()}")
         sys.exit(0)
+    if args.purpose:
+        purpose = RunPurpose(args.purpose)
+        if args.files and not selection.files:
+            print("POLICY_VALIDATION_ERROR (InputError): none of the explicit inputs is a supported ontology source path.", file=sys.stderr)
+            sys.exit(2)
+        if purpose == RunPurpose.CANDIDATE and not selection.files:
+            print("POLICY_VALIDATION_ERROR (ContextError): a candidate run needs at least one selected replacement source.", file=sys.stderr)
+            sys.exit(2)
+        # The SHACL path validates exact bytes: staged blobs for --staged, the
+        # requested head commit for --diff-head, otherwise the working tree.
+        revision = "" if args.staged else (selection.head if selection.head else None)
+        selected = [SelectedSource(path, revision) for path in selection.files]
+        sys.exit(run_policy_validation(purpose, selected, repository=Path.cwd(), github_actions=is_ci))
     if not selection.files:
         if selection.removed_files:
             print("Only removed ontology files were selected; no remaining document was parsed.")

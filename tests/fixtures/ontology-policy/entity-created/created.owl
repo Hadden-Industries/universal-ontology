@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- RDF/XML twin of created.ttl. Deliberately fragmented: typed elements,
+     rdf:Description fragments and relative rdf:about identify the same graph so the retired
+     physical XML requirements (DEC-018) cannot change the result. -->
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:dcterms="http://purl.org/dc/terms/"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xml:base="https://example.org/fixtures/entity/">
+  <owl:Ontology rdf:about="https://example.org/fixtures/entity/">
+    <owl:versionIRI rdf:resource="https://example.org/fixtures/entity/20260101"/>
+    <owl:versionInfo>2026-01-01</owl:versionInfo>
+  </owl:Ontology>
+
+  <owl:Class rdf:about="https://example.org/fixtures/entity/ValidClass"/>
+  <rdf:Description rdf:about="https://example.org/fixtures/entity/ValidClass">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-02T03:04:05Z</dcterms:created>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="ValidIndividual">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-02T03:04:05Z</dcterms:created>
+  </rdf:Description>
+
+  <owl:ObjectProperty rdf:about="validObjectProperty">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-02T03:04:05.250Z</dcterms:created>
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:about="validDatatypeProperty">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-02T03:04:05Z</dcterms:created>
+  </owl:DatatypeProperty>
+
+  <owl:Class rdf:about="MissingCreated"/>
+
+  <owl:Class rdf:about="TwoCreatedValues">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-02T03:04:05Z</dcterms:created>
+  </owl:Class>
+  <rdf:Description rdf:about="TwoCreatedValues">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-03T03:04:05Z</dcterms:created>
+  </rdf:Description>
+
+  <owl:Class rdf:about="PlainStringCreated">
+    <dcterms:created>2026-01-02T03:04:05Z</dcterms:created>
+  </owl:Class>
+
+  <owl:Class rdf:about="ImpossibleDate">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-02-30T00:00:00Z</dcterms:created>
+  </owl:Class>
+
+  <owl:Class rdf:about="OffsetInsteadOfZ">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-02T03:04:05+00:00</dcterms:created>
+  </owl:Class>
+
+  <owl:Class rdf:about="DateOnlyCreated">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-01-02</dcterms:created>
+  </owl:Class>
+
+  <owl:ObjectProperty rdf:about="missingCreatedProperty"/>
+
+  <owl:Class rdf:about="http://schema.org/Thing"/>
+</rdf:RDF>
