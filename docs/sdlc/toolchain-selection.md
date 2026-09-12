@@ -9,7 +9,7 @@ require current primary-source research and exact configuration approval.
 | Node.js | [24.20.0](https://nodejs.org/download/release/v24.20.0/), newest applicable LTS patch; 26 is Current | .node-version; bootstrap checks exact version. Node's distribution includes third-party notices. |
 | npm | [12.0.2](https://registry.npmjs.org/npm/12.0.2), Artistic-2.0 | Existing packageManager retained. Used locally through a task npm cache; global npm was not changed. |
 | CPython | [3.14.7](https://www.python.org/downloads/release/python-3147/), PSF licence and bundled notices | .python-version; reuse .venv; bootstrap checks exact version. |
-| Skills CLI | [1.5.24](https://registry.npmjs.org/skills/1.5.24), MIT | Exact devDependency and native npm lock. Published LICENSE and third-party notice inspected. No global installation. |
+| Skills CLI | [1.5.26](https://registry.npmjs.org/skills/1.5.26), MIT | Exact devDependency and native npm lock. Max explicitly allowed adopting 1.5.26 on 12 September 2026 (Dependabot PR #29, raised from its proposed 1.5.25 to the then-latest release). Published LICENSE and ThirdPartyNoticeText.txt inspected. No global installation. |
 | jsonschema | [4.26.0](https://pypi.org/project/jsonschema/4.26.0/), MIT | Keep source Python controls and Draft 2020-12 validation. |
 | PyYAML | [6.0.3](https://pypi.org/project/PyYAML/6.0.3/), MIT | safe_load/safe_dump of native skill metadata. |
 | RFC format providers | [rfc3339-validator 0.1.4](https://pypi.org/project/rfc3339-validator/0.1.4/) and [rfc3986-validator 0.1.1](https://pypi.org/project/rfc3986-validator/0.1.1/), MIT | Make declared date-time and URI assertions effective; no handwritten format validators. |

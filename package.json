@@ -64,7 +64,7 @@
     "prettier": "^3.9.6",
     "rdf-canonize": "^5.0.0",
     "rdfxml-streaming-parser": "^3.2.0",
-    "skills": "1.5.25",
+    "skills": "1.5.26",
     "stylelint": "^17.15.0",
     "stylelint-config-clean-order": "^10.0.0",
     "stylelint-config-standard": "^40.0.0",
