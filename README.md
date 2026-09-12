@@ -20,9 +20,12 @@ npm run configure:git-hooks
 
 The development setup command installs npm dependencies with
 `npm ci --include=dev --ignore-scripts`, which replaces `node_modules` using the
-existing lockfile without dependency lifecycle scripts. It also upgrades pip,
-installs `requirements.txt` and `requirements-sdlc.txt` inside `.venv`, then merges
-the approved repository Codex configuration and activates six local SDLC skills.
+existing lockfile without dependency lifecycle scripts. It records the bootstrap
+pip version, installs the hash-locked `requirements.lock.txt` (the reviewed
+resolution of `requirements.txt` and `requirements-sdlc.txt`) inside `.venv` with
+`--require-hashes --only-binary=:all:`, refuses a `.venv` whose installed
+distributions differ from that lock, runs `pip check`, then merges the approved
+repository Codex configuration and activates six local SDLC skills.
 An unusable existing `.venv` causes setup to
 stop so it can be repaired manually. AWS CLI is checked and produces a warning
 if unavailable; it is needed for S3 uploads, and setup does not install it.

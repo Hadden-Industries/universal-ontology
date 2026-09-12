@@ -8,6 +8,60 @@ const REPOSITORY_ROOT_PATH = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "..",
 );
+const PYTHON_LOCK_FILENAME = "requirements.lock.txt";
+const LOCKED_DISTRIBUTION_LINE =
+  /^([A-Za-z0-9][A-Za-z0-9._-]*)(?:\[[^\]]*\])?==(\S+)/u;
+
+// PEP 503 normalization lets lock lines and `pip list` names compare exactly.
+function normalizeDistributionName(name) {
+  return name.toLowerCase().replaceAll(/[-_.]+/gu, "-");
+}
+
+export function readLockedDistributions(lockText) {
+  const locked = new Map();
+  for (const line of lockText.split("\n")) {
+    const match = LOCKED_DISTRIBUTION_LINE.exec(line);
+    if (match) {
+      locked.set(normalizeDistributionName(match[1]), match[2]);
+    }
+  }
+  return locked;
+}
+
+// The installed set must equal the reviewed lock: a drifted version, an
+// unreviewed extra distribution or a missing pin all disqualify the .venv.
+export function findLockDifferences(
+  lockedDistributions,
+  installedDistributions,
+) {
+  const differences = [];
+  const installed = new Map(
+    installedDistributions.map(({ name, version }) => [
+      normalizeDistributionName(name),
+      version,
+    ]),
+  );
+  for (const [name, lockedVersion] of lockedDistributions) {
+    const installedVersion = installed.get(name);
+    if (installedVersion === undefined) {
+      differences.push(
+        `${name} is locked at ${lockedVersion} but not installed`,
+      );
+    } else if (installedVersion !== lockedVersion) {
+      differences.push(
+        `${name} is installed at ${installedVersion} but locked at ${lockedVersion}`,
+      );
+    }
+  }
+  for (const [name, installedVersion] of installed) {
+    if (!lockedDistributions.has(name)) {
+      differences.push(
+        `${name} ${installedVersion} is installed but absent from the lock`,
+      );
+    }
+  }
+  return differences;
+}
 
 export function setUpDevelopmentEnvironment({
   repositoryRoot = REPOSITORY_ROOT_PATH,
@@ -25,6 +79,7 @@ export function setUpDevelopmentEnvironment({
     "package-lock.json",
     "requirements.txt",
     "requirements-sdlc.txt",
+    PYTHON_LOCK_FILENAME,
     ".node-version",
     ".python-version",
   ]) {
@@ -158,29 +213,53 @@ export function setUpDevelopmentEnvironment({
     );
   }
 
-  console.log("Installing Python dependencies in .venv...");
-  runRequiredCommand("pip upgrade", virtualEnvironmentPythonExecutablePath, [
-    "-m",
-    "pip",
-    "install",
-    "--upgrade",
-    "pip",
-  ]);
-  runRequiredCommand(
-    "Python dependency installation",
+  // The lock pins pip itself, so the bootstrap pip is recorded rather than
+  // floated; the hash-checked install then converges on the reviewed set.
+  const bootstrapPipVersion = runRequiredCommand(
+    "pip bootstrap version check",
     virtualEnvironmentPythonExecutablePath,
-    ["-m", "pip", "install", "-r", join(repositoryRoot, "requirements.txt")],
+    ["-m", "pip", "--version"],
+    { captureOutput: true },
+  );
+  console.log(`Bootstrap pip: ${bootstrapPipVersion}`);
+  const pythonLockPath = join(repositoryRoot, PYTHON_LOCK_FILENAME);
+  console.log(
+    `Installing Python dependencies in .venv from ${pythonLockPath}...`,
   );
   runRequiredCommand(
-    "SDLC Python dependency installation",
+    "Locked Python dependency installation",
     virtualEnvironmentPythonExecutablePath,
     [
       "-m",
       "pip",
       "install",
+      "--require-hashes",
+      "--only-binary=:all:",
       "-r",
-      join(repositoryRoot, "requirements-sdlc.txt"),
+      pythonLockPath,
     ],
+  );
+  const installedDistributions = JSON.parse(
+    runRequiredCommand(
+      "Installed Python distribution listing",
+      virtualEnvironmentPythonExecutablePath,
+      ["-m", "pip", "list", "--format=json"],
+      { captureOutput: true },
+    ),
+  );
+  const lockDifferences = findLockDifferences(
+    readLockedDistributions(readFileSync(pythonLockPath, "utf8")),
+    installedDistributions,
+  );
+  if (lockDifferences.length > 0) {
+    throw new Error(
+      `The .venv does not match ${PYTHON_LOCK_FILENAME}; recreate it or remove the unreviewed distributions:\n${lockDifferences.join("\n")}`,
+    );
+  }
+  runRequiredCommand(
+    "pip consistency check",
+    virtualEnvironmentPythonExecutablePath,
+    ["-m", "pip", "check"],
   );
   runRequiredCommand(
     "Repository SDLC configuration",

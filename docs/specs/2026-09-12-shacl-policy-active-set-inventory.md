@@ -75,22 +75,28 @@ path fail" counterexample and must be resolved as data work with its own approva
 
 ## Toolchain observed on the Windows host
 
-- Python 3.14.7 in `.venv`; pip 26.2.1 supports native `pip lock` (PEP 751
-  `pylock.toml`) and `pip install -r pylock.toml` with `--require-hashes`, so no
-  pip-tools dependency is needed for the lock. `rdflib 7.6.0` installed;
-  `pyshacl` not installed.
-- Java: Oracle JDK 25.0.4.1+1 LTS (NFTC licence) at
-  `C:\Program Files\Java\jdk-25.0.4.1`; Temurin 25.0.4+7 JRE is what `PATH` and
-  `JAVA_HOME` currently resolve. Jena 6.2.0 not installed. Vendor/licence choice
-  for `.java-version` is an open owner decision.
+- Python 3.14.7 in `.venv` with pip 26.2.1. Native `pip lock` (PEP 751) exists
+  but is experimental and hashed only the running platform's wheels when tried,
+  which is why a resolver was selected (decision 1 below). `rdflib 7.6.0` was
+  installed; `pyshacl` was not until the locked setup ran.
+- Java: an Oracle JDK was briefly installed and rejected; Temurin JDK 25.0.4.1+1
+  replaced it (decision 2 below). `PATH`/`JAVA_HOME` still resolve the older
+  Temurin 25.0.4+7 JRE, so qualification commands must name the JDK path
+  explicitly. Jena 6.2.0 not installed.
 - Linux qualification is unavailable locally; it requires the approved workflow.
 
-## Open decisions carried into SLICE-001
+## Decisions taken on 12 September and items carried into SLICE-001
 
-1. Lock format: native `pylock.toml` (proposed) versus the plan's predicted
-   `requirements.lock.txt`.
-2. JDK vendor for the pin: Temurin 25 LTS (GPLv2+CPE, plan's starting point)
-   versus the installed Oracle JDK 25 (NFTC).
-3. Disposition of the two drafts: new reference-data version identity and the
-   extended `20260721` candidate.
+1. Lock tool: Max chose pip-tools 7.6.1 (`pip-compile --generate-hashes`) over
+   native `pip lock` (experimental; hashes only the running platform's wheels) and
+   uv (largest new surface). `requirements.lock.txt` carries hashes for every
+   published artifact of each pin, so one file serves Windows and Linux; markers
+   are flattened, so `colorama` is installed on Linux too. pip-tools 7.6.1 emits a
+   spurious `--no-index` in the header unless `CUSTOM_COMPILE_COMMAND` names the
+   real command; the committed header is the verified reproduction command.
+2. JDK: Temurin only, never Oracle. Temurin JDK 25.0.4.1+1 is installed at
+   `C:\Program Files\Eclipse Adoptium\jdk-25.0.4.101-hotspot`; `.java-version`
+   and the workflow pin are still to be proposed.
+3. The two drafts (extended `20260721`, reference-data reuse of `20260714`) are
+   acknowledged by Max as candidate qualification cases; no data action yet.
 4. Effort re-estimate after SLICE-001's engine/command proof.

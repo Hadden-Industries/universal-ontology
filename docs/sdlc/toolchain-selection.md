@@ -21,10 +21,13 @@ The root's existing Ajv 8.20.0, ajv-formats 3.0.1, yaml 2.9.0, tar 7.5.22 and
 product dependencies remain selected by the product lock. No parallel JavaScript
 SDLC validator or package resolver was added.
 
-Python direct requirements are pinned in requirements-sdlc.txt. Pip resolves their
-transitive closure; it is not a hash-locked Python environment. The actual installed
-closure is recorded with bootstrap evidence. Do not claim npm-style resolution
-reproducibility for pip or reuse old package validation logs as repository evidence.
+Python direct requirements are pinned in requirements-sdlc.txt and requirements.txt.
+Since 12 September 2026 their combined transitive closure is hash-locked in
+requirements.lock.txt (resolved by pip-tools 7.6.1, pinned in requirements-sdlc.txt)
+and installed with native `pip --require-hashes --only-binary=:all:`; setup refuses
+a `.venv` that differs from the lock. Regenerate the lock only through its recorded
+header command and review every pin. Do not reuse old package validation logs as
+repository evidence.
 
 ## Codex host update
 
