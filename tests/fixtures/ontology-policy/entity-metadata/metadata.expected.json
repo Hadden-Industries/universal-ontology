@@ -1,6 +1,12 @@
 {
   "oracle": "Wiki W06/W07/W08/W17/W18 with DEC-005, DEC-015, DEC-017, DEC-022 and DEC-026. Authored before the shapes were written.",
-  "rules": ["EP-ENTITY-UUID", "EP-IDENTIFIER-UNIQUE", "EP-ENTITY-CREATOR", "EP-MODIFIED", "EP-CONTRIBUTOR"],
+  "rules": [
+    "EP-ENTITY-UUID",
+    "EP-IDENTIFIER-UNIQUE",
+    "EP-ENTITY-CREATOR",
+    "EP-MODIFIED",
+    "EP-CONTRIBUTOR"
+  ],
   "targeted_focus_nodes": [
     "https://example.org/fixtures/entity/ValidUuidPlusOther",
     "https://example.org/fixtures/entity/UppercaseHexUuid",
@@ -35,38 +41,180 @@
     "https://example.org/fixtures/entity/MalformedContributor"
   ],
   "results": [
-    {"requirement_id": "EP-ENTITY-UUID", "focus_node": "https://example.org/fixtures/entity/NoIdentifier", "severity": "Violation", "minimum_components": ["sh:QualifiedMinCountConstraintComponent"]},
-    {"requirement_id": "EP-ENTITY-UUID", "focus_node": "https://example.org/fixtures/entity/VersionOneUuid", "severity": "Violation", "minimum_components": ["sh:QualifiedMinCountConstraintComponent"]},
-    {"requirement_id": "EP-ENTITY-UUID", "focus_node": "https://example.org/fixtures/entity/BadVariantUuid", "severity": "Violation", "minimum_components": ["sh:QualifiedMinCountConstraintComponent"]},
-    {"requirement_id": "EP-ENTITY-UUID", "focus_node": "https://example.org/fixtures/entity/LiteralUuid", "severity": "Violation", "minimum_components": ["sh:QualifiedMinCountConstraintComponent"]},
-    {"requirement_id": "EP-ENTITY-UUID", "focus_node": "https://example.org/fixtures/entity/onlyOtherIdentifier", "severity": "Violation", "minimum_components": ["sh:QualifiedMinCountConstraintComponent"]},
-
-    {"requirement_id": "EP-IDENTIFIER-UNIQUE", "focus_node": "https://example.org/fixtures/entity/DuplicateHolderA", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-IDENTIFIER-UNIQUE", "focus_node": "https://example.org/fixtures/entity/duplicateHolderB", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-IDENTIFIER-UNIQUE", "focus_node": "https://example.org/fixtures/entity/CaseVariantUpper", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-IDENTIFIER-UNIQUE", "focus_node": "https://example.org/fixtures/entity/SharedLegacyA", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-IDENTIFIER-UNIQUE", "focus_node": "https://example.org/fixtures/entity/SharedLegacyB", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-
-    {"requirement_id": "EP-ENTITY-CREATOR", "focus_node": "https://example.org/fixtures/entity/NoCreator", "severity": "Violation", "minimum_components": ["sh:MinCountConstraintComponent"]},
-    {"requirement_id": "EP-ENTITY-CREATOR", "focus_node": "https://example.org/fixtures/entity/TwoCreators", "severity": "Violation", "minimum_components": ["sh:MaxCountConstraintComponent"]},
-    {"requirement_id": "EP-ENTITY-CREATOR", "focus_node": "https://example.org/fixtures/entity/LiteralCreator", "severity": "Violation", "minimum_components": ["sh:NodeKindConstraintComponent"]},
-    {"requirement_id": "EP-ENTITY-CREATOR", "focus_node": "https://example.org/fixtures/entity/ShortOrcid", "severity": "Violation", "minimum_components": ["sh:PatternConstraintComponent"]},
-    {"requirement_id": "EP-ENTITY-CREATOR", "focus_node": "https://example.org/fixtures/entity/OrcidWithSuffix", "severity": "Violation", "minimum_components": ["sh:PatternConstraintComponent"]},
-    {"requirement_id": "EP-ENTITY-CREATOR", "focus_node": "https://example.org/fixtures/entity/HttpOrcid", "severity": "Violation", "minimum_components": ["sh:PatternConstraintComponent"]},
-    {"requirement_id": "EP-ENTITY-CREATOR", "focus_node": "https://example.org/fixtures/entity/LowercaseXOrcid", "severity": "Violation", "minimum_components": ["sh:PatternConstraintComponent"]},
-
-    {"requirement_id": "EP-MODIFIED", "focus_node": "https://example.org/fixtures/entity/TwoModified", "severity": "Violation", "minimum_components": ["sh:MaxCountConstraintComponent"]},
-    {"requirement_id": "EP-MODIFIED", "focus_node": "https://example.org/fixtures/entity/ModifiedOffset", "severity": "Violation", "minimum_components": ["sh:OrConstraintComponent"]},
-    {"requirement_id": "EP-MODIFIED", "focus_node": "https://example.org/fixtures/entity/ModifiedPlainString", "severity": "Violation", "minimum_components": ["sh:OrConstraintComponent"]},
-    {"requirement_id": "EP-MODIFIED", "focus_node": "https://example.org/fixtures/entity/ModifiedImpossibleDate", "severity": "Violation", "minimum_components": ["sh:OrConstraintComponent"]},
-
-    {"requirement_id": "EP-CONTRIBUTOR", "focus_node": "https://example.org/fixtures/entity/LiteralContributor", "severity": "Violation", "minimum_components": ["sh:NodeKindConstraintComponent"]},
-    {"requirement_id": "EP-CONTRIBUTOR", "focus_node": "https://example.org/fixtures/entity/MalformedContributor", "severity": "Violation", "minimum_components": ["sh:PatternConstraintComponent"]}
+    {
+      "requirement_id": "EP-ENTITY-UUID",
+      "focus_node": "https://example.org/fixtures/entity/NoIdentifier",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:QualifiedMinCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-UUID",
+      "focus_node": "https://example.org/fixtures/entity/VersionOneUuid",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:QualifiedMinCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-UUID",
+      "focus_node": "https://example.org/fixtures/entity/BadVariantUuid",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:QualifiedMinCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-UUID",
+      "focus_node": "https://example.org/fixtures/entity/LiteralUuid",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:QualifiedMinCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-UUID",
+      "focus_node": "https://example.org/fixtures/entity/onlyOtherIdentifier",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:QualifiedMinCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-IDENTIFIER-UNIQUE",
+      "focus_node": "https://example.org/fixtures/entity/DuplicateHolderA",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-IDENTIFIER-UNIQUE",
+      "focus_node": "https://example.org/fixtures/entity/duplicateHolderB",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-IDENTIFIER-UNIQUE",
+      "focus_node": "https://example.org/fixtures/entity/CaseVariantUpper",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATOR",
+      "focus_node": "https://example.org/fixtures/entity/NoCreator",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:MinCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATOR",
+      "focus_node": "https://example.org/fixtures/entity/TwoCreators",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:MaxCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATOR",
+      "focus_node": "https://example.org/fixtures/entity/LiteralCreator",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:NodeKindConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATOR",
+      "focus_node": "https://example.org/fixtures/entity/ShortOrcid",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:PatternConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATOR",
+      "focus_node": "https://example.org/fixtures/entity/OrcidWithSuffix",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:PatternConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATOR",
+      "focus_node": "https://example.org/fixtures/entity/HttpOrcid",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:PatternConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-ENTITY-CREATOR",
+      "focus_node": "https://example.org/fixtures/entity/LowercaseXOrcid",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:PatternConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-MODIFIED",
+      "focus_node": "https://example.org/fixtures/entity/TwoModified",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:MaxCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-MODIFIED",
+      "focus_node": "https://example.org/fixtures/entity/ModifiedOffset",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:OrConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-MODIFIED",
+      "focus_node": "https://example.org/fixtures/entity/ModifiedPlainString",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:OrConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-MODIFIED",
+      "focus_node": "https://example.org/fixtures/entity/ModifiedImpossibleDate",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:OrConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-CONTRIBUTOR",
+      "focus_node": "https://example.org/fixtures/entity/LiteralContributor",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:NodeKindConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-CONTRIBUTOR",
+      "focus_node": "https://example.org/fixtures/entity/MalformedContributor",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:PatternConstraintComponent"
+      ]
+    }
   ],
   "notes": [
     "WrongChecksumButWellFormed passes EP-ENTITY-CREATOR deliberately (DEC-026: format only).",
     "UppercaseHexUuid passes EP-ENTITY-UUID (hexadecimal case is not restricted for generic UUID URNs, DEC-015).",
     "CaseVariantLower is not reported; the uppercase spelling holder CaseVariantUpper is.",
-    "RepeatedOnSelf asserts one identifier twice on one subject and is not a duplicate holder."
+    "RepeatedOnSelf asserts one identifier twice on one subject and is not a duplicate holder.",
+    "SharedLegacyA and SharedLegacyB share the literal identifier SHARED-LEGACY and are not reported: literal identifiers are exempt (DEC-015 as amended by Max on 2026-09-12)."
   ]
 }

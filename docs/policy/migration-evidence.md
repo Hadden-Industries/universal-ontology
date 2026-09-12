@@ -431,3 +431,20 @@ normalisation (as `src/external/**` already is) so the payloads stay
 byte-exact for their recorded hashes. `--purpose latest-active` now runs
 without `--authorities` and reports the 750 known blockers (exit 1). Decision 1
 of the SLICE-007 list is closed.
+
+### DEC-015 amended (12 September 2026)
+
+Max chose Option A: `EP-IDENTIFIER-UNIQUE` compares IRI-valued identifiers
+only (UUID URNs case-insensitively, other IRIs as terms); literal identifiers —
+the fifteen enumeration codes such as `"1"^^xsd:positiveInteger` on Monday,
+North and Right, or `"ETH"^^xsd:token` — are outside the rule, as they were for
+the legacy validator. Option C (moving those literals to `skos:notation`) was
+rejected because the enumeration individuals are not modelled as SKOS concepts
+in concept schemes. The accepted plan/dossier text is not edited; this
+amendment supersedes DEC-015's "compare ordinary RDF terms" for literals and is
+recorded in the rule's `dcterms:source`. The fixture oracle's
+`SharedLegacyA/B` case flips to a documented pass. Decision 3 is closed.
+
+Effect: the latest active set reports 740 blockers (737 property UUIDs, the
+shared UUID pair, `Duty`); the remediation candidate set reports **0
+violations and qualifies** on pySHACL and Jena (191 warnings remain visible).

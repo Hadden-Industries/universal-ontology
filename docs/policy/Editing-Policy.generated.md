@@ -2,7 +2,7 @@
 
 Structural editing requirements for every owned entity, ontology header and axiom in each latest active ontology version and in every replacement candidate. Human conceptual review remains separate and is documented here as explicit human clauses.
 
-Generated from the canonical policy graph (policy identity `sha256:9361f7ea7e341b5787fc87b4c9a4118802e18c1ebdd6f4ebb6bd8d2c5253d2c7`). Do not edit this page by hand; change the policy sources under `policy/` and regenerate.
+Generated from the canonical policy graph (policy identity `sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb`). Do not edit this page by hand; change the policy sources under `policy/` and regenerate.
 
 ## Ontology header
 
@@ -44,7 +44,7 @@ Every owned Class, NamedIndividual, ObjectProperty and DatatypeProperty has at l
 
 ### EP-IDENTIFIER-UNIQUE — Identifier uniqueness (MUST)
 
-Two distinct owned entities in the validated module set never share a `dcterms:identifier`. Ordinary identifiers are compared as RDF terms; UUID URNs are compared without regard to hexadecimal letter case, so `urn:uuid:...AB...` and `urn:uuid:...ab...` are the same identifier. Repeated assertions of one identifier on the same entity are not a second holder, and superseded versions are never combined with the current set. Both holders of an exactly repeated identifier are reported; for a case-variant UUID the holder whose spelling contains uppercase letters is reported.
+Two distinct owned entities in the validated module set never share an IRI-valued `dcterms:identifier`. IRI identifiers are compared as RDF terms; UUID URNs are compared without regard to hexadecimal letter case, so `urn:uuid:...AB...` and `urn:uuid:...ab...` are the same identifier. Literal identifiers (enumeration codes such as weekday numbers or currency codes, which are meaningful only within their own scheme) are outside this rule, as they were for the legacy validator. Repeated assertions of one identifier on the same entity are not a second holder, and superseded versions are never combined with the current set. Both holders of an exactly repeated identifier are reported; for a case-variant UUID the holder whose spelling contains uppercase letters is reported.
 
 **Applies to:** owned entities whose identifier another owned entity also holds
 
@@ -52,7 +52,7 @@ Two distinct owned entities in the validated module set never share a `dcterms:i
 
 - the entity: Another owned entity holds the same identifier. (SPARQL-based check; see the policy source)
 
-**Source:** Editing Policy Wiki W08 (line 63); DEC-015
+**Source:** Editing Policy Wiki W08 (line 63); DEC-015 as amended by Max on 2026-09-12 (literal identifiers exempt)
 
 ### EP-ENTITY-CREATOR — Creator (MUST)
 

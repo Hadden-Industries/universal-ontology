@@ -49,8 +49,8 @@ ep:EP-IDENTIFIER-UNIQUE
     sh:group ep:EntityMetadataGroup ;
     sh:order 15 ;
     sh:name "Identifier uniqueness"@en ;
-    sh:description """Two distinct owned entities in the validated module set never share a `dcterms:identifier`. Ordinary identifiers are compared as RDF terms; UUID URNs are compared without regard to hexadecimal letter case, so `urn:uuid:...AB...` and `urn:uuid:...ab...` are the same identifier. Repeated assertions of one identifier on the same entity are not a second holder, and superseded versions are never combined with the current set. Both holders of an exactly repeated identifier are reported; for a case-variant UUID the holder whose spelling contains uppercase letters is reported."""@en ;
-    dcterms:source "Editing Policy Wiki W08 (line 63); DEC-015" ;
+    sh:description """Two distinct owned entities in the validated module set never share an IRI-valued `dcterms:identifier`. IRI identifiers are compared as RDF terms; UUID URNs are compared without regard to hexadecimal letter case, so `urn:uuid:...AB...` and `urn:uuid:...ab...` are the same identifier. Literal identifiers (enumeration codes such as weekday numbers or currency codes, which are meaningful only within their own scheme) are outside this rule, as they were for the legacy validator. Repeated assertions of one identifier on the same entity are not a second holder, and superseded versions are never combined with the current set. Both holders of an exactly repeated identifier are reported; for a case-variant UUID the holder whose spelling contains uppercase letters is reported."""@en ;
+    dcterms:source "Editing Policy Wiki W08 (line 63); DEC-015 as amended by Max on 2026-09-12 (literal identifiers exempt)" ;
     sh:target ep:DuplicateIdentifierHolderTarget ;
     sh:sparql ep:EP-IDENTIFIER-UNIQUE-holders .
 
@@ -65,7 +65,7 @@ ep:DuplicateIdentifierHolderTarget
                 ?other dcterms:identifier ?id .
                 ?this uoc:ownedBy ?module .
                 ?other uoc:ownedBy ?otherModule .
-                FILTER ( ?this != ?other )
+                FILTER ( ?this != ?other && isIRI(?id) )
             } UNION {
                 { SELECT ?this ?id WHERE {
                     ?this dcterms:identifier ?id .
@@ -90,6 +90,7 @@ ep:EP-IDENTIFIER-UNIQUE-holders
         SELECT $this ?value ?path WHERE {
             BIND ( dcterms:identifier AS ?path )
             $this dcterms:identifier ?value .
+            FILTER ( isIRI(?value) )
             ?other dcterms:identifier ?otherId .
             ?other uoc:ownedBy ?otherModule .
             FILTER ( $this != ?other )
