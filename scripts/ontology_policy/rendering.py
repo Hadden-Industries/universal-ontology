@@ -180,7 +180,10 @@ def render_editing_policy(policy: Policy) -> str:
     lines.append("")
     lines.append(
         f"Generated from the canonical policy graph (policy identity `{policy.identity}`). "
-        "Do not edit this page by hand; change the policy sources under `policy/` and regenerate."
+        "Do not edit this page by hand; change the policy sources under "
+        "[`policy/`](https://github.com/Hadden-Industries/universal-ontology/tree/main/policy) "
+        "in the repository and regenerate. The enforced policy is the one in the repository; "
+        "when this page and the repository differ, the repository governs."
     )
     lines.append("")
     ids = policy.requirement_ids()
