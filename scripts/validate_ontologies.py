@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """
 Ontology Validation Runner
-Centralized script for filtering target ontology files and executing validation tests.
-Used by both Git pre-commit hooks and GitHub Actions CI pipelines to ensure DRY compliance.
+Selects the ontology sources a change touches and runs the SHACL editing policy
+(scripts/ontology_policy) on them for the requested purpose. Used by the Git
+pre-commit hook, GitHub Actions and the SDLC profiles so that one selection
+contract and one policy apply everywhere. There is no other validator.
 """
 
 import argparse
@@ -15,9 +17,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-# The SHACL package (rdflib, pySHACL) is imported only when a --purpose run is
-# requested, so pre-install planning (--plan) keeps working in a bare interpreter.
+# The SHACL package (rdflib, pySHACL) is imported only when validation actually
+# runs, so pre-install planning (--plan) keeps working in a bare interpreter.
 PURPOSE_CHOICES = ("latest-active", "candidate", "draft", "critical-fix")
+DEFAULT_PURPOSE = "draft"  # diagnostic: reports every violation, never qualifies activation
 
 # Centralized target ontology pattern
 TARGET_PATTERN = re.compile(
@@ -37,7 +40,6 @@ TARGET_PATTERN = re.compile(
     re.DOTALL,
 )
 
-TEST_SCRIPT_PATH = Path("tests/universalontologytest.py")
 CURRENT_ONTOLOGY_PATHS = (
     "core/universal-core.owl",
     "extended/universal-extended.owl",
@@ -45,14 +47,24 @@ CURRENT_ONTOLOGY_PATHS = (
     "iso-31073/iso-31073.owl",
     "iso-iec11179-3/iso-iec11179-3.owl",
 )
+# A change to any of these alters what "valid" means, so every current source
+# is re-validated: the runner and its contract test, the policy graphs and
+# authority snapshots, the engine package, and the pinned toolchain.
 VALIDATOR_INPUT_PATHS = frozenset((
     ".github/workflows/ontology-validation.yml",
     "scripts/validate_ontologies.py",
-    "tests/universalontologytest.py",
     "tests/test_validate_ontologies.py",
     "requirements.txt",
+    "requirements.lock.txt",
     ".python-version",
+    ".java-version",
 ))
+VALIDATOR_INPUT_PREFIXES = ("policy/", "scripts/ontology_policy/")
+
+
+def is_validator_input(path: str) -> bool:
+    normalized = path.replace("\\", "/")
+    return normalized in VALIDATOR_INPUT_PATHS or normalized.startswith(VALIDATOR_INPUT_PREFIXES)
 
 
 def matches_target_ontology_path(file_path: str) -> bool:
@@ -141,7 +153,7 @@ def select_ontology_validation(args: argparse.Namespace) -> OntologyValidationSe
         changes = dict.fromkeys(files, "M")
         reason = "Explicit ontology paths"
 
-    validator_changed = args.all_current or bool(VALIDATOR_INPUT_PATHS.intersection(changes))
+    validator_changed = args.all_current or any(is_validator_input(path) for path in changes)
     selected_paths = {path for path in changes if matches_target_ontology_path(path)}
     removed_paths = {path for path in selected_paths if changes[path] == "D"}
     selected_paths.difference_update(removed_paths)
@@ -157,13 +169,6 @@ def select_ontology_validation(args: argparse.Namespace) -> OntologyValidationSe
     )
 
 
-def execute_validation(file_path: str, python_exec: str = sys.executable) -> tuple[int, str]:
-    """Executes universalontologytest.py on target file."""
-    cmd = [python_exec, str(TEST_SCRIPT_PATH), file_path]
-    proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-    return proc.returncode, proc.stdout
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(description="Validate target ontology files.")
     parser.add_argument("files", nargs="*", help="Specific files to validate")
@@ -172,12 +177,11 @@ def main() -> None:
     mode.add_argument("--diff-base", type=str, help="Base commit ref for git diff")
     mode.add_argument("--all-current", action="store_true", help="Validate the five current ontology sources")
     parser.add_argument("--diff-head", type=str, help="Head commit ref for git diff")
-    parser.add_argument("--plan", action="store_true", help="Report applicability without running the invariant checker")
-    parser.add_argument("--python-exec", type=str, default=sys.executable, help="Python executable to use for tests")
+    parser.add_argument("--plan", action="store_true", help="Report applicability without running the editing policy")
     parser.add_argument("--github-actions", action="store_true", help="Format failure logs for GitHub Actions annotations")
     parser.add_argument(
-        "--purpose", choices=PURPOSE_CHOICES,
-        help="Run the canonical SHACL editing policy for this purpose instead of the legacy invariant checker",
+        "--purpose", choices=PURPOSE_CHOICES, default=DEFAULT_PURPOSE,
+        help="Purpose of the editing-policy run (default: draft diagnostics, which never qualify activation)",
     )
     parser.add_argument("--authorities", type=Path, default=None, help="Directory of pinned authority snapshots (default policy/authorities)")
     parser.add_argument("--critical-fix-scope", help="Approved scope reference for a critical-fix run")
@@ -210,63 +214,33 @@ def main() -> None:
         print(f"validation_required={str(selection.validation_required).lower()}")
         print(f"validator_changed={str(selection.validator_changed).lower()}")
         sys.exit(0)
-    if args.purpose:
-        from ontology_policy.cli import SelectedSource, run_policy_validation
-        from ontology_policy.context import RunPurpose
-
-        purpose = RunPurpose(args.purpose)
-        if args.files and not selection.files:
-            print("POLICY_VALIDATION_ERROR (InputError): none of the explicit inputs is a supported ontology source path.", file=sys.stderr)
-            sys.exit(2)
-        if purpose == RunPurpose.CANDIDATE and not selection.files:
-            print("POLICY_VALIDATION_ERROR (ContextError): a candidate run needs at least one selected replacement source.", file=sys.stderr)
-            sys.exit(2)
-        # The SHACL path validates exact bytes: staged blobs for --staged, the
-        # requested head commit for --diff-head, otherwise the working tree.
-        revision = "" if args.staged else (selection.head if selection.head else None)
-        selected = [SelectedSource(path, revision, selection.base) for path in selection.files]
-        extra = {"report_directory": args.report_directory} if args.report_directory else {}
-        if args.authorities:
-            extra["authorities_directory"] = args.authorities
-        sys.exit(run_policy_validation(
-            purpose, selected, repository=Path.cwd(), github_actions=is_ci,
-            scope_reference=args.critical_fix_scope, **extra,
-        ))
-    if not selection.files:
+    if args.files and not selection.files:
+        print("POLICY_VALIDATION_ERROR (InputError): none of the explicit inputs is a supported ontology source path.", file=sys.stderr)
+        sys.exit(2)
+    if not selection.files and args.purpose != "latest-active":
         if selection.removed_files:
             print("Only removed ontology files were selected; no remaining document was parsed.")
             sys.exit(0)
+        if args.purpose == "candidate":
+            print("POLICY_VALIDATION_ERROR (ContextError): a candidate run needs at least one selected replacement source.", file=sys.stderr)
+            sys.exit(2)
         print("No target ontology files identified for validation.")
         sys.exit(0)
-    if not TEST_SCRIPT_PATH.is_file():
-        print(f"CRITICAL_FAILURE: Validation script missing at operational path: {TEST_SCRIPT_PATH}", file=sys.stderr)
-        sys.exit(1)
-    print(f"Validating {len(selection.files)} target ontology file(s)...")
 
-    validation_failures = 0
+    from ontology_policy.cli import SelectedSource, run_policy_validation
+    from ontology_policy.context import RunPurpose
 
-    for target_file in selection.files:
-        code, output = execute_validation(target_file, python_exec=args.python_exec)
-        if output.strip() or code != 0:
-            validation_failures += 1
-            if is_ci:
-                print(f"::error file={target_file}::Constraint violations detected in {target_file}")
-                print(output)
-            else:
-                print(f"VALIDATION_FAILURE: {target_file}", file=sys.stderr)
-                print("-" * 50, file=sys.stderr)
-                print(output, file=sys.stderr)
-                print("-" * 50, file=sys.stderr)
-
-    if validation_failures > 0:
-        if is_ci:
-            print(f"::error::Pipeline aborted. {validation_failures} ontology payload(s) breached constraints.")
-        else:
-            print(f"ABORT: {validation_failures} ontology validation(s) failed. Remediate issues before committing.", file=sys.stderr)
-        sys.exit(1)
-
-    print("All target ontology files passed validation.")
-    sys.exit(0)
+    # The policy validates exact bytes: staged blobs for --staged, the requested
+    # head commit for --diff-head, otherwise the working tree.
+    revision = "" if args.staged else (selection.head if selection.head else None)
+    selected = [SelectedSource(path, revision, selection.base) for path in selection.files]
+    extra = {"report_directory": args.report_directory} if args.report_directory else {}
+    if args.authorities:
+        extra["authorities_directory"] = args.authorities
+    sys.exit(run_policy_validation(
+        RunPurpose(args.purpose), selected, repository=Path.cwd(), github_actions=is_ci,
+        scope_reference=args.critical_fix_scope, **extra,
+    ))
 
 
 if __name__ == "__main__":

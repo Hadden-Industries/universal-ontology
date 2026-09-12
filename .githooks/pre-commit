@@ -18,4 +18,6 @@ else
 fi
 readonly PYTHON_EXECUTABLE_PATH
 
-exec "${PYTHON_EXECUTABLE_PATH}" "${ONTOLOGY_VALIDATOR_PATH}" --staged --python-exec "${PYTHON_EXECUTABLE_PATH}"
+# Draft diagnostics on the exact staged bytes: every editing-policy violation
+# blocks the commit; the result never qualifies activation.
+exec "${PYTHON_EXECUTABLE_PATH}" "${ONTOLOGY_VALIDATOR_PATH}" --purpose draft --staged

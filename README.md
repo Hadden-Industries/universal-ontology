@@ -43,17 +43,28 @@ replacing any previous local value. Run it once per clone; it is safe to rerun.
 It verifies the hook exists and leaves staged changes intact. This command runs
 independently of dependency installation.
 
-Once enabled locally, the pre-commit hook runs staged ontology validation using Python
-from `.venv`. A missing interpreter blocks the commit with setup instructions;
-validation failures also block the commit. The hook uses `.venv/Scripts/python.exe`
-on Windows or `.venv/bin/python` on macOS/Linux.
+Once enabled locally, the pre-commit hook runs the SHACL editing policy on the
+exact staged ontology bytes (`scripts/validate_ontologies.py --purpose draft
+--staged`) using Python from `.venv`. A missing interpreter blocks the commit
+with setup instructions; every policy violation also blocks the commit. The hook
+uses `.venv/Scripts/python.exe` on Windows or `.venv/bin/python` on macOS/Linux.
+
+The policy itself lives in `policy/*.ttl` (SHACL is the source of truth) and
+its human-readable projection is generated into
+[docs/policy/Editing-Policy.generated.md](docs/policy/Editing-Policy.generated.md)
+(`npm run generate:editing-policy`; `npm run check:editing-policy` fails when it
+is stale). `policy/activation.ttl` records the active module set; `npm run
+validate:ontologies -- --purpose latest-active` qualifies it and writes the
+receipt that the publication gate in `scripts/upload_to_s3.py` requires.
 
 On GitHub, [the ontology validation workflow](.github/workflows/ontology-validation.yml)
 runs on pushes and pull requests. It provisions Python and dependencies on the
-runner, then calls the same `scripts/validate_ontologies.py` directly with
-`--diff-base` and `--diff-head` to select the commit range. It does not invoke
-the local pre-commit hook or require its `.venv`. Pushing commits to GitHub does
-not itself run the pre-commit hook.
+runner, then calls the same `scripts/validate_ontologies.py` with `--diff-base`
+and `--diff-head` to select the commit range and `--purpose draft` for the
+diagnostics; a separate job qualifies the latest active set on Linux and
+Windows with Apache Jena as the second engine. It does not invoke the local
+pre-commit hook or require its `.venv`. Pushing commits to GitHub does not
+itself run the pre-commit hook.
 
 ### Repository-owned SDLC
 

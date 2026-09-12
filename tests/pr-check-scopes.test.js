@@ -74,14 +74,20 @@ test("the stable ontology check selects files before installing its dependencies
     if: "steps.scope.outputs.validator_changed == 'true'",
     run: ".venv/bin/python -B -m unittest discover -s tests -p test_validate_ontologies.py -v",
   });
+  // The SHACL editing policy is the only validator; the legacy per-file
+  // invariant step no longer exists.
+  expect(
+    job.steps.find(({ name }) => name === "Validate selected ontology files"),
+  ).toBeUndefined();
   const validation = job.steps.find(
-    ({ name }) => name === "Validate selected ontology files",
+    ({ name }) =>
+      name === "Editing-policy draft diagnostics for the changed sources",
   );
   expect(validation.if).toBe(
     "steps.scope.outputs.validation_required == 'true'",
   );
   expect(validation.run).toContain(
-    'scripts/validate_ontologies.py "${args[@]}" --github-actions',
+    'scripts/validate_ontologies.py "${args[@]}" --purpose draft --github-actions',
   );
   expect(job.steps.at(-1).if).toBe(
     "steps.scope.outputs.validation_required == 'false'",

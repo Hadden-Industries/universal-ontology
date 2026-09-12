@@ -64,17 +64,6 @@ jobs:
         if: steps.scope.outputs.validator_changed == 'true'
         run: .venv/bin/python -B -m unittest discover -s tests -p test_validate_ontologies.py -v
 
-      - name: Validate selected ontology files
-        if: steps.scope.outputs.validation_required == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          args=(--diff-base "$ONTOLOGY_DIFF_BASE" --diff-head "$ONTOLOGY_DIFF_HEAD")
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
-            args=(--all-current)
-          fi
-          .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --github-actions
-
       - name: Editing-policy draft diagnostics for the changed sources
         if: steps.scope.outputs.validation_required == 'true'
         shell: bash

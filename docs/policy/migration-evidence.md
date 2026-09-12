@@ -533,3 +533,38 @@ hook/CI switch to `--purpose draft --staged`, retirement of
 `tests/universalontologytest.py` and `xmlunittest`, the Wiki Git write with
 readback, and live publication with served-version readback. The ISO 31073
 preferred prefix is still unnamed.
+
+### SLICE-008 — operational runner switched, legacy validator retired (12 September 2026)
+
+Under the same authority, the retained runner `scripts/validate_ontologies.py`
+now has one execution path: the SHACL editing policy, with `--purpose`
+defaulting to `draft` (diagnostic, never qualifying). The legacy per-file
+invariant checker `tests/universalontologytest.py` is deleted: every one of its
+groups has a disposition in the reconciliation ledger (migrated, corrected or
+retired serialisation detail), so the file was spent and no XML spelling check
+remains. `--python-exec` and the subprocess execution loop are gone with it.
+
+- Validator inputs that re-select all five current sources are now the
+  runner and its contract test, `policy/**` (rules, activation, authority
+  snapshots), `scripts/ontology_policy/**`, `requirements*.txt`,
+  `requirements.lock.txt`, `.python-version` and `.java-version`; a
+  reintroduced `tests/universalontologytest.py` is deliberately not one.
+- `.githooks/pre-commit` runs `--purpose draft --staged` on the exact staged
+  bytes; observed locally through `git hook run pre-commit` (empty index:
+  "No target ontology files identified", exit 0). The hook test asserts the
+  new argument vector.
+- `.github/workflows/ontology-validation.yml`: the "Validate selected ontology
+  files" step is removed; the draft-diagnostics step is the differential run
+  and the qualify matrix is unchanged. The workflow-structure test asserts the
+  legacy step's absence.
+- `tests/test_validate_ontologies.py` proves the selection contract through
+  `--plan` (shared with the actual run) and checks that an actual run on
+  non-RDF fixture bytes is an input error (exit 2), never an empty pass; the
+  legacy `lxml` mutation test is retired with the checker it exercised.
+- `xmlunittest` stays: `tests/test_owl_to_uml_xmi.py` still consumes it, so
+  no dependency change is proposed (plan: preserve other needed dependencies).
+- README describes the hook, the policy location, the generated projection,
+  activation and the CI shape.
+
+Verification: Python 195 tests OK (1 recorded skip), Jest 781 passed, Prettier
+and ESLint clean on the changed tests, `git diff --check` clean.
