@@ -13,7 +13,8 @@
      xmlns:skos="http://www.w3.org/2004/02/skos/core#"
      xmlns:time="http://www.w3.org/2006/time#"
      xmlns:schema="http://schema.org/"
-     xmlns:dcterms="http://purl.org/dc/terms/">
+     xmlns:dcterms="http://purl.org/dc/terms/"
+     xmlns:vann="http://purl.org/vocab/vann/">
     <owl:Ontology rdf:about="https://haddenindustries.com/ontology/universal/core/">
         <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260912"/>
         <owl:imports rdf:resource="http://www.w3.org/ns/time/gregorian"/>
@@ -37,6 +38,7 @@
         <rdfs:label xml:lang="en">Hadden Industries Universal Core Ontology</rdfs:label>
         <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/core/20260714"/>
         <owl:versionInfo>2026-09-12</owl:versionInfo>
+        <vann:preferredNamespacePrefix>uc</vann:preferredNamespacePrefix>
     </owl:Ontology>
     
 

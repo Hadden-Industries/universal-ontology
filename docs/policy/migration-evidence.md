@@ -479,3 +479,17 @@ the receipt to `uop:activeArtifactPath` entries for 20260912. Because the
 working files now import the 20260912 versions, a single-file draft run of a
 dependant reports the DEC-030 pin mismatch as designed; the CLI contract test
 selects the coherent five-file working set instead.
+
+### Namespace prefix declarations added (12 September 2026)
+
+Max asked for the `vann:preferredNamespacePrefix` header that reference-data
+(`urd`) and extended (`ue`) already carry to be added to the remediated
+modules that lack it: core declares `uc` and ISO/IEC 11179-3 declares `md`
+(the prefixes the other modules already bind for those namespaces), each with
+the `xmlns:vann` declaration. ISO 31073 has no established prefix anywhere in
+the repository and is left for the owner to name. The working files and the
+`20260912` dated artifacts were updated together (the set is not yet active
+or published, so the version path keeps its date). Re-qualification on the
+dated artifacts: 0 violations, 191 warnings, qualifies; receipt reissued
+`20260912T110813Z` (core `214f21e9…`, ISO/IEC 11179-3 `f532f33c…`, others unchanged);
+Jena identity parity holds; the legacy validator still passes.
