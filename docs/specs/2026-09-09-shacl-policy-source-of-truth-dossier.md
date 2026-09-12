@@ -1,0 +1,666 @@
+# SHACL policy source of truth: change dossier and proposed design
+
+Status: proposed implementation dossier, reconciled 12 September 2026 after Max's
+final confirmation of the grilling decisions. Accepted domain/design direction is
+recorded below; exact configuration, implementation and publication are not approved
+by this document. A protected accepted R2 baseline is still required.
+
+Companions: [implementation plan](../plans/2026-09-09-shacl-policy-source-of-truth.md),
+[rule/source inventory](2026-09-09-shacl-policy-rule-inventory.md) and
+[draft Change Issue](2026-09-09-shacl-policy-source-of-truth-issue-body.md).
+Decision owner: Max.
+
+## Purpose and authority
+
+Make structural editing rules executable SHACL and generate the whole readable
+Wiki policy from that source, preserving human judgment for conceptual quality.
+Every owned entity in each **latest active ontology version** must satisfy the
+latest in-force rules. Check the entire replacement candidate and resulting active
+set before promotion/publication; unchanged current entities are included.
+
+Superseded versions are excluded from routine validation. Drafts may be incomplete
+while prepared. The sole historic exception is an explicitly scoped security or
+comparably critical fix, checking only its change and affected invariants. Reading
+a previous snapshot for conditional timestamps is comparison evidence, not a
+historical conformance service. Earlier DEC-009/010 scope is superseded.
+
+Exact candidate validation at the actual publication boundary belongs to initial
+cutover. Automatic artifact writing/promotion and additional chronology remain a
+subsequent increment. For stricter rules, prepare compliant replacements first,
+then activate the policy and consistent versioned active module set together.
+
+The current task authorizes this revision of four proposal documents following
+the confirmed grilling decisions. The original independent review remains unchanged.
+No runtime policy, configuration, ontology data or protected baseline is changed.
+Previous tooling initialization/local skill activation is recorded as historical
+evidence below; it is not permission for new installation or implementation.
+
+This is R1 proposal maintenance using the repository route/thin-plan skills.
+The R2 software migration uses only the repository-adapted TDD implementation
+procedure. SDLC governs validator/renderer/integration software work; this design
+does not add a separate software-development lifecycle to every ontology edit.
+Ontology contributors use SHACL and the existing proportional content workflow.
+
+## Sources and present evidence
+
+Repository inspected: `b32d7cff65e57a4d4ea68334350e27b8ef5038ef`, branch
+`feat/shacl-policy-source-of-truth`. The working tree was clean before this work.
+Research began on 8 September and the dossier was completed on 9 September 2026.
+Follow-up inspection at `36a51ff4bb76b98c59fe7fe3d225b8762ab23eeb` preserved the
+unrelated main-branch changes merged after the planning checkpoint. The inventory
+records exact Wiki bytes/revision, all 58 legacy assertion sites, current RDF
+parses and historical namespace discovery. These are baseline-preparation results,
+not implementation or conformance evidence.
+
+The review and earlier plan were committed at
+`6beff3c14ec4b12a2b651fe70d0f598c864b35a8`. The 12 September reconciliation uses
+that worktree state and local main `653acdae00b6d6c7ea4ad6b31d93f724f86d0ce3`;
+no Issue #31 baseline was present in the inspected local main tree. Remote/deployed
+state was not refreshed. The unchanged review's SHA-256 is
+`5f76f8cefde092f8b822d35355fde7cd173228d197965cc4e9e940f645ad970f`.
+
+| ID      | Source and identity                                                                                                                                                                                                                                                                                              | Use and limits                                                                                                                                                             |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SRC-001 | User's current request and subsequent explicit decisions                                                                                                                                                                                                                                                         | Authorizes planning and the accepted domain decisions, including editing timestamp sufficiency, ontology date datatype and ORCID URI-format-only scope.                    |
+| SRC-002 | `Assessment of Migrating the Universal Ontology Validation Suite from Python to SHACL.md`, supplied in Downloads; SHA-256 `7ab3cc2b66f73e38a7124f49b8b659312e6e5788790f896edd5f30f01435b2e0`                                                                                                                     | Initial feasibility assessment. Its differential scenarios are described analyses, not executed SHACL qualification.                                                       |
+| SRC-003 | `Deep Research Report_ Migrating Universal Ontology Validation from PythonXML Tests to SHACL.md`, supplied in Downloads; SHA-256 `cbef7ea57f52f2493fb870ade01fc60dd56cb88341579d084722e3b3207542b8`                                                                                                              | Canonical policy proposal, rule mapping and migration options. The implementation examples need correction and tests.                                                      |
+| SRC-004 | `SHACL decisions.csv`, supplied in Downloads; SHA-256 `669189a18410d94ee3a4b204559e68d123c9525ecf6311e021a492ec6b2dd422`                                                                                                                                                                                         | Eight explicit decisions, transcribed below. No dependency installation or Wiki publication authority.                                                                     |
+| SRC-005 | [Editing Policy revision 819704130dee55bf04712d4cd09723d8df35581c](https://github.com/Hadden-Industries/universal-ontology/wiki/Editing-Policy/819704130dee55bf04712d4cd09723d8df35581c); raw SHA-256 `058d398b47ee1eff27a61f49a52c161124f163991c641660d384e1f72eee50a3`                                         | Exact 15,268-byte source capture and before/after Wiki HEAD recorded in the rule inventory; displayed edit date is not used as a revision identity.                        |
+| SRC-006 | [Legacy validator](../../tests/universalontologytest.py), [runner](../../scripts/validate_ontologies.py), [runner tests](../../tests/test_validate_ontologies.py), [workflow](../../.github/workflows/ontology-validation.yml), [.githooks/pre-commit](../../.githooks/pre-commit) at the inspected commit       | Current source behavior and integration contracts; no new SHACL runtime evidence.                                                                                          |
+| SRC-007 | [SDLC guide](../sdlc/howto.md), [principles](../sdlc/engineering-principles.md), [review policy](../../REVIEW.md), [adoption](../sdlc/adoption.md), [.sdlc/PACKAGE_STATUS.json](../../.sdlc/PACKAGE_STATUS.json)                                                                                                 | Repository-local SDLC 1.0.0, pre-release, deployed within the recorded host scope. No version/status change is proposed.                                                   |
+| SRC-008 | Max's follow-on request for automated promotion and release-date/change checks                                                                                                                                                                                                                                   | Establishes a desired release capability. Max explicitly left its inclusion in this migration open; exact timestamp formulas and automatic writes are not accepted policy. |
+| SRC-009 | [Source inventory](../../scripts/build/sourceInventory.js), [website build](../../scripts/build/createWebsiteConfig.js), [alias generation](../../scripts/build/ontologyAliases.js), [deployment runner](../../scripts/upload_to_s3.py), working reference-data file and `src/universal/reference-data/20260714` | Current build/promotion boundary. Source inspection and a native RDF parse; no claim that a local version is the last live deployment.                                     |
+
+The five current sources total 2,924,783 bytes. This is a file-size observation,
+not a triple count, runtime benchmark or conformance result:
+
+| Source                              |     Bytes | Declared ontology namespace                                       |
+| ----------------------------------- | --------: | ----------------------------------------------------------------- |
+| `core/universal-core.owl`           |   364,744 | `https://haddenindustries.com/ontology/universal/core/`           |
+| `extended/universal-extended.owl`   |   711,156 | `https://haddenindustries.com/ontology/universal/extended/`       |
+| `reference-data/reference-data.owl` | 1,112,516 | `https://haddenindustries.com/ontology/universal/reference-data/` |
+| `iso-31073/iso-31073.owl`           |   177,331 | `https://haddenindustries.com/ontology/iso/31073/ed-1/`           |
+| `iso-iec11179-3/iso-iec11179-3.owl` |   559,036 | `https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/`    |
+
+Source inspection confirms the material drift identified in the reports. It also
+finds integration behavior that must be preserved or deliberately changed:
+
+- The runner already recognizes changes to its own inputs and selects all five
+  current sources. It handles deletions and exact Git refs and rejects a checkout
+  that differs from the requested head. Its pre-install `--plan` mode needs no RDF
+  dependencies. Extend these controls; do not replace them with filename guesses.
+- Staged mode selects paths from the index but the existing validator reads their
+  working-tree contents. The new snapshot reader must validate the actual index
+  blobs, with HEAD as the comparison, so an unstaged correction cannot hide a
+  staged violation. This is an observed source discrepancy, not an executed repro.
+- The runner treats any subprocess output as failure, even with exit zero.
+  That contract must change when warnings and structured successful reports exist.
+- The public Wiki spells `dcat:downloadUrl`; current ontology data declares and
+  uses the standard `dcat:downloadURL`. Source IRIs are case-sensitive. The proposed
+  correction is explicit in DEC-011, not an alias in a validator.
+- Initial inspection found no `.venv`, `node_modules` or activated `.agents/skills`.
+  After Max requested tooling initialization, `npm run setup:development` stopped
+  because host npm was 11.19.0 rather than the declared 12.0.2. Running the same
+  entry point through `npm exec --yes --package=npm@12.0.2 -- npm run setup:development`
+  installed locked npm dependencies and the existing Python/SDLC requirements in
+  this worktree's new `.venv`. Python reports 3.14.7; `pip check` passes. Node is
+  24.20.0. No runtime-version or dependency declaration was edited.
+- Setup's final configuration transaction hit the sandbox's protected `.codex`
+  directory. Automatic approval review rejected a privileged `setup:sdlc` retry
+  because it required exact configuration/skill activation approval. Read-only
+  `npm run check:sdlc` nevertheless confirmed the existing generated Codex
+  configuration was current, narrowing the remaining action to local skills.
+  Max subsequently updated host npm to 12.0.2 and explicitly approved that
+  activation. `npm run setup:skills` then succeeded: all 17 installed files match
+  the approved SHA-256 preview, with no extra files, and all six native YAML
+  metadata records set `allow_implicit_invocation: false`. The Codex configuration
+  check still passes. Local activation is complete; host loading and hook trust
+  are separate claims.
+  At that setup checkpoint, `npm run sdlc -- --help` succeeded and status reported
+  no `.sdlc/runtime/active.json`. That is historical setup state, not the status of
+  later proposal-maintenance lifecycle runs or an accepted implementation baseline.
+  These are setup checks, not full SDLC verification or SHACL qualification.
+- PowerShell HTTPS retrieval failed TLS negotiation during the initial research;
+  the web tool supplied the cited primary-source research.
+- The working reference-data file and the explicit main-checkout path supplied by
+  Max have identical SHA-256 `b7259439915a2673b7a4f50aa4715ac1f05b81aa8f5bd227a3ae79dfe45dbd93`.
+  The inspected `src/universal/reference-data/20260714` differs, with SHA-256
+  `02190521ed2c20b301097f87ce7ab39d6128e8c0a0487650e97c37796cd79fcc`.
+  Both declare version 2026-07-14. The working graph's
+  `ElectronicMailAddressToPersonRelationshipType` has modified timestamp
+  `2026-08-30T19:56:14Z`, later than its ontology-level 2026-07-14 date. A native
+  RDFLib 7.6.0 parse confirms the subject/value and reads 9,293 triples. This is
+  a concrete candidate release inconsistency under the proposed new rule, not a
+  failed accepted SHACL rule or a complete semantic release comparison.
+- The website build inventories extensionless ontology artifacts under `src/`.
+  Its alias generator selects the greatest eight-digit filename per directory;
+  universal-module `latest-unstable` aliases rewrite internal import references.
+  Adding a dated artifact can therefore change the next build's selection, even
+  in an older ISO edition directory. It does not establish live active status.
+  Working Extended declares 20260721 while its highest local dated source is 20260714. The asset builder has no editing-policy validation; the upload wrapper
+  uploads existing `dist/` without rebuilding or verifying a validation receipt.
+  The external uploader/required publication controls and live served state were
+  not inspected. Exact candidate/publication qualification is therefore a material
+  integration requirement, not an already demonstrated CI property.
+- The grilling's native RDFLib check found 739 owned properties in the five
+  unchanged working graphs (649 object, 90 datatype); all have both labels and
+  preferred labels. Two foreign support declarations lacking labels are excluded.
+  This is presence evidence only, not full label validity or a published-set check.
+  The deduplicated graph union contains 25,039 triples. Current active/candidate
+  remediation still needs a full qualification report.
+
+## Risk route
+
+**Risk class:** R2 for the migration. This preparatory task produces reviewable
+drafts; it does not claim that the R2 implementation gate has been passed.
+
+**Decision owner:** Max.
+
+**Reasoning:** Changing the authoritative contribution policy, merge gate and
+separately published Wiki is a public-contract and cross-system workflow change.
+False acceptance can admit bad ontology data; false rejection can prevent valid
+contributions. Git and blank-node semantics add uncertainty. No R3 obligation has
+been established.
+
+**Potential blast radius:** Ontology contributors, reviewers, the five current
+modules, publication consumers, CI and pre-commit users, and Wiki readers.
+Imported support vocabularies must not acquire Hadden metadata obligations.
+
+**Reversibility:** Code and generated documentation are versioned. Reversal is not
+automatically harmless after intentional policy changes: the old validator rejects
+some newly accepted cases. Suspend cutover or forward-fix the accepted policy;
+never silently restore the old policy as an equivalent fallback.
+
+**Principal unknowns:** Actual active publication set and dependent replacements;
+size of required latest-version remediation; exact publication-input guard;
+engine/context/lexical behavior and cost; authority rights/runtime qualification.
+Entity-change meaning, property scope and XML-rule retirement are now settled.
+
+**Required artifacts:** This draft dossier and linked plan; an actually accepted
+Issue revision and protected baseline before implementation; independent fixtures;
+software-selection/rights evidence; frozen verification and review records;
+cutover and publication receipts. Reuse the same dossier throughout.
+
+**Required specialist lenses:** Test-oracle review for full targets, activation scope,
+term equality and changes; operability/migration review for snapshots, cutover and
+Wiki recovery. One ordinary review includes semantic names and native reuse.
+Independent verification is required for R2. Specialist work may be combined where
+independence and competence remain adequate; this plan does not dispatch agents.
+
+**Required verification:** Selected `full` profile on the final implementation,
+plus the policy-specific acceptance matrix. Profile commands and intended scope
+must be updated only with exact approval. All applicable MUST violations in the
+latest active/candidate set block activation; incomplete draft diagnostics cannot
+replace that full evidence. Superseded versions are not retrospectively validated.
+
+**Required human approvals:** Dossier/design/baseline acceptance, exact policy and
+configuration diffs, any ontology remediation, software/data rights decisions,
+required independent review, and separately authorized GitHub writes, commits,
+pushes, merge/cutover and Wiki publication. No shim override is requested.
+
+**Maximum sensible autonomy:** Complete discovery and draft planning; prepare exact
+future diffs and evidence within accepted scope. Do not implement or infer an
+accepted baseline from this document's existence.
+
+**Next lifecycle step:** Review the reconciled documents against the accepted
+grilling decisions, then reconcile existing Issue #31 and capture/merge its actual
+accepted implementation baseline through the native lifecycle when authorized.
+
+## Motivation, outcomes and evidence
+
+| ID / status                   | Statement and source                                                                                                   | Confidence, contrary evidence and risk                                                                                   |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| MOT-001 / stakeholder concern | Max wants structural policy, tests and Wiki to remain aligned. SRC-001/003.                                            | Direct statement; high confidence in the need. Co-location alone cannot prove semantic alignment.                        |
+| MOT-002 / observed assessment | Wiki and validator express different rules in the eight CSV areas. SRC-004/006.                                        | Source-backed; runtime examples remain to be executed. Blind transliteration would preserve the discrepancy.             |
+| MOT-003 / hypothesis          | Canonical SHACL plus deterministic documentation will reduce synchronization work.                                     | Plausible, not measured. Complicated SPARQL or poor prose can increase authoring effort.                                 |
+| MOT-004 / accepted constraint | Latest active versions and replacement candidates must conform in full; superseded versions are excluded. SRC-001.     | Max clarified the version boundary during grilling. An unchanged defect inside a latest version still blocks activation. |
+| MOT-005 / proposed goal       | Contributors can understand a failing rule, locate its source and repair it without reading procedural XML assertions. | Needs actual contributor acceptance, not only report-schema tests.                                                       |
+| MOT-006 / stakeholder concern | Max wants working ontologies promoted automatically after structural and release-history checks. SRC-008/009.          | Candidate/publication qualification is in the initial cutover; automation and additional chronology are later work.      |
+
+| Outcome                                          | Beneficiary, baseline and target                                                                                                                                                                                                                | Measure/window, causal hypothesis, trade-off and owner                                                                                                                                                                      |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OUT-001: one maintained structural policy        | Contributors/reviewers. Baseline: separately authored Wiki and XML assertions, eight recorded discrepancies. Target: every in-scope rule has one canonical entry and a generated Wiki section; no unexplained mismatch at cutover.              | Inventory and controlled rule-edit experiment before cutover; reassess after the first real policy change. Generation removes manual synchronization, while independent examples check semantics. Max accepts results.      |
+| OUT-002: compliant latest versions               | Maintainers and ontology users. Target: all owned current/candidate entities pass before activation; drafts can report defects while being prepared; superseded versions are excluded.                                                          | Full current/candidate report and real publication-boundary fixture before crossover, then first real replacement. Exact active inputs and dependent pins are essential. Max owns acceptance.                               |
+| OUT-003: actionable and reproducible diagnostics | Contributors and Wiki readers. Baseline: assertion/subprocess output; no measured repair time. Target: each violation identifies rule, node, source provenance and remedy; repeated runs reproduce the same report meaning and generated bytes. | Contributor walkthrough and reproducibility fixtures before cutover; observe the first real repair/policy update. Do not claim time savings without measurements. Max accepts usability; integrator records runtime/memory. |
+
+Doing nothing preserves the current runtime and effort but leaves the documented
+drift. Moving tests to SHACL while continuing to edit the Wiki separately improves
+graph validation but leaves two policy authorities. The selected proposal is a
+canonical policy graph with independently tested semantics and generated views.
+No causal productivity claim or synthetic adoption benchmark is made.
+
+## Accepted decisions and amendments
+
+The CSV and follow-up decisions are binding design inputs. Max confirmed shared
+understanding on 12 September after grilling Q1–Q22. Stable IDs are retained;
+DEC-009/010 replace the earlier prospective/historical-audit scope, DEC-014 corrects
+English/numeral semantics, DEC-021 clarifies the publication boundary, and DEC-022
+limits property duties. DEC-028–030 record label preparation and integration/active
+set decisions. These approvals do not approve exact configuration or installs.
+
+| ID      | Accepted decision                                                                                                                                                                                                                                                                                                                                               |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| DEC-001 | Ontology-level modified is optional; validate it when present.                                                                                                                                                                                                                                                                                                  |
+| DEC-002 | ISO whole-name lower snake_case is SHOULD; non-ISO camelCase remains MUST.                                                                                                                                                                                                                                                                                      |
+| DEC-003 | An individual's optional class-name prefix must match any one explicitly asserted class type, without inferred superclass substitution.                                                                                                                                                                                                                         |
+| DEC-004 | Every preferred label has an exact same-language ordinary label; extra ordinary labels are allowed.                                                                                                                                                                                                                                                             |
+| DEC-005 | At least one qualifying UUIDv4 identifier is required, including ObjectProperty and DatatypeProperty.                                                                                                                                                                                                                                                           |
+| DEC-006 | Label text/language uniqueness is per entity, not global.                                                                                                                                                                                                                                                                                                       |
+| DEC-007 | schema:position integer typing is restricted to owl:Axiom, using the actual http://schema.org/ predicate.                                                                                                                                                                                                                                                       |
+| DEC-008 | Include all Wiki Dataset/Distribution optional-value rules, preserving optional absence, repeatability and MUST/SHOULD strength.                                                                                                                                                                                                                                |
+| DEC-009 | Amended: all owned entities in each latest active version and every replacement candidate must pass current rules. Superseded versions are excluded; only an explicitly scoped security/comparably critical historic fix checks its change and affected invariants.                                                                                             |
+| DEC-010 | Replaced: full static validation covers the complete active/candidate set. Change classification triggers conditional obligations only; no changed-entity-only gate or ever-touched cohort.                                                                                                                                                                     |
+| DEC-011 | Correct the generated policy to standard dcat:downloadURL; no downloadUrl alias.                                                                                                                                                                                                                                                                                |
+| DEC-012 | Use explicit reviewed module/provenance ownership, distinct DCAT profiles and bounded namespaces; preserve punning. Foreign support declarations do not gain owned metadata obligations. Historical roots matter only when selected in current approved scope or the critical-fix exception.                                                                    |
+| DEC-013 | Use anchored ASCII PascalCase/camelCase/lower-snake grammars and the optional capitalized property-prefix exception. Thing_hasPart passes; thing_hasPart fails. ISO SHOULD applies to the whole local name.                                                                                                                                                     |
+| DEC-014 | Amended: at least one preferred label in any valid English variant and at least one corresponding English spelling. Additional English spellings and other languages are allowed. Retain leading-digit-to-English-word correspondence: 3D Model and Three D Model both match ThreeDModel; this is not an XML limitation.                                        |
+| DEC-015 | Identifier uniqueness spans distinct owned subjects in the coherent active corpus. Compare ordinary RDF terms and UUID values independent of hex-letter case; repeated assertions on one subject are not another holder. Extra non-UUID identifiers remain allowed.                                                                                             |
+| DEC-016 | An entity change includes outgoing assertions, attached recursive restrictions/blank nodes/lists and its axiom annotations. Shared changes affect every owner; incoming links alone do not change their targets. Formatting, prefixes, triple order and blank-node labels do not count; no new inference scope.                                                 |
+| DEC-017 | Changed existing entities require valid modified; ordinary editing accepts an existing valid unchanged value. New entities need no modified. Stronger release freshness remains a later increment.                                                                                                                                                              |
+| DEC-018 | Retire physical default-namespace, literal rdf:about and duplicate-XML-element requirements. Retain native RDF validity/equivalence; no new serialization lint, cycle ban, reasoner or sh:closed policy.                                                                                                                                                        |
+| DEC-019 | Select pySHACL/RDFLib, a bounded SHACL profile and a small deterministic Markdown renderer, with Apache Jena for independent interoperability. Exact pins, rights, runtime compatibility and installation remain qualification/approval gates.                                                                                                                  |
+| DEC-020 | Generate the whole Wiki policy, including curated human/procedural clauses, from canonical policy sources. Publish separately with readback; no two-way editable copy.                                                                                                                                                                                          |
+| DEC-021 | Amended: exact candidate qualification and the real publication guard are part of initial cutover. Automatic versioned artifact writing/promotion and additional release chronology are a separate accepted increment.                                                                                                                                          |
+| DEC-022 | Amended: properties require only UUID identifier, Creator, Creation date, Label and Preferred label unconditionally. Definitions are optional for properties, required for Classes/NamedIndividuals. Conditional modified and accepted present-value constraints still apply to changed existing properties.                                                    |
+| DEC-023 | Retain and document the legacy 16-predicate descriptive language requirement and optional generic description uniqueness by language in owned scope.                                                                                                                                                                                                            |
+| DEC-024 | Use exact literal text and case-insensitive language identity; no trimming for equality/uniqueness. Retain nonblank required DCAT text checks for every value without extending that rule to every annotation.                                                                                                                                                  |
+| DEC-025 | A present ontology-level modified value uses xsd:date; absence remains valid.                                                                                                                                                                                                                                                                                   |
+| DEC-026 | Creator/contributor validation checks offline canonical ORCID URI format only, without checksum, live account or identity verification.                                                                                                                                                                                                                         |
+| DEC-027 | One root ontology, versionIRI and versionInfo per authored module document. versionInfo is valid YYYY-MM-DD; versionIRI tail is YYYYMMDD, with existing trailing slash allowed. Optional maximum-one xsd:date modified uses YYYY-MM-DD or YYYY-MM-DDZ and matches versionInfo; other offsets/dateTime fail.                                                     |
+| DEC-028 | Missing labels may be suggested from meaningful resource IRI tails, reviewed and written as real data before validation. Preserve existing labels; opaque/UUID tails need supplied labels. No validator-generated compliance values.                                                                                                                            |
+| DEC-029 | SDLC applies to building/replacing validator, renderer and integration software. Content editing uses SHACL and the existing proportional workflow; no new software lifecycle per ontology edit. Prove actual normal-command integration early, without assuming a new SDLC schema.                                                                             |
+| DEC-030 | Latest owned modules form a consistent explicitly versioned active set. A Core replacement may require dependent replacements. Prepare compliant data before stricter policy activation and activate both together. Aim for a freeze until crossover; if the Wiki lags, expose the enforced revision/repository source. Initial Wiki readback remains required. |
+
+The plan/inventory provide concrete examples for these decisions. The selected
+software direction is accepted; exact releases, runtime/rights evidence and patches
+remain qualification gates. Stronger release chronology below is still a proposal
+for the separate increment, not an additional current property/date requirement.
+
+## Requirements and acceptance criteria
+
+These stable REQ/AC IDs describe the migration; the plan's EP-* IDs identify policy
+rule families. Criteria reflect the accepted domain scope, but the actual revised
+Issue and protected implementation baseline must still be accepted/captured/merged.
+
+| Requirement                                | Acceptance criterion and evidence                                                                                                                                                                                                                                                                                                                                                        |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| REQ-001: Canonical policy ownership        | AC-001: Every inventoried graph rule has a stable named SHACL entry, documentary metadata and independently authored fixtures. Human/procedural clauses have explicit classification. No separately maintained XML/Python copy of migrated graph predicates remains after cutover.                                                                                                       |
+| REQ-002: Intended policy semantics         | AC-002: All accepted CSV and grilling decisions have positive, negative and boundary evidence where applicable. Every legacy difference has a disposition. Expected outcomes come from reviewed examples, not evaluating the shapes under test.                                                                                                                                          |
+| REQ-003: Latest-version and draft scope    | AC-003: An unchanged invalid entity in a latest active version or replacement candidate blocks activation. Superseded versions are excluded. Drafts can remain incomplete with honest diagnostics. A critical historic fix checks only the authorized change and affected invariants; it cannot qualify activation.                                                                      |
+| REQ-004: Complete coherent context         | AC-004: Full static rules include all owned subjects, detect cross-file duplicate holders and bad references, and exclude foreign metadata targets. Owned import pins agree with the resulting active set. Missing context or conflicting versions fail; aliases and current drafts do not silently select publication context.                                                          |
+| REQ-005: Faithful input/change facts       | AC-005: Validate actual staged/candidate bytes. Native graph comparison ignores formatting and captures outgoing, shared recursive structures and own axiom changes. Incoming references alone do not change their targets. Preserve added/changed/deleted facts and input identities; missing required comparisons fail. Change facts govern conditional duties, not full static scope. |
+| REQ-006: Generated readable policy         | AC-006: Deterministic Markdown covers every active graph/human clause. Hand-edited output and unsupported/missing metadata fail freshness checks. Max reviews representative sections for semantic fidelity and usability.                                                                                                                                                               |
+| REQ-007: Independent validation proof      | AC-007: Native parsing/Meta-SHACL, metadata checks, independent rule/focus fixtures, full latest-set results and a second engine establish distinct claims. Mutations detect removed targets, weakened counts and changed severity; a nonempty corpus cannot pass with zero targets.                                                                                                     |
+| REQ-008: Reproducibility and trust         | AC-008: Use exact local inputs and qualified authority snapshots, with no live imports, SERVICE, SHACL-JS or rule/code execution. Preserve lexical RDF and trusted fact isolation. Missing data, invalid policy, engine failure, interruption or stale source/policy/runtime evidence cannot become conformance.                                                                         |
+| REQ-009: Controlled activation/publication | AC-009: Resolve every latest-active/candidate MUST violation before crossover. The real publication consumer checks the exact candidate/resulting active set and rejects stale or partial evidence. Activate stricter policy with compliant replacements. Authorized Wiki publication is read back and concurrent edits preserved.                                                       |
+| REQ-010: Operational outcome               | AC-010: Retain useful rule/node/source/action reports, actual full latest-version evidence and real post-crossover use. Max accepts policy editing and violation repair. Working-file success, an install, schema, checkbox or merge alone does not prove publication or outcome.                                                                                                        |
+
+## Quality scenarios
+
+These are proposed acceptance bounds. They do not invent measured SLOs. Max owns
+threshold acceptance; the integrator records signals. Missing measurements remain
+visible until SLICE-001/007.
+
+| ID / priority             | Source, stimulus, artifact and environment                                                   | Required response and measure                                                                                                                                          | Verification, operational signal and rationale                                                                                                    |
+| ------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| QA-001 / hard             | Invalid staged candidate with valid unstaged copy; local command/publication boundary        | Check actual staged bytes and full resulting active set; identify the failing input, preserve index/worktree.                                                          | Both disagreement directions through real Git/CLI fixtures; AC-003/005/009.                                                                       |
+| QA-002 / hard             | Only prefixes, ordering or blank-node labels change                                          | No new changed-entity modified obligation; identical full static graph findings.                                                                                       | RDF/XML/Turtle and blank-node fixtures; AC-005.                                                                                                   |
+| QA-003 / hard             | A policy edit removes a target, relaxes a constraint or drops a generated section; policy CI | Independent contract/freshness test fails for the intended reason; reviewed text and executable rule remain linked.                                                    | Targeted negative controls, coverage inventory and human semantic review. AC-001/006/007.                                                         |
+| QA-004 / hard             | PR-supplied RDF or SPARQL attempts network retrieval, or an authority snapshot is absent     | No network request; report unsupported/unsafe policy or missing context as an error. Never infer vocabulary membership from a URL prefix.                              | Bounded parser/query tests at real ingress, offline run; attempted-fetch/error events. AC-008.                                                    |
+| QA-005 / hard             | Identical inputs run twice on Windows and Linux                                              | Generated UTF-8/LF Markdown is byte-identical; validation result meaning, severities and target sets agree despite blank-node identifiers/result order.                | Compare outputs from qualified runtimes; archive identities and differences. AC-006/007/008.                                                      |
+| QA-006 / hard             | Latest version has an unchanged defect; draft, candidate or stricter-policy activation       | Draft diagnostics expose it; latest/candidate activation fails. Repair/replace current versions before activating the rule. Superseded defects are excluded.           | Full-set, policy-only and coherent-pin fixtures plus actual publication-input proof; AC-003/004/009/010.                                          |
+| QA-007 / existing control | Five current source files plus approved snapshots on the normal CI runner                    | Measure time/memory; complete within the existing ontology verification timeout of 600 seconds. This is the current control ceiling, not a claimed performance target. | Record parse, scope, Core/SPARQL and reporting times in SLICE-001/007. Replan before accepting any timeout change; do not downgrade dependencies. |
+| QA-008 / hard             | Wiki publication is interrupted or its page changes concurrently                             | No force overwrite; retain approved output and old/new Wiki commit identities; reconcile/retry only the approved content.                                              | Disposable Wiki-Git exercise then authorized readback; stale/matching publication status. AC-009.                                                 |
+
+## Software selection research and remaining qualification
+
+The 9–11 September research compared the supplied reports with maintained
+capabilities, release information, source interfaces and licence texts. Release
+status below is evidence from those dates and must be refreshed before adoption. It selects proposed components;
+it is not a successful install, benchmark or complete dependency clearance.
+
+| Candidate                               | Current evidence / supported use                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Decision and residual gap                                                                                                                                                                                                                                                                                   |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| pySHACL 0.40.1                          | Latest release identified as 28 July 2026. Python API, Core/SPARQL, Meta-SHACL, AF targets, RDF reports and focus/shape selection are documented. Apache-2.0 licence text inspected at the release tag. [Release](https://github.com/RDFLib/pySHACL/releases/tag/v0.40.1), [API](https://raw.githubusercontent.com/RDFLib/pySHACL/v0.40.1/README.md), [licence](https://raw.githubusercontent.com/RDFLib/pySHACL/v0.40.1/LICENSE.txt).                                                                                                              | Proposed primary engine. Keep repository Python 3.14.7; prove exact compatibility rather than downgrade it. Qualify literal handling and blank-node selection. No JS, server or Oxigraph extra is initially needed.                                                                                         |
+| RDFLib 7.6.0                            | Current stable line identified by its release information; already allowed by `requirements.txt`. Existing public parsing/SPARQL/isomorphism capabilities meet graph needs. BSD-3-Clause text inspected. [Releases](https://github.com/RDFLib/rdflib/releases), [licence](https://raw.githubusercontent.com/RDFLib/rdflib/7.6.0/LICENSE).                                                                                                                                                                                                           | Reuse it; do not write a parser or canonicalization algorithm. Propose exact qualification with pySHACL before changing the current lower-bound requirement. No claim that the future 8.x alpha is a stable adoption.                                                                                       |
+| Apache Jena 6.2.0                       | Current official release; Java 21 minimum, Core/SPARQL and SPARQL targets documented. Release LICENSE inspected; downloadable checksums/signatures exist. [Release](https://jena.apache.org/download/), [SHACL API/CLI](https://jena.apache.org/documentation/shacl/), [licence](https://raw.githubusercontent.com/apache/jena/jena-6.2.0/LICENSE).                                                                                                                                                                                                 | Proposed independent engine on policy changes and cutover fixtures, not a second mandatory runtime on every ontology edit. Use its native CLI; qualify the selected supported JDK and retain distribution NOTICE/licence evidence before installation.                                                      |
+| TopBraid SHACL API 1.5.0                | Maven Central identifies 1.5.0 with Java 21 and Jena 6.0.0; upstream documents Core/SPARQL/AF and Apache-2.0. [Published artifact](https://central.sonatype.com/artifact/org.topbraid/shacl), [capabilities](https://github.com/TopQuadrant/shacl).                                                                                                                                                                                                                                                                                                 | Credible alternative to Jena for the second engine. Direct current Jena supplies the selected features without another API layer. Do not substitute moving-master dependency versions for this published POM. Reconsider if qualification identifies a concrete feature gap.                                |
+| Eclipse RDF4J SHACL                     | Current docs include standalone validation, transaction validation, SPARQL constraints and target extensions. [Documentation](https://rdf4j.org/documentation/programming/shacl/).                                                                                                                                                                                                                                                                                                                                                                  | Not rejected as Core-only: that would be stale. No transactional store is requested, and this would introduce another stack without a demonstrated benefit. No version pin/installation is proposed; exact release/terms must be researched if reconsidered.                                                |
+| pyLODE 3.6.0                            | PyPI release 17 August 2026; BSD-3-Clause release licence inspected. Native `valpub` renders SHACL to HTML. Exact release source offers `make_html`; its CLI produces HTML, with no Markdown output interface in the inspected release. [Release](https://pypi.org/project/pylode/3.6.0/), [profile source](https://raw.githubusercontent.com/RDFLib/pyLODE/3.6.0/pylode/profiles/valpub.py), [CLI](https://raw.githubusercontent.com/RDFLib/pyLODE/3.6.0/pylode/cli.py), [licence](https://raw.githubusercontent.com/RDFLib/pyLODE/3.6.0/LICENSE). | Good optional HTML reference documentation. Using it for Wiki policy needs HTML conversion plus custom normative/procedural section behavior. Proposed direct RDF-to-Markdown renderer implements that specific residual projection; do not fork pyLODE or build a general ontology documentation platform. |
+| WIDOCO / existing repository generators | WIDOCO documents ontology-oriented HTML generation. Existing repository generators build product ontology views/JSON-LD rather than editing-policy prose. [WIDOCO](https://github.com/dgarijo/Widoco).                                                                                                                                                                                                                                                                                                                                              | No inspected native path satisfies this narrow Wiki Markdown contract. Reject for this deliverable, not as generally unsuitable software. A later HTML deliverable warrants fresh selection.                                                                                                                |
+
+### Distribution and resolver evidence
+
+On 9 September, the existing `.venv`'s native pip downloaded the proposed wheels
+without installing them, then completed an all-binary, no-install resolution of
+both existing requirements files plus `pyshacl==0.40.1` and `rdflib==7.6.0`.
+The resolver selected 20 distributions on CPython 3.14.7/Windows AMD64. This proves
+that the package metadata and wheel selection resolve in this environment; it
+does not prove pySHACL execution, Linux support or policy correctness. A separate
+module-discovery check confirms pySHACL is still not installed.
+
+| Downloaded artifact             | SHA-256                                                            | Licence recorded in the distribution                                                                         |
+| ------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| pyshacl-0.40.1-py3-none-any.whl | `27dd58c8ddfa103303b4a8c40b2c666332ffc912dbcd3137f7adc7b7bc5e6bda` | Apache-2.0; included LICENSE.txt SHA-256 `cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30`. |
+| rdflib-7.6.0-py3-none-any.whl   | `30c0a3ebf4c0e09215f066be7246794b6492e054e782d7ac2a34c9f70a15e0dd` | BSD-3-Clause; included LICENSE SHA-256 `53a705e51bfd199e8c97d0442376cb4bbd4ffcf13ba4f2c4c2794211400e4012`.   |
+
+The selected pySHACL path also brings owlrl 7.6.2 (W3C-20150513), packaging 26.3
+(Apache-2.0 OR BSD-2-Clause), prettytable 3.18.0 (BSD-3-Clause), html5rdf 1.2.1 (MIT)
+and wcwidth 0.8.3 (MIT). Those exact wheels and their licence files were inventoried;
+OWL-RL, HTML5RDF and packaging licence text was read. `rdflib[html]` is a normal
+pySHACL dependency, not an optional feature that can simply be omitted. Likewise,
+disabling inference does not remove its OWL-RL package dependency. No JS, HTTP or
+Oxigraph extra was selected.
+
+The native resolver report is retained at
+`.agent-tools/shacl-policy-baseline/package-resolution.json`, SHA-256
+`c22624de9fbfcdb4f9a8c7a2fc0f60bb66eecc3951118940c65edd3a7ae2c9a5`.
+Wheel evidence is under the adjacent `packages/` directory. The integrator retains
+these through exact dependency approval and SLICE-001 qualification, then removes
+the task-owned downloads only after durable evidence and active consumers have
+been checked. This report is observed resolution evidence, not an adopted lockfile
+or complete transitive rights clearance.
+
+Before adoption, inspect the exact resolved distributions, transitive dependencies,
+licences, NOTICE files, hashes and any non-standard riders, with Max's applicable
+rights decision recorded. Do not add a lock tool merely to fill a process field:
+use the repository's pip-based dependency path and present the smallest exact
+reproducibility change for approval. Engine distribution and authority-data
+redistribution are distinct rights questions.
+
+IANA's protocol registries are offered under CC0; the Library of Congress describes
+its linked-data set as public domain. The specific EU authority download's rights
+and notices still need verification before vendoring. General site access is not
+that clearance. [IANA terms](https://www.iana.org/help/licensing-terms),
+[LOC terms](https://id.loc.gov/about/),
+[EU legal notices](https://op.europa.eu/en/web/about-us/legal-notices).
+
+The remaining custom work is limited to repository input/snapshot selection,
+mapping accepted entity-change context to native validation, deterministic policy
+Markdown, report/provenance presentation and authority snapshot ingestion where
+an existing consumer does not already provide it. Constraint execution, RDF/SPARQL
+parsing, graph comparison and standard report comparisons belong to native tools.
+
+## Proposed architecture
+
+```mermaid
+flowchart TD
+  P[Canonical policy graph: SHACL and documentation metadata] --> V[Native SHACL validation]
+  P --> D[Deterministic Editing Policy Markdown]
+  P --> C[Policy inventory and metadata checks]
+  G[Selected ontology snapshot and complete release context] --> V
+  H[Identified previous snapshot and candidate/index] --> E[Conditional entity change facts]
+  E --> V
+  V --> B[Exact candidate and active-set publication guard]
+  A[Pinned authority snapshots] --> V
+  F[Independently reviewed fixtures and expected reports] --> T[Policy contract tests]
+  V --> R[RDF report and contributor diagnostics]
+  D --> W[Separately authorized Wiki publication]
+  T --> Q[Verification and human acceptance]
+  R --> Q
+  D --> Q
+```
+
+### Policy ownership and profile
+
+Use a logical canonical policy graph split by domain, not by Core versus SPARQL.
+Keep each rule's executable constraint and explanatory metadata together. Named
+IRIs identify reportable rules; anonymous logical/path helpers remain acceptable.
+Use SHACL's existing `sh:name`, `sh:description`, `sh:message`, `sh:order` and
+`sh:group` where they fit, plus existing provenance terms. Add only metadata needed
+for stable requirement IDs, execution classification, rationale and curated prose.
+
+The proposed execution profile is SHACL 2017 Core plus SHACL-SPARQL, with the
+specific SHACL-AF SPARQL-target feature for namespace/explicit-type selection.
+This is a deliberate, bounded extension proposal, not a claim of Core-only
+portability. Both proposed engines document that targeting capability. It avoids
+reimplementing the same namespace/type policy in Python. No AF rules/functions,
+SHACL-JS, arbitrary plugins or draft-only 1.2 constructs are included. The current
+SHACL 1.2 Core publication is still a Working Draft dated 28 August 2026.
+[Core status](https://www.w3.org/TR/shacl12-core/),
+[AF targeting](https://www.w3.org/TR/shacl-af/).
+
+Targets use explicit namespace boundaries and asserted types where intended.
+`inference='none'` disables pre-inference; it does not change the standard
+subclass-aware semantics of `sh:targetClass` or `sh:class`. Exact asserted-type
+requirements need explicit predicates/tests. Keep all statements in the context
+graph, including imported declarations and punning; scope targets, not graph data.
+Do not add a SPARQL guard beside unconstrained Core property shapes and assume it
+guards them. Target coverage is a first-slice acceptance test.
+
+### Active/candidate validation, diagnostics and comparison evidence
+
+The [plan's context contract](../plans/2026-09-09-shacl-policy-source-of-truth.md#validation-input-context-and-target-contract)
+defines the four purposes: latest-active qualification, replacement-candidate
+qualification, draft diagnostics and the explicitly scoped critical historical fix.
+Full static rules cover every applicable owned entity/header/axiom in the resulting
+active set, including unchanged entities. Change facts trigger conditional modified
+and explain affected relations; they do not narrow the full static population.
+
+Resolve exact index/commit/candidate bytes and reviewed module ownership. Bind
+the actual active publication set, not merely five working files or each directory's
+latest alias. Candidate owned import pins must match that set; dependent modules
+may need replacement. External support remains separately pinned and unowned.
+Conflicting versions or missing qualification context are errors. No silent import
+substitution or routine union of historic versions is allowed.
+
+Previous snapshots supply comparison evidence. Initial crossover uses an identified
+baseline and actual remediation comparisons, without a reconstructed historical
+conformance audit. A plain diagnostic may report missing change history; a candidate
+cannot omit a required comparison and claim qualification. General arbitrary
+historical-data/policy selection and a growing adoption cohort are removed.
+
+Use bounded context-driven SHACL-AF SPARQL targets and native property paths with
+the complete approved shapes/input. Keep trusted ownership/change/authority facts
+separate from authored data, validate their contract natively, reject impersonation,
+and preserve original anonymous axiom nodes. No caller-owned per-rule allowlist,
+IRI-only filtering of blank nodes, temporary target-rewriting fallback or engine
+patch is the normative mechanism. Both engines must demonstrate the same expected
+rule/focus sets. A broad target cannot be narrowed by adding another target or a
+SPARQL constraint beside Core constraints.
+
+Compare entity-rooted closures using native RDFLib isomorphism: own outgoing
+assertions, recursive attached structures/lists and own axiom annotations. Shared
+structure changes affect all owners; incoming references alone do not change their
+objects. Keep added/changed/deleted classifications and source provenance. Do not
+use independently assigned blank-node labels as persistent identities. Measure
+adverse shared/symmetric structures through existing timeout controls.
+[Native comparison](https://raw.githubusercontent.com/RDFLib/rdflib/7.6.0/rdflib/compare.py).
+
+The critical historic-fix exception uses explicit scope and necessary local context
+to check only that repair and affected invariants. Its result cannot qualify a
+whole old version or make it active. It is not a historical-audit product.
+
+### Release promotion as a subsequent consumer
+
+Recommendation: make promotion a separately accepted delivery increment, using
+the validator and entity-comparison contracts already needed by SLICE-005. This
+migration supplies useful read-only capabilities even if promotion is deferred.
+It must not acquire a speculative release framework, scheduler or artifact writer.
+The subsequent work starts from MOT-006 and DEC-021, with an R2 route proposed for
+its publication impact; its actual scope determines the final route.
+
+| Concern                                                    | Responsibility and policy authority                                                                                                       | Delivery boundary                                                                                          |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Parse and structurally validate a candidate                | Native RDF parser and canonical SHACL over every owned current/candidate entity                                                           | This migration; mandatory before activation/publication.                                                   |
+| Identify semantic changes between explicit snapshots       | Native rooted graph comparison, accepted ownership and provenance                                                                         | This migration for conditional rules; comparison evidence is not historical conformance validation.        |
+| Check candidate release dates, lineage and chronology      | Explicitly scoped release constraints in the same canonical policy source; independently reviewed fixtures and generated release guidance | Subsequent release increment. Ordinary editing rules retain their accepted scope.                          |
+| Bind active/publication inputs and prepare/write artifacts | Reuse inventory, immutable source identity, existing build/upload consumers                                                               | Exact candidate/active-set qualification and publication guard now; automatic artifact writing later.      |
+| Deploy and confirm the publicly served version             | Existing deployment path plus actual publication readback                                                                                 | A separately authorized release action. A file in `src/` or a successful build is not deployment evidence. |
+
+The inspected example maps `reference-data/reference-data.owl` to a new
+`src/universal/reference-data/YYYYMMDD` artifact. That mapping must be checked
+against the ontology identity and approved module inventory, not inferred from an
+arbitrary input IRI. Inputs are portable repository paths and explicit snapshots;
+the Windows path in SRC-008 is an example, not a CI configuration value.
+
+Keep the crossover baseline, actual comparison pair and previous published release
+identities distinct. A previous release can predate crossover; reading it supplies
+comparison evidence only. The whole latest candidate must nevertheless pass the
+current structural policy. Stricter history/chronology rules require their own
+accepted release profile; they do not reopen retrospective conformance of old data.
+
+The release runner resolves immutable previous/candidate bytes and supplies bounded,
+processor-owned comparison facts to native SHACL. These facts carry change kind,
+previous dates and source identities; the ontology cannot assert its own validation
+context. Keep previous and candidate ontology graphs distinct rather than unioning
+two versions of the same subjects. Qualify the context representation through the
+selected engine's supported APIs. Date predicates, severity and applicability
+remain canonical policy; Git acquisition and file publication remain orchestration.
+No Python copy of a release constraint or second prose catalogue is warranted.
+
+#### Proposed temporal rules and their limits
+
+These are recommendations for the release baseline, not new accepted MUSTs:
+
+1. Require the candidate's ontology-level modified date for promotion and align it
+   with the date encoded by `owl:versionInfo`, `owl:versionIRI` and the destination
+   filename. This is a stricter release profile; DEC-001 still permits absence in
+   the general editing profile. Check `owl:priorVersion` against the selected prior
+   artifact, with an explicit first-release case.
+2. Require the ontology date to be **no earlier than** the latest valid creation or
+   modification date of entities owned by that module. Include creation because
+   new entities need not have `modified`; exclude imported vocabulary timestamps
+   and the ontology's own header from the entity aggregate. Invalid dates need
+   findings, not silent exclusion from the maximum. This detects the August/July
+   case in SRC-009. A maximum of present values does not establish completeness.
+3. For an existing entity changed since the selected previous release, require a
+   modified value after that previous release's agreed date boundary. Consider an
+   additional comparison with the entity's previous modified value to prevent
+   regression; settle it explicitly. Compare content independently of metadata
+   freshness, so an edit retaining an old timestamp is still detected. A metadata
+   correction itself remains a semantic change under DEC-016.
+4. Treat additions, deletions, ontology annotations and import changes separately.
+   A deletion leaves no surviving entity on which to set `modified`; ontology-level
+   change evidence and version advancement must cover it. Additions may retain
+   truthful older creation dates when existing concepts are first included. An
+   import-only change can require a new ontology version even with unchanged local
+   entity timestamps. Never fabricate entity edit dates from Git or filesystem time.
+5. Define typed temporal comparison before implementation: UTC date extraction
+   for dateTimes, date-only precision, equality, invalid/multiple values and any
+   future-date rule. Do not sort raw literal strings or silently treat a date as a
+   precise publication instant. Under the existing eight-digit version convention,
+   a second different artifact on the same day collides; refuse overwrite and
+   require an accepted versioning decision. Do not add a suffix unilaterally.
+
+Exact equality to the greatest surviving entity timestamp is too restrictive as a
+general formula: deleting that entity can reduce the maximum, while import or
+ontology-description changes may leave it unchanged. Report the computed lower
+bound and propose an explicit version/header update for review. Exact equality
+would need additional, accepted change-event semantics covering those cases.
+
+Content modification, formal issuance and actual deployment can occur at different
+times. DCMI distinguishes `modified` from `issued`; OWL's version IRI identifies a
+version, without imposing this repository's date convention. These standards
+support keeping those meanings distinct; the proposed alignment/freshness formulas
+are project policy. The previous artifact's declared version date is the initial
+proposed comparison boundary. If Max intends the actual publication instant,
+require a trustworthy publication record instead of substituting the filename or
+Git commit time. [DCMI terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/),
+[OWL version identity](https://www.w3.org/TR/owl2-syntax/#Ontology_IRI_and_Version_IRI).
+
+The eventual workflow should first produce a reproducible candidate and report,
+then recheck the exact source/base/policy hashes before promotion. Reuse byte-identical
+existing artifacts as an explicit no-op and reject a different artifact at an
+existing version path. Plan multi-module candidates and their pinned imports as one
+reviewable set; a partial write must never enter a publishable build. Build from
+the frozen candidate set using existing consumers, verify aliases and derived
+assets, and retain a release receipt. Neither a successful lint nor a file copy
+alone establishes that the website, imports and query consumers serve the intended
+release. Reuse the existing import-closure contract for any `-full` generation.
+
+### Literal and diagnostic fidelity
+
+Preserve RDF lexical forms before validation using the native RDFLib literal
+normalization setting. Qualify this in the isolated validator process on `Z`
+versus `+00:00`, invalid dates, numeric forms and both RDF/XML/Turtle inputs; do not
+rewrite values to make them valid. The package defaults to normalization.
+[Native setting](https://raw.githubusercontent.com/RDFLib/rdflib/7.6.0/rdflib/__init__.py).
+
+English coverage accepts any valid English variant, using a native language-range
+check for an at-least-one qualified subset. Do not apply `sh:languageIn ("en")` to
+all preferred labels and reject other languages. At least one English label must
+correspond to the identifier; additional English spellings can differ. Exact
+preferred/ordinary label inclusion still uses RDF text/language equality. Identifier
+correspondence separately retains the accepted ASCII/prefix/leading-digit mapping.
+[SHACL language ranges](https://www.w3.org/TR/shacl/#LanguageInConstraintComponent).
+
+`3D Model` is valid label text and can correspond to `ThreeDModel`. Native RDF/XML
+checks confirmed both that literal and a numeric-leading rdf:about IRI parse;
+numeric-leading XML element names/rdf:ID values have different syntax constraints.
+The chosen identifier grammar is project policy, not a restriction on label text.
+[RDF/XML literals](https://www.w3.org/TR/rdf-syntax-grammar/#literalPropertyElt),
+[rdf:about](https://www.w3.org/TR/rdf-syntax-grammar/#aboutAttr),
+[rdf:ID](https://www.w3.org/TR/rdf-syntax-grammar/#rdf-id).
+
+Missing labels may be proposed from meaningful resource IRI tails, reviewed and
+written as actual ontology data. Preserve existing labels; supply meaningful text
+when a tail is opaque. The validator neither invents nor repairs values.
+
+Keep mandatory and recommendation constraints in separate reportable shapes.
+An optional property's `maxCount` may be mandatory while its preferred vocabulary
+is a recommendation. Missing optional properties get no invented `minCount`.
+Represent human/procedural clauses explicitly and retain their normative wording.
+
+Preserve the native RDF report. Process status distinguishes violations, warnings,
+execution/context errors and non-applicability. With native warning handling,
+`sh:conforms` and the repository's MUST-only merge decision can differ; report both
+truthfully. Never fail merely because success/warning text was printed. A source
+file and subject locator suffice when no reliable line mapping exists; do not
+invent XML line numbers for graph findings.
+
+### Documentation, authorities and testing
+
+Render simple structural facts directly from supported constraint parameters.
+Do not maintain a second hand-written count/datatype sentence. Complex SPARQL and
+human rules use curated prose co-located with the rule, with independently reviewed
+fixtures and semantic review. Unknown constructs, missing reportable IDs and
+unclassified executable rules fail policy QA instead of being omitted. Meta-SHACL
+checks SHACL well-formedness; a small metadata shapes graph checks the renderer's
+input contract. Neither proves domain intent.
+
+Author expected fixtures separately from shapes. Reuse native expected-report
+comparison where its contract fits; pySHACL documents a DASH expected-result path.
+Review nested results and severity rather than treating output ordering/blank-node
+IDs as semantic. Generated examples or test enumeration may assist authors but
+cannot supply their own expected answers. Mutation/negative controls must show
+that deleted targets and weakened mandatory rules are detected.
+
+For authority membership, ingest local, versioned source snapshots and produce
+deterministic membership sets for `sh:in` or supported graph constraints. Approved
+policy selects the authority; the source registry owns its members. Never let
+untrusted ontology assertions declare themselves registry members. Do not fetch
+`owl:imports`, JSON-LD remote contexts or SPARQL `SERVICE` during validation. Refresh
+authority data as a separate reviewed maintenance action, with hashes, retrieval
+date, membership-count reconciliation and licence evidence. No recurring job is
+created by this plan.
+
+## Acceptance and unresolved evidence
+
+Max's confirmed grilling decisions settle the domain questions represented above.
+The reconciled four documents remain the proposed implementation baseline; update
+existing Issue #31 only when authorized, obtain acceptance of its actual revision,
+then capture/merge the protected baseline. Closed Issues #2/#3 remain antecedents.
+Earlier Issue discovery and CLI authorization observations retain their dated
+scope; they do not describe current remote or local lifecycle state.
+
+Open implementation evidence is concrete: actual active publication inventory,
+latest-version remediation size, consistent dependent replacements, normal-command
+and publication-input integration, native engine/platform/context qualification,
+exact dependency/authority rights and numerical performance budgets. These are
+engineering qualification tasks, not unresolved repetitions of the user's policy
+answers. Exact configuration, installation, data edits, commits, remote writes and
+publication remain separate actions.
+
+The original independent review is unchanged; it reviewed an earlier proposal and
+did not execute SHACL locally. Native parses, property-label presence checks and
+XML examples are bounded discovery evidence, not full conformance. R1 document
+checks/native affected verification establish only proposal maintenance. No SHACL
+implementation, live active-set check, corpus repair, cross-engine qualification
+or operational publication has been performed by this revision.
+
+The plan requires a fresh effort estimate: the old 26–50 engineer-day range does
+not include the now-mandatory active-data and publication work as scoped here.
+Re-estimate after the active-source inventory and first integrated rule proof.
+Automatic promotion and stronger release chronology remain later work; exact
+candidate qualification before publication does not.
