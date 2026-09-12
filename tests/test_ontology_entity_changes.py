@@ -257,3 +257,35 @@ ex:G a owl:Class ; skos:prefLabel "G"@en .
         self.assertFalse(outcome.qualifies)
         draft = self.run_policy(RunPurpose.DRAFT, {FIXTURE_MODULE.iri: self.previous})
         self.assertIn("ex:G", {r.focus_node.replace(EX, "ex:") for r in draft.results})
+
+
+class ImportPinCoherenceTest(unittest.TestCase):
+    """Owned import pins must agree with the versioned set being validated (DEC-030)."""
+
+    def make(self, label, ontology, version, imports=()):
+        from ontology_policy import OwnedModule
+
+        module = OwnedModule(iri=URIRef(f"https://example.org/policy-fixture/module/{label}"), label=label,
+                             ontology_iri=URIRef(ontology), owned_namespaces=(ontology,), working_path=f"{label}.ttl",
+                             active_version_iri=None, active_artifact_path=None)
+        turtle = f"<{ontology}> a <http://www.w3.org/2002/07/owl#Ontology> ; <http://www.w3.org/2002/07/owl#versionIRI> <{version}> ; <http://www.w3.org/2002/07/owl#versionInfo> \"2026-01-01\" .\n"
+        for target in imports:
+            turtle += f"<{ontology}> <http://www.w3.org/2002/07/owl#imports> <{target}> .\n"
+        turtle += f"<{ontology}Thing> a <http://www.w3.org/2002/07/owl#Class> .\n"
+        return parse_module_bytes(module, f"{label}.ttl", turtle.encode("utf-8"), "turtle")
+
+    def test_coherent_pins_pass_and_a_stale_or_newer_pin_is_a_context_error(self):
+        from ontology_policy.context import ContextError, RunPurpose, build_validation_graph
+
+        core = self.make("core", "https://example.org/core/", "https://example.org/core/20260912")
+        extended = self.make("extended", "https://example.org/extended/", "https://example.org/extended/20260912",
+                             imports=["https://example.org/core/20260912", "http://www.w3.org/2004/02/skos/core"])
+        build_validation_graph([core, extended], RunPurpose.CANDIDATE)
+        stale = self.make("extended", "https://example.org/extended/", "https://example.org/extended/20260912",
+                          imports=["https://example.org/core/20260714"])
+        with self.assertRaisesRegex(ContextError, "core/20260714"):
+            build_validation_graph([core, stale], RunPurpose.CANDIDATE)
+        newer = self.make("extended", "https://example.org/extended/", "https://example.org/extended/20260912",
+                          imports=["https://example.org/core/20261001"])
+        with self.assertRaisesRegex(ContextError, "core/20261001"):
+            build_validation_graph([core, newer], RunPurpose.CANDIDATE)

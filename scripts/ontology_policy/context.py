@@ -80,6 +80,33 @@ def owned_subjects(source: ModuleSource):
     return owned
 
 
+def module_version_iri(source: ModuleSource):
+    """The owl:versionIRI of the module's own header, if declared."""
+    for header in source.graph.subjects(RDF.type, OWL.Ontology):
+        if isinstance(header, URIRef) and str(header).rstrip("/") == str(source.module.ontology_iri).rstrip("/"):
+            return source.graph.value(header, OWL.versionIRI)
+    return None
+
+
+def require_coherent_import_pins(sources: list[ModuleSource]) -> None:
+    """Every owl:imports of an owned module must name the version of that module in this set.
+
+    Foreign imports (SKOS, OWL-Time, ...) are outside the check. A stale or newer
+    pin is a context error, never a silent substitution.
+    """
+    versions = {str(source.module.ontology_iri).rstrip("/"): module_version_iri(source) for source in sources}
+    for source in sources:
+        for header in source.graph.subjects(RDF.type, OWL.Ontology):
+            for target in source.graph.objects(header, OWL.imports):
+                for ontology, version in versions.items():
+                    if str(target).rstrip("/").startswith(ontology) and str(target).rstrip("/") != ontology:
+                        if version is None or str(target) != str(version):
+                            raise ContextError(
+                                f"{source.locator}: owl:imports {target} does not match the version in this set "
+                                f"({version}); replace the dependant or the pin, never substitute silently."
+                            )
+
+
 def build_validation_graph(
     sources: list[ModuleSource], purpose: RunPurpose, comparisons: dict | None = None
 ) -> tuple[Graph, Graph]:
@@ -103,6 +130,8 @@ def build_validation_graph(
         if source.module.iri in seen:
             raise ContextError(f"Module {source.module.iri} appears more than once in one run.")
         seen.add(source.module.iri)
+
+    require_coherent_import_pins(sources)
 
     context = Graph()
     run = UOC.run

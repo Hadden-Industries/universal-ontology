@@ -296,3 +296,94 @@ qualification and the cross-engine parity tests. Actions are pinned by commit
 upload-artifact v7.0.1). `contents: read` is preserved; no Wiki write.
 **Gap:** this workflow has not executed yet; it runs on the implementation
 PR. The `.java-version` spelling is unverified until then.
+
+## SLICE-007 — reconciliation, remediation proposal and crossover qualification
+
+### Legacy versus SHACL reconciliation ledger (frozen 12 September 2026)
+
+Inputs: the five active artifacts (`policy/activation.ttl`), the two working
+drafts, the 22 fixture expectations and the legacy validator at
+`tests/universalontologytest.py` (SHA-256 `550599fb…dca0`). The legacy
+validator passes all five working files (its historical full-profile result);
+the SHACL policy reports 750 violations and 191 warnings on the active set.
+
+| Legacy group (inventory) | SHACL rule(s) | Disposition | Observed difference on current data |
+|---|---|---|---|
+| P01 default-namespace equality, P08 literal `rdf:about`, duplicate XML elements | — | retired serialisation detail (DEC-018); native RDF validity/equivalence retained | none on current data; the legacy parser also crashes on an RDF/XML fixture whose prolog declares an encoding when fed as text |
+| P02 DOM merging, punning deletion, label-namespace omission | ownership by namespace and presence | replaced by native graph semantics; punning preserved | none |
+| P03 sixteen-predicate language | EP-DESCRIPTIVE-LANGUAGE | retained (DEC-023) on every owned subject | none |
+| P04 identifier uniqueness (IRI attributes, file-wide) | EP-IDENTIFIER-UNIQUE | corrected to distinct-holder semantics across the coherent set (DEC-015) | 2 legacy defects (one UUID shared across extended and reference-data); 10 unresolved-meaning results (literal `positiveInteger` codes shared across enumerations) |
+| P05 integer position everywhere | EP-AXIOM-POSITION | corrected to owned `owl:Axiom` only (DEC-007) | none |
+| P06 preferred-label presence/correspondence/English | EP-PREFLABEL-LANGUAGE, EP-PREFLABEL-IRI, EP-PREFLABEL-LABEL | retained with any English variant and leading-digit expansion (DEC-014) | none |
+| P07 header first-element checks | EP-ONT-VERSION | corrected to the DEC-027 profile | none |
+| P09/P13 dataset and distribution namespace/UUID | EP-DATASET-TYPE-IRI, EP-DISTRIBUTION-REQUIRED | retained with type-or-namespace targets | none |
+| P10–P12, P14 first-value DCAT checks | EP-DATASET-REQUIRED, EP-DISTRIBUTION-REQUIRED | corrected to every-value checks and per-language uniqueness | none |
+| P15 PascalCase with arbitrary underscore stripping | EP-CLASS-NAME, EP-INDIVIDUAL-NAME | corrected to the DEC-003/DEC-013 grammars | none |
+| P16 creator on classes/individuals | EP-ENTITY-CREATOR | extended to properties (DEC-022); exact ORCID form (DEC-026) | none |
+| P17 created on classes/individuals | EP-ENTITY-CREATED | extended to properties; native lexical/calendar validity | none |
+| P18 optional modified without lexical check | EP-MODIFIED | retained with form checks and the conditional obligation (DEC-016/017) | 1 legacy defect (`extended/Duty`: `xsd:date` typed dateTime lexical) |
+| P19 contributor prefix | EP-CONTRIBUTOR | retained with the exact ORCID form | none |
+| P20 UUID on classes/individuals with coercion | EP-ENTITY-UUID | extended to properties; genuine v4/variant bits (DEC-005) | 737 owned properties without any UUID — accepted policy change requiring remediation |
+| P21 labels, file-wide uniqueness, broad `en-*` | EP-LABEL, EP-PREFLABEL-LANGUAGE | per-entity semantics (DEC-006); one English rule | none |
+| P22/P23 definitions, descriptions, acronyms | EP-DEFINITION, EP-DESCRIPTION-LANGUAGE, EP-OPTIONAL-ANNOTATIONS | retained; definitions optional for properties (DEC-022) | none |
+| P24 property naming with overbroad ISO prefix | EP-PROPERTY-NAME, EP-PROPERTY-NAME-ISO | corrected: non-ISO camelCase MUST, ISO snake_case SHOULD (DEC-002/013) | 191 warnings in the ISO modules (accepted recommendation) |
+| Wiki-only clauses W02, W24, and the optional DCAT value rules W25–W32 | EP-HUMAN-CONCEPT-REUSE, EP-DATASET-LANDING, EP-DATASET-ACCESS-RIGHTS(-IRI), EP-DISTRIBUTION-* | added coverage (DEC-008) | none: all 139 datasets and 147 distributions conform against the real snapshots |
+
+Every SHACL rule and every retired legacy difference therefore has a
+disposition; no unexplained engine difference remains (identity parity holds
+on all fixtures, the active set and the candidate set).
+
+### Remediation proposal (untracked candidates, awaiting owner approval)
+
+Built mechanically by a scratch tool into `.agent-tools/remediation/candidates/`
+(ledger in `ledger.json`), from the working files, as a coherent replacement
+set dated `20260912`:
+
+1. 737 owned properties receive a fresh `urn:uuid` version-4 identifier
+   (inserted after `dcterms:creator`; the 14 ISO/IEC properties keep their
+   `urn:iso:std:` identifier alongside) and `dcterms:modified
+   2026-09-12T12:00:00Z`, because their content changed.
+2. `extended/Duty`: the `dcterms:modified` datatype becomes `xsd:dateTime`
+   (lexical value unchanged).
+3. `reference-data/DocumentToNamespaceRelationshipType`: the UUID shared with
+   `extended/DocumentToNamespaceRelationship` is re-minted and `modified` set
+   (the extended class keeps the original — the owner may prefer the reverse).
+4. Every header: `versionIRI`/`versionInfo`/header `modified` → 20260912,
+   `priorVersion` → the previous version, owned `owl:imports` re-pinned to the
+   new set (core → reference-data/20260912; reference-data → ISO/IEC
+   11179-3/20260912; extended → core/20260912). ISO 31073 moves from 20260626.
+   The two working drafts' own edits are included as-is.
+
+Candidate qualification (`--purpose candidate`, comparisons = active
+artifacts): **10 violations remain, all EP-IDENTIFIER-UNIQUE on the
+enumeration codes**, plus the 191 ISO warnings; import pins are coherent;
+Jena parity holds (207 results). The set qualifies as soon as the owner decides
+the DEC-015 question, either by exempting literal codes (policy change) or by
+disambiguating the ten identifiers (data change).
+
+### Performance (QA-007 proposal)
+
+Windows 11 host, Python 3.14.7, cold: full latest-active 28 s (pySHACL) /
+2.5 s (Jena), peak below 100 MB; draft of one module with comparison 31 s;
+candidate set 31 s; adverse synthetic corpus of 1,000 owners sharing a
+40-deep anonymous chain: closure comparison 69 s, draft run 134 s, 33 MB
+(closure comparison dominates; each owner's closure carries the shared chain).
+Proposed budgets for the owner's acceptance: hook-style draft of one module
+≤ 60 s typical and ≤ 180 s ceiling; full active/candidate qualification
+≤ 120 s; adverse shared-structure inputs ≤ 300 s; peak memory ≤ 512 MB; the
+600 s command timeout stays the control ceiling.
+
+### Owner decisions required before crossover
+
+1. Rights approval to track the three authority payloads and snapshots.
+2. Approval of the remediation candidates (or amendments), including which
+   holder of the shared UUID keeps it and the `modified` timestamp policy.
+3. DEC-015 for literal enumeration codes: exempt or disambiguate.
+4. Acceptance of the QA-007 budgets.
+5. The policy-editing and contributor-repair walkthrough (SLICE-007 exit).
+
+Independent verification, ordinary review and the Codex Security workflow run
+on the implementation PR; the Codex Security workflow is not authorised here
+and is recorded as not run. The R2 full profile cannot pass until decisions
+1–3 land: "Latest active editing policy" currently exits 1 (750 blockers) and
+`policy/authorities/` does not exist.
