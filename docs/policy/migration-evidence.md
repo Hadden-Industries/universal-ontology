@@ -597,3 +597,12 @@ Max also decided that ISO 31073 needs no `vann:preferredNamespacePrefix`; that
 item is closed without a data change. Remaining SLICE-007/008 owner items: the
 policy-editing walkthrough, the merge of PR #61, the Wiki write and the live
 publication (each its own authorisation).
+
+### Walkthrough waived; merge and Wiki write authorised (12 September 2026)
+
+Max stated that he does not need the policy-editing and contributor-repair
+walkthrough: he reviewed the changes through the GitHub diffs of PR #61 and
+agrees with them. Decision 5 is closed by the owner's own review. In the same
+message he authorised the merge of PR #61 (merge commit) and the Wiki write
+portion of SLICE-008. Live publication with served-version readback and the
+first real post-crossover contribution remain open.
