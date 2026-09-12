@@ -419,3 +419,15 @@ and `windows-2025`; Jena 6.2.0 downloaded from downloads.apache.org with
 missing` (exit 2), as does the draft-diagnostics step of the differential job.
 `Editing policy QA` passes. The remaining red is the pending rights decision
 (SLICE-004), not a defect.
+
+### Authority rights approved (12 September 2026)
+
+Max approved the authority rights. The three raw payloads and their derived
+snapshots are now tracked under `policy/authorities/` with provenance citing
+the decision; the derived digests equal the untracked derivation used for the
+SLICE-004 diagnostics (IANA `d84701a5…`, LOC `18fda70b…`, EU `2a5bbde3…`).
+`.gitattributes` exempts `policy/authorities/raw/` from whitespace/EOL
+normalisation (as `src/external/**` already is) so the payloads stay
+byte-exact for their recorded hashes. `--purpose latest-active` now runs
+without `--authorities` and reports the 750 known blockers (exit 1). Decision 1
+of the SLICE-007 list is closed.

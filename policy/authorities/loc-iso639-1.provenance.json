@@ -1,0 +1,17 @@
+{
+  "authority": "loc-iso639-1",
+  "authorityIri": "https://haddenindustries.com/ontology/policy/authority/loc-iso639-1",
+  "derivedSha256": "18fda70b4b450c9e28341d2e7016e62171af3c09b8532100dbfd5f4ec55c5017",
+  "licence": "Library of Congress id.loc.gov: US Government work, no known copyright restrictions",
+  "mediaType": "application/rdf+xml",
+  "memberCount": 183,
+  "parser": "rdflib",
+  "parserVersion": "7.6.0",
+  "rawByteCount": 205178,
+  "rawSha256": "6e946b7f2c84b499c162fbf41f58b78e88027ae84b9b8cefb91c869ad75c2d59",
+  "retrievedOn": "2026-09-12",
+  "rightsDecision": "Max approved authority rights on 2026-09-12 (implementation session, PR #61)",
+  "sourceUrl": "https://id.loc.gov/vocabulary/iso639-1.rdf",
+  "transformation": "skos:Concept subjects under the iso639-1 namespace",
+  "tripleCount": 3095
+}

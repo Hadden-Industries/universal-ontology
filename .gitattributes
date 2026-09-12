@@ -6,3 +6,6 @@
 # Preserve files exactly as supplied/generated
 src/external/** -text !eol
 dist/**         -text !eol
+
+# Authority payloads are retained byte-exact for their recorded hashes: no EOL or whitespace normalisation.
+policy/authorities/raw/* -text -whitespace
