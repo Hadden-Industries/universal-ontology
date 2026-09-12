@@ -62,15 +62,30 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def helper_interpreter(upload_script: Path) -> str:
+    """The interpreter that carries the helper's own dependencies (awscrt).
+
+    The amazon-aws repository keeps them in its ``.venv``; this repository's
+    environment is hash-locked to the ontology toolchain and deliberately does
+    not carry them. Fall back to the current interpreter when that venv is absent.
+    """
+    repository = upload_script.resolve().parent.parent
+    for candidate in (repository / ".venv" / "Scripts" / "python.exe", repository / ".venv" / "bin" / "python"):
+        if candidate.is_file():
+            return str(candidate)
+    return sys.executable
+
+
 def build_upload_command(
     upload_script: Path,
     local_directory: Path,
     *,
     force: bool,
+    interpreter: str | None = None,
 ) -> list[str]:
     """Build the underlying amazon-aws upload-helper command."""
     command = [
-        sys.executable,
+        interpreter or sys.executable,
         str(upload_script),
         str(local_directory),
         "--region", "eu-west-1",
@@ -107,6 +122,7 @@ def main(argv: list[str] | None = None) -> None:
         upload_script,
         local_directory,
         force=args.force,
+        interpreter=helper_interpreter(upload_script),
     )
 
     try:

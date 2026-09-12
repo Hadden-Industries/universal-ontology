@@ -54,6 +54,22 @@ class UploadToS3CommandTests(unittest.TestCase):
         self.assertFalse(upload_to_s3.parse_args([]).force)
         self.assertTrue(upload_to_s3.parse_args(["--force"]).force)
 
+    def test_helper_runs_under_its_own_repository_venv_when_present(self):
+        """awscrt lives in the amazon-aws venv, not in this repository's hash-locked environment."""
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as temporary:
+            helper = Path(temporary) / "amazon-aws" / "scripts" / "upload_to_s3.py"
+            helper.parent.mkdir(parents=True)
+            helper.write_text("", encoding="utf-8")
+            self.assertEqual(upload_to_s3.helper_interpreter(helper), sys.executable)
+            venv_python = Path(temporary) / "amazon-aws" / ".venv" / ("Scripts/python.exe" if sys.platform == "win32" else "bin/python")
+            venv_python.parent.mkdir(parents=True)
+            venv_python.write_text("", encoding="utf-8")
+            self.assertEqual(upload_to_s3.helper_interpreter(helper), str(venv_python))
+            command = upload_to_s3.build_upload_command(helper, self.local_directory, force=False, interpreter=str(venv_python))
+            self.assertEqual(command[0], str(venv_python))
+
     def test_helper_is_found_beside_the_main_repository_from_a_linked_worktree(self):
         """A linked worktree elsewhere on disk still resolves the helper beside the main checkout."""
         import subprocess
