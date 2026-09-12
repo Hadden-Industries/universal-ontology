@@ -66,8 +66,19 @@ class ImportCatalogTest(unittest.TestCase):
                 for iri in sorted(closure):
                     self.assertIn(iri, entries, f"{catalog} lacks an entry for {iri}; update it with the version increment")
                     target = entries[iri].replace("\\", "/")
-                    expected = "../dist/" + iri[len(OWNED_PREFIX):]
+                    expected = "../src/" + iri[len(OWNED_PREFIX):]
                     self.assertEqual(target, expected, f"{catalog} maps {iri} to {target}, expected {expected}")
+
+    def test_every_catalog_target_exists_on_a_clean_checkout(self):
+        """Targets point into tracked src/, never into build output, so Protégé resolves offline without a build."""
+        for working_path in self.modules:
+            catalog = REPOSITORY_ROOT / Path(working_path).parent / "catalog-v001.xml"
+            if not catalog.is_file():
+                continue
+            with self.subTest(module=working_path):
+                for name, target in catalog_entries(catalog).items():
+                    self.assertFalse(target.replace("\\", "/").startswith("../dist/"), f"{catalog}: {name} resolves to build output {target}")
+                    self.assertTrue((catalog.parent / target).is_file(), f"{catalog}: {name} -> {target} does not exist")
 
     def test_catalog_entries_for_owned_versions_are_not_stale(self):
         """No catalog keeps an entry for a superseded owned version that the module no longer imports."""

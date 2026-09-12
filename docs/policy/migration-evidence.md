@@ -641,10 +641,14 @@ XML catalogs (`core/`, `extended/`, `reference-data/`, `iso-iec11179-3/`
 `catalog-v001.xml`) map each module's `owl:imports` IRIs to local paths so
 Protégé and similar tools resolve imports without the network, and they still
 pointed at the 20260714 versions. The dated owned entries now name the
-20260912 versions (`../dist/...` targets, as before). `tests/test_import_catalogs.py`
+20260912 versions, and every target now points into the tracked `../src/` tree
+instead of the git-ignored `../dist/` build output (Max chose this on 12
+September 2026 so Protégé resolves imports on a clean checkout without a
+build; the external entries move likewise). `tests/test_import_catalogs.py`
 makes the step unforgettable: for every module it walks the owned
 `owl:imports` closure through the tracked `src/` artifacts and requires a
-catalog entry with the matching `../dist/` target for each dated IRI, and no
+catalog entry with the matching `../src/` target for each dated IRI, that every
+target exists on a clean checkout and none points into `dist/`, and no
 stale dated entry; it fails on the previous catalogs and passes now. The
 version-increment change set is therefore: working file, dated `src/`
 artifact, `policy/activation.ttl` at activation, and the catalogs.
