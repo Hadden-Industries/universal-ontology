@@ -66,10 +66,21 @@ def assemble_sources(
         if item is not None:
             sources.append(read_module_source(module, item.path, revision=item.revision, repository=repository))
         elif module.active_artifact_path:
-            sources.append(read_module_source(module, module.active_artifact_path, repository=repository))
+            sources.append(active_artifact_source(module, repository))
         else:
             raise ContextError(f"{module.label} has no active artifact and no selected replacement.")
     return sources
+
+
+def active_artifact_source(module: OwnedModule, repository: Path | None = None) -> ModuleSource:
+    """Read the activated artifact and refuse bytes that differ from the digest recorded at activation."""
+    source = read_module_source(module, module.active_artifact_path, repository=repository)
+    if module.active_content_digest and source.digest != module.active_content_digest:
+        raise ContextError(
+            f"{module.active_artifact_path} no longer matches the activation record "
+            f"({module.active_content_digest} recorded, {source.digest} now); re-activate through the qualified procedure."
+        )
+    return source
 
 
 def assemble_comparisons(
@@ -93,12 +104,12 @@ def assemble_comparisons(
             except InputError:
                 comparisons[module.iri] = None  # added in this change: no previous blob
         elif module.active_artifact_path:
-            comparisons[module.iri] = read_module_source(module, module.active_artifact_path, repository=repository)
+            comparisons[module.iri] = active_artifact_source(module, repository)
     for module in modules:
         if comparisons[module.iri] is None and module.iri not in {module_for_path(modules, i.path).iri for i in selected if module_for_path(modules, i.path)}:
             # unreplaced modules are their own active artifact: unchanged by construction
             if module.active_artifact_path:
-                comparisons[module.iri] = read_module_source(module, module.active_artifact_path, repository=repository)
+                comparisons[module.iri] = active_artifact_source(module, repository)
     return comparisons
 
 

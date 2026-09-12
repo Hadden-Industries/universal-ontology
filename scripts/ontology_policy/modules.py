@@ -22,6 +22,7 @@ class OwnedModule:
     working_path: str
     active_version_iri: URIRef | None
     active_artifact_path: str | None
+    active_content_digest: str | None = None  # sha256 of the activated artifact bytes, recorded at activation
     iso_naming: bool = False
 
     def owns(self, subject: URIRef) -> bool:
@@ -50,6 +51,7 @@ def load_owned_modules(policy_directory: Path = POLICY_DIRECTORY) -> tuple[Owned
             raise PolicyDefinitionError(f"{module_iri} declares no owned namespace.")
         active_version = _single(graph, module_iri, UOP.activeVersionIri, required=False)
         active_path = _single(graph, module_iri, UOP.activeArtifactPath, required=False)
+        active_digest = _single(graph, module_iri, UOP.activeContentDigest, required=False)
         modules.append(
             OwnedModule(
                 iri=module_iri,
@@ -59,6 +61,7 @@ def load_owned_modules(policy_directory: Path = POLICY_DIRECTORY) -> tuple[Owned
                 working_path=str(_single(graph, module_iri, UOP.workingPath)),
                 active_version_iri=URIRef(str(active_version)) if active_version is not None else None,
                 active_artifact_path=str(active_path) if active_path is not None else None,
+                active_content_digest=str(active_digest) if active_digest is not None else None,
                 iso_naming=bool(_single(graph, module_iri, UOP.isoNaming, required=False) or False),
             )
         )

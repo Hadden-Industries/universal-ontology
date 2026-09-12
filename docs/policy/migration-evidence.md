@@ -503,3 +503,33 @@ or `1386693`; the difference between them is the two `vann` header
 declarations and this document. This closes the ordinary-review and
 owner-review items of the SLICE-007 exit. It is not a merge, activation or
 publication authorisation; the Codex Security workflow remains not run.
+
+## SLICE-008 — activation of the qualified set (12 September 2026)
+
+Max authorised the SLICE-008 activation after approving PR #61. The activation
+is the record change in `policy/activation.ttl`, made only after the candidate
+receipt `20260912T110813Z` qualified the exact dated artifacts:
+
+- `uoa:ActiveSet` now names the 20260912 versions with, per module, the
+  artifact path and its SHA-256 content digest (`uop:activeContentDigest`),
+  plus the policy identity (`sha256:25075397…`) and the qualifying candidate
+  receipt; its predecessor `uoa:ActiveSet-20260714` retains the five
+  previously served version IRIs (core/extended/reference-data 20260714,
+  ISO 31073 20260626, ISO/IEC 11179-3 20260714).
+- The engine enforces the recorded digest: every read of an active artifact
+  (`assemble_sources`, comparisons) refuses bytes that differ from the
+  activation record with a `ContextError`, so a drifted dated file cannot be
+  validated as "active" (test added).
+- Latest-active qualification on the activated set: **0 violations, 191
+  warnings, qualifies**; receipt reissued `20260912T111638Z` with purpose
+  `latest-active`. After `npm run build`, `check_repository_publication`
+  binds all five `…/20260912` artifacts (`GateVerdict` with the policy
+  identity), so the publication boundary is open for the activated set and
+  closed for anything else.
+- The CLI contract tests are repointed from the 20260714 locators to 20260912.
+
+Not part of this step (each remains a separate SLICE-008 authorisation): the
+hook/CI switch to `--purpose draft --staged`, retirement of
+`tests/universalontologytest.py` and `xmlunittest`, the Wiki Git write with
+readback, and live publication with served-version readback. The ISO 31073
+preferred prefix is still unnamed.

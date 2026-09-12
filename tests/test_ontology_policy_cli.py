@@ -26,9 +26,9 @@ class SourceAssemblyTest(unittest.TestCase):
     def test_working_and_dated_paths_map_to_their_module_but_full_artifacts_do_not(self):
         core = module_for_path(self.modules, "core/universal-core.owl")
         self.assertEqual(core.label, "Universal Core")
-        self.assertEqual(module_for_path(self.modules, "src/universal/core/20260714").label, "Universal Core")
-        self.assertEqual(module_for_path(self.modules, "src/iso-iec/11179/-3/ed-4/20260714").label, "ISO/IEC 11179-3 (edition 4)")
-        self.assertIsNone(module_for_path(self.modules, "src/universal/core/20260714-full"))
+        self.assertEqual(module_for_path(self.modules, "src/universal/core/20260912").label, "Universal Core")
+        self.assertEqual(module_for_path(self.modules, "src/iso-iec/11179/-3/ed-4/20260912").label, "ISO/IEC 11179-3 (edition 4)")
+        self.assertIsNone(module_for_path(self.modules, "src/universal/core/20260912-full"))
         self.assertIsNone(module_for_path(self.modules, "docs/README.md"))
 
     def test_latest_active_uses_exactly_the_recorded_active_artifacts(self):
@@ -40,19 +40,27 @@ class SourceAssemblyTest(unittest.TestCase):
         sources = assemble_sources(RunPurpose.CANDIDATE, [SelectedSource("extended/universal-extended.owl", None)], self.modules, REPOSITORY_ROOT)
         by_label = {source.module.label: source.locator for source in sources}
         self.assertEqual(by_label["Universal Extended"], "extended/universal-extended.owl")
-        self.assertEqual(by_label["Universal Core"], "src/universal/core/20260714")
+        self.assertEqual(by_label["Universal Core"], "src/universal/core/20260912")
         self.assertEqual(len(sources), len(self.modules))
 
     def test_comparisons_come_from_the_active_artifact_or_the_base_commit_and_never_for_latest_active(self):
         selected = [SelectedSource("extended/universal-extended.owl", None)]
         comparisons = assemble_comparisons(RunPurpose.CANDIDATE, selected, self.modules, REPOSITORY_ROOT)
         by_label = {module.label: comparisons[module.iri] for module in self.modules}
-        self.assertEqual(by_label["Universal Extended"].locator, "src/universal/extended/20260714")
-        self.assertEqual(by_label["Universal Core"].locator, "src/universal/core/20260714")
+        self.assertEqual(by_label["Universal Extended"].locator, "src/universal/extended/20260912")
+        self.assertEqual(by_label["Universal Core"].locator, "src/universal/core/20260912")
         self.assertTrue(all(value is None for value in assemble_comparisons(RunPurpose.LATEST_ACTIVE, selected, self.modules, REPOSITORY_ROOT).values()))
         based = assemble_comparisons(RunPurpose.DRAFT, [SelectedSource("extended/universal-extended.owl", None, "HEAD")], self.modules, REPOSITORY_ROOT)
         self.assertTrue(by_label["Universal Extended"].locator != based[[m for m in self.modules if m.label == "Universal Extended"][0].iri].locator)
         self.assertTrue(based[[m for m in self.modules if m.label == "Universal Extended"][0].iri].locator.startswith("HEAD:"))
+
+    def test_an_active_artifact_whose_bytes_drift_from_the_activation_digest_is_refused(self):
+        import dataclasses
+        core = [m for m in self.modules if m.label == "Universal Core"][0]
+        self.assertTrue(core.active_content_digest and core.active_content_digest.startswith("sha256:"))
+        drifted = tuple(dataclasses.replace(m, active_content_digest="sha256:" + "0" * 64) if m is core else m for m in self.modules)
+        with self.assertRaisesRegex(ContextError, "no longer matches the activation record"):
+            assemble_sources(RunPurpose.LATEST_ACTIVE, [], drifted, REPOSITORY_ROOT)
 
     def test_an_input_outside_the_reviewed_modules_is_a_context_error(self):
         with self.assertRaises(ContextError):
@@ -62,7 +70,7 @@ class SourceAssemblyTest(unittest.TestCase):
         with self.assertRaises(ContextError):
             assemble_sources(
                 RunPurpose.DRAFT,
-                [SelectedSource("core/universal-core.owl", None), SelectedSource("src/universal/core/20260714", None)],
+                [SelectedSource("core/universal-core.owl", None), SelectedSource("src/universal/core/20260912", None)],
                 self.modules, REPOSITORY_ROOT,
             )
 
@@ -73,7 +81,7 @@ class CommandContractTest(unittest.TestCase):
         self.assertIn(completed.returncode, (0, 1), completed.stderr)
         self.assertIn("authority iana-media-types sha256:", completed.stdout)
         self.assertIn("Run purpose: latest-active", completed.stdout)
-        self.assertIn("src/universal/core/20260714 sha256:", completed.stdout)
+        self.assertIn("src/universal/core/20260912 sha256:", completed.stdout)
         self.assertIn("Targeted owned entities: ", completed.stdout)
         self.assertNotIn("universalontologytest", completed.stdout + completed.stderr)
 
@@ -98,7 +106,7 @@ class CommandContractTest(unittest.TestCase):
         # so the draft selects all five current sources rather than one file.
         completed = run_command("--purpose", "draft", "--authorities", FIXTURE_AUTHORITIES, "--all-current")
         self.assertIn(completed.returncode, (0, 1), completed.stderr)
-        self.assertIn("comparison https://haddenindustries.com/ontology/policy/activation/extended: src/universal/extended/20260714 sha256:", completed.stdout)
+        self.assertIn("comparison https://haddenindustries.com/ontology/policy/activation/extended: src/universal/extended/20260912 sha256:", completed.stdout)
         self.assertIn("(diagnostic purpose)", completed.stdout)
 
     def test_pre_install_planning_needs_no_rdf_dependencies(self):
