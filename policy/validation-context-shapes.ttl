@@ -41,7 +41,8 @@ uoc:ModuleShape
     sh:property [ sh:path uoc:ontologyIri ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path uoc:ownedNamespace ; sh:minCount 1 ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path uoc:sourceDigest ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "^sha256:[0-9a-f]{64}$" ] ;
-    sh:property [ sh:path uoc:sourceLocator ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+    sh:property [ sh:path uoc:sourceLocator ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path uoc:isoNaming ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
 
 uoc:OwnershipShape
     a sh:NodeShape ;

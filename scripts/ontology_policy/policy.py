@@ -37,7 +37,7 @@ class Policy:
         for owner in self.rules.subjects(SH.property, shape):
             if (owner, UOP.requirementId, None) in self.rules:
                 return owner
-        for owner in self.rules.subjects(SH.node, shape):
+        for owner in self.rules.objects(shape, UOP.partOf):
             if (owner, UOP.requirementId, None) in self.rules:
                 return owner
         return None

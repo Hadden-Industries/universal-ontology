@@ -80,7 +80,7 @@ uop:ExecutableRequirementShape
         sh:select """
             SELECT $this ?value WHERE {
                 $this a sh:NodeShape ; uop:normativeStrength ?strength .
-                { $this sh:property ?constraint } UNION { BIND($this AS ?constraint) }
+                { $this sh:property ?constraint } UNION { BIND($this AS ?constraint) } UNION { ?constraint uop:partOf $this }
                 OPTIONAL { ?constraint sh:severity ?declared }
                 BIND(COALESCE(?declared, sh:Violation) AS ?value)
                 FILTER (
@@ -90,6 +90,17 @@ uop:ExecutableRequirementShape
             }
             """ ;
     ] .
+
+# A part shape carries one SPARQL check on its own candidate target; the
+# candidates it selects are the failures within the requirement's population.
+
+uop:PartShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf uop:partOf ;
+    sh:nodeKind sh:IRI ;
+    sh:property [ sh:path uop:partOf ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path sh:target ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path sh:sparql ; sh:minCount 1 ; sh:nodeKind sh:IRI ] .
 
 uop:PropertyGroupShape
     a sh:NodeShape ;

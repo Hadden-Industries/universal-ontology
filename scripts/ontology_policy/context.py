@@ -104,6 +104,8 @@ def build_validation_graph(sources: list[ModuleSource], purpose: RunPurpose) -> 
         context.add((module.iri, UOC.ontologyIri, module.ontology_iri))
         for namespace in module.owned_namespaces:
             context.add((module.iri, UOC.ownedNamespace, URIRef(namespace)))
+        if module.iso_naming:
+            context.add((module.iri, UOC.isoNaming, Literal(True)))
         context.add((module.iri, UOC.sourceDigest, Literal(source.digest)))
         context.add((module.iri, UOC.sourceLocator, Literal(source.locator)))
         for subject in owned_subjects(source):

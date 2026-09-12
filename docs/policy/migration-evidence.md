@@ -80,3 +80,67 @@ rule catalogue is complete.
 **Gaps carried forward:** Linux clean-install and Jena execution need the
 approved workflow; conditional `modified` proof needs the change facts of
 SLICE-005; `.java-version` lands with its consumer.
+
+## SLICE-002 — documentation as a checked projection
+
+`scripts/ontology_policy/coverage.py` reconciles **sets** of stable IDs: executable
+rules, documented executable rules, rules with a passing fixture subject, rules
+with a failing fixture subject, and human clauses versus documented human
+clauses (`tests/test_ontology_policy_coverage.py`). Each fixture expectation
+declares the rules it is the oracle for; an undeclared result, an unknown rule
+or a same-size set with a duplicate and an omission is reported. Every
+requirement renders exactly one heading; `--check` refuses stale output.
+
+## SLICE-003 — entity, ontology and axiom policy semantics
+
+**Rules added (19 executable, 1 human):** EP-ENTITY-UUID, EP-IDENTIFIER-UNIQUE,
+EP-ENTITY-CREATOR, EP-ENTITY-CREATED, EP-MODIFIED (static form; the change
+obligation waits for SLICE-005), EP-CONTRIBUTOR, EP-CLASS-NAME,
+EP-INDIVIDUAL-NAME, EP-PROPERTY-NAME (MUST), EP-PROPERTY-NAME-ISO (SHOULD),
+EP-LABEL, EP-PREFLABEL-LANGUAGE, EP-PREFLABEL-IRI, EP-PREFLABEL-LABEL,
+EP-DEFINITION, EP-DESCRIPTIVE-LANGUAGE, EP-DESCRIPTION-LANGUAGE,
+EP-OPTIONAL-ANNOTATIONS, EP-ONT-VERSION, EP-AXIOM-POSITION.
+
+**Oracles:** `tests/fixtures/ontology-policy/{complete,entity-metadata,naming,
+labels,ontology-header,axiom}` — 21 expectation files authored from the Wiki
+clauses and DEC decisions before the shapes; `complete.ttl` is the positive
+control producing zero results for every rule under a qualification purpose.
+All 21 matched on the first execution except one Turtle syntax slip in a
+fixture (`ex:term/Consequence`, repaired as a full IRI).
+
+**Scope decision recorded:** DCAT dataset/distribution subjects are owned by
+reference-data but follow their own profile (DEC-012). The legacy validator
+applied entity metadata only to IRIs under the module namespace
+(`tests/universalontologytest.py` line 414), so the entity targets exclude the
+`dataset/` and `distribution/` namespaces; the descriptive-language rule still
+reaches every owned subject. Before this exclusion the 286 DCAT subjects
+produced 858 spurious entity results.
+
+**Execution structure:** per-focus SPARQL constraints cost 135 s
+(identifier uniqueness, an unindexed join order in RDFLib), 60 s (label
+correspondence), 37 s (descriptive language) and 5–10 s each for the naming
+and definition checks on the real active set. Every SPARQL check is therefore a
+*part shape* (`uop:partOf`) whose target selects the failing candidates in one
+query; the constraint re-derives path/value only for those nodes. Results are
+identical; the full active-set run fell from 285 s to 16 s (pySHACL) and Jena
+takes 2.5 s. The metadata contract requires parts to be IRIs with a target and
+keeps severity agreement across parts.
+
+**Cross-engine:** identity parity (rule/focus/path/value/severity) holds on all
+21 fixtures and on the full active set (941 pySHACL / 947 Jena results; the
+difference is Jena emitting one row per co-holder of a shared identifier and one
+extra datatype component for a date-only `xsd:dateTime`, both recorded as
+component multiplicity, never as lost results). Jena's parser also flags the
+`Duty` header-style `xsd:date` with a dateTime lexical at load.
+
+**Latest-active audit (12 September 2026, 1,951 owned entities):**
+
+| Finding | Count | Classification |
+|---|---|---|
+| EP-ENTITY-UUID: owned ObjectProperty/DatatypeProperty without any identifier | 737 (all owned properties; classes and individuals all carry genuine v4 UUIDs) | accepted policy change (DEC-005/DEC-022); data remediation before activation |
+| EP-IDENTIFIER-UNIQUE: `urn:uuid:e35adf3f-6bda-4d54-80d2-686c39fae4ec` held by `extended/DocumentToNamespaceRelationship` and `reference-data/DocumentToNamespaceRelationshipType` | 2 | legacy defect (cross-module duplicate never compared by the file-wide legacy check); data fix |
+| EP-IDENTIFIER-UNIQUE: `xsd:positiveInteger` codes 1–4 shared by weekday, compass and side enumerations | 10 | unresolved meaning: DEC-015 as written compares literal identifiers, the legacy check compared IRIs only; owner decision needed |
+| EP-MODIFIED: `extended/Duty` modified `"2026-06-26T16:04:00Z"^^xsd:date` | 1 | legacy defect (dateTime lexical typed as date; both engines reject it); data fix |
+| EP-PROPERTY-NAME-ISO warnings | 191 | accepted recommendation (DEC-002): ISO 31073 uses camelCase, ISO/IEC 11179-3 uses PascalCase_snake prefixes; visible, non-blocking |
+
+No other rule reports on the current active set.

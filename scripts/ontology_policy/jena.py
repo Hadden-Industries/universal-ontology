@@ -100,5 +100,29 @@ def split_log_prefix(stdout: str) -> tuple[tuple[str, ...], str]:
 
 
 def comparable(results) -> set[tuple[str, str, str, str, str]]:
-    """The mandatory parity fields: rule, focus, path, value and severity."""
-    return {(r.requirement_id, r.focus_node, r.path, r.value, r.severity) for r in results}
+    """The mandatory parity identity: rule, focus, path, value and severity.
+
+    Blank-node focus nodes keep no engine-specific label. ``sh:uniqueLang``
+    results have no ``sh:value`` in the SHACL specification (Jena supplies one,
+    pySHACL does not), so that value is blanked. Constraint-component
+    multiplicity is engine granularity and is reported separately.
+    """
+    return {
+        (
+            r.requirement_id,
+            "_:" if r.focus_node.startswith("_:") else r.focus_node,
+            r.path,
+            "" if r.constraint_component == "sh:UniqueLangConstraintComponent" else r.value,
+            r.severity,
+        )
+        for r in results
+    }
+
+
+def component_multiplicity(results) -> dict[tuple[str, str, str], int]:
+    """How many constraint components each engine raised per (rule, focus, path); evidence, not parity."""
+    counts: dict[tuple[str, str, str], int] = {}
+    for r in results:
+        key = (r.requirement_id, "_:" if r.focus_node.startswith("_:") else r.focus_node, r.path)
+        counts[key] = counts.get(key, 0) + 1
+    return counts

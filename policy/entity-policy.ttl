@@ -1,16 +1,129 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
 @prefix sh:      <http://www.w3.org/ns/shacl#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix uc:      <https://haddenindustries.com/ontology/universal/core/> .
 @prefix uop:     <https://haddenindustries.com/ontology/policy#> .
 @prefix ep:      <https://haddenindustries.com/ontology/policy/editing/> .
 
-# Metadata rules for owned Classes, NamedIndividuals, ObjectProperties and
+# Rules for owned Classes, NamedIndividuals, ObjectProperties and
 # DatatypeProperties. Each rule is one named shape with a stable EP-* identifier;
 # its Core/SPARQL constraints and documentary prose live together here.
+# Constraint shapes carry stable IRIs so every engine's report resolves to the rule.
 
 ep:EntityPolicy a uop:PolicyModule ; rdfs:label "Entity policy"@en .
+
+# ---------------------------------------------------------------------------
+# Entity metadata
+# ---------------------------------------------------------------------------
+
+ep:EP-ENTITY-UUID
+    a sh:NodeShape ;
+    uop:requirementId "EP-ENTITY-UUID" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:EntityMetadataGroup ;
+    sh:order 10 ;
+    sh:name "UUID identifier"@en ;
+    sh:description """Every owned Class, NamedIndividual, ObjectProperty and DatatypeProperty has at least one `dcterms:identifier` that is a version-4 UUID URN, for example `urn:uuid:905770f1-45ca-4738-8eb6-a2e84935c74c`. The version nibble must be `4` and the variant nibble `8`, `9`, `a` or `b`; a version-1 UUID or a wrong variant does not qualify even if a lenient parser would accept it. Additional identifiers of other kinds are allowed alongside the qualifying UUID."""@en ;
+    dcterms:source "Editing Policy Wiki W07 (lines 59-61); DEC-005; DEC-015" ;
+    sh:target ep:OwnedEntityTarget ;
+    sh:property ep:EP-ENTITY-UUID-qualifying .
+
+ep:EP-ENTITY-UUID-qualifying
+    a sh:PropertyShape ;
+    sh:path dcterms:identifier ;
+    sh:qualifiedValueShape [
+        sh:nodeKind sh:IRI ;
+        sh:pattern "^urn:uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$" ;
+    ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:message "An owned entity carries at least one version-4 UUID URN identifier."@en .
+
+ep:EP-IDENTIFIER-UNIQUE
+    a sh:NodeShape ;
+    uop:requirementId "EP-IDENTIFIER-UNIQUE" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:EntityMetadataGroup ;
+    sh:order 15 ;
+    sh:name "Identifier uniqueness"@en ;
+    sh:description """Two distinct owned entities in the validated module set never share a `dcterms:identifier`. Ordinary identifiers are compared as RDF terms; UUID URNs are compared without regard to hexadecimal letter case, so `urn:uuid:...AB...` and `urn:uuid:...ab...` are the same identifier. Repeated assertions of one identifier on the same entity are not a second holder, and superseded versions are never combined with the current set. Both holders of an exactly repeated identifier are reported; for a case-variant UUID the holder whose spelling contains uppercase letters is reported."""@en ;
+    dcterms:source "Editing Policy Wiki W08 (line 63); DEC-015" ;
+    sh:target ep:DuplicateIdentifierHolderTarget ;
+    sh:sparql ep:EP-IDENTIFIER-UNIQUE-holders .
+
+ep:DuplicateIdentifierHolderTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "owned entities whose identifier another owned entity also holds"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            {
+                ?this dcterms:identifier ?id .
+                ?other dcterms:identifier ?id .
+                ?this uoc:ownedBy ?module .
+                ?other uoc:ownedBy ?otherModule .
+                FILTER ( ?this != ?other )
+            } UNION {
+                { SELECT ?this ?id WHERE {
+                    ?this dcterms:identifier ?id .
+                    ?this uoc:ownedBy ?module .
+                    FILTER ( isIRI(?id) && REGEX(STR(?id), "^urn:uuid:.*[A-F]") )
+                } }
+                { SELECT ?other ?otherId WHERE {
+                    ?other dcterms:identifier ?otherId .
+                    ?other uoc:ownedBy ?otherModule .
+                    FILTER ( isIRI(?otherId) && STRSTARTS(LCASE(STR(?otherId)), "urn:uuid:") )
+                } }
+                FILTER ( ?this != ?other && ?otherId != ?id && LCASE(STR(?otherId)) = LCASE(STR(?id)) )
+            }
+        }
+        """ .
+
+ep:EP-IDENTIFIER-UNIQUE-holders
+    a sh:SPARQLConstraint ;
+    sh:message "Another owned entity holds the same identifier."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value ?path WHERE {
+            BIND ( dcterms:identifier AS ?path )
+            $this dcterms:identifier ?value .
+            ?other dcterms:identifier ?otherId .
+            ?other uoc:ownedBy ?otherModule .
+            FILTER ( $this != ?other )
+            FILTER ( ?otherId = ?value
+                  || ( isIRI(?value) && isIRI(?otherId) && STRSTARTS(LCASE(STR(?value)), "urn:uuid:")
+                       && LCASE(STR(?otherId)) = LCASE(STR(?value)) ) )
+        }
+        """ .
+
+ep:EP-ENTITY-CREATOR
+    a sh:NodeShape ;
+    uop:requirementId "EP-ENTITY-CREATOR" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:EntityMetadataGroup ;
+    sh:order 20 ;
+    sh:name "Creator"@en ;
+    sh:description """Every owned entity has exactly one `dcterms:creator`, an IRI in the canonical ORCID form `https://orcid.org/0000-0000-0000-000X` (four groups of four characters, digits throughout except that the final character may be an uppercase `X`; no query, fragment or trailing slash). This is an offline format check only: a well-formed ORCID with an incorrect checksum passes, and neither registration nor the person's identity is verified."""@en ;
+    dcterms:source "Editing Policy Wiki W06 (lines 51-57); DEC-022; DEC-026" ;
+    sh:target ep:OwnedEntityTarget ;
+    sh:property ep:EP-ENTITY-CREATOR-count , ep:EP-ENTITY-CREATOR-orcid .
+
+ep:EP-ENTITY-CREATOR-count
+    a sh:PropertyShape ;
+    sh:path dcterms:creator ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:message "An owned entity carries exactly one dcterms:creator."@en .
+
+ep:EP-ENTITY-CREATOR-orcid
+    a sh:PropertyShape ;
+    sh:path dcterms:creator ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https://orcid\\.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$" ;
+    sh:message "dcterms:creator is a canonical https://orcid.org/ IRI."@en .
 
 ep:EP-ENTITY-CREATED
     a sh:NodeShape ;
@@ -24,7 +137,6 @@ ep:EP-ENTITY-CREATED
     sh:target ep:OwnedEntityTarget ;
     sh:property ep:EP-ENTITY-CREATED-count , ep:EP-ENTITY-CREATED-datatype , ep:EP-ENTITY-CREATED-lexical .
 
-# Constraint shapes carry stable IRIs so every engine's report resolves to the rule.
 ep:EP-ENTITY-CREATED-count
     a sh:PropertyShape ;
     sh:path dcterms:created ;
@@ -43,3 +155,534 @@ ep:EP-ENTITY-CREATED-lexical
     sh:path dcterms:created ;
     sh:pattern "^-?[0-9]{4,}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$" ;
     sh:message "dcterms:created is a full date and time in UTC written with the lexical Z designator."@en .
+
+ep:EP-MODIFIED
+    a sh:NodeShape ;
+    uop:requirementId "EP-MODIFIED" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:EntityMetadataGroup ;
+    sh:order 40 ;
+    sh:name "Modification timestamp"@en ;
+    sh:description """An owned entity carries at most one `dcterms:modified` value. When present it is either an `xsd:date` written `YYYY-MM-DD` or an `xsd:dateTime` with a real calendar date and time written in UTC with the lexical `Z` designator. An existing entity whose content changed relative to the comparison snapshot must carry a valid `dcterms:modified`; a valid value that did not change is accepted in ordinary editing, and a newly added entity needs no value. When a run has no comparison snapshot the change obligation is reported as unevaluated rather than invented."""@en ;
+    dcterms:source "Editing Policy Wiki W17 (lines 129-139); DEC-016; DEC-017; DEC-022" ;
+    sh:target ep:OwnedEntityTarget ;
+    sh:property ep:EP-MODIFIED-count , ep:EP-MODIFIED-form .
+
+ep:EP-MODIFIED-count
+    a sh:PropertyShape ;
+    sh:path dcterms:modified ;
+    sh:maxCount 1 ;
+    sh:message "An owned entity carries at most one dcterms:modified value."@en .
+
+ep:EP-MODIFIED-form
+    a sh:PropertyShape ;
+    sh:path dcterms:modified ;
+    sh:or (
+        [ sh:datatype xsd:date ; sh:pattern "^-?[0-9]{4,}-[0-9]{2}-[0-9]{2}$" ]
+        [ sh:datatype xsd:dateTime ; sh:pattern "^-?[0-9]{4,}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$" ]
+    ) ;
+    sh:message "dcterms:modified is an xsd:date (YYYY-MM-DD) or an xsd:dateTime in UTC with the lexical Z designator."@en .
+
+ep:EP-CONTRIBUTOR
+    a sh:NodeShape ;
+    uop:requirementId "EP-CONTRIBUTOR" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:EntityMetadataGroup ;
+    sh:order 50 ;
+    sh:name "Contributors"@en ;
+    sh:description """`dcterms:contributor` is optional and may repeat. Every supplied value is an IRI in the canonical ORCID form, checked offline exactly as for the creator. When a person other than the creator changes an entity, they add themselves as a contributor; that instruction is a human obligation and contributors are never inferred from Git identity."""@en ;
+    dcterms:source "Editing Policy Wiki W18 (lines 141-147); DEC-026" ;
+    sh:target ep:OwnedEntityTarget ;
+    sh:property ep:EP-CONTRIBUTOR-orcid .
+
+ep:EP-CONTRIBUTOR-orcid
+    a sh:PropertyShape ;
+    sh:path dcterms:contributor ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https://orcid\\.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$" ;
+    sh:message "dcterms:contributor is a canonical https://orcid.org/ IRI."@en .
+
+# ---------------------------------------------------------------------------
+# Naming
+# ---------------------------------------------------------------------------
+
+ep:EP-CLASS-NAME
+    a sh:NodeShape ;
+    uop:requirementId "EP-CLASS-NAME" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:NamingGroup ;
+    sh:order 10 ;
+    sh:name "Class local names are PascalCase"@en ;
+    sh:description """The local name of every owned Class (the part after the last `/` or `#`) is ASCII PascalCase: an uppercase letter followed by letters and digits only, for example `RiskEvent`. `risk_event`, `riskEvent` and names with underscores fail. Foreign class declarations present in a module document are not owned and are not checked."""@en ;
+    dcterms:source "Editing Policy Wiki W03 (lines 33-35); DEC-013" ;
+    sh:target ep:OwnedClassTarget .
+
+ep:EP-CLASS-NAME-grammar
+    a sh:SPARQLConstraint ;
+    sh:message "The Class local name is ASCII PascalCase."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value WHERE {
+            BIND ( REPLACE(STR($this), "^.*[/#]", "") AS ?value )
+            FILTER ( !REGEX(?value, "^[A-Z][A-Za-z0-9]*$") )
+        }
+        """ .
+
+ep:EP-INDIVIDUAL-NAME
+    a sh:NodeShape ;
+    uop:requirementId "EP-INDIVIDUAL-NAME" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:NamingGroup ;
+    sh:order 20 ;
+    sh:name "NamedIndividual local names are PascalCase with an optional class prefix"@en ;
+    sh:description """The local name of every owned NamedIndividual is ASCII PascalCase, optionally preceded by the PascalCase local name of one of the individual's explicitly asserted classes and an underscore: `Red` and `Colour_Red` are both valid for an individual typed `Colour`. A prefix that is not an asserted class, an empty suffix, or stripping an arbitrary first underscore fails; an inferred superclass never supplies the prefix. DCAT dataset and distribution individuals follow their own profile and are not targeted."""@en ;
+    dcterms:source "Editing Policy Wiki W03 (lines 33-35); DEC-003; DEC-013" ;
+    sh:target ep:OwnedNamedIndividualTarget .
+
+ep:EP-INDIVIDUAL-NAME-grammar
+    a sh:SPARQLConstraint ;
+    sh:message "The NamedIndividual local name is PascalCase, or AssertedClass_PascalCase."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value WHERE {
+            BIND ( REPLACE(STR($this), "^.*[/#]", "") AS ?value )
+            FILTER ( !REGEX(?value, "^[A-Z][A-Za-z0-9]*$") )
+            FILTER ( !( REGEX(?value, "^[A-Z][A-Za-z0-9]*_[A-Z][A-Za-z0-9]*$")
+                        && EXISTS {
+                            $this a ?class .
+                            FILTER ( REPLACE(STR(?class), "^.*[/#]", "") = REPLACE(?value, "_.*$", "") )
+                        } ) )
+        }
+        """ .
+
+ep:EP-PROPERTY-NAME
+    a sh:NodeShape ;
+    uop:requirementId "EP-PROPERTY-NAME" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:NamingGroup ;
+    sh:order 30 ;
+    sh:name "Property local names are camelCase"@en ;
+    sh:description """In every module that does not follow ISO naming, the local name of an owned ObjectProperty or DatatypeProperty is ASCII camelCase (a lowercase letter followed by letters and digits), optionally preceded by a PascalCase prefix and an underscore: `hasPart` and `Thing_hasPart` pass; `thing_hasPart`, `HasPart` and `has_part` fail. Modules flagged as ISO naming are assessed by the separate ISO recommendation instead."""@en ;
+    dcterms:source "Editing Policy Wiki W04 (line 37); DEC-002; DEC-013" ;
+    sh:target ep:OwnedPropertyTarget .
+
+ep:EP-PROPERTY-NAME-grammar
+    a sh:SPARQLConstraint ;
+    sh:message "The property local name is camelCase, optionally with a PascalCase_ prefix."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value WHERE {
+            $this uoc:ownedBy ?module .
+            FILTER NOT EXISTS { ?module uoc:isoNaming true }
+            BIND ( REPLACE(STR($this), "^.*[/#]", "") AS ?value )
+            FILTER ( !REGEX(?value, "^([A-Z][A-Za-z0-9]*_)?[a-z][A-Za-z0-9]*$") )
+        }
+        """ .
+
+ep:EP-PROPERTY-NAME-ISO
+    a sh:NodeShape ;
+    uop:requirementId "EP-PROPERTY-NAME-ISO" ;
+    uop:normativeStrength "SHOULD" ;
+    sh:severity sh:Warning ;
+    sh:group ep:NamingGroup ;
+    sh:order 35 ;
+    sh:name "ISO property local names should be lower snake_case"@en ;
+    sh:description """In modules flagged as ISO naming, the whole local name of an owned property should be lower snake_case as written in the standard, for example `registration_status`. Any other spelling, including a capitalised prefix, is reported as a warning and never blocks."""@en ;
+    dcterms:source "Editing Policy Wiki W04 (line 37); DEC-002; DEC-013" ;
+    sh:target ep:OwnedPropertyTarget .
+
+ep:EP-PROPERTY-NAME-ISO-grammar
+    a sh:SPARQLConstraint ;
+    sh:message "The ISO property local name should be lower snake_case."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value WHERE {
+            $this uoc:ownedBy ?module .
+            ?module uoc:isoNaming true .
+            BIND ( REPLACE(STR($this), "^.*[/#]", "") AS ?value )
+            FILTER ( !REGEX(?value, "^[a-z][a-z0-9]*(_[a-z0-9]+)*$") )
+        }
+        """ .
+
+# ---------------------------------------------------------------------------
+# Labels, definitions and descriptive text
+# ---------------------------------------------------------------------------
+
+ep:EP-LABEL
+    a sh:NodeShape ;
+    uop:requirementId "EP-LABEL" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:LabelsAndDefinitionsGroup ;
+    sh:order 10 ;
+    sh:name "Labels"@en ;
+    sh:description """Every owned entity has at least one `rdfs:label`, and every label is a language-tagged literal. Several labels in the same language are allowed on one entity, and two different entities may share a label such as `"Bank"@en`; identical label triples collapse in RDF, so per-entity duplicates cannot occur."""@en ;
+    dcterms:source "Editing Policy Wiki W09 (lines 65-73); DEC-006; DEC-024" ;
+    sh:target ep:OwnedEntityTarget ;
+    sh:property ep:EP-LABEL-count , ep:EP-LABEL-language .
+
+ep:EP-LABEL-count
+    a sh:PropertyShape ;
+    sh:path rdfs:label ;
+    sh:minCount 1 ;
+    sh:message "An owned entity carries at least one rdfs:label."@en .
+
+ep:EP-LABEL-language
+    a sh:PropertyShape ;
+    sh:path rdfs:label ;
+    sh:datatype rdf:langString ;
+    sh:message "Every rdfs:label is a language-tagged literal."@en .
+
+ep:EP-PREFLABEL-LANGUAGE
+    a sh:NodeShape ;
+    uop:requirementId "EP-PREFLABEL-LANGUAGE" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:LabelsAndDefinitionsGroup ;
+    sh:order 20 ;
+    sh:name "Preferred labels"@en ;
+    sh:description """Every owned entity has at least one `skos:prefLabel` in an English language variant (`en`, `en-GB`, `en-US`, ...). Preferred labels are language-tagged, at most one per language tag, and other languages remain allowed alongside the English one."""@en ;
+    dcterms:source "Editing Policy Wiki W12 (lines 92-94); DEC-014" ;
+    sh:target ep:OwnedEntityTarget ;
+    sh:property ep:EP-PREFLABEL-LANGUAGE-english , ep:EP-PREFLABEL-LANGUAGE-tags .
+
+ep:EP-PREFLABEL-LANGUAGE-english
+    a sh:PropertyShape ;
+    sh:path skos:prefLabel ;
+    sh:qualifiedValueShape [ sh:languageIn ( "en" ) ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:message "At least one skos:prefLabel is in an English language variant."@en .
+
+ep:EP-PREFLABEL-LANGUAGE-tags
+    a sh:PropertyShape ;
+    sh:path skos:prefLabel ;
+    sh:datatype rdf:langString ;
+    sh:uniqueLang true ;
+    sh:message "Preferred labels are language-tagged with at most one per language."@en .
+
+ep:EP-PREFLABEL-IRI
+    a sh:NodeShape ;
+    uop:requirementId "EP-PREFLABEL-IRI" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:LabelsAndDefinitionsGroup ;
+    sh:order 30 ;
+    sh:name "An English preferred label corresponds to the local name"@en ;
+    sh:description """At least one English `skos:prefLabel` corresponds to the entity's local name: after removing spaces and punctuation and comparing without regard to case, the label equals the local name (underscores removed) or the local name after an optional `PascalCase_` prefix. A leading digit in the label may be written as its English word, so `3D Model` and `Three D Model` both correspond to `ThreeDModel`, and `Red` corresponds to `Colour_Red`. Additional English spellings and other languages may differ freely: `Colour`@en-GB and `Color`@en-US may coexist on `Colour`."""@en ;
+    dcterms:source "Editing Policy Wiki W11 (lines 84-90); DEC-003; DEC-013; DEC-014" ;
+    sh:target ep:OwnedEntityTarget .
+
+ep:EP-PREFLABEL-IRI-correspondence
+    a sh:SPARQLConstraint ;
+    sh:message "No English skos:prefLabel corresponds to the local name."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this WHERE {
+            BIND ( REPLACE(STR($this), "^.*[/#]", "") AS ?local )
+            BIND ( LCASE(REPLACE(?local, "_", "")) AS ?fullKey )
+            BIND ( LCASE(REPLACE(REPLACE(?local, "^[A-Z][A-Za-z0-9]*_", ""), "_", "")) AS ?suffixKey )
+            FILTER NOT EXISTS {
+                $this skos:prefLabel ?label .
+                FILTER ( LANGMATCHES(LANG(?label), "en") )
+                BIND ( REPLACE(STR(?label), "[^A-Za-z0-9]", "") AS ?compact )
+                BIND ( LCASE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(?compact,
+                        "^0", "Zero"), "^1", "One"), "^2", "Two"), "^3", "Three"), "^4", "Four"),
+                        "^5", "Five"), "^6", "Six"), "^7", "Seven"), "^8", "Eight"), "^9", "Nine")) AS ?key )
+                FILTER ( ?key = ?fullKey || ?key = ?suffixKey )
+            }
+        }
+        """ .
+
+ep:EP-PREFLABEL-LABEL
+    a sh:NodeShape ;
+    uop:requirementId "EP-PREFLABEL-LABEL" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:LabelsAndDefinitionsGroup ;
+    sh:order 40 ;
+    sh:name "Every preferred label is also a label"@en ;
+    sh:description """Each `skos:prefLabel` literal also appears as an `rdfs:label` of the same entity with exactly the same text and language tag. A preferred label whose text or language differs from every label, even by case or punctuation, fails. Extra labels beyond the preferred ones are allowed."""@en ;
+    dcterms:source "Editing Policy Wiki W09 (lines 65-73); DEC-004; DEC-024" ;
+    sh:target ep:OwnedEntityTarget .
+
+ep:EP-PREFLABEL-LABEL-inclusion
+    a sh:SPARQLConstraint ;
+    sh:message "This skos:prefLabel has no identical rdfs:label."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?value ?path WHERE {
+            BIND ( skos:prefLabel AS ?path )
+            $this skos:prefLabel ?value .
+            FILTER NOT EXISTS { $this rdfs:label ?value }
+        }
+        """ .
+
+ep:EP-DEFINITION
+    a sh:NodeShape ;
+    uop:requirementId "EP-DEFINITION" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:LabelsAndDefinitionsGroup ;
+    sh:order 50 ;
+    sh:name "Definitions"@en ;
+    sh:description """Every owned Class and NamedIndividual has at least one `skos:definition`. Properties may omit a definition. Whenever a definition is present on any owned entity it is language-tagged and there is at most one per language. Whether a definition is conceptually adequate remains a human review question."""@en ;
+    dcterms:source "Editing Policy Wiki W10 (lines 75-82); DEC-022; DEC-023" ;
+    sh:target ep:OwnedEntityTarget ;
+    sh:property ep:EP-DEFINITION-language .
+
+ep:EP-DEFINITION-language
+    a sh:PropertyShape ;
+    sh:path skos:definition ;
+    sh:datatype rdf:langString ;
+    sh:uniqueLang true ;
+    sh:message "Definitions are language-tagged with at most one per language."@en .
+
+ep:EP-DEFINITION-required
+    a sh:SPARQLConstraint ;
+    sh:message "A Class or NamedIndividual carries at least one skos:definition."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?path WHERE {
+            BIND ( skos:definition AS ?path )
+            $this a ?kind .
+            FILTER ( ?kind IN ( owl:Class, owl:NamedIndividual ) )
+            FILTER NOT EXISTS { $this skos:definition ?definition }
+        }
+        """ .
+
+ep:EP-DESCRIPTIVE-LANGUAGE
+    a sh:NodeShape ;
+    uop:requirementId "EP-DESCRIPTIVE-LANGUAGE" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:LabelsAndDefinitionsGroup ;
+    sh:order 60 ;
+    sh:name "Descriptive text is language-tagged"@en ;
+    sh:description """On every owned subject (entities, the module header and owned axiom annotations), each value of the sixteen descriptive predicates is a language-tagged literal: `dcterms:alternative`, `dcterms:description`, `dcterms:title`, `rdfs:comment`, `rdfs:label`, `skos:altLabel`, `skos:changeNote`, `skos:definition`, `skos:editorialNote`, `skos:example`, `skos:hiddenLabel`, `skos:historyNote`, `skos:note`, `skos:prefLabel`, `skos:scopeNote` and `uc:acronym`. An untagged `skos:editorialNote` on an owned subject fails; foreign support terms and other predicates carry no such obligation."""@en ;
+    dcterms:source "Legacy validator P03 (line 213); DEC-023" ;
+    sh:target ep:OwnedSubjectTarget .
+
+ep:EP-DESCRIPTIVE-LANGUAGE-tags
+    a sh:SPARQLConstraint ;
+    sh:message "Descriptive text on an owned subject is a language-tagged literal."@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT $this ?path ?value WHERE {
+            $this ?path ?value .
+            FILTER ( ?path IN ( dcterms:alternative, dcterms:description, dcterms:title,
+                                rdfs:comment, rdfs:label,
+                                skos:altLabel, skos:changeNote, skos:definition, skos:editorialNote,
+                                skos:example, skos:hiddenLabel, skos:historyNote, skos:note,
+                                skos:prefLabel, skos:scopeNote, uc:acronym ) )
+            FILTER ( !isLiteral(?value) || LANG(?value) = "" )
+        }
+        """ .
+
+ep:EP-DESCRIPTION-LANGUAGE
+    a sh:NodeShape ;
+    uop:requirementId "EP-DESCRIPTION-LANGUAGE" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:LabelsAndDefinitionsGroup ;
+    sh:order 70 ;
+    sh:name "Descriptions are unique per language"@en ;
+    sh:description """`dcterms:description` is optional on owned entities. When present, there is at most one description per language tag; two distinct English descriptions fail, while descriptions in different languages pass. Datasets and distributions have their own description requirements in the DCAT profile."""@en ;
+    dcterms:source "Legacy validator P22 (line 544); DEC-023" ;
+    sh:target ep:OwnedEntityTarget ;
+    sh:property ep:EP-DESCRIPTION-LANGUAGE-unique .
+
+ep:EP-DESCRIPTION-LANGUAGE-unique
+    a sh:PropertyShape ;
+    sh:path dcterms:description ;
+    sh:uniqueLang true ;
+    sh:message "At most one dcterms:description per language."@en .
+
+# ---------------------------------------------------------------------------
+# Optional annotations
+# ---------------------------------------------------------------------------
+
+ep:EP-OPTIONAL-ANNOTATIONS
+    a sh:NodeShape ;
+    uop:requirementId "EP-OPTIONAL-ANNOTATIONS" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:OptionalAnnotationsGroup ;
+    sh:order 10 ;
+    sh:name "Optional annotations"@en ;
+    sh:description """`dcterms:references`, `dcterms:source` and `rdfs:seeAlso` are optional and may repeat; no value shape is imposed on them. An acronym (`uc:acronym`) is optional and, when present, language-tagged; the same acronym on two entities is allowed. When a definition is derived from an external source, the editor should cite it with `dcterms:source`; external derivation cannot be detected from the graph, so that recommendation is a human obligation."""@en ;
+    dcterms:source "Editing Policy Wiki W13-W16 (lines 98-125); DEC-023; DEC-024" ;
+    sh:target ep:OwnedEntityTarget ;
+    sh:property ep:EP-OPTIONAL-ANNOTATIONS-acronym .
+
+ep:EP-OPTIONAL-ANNOTATIONS-acronym
+    a sh:PropertyShape ;
+    sh:path uc:acronym ;
+    sh:datatype rdf:langString ;
+    sh:message "An acronym is a language-tagged literal."@en .
+
+ep:EP-CLASS-NAME-grammar-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-CLASS-NAME ;
+    sh:target ep:EP-CLASS-NAME-grammar-candidates ;
+    sh:sparql ep:EP-CLASS-NAME-grammar .
+
+ep:EP-CLASS-NAME-grammar-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "owned Classes whose local name is not PascalCase"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this uoc:ownedBy ?module . ?this a owl:Class .
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
+            FILTER ( !REGEX(REPLACE(STR(?this), "^.*[/#]", ""), "^[A-Z][A-Za-z0-9]*$") )
+        }
+        """ .
+
+ep:EP-INDIVIDUAL-NAME-grammar-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-INDIVIDUAL-NAME ;
+    sh:target ep:EP-INDIVIDUAL-NAME-grammar-candidates ;
+    sh:sparql ep:EP-INDIVIDUAL-NAME-grammar .
+
+ep:EP-INDIVIDUAL-NAME-grammar-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "owned NamedIndividuals whose local name is neither PascalCase nor AssertedClass_PascalCase"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this uoc:ownedBy ?module . ?this a owl:NamedIndividual .
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
+            BIND ( REPLACE(STR(?this), "^.*[/#]", "") AS ?local )
+            FILTER ( !REGEX(?local, "^[A-Z][A-Za-z0-9]*$") )
+            FILTER ( !( REGEX(?local, "^[A-Z][A-Za-z0-9]*_[A-Z][A-Za-z0-9]*$")
+                        && EXISTS { ?this a ?class . FILTER ( REPLACE(STR(?class), "^.*[/#]", "") = REPLACE(?local, "_.*$", "") ) } ) )
+        }
+        """ .
+
+ep:EP-PROPERTY-NAME-grammar-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-PROPERTY-NAME ;
+    sh:target ep:EP-PROPERTY-NAME-grammar-candidates ;
+    sh:sparql ep:EP-PROPERTY-NAME-grammar .
+
+ep:EP-PROPERTY-NAME-grammar-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "owned properties of non-ISO modules whose local name is not camelCase"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this uoc:ownedBy ?module . ?this a ?kind .
+            FILTER ( ?kind IN ( owl:ObjectProperty, owl:DatatypeProperty ) )
+            FILTER NOT EXISTS { ?module uoc:isoNaming true }
+            FILTER ( !REGEX(REPLACE(STR(?this), "^.*[/#]", ""), "^([A-Z][A-Za-z0-9]*_)?[a-z][A-Za-z0-9]*$") )
+        }
+        """ .
+
+ep:EP-PROPERTY-NAME-ISO-grammar-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-PROPERTY-NAME-ISO ;
+    sh:severity sh:Warning ;
+    sh:target ep:EP-PROPERTY-NAME-ISO-grammar-candidates ;
+    sh:sparql ep:EP-PROPERTY-NAME-ISO-grammar .
+
+ep:EP-PROPERTY-NAME-ISO-grammar-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "owned properties of ISO modules whose local name is not lower snake_case"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this uoc:ownedBy ?module . ?this a ?kind .
+            FILTER ( ?kind IN ( owl:ObjectProperty, owl:DatatypeProperty ) )
+            ?module uoc:isoNaming true .
+            FILTER ( !REGEX(REPLACE(STR(?this), "^.*[/#]", ""), "^[a-z][a-z0-9]*(_[a-z0-9]+)*$") )
+        }
+        """ .
+
+ep:EP-PREFLABEL-IRI-correspondence-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-PREFLABEL-IRI ;
+    sh:target ep:EP-PREFLABEL-IRI-correspondence-candidates ;
+    sh:sparql ep:EP-PREFLABEL-IRI-correspondence .
+
+ep:EP-PREFLABEL-IRI-correspondence-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "owned entities with no English preferred label corresponding to the local name"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this uoc:ownedBy ?module . ?this a ?kind .
+            FILTER ( ?kind IN ( owl:Class, owl:NamedIndividual, owl:ObjectProperty, owl:DatatypeProperty ) )
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
+            BIND ( REPLACE(STR(?this), "^.*[/#]", "") AS ?local )
+            BIND ( LCASE(REPLACE(?local, "_", "")) AS ?fullKey )
+            BIND ( LCASE(REPLACE(REPLACE(?local, "^[A-Z][A-Za-z0-9]*_", ""), "_", "")) AS ?suffixKey )
+            FILTER NOT EXISTS {
+                ?this skos:prefLabel ?label .
+                FILTER ( LANGMATCHES(LANG(?label), "en") )
+                BIND ( REPLACE(STR(?label), "[^A-Za-z0-9]", "") AS ?compact )
+                BIND ( LCASE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(?compact,
+                        "^0", "Zero"), "^1", "One"), "^2", "Two"), "^3", "Three"), "^4", "Four"),
+                        "^5", "Five"), "^6", "Six"), "^7", "Seven"), "^8", "Eight"), "^9", "Nine")) AS ?key )
+                FILTER ( ?key = ?fullKey || ?key = ?suffixKey )
+            }
+        }
+        """ .
+
+ep:EP-PREFLABEL-LABEL-inclusion-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-PREFLABEL-LABEL ;
+    sh:target ep:EP-PREFLABEL-LABEL-inclusion-candidates ;
+    sh:sparql ep:EP-PREFLABEL-LABEL-inclusion .
+
+ep:EP-PREFLABEL-LABEL-inclusion-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "owned entities with a preferred label that is not also an identical rdfs:label"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this skos:prefLabel ?value .
+            ?this uoc:ownedBy ?module . ?this a ?kind .
+            FILTER ( ?kind IN ( owl:Class, owl:NamedIndividual, owl:ObjectProperty, owl:DatatypeProperty ) )
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
+            FILTER NOT EXISTS { ?this rdfs:label ?value }
+        }
+        """ .
+
+ep:EP-DEFINITION-required-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-DEFINITION ;
+    sh:target ep:EP-DEFINITION-required-candidates ;
+    sh:sparql ep:EP-DEFINITION-required .
+
+ep:EP-DEFINITION-required-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "owned Classes and NamedIndividuals without a definition"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this uoc:ownedBy ?module . ?this a ?kind .
+            FILTER ( ?kind IN ( owl:Class, owl:NamedIndividual ) )
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
+            FILTER NOT EXISTS { ?this skos:definition ?definition }
+        }
+        """ .
+
+ep:EP-DESCRIPTIVE-LANGUAGE-tags-shape
+    a sh:NodeShape ;
+    uop:partOf ep:EP-DESCRIPTIVE-LANGUAGE ;
+    sh:target ep:EP-DESCRIPTIVE-LANGUAGE-tags-candidates ;
+    sh:sparql ep:EP-DESCRIPTIVE-LANGUAGE-tags .
+
+ep:EP-DESCRIPTIVE-LANGUAGE-tags-candidates
+    a sh:SPARQLTarget ;
+    rdfs:comment "owned subjects with an untagged value on one of the sixteen descriptive predicates"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE {
+            ?this ?path ?value .
+            ?this uoc:ownedBy ?module .
+            FILTER ( ?path IN ( dcterms:alternative, dcterms:description, dcterms:title,
+                                rdfs:comment, rdfs:label,
+                                skos:altLabel, skos:changeNote, skos:definition, skos:editorialNote,
+                                skos:example, skos:hiddenLabel, skos:historyNote, skos:note,
+                                skos:prefLabel, skos:scopeNote, uc:acronym ) )
+            FILTER ( !isLiteral(?value) || LANG(?value) = "" )
+        }
+        """ .

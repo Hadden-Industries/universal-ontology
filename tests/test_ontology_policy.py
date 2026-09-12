@@ -42,13 +42,36 @@ def expected(relative: str) -> dict:
     return json.loads((FIXTURES / relative).read_text(encoding="utf-8"))
 
 
-def observed_triples(outcome):
-    return {(r.requirement_id, r.focus_node, r.severity) for r in outcome.results}
+def observed_triples(outcome, rules=None):
+    """Results as (rule, focus, severity); a fixture is the oracle only for the rules it declares."""
+    return {
+        (r.requirement_id, r.focus_node, r.severity)
+        for r in outcome.results
+        if rules is None or r.requirement_id in rules
+    }
+
+
+def module_from_expectation(expectation: dict) -> OwnedModule:
+    spec = expectation.get("module")
+    if not spec:
+        return FIXTURE_MODULE
+    return OwnedModule(
+        iri=URIRef(spec["iri"]), label=spec["label"], ontology_iri=URIRef(spec["ontology_iri"]),
+        owned_namespaces=tuple(spec["owned_namespaces"]), working_path="fixture", active_version_iri=None,
+        active_artifact_path=None, iso_naming=bool(spec.get("iso_naming", False)),
+    )
 
 
 def assert_matches_expected(test: unittest.TestCase, outcome, expectation: dict) -> None:
+    rules = set(expectation["rules"])
     wanted = {(e["requirement_id"], e["focus_node"], e["severity"]) for e in expectation["results"]}
-    test.assertEqual(observed_triples(outcome), wanted)
+    test.assertTrue({e["requirement_id"] for e in expectation["results"]} <= rules, "expected results must name declared rules")
+    observed = observed_triples(outcome, rules)
+    anonymous = {triple for triple in observed if triple[1].startswith("_:")}
+    test.assertEqual(observed - anonymous, wanted)
+    for rule, count in expectation.get("anonymous_results", {}).items():
+        test.assertEqual(sum(1 for triple in anonymous if triple[0] == rule), count, rule)
+    test.assertEqual({triple[0] for triple in anonymous} - set(expectation.get("anonymous_results", {})), set())
     for entry in expectation["results"]:
         components = {
             r.constraint_component
@@ -60,7 +83,30 @@ def assert_matches_expected(test: unittest.TestCase, outcome, expectation: dict)
             f"{entry['focus_node']}: expected {entry['minimum_components']} within {sorted(components)}",
         )
     for focus in expectation.get("not_targeted", []):
-        test.assertFalse(any(r.focus_node == focus for r in outcome.results), focus)
+        test.assertFalse(any(r.focus_node == focus and r.requirement_id in rules for r in outcome.results), focus)
+
+
+class EveryFixtureExpectationTest(unittest.TestCase):
+    """Each *.expected.json is the independent oracle for the rules it declares."""
+
+    def test_each_fixture_reproduces_its_expectation(self):
+        policy = load_policy()
+        expectations = sorted(FIXTURES.rglob("*.expected.json"))
+        self.assertGreater(len(expectations), 5)
+        for path in expectations:
+            with self.subTest(fixture=path.relative_to(FIXTURES).as_posix()):
+                expectation = json.loads(path.read_text(encoding="utf-8"))
+                module = module_from_expectation(expectation)
+                relative = path.relative_to(FIXTURES).as_posix().replace(".expected.json", ".ttl")
+                source = fixture_source(relative, module)
+                purpose = RunPurpose.LATEST_ACTIVE if expectation.get("qualification_purpose") else RunPurpose.DRAFT
+                outcome = validate_sources([source], purpose, policy)
+                assert_matches_expected(self, outcome, expectation)
+                if "targeted_focus_nodes" in expectation:
+                    self.assertEqual(outcome.targeted_focus_count, len(expectation["targeted_focus_nodes"]))
+                if "declared_rules_block" in expectation:
+                    blocking = any(r.blocks and r.requirement_id in set(expectation["rules"]) for r in outcome.results)
+                    self.assertEqual(blocking, expectation["declared_rules_block"])
 
 
 class PolicySelfContractTest(unittest.TestCase):
@@ -93,7 +139,7 @@ class CreatedTimestampRuleTest(unittest.TestCase):
 
     def test_every_result_carries_rule_focus_path_value_severity_and_source(self):
         outcome = validate_sources([fixture_source("entity-created/created.ttl")], RunPurpose.DRAFT, self.policy)
-        by_focus = {r.focus_node: r for r in outcome.results}
+        by_focus = {r.focus_node: r for r in outcome.results if r.requirement_id == "EP-ENTITY-CREATED"}
         offset = by_focus["https://example.org/fixtures/entity/OffsetInsteadOfZ"]
         self.assertEqual(offset.path, "http://purl.org/dc/terms/created")
         self.assertIn("+00:00", offset.value)
@@ -102,13 +148,7 @@ class CreatedTimestampRuleTest(unittest.TestCase):
         self.assertTrue(offset.message)
 
     def test_valid_only_corpus_qualifies_under_a_qualification_purpose(self):
-        graph = fixture_source("entity-created/created.ttl").graph
-        valid = Graph()
-        for triple in graph:
-            if any(str(triple[0]).endswith(name) for name in ("ValidClass", "ValidIndividual", "validObjectProperty", "validDatatypeProperty", "entity/")):
-                valid.add(triple)
-        source = parse_module_bytes(FIXTURE_MODULE, "valid.ttl", valid.serialize(format="turtle").encode("utf-8"))
-        outcome = validate_sources([source], RunPurpose.LATEST_ACTIVE, self.policy)
+        outcome = validate_sources([fixture_source("complete/complete.ttl")], RunPurpose.LATEST_ACTIVE, self.policy)
         self.assertEqual(outcome.results, ())
         self.assertEqual(outcome.status, 0)
         self.assertTrue(outcome.qualifies)
@@ -143,11 +183,7 @@ class ContextContractTest(unittest.TestCase):
             validate_sources([fixture_source("entity-created/created.ttl", foreign_only)], RunPurpose.DRAFT, self.policy)
 
     def test_draft_purpose_never_qualifies_even_when_clean(self):
-        clean = b"""@prefix ex: <https://example.org/fixtures/entity/> . @prefix owl: <http://www.w3.org/2002/07/owl#> .
-            @prefix dcterms: <http://purl.org/dc/terms/> . @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-            ex:Only a owl:Class ; dcterms:created "2026-01-02T03:04:05Z"^^xsd:dateTime ."""
-        source = parse_module_bytes(FIXTURE_MODULE, "clean-draft.ttl", clean, "turtle")
-        outcome = validate_sources([source], RunPurpose.DRAFT, self.policy)
+        outcome = validate_sources([fixture_source("complete/complete.ttl")], RunPurpose.DRAFT, self.policy)
         self.assertEqual(outcome.status, 0)
         self.assertFalse(outcome.qualifies)
 
@@ -195,13 +231,16 @@ class TargetMutationControlTest(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as temporary:
             directory = mutated_policy_directory(
-                temporary, "entity-policy.ttl", "    sh:target ep:OwnedEntityTarget ;", ""
+                temporary, "entity-policy.ttl",
+                'dcterms:source "Editing Policy Wiki W05 (lines 41-49); DEC-022" ;' + chr(10) + '    sh:target ep:OwnedEntityTarget ;',
+                'dcterms:source "Editing Policy Wiki W05 (lines 41-49); DEC-022" ;',
             )
             policy = load_policy(directory)
             outcome = validate_sources([fixture_source("entity-created/created.ttl")], RunPurpose.DRAFT, policy)
-            wanted = {(e["requirement_id"], e["focus_node"], e["severity"]) for e in expected("entity-created/created.expected.json")["results"]}
-            self.assertNotEqual(observed_triples(outcome), wanted)
-            self.assertEqual(outcome.results, ())
+            expectation = expected("entity-created/created.expected.json")
+            wanted = {(e["requirement_id"], e["focus_node"], e["severity"]) for e in expectation["results"]}
+            self.assertNotEqual(observed_triples(outcome, set(expectation["rules"])), wanted)
+            self.assertEqual(observed_triples(outcome, set(expectation["rules"])), set())
 
 
 if __name__ == "__main__":

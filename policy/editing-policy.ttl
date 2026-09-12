@@ -22,7 +22,7 @@ ep:EditingPolicy
     dcterms:title "Universal Ontology Editing Policy"@en ;
     dcterms:description """Structural editing requirements for every owned entity, ontology header and axiom in each latest active ontology version and in every replacement candidate. Human conceptual review remains separate and is documented here as explicit human clauses."""@en ;
     dcterms:source <https://github.com/Hadden-Industries/universal-ontology/wiki/Editing-Policy/819704130dee55bf04712d4cd09723d8df35581c> ;
-    uop:policyModule ep:EntityPolicy ;
+    uop:policyModule ep:EntityPolicy , ep:OntologyPolicy , ep:AxiomPolicy ;
     sh:declare
         [ sh:prefix "owl" ;     sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ] ,
         [ sh:prefix "rdf" ;     sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ] ,
@@ -31,9 +31,17 @@ ep:EditingPolicy
         [ sh:prefix "dcterms" ; sh:namespace "http://purl.org/dc/terms/"^^xsd:anyURI ] ,
         [ sh:prefix "skos" ;    sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ] ,
         [ sh:prefix "dcat" ;    sh:namespace "http://www.w3.org/ns/dcat#"^^xsd:anyURI ] ,
+        [ sh:prefix "schema" ;  sh:namespace "http://schema.org/"^^xsd:anyURI ] ,
+        [ sh:prefix "uc" ;      sh:namespace "https://haddenindustries.com/ontology/universal/core/"^^xsd:anyURI ] ,
         [ sh:prefix "uoc" ;     sh:namespace "https://haddenindustries.com/ontology/policy/context#"^^xsd:anyURI ] .
 
 # Rule groups order the generated document. sh:order is the document order.
+
+ep:OntologyHeaderGroup
+    a sh:PropertyGroup ;
+    rdfs:label "Ontology header"@en ;
+    rdfs:comment "Version identity of each authored module document."@en ;
+    sh:order 5 .
 
 ep:EntityMetadataGroup
     a sh:PropertyGroup ;
@@ -41,19 +49,46 @@ ep:EntityMetadataGroup
     rdfs:comment "Metadata every owned Class, NamedIndividual, ObjectProperty and DatatypeProperty must carry."@en ;
     sh:order 10 .
 
+ep:NamingGroup
+    a sh:PropertyGroup ;
+    rdfs:label "Naming"@en ;
+    rdfs:comment "Local-name grammar of owned entities."@en ;
+    sh:order 20 .
+
+ep:LabelsAndDefinitionsGroup
+    a sh:PropertyGroup ;
+    rdfs:label "Labels, definitions and descriptive text"@en ;
+    rdfs:comment "Language-tagged designations and descriptions of owned entities."@en ;
+    sh:order 30 .
+
+ep:OptionalAnnotationsGroup
+    a sh:PropertyGroup ;
+    rdfs:label "Optional annotations"@en ;
+    rdfs:comment "Annotations that may be absent or repeated, with the constraints that apply when they are present."@en ;
+    sh:order 40 .
+
+ep:AxiomGroup
+    a sh:PropertyGroup ;
+    rdfs:label "Axiom annotations"@en ;
+    rdfs:comment "Constraints on owned owl:Axiom annotation nodes."@en ;
+    sh:order 50 .
+
 ep:HumanReviewGroup
     a sh:PropertyGroup ;
     rdfs:label "Human review"@en ;
     rdfs:comment "Obligations whose truth is established by human review, not by SHACL."@en ;
     sh:order 90 .
 
-# Reusable target: every owned entity of the four accepted kinds. Ownership is a
-# trusted fact supplied in the context graph; the asserted type is read from the
-# data graph exactly, without inference.
+# Reusable targets. Ownership is a trusted fact supplied in the context graph;
+# the asserted type is read from the data graph exactly, without inference.
+# DCAT profile subjects (dataset/ and distribution/ namespaces) are owned by
+# reference-data but follow their own DCAT profile (DEC-012), so the entity
+# targets exclude them, as the legacy validator did; the descriptive-language
+# rule still reaches every owned subject.
 
 ep:OwnedEntityTarget
     a sh:SPARQLTarget ;
-    rdfs:comment "every owned Class, NamedIndividual, ObjectProperty and DatatypeProperty in the validated module set"@en ;
+    rdfs:comment "every owned Class, NamedIndividual, ObjectProperty and DatatypeProperty in the validated module set, outside the DCAT dataset/ and distribution/ namespaces"@en ;
     sh:prefixes ep:EditingPolicy ;
     sh:select """
         SELECT DISTINCT ?this
@@ -61,7 +96,89 @@ ep:OwnedEntityTarget
             ?this uoc:ownedBy ?module .
             ?this a ?kind .
             FILTER ( ?kind IN ( owl:Class, owl:NamedIndividual, owl:ObjectProperty, owl:DatatypeProperty ) )
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
         }
+        """ .
+
+ep:OwnedClassOrIndividualTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "every owned Class and NamedIndividual"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this
+        WHERE {
+            ?this uoc:ownedBy ?module .
+            ?this a ?kind .
+            FILTER ( ?kind IN ( owl:Class, owl:NamedIndividual ) )
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
+        }
+        """ .
+
+ep:OwnedClassTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "every owned Class"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this
+        WHERE {
+            ?this uoc:ownedBy ?module . ?this a owl:Class .
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
+        }
+        """ .
+
+ep:OwnedNamedIndividualTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "every owned NamedIndividual outside the DCAT dataset/ and distribution/ namespaces"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this
+        WHERE {
+            ?this uoc:ownedBy ?module . ?this a owl:NamedIndividual .
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
+        }
+        """ .
+
+ep:OwnedPropertyTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "every owned ObjectProperty and DatatypeProperty"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this
+        WHERE {
+            ?this uoc:ownedBy ?module .
+            ?this a ?kind .
+            FILTER ( ?kind IN ( owl:ObjectProperty, owl:DatatypeProperty ) )
+            FILTER ( !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/dataset/")
+                  && !STRSTARTS(STR(?this), "https://haddenindustries.com/ontology/distribution/") )
+        }
+        """ .
+
+ep:OwnedSubjectTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "every owned subject: entities, the module's ontology header and owned axiom nodes"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE { ?this uoc:ownedBy ?module . }
+        """ .
+
+ep:OwnedOntologyHeaderTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "the owl:Ontology header of each authored module document"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE { ?this uoc:ownedBy ?module . ?this a owl:Ontology . }
+        """ .
+
+ep:OwnedAxiomTarget
+    a sh:SPARQLTarget ;
+    rdfs:comment "every owned owl:Axiom annotation node, named or anonymous"@en ;
+    sh:prefixes ep:EditingPolicy ;
+    sh:select """
+        SELECT DISTINCT ?this WHERE { ?this uoc:ownedBy ?module . ?this a owl:Axiom . }
         """ .
 
 # Human/procedural clause. Rendered into the policy; never executed.

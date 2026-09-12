@@ -159,6 +159,8 @@ def render_requirement(graph: Graph, requirement, requirement_id: str) -> list[s
         for shape in sorted(graph.objects(requirement, SH.property), key=str):
             facts.extend(constraint_facts(graph, shape))
         facts.extend(constraint_facts(graph, requirement))
+        for part in sorted(graph.subjects(UOP.partOf, requirement), key=str):
+            facts.extend(constraint_facts(graph, part))
         if facts:
             lines.append("**Executable constraints:**")
             lines.append("")

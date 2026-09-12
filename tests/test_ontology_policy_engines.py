@@ -36,13 +36,27 @@ class CreatedTimestampCrossEngineTest(unittest.TestCase):
         assert_matches_expected(self, outcome, expected("entity-created/created.expected.json"))
 
     def test_both_engines_agree_on_rule_focus_path_value_and_severity(self):
-        for relative in ("entity-created/created.ttl", "entity-created/created.owl"):
+        from tests.test_ontology_policy import FIXTURES, module_from_expectation
+        import json
+
+        fixtures = ["entity-created/created.owl"]
+        fixtures += [p.relative_to(FIXTURES).as_posix().replace(".expected.json", ".ttl") for p in sorted(FIXTURES.rglob("*.expected.json"))]
+        for relative in fixtures:
             with self.subTest(fixture=relative):
-                source = fixture_source(relative)
+                expectation_path = FIXTURES / relative.replace(".ttl", ".expected.json").replace(".owl", ".expected.json")
+                module = module_from_expectation(json.loads(expectation_path.read_text(encoding="utf-8")))
+                source = fixture_source(relative, module)
                 pyshacl_outcome = validate_sources([source], RunPurpose.DRAFT, self.policy)
                 jena_outcome = validate_with_jena([source], RunPurpose.DRAFT, self.policy, self.runtime)
                 self.assertEqual(comparable(pyshacl_outcome.results), comparable(jena_outcome.results))
                 self.assertEqual(pyshacl_outcome.conforms, jena_outcome.conforms)
+                # Anonymous focus nodes must not be lost: compare their multiplicity per rule.
+                for rule in {r.requirement_id for r in pyshacl_outcome.results}:
+                    self.assertEqual(
+                        sum(1 for r in pyshacl_outcome.results if r.requirement_id == rule and r.focus_node.startswith("_:")),
+                        sum(1 for r in jena_outcome.results if r.requirement_id == rule and r.focus_node.startswith("_:")),
+                        rule,
+                    )
 
     def test_runtime_identity_is_the_qualified_jena_and_jdk(self):
         identity = self.runtime.identity()

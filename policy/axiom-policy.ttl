@@ -1,0 +1,29 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema:  <http://schema.org/> .
+@prefix sh:      <http://www.w3.org/ns/shacl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix uop:     <https://haddenindustries.com/ontology/policy#> .
+@prefix ep:      <https://haddenindustries.com/ontology/policy/editing/> .
+
+# Axiom annotation rules.
+
+ep:AxiomPolicy a uop:PolicyModule ; rdfs:label "Axiom policy"@en .
+
+ep:EP-AXIOM-POSITION
+    a sh:NodeShape ;
+    uop:requirementId "EP-AXIOM-POSITION" ;
+    uop:normativeStrength "MUST" ;
+    sh:group ep:AxiomGroup ;
+    sh:order 10 ;
+    sh:name "Axiom position is an integer"@en ;
+    sh:description """On every owned `owl:Axiom` annotation node, named or anonymous, each `http://schema.org/position` value is an `xsd:integer`. The same predicate on a node that is not an axiom is outside this rule. The predicate is the actual `http://schema.org/` term, not an `https://` look-alike."""@en ;
+    dcterms:source "Editing Policy Wiki W33 (lines 301-307); DEC-007" ;
+    sh:target ep:OwnedAxiomTarget ;
+    sh:property ep:EP-AXIOM-POSITION-integer .
+
+ep:EP-AXIOM-POSITION-integer
+    a sh:PropertyShape ;
+    sh:path schema:position ;
+    sh:datatype xsd:integer ;
+    sh:message "schema:position on an axiom is an xsd:integer."@en .
