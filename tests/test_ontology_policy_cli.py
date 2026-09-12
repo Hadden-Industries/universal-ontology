@@ -7,7 +7,7 @@ from pathlib import Path
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPOSITORY_ROOT / "scripts"))
 
-from ontology_policy.cli import SelectedSource, assemble_comparisons, assemble_sources, module_for_path  # noqa: E402
+from ontology_policy.cli import SelectedSource, assemble_comparisons, assemble_sources, draft_passes, module_for_path  # noqa: E402
 from ontology_policy.context import ContextError, RunPurpose  # noqa: E402
 from ontology_policy.modules import load_owned_modules  # noqa: E402
 
@@ -61,6 +61,28 @@ class SourceAssemblyTest(unittest.TestCase):
         drifted = tuple(dataclasses.replace(m, active_content_digest="sha256:" + "0" * 64) if m is core else m for m in self.modules)
         with self.assertRaisesRegex(ContextError, "no longer matches the activation record"):
             assemble_sources(RunPurpose.LATEST_ACTIVE, [], drifted, REPOSITORY_ROOT)
+
+    def test_draft_passes_merge_identical_documents_and_split_differing_ones(self):
+        """A range that touches a working file and its promoted artifact validates each distinct document once."""
+        import tempfile
+
+        working = SelectedSource("core/universal-core.owl", None)
+        promoted = SelectedSource("src/universal/core/20260912", None)
+        extended = SelectedSource("extended/universal-extended.owl", None)
+        self.assertEqual(draft_passes([working, promoted, extended], self.modules, REPOSITORY_ROOT), [[working, extended]])
+        with tempfile.TemporaryDirectory() as scratch:
+            root = Path(scratch)
+            for path in ("core/universal-core.owl", "extended/universal-extended.owl"):
+                (root / path).parent.mkdir(parents=True, exist_ok=True)
+                (root / path).write_bytes((REPOSITORY_ROOT / path).read_bytes())
+            other = root / "src/universal/core/20260913"
+            other.parent.mkdir(parents=True)
+            other.write_bytes((REPOSITORY_ROOT / "core/universal-core.owl").read_bytes().replace(b"2026-09-12", b"2026-09-13", 1))
+            differing = SelectedSource("src/universal/core/20260913", None)
+            passes = draft_passes([working, differing, extended], self.modules, root)
+        self.assertEqual(passes, [[working, extended], [differing, extended]])
+        with self.assertRaisesRegex(ContextError, "Two selected inputs"):
+            assemble_sources(RunPurpose.CANDIDATE, [working, promoted], self.modules, REPOSITORY_ROOT)
 
     def test_an_input_outside_the_reviewed_modules_is_a_context_error(self):
         with self.assertRaises(ContextError):

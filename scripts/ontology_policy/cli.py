@@ -113,6 +113,38 @@ def assemble_comparisons(
     return comparisons
 
 
+def draft_passes(
+    selected: list[SelectedSource], modules: tuple[OwnedModule, ...], repository: Path | None = None
+) -> list[list[SelectedSource]]:
+    """Split a draft selection into passes so that each module is replaced by one document per pass.
+
+    A change range can touch a module's working file and its promoted dated
+    artifact together. Identical bytes are one document validated once; when
+    they differ, every extra document gets its own pass in which only that
+    module changes, so no selected bytes go unvalidated and none are merged.
+    Qualification purposes keep refusing two inputs for one module.
+    """
+    first: dict = {}
+    extras: list[tuple] = []
+    seen: dict = {}
+    for item in selected:
+        module = module_for_path(modules, item.path)
+        if module is None:
+            raise ContextError(f"{item.path} does not belong to a reviewed owned module (policy/activation.ttl).")
+        digest = read_module_source(module, item.path, revision=item.revision, repository=repository).digest
+        if (module.iri, digest) in seen:
+            continue  # the same bytes under another path
+        seen[(module.iri, digest)] = item
+        if module.iri in first:
+            extras.append((module.iri, item))
+        else:
+            first[module.iri] = item
+    passes = [list(first.values())]
+    for module_iri, item in extras:
+        passes.append([item if module_for_path(modules, i.path).iri == module_iri else i for i in passes[0]])
+    return passes
+
+
 def run_policy_validation(
     purpose: RunPurpose, selected: list[SelectedSource], *, repository: Path | None = None, github_actions: bool = False,
     stream=None, authorities_directory: Path = AUTHORITIES_DIRECTORY, scope_reference: str | None = None,
@@ -123,22 +155,28 @@ def run_policy_validation(
     if purpose == RunPurpose.DRAFT and not selected:
         print("Draft diagnostics: no ontology source selected; nothing validated.", file=stream)
         return 0
+    status = 0
     try:
         policy = load_policy()
         modules = load_owned_modules()
-        sources = assemble_sources(purpose, selected, modules, repository)
-        comparisons = assemble_comparisons(purpose, selected, modules, repository)
-        outcome = validate_sources(
-            sources, purpose, policy, authorities_directory=authorities_directory, comparisons=comparisons,
-            scope_reference=scope_reference,
-        )
+        passes = draft_passes(selected, modules, repository) if purpose == RunPurpose.DRAFT else [selected]
+        if len(passes) > 1:
+            print(f"Draft diagnostics: {len(passes)} passes because a module is selected through more than one document.", file=stream)
+        for chosen in passes:
+            sources = assemble_sources(purpose, chosen, modules, repository)
+            comparisons = assemble_comparisons(purpose, chosen, modules, repository)
+            outcome = validate_sources(
+                sources, purpose, policy, authorities_directory=authorities_directory, comparisons=comparisons,
+                scope_reference=scope_reference,
+            )
+            written = write_report(outcome, report_directory, policy)
+            present(outcome, github_actions=github_actions, stream=stream)
+            print(f"Report: {written.summary_path}" + (f"; receipt: {written.receipt_path}" if written.receipt_path else ""), file=stream)
+            status = max(status, outcome.status)
     except (AuthorityError, ContextError, InputError, PolicyDefinitionError) as error:
         print(f"POLICY_VALIDATION_ERROR ({type(error).__name__}): {error}", file=sys.stderr)
         return STATUS_ERROR
-    written = write_report(outcome, report_directory, policy)
-    present(outcome, github_actions=github_actions, stream=stream)
-    print(f"Report: {written.summary_path}" + (f"; receipt: {written.receipt_path}" if written.receipt_path else ""), file=stream)
-    return outcome.status
+    return status
 
 
 def present(outcome: ValidationOutcome, *, github_actions: bool, stream) -> None:

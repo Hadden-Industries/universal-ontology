@@ -568,3 +568,18 @@ remains. `--python-exec` and the subprocess execution loop are gone with it.
 
 Verification: Python 195 tests OK (1 recorded skip), Jest 781 passed, Prettier
 and ESLint clean on the changed tests, `git diff --check` clean.
+
+### First remote execution after activation (PR #61, run 34697425534)
+
+Both qualification rows and the policy QA passed on the activated head
+(`b4b415c`): Linux and Windows report `0 violation(s), 191 warning(s);
+qualifies activation`. The differential job failed with a real defect: the
+change range against `main` selects a module's working file and its promoted
+`20260912` artifact together, and `assemble_sources` refused two inputs for
+one module (`ContextError`, exit 2). Fix: a draft run now splits its selection
+into passes — identical bytes under two paths are one document validated once;
+differing documents each get a pass in which only that module changes, so no
+selected bytes go unvalidated and none are merged. Qualification purposes keep
+the refusal. Reproduced locally on the same range (one pass, 0 violations) and
+with a differing scratch artifact (two passes, both reported); tests cover the
+merge, the split and the qualification refusal.
