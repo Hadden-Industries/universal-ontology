@@ -145,6 +145,7 @@ jobs:
           distribution: temurin
           java-version-file: .java-version
           check-latest: false
+          verify-signature: true
       - name: Cache the verified Jena distribution
         id: jena-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0

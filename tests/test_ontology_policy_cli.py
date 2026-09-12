@@ -98,6 +98,28 @@ class CommandContractTest(unittest.TestCase):
         self.assertIn("comparison https://haddenindustries.com/ontology/policy/activation/extended: src/universal/extended/20260714 sha256:", completed.stdout)
         self.assertIn("(diagnostic purpose)", completed.stdout)
 
+    def test_pre_install_planning_needs_no_rdf_dependencies(self):
+        """--plan runs before dependencies are installed in CI; the SHACL package must load lazily."""
+        import ast
+
+        tree = ast.parse((REPOSITORY_ROOT / "scripts" / "validate_ontologies.py").read_text(encoding="utf-8"))
+        top_level = {
+            name.split(".")[0]
+            for node in tree.body
+            if isinstance(node, (ast.Import, ast.ImportFrom))
+            for name in ([alias.name for alias in node.names] if isinstance(node, ast.Import) else [node.module or ""])
+        }
+        self.assertNotIn("ontology_policy", top_level)
+        self.assertNotIn("rdflib", top_level)
+        self.assertNotIn("pyshacl", top_level)
+        completed = subprocess.run(
+            [sys.executable, "-B", "-I", str(REPOSITORY_ROOT / "scripts" / "validate_ontologies.py"), "--all-current", "--plan"],
+            cwd=REPOSITORY_ROOT, capture_output=True, text=True, stdin=subprocess.DEVNULL,
+            env={"PATH": "", "SYSTEMROOT": __import__("os").environ.get("SYSTEMROOT", "")},
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("validation_required=true", completed.stdout)
+
     def test_legacy_path_is_unchanged_without_a_purpose(self):
         completed = run_command("--all-current", "--plan")
         self.assertEqual(completed.returncode, 0)

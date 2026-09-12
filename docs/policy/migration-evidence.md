@@ -387,3 +387,22 @@ on the implementation PR; the Codex Security workflow is not authorised here
 and is recorded as not run. The R2 full profile cannot pass until decisions
 1–3 land: "Latest active editing policy" currently exits 1 (750 blockers) and
 `policy/authorities/` does not exist.
+
+### First remote execution (PR #61, run 34686756847)
+
+The SDLC linkage gate accepted the committed-plan metadata and **Editing policy
+QA passed on `ubuntu-24.04`** (hash-locked install, `pip check`, policy
+freshness, every policy contract). Two genuine defects surfaced and are fixed:
+
+- `.java-version` `25.0.4+101` was refused by setup-java ("No matching version
+  found"); the documented JEP 322 multi-field spelling `25.0.4.1` is used and
+  Temurin package-signature verification (`verify-signature: true`) enabled.
+- `OWL Differential Analysis` runs `--plan` before installing dependencies and
+  the retained command imported the SHACL package at module level, so the
+  pre-install planning contract broke with `ModuleNotFoundError: rdflib`. The
+  package is now imported only inside a `--purpose` run, guarded by a test that
+  the command's top-level imports never reach `ontology_policy`, `rdflib` or
+  `pyshacl`.
+
+The qualification matrix therefore has not yet executed past JDK provisioning;
+its next run is the evidence.

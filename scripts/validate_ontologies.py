@@ -15,9 +15,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from ontology_policy.authorities import AUTHORITIES_DIRECTORY  # noqa: E402
-from ontology_policy.cli import PURPOSE_CHOICES, SelectedSource, run_policy_validation  # noqa: E402
-from ontology_policy.context import RunPurpose  # noqa: E402
+# The SHACL package (rdflib, pySHACL) is imported only when a --purpose run is
+# requested, so pre-install planning (--plan) keeps working in a bare interpreter.
+PURPOSE_CHOICES = ("latest-active", "candidate", "draft", "critical-fix")
 
 # Centralized target ontology pattern
 TARGET_PATTERN = re.compile(
@@ -179,7 +179,7 @@ def main() -> None:
         "--purpose", choices=PURPOSE_CHOICES,
         help="Run the canonical SHACL editing policy for this purpose instead of the legacy invariant checker",
     )
-    parser.add_argument("--authorities", type=Path, default=AUTHORITIES_DIRECTORY, help="Directory of pinned authority snapshots")
+    parser.add_argument("--authorities", type=Path, default=None, help="Directory of pinned authority snapshots (default policy/authorities)")
     parser.add_argument("--critical-fix-scope", help="Approved scope reference for a critical-fix run")
     parser.add_argument("--report-directory", type=Path, default=None, help="Where native policy reports and receipts are retained")
 
@@ -211,6 +211,9 @@ def main() -> None:
         print(f"validator_changed={str(selection.validator_changed).lower()}")
         sys.exit(0)
     if args.purpose:
+        from ontology_policy.cli import SelectedSource, run_policy_validation
+        from ontology_policy.context import RunPurpose
+
         purpose = RunPurpose(args.purpose)
         if args.files and not selection.files:
             print("POLICY_VALIDATION_ERROR (InputError): none of the explicit inputs is a supported ontology source path.", file=sys.stderr)
@@ -223,8 +226,10 @@ def main() -> None:
         revision = "" if args.staged else (selection.head if selection.head else None)
         selected = [SelectedSource(path, revision, selection.base) for path in selection.files]
         extra = {"report_directory": args.report_directory} if args.report_directory else {}
+        if args.authorities:
+            extra["authorities_directory"] = args.authorities
         sys.exit(run_policy_validation(
-            purpose, selected, repository=Path.cwd(), github_actions=is_ci, authorities_directory=args.authorities,
+            purpose, selected, repository=Path.cwd(), github_actions=is_ci,
             scope_reference=args.critical_fix_scope, **extra,
         ))
     if not selection.files:
