@@ -1,10 +1,28 @@
 import { spawnSync } from "node:child_process";
 import { appendFileSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { parseArgs } from "node:util";
+import { createRequire } from "node:module";
+import { isDeepStrictEqual, parseArgs } from "node:util";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const REPOSITORY_ROOT = fileURLToPath(new URL("../", import.meta.url));
+const require = createRequire(import.meta.url);
+const ONTOLOGY_WORKFLOW = ".github/workflows/ontology-validation.yml";
+const ONTOLOGY_WORKFLOW_SCOPES = [
+  "ontology_policy_qa",
+  "ontology_entity_contracts",
+  "ontology_qualification",
+  "ontology_validation_workflow",
+];
+const CODEQL_COMMON_INPUTS = [
+  "scripts/selectPullRequestChecks.js",
+  "tests/pr-check-scopes.test.js",
+  ".github/workflows/codeql.yml",
+  ".github/codeql",
+  ":(glob)**/*.ql",
+  ":(glob)**/*.qll",
+  ":(glob)**/qlpack.yml",
+];
 const COMMON_INPUTS = [
   "scripts/selectPullRequestChecks.js",
   "tests/pr-check-scopes.test.js",
@@ -17,7 +35,6 @@ const COMMON_INPUTS = [
 const ONTOLOGY_POLICY_INPUTS = [
   "scripts/selectPullRequestChecks.js",
   "tests/pr-check-scopes.test.js",
-  ".github/workflows/ontology-validation.yml",
   ".python-version",
   "requirements.txt",
   "requirements.lock.txt",
@@ -41,6 +58,15 @@ const ONTOLOGY_POLICY_INPUTS = [
   "tests/test_ontology_entity_changes.py",
 ];
 export const CHECK_INPUTS = {
+  // Workflow orchestration is owned here, not by the Python data validator.
+  ontology_validation_workflow: [
+    "scripts/selectPullRequestChecks.js",
+    "tests/pr-check-scopes.test.js",
+  ],
+  ontology_entity_contracts: [
+    ...ONTOLOGY_POLICY_INPUTS,
+    "tests/test_publication_gate.py",
+  ],
   ontology_policy_qa: [
     ...ONTOLOGY_POLICY_INPUTS,
     "scripts/render_editing_policy.py",
@@ -52,6 +78,48 @@ export const CHECK_INPUTS = {
     ...ONTOLOGY_POLICY_INPUTS,
     ".java-version",
     "tests/test_ontology_policy_engines.py",
+  ],
+  codeql_actions: [
+    ...CODEQL_COMMON_INPUTS,
+    ".github/workflows",
+    ".github/actions",
+    ":(glob)**/action.yml",
+    ":(glob)**/action.yaml",
+  ],
+  codeql_python: [
+    ...CODEQL_COMMON_INPUTS,
+    ":(glob)**/*.py",
+    ":(glob)**/*.pyi",
+    ":(glob)**/requirements*.txt",
+    ":(glob)**/pyproject.toml",
+    ":(glob)**/Pipfile*",
+    ":(glob)**/poetry.lock",
+    ":(glob)**/uv.lock",
+    ".python-version",
+  ],
+  codeql_javascript: [
+    ...CODEQL_COMMON_INPUTS,
+    ...[
+      "js",
+      "jsx",
+      "mjs",
+      "cjs",
+      "ts",
+      "tsx",
+      "mts",
+      "cts",
+      "html",
+      "htm",
+      "vue",
+      "svelte",
+    ].map((extension) => `:(glob)**/*.${extension}`),
+    ":(glob)**/package.json",
+    ":(glob)**/package-lock.json",
+    ":(glob)**/tsconfig*.json",
+    ":(glob)**/jsconfig*.json",
+    ":(glob)**/yarn.lock",
+    ":(glob)**/pnpm-lock.yaml",
+    ".node-version",
   ],
   sdlc: [
     ...COMMON_INPUTS,
@@ -183,6 +251,110 @@ function requireCommit(root, sha) {
   }
 }
 
+function hasChanges(root, base, head, paths) {
+  const result = git(root, [
+    "diff",
+    "--quiet",
+    "--no-ext-diff",
+    "--no-textconv",
+    "--no-renames",
+    base,
+    head,
+    "--",
+    ...paths,
+  ]);
+  if (result.status !== 0 && result.status !== 1) {
+    throw new Error(
+      "Cannot determine check applicability: " + result.stderr.trim(),
+    );
+  }
+  return result.status === 1;
+}
+
+function readOntologyWorkflow(root, revision) {
+  const entry = git(root, ["ls-tree", "-z", revision, "--", ONTOLOGY_WORKFLOW]);
+  if (entry.status !== 0)
+    throw new Error("Cannot read workflow tree: " + entry.stderr.trim());
+  if (!entry.stdout || !/^100(?:644|755) blob /u.test(entry.stdout))
+    return null;
+  const source = git(root, ["show", `${revision}:${ONTOLOGY_WORKFLOW}`]);
+  if (source.status !== 0)
+    throw new Error("Cannot read workflow blob: " + source.stderr.trim());
+  // Load the existing pinned parser only for workflow comparisons. Ordinary
+  // path selection and CodeQL language selection require no npm installation.
+  const { parseDocument } = require("yaml");
+  const document = parseDocument(source.stdout, {
+    uniqueKeys: true,
+    stringKeys: true,
+  });
+  if (document.errors.length || document.warnings.length) {
+    throw new Error(
+      "Cannot safely parse ontology workflow: " +
+        [...document.errors, ...document.warnings]
+          .map((error) => error.message)
+          .join("; "),
+    );
+  }
+  return document.toJS({ maxAliasCount: 100 });
+}
+
+function selectOntologyWorkflowChanges(root, base, head) {
+  const selected = Object.fromEntries(
+    ONTOLOGY_WORKFLOW_SCOPES.map((name) => [name, false]),
+  );
+  if (!hasChanges(root, base, head, [ONTOLOGY_WORKFLOW])) return selected;
+  const before = readOntologyWorkflow(root, base);
+  const after = readOntologyWorkflow(root, head);
+  const selectAll = () =>
+    Object.fromEntries(ONTOLOGY_WORKFLOW_SCOPES.map((name) => [name, true]));
+  const jobIds = ["policy-qa", "qualify", "validate-ontologies"];
+  if (
+    !before ||
+    !after ||
+    !isDeepStrictEqual(Object.keys(before.jobs ?? {}).sort(), jobIds) ||
+    !isDeepStrictEqual(Object.keys(after.jobs ?? {}).sort(), jobIds)
+  )
+    return selectAll();
+  const { jobs: beforeJobs, ...beforeShared } = before;
+  const { jobs: afterJobs, ...afterShared } = after;
+  if (
+    !isDeepStrictEqual(beforeShared, afterShared) ||
+    !isDeepStrictEqual(
+      beforeJobs["validate-ontologies"],
+      afterJobs["validate-ontologies"],
+    )
+  ) {
+    return selectAll();
+  }
+  selected.ontology_qualification = !isDeepStrictEqual(
+    beforeJobs.qualify,
+    afterJobs.qualify,
+  );
+  if (!isDeepStrictEqual(beforeJobs["policy-qa"], afterJobs["policy-qa"])) {
+    selected.ontology_entity_contracts = true;
+    // Only the established entity-test run field has a narrower contract.
+    // Changes to setup, conditions, environment or other steps run all QA.
+    const withoutEntityCommand = (job) => {
+      const copy = structuredClone(job);
+      const matches = copy?.steps?.filter(
+        (step) =>
+          step.name === "Entity change and publication gate contracts" &&
+          typeof step.run === "string",
+      );
+      if (matches?.length !== 1) return null;
+      delete matches[0].run;
+      return copy;
+    };
+    const beforeOther = withoutEntityCommand(beforeJobs["policy-qa"]);
+    const afterOther = withoutEntityCommand(afterJobs["policy-qa"]);
+    selected.ontology_policy_qa =
+      !beforeOther ||
+      !afterOther ||
+      !isDeepStrictEqual(beforeOther, afterOther);
+  }
+  return selected;
+}
+
 export function selectPullRequestChecks({
   root = REPOSITORY_ROOT,
   base,
@@ -191,27 +363,17 @@ export function selectPullRequestChecks({
 }) {
   requireCommit(root, base);
   requireCommit(root, head);
+  const workflowChanges = scopes.some((name) =>
+    ONTOLOGY_WORKFLOW_SCOPES.includes(name),
+  )
+    ? selectOntologyWorkflowChanges(root, base, head)
+    : {};
   const selected = {};
   for (const name of scopes) {
     const paths = CHECK_INPUTS[name];
     if (!paths) throw new Error("Unknown check scope: " + name);
-    const result = git(root, [
-      "diff",
-      "--quiet",
-      "--no-ext-diff",
-      "--no-textconv",
-      "--no-renames",
-      base,
-      head,
-      "--",
-      ...paths,
-    ]);
-    if (result.status !== 0 && result.status !== 1) {
-      throw new Error(
-        "Cannot determine " + name + " applicability: " + result.stderr.trim(),
-      );
-    }
-    selected[name] = result.status === 1;
+    selected[name] =
+      hasChanges(root, base, head, paths) || workflowChanges[name] === true;
   }
   return selected;
 }
@@ -219,6 +381,7 @@ export function selectPullRequestChecks({
 export function runFromGitHubEnvironment(
   env = process.env,
   scopes = Object.keys(CHECK_INPUTS),
+  { codeqlMatrix = false } = {},
 ) {
   if (
     !scopes.length ||
@@ -227,7 +390,10 @@ export function runFromGitHubEnvironment(
     throw new Error("At least one known check scope is required.");
   }
   let selected;
-  if (env.GITHUB_EVENT_NAME === "workflow_dispatch") {
+  if (
+    env.GITHUB_EVENT_NAME === "workflow_dispatch" ||
+    env.GITHUB_EVENT_NAME === "schedule"
+  ) {
     selected = Object.fromEntries(scopes.map((name) => [name, true]));
   } else if (
     env.GITHUB_EVENT_NAME === "pull_request" ||
@@ -251,15 +417,33 @@ export function runFromGitHubEnvironment(
     });
   } else {
     throw new Error(
-      "PR check selection requires pull_request, a main push, or workflow_dispatch.",
+      "PR check selection requires pull_request, a main push, schedule, or workflow_dispatch.",
     );
   }
   if (!env.GITHUB_OUTPUT) throw new Error("GITHUB_OUTPUT is required.");
+  const codeqlLanguages = Object.entries({
+    codeql_actions: "actions",
+    codeql_python: "python",
+    codeql_javascript: "javascript-typescript",
+  })
+    .filter(([scope]) => selected[scope])
+    .map(([, language]) => language);
+  if (
+    codeqlMatrix &&
+    !["codeql_actions", "codeql_python", "codeql_javascript"].every(
+      (scope) => scope in selected,
+    )
+  ) {
+    throw new Error("CodeQL matrix requires all three CodeQL scopes.");
+  }
   appendFileSync(
     env.GITHUB_OUTPUT,
     Object.entries(selected)
       .map(([name, needed]) => name + "=" + needed + "\n")
-      .join(""),
+      .join("") +
+      (codeqlMatrix
+        ? `codeql_languages=${JSON.stringify(codeqlLanguages)}\n`
+        : ""),
   );
   const report = [
     "PR check selection",
@@ -283,12 +467,16 @@ if (
 ) {
   try {
     const { values } = parseArgs({
-      options: { scope: { type: "string", multiple: true } },
+      options: {
+        scope: { type: "string", multiple: true },
+        "codeql-matrix": { type: "boolean" },
+      },
       allowPositionals: false,
     });
     runFromGitHubEnvironment(
       process.env,
       values.scope ?? Object.keys(CHECK_INPUTS),
+      { codeqlMatrix: values["codeql-matrix"] },
     );
   } catch (error) {
     console.error(error.message);

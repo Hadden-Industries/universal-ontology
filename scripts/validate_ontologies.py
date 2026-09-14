@@ -51,7 +51,6 @@ CURRENT_ONTOLOGY_PATHS = (
 # is re-validated: the runner and its contract test, the policy graphs and
 # authority snapshots, the engine package, and the pinned toolchain.
 VALIDATOR_INPUT_PATHS = frozenset((
-    ".github/workflows/ontology-validation.yml",
     "scripts/validate_ontologies.py",
     "tests/test_validate_ontologies.py",
     "requirements.txt",
@@ -153,7 +152,10 @@ def select_ontology_validation(args: argparse.Namespace) -> OntologyValidationSe
         changes = dict.fromkeys(files, "M")
         reason = "Explicit ontology paths"
 
-    validator_changed = args.all_current or any(is_validator_input(path) for path in changes)
+    # CI owns workflow structure and explicitly supplies material execution
+    # changes. An unrelated test-command edit does not change ontology validity.
+    validator_changed = (args.all_current or args.validation_workflow_changed
+                         or any(is_validator_input(path) for path in changes))
     selected_paths = {path for path in changes if matches_target_ontology_path(path)}
     removed_paths = {path for path in selected_paths if changes[path] == "D"}
     selected_paths.difference_update(removed_paths)
@@ -178,6 +180,8 @@ def main() -> None:
     mode.add_argument("--all-current", action="store_true", help="Validate the five current ontology sources")
     parser.add_argument("--diff-head", type=str, help="Head commit ref for git diff")
     parser.add_argument("--plan", action="store_true", help="Report applicability without running the editing policy")
+    parser.add_argument("--validation-workflow-changed", action="store_true",
+                        help="CI identified changed validation execution settings; validate all current sources while retaining the Git comparison")
     parser.add_argument("--github-actions", action="store_true", help="Format failure logs for GitHub Actions annotations")
     parser.add_argument(
         "--purpose", choices=PURPOSE_CHOICES, default=DEFAULT_PURPOSE,

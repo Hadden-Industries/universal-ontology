@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       ontology_policy_qa: ${{ steps.ontology_jobs.outputs.ontology_policy_qa }}
+      ontology_entity_contracts: ${{ steps.ontology_jobs.outputs.ontology_entity_contracts }}
       ontology_qualification: ${{ steps.ontology_jobs.outputs.ontology_qualification }}
     env:
       ONTOLOGY_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -41,9 +42,21 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
+      - name: Install the locked workflow parser only for workflow comparisons
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then exit 0; fi
+          if git diff --quiet --no-ext-diff --no-textconv --no-renames "$ONTOLOGY_DIFF_BASE" "$ONTOLOGY_DIFF_HEAD" -- .github/workflows/ontology-validation.yml; then
+            exit 0
+          else
+            status=$?
+            if [[ "$status" != 1 ]]; then exit "$status"; fi
+          fi
+          npm ci --ignore-scripts --no-audit --no-fund
       - name: Select ontology jobs before provisioning their toolchains
         id: ontology_jobs
-        run: node scripts/selectPullRequestChecks.js --scope ontology_policy_qa --scope ontology_qualification
+        run: node scripts/selectPullRequestChecks.js --scope ontology_policy_qa --scope ontology_entity_contracts --scope ontology_qualification --scope ontology_validation_workflow
 
       - name: Provision Python Runtime
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -64,6 +77,9 @@ jobs:
           if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
             args=(--all-current)
           fi
+          if [[ "${{ steps.ontology_jobs.outputs.ontology_validation_workflow }}" == "true" ]]; then
+            args+=(--validation-workflow-changed)
+          fi
           .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --plan >> "$GITHUB_OUTPUT"
 
       - name: Install the hash-locked Python environment
@@ -83,6 +99,9 @@ jobs:
           if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
             args=(--all-current)
           fi
+          if [[ "${{ steps.ontology_jobs.outputs.ontology_validation_workflow }}" == "true" ]]; then
+            args+=(--validation-workflow-changed)
+          fi
           .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --purpose draft --github-actions --report-directory policy-reports
 
       - name: Retain policy reports
@@ -100,7 +119,7 @@ jobs:
   policy-qa:
     name: Editing policy QA
     needs: validate-ontologies
-    if: ${{ !cancelled() && needs.validate-ontologies.outputs.ontology_policy_qa == 'true' }}
+    if: ${{ !cancelled() && (needs.validate-ontologies.outputs.ontology_policy_qa == 'true' || needs.validate-ontologies.outputs.ontology_entity_contracts == 'true') }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -117,10 +136,13 @@ jobs:
           .venv/bin/python -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt
           .venv/bin/python -m pip check
       - name: Generated policy is current
+        if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
         run: .venv/bin/python -B scripts/render_editing_policy.py --check
       - name: Policy, rendering, authority, change and publication-gate contracts
+        if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
         run: .venv/bin/python -B -m unittest discover -s tests -p "test_*polic*.py" -v
       - name: Entity change and publication gate contracts
+        if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true' || needs.validate-ontologies.outputs.ontology_entity_contracts == 'true'
         # Remove this filter after upgrading to an RDFLib release fixing
         # https://github.com/RDFLib/rdflib/issues/3511.
         run: >-
