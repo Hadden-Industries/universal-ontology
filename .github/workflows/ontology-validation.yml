@@ -121,7 +121,12 @@ jobs:
       - name: Policy, rendering, authority, change and publication-gate contracts
         run: .venv/bin/python -B -m unittest discover -s tests -p "test_*polic*.py" -v
       - name: Entity change and publication gate contracts
-        run: .venv/bin/python -B -m unittest tests.test_ontology_entity_changes tests.test_publication_gate -v
+        # Remove this filter after upgrading to an RDFLib release fixing
+        # https://github.com/RDFLib/rdflib/issues/3511.
+        run: >-
+          .venv/bin/python -B
+          -W "ignore:'count' is passed as positional argument:DeprecationWarning:rdflib.plugins.sparql.operators"
+          -m unittest tests.test_ontology_entity_changes tests.test_publication_gate -v
 
   qualify:
     name: Latest-active qualification (${{ matrix.os }})
