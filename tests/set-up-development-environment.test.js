@@ -1,5 +1,6 @@
 import { jest } from "@jest/globals";
 import {
+  cpSync,
   existsSync,
   mkdirSync,
   mkdtempSync,
@@ -8,6 +9,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
+import { createRequire } from "node:module";
 import { basename, dirname, join, resolve } from "node:path";
 import process from "node:process";
 
@@ -23,6 +25,7 @@ const nodeVersionDescriptor = Object.getOwnPropertyDescriptor(
   process.versions,
   "node",
 );
+const ltsDescriptor = Object.getOwnPropertyDescriptor(process.release, "lts");
 
 function createCommandResult(stdout = "", status = 0) {
   return {
@@ -97,6 +100,10 @@ beforeEach(() => {
     "jsonschema==4.26.0\n",
   );
   Object.defineProperty(process.versions, "node", { value: "24.20.0" });
+  Object.defineProperty(process.release, "lts", {
+    value: "Krypton",
+    configurable: true,
+  });
   writeFileSync(
     join(repositoryRoot, "requirements.txt"),
     "defusedxml>=0.7.1\n",
@@ -104,6 +111,17 @@ beforeEach(() => {
   writeFileSync(join(repositoryRoot, "requirements.lock.txt"), LOCK_TEXT);
   npmCliPath = join(temporaryDirectoryPath, "npm cli.cjs");
   writeFileSync(npmCliPath, "");
+  // Model npm's bundled semver using the installed real validator.
+  const semverDirectory = join(
+    temporaryDirectoryPath,
+    "node_modules",
+    "semver",
+  );
+  cpSync(
+    dirname(createRequire(import.meta.url).resolve("semver/package.json")),
+    semverDirectory,
+    { recursive: true },
+  );
   jest.replaceProperty(process, "env", {
     ...process.env,
     npm_execpath: npmCliPath,
@@ -147,6 +165,11 @@ afterEach(() => {
   jest.restoreAllMocks();
   Object.defineProperty(process, "platform", platformDescriptor);
   Object.defineProperty(process.versions, "node", nodeVersionDescriptor);
+  if (ltsDescriptor) {
+    Object.defineProperty(process.release, "lts", ltsDescriptor);
+  } else {
+    delete process.release.lts;
+  }
   const cleanupPath = resolve(temporaryDirectoryPath);
   if (
     dirname(cleanupPath) !== resolve(tmpdir()) ||
@@ -290,21 +313,50 @@ test("requires invocation through npm before changing the environment", () => {
   expect(spawnSyncMock).not.toHaveBeenCalled();
 });
 
-test("rejects a Node version below the documented prerequisite", () => {
-  Object.defineProperty(process.versions, "node", { value: "22.0.0" });
+test.each(["24.15.0", "24.20.1", "24.21.0"])(
+  "accepts compatible LTS Node %s independently of the CI pin",
+  (version) => {
+    Object.defineProperty(process.versions, "node", { value: version });
+    setUpDevelopmentEnvironment({ repositoryRoot });
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      "Development dependencies are installed.",
+    );
+  },
+);
+
+test.each(["22.22.2", "24.14.0"])("rejects unsupported Node %s", (version) => {
+  Object.defineProperty(process.versions, "node", { value: version });
   expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(/Node/);
   expect(spawnSyncMock).not.toHaveBeenCalled();
 });
 
-test("rejects an npm version that differs from the packageManager declaration", () => {
-  spawnSyncMock.mockReturnValueOnce(createCommandResult("11.0.0\n"));
-  expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
-    /npm@12\.0\.2/,
-  );
-  expect(spawnSyncMock.mock.calls.some(([, args]) => args.includes("ci"))).toBe(
-    false,
+test("rejects a Current release before any installation", () => {
+  Object.defineProperty(process.versions, "node", { value: "26.8.2" });
+  delete process.release.lts;
+  expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(/LTS/);
+  expect(spawnSyncMock).not.toHaveBeenCalled();
+});
+
+test.each(["12.0.3", "12.1.0"])("accepts compatible npm %s", (version) => {
+  spawnSyncMock.mockReturnValueOnce(createCommandResult(`${version}\n`));
+  setUpDevelopmentEnvironment({ repositoryRoot });
+  expect(consoleLogSpy).toHaveBeenCalledWith(
+    "Development dependencies are installed.",
   );
 });
+
+test.each(["11.0.0", "12.0.1", "13.0.0", "12.1.0-beta.1", "invalid"])(
+  "rejects incompatible or unstable npm %s before installing packages",
+  (version) => {
+    spawnSyncMock.mockReturnValueOnce(createCommandResult(`${version}\n`));
+    expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
+      /npm/,
+    );
+    expect(
+      spawnSyncMock.mock.calls.some(([, args]) => args.includes("ci")),
+    ).toBe(false);
+  },
+);
 
 test.each([
   ["missing", { ...createCommandResult("", null), error: new Error("ENOENT") }],
