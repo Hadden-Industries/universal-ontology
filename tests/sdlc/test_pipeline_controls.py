@@ -286,7 +286,7 @@ class LocalVerificationControlTests(unittest.TestCase):
             self.assertTrue((root / '.git').is_file())
             def resolve(*args):
                 return Path(subprocess.check_output(['git', '-C', str(root), 'rev-parse',
-                    '--path-format=absolute', *args], text=True).strip()).resolve()
+                    '--path-format=absolute', *args], text=True, encoding='utf-8').strip()).resolve()
             identities.append((resolve('--show-toplevel'), resolve('--absolute-git-dir'),
                                resolve('--git-common-dir'), resolve('--git-path', 'index')))
         self.assertEqual(identities[0][2], identities[1][2])
