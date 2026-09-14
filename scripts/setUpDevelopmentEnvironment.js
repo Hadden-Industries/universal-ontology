@@ -1,5 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { lstatSync, readFileSync, statSync } from "node:fs";
+import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -91,13 +92,16 @@ export function setUpDevelopmentEnvironment({
     }
   }
 
-  const selectedNodeVersion = readFileSync(
-    join(repositoryRoot, ".node-version"),
-    "utf8",
-  ).trim();
-  if (process.versions.node !== selectedNodeVersion) {
+  // The MCP workspace requires Node 24+, and npm 12 requires 24.15+.
+  // .node-version selects CI's runtime; it is not a local equality constraint.
+  const [nodeMajor, nodeMinor] = process.versions.node.split(".").map(Number);
+  if (
+    !process.release.lts ||
+    nodeMajor < 24 ||
+    (nodeMajor === 24 && nodeMinor < 15)
+  ) {
     throw new Error(
-      `Development setup requires Node.js ${selectedNodeVersion}; found ${process.versions.node}.`,
+      `Development setup requires an LTS build of Node.js 24.15.0 or later; found ${process.versions.node}. Use the latest patch of a supported LTS release.`,
     );
   }
   const selectedPythonVersion = readFileSync(
@@ -146,9 +150,21 @@ export function setUpDevelopmentEnvironment({
     [npmCliPath, "--version"],
     { captureOutput: true },
   );
-  if (packageManager !== `npm@${npmVersion}`) {
+  // npm bundles semver, so validation works even before npm ci installs the
+  // repository dependencies. Keep patch/minor updates within the selected major.
+  const semver = createRequire(npmCliPath)("semver");
+  const selectedNpmVersion = packageManager?.startsWith("npm@")
+    ? packageManager.slice(4)
+    : undefined;
+  if (!semver.valid(selectedNpmVersion)) {
     throw new Error(
-      `Use ${packageManager} declared in package.json; found npm@${npmVersion}.`,
+      "package.json must declare an exact npm packageManager version.",
+    );
+  }
+  const compatibleNpmRange = `^${selectedNpmVersion}`;
+  if (!semver.satisfies(npmVersion, compatibleNpmRange)) {
+    throw new Error(
+      `Development setup requires stable npm ${compatibleNpmRange}; found npm@${npmVersion}. Use a compatible patch or minor update of ${packageManager}.`,
     );
   }
 
