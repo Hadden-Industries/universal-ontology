@@ -201,7 +201,7 @@ class OntologyValidationRunnerTests(unittest.TestCase):
 
     def test_each_validator_input_selects_all_current_sources(self):
         for path in (
-            ".github/workflows/ontology-validation.yml", "scripts/validate_ontologies.py",
+            "scripts/validate_ontologies.py",
             "tests/test_validate_ontologies.py", "requirements.txt", "requirements.lock.txt",
             ".python-version", ".java-version", "policy/entity-policy.ttl",
             "policy/authorities/loc-iso639-1.members.ttl", "scripts/ontology_policy/validation.py",
@@ -214,6 +214,22 @@ class OntologyValidationRunnerTests(unittest.TestCase):
                 self.assertEqual(plan.returncode, 0, plan.stderr)
                 self.assertEqual(plan.stdout, "validation_required=true\nvalidator_changed=true\n")
                 self.assertEqual(set(self.selected(plan)), set(CURRENT_SOURCES))
+
+    def test_workflow_file_alone_does_not_change_validation_semantics(self):
+        path = ".github/workflows/ontology-validation.yml"
+        self.write(path, "workflow changed\n")
+        head = self.commit(path)
+        plan = self.plan("--diff-base", self.base, "--diff-head", head)
+        self.assertEqual(plan.returncode, 0, plan.stderr)
+        self.assertEqual(plan.stdout, "validation_required=false\nvalidator_changed=false\n")
+
+    def test_ci_workflow_impact_explicitly_selects_all_sources_and_keeps_comparison(self):
+        plan = self.plan("--diff-base", self.base, "--diff-head", self.base,
+                         "--validation-workflow-changed")
+        self.assertEqual(plan.returncode, 0, plan.stderr)
+        self.assertEqual(plan.stdout, "validation_required=true\nvalidator_changed=true\n")
+        self.assertEqual(set(self.selected(plan)), set(CURRENT_SOURCES))
+        self.assertIn(f"Comparison base={self.base} head={self.base}", plan.stderr)
 
     def test_a_retired_legacy_validator_path_is_not_a_validator_input(self):
         self.write("tests/universalontologytest.py", "legacy validator reintroduced by mistake\n")
