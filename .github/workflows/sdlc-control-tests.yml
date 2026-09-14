@@ -42,17 +42,15 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
-      - name: Select package manager and install locked dependencies
-        run: |
-          npm install --global --no-audit --no-fund npm@12.0.2
-          npm ci --ignore-scripts
-      - name: Create isolated Python environment
-        run: python -m venv .venv
-      - name: Install SDLC dependencies through repository interpreter
-        run: node scripts/runRepositoryPython.js -m pip install -r requirements-sdlc.txt
+      - name: Select package manager
+        run: npm install --global --no-audit --no-fund npm@12.0.2
+      - name: Set up development from the clean checkout
+        run: npm run setup:development
+      - name: Verify the installed ontology runner
+        run: node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v
       - run: npm run test:sdlc
       - name: Test setup controls
         run: node scripts/runRepositoryPython.js -m unittest discover -s tests -p "test_set_up_*.py"
       - run: npm test -- --runInBand tests/configure-git-hooks.test.js tests/set-up-development-environment.test.js tests/run-repository-python.test.js tests/sdlc-issue-acceptance.test.js tests/pr-check-scopes.test.js
-# Synthetic control fixtures only: no source example product, DCG binary,
-# credentials, live model calls or security scans.
+# Real development bootstrap followed by control fixtures and ontology runner
+# tests; no DCG installation, hook trust, live model calls or security scans.

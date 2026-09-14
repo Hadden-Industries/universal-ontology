@@ -38,6 +38,40 @@ test("ontology-only PRs do not unconditionally launch the SDLC control matrix", 
   );
 });
 
+test("Windows and Ubuntu controls exercise the complete development setup before Python tests", () => {
+  const workflow = parseYaml(
+    readFileSync(
+      new URL("../.github/workflows/sdlc-control-tests.yml", import.meta.url),
+      "utf8",
+    ),
+  );
+  const job = workflow.jobs.controls;
+  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-latest"]);
+  const setupIndex = job.steps.findIndex(
+    ({ run }) => run === "npm run setup:development",
+  );
+  const ontologyIndex = job.steps.findIndex(
+    ({ run }) =>
+      run ===
+      "node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v",
+  );
+  expect(setupIndex).toBeGreaterThan(0);
+  expect(ontologyIndex).toBeGreaterThan(setupIndex);
+  expect(
+    job.steps
+      .slice(0, setupIndex)
+      .some(({ uses }) => uses?.startsWith("actions/setup-python@")),
+  ).toBe(true);
+  expect(
+    job.steps
+      .slice(0, setupIndex)
+      .some(({ run }) => run?.includes("npm install --global")),
+  ).toBe(true);
+  for (const { run = "" } of job.steps) {
+    expect(run).not.toMatch(/npm ci|python -m venv|pip install/);
+  }
+});
+
 test("the stable ontology check selects files before installing its dependencies", () => {
   const workflow = parseYaml(
     readFileSync(
@@ -344,6 +378,18 @@ describe("native Git PR check selection", () => {
       throw new Error("Refusing cleanup outside the owned PR check fixture.");
     }
     rmSync(target, { recursive: true, force: true });
+  });
+
+  test.each([
+    "requirements.txt",
+    "requirements-sdlc.txt",
+    "requirements.lock.txt",
+    "scripts/validate_ontologies.py",
+    "tests/test_validate_ontologies.py",
+  ])("Python setup input %s selects the onboarding checks", (path) => {
+    write(path);
+    commit([path]);
+    expectSelection(["sdlc"], { scopes: ["sdlc"] });
   });
 
   test.each([
