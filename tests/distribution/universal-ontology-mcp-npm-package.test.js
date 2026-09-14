@@ -64,7 +64,7 @@ const EXPECTED_PACKAGING_DEV_DEPENDENCIES = Object.freeze({
   ajv: "8.20.0",
   "ajv-formats": "3.0.1",
   tar: "7.5.22",
-  yaml: "2.9.0",
+  yaml: "2.9.1",
   yazl: "3.3.1",
   yauzl: "3.4.0",
 });
@@ -84,7 +84,7 @@ const EXPECTED_BUNDLED_COMPONENTS = Object.freeze([
   { name: "fast-deep-equal", version: "3.1.3", license: "MIT" },
   { name: "fast-uri", version: "3.1.0", license: "BSD-3-Clause" },
   { name: "json-schema-traverse", version: "1.0.0", license: "MIT" },
-  { name: "zod", version: "4.5.4", license: "MIT" },
+  { name: "zod", version: "4.6.5", license: "MIT" },
 ]);
 
 async function readJsonDocument(fileUrl) {
@@ -273,7 +273,7 @@ describe("public Universal Ontology MCP npm package", () => {
       esbuild: "0.28.2",
       jest: "30.5.1",
       "universal-ontology-query": "1.0.0",
-      zod: "4.5.4",
+      zod: "4.6.5",
     });
 
     for (const forbiddenLifecycleScriptName of [

@@ -44,7 +44,7 @@ License: MIT
 
 Copyright Evgeny Poberezkin. Source: <https://github.com/epoberezkin/json-schema-traverse>
 
-## zod 4.5.4
+## zod 4.6.5
 
 License: MIT
 
