@@ -49,6 +49,26 @@ test("the stable ontology check selects files before installing its dependencies
     workflow_dispatch: null,
   });
   expect(workflow.permissions).toEqual({ contents: "read" });
+  for (const [jobId, scope] of [
+    ["policy-qa", "ontology_policy_qa"],
+    ["qualify", "ontology_qualification"],
+  ]) {
+    expect(workflow.jobs[jobId].needs).toBe("validate-ontologies");
+    expect(workflow.jobs[jobId].if).toBe(
+      `\${{ !cancelled() && needs.validate-ontologies.outputs.${scope} == 'true' }}`,
+    );
+    expect(workflow.jobs["validate-ontologies"].outputs[scope]).toBe(
+      `\${{ steps.ontology_jobs.outputs.${scope} }}`,
+    );
+  }
+  const selectionStep = workflow.jobs["validate-ontologies"].steps.find(
+    ({ id }) => id === "ontology_jobs",
+  );
+  expect(selectionStep.if).toBeUndefined();
+  expect(selectionStep["continue-on-error"]).toBeUndefined();
+  expect(selectionStep.run).toBe(
+    "node scripts/selectPullRequestChecks.js --scope ontology_policy_qa --scope ontology_qualification",
+  );
   const job = workflow.jobs["validate-ontologies"];
   expect(job.name).toBe("OWL Differential Analysis");
   expect(job.env).toEqual({
@@ -95,6 +115,7 @@ test("the stable ontology check selects files before installing its dependencies
 });
 
 describe("native Git PR check selection", () => {
+  const ontologyScopes = ["ontology_policy_qa", "ontology_qualification"];
   let root;
   let environment;
   let base;
@@ -239,6 +260,63 @@ describe("native Git PR check selection", () => {
       throw new Error("Refusing cleanup outside the owned PR check fixture.");
     }
     rmSync(target, { recursive: true, force: true });
+  });
+
+  test.each([
+    ["README.md", []],
+    ["scripts/setUpDevelopmentEnvironment.js", []],
+    ["tests/set-up-development-environment.test.js", []],
+    ["package.json", []],
+    ["core/universal-core.owl", ontologyScopes],
+    ["policy/authorities/example.ttl", ontologyScopes],
+    ["scripts/ontology_policy/validation.py", ontologyScopes],
+    ["requirements.lock.txt", ontologyScopes],
+    ["requirements.txt", ontologyScopes],
+    [".python-version", ontologyScopes],
+    ["tests/fixtures/ontology-policy/example.ttl", ontologyScopes],
+    ["tests/test_ontology_entity_changes.py", ontologyScopes],
+    ["scripts/render_editing_policy.py", ["ontology_policy_qa"]],
+    ["docs/policy/Editing-Policy.generated.md", ["ontology_policy_qa"]],
+    ["tests/test_publication_gate.py", ["ontology_policy_qa"]],
+    ["tests/test_ontology_policy_engines.py", ontologyScopes],
+    [".java-version", ["ontology_qualification"]],
+    [".github/workflows/ontology-validation.yml", ontologyScopes],
+  ])("selects ontology jobs for %s", (path, selected) => {
+    write(
+      path,
+      path === "package.json"
+        ? '{"type":"module","private":true}\n'
+        : "changed input\n",
+    );
+    commit([path]);
+    expectSelection(selected, { scopes: ontologyScopes });
+  });
+
+  test("invalid ontology comparisons fail closed", () => {
+    expectFailureWithoutOutputs({
+      scopes: ontologyScopes,
+      comparisonBase: "f".repeat(40),
+    });
+  });
+
+  test("manual ontology checks are comprehensive", () => {
+    expectSelection(ontologyScopes, {
+      scopes: ontologyScopes,
+      eventName: "workflow_dispatch",
+    });
+  });
+
+  test("removed policy inputs still select both jobs on a main push", () => {
+    const path = "policy/removed.ttl";
+    write(path);
+    const comparisonBase = commit([path]);
+    unlinkSync(join(root, path));
+    commit([path]);
+    expectSelection(ontologyScopes, {
+      scopes: ontologyScopes,
+      eventName: "push",
+      comparisonBase,
+    });
   });
 
   test.each([
