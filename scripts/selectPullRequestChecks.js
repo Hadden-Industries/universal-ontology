@@ -12,7 +12,47 @@ const COMMON_INPUTS = [
   "package.json",
   "package-lock.json",
 ];
+// Python ontology jobs do not consume the Node package manifests. Track their
+// own source, policy and execution inputs instead of COMMON_INPUTS.
+const ONTOLOGY_POLICY_INPUTS = [
+  "scripts/selectPullRequestChecks.js",
+  "tests/pr-check-scopes.test.js",
+  ".github/workflows/ontology-validation.yml",
+  ".python-version",
+  "requirements.txt",
+  "requirements.lock.txt",
+  "scripts/validate_ontologies.py",
+  "scripts/ontology_policy",
+  "policy",
+  "core",
+  "extended",
+  "reference-data",
+  "iso-31073",
+  "iso-iec11179-3",
+  "src/universal",
+  "src/iso/31073",
+  "src/iso-iec/11179/-3",
+  "dist/universal",
+  "dist/iso/31073",
+  "dist/iso-iec/11179/-3",
+  "tests/__init__.py",
+  "tests/fixtures/ontology-policy",
+  "tests/test_ontology_policy.py",
+  "tests/test_ontology_entity_changes.py",
+];
 export const CHECK_INPUTS = {
+  ontology_policy_qa: [
+    ...ONTOLOGY_POLICY_INPUTS,
+    "scripts/render_editing_policy.py",
+    "docs/policy/Editing-Policy.generated.md",
+    ":(glob)tests/test_*polic*.py",
+    "tests/test_publication_gate.py",
+  ],
+  ontology_qualification: [
+    ...ONTOLOGY_POLICY_INPUTS,
+    ".java-version",
+    "tests/test_ontology_policy_engines.py",
+  ],
   sdlc: [
     ...COMMON_INPUTS,
     ".sdlc",
