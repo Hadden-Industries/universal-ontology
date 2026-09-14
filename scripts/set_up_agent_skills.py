@@ -29,8 +29,11 @@ hardcoded list of install commands.
 
 Default targets: codex, antigravity, claude-code.
 
-Without --local-only, this script requires reviewed immutable remote refs and re-adds each
-declared skill from its recorded source using the locked project-local Skills CLI. Skills sharing a
+Without --local-only, this script re-adds each declared skill from its recorded
+source using the locked project-local Skills CLI. An omitted ref tracks the remote
+default branch; a branch tracks its current tip, while explicit tags and commits
+remain selected. The native CLI records updated content hashes in the lock without
+requiring permanent commit pins. Skills sharing a
 source are re-added in a single invocation, because `skills add` clones the whole
 source repository once per call.
 
@@ -57,7 +60,7 @@ import sys
 import tempfile
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
-from urllib.parse import urlsplit, urlunsplit
+from urllib.parse import quote, urlsplit, urlunsplit
 
 from _commands import SetupError, require_command, run
 from _repository import derive_repo_from_script, is_ignored, tracked_paths_under
@@ -70,7 +73,6 @@ from set_up_mcp_servers import (
 LOCAL_SKILL_SOURCE_ROOT = Path(".sdlc") / "skills"
 SKILL_POLICY_PATH = Path(".sdlc") / "skill-policies.json"
 SUPPORTED_SKILL_POLICY_VERSION = 1
-FULL_GIT_SHA = re.compile(r"^[0-9a-fA-F]{40}$")
 LOCK_FILENAME = "skills-lock.json"
 SUPPORTED_LOCK_VERSION = 1
 
@@ -277,7 +279,7 @@ def is_bare_shorthand(source: str) -> bool:
 
 def get_install_source(entry: dict[str, Any]) -> str:
     """
-    Bind a canonical Git repository to the lock's single immutable revision.
+    Bind a canonical Git repository to the lock's optional reference.
 
     The explicit --skill filter keeps updates name-scoped, so skillPath does not
     need to be appended here. This accepts repository-root lock representations,
@@ -296,10 +298,17 @@ def get_install_source(entry: dict[str, Any]) -> str:
         return candidate
 
     ref = entry.get("ref")
-    if not isinstance(ref, str) or FULL_GIT_SHA.fullmatch(ref) is None:
-        raise SetupError("Remote Agent Skills require a reviewed full Git commit SHA in ref.")
+    if ref is not None:
+        if not isinstance(ref, str) or not ref or ref.startswith("-"):
+            raise SetupError("Remote skill ref must be a non-empty Git reference when present.")
+        # Git owns reference syntax; the CLI fragment is transport, not a second
+        # reference grammar. Encode its selectors below so @ cannot select a skill.
+        result = run((require_command("git"), "check-ref-format", "--allow-onelevel", ref),
+                     capture=True, check=False)
+        if result.returncode:
+            raise SetupError(f"Invalid remote skill Git reference: {ref!r}.")
     if source_type not in {"github", "gitlab", "git"}:
-        raise SetupError(f"Source type {source_type!r} cannot be pinned to a Git commit.")
+        raise SetupError(f"Source type {source_type!r} is not a supported Git source.")
 
     clone_url, _ = clone_url_for_entry(entry, Path.cwd())
     canonical_sources = {clone_url, clone_url.removesuffix(".git")}
@@ -310,7 +319,7 @@ def get_install_source(entry: dict[str, Any]) -> str:
 
     # Restrict lock inputs to unambiguous clone endpoints shared by the native
     # Skills consumer and the existing Git _shared-resource checkout. In
-    # particular, appending #SHA to a tree/download URL does not pin that URL.
+    # particular, appending a ref to a tree/download URL does not select it reliably.
     if any(char.isspace() or ord(char) < 32 or char in "?#%\\" for char in clone_url):
         raise SetupError("Remote skill source must be an unescaped canonical Git clone URL.")
     parsed = urlsplit(clone_url if not clone_url.startswith("git@") else "ssh://" + clone_url.replace(":", "/", 1))
@@ -325,7 +334,7 @@ def get_install_source(entry: dict[str, Any]) -> str:
             or any(host + "/" in clone_url and parsed.hostname != host for host in ("github.com", "gitlab.com"))):
         raise SetupError("Remote skill source must be a canonical Git clone endpoint, without tree or download selectors.")
 
-    return f"{clone_url}#{ref}"
+    return f"{clone_url}#{quote(ref, safe='/')}" if ref is not None else clone_url
 
 
 def group_skills_by_install_source(
@@ -339,7 +348,7 @@ def group_skills_by_install_source(
     repository is to install everything it provides in one invocation.
 
     Grouping on the reconstructed source string rather than on `source` alone
-    keeps entries that pin different refs in separate groups, because they
+    keeps entries that select different refs in separate groups, because they
     genuinely need separate checkouts.
     """
     grouped: dict[str, list[str]] = {}
@@ -513,11 +522,9 @@ def validate_locked_skill_sources(
     if invalid_sources:
         rendered = "\n".join(f"  - {item}" for item in invalid_sources)
         raise SetupError(
-            "Remote Agent Skills must be frozen to reviewed full Git commit "
-            f"SHAs before normal setup:\n{rendered}\n\n"
-            "Resolve each upstream once with `git ls-remote`, add it through "
-            "the project-local Skills CLI using `#<full-sha>`, review the resulting lock and "
-            "skill diff, then obtain the required configuration and commit approvals."
+            f"Invalid Agent Skills sources before setup:\n{rendered}\n\n"
+            "Use canonical Git repository sources with an optional branch, tag or "
+            "commit ref. Omit ref to follow the remote default branch."
         )
 
 
@@ -1061,7 +1068,7 @@ def preflight_local_skill_activation(repo: Path, agents: tuple[str, ...]) -> dic
 
 def ensure_agent_skills(repo: Path, agents: tuple[str, ...], *, local_only: bool = False) -> set[str]:
     """
-    Activate selected local files or reviewed external declarations without clearing roots.
+    Activate selected local files or refresh external declarations without clearing roots.
 
     Returns the declared skill names, so a caller sequencing several setup steps
     can report them without re-reading the lock.
@@ -1110,7 +1117,10 @@ def ensure_agent_skills(repo: Path, agents: tuple[str, ...], *, local_only: bool
 
     verify_lock_skill_set_unchanged(repo, declared_skills)
 
-    repair_non_self_contained_skills(repo, lock_before, agents)
+    # Native installation may update skillPath as well as computedHash. Shared
+    # resource discovery must use that refreshed metadata, not the starting lock.
+    _, installed_lock, _ = load_lock(repo)
+    repair_non_self_contained_skills(repo, installed_lock, agents)
 
     print("\n== Codex skill invocation policies ==")
     configured_metadata = configure_brooks_review_invocation_policy(

@@ -1,4 +1,4 @@
-"""Pinned source and preservation contracts for repository skill activation."""
+"""Source reference and preservation contracts for repository skill activation."""
 from __future__ import annotations
 
 import json
@@ -15,8 +15,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import set_up_agent_skills as setup
 
 
-class PinnedSkillSourceTests(unittest.TestCase):
-    """The recorded commit must be the only revision offered to Skills CLI."""
+class SkillSourceReferenceTests(unittest.TestCase):
+    """The declared source and optional reference are preserved for Skills CLI."""
 
     SHA = "1234567890abcdef1234567890abcdef12345678"
 
@@ -90,13 +90,33 @@ class PinnedSkillSourceTests(unittest.TestCase):
         self.assertEqual(setup.group_skills_by_install_source({"selected": entry}),
                          {"./owned-skill": ("selected",)})
 
-    def test_each_remote_source_requires_a_full_commit(self):
-        for ref in (None, "main", "v1.0.0", self.SHA[:12], self.SHA + "@review"):
+    def test_remote_sources_accept_default_branch_branches_tags_and_commits(self):
+        for ref in (None, "main", "release/stable", "v1.0.0", self.SHA):
+            with self.subTest(ref=ref):
+                entry = self.entry()
+                if ref is None:
+                    entry.pop("ref")
+                else:
+                    entry["ref"] = ref
+                before = dict(entry)
+                expected = "https://github.com/example/skills.git" + (f"#{ref}" if ref else "")
+                self.assertEqual(setup.group_skills_by_install_source({"selected": entry}),
+                                 {expected: ("selected",)})
+                self.assertEqual(entry, before)
+
+    def test_invalid_git_references_are_rejected(self):
+        for ref in ("", "--help", "main..other", "main\n", "main@{1}", 42):
             with self.subTest(ref=ref):
                 entry = self.entry()
                 entry["ref"] = ref
-                with self.assertRaisesRegex(setup.SetupError, "full Git commit SHA"):
+                with self.assertRaises(setup.SetupError):
                     setup.group_skills_by_install_source({"selected": entry})
+
+    def test_cli_fragment_metacharacters_are_encoded_as_reference_content(self):
+        entry = self.entry()
+        entry["ref"] = "release@review#100%"
+        self.assertEqual(setup.get_install_source(entry),
+                         "https://github.com/example/skills.git#release%40review%23100%25")
 
     def test_skill_grouping_keeps_different_commits_separate(self):
         other = self.entry()
@@ -109,6 +129,53 @@ class PinnedSkillSourceTests(unittest.TestCase):
 
 
 class SkillActivationPreservationTests(unittest.TestCase):
+    def test_native_cli_refreshes_floating_branch_and_records_installed_content(self):
+        cli = Path(__file__).resolve().parents[1] / "node_modules/skills/dist/cli.mjs"
+        self.assertTrue(cli.is_file(), "Install repository dependencies before this contract test")
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            upstream = root / "upstream"
+            repo = root / "consumer"
+            upstream.mkdir()
+            repo.mkdir()
+            def git(*args):
+                return subprocess.run(["git", "-C", str(upstream), *args],
+                                      check=True, capture_output=True, text=True).stdout.strip()
+            git("init", "--quiet", "--initial-branch=main")
+            skill = upstream / "skills/fixture/SKILL.md"
+            skill.parent.mkdir(parents=True)
+            manifest = repo / "node_modules/skills/package.json"
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text(json.dumps({"bin": {"skills": str(cli)}}), encoding="utf-8")
+            source = "https://skills-fixture.invalid/team/skills.git"
+            entry = {"source": source, "sourceUrl": source, "sourceType": "git",
+                     "ref": "main", "computedHash": "0" * 64}
+            previous_hash = entry["computedHash"]
+            # Only this test's Git children resolve the synthetic host to a local
+            # repository. Exercise the real installed CLI and its native lock writer.
+            count = int(os.environ.get("GIT_CONFIG_COUNT", "0"))
+            env = {"GIT_CONFIG_COUNT": str(count + 1),
+                   f"GIT_CONFIG_KEY_{count}": f"url.{upstream.as_uri()}.insteadOf",
+                   f"GIT_CONFIG_VALUE_{count}": source,
+                   "DISABLE_TELEMETRY": "1", "DO_NOT_TRACK": "1"}
+            for version in ("first", "second"):
+                content = f"---\nname: fixture\ndescription: Test skill\n---\n{version}\n"
+                skill.write_text(content, encoding="utf-8")
+                git("add", "skills/fixture/SKILL.md")
+                git("-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+                    "-c", "commit.gpgsign=false", "-c", "core.hooksPath=" + str(root / "no-hooks"),
+                    "commit", "--quiet", "-m", version)
+                with patch.dict(os.environ, env):
+                    setup.sync_source(repo, setup.get_install_source(entry), ("fixture",), ("codex",))
+                installed = repo / ".agents/skills/fixture/SKILL.md"
+                self.assertEqual(installed.read_text(encoding="utf-8"), content)
+                lock = json.loads((repo / "skills-lock.json").read_text(encoding="utf-8"))
+                entry = lock["skills"]["fixture"]
+                self.assertEqual(entry["ref"], "main")
+                self.assertRegex(entry["computedHash"], r"^[0-9a-f]{64}$")
+                self.assertNotEqual(entry["computedHash"], previous_hash)
+                previous_hash = entry["computedHash"]
+
     def test_setup_uses_directory_identity_for_repository_aliases(self):
         with tempfile.TemporaryDirectory() as directory:
             canonical = Path(directory).resolve()
