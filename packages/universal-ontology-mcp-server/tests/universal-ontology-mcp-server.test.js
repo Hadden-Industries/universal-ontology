@@ -89,9 +89,31 @@ const PERSON_ENTITY = Object.freeze({
     },
   ],
 });
+const PERSON_SUMMARY_ENTITY = Object.freeze({
+  entityIri: PERSON_IRI,
+  selectedPreferredLabel: {
+    ontologyRelease: {
+      ontologyArtifactFamilyId: "universal/core",
+      versionTag: "20260830",
+    },
+    assertionPropertyIri: SKOS_PREFERRED_LABEL_IRI,
+    literalValue: PERSON_LABEL_ASSERTION.literalValue,
+    selectionBasis: "preferred_language_exact",
+  },
+  selectedLexicalDefinition: {
+    ontologyRelease: {
+      ontologyArtifactFamilyId: "universal/core",
+      versionTag: "20260830",
+    },
+    assertionPropertyIri: SKOS_DEFINITION_IRI,
+    literalValue: PERSON_DEFINITION_ASSERTION.literalValue,
+    selectionBasis: "preferred_language_exact",
+  },
+});
 const PERSON_SEARCH_RESULT = Object.freeze({
   outcome: "success",
   resultKind: "ontology_entity_search",
+  entityDetailLevel: "full",
   queryText: "Person",
   preferredLanguageTags: ["en-GB", "en"],
   resolvedOntologyReleases: [RESOLVED_RELEASE],
@@ -125,6 +147,7 @@ function createOntologyQueryStub(overrides = {}) {
         (async (input) => ({
           outcome: "success",
           resultKind: "ontology_entity_resolution",
+          entityDetailLevel: "full",
           resolutionStatus:
             input.entityIdentifier.identifierValue === "Ambiguous"
               ? "ambiguous"
@@ -289,9 +312,58 @@ describe("Universal Ontology MCP server", () => {
         queryText: "Person",
         preferredLanguageTags: ["en-GB", "en"],
         maximumResultCount: 10,
+        entityDetailLevel: "summary",
       },
       { signal: expect.any(AbortSignal) },
     );
+  });
+
+  test("advertises entityDetailLevel and validates a summary result", async () => {
+    const ontologyQuery = createOntologyQueryStub({
+      async searchOntologyEntities(input) {
+        return {
+          ...structuredClone(PERSON_SEARCH_RESULT),
+          entityDetailLevel: input.entityDetailLevel,
+          matches: [
+            {
+              ...structuredClone(PERSON_SEARCH_RESULT.matches[0]),
+              ontologyEntity: PERSON_SUMMARY_ENTITY,
+            },
+          ],
+        };
+      },
+    });
+    const { client } = await connectOfficialClient({ ontologyQuery });
+    const toolList = await client.listTools();
+
+    for (const tool of toolList.tools) {
+      expect(tool.inputSchema.properties.entityDetailLevel).toMatchObject({
+        default: "summary",
+        enum: ["summary", "full"],
+      });
+    }
+
+    const result = await client.callTool({
+      name: SEARCH_ENTITIES_TOOL_NAME,
+      arguments: { queryText: "Person", entityDetailLevel: "summary" },
+    });
+
+    expect(result.isError).not.toBe(true);
+    expect(ontologyQuery.searchOntologyEntities).toHaveBeenCalledWith(
+      expect.objectContaining({ entityDetailLevel: "summary" }),
+      { signal: expect.any(AbortSignal) },
+    );
+    expect(
+      SearchEntitiesToolOutputSchema.parse(result.structuredContent),
+    ).toMatchObject({
+      entityDetailLevel: "summary",
+      matches: [{ ontologyEntity: PERSON_SUMMARY_ENTITY }],
+    });
+    expect(
+      result.structuredContent.matches[0].ontologyEntity,
+    ).not.toHaveProperty("sourceArtifactDescriptions");
+    expect(result.content[0].text).toContain(PERSON_DEFINITION);
+    expect(result.content[0].text).toContain("universal/core@20260830");
   });
 
   test("merges the installed process lifecycle into every tool request signal", async () => {

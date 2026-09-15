@@ -58,6 +58,9 @@ async function resolveTypedEntityIdentifier({
         displayedOntologyReleaseContext,
       ),
       preferredLanguageTags: PREFERRED_LANGUAGE_TAGS,
+      // The compact page result is projected from every source-artifact
+      // assertion, so the full entity shape is required whatever the default.
+      entityDetailLevel: "full",
     },
     { signal },
   );

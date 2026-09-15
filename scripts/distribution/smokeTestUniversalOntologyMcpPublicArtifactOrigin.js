@@ -142,6 +142,8 @@ function createPersonSearchArguments() {
     queryText: "Person",
     preferredLanguageTags: ["en", "en-GB"],
     maximumResultCount: 10,
+    // The gate checks source-graph provenance, which only the full shape has.
+    entityDetailLevel: "full",
     ontologyReleaseSelection: {
       selectionKind: "specified_releases",
       ontologyReleases: [

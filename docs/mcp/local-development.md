@@ -261,6 +261,8 @@ Input fields:
   basic language filtering in caller order.
 - `maximumResultCount` defaults to `10` and accepts integers from `1` through
   `20`.
+- `entityDetailLevel` is `summary` (the default) or `full`. See
+  [Entity detail level](#entity-detail-level).
 
 The structured success result reports the normalized caller query, every
 concrete release selected, total and returned match counts, truncation, the
@@ -277,11 +279,42 @@ Use `resolve_entity` after the intended entity is known. Its required
 - `{"identifierKind":"uuid_urn","identifierValue":"<UUID URN>"}`; or
 - `{"identifierKind":"preferred_label","identifierValue":"<label>"}`.
 
-It accepts the same optional release selection and preferred language tags as
-search. A preferred label is not globally unique: the success result's
-`resolutionStatus` is explicitly `found`, `ambiguous`, or `not_found`.
-Ambiguity and absence are normal successful query outcomes, not permission to
-select an arbitrary candidate or invent a definition.
+It accepts the same optional release selection, preferred language tags, and
+entity detail level as search. A preferred label is not globally unique: the
+success result's `resolutionStatus` is explicitly `found`, `ambiguous`, or
+`not_found`. Ambiguity and absence are normal successful query outcomes, not
+permission to select an arbitrary candidate or invent a definition.
+
+### Entity detail level
+
+Both tools accept an optional `entityDetailLevel`, and both success results
+echo the level that applied so a consumer can validate the shape without
+inspecting individual entities.
+
+- `summary` (the default) returns each entity's IRI,
+  `selectedPreferredLabel`, and `selectedLexicalDefinition` only, omitting
+  `sourceArtifactDescriptions`. Each selected assertion cites its release as
+  an `ontologyRelease` pair (`ontologyArtifactFamilyId` and `versionTag`),
+  which is the same pair a `specified_releases` selection accepts. The full
+  provenance record for every selected release, including the source-artifact
+  URL and SHA-256, remains in the top-level `resolvedOntologyReleases`.
+- `full` returns each entity's `selectedPreferredLabel`,
+  `selectedLexicalDefinition`, and every `sourceArtifactDescriptions` entry:
+  all asserted labels, definitions, scope notes, identifiers, creators,
+  source IRIs, and superclass IRIs, each selected assertion carrying the
+  complete `resolvedOntologyRelease` provenance record.
+
+A summary is a projection of the same selection, never a different selection:
+the label and definition are the ones a `full` call would select, and the
+ranking, counts, and match values are identical. The default answers a
+definition question or narrows candidates at the lowest context cost; request
+`full` for the one entity whose assertions, scope notes, or per-assertion
+provenance are actually needed. The plain-text rendering is the same for both
+levels.
+
+The protocol itself has no field-selection mechanism; this parameter follows
+the coarse-grained view pattern (a small enum rather than a field mask) so
+callers do not need to know the result shape before asking.
 
 ### Release selection
 

@@ -241,6 +241,7 @@ describe.each([
           queryText: "Person",
           ontologyReleaseSelection: RELEASE_SELECTION,
           preferredLanguageTags: ["en-GB", "en"],
+          entityDetailLevel: "full",
         },
       });
       expect(search.isError).not.toBe(true);
@@ -264,6 +265,7 @@ describe.each([
           entityIdentifier: PERSON_IDENTIFIER,
           ontologyReleaseSelection: RELEASE_SELECTION,
           preferredLanguageTags: ["en-GB", "en"],
+          entityDetailLevel: "full",
         },
       });
       expect(resolution.isError).not.toBe(true);

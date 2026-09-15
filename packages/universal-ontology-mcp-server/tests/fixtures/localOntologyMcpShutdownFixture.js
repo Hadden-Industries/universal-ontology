@@ -58,6 +58,7 @@ const ontologyQuery = {
         resolvePromise({
           outcome: "success",
           resultKind: "ontology_entity_search",
+          entityDetailLevel: "full",
           queryText: input.queryText.trim(),
           preferredLanguageTags: input.preferredLanguageTags,
           resolvedOntologyReleases: [RESOLVED_RELEASE],
@@ -76,6 +77,7 @@ const ontologyQuery = {
     return {
       outcome: "success",
       resultKind: "ontology_entity_resolution",
+      entityDetailLevel: "full",
       resolutionStatus: "not_found",
       requestedEntityIdentifier: input.entityIdentifier,
       preferredLanguageTags: input.preferredLanguageTags,

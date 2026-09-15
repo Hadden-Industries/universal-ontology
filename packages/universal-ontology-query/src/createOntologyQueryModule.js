@@ -505,25 +505,58 @@ function stripIndexedEntityIri(description) {
   return sourceArtifactDescription;
 }
 
+function summarizeSelectedLexicalAssertion(selectedAssertion) {
+  if (!selectedAssertion) {
+    return null;
+  }
+
+  const { resolvedOntologyRelease, ...assertion } = selectedAssertion;
+
+  return {
+    ontologyRelease: {
+      ontologyArtifactFamilyId:
+        resolvedOntologyRelease.ontologyArtifactFamilyId,
+      versionTag: resolvedOntologyRelease.versionTag,
+    },
+    ...assertion,
+  };
+}
+
 function aggregateOntologyEntity({
   entityIri,
   descriptions,
   preferredLanguageTags,
+  entityDetailLevel,
 }) {
+  const selectedPreferredLabel = selectLexicalAssertion({
+    descriptions,
+    assertionField: "preferredLabelAssertions",
+    projectionField: "preferredLabel",
+    preferredLanguageTags,
+  });
+  const selectedLexicalDefinition = selectLexicalAssertion({
+    descriptions,
+    assertionField: "lexicalDefinitionAssertions",
+    projectionField: "definition",
+    preferredLanguageTags,
+  });
+
+  if (entityDetailLevel === "summary") {
+    return {
+      entityIri,
+      selectedPreferredLabel: summarizeSelectedLexicalAssertion(
+        selectedPreferredLabel,
+      ),
+      selectedLexicalDefinition: summarizeSelectedLexicalAssertion(
+        selectedLexicalDefinition,
+      ),
+    };
+  }
+
   return {
     entityIri,
-    selectedPreferredLabel: selectLexicalAssertion({
-      descriptions,
-      assertionField: "preferredLabelAssertions",
-      projectionField: "preferredLabel",
-      preferredLanguageTags,
-    }),
-    selectedLexicalDefinition: selectLexicalAssertion({
-      descriptions,
-      assertionField: "lexicalDefinitionAssertions",
-      projectionField: "definition",
-      preferredLanguageTags,
-    }),
+    selectedPreferredLabel,
+    selectedLexicalDefinition,
     sourceArtifactDescriptions: descriptions.map(stripIndexedEntityIri),
   };
 }
@@ -835,6 +868,7 @@ export function createOntologyQueryModule({
         resultKind: "ontology_entity_search",
         queryText,
         preferredLanguageTags: parsedInput.preferredLanguageTags,
+        entityDetailLevel: parsedInput.entityDetailLevel,
         resolvedOntologyReleases: runtimeIndexes.map(
           ({ queryIndex }) => queryIndex.resolvedOntologyRelease,
         ),
@@ -853,6 +887,7 @@ export function createOntologyQueryModule({
               evaluatedCandidate.candidate.entityIri,
             ),
             preferredLanguageTags: parsedInput.preferredLanguageTags,
+            entityDetailLevel: parsedInput.entityDetailLevel,
           }),
         })),
       });
@@ -950,6 +985,7 @@ export function createOntologyQueryModule({
         resolutionStatus,
         requestedEntityIdentifier,
         preferredLanguageTags: parsedInput.preferredLanguageTags,
+        entityDetailLevel: parsedInput.entityDetailLevel,
         resolvedOntologyReleases: runtimeIndexes.map(
           ({ queryIndex }) => queryIndex.resolvedOntologyRelease,
         ),
@@ -958,6 +994,7 @@ export function createOntologyQueryModule({
             entityIri,
             descriptions: descriptionsByEntityIri.get(entityIri),
             preferredLanguageTags: parsedInput.preferredLanguageTags,
+            entityDetailLevel: parsedInput.entityDetailLevel,
           }),
         ),
       });
