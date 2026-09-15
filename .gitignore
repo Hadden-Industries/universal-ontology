@@ -23,7 +23,7 @@ node_modules/
 /.agents/.mcp_config.json.repository-setup.*.staged.tmp
 /.agents/.mcp_config.json.repository-setup.*.activation.backup
 
-# Local SDLC evidence and owned scratch; neither is publication evidence
+# Local policy reports, retained evidence and owned scratch; none is publication evidence
 /.sdlc/runtime/
 /.sdlc/tmp/
 

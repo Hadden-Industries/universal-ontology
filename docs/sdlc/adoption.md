@@ -1,7 +1,14 @@
 # Repository SDLC adoption
 
+**Status (September 2026): retired.** The repository-owned SDLC described below
+was removed under [the contributor workflow separation plan](../plans/2026-09-14-contributor-workflow-separation.md);
+see [the historical index](README.md) for what was retired, what was kept and
+where the archived manifests are. The text from here on is the adoption record
+as written and is preserved unchanged.
+
 This is the repository's operational adoption record. The machine-readable status
-and owner confirmation are in [PACKAGE_STATUS.json](../../.sdlc/PACKAGE_STATUS.json).
+and owner confirmation are in [PACKAGE_STATUS.json](archive/PACKAGE_STATUS.json)
+(archived byte-for-byte from `.sdlc/PACKAGE_STATUS.json`).
 Max's approval of SDLC-FOLLOWUPS-01 confirms deployment of the experimental 1.0.0
 workflow in Hadden-Industries/universal-ontology. Its pre-release status continues.
 

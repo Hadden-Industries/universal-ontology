@@ -3,7 +3,6 @@
 /AGENTS.md @Hadden-Industries/engineering-governance
 /REVIEW.md @Hadden-Industries/engineering-governance
 /.codex/ @Hadden-Industries/engineering-governance
-/.sdlc/ @Hadden-Industries/engineering-governance
 /scripts/ @Hadden-Industries/engineering-governance
 /docs/sdlc/ @Hadden-Industries/engineering-governance
 /.github/ @Hadden-Industries/engineering-governance
@@ -15,7 +14,3 @@
 /.python-version @Hadden-Industries/engineering-governance
 /.gitignore @Hadden-Industries/engineering-governance
 /SECURITY.md @Hadden-Industries/security
-/.sdlc/dcg/ @Hadden-Industries/engineering-governance @Hadden-Industries/security
-/docs/sdlc/command-safety.md @Hadden-Industries/engineering-governance @Hadden-Industries/security
-/docs/sdlc/codex-security.md @Hadden-Industries/engineering-governance @Hadden-Industries/security
-/docs/sdlc/dcg-acceptance.md @Hadden-Industries/engineering-governance @Hadden-Industries/security

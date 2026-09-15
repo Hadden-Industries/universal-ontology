@@ -79,7 +79,7 @@ export function setUpDevelopmentEnvironment({
     "package.json",
     "package-lock.json",
     "requirements.txt",
-    "requirements-sdlc.txt",
+    "requirements-dev.txt",
     PYTHON_LOCK_FILENAME,
     ".node-version",
     ".python-version",
@@ -277,12 +277,6 @@ export function setUpDevelopmentEnvironment({
     virtualEnvironmentPythonExecutablePath,
     ["-m", "pip", "check"],
   );
-  runRequiredCommand(
-    "Repository SDLC configuration",
-    virtualEnvironmentPythonExecutablePath,
-    ["-B", join(repositoryRoot, "scripts", "set_up_sdlc.py")],
-  );
-
   try {
     const awsCliVersion = runRequiredCommand(
       "AWS CLI verification",

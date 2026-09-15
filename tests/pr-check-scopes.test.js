@@ -16,61 +16,12 @@ import { fileURLToPath } from "node:url";
 import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 
 const SCOPES = [
-  "sdlc",
+  "development",
   "product_tests",
   "mcp_artifacts",
   "website_build",
   "mcp_docs",
 ];
-
-test("ontology-only PRs do not unconditionally launch the SDLC control matrix", () => {
-  const workflow = parseYaml(
-    readFileSync(
-      new URL("../.github/workflows/sdlc-control-tests.yml", import.meta.url),
-      "utf8",
-    ),
-  );
-
-  expect(workflow.jobs.controls.needs).toBe("scope");
-  expect(workflow.jobs.controls.if).toBe("needs.scope.outputs.sdlc == 'true'");
-  expect(workflow.jobs.scope.steps.at(-1).run).toBe(
-    "node scripts/selectPullRequestChecks.js --scope sdlc",
-  );
-});
-
-test("Windows and Ubuntu controls exercise the complete development setup before Python tests", () => {
-  const workflow = parseYaml(
-    readFileSync(
-      new URL("../.github/workflows/sdlc-control-tests.yml", import.meta.url),
-      "utf8",
-    ),
-  );
-  const job = workflow.jobs.controls;
-  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-latest"]);
-  const setupIndex = job.steps.findIndex(
-    ({ run }) => run === "npm run setup:development",
-  );
-  const ontologyIndex = job.steps.findIndex(
-    ({ run }) =>
-      run ===
-      "node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v",
-  );
-  expect(setupIndex).toBeGreaterThan(0);
-  expect(ontologyIndex).toBeGreaterThan(setupIndex);
-  expect(
-    job.steps
-      .slice(0, setupIndex)
-      .some(({ uses }) => uses?.startsWith("actions/setup-python@")),
-  ).toBe(true);
-  expect(
-    job.steps
-      .slice(0, setupIndex)
-      .some(({ run }) => run?.includes("npm install --global")),
-  ).toBe(true);
-  for (const { run = "" } of job.steps) {
-    expect(run).not.toMatch(/npm ci|python -m venv|pip install/);
-  }
-});
 
 test("the stable ontology check selects files before installing its dependencies", () => {
   const workflow = parseYaml(
@@ -382,14 +333,14 @@ describe("native Git PR check selection", () => {
 
   test.each([
     "requirements.txt",
-    "requirements-sdlc.txt",
+    "requirements-dev.txt",
     "requirements.lock.txt",
     "scripts/validate_ontologies.py",
     "tests/test_validate_ontologies.py",
-  ])("Python setup input %s selects the onboarding checks", (path) => {
+  ])("Python setup input %s selects the development checks", (path) => {
     write(path);
     commit([path]);
-    expectSelection(["sdlc"], { scopes: ["sdlc"] });
+    expectSelection(["development"], { scopes: ["development"] });
   });
 
   test.each([
@@ -735,13 +686,18 @@ describe("native Git PR check selection", () => {
     ["src/universal/core/20260907", []],
     ["docs/sdlc/baselines/issue-1/v1.json", []],
     ["docs/sdlc/verification.md", []],
-    ["scripts/set_up_sdlc.py", ["sdlc"]],
-    ["scripts/_sdlc_resource_disposition.py", ["sdlc"]],
-    ["scripts/_sdlc_baseline.py", ["sdlc"]],
-    ["scripts/setUpDevelopmentEnvironment.js", ["sdlc"]],
-    [".codex/agents/verifier.toml", ["sdlc"]],
-    ["docs/sdlc/engineering-principles.md", ["sdlc"]],
-    [".github/workflows/sdlc-control-tests.yml", ["sdlc"]],
+    ["docs/sdlc/README.md", []],
+    ["AGENTS.md", []],
+    [".codex/config.toml", []],
+    [".github/PULL_REQUEST_TEMPLATE.md", []],
+    ["scripts/set_up_mcp_servers.py", ["development"]],
+    ["scripts/set_up_agent_skills.py", ["development"]],
+    ["scripts/_repository.py", ["development"]],
+    ["scripts/setUpDevelopmentEnvironment.js", ["development"]],
+    [".githooks/pre-commit", ["development"]],
+    ["skills-lock.json", ["development"]],
+    ["tests/development-workflow.test.js", ["development"]],
+    [".github/workflows/development-checks.yml", ["development"]],
     ["README.md", ["mcp_docs"]],
     ["docs/mcp/usage.md", ["mcp_docs"]],
     ["packages/universal-ontology-mcp-server/README.md", ["mcp_docs"]],
@@ -820,37 +776,42 @@ describe("native Git PR check selection", () => {
 
   test("mixed changes take the union of their applicable checks", () => {
     const paths = [
-      "scripts/set_up_sdlc.py",
+      "scripts/setUpDevelopmentEnvironment.js",
       "packages/universal-ontology-mcp-server/src/example.js",
       "README.md",
     ];
     paths.forEach((path) => write(path));
     commit(paths);
-    expectSelection(["sdlc", "product_tests", "mcp_artifacts", "mcp_docs"]);
+    expectSelection([
+      "development",
+      "product_tests",
+      "mcp_artifacts",
+      "mcp_docs",
+    ]);
   });
 
   test.each([true, false])(
-    "a rename into/out of SDLC remains applicable (into=%s)",
+    "a rename into/out of the Git hooks remains applicable (into=%s)",
     (into) => {
       const [oldPath, newPath] = into
-        ? ["notes/requirements.md", ".sdlc/requirements.md"]
-        : [".sdlc/requirements.md", "notes/requirements.md"];
+        ? ["notes/pre-push", ".githooks/pre-push"]
+        : [".githooks/pre-push", "notes/pre-push"];
       write(oldPath);
       base = commit([oldPath]);
       mkdirSync(dirname(join(root, newPath)), { recursive: true });
       renameSync(join(root, oldPath), join(root, newPath));
       commit([oldPath, newPath]);
-      expectSelection(["sdlc"]);
+      expectSelection(["development"]);
     },
   );
 
   test("deleting a relevant path still selects its checks", () => {
-    const path = ".sdlc/requirements.md";
+    const path = ".githooks/pre-push";
     write(path);
     base = commit([path]);
     unlinkSync(join(root, path));
     commit([path]);
-    expectSelection(["sdlc"]);
+    expectSelection(["development"]);
   });
 
   test("unusual filenames are passed through native Git without line parsing", () => {
@@ -915,14 +876,14 @@ describe("native Git PR check selection", () => {
   });
 
   test("manual dispatch selects only the workflow's requested full set", () => {
-    expectSelection(["sdlc"], {
+    expectSelection(["development"], {
       eventName: "workflow_dispatch",
-      scopes: ["sdlc"],
+      scopes: ["development"],
     });
   });
 
   test("unknown scopes cannot publish a partial successful result", () => {
-    expectFailureWithoutOutputs({ scopes: ["sdlc", "unknown"] });
+    expectFailureWithoutOutputs({ scopes: ["development", "unknown"] });
   });
 
   test("a native Git diff error cannot publish applicability", () => {
