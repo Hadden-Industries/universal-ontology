@@ -189,14 +189,21 @@ class SkillActivationPreservationTests(unittest.TestCase):
             lock.write_text(json.dumps({"version": 1, "skills": {
                 "external": {"source": "example/skills", "sourceType": "github",
                              "ref": "a" * 40, "computedHash": "0" * 64}}}), encoding="utf-8")
-            local = canonical / ".sdlc/skills/selected/SKILL.md"
-            local.parent.mkdir(parents=True)
-            contents = "---\nname: selected\ndescription: Fixture skill\n---\n"
-            local.write_text(contents, encoding="utf-8")
+            # A leftover repository-local skill source is not a declaration; only
+            # the lock's external skills are activated.
+            stray = canonical / ".sdlc/skills/selected/SKILL.md"
+            stray.parent.mkdir(parents=True)
+            stray.write_text("---\nname: selected\ndescription: Stray skill\n---\n",
+                             encoding="utf-8")
             unrelated = canonical / ".agents/skills/external/SKILL.md"
             unrelated.parent.mkdir(parents=True)
             unrelated.write_text("User-owned bytes\n", encoding="utf-8")
             before = lock.read_bytes(), unrelated.read_bytes()
+            synced: list[tuple[Path, str, tuple[str, ...]]] = []
+
+            def record_sync(repo, source, skill_names, agents):
+                synced.append((Path(repo), source, tuple(skill_names)))
+                self.assertEqual(agents, ("codex",))
             spellings = [canonical, canonical / "anchor/.."]
             if os.name == "nt":
                 native = ctypes.WinDLL("kernel32", use_last_error=True).GetShortPathNameW
@@ -219,13 +226,20 @@ class SkillActivationPreservationTests(unittest.TestCase):
                     installed = setup.unique_installed_skill_dirs(repo, "external", ("codex",))
                     self.assertEqual(len(installed), 1)
                     self.assertTrue(installed[0].samefile(unrelated.parent))
-                    selected = setup.preflight_local_skill_activation(repo, ("codex",))
-                    self.assertEqual(set(selected), {"selected"})
-                    self.assertTrue(selected["selected"].samefile(local.parent))
-                    self.assertEqual(setup.ensure_agent_skills(repo, ("codex",), local_only=True),
-                                     {"selected"})
-                    self.assertEqual((canonical / ".agents/skills/selected/SKILL.md").read_text(
-                        encoding="utf-8"), contents)
+                    # The native Skills CLI is the external boundary; the
+                    # already-installed external skill stands in for its result.
+                    synced.clear()
+                    with patch.object(setup, "sync_source", record_sync):
+                        self.assertEqual(setup.ensure_agent_skills(repo, ("codex",)),
+                                         {"external"})
+                    [(synced_repo, source, names)] = synced
+                    self.assertTrue(synced_repo.samefile(canonical))
+                    self.assertEqual((source, names), (
+                        setup.get_install_source(json.loads(before[0])["skills"]["external"]),
+                        ("external",)))
+                    self.assertFalse((canonical / ".agents/skills/selected").exists())
+                    self.assertFalse(hasattr(setup, "discover_local_skills"))
+                    self.assertFalse(hasattr(setup, "install_local_skills"))
                     self.assertEqual((lock.read_bytes(), unrelated.read_bytes()), before)
 
     def test_verification_preserves_an_unrelated_standalone_skill(self):

@@ -29,7 +29,7 @@ hardcoded list of install commands.
 
 Default targets: codex, antigravity, claude-code.
 
-Without --local-only, this script re-adds each declared skill from its recorded
+This script re-adds each declared skill from its recorded
 source using the locked project-local Skills CLI. An omitted ref tracks the remote
 default branch; a branch tracks its current tip, while explicit tags and commits
 remain selected. The native CLI records updated content hashes in the lock without
@@ -64,15 +64,7 @@ from urllib.parse import quote, urlsplit, urlunsplit
 
 from _commands import SetupError, require_command, run
 from _repository import derive_repo_from_script, is_ignored, tracked_paths_under
-from set_up_mcp_servers import (
-    RenderedRepositoryConfigurationDocument,
-    ensure_repository_configuration_destinations_are_safe,
-    publish_repository_configuration_documents,
-)
 
-LOCAL_SKILL_SOURCE_ROOT = Path(".sdlc") / "skills"
-SKILL_POLICY_PATH = Path(".sdlc") / "skill-policies.json"
-SUPPORTED_SKILL_POLICY_VERSION = 1
 LOCK_FILENAME = "skills-lock.json"
 SUPPORTED_LOCK_VERSION = 1
 
@@ -528,129 +520,6 @@ def validate_locked_skill_sources(
         )
 
 
-def discover_local_skills(repo: Path) -> dict[str, Path]:
-    """Discover repository-local skill sources without introducing another manifest."""
-    root = repo / LOCAL_SKILL_SOURCE_ROOT
-    if not root.exists():
-        return {}
-    if not root.is_dir() or root.is_symlink() or root.is_junction():
-        raise SetupError(f"Local skill source root must be a real directory: {root}")
-
-    discovered: dict[str, Path] = {}
-    for child in sorted(root.iterdir(), key=lambda item: item.name):
-        if not child.is_dir() or child.is_symlink() or child.is_junction():
-            continue
-        skill_md = child / "SKILL.md"
-        if not skill_md.is_file() or skill_md.is_symlink():
-            continue
-        if not child.name.strip():
-            raise SetupError(f"Invalid empty local skill directory name: {child}")
-        discovered[child.name] = child.resolve()
-    return discovered
-
-
-def load_skill_policy(repo: Path) -> tuple[bool, dict[str, bool]]:
-    path = repo / SKILL_POLICY_PATH
-    if not path.is_file():
-        return False, {}
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise SetupError(f"{SKILL_POLICY_PATH} is not valid JSON.") from exc
-
-    if not isinstance(data, dict) or data.get("version") != SUPPORTED_SKILL_POLICY_VERSION:
-        raise SetupError(
-            f"{SKILL_POLICY_PATH} must be a version "
-            f"{SUPPORTED_SKILL_POLICY_VERSION} JSON object."
-        )
-    default = data.get("defaultAllowImplicitInvocation", False)
-    overrides = data.get("overrides", {})
-    if not isinstance(default, bool) or not isinstance(overrides, dict):
-        raise SetupError(f"Invalid invocation policy in {SKILL_POLICY_PATH}.")
-    if not all(isinstance(k, str) and isinstance(v, bool) for k, v in overrides.items()):
-        raise SetupError(f"Every {SKILL_POLICY_PATH} override must map a skill name to a boolean.")
-    return default, overrides
-
-
-def humanize_skill_name(skill_name: str) -> str:
-    return " ".join(part.capitalize() for part in skill_name.replace("_", "-").split("-") if part)
-
-
-def set_openai_invocation_policy(metadata: Path, skill_name: str, allowed: bool) -> None:
-    """Modify semantic YAML data through its supported parser, not line substitution."""
-    import yaml
-    if any(p.is_symlink() or p.is_junction() for p in (metadata, *metadata.parents)) or (metadata.exists() and not metadata.is_file()):
-        raise SetupError(f"Expected regular skill metadata file: {metadata}")
-    try:
-        data = yaml.safe_load(metadata.read_text(encoding="utf-8")) if metadata.exists() else {}
-    except yaml.YAMLError as exc:
-        raise SetupError(f"Invalid YAML metadata: {metadata}") from exc
-    if data is None:
-        data = {}
-    if not isinstance(data, dict):
-        raise SetupError(f"Skill metadata must be a mapping: {metadata}")
-    policy = data.setdefault("policy", {})
-    if not isinstance(policy, dict):
-        raise SetupError(f"Skill policy must be a mapping: {metadata}")
-    policy["allow_implicit_invocation"] = allowed
-    data.setdefault("interface", {
-        "display_name": humanize_skill_name(skill_name),
-        "short_description": "Repository-curated Agent Skill",
-        "default_prompt": f"Use ${skill_name} only for the explicit scope I provide.",
-    })
-    metadata.parent.mkdir(parents=True, exist_ok=True)
-    metadata.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8", newline="\n")
-
-
-def configure_skill_invocation_policies(
-    repo: Path,
-    skill_names: set[str],
-    agents: tuple[str, ...],
-) -> tuple[Path, ...]:
-    repo = repo.resolve()
-    default, overrides = load_skill_policy(repo)
-    unknown = set(overrides) - skill_names
-    if unknown:
-        raise SetupError(
-            f"{SKILL_POLICY_PATH} names skills that are not installed: "
-            + ", ".join(sorted(unknown))
-        )
-
-    configured: list[Path] = []
-    for skill_name in sorted(skill_names):
-        allowed = overrides.get(skill_name, default)
-        for skill_dir in unique_installed_skill_dirs(repo, skill_name, agents):
-            metadata = skill_dir / "agents" / "openai.yaml"
-            set_openai_invocation_policy(metadata, skill_name, allowed)
-            configured.append(metadata)
-            print(
-                f"  {skill_name}: allow_implicit_invocation={str(allowed).lower()} "
-                f"in {metadata.relative_to(repo)}"
-            )
-    return tuple(configured)
-
-
-def install_local_skills(repo: Path, local_skills: dict[str, Path], agents: tuple[str, ...]) -> None:
-    """Publish only declared local skill files, preserving unrelated skills."""
-    repo = repo.resolve()
-    documents = []
-    for root in selected_roots(repo, agents):
-        for name, source in sorted(local_skills.items()):
-            for source_file in sorted(source.rglob("*")):
-                if source_file.is_symlink() or source_file.is_junction():
-                    raise SetupError(f"Local skill resources cannot redirect: {source_file}")
-                if not source_file.is_file():
-                    continue
-                destination = root / name / source_file.relative_to(source)
-                relative = destination.relative_to(repo)
-                ensure_repository_configuration_destinations_are_safe(repo, [relative])
-                observed = destination.read_bytes() if destination.exists() else None
-                contents = source_file.read_text(encoding="utf-8")
-                documents.append(RenderedRepositoryConfigurationDocument(
-                    destination, contents, observed))
-    publish_repository_configuration_documents(repo, documents)
-
-
 def clone_url_for_entry(
     entry: dict[str, Any],
     repo: Path,
@@ -1039,36 +908,9 @@ def verify_lock_skill_set_unchanged(repo: Path, expected_skills: set[str]) -> No
         )
 
 
-def preflight_local_skill_activation(repo: Path, agents: tuple[str, ...]) -> dict[str, Path]:
-    """Check local prerequisites before a caller publishes repository configuration."""
-    repo = repo.resolve()
-    require_python_version()
-    import yaml
-    _, lock, _ = load_lock(repo)
-    local = discover_local_skills(repo)
-    collisions = set(lock["skills"]) & set(local)
-    if collisions:
-        raise SetupError("Local/external skill declaration collision: " + ", ".join(sorted(collisions)))
-    load_skill_policy(repo)
-    roots = selected_roots(repo, agents)
-    ensure_generated_roots_are_safe(repo, roots)
-    for root in roots:
-        for name, source in local.items():
-            for item in source.rglob("*"):
-                if item.is_symlink() or item.is_junction():
-                    raise SetupError(f"Local skill resources cannot redirect: {item}")
-                if item.is_file():
-                    ensure_repository_configuration_destinations_are_safe(repo, [(root / name / item.relative_to(source)).relative_to(repo)])
-                    if item.name == "openai.yaml":
-                        metadata = yaml.safe_load(item.read_text(encoding="utf-8"))
-                        if not isinstance(metadata, dict) or not isinstance(metadata.get("policy", {}), dict):
-                            raise SetupError(f"Invalid native skill metadata: {item}")
-    return local
-
-
-def ensure_agent_skills(repo: Path, agents: tuple[str, ...], *, local_only: bool = False) -> set[str]:
+def ensure_agent_skills(repo: Path, agents: tuple[str, ...]) -> set[str]:
     """
-    Activate selected local files or refresh external declarations without clearing roots.
+    Refresh the declared external skills without clearing the generated roots.
 
     Returns the declared skill names, so a caller sequencing several setup steps
     can report them without re-reading the lock.
@@ -1076,22 +918,10 @@ def ensure_agent_skills(repo: Path, agents: tuple[str, ...], *, local_only: bool
     repo = repo.resolve()
     require_python_version()
     require_command("git")
-    import yaml  # Preflight the existing native metadata parser before writes.
+    import yaml  # noqa: F401  Declared development dependency; fail before any write if absent.
 
     lock_path, lock_before, raw_before = load_lock(repo)
     declared_skills = set(lock_before["skills"])
-    local_skills = discover_local_skills(repo)
-    collisions = declared_skills & set(local_skills)
-    if collisions:
-        raise SetupError("Local/external skill declaration collision: " + ", ".join(sorted(collisions)))
-    if local_only:
-        preflight_local_skill_activation(repo, agents)
-        roots = selected_roots(repo, agents)
-        ensure_generated_roots_are_safe(repo, roots)
-        install_local_skills(repo, local_skills, agents)
-        configure_skill_invocation_policies(repo, set(local_skills), agents)
-        verify_final_state(repo, set(local_skills), agents)
-        return set(local_skills)
     validate_locked_skill_sources(lock_before["skills"])
 
     print("\n== Repository-local Agent Skills ==")
@@ -1138,9 +968,7 @@ def ensure_agent_skills(repo: Path, agents: tuple[str, ...], *, local_only: bool
     else:
         print("No repository-specific invocation policies required.")
 
-    install_local_skills(repo, local_skills, agents)
-    configure_skill_invocation_policies(repo, set(local_skills), agents)
-    verify_final_state(repo, declared_skills | set(local_skills), agents)
+    verify_final_state(repo, declared_skills, agents)
 
     if lock_path.read_bytes() != raw_before:
         print(
@@ -1171,9 +999,6 @@ def parse_args() -> argparse.Namespace:
             "antigravity, claude-code."
         ),
     )
-
-    parser.add_argument("--local-only", action="store_true",
-                        help="Activate repository-owned skills; preserve installed external skills and their lock.")
     return parser.parse_args()
 
 
@@ -1186,7 +1011,7 @@ def main() -> int:
 
         print(f"Repository root: {repo}")
 
-        ensure_agent_skills(repo, agents, local_only=args.local_only)
+        ensure_agent_skills(repo, agents)
 
         print("\nAgent Skill setup is complete.")
         print(

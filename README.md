@@ -36,10 +36,10 @@ The development setup command installs npm dependencies with
 `npm ci --include=dev --ignore-scripts`, which replaces `node_modules` using the
 existing lockfile without dependency lifecycle scripts. It records the bootstrap
 pip version, installs the hash-locked `requirements.lock.txt` (the reviewed
-resolution of `requirements.txt` and `requirements-sdlc.txt`) inside `.venv` with
+resolution of `requirements.txt` and `requirements-dev.txt`) inside `.venv` with
 `--require-hashes --only-binary=:all:`, refuses a `.venv` whose installed
-distributions differ from that lock, runs `pip check`, then merges the approved
-repository Codex configuration and activates six local SDLC skills.
+distributions differ from that lock, and runs `pip check`. It configures no
+agent, workflow, hook trust, MCP server or skill.
 An unusable existing `.venv` causes setup to
 stop so it can be repaired manually. AWS CLI is checked and produces a warning
 if unavailable; it is needed for S3 uploads, and setup does not install it.
@@ -72,14 +72,13 @@ Windows with Apache Jena as the second engine. It does not invoke the local
 pre-commit hook or require its `.venv`. Pushing commits to GitHub does not
 itself run the pre-commit hook.
 
-### Repository-owned SDLC
+### Development guide
 
-The experimental [SDLC guide](docs/sdlc/howto.md) describes proportionate routes,
-npm entry points, verification boundaries and evaluation through real work.
-The methodology is deployed in this repository as **1.0.0, pre-release**. See
-[the adoption record](docs/sdlc/adoption.md) for the accepted host scope, evidence
-and upstream limitations, and [SDLC-BOOTSTRAP-01](docs/sdlc/SDLC-BOOTSTRAP-01.md)
-for the original integration approval.
+[docs/development.md](docs/development.md) covers setup effects, optional
+integrations (external Agent Skills, MCP servers), verification commands and
+what continuous integration runs. The repository previously embedded its own
+software-development-lifecycle tooling; its records are indexed in
+[docs/sdlc/README.md](docs/sdlc/README.md) and are historical.
 
 Portions of this software or document may use, include material copied from, or derive from the following standard vocabularies and ontologies:
 

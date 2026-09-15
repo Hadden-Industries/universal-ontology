@@ -1,0 +1,11 @@
+# Development-tool requirements independent of the ontology runtime (requirements.txt).
+# Resolve the complete transitive/hash lock with pip-tools:
+#   node scripts/runRepositoryPython.js -m piptools compile --allow-unsafe --generate-hashes --no-strip-extras --output-file=requirements.lock.txt requirements.txt requirements-dev.txt
+# These exact pins preserve the reviewed selection; refresh them deliberately, not by age.
+
+# Native YAML parser for the optional agent-skill installer (scripts/set_up_agent_skills.py)
+# to read and write skill metadata (agents/openai.yaml).
+PyYAML==6.0.3
+# Resolver for requirements.lock.txt (BSD-3-Clause); selected 2026-09-12
+# because native `pip lock` hashes only the running platform's wheels.
+pip-tools==7.6.1

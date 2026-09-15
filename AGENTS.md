@@ -40,15 +40,9 @@ Treat all existing working-tree changes as user-owned and potentially valuable.
 
 - Only use the local Python environment found in the .venv directory for the execution of Python scripts
 
-# Repository-owned SDLC
+# Development and verification
 
-- Read [the repository SDLC guide](docs/sdlc/howto.md) and, for material work, [the engineering principles](docs/sdlc/engineering-principles.md). The current user-approved task is the authority; reuse recorded approvals within their scope.
-- Select the smallest justified R0/R1/R2/R3 route. R0/R1 may use the accepted task or PR brief; R2/R3 require a previously accepted baseline for ordinary work. Do not create extra Issues, plans or reviewers merely to fill a template.
-- Select the repository-adapted `test-driven-development` from `.sdlc/skills` (activated in `.agents/skills`) as the sole implementation procedure. Do not combine it with a global or upstream TDD copy. Existing discovery/design skills retain their bounded purposes; all six SDLC skills are explicitly selected only when relevant. Installed roles do not authorize delegation against user limits.
-- Require semantically correct, precise names, including reassessment of retained names when responsibility changes. Do not introduce or extend shims without a specific prior user override. Do not rename a shim to conceal its purpose.
-- Before new functionality or material integration changes, research existing and maintained alternatives deeply; compare supported configuration, composition and extension. Select current stable or the latest patch of the newest applicable supported LTS line first; inspect exact licences, riders and rights decisions. Record the residual custom gap; integration difficulty does not justify downgrade.
-- Use consumer-owned parsers, schemas and validators, then check the higher-level ontology/product outcome independently. A schema, reference, checked box or passing test is not evidence of human acceptance or semantic correctness.
-- Use `npm run ...` entry points for routine controls; Python runs through the existing `.venv`. Inspect lifecycle side effects before executing commands. `npm run build` invokes auto-fixes; use the documented direct Vite command when verification must preserve tracked inputs. Deployment remains separately authorized.
-- Retain truthful failures and proof gaps. Follow [REVIEW.md](REVIEW.md), native Codex Security workflows when authorized, and existing command protections. Installation, trust, live scans, GitHub writes, commits and pushing are distinct actions; repository integration does not authorize them by itself.
-- At task handoff, merge, consumer release or worktree retirement, reconcile all task-created locations, including external recovery copies, through [the temporary-artefact procedure](docs/sdlc/temporary-artefacts-howto.md). Remove eligible scratch and report retained or blocked resources; never delete required failure evidence to manufacture completion.
-- Read [.sdlc/PACKAGE_STATUS.json](.sdlc/PACKAGE_STATUS.json) for the SDLC version and repository deployment status, and [the adoption record](docs/sdlc/adoption.md) for accepted host scope and upstream limitations. Version and status changes require Max's exact approval. Apply the method to real work; no synthetic adoption pilot or cross-repository distribution platform is required.
+- Read [docs/development.md](docs/development.md) for setup, optional integrations and the verification commands. Use `npm run ...` entry points for routine controls; Python runs through the existing `.venv`.
+- Inspect lifecycle side effects before executing commands. `npm run build` invokes auto-fixes; use the documented direct Vite command when verification must preserve tracked inputs. Deployment remains separately authorized.
+- Retain truthful failures and proof gaps. Installation, trust, live scans, GitHub writes, commits and pushing are distinct actions; none is implied by another approval.
+- Remove task-created scratch when its consumers are done; never delete required failure evidence to manufacture completion.

@@ -96,8 +96,8 @@ beforeEach(() => {
   writeFileSync(join(repositoryRoot, ".node-version"), "24.20.0\n");
   writeFileSync(join(repositoryRoot, ".python-version"), "3.14.7\n");
   writeFileSync(
-    join(repositoryRoot, "requirements-sdlc.txt"),
-    "jsonschema==4.26.0\n",
+    join(repositoryRoot, "requirements-dev.txt"),
+    "PyYAML==6.0.3\n",
   );
   Object.defineProperty(process.versions, "node", { value: "24.20.0" });
   Object.defineProperty(process.release, "lts", {
@@ -236,10 +236,6 @@ test.each([
         ["-m", "pip", "list", "--format=json"],
       ],
       [virtualEnvironmentPythonExecutablePath, ["-m", "pip", "check"]],
-      [
-        virtualEnvironmentPythonExecutablePath,
-        ["-B", join(repositoryRoot, "scripts", "set_up_sdlc.py")],
-      ],
       ["aws", ["--version"]],
     ]);
     for (const [, , options] of spawnSyncMock.mock.calls) {
@@ -266,7 +262,7 @@ test("preserves an existing virtual environment and uses its interpreter", () =>
     ([executable]) => executable !== process.execPath && executable !== "aws",
   );
   expect(pythonCommands.map(([executable]) => executable)).toEqual(
-    Array(6).fill(getPythonVirtualEnvironmentExecutablePath()),
+    Array(5).fill(getPythonVirtualEnvironmentExecutablePath()),
   );
   expect(
     pythonCommands.some(([, commandArguments]) =>
@@ -293,7 +289,7 @@ test("rejects an unusable existing virtual environment before installation", () 
 test.each([
   "package-lock.json",
   "requirements.txt",
-  "requirements-sdlc.txt",
+  "requirements-dev.txt",
   "requirements.lock.txt",
   ".node-version",
   ".python-version",
@@ -385,7 +381,6 @@ test.each([
   ["virtual environment creation", "venv"],
   ["locked Python dependency installation", "--require-hashes"],
   ["pip consistency check", "check"],
-  ["repository SDLC configuration", "-B"],
 ])("stops after a failed %s", (_description, failingArgument) => {
   const successfulCommand = spawnSyncMock.getMockImplementation();
   spawnSyncMock.mockImplementation((executable, args, options) =>
@@ -417,7 +412,7 @@ test.each([
     /jsonschema/,
   ],
 ])(
-  "refuses %s before repository SDLC configuration",
+  "refuses %s before the pip consistency check",
   (_description, installed, expected) => {
     const successfulCommand = spawnSyncMock.getMockImplementation();
     spawnSyncMock.mockImplementation((executable, args, options) =>
@@ -432,11 +427,35 @@ test.each([
     expect(
       spawnSyncMock.mock.calls.some(([, args]) => args.includes("check")),
     ).toBe(false);
-    expect(spawnSyncMock.mock.calls.some(([, args]) => args[0] === "-B")).toBe(
-      false,
-    );
   },
 );
+
+// Development setup installs the declared dependencies only. Workflow engines,
+// skill refresh, MCP servers, plugins, hook trust and publication are separate,
+// explicitly invoked commands and must never be a side effect of setup.
+test("installs dependencies without configuring a workflow, skills, MCP servers, hooks or publication", () => {
+  setUpDevelopmentEnvironment({ repositoryRoot });
+
+  const commands = spawnSyncMock.mock.calls.map(([executable, args]) =>
+    [executable, ...args].join(" "),
+  );
+  expect(commands).toHaveLength(9);
+  for (const command of commands) {
+    expect(command).not.toMatch(
+      /sdlc|skill|mcp|plugin|hooksPath|upload_to_s3|deploy|\.py(?:\s|$)/iu,
+    );
+  }
+  const pythonExecutable = getPythonVirtualEnvironmentExecutablePath();
+  expect(commands.filter((command) => /\bpip\b/u.test(command))).toEqual([
+    `${pythonExecutable} -m pip --version`,
+    `${pythonExecutable} -m pip install --require-hashes --only-binary=:all: -r ${join(repositoryRoot, "requirements.lock.txt")}`,
+    `${pythonExecutable} -m pip list --format=json`,
+    `${pythonExecutable} -m pip check`,
+  ]);
+  for (const generated of [".codex", ".agents", ".claude", ".agent-tools"]) {
+    expect(existsSync(join(repositoryRoot, generated))).toBe(false);
+  }
+});
 
 test("stops when npm is terminated by a signal", () => {
   spawnSyncMock.mockReturnValueOnce({

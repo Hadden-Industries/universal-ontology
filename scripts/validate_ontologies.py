@@ -2,9 +2,9 @@
 """
 Ontology Validation Runner
 Selects the ontology sources a change touches and runs the SHACL editing policy
-(scripts/ontology_policy) on them for the requested purpose. Used by the Git
-pre-commit hook, GitHub Actions and the SDLC profiles so that one selection
-contract and one policy apply everywhere. There is no other validator.
+(scripts/ontology_policy) on them for the requested purpose. Used directly from
+the command line, by the Git pre-commit hook and by GitHub Actions so that one
+selection contract and one policy apply everywhere. There is no other validator.
 """
 
 import argparse

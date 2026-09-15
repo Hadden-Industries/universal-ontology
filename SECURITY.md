@@ -43,9 +43,9 @@ security advisory. The project will request or associate a CVE where warranted
 and coordinate disclosure after a fix or effective mitigation is available,
 unless an overriding safety or legal reason is recorded.
 
-Urgent security fixes still follow the applicable repository
-[SDLC](docs/sdlc/howto.md), review, verification, and release controls. Deployment
-and publication require their separate authorizations. Keep embargoed details
+Urgent security fixes still go through the repository's normal
+[review](REVIEW.md), verification, and release controls. Deployment and
+publication require their separate authorizations. Keep embargoed details
 and reporter personal information out of public issues, commits, test fixtures,
 and verification evidence until appropriate disclosure.
 

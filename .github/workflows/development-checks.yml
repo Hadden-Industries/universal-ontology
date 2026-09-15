@@ -1,4 +1,4 @@
-name: SDLC control tests
+name: Development checks
 on:
   pull_request:
   workflow_dispatch:
@@ -11,22 +11,22 @@ jobs:
     permissions:
       contents: read
     outputs:
-      sdlc: ${{ steps.scope.outputs.sdlc }}
+      development: ${{ steps.scope.outputs.development }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
       - name: Compare PR inputs before installing dependencies
         id: scope
-        run: node scripts/selectPullRequestChecks.js --scope sdlc
+        run: node scripts/selectPullRequestChecks.js --scope development
 
-  controls:
+  checks:
     needs: scope
-    if: needs.scope.outputs.sdlc == 'true'
+    if: needs.scope.outputs.development == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -48,9 +48,10 @@ jobs:
         run: npm run setup:development
       - name: Verify the installed ontology runner
         run: node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v
-      - run: npm run test:sdlc
-      - name: Test setup controls
+      - name: Test the optional Python setup tools
         run: node scripts/runRepositoryPython.js -m unittest discover -s tests -p "test_set_up_*.py"
-      - run: npm test -- --runInBand tests/configure-git-hooks.test.js tests/set-up-development-environment.test.js tests/run-repository-python.test.js tests/sdlc-issue-acceptance.test.js tests/pr-check-scopes.test.js
-# Real development bootstrap followed by control fixtures and ontology runner
-# tests; no DCG installation, hook trust, live model calls or security scans.
+      - name: Test development setup, launcher, hooks and check selection
+        run: npm test -- --runInBand tests/configure-git-hooks.test.js tests/set-up-development-environment.test.js tests/run-repository-python.test.js tests/development-workflow.test.js tests/pr-check-scopes.test.js
+# Real development bootstrap followed by the development-tool fixtures and the
+# ontology runner tests; no skill refresh, MCP installation, hook trust, live
+# model calls or security scans.
