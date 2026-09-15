@@ -327,6 +327,7 @@ describe("ontology entity-definition resolver", () => {
           ],
         },
         preferredLanguageTags: ["en-GB", "en"],
+        entityDetailLevel: "full",
       },
       { signal: undefined },
     );

@@ -41,7 +41,7 @@ const READ_ONLY_ONTOLOGY_TOOL_ANNOTATIONS = Object.freeze({
 export const SEARCH_ENTITIES_TOOL_CONFIGURATION = Object.freeze({
   title: "Search Universal Ontology entities",
   description:
-    "Search authored labels, identifiers, IRI local names, and lexical definitions in selected immutable ontology releases. Returns ranked entity matches, asserted lexical definitions, and release provenance. This tool performs no inference and never dereferences external IRIs.",
+    "Search authored labels, identifiers, IRI local names, and lexical definitions in selected immutable ontology releases. Returns ranked entity matches, asserted lexical definitions, and release provenance. By default each match carries only the selected label and definition; set entityDetailLevel to full to include every source-artifact assertion and complete provenance. This tool performs no inference and never dereferences external IRIs.",
   inputSchema: SearchOntologyEntitiesInputSchema,
   outputSchema: SearchEntitiesToolOutputSchema,
   annotations: READ_ONLY_ONTOLOGY_TOOL_ANNOTATIONS,
@@ -51,7 +51,7 @@ export const SEARCH_ENTITIES_TOOL_CONFIGURATION = Object.freeze({
 export const RESOLVE_ENTITY_TOOL_CONFIGURATION = Object.freeze({
   title: "Resolve a Universal Ontology entity",
   description:
-    "Resolve an exact ontology entity IRI, UUID URN, or preferred label in selected immutable releases. A preferred label can be ambiguous; use search_entities first when the intended entity is not already known.",
+    "Resolve an exact ontology entity IRI, UUID URN, or preferred label in selected immutable releases. A preferred label can be ambiguous; use search_entities first when the intended entity is not already known. By default each entity carries only the selected label and definition; set entityDetailLevel to full to include every source-artifact assertion and complete provenance.",
   inputSchema: ResolveOntologyEntityInputSchema,
   outputSchema: ResolveEntityToolOutputSchema,
   annotations: READ_ONLY_ONTOLOGY_TOOL_ANNOTATIONS,

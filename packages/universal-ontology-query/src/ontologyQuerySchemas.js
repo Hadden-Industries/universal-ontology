@@ -117,10 +117,35 @@ export const PreferredLanguageTagsSchema = z
   .min(1)
   .max(16);
 
-const SpecifiedOntologyReleaseSchema = z.strictObject({
+/**
+ * The compact identity of one immutable release: exactly the pair a caller
+ * passes back in a `specified_releases` selection, so a summary result can be
+ * narrowed to a release without copying the full provenance record.
+ */
+export const OntologyReleaseReferenceSchema = z.strictObject({
   ontologyArtifactFamilyId: OntologyArtifactFamilyIdSchema,
   versionTag: OntologyVersionTagSchema,
 });
+
+const SpecifiedOntologyReleaseSchema = OntologyReleaseReferenceSchema;
+
+export const ONTOLOGY_ENTITY_DETAIL_LEVEL_VALUES = Object.freeze([
+  "summary",
+  "full",
+]);
+
+/**
+ * How much of each matched or resolved entity a result carries. `summary`,
+ * the default, keeps the entity IRI and the selected preferred label and
+ * lexical definition, each citing its release by family and version tag only.
+ * `full` adds the complete source-artifact descriptions with every assertion
+ * and the full provenance record on every selected assertion. Summary is the
+ * default because a definition question needs nothing more, and every
+ * additional assertion is context a model host pays for on every call.
+ */
+export const OntologyEntityDetailLevelSchema = z.enum(
+  ONTOLOGY_ENTITY_DETAIL_LEVEL_VALUES,
+);
 
 export const OntologyReleaseSelectionSchema = z.discriminatedUnion(
   "selectionKind",
@@ -155,6 +180,7 @@ export const SearchOntologyEntitiesInputSchema = z.strictObject({
     .optional(),
   preferredLanguageTags: PreferredLanguageTagsSchema.default(["en-GB", "en"]),
   maximumResultCount: z.number().int().min(1).max(20).default(10),
+  entityDetailLevel: OntologyEntityDetailLevelSchema.default("summary"),
 });
 
 export const OntologyEntityIdentifierSchema = z.discriminatedUnion(
@@ -179,6 +205,7 @@ export const ResolveOntologyEntityInputSchema = z.strictObject({
   entityIdentifier: OntologyEntityIdentifierSchema,
   ontologyReleaseSelection: OntologyReleaseSelectionSchema.optional(),
   preferredLanguageTags: PreferredLanguageTagsSchema.default(["en-GB", "en"]),
+  entityDetailLevel: OntologyEntityDetailLevelSchema.default("summary"),
 });
 
 /**
@@ -244,16 +271,30 @@ export const ResolvedOntologyReleaseSchema = z.strictObject({
   versionIri: AbsoluteIriSchema,
 });
 
+const LexicalSelectionBasisSchema = z.enum([
+  "preferred_language_exact",
+  "preferred_language_lookup",
+  "untagged",
+  "deterministic_fallback",
+]);
+
 export const SelectedLexicalAssertionSchema = z.strictObject({
   resolvedOntologyRelease: ResolvedOntologyReleaseSchema,
   assertionPropertyIri: AbsoluteIriSchema,
   literalValue: RdfLiteralValueSchema,
-  selectionBasis: z.enum([
-    "preferred_language_exact",
-    "preferred_language_lookup",
-    "untagged",
-    "deterministic_fallback",
-  ]),
+  selectionBasis: LexicalSelectionBasisSchema,
+});
+
+/**
+ * The summary form cites its release by reference. The full provenance record
+ * for that reference is always present in the result's
+ * `resolvedOntologyReleases`, so nothing is lost, only repetition.
+ */
+export const SummarySelectedLexicalAssertionSchema = z.strictObject({
+  ontologyRelease: OntologyReleaseReferenceSchema,
+  assertionPropertyIri: AbsoluteIriSchema,
+  literalValue: RdfLiteralValueSchema,
+  selectionBasis: LexicalSelectionBasisSchema,
 });
 
 export const OntologyEntityDescriptionSchema = z.strictObject({
@@ -287,6 +328,12 @@ export const OntologyEntitySchema = z.strictObject({
   selectedPreferredLabel: SelectedLexicalAssertionSchema.nullable(),
   selectedLexicalDefinition: SelectedLexicalAssertionSchema.nullable(),
   sourceArtifactDescriptions: z.array(OntologyEntityDescriptionSchema).min(1),
+});
+
+export const OntologyEntitySummarySchema = z.strictObject({
+  entityIri: AbsoluteIriSchema,
+  selectedPreferredLabel: SummarySelectedLexicalAssertionSchema.nullable(),
+  selectedLexicalDefinition: SummarySelectedLexicalAssertionSchema.nullable(),
 });
 
 export const OntologyQueryCatalogReleaseSchema = z.strictObject({
@@ -352,14 +399,23 @@ export const ONTOLOGY_ENTITY_MATCH_BASIS_VALUES = Object.freeze([
   "lexical_definition_substring",
 ]);
 
-export const OntologyEntitySearchMatchSchema = z.strictObject({
+const OntologyEntitySearchMatchShape = {
   matchRank: z.number().int().positive(),
   matchBasis: z.enum(ONTOLOGY_ENTITY_MATCH_BASIS_VALUES),
   matchedOntologyValue: MatchedOntologyValueSchema,
+};
+
+export const OntologyEntitySearchMatchSchema = z.strictObject({
+  ...OntologyEntitySearchMatchShape,
   ontologyEntity: OntologyEntitySchema,
 });
 
-export const OntologyEntitySearchSuccessSchema = z.strictObject({
+export const OntologyEntitySearchSummaryMatchSchema = z.strictObject({
+  ...OntologyEntitySearchMatchShape,
+  ontologyEntity: OntologyEntitySummarySchema,
+});
+
+const OntologyEntitySearchSuccessShape = {
   outcome: z.literal("success"),
   resultKind: z.literal("ontology_entity_search"),
   queryText: NonBlankOntologyLookupTextSchema,
@@ -368,18 +424,52 @@ export const OntologyEntitySearchSuccessSchema = z.strictObject({
   totalMatchedEntityCount: z.number().int().nonnegative(),
   returnedEntityCount: z.number().int().nonnegative(),
   resultSetTruncated: z.boolean(),
-  matches: z.array(OntologyEntitySearchMatchSchema),
-});
+};
 
-export const OntologyEntityResolutionSuccessSchema = z.strictObject({
+/**
+ * The echoed `entityDetailLevel` discriminates the two entity shapes so a
+ * consumer can validate a result without inspecting individual entities.
+ */
+export const OntologyEntitySearchSuccessSchema = z.discriminatedUnion(
+  "entityDetailLevel",
+  [
+    z.strictObject({
+      ...OntologyEntitySearchSuccessShape,
+      entityDetailLevel: z.literal("full"),
+      matches: z.array(OntologyEntitySearchMatchSchema),
+    }),
+    z.strictObject({
+      ...OntologyEntitySearchSuccessShape,
+      entityDetailLevel: z.literal("summary"),
+      matches: z.array(OntologyEntitySearchSummaryMatchSchema),
+    }),
+  ],
+);
+
+const OntologyEntityResolutionSuccessShape = {
   outcome: z.literal("success"),
   resultKind: z.literal("ontology_entity_resolution"),
   resolutionStatus: z.enum(["found", "ambiguous", "not_found"]),
   requestedEntityIdentifier: OntologyEntityIdentifierSchema,
   preferredLanguageTags: PreferredLanguageTagsSchema,
   resolvedOntologyReleases: z.array(ResolvedOntologyReleaseSchema).min(1),
-  ontologyEntities: z.array(OntologyEntitySchema),
-});
+};
+
+export const OntologyEntityResolutionSuccessSchema = z.discriminatedUnion(
+  "entityDetailLevel",
+  [
+    z.strictObject({
+      ...OntologyEntityResolutionSuccessShape,
+      entityDetailLevel: z.literal("full"),
+      ontologyEntities: z.array(OntologyEntitySchema),
+    }),
+    z.strictObject({
+      ...OntologyEntityResolutionSuccessShape,
+      entityDetailLevel: z.literal("summary"),
+      ontologyEntities: z.array(OntologyEntitySummarySchema),
+    }),
+  ],
+);
 
 function hasCaseInsensitiveDuplicates(values) {
   const normalizedValues = values.map((value) => value.toLowerCase());

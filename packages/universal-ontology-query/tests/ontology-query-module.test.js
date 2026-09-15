@@ -45,6 +45,7 @@ describe("ontology query module", () => {
     const result = await ontologyQuery.searchOntologyEntities({
       queryText: "  Person  ",
       maximumResultCount: 10,
+      entityDetailLevel: "full",
     });
 
     expect(OntologyEntitySearchSuccessSchema.parse(result)).toEqual(result);
@@ -79,9 +80,96 @@ describe("ontology query module", () => {
         },
       },
     });
+    expect(result.entityDetailLevel).toBe("full");
     expect(
       result.matches[0].ontologyEntity.sourceArtifactDescriptions,
     ).toHaveLength(3);
+  });
+
+  test("returns summary entities that cite releases by reference only", async () => {
+    const { ontologyQueryArtifactRepository } =
+      createInMemoryOntologyQueryArtifactRepositoryFixture(
+        defaultReleaseArtifacts,
+      );
+    const ontologyQuery = createOntologyQueryModule({
+      ontologyQueryArtifactRepository,
+    });
+    const fullResult = await ontologyQuery.searchOntologyEntities({
+      queryText: "Person",
+      entityDetailLevel: "full",
+    });
+    // Omitting the level selects the summary shape.
+    const summaryResult = await ontologyQuery.searchOntologyEntities({
+      queryText: "Person",
+    });
+
+    expect(OntologyEntitySearchSuccessSchema.parse(summaryResult)).toEqual(
+      summaryResult,
+    );
+    expect(summaryResult).toMatchObject({
+      entityDetailLevel: "summary",
+      resolvedOntologyReleases: fullResult.resolvedOntologyReleases,
+      totalMatchedEntityCount: fullResult.totalMatchedEntityCount,
+      matches: [
+        {
+          matchRank: 1,
+          matchBasis: "preferred_label_exact",
+          matchedOntologyValue: fullResult.matches[0].matchedOntologyValue,
+        },
+      ],
+    });
+
+    const fullEntity = fullResult.matches[0].ontologyEntity;
+    const summaryEntity = summaryResult.matches[0].ontologyEntity;
+    const {
+      resolvedOntologyRelease: labelRelease,
+      ...selectedLabelWithoutRelease
+    } = fullEntity.selectedPreferredLabel;
+    const {
+      resolvedOntologyRelease: definitionRelease,
+      ...selectedDefinitionWithoutRelease
+    } = fullEntity.selectedLexicalDefinition;
+
+    // The summary is a projection of the same selection: identical assertion
+    // values, the release reduced to the pair accepted by specified_releases.
+    expect(summaryEntity).toEqual({
+      entityIri: fullEntity.entityIri,
+      selectedPreferredLabel: {
+        ontologyRelease: {
+          ontologyArtifactFamilyId: labelRelease.ontologyArtifactFamilyId,
+          versionTag: labelRelease.versionTag,
+        },
+        ...selectedLabelWithoutRelease,
+      },
+      selectedLexicalDefinition: {
+        ontologyRelease: {
+          ontologyArtifactFamilyId: definitionRelease.ontologyArtifactFamilyId,
+          versionTag: definitionRelease.versionTag,
+        },
+        ...selectedDefinitionWithoutRelease,
+      },
+    });
+    expect(Object.isFrozen(summaryEntity.selectedPreferredLabel)).toBe(true);
+
+    const resolution = await ontologyQuery.resolveOntologyEntity({
+      entityIdentifier: {
+        identifierKind: "entity_iri",
+        identifierValue: fullEntity.entityIri,
+      },
+    });
+
+    expect(OntologyEntityResolutionSuccessSchema.parse(resolution)).toEqual(
+      resolution,
+    );
+    expect(resolution.entityDetailLevel).toBe("summary");
+    expect(resolution.ontologyEntities).toEqual([summaryEntity]);
+
+    await expect(
+      ontologyQuery.searchOntologyEntities({
+        queryText: "Person",
+        entityDetailLevel: "brief",
+      }),
+    ).rejects.toThrow();
   });
 
   test("resolves mixed-case UUID URNs without rewriting authored RDF terms", async () => {
@@ -111,6 +199,7 @@ describe("ontology query module", () => {
           },
         ],
       },
+      entityDetailLevel: "full",
     });
 
     expect(OntologyEntityResolutionSuccessSchema.parse(result)).toEqual(result);

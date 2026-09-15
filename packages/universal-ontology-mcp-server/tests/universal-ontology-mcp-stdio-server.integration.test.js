@@ -167,6 +167,7 @@ function createPersonSearchArguments() {
     },
     preferredLanguageTags: ["en-GB", "en"],
     maximumResultCount: 10,
+    entityDetailLevel: "full",
   };
 }
 
@@ -250,6 +251,7 @@ describe("Universal Ontology MCP stdio source process", () => {
           structuredContent: {
             outcome: "success",
             resultKind: "ontology_entity_search",
+            entityDetailLevel: "full",
             totalMatchedEntityCount: 1,
             matches: [
               {

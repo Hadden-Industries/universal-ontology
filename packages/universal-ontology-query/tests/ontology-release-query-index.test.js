@@ -146,6 +146,7 @@ describe("ontology query schemas", () => {
       entityKinds: ["owl_class", "owl_named_individual"],
       preferredLanguageTags: ["en-GB", "en"],
       maximumResultCount: 10,
+      entityDetailLevel: "summary",
     });
     expect(Object.isFrozen(parsed)).toBe(true);
     expect(Object.isFrozen(parsed.ontologyReleaseSelection)).toBe(true);
@@ -286,6 +287,24 @@ describe("ontology query schemas", () => {
         outcome: "success",
         resultKind: "ontology_entity_resolution",
         resolutionStatus: "guessed",
+      }),
+    ).toThrow();
+
+    // The echoed detail level is the discriminator; a full-shaped result must
+    // not validate as a summary and vice versa.
+    expect(() =>
+      OntologyEntityResolutionSuccessSchema.parse({
+        outcome: "success",
+        resultKind: "ontology_entity_resolution",
+        resolutionStatus: "not_found",
+        requestedEntityIdentifier: {
+          identifierKind: "preferred_label",
+          identifierValue: "Person",
+        },
+        preferredLanguageTags: ["en"],
+        entityDetailLevel: "brief",
+        resolvedOntologyReleases: [],
+        ontologyEntities: [],
       }),
     ).toThrow();
   });

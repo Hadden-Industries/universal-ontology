@@ -683,6 +683,7 @@ describe("public Universal Ontology MCP npm package", () => {
         arguments: {
           queryText: "Person",
           preferredLanguageTags: ["en-GB", "en"],
+          entityDetailLevel: "full",
           ontologyReleaseSelection: {
             selectionKind: "specified_releases",
             ontologyReleases: [
@@ -722,6 +723,7 @@ describe("public Universal Ontology MCP npm package", () => {
             identifierValue: "https://example.com/ontology/test/Person",
           },
           preferredLanguageTags: ["en-GB", "en"],
+          entityDetailLevel: "full",
           ontologyReleaseSelection: {
             selectionKind: "specified_releases",
             ontologyReleases: [

@@ -26,6 +26,7 @@ function createOntologyQueryStub() {
     searchOntologyEntities: jest.fn(async (input) => ({
       outcome: "success",
       resultKind: "ontology_entity_search",
+      entityDetailLevel: "full",
       queryText: input.queryText.trim(),
       preferredLanguageTags: input.preferredLanguageTags,
       resolvedOntologyReleases: [RESOLVED_RELEASE],
@@ -37,6 +38,7 @@ function createOntologyQueryStub() {
     resolveOntologyEntity: jest.fn(async (input) => ({
       outcome: "success",
       resultKind: "ontology_entity_resolution",
+      entityDetailLevel: "full",
       resolutionStatus: "not_found",
       requestedEntityIdentifier: input.entityIdentifier,
       preferredLanguageTags: input.preferredLanguageTags,
