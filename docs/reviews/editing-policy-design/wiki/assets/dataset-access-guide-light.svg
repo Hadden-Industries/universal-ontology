@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="391" viewBox="0 0 980 391" role="img" aria-labelledby="title desc">
+<title id="title">A dataset is not its access route</title><desc id="desc">A dataset record may link to zero or more distribution records. Each distribution has at least one access URL. A direct download URL is optional. Dataset and distribution metadata follow separate profiles.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#637180" stroke-width="1.5"/></marker></defs>
+<rect width="980" height="391" rx="14" fill="#FFFFFF"/>
+<text x="24" y="34" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="23" font-weight="650">A dataset is not its access route</text>
+<rect x="24" y="113" width="280" height="188" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="25" y="125" width="4" height="30" rx="2" fill="#075EB5"/>
+<text x="42" y="146" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Dataset record</text>
+<text x="42" y="179" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">What collection is described?</text>
+<text x="42" y="205" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Give it a theme, title,</text>
+<text x="42" y="231" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">description and label.</text>
+<rect x="350" y="113" width="280" height="188" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="351" y="125" width="4" height="30" rx="2" fill="#075EB5"/>
+<text x="368" y="146" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Distribution record</text>
+<text x="368" y="179" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">How is it made available?</text>
+<text x="368" y="205" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Give it a label and</text>
+<text x="368" y="231" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">at least one access URL.</text>
+<rect x="676" y="113" width="280" height="188" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="677" y="125" width="4" height="30" rx="2" fill="#006A62"/>
+<text x="694" y="146" fill="#006A62" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Access URL</text>
+<text x="694" y="179" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Where can it be accessed?</text>
+<text x="694" y="205" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">A provider page can qualify.</text>
+<text x="694" y="231" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">A direct download is optional.</text>
+<path d="M306,208 L345,208" fill="none" stroke="#637180" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M632,208 L670,208" fill="none" stroke="#637180" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="25" y="84" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Optional: zero or more distributions per dataset.</text>
+<text x="350" y="333" fill="#006A62" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Required: one or more access URLs per distribution.</text>
+<text x="24" y="372" fill="#485563" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Do not apply the ordinary entity metadata checklist indiscriminately to these records.</text>
+</svg>

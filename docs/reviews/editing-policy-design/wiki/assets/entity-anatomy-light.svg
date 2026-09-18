@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="590" viewBox="0 0 980 590" role="img" aria-labelledby="title desc">
+<title id="title">One entry, five kinds of information</title><desc id="desc">Ordinary entity entries combine meaning, language-tagged names, identity, attribution, and change or source information. Definitions are required for Classes and NamedIndividuals; properties may omit them.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#637180" stroke-width="1.5"/></marker></defs>
+<rect width="980" height="590" rx="14" fill="#FFFFFF"/>
+<text x="24" y="34" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="23" font-weight="650">One entry, five kinds of information</text>
+<text x="24" y="67" fill="#485563" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">For ordinary entities; datasets and distributions use their own profiles.</text>
+<rect x="24" y="99" width="298" height="197" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="25" y="111" width="4" height="30" rx="2" fill="#075EB5"/>
+<text x="42" y="132" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Meaning</text>
+<text x="42" y="165" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">What does it mean?</text>
+<text x="42" y="191" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Class or individual: definition.</text>
+<text x="42" y="217" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Property: definition optional.</text>
+<text x="42" y="243" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Review the meaning yourself.</text>
+<rect x="342" y="99" width="298" height="197" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="343" y="111" width="4" height="30" rx="2" fill="#075EB5"/>
+<text x="360" y="132" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Names</text>
+<text x="360" y="165" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Use language-tagged names.</text>
+<text x="360" y="191" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Include an English preferred name.</text>
+<text x="360" y="217" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Every preferred name is also</text>
+<text x="360" y="243" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">an identical ordinary label.</text>
+<rect x="660" y="99" width="296" height="197" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="661" y="111" width="4" height="30" rx="2" fill="#075EB5"/>
+<text x="678" y="132" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Identity</text>
+<text x="678" y="165" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Choose the correct local name.</text>
+<text x="678" y="191" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Include a version-4 UUID URN.</text>
+<text x="678" y="217" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Do not share IRI identifiers</text>
+<text x="678" y="243" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">between distinct owned entities.</text>
+<rect x="24" y="318" width="455" height="183" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="25" y="330" width="4" height="30" rx="2" fill="#006A62"/>
+<text x="42" y="351" fill="#006A62" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Attribution</text>
+<text x="42" y="384" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Identify one creator using an ORCID IRI.</text>
+<text x="42" y="410" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Record one creation timestamp in UTC.</text>
+<text x="42" y="436" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Use the literal Z timezone designator.</text>
+<rect x="500" y="318" width="456" height="183" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="501" y="330" width="4" height="30" rx="2" fill="#006A62"/>
+<text x="518" y="351" fill="#006A62" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Change and source</text>
+<text x="518" y="384" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Record modification metadata when required.</text>
+<text x="518" y="410" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">A different editor adds contributor attribution.</text>
+<text x="518" y="436" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Cite the source of an externally derived definition.</text>
+<text x="24" y="550" fill="#485563" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">This is an orientation map, not an additional set of requirements.</text>
+</svg>

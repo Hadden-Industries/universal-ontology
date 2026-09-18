@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="330" viewBox="0 0 980 330" role="img" aria-labelledby="title desc">
+<title id="title">A contribution starts with meaning</title><desc id="desc">Search for existing concepts, reuse or place the concept, describe the proposed edit, then combine automated structural checks with human review.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#8B98A7" stroke-width="1.5"/></marker></defs>
+<rect width="980" height="330" rx="14" fill="#0D1117"/>
+<text x="24" y="34" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="23" font-weight="650">A contribution starts with meaning</text>
+<rect x="24" y="80" width="206" height="170" rx="10" fill="#161B22" stroke="#8B98A7" stroke-width="1.5"/>
+<rect x="25" y="92" width="4" height="30" rx="2" fill="#79C0FF"/>
+<text x="42" y="113" fill="#79C0FF" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">01  Search</text>
+<text x="42" y="146" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Look for the meaning,</text>
+<text x="42" y="172" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">synonyms and alternate</text>
+<text x="42" y="198" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">spellings.</text>
+<rect x="266" y="80" width="206" height="170" rx="10" fill="#161B22" stroke="#8B98A7" stroke-width="1.5"/>
+<rect x="267" y="92" width="4" height="30" rx="2" fill="#79C0FF"/>
+<text x="284" y="113" fill="#79C0FF" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">02  Choose</text>
+<text x="284" y="146" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Reuse a matching concept</text>
+<text x="284" y="172" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">or place a new one below</text>
+<text x="284" y="198" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">a broader concept.</text>
+<rect x="508" y="80" width="206" height="170" rx="10" fill="#161B22" stroke="#8B98A7" stroke-width="1.5"/>
+<rect x="509" y="92" width="4" height="30" rx="2" fill="#79C0FF"/>
+<text x="526" y="113" fill="#79C0FF" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">03  Describe</text>
+<text x="526" y="146" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Make the meaning clear.</text>
+<text x="526" y="172" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Add names, attribution</text>
+<text x="526" y="198" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">and relevant sources.</text>
+<rect x="750" y="80" width="206" height="170" rx="10" fill="#161B22" stroke="#8B98A7" stroke-width="1.5"/>
+<rect x="751" y="92" width="4" height="30" rx="2" fill="#79C0FF"/>
+<text x="768" y="113" fill="#79C0FF" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">04  Review</text>
+<text x="768" y="146" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Check the structure.</text>
+<text x="768" y="172" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Review the meaning.</text>
+<text x="768" y="198" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Record human decisions.</text>
+<path d="M234,166 L261,166" fill="none" stroke="#8B98A7" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M476,166 L503,166" fill="none" stroke="#8B98A7" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M718,166 L745,166" fill="none" stroke="#8B98A7" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="24" y="292" fill="#ADB9C7" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Automated conformance does not establish conceptual adequacy or concept reuse.</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="555" viewBox="0 0 980 555" role="img" aria-labelledby="title desc">
+<title id="title">Validation scope is a set of overlapping selectors</title><desc id="desc">Ownership comes from validation context. The descriptive-language rule reaches every owned subject. Separate selectors cover ordinary entities, ontology headers, axiom nodes, datasets and distributions. Dataset and distribution namespace exclusions apply to the ordinary entity targets; selectors must not be treated as disjoint.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#637180" stroke-width="1.5"/></marker></defs>
+<rect width="980" height="555" rx="14" fill="#FFFFFF"/>
+<text x="24" y="34" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="23" font-weight="650">Validation scope is a set of overlapping selectors</text>
+<text x="24" y="71" fill="#485563" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Start with ownership supplied by the validation context, not a guessed namespace.</text>
+<rect x="24" y="102" width="931" height="91" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="25" y="114" width="4" height="30" rx="2" fill="#006A62"/>
+<text x="42" y="135" fill="#006A62" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">All owned subjects</text>
+<text x="42" y="168" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Descriptive-language constraints apply across the owned subject set.</text>
+<rect x="24" y="218" width="296" height="151" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="25" y="230" width="4" height="30" rx="2" fill="#075EB5"/>
+<text x="42" y="251" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Ordinary entities</text>
+<text x="42" y="284" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Class, individual, or property.</text>
+<text x="42" y="310" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Dataset/ and distribution/</text>
+<text x="42" y="336" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">namespaces are excluded.</text>
+<rect x="342" y="218" width="295" height="151" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="343" y="230" width="4" height="30" rx="2" fill="#075EB5"/>
+<text x="360" y="251" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Ontology headers</text>
+<text x="360" y="284" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Authored module header.</text>
+<text x="360" y="310" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Version identity constraints.</text>
+<rect x="659" y="218" width="296" height="151" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="660" y="230" width="4" height="30" rx="2" fill="#075EB5"/>
+<text x="677" y="251" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Axiom nodes</text>
+<text x="677" y="284" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Named or anonymous.</text>
+<text x="677" y="310" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="400">Axiom-specific annotations.</text>
+<rect x="24" y="393" width="453" height="105" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="25" y="405" width="4" height="30" rx="2" fill="#075EB5"/>
+<text x="42" y="426" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Dataset selector</text>
+<text x="42" y="459" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="15" font-weight="400">Owned subjects in dataset/ OR typed dcat:Dataset.</text>
+<rect x="501" y="393" width="454" height="105" rx="10" fill="#F6F8FA" stroke="#637180" stroke-width="1.5"/>
+<rect x="502" y="405" width="4" height="30" rx="2" fill="#075EB5"/>
+<text x="519" y="426" fill="#075EB5" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Distribution selector</text>
+<text x="519" y="459" fill="#1F2328" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="14" font-weight="400">Owned subjects in distribution/ OR typed dcat:Distribution.</text>
+<text x="24" y="535" fill="#485563" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">A subject may meet more than one selector. Read each rule’s exact scope.</text>
+</svg>

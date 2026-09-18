@@ -1,0 +1,317 @@
+[
+  {
+    "requirement_id": "EP-ONT-VERSION",
+    "source_group": "Ontology header",
+    "source_heading": "EP-ONT-VERSION \u2014 Version identity (MUST)",
+    "technical_anchor": "ep-ont-version",
+    "source_body_sha256": "ad713eeaa2d05f787a44f4ecd194af2012e7677ea4d26802b871bf66fa053f50",
+    "constraint_bullet_count": 11,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-ENTITY-UUID",
+    "source_group": "Entity metadata",
+    "source_heading": "EP-ENTITY-UUID \u2014 UUID identifier (MUST)",
+    "technical_anchor": "ep-entity-uuid",
+    "source_body_sha256": "e867d9dfd66bafb8b1e7f63e335c7c2bff4f89f36d688403ce4387616635901b",
+    "constraint_bullet_count": 0,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-IDENTIFIER-UNIQUE",
+    "source_group": "Entity metadata",
+    "source_heading": "EP-IDENTIFIER-UNIQUE \u2014 Identifier uniqueness (MUST)",
+    "technical_anchor": "ep-identifier-unique",
+    "source_body_sha256": "bf68081dacb8e7a9a7042b069f06639cd016dc5b096873cd27844daafdc7141d",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-ENTITY-CREATOR",
+    "source_group": "Entity metadata",
+    "source_heading": "EP-ENTITY-CREATOR \u2014 Creator (MUST)",
+    "technical_anchor": "ep-entity-creator",
+    "source_body_sha256": "70ffc11790ef05f1c9c64338f4494a45928da01808efbcc4c0b610e8cc5b8108",
+    "constraint_bullet_count": 3,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-ENTITY-CREATED",
+    "source_group": "Entity metadata",
+    "source_heading": "EP-ENTITY-CREATED \u2014 Creation timestamp (MUST)",
+    "technical_anchor": "ep-entity-created",
+    "source_body_sha256": "90ad53e4bc692e72b8af6c461c800fd557333b830d91df21a41102897653d83e",
+    "constraint_bullet_count": 3,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-MODIFIED",
+    "source_group": "Entity metadata",
+    "source_heading": "EP-MODIFIED \u2014 Modification timestamp (MUST)",
+    "technical_anchor": "ep-modified",
+    "source_body_sha256": "1dc817d406d5289a85d3a00b27b8a4b5588d1b728b6dd17b240ae41117fdaeb5",
+    "constraint_bullet_count": 2,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-CONTRIBUTOR",
+    "source_group": "Entity metadata",
+    "source_heading": "EP-CONTRIBUTOR \u2014 Contributors (MUST)",
+    "technical_anchor": "ep-contributor",
+    "source_body_sha256": "0025c8fc645031c56883c38dc2d5236e52247a11992c346944426774efc3311b",
+    "constraint_bullet_count": 2,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-CLASS-NAME",
+    "source_group": "Naming",
+    "source_heading": "EP-CLASS-NAME \u2014 Class local names are PascalCase (MUST)",
+    "technical_anchor": "ep-class-name",
+    "source_body_sha256": "c6381360e9395a2d8d8455b283505c7952bb8b62c0e7ea8596233a11f40d60c2",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-INDIVIDUAL-NAME",
+    "source_group": "Naming",
+    "source_heading": "EP-INDIVIDUAL-NAME \u2014 NamedIndividual local names are PascalCase with an optional class prefix (MUST)",
+    "technical_anchor": "ep-individual-name",
+    "source_body_sha256": "870de7b542209eabcef02696e2c5b0edef8416260add6aa012911ed038b6b12e",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-PROPERTY-NAME",
+    "source_group": "Naming",
+    "source_heading": "EP-PROPERTY-NAME \u2014 Property local names are camelCase (MUST)",
+    "technical_anchor": "ep-property-name",
+    "source_body_sha256": "8939317bdfd91e7fde47678d032b175ad82a57c5a7db87ea192f875d2cfdde81",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-PROPERTY-NAME-ISO",
+    "source_group": "Naming",
+    "source_heading": "EP-PROPERTY-NAME-ISO \u2014 ISO property local names should be lower snake\\_case (SHOULD)",
+    "technical_anchor": "ep-property-name-iso",
+    "source_body_sha256": "49c366a5d18ec968dcc405eeb671988f099292d865cf78cccd6f8c051d1788e2",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-LABEL",
+    "source_group": "Labels, definitions and descriptive text",
+    "source_heading": "EP-LABEL \u2014 Labels (MUST)",
+    "technical_anchor": "ep-label",
+    "source_body_sha256": "6ffdb9d8c2827915c0eae4627ed741b8d18fb08e4776b866fed278e63e0a7067",
+    "constraint_bullet_count": 2,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-PREFLABEL-LANGUAGE",
+    "source_group": "Labels, definitions and descriptive text",
+    "source_heading": "EP-PREFLABEL-LANGUAGE \u2014 Preferred labels (MUST)",
+    "technical_anchor": "ep-preflabel-language",
+    "source_body_sha256": "118e543dd22005caba0c9a30ba090f24079ff4ceab47c059fc40bbb17c2878b9",
+    "constraint_bullet_count": 2,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-PREFLABEL-IRI",
+    "source_group": "Labels, definitions and descriptive text",
+    "source_heading": "EP-PREFLABEL-IRI \u2014 An English preferred label corresponds to the local name (MUST)",
+    "technical_anchor": "ep-preflabel-iri",
+    "source_body_sha256": "4cdf143b14c0c2cbe46dcab88740fe3afa56e1dca084afa53e961f8b8d7336fd",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-PREFLABEL-LABEL",
+    "source_group": "Labels, definitions and descriptive text",
+    "source_heading": "EP-PREFLABEL-LABEL \u2014 Every preferred label is also a label (MUST)",
+    "technical_anchor": "ep-preflabel-label",
+    "source_body_sha256": "d1c2e8f7afcdbd81029548a685c61030601914780e8a342bdfe6bbaa707c680e",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DEFINITION",
+    "source_group": "Labels, definitions and descriptive text",
+    "source_heading": "EP-DEFINITION \u2014 Definitions (MUST)",
+    "technical_anchor": "ep-definition",
+    "source_body_sha256": "033a8c4606a3f21305ef12a2140488c673bf9c124e74ef3ccc52248550939073",
+    "constraint_bullet_count": 3,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DESCRIPTIVE-LANGUAGE",
+    "source_group": "Labels, definitions and descriptive text",
+    "source_heading": "EP-DESCRIPTIVE-LANGUAGE \u2014 Descriptive text is language-tagged (MUST)",
+    "technical_anchor": "ep-descriptive-language",
+    "source_body_sha256": "5b0104828a66112b02ab7a0b4a5b2bca400241b5a75a05775cf9bf2cee0af1cc",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DESCRIPTION-LANGUAGE",
+    "source_group": "Labels, definitions and descriptive text",
+    "source_heading": "EP-DESCRIPTION-LANGUAGE \u2014 Descriptions are unique per language (MUST)",
+    "technical_anchor": "ep-description-language",
+    "source_body_sha256": "c332ebb5799dcd518ca2ada5e04e0b3d2c06a67a0e0faa8eab75e8df65a1b786",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-OPTIONAL-ANNOTATIONS",
+    "source_group": "Optional annotations",
+    "source_heading": "EP-OPTIONAL-ANNOTATIONS \u2014 Optional annotations (MUST)",
+    "technical_anchor": "ep-optional-annotations",
+    "source_body_sha256": "a12dee01ce2c1f967b8a26d5e55740e8d1cc0ff67907a83135f6cbbd1bd93a07",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-AXIOM-POSITION",
+    "source_group": "Axiom annotations",
+    "source_heading": "EP-AXIOM-POSITION \u2014 Axiom position is an integer (MUST)",
+    "technical_anchor": "ep-axiom-position",
+    "source_body_sha256": "047ed55eea68313d646129fffb7c7d40c2f1ac3065910c2e1768d57e56b584c2",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DATASET-TYPE-IRI",
+    "source_group": "Datasets",
+    "source_heading": "EP-DATASET-TYPE-IRI \u2014 Dataset type and IRI (MUST)",
+    "technical_anchor": "ep-dataset-type-iri",
+    "source_body_sha256": "bf3326b01aa5be453087017448d1bdf1d97216b6f68dbd8b007538e259d929e0",
+    "constraint_bullet_count": 4,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DATASET-REQUIRED",
+    "source_group": "Datasets",
+    "source_heading": "EP-DATASET-REQUIRED \u2014 Required dataset metadata (MUST)",
+    "technical_anchor": "ep-dataset-required",
+    "source_body_sha256": "988f941a58ab6a38b117c3f825c9162d823de5bf66c7ac5eacaaa27ab154c1f9",
+    "constraint_bullet_count": 12,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DATASET-DISTRIBUTION",
+    "source_group": "Datasets",
+    "source_heading": "EP-DATASET-DISTRIBUTION \u2014 Dataset distributions (MUST)",
+    "technical_anchor": "ep-dataset-distribution",
+    "source_body_sha256": "9afc04ce86f4d74f3c528452343e8b7251bb448bef6d7686660d147182bd3e78",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DATASET-LANDING",
+    "source_group": "Datasets",
+    "source_heading": "EP-DATASET-LANDING \u2014 Landing pages (SHOULD, human review)",
+    "technical_anchor": "ep-dataset-landing",
+    "source_body_sha256": "4816249078861eae7a6971aa0d2fe1f4bdbf119f0694ac923e10e6a6c9c28cb9",
+    "constraint_bullet_count": 0,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DATASET-ACCESS-RIGHTS",
+    "source_group": "Datasets",
+    "source_heading": "EP-DATASET-ACCESS-RIGHTS \u2014 Access rights cardinality (MUST)",
+    "technical_anchor": "ep-dataset-access-rights",
+    "source_body_sha256": "9e4763f8f84e53477a91c89061c58dc771282011208c88bfe22db697eb5b594d",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DATASET-ACCESS-RIGHTS-IRI",
+    "source_group": "Datasets",
+    "source_heading": "EP-DATASET-ACCESS-RIGHTS-IRI \u2014 Access rights should be an IRI (SHOULD)",
+    "technical_anchor": "ep-dataset-access-rights-iri",
+    "source_body_sha256": "296d3595b023c109f282c5874b464d94f11b45255ccad42616549fdfef19532b",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DISTRIBUTION-REQUIRED",
+    "source_group": "Distributions",
+    "source_heading": "EP-DISTRIBUTION-REQUIRED \u2014 Distribution type, IRI and required metadata (MUST)",
+    "technical_anchor": "ep-distribution-required",
+    "source_body_sha256": "fcf003a1d247a2ec280a00124cd231c3c78cd669c9920e5b59077cadf723319e",
+    "constraint_bullet_count": 9,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DISTRIBUTION-DOWNLOAD",
+    "source_group": "Distributions",
+    "source_heading": "EP-DISTRIBUTION-DOWNLOAD \u2014 Download URLs (MUST)",
+    "technical_anchor": "ep-distribution-download",
+    "source_body_sha256": "23e469983916a2bf1702c8efa2dbb63e6d6713ec3b32362754a7a4a7c39ceefa",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DISTRIBUTION-MEDIA",
+    "source_group": "Distributions",
+    "source_heading": "EP-DISTRIBUTION-MEDIA \u2014 Media type (MUST)",
+    "technical_anchor": "ep-distribution-media",
+    "source_body_sha256": "73f03dbeb85fd81361819f14f3c668468b4bea921d7c8b788499953e60e715f3",
+    "constraint_bullet_count": 3,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DISTRIBUTION-FORMAT",
+    "source_group": "Distributions",
+    "source_heading": "EP-DISTRIBUTION-FORMAT \u2014 Format cardinality (MUST)",
+    "technical_anchor": "ep-distribution-format",
+    "source_body_sha256": "68c6813b859bacda5450d375417961933e974f18a29f7d7745237d2e03c6c0c3",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DISTRIBUTION-FORMAT-EU",
+    "source_group": "Distributions",
+    "source_heading": "EP-DISTRIBUTION-FORMAT-EU \u2014 Format should be an EU file type (SHOULD)",
+    "technical_anchor": "ep-distribution-format-eu",
+    "source_body_sha256": "3858543849fe256a28c3dd25ca9be540f8d5f3094a6d4fe5b923cc1c59cfae9e",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DISTRIBUTION-LANGUAGE",
+    "source_group": "Distributions",
+    "source_heading": "EP-DISTRIBUTION-LANGUAGE \u2014 Languages (MUST)",
+    "technical_anchor": "ep-distribution-language",
+    "source_body_sha256": "9c28207c7b2f5907c1e61b8d8f9336d65ecb755ad2cba697d8b555bc34aaf0c5",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DISTRIBUTION-LICENCE",
+    "source_group": "Distributions",
+    "source_heading": "EP-DISTRIBUTION-LICENCE \u2014 Licence (MUST)",
+    "technical_anchor": "ep-distribution-licence",
+    "source_body_sha256": "4e58f72073861d197c00ff415ad9724325bd182161ec7135b50d14cab640be2a",
+    "constraint_bullet_count": 2,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-DISTRIBUTION-RIGHTS",
+    "source_group": "Distributions",
+    "source_heading": "EP-DISTRIBUTION-RIGHTS \u2014 Rights should be IRIs (SHOULD)",
+    "technical_anchor": "ep-distribution-rights",
+    "source_body_sha256": "24fc5ac356de26e5876c03b4a9878bff8ae9ced4a0d9198198ae74c30dd2331a",
+    "constraint_bullet_count": 1,
+    "source_body_blocks_preserved": true
+  },
+  {
+    "requirement_id": "EP-HUMAN-CONCEPT-REUSE",
+    "source_group": "Human review",
+    "source_heading": "EP-HUMAN-CONCEPT-REUSE \u2014 Search for an existing concept before adding one (MUST, human review)",
+    "technical_anchor": "ep-human-concept-reuse",
+    "source_body_sha256": "7b65cbe267b4c57c17c48524efb392b301c9cd6a500dd9f7f72a0818407e377b",
+    "constraint_bullet_count": 0,
+    "source_body_blocks_preserved": true
+  }
+]

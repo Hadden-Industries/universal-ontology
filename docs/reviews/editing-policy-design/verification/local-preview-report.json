@@ -1,0 +1,16 @@
+{
+  "local_internal_fragment_links": "PASS",
+  "local_fragment_count": 85,
+  "local_images_loaded": "PASS",
+  "local_disclosure_toggle": "PASS",
+  "mobile_document_width": {
+    "viewport": 390,
+    "body": 390
+  },
+  "live_github_wiki_test": "NOT RUN",
+  "limitations": [
+    "HTML CSS approximates a Markdown reading surface; it is not GitHub CSS.",
+    "PNG diagrams scale down on narrow viewports; adjacent text remains the essential accessible equivalent.",
+    "Actual GitHub Wiki image paths, sanitizer behaviour, keyboard/screen-reader behaviour and print output require a publication-surface smoke test."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "basis": "Editing-Policy [2026-09-12].md",
+  "basis_sha256": "b9acd317e03c32b73e1f0abfeb7f65e2572c3e8a52c89a978671705e3392c1a0",
+  "clauses": 35,
+  "executable_constraint_bullets": 77,
+  "non_title_source_blocks_checked": 224,
+  "missing_source_blocks": [],
+  "all_clause_anchors_unique": true,
+  "all_original_clause_headings_retained": true,
+  "policy_or_validator_executed": false,
+  "live_github_wiki_render_tested": false,
+  "status": "PASS: snapshot text preservation, not semantic validation of new examples",
+  "canonical_policy_identity_from_snapshot": "sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb"
+}
