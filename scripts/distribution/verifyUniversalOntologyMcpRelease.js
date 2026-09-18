@@ -86,7 +86,7 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "a8b2e426ced4d7d00f12df81ab948de2fd2c332a3254232fcbef8529d09a4da7";
+  "4b4c9ca7262dc21704941cf90d4be6255e78981a2bebec28ea7ce173213afec1";
 
 const FORBIDDEN_ARCHIVE_CONTENT_MARKERS = Object.freeze([
   "A natural or legal person recognised by law.",
@@ -447,7 +447,7 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
     validateScripts.includes(
       "smokeTestUniversalOntologyMcpPublicArtifactOrigin.js",
     ) ||
-    !archiveScripts.includes("mcp:archives:build") ||
+    !archiveScripts.includes("build:mcp-platform-archives") ||
     !containerScripts.includes(
       "docker build --tag universal-ontology-mcp-server:development",
     ) ||
@@ -467,7 +467,7 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
     !containerScripts.includes("mcp-container-smoke") ||
     !containerScripts.includes("UNSAFE_CACHE_DIRECTORY") ||
     /(?:--publish|-p\s+\d)/u.test(containerScripts) ||
-    !assembleScripts.includes("mcp:release:verify")
+    !assembleScripts.includes("verify:mcp-release")
   ) {
     throw new Error(
       "Distribution workflow does not implement the exact local-only candidate checks.",

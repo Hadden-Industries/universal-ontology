@@ -151,7 +151,7 @@ jobs:
 
       - name: Build the affected MCP application bundle
         if: needs.scope.outputs.mcp_artifacts == 'true'
-        run: npm run mcp:package:build
+        run: npm run build:mcp-package
 
   archive:
     name: Build development archive for ${{ matrix.targetName }}
@@ -187,7 +187,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Build the native self-contained archive
-        run: npm run mcp:archives:build -- --target=${{ matrix.targetName }}
+        run: npm run build:mcp-platform-archives -- --target=${{ matrix.targetName }}
 
       - name: Smoke-test the extracted Unix runtime and application
         if: runner.os != 'Windows'
@@ -262,7 +262,7 @@ jobs:
       - name: Install dependencies and build the canonical bundle
         run: |
           npm ci --ignore-scripts
-          npm run mcp:package:build
+          npm run build:mcp-package
 
       - name: Build and smoke-test the image without registry access
         shell: bash
@@ -373,19 +373,19 @@ jobs:
 
       - name: Build and pack the local npm artifact
         run: |
-          npm run mcp:package:build
-          npm run mcp:package:pack
+          npm run build:mcp-package
+          npm run pack:mcp-package
 
       - name: Generate independent npm and deterministic SPDX documents
         shell: bash
         run: |
           mkdir -p dist/release-work
           npm sbom --workspace universal-ontology-mcp-server --sbom-format spdx --sbom-type application > dist/release-work/npm-workspace.spdx.json
-          npm run mcp:sbom:create
+          npm run generate:mcp-sbom
 
       - name: Verify the complete development candidate
         run: >-
-          npm run mcp:release:verify --
+          npm run verify:mcp-release --
           --tag "universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}"
           --release-directory dist/releases
           --npm-comparison-sbom dist/release-work/npm-workspace.spdx.json

@@ -229,7 +229,7 @@ test("pre-commit requires .venv even when a system Python command is available",
   );
 
   expect(result.status).toBe(1);
-  expect(result.stderr).toContain("npm run setup:development");
+  expect(result.stderr).toContain("npm run set-up:development");
   expect(existsSync(join(repositoryRoot, "system-python-used.txt"))).toBe(
     false,
   );

@@ -13,7 +13,7 @@
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/apple-design/SKILL.md",
-      "computedHash": "8b94db67cb9edaad5f1501010804caa610131f1d2dfda0a27664b2e858deade3"
+      "computedHash": "0190417d092a0df447b000154e39733ea6d97efad6d3bec8a6ce3845aeb88914"
     },
     "brainstorming": {
       "source": "obra/superpowers",
@@ -53,7 +53,7 @@
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/committing-to-git/SKILL.md",
-      "computedHash": "3e91ec12a81fe894378a3f6e186680dc3e7501cbfae0fa0d288e8d2d6fa19d16"
+      "computedHash": "58b9c5d54d1406729b1ff278c4fce1bd758e509145933ffe719b526af5df34db"
     },
     "defining-concepts": {
       "source": "Hadden-Industries/agent-skills",
@@ -74,7 +74,7 @@
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/find-animation-opportunities/SKILL.md",
-      "computedHash": "8fb8492eb8fbed1313cb430b5831d925d9b8964ca24f3c41a6244cbd1fd98732"
+      "computedHash": "465d087c41768e4f14ed640dd049036009f613feb55baaa5831b68b33178f9d2"
     },
     "grilling": {
       "source": "mattpocock/skills",
@@ -95,7 +95,7 @@
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/improve-animations/SKILL.md",
-      "computedHash": "eeb219a407e325b687af88db25771cc3018e3148245604112f5ac6990b6fd79c"
+      "computedHash": "524ea241e41d58bbdd8e288700fe24f5725e2a2f3ae7186ad7cebf9055058356"
     },
     "logic-diff": {
       "source": "hyhmrright/logic-lens",
@@ -126,14 +126,14 @@
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/modern-web-guidance/SKILL.md",
-      "computedHash": "c75f98ef13e63bcf0c074f6e7651ecb567ffcd78f2527d085a7cddd530073c4f"
+      "computedHash": "da9b9c833351f0575ca7482f3c8decc8e24b02b76dea71f138738283c701b4c5"
     },
     "review-animations": {
       "source": "emilkowalski/skills",
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/review-animations/SKILL.md",
-      "computedHash": "b9f669af5ae280c19a592a94611520335a81de25c88f225bf60ae4b2d66c8c7c"
+      "computedHash": "b4e5f0f4fe3e2743c85bf7354108f48a0b9d502cb20ef5c4a9c195da91f93736"
     },
     "ui-craft": {
       "source": "educlopez/ui-craft",

@@ -2644,7 +2644,7 @@ def build_universal_ontology_mcp_application_bundle(
         cwd=repo,
     )
     run(
-        [npx_command, "--yes", selected_npm, "run", "mcp:package:build"],
+        [npx_command, "--yes", selected_npm, "run", "build:mcp-package"],
         cwd=repo,
     )
 
@@ -2722,7 +2722,7 @@ def generate_repository_local_ontology_query_artifacts(repo: Path) -> None:
     npx_command = require_command("npx")
     selected_npm = f"npm@{_read_declared_npm_version(repo)}"
     run(
-        [npx_command, "--yes", selected_npm, "run", "mcp:index"],
+        [npx_command, "--yes", selected_npm, "run", "generate:ontology-indexes"],
         cwd=repo,
     )
 

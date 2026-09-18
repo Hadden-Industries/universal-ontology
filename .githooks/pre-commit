@@ -13,7 +13,7 @@ if [ -x ".venv/Scripts/python.exe" ]; then
 elif [ -x ".venv/bin/python" ]; then
     PYTHON_EXECUTABLE_PATH=".venv/bin/python"
 else
-    printf '%s\n' 'A Python interpreter is required in .venv. Run npm run setup:development before committing.' >&2
+    printf '%s\n' 'A Python interpreter is required in .venv. Run npm run set-up:development before committing.' >&2
     exit 1
 fi
 readonly PYTHON_EXECUTABLE_PATH

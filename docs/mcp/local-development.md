@@ -24,8 +24,8 @@ artifacts, and start the server:
 
 ```powershell
 npm ci
-npm run mcp:index
-npm run mcp:serve
+npm run generate:ontology-indexes
+npm run serve:mcp-development
 ```
 
 The server validates and loads the generated catalog before it opens the TCP
@@ -63,14 +63,14 @@ process exit code.
 
 ### Workspace ownership and maintainer entry points
 
-| Responsibility                                           | Owner and entry point                                                                                                                                                                      |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| MCP tool registration, schemas and transport composition | `packages/universal-ontology-mcp-server/src/`; start with `createUniversalOntologyMcpServer.js` and `universalOntologyMcpHttpHandlers.js`.                                                 |
-| Local listener, stdio process and application bundle     | The MCP workspace's `scripts/`; its package manifest owns the executable version and direct SDK/build/test dependencies.                                                                   |
-| Query interpretation, repositories and cache             | `packages/universal-ontology-query`; use its named package exports. The browser entry excludes Node repositories.                                                                          |
-| Authored projection-property policy                      | `packages/universal-ontology-projection-policy`; its implementation and declaration are shared by query generation and the website.                                                        |
-| Ontology generation and development orchestration        | Root `scripts/generateOntologyQueryIndexes.js` and `scripts/runOntologyMcpDevelopment.js`. `npm run mcp:dev` refreshes indexes before starting the workspace listener in the same process. |
-| Archive, Registry and release verification               | Root `scripts/distribution/`; product versions follow the public MCP manifest, while the root manifest owns the npm toolchain.                                                             |
+| Responsibility                                           | Owner and entry point                                                                                                                                                                                            |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MCP tool registration, schemas and transport composition | `packages/universal-ontology-mcp-server/src/`; start with `createUniversalOntologyMcpServer.js` and `universalOntologyMcpHttpHandlers.js`.                                                                       |
+| Local listener, stdio process and application bundle     | The MCP workspace's `scripts/`; its package manifest owns the executable version and direct SDK/build/test dependencies.                                                                                         |
+| Query interpretation, repositories and cache             | `packages/universal-ontology-query`; use its named package exports. The browser entry excludes Node repositories.                                                                                                |
+| Authored projection-property policy                      | `packages/universal-ontology-projection-policy`; its implementation and declaration are shared by query generation and the website.                                                                              |
+| Ontology generation and development orchestration        | Root `scripts/generateOntologyQueryIndexes.js` and `scripts/runOntologyMcpDevelopment.js`. `npm run serve:mcp-development:refresh` refreshes indexes before starting the workspace listener in the same process. |
+| Archive, Registry and release verification               | Root `scripts/distribution/`; product versions follow the public MCP manifest, while the root manifest owns the npm toolchain.                                                                                   |
 
 Run focused owner checks from the repository root:
 
@@ -82,8 +82,8 @@ npm run stdio --workspace universal-ontology-mcp-server -- --help
 npm run serve --workspace universal-ontology-mcp-server
 ```
 
-`serve` uses existing query artifacts. Root `mcp:serve` composes the same listener;
-root `mcp:dev` additionally generates artifacts, honoring `UNIVERSAL_ONTOLOGY_QUERY_ROOT`.
+`serve` uses existing query artifacts. Root `serve:mcp-development` composes the same listener;
+root `serve:mcp-development:refresh` additionally generates artifacts, honoring `UNIVERSAL_ONTOLOGY_QUERY_ROOT`.
 The workspace listener does not own RDF/XML generation or accept `--refresh-index`.
 Root `npm test -- --runInBand` includes workspace suites and distribution/website
 consumers. A packed installation contains only the executable and four package
@@ -117,7 +117,7 @@ that same local 406 rule.
 
 ```mermaid
 flowchart LR
-    A[Immutable RDF/XML releases under src] --> B[npm run mcp:index]
+    A[Immutable RDF/XML releases under src] --> B[npm run generate:ontology-indexes]
     B --> C[Versioned query catalog and content-addressed release indexes]
     C --> D[Filesystem ontology query-artifact repository]
     D --> E[Ontology query module]
@@ -144,7 +144,7 @@ This layering is intentional:
 Run the deterministic generator explicitly:
 
 ```powershell
-npm run mcp:index
+npm run generate:ontology-indexes
 ```
 
 The default output root is `dist/query/v1`:
@@ -179,7 +179,7 @@ Use the combined development command when the source ontology or projection
 code may have changed:
 
 ```powershell
-npm run mcp:dev
+npm run serve:mcp-development:refresh
 ```
 
 That command regenerates the artifacts and then starts the server. Regenerate
@@ -199,7 +199,7 @@ reinterpreting format version `1`.
 
 The repository-local `stdio` installation uses this same `dist/query/v1` tree
 by default, but it does **not** require the loopback development server. Running
-`scripts/set_up_mcp_servers.py` invokes the authoritative `mcp:index` generator,
+`scripts/set_up_mcp_servers.py` invokes the authoritative `generate:ontology-indexes` generator,
 installs the application bundle, and configures the MCP host to let that bundle
 open the filesystem artifacts directly. See the
 [local installation guide](local-installation.md#select-the-repository-local-query-artifact-source)
@@ -220,7 +220,7 @@ For example, to use port 8001 in the current PowerShell session:
 
 ```powershell
 $env:UNIVERSAL_ONTOLOGY_MCP_PORT = "8001"
-npm run mcp:serve
+npm run serve:mcp-development
 ```
 
 There is deliberately no bind-address variable. The local runner always binds
@@ -438,7 +438,7 @@ complete; it is not an installed-server configuration.
 
 ## Inspect the server with MCP Inspector
 
-Keep `npm run mcp:serve` running in one terminal. To open MCP Inspector's UI:
+Keep `npm run serve:mcp-development` running in one terminal. To open MCP Inspector's UI:
 
 ```powershell
 npx --yes @modelcontextprotocol/inspector@2.4.0 --server-url http://127.0.0.1:8000/mcp --transport http
@@ -533,7 +533,7 @@ endpoint:
 
 | Symptom                                                                         | Meaning and action                                                                                                                                    |
 | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Startup exits with `SERVER_STARTUP_FAILED` or `QUERY_INDEX_CATALOG_UNAVAILABLE` | Generate artifacts with `npm run mcp:index`, verify `UNIVERSAL_ONTOLOGY_QUERY_ROOT`, and restart. The port was not opened.                            |
+| Startup exits with `SERVER_STARTUP_FAILED` or `QUERY_INDEX_CATALOG_UNAVAILABLE` | Generate artifacts with `npm run generate:ontology-indexes`, verify `UNIVERSAL_ONTOLOGY_QUERY_ROOT`, and restart. The port was not opened.            |
 | Startup reports `EADDRINUSE`                                                    | Another process owns the requested port. Stop that process or select another valid `UNIVERSAL_ONTOLOGY_MCP_PORT` and update the host URL.             |
 | HTTP 403                                                                        | Host or Origin validation rejected the request. Connect directly to `127.0.0.1` and do not synthesize a non-local Host or browser Origin.             |
 | HTTP 404                                                                        | The path is not exactly `/mcp` or `/healthz`. Query strings are not part of the v1 route contract.                                                    |

@@ -14,11 +14,11 @@ The README's [development setup](../README.md#development-setup) section
 explains the version selection.
 
 ```sh
-npm run setup:development
+npm run set-up:development
 npm run configure:git-hooks
 ```
 
-`setup:development`:
+`set-up:development`:
 
 - checks the Node.js, npm and Python versions;
 - runs `npm ci --include=dev --ignore-scripts` from `package-lock.json`;
@@ -62,9 +62,9 @@ contribution do not need them.
 
 | Command | Effect |
 | --- | --- |
-| `npm run setup:skills` | Refresh the external Agent Skills declared in `skills-lock.json` into `.agents/skills` and `.claude/skills` using the pinned Skills CLI. A branch reference tracks its current tip; the CLI records the installed content hash in the lock. |
-| `npm run setup:mcp -- --help` | Show the MCP server installer's options before choosing its download/network actions. `--check` only verifies the checked-in host configuration documents. |
-| `npm run deploy` | Upload built site assets to S3. Requires the AWS CLI and separate authorization; refuses to publish without a current qualification receipt (see below). |
+| `npm run set-up:agent-skills` | Refresh the external Agent Skills declared in `skills-lock.json` into `.agents/skills` and `.claude/skills` using the pinned Skills CLI. A branch reference tracks its current tip; the CLI records the installed content hash in the lock. |
+| `npm run set-up:mcp-servers -- --help` | Show the MCP server installer's options before choosing its download/network actions. `--check` only verifies the checked-in host configuration documents. |
+| `npm run publish:website` | Upload built site assets to S3. Requires the AWS CLI and separate authorization; refuses to publish without a current qualification receipt (see below). |
 
 ## Verification commands
 
@@ -79,8 +79,8 @@ contribution do not need them.
 | Active-set qualification | `npm run validate:ontologies -- --purpose latest-active` | Qualifies the active module set recorded in `policy/activation.ttl` and writes the publication receipt. |
 | Generated editing policy | `npm run check:editing-policy` | Fails when `docs/policy/Editing-Policy.generated.md` is stale; `npm run generate:editing-policy` regenerates it. |
 | Website build | `node node_modules/vite/bin/vite.js build` | The direct build preserves tracked inputs; `npm run build` first runs lint/format auto-fixes. Writes ignored `dist/` output. |
-| JSON-LD generation | `npm run generate:jsonld` | |
-| MCP package | `npm run mcp:package:build` | See [docs/mcp/local-development.md](mcp/local-development.md). |
+| JSON-LD generation | `npm run generate:json-ld` | |
+| MCP package | `npm run build:mcp-package` | See [docs/mcp/local-development.md](mcp/local-development.md). |
 
 Use the focused checks that match what you changed while working, and the wider
 suites before opening or updating a pull request. Report failures, skips and
@@ -104,7 +104,7 @@ Pull requests run, as applicable to the changed files:
   editing policy on the changed sources, policy/publication-gate tests, and the
   Linux/Windows two-engine qualification of the active set.
 - [Development checks](../.github/workflows/development-checks.yml): a clean
-  `npm run setup:development` on Linux and Windows followed by the ontology
+  `npm run set-up:development` on Linux and Windows followed by the ontology
   runner, setup-tool, launcher, hook and check-selection tests.
 - [MCP distribution](../.github/workflows/verify-universal-ontology-mcp-distribution.yml):
   product tests, website build, package, archive and container checks.

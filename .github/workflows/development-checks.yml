@@ -45,7 +45,7 @@ jobs:
       - name: Select package manager
         run: npm install --global --no-audit --no-fund npm@12.0.2
       - name: Set up development from the clean checkout
-        run: npm run setup:development
+        run: npm run set-up:development
       - name: Verify the installed ontology runner
         run: node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v
       - name: Test the optional Python setup tools

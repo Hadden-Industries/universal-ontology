@@ -301,9 +301,9 @@ describe("public Universal Ontology MCP npm package", () => {
       EXPECTED_PACKAGING_DEV_DEPENDENCIES,
     );
     expect(rootPackage.scripts).toMatchObject({
-      "mcp:package:build":
+      "build:mcp-package":
         "npm run build --workspace universal-ontology-mcp-server",
-      "mcp:package:pack":
+      "pack:mcp-package":
         "npm pack --workspace universal-ontology-mcp-server --pack-destination dist/releases",
     });
     expect(rootPackage.devDependencies).not.toHaveProperty("esbuild");
@@ -391,6 +391,7 @@ describe("public Universal Ontology MCP npm package", () => {
       "tests/fixtures/ontology-query",
       "A natural or legal person recognised by law.",
       '"mcp:package:build"',
+      '"build:mcp-package"',
       '"packageManager":"npm@12.0.2"',
       "sourceMappingURL=",
     ]) {

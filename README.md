@@ -28,7 +28,7 @@ The system interpreter must be available on `PATH` when creating `.venv`.
 From the repository root, run:
 
 ```sh
-npm run setup:development
+npm run set-up:development
 npm run configure:git-hooks
 ```
 

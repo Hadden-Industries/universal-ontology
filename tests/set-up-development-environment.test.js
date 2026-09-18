@@ -304,7 +304,7 @@ test.each([
 test("requires invocation through npm before changing the environment", () => {
   delete process.env.npm_execpath;
   expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
-    /npm run setup:development/,
+    /npm run set-up:development/,
   );
   expect(spawnSyncMock).not.toHaveBeenCalled();
 });

@@ -121,15 +121,15 @@ describe("Universal Ontology MCP operator documentation", () => {
   test("documents every permitted unpublished installation form and its integrity boundary", () => {
     expect(localInstallationGuide).toMatch(/source checkout/iu);
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.0.2 run mcp:package:build",
+      "npx --yes npm@12.0.2 run build:mcp-package",
     );
     expect(localInstallationGuide).toMatch(/locally packed npm tarball/iu);
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.0.2 run mcp:package:pack",
+      "npx --yes npm@12.0.2 run pack:mcp-package",
     );
     expect(localInstallationGuide).toMatch(/locally built platform archive/iu);
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.0.2 run mcp:archives:build",
+      "npx --yes npm@12.0.2 run build:mcp-platform-archives",
     );
     expect(localInstallationGuide).toMatch(/locally built OCI image/iu);
     expect(localInstallationGuide).toContain(
