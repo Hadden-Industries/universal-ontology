@@ -1,0 +1,9 @@
+flowchart TD
+    accTitle: Preferred-label correspondence
+    accDescr: At least one English preferred label corresponds to the local name; every preferred label also occurs as an rdfs label with identical text and language tag.
+    E["Owned entity: RiskEvent"]
+    P["skos:prefLabel: Risk event @en"]
+    L["rdfs:label: Risk event @en"]
+    E -->|"at least one English variant"| P
+    E -->|"at least one label"| L
+    P -->|"identical text and language tag"| L

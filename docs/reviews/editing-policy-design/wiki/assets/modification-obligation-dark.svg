@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="428" viewBox="0 0 980 428" role="img" aria-labelledby="title desc">
+<title id="title">Modification metadata: presence and validity are different checks</title><desc id="desc">A new entity needs no modification value. A changed existing entity requires a valid modification value when a comparison snapshot is available. Without a comparison snapshot the change obligation is unevaluated. Any supplied modification value still has to satisfy its value constraints.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#8B98A7" stroke-width="1.5"/></marker></defs>
+<rect width="980" height="428" rx="14" fill="#0D1117"/>
+<text x="24" y="34" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="23" font-weight="650">Modification metadata: presence and validity are different checks</text>
+<rect x="24" y="89" width="295" height="176" rx="10" fill="#161B22" stroke="#8B98A7" stroke-width="1.5"/>
+<rect x="25" y="101" width="4" height="30" rx="2" fill="#79C0FF"/>
+<text x="42" y="122" fill="#79C0FF" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">New entity</text>
+<text x="42" y="155" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">No modification value</text>
+<text x="42" y="181" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">is required by this clause.</text>
+<text x="42" y="207" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Creation metadata still applies.</text>
+<rect x="341" y="89" width="295" height="176" rx="10" fill="#161B22" stroke="#8B98A7" stroke-width="1.5"/>
+<rect x="342" y="101" width="4" height="30" rx="2" fill="#79C0FF"/>
+<text x="359" y="122" fill="#79C0FF" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">Existing and changed</text>
+<text x="359" y="155" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">With a comparison snapshot:</text>
+<text x="359" y="181" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">a valid modification value</text>
+<text x="359" y="207" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">must be present.</text>
+<rect x="659" y="89" width="297" height="176" rx="10" fill="#161B22" stroke="#8B98A7" stroke-width="1.5"/>
+<rect x="660" y="101" width="4" height="30" rx="2" fill="#E3B341"/>
+<text x="677" y="122" fill="#E3B341" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="20" font-weight="650">No comparison snapshot</text>
+<text x="677" y="155" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Change obligation:</text>
+<text x="677" y="181" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">UNEVALUATED</text>
+<text x="677" y="207" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Not a pass; not a failure.</text>
+<text x="24" y="312" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="650">Whenever supplied: at most one valid date or UTC date-time with the lexical Z designator.</text>
+<text x="24" y="346" fill="#E6EDF3" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">Ordinary editing accepts an existing valid value even when that value did not change.</text>
+<text x="24" y="392" fill="#ADB9C7" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="17" font-weight="400">This diagram concerns entity modification. Ontology-header date rules are different.</text>
+</svg>
