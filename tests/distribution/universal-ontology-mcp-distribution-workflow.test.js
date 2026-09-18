@@ -344,13 +344,13 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     });
     expect(byName("Build the affected MCP application bundle")).toMatchObject({
       if: "needs.scope.outputs.mcp_artifacts == 'true'",
-      run: "npm run mcp:package:build",
+      run: "npm run build:mcp-package",
     });
     expect(steps.find(({ id }) => id === "candidate-metadata")?.if).toBe(
       "needs.scope.outputs.mcp_artifacts == 'true'",
     );
-    expect(concatenateRunScripts(workflow.jobs.validate)).not.toContain(
-      "npm run build",
+    expect(concatenateRunScripts(workflow.jobs.validate)).not.toMatch(
+      /(?:^|\s)npm run build(?:\s|$)/,
     );
   });
 
@@ -431,7 +431,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     expect(validateScripts).not.toContain(
       "smokeTestUniversalOntologyMcpPublicArtifactOrigin.js",
     );
-    expect(archiveScripts).toContain("mcp:archives:build");
+    expect(archiveScripts).toContain("build:mcp-platform-archives");
     expect(archiveScripts).toContain("matrix.targetName");
     expect(archiveScripts).toContain("--version");
     expect(archiveScripts).toContain("--help");
@@ -505,8 +505,8 @@ describe("Universal Ontology MCP development distribution workflow", () => {
       "retention-days": 3,
     });
     expect(assembleScripts).toContain("npm sbom");
-    expect(assembleScripts).toContain("mcp:sbom:create");
-    expect(assembleScripts).toContain("mcp:release:verify");
+    expect(assembleScripts).toContain("generate:mcp-sbom");
+    expect(assembleScripts).toContain("verify:mcp-release");
     expect(candidateUploadStep?.with).toEqual({
       name: "universal-ontology-mcp-server-development-candidate-${{ steps.candidate-identity.outputs.candidate-sha256 }}",
       path: "dist/releases/*",

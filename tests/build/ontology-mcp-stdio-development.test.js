@@ -119,7 +119,7 @@ test.each([
     invocationSubdirectory: "",
   },
 ])(
-  "root mcp:stdio preserves $description",
+  "root serve:mcp-stdio preserves $description",
   async ({ pathKind, invocationSubdirectory }) => {
     expect(process.env.npm_execpath).toEqual(expect.any(String));
     const artifactArguments = ["--query-artifact-source=file-system"];
@@ -137,7 +137,7 @@ test.each([
         process.env.npm_execpath,
         "--silent",
         "run",
-        "mcp:stdio",
+        "serve:mcp-stdio",
         "--",
         ...artifactArguments,
       ],

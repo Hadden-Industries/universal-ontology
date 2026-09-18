@@ -71,7 +71,7 @@ export function setUpDevelopmentEnvironment({
   const npmCliPath = process.env.npm_execpath;
   if (!npmCliPath) {
     throw new Error(
-      "Run npm run setup:development to start development setup.",
+      "Run npm run set-up:development to start development setup.",
     );
   }
 

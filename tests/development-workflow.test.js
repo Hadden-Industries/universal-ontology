@@ -54,7 +54,7 @@ test("Windows and Ubuntu checks exercise the complete development setup before t
   });
   expect(job["runs-on"]).toBe("${{ matrix.os }}");
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
-  const setupIndex = runs.indexOf("npm run setup:development");
+  const setupIndex = runs.indexOf("npm run set-up:development");
   expect(setupIndex).toBeGreaterThan(0);
   // Every retained command formerly owned by the SDLC control workflow keeps a
   // CI owner and runs after the real dependency installation.
@@ -65,7 +65,7 @@ test("Windows and Ubuntu checks exercise the complete development setup before t
   ]);
   const before = job.steps.slice(
     0,
-    job.steps.findIndex(({ run }) => run === "npm run setup:development"),
+    job.steps.findIndex(({ run }) => run === "npm run set-up:development"),
   );
   for (const prefix of [
     "actions/checkout@",

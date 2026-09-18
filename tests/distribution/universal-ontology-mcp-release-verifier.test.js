@@ -394,9 +394,9 @@ describe("Universal Ontology MCP release verifier", () => {
       "modified-approved-run-script",
       (workflowText) =>
         workflowText.replace(
-          "          npm run mcp:package:build\n",
+          "          npm run build:mcp-package\n",
           [
-            "          npm run mcp:package:build",
+            "          npm run build:mcp-package",
             "          node --version",
             "",
           ].join("\n"),

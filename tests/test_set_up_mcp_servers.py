@@ -2002,7 +2002,7 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 "--yes",
                 "npm@12.0.2",
                 "run",
-                "mcp:index",
+                "generate:ontology-indexes",
             ],
             cwd=REPOSITORY_ROOT,
         )
@@ -2095,7 +2095,7 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 if command[-1] == "--version" and "npm@12.0.2" in command:
                     return subprocess.CompletedProcess(command, 0, "12.0.2\n", "")
 
-                if command[-1] == "mcp:package:build":
+                if command[-1] == "build:mcp-package":
                     bundle_path.parent.mkdir(parents=True)
                     bundle_bytes = b"#!/usr/bin/env node\n// staged bundle\n"
                     bundle_path.write_bytes(bundle_bytes)
@@ -2159,7 +2159,7 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                     "--yes",
                     "npm@12.0.2",
                     "run",
-                    "mcp:package:build",
+                    "build:mcp-package",
                 ],
             ],
         )
