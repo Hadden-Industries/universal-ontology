@@ -34,6 +34,12 @@ server or skill. `requirements.txt` holds the ontology runtime dependencies and
 `requirements-dev.txt` the development tools; `requirements.lock.txt` is their
 resolved, hash-pinned closure.
 
+Node.js dependencies are locked via `package-lock.json`. Workspace package
+manifests declare their required build and test tooling under `devDependencies`
+using standard semver ranges. Distribution qualification validates this dependency
+boundary (ensuring no runtime dependencies are shipped and only approved development
+tools are declared) without pinning development-only patch versions in test assertions.
+
 `configure:git-hooks` sets the repository-local `core.hooksPath` to `.githooks`.
 The pre-commit hook runs the SHACL editing policy on the exact staged ontology
 bytes using the `.venv` interpreter and blocks the commit on any violation. It

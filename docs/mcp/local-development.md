@@ -87,7 +87,11 @@ root `serve:mcp-development:refresh` additionally generates artifacts, honoring 
 The workspace listener does not own RDF/XML generation or accept `--refresh-index`.
 Root `npm test -- --runInBand` includes workspace suites and distribution/website
 consumers. A packed installation contains only the executable and four package
-documents, with no installed query workspace or SDK dependency.
+documents, with no installed query workspace or SDK dependency. The MCP workspace
+manifest declares direct build, test, and query workspace tooling as
+`devDependencies`. Distribution qualification validates this dependency boundary
+(verifying that no runtime dependencies are shipped and only approved development
+tools exist) rather than asserting exact development-only patch versions.
 
 For an SDK update, first verify the current supported release and its complete
 terms, including the existing embedded `fast-uri` restriction in the

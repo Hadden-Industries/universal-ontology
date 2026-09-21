@@ -265,16 +265,22 @@ describe("public Universal Ontology MCP npm package", () => {
       expect(publicPackage).not.toHaveProperty(dependencyFieldName);
     }
     expect(publicPackage).not.toHaveProperty("exports");
-    expect(publicPackage.devDependencies).toEqual({
-      "@jest/globals": "30.5.2",
-      "@modelcontextprotocol/client": "2.0.0",
-      "@modelcontextprotocol/node": "2.0.0",
-      "@modelcontextprotocol/server": "2.0.0",
-      esbuild: "0.28.2",
-      jest: "30.5.2",
-      "universal-ontology-query": "1.0.0",
-      zod: "4.6.5",
-    });
+    expect(Object.keys(publicPackage.devDependencies).sort()).toEqual([
+      "@jest/globals",
+      "@modelcontextprotocol/client",
+      "@modelcontextprotocol/node",
+      "@modelcontextprotocol/server",
+      "esbuild",
+      "jest",
+      "universal-ontology-query",
+      "zod",
+    ]);
+    for (const [, versionRange] of Object.entries(
+      publicPackage.devDependencies,
+    )) {
+      expect(typeof versionRange).toBe("string");
+      expect(versionRange.trim()).not.toBe("");
+    }
 
     for (const forbiddenLifecycleScriptName of [
       "preinstall",
