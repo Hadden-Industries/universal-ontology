@@ -266,12 +266,12 @@ describe("public Universal Ontology MCP npm package", () => {
     }
     expect(publicPackage).not.toHaveProperty("exports");
     expect(publicPackage.devDependencies).toEqual({
-      "@jest/globals": "30.5.1",
+      "@jest/globals": "30.5.2",
       "@modelcontextprotocol/client": "2.0.0",
       "@modelcontextprotocol/node": "2.0.0",
       "@modelcontextprotocol/server": "2.0.0",
       esbuild: "0.28.2",
-      jest: "30.5.1",
+      jest: "30.5.2",
       "universal-ontology-query": "1.0.0",
       zod: "4.6.5",
     });
