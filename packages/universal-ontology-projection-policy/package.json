@@ -10,7 +10,7 @@
     "./field-property-history.v1.schema.json": "./data/field-property-history.v1.schema.json"
   },
   "devDependencies": {
-    "jest": "30.5.1"
+    "jest": "30.5.2"
   },
   "scripts": {
     "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config ../../jest.config.js --rootDir ."
