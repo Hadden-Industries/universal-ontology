@@ -18,8 +18,8 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
-    "@jest/globals": "30.5.1",
-    "jest": "30.5.1"
+    "@jest/globals": "30.5.2",
+    "jest": "30.5.2"
   },
   "scripts": {
     "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config ../../jest.config.js --rootDir ."
