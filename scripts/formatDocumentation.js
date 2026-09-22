@@ -93,14 +93,24 @@ export async function processDocumentation({
       const line = (write ? formatted : original).split("\n")[
         diagnostic.line - 1
       ];
+      let itemStart = 0;
+      let quoted = false;
+      while (itemStart < line.length) {
+        const character = line[itemStart];
+        if (character === ">") quoted = true;
+        else if (character !== " " && character !== "\t") break;
+        itemStart += 1;
+      }
+      const itemContent = line.slice(itemStart);
       if (
         diagnostic.kind === "fused" &&
-        /^(?:[ \t]*>[ \t]?)+\d+[.)]\s+/u.test(line)
+        quoted &&
+        /^\d+[.)]\s+/u.test(itemContent)
       ) {
         const item = runSnapper(
           root,
           ["--check", "--output-format", "json", "--stdin-filepath", path],
-          `${line.replace(/^(?:[ \t]*>[ \t]?)+/u, "")}\n`,
+          `${itemContent}\n`,
         );
         const itemReports = JSON.parse(item.stdout);
         if (
