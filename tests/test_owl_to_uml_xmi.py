@@ -1,7 +1,9 @@
-import unittest
 import os
+import unittest
+
 from lxml import etree
 from xmlunittest import XmlTestCase
+
 
 class TestOwlToUmlXmi(XmlTestCase):
     @classmethod
@@ -17,7 +19,7 @@ class TestOwlToUmlXmi(XmlTestCase):
             cls.xslt_transformer = etree.XSLT(xslt_doc)
 
     def run_transformation(self, owl_xml_str: str) -> etree._XSLTResultTree:
-        owl_dom = etree.fromstring(owl_xml_str.encode('utf-8'))
+        owl_dom = etree.fromstring(owl_xml_str.encode("utf-8"))
         return self.xslt_transformer(owl_dom)
 
     def test_ontology_metadata_and_primitives(self):
@@ -33,17 +35,20 @@ class TestOwlToUmlXmi(XmlTestCase):
                 <dcterms:title xml:lang="en-GB">Test Ontology GB</dcterms:title>
             </owl:Ontology>
         </rdf:RDF>"""
-        
+
         result_tree = self.run_transformation(owl_xml)
-        
+
         # Verify root namespaces and model name (en-GB preference)
         root = self.assertXmlDocument(bytes(result_tree))
-        self.assertXpathsExist(root, [
-            "/xmi:XMI[@xmi:version='2.1']",
-            "/xmi:XMI/uml:Model[@name='Test Ontology GB']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:PrimitiveType'][@xmi:id='prim_String'][@name='String']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:PrimitiveType'][@xmi:id='prim_Decimal'][@name='Decimal']"
-        ])
+        self.assertXpathsExist(
+            root,
+            [
+                "/xmi:XMI[@xmi:version='2.1']",
+                "/xmi:XMI/uml:Model[@name='Test Ontology GB']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:PrimitiveType'][@xmi:id='prim_String'][@name='String']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:PrimitiveType'][@xmi:id='prim_Decimal'][@name='Decimal']",
+            ],
+        )
 
     def test_class_creation_and_inheritance(self):
         owl_xml = """<rdf:RDF xmlns="https://haddenindustries.com/ontology/test/"
@@ -71,19 +76,25 @@ class TestOwlToUmlXmi(XmlTestCase):
 
         result_tree = self.run_transformation(owl_xml)
         root = self.assertXmlDocument(bytes(result_tree))
-        
+
         # Verify BaseClass properties (name from prefLabel, uuid, definition comment)
-        self.assertXpathsExist(root, [
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='https___haddenindustries_com_ontology_test_BaseClass'][@name='Base Class GB'][@xmi:uuid='11111111-1111-1111-1111-111111111111']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedComment/body[contains(., 'Base definition fallback')][contains(., '[UUID: 11111111-1111-1111-1111-111111111111]')]"
-        ])
-        
+        self.assertXpathsExist(
+            root,
+            [
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='https___haddenindustries_com_ontology_test_BaseClass'][@name='Base Class GB'][@xmi:uuid='11111111-1111-1111-1111-111111111111']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedComment/body[contains(., 'Base definition fallback')][contains(., '[UUID: 11111111-1111-1111-1111-111111111111]')]",
+            ],
+        )
+
         # Verify SubClass properties (name fallback to first match 'Sub Class FR', uuid, definition comment from 'en-GB')
-        self.assertXpathsExist(root, [
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='https___haddenindustries_com_ontology_test_SubClass'][@name='Sub Class FR'][@xmi:uuid='22222222-2222-2222-2222-222222222222']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/ownedComment/body[contains(., 'Sub Definition GB')][contains(., '[UUID: 22222222-2222-2222-2222-222222222222]')]",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/generalization[@general='https___haddenindustries_com_ontology_test_BaseClass']"
-        ])
+        self.assertXpathsExist(
+            root,
+            [
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='https___haddenindustries_com_ontology_test_SubClass'][@name='Sub Class FR'][@xmi:uuid='22222222-2222-2222-2222-222222222222']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/ownedComment/body[contains(., 'Sub Definition GB')][contains(., '[UUID: 22222222-2222-2222-2222-222222222222]')]",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/generalization[@general='https___haddenindustries_com_ontology_test_BaseClass']",
+            ],
+        )
 
     def test_datatype_property_and_multiplicity(self):
         owl_xml = """<rdf:RDF xmlns="https://haddenindustries.com/ontology/test/"
@@ -114,14 +125,17 @@ class TestOwlToUmlXmi(XmlTestCase):
 
         result_tree = self.run_transformation(owl_xml)
         root = self.assertXmlDocument(bytes(result_tree))
-        
+
         # Verify the ownedAttribute inside BaseClass has the correct type (prim_Decimal) and name, and comments, and cardinalities
-        self.assertXpathsExist(root, [
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass_numericalVal'][@name='Numerical Value'][@type='prim_Decimal']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass_numericalVal']/ownedComment/body[.='Some property comment']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass_numericalVal']/lowerValue[@value='1']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass_numericalVal']/upperValue[@value='5']"
-        ])
+        self.assertXpathsExist(
+            root,
+            [
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass_numericalVal'][@name='Numerical Value'][@type='prim_Decimal']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass_numericalVal']/ownedComment/body[.='Some property comment']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass_numericalVal']/lowerValue[@value='1']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass_numericalVal']/upperValue[@value='5']",
+            ],
+        )
 
     def test_object_property_and_associations(self):
         owl_xml = """<rdf:RDF xmlns="https://haddenindustries.com/ontology/test/"
@@ -145,19 +159,25 @@ class TestOwlToUmlXmi(XmlTestCase):
 
         result_tree = self.run_transformation(owl_xml)
         root = self.assertXmlDocument(bytes(result_tree))
-        
+
         # Verify the ownedAttribute representing association end exists in SubClass
-        self.assertXpathsExist(root, [
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_SubClass_hasRelation'][@name='has relation'][@type='https___haddenindustries_com_ontology_test_BaseClass'][@association='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation'][@xmi:uuid='33333333-3333-3333-3333-333333333333']"
-        ])
-        
-            # Verify the packaging element of type Association is created at root model level with memberEnds and ownedEnd
-        self.assertXpathsExist(root, [
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Association'][@xmi:id='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation'][@name='has relation'][@xmi:uuid='33333333-3333-3333-3333-333333333333']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation']/memberEnd[@xmi:idref='https___haddenindustries_com_ontology_test_SubClass_hasRelation']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation']/memberEnd[@xmi:idref='src_https___haddenindustries_com_ontology_test_SubClass_hasRelation']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation']/ownedEnd[@xmi:id='src_https___haddenindustries_com_ontology_test_SubClass_hasRelation'][@type='https___haddenindustries_com_ontology_test_SubClass'][@association='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation']"
-        ])
+        self.assertXpathsExist(
+            root,
+            [
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_SubClass']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_SubClass_hasRelation'][@name='has relation'][@type='https___haddenindustries_com_ontology_test_BaseClass'][@association='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation'][@xmi:uuid='33333333-3333-3333-3333-333333333333']"
+            ],
+        )
+
+        # Verify the packaging element of type Association is created at root model level with memberEnds and ownedEnd
+        self.assertXpathsExist(
+            root,
+            [
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Association'][@xmi:id='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation'][@name='has relation'][@xmi:uuid='33333333-3333-3333-3333-333333333333']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation']/memberEnd[@xmi:idref='https___haddenindustries_com_ontology_test_SubClass_hasRelation']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation']/memberEnd[@xmi:idref='src_https___haddenindustries_com_ontology_test_SubClass_hasRelation']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation']/ownedEnd[@xmi:id='src_https___haddenindustries_com_ontology_test_SubClass_hasRelation'][@type='https___haddenindustries_com_ontology_test_SubClass'][@association='assoc_https___haddenindustries_com_ontology_test_SubClass_hasRelation']",
+            ],
+        )
 
     def test_namespace_prefixes(self):
         owl_xml = """<rdf:RDF xmlns="https://haddenindustries.com/ontology/universal/core/"
@@ -184,20 +204,23 @@ class TestOwlToUmlXmi(XmlTestCase):
 
         result_tree = self.run_transformation(owl_xml)
         root = self.assertXmlDocument(bytes(result_tree))
-        
+
         # Verify IDs and references use prefixes:
         # - uc:Activity
         # - urd:ActivityClass
         # - uc:Activity_hasActivityClass
-        self.assertXpathsExist(root, [
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='uc:Activity'][@name='Activity']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='urd:ActivityClass'][@name='Activity Class']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='uc:Activity']/ownedAttribute[@xmi:id='uc:Activity_hasActivityClass'][@name='has activity class'][@type='urd:ActivityClass'][@association='assoc_uc:Activity_hasActivityClass']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Association'][@xmi:id='assoc_uc:Activity_hasActivityClass'][@name='has activity class']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_uc:Activity_hasActivityClass']/memberEnd[@xmi:idref='uc:Activity_hasActivityClass']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_uc:Activity_hasActivityClass']/memberEnd[@xmi:idref='src_uc:Activity_hasActivityClass']",
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_uc:Activity_hasActivityClass']/ownedEnd[@xmi:id='src_uc:Activity_hasActivityClass'][@type='uc:Activity'][@association='assoc_uc:Activity_hasActivityClass']"
-        ])
+        self.assertXpathsExist(
+            root,
+            [
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='uc:Activity'][@name='Activity']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Class'][@xmi:id='urd:ActivityClass'][@name='Activity Class']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='uc:Activity']/ownedAttribute[@xmi:id='uc:Activity_hasActivityClass'][@name='has activity class'][@type='urd:ActivityClass'][@association='assoc_uc:Activity_hasActivityClass']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:type='uml:Association'][@xmi:id='assoc_uc:Activity_hasActivityClass'][@name='has activity class']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_uc:Activity_hasActivityClass']/memberEnd[@xmi:idref='uc:Activity_hasActivityClass']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_uc:Activity_hasActivityClass']/memberEnd[@xmi:idref='src_uc:Activity_hasActivityClass']",
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='assoc_uc:Activity_hasActivityClass']/ownedEnd[@xmi:id='src_uc:Activity_hasActivityClass'][@type='uc:Activity'][@association='assoc_uc:Activity_hasActivityClass']",
+            ],
+        )
 
     def test_logical_model_additions(self):
         owl_xml = """<rdf:RDF xmlns="https://haddenindustries.com/ontology/test/"
@@ -229,26 +252,38 @@ class TestOwlToUmlXmi(XmlTestCase):
 
         result_tree = self.run_transformation(owl_xml)
         root = self.assertXmlDocument(bytes(result_tree))
-        
+
         # Verify BaseClass has:
         # 1. Body comment containing definition and Scope Notes separated by newlines
-        self.assertXpathsExist(root, [
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedComment/body"
-        ])
-        
+        self.assertXpathsExist(
+            root,
+            [
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedComment/body"
+            ],
+        )
+
         # Check description text matches new ISO formatting
         namespaces = {
-            'xmi': 'http://schema.omg.org/spec/XMI/2.1',
-            'uml': 'http://schema.omg.org/spec/UML/2.1'
+            "xmi": "http://schema.omg.org/spec/XMI/2.1",
+            "uml": "http://schema.omg.org/spec/UML/2.1",
         }
-        comment_body = root.xpath("/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedComment/body/text()", namespaces=namespaces)[0]
-        self.assertEqual(comment_body.strip(), "Base definition\nNote 1 to entry: Scope Note One\n[UUID: 11111111-1111-1111-1111-111111111111]")
-        
+        comment_body = root.xpath(
+            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_BaseClass']/ownedComment/body/text()",
+            namespaces=namespaces,
+        )[0]
+        self.assertEqual(
+            comment_body.strip(),
+            "Base definition\nNote 1 to entry: Scope Note One\n[UUID: 11111111-1111-1111-1111-111111111111]",
+        )
+
         # Verify ClassWithExplicitID has:
         # 1. Explicit item identifier attribute as regular property (without isID="true")
-        self.assertXpathsExist(root, [
-            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_ClassWithExplicitID']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_ClassWithExplicitID_item_identifier'][not(@isID)]"
-        ])
+        self.assertXpathsExist(
+            root,
+            [
+                "/xmi:XMI/uml:Model/packagedElement[@xmi:id='https___haddenindustries_com_ontology_test_ClassWithExplicitID']/ownedAttribute[@xmi:id='https___haddenindustries_com_ontology_test_ClassWithExplicitID_item_identifier'][not(@isID)]"
+            ],
+        )
 
     def test_iso_comment_formatting(self):
         owl_xml = """<rdf:RDF xmlns="https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/term/"
@@ -303,13 +338,16 @@ class TestOwlToUmlXmi(XmlTestCase):
 
         result_tree = self.run_transformation(owl_xml)
         root = self.assertXmlDocument(bytes(result_tree))
-        
+
         namespaces = {
-            'xmi': 'http://schema.omg.org/spec/XMI/2.1',
-            'uml': 'http://schema.omg.org/spec/UML/2.1'
+            "xmi": "http://schema.omg.org/spec/XMI/2.1",
+            "uml": "http://schema.omg.org/spec/UML/2.1",
         }
-        comment_body = root.xpath("/xmi:XMI/uml:Model/packagedElement[@xmi:id='md:term_Registration']/ownedComment/body/text()", namespaces=namespaces)[0]
-        
+        comment_body = root.xpath(
+            "/xmi:XMI/uml:Model/packagedElement[@xmi:id='md:term_Registration']/ownedComment/body/text()",
+            namespaces=namespaces,
+        )[0]
+
         expected_definition = "representation of a concept by an expression that describes it and differentiates it from related concepts"
         expected_notes = (
             "Note 1 to entry: A detailed description of registration as it applies in ISO/IEC 11179 is found in ISO/IEC 11179-6\n"
@@ -318,7 +356,7 @@ class TestOwlToUmlXmi(XmlTestCase):
         )
         expected_example = "EXAMPLE 1:\nExample description here"
         expected_source = "[SOURCE:urn:iso:std:iso-iec:11179:-1:ed-4:v1:term:3.3.33]"
-        
+
         expected_combined = f"{expected_definition}\n{expected_notes}\n{expected_example}\n{expected_source}\n[UUID: 55555555-5555-5555-5555-555555555555]"
         self.assertEqual(comment_body.strip(), expected_combined)
 
@@ -346,27 +384,37 @@ class TestOwlToUmlXmi(XmlTestCase):
 
         result_tree = self.run_transformation(owl_xml)
         root = self.assertXmlDocument(bytes(result_tree))
-        
+
         namespaces = {
-            'xmi': 'http://schema.omg.org/spec/XMI/2.1',
-            'uml': 'http://schema.omg.org/spec/UML/2.1'
+            "xmi": "http://schema.omg.org/spec/XMI/2.1",
+            "uml": "http://schema.omg.org/spec/UML/2.1",
         }
-        
+
         # Verify Model UUID mapping
-        self.assertXpathsExist(root, [
-            "/xmi:XMI/uml:Model[@xmi:id='model'][@name='Test Ontology Model'][@xmi:uuid='99999999-9999-9999-9999-999999999999']"
-        ])
-        
+        self.assertXpathsExist(
+            root,
+            [
+                "/xmi:XMI/uml:Model[@xmi:id='model'][@name='Test Ontology Model'][@xmi:uuid='99999999-9999-9999-9999-999999999999']"
+            ],
+        )
+
         # Verify Model Comment Content
-        comment_body = root.xpath("/xmi:XMI/uml:Model[@xmi:id='model']/ownedComment[@xmi:id='comment_model']/body/text()", namespaces=namespaces)[0]
+        comment_body = root.xpath(
+            "/xmi:XMI/uml:Model[@xmi:id='model']/ownedComment[@xmi:id='comment_model']/body/text()",
+            namespaces=namespaces,
+        )[0]
         self.assertIn("Test ontology description", comment_body)
         self.assertIn("Version: 2026-07-07", comment_body)
-        self.assertIn("Version IRI: https://haddenindustries.com/ontology/test/20260707", comment_body)
+        self.assertIn(
+            "Version IRI: https://haddenindustries.com/ontology/test/20260707",
+            comment_body,
+        )
         self.assertIn("Created: 2016-09-30", comment_body)
         self.assertIn("Modified: 2026-07-07", comment_body)
         self.assertIn("Publisher: https://haddenindustries.com", comment_body)
         self.assertIn("Rights: https://haddenindustries.com/legal.html", comment_body)
         self.assertIn("License: https://opensource.org/licenses/MIT", comment_body)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

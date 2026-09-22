@@ -111,17 +111,13 @@ REPOSITORY_ROOTED_NODE_ENTRY_POINT_ARGUMENT_PREFIX = [
 GITHUB_MCP_LAUNCHER_COMMAND = "node"
 
 UNIVERSAL_ONTOLOGY_MCP_HOST_CONFIGURATION_NAME = "universal_ontology"
-LEGACY_UNIVERSAL_ONTOLOGY_MCP_HOST_CONFIGURATION_NAME = (
-    "universal_ontology_local"
-)
+LEGACY_UNIVERSAL_ONTOLOGY_MCP_HOST_CONFIGURATION_NAME = "universal_ontology_local"
 UNIVERSAL_ONTOLOGY_MCP_LAUNCH_COMMAND = "node"
 UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH = (
     Path(".agent-tools") / "bin" / "universal-ontology-mcp-server.mjs"
 )
 UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND = "file-system"
-UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY = (
-    Path("dist") / "query" / "v1"
-)
+UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY = Path("dist") / "query" / "v1"
 UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_CHANNEL_NAME = "development"
 UNIVERSAL_ONTOLOGY_MCP_STARTUP_TIMEOUT_SECONDS = 15
 UNIVERSAL_ONTOLOGY_MCP_TOOL_TIMEOUT_SECONDS = 30
@@ -153,17 +149,12 @@ GITHUB_MCP_INSTALLATION_RECORD_PATH = (
     Path(".agent-tools") / "github-mcp-server" / "installation.json"
 )
 GENERATED_MCP_INSTALLATION_ROOT = Path(".agent-tools")
-REPOSITORY_SETUP_LOCK_PATH = (
-    GENERATED_MCP_INSTALLATION_ROOT / ".repository-setup.lock"
-)
+REPOSITORY_SETUP_LOCK_PATH = GENERATED_MCP_INSTALLATION_ROOT / ".repository-setup.lock"
 UNIVERSAL_ONTOLOGY_MCP_INSTALLATION_RECORD_PATH = (
-    Path(".agent-tools")
-    / "universal-ontology-mcp-server"
-    / "installation.json"
+    Path(".agent-tools") / "universal-ontology-mcp-server" / "installation.json"
 )
 UNIVERSAL_ONTOLOGY_MCP_APPLICATION_BUNDLE_RELATIVE_PATH = Path(
-    "packages/universal-ontology-mcp-server/dist/"
-    "universal-ontology-mcp-server.mjs"
+    "packages/universal-ontology-mcp-server/dist/universal-ontology-mcp-server.mjs"
 )
 UNIVERSAL_ONTOLOGY_MCP_APPLICATION_BUNDLE_METADATA_RELATIVE_PATH = Path(
     "dist/release-work/universal-ontology-mcp-application-bundle.json"
@@ -265,6 +256,7 @@ class ActivatedFileReplacement:
     rollback_backup_path: Path | None
     published_destination_state: RegularFileContentAndPermissionState
 
+
 # Repository-local MCP configuration, one file per agent host. All three hosts
 # read a `command`/`args` stdio entry; only the file format and the key path
 # differ.
@@ -359,8 +351,7 @@ def ensure_generated_installation_root_is_safe(repo: Path) -> None:
                     )
 
     ignore_probe = (
-        GENERATED_MCP_INSTALLATION_ROOT
-        / ".set_up_mcp_servers_ignore_probe"
+        GENERATED_MCP_INSTALLATION_ROOT / ".set_up_mcp_servers_ignore_probe"
     ).as_posix()
 
     if not is_ignored(repo, ignore_probe):
@@ -379,10 +370,7 @@ def _path_is_symbolic_link_or_junction(path: Path) -> bool:
         return False
 
     try:
-        return (
-            path.lstat().st_reparse_tag
-            == WINDOWS_DIRECTORY_JUNCTION_REPARSE_TAG
-        )
+        return path.lstat().st_reparse_tag == WINDOWS_DIRECTORY_JUNCTION_REPARSE_TAG
     except FileNotFoundError:
         return False
 
@@ -503,9 +491,7 @@ def github_mcp_release_archive_asset_name(system: str, machine: str) -> str:
     )
 
     if architecture is None:
-        known = ", ".join(
-            sorted(GITHUB_MCP_RELEASE_ARCHITECTURE_BY_MACHINE_NAME)
-        )
+        known = ", ".join(sorted(GITHUB_MCP_RELEASE_ARCHITECTURE_BY_MACHINE_NAME))
         raise SetupError(
             "Unrecognised machine architecture for the GitHub MCP server: "
             f"{machine!r}. Recognised values: {known}."
@@ -518,9 +504,7 @@ def github_mcp_release_archive_asset_name(system: str, machine: str) -> str:
     if extension is None:
         published = ", ".join(
             f"{host}/{arch}"
-            for host, arch in sorted(
-                GITHUB_MCP_RELEASE_ARCHIVE_EXTENSION_BY_PLATFORM
-            )
+            for host, arch in sorted(GITHUB_MCP_RELEASE_ARCHIVE_EXTENSION_BY_PLATFORM)
         )
         raise SetupError(
             "The GitHub MCP server publishes no release archive for "
@@ -561,10 +545,7 @@ def parse_sha256_checksum_manifest(text: str) -> dict[str, str]:
         normalized_digest = digest.lower()
         preceding_digest = checksums.get(asset_name)
 
-        if (
-            preceding_digest is not None
-            and preceding_digest != normalized_digest
-        ):
+        if preceding_digest is not None and preceding_digest != normalized_digest:
             raise SetupError(
                 "Checksum manifest reports conflicting SHA-256 digests for "
                 f"{asset_name}."
@@ -590,8 +571,7 @@ def select_release_archive_executable_member_name(
     candidate_member_names = [
         name
         for name in archive_member_names
-        if name == executable_file_name
-        or name.endswith(f"/{executable_file_name}")
+        if name == executable_file_name or name.endswith(f"/{executable_file_name}")
     ]
 
     if len(candidate_member_names) == 1:
@@ -689,8 +669,7 @@ def _read_tar_gzip_release_archive_executable(
 
         if source is None:
             raise SetupError(
-                f"Could not read regular file {member_name} from "
-                f"{archive_path.name}."
+                f"Could not read regular file {member_name} from {archive_path.name}."
             )
 
         with source:
@@ -764,8 +743,7 @@ def _parse_json_without_duplicate_object_members(
         # even though RFC 8259 JSON does not. MCP hosts commonly use strict
         # parsers, so retaining one would publish a document they cannot read.
         raise SetupError(
-            f"{description} contains the non-standard JSON constant "
-            f"{constant_name!r}."
+            f"{description} contains the non-standard JSON constant {constant_name!r}."
         )
 
     return json.loads(
@@ -851,10 +829,7 @@ def render_toml_literal(value: object) -> str:
 
 def codex_managed_mcp_server_marker(name: str, edge: str) -> str:
     """The marker line this script writes around the block it owns."""
-    return (
-        f"# {edge} mcp_servers.{name} - managed by "
-        f"{MCP_HOST_CONFIGURATION_MANAGER}"
-    )
+    return f"# {edge} mcp_servers.{name} - managed by {MCP_HOST_CONFIGURATION_MANAGER}"
 
 
 def codex_managed_mcp_server_marker_pattern(
@@ -904,7 +879,7 @@ def merge_codex_mcp_host_configuration(
     end = codex_managed_mcp_server_marker_pattern(name, "END").search(text)
 
     if begin and end and end.end() > begin.start():
-        unmanaged_text = f"{text[:begin.start()]}{text[end.end():]}"
+        unmanaged_text = f"{text[: begin.start()]}{text[end.end() :]}"
 
         if re.search(
             rf"^\s*\[mcp_servers\.{re.escape(name)}\.",
@@ -917,7 +892,7 @@ def merge_codex_mcp_host_configuration(
                 "an independently named server or remove it before rerunning."
             )
 
-        merged = f"{text[:begin.start()]}{block}{text[end.end():]}"
+        merged = f"{text[: begin.start()]}{block}{text[end.end() :]}"
     else:
         # TOML forbids declaring `[mcp_servers.<name>]` twice, so appending a
         # managed block beside a hand-written one would invalidate the whole
@@ -993,9 +968,7 @@ def remove_codex_mcp_server_table(existing: str, name: str) -> str:
 
         prefix = existing[: begin.start()].rstrip()
         suffix = existing[end.end() :].lstrip("\r\n")
-        existing = (
-            f"{prefix}\n\n{suffix}" if prefix and suffix else f"{prefix}{suffix}"
-        )
+        existing = f"{prefix}\n\n{suffix}" if prefix and suffix else f"{prefix}{suffix}"
 
     # Codex writes these known legacy names as TOML bare keys. Enumerating every
     # section, rather than deleting one contiguous span, also removes a
@@ -1094,7 +1067,10 @@ def _require_legacy_codex_mcp_server_is_absent_after_source_migration(
 
     configured_servers = parsed_configuration.get("mcp_servers")
 
-    if isinstance(configured_servers, dict) and legacy_server_name in configured_servers:
+    if (
+        isinstance(configured_servers, dict)
+        and legacy_server_name in configured_servers
+    ):
         raise SetupError(
             "The Codex configuration semantically declares legacy MCP server "
             f"{legacy_server_name!r} using TOML syntax this migration cannot "
@@ -1221,13 +1197,9 @@ def universal_ontology_mcp_host_configuration_entry(
     if codex:
         entry.update(
             {
-                "startup_timeout_sec": (
-                    UNIVERSAL_ONTOLOGY_MCP_STARTUP_TIMEOUT_SECONDS
-                ),
+                "startup_timeout_sec": (UNIVERSAL_ONTOLOGY_MCP_STARTUP_TIMEOUT_SECONDS),
                 "tool_timeout_sec": UNIVERSAL_ONTOLOGY_MCP_TOOL_TIMEOUT_SECONDS,
-                "enabled_tools": list(
-                    UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES
-                ),
+                "enabled_tools": list(UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES),
                 "default_tools_approval_mode": "writes",
             }
         )
@@ -1297,9 +1269,7 @@ def _render_mcp_host_configuration_documents(
                 query_artifact_channel_name=query_artifact_channel_name,
                 query_artifact_base_url=query_artifact_base_url,
             ),
-            remove_names=(
-                LEGACY_UNIVERSAL_ONTOLOGY_MCP_HOST_CONFIGURATION_NAME,
-            ),
+            remove_names=(LEGACY_UNIVERSAL_ONTOLOGY_MCP_HOST_CONFIGURATION_NAME,),
         )
         rendered.append(
             RenderedRepositoryConfigurationDocument(
@@ -1383,10 +1353,7 @@ def _repository_transaction_file_prefix(path: Path) -> str:
             f"MCP setup cannot derive a transaction file name for: {path}."
         )
 
-    return (
-        f".{destination_file_name}."
-        f"{REPOSITORY_TRANSACTION_FILE_NAME_COMPONENT}."
-    )
+    return f".{destination_file_name}.{REPOSITORY_TRANSACTION_FILE_NAME_COMPONENT}."
 
 
 def _require_repository_transaction_artifact_is_git_ignored(
@@ -1470,13 +1437,16 @@ def _create_activation_backup_copy(
     try:
         source_permission_bits = stat.S_IMODE(path.stat().st_mode)
 
-        with path.open("rb") as source, tempfile.NamedTemporaryFile(
-            mode="wb",
-            prefix=_repository_transaction_file_prefix(path),
-            suffix=REPOSITORY_ACTIVATION_BACKUP_FILE_SUFFIX,
-            dir=path.parent,
-            delete=False,
-        ) as backup:
+        with (
+            path.open("rb") as source,
+            tempfile.NamedTemporaryFile(
+                mode="wb",
+                prefix=_repository_transaction_file_prefix(path),
+                suffix=REPOSITORY_ACTIVATION_BACKUP_FILE_SUFFIX,
+                dir=path.parent,
+                delete=False,
+            ) as backup,
+        ):
             backup_path = Path(backup.name)
 
             if require_git_ignore_coverage:
@@ -1682,13 +1652,16 @@ def _stage_file_for_atomic_replacement(source_path: Path, destination: Path) -> 
     temporary_path: Path | None = None
 
     try:
-        with source_path.open("rb") as source, tempfile.NamedTemporaryFile(
-            mode="wb",
-            prefix=_repository_transaction_file_prefix(destination),
-            suffix=REPOSITORY_STAGED_FILE_SUFFIX,
-            dir=destination.parent,
-            delete=False,
-        ) as target:
+        with (
+            source_path.open("rb") as source,
+            tempfile.NamedTemporaryFile(
+                mode="wb",
+                prefix=_repository_transaction_file_prefix(destination),
+                suffix=REPOSITORY_STAGED_FILE_SUFFIX,
+                dir=destination.parent,
+                delete=False,
+            ) as target,
+        ):
             temporary_path = Path(target.name)
             shutil.copyfileobj(source, target)
             target.flush()
@@ -1724,9 +1697,9 @@ def _files_have_identical_execution_permission_bits(
     right: Path,
 ) -> bool:
     """Compare POSIX execution bits; other staged-file metadata is incidental."""
-    return (
-        left.stat().st_mode & POSIX_FILE_EXECUTION_PERMISSION_MASK
-    ) == (right.stat().st_mode & POSIX_FILE_EXECUTION_PERMISSION_MASK)
+    return (left.stat().st_mode & POSIX_FILE_EXECUTION_PERMISSION_MASK) == (
+        right.stat().st_mode & POSIX_FILE_EXECUTION_PERMISSION_MASK
+    )
 
 
 def _read_optional_file_bytes(path: Path) -> bytes | None:
@@ -1780,9 +1753,7 @@ def _activate_staged_file_replacements(
 ) -> list[Path]:
     """Replace live paths continuously as one rollback-capable transaction."""
     replacement_list = list(replacements)
-    guarded_destination_bytes_by_path = dict(
-        expected_destination_bytes_by_path or {}
-    )
+    guarded_destination_bytes_by_path = dict(expected_destination_bytes_by_path or {})
     sensitive_host_configuration_destination_path_set = set(
         sensitive_configuration_destination_paths
     )
@@ -1803,9 +1774,7 @@ def _activate_staged_file_replacements(
 
     try:
         for destination, temporary_path in replacement_list:
-            normalized_destination = os.path.normcase(
-                os.path.abspath(destination)
-            )
+            normalized_destination = os.path.normcase(os.path.abspath(destination))
 
             if normalized_destination in normalized_destination_path_keys:
                 raise SetupError(
@@ -1833,9 +1802,7 @@ def _activate_staged_file_replacements(
                 continue
 
             published_destination_state = (
-                _read_optional_regular_file_content_and_permission_state(
-                    temporary_path
-                )
+                _read_optional_regular_file_content_and_permission_state(temporary_path)
             )
 
             if published_destination_state is None:
@@ -1848,24 +1815,19 @@ def _activate_staged_file_replacements(
 
             if destination.exists():
                 require_git_ignore_coverage = (
-                    destination
-                    in sensitive_host_configuration_destination_path_set
+                    destination in sensitive_host_configuration_destination_path_set
                 )
                 backup_path = (
                     _create_empty_activation_displaced_file_path(
                         repository_root,
                         destination,
-                        require_git_ignore_coverage=(
-                            require_git_ignore_coverage
-                        ),
+                        require_git_ignore_coverage=(require_git_ignore_coverage),
                     )
                     if destination in guarded_destination_bytes_by_path
                     else _create_activation_backup_copy(
                         repository_root,
                         destination,
-                        require_git_ignore_coverage=(
-                            require_git_ignore_coverage
-                        ),
+                        require_git_ignore_coverage=(require_git_ignore_coverage),
                     )
                 )
             prepared_file_replacements.append(
@@ -1883,8 +1845,7 @@ def _activate_staged_file_replacements(
 
         if unmatched_guarded_destination_paths:
             listing = ", ".join(
-                str(path)
-                for path in sorted(unmatched_guarded_destination_paths)
+                str(path) for path in sorted(unmatched_guarded_destination_paths)
             )
             raise SetupError(
                 "MCP setup received observed bytes for a destination that is not "
@@ -1900,9 +1861,7 @@ def _activate_staged_file_replacements(
         if unmatched_sensitive_configuration_destination_paths:
             listing = ", ".join(
                 str(path)
-                for path in sorted(
-                    unmatched_sensitive_configuration_destination_paths
-                )
+                for path in sorted(unmatched_sensitive_configuration_destination_paths)
             )
             raise SetupError(
                 "MCP setup received a sensitive host-configuration destination "
@@ -1912,9 +1871,10 @@ def _activate_staged_file_replacements(
         # Backup copies can take appreciable time for native programs. Recheck
         # every guarded configuration after preparation and immediately before
         # the first live path is replaced.
-        for destination, expected_destination_bytes in (
-            guarded_destination_bytes_by_path.items()
-        ):
+        for (
+            destination,
+            expected_destination_bytes,
+        ) in guarded_destination_bytes_by_path.items():
             _require_expected_destination_bytes(
                 destination,
                 expected_destination_bytes,
@@ -1936,9 +1896,9 @@ def _activate_staged_file_replacements(
                 )
 
             if destination in guarded_destination_bytes_by_path:
-                expected_destination_bytes = (
-                    guarded_destination_bytes_by_path[destination]
-                )
+                expected_destination_bytes = guarded_destination_bytes_by_path[
+                    destination
+                ]
 
                 if expected_destination_bytes is None:
                     try:
@@ -1958,9 +1918,7 @@ def _activate_staged_file_replacements(
                         ActivatedFileReplacement(
                             destination_path=destination,
                             rollback_backup_path=None,
-                            published_destination_state=(
-                                published_destination_state
-                            ),
+                            published_destination_state=(published_destination_state),
                         )
                     )
                     temporary_path.unlink()
@@ -2019,9 +1977,9 @@ def _activate_staged_file_replacements(
         for activated_replacement in reversed(activated_file_replacements):
             destination = activated_replacement.destination_path
             backup_path = activated_replacement.rollback_backup_path
-            current_destination_state: (
-                RegularFileContentAndPermissionState | None
-            ) = None
+            current_destination_state: RegularFileContentAndPermissionState | None = (
+                None
+            )
 
             try:
                 current_destination_state = (
@@ -2052,9 +2010,7 @@ def _activate_staged_file_replacements(
                 if current_destination_state is None:
                     rollback_conflict_destination_paths.append(destination)
                 else:
-                    rollback_failures.append(
-                        f"{destination}: {rollback_error}"
-                    )
+                    rollback_failures.append(f"{destination}: {rollback_error}")
 
                 if backup_path is not None and backup_path.exists():
                     preserved_recovery_backup_paths.add(backup_path)
@@ -2066,24 +2022,15 @@ def _activate_staged_file_replacements(
         )
         recovery_detail = (
             " The preserved recovery backup"
-            + (
-                "s are: "
-                if len(preserved_recovery_backup_paths) != 1
-                else " is: "
-            )
-            + ", ".join(
-                str(path) for path in sorted(preserved_recovery_backup_paths)
-            )
+            + ("s are: " if len(preserved_recovery_backup_paths) != 1 else " is: ")
+            + ", ".join(str(path) for path in sorted(preserved_recovery_backup_paths))
             + "."
             if preserved_recovery_backup_paths
             else ""
         )
         rollback_conflict_detail = (
             " Rollback preserved concurrent destination changes at: "
-            + ", ".join(
-                str(path)
-                for path in rollback_conflict_destination_paths
-            )
+            + ", ".join(str(path) for path in rollback_conflict_destination_paths)
             + "."
             if rollback_conflict_destination_paths
             else ""
@@ -2233,8 +2180,7 @@ def activate_staged_mcp_server_installations_and_host_configurations(
             raise
 
         raise SetupError(
-            "Could not stage the MCP server installation transaction: "
-            f"{exc}."
+            f"Could not stage the MCP server installation transaction: {exc}."
         ) from exc
 
     return _activate_staged_file_replacements(
@@ -2277,8 +2223,7 @@ def check_mcp_host_configuration_documents(
         query_artifact_base_url=query_artifact_base_url,
     )
     checked_relatives = {
-        relative
-        for relative, _host in CHECKED_IN_JSON_MCP_HOST_CONFIGURATION_DOCUMENTS
+        relative for relative, _host in CHECKED_IN_JSON_MCP_HOST_CONFIGURATION_DOCUMENTS
     }
     checked_relatives.add(CODEX_MCP_HOST_CONFIGURATION_PATH)
     stale: list[str] = []
@@ -2324,9 +2269,7 @@ def fetch_url_bytes(
     request = urllib.request.Request(
         url,
         headers={
-            "User-Agent": (
-                f"{MCP_HOST_CONFIGURATION_MANAGER} (+repository bootstrap)"
-            )
+            "User-Agent": (f"{MCP_HOST_CONFIGURATION_MANAGER} (+repository bootstrap)")
         },
     )
 
@@ -2355,9 +2298,7 @@ def fetch_url_bytes(
             payload = bytearray()
 
             while len(payload) <= maximum_response_byte_count:
-                remaining_byte_count = (
-                    maximum_response_byte_count - len(payload) + 1
-                )
+                remaining_byte_count = maximum_response_byte_count - len(payload) + 1
                 chunk = response.read(
                     min(
                         HTTP_RESPONSE_READ_CHUNK_BYTE_COUNT,
@@ -2392,9 +2333,7 @@ def resolve_latest_github_mcp_release() -> tuple[str, dict[str, str]]:
     release_metadata_bytes = fetch_url_bytes(
         GITHUB_MCP_RELEASES_API,
         accept="application/vnd.github+json",
-        maximum_response_byte_count=(
-            GITHUB_RELEASE_METADATA_MAXIMUM_BYTE_COUNT
-        ),
+        maximum_response_byte_count=(GITHUB_RELEASE_METADATA_MAXIMUM_BYTE_COUNT),
     )
 
     try:
@@ -2442,8 +2381,7 @@ def resolve_latest_github_mcp_release() -> tuple[str, dict[str, str]]:
 
         if asset_name in release_assets:
             raise SetupError(
-                f"Release {release_tag} reports the duplicate asset name "
-                f"{asset_name}."
+                f"Release {release_tag} reports the duplicate asset name {asset_name}."
             )
 
         release_assets[asset_name] = asset_url
@@ -2473,9 +2411,7 @@ def download_verified_github_mcp_release_archive(
             f"{release_archive_asset_name}. It publishes: {available}."
         )
 
-    manifests = [
-        name for name in release_assets if name.endswith("checksums.txt")
-    ]
+    manifests = [name for name in release_assets if name.endswith("checksums.txt")]
 
     if len(manifests) != 1:
         raise SetupError(
@@ -2576,9 +2512,7 @@ def read_universal_ontology_mcp_package_identity(
     repo: Path,
 ) -> tuple[str, str]:
     """Read the canonical MCP package name and declared software version."""
-    package_manifest_path = (
-        repo / UNIVERSAL_ONTOLOGY_MCP_PACKAGE_MANIFEST_RELATIVE_PATH
-    )
+    package_manifest_path = repo / UNIVERSAL_ONTOLOGY_MCP_PACKAGE_MANIFEST_RELATIVE_PATH
     package_manifest = _read_json_object(
         package_manifest_path,
         "Universal Ontology MCP package manifest",
@@ -2683,9 +2617,7 @@ def build_universal_ontology_mcp_application_bundle(
     package_version = metadata.get("packageVersion")
 
     if metadata.get("bundleByteLength") != bundle_byte_length:
-        raise SetupError(
-            "Application-bundle byte length disagrees with its metadata."
-        )
+        raise SetupError("Application-bundle byte length disagrees with its metadata.")
 
     if metadata.get("bundleSha256") != bundle_sha256:
         raise SetupError("Application-bundle SHA-256 disagrees with its metadata.")
@@ -2737,9 +2669,7 @@ def stage_universal_ontology_mcp_server_installation(
     installed_application_bundle_file_name = (
         UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH.name
     )
-    staged_program_path = (
-        staging_directory / installed_application_bundle_file_name
-    )
+    staged_program_path = staging_directory / installed_application_bundle_file_name
     shutil.copy2(built_bundle.application_bundle_path, staged_program_path)
 
     # The canonical bundle is atomically replaceable so other verifiers never
@@ -2777,9 +2707,7 @@ def stage_universal_ontology_mcp_server_installation(
         ),
         "packageName": built_bundle.package_name,
         "packageVersion": built_bundle.package_version,
-        "applicationBundleByteLength": (
-            staged_application_bundle_byte_length
-        ),
+        "applicationBundleByteLength": (staged_application_bundle_byte_length),
         "applicationBundleSha256": staged_application_bundle_sha256,
         "installedApplicationBundleRelativePath": (
             UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH.as_posix()
@@ -2836,8 +2764,7 @@ def verify_staged_universal_ontology_mcp_server_installation(
             *universal_ontology_mcp_query_artifact_arguments(
                 query_artifact_source_kind=query_artifact_source_kind,
                 query_artifact_root_directory=(
-                    repo
-                    / UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY
+                    repo / UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY
                 ),
                 query_artifact_channel_name=query_artifact_channel_name,
                 query_artifact_base_url=query_artifact_base_url,
@@ -2881,29 +2808,21 @@ def verify_staged_universal_ontology_mcp_server_installation(
     try:
         verification = _parse_json_without_duplicate_object_members(
             result.stdout,
-            description=(
-                "Universal Ontology MCP application-bundle verifier output"
-            ),
+            description=("Universal Ontology MCP application-bundle verifier output"),
         )
     except json.JSONDecodeError as exc:
         raise SetupError(
-            "Universal Ontology MCP application-bundle verifier returned "
-            "invalid JSON."
+            "Universal Ontology MCP application-bundle verifier returned invalid JSON."
         ) from exc
 
-    _package_name, package_version = (
-        read_universal_ontology_mcp_package_identity(repo)
-    )
+    _package_name, package_version = read_universal_ontology_mcp_package_identity(repo)
     expected = {
         "ontologyQueryArtifactSourceKind": (
-            "file_system"
-            if query_artifact_source_kind == "file-system"
-            else "http"
+            "file_system" if query_artifact_source_kind == "file-system" else "http"
         ),
         "queryReadiness": {
             "matchedEntityIri": (
-                "https://haddenindustries.com/ontology/"
-                "universal/core/Person"
+                "https://haddenindustries.com/ontology/universal/core/Person"
             ),
             "outcome": "success",
         },
@@ -2938,7 +2857,7 @@ def read_installation_record(path: Path) -> dict[str, object]:
             path.read_text(encoding="utf-8"),
             description="MCP installation record",
         )
-    except (SetupError, UnicodeDecodeError, json.JSONDecodeError):
+    except SetupError, UnicodeDecodeError, json.JSONDecodeError:
         # A damaged record only costs one redundant download.
         return {}
 
@@ -2992,9 +2911,7 @@ def stage_github_mcp_server_installation(
             staged_executable_path,
         )
 
-    staged_executable_path.chmod(
-        staged_executable_path.stat().st_mode | 0o111
-    )
+    staged_executable_path.chmod(staged_executable_path.stat().st_mode | 0o111)
     installation_record = {
         "installationRecordFormatVersion": (
             GITHUB_MCP_INSTALLATION_RECORD_FORMAT_VERSION
@@ -3043,8 +2960,7 @@ def verify_staged_github_mcp_server_installation(
 
     reported_lines = (result.stdout or result.stderr).strip().splitlines()
     return (
-        " ".join(line.strip() for line in reported_lines[:2])
-        or "(reported no version)"
+        " ".join(line.strip() for line in reported_lines[:2]) or "(reported no version)"
     )
 
 
@@ -3074,19 +2990,15 @@ def set_up_repository_local_mcp_servers(
             query_artifact_base_url=query_artifact_base_url,
         )
 
-        with tempfile.TemporaryDirectory(
-            prefix="repository-setup-"
-        ) as scratch:
+        with tempfile.TemporaryDirectory(prefix="repository-setup-") as scratch:
             staging_directory = Path(scratch)
             github_installation = stage_github_mcp_server_installation(
                 repo,
                 staging_directory,
             )
-            ontology_installation = (
-                stage_universal_ontology_mcp_server_installation(
-                    repo,
-                    staging_directory,
-                )
+            ontology_installation = stage_universal_ontology_mcp_server_installation(
+                repo,
+                staging_directory,
             )
             if query_artifact_source_kind == "file-system":
                 generate_repository_local_ontology_query_artifacts(repo)
@@ -3158,15 +3070,9 @@ def parse_args(arguments: Sequence[str] | None = None) -> argparse.Namespace:
         ),
     )
     parsed_arguments = parser.parse_args(arguments)
-    if (
-        parsed_arguments.universal_ontology_query_artifact_source
-        == "file-system"
-        and (
-            parsed_arguments.universal_ontology_query_artifact_channel
-            is not None
-            or parsed_arguments.universal_ontology_query_artifact_base_url
-            is not None
-        )
+    if parsed_arguments.universal_ontology_query_artifact_source == "file-system" and (
+        parsed_arguments.universal_ontology_query_artifact_channel is not None
+        or parsed_arguments.universal_ontology_query_artifact_base_url is not None
     ):
         parser.error(
             "--universal-ontology-query-artifact-channel and "
@@ -3231,13 +3137,8 @@ def main(arguments: Sequence[str] | None = None) -> int:
                 "GitHub MCP Server first needs authorization."
             )
 
-        ontology_verification = (
-            setup_result.universal_ontology_mcp_verification
-        )
-        print(
-            "  Universal Ontology: "
-            + ", ".join(ontology_verification["toolNames"])
-        )
+        ontology_verification = setup_result.universal_ontology_mcp_verification
+        print("  Universal Ontology: " + ", ".join(ontology_verification["toolNames"]))
 
         for path in setup_result.activated_paths:
             print(f"  Activated: {path.relative_to(repo).as_posix()}")

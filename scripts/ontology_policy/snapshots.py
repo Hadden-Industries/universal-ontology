@@ -1,4 +1,5 @@
 """Exact module snapshots: bytes, identity and the parsed graph of one owned module."""
+
 from __future__ import annotations
 
 import hashlib
@@ -62,18 +63,27 @@ def lexical_literals():
         rdflib.NORMALIZE_LITERALS = previous
 
 
-def parse_module_bytes(module: OwnedModule, locator: str, raw: bytes, rdf_format: str | None = None) -> ModuleSource:
+def parse_module_bytes(
+    module: OwnedModule, locator: str, raw: bytes, rdf_format: str | None = None
+) -> ModuleSource:
     graph = Graph()
     try:
         with lexical_literals():
             graph.parse(data=raw, format=rdf_format or detect_format(locator, raw))
     except Exception as exc:  # rdflib raises a wide variety of parser exceptions
-        raise InputError(f"{locator}: cannot parse as RDF ({type(exc).__name__}: {exc})") from exc
+        raise InputError(
+            f"{locator}: cannot parse as RDF ({type(exc).__name__}: {exc})"
+        ) from exc
     return ModuleSource(module=module, locator=locator, raw=raw, graph=graph)
 
 
-def read_module_source(module: OwnedModule, path: Path | str, *, revision: str | None = None,
-                       repository: Path | None = None) -> ModuleSource:
+def read_module_source(
+    module: OwnedModule,
+    path: Path | str,
+    *,
+    revision: str | None = None,
+    repository: Path | None = None,
+) -> ModuleSource:
     """Read exact bytes from the working tree, the index (``revision=""``) or a commit.
 
     ``revision`` follows ``git show`` syntax: ``""`` reads the staged blob and a
@@ -87,7 +97,9 @@ def read_module_source(module: OwnedModule, path: Path | str, *, revision: str |
         return parse_module_bytes(module, relative, file_path.read_bytes())
     spec = f"{revision}:{relative}"
     try:
-        raw = subprocess.check_output(["git", "show", spec], cwd=repository, stderr=subprocess.PIPE)
+        raw = subprocess.check_output(
+            ["git", "show", spec], cwd=repository, stderr=subprocess.PIPE
+        )
     except subprocess.CalledProcessError as exc:
         detail = exc.stderr.decode("utf-8", errors="replace").strip()
         raise InputError(f"git object {spec} is unavailable: {detail}") from exc

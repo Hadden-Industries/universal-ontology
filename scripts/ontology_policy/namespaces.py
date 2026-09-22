@@ -1,4 +1,5 @@
 """Namespaces shared by the policy graph, the runner and the renderer."""
+
 from pathlib import Path
 
 from rdflib import Namespace

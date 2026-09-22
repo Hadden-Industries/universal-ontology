@@ -11,7 +11,9 @@
 
 ## Executive summary and evidence
 
-The editing policy is now substantially better as an engineering artefact than its earlier hand-authored predecessor: its requirements are represented in SHACL, its implementation and provenance are substantially more traceable, and its human-readable form can be generated rather than maintained independently. The redesign must preserve that improvement. It must **not** restore a hand-maintained Wiki document, create a second normative policy, weaken exact requirements in the name of readability, or allow the Wiki presentation to become a source of truth.
+The editing policy is now substantially better as an engineering artefact than its earlier hand-authored predecessor: its requirements are represented in SHACL, its implementation and provenance are substantially more traceable, and its human-readable form can be generated rather than maintained independently.
+The redesign must preserve that improvement.
+It must **not** restore a hand-maintained Wiki document, create a second normative policy, weaken exact requirements in the name of readability, or allow the Wiki presentation to become a source of truth.
 
 The problem to solve is therefore an information-design problem rather than a policy-design problem:
 
@@ -19,10 +21,14 @@ The problem to solve is therefore an information-design problem rather than a po
 
 The target experience has two routes on the same generated Editing Policy page:
 
-1. **Contributor guide** — task-oriented, plain-language, deliberately selective explanation of what a contributor normally needs to know. Every policy simplification is visibly labelled **Contributor summary — non-normative** and links to one or more preserved `EP-*` technical clauses.
-2. **Technical reference** — the complete policy reference. Every active `EP-*` clause, exact normative description, applicability condition, exception, executable-constraint item, human-review obligation, example and provenance item is preserved without semantic weakening.
+1. **Contributor guide** — task-oriented, plain-language, deliberately selective explanation of what a contributor normally needs to know.
+   Every policy simplification is visibly labelled **Contributor summary — non-normative** and links to one or more preserved `EP-*` technical clauses.
+2. **Technical reference** — the complete policy reference.
+   Every active `EP-*` clause, exact normative description, applicability condition, exception, executable-constraint item, human-review obligation, example and provenance item is preserved without semantic weakening.
 
-The supplied design artefacts establish a useful migration baseline. The September design verification material records **35 `EP-*` clauses, 77 executable-constraint bullets and 224 non-title source-text blocks**. Those figures are migration evidence, not eternal magic numbers: CI must compare the current active policy to its generated projection so that an authorised future addition or removal is handled deliberately rather than defeated by a permanently hard-coded count.
+The supplied design artefacts establish a useful migration baseline.
+The September design verification material records **35 `EP-*` clauses, 77 executable-constraint bullets and 224 non-title source-text blocks**.
+Those figures are migration evidence, not eternal magic numbers: CI must compare the current active policy to its generated projection so that an authorised future addition or removal is handled deliberately rather than defeated by a permanently hard-coded count.
 
 The supplied policy archive identifies the policy modules that need to remain authoritative:
 
@@ -38,7 +44,8 @@ The supplied policy archive identifies the policy modules that need to remain au
 - `policy/policy-test-fixture.ttl`
 - `policy/universal-ontology-pinning.ttl`
 
-Repository inspection also confirms that the live repository already documents the editing-policy shapes as the source of truth, keeps its generated human projection under `docs/policy/`, and has Python policy tooling under `scripts/ontology_policy/`. See:
+Repository inspection also confirms that the live repository already documents the editing-policy shapes as the source of truth, keeps its generated human projection under `docs/policy/`, and has Python policy tooling under `scripts/ontology_policy/`.
+See:
 
 - canonical root: https://github.com/Hadden-Industries/universal-ontology/blob/main/policy/editing-policy.ttl
 - policy documentation README: https://github.com/Hadden-Industries/universal-ontology/blob/main/docs/policy/README.md
@@ -46,18 +53,19 @@ Repository inspection also confirms that the live repository already documents t
 - existing namespace/module configuration: https://github.com/Hadden-Industries/universal-ontology/blob/main/scripts/ontology_policy/namespaces.py
 - existing implementation plan: https://github.com/Hadden-Industries/universal-ontology/blob/main/docs/plans/2026-09-18-editing-policy-redesign.md
 
-The redesign should therefore **extend the existing generator and paths rather than introduce a competing documentation stack**. `docs/editing-policy/` is introduced for authored documentation metadata, diagrams and fixtures; the published generated Markdown remains under the existing `docs/policy/` location.
+The redesign should therefore **extend the existing generator and paths rather than introduce a competing documentation stack**.
+`docs/editing-policy/` is introduced for authored documentation metadata, diagrams and fixtures; the published generated Markdown remains under the existing `docs/policy/` location.
 
 **Decision hierarchy**
 
 When implementation choices conflict, decisions shall be made in this order:
 
-| Priority | Authority | How it is used |
-|---|---|---|
-| First | Canonical Universal Ontology policy and first-principles usability | Preserve meaning, minimise unnecessary cognitive load, optimise for contributor tasks, eliminate duplicated authority, make errors detectable, and make provenance inspectable. |
-| Second | Primary standards/specifications | WCAG 2.2, GFM, SHACL, RDF 1.1, DCAT 2 and IANA Media Types determine accessibility, syntax and semantic correctness. |
-| Third | Host/platform and mature documentation guidance | GitHub Docs, Mermaid documentation, GOV.UK Design System, Diátaxis, MDN and Read the Docs guide presentation and operating practice where the primary specifications do not determine an answer. |
-| Fourth | Community/tooling convention | Used only where higher-authority material is silent; such choices must remain replaceable implementation details rather than policy semantics. |
+| Priority | Authority                                                          | How it is used                                                                                                                                                                                   |
+| -------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| First    | Canonical Universal Ontology policy and first-principles usability | Preserve meaning, minimise unnecessary cognitive load, optimise for contributor tasks, eliminate duplicated authority, make errors detectable, and make provenance inspectable.                  |
+| Second   | Primary standards/specifications                                   | WCAG 2.2, GFM, SHACL, RDF 1.1, DCAT 2 and IANA Media Types determine accessibility, syntax and semantic correctness.                                                                             |
+| Third    | Host/platform and mature documentation guidance                    | GitHub Docs, Mermaid documentation, GOV.UK Design System, Diátaxis, MDN and Read the Docs guide presentation and operating practice where the primary specifications do not determine an answer. |
+| Fourth   | Community/tooling convention                                       | Used only where higher-authority material is silent; such choices must remain replaceable implementation details rather than policy semantics.                                                   |
 
 The principal specifications and guidance are:
 
@@ -84,14 +92,24 @@ The principal specifications and guidance are:
 
 The design follows several first-principles rules before applying any visual treatment:
 
-- **One fact, one authority.** A contributor summary may explain a rule but may never become a second normative representation of it.
-- **Task before machinery.** A contributor should encounter “does this concept already exist?” before encountering SHACL target semantics.
-- **Recognition before recall.** Describe familiar contribution activities and concepts; do not require users to remember opaque predicates or internal validation architecture before they can act.
-- **Progressive disclosure for secondary information only.** Do not hide information that a reader needs to make a correct contribution. GOV.UK explicitly cautions against using disclosure merely to make a page shorter: https://design-system.service.gov.uk/components/details/
-- **Separate concerns that are logically independent.** In particular, normative strength, property presence, assessment mechanism and evaluation state must never be conflated.
-- **Accessibility is a property of the source design, not a final compliance pass.** WCAG 2.2 requirements influence diagrams, headings, labels, contrast and responsive presentation from the start: https://www.w3.org/TR/WCAG22/
-- **Documentation generation must be deterministic and testable.** The same policy inputs and documentation metadata must produce byte-identical publication artefacts.
-- **A generated page is a projection, not the policy.** Any mismatch between the projection and the canonical RDF/SHACL graphs is a build failure.
+- **One fact, one authority.**
+  A contributor summary may explain a rule but may never become a second normative representation of it.
+- **Task before machinery.**
+  A contributor should encounter “does this concept already exist?”
+  before encountering SHACL target semantics.
+- **Recognition before recall.**
+  Describe familiar contribution activities and concepts; do not require users to remember opaque predicates or internal validation architecture before they can act.
+- **Progressive disclosure for secondary information only.**
+  Do not hide information that a reader needs to make a correct contribution.
+  GOV.UK explicitly cautions against using disclosure merely to make a page shorter: https://design-system.service.gov.uk/components/details/
+- **Separate concerns that are logically independent.**
+  In particular, normative strength, property presence, assessment mechanism and evaluation state must never be conflated.
+- **Accessibility is a property of the source design, not a final compliance pass.**
+  WCAG 2.2 requirements influence diagrams, headings, labels, contrast and responsive presentation from the start: https://www.w3.org/TR/WCAG22/
+- **Documentation generation must be deterministic and testable.**
+  The same policy inputs and documentation metadata must produce byte-identical publication artefacts.
+- **A generated page is a projection, not the policy.**
+  Any mismatch between the projection and the canonical RDF/SHACL graphs is a build failure.
 
 ## Goals, scope and architecture
 
@@ -143,10 +161,13 @@ These are hard implementation invariants:
 - No `owl:imports`, implicit graph merge or build step may make reader guidance part of production validation merely because documentation is generated.
 - The renderer may **describe** a SHACL constraint but cannot alter it.
 - Technical rule ordering may be improved for reading by explicit documentation ordering, but ordering has no RDF-semantic significance unless the policy explicitly gives it one.
-- `sh:order`, `sh:name`, `sh:description`, `sh:group` and related presentation-oriented SHACL characteristics can be consumed by the documentation system without treating them as additional validation constraints. SHACL distinguishes validation semantics from such non-validating characteristics: https://www.w3.org/TR/shacl/
-- When the local editing policy is stricter than the general DCAT model, the local policy wins. DCAT 2 defines the vocabulary; it does not override a local application profile: https://www.w3.org/TR/vocab-dcat-2/
+- `sh:order`, `sh:name`, `sh:description`, `sh:group` and related presentation-oriented SHACL characteristics can be consumed by the documentation system without treating them as additional validation constraints.
+  SHACL distinguishes validation semantics from such non-validating characteristics: https://www.w3.org/TR/shacl/
+- When the local editing policy is stricter than the general DCAT model, the local policy wins.
+  DCAT 2 defines the vocabulary; it does not override a local application profile: https://www.w3.org/TR/vocab-dcat-2/
 - Where `dcat:mediaType` is locally constrained to a repository-pinned IANA set, the renderer describes that local rule and links to IANA as the external authority; generation does not fetch the contemporary registry and thereby change the build: https://www.iana.org/assignments/media-types/media-types.xhtml
-- Exact technical examples from the existing projection remain intact. New explanatory examples are separately labelled and cannot replace them.
+- Exact technical examples from the existing projection remain intact.
+  New explanatory examples are separately labelled and cannot replace them.
 
 **Repository layout**
 
@@ -247,7 +268,8 @@ universal-ontology/
         └── editing-policy-docs.yml
 ```
 
-Do **not** relocate the canonical policy merely to make the paths resemble the documentation paths. Repository inspection has established that `policy/` and `scripts/ontology_policy/` already exist and are meaningful.
+Do **not** relocate the canonical policy merely to make the paths resemble the documentation paths.
+Repository inspection has established that `policy/` and `scripts/ontology_policy/` already exist and are meaningful.
 
 **Migration baseline**
 
@@ -350,11 +372,15 @@ The page must begin with a short orientation rather than with build internals:
 
 > **Make the model clearer. Keep its structure trustworthy.**
 >
-> Use the **Contributor guide** to understand what information your change normally needs and why. Use the **Technical reference** for exact requirements, exceptions, validation behaviour and provenance.
+> Use the **Contributor guide** to understand what information your change normally needs and why.
+> Use the **Technical reference** for exact requirements, exceptions, validation behaviour and provenance.
 >
-> The Contributor guide contains non-normative summaries. The Technical reference is the complete human-readable projection of the policy.
+> The Contributor guide contains non-normative summaries.
+> The Technical reference is the complete human-readable projection of the policy.
 
-Do not call the first route “for non-technical readers”. Domain expertise and SHACL expertise are independent dimensions. “Contributor guide” and “Technical reference” identify tasks rather than classifying people.
+Do not call the first route “for non-technical readers”.
+Domain expertise and SHACL expertise are independent dimensions.
+“Contributor guide” and “Technical reference” identify tasks rather than classifying people.
 
 This task/reference separation follows the underlying distinction made by Diátaxis between goal-oriented guidance and information-oriented reference: https://diataxis.fr/
 
@@ -366,12 +392,14 @@ Its first conceptual step is:
 
 > **Start with the meaning.**
 >
-> Before creating a new concept, search for the meaning you intend to represent, including likely synonyms and alternative spellings. Reuse an existing concept where it already represents that meaning; otherwise determine an appropriate broader concept and record the judgement needed by the contribution process.
+> Before creating a new concept, search for the meaning you intend to represent, including likely synonyms and alternative spellings.
+> Reuse an existing concept where it already represents that meaning; otherwise determine an appropriate broader concept and record the judgement needed by the contribution process.
 
 Any exact requirement behind this wording must immediately link to the relevant technical rule(s).
 
 Every summary unit must render in this form:
 
+<!-- prettier-ignore -->
 ```markdown
 **Contributor summary — non-normative.**  
 Classes and named individuals need a definition; properties may omit one.
@@ -381,6 +409,7 @@ Classes and named individuals need a definition; properties may omit one.
 
 Where a summary synthesises several clauses:
 
+<!-- prettier-ignore -->
 ```markdown
 **Contributor summary — non-normative.**  
 An ordinary entity normally needs an identifier, creator information and a creation timestamp. Different rules govern modifications and specialist dataset/distribution resources.
@@ -391,9 +420,11 @@ Technical requirements:
 [EP-PROVENANCE-MODIFIED](#ep-provenance-modified)
 ```
 
-The renderer, not the author, adds the standard “Contributor summary — non-normative” label and constructs the links. This removes the possibility of an author forgetting the disclaimer or linking to a misspelt anchor.
+The renderer, not the author, adds the standard “Contributor summary — non-normative” label and constructs the links.
+This removes the possibility of an author forgetting the disclaimer or linking to a misspelt anchor.
 
-Contributor summaries must retain the important exceptions that change behaviour. In particular:
+Contributor summaries must retain the important exceptions that change behaviour.
+In particular:
 
 - Classes and NamedIndividuals requiring definitions must not be paraphrased into “every entity needs a definition” if properties may omit one.
 - English/regional language-tag distinctions must remain distinguishable.
@@ -409,6 +440,7 @@ Contributor summaries must retain the important exceptions that change behaviour
 
 Use a stable ID-only heading so that changing a human title does not change its GitHub-generated anchor:
 
+<!-- prettier-ignore -->
 ```markdown
 ### EP-DISTRIBUTION-MEDIA
 
@@ -440,20 +472,22 @@ Use a stable ID-only heading so that changing a human title does not change its 
 </details>
 ```
 
-Using `### EP-DISTRIBUTION-MEDIA` rather than a heading such as `### EP-DISTRIBUTION-MEDIA — Media type` gives GitHub a stable `#ep-distribution-media` anchor even if the display title later changes. This avoids relying on undocumented custom-ID behaviour.
+Using `### EP-DISTRIBUTION-MEDIA` rather than a heading such as `### EP-DISTRIBUTION-MEDIA — Media type` gives GitHub a stable `#ep-distribution-media` anchor even if the display title later changes.
+This avoids relying on undocumented custom-ID behaviour.
 
-The main requirement, exceptions, applicability, human-review conditions and executable behaviour should **not** be hidden in a disclosure. Progressive disclosure is appropriate for lineage/supporting implementation detail, not for content that a technical reader needs to decide whether a contribution conforms. GitHub supports native `<details>`/`<summary>` sections: https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections and MDN documents their native disclosure semantics: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details
+The main requirement, exceptions, applicability, human-review conditions and executable behaviour should **not** be hidden in a disclosure.
+Progressive disclosure is appropriate for lineage/supporting implementation detail, not for content that a technical reader needs to decide whether a contribution conforms. GitHub supports native `<details>`/`<summary>` sections: https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-collapsed-sections and MDN documents their native disclosure semantics: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details
 
 **Four dimensions that must remain separate**
 
 The renderer's intermediate model shall represent these fields independently:
 
-| Dimension | Question | Allowed examples |
-|---|---|---|
-| Normative strength | How strongly does the policy require this behaviour? | `MUST`, `SHOULD`, `MAY`, or the exact canonical value |
-| Presence | Must this property/resource be present? | required, optional, conditional, prohibited, not applicable |
-| Assessment | How can compliance be established? | executable, human review, mixed |
-| Evaluation state | Was the obligation assessable in this validation run? | evaluated, unevaluated because required context was absent |
+| Dimension          | Question                                              | Allowed examples                                            |
+| ------------------ | ----------------------------------------------------- | ----------------------------------------------------------- |
+| Normative strength | How strongly does the policy require this behaviour?  | `MUST`, `SHOULD`, `MAY`, or the exact canonical value       |
+| Presence           | Must this property/resource be present?               | required, optional, conditional, prohibited, not applicable |
+| Assessment         | How can compliance be established?                    | executable, human review, mixed                             |
+| Evaluation state   | Was the obligation assessable in this validation run? | evaluated, unevaluated because required context was absent  |
 
 Never infer one from another unless the canonical model explicitly supplies that relationship.
 
@@ -479,11 +513,13 @@ Unevaluated ≠ passed
 SHACL-conformant ≠ conceptually adequate
 ```
 
-For a clause with multiple sub-obligations having different characteristics, do not create a misleading clause-level badge. Render a compact obligation table instead.
+For a clause with multiple sub-obligations having different characteristics, do not create a misleading clause-level badge.
+Render a compact obligation table instead.
 
 **Canonical documentation model**
 
-Create an intermediate representation so that RDF extraction and Markdown layout are independently testable. The renderer should first produce:
+Create an intermediate representation so that RDF extraction and Markdown layout are independently testable.
+The renderer should first produce:
 
 `build/editing-policy/policy-documentation-model.json`
 
@@ -537,7 +573,8 @@ Representative schema:
 }
 ```
 
-The JSON model is a **build artefact**, not a source of truth. It may be retained in CI artefacts for diagnosis but should not be hand edited.
+The JSON model is a **build artefact**, not a source of truth.
+It may be retained in CI artefacts for diagnosis but should not be hand edited.
 
 The extractor must preserve RDF distinctions required by RDF 1.1:
 
@@ -621,63 +658,67 @@ doc:ContributorSummaryShape
     ] .
 ```
 
-This metadata SHACL is **documentation validation**, not editing-policy validation. Run it in a separate validation invocation.
+This metadata SHACL is **documentation validation**, not editing-policy validation.
+Run it in a separate validation invocation.
 
 **Technical clause inventory**
 
 The renderer must produce exactly one stable technical-reference section for each active baseline requirement unless an explicit policy change changes the active set.
 
-| Rule ID | Technical-reference group |
-|---|---|
-| `EP-HEADER-ONTOLOGY-IRI` | Ontology header |
-| `EP-HEADER-VERSION-IRI` | Ontology header |
-| `EP-HEADER-COMPATIBILITY` | Ontology header |
-| `EP-HEADER-VERSION-INFO` | Ontology header |
-| `EP-NAMING-PASCAL` | Naming |
-| `EP-NAMING-CAMEL` | Naming |
-| `EP-LABEL-PREF` | Labels and definitions |
-| `EP-LABEL-REGIONAL` | Labels and definitions |
-| `EP-LABEL-RDFS` | Labels and definitions |
-| `EP-DEFINITION` | Labels and definitions |
-| `EP-IDENTIFIER` | Descriptive metadata |
-| `EP-DESCRIPTION` | Descriptive metadata |
-| `EP-PROVENANCE-CREATED` | Provenance |
-| `EP-PROVENANCE-MODIFIED` | Provenance |
-| `EP-SOURCE` | Provenance |
-| `EP-EXTERNAL-CROSSREF` | Provenance |
-| `EP-SEE-ALSO` | Provenance |
-| `EP-DEFINED-BY` | Provenance |
-| `EP-DATASET-TYPE` | Dataset and distribution |
-| `EP-DATASET-TITLE` | Dataset and distribution |
-| `EP-DATASET-DESCRIPTION` | Dataset and distribution |
-| `EP-DATASET-LANGUAGES` | Dataset and distribution |
-| `EP-DATASET-DISTRIBUTION` | Dataset and distribution |
-| `EP-DISTRIBUTION-TYPE` | Dataset and distribution |
-| `EP-DISTRIBUTION-FORMAT` | Dataset and distribution |
-| `EP-DISTRIBUTION-MEDIA` | Dataset and distribution |
-| `EP-DISTRIBUTION-PAGE` | Dataset and distribution |
-| `EP-DISTRIBUTION-ACCESS-URL` | Dataset and distribution |
-| `EP-DISTRIBUTION-DOWNLOAD-URL` | Dataset and distribution |
-| `EP-DISTRIBUTION-DATA-SERVICE` | Dataset and distribution |
-| `EP-DISTRIBUTION-ACCESS-SERVICE` | Dataset and distribution |
-| `EP-DISTRIBUTION-ACCESS-FIELDS` | Dataset and distribution |
-| `EP-AXIOM-CREATOR` | Axiom annotations |
-| `EP-AXIOM-CREATED` | Axiom annotations |
-| `EP-AXIOM-SOURCE` | Axiom annotations |
+| Rule ID                          | Technical-reference group |
+| -------------------------------- | ------------------------- |
+| `EP-HEADER-ONTOLOGY-IRI`         | Ontology header           |
+| `EP-HEADER-VERSION-IRI`          | Ontology header           |
+| `EP-HEADER-COMPATIBILITY`        | Ontology header           |
+| `EP-HEADER-VERSION-INFO`         | Ontology header           |
+| `EP-NAMING-PASCAL`               | Naming                    |
+| `EP-NAMING-CAMEL`                | Naming                    |
+| `EP-LABEL-PREF`                  | Labels and definitions    |
+| `EP-LABEL-REGIONAL`              | Labels and definitions    |
+| `EP-LABEL-RDFS`                  | Labels and definitions    |
+| `EP-DEFINITION`                  | Labels and definitions    |
+| `EP-IDENTIFIER`                  | Descriptive metadata      |
+| `EP-DESCRIPTION`                 | Descriptive metadata      |
+| `EP-PROVENANCE-CREATED`          | Provenance                |
+| `EP-PROVENANCE-MODIFIED`         | Provenance                |
+| `EP-SOURCE`                      | Provenance                |
+| `EP-EXTERNAL-CROSSREF`           | Provenance                |
+| `EP-SEE-ALSO`                    | Provenance                |
+| `EP-DEFINED-BY`                  | Provenance                |
+| `EP-DATASET-TYPE`                | Dataset and distribution  |
+| `EP-DATASET-TITLE`               | Dataset and distribution  |
+| `EP-DATASET-DESCRIPTION`         | Dataset and distribution  |
+| `EP-DATASET-LANGUAGES`           | Dataset and distribution  |
+| `EP-DATASET-DISTRIBUTION`        | Dataset and distribution  |
+| `EP-DISTRIBUTION-TYPE`           | Dataset and distribution  |
+| `EP-DISTRIBUTION-FORMAT`         | Dataset and distribution  |
+| `EP-DISTRIBUTION-MEDIA`          | Dataset and distribution  |
+| `EP-DISTRIBUTION-PAGE`           | Dataset and distribution  |
+| `EP-DISTRIBUTION-ACCESS-URL`     | Dataset and distribution  |
+| `EP-DISTRIBUTION-DOWNLOAD-URL`   | Dataset and distribution  |
+| `EP-DISTRIBUTION-DATA-SERVICE`   | Dataset and distribution  |
+| `EP-DISTRIBUTION-ACCESS-SERVICE` | Dataset and distribution  |
+| `EP-DISTRIBUTION-ACCESS-FIELDS`  | Dataset and distribution  |
+| `EP-AXIOM-CREATOR`               | Axiom annotations         |
+| `EP-AXIOM-CREATED`               | Axiom annotations         |
+| `EP-AXIOM-SOURCE`                | Axiom annotations         |
 
-Do not treat the 77 previously generated executable-constraint bullets as a complete semantic inventory. A requirement can contain material in its description, target, logical expression or context dependency that is not repeated in the bullet projection. Preservation testing therefore operates on structured policy characteristics as well as rendered source blocks.
+Do not treat the 77 previously generated executable-constraint bullets as a complete semantic inventory.
+A requirement can contain material in its description, target, logical expression or context dependency that is not repeated in the bullet projection.
+Preservation testing therefore operates on structured policy characteristics as well as rendered source blocks.
 
 **Examples**
 
 Examples have three explicit classes:
 
-| Class | Purpose | Normative status | Validation |
-|---|---|---|---|
-| Preserved technical example | Existing example already present in technical policy documentation | Preserve exactly; does not independently redefine the rule | Test when machine-executable |
-| Contributor illustration | Makes a concept understandable | Explicitly non-normative | Validate against the active policy where applicable |
-| SHACL fixture | Proves validator behaviour | Test artefact, not explanatory policy prose | Mandatory automated assertion |
+| Class                       | Purpose                                                            | Normative status                                           | Validation                                          |
+| --------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------- | --------------------------------------------------- |
+| Preserved technical example | Existing example already present in technical policy documentation | Preserve exactly; does not independently redefine the rule | Test when machine-executable                        |
+| Contributor illustration    | Makes a concept understandable                                     | Explicitly non-normative                                   | Validate against the active policy where applicable |
+| SHACL fixture               | Proves validator behaviour                                         | Test artefact, not explanatory policy prose                | Mandatory automated assertion                       |
 
-Do not silently “improve” an existing technical example. If an old example is misleading, first preserve it as the baseline, then resolve it through a separately reviewed policy/documentation change.
+Do not silently “improve” an existing technical example.
+If an old example is misleading, first preserve it as the baseline, then resolve it through a separately reviewed policy/documentation change.
 
 `docs/editing-policy/examples/manifest.json`:
 
@@ -783,7 +824,8 @@ Ordering rules:
 
 Use LF newlines and UTF-8.
 
-If a build timestamp is desired operationally, put it in the CI artefact metadata, not into the checked-in generated Markdown. The generated document should expose a deterministic **input digest** rather than a volatile timestamp.
+If a build timestamp is desired operationally, put it in the CI artefact metadata, not into the checked-in generated Markdown.
+The generated document should expose a deterministic **input digest** rather than a volatile timestamp.
 
 Example manifest:
 
@@ -900,7 +942,9 @@ Representative `package.json` scripts:
 }
 ```
 
-Retain `package-lock.json` and a Python dependency lock used by CI. Do not use unpinned `npx <package>@latest` commands in the actual build. Installation-time dependency updates are separate reviewed changes.
+Retain `package-lock.json` and a Python dependency lock used by CI.
+Do not use unpinned `npx <package>@latest` commands in the actual build.
+Installation-time dependency updates are separate reviewed changes.
 
 **Technical preservation algorithm**
 
@@ -937,7 +981,8 @@ The test should compare **source model to output model**, not source Markdown to
 
 The migration additionally checks the supplied September snapshot's 224 source blocks to catch information that has not yet been structurally modelled.
 
-Any source detail that cannot yet be represented structurally gets a `technical.verbatimBlocks[]` entry. It may not simply be omitted.
+Any source detail that cannot yet be represented structurally gets a `technical.verbatimBlocks[]` entry.
+It may not simply be omitted.
 
 A preservation report shall be generated in CI:
 
@@ -990,36 +1035,39 @@ Avoid:
 - coloured badges as the only expression of `MUST`, `SHOULD`, warning, required or optional;
 - HTML whose behaviour has not been tested in the actual Wiki renderer.
 
-Tables should be reserved for genuinely tabular comparisons. Long prose, examples, constraint groups and code must remain block content rather than being forced into cells.
+Tables should be reserved for genuinely tabular comparisons.
+Long prose, examples, constraint groups and code must remain block content rather than being forced into cells.
 
 **Diagram set**
 
 Retain and productionise the seven diagram concepts demonstrated by the supplied design archive:
 
-| Diagram ID | Primary audience | Question answered |
-|---|---|---|
-| `policy-journey` | Contributor | What do I do from concept search through review? |
-| `entity-anatomy` | Contributor | What kinds of information describe an ordinary ontology entity? |
-| `dataset-access-guide` | Contributor | What is the difference between a dataset, a distribution and its access routes? |
-| `scope-validation` | Technical | Which policy targets overlap, and which resources are excluded from ordinary-entity targeting? |
-| `label-correspondence` | Technical | How does local-name correspondence differ from exact preferred/ordinary-label correspondence? |
-| `modification-obligation` | Technical | When do modification metadata obligations become applicable or unevaluated? |
-| `dcat-profile-constraints` | Technical | How does the local dataset/distribution profile constrain DCAT resources? |
+| Diagram ID                 | Primary audience | Question answered                                                                              |
+| -------------------------- | ---------------- | ---------------------------------------------------------------------------------------------- |
+| `policy-journey`           | Contributor      | What do I do from concept search through review?                                               |
+| `entity-anatomy`           | Contributor      | What kinds of information describe an ordinary ontology entity?                                |
+| `dataset-access-guide`     | Contributor      | What is the difference between a dataset, a distribution and its access routes?                |
+| `scope-validation`         | Technical        | Which policy targets overlap, and which resources are excluded from ordinary-entity targeting? |
+| `label-correspondence`     | Technical        | How does local-name correspondence differ from exact preferred/ordinary-label correspondence?  |
+| `modification-obligation`  | Technical        | When do modification metadata obligations become applicable or unevaluated?                    |
+| `dcat-profile-constraints` | Technical        | How does the local dataset/distribution profile constrain DCAT resources?                      |
 
 The scope diagram must not depict selectors as mutually exclusive where the SHACL design allows overlap.
 
-The DCAT diagram must distinguish **local validation cardinality/profile rules** from general statements about the DCAT vocabulary. DCAT vocabulary semantics are defined by https://www.w3.org/TR/vocab-dcat-2/
+The DCAT diagram must distinguish **local validation cardinality/profile rules** from general statements about the DCAT vocabulary.
+DCAT vocabulary semantics are defined by https://www.w3.org/TR/vocab-dcat-2/
 
 **Diagram rendering options**
 
-| Option | Strengths | Weaknesses | Decision |
-|---|---|---|---|
-| Live Mermaid only in Wiki | Text source is diffable; GitHub renders it natively | GitHub's deployed Mermaid version can lag upstream; rendering can change independently; fine-grained accessibility control is limited | Use for the implementation-plan pipeline diagram and simple low-risk diagrams only |
-| Mermaid source → committed SVG/PNG | Diffable semantic source plus deterministic reviewed assets; predictable appearance; explicit light/dark variants | Adds build step | **Preferred production strategy** |
-| Hand-authored SVG/Figma/draw.io | Highest bespoke visual polish | Harder to review semantically; easy for diagram and policy to drift | Use only for an exceptional diagram that Mermaid cannot express clearly |
-| Graphviz → SVG/PNG | Deterministic and strong for complex graphs | Adds a second diagram language/toolchain | Do not introduce unless Mermaid proves inadequate |
+| Option                             | Strengths                                                                                                         | Weaknesses                                                                                                                            | Decision                                                                           |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Live Mermaid only in Wiki          | Text source is diffable; GitHub renders it natively                                                               | GitHub's deployed Mermaid version can lag upstream; rendering can change independently; fine-grained accessibility control is limited | Use for the implementation-plan pipeline diagram and simple low-risk diagrams only |
+| Mermaid source → committed SVG/PNG | Diffable semantic source plus deterministic reviewed assets; predictable appearance; explicit light/dark variants | Adds build step                                                                                                                       | **Preferred production strategy**                                                  |
+| Hand-authored SVG/Figma/draw.io    | Highest bespoke visual polish                                                                                     | Harder to review semantically; easy for diagram and policy to drift                                                                   | Use only for an exceptional diagram that Mermaid cannot express clearly            |
+| Graphviz → SVG/PNG                 | Deterministic and strong for complex graphs                                                                       | Adds a second diagram language/toolchain                                                                                              | Do not introduce unless Mermaid proves inadequate                                  |
 
-GitHub's Mermaid support is documented at https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams. Because the host's Mermaid implementation can differ from the latest upstream Mermaid release, static publication assets remove unnecessary host-version coupling.
+GitHub's Mermaid support is documented at https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams.
+Because the host's Mermaid implementation can differ from the latest upstream Mermaid release, static publication assets remove unnecessary host-version coupling.
 
 Store Mermaid sources in `docs/editing-policy/diagrams/*.mmd`.
 
@@ -1131,38 +1179,40 @@ The text equivalent must describe relationships and decisions, not merely list e
 
 The authored content targets WCAG 2.2 Level AA: https://www.w3.org/TR/WCAG22/
 
-The GitHub host interface itself is not under repository control. Acceptance therefore distinguishes:
+The GitHub host interface itself is not under repository control.
+Acceptance therefore distinguishes:
 
 - accessibility of authored Markdown, diagrams and generated HTML;
 - host-level GitHub UI behaviour, which is verified through smoke testing but cannot be altered by this project.
 
 Checklist:
 
-| WCAG criterion | Authored-content requirement | Automated/manual |
-|---|---|---|
-| 1.1.1 Non-text Content | Every informative diagram has meaningful alt text and a complete text equivalent; decorative images use empty alt text | Automated manifest check + manual review |
-| 1.3.1 Info and Relationships | Correct heading hierarchy; lists are lists; tables contain genuinely tabular information; labels are textual | Automated structural lint + manual |
-| 1.3.2 Meaningful Sequence | Page remains comprehensible in source/document order without visual positioning | Manual |
-| 1.4.1 Use of Colour | No meaning conveyed by colour alone; shape, label or text expresses every status | Manual + diagram checklist |
-| 1.4.3 Contrast (Minimum) | Authored text in generated diagram assets targets at least 4.5:1 for normal text and 3:1 for qualifying large text | Automated contrast where measurable + manual |
-| 1.4.5 Images of Text | Do not turn ordinary prose into raster images; text in diagrams is limited to diagram labels and always has text equivalent | Manual |
-| 1.4.10 Reflow | Core authored page works at 320 CSS px without page-level two-dimensional scrolling; code may scroll inside its own block where intrinsically necessary | Browser test |
-| 1.4.11 Non-text Contrast | Meaningful graphical boundaries/indicators achieve at least 3:1 where the criterion applies | Diagram review |
-| 1.4.12 Text Spacing | No custom layout/CSS that breaks when users alter text spacing | Structural |
-| 2.1.1 Keyboard | Authored interactive elements are native links/details only; no custom keyboard interactions | Browser/keyboard smoke |
-| 2.4.2 Page Titled | Wiki page has a clear Editing Policy title | Structural |
-| 2.4.4 Link Purpose | Link text identifies the rule or destination, rather than repeated “click here” labels | Lint/manual |
-| 2.4.6 Headings and Labels | Headings describe content and use consistent hierarchy | Structural/manual |
-| 2.4.7 Focus Visible | No authored CSS suppresses host focus treatment | Structural |
-| 2.4.11 Focus Not Obscured (Minimum) | No authored sticky/fixed overlays exist that can cover focused content | Structural/manual |
-| 2.5.8 Target Size (Minimum) | Do not create tiny custom controls; rely on GitHub's standard links/disclosures | Manual host smoke |
-| 3.1.2 Language of Parts | Preserve RDF language tags accurately; documentation prose consistently uses en-GB | Manual |
-| 3.2.3 Consistent Navigation | Contributor/technical navigation and rule links remain consistent | Structural |
-| 3.2.4 Consistent Identification | The same policy concepts use the same labels throughout generated content | Content test/manual |
+| WCAG criterion                      | Authored-content requirement                                                                                                                            | Automated/manual                             |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| 1.1.1 Non-text Content              | Every informative diagram has meaningful alt text and a complete text equivalent; decorative images use empty alt text                                  | Automated manifest check + manual review     |
+| 1.3.1 Info and Relationships        | Correct heading hierarchy; lists are lists; tables contain genuinely tabular information; labels are textual                                            | Automated structural lint + manual           |
+| 1.3.2 Meaningful Sequence           | Page remains comprehensible in source/document order without visual positioning                                                                         | Manual                                       |
+| 1.4.1 Use of Colour                 | No meaning conveyed by colour alone; shape, label or text expresses every status                                                                        | Manual + diagram checklist                   |
+| 1.4.3 Contrast (Minimum)            | Authored text in generated diagram assets targets at least 4.5:1 for normal text and 3:1 for qualifying large text                                      | Automated contrast where measurable + manual |
+| 1.4.5 Images of Text                | Do not turn ordinary prose into raster images; text in diagrams is limited to diagram labels and always has text equivalent                             | Manual                                       |
+| 1.4.10 Reflow                       | Core authored page works at 320 CSS px without page-level two-dimensional scrolling; code may scroll inside its own block where intrinsically necessary | Browser test                                 |
+| 1.4.11 Non-text Contrast            | Meaningful graphical boundaries/indicators achieve at least 3:1 where the criterion applies                                                             | Diagram review                               |
+| 1.4.12 Text Spacing                 | No custom layout/CSS that breaks when users alter text spacing                                                                                          | Structural                                   |
+| 2.1.1 Keyboard                      | Authored interactive elements are native links/details only; no custom keyboard interactions                                                            | Browser/keyboard smoke                       |
+| 2.4.2 Page Titled                   | Wiki page has a clear Editing Policy title                                                                                                              | Structural                                   |
+| 2.4.4 Link Purpose                  | Link text identifies the rule or destination, rather than repeated “click here” labels                                                                  | Lint/manual                                  |
+| 2.4.6 Headings and Labels           | Headings describe content and use consistent hierarchy                                                                                                  | Structural/manual                            |
+| 2.4.7 Focus Visible                 | No authored CSS suppresses host focus treatment                                                                                                         | Structural                                   |
+| 2.4.11 Focus Not Obscured (Minimum) | No authored sticky/fixed overlays exist that can cover focused content                                                                                  | Structural/manual                            |
+| 2.5.8 Target Size (Minimum)         | Do not create tiny custom controls; rely on GitHub's standard links/disclosures                                                                         | Manual host smoke                            |
+| 3.1.2 Language of Parts             | Preserve RDF language tags accurately; documentation prose consistently uses en-GB                                                                      | Manual                                       |
+| 3.2.3 Consistent Navigation         | Contributor/technical navigation and rule links remain consistent                                                                                       | Structural                                   |
+| 3.2.4 Consistent Identification     | The same policy concepts use the same labels throughout generated content                                                                               | Content test/manual                          |
 
 WCAG criterion details and normative wording come from https://www.w3.org/TR/WCAG22/
 
-An accessibility statement in the documentation should avoid claiming that the whole GitHub platform is WCAG-conformant. It should instead state that the **authored Editing Policy content is designed and tested against WCAG 2.2 AA criteria within the capabilities of GitHub Wiki rendering**.
+An accessibility statement in the documentation should avoid claiming that the whole GitHub platform is WCAG-conformant.
+It should instead state that the **authored Editing Policy content is designed and tested against WCAG 2.2 AA criteria within the capabilities of GitHub Wiki rendering**.
 
 **Policy coverage tests**
 
@@ -1206,7 +1256,8 @@ Every generated contributor summary must:
 - not make an applicability claim broader than the linked rule;
 - be reviewed when any linked rule's technical fingerprint changes.
 
-Store the last-reviewed fingerprint of linked rules in the generated metadata. If `EP-DEFINITION` changes, every contributor summary that references it is marked stale and CI fails until it is re-reviewed.
+Store the last-reviewed fingerprint of linked rules in the generated metadata.
+If `EP-DEFINITION` changes, every contributor summary that references it is marked stale and CI fails until it is re-reviewed.
 
 Example guidance review record:
 
@@ -1222,7 +1273,8 @@ Example guidance review record:
 
 **Fixture strategy**
 
-A simple “validator exits non-zero” test is insufficient. Every executable rule must have tests proving:
+A simple “validator exits non-zero” test is insufficient.
+Every executable rule must have tests proving:
 
 1. the intended focus node is actually in validation scope;
 2. a positive case does not produce the targeted rule result;
@@ -1307,7 +1359,9 @@ Expected result:
 }
 ```
 
-Do **not** globally hard-code `MUST → sh:Violation` or `SHOULD → sh:Warning` in the fixture framework. Read the expected severity from the source policy and make the expected JSON explicitly acknowledge it. This permits the tests to detect an accidental severity change instead of normalising it away.
+Do **not** globally hard-code `MUST → sh:Violation` or `SHOULD → sh:Warning` in the fixture framework.
+Read the expected severity from the source policy and make the expected JSON explicitly acknowledge it.
+This permits the tests to detect an accidental severity change instead of normalising it away.
 
 For human-only obligations, the fixture coverage entry is different:
 
@@ -1350,7 +1404,8 @@ CI fails when an executable constraint has no fixture coverage record.
 
 **Validation-result mapping**
 
-SHACL validation reports identify `sh:sourceShape` and `sh:resultSeverity`. Resolve the result back to a requirement ID through the documentation-bearing shape or its owning node shape.
+SHACL validation reports identify `sh:sourceShape` and `sh:resultSeverity`.
+Resolve the result back to a requirement ID through the documentation-bearing shape or its owning node shape.
 
 Representative diagnostic SPARQL:
 
@@ -1434,7 +1489,8 @@ pyshacl \
 
 **Example validation**
 
-Every new machine-readable contributor example must be tested. A conforming example outside the intended targets is not sufficient.
+Every new machine-readable contributor example must be tested.
+A conforming example outside the intended targets is not sufficient.
 
 For each positive example, assert both:
 
@@ -1466,11 +1522,14 @@ Parse the generated Markdown and assert:
 - no duplicate generated heading causes GitHub slug suffixes such as `-1`;
 - no contributor link uses the human-readable title as the stable identifier.
 
-External HTTP links should be checked in a **scheduled** workflow as well as during release qualification. A transient W3C/GitHub/IANA outage should not unnecessarily block an unrelated policy pull request. Internal links remain blocking on every PR.
+External HTTP links should be checked in a **scheduled** workflow as well as during release qualification.
+A transient W3C/GitHub/IANA outage should not unnecessarily block an unrelated policy pull request.
+Internal links remain blocking on every PR.
 
 **GFM structure checks**
 
-Use a GFM-capable parser/linter. The test should reject:
+Use a GFM-capable parser/linter.
+The test should reject:
 
 - skipped heading levels;
 - empty headings;
@@ -1514,7 +1573,8 @@ git diff --exit-code -- \
 
 **Local accessibility test**
 
-Render a local HTML approximation from the GFM and run Axe in Chromium. This does not certify GitHub itself; it catches authored-content defects.
+Render a local HTML approximation from the GFM and run Axe in Chromium.
+This does not certify GitHub itself; it catches authored-content defects.
 
 At minimum test viewports:
 
@@ -1728,9 +1788,11 @@ jobs:
             --manifest docs/policy/Editing-Policy.manifest.json
 ```
 
-Before merging this workflow, inspect the repository's existing runtime/version files. If `.nvmrc` is not present, add one as a separately reviewed dependency-runtime decision rather than silently embedding two Node versions in different workflows.
+Before merging this workflow, inspect the repository's existing runtime/version files.
+If `.nvmrc` is not present, add one as a separately reviewed dependency-runtime decision rather than silently embedding two Node versions in different workflows.
 
-For supply-chain hardening, repository policy should ultimately pin actions to reviewed immutable commit SHAs and let dependency automation propose SHA updates. GitHub's security guidance explains that full-length commit SHA pinning is the immutable option for actions: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions
+For supply-chain hardening, repository policy should ultimately pin actions to reviewed immutable commit SHAs and let dependency automation propose SHA updates.
+GitHub's security guidance explains that full-length commit SHA pinning is the immutable option for actions: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions
 
 **Wiki publication model**
 
@@ -1799,7 +1861,9 @@ Everything outside those markers remains untouched.
 9. push;
 10. fail rather than force-push if the remote changed concurrently.
 
-The Wiki write credential is an operational prerequisite that cannot be inferred from source files. It must be a least-privilege credential with proven write access to the repository Wiki, stored as a GitHub Actions secret and restricted by the `wiki-production` environment. Wiki publishing runs only on trusted `main` pushes, never on pull requests from forks.
+The Wiki write credential is an operational prerequisite that cannot be inferred from source files.
+It must be a least-privilege credential with proven write access to the repository Wiki, stored as a GitHub Actions secret and restricted by the `wiki-production` environment.
+Wiki publishing runs only on trusted `main` pushes, never on pull requests from forks.
 
 **External-link health**
 
@@ -1815,7 +1879,8 @@ Add a scheduled workflow weekly for:
 - Read the Docs;
 - external provenance URLs embedded by the policy.
 
-Report external failures without immediately rewriting historical provenance. A broken historical source link is provenance information to investigate, not permission for the renderer to delete the provenance item.
+Report external failures without immediately rewriting historical provenance.
+A broken historical source link is provenance information to investigate, not permission for the renderer to delete the provenance item.
 
 ## Rollout, governance and operations
 
@@ -1981,15 +2046,15 @@ After the initial renderer has been proven against actual Wiki behaviour, normal
 
 Every future change is classified before review:
 
-| Change class | Examples | Required review |
-|---|---|---|
-| Policy semantic | cardinality, target, pattern, allowed value, severity, human obligation, applicability | Ontology/policy owner + SHACL reviewer + fixture update + documentation review |
-| Policy editorial metadata | clearer canonical description with same semantics | Policy owner + documentation review + preservation diff |
-| Contributor guidance | explanation or navigation only | Documentation/UX owner + linked-rule owner |
-| Diagram | visual explanation | Documentation/UX + relevant policy owner + accessibility review |
-| Renderer | formatting/generation behaviour | Tooling reviewer + snapshot/preservation tests |
-| Accessibility | alt text, structure, contrast, text equivalent | Accessibility reviewer + docs owner |
-| Publication | Wiki pipeline/credential/sidebar | Repository maintainer + GitHub/DevOps owner |
+| Change class              | Examples                                                                               | Required review                                                                |
+| ------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Policy semantic           | cardinality, target, pattern, allowed value, severity, human obligation, applicability | Ontology/policy owner + SHACL reviewer + fixture update + documentation review |
+| Policy editorial metadata | clearer canonical description with same semantics                                      | Policy owner + documentation review + preservation diff                        |
+| Contributor guidance      | explanation or navigation only                                                         | Documentation/UX owner + linked-rule owner                                     |
+| Diagram                   | visual explanation                                                                     | Documentation/UX + relevant policy owner + accessibility review                |
+| Renderer                  | formatting/generation behaviour                                                        | Tooling reviewer + snapshot/preservation tests                                 |
+| Accessibility             | alt text, structure, contrast, text equivalent                                         | Accessibility reviewer + docs owner                                            |
+| Publication               | Wiki pipeline/credential/sidebar                                                       | Repository maintainer + GitHub/DevOps owner                                    |
 
 **Change-control invariants**
 
@@ -2066,7 +2131,9 @@ A PR that changes generated output without changing a recognised generator input
 
 A PR that changes a recognised input without updating generated output fails CI.
 
-Policy semantic review should focus on RDF/SHACL and fixture changes. Documentation review should focus on the generated diff and guidance source. This prevents reviewers from having to infer generator behaviour.
+Policy semantic review should focus on RDF/SHACL and fixture changes.
+Documentation review should focus on the generated diff and guidance source.
+This prevents reviewers from having to infer generator behaviour.
 
 **Human-review boundary**
 
@@ -2074,13 +2141,15 @@ The page must explicitly state that automation cannot establish all ontology qua
 
 In particular:
 
-> Passing executable validation means that the tested machine-checkable constraints were satisfied in the available validation context. It does not by itself establish conceptual adequacy, prove that no equivalent concept already exists, or satisfy any human-review obligation identified by the policy.
+> Passing executable validation means that the tested machine-checkable constraints were satisfied in the available validation context.
+> It does not by itself establish conceptual adequacy, prove that no equivalent concept already exists, or satisfy any human-review obligation identified by the policy.
 
 Where comparison context is unavailable, the renderer must use the exact concept **unevaluated** or equivalent canonical policy term rather than “passed”.
 
 **DCAT and media-type governance**
 
-The local policy may narrow DCAT usage beyond DCAT's generic vocabulary semantics. The technical reference therefore uses wording such as:
+The local policy may narrow DCAT usage beyond DCAT's generic vocabulary semantics.
+The technical reference therefore uses wording such as:
 
 > “The Universal Ontology editing-policy profile requires …”
 
@@ -2122,28 +2191,30 @@ If the generator loses information, block publication even if the resulting Mark
 
 **Concrete implementation work packages**
 
-| Work package | Deliverables | Primary skills | Person-days |
-|---|---|---|---:|
-| Baseline/inventory | migration manifest, clause/source/example/provenance inventory, source fingerprints | RDF/SHACL, Python | 2 |
-| Documentation model | extractor, typed IR, reader-guidance vocabulary/shapes | RDF, SHACL, Python architecture | 4 |
-| Lossless technical renderer | technical section templates, anchors, provenance, preservation checks | Python, GFM, policy expertise | 6 |
-| Contributor guide | task IA, reviewed summaries, cross-reference model | content design, ontology domain knowledge | 4 |
-| Technical UX refinements | strength/presence/assessment/evaluation presentation, glossary/navigation | UX/documentation, ontology | 3 |
-| Diagram system | seven Mermaid sources, text equivalents, light/dark SVG/PNG pipeline | information design, Mermaid, accessibility | 5 |
-| SHACL fixture suite | golden graphs, mutation harness, expected results, severity/rule assertions | SHACL, RDF, Python/SPARQL | 6 |
-| Accessibility | WCAG review, Axe integration, responsive tests, diagram review | accessibility, frontend testing | 3 |
-| CI/Wiki publication | workflow, managed-file publisher, manifest, credentials integration | GitHub Actions, Python, Git | 4 |
-| Usability test and remediation | contributor/technical task script, findings, fixes | UX research, documentation | 4 |
-| Governance/release | CODEOWNERS mapping, change classification, runbook, first Wiki publication | technical governance, DevOps | 2 |
-| **Core total** |  |  | **43** |
-| Contingency for legacy-generator integration, Wiki-rendering differences and fixture edge cases |  |  | **9** |
-| **Planning envelope** |  |  | **52 person-days** |
+| Work package                                                                                    | Deliverables                                                                        | Primary skills                             |        Person-days |
+| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------ | -----------------: |
+| Baseline/inventory                                                                              | migration manifest, clause/source/example/provenance inventory, source fingerprints | RDF/SHACL, Python                          |                  2 |
+| Documentation model                                                                             | extractor, typed IR, reader-guidance vocabulary/shapes                              | RDF, SHACL, Python architecture            |                  4 |
+| Lossless technical renderer                                                                     | technical section templates, anchors, provenance, preservation checks               | Python, GFM, policy expertise              |                  6 |
+| Contributor guide                                                                               | task IA, reviewed summaries, cross-reference model                                  | content design, ontology domain knowledge  |                  4 |
+| Technical UX refinements                                                                        | strength/presence/assessment/evaluation presentation, glossary/navigation           | UX/documentation, ontology                 |                  3 |
+| Diagram system                                                                                  | seven Mermaid sources, text equivalents, light/dark SVG/PNG pipeline                | information design, Mermaid, accessibility |                  5 |
+| SHACL fixture suite                                                                             | golden graphs, mutation harness, expected results, severity/rule assertions         | SHACL, RDF, Python/SPARQL                  |                  6 |
+| Accessibility                                                                                   | WCAG review, Axe integration, responsive tests, diagram review                      | accessibility, frontend testing            |                  3 |
+| CI/Wiki publication                                                                             | workflow, managed-file publisher, manifest, credentials integration                 | GitHub Actions, Python, Git                |                  4 |
+| Usability test and remediation                                                                  | contributor/technical task script, findings, fixes                                  | UX research, documentation                 |                  4 |
+| Governance/release                                                                              | CODEOWNERS mapping, change classification, runbook, first Wiki publication          | technical governance, DevOps               |                  2 |
+| **Core total**                                                                                  |                                                                                     |                                            |             **43** |
+| Contingency for legacy-generator integration, Wiki-rendering differences and fixture edge cases |                                                                                     |                                            |              **9** |
+| **Planning envelope**                                                                           |                                                                                     |                                            | **52 person-days** |
 
-These are engineering effort estimates, not elapsed-time promises. Several streams can run concurrently after the lossless content model is stable.
+These are engineering effort estimates, not elapsed-time promises.
+Several streams can run concurrently after the lossless content model is stable.
 
 **Skills required**
 
-The implementation should not be assigned solely as a Markdown-writing task. It needs:
+The implementation should not be assigned solely as a Markdown-writing task.
+It needs:
 
 ```text
 RDF 1.1 modelling
@@ -2312,36 +2383,36 @@ The redesign is complete only when all of these are true.
 
 **Risks and mitigations**
 
-| Risk | Consequence | Mitigation |
-|---|---|---|
-| Contributor simplification changes meaning | Readers follow a weaker/different policy | Separate non-normative guidance graph; mandatory EP links; linked-rule fingerprints; ontology-owner review |
-| Generator drops a condition not represented as a bullet | Technically incomplete reference | Structured extraction of targets/cardinalities/logical/SPARQL/context semantics plus baseline source-block preservation |
-| Hard-coded 35/77/224 counts block legitimate evolution | Tests become obstacles and get disabled | Treat counts as migration baseline; long-term source↔output bijection is authoritative |
-| Documentation graph contaminates validation | Presentation metadata changes policy behaviour | Load guidance separately; never import it into production validation graph |
-| SHACL result cannot be mapped to EP ID | Fixture assertions become vague | Central result-to-requirement resolver; source-shape/owner-shape tests |
-| Fixture “passes” because node is outside target | False confidence | Assert target participation/focus node explicitly |
-| Negative fixture triggers several rules | Ambiguous test | Golden valid fixture + single mutation; declare any intentionally correlated expected results |
-| `MUST` is mistaken for required presence | Contributors add unnecessary fields | Separate strength/presence dimensions and make media type a canonical explanation |
-| `unevaluated` is mistaken for conformant | Missed modification obligation | Distinct evaluation-state wording; context-unavailable fixtures |
-| Human review is treated as optional | Conceptual errors pass workflow | Human-review section remains visible; never derive optionality from assessment mechanism |
-| GitHub changes Mermaid version | Diagram appearance/behaviour changes | Pin Mermaid CLI and publish reviewed static SVG/PNG |
-| GitHub theme differs from OS preference | Wrong-theme image in some configurations | Use GitHub-documented theme-aware pattern; initial live light/dark/theme smoke testing |
-| SVG inaccessible or too dense on mobile | Users cannot understand graphic | Complete text equivalent and visible takeaway adjacent to every diagram |
-| Dark/light palettes rely on colour | Accessibility failure | Labels, shapes and line styles carry meaning; contrast review |
-| Custom HTML is sanitised by GitHub | Lost interaction/content | Depend only on GitHub-documented constructs and live smoke test |
-| Wiki is edited manually | Source/Wiki divergence | Treat Wiki as deployment target; main-repo generated artefact is review surface |
-| Wiki publication deletes unrelated pages | Data loss | Managed-file manifest; never delete outside owned paths |
-| Wiki push credential unavailable/overprivileged | Deployment failure/security risk | Protected environment + least-privilege secret + pre-production credential test |
-| External IANA registry changes | Non-reproducible policy/doc build | Use repository-pinned authority snapshot for validation/generation |
-| External source link dies | Provenance appears broken | Scheduled link health report; do not silently delete historical source |
-| RDF blank-node labels change between parses | Non-deterministic output | Never expose blank-node labels as IDs; deterministic structural extraction |
-| Renderer timestamps cause permanent diffs | Noisy generated commits | Deterministic input digest; keep CI timestamps out of checked-in Markdown |
-| Page becomes extremely long | Readers lose orientation | Two reading paths, local TOC, task-first contributor section, stable anchors, limited provenance disclosure |
-| Progressive disclosure hides critical constraints | Technical reader misses requirement | Keep normative text, applicability and executable behaviour visible; collapse only secondary provenance |
-| Visual redesign becomes “dashboard chrome” | More scanning overhead, less clarity | GitHub-native typography; use diagrams and compact metadata only where they clarify a decision |
-| Local HTML accessibility test differs from GitHub | False assurance | Local automated checks plus mandatory live Wiki smoke test |
-| DCAT local profile is described as universal DCAT | Incorrect standards claim | Wording explicitly distinguishes local policy from DCAT vocabulary semantics |
-| New example quietly changes rule meaning | Documentation becomes shadow policy | Examples labelled by class and validated; preserved technical examples never silently replaced |
+| Risk                                                    | Consequence                                    | Mitigation                                                                                                              |
+| ------------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Contributor simplification changes meaning              | Readers follow a weaker/different policy       | Separate non-normative guidance graph; mandatory EP links; linked-rule fingerprints; ontology-owner review              |
+| Generator drops a condition not represented as a bullet | Technically incomplete reference               | Structured extraction of targets/cardinalities/logical/SPARQL/context semantics plus baseline source-block preservation |
+| Hard-coded 35/77/224 counts block legitimate evolution  | Tests become obstacles and get disabled        | Treat counts as migration baseline; long-term source↔output bijection is authoritative                                  |
+| Documentation graph contaminates validation             | Presentation metadata changes policy behaviour | Load guidance separately; never import it into production validation graph                                              |
+| SHACL result cannot be mapped to EP ID                  | Fixture assertions become vague                | Central result-to-requirement resolver; source-shape/owner-shape tests                                                  |
+| Fixture “passes” because node is outside target         | False confidence                               | Assert target participation/focus node explicitly                                                                       |
+| Negative fixture triggers several rules                 | Ambiguous test                                 | Golden valid fixture + single mutation; declare any intentionally correlated expected results                           |
+| `MUST` is mistaken for required presence                | Contributors add unnecessary fields            | Separate strength/presence dimensions and make media type a canonical explanation                                       |
+| `unevaluated` is mistaken for conformant                | Missed modification obligation                 | Distinct evaluation-state wording; context-unavailable fixtures                                                         |
+| Human review is treated as optional                     | Conceptual errors pass workflow                | Human-review section remains visible; never derive optionality from assessment mechanism                                |
+| GitHub changes Mermaid version                          | Diagram appearance/behaviour changes           | Pin Mermaid CLI and publish reviewed static SVG/PNG                                                                     |
+| GitHub theme differs from OS preference                 | Wrong-theme image in some configurations       | Use GitHub-documented theme-aware pattern; initial live light/dark/theme smoke testing                                  |
+| SVG inaccessible or too dense on mobile                 | Users cannot understand graphic                | Complete text equivalent and visible takeaway adjacent to every diagram                                                 |
+| Dark/light palettes rely on colour                      | Accessibility failure                          | Labels, shapes and line styles carry meaning; contrast review                                                           |
+| Custom HTML is sanitised by GitHub                      | Lost interaction/content                       | Depend only on GitHub-documented constructs and live smoke test                                                         |
+| Wiki is edited manually                                 | Source/Wiki divergence                         | Treat Wiki as deployment target; main-repo generated artefact is review surface                                         |
+| Wiki publication deletes unrelated pages                | Data loss                                      | Managed-file manifest; never delete outside owned paths                                                                 |
+| Wiki push credential unavailable/overprivileged         | Deployment failure/security risk               | Protected environment + least-privilege secret + pre-production credential test                                         |
+| External IANA registry changes                          | Non-reproducible policy/doc build              | Use repository-pinned authority snapshot for validation/generation                                                      |
+| External source link dies                               | Provenance appears broken                      | Scheduled link health report; do not silently delete historical source                                                  |
+| RDF blank-node labels change between parses             | Non-deterministic output                       | Never expose blank-node labels as IDs; deterministic structural extraction                                              |
+| Renderer timestamps cause permanent diffs               | Noisy generated commits                        | Deterministic input digest; keep CI timestamps out of checked-in Markdown                                               |
+| Page becomes extremely long                             | Readers lose orientation                       | Two reading paths, local TOC, task-first contributor section, stable anchors, limited provenance disclosure             |
+| Progressive disclosure hides critical constraints       | Technical reader misses requirement            | Keep normative text, applicability and executable behaviour visible; collapse only secondary provenance                 |
+| Visual redesign becomes “dashboard chrome”              | More scanning overhead, less clarity           | GitHub-native typography; use diagrams and compact metadata only where they clarify a decision                          |
+| Local HTML accessibility test differs from GitHub       | False assurance                                | Local automated checks plus mandatory live Wiki smoke test                                                              |
+| DCAT local profile is described as universal DCAT       | Incorrect standards claim                      | Wording explicitly distinguishes local policy from DCAT vocabulary semantics                                            |
+| New example quietly changes rule meaning                | Documentation becomes shadow policy            | Examples labelled by class and validated; preserved technical examples never silently replaced                          |
 
 **Definition of done**
 
@@ -2399,4 +2470,5 @@ is reviewed in the main repository
 is published unchanged as the managed GitHub Wiki projection.
 ```
 
-The success criterion is not that the new Editing Policy “looks less technical”. It is that two very different readers can use the **same authoritative policy projection without paying the same cognitive cost**: a contributor can understand the next correct action and reach its exact authority immediately, while a technical consumer can inspect every requirement, executable constraint, exception, example and lineage item without any information having been simplified away.
+The success criterion is not that the new Editing Policy “looks less technical”.
+It is that two very different readers can use the **same authoritative policy projection without paying the same cognitive cost**: a contributor can understand the next correct action and reach its exact authority immediately, while a technical consumer can inspect every requirement, executable constraint, exception, example and lineage item without any information having been simplified away.

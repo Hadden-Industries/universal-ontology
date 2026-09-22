@@ -14,7 +14,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from ontology_policy.publication import PublicationRefusal, check_repository_publication  # noqa: E402
+from ontology_policy.publication import (  # noqa: E402
+    PublicationRefusal,
+    check_repository_publication,
+)
 
 SCRIPT_DIRECTORY = Path(__file__).resolve().parent
 HELPER_RELATIVE_PATH = Path("amazon-aws/scripts/upload_to_s3.py")
@@ -31,11 +34,14 @@ def locate_helper_script(repository_root: Path = SCRIPT_DIRECTORY.parent) -> Pat
     try:
         common = subprocess.run(
             ["git", "-C", str(repository_root), "rev-parse", "--git-common-dir"],
-            capture_output=True, text=True, check=True, encoding="utf-8",
+            capture_output=True,
+            text=True,
+            check=True,
+            encoding="utf-8",
         ).stdout.strip()
         main_repository = (repository_root / common).resolve().parent
         candidates.append(main_repository.parent / HELPER_RELATIVE_PATH)
-    except (OSError, subprocess.CalledProcessError):
+    except OSError, subprocess.CalledProcessError:
         pass
     for candidate in candidates:
         if candidate.is_file():
@@ -70,7 +76,10 @@ def helper_interpreter(upload_script: Path) -> str:
     not carry them. Fall back to the current interpreter when that venv is absent.
     """
     repository = upload_script.resolve().parent.parent
-    for candidate in (repository / ".venv" / "Scripts" / "python.exe", repository / ".venv" / "bin" / "python"):
+    for candidate in (
+        repository / ".venv" / "Scripts" / "python.exe",
+        repository / ".venv" / "bin" / "python",
+    ):
         if candidate.is_file():
             return str(candidate)
     return sys.executable
@@ -88,10 +97,14 @@ def build_upload_command(
         interpreter or sys.executable,
         str(upload_script),
         str(local_directory),
-        "--region", "eu-west-1",
-        "--bucket", "haddenindustries-com-static-assets",
-        "--prefix", "ontology",
-        "--exclude", "external/*.url",
+        "--region",
+        "eu-west-1",
+        "--bucket",
+        "haddenindustries-com-static-assets",
+        "--prefix",
+        "ontology",
+        "--exclude",
+        "external/*.url",
         "--invalidate-cloudfront",
         "--delete",
     ]
@@ -115,7 +128,9 @@ def main(argv: list[str] | None = None) -> None:
     except PublicationRefusal as refusal:
         print(f"PUBLICATION_REFUSED: {refusal}", file=sys.stderr)
         sys.exit(2)
-    print(f"Publication gate: {verdict.receipt_purpose} qualification covers {len(verdict.bound_artifacts)} active artifact(s); policy {verdict.policy_identity}.")
+    print(
+        f"Publication gate: {verdict.receipt_purpose} qualification covers {len(verdict.bound_artifacts)} active artifact(s); policy {verdict.policy_identity}."
+    )
 
     local_directory = (SCRIPT_DIRECTORY / "../dist/").resolve()
     command = build_upload_command(

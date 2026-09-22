@@ -7,6 +7,7 @@ links alone never change their target. Comparison ignores serialisation,
 prefixes, triple order and blank-node labels. These are trusted facts for the
 policy; the obligation they trigger lives in SHACL.
 """
+
 from __future__ import annotations
 
 from enum import Enum
@@ -58,10 +59,14 @@ def rooted_closure(graph: Graph, root: URIRef) -> Graph:
 
 
 def _named_roots(source: ModuleSource) -> set[URIRef]:
-    return {subject for subject in owned_subjects(source) if isinstance(subject, URIRef)}
+    return {
+        subject for subject in owned_subjects(source) if isinstance(subject, URIRef)
+    }
 
 
-def classify_changes(current: ModuleSource, previous: ModuleSource) -> dict[URIRef, ChangeKind]:
+def classify_changes(
+    current: ModuleSource, previous: ModuleSource
+) -> dict[URIRef, ChangeKind]:
     """Classify every owned IRI subject of either snapshot relative to the previous snapshot."""
     current_roots = _named_roots(current)
     previous_roots = _named_roots(previous)
@@ -72,6 +77,9 @@ def classify_changes(current: ModuleSource, previous: ModuleSource) -> dict[URIR
         elif root not in current_roots:
             facts[root] = ChangeKind.DELETED
         else:
-            same = isomorphic(rooted_closure(current.graph, root), rooted_closure(previous.graph, root))
+            same = isomorphic(
+                rooted_closure(current.graph, root),
+                rooted_closure(previous.graph, root),
+            )
             facts[root] = ChangeKind.UNCHANGED if same else ChangeKind.CHANGED
     return facts

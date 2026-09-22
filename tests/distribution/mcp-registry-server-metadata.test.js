@@ -114,7 +114,11 @@ describe("MCP Registry server metadata", () => {
     expect(schemaNoticeText).toContain(serverDocument.$schema);
     expect(schemaNoticeText).toContain("unmodified");
     expect(schemaNoticeText).toMatch(/Apache-2\.0|MIT/iu);
-    expect(rootPackage.scripts.format).toContain('"server.json"');
-    expect(rootPackage.scripts["format:check"]).toContain('"server.json"');
+    expect(rootPackage.scripts.format).toContain("npm run format:node");
+    expect(rootPackage.scripts["format:check"]).toContain(
+      "npm run format:node:check",
+    );
+    expect(rootPackage.scripts["format:node"]).toContain('"server.json"');
+    expect(rootPackage.scripts["format:node:check"]).toContain('"server.json"');
   });
 });

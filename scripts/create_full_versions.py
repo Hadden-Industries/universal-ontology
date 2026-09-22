@@ -18,10 +18,19 @@ def main():
 
     # Resolve target version paths relative to the script location
     targets = [
-        ("../dist/iso-iec/11179/-3/ed-4/20260714", "../dist/iso-iec/11179/-3/ed-4/20260714-full"),
-        ("../dist/universal/reference-data/20260714", "../dist/universal/reference-data/20260714-full"),
+        (
+            "../dist/iso-iec/11179/-3/ed-4/20260714",
+            "../dist/iso-iec/11179/-3/ed-4/20260714-full",
+        ),
+        (
+            "../dist/universal/reference-data/20260714",
+            "../dist/universal/reference-data/20260714-full",
+        ),
         ("../dist/universal/core/20260714", "../dist/universal/core/20260714-full"),
-        ("../dist/universal/extended/20260714", "../dist/universal/extended/20260714-full"),
+        (
+            "../dist/universal/extended/20260714",
+            "../dist/universal/extended/20260714-full",
+        ),
     ]
 
     for src, dest in targets:

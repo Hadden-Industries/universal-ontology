@@ -9,3 +9,7 @@ PyYAML==6.0.3
 # Resolver for requirements.lock.txt (BSD-3-Clause); selected 2026-09-12
 # because native `pip lock` hashes only the running platform's wheels.
 pip-tools==7.6.1
+
+# Python lint/format and native Markdown semantic-line formatting.
+ruff==0.16.7
+snapper-fmt==0.11.2

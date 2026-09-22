@@ -12,6 +12,7 @@ jobs:
       contents: read
     outputs:
       development: ${{ steps.scope.outputs.development }}
+      style: ${{ steps.scope.outputs.style }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -22,7 +23,33 @@ jobs:
           node-version-file: .node-version
       - name: Compare PR inputs before installing dependencies
         id: scope
-        run: node scripts/selectPullRequestChecks.js --scope development
+        run: node scripts/selectPullRequestChecks.js --scope development --scope style
+
+  style:
+    name: Python and Markdown style (${{ matrix.os }})
+    needs: scope
+    if: needs.scope.outputs.style == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - name: Select package manager
+        run: npm install --global --no-audit --no-fund npm@12.0.2
+      - name: Set up the locked development environment
+        run: npm run set-up:development
+      - name: Check Python, Markdown and prose tooling
+        run: npm run check:style
 
   checks:
     needs: scope

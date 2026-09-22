@@ -3,6 +3,7 @@
 Used for qualification and cross-engine comparison only; ordinary hooks never
 require Java. The engine location and JDK are explicit inputs, never guessed.
 """
+
 from __future__ import annotations
 
 import os
@@ -37,7 +38,9 @@ class JenaRuntime:
         jena_home = os.environ.get(JENA_HOME_VARIABLE)
         java_home = os.environ.get(JAVA_HOME_VARIABLE)
         if not jena_home or not java_home:
-            raise JenaUnavailable(f"Set {JENA_HOME_VARIABLE} and {JAVA_HOME_VARIABLE} to run the second engine.")
+            raise JenaUnavailable(
+                f"Set {JENA_HOME_VARIABLE} and {JAVA_HOME_VARIABLE} to run the second engine."
+            )
         runtime = cls(Path(jena_home), Path(java_home))
         if not runtime.java.is_file() or not (runtime.jena_home / "lib").is_dir():
             raise JenaUnavailable(f"Jena/JDK paths are not usable: {runtime}")
@@ -49,9 +52,14 @@ class JenaRuntime:
         return self.java_home / "bin" / name
 
     def identity(self) -> dict[str, str]:
-        java_version = subprocess.run([str(self.java), "-version"], capture_output=True, text=True, check=True).stderr.strip()
+        java_version = subprocess.run(
+            [str(self.java), "-version"], capture_output=True, text=True, check=True
+        ).stderr.strip()
         jena_version = subprocess.run(
-            [str(self.java), "-cp", str(self.jena_home / "lib" / "*"), "jena.version"], capture_output=True, text=True, check=True
+            [str(self.java), "-cp", str(self.jena_home / "lib" / "*"), "jena.version"],
+            capture_output=True,
+            text=True,
+            check=True,
         ).stdout.strip()
         return {"java": java_version.splitlines()[0], "jena": jena_version}
 
@@ -65,8 +73,12 @@ class JenaOutcome:
 
 
 def validate_with_jena(
-    sources: list[ModuleSource], purpose: RunPurpose, policy: Policy, runtime: JenaRuntime,
-    authorities_directory: Path = AUTHORITIES_DIRECTORY, comparisons: dict | None = None,
+    sources: list[ModuleSource],
+    purpose: RunPurpose,
+    policy: Policy,
+    runtime: JenaRuntime,
+    authorities_directory: Path = AUTHORITIES_DIRECTORY,
+    comparisons: dict | None = None,
 ) -> JenaOutcome:
     """Run Jena on exactly the graphs pySHACL saw; blank nodes survive through one Turtle file each."""
     from .validation import required_authorities
@@ -83,20 +95,36 @@ def validate_with_jena(
         data_path.write_bytes(data.serialize(format="turtle").encode("utf-8"))
         completed = subprocess.run(
             [
-                str(runtime.java), "-cp", str(runtime.jena_home / "lib" / "*"), "shacl.shacl", "validate",
-                "--shapes", shapes_path.resolve().as_uri(), "--data", data_path.resolve().as_uri(),
+                str(runtime.java),
+                "-cp",
+                str(runtime.jena_home / "lib" / "*"),
+                "shacl.shacl",
+                "validate",
+                "--shapes",
+                shapes_path.resolve().as_uri(),
+                "--data",
+                data_path.resolve().as_uri(),
             ],
-            capture_output=True, text=True, encoding="utf-8",
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
         )
     if completed.returncode not in (0, 1) or not completed.stdout.strip():
-        raise RuntimeError(f"Jena shacl failed ({completed.returncode}): {completed.stderr.strip()}")
+        raise RuntimeError(
+            f"Jena shacl failed ({completed.returncode}): {completed.stderr.strip()}"
+        )
     diagnostics, report_text = split_log_prefix(completed.stdout)
     report = Graph()
     with lexical_literals():
         report.parse(data=report_text, format="turtle")
     results = tuple(extract_results(report, policy))
     conforms = any(obj == Literal(True) for obj in report.objects(None, SH.conforms))
-    return JenaOutcome(conforms=conforms and not results, results=results, report_graph=report, diagnostics=diagnostics)
+    return JenaOutcome(
+        conforms=conforms and not results,
+        results=results,
+        report_graph=report,
+        diagnostics=diagnostics,
+    )
 
 
 def split_log_prefix(stdout: str) -> tuple[tuple[str, ...], str]:
@@ -121,7 +149,9 @@ def comparable(results) -> set[tuple[str, str, str, str, str]]:
             r.requirement_id,
             "_:" if r.focus_node.startswith("_:") else r.focus_node,
             r.path,
-            "" if r.constraint_component == "sh:UniqueLangConstraintComponent" else r.value,
+            ""
+            if r.constraint_component == "sh:UniqueLangConstraintComponent"
+            else r.value,
             r.severity,
         )
         for r in results
@@ -132,6 +162,10 @@ def component_multiplicity(results) -> dict[tuple[str, str, str], int]:
     """How many constraint components each engine raised per (rule, focus, path); evidence, not parity."""
     counts: dict[tuple[str, str, str], int] = {}
     for r in results:
-        key = (r.requirement_id, "_:" if r.focus_node.startswith("_:") else r.focus_node, r.path)
+        key = (
+            r.requirement_id,
+            "_:" if r.focus_node.startswith("_:") else r.focus_node,
+            r.path,
+        )
         counts[key] = counts.get(key, 0) + 1
     return counts

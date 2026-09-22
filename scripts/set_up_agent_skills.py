@@ -53,7 +53,6 @@ import argparse
 import hashlib
 import json
 import os
-import re
 import shutil
 import subprocess
 import sys
@@ -161,8 +160,7 @@ def load_lock(repo: Path) -> tuple[Path, dict[str, Any], bytes]:
     skills = data.get("skills")
     if not isinstance(skills, dict):
         raise SetupError(
-            f"{LOCK_FILENAME} v{SUPPORTED_LOCK_VERSION} requires a `skills` "
-            "object."
+            f"{LOCK_FILENAME} v{SUPPORTED_LOCK_VERSION} requires a `skills` object."
         )
     if not skills:
         raise SetupError(f"{LOCK_FILENAME} contains no project skills.")
@@ -245,9 +243,7 @@ def ensure_generated_roots_are_safe(repo: Path, roots: tuple[Path, ...]) -> None
 
         if not is_ignored(repo, probe):
             suggested = (
-                ".agents/skills/"
-                if relative == ".agents/skills"
-                else ".claude/skills/"
+                ".agents/skills/" if relative == ".agents/skills" else ".claude/skills/"
             )
             raise SetupError(
                 f"Generated skill root `{relative}/` is not ignored by Git.\n"
@@ -257,15 +253,9 @@ def ensure_generated_roots_are_safe(repo: Path, roots: tuple[Path, ...]) -> None
             )
 
 
-
-
-
-
 def is_bare_shorthand(source: str) -> bool:
     return (
-        ":" not in source
-        and not source.startswith(".")
-        and not source.startswith("/")
+        ":" not in source and not source.startswith(".") and not source.startswith("/")
     )
 
 
@@ -283,20 +273,28 @@ def get_install_source(entry: dict[str, Any]) -> str:
     candidate = entry.get("sourceUrl") or source
     if source_type == "local":
         if candidate != source or not (
-            Path(source).is_absolute() or source in {".", ".."}
+            Path(source).is_absolute()
+            or source in {".", ".."}
             or source.startswith(("./", "../"))
         ):
-            raise SetupError("Local skill source must be an explicit filesystem path, not a remote source or shorthand.")
+            raise SetupError(
+                "Local skill source must be an explicit filesystem path, not a remote source or shorthand."
+            )
         return candidate
 
     ref = entry.get("ref")
     if ref is not None:
         if not isinstance(ref, str) or not ref or ref.startswith("-"):
-            raise SetupError("Remote skill ref must be a non-empty Git reference when present.")
+            raise SetupError(
+                "Remote skill ref must be a non-empty Git reference when present."
+            )
         # Git owns reference syntax; the CLI fragment is transport, not a second
         # reference grammar. Encode its selectors below so @ cannot select a skill.
-        result = run((require_command("git"), "check-ref-format", "--allow-onelevel", ref),
-                     capture=True, check=False)
+        result = run(
+            (require_command("git"), "check-ref-format", "--allow-onelevel", ref),
+            capture=True,
+            check=False,
+        )
         if result.returncode:
             raise SetupError(f"Invalid remote skill Git reference: {ref!r}.")
     if source_type not in {"github", "gitlab", "git"}:
@@ -305,26 +303,53 @@ def get_install_source(entry: dict[str, Any]) -> str:
     clone_url, _ = clone_url_for_entry(entry, Path.cwd())
     canonical_sources = {clone_url, clone_url.removesuffix(".git")}
     if clone_url.startswith("https://github.com/"):
-        canonical_sources.add(clone_url.removeprefix("https://github.com/").removesuffix(".git"))
+        canonical_sources.add(
+            clone_url.removeprefix("https://github.com/").removesuffix(".git")
+        )
     if candidate not in canonical_sources:
-        raise SetupError("Remote skill source must be a canonical repository root; put its revision only in ref.")
+        raise SetupError(
+            "Remote skill source must be a canonical repository root; put its revision only in ref."
+        )
 
     # Restrict lock inputs to unambiguous clone endpoints shared by the native
     # Skills consumer and the existing Git _shared-resource checkout. In
     # particular, appending a ref to a tree/download URL does not select it reliably.
     if any(char.isspace() or ord(char) < 32 or char in "?#%\\" for char in clone_url):
-        raise SetupError("Remote skill source must be an unescaped canonical Git clone URL.")
-    parsed = urlsplit(clone_url if not clone_url.startswith("git@") else "ssh://" + clone_url.replace(":", "/", 1))
-    configured_github_host = urlsplit("https://" + os.environ.get("GH_HOST", "").strip()).hostname
+        raise SetupError(
+            "Remote skill source must be an unescaped canonical Git clone URL."
+        )
+    parsed = urlsplit(
+        clone_url
+        if not clone_url.startswith("git@")
+        else "ssh://" + clone_url.replace(":", "/", 1)
+    )
+    configured_github_host = urlsplit(
+        "https://" + os.environ.get("GH_HOST", "").strip()
+    ).hostname
     path_parts = parsed.path.removeprefix("/").split("/")
-    if (parsed.scheme not in {"http", "https", "ssh"} or not parsed.hostname
-            or not parsed.path.endswith(".git")
-            or any(part in {"", ".", "..", "-"} for part in path_parts)
-            or parsed.hostname in {"raw.githubusercontent.com", "codeload.github.com", "objects.githubusercontent.com"}
-            or (parsed.hostname in {"github.com", configured_github_host}
-                and len(path_parts) != 2)
-            or any(host + "/" in clone_url and parsed.hostname != host for host in ("github.com", "gitlab.com"))):
-        raise SetupError("Remote skill source must be a canonical Git clone endpoint, without tree or download selectors.")
+    if (
+        parsed.scheme not in {"http", "https", "ssh"}
+        or not parsed.hostname
+        or not parsed.path.endswith(".git")
+        or any(part in {"", ".", "..", "-"} for part in path_parts)
+        or parsed.hostname
+        in {
+            "raw.githubusercontent.com",
+            "codeload.github.com",
+            "objects.githubusercontent.com",
+        }
+        or (
+            parsed.hostname in {"github.com", configured_github_host}
+            and len(path_parts) != 2
+        )
+        or any(
+            host + "/" in clone_url and parsed.hostname != host
+            for host in ("github.com", "gitlab.com")
+        )
+    ):
+        raise SetupError(
+            "Remote skill source must be a canonical Git clone endpoint, without tree or download selectors."
+        )
 
     return f"{clone_url}#{quote(ref, safe='/')}" if ref is not None else clone_url
 
@@ -478,14 +503,12 @@ def configure_brooks_review_invocation_policy(
 
         if metadata.is_symlink():
             raise SetupError(
-                "Refusing to replace symlinked Brooks Review metadata:\n"
-                f"  {metadata}"
+                f"Refusing to replace symlinked Brooks Review metadata:\n  {metadata}"
             )
 
         if metadata.exists() and not metadata.is_file():
             raise SetupError(
-                "Brooks Review metadata path is not a regular file:\n"
-                f"  {metadata}"
+                f"Brooks Review metadata path is not a regular file:\n  {metadata}"
             )
 
         metadata.parent.mkdir(parents=True, exist_ok=True)
@@ -567,9 +590,7 @@ def clone_url_for_entry(
                 None,
             )
 
-        clean = urlunsplit(
-            (parts.scheme, parts.netloc, parts.path, parts.query, "")
-        )
+        clean = urlunsplit((parts.scheme, parts.netloc, parts.path, parts.query, ""))
         return clean, None
 
     if candidate.endswith(".git"):
@@ -735,8 +756,7 @@ def rewrite_shared_references(skill_dir: Path) -> int:
             text = raw.decode("utf-8")
         except UnicodeDecodeError as exc:
             raise SetupError(
-                f"File contains `{SHARED_REFERENCE}` but is not UTF-8 text: "
-                f"{path}"
+                f"File contains `{SHARED_REFERENCE}` but is not UTF-8 text: {path}"
             ) from exc
 
         updated = text.replace(SHARED_REFERENCE, VENDORED_SHARED_REFERENCE)
@@ -819,10 +839,7 @@ def repair_non_self_contained_skills(
         print("No parent-relative ../_shared dependencies detected.")
         return
 
-    print(
-        "Normalizing sibling `_shared` dependencies for: "
-        + ", ".join(candidates)
-    )
+    print("Normalizing sibling `_shared` dependencies for: " + ", ".join(candidates))
 
     sparse_paths = plan_sparse_paths(repo, skills, candidates)
 
@@ -891,9 +908,7 @@ def verify_final_state(
                 f"{LOCK_FILENAME}: {'; '.join(details)}"
             )
 
-        print(
-            f"  OK  {relative_root}: {len(declared_skills)} declared skill(s)"
-        )
+        print(f"  OK  {relative_root}: {len(declared_skills)} declared skill(s)")
 
 
 def verify_lock_skill_set_unchanged(repo: Path, expected_skills: set[str]) -> None:
