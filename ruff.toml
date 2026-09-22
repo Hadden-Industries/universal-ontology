@@ -1,0 +1,19 @@
+target-version = "py314"
+line-length = 88
+preview = false
+unsafe-fixes = false
+force-exclude = true
+include = ["*.py", "*.pyi", "*.ipynb"]
+cache-dir = ".venv/.ruff_cache"
+extend-exclude = [
+    ".agents/skills", ".claude/skills", ".agent-tools", ".sdlc",
+    "dist", "src/external", "tests/fixtures", "docs/reviews", "docs/sdlc",
+    "docs/plans/sdlc-improvements",
+]
+
+[lint]
+# Correctness and import ordering; keep style-only rewrites out of policy logic.
+select = ["E4", "E7", "E9", "F", "I"]
+
+[format]
+line-ending = "lf"

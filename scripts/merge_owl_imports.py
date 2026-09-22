@@ -30,20 +30,20 @@ Design & Best Practices:
 """
 
 import argparse
+import hashlib
+import io
+import logging
 import os
 import sys
 import tempfile
-import urllib.request
 import urllib.parse
-import io
-import logging
-import hashlib
-from rdflib import Graph, URIRef, OWL, RDF, Literal, BNode
+import urllib.request
+
 from lxml import etree
+from rdflib import OWL, RDF, BNode, Graph, Literal, URIRef
 
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - [%(levelname)s] - %(message)s"
+    level=logging.INFO, format="%(asctime)s - [%(levelname)s] - %(message)s"
 )
 
 
@@ -68,12 +68,16 @@ def load_catalog(catalog_path: str) -> dict[str, str]:
             uri = uri_elem.get("uri")
             if name and uri:
                 # If path is relative, resolve it relative to the catalog's folder
-                if not os.path.isabs(uri) and not uri.startswith(("http://", "https://")):
+                if not os.path.isabs(uri) and not uri.startswith(
+                    ("http://", "https://")
+                ):
                     resolved_path = os.path.abspath(os.path.join(catalog_dir, uri))
                 else:
                     resolved_path = uri
                 catalog_map[name] = resolved_path
-        logging.info(f"Loaded catalog containing {len(catalog_map)} entries from {catalog_path}")
+        logging.info(
+            f"Loaded catalog containing {len(catalog_map)} entries from {catalog_path}"
+        )
     except Exception as e:
         logging.error(f"Failed to parse catalog file at {catalog_path}: {e}")
     return catalog_map
@@ -114,7 +118,9 @@ def load_ontology(source: str, graph: Graph):
         logging.info(f"Fetching remote ontology: {source}")
         req = urllib.request.Request(
             source,
-            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Antigravity/1.0"}
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Antigravity/1.0"
+            },
         )
         with urllib.request.urlopen(req, timeout=15) as response:
             content = response.read()
@@ -132,7 +138,9 @@ def load_ontology(source: str, graph: Graph):
         except Exception as e:
             logging.debug(f"Failed to parse {source} as {fmt}: {e}")
 
-    raise ValueError(f"Could not parse ontology content from {source} in any supported format.")
+    raise ValueError(
+        f"Could not parse ontology content from {source} in any supported format."
+    )
 
 
 def sanitise_graph_literals(graph: Graph):
@@ -140,7 +148,7 @@ def sanitise_graph_literals(graph: Graph):
     Iterates over all triples in the graph, scanning for Literal objects.
     Strips out XML 1.0 illegal control characters (such as backspaces \\x08 and
     cancel \\x18 codes) from string literals to prevent XML parser fatal errors.
-    
+
     Why: Naive 16-bit to 8-bit Unicode truncation bugs (e.g. in W3C time-gregorian.ttl)
          turn characters like U+6708 (月) and U+0418 (И) into 0x08 and 0x18. While legal
          in Turtle strings, they crash standard XML/OWL API parsers used in WebVOWL.
@@ -157,7 +165,9 @@ def sanitise_graph_literals(graph: Graph):
                 new_o = Literal(cleaned_val, datatype=o.datatype, lang=o.language)
                 graph.remove((s, p, o))
                 graph.add((s, p, new_o))
-                logging.info(f"Sanitised invalid XML character from literal {repr(val)} to {repr(cleaned_val)}")
+                logging.info(
+                    f"Sanitised invalid XML character from literal {repr(val)} to {repr(cleaned_val)}"
+                )
 
 
 def get_bnode_hash(bnode, graph, visited=None):
@@ -247,7 +257,7 @@ def deterministic_xml_formatting(xml_path: str):
 
     # Create a new root element with the sorted nsmap
     new_root = etree.Element(root.tag, nsmap=combined_nsmap, attrib=root.attrib)
-    
+
     # Copy all children of root to new_root
     for child in root:
         new_root.append(child)
@@ -255,33 +265,34 @@ def deterministic_xml_formatting(xml_path: str):
     # 2. Inline blank nodes that are only referenced once
     def inline_anonymous_nodes(root_el):
         from collections import defaultdict
+
         node_id_counts = defaultdict(int)
-        node_id_attr = '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}nodeID'
-        
+        node_id_attr = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}nodeID"
+
         # Count all occurrences of nodeID
         for el in root_el.iter():
             nid = el.get(node_id_attr)
             if nid:
                 node_id_counts[nid] += 1
-                
+
         # Candidates for inlining (count == 2: one definition and one reference)
         candidates = {nid for nid, count in node_id_counts.items() if count == 2}
-        
+
         definitions = {}
         references = {}
-        
+
         for el in root_el:
             nid = el.get(node_id_attr)
             if nid in candidates:
                 definitions[nid] = el
-                
+
         for el in root_el.iter():
             if el in root_el:
                 continue
             nid = el.get(node_id_attr)
             if nid in candidates:
                 references[nid] = el
-                
+
         for nid in list(candidates):
             defn = definitions.get(nid)
             ref = references.get(nid)
@@ -299,7 +310,7 @@ def deterministic_xml_formatting(xml_path: str):
             nid = el.get(node_id_attr)
             if nid:
                 final_counts[nid] += 1
-                
+
         for el in root_el.iter():
             nid = el.get(node_id_attr)
             if nid and final_counts[nid] == 1:
@@ -317,36 +328,62 @@ def deterministic_xml_formatting(xml_path: str):
     # Helper to generate a stable, deterministic string signature for an element's entire subtree
     def get_element_signature(el):
         tag = el.tag or ""
-        about = el.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about') or el.get('rdf:about') or ""
-        node_id = el.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}nodeID') or el.get('rdf:nodeID') or ""
-        resource = el.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource') or el.get('rdf:resource') or ""
-        lang = el.get('{http://www.w3.org/XML/1998/namespace}lang') or el.get('xml:lang') or ""
-        datatype = el.get('{http://www.w3.org/1999/02/22-rdf-syntax-ns#}datatype') or el.get('rdf:datatype') or ""
+        about = (
+            el.get("{http://www.w3.org/1999/02/22-rdf-syntax-ns#}about")
+            or el.get("rdf:about")
+            or ""
+        )
+        node_id = (
+            el.get("{http://www.w3.org/1999/02/22-rdf-syntax-ns#}nodeID")
+            or el.get("rdf:nodeID")
+            or ""
+        )
+        resource = (
+            el.get("{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource")
+            or el.get("rdf:resource")
+            or ""
+        )
+        lang = (
+            el.get("{http://www.w3.org/XML/1998/namespace}lang")
+            or el.get("xml:lang")
+            or ""
+        )
+        datatype = (
+            el.get("{http://www.w3.org/1999/02/22-rdf-syntax-ns#}datatype")
+            or el.get("rdf:datatype")
+            or ""
+        )
         text = el.text.strip() if el.text else ""
         attribs = str(sorted(el.attrib.items()))
-        
+
         # Subtree signature: recurse into children
         child_sigs = [get_element_signature(child) for child in el]
         child_str = "|".join(child_sigs)
-        
+
         return f"{tag}[about={about},node_id={node_id},resource={resource},lang={lang},datatype={datatype},text={text},attribs={attribs}]({child_str})"
 
     def sort_elements_recursive(element):
         children = list(element)
         if not children:
             return
-            
+
         # First recursively sort sub-elements
         for child in children:
             sort_elements_recursive(child)
-            
+
         # Sort current level
         if element.tag.endswith("RDF") or "RDF" in element.tag:
             # Root level: keep Ontology first, and then sort others
-            ontologies = [c for c in children if c.tag.endswith("Ontology") or "Ontology" in c.tag]
-            others = [c for c in children if not (c.tag.endswith("Ontology") or "Ontology" in c.tag)]
+            ontologies = [
+                c for c in children if c.tag.endswith("Ontology") or "Ontology" in c.tag
+            ]
+            others = [
+                c
+                for c in children
+                if not (c.tag.endswith("Ontology") or "Ontology" in c.tag)
+            ]
             others.sort(key=get_element_signature)
-            
+
             for child in children:
                 element.remove(child)
             for ont in ontologies:
@@ -371,10 +408,16 @@ def deterministic_xml_formatting(xml_path: str):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Flatten OWL imports closure recursively.")
+    parser = argparse.ArgumentParser(
+        description="Flatten OWL imports closure recursively."
+    )
     parser.add_argument("input_file", help="Path to the input OWL ontology file.")
-    parser.add_argument("output_file", help="Path to output the merged OWL ontology file.")
-    parser.add_argument("--catalog", help="Path to catalog-v001.xml file (auto-searched if omitted).")
+    parser.add_argument(
+        "output_file", help="Path to output the merged OWL ontology file."
+    )
+    parser.add_argument(
+        "--catalog", help="Path to catalog-v001.xml file (auto-searched if omitted)."
+    )
     args = parser.parse_args()
 
     if not os.path.exists(args.input_file):
@@ -436,14 +479,16 @@ def main():
             basename = os.path.basename(parsed_url.path)
             if not basename:
                 basename = parsed_url.path.replace("/", "_")
-            
+
             candidate = os.path.join(os.path.dirname(os.path.abspath(source)), basename)
             if os.path.exists(candidate):
                 resolved_source = candidate
             else:
                 # Check relative to catalog directory
                 if catalog_path:
-                    candidate = os.path.join(os.path.dirname(os.path.abspath(catalog_path)), basename)
+                    candidate = os.path.join(
+                        os.path.dirname(os.path.abspath(catalog_path)), basename
+                    )
                     if os.path.exists(candidate):
                         resolved_source = candidate
 
@@ -452,7 +497,9 @@ def main():
             if str(imp_iri).startswith(("http://", "https://")):
                 resolved_source = str(imp_iri)
             else:
-                logging.error(f"Could not resolve import: {imp_iri} (imported by {source})")
+                logging.error(
+                    f"Could not resolve import: {imp_iri} (imported by {source})"
+                )
                 continue
 
         # Load imported ontology into a separate graph
@@ -472,7 +519,9 @@ def main():
                     if nested not in visited_iris:
                         queue.append((nested, resolved_source))
         except Exception as e:
-            logging.error(f"Failed to load import {imp_iri} from {resolved_source}: {e}")
+            logging.error(
+                f"Failed to load import {imp_iri} from {resolved_source}: {e}"
+            )
 
     # 6. Remove owl:imports statements from the base ontology
     if base_iri:
@@ -505,12 +554,15 @@ def main():
 
     # Patch base_graph.objects to return sorted types for determinism in PrettyXMLSerializer
     import types
+
     original_objects = base_graph.objects
+
     def deterministic_objects(self, subject=None, predicate=None):
         res = original_objects(subject, predicate)
         if predicate == RDF.type and subject is not None:
             return sorted(list(res), key=str)
         return res
+
     base_graph.objects = types.MethodType(deterministic_objects, base_graph)
 
     # 9. Write output file atomically to prevent data corruption
@@ -518,12 +570,16 @@ def main():
     if output_dir != ".":
         os.makedirs(output_dir, exist_ok=True)
 
-    with tempfile.NamedTemporaryFile(mode="wb", delete=False, dir=output_dir, suffix=".owl") as temp_file:
+    with tempfile.NamedTemporaryFile(
+        mode="wb", delete=False, dir=output_dir, suffix=".owl"
+    ) as temp_file:
         temp_file_path = temp_file.name
         try:
             # Use pretty-xml to preserve owl:Class / owl:ObjectProperty elements
             # and avoid unnecessary rdf:Description wrappers where a typed node can be used.
-            base_graph.serialize(destination=temp_file, format="pretty-xml", max_depth=1)
+            base_graph.serialize(
+                destination=temp_file, format="pretty-xml", max_depth=1
+            )
             temp_file.flush()
             os.fsync(temp_file.fileno())
             temp_file.close()  # Close the file handle to allow writing in post-process on Windows

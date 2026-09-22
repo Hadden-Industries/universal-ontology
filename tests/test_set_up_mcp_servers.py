@@ -1,7 +1,7 @@
 import contextlib
 import hashlib
-import io
 import inspect
+import io
 import json
 import os
 import shutil
@@ -15,7 +15,6 @@ import unittest
 import zipfile
 from pathlib import Path
 from unittest import mock
-
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS_DIRECTORY = REPOSITORY_ROOT / "scripts"
@@ -60,8 +59,7 @@ class MergeJsonMcpConfigurationTests(unittest.TestCase):
             "merge_json_mcp_host_configuration",
         )
         ambiguous_configuration = (
-            '{"mcpServers": {}, "mcpServers": '
-            '{"independent": {"command": "other"}}}'
+            '{"mcpServers": {}, "mcpServers": {"independent": {"command": "other"}}}'
         )
 
         with self.assertRaisesRegex(
@@ -87,9 +85,7 @@ class MergeJsonMcpConfigurationTests(unittest.TestCase):
                     r"not valid JSON|non-standard JSON constant",
                 ):
                     merge_configuration(
-                        '{"unrelatedHostSetting": '
-                        f"{non_standard_constant}"
-                        "}",
+                        f'{{"unrelatedHostSetting": {non_standard_constant}}}',
                         "github",
                         {"command": "node", "args": ["launcher.js", "stdio"]},
                     )
@@ -102,9 +98,7 @@ class MergeJsonMcpConfigurationTests(unittest.TestCase):
                         "type": "http",
                         "url": "https://api.githubcopilot.com/mcp/",
                         "headers": {"Authorization": "Bearer private-token"},
-                        "env": {
-                            "GITHUB_PERSONAL_ACCESS_TOKEN": "private-token"
-                        },
+                        "env": {"GITHUB_PERSONAL_ACCESS_TOKEN": "private-token"},
                     },
                     "independent": {
                         "command": "independent-server",
@@ -151,9 +145,7 @@ class MergeJsonMcpConfigurationTests(unittest.TestCase):
             {
                 "mcpServers": {
                     "github-mcp-server": {"command": "legacy-github"},
-                    "universal_ontology_local": {
-                        "url": "http://127.0.0.1:8000/mcp"
-                    },
+                    "universal_ontology_local": {"url": "http://127.0.0.1:8000/mcp"},
                     "independent": {"command": "independent-server"},
                 }
             }
@@ -229,9 +221,7 @@ class HostConfigurationRenderingTests(unittest.TestCase):
         }
         portable_document = json.loads(rendered_by_path[".mcp.json"])
         expected_github_entry = portable_document["mcpServers"]["github"]
-        expected_ontology_entry = portable_document["mcpServers"][
-            "universal_ontology"
-        ]
+        expected_ontology_entry = portable_document["mcpServers"]["universal_ontology"]
 
         self.assertEqual(expected_github_entry["command"], "node")
         self.assertEqual(
@@ -711,9 +701,7 @@ class HostConfigurationRenderingTests(unittest.TestCase):
         junction_path = mock.Mock()
         junction_path.is_symlink.return_value = False
         junction_path.lstat.return_value = mock.Mock(
-            st_reparse_tag=(
-                set_up_mcp_servers.WINDOWS_DIRECTORY_JUNCTION_REPARSE_TAG
-            )
+            st_reparse_tag=(set_up_mcp_servers.WINDOWS_DIRECTORY_JUNCTION_REPARSE_TAG)
         )
 
         # Python 3.11 has `st_reparse_tag` but not `Path.is_junction()`. Simulate
@@ -784,9 +772,7 @@ class ReadOnlyHostConfigurationCheckTests(unittest.TestCase):
             for document in rendered_documents:
                 path = document.destination_path
 
-                if path.relative_to(repository_root) == Path(
-                    ".agents/mcp_config.json"
-                ):
+                if path.relative_to(repository_root) == Path(".agents/mcp_config.json"):
                     continue
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(
@@ -794,9 +780,7 @@ class ReadOnlyHostConfigurationCheckTests(unittest.TestCase):
                     encoding="utf-8",
                     newline="\n",
                 )
-            local_antigravity = (
-                repository_root / ".agents" / "mcp_config.json"
-            )
+            local_antigravity = repository_root / ".agents" / "mcp_config.json"
             local_antigravity.parent.mkdir(parents=True, exist_ok=True)
             local_antigravity.write_text("not JSON", encoding="utf-8")
 
@@ -823,28 +807,34 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
             repository_root = Path(scratch)
             rendered_documents = render_documents(repository_root)
             configuration_path = repository_root / ".mcp.json"
-            concurrent_user_contents = json.dumps(
-                {
-                    "mcpServers": {
-                        "user_added_while_setup_was_building": {
-                            "command": "independent-server"
+            concurrent_user_contents = (
+                json.dumps(
+                    {
+                        "mcpServers": {
+                            "user_added_while_setup_was_building": {
+                                "command": "independent-server"
+                            }
                         }
-                    }
-                },
-                indent=2,
-            ) + "\n"
+                    },
+                    indent=2,
+                )
+                + "\n"
+            )
             configuration_path.write_text(
                 concurrent_user_contents,
                 encoding="utf-8",
             )
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "is_ignored",
-                return_value=True,
-            ), self.assertRaisesRegex(
-                set_up_mcp_servers.SetupError,
-                "changed after.*rendered|rendered.*changed",
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "is_ignored",
+                    return_value=True,
+                ),
+                self.assertRaisesRegex(
+                    set_up_mcp_servers.SetupError,
+                    "changed after.*rendered|rendered.*changed",
+                ),
             ):
                 publish_documents(repository_root, rendered_documents)
 
@@ -852,12 +842,8 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                 configuration_path.read_text(encoding="utf-8"),
                 concurrent_user_contents,
             )
-            self.assertFalse(
-                (repository_root / ".codex" / "config.toml").exists()
-            )
-            self.assertFalse(
-                (repository_root / ".agents" / "mcp_config.json").exists()
-            )
+            self.assertFalse((repository_root / ".codex" / "config.toml").exists())
+            self.assertFalse((repository_root / ".agents" / "mcp_config.json").exists())
 
     def test_existing_destination_remains_present_until_atomic_replacement(self):
         activate_replacements = require_setup_callable(
@@ -895,8 +881,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                 side_effect=observe_continuous_destination,
             ):
                 activated_paths = activate_replacements(
-                    root,
-                    [(destination, staged_replacement)]
+                    root, [(destination, staged_replacement)]
                 )
 
             self.assertEqual(activated_paths, [destination])
@@ -962,14 +947,17 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                     displaced_file_path,
                 )
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "_replace_existing_file_and_retain_displaced_file",
-                side_effect=replace_after_concurrent_edit,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "is_ignored",
-                return_value=True,
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "_replace_existing_file_and_retain_displaced_file",
+                    side_effect=replace_after_concurrent_edit,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "is_ignored",
+                    return_value=True,
+                ),
             ):
                 with self.assertRaisesRegex(
                     set_up_mcp_servers.SetupError,
@@ -981,9 +969,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                         expected_destination_bytes_by_path={
                             destination: b"render-time observation"
                         },
-                        sensitive_configuration_destination_paths={
-                            destination
-                        },
+                        sensitive_configuration_destination_paths={destination},
                     )
 
             self.assertEqual(destination.read_bytes(), concurrent_user_contents)
@@ -1084,9 +1070,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                 concurrent_user_contents,
             )
             self.assertEqual(second_destination.read_bytes(), b"second original")
-            recovery_backups = list(
-                repository_root.glob(".*.activation.backup")
-            )
+            recovery_backups = list(repository_root.glob(".*.activation.backup"))
             self.assertEqual(len(recovery_backups), 1)
             self.assertEqual(recovery_backups[0].read_bytes(), b"first original")
 
@@ -1148,9 +1132,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                     activate_replacements(
                         repository_root,
                         [(destination, staged_replacement)],
-                        sensitive_configuration_destination_paths={
-                            destination
-                        },
+                        sensitive_configuration_destination_paths={destination},
                     )
 
             self.assertEqual(
@@ -1159,11 +1141,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
             )
             self.assertFalse(staged_replacement.exists())
             self.assertEqual(
-                [
-                    path
-                    for path in destination.parent.iterdir()
-                    if path != destination
-                ],
+                [path for path in destination.parent.iterdir() if path != destination],
                 [],
             )
 
@@ -1263,14 +1241,17 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                     displaced_file,
                 )
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "_replace_existing_file_and_retain_displaced_file",
-                side_effect=fail_second_destination_replacement,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "is_ignored",
-                return_value=True,
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "_replace_existing_file_and_retain_displaced_file",
+                    side_effect=fail_second_destination_replacement,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "is_ignored",
+                    return_value=True,
+                ),
             ):
                 with self.assertRaisesRegex(
                     set_up_mcp_servers.SetupError,
@@ -1289,7 +1270,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                                 "second-new\n",
                                 second_observed_bytes,
                             ),
-                        ]
+                        ],
                     )
 
             self.assertEqual(
@@ -1340,14 +1321,17 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                     contents,
                 )
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "_stage_repository_configuration_document",
-                side_effect=fail_second_staging_attempt,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "is_ignored",
-                return_value=True,
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "_stage_repository_configuration_document",
+                    side_effect=fail_second_staging_attempt,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "is_ignored",
+                    return_value=True,
+                ),
             ):
                 with self.assertRaisesRegex(
                     set_up_mcp_servers.SetupError,
@@ -1366,7 +1350,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                                 "second-new\n",
                                 None,
                             ),
-                        ]
+                        ],
                     )
 
             self.assertFalse(first_path.exists())
@@ -1424,18 +1408,22 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
 
                 return real_replace(source, destination)
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "_replace_existing_file_and_retain_displaced_file",
-                side_effect=fail_second_activation,
-            ), mock.patch.object(
-                set_up_mcp_servers.os,
-                "replace",
-                side_effect=fail_rollback,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "is_ignored",
-                return_value=True,
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "_replace_existing_file_and_retain_displaced_file",
+                    side_effect=fail_second_activation,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers.os,
+                    "replace",
+                    side_effect=fail_rollback,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "is_ignored",
+                    return_value=True,
+                ),
             ):
                 with self.assertRaisesRegex(
                     set_up_mcp_servers.SetupError,
@@ -1454,12 +1442,10 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                                 "second-replacement\n",
                                 second_observed_bytes,
                             ),
-                        ]
+                        ],
                     )
 
-            recovery_backups = list(
-                repository_root.glob(".*.activation.backup")
-            )
+            recovery_backups = list(repository_root.glob(".*.activation.backup"))
             self.assertEqual(len(recovery_backups), 1)
             self.assertEqual(
                 recovery_backups[0].read_text(encoding="utf-8"),
@@ -1503,15 +1489,17 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                 return real_unlink(path, missing_ok=missing_ok)
 
             standard_error = io.StringIO()
-            with mock.patch.object(
-                Path,
-                "unlink",
-                autospec=True,
-                side_effect=reject_locked_backup_cleanup,
-            ), contextlib.redirect_stderr(standard_error):
+            with (
+                mock.patch.object(
+                    Path,
+                    "unlink",
+                    autospec=True,
+                    side_effect=reject_locked_backup_cleanup,
+                ),
+                contextlib.redirect_stderr(standard_error),
+            ):
                 activated_paths = activate_replacements(
-                    root,
-                    [(destination, temporary_path)]
+                    root, [(destination, temporary_path)]
                 )
 
             self.assertEqual(activated_paths, [destination])
@@ -1544,8 +1532,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
             temporary_path.chmod(0o700)
 
             activated_paths = activate_replacements(
-                root,
-                [(destination, temporary_path)]
+                root, [(destination, temporary_path)]
             )
 
             self.assertEqual(activated_paths, [destination])
@@ -1580,7 +1567,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                         [
                             (destination, first_temporary_path),
                             (root / "second-destination", second_temporary_path),
-                        ]
+                        ],
                     )
 
             self.assertEqual(destination.read_bytes(), b"original")
@@ -1611,7 +1598,7 @@ class TransactionalHostConfigurationPublicationTests(unittest.TestCase):
                     [
                         (destination, first_temporary_path),
                         (destination, second_temporary_path),
-                    ]
+                    ],
                 )
 
             self.assertEqual(destination.read_bytes(), b"original")
@@ -1841,15 +1828,18 @@ class SetupCommandLineTests(unittest.TestCase):
             activated_paths=(),
         )
 
-        with mock.patch.object(
-            set_up_mcp_servers,
-            "derive_repo_from_script",
-            return_value=REPOSITORY_ROOT,
-        ), mock.patch.object(
-            set_up_mcp_servers,
-            "set_up_repository_local_mcp_servers",
-            return_value=setup_result,
-        ) as install_servers:
+        with (
+            mock.patch.object(
+                set_up_mcp_servers,
+                "derive_repo_from_script",
+                return_value=REPOSITORY_ROOT,
+            ),
+            mock.patch.object(
+                set_up_mcp_servers,
+                "set_up_repository_local_mcp_servers",
+                return_value=setup_result,
+            ) as install_servers,
+        ):
             exit_code = set_up_mcp_servers.main(
                 [
                     "--universal-ontology-query-artifact-source=http",
@@ -1877,22 +1867,26 @@ class SetupCommandLineTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as scratch:
             repository_root = Path(scratch)
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "derive_repo_from_script",
-                return_value=repository_root,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "check_mcp_host_configuration_documents",
-                return_value=[
-                    repository_root / ".mcp.json",
-                    repository_root / ".codex" / "config.toml",
-                ],
-            ) as check_documents, mock.patch.object(
-                set_up_mcp_servers,
-                "set_up_repository_local_mcp_servers",
-                side_effect=AssertionError("check mode entered the installer"),
-            ) as install_servers:
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "derive_repo_from_script",
+                    return_value=repository_root,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "check_mcp_host_configuration_documents",
+                    return_value=[
+                        repository_root / ".mcp.json",
+                        repository_root / ".codex" / "config.toml",
+                    ],
+                ) as check_documents,
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "set_up_repository_local_mcp_servers",
+                    side_effect=AssertionError("check mode entered the installer"),
+                ) as install_servers,
+            ):
                 exit_code = main(
                     [
                         "--check",
@@ -1951,19 +1945,24 @@ class SetupCommandLineTests(unittest.TestCase):
             activated_paths=(repository_root / ".mcp.json",),
         )
 
-        with mock.patch.object(
-            set_up_mcp_servers,
-            "derive_repo_from_script",
-            return_value=repository_root,
-        ), mock.patch.object(
-            set_up_mcp_servers,
-            "set_up_repository_local_mcp_servers",
-            return_value=setup_result,
-        ), mock.patch.dict(
-            os.environ,
-            {"GITHUB_PERSONAL_ACCESS_TOKEN": sensitive_token},
-            clear=True,
-        ), contextlib.redirect_stdout(standard_output):
+        with (
+            mock.patch.object(
+                set_up_mcp_servers,
+                "derive_repo_from_script",
+                return_value=repository_root,
+            ),
+            mock.patch.object(
+                set_up_mcp_servers,
+                "set_up_repository_local_mcp_servers",
+                return_value=setup_result,
+            ),
+            mock.patch.dict(
+                os.environ,
+                {"GITHUB_PERSONAL_ACCESS_TOKEN": sensitive_token},
+                clear=True,
+            ),
+            contextlib.redirect_stdout(standard_output),
+        ):
             exit_code = set_up_mcp_servers.main([])
 
         output = standard_output.getvalue()
@@ -1980,20 +1979,24 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
             "generate_repository_local_ontology_query_artifacts",
         )
 
-        with mock.patch.object(
-            set_up_mcp_servers,
-            "require_command",
-            return_value="npx-path",
-            create=True,
-        ), mock.patch.object(
-            set_up_mcp_servers,
-            "_read_declared_npm_version",
-            return_value="12.0.2",
-        ), mock.patch.object(
-            set_up_mcp_servers,
-            "run",
-            create=True,
-        ) as run_command:
+        with (
+            mock.patch.object(
+                set_up_mcp_servers,
+                "require_command",
+                return_value="npx-path",
+                create=True,
+            ),
+            mock.patch.object(
+                set_up_mcp_servers,
+                "_read_declared_npm_version",
+                return_value="12.0.2",
+            ),
+            mock.patch.object(
+                set_up_mcp_servers,
+                "run",
+                create=True,
+            ) as run_command,
+        ):
             generate_query_artifacts(REPOSITORY_ROOT)
 
         run_command.assert_called_once_with(
@@ -2121,16 +2124,19 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
 
                 return subprocess.CompletedProcess(command, 0, "", "")
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "require_command",
-                side_effect=lambda name: f"{name}-path",
-                create=True,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "run",
-                side_effect=run_command,
-                create=True,
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "require_command",
+                    side_effect=lambda name: f"{name}-path",
+                    create=True,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "run",
+                    side_effect=run_command,
+                    create=True,
+                ),
             ):
                 built_bundle = build_application_bundle(repository_root)
 
@@ -2189,15 +2195,18 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 package_version="1.0.0",
             )
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "build_universal_ontology_mcp_application_bundle",
-                return_value=built_bundle,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "git_output",
-                side_effect=["abc123", " M src/example.js"],
-                create=True,
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "build_universal_ontology_mcp_application_bundle",
+                    return_value=built_bundle,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "git_output",
+                    side_effect=["abc123", " M src/example.js"],
+                    create=True,
+                ),
             ):
                 staged_installation = stage_installation(
                     repository_root,
@@ -2276,19 +2285,23 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 built_bundle_path.write_bytes(replacement_bundle_bytes)
                 return actual_copy2(source, destination)
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "build_universal_ontology_mcp_application_bundle",
-                return_value=built_bundle,
-            ), mock.patch.object(
-                set_up_mcp_servers.shutil,
-                "copy2",
-                side_effect=replace_canonical_bundle_then_copy,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "git_output",
-                side_effect=["abc123", ""],
-                create=True,
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "build_universal_ontology_mcp_application_bundle",
+                    return_value=built_bundle,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers.shutil,
+                    "copy2",
+                    side_effect=replace_canonical_bundle_then_copy,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "git_output",
+                    side_effect=["abc123", ""],
+                    create=True,
+                ),
             ):
                 with self.assertRaisesRegex(
                     set_up_mcp_servers.SetupError,
@@ -2351,22 +2364,26 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 "",
             )
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "require_command",
-                return_value="node-path",
-                create=True,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "SETUP_SCRIPT_PATH",
-                setup_script_directory_path / "set_up_mcp_servers.py",
-                create=True,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "run",
-                return_value=completed,
-                create=True,
-            ) as run_command:
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "require_command",
+                    return_value="node-path",
+                    create=True,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "SETUP_SCRIPT_PATH",
+                    setup_script_directory_path / "set_up_mcp_servers.py",
+                    create=True,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "run",
+                    return_value=completed,
+                    create=True,
+                ) as run_command,
+            ):
                 verification = verify_installation(
                     repository_root,
                     staged_installation,
@@ -2416,16 +2433,19 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
             ),
         )
 
-        with mock.patch.object(
-            set_up_mcp_servers,
-            "require_command",
-            return_value="node-path",
-            create=True,
-        ), mock.patch.object(
-            set_up_mcp_servers,
-            "run",
-            return_value=completed,
-            create=True,
+        with (
+            mock.patch.object(
+                set_up_mcp_servers,
+                "require_command",
+                return_value="node-path",
+                create=True,
+            ),
+            mock.patch.object(
+                set_up_mcp_servers,
+                "run",
+                return_value=completed,
+                create=True,
+            ),
         ):
             with self.assertRaisesRegex(
                 set_up_mcp_servers.SetupError,
@@ -2454,9 +2474,7 @@ class StagedMcpInstallationActivationTests(unittest.TestCase):
             staged_program = root / "staging" / "server.mjs"
             staged_record = root / "staging" / "installation.json"
             installed_program = root / ".agent-tools" / "bin" / "server.mjs"
-            installed_record = (
-                root / ".agent-tools" / "server" / "installation.json"
-            )
+            installed_record = root / ".agent-tools" / "server" / "installation.json"
             configuration_path = root / ".mcp.json"
             for path, contents in (
                 (staged_program, b"new-program"),
@@ -2473,6 +2491,7 @@ class StagedMcpInstallationActivationTests(unittest.TestCase):
                 staged_installation_record_path=staged_record,
                 installed_installation_record_path=installed_record,
             )
+
             def fail_configuration_activation(
                 destination,
                 staged_replacement,
@@ -2480,14 +2499,17 @@ class StagedMcpInstallationActivationTests(unittest.TestCase):
             ):
                 raise PermissionError("simulated configuration lock")
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "_replace_existing_file_and_retain_displaced_file",
-                side_effect=fail_configuration_activation,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "is_ignored",
-                return_value=True,
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "_replace_existing_file_and_retain_displaced_file",
+                    side_effect=fail_configuration_activation,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "is_ignored",
+                    return_value=True,
+                ),
             ):
                 with self.assertRaisesRegex(
                     set_up_mcp_servers.SetupError,
@@ -2557,10 +2579,7 @@ class GitHubReleaseArtifactIntegrityTests(unittest.TestCase):
         valid_digest = "A1" * 32
 
         self.assertEqual(
-            parse_manifest(
-                "not-a-sha256  malformed.zip\n"
-                f"{valid_digest} *valid.zip\n"
-            ),
+            parse_manifest(f"not-a-sha256  malformed.zip\n{valid_digest} *valid.zip\n"),
             {"valid.zip": valid_digest.lower()},
         )
 
@@ -2785,30 +2804,37 @@ class GitHubMcpInstallationTests(unittest.TestCase):
             def extract_candidate(_archive_path, _binary_name, target_path):
                 target_path.write_bytes(executable_bytes)
 
-            with mock.patch.object(
-                set_up_mcp_servers.platform,
-                "system",
-                return_value="Windows",
-            ), mock.patch.object(
-                set_up_mcp_servers.platform,
-                "machine",
-                return_value="AMD64",
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "resolve_latest_github_mcp_release",
-                return_value=("v1.11.0", {"candidate.zip": "asset-url"}),
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "download_verified_github_mcp_release_archive",
-                return_value=b"release archive",
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "github_mcp_release_archive_asset_name",
-                return_value="candidate.zip",
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "extract_release_archive_executable",
-                side_effect=extract_candidate,
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers.platform,
+                    "system",
+                    return_value="Windows",
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers.platform,
+                    "machine",
+                    return_value="AMD64",
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "resolve_latest_github_mcp_release",
+                    return_value=("v1.11.0", {"candidate.zip": "asset-url"}),
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "download_verified_github_mcp_release_archive",
+                    return_value=b"release archive",
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "github_mcp_release_archive_asset_name",
+                    return_value="candidate.zip",
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "extract_release_archive_executable",
+                    side_effect=extract_candidate,
+                ),
             ):
                 staged_installation = stage_installation(
                     repository_root,
@@ -2911,44 +2937,53 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
             github_installation = mock.Mock()
             ontology_installation = mock.Mock()
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "ensure_generated_installation_root_is_safe",
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "render_mcp_host_configuration_documents",
-                return_value=[
-                    rendered_mcp_host_configuration_document(
-                        original_configuration_path,
-                        "new configuration\n",
-                        b"original configuration",
-                    )
-                ],
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "stage_github_mcp_server_installation",
-                return_value=github_installation,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "stage_universal_ontology_mcp_server_installation",
-                return_value=ontology_installation,
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "generate_repository_local_ontology_query_artifacts",
-            ) as generate_query_artifacts, mock.patch.object(
-                set_up_mcp_servers,
-                "verify_staged_github_mcp_server_installation",
-                return_value="GitHub MCP Server v1.11.0",
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "verify_staged_universal_ontology_mcp_server_installation",
-                side_effect=set_up_mcp_servers.SetupError(
-                    "ontology verification rejected"
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "ensure_generated_installation_root_is_safe",
                 ),
-            ), mock.patch.object(
-                set_up_mcp_servers,
-                "activate_staged_mcp_server_installations_and_host_configurations",
-            ) as activate:
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "render_mcp_host_configuration_documents",
+                    return_value=[
+                        rendered_mcp_host_configuration_document(
+                            original_configuration_path,
+                            "new configuration\n",
+                            b"original configuration",
+                        )
+                    ],
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "stage_github_mcp_server_installation",
+                    return_value=github_installation,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "stage_universal_ontology_mcp_server_installation",
+                    return_value=ontology_installation,
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "generate_repository_local_ontology_query_artifacts",
+                ) as generate_query_artifacts,
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "verify_staged_github_mcp_server_installation",
+                    return_value="GitHub MCP Server v1.11.0",
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "verify_staged_universal_ontology_mcp_server_installation",
+                    side_effect=set_up_mcp_servers.SetupError(
+                        "ontology verification rejected"
+                    ),
+                ),
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "activate_staged_mcp_server_installations_and_host_configurations",
+                ) as activate,
+            ):
                 with self.assertRaisesRegex(
                     set_up_mcp_servers.SetupError,
                     "ontology verification rejected",
@@ -2980,40 +3015,47 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
             github_installation = mock.Mock()
             ontology_installation = mock.Mock()
 
-            with mock.patch.object(
-                set_up_mcp_servers,
-                "ensure_generated_installation_root_is_safe",
-            ) as ensure_safe, mock.patch.object(
-                set_up_mcp_servers,
-                "render_mcp_host_configuration_documents",
-                return_value=rendered_documents,
-            ) as render_documents, mock.patch.object(
-                set_up_mcp_servers,
-                "stage_github_mcp_server_installation",
-                return_value=github_installation,
-            ) as stage_github, mock.patch.object(
-                set_up_mcp_servers,
-                "stage_universal_ontology_mcp_server_installation",
-                return_value=ontology_installation,
-            ) as stage_ontology, mock.patch.object(
-                set_up_mcp_servers,
-                "verify_staged_github_mcp_server_installation",
-                return_value="GitHub MCP Server v1.11.0",
-            ) as verify_github, mock.patch.object(
-                set_up_mcp_servers,
-                "verify_staged_universal_ontology_mcp_server_installation",
-                return_value={
-                    "ontologyQueryArtifactSourceKind": "http",
-                    "toolNames": ["search_entities", "resolve_entity"],
-                },
-            ) as verify_ontology, mock.patch.object(
-                set_up_mcp_servers,
-                "activate_staged_mcp_server_installations_and_host_configurations",
-                return_value=[
-                    document.destination_path
-                    for document in rendered_documents
-                ],
-            ) as activate:
+            with (
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "ensure_generated_installation_root_is_safe",
+                ) as ensure_safe,
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "render_mcp_host_configuration_documents",
+                    return_value=rendered_documents,
+                ) as render_documents,
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "stage_github_mcp_server_installation",
+                    return_value=github_installation,
+                ) as stage_github,
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "stage_universal_ontology_mcp_server_installation",
+                    return_value=ontology_installation,
+                ) as stage_ontology,
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "verify_staged_github_mcp_server_installation",
+                    return_value="GitHub MCP Server v1.11.0",
+                ) as verify_github,
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "verify_staged_universal_ontology_mcp_server_installation",
+                    return_value={
+                        "ontologyQueryArtifactSourceKind": "http",
+                        "toolNames": ["search_entities", "resolve_entity"],
+                    },
+                ) as verify_ontology,
+                mock.patch.object(
+                    set_up_mcp_servers,
+                    "activate_staged_mcp_server_installations_and_host_configurations",
+                    return_value=[
+                        document.destination_path for document in rendered_documents
+                    ],
+                ) as activate,
+            ):
                 result = set_up_servers(
                     repository_root,
                     query_artifact_source_kind="http",

@@ -344,6 +344,33 @@ describe("native Git PR check selection", () => {
   });
 
   test.each([
+    ["README.md", true],
+    ["docs/development.md", true],
+    ["packages/universal-ontology-mcp-server/README.md", true],
+    ["scripts/ontology_policy/validation.py", true],
+    ["scripts/formatDocumentation.js", true],
+    ["tests/prose-formatting.test.js", true],
+    ["ruff.toml", true],
+    [".prettierignore", true],
+    [".gitignore", true],
+    [".prettierrc.json", true],
+    [".snapperrc.toml", true],
+    ["requirements.lock.txt", true],
+    ["docs/reviews/external.md", false],
+    ["docs/sdlc/baseline.md", false],
+    ["docs/plans/sdlc-improvements/README.md", false],
+    ["docs/policy/Editing-Policy.generated.md", false],
+    ["docs/policy/migration-evidence.md", false],
+    ["AGENTS.md", false],
+    ["src/external/vendor.py", false],
+    ["src/universal/example.ttl", false],
+  ])("style selection for %s is %s", (path, selected) => {
+    write(path);
+    commit([path]);
+    expectSelection(selected ? ["style"] : [], { scopes: ["style"] });
+  });
+
+  test.each([
     ["README.md", []],
     ["scripts/setUpDevelopmentEnvironment.js", []],
     ["tests/set-up-development-environment.test.js", []],

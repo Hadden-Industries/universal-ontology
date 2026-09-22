@@ -17,7 +17,6 @@ import tempfile
 import unittest
 from pathlib import Path
 
-
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 RUNNER = REPOSITORY_ROOT / "scripts/validate_ontologies.py"
 CURRENT_SOURCES = (
@@ -32,11 +31,14 @@ SELECTED_LINE = re.compile(r"^Selected ontology files: (?P<paths>\[.*\])$", re.M
 
 class OntologyValidationRunnerTests(unittest.TestCase):
     def setUp(self):
-        self.temporary_directory = tempfile.TemporaryDirectory(prefix="ontology-runner-")
+        self.temporary_directory = tempfile.TemporaryDirectory(
+            prefix="ontology-runner-"
+        )
         self.addCleanup(self.temporary_directory.cleanup)
         self.root = Path(self.temporary_directory.name)
         self.env = {
-            name: value for name, value in os.environ.items()
+            name: value
+            for name, value in os.environ.items()
             if not name.upper().startswith(("GIT_", "GITHUB_"))
         }
         self.env.update(
@@ -58,25 +60,40 @@ class OntologyValidationRunnerTests(unittest.TestCase):
 
     def git(self, *args):
         result = subprocess.run(
-            ["git", *args], cwd=self.root, env=self.env, capture_output=True,
-            text=True, encoding="utf-8", check=True,
+            ["git", *args],
+            cwd=self.root,
+            env=self.env,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            check=True,
         )
         return result.stdout.strip()
 
     def commit(self, *paths):
         self.git("add", "--", *paths)
         self.git(
-            "-c", "user.name=Ontology runner fixture",
-            "-c", "user.email=fixture@example.invalid", "-c", "commit.gpgsign=false",
-            "commit", "-m", "Record fixture inputs",
+            "-c",
+            "user.name=Ontology runner fixture",
+            "-c",
+            "user.email=fixture@example.invalid",
+            "-c",
+            "commit.gpgsign=false",
+            "commit",
+            "-m",
+            "Record fixture inputs",
         )
         return self.git("rev-parse", "HEAD")
 
     def run_runner(self, *args, cwd=None, input_text=None):
         return subprocess.run(
             [sys.executable, "-B", str(RUNNER), *args],
-            cwd=cwd or self.root, env=self.env, input=input_text,
-            capture_output=True, text=True, encoding="utf-8",
+            cwd=cwd or self.root,
+            env=self.env,
+            input=input_text,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
         )
 
     def plan(self, *args, cwd=None, input_text=None):
@@ -132,7 +149,9 @@ class OntologyValidationRunnerTests(unittest.TestCase):
         result = self.plan("--diff-base", self.base, "--diff-head", head)
 
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout, "validation_required=true\nvalidator_changed=false\n")
+        self.assertEqual(
+            result.stdout, "validation_required=true\nvalidator_changed=false\n"
+        )
         for diagnostic in (changed, self.base, head):
             self.assertIn(diagnostic, result.stderr)
         self.assertNotIn("Run purpose", result.stdout)
@@ -162,7 +181,9 @@ class OntologyValidationRunnerTests(unittest.TestCase):
         result = self.run_runner("--diff-base", self.base, "--diff-head", head)
 
         self.assertEqual(plan.returncode, 0, plan.stderr)
-        self.assertEqual(plan.stdout, "validation_required=true\nvalidator_changed=false\n")
+        self.assertEqual(
+            plan.stdout, "validation_required=true\nvalidator_changed=false\n"
+        )
         self.assertIn(removed, plan.stderr)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("removed", (result.stdout + result.stderr).lower())
@@ -196,15 +217,22 @@ class OntologyValidationRunnerTests(unittest.TestCase):
         self.write(baseline, "{}\n")
         head = self.commit(changed, baseline)
         plan = self.plan("--diff-base", self.base, "--diff-head", head)
-        self.assertEqual(plan.stdout, "validation_required=true\nvalidator_changed=false\n")
+        self.assertEqual(
+            plan.stdout, "validation_required=true\nvalidator_changed=false\n"
+        )
         self.assertEqual(self.selected(plan), [changed])
 
     def test_each_validator_input_selects_all_current_sources(self):
         for path in (
             "scripts/validate_ontologies.py",
-            "tests/test_validate_ontologies.py", "requirements.txt", "requirements.lock.txt",
-            ".python-version", ".java-version", "policy/entity-policy.ttl",
-            "policy/authorities/loc-iso639-1.members.ttl", "scripts/ontology_policy/validation.py",
+            "tests/test_validate_ontologies.py",
+            "requirements.txt",
+            "requirements.lock.txt",
+            ".python-version",
+            ".java-version",
+            "policy/entity-policy.ttl",
+            "policy/authorities/loc-iso639-1.members.ttl",
+            "scripts/ontology_policy/validation.py",
         ):
             with self.subTest(path=path):
                 base = self.git("rev-parse", "HEAD")
@@ -212,7 +240,9 @@ class OntologyValidationRunnerTests(unittest.TestCase):
                 head = self.commit(path)
                 plan = self.plan("--diff-base", base, "--diff-head", head)
                 self.assertEqual(plan.returncode, 0, plan.stderr)
-                self.assertEqual(plan.stdout, "validation_required=true\nvalidator_changed=true\n")
+                self.assertEqual(
+                    plan.stdout, "validation_required=true\nvalidator_changed=true\n"
+                )
                 self.assertEqual(set(self.selected(plan)), set(CURRENT_SOURCES))
 
     def test_workflow_file_alone_does_not_change_validation_semantics(self):
@@ -221,22 +251,38 @@ class OntologyValidationRunnerTests(unittest.TestCase):
         head = self.commit(path)
         plan = self.plan("--diff-base", self.base, "--diff-head", head)
         self.assertEqual(plan.returncode, 0, plan.stderr)
-        self.assertEqual(plan.stdout, "validation_required=false\nvalidator_changed=false\n")
+        self.assertEqual(
+            plan.stdout, "validation_required=false\nvalidator_changed=false\n"
+        )
 
-    def test_ci_workflow_impact_explicitly_selects_all_sources_and_keeps_comparison(self):
-        plan = self.plan("--diff-base", self.base, "--diff-head", self.base,
-                         "--validation-workflow-changed")
+    def test_ci_workflow_impact_explicitly_selects_all_sources_and_keeps_comparison(
+        self,
+    ):
+        plan = self.plan(
+            "--diff-base",
+            self.base,
+            "--diff-head",
+            self.base,
+            "--validation-workflow-changed",
+        )
         self.assertEqual(plan.returncode, 0, plan.stderr)
-        self.assertEqual(plan.stdout, "validation_required=true\nvalidator_changed=true\n")
+        self.assertEqual(
+            plan.stdout, "validation_required=true\nvalidator_changed=true\n"
+        )
         self.assertEqual(set(self.selected(plan)), set(CURRENT_SOURCES))
         self.assertIn(f"Comparison base={self.base} head={self.base}", plan.stderr)
 
     def test_a_retired_legacy_validator_path_is_not_a_validator_input(self):
-        self.write("tests/universalontologytest.py", "legacy validator reintroduced by mistake\n")
+        self.write(
+            "tests/universalontologytest.py",
+            "legacy validator reintroduced by mistake\n",
+        )
         head = self.commit("tests/universalontologytest.py")
         plan = self.plan("--diff-base", self.base, "--diff-head", head)
         self.assertEqual(plan.returncode, 0, plan.stderr)
-        self.assertEqual(plan.stdout, "validation_required=false\nvalidator_changed=false\n")
+        self.assertEqual(
+            plan.stdout, "validation_required=false\nvalidator_changed=false\n"
+        )
 
     def test_rename_reports_removed_source_and_selects_new_source(self):
         old = "src/universal/core/20260801"
@@ -257,7 +303,9 @@ class OntologyValidationRunnerTests(unittest.TestCase):
         head = self.commit(old, new)
         result = self.plan("--diff-base", self.base, "--diff-head", head)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout, "validation_required=true\nvalidator_changed=false\n")
+        self.assertEqual(
+            result.stdout, "validation_required=true\nvalidator_changed=false\n"
+        )
         self.assertIn(old, result.stderr)
 
     def test_staged_changes_and_removals_use_the_same_selection_contract(self):
@@ -266,14 +314,18 @@ class OntologyValidationRunnerTests(unittest.TestCase):
         (self.root / removed).unlink()
         self.git("add", "--", changed, removed)
         plan = self.plan("--staged")
-        self.assertEqual(plan.stdout, "validation_required=true\nvalidator_changed=false\n")
+        self.assertEqual(
+            plan.stdout, "validation_required=true\nvalidator_changed=false\n"
+        )
         self.assertIn(removed, plan.stderr)
         self.assertEqual(self.selected(plan), [changed])
 
     def test_manual_validation_selects_five_current_sources_not_history(self):
         self.write("src/universal/core/20260801", "historical source\n")
         plan = self.plan("--all-current")
-        self.assertEqual(plan.stdout, "validation_required=true\nvalidator_changed=true\n")
+        self.assertEqual(
+            plan.stdout, "validation_required=true\nvalidator_changed=true\n"
+        )
         self.assertEqual(set(self.selected(plan)), set(CURRENT_SOURCES))
 
     def test_missing_current_source_fails_without_emitting_plan_assignments(self):
@@ -293,15 +345,19 @@ class OntologyValidationRunnerTests(unittest.TestCase):
 
     def test_unchanged_or_unsupported_sources_need_no_validator_dependencies(self):
         paths = (
-            "README.md", "src/universal/core/20260907-full",
-            "dist/universal/core/20260907-full", "src/universal/core/not-a-release",
+            "README.md",
+            "src/universal/core/20260907-full",
+            "dist/universal/core/20260907-full",
+            "src/universal/core/not-a-release",
         )
         for path in paths:
             self.write(path, "not selected\n")
         head = self.commit(*paths)
         result = self.plan("--diff-base", self.base, "--diff-head", head)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout, "validation_required=false\nvalidator_changed=false\n")
+        self.assertEqual(
+            result.stdout, "validation_required=false\nvalidator_changed=false\n"
+        )
         result = self.run_runner("--diff-base", self.base, "--diff-head", head)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("No target ontology files", result.stdout)
@@ -335,8 +391,14 @@ class OntologyValidationRunnerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="ontology-runner-non-git-") as non_git:
             cases = (
                 (("--staged", "--plan"), non_git),
-                (("--diff-base", "0" * 40, "--diff-head", self.base, "--plan"), self.root),
-                (("--diff-base", self.base, "--diff-head", "missing-head", "--plan"), self.root),
+                (
+                    ("--diff-base", "0" * 40, "--diff-head", self.base, "--plan"),
+                    self.root,
+                ),
+                (
+                    ("--diff-base", self.base, "--diff-head", "missing-head", "--plan"),
+                    self.root,
+                ),
                 (("--diff-base", "", "--plan"), self.root),
                 (("--diff-base", self.base, "--diff-head", "", "--plan"), self.root),
                 (("--diff-head", self.base, "--plan"), self.root),

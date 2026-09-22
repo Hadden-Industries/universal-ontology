@@ -171,7 +171,9 @@ def main(argv=None):
             result = future.result()
             results.append(result)
             status = "ok" if result["passed"] else "FAILED"
-            print(f"  {status:6} {result['seconds']:6.1f}s {result['label']}", flush=True)
+            print(
+                f"  {status:6} {result['seconds']:6.1f}s {result['label']}", flush=True
+            )
             if not result["passed"]:
                 print(result["output"], flush=True)
     wall = time.monotonic() - started
@@ -183,9 +185,7 @@ def main(argv=None):
     print(
         f"\nRan {ran} tests across {len(units)} {arguments.granularity}s in {wall:.1f}s wall "
         f"({sum(item['seconds'] for item in results):.1f}s serial sum) "
-        f"with {workers} workers"
-        + (f"; {details}" if details else "")
-        + f": {verdict}"
+        f"with {workers} workers" + (f"; {details}" if details else "") + f": {verdict}"
     )
     if ran == 0:
         return 5

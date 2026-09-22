@@ -1,60 +1,45 @@
 # SHACL migration: source inventory and rule dispositions
 
-Status: proposed baseline evidence, reconciled 12 September 2026 after Max's final
-grilling confirmation. The source observations retain their original dates/hashes;
-dispositions now reflect the accepted decisions in the
-[dossier](2026-09-09-shacl-policy-source-of-truth-dossier.md). No operational editing
-policy, ontology data or protected implementation baseline is changed here.
+Status: proposed baseline evidence, reconciled 12 September 2026 after Max's final grilling confirmation.
+The source observations retain their original dates/hashes; dispositions now reflect the accepted decisions in the [dossier](2026-09-09-shacl-policy-source-of-truth-dossier.md).
+No operational editing policy, ontology data or protected implementation baseline is changed here.
 
-This completes the static Wiki/Python mapping for SLICE-000 of the
-[plan](../plans/2026-09-09-shacl-policy-source-of-truth.md). Executable fixtures,
-full latest-active/candidate qualification, independent assurance and protected
-baseline capture remain future work. After migration retain this inventory as
-historical evidence; the canonical SHACL graph owns the active EP-* rules.
+This completes the static Wiki/Python mapping for SLICE-000 of the [plan](../plans/2026-09-09-shacl-policy-source-of-truth.md). Executable fixtures, full latest-active/candidate qualification, independent assurance and protected baseline capture remain future work.
+After migration retain this inventory as historical evidence; the canonical SHACL graph owns the active EP-* rules.
 
 ## Frozen sources and evidence limits
 
-- Repository inspection was refreshed at
-  `36a51ff4bb76b98c59fe7fe3d225b8762ab23eeb`. This includes the unrelated main-branch
-  changes merged after the planning checkpoint `8f3d350c45ccd8374c2808202750cafeb27ac52a`.
+- Repository inspection was refreshed at `36a51ff4bb76b98c59fe7fe3d225b8762ab23eeb`.
+  This includes the unrelated main-branch changes merged after the planning checkpoint `8f3d350c45ccd8374c2808202750cafeb27ac52a`.
   The legacy validator and the five working ontology files retain the inspected bytes.
-- Wiki page revision:
-  [819704130dee55bf04712d4cd09723d8df35581c](https://github.com/Hadden-Industries/universal-ontology/wiki/Editing-Policy/819704130dee55bf04712d4cd09723d8df35581c),
-  identified through GitHub's page history. Wiki repository HEAD was
-  `d881f9b8a012717a9465b308fdaf94dc8bb1fc22` immediately before and after downloading
-  the [raw page](https://raw.githubusercontent.com/wiki/Hadden-Industries/universal-ontology/Editing-Policy.md).
-  The captured file has 15,268 bytes, 307 lines and SHA-256
-  `058d398b47ee1eff27a61f49a52c161124f163991c641660d384e1f72eee50a3`.
-  The before/after HEAD check and page-history identity are recorded separately;
-  this was not a Git-object checkout of the Wiki.
+- Wiki page revision: [819704130dee55bf04712d4cd09723d8df35581c](https://github.com/Hadden-Industries/universal-ontology/wiki/Editing-Policy/819704130dee55bf04712d4cd09723d8df35581c), identified through GitHub's page history.
+  Wiki repository HEAD was `d881f9b8a012717a9465b308fdaf94dc8bb1fc22` immediately before and after downloading the [raw page](https://raw.githubusercontent.com/wiki/Hadden-Industries/universal-ontology/Editing-Policy.md).
+  The captured file has 15,268 bytes, 307 lines and SHA-256 `058d398b47ee1eff27a61f49a52c161124f163991c641660d384e1f72eee50a3`.
+  The before/after HEAD check and page-history identity are recorded separately; this was not a Git-object checkout of the Wiki.
 - Local raw capture: `.agent-tools/shacl-policy-baseline/Editing-Policy.source.md`.
-  Keep it through baseline acceptance and migration reconciliation. The integrator
-  may remove this task-owned temporary copy only after a durable source/evidence
-  reference has been retained and its remaining consumers checked.
-- Python source: [tests/universalontologytest.py](../../tests/universalontologytest.py),
-  598 lines; SHA-256 `550599fb80299101b554b20d7f6a82180020048719f5b5c73913a8c9a270dca0`.
+  Keep it through baseline acceptance and migration reconciliation.
+  The integrator may remove this task-owned temporary copy only after a durable source/evidence reference has been retained and its remaining consumers checked.
+- Python source: [tests/universalontologytest.py](../../tests/universalontologytest.py), 598 lines; SHA-256 `550599fb80299101b554b20d7f6a82180020048719f5b5c73913a8c9a270dca0`.
   Native Python AST inspection finds 58 `self.assert*`/`self.fail` call sites.
-  Every call site is mapped below. Source inspection is not an execution of all
-  branches or proof that all assertions are reachable.
-- The reports and CSV retain their earlier hashes and decision transcription in
-  the dossier. At this follow-up, the CSV was no longer at its supplied Downloads
-  path; a filename search found only an Excel temporary lock file. No missing
-  user file was recreated. The transcription is the reviewable decision record;
-  it must not be described as a newly verified verbatim copy of the CSV.
+  Every call site is mapped below.
+  Source inspection is not an execution of all branches or proof that all assertions are reachable.
+- The reports and CSV retain their earlier hashes and decision transcription in the dossier.
+  At this follow-up, the CSV was no longer at its supplied Downloads path; a filename search found only an Excel temporary lock file.
+  No missing user file was recreated.
+  The transcription is the reviewable decision record; it must not be described as a newly verified verbatim copy of the CSV.
 
-`W` locations below refer to the captured Wiki's physical line numbers, not the
-web tool's rendered line numbers. `P` locations refer to the frozen Python file.
+`W` locations below refer to the captured Wiki's physical line numbers, not the web tool's rendered line numbers.
+`P` locations refer to the frozen Python file.
 The Wiki's navigation and presentational prose are not additional executable rules.
 
 ## Wiki clause dispositions and independent examples
 
-These mappings reflect the accepted domain dispositions. **Retain** preserves the intended obligation,
-**correct** names a policy/implementation discrepancy, and **human** retains a
-documented obligation whose truth is not established by SHACL. MAY does not create
-a required value. A SHOULD result is visible and non-blocking. Cardinality and
-value constraints with different strengths must be separate named constraints.
-Examples describe expected results for fixtures to be authored after acceptance;
-they are not reported test results.
+These mappings reflect the accepted domain dispositions.
+**Retain** preserves the intended obligation, **correct** names a policy/implementation discrepancy, and **human** retains a documented obligation whose truth is not established by SHACL.
+MAY does not create a required value.
+A SHOULD result is visible and non-blocking.
+Cardinality and value constraints with different strengths must be separate named constraints.
+Examples describe expected results for fixtures to be authored after acceptance; they are not reported test results.
 
 | Source                | Rule family                        | Disposition and discriminating example                                                                                                                                                                                                                                                                         |
 | --------------------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -94,9 +79,9 @@ they are not reported test results.
 
 ## Complete Python assertion and preprocessing dispositions
 
-The `Calls` column enumerates exact assertion/failure call-site lines. It provides
-a checkable coverage index; one call site may implement several behaviors through
-a loop. P02 has no assertion calls but materially changes which data are tested.
+The `Calls` column enumerates exact assertion/failure call-site lines.
+It provides a checkable coverage index; one call site may implement several behaviors through a loop.
+P02 has no assertion calls but materially changes which data are tested.
 
 | Group | Calls                   | Existing behavior and proposed disposition                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ----- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -125,33 +110,26 @@ a loop. P02 has no assertion calls but materially changes which data are tested.
 | P23   | 552                     | Acronym uniqueness after trimming text in the Class/NamedIndividual branch. Retain language-tagged, per-subject RDF-term uniqueness under W16/DEC-024; identical triples collapse and distinct whitespace remains distinct text.                                                                                                                                                                                                                  |
 | P24   | 580, 584                | Property naming strips the first underscore unconditionally and uses an overbroad `ontology/iso` prefix. The fallback snake helper allows uppercase letters/digits and the camelCase branch can pass ISO properties first. Replace with DEC-002/012/013's explicit scope, grammar and warning strength.                                                                                                                                           |
 
-Helpers at P11–87 encode ASCII initial-case/alphanumeric naming, not word-boundary
-recognition. `get_parent_about` at P89–110 and the parent map supply XML ancestry,
-which must become explicit RDF ownership (including owl:annotatedSource), not an
-invented graph parent. The standalone CLI at P587–598 is an integration boundary,
-not another rule. Preserve the repository runner and migrate its successful-output
-and index-byte behavior through the separately tested plan slices.
+Helpers at P11–87 encode ASCII initial-case/alphanumeric naming, not word-boundary recognition.
+`get_parent_about` at P89–110 and the parent map supply XML ancestry, which must become explicit RDF ownership (including owl:annotatedSource), not an invented graph parent.
+The standalone CLI at P587–598 is an integration boundary, not another rule.
+Preserve the repository runner and migrate its successful-output and index-byte behavior through the separately tested plan slices.
 
-The 16 predicates in P03 are: dcterms alternative/description/title; rdfs
-comment/label; skos altLabel/changeNote/definition/editorialNote/example/hiddenLabel/
-historyNote/note/prefLabel/scopeNote; and uc:acronym. Only some have explicit Wiki
-clauses. DEC-023 now accepts retention of the whole list with generated
-documentation. It does not authorize a new requirement on every RDF literal.
+The 16 predicates in P03 are: dcterms alternative/description/title; rdfs comment/label; skos altLabel/changeNote/definition/editorialNote/example/hiddenLabel/ historyNote/note/prefLabel/scopeNote; and uc:acronym.
+Only some have explicit Wiki clauses.
+DEC-023 now accepts retention of the whole list with generated documentation.
+It does not authorize a new requirement on every RDF literal.
 
 ## Existing source and context inventory
 
-The native runner's `CURRENT_ONTOLOGY_PATHS` owns working-file selection. Its
-`TARGET_PATTERN` additionally recognizes dated `src/` artifacts, ISO/IEC edition
-paths and `vN` names; `-full` artifacts are excluded from routine validation.
-[sourceInventory.js](../../scripts/build/sourceInventory.js) discovers
-extensionless build inputs under universal/iso/iso-iec; it is a build inventory,
-not an editing-policy target registry. Reuse those responsibilities rather than
-introduce another independent file list.
+The native runner's `CURRENT_ONTOLOGY_PATHS` owns working-file selection.
+Its `TARGET_PATTERN` additionally recognizes dated `src/` artifacts, ISO/IEC edition paths and `vN` names; `-full` artifacts are excluded from routine validation.
+[sourceInventory.js](../../scripts/build/sourceInventory.js) discovers extensionless build inputs under universal/iso/iso-iec; it is a build inventory, not an editing-policy target registry.
+Reuse those responsibilities rather than introduce another independent file list.
 
-Native RDFLib 7.6.0 parsed all five working files without fetching imports, with
-literal normalization disabled. Counts below include imported-vocabulary
-declarations physically present in each file; they are not owned-focus counts or
-conformance results. The sum is 25,056 triples, not a deduplicated union count.
+Native RDFLib 7.6.0 parsed all five working files without fetching imports, with literal normalization disabled.
+Counts below include imported-vocabulary declarations physically present in each file; they are not owned-focus counts or conformance results.
+The sum is 25,056 triples, not a deduplicated union count.
 
 | Working module       | Triples | Classes / individuals / object properties / datatype properties | Declared imports                            |
 | -------------------- | ------: | --------------------------------------------------------------- | ------------------------------------------- |
@@ -171,93 +149,79 @@ ISO 31073       d3a6b947ce21917b28f440766c6b7883dbfc68c253c618979cb45bec6286a8b7
 ISO/IEC 11179-3 cf348907763d9522a1214fb2b570ef89500136831458393617d1e6a63aae4d06
 ```
 
-Reference-data contains 139 explicitly typed Datasets and 147 Distributions. None
-of the five current graphs has an explicitly punned Class/NamedIndividual subject
-or a subject in `https://haddenindustries.com/ontology/label/`. Absence in this
-corpus does not excuse missing punning/target fixtures.
+Reference-data contains 139 explicitly typed Datasets and 147 Distributions.
+None of the five current graphs has an explicitly punned Class/NamedIndividual subject or a subject in `https://haddenindustries.com/ontology/label/`. Absence in this corpus does not excuse missing punning/target fixtures.
 
-An XML header inventory of all 159 non-`-full`, extensionless `src/` ontology
-artifacts found no XML parse errors. This was not a historical RDF or SHACL audit.
+An XML header inventory of all 159 non-`-full`, extensionless `src/` ontology artifacts found no XML parse errors.
+This was not a historical RDF or SHACL audit.
 Besides the five current namespaces it found these historical module identities:
 
 - `http://standards.iso.org/iso-iec/11179/-3/ed-3/`: five artifacts;
 - `http://standards.iso.org/iso-iec/11179/-3/ed-4/`: six artifacts.
 
-Some historical ontology IRIs omit the trailing slash present in xml:base. No
-label-namespace subject declaration was found in those 159 XML files. These roots
-are historical discovery evidence, not a requirement to implement general old-version
-audits. Include one only if it belongs to the reviewed currently active scope or
-the explicitly authorized critical-fix exception. Provenance-based ownership does
-not claim every resource at standards.iso.org.
+Some historical ontology IRIs omit the trailing slash present in xml:base.
+No label-namespace subject declaration was found in those 159 XML files.
+These roots are historical discovery evidence, not a requirement to implement general old-version audits.
+Include one only if it belongs to the reviewed currently active scope or the explicitly authorized critical-fix exception.
+Provenance-based ownership does not claim every resource at standards.iso.org.
 
-The four existing `catalog-v001.xml` files in core, extended, reference-data and
-iso-iec11179-3 map imports to generated `dist/` files plus the module's working
-file. There is no root catalog. These editor/build mappings do not specify a
-complete historical corpus or authorize live retrieval. The current
-`create_full_versions.py` calls the repository's RDFLib-based
-`merge_owl_imports.py`; its network retrieval, metadata stripping and output writes
-are unsuitable as an editing validator's read-only context-loading procedure.
+The four existing `catalog-v001.xml` files in core, extended, reference-data and iso-iec11179-3 map imports to generated `dist/` files plus the module's working file.
+There is no root catalog.
+These editor/build mappings do not specify a complete historical corpus or authorize live retrieval.
+The current `create_full_versions.py` calls the repository's RDFLib-based `merge_owl_imports.py`; its network retrieval, metadata stripping and output writes are unsuitable as an editing validator's read-only context-loading procedure.
 This inventory does not propose changing that separate generator.
 
 ### Accepted active/candidate context and new discovery evidence
 
-1. Select one identified latest active version per owned module from reviewed
-   publication/provenance evidence. The five working paths are draft inputs;
-   the build's greatest-filename-per-directory aliases are not active-state proof.
-2. A candidate replaces explicit members of that set. Owned import pins must
-   agree with the resulting versioned set; replacing Core may require republishing
-   dependants. Missing or conflicting context fails. Never silently substitute a
-   current draft/newer import or union superseded versions for uniqueness.
-3. Full static validation covers every applicable owned entity/header/axiom,
-   including unchanged current entities. Draft diagnostics report incomplete
-   context/history honestly. They cannot qualify publication or activation.
+1. Select one identified latest active version per owned module from reviewed publication/provenance evidence.
+   The five working paths are draft inputs; the build's greatest-filename-per-directory aliases are not active-state proof.
+2. A candidate replaces explicit members of that set.
+   Owned import pins must agree with the resulting versioned set; replacing Core may require republishing dependants.
+   Missing or conflicting context fails.
+   Never silently substitute a current draft/newer import or union superseded versions for uniqueness.
+3. Full static validation covers every applicable owned entity/header/axiom, including unchanged current entities.
+   Draft diagnostics report incomplete context/history honestly.
+   They cannot qualify publication or activation.
 4. Read previous snapshots only for actual conditional-change/release comparisons.
-   No arbitrary historical-policy selector or historical conformance service is
-   required. The sole historic exception checks an explicitly approved critical
-   fix and affected invariants; no whole-version conformance claim.
-5. Ownership comes from explicit reviewed module provenance. Preserve foreign
-   support facts without imposing generic metadata. DCAT profiles retain their
-   own namespace/type scope. A rename alone does not change a graph; module
-   deletion and affected surviving references cannot silently disappear from checks.
+   No arbitrary historical-policy selector or historical conformance service is required.
+   The sole historic exception checks an explicitly approved critical fix and affected invariants; no whole-version conformance claim.
+5. Ownership comes from explicit reviewed module provenance.
+   Preserve foreign support facts without imposing generic metadata.
+   DCAT profiles retain their own namespace/type scope.
+   A rename alone does not change a graph; module deletion and affected surviving references cannot silently disappear from checks.
 
-The grilling's read-only inspection found working Extended at version 20260721
-while its highest local dated `src/` artifact is 20260714. The site also generates
-a latest alias for an older ISO edition directory. The asset builder and upload
-wrapper do not establish an exact-byte editing-policy validation dependency.
-Actual live served state and external upload controls were not inspected. The
-plan therefore requires active-state inventory and publication-consumer proof.
+The grilling's read-only inspection found working Extended at version 20260721 while its highest local dated `src/` artifact is 20260714.
+The site also generates a latest alias for an older ISO edition directory.
+The asset builder and upload wrapper do not establish an exact-byte editing-policy validation dependency.
+Actual live served state and external upload controls were not inspected.
+The plan therefore requires active-state inventory and publication-consumer proof.
 
-Native RDFLib 7.6.0 inspection of the unchanged five working graphs found **739
-owned properties**: 649 ObjectProperty and 90 DatatypeProperty. All have rdfs:label
-and skos:prefLabel. Per-module object/datatype counts are Core 129/1, Extended
-215/4, Reference 133/0, ISO 31073 54/0 and ISO/IEC 11179-3 118/85. The two remaining
-foreign declarations, schema:exerciseType and dcat:distribution, lack labels and
-are outside owned metadata scope. The union contains 25,039 distinct triples.
-These are presence/count observations, not English/cardinality/semantic validation
-or proof about published artifacts. For example RegistrationState_registration_status
-has label registration_status, illustrating why raw full-tail generation is not
-an accepted replacement for existing labels.
+Native RDFLib 7.6.0 inspection of the unchanged five working graphs found **739 owned properties**: 649 ObjectProperty and 90 DatatypeProperty.
+All have rdfs:label and skos:prefLabel.
+Per-module object/datatype counts are Core 129/1, Extended 215/4, Reference 133/0, ISO 31073 54/0 and ISO/IEC 11179-3 118/85.
+The two remaining foreign declarations, schema:exerciseType and dcat:distribution, lack labels and are outside owned metadata scope.
+The union contains 25,039 distinct triples.
+These are presence/count observations, not English/cardinality/semantic validation or proof about published artifacts.
+For example RegistrationState_registration_status has label registration_status, illustrating why raw full-tail generation is not an accepted replacement for existing labels.
 
 ## Accepted concrete profiles
 
 All DEC-001–030 decisions in the dossier now reflect the confirmed grilling.
 Exact SHACL implementation and configuration still need their own approval/proof.
 
-- **DEC-022 — Property metadata:** only UUID identifier, Creator, Creation date,
-  Label and Preferred label are unconditional mandatory fields. Properties may
-  omit definitions; Classes/NamedIndividuals retain them. Changed existing
-  properties require valid modified, with DEC-017's ordinary-edit sufficiency.
+- **DEC-022 — Property metadata:** only UUID identifier, Creator, Creation date, Label and Preferred label are unconditional mandatory fields.
+  Properties may omit definitions; Classes/NamedIndividuals retain them.
+  Changed existing properties require valid modified, with DEC-017's ordinary-edit sufficiency.
   Accepted optional-value constraints remain; no sixth unconditional field.
-- **DEC-023 — Descriptive language:** retain P03's 16 predicates and P22's optional
-  generic description uniqueness in approved scope, with generated documentation.
-- **DEC-024 — Exact text:** no trimming for label/acronym/title identity or
-  preferred-label inclusion. Repeated triples collapse. Required DCAT text remains
-  nonblank for every value. "Bank"@en and " Bank "@en are distinct titles; a
-  whitespace-only required DCAT title fails.
-- **DEC-028 — Label preparation:** suggest absent labels from meaningful IRI tails,
-  review them and write real data before validation. Preserve existing labels;
-  opaque tails need supplied text. No validator backfill. The inspected working
-  property labels are already present, so no blanket label migration is justified.
+- **DEC-023 — Descriptive language:** retain P03's 16 predicates and P22's optional generic description uniqueness in approved scope, with generated documentation.
+- **DEC-024 — Exact text:** no trimming for label/acronym/title identity or preferred-label inclusion.
+  Repeated triples collapse.
+  Required DCAT text remains nonblank for every value.
+  "Bank"@en and " Bank "@en are distinct titles; a whitespace-only required DCAT title fails.
+- **DEC-028 — Label preparation:** suggest absent labels from meaningful IRI tails, review them and write real data before validation.
+  Preserve existing labels; opaque tails need supplied text.
+  No validator backfill.
+  The inspected working property labels are already present, so no blanket label migration is justified.
 
 The following examples make the accepted decisions precise:
 
@@ -268,59 +232,38 @@ The following examples make the accepted decisions precise:
 | DEC-015  | For non-UUID identifiers, compare RDF terms across distinct approved owned subjects in the selected corpus. For syntactically valid UUID URNs, compare the UUID value case-insensitively so different hex-letter case cannot assign the same UUID to two subjects. Require genuine v4/variant bits in at least one qualifying identifier; additional identifiers remain allowed. Do not require lowercase generic UUID URNs solely because DCAT subject IRIs have that distinct canonical-format requirement.                         |
 | DEC-018  | Retire physical default-namespace, literal rdf:about and duplicate-XML-element checks. Preserve semantic identity, RDF node kinds and native datatype validity. Do not add a serialization-lint script unless an individual physical requirement is later accepted. Relative IRIs resolve against the recorded document base; an empty resource attribute resolving to a real IRI cannot be rejected as an empty RDF IRI.                                                                                                             |
 
-**DEC-027 — Accepted header profile:** require one identified root owl:Ontology
-per authored module document, exactly one IRI-valued versionIRI and one nonempty
-string versionInfo. The versionInfo is a valid calendar date written `YYYY-MM-DD`;
-the final versionIRI path component, allowing the existing trailing-slash spelling,
-equals `YYYYMMDD`. An optional modified has maximum one value, xsd:date under
-accepted DEC-025, with lexical form `YYYY-MM-DD` or `YYYY-MM-DDZ`. Its written
-calendar date equals versionInfo. Nonzero timezone offsets and dateTime are not
-accepted by this profile. Validate the actual calendar date through the
-native datatype consumer, not a regex alone. In a multi-document context each
-authored module is checked separately; imported headers do not create a false
-multiple-header violation. Apply this profile to the latest active/candidate
-versions; superseded `v1` artifacts are not routinely audited or modernized.
+**DEC-027 — Accepted header profile:** require one identified root owl:Ontology per authored module document, exactly one IRI-valued versionIRI and one nonempty string versionInfo.
+The versionInfo is a valid calendar date written `YYYY-MM-DD`; the final versionIRI path component, allowing the existing trailing-slash spelling, equals `YYYYMMDD`.
+An optional modified has maximum one value, xsd:date under accepted DEC-025, with lexical form `YYYY-MM-DD` or `YYYY-MM-DDZ`.
+Its written calendar date equals versionInfo.
+Nonzero timezone offsets and dateTime are not accepted by this profile.
+Validate the actual calendar date through the native datatype consumer, not a regex alone.
+In a multi-document context each authored module is checked separately; imported headers do not create a false multiple-header violation.
+Apply this profile to the latest active/candidate versions; superseded `v1` artifacts are not routinely audited or modernized.
 
-The accepted ORCID URI-format-only choice is represented by an IRI with the
-canonical HTTPS `orcid.org` authority, four hyphen-separated four-character groups,
-digits throughout except that the final character may be uppercase `X`, and no
-query, fragment or trailing slash. Proposed anchored pattern:
-`^https://orcid[.]org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$`.
-An arbitrary `/person` suffix fails; a syntactically correct URI with an incorrect
-checksum passes this deliberately limited structural rule. Do not describe that
-pass as verified ORCID registration, checksum validity or contributor identity.
+The accepted ORCID URI-format-only choice is represented by an IRI with the canonical HTTPS `orcid.org` authority, four hyphen-separated four-character groups, digits throughout except that the final character may be uppercase `X`, and no query, fragment or trailing slash.
+Proposed anchored pattern: `^https://orcid[.]org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$`.
+An arbitrary `/person` suffix fails; a syntactically correct URI with an incorrect checksum passes this deliberately limited structural rule.
+Do not describe that pass as verified ORCID registration, checksum validity or contributor identity.
 No new installation is authorized by these profile descriptions.
 
-The numeric-label clarification was checked with native RDFLib: `3D Model`@en
-and rdf:about IRIs ending in ThreeDModel or 3DModel parse; an XML element name
-beginning with a digit and rdf:ID="3DModel" fail their XML-name constraints.
+The numeric-label clarification was checked with native RDFLib: `3D Model`@en and rdf:about IRIs ending in ThreeDModel or 3DModel parse; an XML element name beginning with a digit and rdf:ID="3DModel" fail their XML-name constraints.
 The accepted naming/correspondence policy is distinct from XML serialization rules.
-[RDF/XML literals](https://www.w3.org/TR/rdf-syntax-grammar/#literalPropertyElt),
-[rdf:about](https://www.w3.org/TR/rdf-syntax-grammar/#aboutAttr),
-[rdf:ID](https://www.w3.org/TR/rdf-syntax-grammar/#rdf-id).
-English language-range checks must qualify an at-least-one subset; imposing
-`sh:languageIn ("en")` on every preferred label would reject allowed non-English
-labels. [SHACL language ranges](https://www.w3.org/TR/shacl/#LanguageInConstraintComponent).
-The format is grounded in ORCID's own
-[identifier structure](https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier)
-and [uppercase-X explanation](https://support.orcid.org/hc/en-us/articles/360053289173-Why-does-my-ORCID-iD-have-an-X).
+[RDF/XML literals](https://www.w3.org/TR/rdf-syntax-grammar/#literalPropertyElt), [rdf:about](https://www.w3.org/TR/rdf-syntax-grammar/#aboutAttr), [rdf:ID](https://www.w3.org/TR/rdf-syntax-grammar/#rdf-id).
+English language-range checks must qualify an at-least-one subset; imposing `sh:languageIn ("en")` on every preferred label would reject allowed non-English labels.
+[SHACL language ranges](https://www.w3.org/TR/shacl/#LanguageInConstraintComponent).
+The format is grounded in ORCID's own [identifier structure](https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier) and [uppercase-X explanation](https://support.orcid.org/hc/en-us/articles/360053289173-Why-does-my-ORCID-iD-have-an-X).
 
 ## Baseline handoff
 
-Use existing [Issue #31](https://github.com/Hadden-Industries/universal-ontology/issues/31)
-and the [reconciled local body](2026-09-09-shacl-policy-source-of-truth-issue-body.md)
-for the authorized baseline update. Closed quality-check Issues #2/#3 are
-antecedents. The earlier discovery note predates Issue #31; do not create a
-duplicate Issue. No remote write is performed by this revision.
+Use existing [Issue #31](https://github.com/Hadden-Industries/universal-ontology/issues/31) and the [reconciled local body](2026-09-09-shacl-policy-source-of-truth-issue-body.md) for the authorized baseline update.
+Closed quality-check Issues #2/#3 are antecedents.
+The earlier discovery note predates Issue #31; do not create a duplicate Issue.
+No remote write is performed by this revision.
 
-The accepted domain decisions are recorded; capture/merge the actually accepted
-implementation baseline before R2 work. Native baseline/schema/format checks do
-not establish human agreement or SHACL conformance. The protected baseline was
-absent from the inspected local main on 12 September.
+The accepted domain decisions are recorded; capture/merge the actually accepted implementation baseline before R2 work. Native baseline/schema/format checks do not establish human agreement or SHACL conformance.
+The protected baseline was absent from the inspected local main on 12 September.
 
-Earlier document/source-index checks mapped all 58 assertion call sites and 33
-Wiki groups; those source identities remain unchanged. Fresh R1 document and
-affected verification for this reconciliation is recorded through the native local
-lifecycle. Historical failures remain evidence, including an optional earlier
-PowerShell here-string check rejected by command protection before execution;
-that rejected attempt was not counted as a pass.
+Earlier document/source-index checks mapped all 58 assertion call sites and 33 Wiki groups; those source identities remain unchanged.
+Fresh R1 document and affected verification for this reconciliation is recorded through the native local lifecycle.
+Historical failures remain evidence, including an optional earlier PowerShell here-string check rejected by command protection before execution; that rejected attempt was not counted as a pass.

@@ -334,7 +334,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     );
     expect(byName("Check MCP documentation")).toMatchObject({
       if: "needs.scope.outputs.mcp_docs == 'true' && needs.scope.outputs.product_tests != 'true' && needs.scope.outputs.mcp_artifacts != 'true' && needs.scope.outputs.website_build != 'true'",
-      run: "npm test -- --runInBand --runTestsByPath tests/distribution/universal-ontology-mcp-documentation.test.js\nnpm run format:check\n",
+      run: "npm test -- --runInBand --runTestsByPath tests/distribution/universal-ontology-mcp-documentation.test.js\nnpm run format:docs:prettier:check\n",
     });
     expect(
       byName("Build the affected website and generators without auto-fixes"),
@@ -427,6 +427,9 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     const containerScripts = concatenateRunScripts(workflow.jobs.container);
 
     expect(validateScripts).toContain("npm ci --ignore-scripts");
+    expect(validateScripts).toContain("npm run test:node");
+    expect(validateScripts).toContain("npm run lint:node");
+    expect(validateScripts).toContain("npm run format:node:check");
     expect(validateScripts).toContain("npm test -- --runInBand");
     expect(validateScripts).not.toContain(
       "smokeTestUniversalOntologyMcpPublicArtifactOrigin.js",

@@ -1,18 +1,27 @@
 # WebMCP Ontology Entity Definition Lookup Implementation Plan
 
-> **For the implementing agent:** Execute this plan inline, one task at a time. Do not create, delegate to, or use subagents for implementation, review, or verification. Test-driven development is mandatory: no production behavior may be written until its test has been run and observed failing for the expected reason. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For the implementing agent:** Execute this plan inline, one task at a time.
+> Do not create, delegate to, or use subagents for implementation, review, or verification.
+> Test-driven development is mandatory: no production behavior may be written until its test has been run and observed failing for the expected reason.
+> Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Let an agent retrieve the selected authored lexical definition, when present, and immutable release provenance of one exact named ontology entity from the ontology document open in the current browser tab through one read-only WebMCP tool.
 
-**Architecture:** Keep `createOntologyQueryModule()` as the single deep semantic query module already used by the local MCP server. Make that module Web-platform compatible, add a same-origin Fetch adapter beside its filesystem adapter, pin every browser query to the exact immutable release represented by the open page, and project the rich shared result into a compact WebMCP-specific result. WebMCP remains a thin browser adapter; it does not duplicate lookup, indexing, language selection, release selection, integrity verification, caching, or ambiguity logic.
+**Architecture:** Keep `createOntologyQueryModule()` as the single deep semantic query module already used by the local MCP server.
+Make that module Web-platform compatible, add a same-origin Fetch adapter beside its filesystem adapter, pin every browser query to the exact immutable release represented by the open page, and project the rich shared result into a compact WebMCP-specific result.
+WebMCP remains a thin browser adapter; it does not duplicate lookup, indexing, language selection, release selection, integrity verification, caching, or ambiguity logic.
 
-**Tech Stack:** Native ECMAScript modules; the repository-pinned Node.js, Vite 8, Jest 30, Playwright 1.62, Zod 4, and RDF tooling; generated query-artifact format v1; the WebMCP Draft Community Group Report dated 26 August 2026; JSON Schema 2020-12; Fetch, URL, Encoding, Web Cryptography, Abort, OWL 2, RDF 1.1, SKOS, DCMI Terms, BCP 47, and RFC 9562. No package is added and no compatibility package is introduced.
+**Tech Stack:** Native ECMAScript modules; the repository-pinned Node.js, Vite 8, Jest 30, Playwright 1.62, Zod 4, and RDF tooling; generated query-artifact format v1; the WebMCP Draft Community Group Report dated 26 August 2026; JSON Schema 2020-12; Fetch, URL, Encoding, Web Cryptography, Abort, OWL 2, RDF 1.1, SKOS, DCMI Terms, BCP 47, and RFC 9562.
+No package is added and no compatibility package is introduced.
 
-**Spec:** This plan is self-contained. The sections **Normative behavior contract**, **Semantic vocabulary and names**, **Module and adapter design**, and **Acceptance matrix** are normative for implementation.
+**Spec:** This plan is self-contained.
+The sections **Normative behavior contract**, **Semantic vocabulary and names**, **Module and adapter design**, and **Acceptance matrix** are normative for implementation.
 
 ## Why this plan is being amended
 
-The original plan predated the repository's completed local MCP server. Its central proposal—a new in-memory `OntologyEntityLookup` over table rows—is now the wrong seam. The repository already has a deeper and more complete query implementation:
+The original plan predated the repository's completed local MCP server.
+Its central proposal—a new in-memory `OntologyEntityLookup` over table rows—is now the wrong seam.
+The repository already has a deeper and more complete query implementation:
 
 - `src/ontologyQuery/createOntologyQueryModule.js` owns deterministic search and exact resolution, release selection, historical annotation-property interpretation, language selection, ambiguity, cache bounds, concurrent-load sharing, cancellation, and safe query errors.
 - `src/ontologyQuery/createOntologyReleaseQueryIndex.js` and `scripts/generateOntologyQueryIndexes.js` materialize source-graph-preserving, content-addressed release indexes and a catalog.
@@ -20,65 +29,110 @@ The original plan predated the repository's completed local MCP server. Its cent
 - `src/ontologyQuery/fileSystemOntologyReleaseIndexRepository.js` is the local byte-repository adapter.
 - `src/mcp/createUniversalOntologyMcpServer.js` is already a thin outer adapter over that query module.
 
-This amendment therefore removes the planned `src/ontologyEntityLookup.js` and `tests/ontology-entity-lookup.test.js`. It also reverses the old follow-up direction: WebMCP will consume the implemented query module; a future MCP server is no longer hypothetical.
+This amendment therefore removes the planned `src/ontologyEntityLookup.js` and `tests/ontology-entity-lookup.test.js`.
+It also reverses the old follow-up direction: WebMCP will consume the implemented query module; a future MCP server is no longer hypothetical.
 
-The amendment deliberately does **not** reuse the MCP transport, MCP SDK, loopback HTTP handler, filesystem adapter, MCP `content`/`structuredContent` envelope, or text renderer. Those belong to a different outer adapter and execution environment.
+The amendment deliberately does **not** reuse the MCP transport, MCP SDK, loopback HTTP handler, filesystem adapter, MCP `content`/`structuredContent` envelope, or text renderer.
+Those belong to a different outer adapter and execution environment.
 
 ## Global constraints
 
-- The implementation **MUST** follow red–green–refactor for every behavior change. Each red step must fail because the named behavior is absent, not because of a syntax error, broken fixture, or unrelated failure.
-- Production code **MUST NOT** be written before its failing test. Refactoring is allowed only from a green state and must be followed by the affected test suite.
-- Tests **MUST** name the production defect they catch, use hand-authored expected values, and assert observable results through module interfaces. Test doubles are permitted only at true external seams such as Fetch and `document.modelContext`.
-- Implementation, review, and verification **MUST** remain in one agent context. No subagent may implement, review, test, or verify any task in this plan.
+- The implementation **MUST** follow red–green–refactor for every behavior change.
+  Each red step must fail because the named behavior is absent, not because of a syntax error, broken fixture, or unrelated failure.
+- Production code **MUST NOT** be written before its failing test.
+  Refactoring is allowed only from a green state and must be followed by the affected test suite.
+- Tests **MUST** name the production defect they catch, use hand-authored expected values, and assert observable results through module interfaces.
+  Test doubles are permitted only at true external seams such as Fetch and `document.modelContext`.
+- Implementation, review, and verification **MUST** remain in one agent context.
+  No subagent may implement, review, test, or verify any task in this plan.
 - `createOntologyQueryModule()` **MUST** remain the sole authority for index validation, SHA-256 verification, exact entity resolution, preferred-label normalization, language selection, ambiguity, aggregation, caching, and cancellation.
-- WebMCP code **MUST NOT** reimplement the query module's normalization or ranking algorithm. In particular, preferred-label equality inherits the shared NFKC, locale-independent lowercase, punctuation/separator/whitespace folding behavior.
+- WebMCP code **MUST NOT** reimplement the query module's normalization or ranking algorithm.
+  In particular, preferred-label equality inherits the shared NFKC, locale-independent lowercase, punctuation/separator/whitespace folding behavior.
 - Browser code **MUST NOT** import `node:buffer`, `node:crypto`, `node:fs`, `node:path`, the MCP SDK, or the MCP server/HTTP modules.
-- Production code **MUST** use only `document.modelContext`. It **MUST NOT** inspect `navigator.modelContext`, provide a forwarding alias, install a shim or polyfill, call a removed unregister method, or use removed context operations.
-- WebMCP **MUST** be progressive enhancement. An unsupported browser must render, sort, filter, and export the ontology exactly as before, without warnings, retries, fallback globals, or WebMCP-specific network requests.
-- The public WebMCP surface **MUST** contain exactly one tool named `get_ontology_entity_definition`. The 30-character name meets Chrome's current advisory name budget exactly.
-- The tool **MUST** use the imperative API. No declarative form, hidden input, synthetic submit action, or new user interface is part of this increment.
+- Production code **MUST** use only `document.modelContext`.
+  It **MUST NOT** inspect `navigator.modelContext`, provide a forwarding alias, install a shim or polyfill, call a removed unregister method, or use removed context operations.
+- WebMCP **MUST** be progressive enhancement.
+  An unsupported browser must render, sort, filter, and export the ontology exactly as before, without warnings, retries, fallback globals, or WebMCP-specific network requests.
+- The public WebMCP surface **MUST** contain exactly one tool named `get_ontology_entity_definition`.
+  The 30-character name meets Chrome's current advisory name budget exactly.
+- The tool **MUST** use the imperative API.
+  No declarative form, hidden input, synthetic submit action, or new user interface is part of this increment.
 - The tool **MUST** be registered only after JSON-LD loading, view-model construction, and human-page rendering succeed.
-- The tool **MUST** resolve only against the immutable release represented by the open page. It **MUST NOT** use the query module's default `latest_stable_releases` selection.
-- A mutable page alias such as `latest` or `latest-unstable` **MUST** be reported separately from the authored immutable `owl:versionIRI`. The alias must never substitute for a missing version IRI.
-- If the page cannot establish an authored ontology IRI, authored immutable version IRI, repository artifact family, and valid immutable version tag, it **MUST NOT** register the tool. The human page remains available.
+- The tool **MUST** resolve only against the immutable release represented by the open page.
+  It **MUST NOT** use the query module's default `latest_stable_releases` selection.
+- A mutable page alias such as `latest` or `latest-unstable` **MUST** be reported separately from the authored immutable `owl:versionIRI`.
+  The alias must never substitute for a missing version IRI.
+- If the page cannot establish an authored ontology IRI, authored immutable version IRI, repository artifact family, and valid immutable version tag, it **MUST NOT** register the tool.
+  The human page remains available.
 - The query result's family ID, version tag, ontology IRI, and version IRI **MUST** be checked against the displayed-page context before any resolved result is returned.
 - The browser **MUST NOT** call the loopback MCP server or proxy WebMCP through Streamable HTTP, SSE, `stdio`, or another backend transport.
 - Browser artifact reads **MUST** be same-origin, rooted under `/ontology/query/v1/`, non-redirecting, bounded by decoded byte length, cancellable, and limited to catalog-selected relative paths.
-- The mutable catalog **MUST** be revalidated with Fetch cache mode `no-cache`. Content-addressed release indexes **MAY** use `force-cache`; their SHA-256 digest is still verified by the query module before JSON parsing.
-- Digest verification **MUST** be described as catalog-to-index byte integrity and cache-corruption detection, not as an independent publisher-authenticity proof. Same-origin HTTPS supplies the origin boundary; a compromised origin could replace both catalog and index.
-- `sourceArtifactSha256` **MUST** be described as build-recorded source provenance carried consistently by the catalog and verified release index. The browser recomputes `queryIndexSha256`; it does not refetch the RDF/XML source and recompute `sourceArtifactSha256` during a definition lookup.
-- The catalog and release index **MUST NOT** be fetched during ordinary page load. The first tool execution may load them; later executions in the same page reuse the query module's catalog and LRU index cache.
-- The exact selected lexical definition **MUST NOT** be truncated. Ambiguity candidates, UUID URNs, and source IRIs are bounded and report total counts and truncation explicitly.
-- Typical serialized output for the Core `Person` fixture **SHOULD** remain within Chrome's current 1.5K-character advisory output budget. If the complete definition and required provenance exceed that advisory budget, preserve semantics and record the measured size.
-- The tool annotation object **MUST** be `{ readOnlyHint: true, untrustedContentHint: true }`. Ontology-authored literals and referenced source IRIs are data, never instructions.
-- Tool `name`, `title`, description, parameter descriptions, and schema **MUST** be static source-controlled literals. Never interpolate the ontology title, entity text, URL parameters, or other document-authored data into tool metadata; doing so would turn untrusted ontology content into a tool-poisoning surface.
+- The mutable catalog **MUST** be revalidated with Fetch cache mode `no-cache`.
+  Content-addressed release indexes **MAY** use `force-cache`; their SHA-256 digest is still verified by the query module before JSON parsing.
+- Digest verification **MUST** be described as catalog-to-index byte integrity and cache-corruption detection, not as an independent publisher-authenticity proof.
+  Same-origin HTTPS supplies the origin boundary; a compromised origin could replace both catalog and index.
+- `sourceArtifactSha256` **MUST** be described as build-recorded source provenance carried consistently by the catalog and verified release index.
+  The browser recomputes `queryIndexSha256`; it does not refetch the RDF/XML source and recompute `sourceArtifactSha256` during a definition lookup.
+- The catalog and release index **MUST NOT** be fetched during ordinary page load.
+  The first tool execution may load them; later executions in the same page reuse the query module's catalog and LRU index cache.
+- The exact selected lexical definition **MUST NOT** be truncated.
+  Ambiguity candidates, UUID URNs, and source IRIs are bounded and report total counts and truncation explicitly.
+- Typical serialized output for the Core `Person` fixture **SHOULD** remain within Chrome's current 1.5K-character advisory output budget.
+  If the complete definition and required provenance exceed that advisory budget, preserve semantics and record the measured size.
+- The tool annotation object **MUST** be `{ readOnlyHint: true, untrustedContentHint: true }`.
+  Ontology-authored literals and referenced source IRIs are data, never instructions.
+- Tool `name`, `title`, description, parameter descriptions, and schema **MUST** be static source-controlled literals.
+  Never interpolate the ontology title, entity text, URL parameters, or other document-authored data into tool metadata; doing so would turn untrusted ontology content into a tool-poisoning surface.
 - The registration call **MUST NOT** set `exposedTo`; same-origin exposure is the complete requirement for this increment.
-- Registration **MUST** receive an `AbortSignal`. A non-persisted `pagehide` aborts registration; a persisted `pagehide` retains it for back/forward-cache restoration.
-- Every execution **MUST** pass the WebMCP execution signal through the browser resolver, query module, Fetch adapter, and response-body reader. Native cancellation must remain cancellation rather than being converted to a normal domain result.
-- The current WebMCP `ModelContextTool` dictionary has no `outputSchema`; production code **MUST NOT** invent one. The returned object must nevertheless cross a Zod runtime-validation boundary before it is returned.
-- The WebMCP result **MUST** expose all entity kinds already represented by `ONTOLOGY_ENTITY_KIND_VALUES`, not only the class and named-individual subset rendered in the HTML table. `entityKinds` remains an array because OWL punning and multiple asserted kinds are semantically possible.
-- The result **MUST** preserve RDF literal lexical form, datatype IRI, and language tag from the shared query result. It **MUST NOT** infer a label from an IRI or invent a definition.
-- Query-artifact v1 does not represent RDF 1.2 literal base direction. This increment **MUST NOT** add `baseDirection: null`, because that would falsely claim an inspected absence. Directional literals require a separately designed artifact-format revision and parser/data-model support.
-- Query-artifact v1 specifically exposes `entitySourceIris`. This increment **MUST** name the projected field `sourceIris`; it **MUST NOT** generalize it to `sourceValues` or imply that literal-valued `dcterms:source` assertions were preserved.
-- UUID convenience output **MUST** include only identifier assertions that validate as RFC 9562 UUID URNs. It returns canonical lowercase UUID URNs, never guesses that another identifier is a UUID, and never rewrites the source assertion itself.
-- Expected outcomes—resolved, ambiguous, not found, invalid input, and safe operational failure—**MUST** be discriminated JSON objects. Expected misses and ambiguity must not throw.
-- Unexpected private exceptions **MUST NOT** cross the tool seam. They are reported through an injected reporting callback and returned as a stable `INTERNAL_QUERY_FAILURE` result. Native execution cancellation is the exception: it rejects with the cancellation reason.
-- Runtime input validation **MUST** reject arrays, non-objects, additional properties, non-string references, empty raw references, whitespace-only references, and references longer than 512 Unicode code points. Count with `[...value].length`, not UTF-16 code-unit `.length`.
-- Every created production module **MUST** begin with a module-level comment naming its responsibility and the behavior it deliberately leaves to another layer. Exported interfaces, public result variants, trust decisions, exact-release pinning, digest-before-parse ordering, URL/path double validation, cache decisions, RDF projections, cancellation boundaries, lazy-loading decisions, and bfcache lifecycle choices **MUST** have comments explaining semantic intent and invariants. Comments must not merely restate syntax.
-- No package or lockfile change is part of this plan. The current native APIs and existing Zod dependency are sufficient.
+- Registration **MUST** receive an `AbortSignal`.
+  A non-persisted `pagehide` aborts registration; a persisted `pagehide` retains it for back/forward-cache restoration.
+- Every execution **MUST** pass the WebMCP execution signal through the browser resolver, query module, Fetch adapter, and response-body reader.
+  Native cancellation must remain cancellation rather than being converted to a normal domain result.
+- The current WebMCP `ModelContextTool` dictionary has no `outputSchema`; production code **MUST NOT** invent one.
+  The returned object must nevertheless cross a Zod runtime-validation boundary before it is returned.
+- The WebMCP result **MUST** expose all entity kinds already represented by `ONTOLOGY_ENTITY_KIND_VALUES`, not only the class and named-individual subset rendered in the HTML table.
+  `entityKinds` remains an array because OWL punning and multiple asserted kinds are semantically possible.
+- The result **MUST** preserve RDF literal lexical form, datatype IRI, and language tag from the shared query result.
+  It **MUST NOT** infer a label from an IRI or invent a definition.
+- Query-artifact v1 does not represent RDF 1.2 literal base direction.
+  This increment **MUST NOT** add `baseDirection: null`, because that would falsely claim an inspected absence.
+  Directional literals require a separately designed artifact-format revision and parser/data-model support.
+- Query-artifact v1 specifically exposes `entitySourceIris`.
+  This increment **MUST** name the projected field `sourceIris`; it **MUST NOT** generalize it to `sourceValues` or imply that literal-valued `dcterms:source` assertions were preserved.
+- UUID convenience output **MUST** include only identifier assertions that validate as RFC 9562 UUID URNs.
+  It returns canonical lowercase UUID URNs, never guesses that another identifier is a UUID, and never rewrites the source assertion itself.
+- Expected outcomes—resolved, ambiguous, not found, invalid input, and safe operational failure—**MUST** be discriminated JSON objects.
+  Expected misses and ambiguity must not throw.
+- Unexpected private exceptions **MUST NOT** cross the tool seam.
+  They are reported through an injected reporting callback and returned as a stable `INTERNAL_QUERY_FAILURE` result.
+  Native execution cancellation is the exception: it rejects with the cancellation reason.
+- Runtime input validation **MUST** reject arrays, non-objects, additional properties, non-string references, empty raw references, whitespace-only references, and references longer than 512 Unicode code points.
+  Count with `[...value].length`, not UTF-16 code-unit `.length`.
+- Every created production module **MUST** begin with a module-level comment naming its responsibility and the behavior it deliberately leaves to another layer.
+  Exported interfaces, public result variants, trust decisions, exact-release pinning, digest-before-parse ordering, URL/path double validation, cache decisions, RDF projections, cancellation boundaries, lazy-loading decisions, and bfcache lifecycle choices **MUST** have comments explaining semantic intent and invariants.
+  Comments must not merely restate syntax.
+- No package or lockfile change is part of this plan.
+  The current native APIs and existing Zod dependency are sufficient.
 - No shim, compatibility layer, browser-specific alternate implementation, or forwarding wrapper is permitted.
-- Existing working-tree changes are user-owned. Preserve the current modifications to `reference-data/reference-data.owl` and `skills-lock.json`, and the current untracked `.github/workflows/verify-jsonld.yml`.
+- Existing working-tree changes are user-owned.
+  Preserve the current modifications to `reference-data/reference-data.owl` and `skills-lock.json`, and the current untracked `.github/workflows/verify-jsonld.yml`.
 - Shell commands **MUST** be run individually and their exit status inspected before any dependent command.
-- Commits and pushes require separate explicit authorization. Checkpoint commit messages in this document are proposals only.
+- Commits and pushes require separate explicit authorization.
+  Checkpoint commit messages in this document are proposals only.
 
 ## Standards baseline
 
-Before writing tests, reopen these primary or official sources and compare their current definitions with this plan. If a fast-moving interface has changed, update this plan and the failing tests to the current official interface. Do not retain an obsolete shape through a compatibility branch.
+Before writing tests, reopen these primary or official sources and compare their current definitions with this plan.
+If a fast-moving interface has changed, update this plan and the failing tests to the current official interface.
+Do not retain an obsolete shape through a compatibility branch.
 
-When implementation guidance and the current Community Group Report disagree, treat the report's current WebIDL and algorithms as the target contract, record the implementation lag in documentation/manual evidence, and do not add a production compatibility branch. At amendment time, for example, the report's `executeTool()` WebIDL accepts an input object while one Chrome guidance example still describes a JSON string; this difference affects only manual inspection, not the registered tool callback.
+When implementation guidance and the current Community Group Report disagree, treat the report's current WebIDL and algorithms as the target contract, record the implementation lag in documentation/manual evidence, and do not add a production compatibility branch.
+At amendment time, for example, the report's `executeTool()` WebIDL accepts an input object while one Chrome guidance example still describes a JSON string; this difference affects only manual inspection, not the registered tool callback.
 
-- [WebMCP Draft Community Group Report, 26 August 2026](https://webmachinelearning.github.io/webmcp/) — `Document.modelContext`, `ModelContextTool`, `ToolAnnotations`, registration and execution signals, JSON serialization, same-origin exposure, permissions policy, and security considerations. It is an experimental Community Group report, not a W3C Standard.
-- [Official WebMCP implementation status](https://github.com/webmachinelearning/webmcp/blob/main/implementation-status.md) — current browser and agent support. At plan amendment time it reports ChatGPT Desktop support, Brave experimental support, a Chrome 149 origin trial, and an Edge 150 origin trial.
+- [WebMCP Draft Community Group Report, 26 August 2026](https://webmachinelearning.github.io/webmcp/) — `Document.modelContext`, `ModelContextTool`, `ToolAnnotations`, registration and execution signals, JSON serialization, same-origin exposure, permissions policy, and security considerations.
+  It is an experimental Community Group report, not a W3C Standard.
+- [Official WebMCP implementation status](https://github.com/webmachinelearning/webmcp/blob/main/implementation-status.md) — current browser and agent support.
+  At plan amendment time it reports ChatGPT Desktop support, Brave experimental support, a Chrome 149 origin trial, and an Edge 150 origin trial.
 - [Chrome imperative API guidance](https://developer.chrome.com/docs/ai/webmcp/imperative-api) — imperative registration, signal-based unregistration, cancellation, tool discovery, and execution.
 - [Chrome WebMCP best practices](https://developer.chrome.com/docs/ai/webmcp/best-practices) — one intention per tool, contextual registration, precise descriptions, runtime validation, and bounded output.
 - [Chrome WebMCP tool security](https://developer.chrome.com/docs/ai/webmcp/secure-tools) — `readOnlyHint`, `untrustedContentHint`, same-origin defaults, and current character-budget guidance.
@@ -94,7 +148,8 @@ When implementation guidance and the current Community Group Report disagree, tr
 - [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) — identifier and source assertion meaning.
 - [BCP 47 / RFC 5646](https://www.rfc-editor.org/rfc/rfc5646) — language-tag syntax and lookup semantics.
 - [RFC 9562](https://www.rfc-editor.org/rfc/rfc9562) — current UUID text and UUID URN syntax.
-- [JSON Schema 2020-12 Core](https://json-schema.org/draft/2020-12/json-schema-core) and [Validation](https://json-schema.org/draft/2020-12/json-schema-validation) — the input declaration vocabulary. The declaration is descriptive; runtime validation remains mandatory.
+- [JSON Schema 2020-12 Core](https://json-schema.org/draft/2020-12/json-schema-core) and [Validation](https://json-schema.org/draft/2020-12/json-schema-validation) — the input declaration vocabulary.
+  The declaration is descriptive; runtime validation remains mandatory.
 
 ## Module and adapter design
 
@@ -114,7 +169,8 @@ query-artifact builder --> /ontology/query/v1/catalog.json
                                                 +--> compact WebMCP outer adapter
 ```
 
-The byte-repository seam is now real because it has two adapters. Both expose the existing two-method interface:
+The byte-repository seam is now real because it has two adapters.
+Both expose the existing two-method interface:
 
 ```javascript
 {
@@ -180,22 +236,30 @@ The tool pins the query to `universal/core` release `20260714`, verifies the con
 
 ### Input classification and resolution precedence
 
-The browser resolver trims surrounding whitespace once and returns the trimmed string as `requestedEntityReference`. It then applies these branches:
+The browser resolver trims surrounding whitespace once and returns the trimmed string as `requestedEntityReference`.
+It then applies these branches:
 
 1. If the reference is an absolute IRI, resolve it first as `identifierKind: "entity_iri"` with exact case-sensitive equality.
 2. If that IRI resolution is `not_found` and the reference is a syntactically valid UUID URN, resolve its canonical lowercase form as `identifierKind: "uuid_urn"`.
 3. If the reference is bare RFC 9562 hex-and-dash UUID text, prepend `urn:uuid:`, lowercase it, and resolve as `uuid_urn`.
 4. Otherwise resolve as `identifierKind: "preferred_label"` and let the shared query module apply its normalized exact-label comparison.
 
-This preserves entity-IRI precedence even when an entity IRI itself is a UUID URN. It also lets the common case—UUID URN used as a `dcterms:identifier`—fall through to UUID resolution. Generic IRI-shaped text does not fall through to preferred-label matching.
+This preserves entity-IRI precedence even when an entity IRI itself is a UUID URN.
+It also lets the common case—UUID URN used as a `dcterms:identifier`—fall through to UUID resolution.
+Generic IRI-shaped text does not fall through to preferred-label matching.
 
-The 512-code-point transport ceiling is an outer abuse bound, not a widening of the shared typed-query contract. A reference that reaches the preferred-label branch must pass the existing `NonBlankOntologyLookupTextSchema` before query I/O; otherwise the resolver returns `invalid_entity_reference`. Absolute IRIs remain governed by `AbsoluteIriSchema`, so a valid IRI longer than the preferred-label limit is not accidentally rejected as a label.
+The 512-code-point transport ceiling is an outer abuse bound, not a widening of the shared typed-query contract.
+A reference that reaches the preferred-label branch must pass the existing `NonBlankOntologyLookupTextSchema` before query I/O; otherwise the resolver returns `invalid_entity_reference`.
+Absolute IRIs remain governed by `AbsoluteIriSchema`, so a valid IRI longer than the preferred-label limit is not accidentally rejected as a label.
 
-Shared preferred-label equality is exact **after** the query module's normalization: Unicode NFKC, locale-independent lowercase, punctuation/separator/whitespace folding to one ASCII space, and trimming. It is not prefix, substring, stemming, edit-distance, vector, or language-model matching. If normalization makes more than one entity equal, the result is ambiguous.
+Shared preferred-label equality is exact **after** the query module's normalization: Unicode NFKC, locale-independent lowercase, punctuation/separator/whitespace folding to one ASCII space, and trimming.
+It is not prefix, substring, stemming, edit-distance, vector, or language-model matching.
+If normalization makes more than one entity equal, the result is ambiguous.
 
 ### Language and lexical-definition selection
 
-The WebMCP adapter passes `preferredLanguageTags: ["en-GB", "en"]` explicitly. The query module remains authoritative for exact/lookup language preference, untagged selection, deterministic fallback, and historical annotation-property selection.
+The WebMCP adapter passes `preferredLanguageTags: ["en-GB", "en"]` explicitly.
+The query module remains authoritative for exact/lookup language preference, untagged selection, deterministic fallback, and historical annotation-property selection.
 
 The compact selected assertion contains:
 
@@ -213,7 +277,8 @@ The compact selected assertion contains:
 }
 ```
 
-An absent selected preferred label or lexical definition is `null`. No label or definition is synthesized.
+An absent selected preferred label or lexical definition is `null`.
+No label or definition is synthesized.
 
 ### Result variants
 
@@ -349,9 +414,13 @@ Ambiguous:
 }
 ```
 
-Candidates are sorted by entity IRI using code-unit order in the shared query module, and the WebMCP projector returns at most five. The compact candidate shape deliberately omits definitions, identifiers, and source values; its exact entity IRI is the unambiguous reference for a follow-up call.
+Candidates are sorted by entity IRI using code-unit order in the shared query module, and the WebMCP projector returns at most five.
+The compact candidate shape deliberately omits definitions, identifiers, and source values; its exact entity IRI is the unambiguous reference for a follow-up call.
 
-For resolved entities, the projector unions values across `sourceArtifactDescriptions`, deduplicates them before counting, and then applies stable ordering before slicing. `entityKinds` use the order declared by shared `ONTOLOGY_ENTITY_KIND_VALUES`; canonical lowercase UUID URNs and source IRIs use ascending JavaScript code-unit order. `uuidUrnCount` and `sourceIriCount` describe the full deduplicated sets, while each `*Truncated` flag is `count > 5`. These rules make “first five” reproducible rather than dependent on object traversal order.
+For resolved entities, the projector unions values across `sourceArtifactDescriptions`, deduplicates them before counting, and then applies stable ordering before slicing.
+`entityKinds` use the order declared by shared `ONTOLOGY_ENTITY_KIND_VALUES`; canonical lowercase UUID URNs and source IRIs use ascending JavaScript code-unit order.
+`uuidUrnCount` and `sourceIriCount` describe the full deduplicated sets, while each `*Truncated` flag is `count > 5`.
+These rules make “first five” reproducible rather than dependent on object traversal order.
 
 Invalid input:
 
@@ -365,7 +434,9 @@ Invalid input:
 }
 ```
 
-Use `invalid_tool_input` for argument-object/schema failures and `invalid_entity_reference` for a schema-shaped string that cannot be classified or accepted by the typed query input. The latter has the stable message `The entityReference must be a non-blank entity IRI, UUID, or preferred label accepted by the ontology query.` Invalid-input messages are descriptive, fixed by code, and never echo rejected caller text.
+Use `invalid_tool_input` for argument-object/schema failures and `invalid_entity_reference` for a schema-shaped string that cannot be classified or accepted by the typed query input.
+The latter has the stable message `The entityReference must be a non-blank entity IRI, UUID, or preferred label accepted by the ontology query.`
+Invalid-input messages are descriptive, fixed by code, and never echo rejected caller text.
 
 Safe operational failure:
 
@@ -381,7 +452,8 @@ Safe operational failure:
 }
 ```
 
-The failure union includes the shared ontology-query errors plus browser-specific `DISPLAYED_RELEASE_IDENTITY_MISMATCH`. It never includes a URL fetched from caller input, filesystem path, stack trace, response body, or private exception text.
+The failure union includes the shared ontology-query errors plus browser-specific `DISPLAYED_RELEASE_IDENTITY_MISMATCH`.
+It never includes a URL fetched from caller input, filesystem path, stack trace, response body, or private exception text.
 
 ## Semantic vocabulary and names
 
@@ -459,13 +531,16 @@ The failure union includes the shared ontology-query errors plus browser-specifi
 
 ## Configuration approval gate
 
-Repository policy classifies build and bundler files as configuration. Before Task 4 changes build behavior, obtain explicit approval for this exact change:
+Repository policy classifies build and bundler files as configuration.
+Before Task 4 changes build behavior, obtain explicit approval for this exact change:
 
 - create `scripts/build/createOntologyQueryArtifacts.js` to produce the existing query-artifact v1 bytes in memory;
 - modify `scripts/generateOntologyQueryIndexes.js` to consume those bytes while preserving release-first/catalog-last atomic publication;
 - modify `scripts/build/ontologyAssets.js` so `createOntologyBuildAssets()` adds `query/v1/catalog.json` and all catalog-referenced content-addressed release indexes to Vite's emitted asset map.
 
-Behavioral impact: `npm run build` will take longer and `dist/` will include the query catalog and immutable release indexes that deployment uploads. Pipeline impact: no package script, workflow, Vite setting, or deployment setting changes; the existing build command becomes sufficient because the existing ontology-assets plugin emits the additional map entries. This plan does not itself grant the required configuration approval.
+Behavioral impact: `npm run build` will take longer and `dist/` will include the query catalog and immutable release indexes that deployment uploads.
+Pipeline impact: no package script, workflow, Vite setting, or deployment setting changes; the existing build command becomes sufficient because the existing ontology-assets plugin emits the additional map entries.
+This plan does not itself grant the required configuration approval.
 
 ## Pre-implementation gate
 
@@ -485,7 +560,8 @@ Expected pre-existing user-owned entries at plan amendment time, excluding this 
 ?? .github/workflows/verify-jsonld.yml
 ```
 
-Treat every change as user-owned. If a planned file is modified when implementation starts, inspect and preserve the overlap; never restore or overwrite it.
+Treat every change as user-owned.
+If a planned file is modified when implementation starts, inspect and preserve the overlap; never restore or overwrite it.
 
 - [ ] Establish the shared-query, MCP, view-model, and built-page baseline.
 
@@ -514,7 +590,8 @@ Expected: all suites pass before the first red test is introduced.
 
 - [ ] **Step 1: Write the failing authored-metadata test**
 
-Add ontology nodes containing exact `dcterms:title`, `dcterms:modified`, `owl:versionIRI`, `owl:versionInfo`, and `owl:priorVersion` values. Assert:
+Add ontology nodes containing exact `dcterms:title`, `dcterms:modified`, `owl:versionIRI`, `owl:versionInfo`, and `owl:priorVersion` values.
+Assert:
 
 ```javascript
 expect(viewModel.ontology).toEqual({
@@ -528,7 +605,8 @@ expect(viewModel.ontology).toEqual({
 });
 ```
 
-Add a separate document with no `owl:Ontology` node and assert every metadata member is exactly `null`. Preserve existing exact row assertions.
+Add a separate document with no `owl:Ontology` node and assert every metadata member is exactly `null`.
+Preserve existing exact row assertions.
 
 - [ ] **Step 2: Run the focused test and verify RED**
 
@@ -575,7 +653,9 @@ return {
 };
 ```
 
-Use `??`, not truthiness, so an authored empty lexical form is not silently converted to absence. Update JSDoc with a named `DisplayedOntologyDocumentMetadata` typedef. Do not add preferred-label or definition literal projections to rows; the shared query index already owns them.
+Use `??`, not truthiness, so an authored empty lexical form is not silently converted to absence.
+Update JSDoc with a named `DisplayedOntologyDocumentMetadata` typedef.
+Do not add preferred-label or definition literal projections to rows; the shared query index already owns them.
 
 - [ ] **Step 4: Run the test and verify GREEN**
 
@@ -667,7 +747,9 @@ refactor(ontology): expose immutable document metadata
 
 - [ ] **Step 1: Extract the reusable query fixture while green**
 
-Move the existing `serialize`, `digest`, `createReleaseArtifact`, and `createInMemoryRepository` fixture logic into `tests/fixtures/ontology-query/createInMemoryOntologyQueryFixture.js`. Export semantically named helpers and update the existing query-module test imports. Do not change expected values.
+Move the existing `serialize`, `digest`, `createReleaseArtifact`, and `createInMemoryRepository` fixture logic into `tests/fixtures/ontology-query/createInMemoryOntologyQueryFixture.js`.
+Export semantically named helpers and update the existing query-module test imports.
+Do not change expected values.
 
 - [ ] **Step 2: Prove fixture extraction remains GREEN**
 
@@ -713,9 +795,14 @@ QUERY_INDEX_UNAVAILABLE: {
 },
 ```
 
-Export the frozen code list from `Object.keys(ONTOLOGY_QUERY_ERROR_DEFINITIONS)`, the existing error class, and type guard. Import them from the query module and both MCP files. In the selected-index load catch, retain domain and cancellation branches and map only an unclassified repository read failure to `QUERY_INDEX_UNAVAILABLE`.
+Export the frozen code list from `Object.keys(ONTOLOGY_QUERY_ERROR_DEFINITIONS)`, the existing error class, and type guard.
+Import them from the query module and both MCP files.
+In the selected-index load catch, retain domain and cancellation branches and map only an unclassified repository read failure to `QUERY_INDEX_UNAVAILABLE`.
 
-Delete the duplicate `ONTOLOGY_TOOL_ERROR_CODE_VALUES` declaration from `universalOntologyToolSchemas.js`; import `ONTOLOGY_QUERY_ERROR_CODE_VALUES` and pass it directly to the MCP failure-code enum. There is no compatibility alias or second vocabulary. Do not expose the definitions object or adapter exception. Keep `INTERNAL_QUERY_FAILURE` for unexpected defects outside a repository read.
+Delete the duplicate `ONTOLOGY_TOOL_ERROR_CODE_VALUES` declaration from `universalOntologyToolSchemas.js`; import `ONTOLOGY_QUERY_ERROR_CODE_VALUES` and pass it directly to the MCP failure-code enum.
+There is no compatibility alias or second vocabulary.
+Do not expose the definitions object or adapter exception.
+Keep `INTERNAL_QUERY_FAILURE` for unexpected defects outside a repository read.
 
 - [ ] **Step 6: Run both suites and verify GREEN**
 
@@ -749,7 +836,8 @@ Expected: FAIL because `Buffer.toString("utf8")` replaces malformed sequences ra
 
 - [ ] **Step 9: Replace Node byte primitives with standards-native primitives**
 
-Remove both `node:` imports. Use one module-level decoder:
+Remove both `node:` imports.
+Use one module-level decoder:
 
 ```javascript
 const UTF_8_DECODER = new TextDecoder("utf-8", { fatal: true });
@@ -766,7 +854,8 @@ function parseJsonBytes(bytes, invalidJsonMessage) {
 }
 ```
 
-Use separate exact messages for catalog and release index. Replace synchronous hashing with:
+Use separate exact messages for catalog and release index.
+Replace synchronous hashing with:
 
 ```javascript
 async function sha256(bytes) {
@@ -777,7 +866,8 @@ async function sha256(bytes) {
 }
 ```
 
-Await it before comparing `queryIndexSha256`. Do not add a Node fallback; supported Node runtimes and secure browser contexts provide these standards-native globals.
+Await it before comparing `queryIndexSha256`.
+Do not add a Node fallback; supported Node runtimes and secure browser contexts provide these standards-native globals.
 
 - [ ] **Step 10: Run the query suite and verify GREEN**
 
@@ -838,7 +928,8 @@ refactor(ontology-query): use Web-platform byte primitives
 
 - [ ] **Step 1: Write failing shared-path regression tests**
 
-Keep the existing filesystem assertions for empty, absolute, backslash, `.`, `..`, and escaping paths. Add percent-encoded separator/dot cases to the new Fetch suite:
+Keep the existing filesystem assertions for empty, absolute, backslash, `.`, `..`, and escaping paths.
+Add percent-encoded separator/dot cases to the new Fetch suite:
 
 ```javascript
 test.each([
@@ -870,7 +961,12 @@ Expected: the existing suite passes and the new suite fails because the Fetch ad
 
 - [ ] **Step 3: Extract one relative-path validator**
 
-Move the filesystem adapter's existing normalized segment validation to browser-safe `ontologyReleaseIndexRelativePath.js`; that module must not import `node:path`. Reject non-strings, empty values, leading-slash paths, Windows drive-absolute forms such as `C:/...`, backslashes, and empty/`.`/`..` segments. Return a frozen segment array. Use it from the filesystem adapter; retain all lexical containment, symlink, `realpath`, and signal logic there. Add explicit POSIX-root, Windows-drive, and UNC regression cases. The extraction must not newly reject percent signs, query delimiters, or fragment delimiters from filesystem paths.
+Move the filesystem adapter's existing normalized segment validation to browser-safe `ontologyReleaseIndexRelativePath.js`; that module must not import `node:path`.
+Reject non-strings, empty values, leading-slash paths, Windows drive-absolute forms such as `C:/...`, backslashes, and empty/`.`/`..` segments.
+Return a frozen segment array.
+Use it from the filesystem adapter; retain all lexical containment, symlink, `realpath`, and signal logic there.
+Add explicit POSIX-root, Windows-drive, and UNC regression cases.
+The extraction must not newly reject percent signs, query delimiters, or fragment delimiters from filesystem paths.
 
 - [ ] **Step 4: Run the filesystem suite and verify GREEN**
 
@@ -882,7 +978,8 @@ Expected: PASS with no filesystem behavior regression.
 
 - [ ] **Step 5: Write failing successful-Fetch tests**
 
-Use native `Response`, `ReadableStream`, and a recording Fetch test double. Assert catalog and release methods return exact `Uint8Array` bytes and issue requests with:
+Use native `Response`, `ReadableStream`, and a recording Fetch test double.
+Assert catalog and release methods return exact `Uint8Array` bytes and issue requests with:
 
 ```javascript
 {
@@ -903,11 +1000,19 @@ https://example.test/ontology/query/v1/releases/universal/core/20260714/aaaaaaaa
 
 - [ ] **Step 6: Write failing trust-boundary tests**
 
-Require synchronous factory rejection unless `expectedOrigin` is a canonical HTTP(S) origin string with no path, credentials, search, or fragment. Reject a query root that is cross-origin from it, contains credentials, search, or fragment, or lacks a trailing slash. Require read rejection for non-200 status, redirected responses, missing/non-JSON content type, a declared `Content-Length` above its bound, a streamed body that crosses its bound, a missing response body, and an already-aborted signal. Prove response text is never included in an error.
+Require synchronous factory rejection unless `expectedOrigin` is a canonical HTTP(S) origin string with no path, credentials, search, or fragment.
+Reject a query root that is cross-origin from it, contains credentials, search, or fragment, or lacks a trailing slash.
+Require read rejection for non-200 status, redirected responses, missing/non-JSON content type, a declared `Content-Length` above its bound, a streamed body that crosses its bound, a missing response body, and an already-aborted signal.
+Prove response text is never included in an error.
 
 - [ ] **Step 7: Implement the minimal Fetch adapter and verify GREEN**
 
-The factory first parses and canonicalizes `expectedOrigin`, then requires the supplied string to equal the parsed HTTP(S) URL's `.origin`. It validates `ontologyQueryRootIri` with `new URL()`, requires its origin to equal that canonical origin, and requires an `http:` or `https:` URL with no credentials/search/hash and a slash-terminated path. Each relative path first crosses the shared validator. The Fetch adapter then additionally rejects `%`, `?`, and `#` so URL parsing cannot reinterpret an otherwise valid filesystem name. `new URL(relativePath, root)` must retain the expected origin and root pathname prefix. After Fetch resolves, require status 200, `response.redirected === false`, and an `application/json` or `application/*+json` media type before reading the body.
+The factory first parses and canonicalizes `expectedOrigin`, then requires the supplied string to equal the parsed HTTP(S) URL's `.origin`.
+It validates `ontologyQueryRootIri` with `new URL()`, requires its origin to equal that canonical origin, and requires an `http:` or `https:` URL with no credentials/search/hash and a slash-terminated path.
+Each relative path first crosses the shared validator.
+The Fetch adapter then additionally rejects `%`, `?`, and `#` so URL parsing cannot reinterpret an otherwise valid filesystem name.
+`new URL(relativePath, root)` must retain the expected origin and root pathname prefix.
+After Fetch resolves, require status 200, `response.redirected === false`, and an `application/json` or `application/*+json` media type before reading the body.
 
 Implement a private bounded reader that:
 
@@ -926,7 +1031,9 @@ Expected: PASS.
 
 - [ ] **Step 8: Integrate the adapter with the real query module**
 
-Add one test using the shared in-memory release fixture served through the Fetch test double. Construct the real query module over the Fetch adapter and require `resolveOntologyEntity()` to return `resolutionStatus: "found"` for `Person` in a specified release. This proves the adapter returns the exact raw-byte shape expected by digest and schema validation.
+Add one test using the shared in-memory release fixture served through the Fetch test double.
+Construct the real query module over the Fetch adapter and require `resolveOntologyEntity()` to return `resolutionStatus: "found"` for `Person` in a specified release.
+This proves the adapter returns the exact raw-byte shape expected by digest and schema validation.
 
 - [ ] **Step 9: Run the integration test and verify GREEN**
 
@@ -1006,9 +1113,12 @@ Expected: FAIL because the ordinary asset map currently contains JSON-LD/CSV/ali
 
 Move source eligibility, latest-only selection, release identity checks, canonical JSON serialization, digest construction, content-addressed relative paths, latest-stable marking, and catalog construction into `createOntologyQueryArtifacts.js`.
 
-Return a map whose keys are `catalog.json` and `releases/.../{sha256}.json`. Validate every release byte length and catalog byte length against `ontologyQueryArtifactLimits.js` before returning. The error must name the artifact kind and measured/allowed byte lengths.
+Return a map whose keys are `catalog.json` and `releases/.../{sha256}.json`.
+Validate every release byte length and catalog byte length against `ontologyQueryArtifactLimits.js` before returning.
+The error must name the artifact kind and measured/allowed byte lengths.
 
-Keep filesystem creation, directory creation, release writes, temporary catalog name, rename, and temporary-file cleanup in `generateOntologyQueryIndexes.js`. Iterate release entries first and publish `catalog.json` last.
+Keep filesystem creation, directory creation, release writes, temporary catalog name, rename, and temporary-file cleanup in `generateOntologyQueryIndexes.js`.
+Iterate release entries first and publish `catalog.json` last.
 
 - [ ] **Step 4: Prove the CLI remains GREEN**
 
@@ -1020,7 +1130,9 @@ Expected: PASS, including deterministic output and atomic catalog publication te
 
 - [ ] **Step 5: Add query assets to the existing Vite asset map**
 
-After JSON-LD/CSV generation, call `createOntologyQueryArtifacts({ ontologySources, workerCount })` and add every returned map entry under `query/v1/`. Reject a path collision instead of overwriting an existing asset. Do not change `package.json`, `vite.config.mjs`, the plugin list, or deployment scripts.
+After JSON-LD/CSV generation, call `createOntologyQueryArtifacts({ ontologySources, workerCount })` and add every returned map entry under `query/v1/`.
+Reject a path collision instead of overwriting an existing asset.
+Do not change `package.json`, `vite.config.mjs`, the plugin list, or deployment scripts.
 
 - [ ] **Step 6: Run both focused suites and verify GREEN**
 
@@ -1036,11 +1148,13 @@ Expected: PASS.
 npm.cmd run build
 ```
 
-Expected: PASS. Require `dist/query/v1/catalog.json`, require every catalog-referenced release file, parse both schema kinds, recompute each digest, and confirm no emitted artifact exceeds its shared browser bound.
+Expected: PASS.
+Require `dist/query/v1/catalog.json`, require every catalog-referenced release file, parse both schema kinds, recompute each digest, and confirm no emitted artifact exceeds its shared browser bound.
 
 - [ ] **Step 8: Review build scope and performance**
 
-Record build duration and total query-artifact bytes before/after. The extra output is intentional; unexpected duplicate alias indexes are a failure because only immutable releases belong in the query catalog.
+Record build duration and total query-artifact bytes before/after.
+The extra output is intentional; unexpected duplicate alias indexes are a failure because only immutable releases belong in the query catalog.
 
 ```powershell
 git diff --check
@@ -1077,7 +1191,8 @@ build(ontology): emit query indexes with website assets
 
 - [ ] **Step 1: Write failing displayed-release-context tests**
 
-Cover exact dated, `latest`, and `latest-unstable` page IRIs. Require:
+Cover exact dated, `latest`, and `latest-unstable` page IRIs.
+Require:
 
 ```javascript
 expect(context).toEqual({
@@ -1106,9 +1221,15 @@ Expected: FAIL because the context module does not exist.
 
 - [ ] **Step 3: Implement exact context validation**
 
-Use `AbsoluteIriSchema`, `OntologyArtifactFamilyIdSchema`, and `OntologyVersionTagSchema`. Parse document/root IRIs with `URL`; require an `http:` or `https:` root with no credentials, search, or fragment; require the same origin and a slash-terminated root path; and derive the family from the contained document path without the final document segment. Classify the final document segment before requiring ontology metadata: return `null` if it is neither an exact reserved alias nor an immutable version tag. For an eligible document, derive `versionTag` from the final non-empty path segment of the authored `versionIri`, not from the mutable page URL or `versionInfo`.
+Use `AbsoluteIriSchema`, `OntologyArtifactFamilyIdSchema`, and `OntologyVersionTagSchema`.
+Parse document/root IRIs with `URL`; require an `http:` or `https:` root with no credentials, search, or fragment; require the same origin and a slash-terminated root path; and derive the family from the contained document path without the final document segment.
+Classify the final document segment before requiring ontology metadata: return `null` if it is neither an exact reserved alias nor an immutable version tag.
+For an eligible document, derive `versionTag` from the final non-empty path segment of the authored `versionIri`, not from the mutable page URL or `versionInfo`.
 
-Classify `documentVersionAlias` only when the final document path segment is exactly `latest` or `latest-unstable`. Otherwise require the final segment to pass `OntologyVersionTagSchema` and equal the version tag derived from `versionIri`, then set `documentVersionAlias: null`. Do not infer that an unknown alias or `-full` import-closure artifact has the same byte/source-graph identity as the indexed immutable release. Deep-freeze the result.
+Classify `documentVersionAlias` only when the final document path segment is exactly `latest` or `latest-unstable`.
+Otherwise require the final segment to pass `OntologyVersionTagSchema` and equal the version tag derived from `versionIri`, then set `documentVersionAlias: null`.
+Do not infer that an unknown alias or `-full` import-closure artifact has the same byte/source-graph identity as the indexed immutable release.
+Deep-freeze the result.
 
 - [ ] **Step 4: Run and verify GREEN**
 
@@ -1120,7 +1241,10 @@ Expected: PASS.
 
 - [ ] **Step 5: Write failing compact-result-schema tests**
 
-In `ontology-entity-definition-result-schemas.test.js`, import the planned schema and parse a hand-authored complete resolved `Person` result. Add separate assertions that parsing rejects an unknown property, a literal with `baseDirection`, more than five candidates, more than five UUID URNs, more than five source IRIs, a non-RFC-9562 or non-canonical-uppercase UUID URN, a source value that is not an absolute IRI, an unknown failure code, duplicate/out-of-order bounded values, duplicate/out-of-order entity kinds, and inconsistent count/truncation fields. Require all five status arms to accept their exact normative shapes. The ambiguous-candidate schema contains only `entityIri`, complete `entityKinds`, and nullable `preferredLabelLexicalForm`.
+In `ontology-entity-definition-result-schemas.test.js`, import the planned schema and parse a hand-authored complete resolved `Person` result.
+Add separate assertions that parsing rejects an unknown property, a literal with `baseDirection`, more than five candidates, more than five UUID URNs, more than five source IRIs, a non-RFC-9562 or non-canonical-uppercase UUID URN, a source value that is not an absolute IRI, an unknown failure code, duplicate/out-of-order bounded values, duplicate/out-of-order entity kinds, and inconsistent count/truncation fields.
+Require all five status arms to accept their exact normative shapes.
+The ambiguous-candidate schema contains only `entityIri`, complete `entityKinds`, and nullable `preferredLabelLexicalForm`.
 
 - [ ] **Step 6: Run the schema suite and verify RED**
 
@@ -1132,7 +1256,9 @@ Expected: FAIL because the result-schema module does not exist.
 
 - [ ] **Step 7: Define the minimal compact result schemas and verify GREEN**
 
-Create strict Zod schemas for all five status arms. Reuse `AbsoluteIriSchema`, `RdfLiteralValueSchema`, `OntologyEntityKindSchema`, `UuidUrnSchema`, selection-basis values, and the shared query-error code list. Define the WebMCP operational-failure vocabulary as a real extension, not a copy:
+Create strict Zod schemas for all five status arms.
+Reuse `AbsoluteIriSchema`, `RdfLiteralValueSchema`, `OntologyEntityKindSchema`, `UuidUrnSchema`, selection-basis values, and the shared query-error code list.
+Define the WebMCP operational-failure vocabulary as a real extension, not a copy:
 
 ```javascript
 export const ONTOLOGY_ENTITY_DEFINITION_FAILURE_CODE_VALUES = Object.freeze([
@@ -1154,7 +1280,8 @@ export const ONTOLOGY_ENTITY_DEFINITION_INVALID_REFERENCE_MESSAGE =
   "The entityReference must be a non-blank entity IRI, UUID, or preferred label accepted by the ontology query.";
 ```
 
-Model the invalid-input arm as a two-member discriminated union so each error code accepts only its corresponding exported literal message. Do not add `baseDirection`, raw `sourceArtifactDescriptions`, all assertion annotations, or a generic `sourceValues` field.
+Model the invalid-input arm as a two-member discriminated union so each error code accepts only its corresponding exported literal message.
+Do not add `baseDirection`, raw `sourceArtifactDescriptions`, all assertion annotations, or a generic `sourceValues` field.
 
 Use schema refinements to require unique canonical UUID URNs, unique source IRIs, unique candidate IRIs, fixed entity-kind order, ascending code-unit order for the other bounded arrays, and these exact cardinality invariants for bound `5`: the returned array length equals `Math.min(totalCount, 5)`, and the truncation flag equals `totalCount > 5`.
 
@@ -1166,7 +1293,8 @@ Expected: PASS.
 
 - [ ] **Step 8: Write the failing `Person` resolution test over the real query module**
 
-Use the shared in-memory query fixture, one specified Core release, and the exact context. Assert the complete resolved shape, including exact release selection passed through the real query module, definition lexical form/language/datatype/property, one `owl_class` kind, canonical UUID URN, source IRI, source artifact URL/digest, and distinct document alias/version IRI.
+Use the shared in-memory query fixture, one specified Core release, and the exact context.
+Assert the complete resolved shape, including exact release selection passed through the real query module, definition lexical form/language/datatype/property, one `owl_class` kind, canonical UUID URN, source IRI, source artifact URL/digest, and distinct document alias/version IRI.
 
 - [ ] **Step 9: Run and verify RED**
 
@@ -1203,9 +1331,13 @@ await ontologyQuery.resolveOntologyEntity(
 );
 ```
 
-Require exactly one resolved release and verify its family, version tag, ontology IRI, and version IRI equal the displayed context. Project selected assertions without their repeated `resolvedOntologyRelease`; put release provenance once at the top. Parse the final object with the compact result schema before returning.
+Require exactly one resolved release and verify its family, version tag, ontology IRI, and version IRI equal the displayed context.
+Project selected assertions without their repeated `resolvedOntologyRelease`; put release provenance once at the top.
+Parse the final object with the compact result schema before returning.
 
-For each resolved ontology entity, flatten only its `sourceArtifactDescriptions`: union `entityKinds`; inspect each `identifierAssertions[].objectValue`, taking either the literal lexical form or named-node IRI only when `UuidUrnSchema` accepts it; and union `entitySourceIris`. Canonicalize accepted UUID URNs to lowercase, then apply the normative deduplication, ordering, counting, and slicing rules. For ambiguity candidates, take `preferredLabelLexicalForm` from `selectedPreferredLabel.literalValue.lexicalForm` or `null`; do not copy whole assertions or descriptions.
+For each resolved ontology entity, flatten only its `sourceArtifactDescriptions`: union `entityKinds`; inspect each `identifierAssertions[].objectValue`, taking either the literal lexical form or named-node IRI only when `UuidUrnSchema` accepts it; and union `entitySourceIris`.
+Canonicalize accepted UUID URNs to lowercase, then apply the normative deduplication, ordering, counting, and slicing rules.
+For ambiguity candidates, take `preferredLabelLexicalForm` from `selectedPreferredLabel.literalValue.lexicalForm` or `null`; do not copy whole assertions or descriptions.
 
 - [ ] **Step 11: Run and verify the first GREEN**
 
@@ -1217,11 +1349,16 @@ Expected: the one preferred-label test passes.
 
 - [ ] **Step 12: Add failing IRI and UUID precedence tests**
 
-Require exact case-sensitive entity IRI resolution, bare UUID resolution, mixed-case UUID URN resolution, and entity-IRI precedence for a UUID-URN entity IRI. Assert `matchedBy` is `entity_iri` or `uuid` correctly. Braced UUIDs, unhyphenated UUIDs, and arbitrary non-UUID identifiers must not be rewritten.
+Require exact case-sensitive entity IRI resolution, bare UUID resolution, mixed-case UUID URN resolution, and entity-IRI precedence for a UUID-URN entity IRI.
+Assert `matchedBy` is `entity_iri` or `uuid` correctly.
+Braced UUIDs, unhyphenated UUIDs, and arbitrary non-UUID identifiers must not be rewritten.
 
 - [ ] **Step 13: Run RED, implement classification/fallback, and verify GREEN**
 
-Use `AbsoluteIriSchema` and `UuidUrnSchema`; validate bare UUID by testing `urn:uuid:${value}`. For UUID URNs, run the exact entity-IRI query first and run UUID resolution only after `not_found`. Before entering the preferred-label branch, require the trimmed reference to pass shared `NonBlankOntologyLookupTextSchema`; return the exact invalid-reference result without query I/O if it does not. Do not call search and do not copy the query module's label normalization.
+Use `AbsoluteIriSchema` and `UuidUrnSchema`; validate bare UUID by testing `urn:uuid:${value}`.
+For UUID URNs, run the exact entity-IRI query first and run UUID resolution only after `not_found`.
+Before entering the preferred-label branch, require the trimmed reference to pass shared `NonBlankOntologyLookupTextSchema`; return the exact invalid-reference result without query I/O if it does not.
+Do not call search and do not copy the query module's label normalization.
 
 ```powershell
 npm.cmd test -- --runInBand tests/webmcp/ontology-entity-definition-resolver.test.js
@@ -1247,7 +1384,9 @@ Add one test each for:
 
 - [ ] **Step 15: Run RED, implement each missing branch minimally, and verify GREEN after each**
 
-In the resolver catch boundary, call `signal.throwIfAborted()` before classifying a shared query error. This converts the query module's safe `QUERY_CANCELLED` wrapper back into the WebMCP execution's native abort reason when that signal caused cancellation. Do not call `reportUnhandledError` for cancellation or for a recognized safe query error; call it exactly once only for an unexpected exception.
+In the resolver catch boundary, call `signal.throwIfAborted()` before classifying a shared query error.
+This converts the query module's safe `QUERY_CANCELLED` wrapper back into the WebMCP execution's native abort reason when that signal caused cancellation.
+Do not call `reportUnhandledError` for cancellation or for a recognized safe query error; call it exactly once only for an unexpected exception.
 
 ```powershell
 npm.cmd test -- --runInBand tests/webmcp/ontology-entity-definition-resolver.test.js
@@ -1257,11 +1396,16 @@ Expected final result: PASS.
 
 - [ ] **Step 16: Add serialization and output-budget regression tests**
 
-Put instruction-like text in a definition and prove it is returned unchanged only as `selectedLexicalDefinition.literalValue.lexicalForm`. Require `JSON.stringify(result)` to succeed. Measure the exact representative `Person` result and assert it is at or below 1,500 characters if the normative fields fit. If it exceeds the advisory budget, assert the observed exact character count as a documented regression baseline and explain which required semantic fields account for the excess; do not truncate the definition or remove required identity.
+Put instruction-like text in a definition and prove it is returned unchanged only as `selectedLexicalDefinition.literalValue.lexicalForm`.
+Require `JSON.stringify(result)` to succeed.
+Measure the exact representative `Person` result and assert it is at or below 1,500 characters if the normative fields fit.
+If it exceeds the advisory budget, assert the observed exact character count as a documented regression baseline and explain which required semantic fields account for the excess; do not truncate the definition or remove required identity.
 
 - [ ] **Step 17: Test the production browser composition**
 
-Construct `createBrowserOntologyEntityDefinitionResolver()` with the Fetch adapter and a recording Fetch implementation. Resolve `Person` and assert exactly one catalog read and one selected release-index read. A second resolution must perform no additional Fetch read because the query module cache is reused.
+Construct `createBrowserOntologyEntityDefinitionResolver()` with the Fetch adapter and a recording Fetch implementation.
+Resolve `Person` and assert exactly one catalog read and one selected release-index read.
+A second resolution must perform no additional Fetch read because the query module cache is reused.
 
 - [ ] **Step 18: Run all Task 5 tests and review**
 
@@ -1296,7 +1440,8 @@ feat(webmcp): resolve definitions in the displayed release
 
 - [ ] **Step 1: Write the failing exact-dictionary test**
 
-Capture the tool and options passed to a minimal `modelContext.registerTool` test double. Require:
+Capture the tool and options passed to a minimal `modelContext.registerTool` test double.
+Require:
 
 ```javascript
 expect(tool).toEqual({
@@ -1343,7 +1488,9 @@ Expected: FAIL because the registration module does not exist.
 
 - [ ] **Step 3: Implement only registration and the exact dictionary**
 
-Return `false` without parsing page context or logging if `modelContext?.registerTool` is absent or the registration signal is already aborted. Only after that feature/lifecycle gate, call `tryCreateDisplayedOntologyReleaseContext()`. Return `false` without registering or logging when it returns `null`; otherwise register exactly one tool with `{ signal: registrationSignal }` and return `true` after the promise fulfills.
+Return `false` without parsing page context or logging if `modelContext?.registerTool` is absent or the registration signal is already aborted.
+Only after that feature/lifecycle gate, call `tryCreateDisplayedOntologyReleaseContext()`.
+Return `false` without registering or logging when it returns `null`; otherwise register exactly one tool with `{ signal: registrationSignal }` and return `true` after the promise fulfills.
 
 - [ ] **Step 4: Run and verify the first GREEN**
 
@@ -1353,11 +1500,16 @@ npm.cmd test -- --runInBand tests/webmcp/displayed-ontology-entity-definition-to
 
 - [ ] **Step 5: Add failing runtime-input tests**
 
-Call the captured `execute()` with no argument, `null`, an array, primitive, missing property, additional property, non-string reference, empty string, whitespace-only string, and a 513-code-point string. Require exact `invalid_tool_input` for transport-shape failures and `invalid_entity_reference` for whitespace-only text after the valid object crosses transport validation, always with the corresponding stable non-echoing message from the result-schema module. Include a non-BMP boundary case proving code-point counting.
+Call the captured `execute()` with no argument, `null`, an array, primitive, missing property, additional property, non-string reference, empty string, whitespace-only string, and a 513-code-point string.
+Require exact `invalid_tool_input` for transport-shape failures and `invalid_entity_reference` for whitespace-only text after the valid object crosses transport validation, always with the corresponding stable non-echoing message from the result-schema module.
+Include a non-BMP boundary case proving code-point counting.
 
 - [ ] **Step 6: Run RED, implement exact manual transport parsing, and verify GREEN**
 
-The lightweight registration module must not import the query runtime merely to validate one input object. Accept only a non-array object with exactly one own enumerable key named `entityReference`, a raw string length of 1–512 code points, and no coercion. Construct a transport failure with the shared invalid-input message and parse it through the invalid-result schema before returning it. Importing that compact schema boundary is intentional; trimming and semantic classification remain in the lazy resolver.
+The lightweight registration module must not import the query runtime merely to validate one input object.
+Accept only a non-array object with exactly one own enumerable key named `entityReference`, a raw string length of 1–512 code points, and no coercion.
+Construct a transport failure with the shared invalid-input message and parse it through the invalid-result schema before returning it.
+Importing that compact schema boundary is intentional; trimming and semantic classification remain in the lazy resolver.
 
 ```powershell
 npm.cmd test -- --runInBand tests/webmcp/displayed-ontology-entity-definition-tool.test.js
@@ -1365,13 +1517,19 @@ npm.cmd test -- --runInBand tests/webmcp/displayed-ontology-entity-definition-to
 
 - [ ] **Step 7: Add failing lazy-loading and cancellation tests**
 
-Inject a recording `loadOntologyEntityDefinitionResolverModule`. Require zero loads at registration, one shared load for two concurrent executions, no second load for later execution, and retry after a failed module load. Require an already-aborted execution signal to reject before loading. Require a signal aborted during resolution to reach the resolver unchanged.
+Inject a recording `loadOntologyEntityDefinitionResolverModule`.
+Require zero loads at registration, one shared load for two concurrent executions, no second load for later execution, and retry after a failed module load.
+Require an already-aborted execution signal to reject before loading.
+Require a signal aborted during resolution to reach the resolver unchanged.
 
 - [ ] **Step 8: Implement the lazy resolver closure and verify GREEN**
 
-The default loader dynamically imports `./createOntologyEntityDefinitionResolver.js`, then calls its browser composition factory with the validated context, query root, expected document origin, Fetch implementation, and error reporter. Cache the in-flight promise. Clear only a rejected loader promise so a later invocation may retry.
+The default loader dynamically imports `./createOntologyEntityDefinitionResolver.js`, then calls its browser composition factory with the validated context, query root, expected document origin, Fetch implementation, and error reporter.
+Cache the in-flight promise.
+Clear only a rejected loader promise so a later invocation may retry.
 
-Call `signal.throwIfAborted()` before loading, before domain resolution, and after it resolves. Return the resolver's already validated result directly.
+Call `signal.throwIfAborted()` before loading, before domain resolution, and after it resolves.
+Return the resolver's already validated result directly.
 
 ```powershell
 npm.cmd test -- --runInBand tests/webmcp/displayed-ontology-entity-definition-tool.test.js
@@ -1379,7 +1537,11 @@ npm.cmd test -- --runInBand tests/webmcp/displayed-ontology-entity-definition-to
 
 - [ ] **Step 9: Add registration-failure and absence tests**
 
-Require a nonconforming/absent model context and an already-aborted registration signal to resolve `false` without parsing context or invoking the loader. Require an unindexed document variant to resolve `false` after context eligibility classification without registering or invoking the loader. Require a genuine `registerTool` rejection to reject to the page integration layer. If the signal becomes aborted while registration is pending and the test double rejects for that abort, require the rejection to reach the integration layer, where it is recognized as silent lifecycle cancellation. The registration module must not log directly.
+Require a nonconforming/absent model context and an already-aborted registration signal to resolve `false` without parsing context or invoking the loader.
+Require an unindexed document variant to resolve `false` after context eligibility classification without registering or invoking the loader.
+Require a genuine `registerTool` rejection to reject to the page integration layer.
+If the signal becomes aborted while registration is pending and the test double rejects for that abort, require the rejection to reach the integration layer, where it is recognized as silent lifecycle cancellation.
+The registration module must not log directly.
 
 - [ ] **Step 10: Prove forbidden interfaces are absent**
 
@@ -1387,7 +1549,8 @@ Require a nonconforming/absent model context and an already-aborted registration
 rg -n "navigator\.modelContext|unregisterTool|provideContext|clearContext|polyfill|shim|exposedTo|outputSchema" src/webmcp
 ```
 
-Expected: no production use. The exact negative-test property strings may appear only in test files.
+Expected: no production use.
+The exact negative-test property strings may appear only in test files.
 
 - [ ] **Step 11: Run all WebMCP unit suites and review**
 
@@ -1421,27 +1584,35 @@ feat(webmcp): register a lazy definition tool
 
 - [ ] **Step 1: Extend the isolated browser fixture with exact release data**
 
-Use the Core `20260714` projection phase and a single `Person` class with authored ontology/version metadata, UUID identifier, SKOS preferred label, SKOS definition, and source IRI. Keep existing table, CSV, JSON-LD, XMI, console, page-error, failed-request, and HTTP-error assertions.
+Use the Core `20260714` projection phase and a single `Person` class with authored ontology/version metadata, UUID identifier, SKOS preferred label, SKOS definition, and source IRI.
+Keep existing table, CSV, JSON-LD, XMI, console, page-error, failed-request, and HTTP-error assertions.
 
 - [ ] **Step 2: Lock the unsupported-browser progressive-enhancement baseline while GREEN**
 
-Navigate without defining `document.modelContext`. Record all requested URLs and require:
+Navigate without defining `document.modelContext`.
+Record all requested URLs and require:
 
 - the page and all existing interactions remain green;
 - no request URL contains `/webmcp/` or `/query/v1/`;
 - no console warning/error or page error appears.
 
-This test should initially stay green. It becomes a permanent regression guard before integration code is added.
+This test should initially stay green.
+It becomes a permanent regression guard before integration code is added.
 
 - [ ] **Step 3: Write the failing registration and lazy-artifact test**
 
-Install a minimal test-only `document.modelContext` before navigation. Its `registerTool` records the real dictionary/options. After `networkidle`, require one registration and zero `/query/v1/` requests. Invoke the captured tool with `Person`; require one catalog request, one content-addressed Core `20260714` index request, and the complete important resolved fields.
+Install a minimal test-only `document.modelContext` before navigation.
+Its `registerTool` records the real dictionary/options.
+After `networkidle`, require one registration and zero `/query/v1/` requests.
+Invoke the captured tool with `Person`; require one catalog request, one content-addressed Core `20260714` index request, and the complete important resolved fields.
 
-Require a second IRI invocation to reuse the same catalog/index reads. Assert no request targets localhost MCP endpoints, `/mcp`, or a caller-provided URL.
+Require a second IRI invocation to reuse the same catalog/index reads.
+Assert no request targets localhost MCP endpoints, `/mcp`, or a caller-provided URL.
 
 - [ ] **Step 4: Write the failing lifecycle assertions**
 
-Dispatch persisted `pagehide` and `pageshow`; require the registration signal to remain active and registration count to remain one. Dispatch non-persisted `pagehide`; require the signal to be aborted.
+Dispatch persisted `pagehide` and `pageshow`; require the registration signal to remain active and registration count to remain one.
+Dispatch non-persisted `pagehide`; require the signal to be aborted.
 
 - [ ] **Step 5: Run the built-page suite and verify RED**
 
@@ -1453,7 +1624,8 @@ Expected: unsupported behavior remains green; supported registration fails becau
 
 - [ ] **Step 6: Implement feature-detected registration after render**
 
-Add one private registration controller. After `#renderTable()` succeeds:
+Add one private registration controller.
+After `#renderTable()` succeeds:
 
 1. read `document.modelContext`;
 2. return immediately if `registerTool` is not a function;
@@ -1463,13 +1635,17 @@ Add one private registration controller. After `#renderTable()` succeeds:
 6. retain the signal on persisted pagehide and abort it on non-persisted pagehide;
 7. remove the listener when the signal aborts.
 
-Also pass an explicit `reportUnhandledError` callback owned by the page integration. It logs only unexpected execution defects with the stable prefix `WebMCP ontology definition tool execution failed:`. Recognized query failures and cancellation never call it.
+Also pass an explicit `reportUnhandledError` callback owned by the page integration.
+It logs only unexpected execution defects with the stable prefix `WebMCP ontology definition tool execution failed:`.
+Recognized query failures and cancellation never call it.
 
 The feature-detection check must happen before the dynamic import so unsupported browsers do not download WebMCP code.
 
 - [ ] **Step 7: Isolate optional registration failure**
 
-Keep ontology loading/rendering in its existing error path. Catch only dynamic-import/context/registration failure in a separate block after render. Abort the failed registration controller. Log exactly one subsystem-scoped error for genuine failure:
+Keep ontology loading/rendering in its existing error path. Catch only dynamic-import/context/registration failure in a separate block after render.
+Abort the failed registration controller.
+Log exactly one subsystem-scoped error for genuine failure:
 
 ```javascript
 console.error("WebMCP ontology definition tool registration failed:", error);
@@ -1512,7 +1688,8 @@ Expected: PASS with only the deliberately asserted registration-error console en
 npm.cmd run build
 ```
 
-Expected: PASS with no Node-built-in browser externalization warning. In the browser fixture, unsupported pages request no WebMCP/query chunk; supported pages load registration code after feature detection; query runtime and JSON artifacts load only on first execution.
+Expected: PASS with no Node-built-in browser externalization warning.
+In the browser fixture, unsupported pages request no WebMCP/query chunk; supported pages load registration code after feature detection; query runtime and JSON artifacts load only on first execution.
 
 - [ ] **Step 12: Review the task diff**
 
@@ -1560,7 +1737,8 @@ Include these exact sections:
 11. **Manual inspection** — use the current Community Group Report's `document.modelContext.getTools()` and `executeTool()` object-input interface in a supported client, and document any implementation lag without adding a site shim.
 12. **Evaluation matrix** — deterministic and agent-selection cases below.
 
-Do not claim broad browser stability. Recheck official implementation status on the documentation date.
+Do not claim broad browser stability.
+Recheck official implementation status on the documentation date.
 
 - [ ] **Step 2: Add deterministic and agent-journey evaluations**
 
@@ -1692,7 +1870,8 @@ Expected: PASS, including query artifacts, without Node-built-in browser warning
 
 - [ ] **Step 9: Verify artifact integrity and bounds**
 
-Parse `dist/query/v1/catalog.json`; require format version 1; require every referenced release file; recompute every SHA-256; parse every release with `OntologyReleaseQueryIndexSchema`; require catalog ≤1 MiB and every release index ≤8 MiB. Require the Core `20260714` index to contain `Person` with its exact SKOS definition assertion and indexed entity-source IRI.
+Parse `dist/query/v1/catalog.json`; require format version 1; require every referenced release file; recompute every SHA-256; parse every release with `OntologyReleaseQueryIndexSchema`; require catalog ≤1 MiB and every release index ≤8 MiB.
+Require the Core `20260714` index to contain `Person` with its exact SKOS definition assertion and indexed entity-source IRI.
 
 - [ ] **Step 10: Prove forbidden architecture is absent**
 
@@ -1706,7 +1885,8 @@ Expected: `False`.
 rg -n "OntologyEntityLookup|ontologyEntityLookup|navigator\.modelContext|unregisterTool|provideContext|clearContext|polyfill|shim" src
 ```
 
-Expected: no obsolete lookup implementation or browser compatibility implementation in production source. Negative assertions may exist in tests, and historical rationale may remain in this plan.
+Expected: no obsolete lookup implementation or browser compatibility implementation in production source.
+Negative assertions may exist in tests, and historical rationale may remain in this plan.
 
 ```powershell
 rg -n "@modelcontextprotocol|createUniversalOntologyMcp|Streamable|localhost|127\.0\.0\.1" src/webmcp src/ontology.js
@@ -1724,7 +1904,8 @@ Expected: one registration path and one public tool name; substring matches insi
 
 - [ ] **Step 12: Manually exercise a currently supported client**
 
-Open the built or deployed Core stable page from a secure or potentially trustworthy origin. Confirm `document.modelContext` exists, enumerate the tool, and execute it with:
+Open the built or deployed Core stable page from a secure or potentially trustworthy origin.
+Confirm `document.modelContext` exists, enumerate the tool, and execute it with:
 
 ```json
 {
@@ -1732,7 +1913,8 @@ Open the built or deployed Core stable page from a secure or potentially trustwo
 }
 ```
 
-Use the current Community Group Report's object-input `executeTool()` signature. If the supported client under test still requires the older JSON-string invocation described by its implementation guide, record that client/version divergence and use it only for the manual test; do not change the registered tool or add runtime detection.
+Use the current Community Group Report's object-input `executeTool()` signature.
+If the supported client under test still requires the older JSON-string invocation described by its implementation guide, record that client/version divergence and use it only for the manual test; do not change the registered tool or add runtime detection.
 
 Require:
 
@@ -1746,7 +1928,8 @@ Require:
 - no arbitrary or loopback request;
 - no page error or unexpected console entry.
 
-Also run one ambiguous fixture journey and one instruction-like definition journey. If a browser requires an origin-trial token, response header, or permissions-policy edit, record the exact requirement and stop before configuration changes.
+Also run one ambiguous fixture journey and one instruction-like definition journey.
+If a browser requires an origin-trial token, response header, or permissions-policy edit, record the exact requirement and stop before configuration changes.
 
 - [ ] **Step 13: Inspect final workspace scope**
 
@@ -1764,11 +1947,13 @@ git diff --check
 git diff -- src/ontologyViewModel.js src/ontology.js src/ontologyQuery src/webmcp src/mcp/createUniversalOntologyMcpServer.js src/mcp/universalOntologyToolSchemas.js scripts/build/createOntologyQueryArtifacts.js scripts/build/ontologyAssets.js scripts/generateOntologyQueryIndexes.js tests/ontology-query tests/webmcp tests/build/ontology-assets.test.js tests/build/built-ontology-page.test.js tests/mcp/universal-ontology-mcp-server.test.js docs/webmcp-ontology-entity-definition-lookup.md README.md
 ```
 
-Inspect the complete scoped diff. Confirm ontology source data, package files, lockfiles, workflows, Vite configuration, deployment configuration, and unrelated working-tree changes remain untouched.
+Inspect the complete scoped diff.
+Confirm ontology source data, package files, lockfiles, workflows, Vite configuration, deployment configuration, and unrelated working-tree changes remain untouched.
 
 - [ ] **Step 14: Request commit authorization only after all evidence is green**
 
-This plan does not authorize a commit or push. If a final commit is explicitly authorized, load the committing skill, stage only the approved implementation snapshot, and propose:
+This plan does not authorize a commit or push.
+If a final commit is explicitly authorized, load the committing skill, stage only the approved implementation snapshot, and propose:
 
 ```text
 feat(webmcp): add versioned ontology definition lookup
@@ -1818,14 +2003,20 @@ Every row is a release blocker.
 
 ## Explicit non-goals and future seams
 
-This increment does not expose the MCP server's broader `search_entities` tool through WebMCP. It does not implement fuzzy or semantic discovery, cross-ontology comparison, release comparison, imports closure, query indexes for `*-full` artifacts, reasoning, hierarchy traversal, full entity serialization, ontology editing, downloads, a new lookup UI, WebMCP resources/prompts, cross-origin exposure, a backend proxy, or a browser compatibility layer.
+This increment does not expose the MCP server's broader `search_entities` tool through WebMCP.
+It does not implement fuzzy or semantic discovery, cross-ontology comparison, release comparison, imports closure, query indexes for `*-full` artifacts, reasoning, hierarchy traversal, full entity serialization, ontology editing, downloads, a new lookup UI, WebMCP resources/prompts, cross-origin exposure, a backend proxy, or a browser compatibility layer.
 
-A later `search_current_ontology_entities` WebMCP tool is a valid follow-up only after agent evaluations show that exact-reference lookup is insufficient and that a second intention improves tool selection. It must still consume the same query module and exact displayed-release selection.
+A later `search_current_ontology_entities` WebMCP tool is a valid follow-up only after agent evaluations show that exact-reference lookup is insufficient and that a second intention improves tool selection.
+It must still consume the same query module and exact displayed-release selection.
 
-RDF 1.2 directional language-tagged strings require a deliberate query-artifact format revision, parser/data-model support, generator migration, and compatibility policy. They must not be simulated in WebMCP v1.
+RDF 1.2 directional language-tagged strings require a deliberate query-artifact format revision, parser/data-model support, generator migration, and compatibility policy.
+They must not be simulated in WebMCP v1.
 
-Literal-valued source assertions require a deliberate extension of the shared query projection. They must not be relabeled as IRIs or inferred from the existing `entitySourceIris` field.
+Literal-valued source assertions require a deliberate extension of the shared query projection.
+They must not be relabeled as IRIs or inferred from the existing `entitySourceIris` field.
 
 ## Execution handoff
 
-Execute Tasks 1–9 sequentially in the current task and current agent context. Preserve red/green evidence in the implementation report. Do not use subagents. Stop only at the exact repository-mandated approval gate for build/configuration files or at separately required commit, push, deployment, or origin-trial configuration approval. No such mutation is authorized by this plan alone.
+Execute Tasks 1–9 sequentially in the current task and current agent context.
+Preserve red/green evidence in the implementation report. Do not use subagents. Stop only at the exact repository-mandated approval gate for build/configuration files or at separately required commit, push, deployment, or origin-trial configuration approval.
+No such mutation is authorized by this plan alone.

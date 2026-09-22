@@ -8,3 +8,14 @@ dist/
 .venv/
 src/external/
 __pycache__
+
+# Installed tooling, repository policy, retained evidence and generated prose.
+.claude/skills/
+.agent-tools/
+.sdlc/
+AGENTS.md
+docs/reviews/
+docs/sdlc/
+docs/plans/sdlc-improvements/
+docs/policy/migration-evidence.md
+docs/policy/Editing-Policy.generated.md

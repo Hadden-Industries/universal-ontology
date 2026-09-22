@@ -5,6 +5,7 @@ and severity. This package supplies only trusted facts (run purpose, module
 identities, ownership, change kinds), executes the native engine and presents
 results. Nothing here decides whether a value is acceptable.
 """
+
 from .modules import OwnedModule, load_owned_modules
 from .snapshots import ModuleSource, read_module_source
 from .validation import RunPurpose, ValidationOutcome, validate_sources

@@ -15,8 +15,6 @@ Find documents by their purpose, then by the initiative or component they descri
 
 ## Historical planning material
 
-The [September 2026 SDLC improvement sources](plans/sdlc-improvements/README.md)
-group the plan and nine work packages of the repository-owned SDLC that has
-since been retired. Companion contracts, examples and planning checks remain
-with the plan they explain. They are preserved as historical planning material
-and are not active setup instructions or inputs to any test, build or CI job.
+The [September 2026 SDLC improvement sources](plans/sdlc-improvements/README.md) group the plan and nine work packages of the repository-owned SDLC that has since been retired.
+Companion contracts, examples and planning checks remain with the plan they explain.
+They are preserved as historical planning material and are not active setup instructions or inputs to any test, build or CI job.

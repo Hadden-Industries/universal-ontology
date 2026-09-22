@@ -6,7 +6,7 @@ const WORKFLOW_URL = new URL(
   import.meta.url,
 );
 const SELECTOR_COMMAND =
-  "node scripts/selectPullRequestChecks.js --scope development";
+  "node scripts/selectPullRequestChecks.js --scope development --scope style";
 const ONTOLOGY_RUNNER_COMMAND =
   "node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v";
 const PYTHON_SETUP_TOOL_COMMAND =
@@ -23,7 +23,7 @@ test("development checks run on pull requests and manual dispatch with read-only
   expect(workflow.name).toBe("Development checks");
   expect(workflow.on).toEqual({ pull_request: null, workflow_dispatch: null });
   expect(workflow.permissions).toEqual({ contents: "read" });
-  expect(Object.keys(workflow.jobs)).toEqual(["scope", "checks"]);
+  expect(Object.keys(workflow.jobs)).toEqual(["scope", "style", "checks"]);
   for (const job of Object.values(workflow.jobs)) {
     for (const { uses } of job.steps) {
       if (uses) {
@@ -38,12 +38,31 @@ test("unrelated PRs do not unconditionally launch the development matrix", () =>
   const workflow = readWorkflow();
   expect(workflow.jobs.scope.outputs).toEqual({
     development: "${{ steps.scope.outputs.development }}",
+    style: "${{ steps.scope.outputs.style }}",
   });
   expect(workflow.jobs.scope.steps.at(-1).run).toBe(SELECTOR_COMMAND);
   expect(workflow.jobs.checks.needs).toBe("scope");
   expect(workflow.jobs.checks.if).toBe(
     "needs.scope.outputs.development == 'true'",
   );
+});
+
+test("style checks have a selected Windows and Ubuntu owner with both runtimes", () => {
+  const job = readWorkflow().jobs.style;
+  expect(job.needs).toBe("scope");
+  expect(job.if).toBe("needs.scope.outputs.style == 'true'");
+  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-latest"]);
+  expect(
+    job.steps.some(({ uses }) => uses?.startsWith("actions/setup-python@")),
+  ).toBe(true);
+  expect(
+    job.steps.some(({ uses }) => uses?.startsWith("actions/setup-node@")),
+  ).toBe(true);
+  const runs = job.steps.map(({ run }) => run).filter(Boolean);
+  expect(runs.indexOf("npm run set-up:development")).toBeLessThan(
+    runs.indexOf("npm run check:style"),
+  );
+  expect(runs).toContain("npm run check:style");
 });
 
 test("Windows and Ubuntu checks exercise the complete development setup before the retained tests", () => {

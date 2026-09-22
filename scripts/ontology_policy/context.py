@@ -3,6 +3,7 @@
 The context is RDF in the reserved ``uoc:`` namespace. Authored ontology data
 that uses that namespace is rejected as impersonation before any rule runs.
 """
+
 from __future__ import annotations
 
 from enum import Enum
@@ -10,9 +11,14 @@ from enum import Enum
 from rdflib import OWL, RDF, Graph, Literal, URIRef
 
 from .namespaces import UOC, UOP
-from .snapshots import InputError, ModuleSource
+from .snapshots import ModuleSource
 
-ENTITY_KINDS = (OWL.Class, OWL.NamedIndividual, OWL.ObjectProperty, OWL.DatatypeProperty)
+ENTITY_KINDS = (
+    OWL.Class,
+    OWL.NamedIndividual,
+    OWL.ObjectProperty,
+    OWL.DatatypeProperty,
+)
 
 
 class RunPurpose(Enum):
@@ -40,7 +46,11 @@ class ContextError(Exception):
     """Required facts are missing, contradictory or impersonated; exit status 2."""
 
 
-RESERVED_NAMESPACES = (str(UOC), str(UOP), "https://haddenindustries.com/ontology/policy/authority/")
+RESERVED_NAMESPACES = (
+    str(UOC),
+    str(UOP),
+    "https://haddenindustries.com/ontology/policy/authority/",
+)
 
 
 def reject_context_impersonation(source: ModuleSource) -> None:
@@ -70,11 +80,15 @@ def owned_subjects(source: ModuleSource):
         if isinstance(subject, URIRef) and module.owns(subject):
             owned.add(subject)
     for subject in graph.subjects(RDF.type, OWL.Ontology):
-        if isinstance(subject, URIRef) and str(subject).rstrip("/") == str(module.ontology_iri).rstrip("/"):
+        if isinstance(subject, URIRef) and str(subject).rstrip("/") == str(
+            module.ontology_iri
+        ).rstrip("/"):
             owned.add(subject)
     for axiom in graph.subjects(RDF.type, OWL.Axiom):
         for annotated in graph.objects(axiom, OWL.annotatedSource):
-            if annotated in owned or (isinstance(annotated, URIRef) and module.owns(annotated)):
+            if annotated in owned or (
+                isinstance(annotated, URIRef) and module.owns(annotated)
+            ):
                 owned.add(axiom)
                 break
     return owned
@@ -83,7 +97,9 @@ def owned_subjects(source: ModuleSource):
 def module_version_iri(source: ModuleSource):
     """The owl:versionIRI of the module's own header, if declared."""
     for header in source.graph.subjects(RDF.type, OWL.Ontology):
-        if isinstance(header, URIRef) and str(header).rstrip("/") == str(source.module.ontology_iri).rstrip("/"):
+        if isinstance(header, URIRef) and str(header).rstrip("/") == str(
+            source.module.ontology_iri
+        ).rstrip("/"):
             return source.graph.value(header, OWL.versionIRI)
     return None
 
@@ -94,12 +110,18 @@ def require_coherent_import_pins(sources: list[ModuleSource]) -> None:
     Foreign imports (SKOS, OWL-Time, ...) are outside the check. A stale or newer
     pin is a context error, never a silent substitution.
     """
-    versions = {str(source.module.ontology_iri).rstrip("/"): module_version_iri(source) for source in sources}
+    versions = {
+        str(source.module.ontology_iri).rstrip("/"): module_version_iri(source)
+        for source in sources
+    }
     for source in sources:
         for header in source.graph.subjects(RDF.type, OWL.Ontology):
             for target in source.graph.objects(header, OWL.imports):
                 for ontology, version in versions.items():
-                    if str(target).rstrip("/").startswith(ontology) and str(target).rstrip("/") != ontology:
+                    if (
+                        str(target).rstrip("/").startswith(ontology)
+                        and str(target).rstrip("/") != ontology
+                    ):
                         if version is None or str(target) != str(version):
                             raise ContextError(
                                 f"{source.locator}: owl:imports {target} does not match the version in this set "
@@ -123,12 +145,16 @@ def build_validation_graph(
 
     comparisons = comparisons or {}
     if not sources:
-        raise ContextError("No module sources were supplied; a nonempty corpus is required.")
+        raise ContextError(
+            "No module sources were supplied; a nonempty corpus is required."
+        )
     seen = set()
     for source in sources:
         reject_context_impersonation(source)
         if source.module.iri in seen:
-            raise ContextError(f"Module {source.module.iri} appears more than once in one run.")
+            raise ContextError(
+                f"Module {source.module.iri} appears more than once in one run."
+            )
         seen.add(source.module.iri)
 
     require_coherent_import_pins(sources)
@@ -156,16 +182,30 @@ def build_validation_graph(
             context.add((module.iri, UOC.comparison, UOC.Unavailable))
             continue
         context.add((module.iri, UOC.comparison, UOC.Available))
-        context.add((module.iri, UOC.comparedWith, Literal(f"{previous.locator} {previous.digest}")))
+        context.add(
+            (
+                module.iri,
+                UOC.comparedWith,
+                Literal(f"{previous.locator} {previous.digest}"),
+            )
+        )
         deleted = set()
         for subject, kind in classify_changes(source, previous).items():
             if kind == ChangeKind.DELETED:
                 deleted.add(subject)
                 context.add((module.iri, UOC.deletedSubject, subject))
             else:
-                context.add((subject, UOC.changeKind, {
-                    ChangeKind.ADDED: UOC.Added, ChangeKind.CHANGED: UOC.Changed, ChangeKind.UNCHANGED: UOC.Unchanged,
-                }[kind]))
+                context.add(
+                    (
+                        subject,
+                        UOC.changeKind,
+                        {
+                            ChangeKind.ADDED: UOC.Added,
+                            ChangeKind.CHANGED: UOC.Changed,
+                            ChangeKind.UNCHANGED: UOC.Unchanged,
+                        }[kind],
+                    )
+                )
         for gone in deleted:
             for referrer in set(source.graph.subjects(None, gone)):
                 if isinstance(referrer, URIRef):

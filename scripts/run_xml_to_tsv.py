@@ -13,7 +13,9 @@ def main():
     converter_script = script_dir / "xml_to_tsv.py"
 
     if not converter_script.is_file():
-        print(f"[ERROR] Helper script not found at '{converter_script}'", file=sys.stderr)
+        print(
+            f"[ERROR] Helper script not found at '{converter_script}'", file=sys.stderr
+        )
         sys.exit(1)
 
     # Resolve paths relative to the script location
@@ -29,7 +31,7 @@ def main():
         str(ref_data),
         str(core),
         str(extended),
-        str(output_tsv)
+        str(output_tsv),
     ]
     try:
         subprocess.run(cmd, check=True)

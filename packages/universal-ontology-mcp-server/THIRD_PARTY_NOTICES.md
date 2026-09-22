@@ -1,58 +1,71 @@
 # Third-Party Notices
 
-The Universal Ontology MCP Server application bundle includes the following runtime components. The package's `LICENSE` applies only to the Universal Ontology MCP Server's own code; each component remains subject to its listed license.
+The Universal Ontology MCP Server application bundle includes the following runtime components.
+The package's `LICENSE` applies only to the Universal Ontology MCP Server's own code; each component remains subject to its listed license.
 
 ## @modelcontextprotocol/core 2.0.0
 
 License: MIT
 
-Copyright (c) 2024-2025 Model Context Protocol a Series of LF Projects, LLC. Source: <https://github.com/modelcontextprotocol/typescript-sdk>
+Copyright (c) 2024-2025 Model Context Protocol a Series of LF Projects, LLC.
+Source: <https://github.com/modelcontextprotocol/typescript-sdk>
 
 ## @modelcontextprotocol/server 2.0.0
 
 License: MIT
 
-Copyright (c) 2024-2025 Model Context Protocol a Series of LF Projects, LLC. Source: <https://github.com/modelcontextprotocol/typescript-sdk>
+Copyright (c) 2024-2025 Model Context Protocol a Series of LF Projects, LLC.
+Source: <https://github.com/modelcontextprotocol/typescript-sdk>
 
 ## ajv 8.18.0
 
 License: MIT
 
-Copyright Evgeny Poberezkin and contributors. Source: <https://github.com/ajv-validator/ajv>
+Copyright Evgeny Poberezkin and contributors.
+Source: <https://github.com/ajv-validator/ajv>
 
 ## ajv-formats 3.0.1
 
 License: MIT
 
-Copyright Evgeny Poberezkin and contributors. Source: <https://github.com/ajv-validator/ajv-formats>
+Copyright Evgeny Poberezkin and contributors.
+Source: <https://github.com/ajv-validator/ajv-formats>
 
 ## fast-deep-equal 3.1.3
 
 License: MIT
 
-Copyright Evgeny Poberezkin. Source: <https://github.com/epoberezkin/fast-deep-equal>
+Copyright Evgeny Poberezkin.
+Source: <https://github.com/epoberezkin/fast-deep-equal>
 
 ## fast-uri 3.1.0
 
 License: BSD-3-Clause
 
-Copyright Gary Court and the Fastify team, as detailed in the complete terms below. Source: <https://github.com/fastify/fast-uri>
+Copyright Gary Court and the Fastify team, as detailed in the complete terms below.
+Source: <https://github.com/fastify/fast-uri>
 
 ## json-schema-traverse 1.0.0
 
 License: MIT
 
-Copyright Evgeny Poberezkin. Source: <https://github.com/epoberezkin/json-schema-traverse>
+Copyright Evgeny Poberezkin.
+Source: <https://github.com/epoberezkin/json-schema-traverse>
 
 ## zod 4.6.5
 
 License: MIT
 
-Copyright Colin McDonnell and contributors. Source: <https://github.com/colinhacks/zod>
+Copyright Colin McDonnell and contributors.
+Source: <https://github.com/colinhacks/zod>
 
 ## Complete published SDK terms
 
-The published metadata labels above are retained for component identity. Both SDK 2.0.0 packages ship the identical LICENSE below, including its licensing-transition statement. The statement governs applicable contribution terms; the metadata label alone is not a complete rights determination. This bundle contains SDK code, not SDK documentation. No dependency implementation is patched by this build; esbuild bundles and tree-shakes the published code.
+The published metadata labels above are retained for component identity.
+Both SDK 2.0.0 packages ship the identical LICENSE below, including its licensing-transition statement.
+The statement governs applicable contribution terms; the metadata label alone is not a complete rights determination.
+This bundle contains SDK code, not SDK documentation.
+No dependency implementation is patched by this build; esbuild bundles and tree-shakes the published code.
 
 ```text
 The MCP project is undergoing a licensing transition from the MIT License to the Apache License, Version 2.0 ("Apache-2.0"). All new code and specification contributions to the project are licensed under Apache-2.0. Documentation contributions (excluding specifications) are licensed under CC-BY-4.0.
@@ -301,7 +314,8 @@ SOFTWARE.
 
 ## Complete published embedded-component terms
 
-The SDK's pinned Ajv provider embeds the following components. These complete LICENSE texts come from their exact published npm archives, without installing or executing those packages.
+The SDK's pinned Ajv provider embeds the following components.
+These complete LICENSE texts come from their exact published npm archives, without installing or executing those packages.
 
 ### ajv-8.18.0
 

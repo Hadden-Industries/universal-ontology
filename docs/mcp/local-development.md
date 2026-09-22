@@ -1,14 +1,10 @@
 # Local Universal Ontology MCP server
 
-The local Universal Ontology MCP server gives MCP-capable hosts read-only,
-page-independent access to authored ontology labels, identifiers, and lexical
-definitions. It runs directly from generated repository artifacts at
-`http://127.0.0.1:8000/mcp`; no website, browser tab, frontend development
-server, AWS resource, or Google Cloud resource is involved.
+The local Universal Ontology MCP server gives MCP-capable hosts read-only, page-independent access to authored ontology labels, identifiers, and lexical definitions.
+It runs directly from generated repository artifacts at `http://127.0.0.1:8000/mcp`; no website, browser tab, frontend development server, AWS resource, or Google Cloud resource is involved.
 
-The implementation's primary protocol revision is MCP `2026-07-28`. It also
-retains stateless legacy compatibility for hosts that have not yet negotiated
-that revision.
+The implementation's primary protocol revision is MCP `2026-07-28`.
+It also retains stateless legacy compatibility for hosts that have not yet negotiated that revision.
 
 ## Quick start
 
@@ -16,11 +12,9 @@ Prerequisites:
 
 - Node.js 24.
 - npm, using the lockfile in this repository.
-- A local checkout containing the extensionless RDF/XML ontology release
-  artifacts under `src/`.
+- A local checkout containing the extensionless RDF/XML ontology release artifacts under `src/`.
 
-From the repository root, install the pinned dependencies, generate the query
-artifacts, and start the server:
+From the repository root, install the pinned dependencies, generate the query artifacts, and start the server:
 
 ```powershell
 npm ci
@@ -28,9 +22,8 @@ npm run generate:ontology-indexes
 npm run serve:mcp-development
 ```
 
-The server validates and loads the generated catalog before it opens the TCP
-listener. A successful startup emits a structured `mcp_server_listening` event
-with address `127.0.0.1`, port `8000`, and MCP path `/mcp`.
+The server validates and loads the generated catalog before it opens the TCP listener.
+A successful startup emits a structured `mcp_server_listening` event with address `127.0.0.1`, port `8000`, and MCP path `/mcp`.
 
 In another PowerShell terminal, verify readiness:
 
@@ -48,16 +41,13 @@ Expected fields:
 }
 ```
 
-The development runner never listens in a `not_ready` state. If catalog or
-index validation fails, startup rejects and the process exits non-zero without
-opening the port.
+The development runner never listens in a `not_ready` state.
+If catalog or index validation fails, startup rejects and the process exits non-zero without opening the port.
 
-Stop the server with Ctrl+C. `SIGINT` and `SIGTERM` both begin the same
-idempotent shutdown operation: the listener stops accepting connections first,
-idle connections close, and active requests receive up to ten seconds to
-finish. Only after that deadline are outstanding query signals aborted and
-active connections force-closed. A forced or failed shutdown sets a non-zero
-process exit code.
+Stop the server with Ctrl+C.
+`SIGINT` and `SIGTERM` both begin the same idempotent shutdown operation: the listener stops accepting connections first, idle connections close, and active requests receive up to ten seconds to finish.
+Only after that deadline are outstanding query signals aborted and active connections force-closed.
+A forced or failed shutdown sets a non-zero process exit code.
 
 ## Runtime and artifact boundaries
 
@@ -82,42 +72,27 @@ npm run stdio --workspace universal-ontology-mcp-server -- --help
 npm run serve --workspace universal-ontology-mcp-server
 ```
 
-`serve` uses existing query artifacts. Root `serve:mcp-development` composes the same listener;
-root `serve:mcp-development:refresh` additionally generates artifacts, honoring `UNIVERSAL_ONTOLOGY_QUERY_ROOT`.
+`serve` uses existing query artifacts.
+Root `serve:mcp-development` composes the same listener; root `serve:mcp-development:refresh` additionally generates artifacts, honoring `UNIVERSAL_ONTOLOGY_QUERY_ROOT`.
 The workspace listener does not own RDF/XML generation or accept `--refresh-index`.
-Root `npm test -- --runInBand` includes workspace suites and distribution/website
-consumers. A packed installation contains only the executable and four package
-documents, with no installed query workspace or SDK dependency. The MCP workspace
-manifest declares direct build, test, and query workspace tooling as
-`devDependencies`. Distribution qualification validates this dependency boundary
-(verifying that no runtime dependencies are shipped and only approved development
-tools exist) rather than asserting exact development-only patch versions.
+Root `npm test -- --runInBand` includes workspace suites and distribution/website consumers.
+A packed installation contains only the executable and four package documents, with no installed query workspace or SDK dependency.
+The MCP workspace manifest declares direct build, test, and query workspace tooling as `devDependencies`.
+Distribution qualification validates this dependency boundary (verifying that no runtime dependencies are shipped and only approved development tools exist) rather than asserting exact development-only patch versions.
 
-For an SDK update, first verify the current supported release and its complete
-terms, including the existing embedded `fast-uri` restriction in the
-[adoption record](../sdlc/adoption.md#mcp-sdk-embedded-fast-uri). Propose exact
-manifest/lock changes under repository configuration approval. Trace a tool from
-registration through the query package, then run workspace protocol/socket and
-semantic tests, bundle/pack/fresh-install tests, and root regressions. The builder
-attributes inputs to their actual package installation, checks embedded component
-identities, and requires full published direct-component license text in notices.
-The release verifier consumes npm's development-dependency relationships separately
-from the application's embedded-component SBOM. Preserve retained rejection cases
-and ontology definition/provenance assertions when evaluating the update.
+For an SDK update, first verify the current supported release and its complete terms, including the existing embedded `fast-uri` restriction in the [adoption record](../sdlc/adoption.md#mcp-sdk-embedded-fast-uri).
+Propose exact manifest/lock changes under repository configuration approval. Trace a tool from registration through the query package, then run workspace protocol/socket and semantic tests, bundle/pack/fresh-install tests, and root regressions.
+The builder attributes inputs to their actual package installation, checks embedded component identities, and requires full published direct-component license text in notices.
+The release verifier consumes npm's development-dependency relationships separately from the application's embedded-component SBOM.
+Preserve retained rejection cases and ontology definition/provenance assertions when evaluating the update.
 
-This responsibility map supports maintainer review; it does not establish measured
-onboarding savings or release/host acceptance.
+This responsibility map supports maintainer review; it does not establish measured onboarding savings or release/host acceptance.
 
-The Node listener bounds original POST bytes before passing its parsed value to
-the SDK's Node adapter and `createUniversalOntologyMcpHttpProtocolHandler`.
+The Node listener bounds original POST bytes before passing its parsed value to the SDK's Node adapter and `createUniversalOntologyMcpHttpProtocolHandler`.
 Unsupported methods are rejected with connection closure before body conversion.
-`createUniversalOntologyMcpFetchHandler` owns the separate standalone Fetch byte
-limit and never treats caller-supplied `parsedBody` as the original request.
-Mounting a Fetch endpoint still requires deployment-specific Host/Origin and
-admission guards. The SDK owns modern/legacy classification and representation
-handling; clients must advertise both supported response media types. Legacy
-traffic retains its native Accept rejection, while modern responses do not impose
-that same local 406 rule.
+`createUniversalOntologyMcpFetchHandler` owns the separate standalone Fetch byte limit and never treats caller-supplied `parsedBody` as the original request.
+Mounting a Fetch endpoint still requires deployment-specific Host/Origin and admission guards. The SDK owns modern/legacy classification and representation handling; clients must advertise both supported response media types.
+Legacy traffic retains its native Accept rejection, while modern responses do not impose that same local 406 rule.
 
 ```mermaid
 flowchart LR
@@ -132,16 +107,13 @@ flowchart LR
 
 This layering is intentional:
 
-- The generator parses RDF/XML and creates a deterministic, query-oriented
-  projection. Runtime requests do not parse the source ontology again.
-- The filesystem adapter returns untrusted bytes and enforces path containment
-  and symlink rejection. It does not interpret ontology semantics.
-- The query module verifies digests, validates complete documents, resolves
-  releases, applies language preference, ranks matches, and owns the bounded
-  in-memory query-index cache.
-- MCP and HTTP are outer adapters. They contain no ontology interpretation
-  rules, which leaves the same query contract usable by a future S3 adapter and
-  production runner.
+- The generator parses RDF/XML and creates a deterministic, query-oriented projection.
+  Runtime requests do not parse the source ontology again.
+- The filesystem adapter returns untrusted bytes and enforces path containment and symlink rejection.
+  It does not interpret ontology semantics.
+- The query module verifies digests, validates complete documents, resolves releases, applies language preference, ranks matches, and owns the bounded in-memory query-index cache.
+- MCP and HTTP are outer adapters.
+  They contain no ontology interpretation rules, which leaves the same query contract usable by a future S3 adapter and production runner.
 
 ## Generate and refresh query artifacts
 
@@ -159,13 +131,10 @@ dist/query/v1/
 └── releases/<ontologyArtifactFamilyId>/<versionTag>/<queryIndexSha256>.json
 ```
 
-`catalog.json` has `queryArtifactKind` value
-`universal_ontology_query_catalog` and `queryArtifactFormatVersion` value `1`.
-Each referenced release document has kind
-`universal_ontology_release_query_index` and the same format version. The
-catalog records both the source-artifact SHA-256 digest and the generated
-query-index SHA-256 digest. Release-index filenames are content addressed by
-the latter digest.
+`catalog.json` has `queryArtifactKind` value `universal_ontology_query_catalog` and `queryArtifactFormatVersion` value `1`.
+Each referenced release document has kind `universal_ontology_release_query_index` and the same format version.
+The catalog records both the source-artifact SHA-256 digest and the generated query-index SHA-256 digest.
+Release-index filenames are content addressed by the latter digest.
 
 Generation follows a publish-last rule:
 
@@ -175,19 +144,17 @@ Generation follows a publish-last rule:
 4. Write every content-addressed release index.
 5. Atomically replace `catalog.json` only after all referenced indexes exist.
 
-A failed run therefore leaves the preceding catalog usable. A later run can
-leave unreferenced content-addressed files in place; they are unreachable from
-the new catalog and are not selected by the server.
+A failed run therefore leaves the preceding catalog usable.
+A later run can leave unreferenced content-addressed files in place; they are unreachable from the new catalog and are not selected by the server.
 
-Use the combined development command when the source ontology or projection
-code may have changed:
+Use the combined development command when the source ontology or projection code may have changed:
 
 ```powershell
 npm run serve:mcp-development:refresh
 ```
 
-That command regenerates the artifacts and then starts the server. Regenerate
-after any change to:
+That command regenerates the artifacts and then starts the server.
+Regenerate after any change to:
 
 - an eligible source release under `src/`;
 - release-discovery or latest-stable selection policy;
@@ -195,24 +162,19 @@ after any change to:
 - a query-artifact schema; or
 - deterministic serialization.
 
-The running process loads one catalog snapshot and caches parsed immutable
-release query indexes in memory. It does not watch the filesystem. Stop and
-restart it after regeneration. If the representation changes incompatibly,
-introduce a new format version and query-root directory instead of silently
-reinterpreting format version `1`.
+The running process loads one catalog snapshot and caches parsed immutable release query indexes in memory.
+It does not watch the filesystem.
+Stop and restart it after regeneration.
+If the representation changes incompatibly, introduce a new format version and query-root directory instead of silently reinterpreting format version `1`.
 
-The repository-local `stdio` installation uses this same `dist/query/v1` tree
-by default, but it does **not** require the loopback development server. Running
-`scripts/set_up_mcp_servers.py` invokes the authoritative `generate:ontology-indexes` generator,
-installs the application bundle, and configures the MCP host to let that bundle
-open the filesystem artifacts directly. See the
-[local installation guide](local-installation.md#select-the-repository-local-query-artifact-source)
-for the explicit HTTP alternative.
+The repository-local `stdio` installation uses this same `dist/query/v1` tree by default, but it does **not** require the loopback development server.
+Running `scripts/set_up_mcp_servers.py` invokes the authoritative `generate:ontology-indexes` generator, installs the application bundle, and configures the MCP host to let that bundle open the filesystem artifacts directly.
+See the [local installation guide](local-installation.md#select-the-repository-local-query-artifact-source) for the explicit HTTP alternative.
 
 ## Local runner configuration
 
-The local security boundary is intentionally narrow. Only these environment
-variables are supported:
+The local security boundary is intentionally narrow.
+Only these environment variables are supported:
 
 | Environment variable                           |                      Default | Constraint and effect                                                                                                                     |
 | ---------------------------------------------- | ---------------------------: | ----------------------------------------------------------------------------------------------------------------------------------------- |
@@ -227,10 +189,9 @@ $env:UNIVERSAL_ONTOLOGY_MCP_PORT = "8001"
 npm run serve:mcp-development
 ```
 
-There is deliberately no bind-address variable. The local runner always binds
-the IPv4 loopback address `127.0.0.1`. A production runner is a separate entry
-point with a different security model; do not repurpose this runner for a LAN,
-container ingress, tunnel, or public endpoint.
+There is deliberately no bind-address variable.
+The local runner always binds the IPv4 loopback address `127.0.0.1`.
+A production runner is a separate entry point with a different security model; do not repurpose this runner for a LAN, container ingress, tunnel, or public endpoint.
 
 ## Public tool contracts
 
@@ -239,86 +200,55 @@ The catalog exposes exactly two tools, in this order:
 1. `search_entities`
 2. `resolve_entity`
 
-The names do not repeat `ontology` or `universal_ontology` because the visible
-server identity already supplies that namespace. Both tools are annotated as
-read-only, non-destructive, idempotent, and closed-world with respect to the
-selected generated releases.
+The names do not repeat `ontology` or `universal_ontology` because the visible server identity already supplies that namespace.
+Both tools are annotated as read-only, non-destructive, idempotent, and closed-world with respect to the selected generated releases.
 
 ### `search_entities`
 
-Use `search_entities` when the user supplies a name, phrase, identifier, IRI
-local name, or definition text. It searches authored values and returns ranked
-matches with enough selected lexical-definition and release provenance data to
-answer a definition question in one call.
+Use `search_entities` when the user supplies a name, phrase, identifier, IRI local name, or definition text.
+It searches authored values and returns ranked matches with enough selected lexical-definition and release provenance data to answer a definition question in one call.
 
 Input fields:
 
-- `queryText` is required, must contain a non-whitespace character, and is at
-  most 256 characters.
-- `ontologyReleaseSelection` is optional. Omission selects the latest stable
-  releases of `universal/core`, `universal/extended`, and
-  `universal/reference-data`.
-- `entityKinds` can restrict results to one or more of `owl_class`,
-  `owl_object_property`, `owl_datatype_property`,
-  `owl_annotation_property`, `owl_named_individual`, and `rdfs_datatype`.
-- `preferredLanguageTags` defaults to `['en-GB', 'en']` and applies RFC 4647
-  basic language filtering in caller order.
-- `maximumResultCount` defaults to `10` and accepts integers from `1` through
-  `20`.
-- `entityDetailLevel` is `summary` (the default) or `full`. See
-  [Entity detail level](#entity-detail-level).
+- `queryText` is required, must contain a non-whitespace character, and is at most 256 characters.
+- `ontologyReleaseSelection` is optional.
+  Omission selects the latest stable releases of `universal/core`, `universal/extended`, and `universal/reference-data`.
+- `entityKinds` can restrict results to one or more of `owl_class`, `owl_object_property`, `owl_datatype_property`, `owl_annotation_property`, `owl_named_individual`, and `rdfs_datatype`.
+- `preferredLanguageTags` defaults to `['en-GB', 'en']` and applies RFC 4647 basic language filtering in caller order.
+- `maximumResultCount` defaults to `10` and accepts integers from `1` through `20`.
+- `entityDetailLevel` is `summary` (the default) or `full`.
+  See [Entity detail level](#entity-detail-level).
 
-The structured success result reports the normalized caller query, every
-concrete release selected, total and returned match counts, truncation, the
-deterministic match kind, the exact matched ontology value, and aggregated
-ontology-entity descriptions. It never exposes a private normalized search
-key as ontology-authored text.
+The structured success result reports the normalized caller query, every concrete release selected, total and returned match counts, truncation, the deterministic match kind, the exact matched ontology value, and aggregated ontology-entity descriptions.
+It never exposes a private normalized search key as ontology-authored text.
 
 ### `resolve_entity`
 
-Use `resolve_entity` after the intended entity is known. Its required
-`entityIdentifier` is one of:
+Use `resolve_entity` after the intended entity is known.
+Its required `entityIdentifier` is one of:
 
 - `{"identifierKind":"entity_iri","identifierValue":"<absolute IRI>"}`;
 - `{"identifierKind":"uuid_urn","identifierValue":"<UUID URN>"}`; or
 - `{"identifierKind":"preferred_label","identifierValue":"<label>"}`.
 
-It accepts the same optional release selection, preferred language tags, and
-entity detail level as search. A preferred label is not globally unique: the
-success result's `resolutionStatus` is explicitly `found`, `ambiguous`, or
-`not_found`. Ambiguity and absence are normal successful query outcomes, not
-permission to select an arbitrary candidate or invent a definition.
+It accepts the same optional release selection, preferred language tags, and entity detail level as search.
+A preferred label is not globally unique: the success result's `resolutionStatus` is explicitly `found`, `ambiguous`, or `not_found`.
+Ambiguity and absence are normal successful query outcomes, not permission to select an arbitrary candidate or invent a definition.
 
 ### Entity detail level
 
-Both tools accept an optional `entityDetailLevel`, and both success results
-echo the level that applied so a consumer can validate the shape without
-inspecting individual entities.
+Both tools accept an optional `entityDetailLevel`, and both success results echo the level that applied so a consumer can validate the shape without inspecting individual entities.
 
-- `summary` (the default) returns each entity's IRI,
-  `selectedPreferredLabel`, and `selectedLexicalDefinition` only, omitting
-  `sourceArtifactDescriptions`. Each selected assertion cites its release as
-  an `ontologyRelease` pair (`ontologyArtifactFamilyId` and `versionTag`),
-  which is the same pair a `specified_releases` selection accepts. The full
-  provenance record for every selected release, including the source-artifact
-  URL and SHA-256, remains in the top-level `resolvedOntologyReleases`.
-- `full` returns each entity's `selectedPreferredLabel`,
-  `selectedLexicalDefinition`, and every `sourceArtifactDescriptions` entry:
-  all asserted labels, definitions, scope notes, identifiers, creators,
-  source IRIs, and superclass IRIs, each selected assertion carrying the
-  complete `resolvedOntologyRelease` provenance record.
+- `summary` (the default) returns each entity's IRI, `selectedPreferredLabel`, and `selectedLexicalDefinition` only, omitting `sourceArtifactDescriptions`.
+  Each selected assertion cites its release as an `ontologyRelease` pair (`ontologyArtifactFamilyId` and `versionTag`), which is the same pair a `specified_releases` selection accepts.
+  The full provenance record for every selected release, including the source-artifact URL and SHA-256, remains in the top-level `resolvedOntologyReleases`.
+- `full` returns each entity's `selectedPreferredLabel`, `selectedLexicalDefinition`, and every `sourceArtifactDescriptions` entry: all asserted labels, definitions, scope notes, identifiers, creators, source IRIs, and superclass IRIs, each selected assertion carrying the complete `resolvedOntologyRelease` provenance record.
 
-A summary is a projection of the same selection, never a different selection:
-the label and definition are the ones a `full` call would select, and the
-ranking, counts, and match values are identical. The default answers a
-definition question or narrows candidates at the lowest context cost; request
-`full` for the one entity whose assertions, scope notes, or per-assertion
-provenance are actually needed. The plain-text rendering is the same for both
-levels.
+A summary is a projection of the same selection, never a different selection: the label and definition are the ones a `full` call would select, and the ranking, counts, and match values are identical.
+The default answers a definition question or narrows candidates at the lowest context cost; request `full` for the one entity whose assertions, scope notes, or per-assertion provenance are actually needed.
+The plain-text rendering is the same for both levels.
 
-The protocol itself has no field-selection mechanism; this parameter follows
-the coarse-grained view pattern (a small enum rather than a field mask) so
-callers do not need to know the result shape before asking.
+The protocol itself has no field-selection mechanism; this parameter follows the coarse-grained view pattern (a small enum rather than a field mask) so callers do not need to know the result shape before asking.
 
 ### Release selection
 
@@ -345,14 +275,12 @@ To select immutable releases exactly:
 }
 ```
 
-Unknown but syntactically valid families or releases return actionable domain
-failures. They are never silently omitted or replaced with a nearby version.
+Unknown but syntactically valid families or releases return actionable domain failures.
+They are never silently omitted or replaced with a nearby version.
 
-Every application-produced tool result contains validated structured content
-and one plain-text rendering. The text starts by framing ontology-authored
-content as untrusted data. The pinned SDK's own pre-callback argument-validation
-error is the deliberate exception: it is an `isError: true` correction result
-without application structured content, and the query module is not called.
+Every application-produced tool result contains validated structured content and one plain-text rendering.
+The text starts by framing ontology-authored content as untrusted data.
+The pinned SDK's own pre-callback argument-validation error is the deliberate exception: it is an `isError: true` correction result without application structured content, and the query module is not called.
 
 ## Reproducible `Person` acceptance case
 
@@ -388,15 +316,11 @@ The current generated corpus resolves the following authored assertions:
 
 The exact definition lexical form is:
 
-> Entity, i.e. a natural or legal person, recognised by law as having legal
-> rights and duties, able to make commitment(s), assume and fulfil resulting
-> obligation(s), and able to be held accountable for its action(s)
+> Entity, i.e. a natural or legal person, recognised by law as having legal rights and duties, able to make commitment(s), assume and fulfil resulting obligation(s), and able to be held accountable for its action(s)
 
-Describe this as an **asserted lexical definition** carried by
-`skos:definition` in the selected **source-artifact graph**. Do not describe it
-as an inferred OWL fact or a logical class definition. The entity-level source
-IRI is a separate `dcterms:source` assertion about the entity description; it
-does not, by itself, prove provenance for the individual definition assertion.
+Describe this as an **asserted lexical definition** carried by `skos:definition` in the selected **source-artifact graph**.
+Do not describe it as an inferred OWL fact or a logical class definition.
+The entity-level source IRI is a separate `dcterms:source` assertion about the entity description; it does not, by itself, prove provenance for the individual definition assertion.
 
 A useful host acceptance prompt is:
 
@@ -404,21 +328,16 @@ A useful host acceptance prompt is:
 Find the definition of Person in the Universal Ontology and cite the ontology release and source IRI.
 ```
 
-Run that prompt with every website and browser page closed. The result must be
-unchanged because the MCP capability is owned by the standalone process, not a
-page lifecycle.
+Run that prompt with every website and browser page closed.
+The result must be unchanged because the MCP capability is owned by the standalone process, not a page lifecycle.
 
 ## Connect Codex to the loopback HTTP server manually
 
-The repository-local installation command documented in
-[the local installation guide](local-installation.md#install-both-repository-local-mcp-servers)
-manages a page-independent `stdio` entry named `universal_ontology`. It does
-not point that entry at this loopback HTTP development topology.
+The repository-local installation command documented in [the local installation guide](local-installation.md#install-both-repository-local-mcp-servers) manages a page-independent `stdio` entry named `universal_ontology`.
+It does not point that entry at this loopback HTTP development topology.
 
-When specifically testing the Streamable HTTP adapter, add the following
-separate project-scoped entry manually. The name `universal_ontology_loopback`
-identifies the transport and lifecycle precisely and avoids colliding with the
-installed `stdio` server:
+When specifically testing the Streamable HTTP adapter, add the following separate project-scoped entry manually.
+The name `universal_ontology_loopback` identifies the transport and lifecycle precisely and avoids colliding with the installed `stdio` server:
 
 ```toml
 [mcp_servers.universal_ontology_loopback]
@@ -433,105 +352,89 @@ enabled_tools = [
 ]
 ```
 
-`default_tools_approval_mode = "writes"` is deliberate. These two annotated
-read-only tools can run without a write prompt, while any future write-capable
-tool would require approval. Restart or reload the relevant Codex host after a
-manual configuration change, then confirm that exactly the two tools above are
-visible under the loopback entry. Remove the entry when HTTP-adapter testing is
-complete; it is not an installed-server configuration.
+`default_tools_approval_mode = "writes"` is deliberate.
+These two annotated read-only tools can run without a write prompt, while any future write-capable tool would require approval.
+Restart or reload the relevant Codex host after a manual configuration change, then confirm that exactly the two tools above are visible under the loopback entry.
+Remove the entry when HTTP-adapter testing is complete; it is not an installed-server configuration.
 
 ## Inspect the server with MCP Inspector
 
-Keep `npm run serve:mcp-development` running in one terminal. To open MCP Inspector's UI:
+Keep `npm run serve:mcp-development` running in one terminal.
+To open MCP Inspector's UI:
 
 ```powershell
 npx --yes @modelcontextprotocol/inspector@2.4.0 --server-url http://127.0.0.1:8000/mcp --transport http
 ```
 
-Inspect the server identity, instructions, and the two tool schemas. For a
-machine-checkable catalog probe:
+Inspect the server identity, instructions, and the two tool schemas.
+For a machine-checkable catalog probe:
 
 ```powershell
 npx --yes @modelcontextprotocol/inspector@2.4.0 --cli --server-url http://127.0.0.1:8000/mcp --transport http --method tools/list
 ```
 
-The tool list must contain `search_entities` followed by `resolve_entity`, with
-no resource or prompt catalog in this first release.
+The tool list must contain `search_entities` followed by `resolve_entity`, with no resource or prompt catalog in this first release.
 
-To reproduce the real-corpus `Person` call from PowerShell without relying on
-an interactive host:
+To reproduce the real-corpus `Person` call from PowerShell without relying on an interactive host:
 
 ```powershell
 npx --yes @modelcontextprotocol/inspector@2.4.0 --cli --server-url http://127.0.0.1:8000/mcp --transport http --method tools/call --tool-name search_entities --tool-args-json '{"queryText":"Person","ontologyReleaseSelection":{"selectionKind":"latest_stable_releases","ontologyArtifactFamilyIds":["universal/core"]},"preferredLanguageTags":["en-GB","en"],"maximumResultCount":10}' --format json
 ```
 
-The first match must be the `Person` entity documented above, with
-`matchBasis: preferred_label_exact`.
+The first match must be the `Person` entity documented above, with `matchBasis: preferred_label_exact`.
 
 ## Loopback security and resource bounds
 
-Loopback is a security boundary, but it is not sufficient by itself. The
-runner applies these controls before ontology query dispatch:
+Loopback is a security boundary, but it is not sufficient by itself.
+The runner applies these controls before ontology query dispatch:
 
 - Fixed bind address `127.0.0.1`; no non-loopback override.
 - Official localhost Host validation to block DNS rebinding.
-- Official localhost Origin validation to block calls from hostile browser
-  origins. Native clients without an `Origin` header are allowed.
+- Official localhost Origin validation to block calls from hostile browser origins.
+  Native clients without an `Origin` header are allowed.
 - Exact routing: only `/mcp` and `/healthz` exist.
 - JSON request bodies bounded at 131072 bytes before SDK parsing.
-- A per-loopback-address monotonic token bucket: 120 requests per minute with
-  burst 30. Wall-clock changes cannot replenish it.
-- At most eight active MCP requests. A ninth request is not queued and its body
-  is not read.
-- Cancellation propagation from disconnected clients and forced shutdown into
-  query-artifact repository reads and query execution.
+- A per-loopback-address monotonic token bucket: 120 requests per minute with burst 30.
+  Wall-clock changes cannot replenish it.
+- At most eight active MCP requests.
+  A ninth request is not queued and its body is not read.
+- Cancellation propagation from disconnected clients and forced shutdown into query-artifact repository reads and query execution.
 
-Host, Origin, route, rate, and concurrency failures can occur before a request
-body is consumed. Their responses are fixed, never echo a request identifier or
-request-derived text, set `Connection: close`, and disable HTTP persistence so
-unread bytes cannot be reinterpreted as a pipelined request. Rate exhaustion
-returns HTTP 429 with `Retry-After`; concurrency exhaustion returns HTTP 503
-with `Retry-After: 1`.
+Host, Origin, route, rate, and concurrency failures can occur before a request body is consumed.
+Their responses are fixed, never echo a request identifier or request-derived text, set `Connection: close`, and disable HTTP persistence so unread bytes cannot be reinterpreted as a pipelined request.
+Rate exhaustion returns HTTP 429 with `Retry-After`; concurrency exhaustion returns HTTP 503 with `Retry-After: 1`.
 
-There is no authentication on this local endpoint. Do not expose it through a
-port-forward, reverse proxy, public tunnel, shared container network, or
-non-loopback bind. Production authorization is a separate adapter concern.
+There is no authentication on this local endpoint.
+Do not expose it through a port-forward, reverse proxy, public tunnel, shared container network, or non-loopback bind.
+Production authorization is a separate adapter concern.
 
-Application request and lifecycle events are emitted to stderr as one JSON
-object per event with timestamp, severity, event name, correlation identifier,
-monotonic duration, outcome, and a safe error code. Query text, definitions,
-labels, entity IRIs, UUIDs, source IRIs, stack traces, and local paths are not
-logged by default. The pinned MCP SDK may additionally print one informational
-startup warning explaining that JSON response mode drops mid-call
-notifications; this server exposes neither subscriptions nor mid-call
-notifications, so the selected behavior is intentional.
+Application request and lifecycle events are emitted to stderr as one JSON object per event with timestamp, severity, event name, correlation identifier, monotonic duration, outcome, and a safe error code.
+Query text, definitions, labels, entity IRIs, UUIDs, source IRIs, stack traces, and local paths are not logged by default.
+The pinned MCP SDK may additionally print one informational startup warning explaining that JSON response mode drops mid-call notifications; this server exposes neither subscriptions nor mid-call notifications, so the selected behavior is intentional.
 
 ## Semantic limits
 
-The server provides a precise projection, not an OWL reasoner or general SPARQL
-endpoint:
+The server provides a precise projection, not an OWL reasoner or general SPARQL endpoint:
 
-- **Asserted source graph only.** Returned descriptions represent assertions
-  in each selected immutable source artifact. They are not a merged inferred
-  graph.
-- **No import closure.** The query does not dereference `owl:imports`, external
-  entity IRIs, source IRIs, or `seeAlso` IRIs at request time.
-- **No inference.** Direct named superclasses and class memberships are
-  asserted relations only. The server does not compute subclass closure,
-  equivalent-class consequences, domain/range consequences, or consistency.
-- **Lexical is not logical.** A `skos:definition` or retained historical
-  definition-property literal is a lexical definition. It is not an OWL class
-  expression such as a restriction, intersection, or equivalence axiom.
-- **Punning is preserved.** One IRI can have several asserted OWL/RDFS entity
-  kinds; the projection does not force it into one database-record type.
-- **Authored text is data.** Labels, definitions, scope notes, and query text
-  remain untrusted strings even after integrity verification and must never be
-  interpreted as host instructions.
-- **Language selection is deterministic.** Preferred tags choose display
-  values, while complete assertion arrays retain other authored language
-  variants and historical properties.
-- **No broad query language.** There is intentionally no generic `query`,
-  `run_sparql`, `ask`, or mutation tool.
+- **Asserted source graph only.**
+  Returned descriptions represent assertions in each selected immutable source artifact.
+  They are not a merged inferred graph.
+- **No import closure.**
+  The query does not dereference `owl:imports`, external entity IRIs, source IRIs, or `seeAlso` IRIs at request time.
+- **No inference.**
+  Direct named superclasses and class memberships are asserted relations only.
+  The server does not compute subclass closure, equivalent-class consequences, domain/range consequences, or consistency.
+- **Lexical is not logical.**
+  A `skos:definition` or retained historical definition-property literal is a lexical definition.
+  It is not an OWL class expression such as a restriction, intersection, or equivalence axiom.
+- **Punning is preserved.**
+  One IRI can have several asserted OWL/RDFS entity kinds; the projection does not force it into one database-record type.
+- **Authored text is data.**
+  Labels, definitions, scope notes, and query text remain untrusted strings even after integrity verification and must never be interpreted as host instructions.
+- **Language selection is deterministic.**
+  Preferred tags choose display values, while complete assertion arrays retain other authored language variants and historical properties.
+- **No broad query language.**
+  There is intentionally no generic `query`, `run_sparql`, `ask`, or mutation tool.
 
 ## Common errors
 
@@ -553,29 +456,17 @@ endpoint:
 
 ## Distribution and optional hosted adapters
 
-The accepted distribution design makes a locally launched `stdio` process the
-page-independent server topology. Query execution needs no hosted MCP compute:
-the local process retrieves independently changing ontology artifacts from the
-configured origin, then verifies, caches, searches, and resolves them locally.
-Development software remains in a trusted checkout, local build output, or a
-short-lived GitHub Actions artifact; it is not published to a package, image,
-Registry, release, or cloud namespace.
+The accepted distribution design makes a locally launched `stdio` process the page-independent server topology.
+Query execution needs no hosted MCP compute: the local process retrieves independently changing ontology artifacts from the configured origin, then verifies, caches, searches, and resolves them locally.
+Development software remains in a trusted checkout, local build output, or a short-lived GitHub Actions artifact; it is not published to a package, image, Registry, release, or cloud namespace.
 
-See the accepted
-[distributable local MCP server design](../specs/2026-08-31-distributable-local-universal-ontology-mcp-server-design.md)
-and its
-[implementation plan](../plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md)
-for the normative boundaries. The separate
-[local installation guide](local-installation.md) covers installed `stdio`
-operation; this page remains the repository-only loopback HTTP guide.
+See the accepted [distributable local MCP server design](../specs/2026-08-31-distributable-local-universal-ontology-mcp-server-design.md) and its [implementation plan](../plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md) for the normative boundaries.
+The separate [local installation guide](local-installation.md) covers installed `stdio` operation; this page remains the repository-only loopback HTTP guide.
 
-Hosted compute is an optional future adapter for clients that cannot launch a
-local process, not the chosen production requirement. A later, separately
-approved design may add an authenticated HTTP transport while reusing the
-query module and semantic tool contracts. It must not weaken this runner's
-fixed loopback boundary or silently rename `search_entities` and
-`resolve_entity`. The current work makes no AWS stack, AgentCore, Gateway, ECR,
-Cognito, S3, CloudFront, or other remote deployment change.
+Hosted compute is an optional future adapter for clients that cannot launch a local process, not the chosen production requirement.
+A later, separately approved design may add an authenticated HTTP transport while reusing the query module and semantic tool contracts.
+It must not weaken this runner's fixed loopback boundary or silently rename `search_entities` and `resolve_entity`.
+The current work makes no AWS stack, AgentCore, Gateway, ECR, Cognito, S3, CloudFront, or other remote deployment change.
 
 ## Relevant specifications and guidance
 

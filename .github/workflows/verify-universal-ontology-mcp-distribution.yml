@@ -135,15 +135,15 @@ jobs:
       - name: Run product regression and static checks
         if: needs.scope.outputs.product_tests == 'true' || needs.scope.outputs.mcp_artifacts == 'true' || needs.scope.outputs.website_build == 'true'
         run: |
-          npm test -- --runInBand
-          npm run lint
-          npm run format:check
+          npm run test:node
+          npm run lint:node
+          npm run format:node:check
 
       - name: Check MCP documentation
         if: needs.scope.outputs.mcp_docs == 'true' && needs.scope.outputs.product_tests != 'true' && needs.scope.outputs.mcp_artifacts != 'true' && needs.scope.outputs.website_build != 'true'
         run: |
           npm test -- --runInBand --runTestsByPath tests/distribution/universal-ontology-mcp-documentation.test.js
-          npm run format:check
+          npm run format:docs:prettier:check
 
       - name: Build the affected website and generators without auto-fixes
         if: needs.scope.outputs.website_build == 'true'
