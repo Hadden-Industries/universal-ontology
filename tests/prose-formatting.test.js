@@ -131,9 +131,18 @@ test("valid lists and Prettier task indentation converge", async () => {
   expect(await processDocumentation({ root, write: false })).toBe(0);
 });
 
-test("quoted ordered lists do not mistake numbering for sentences", async () => {
-  write("README.md", "> 1. First item.\n> 2. Second item.\n");
-  expect(await processDocumentation({ root, write: false })).toBe(0);
-  write("README.md", "> 1. First sentence. Another sentence.\n");
-  expect(await processDocumentation({ root, write: false })).toBe(1);
-});
+test.each([">", "> >", "> > >"])(
+  "quoted ordered lists at depth %s do not mistake numbering for sentences",
+  async (prefix) => {
+    const valid = `${prefix} 1. First item.\n${prefix} 2. Second item.\n`;
+    const path = write("README.md", valid);
+    expect(await processDocumentation({ root, write: false })).toBe(0);
+    expect(readFileSync(path, "utf8")).toBe(valid);
+    expect(await processDocumentation({ root, write: true })).toBe(0);
+    expect(readFileSync(path, "utf8")).toBe(valid);
+    const fused = `${prefix} 1. First sentence. Another sentence.\n`;
+    write("README.md", fused);
+    expect(await processDocumentation({ root, write: false })).toBe(1);
+    expect(readFileSync(path, "utf8")).toBe(fused);
+  },
+);

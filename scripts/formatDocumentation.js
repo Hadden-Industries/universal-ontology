@@ -88,15 +88,19 @@ export async function processDocumentation({
     for (const diagnostic of reports.flatMap((report) => report.diagnostics)) {
       if (diagnostic.kind === "long") continue;
       // Native 0.11.2 counts a quoted list marker as a sentence. Recheck the
-      // complete line as a list item so real fused prose still fails.
+      // complete line without quote prefixes so real fused prose still fails,
+      // including within nested blockquotes.
       const line = (write ? formatted : original).split("\n")[
         diagnostic.line - 1
       ];
-      if (diagnostic.kind === "fused" && /^\s*>\s*\d+[.)]\s+/u.test(line)) {
+      if (
+        diagnostic.kind === "fused" &&
+        /^(?:[ \t]*>[ \t]?)+\d+[.)]\s+/u.test(line)
+      ) {
         const item = runSnapper(
           root,
           ["--check", "--output-format", "json", "--stdin-filepath", path],
-          `${line.replace(/^\s*>\s?/u, "")}\n`,
+          `${line.replace(/^(?:[ \t]*>[ \t]?)+/u, "")}\n`,
         );
         const itemReports = JSON.parse(item.stdout);
         if (
