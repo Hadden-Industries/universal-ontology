@@ -23,6 +23,8 @@ npm run configure:git-hooks
 
 It installs nothing globally and configures no agent, workflow, hook trust, MCP server or skill.
 `requirements.txt` holds the ontology runtime dependencies and `requirements-dev.txt` the development tools; `requirements.lock.txt` is their resolved, hash-pinned closure.
+Development requirements declare minimum versions without upper bounds.
+Routine setup and CI install the exact locked versions rather than resolving those ranges again.
 
 Node.js dependencies are locked via `package-lock.json`.
 Workspace package manifests declare their required build and test tooling under `devDependencies` using standard semver ranges.
@@ -43,6 +45,8 @@ node scripts/runRepositoryPython.js -m piptools compile --allow-unsafe --generat
 ```
 
 Review the resulting diff; a lock change changes the qualified environment.
+The compile command preserves existing selections when they still satisfy the requirements.
+For a deliberate upgrade, add `--upgrade-package NAME`, review the lock diff, rerun setup, and execute the relevant checks.
 
 ## Optional integrations
 
