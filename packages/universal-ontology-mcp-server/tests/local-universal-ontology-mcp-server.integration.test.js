@@ -659,7 +659,12 @@ describe("local Universal Ontology MCP server socket seam", () => {
         if (expectedStatus === 200) {
           expect(
             JSON.parse(response.body).result.tools.map(({ name }) => name),
-          ).toEqual(["search_entities", "resolve_entity"]);
+          ).toEqual([
+            "search_entities",
+            "resolve_entity",
+            "get_entity_context",
+            "find_entity_connections",
+          ]);
         } else {
           expect(response.headers.connection).toBe("close");
           expect(JSON.parse(response.body).error.code).toBe(-32000);

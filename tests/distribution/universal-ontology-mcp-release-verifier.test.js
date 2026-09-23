@@ -30,6 +30,14 @@ const DISTRIBUTION_WORKFLOW_URL = new URL(
 const APPLICATION_BYTES = Buffer.from(
   "#!/usr/bin/env node\nprocess.stdout.write('synthetic fixture');\n",
 );
+const CONTEXT_ASSETS = [
+  ["ontologyStoreWorker.cjs", Buffer.from("// Synthetic context worker\n")],
+  ["node_bg.wasm", Buffer.from([0, 97, 115, 109, 1, 0, 0, 0])],
+];
+const VENDOR_FILES = [
+  ["third-party/oxigraph/LICENSE-MIT", Buffer.from("MIT fixture\n")],
+  ["third-party/oxigraph/component-notices.json", Buffer.from("{}\n")],
+];
 const BUNDLED_COMPONENTS = Object.freeze([
   {
     name: "@modelcontextprotocol/core",
@@ -118,6 +126,16 @@ function createPlatformArchiveEntries(
     ["THIRD_PARTY_NOTICES.md", "Synthetic third-party notices.\n"],
   ];
   return [
+    ...CONTEXT_ASSETS.map(([name, bytes]) => ({
+      path: `${archiveRootName}/app/${name}`,
+      bytes,
+      mode: 0o100644,
+    })),
+    ...VENDOR_FILES.map(([name, bytes]) => ({
+      path: `${archiveRootName}/${name}`,
+      bytes,
+      mode: 0o100644,
+    })),
     ...regularTextEntries.map(([relativePath, content]) => ({
       path: `${archiveRootName}/${relativePath}`,
       bytes: Buffer.from(content),
@@ -153,6 +171,14 @@ async function createNpmTarball(releaseDirectoryPath, applicationBytes) {
     license: "MIT",
   };
   const entries = [
+    ...CONTEXT_ASSETS.map(([name, bytes]) => ({
+      path: `package/dist/${name}`,
+      bytes,
+    })),
+    ...VENDOR_FILES.map(([name, bytes]) => ({
+      path: `package/${name}`,
+      bytes,
+    })),
     { path: "package/LICENSE", bytes: Buffer.from("MIT license fixture\n") },
     {
       path: "package/README.md",
@@ -220,6 +246,11 @@ async function createCompleteReleaseCandidate({
       packageName: PACKAGE_NAME,
       packageVersion: SOFTWARE_VERSION,
       bundleSha256: calculateSha256(applicationBytes),
+      runtimeAssets: CONTEXT_ASSETS.map(([fileName, bytes]) => ({
+        relativePath: fileName,
+        byteLength: bytes.length,
+        sha256: calculateSha256(bytes),
+      })),
       bundledComponents: BUNDLED_COMPONENTS,
     })}\n`,
   );

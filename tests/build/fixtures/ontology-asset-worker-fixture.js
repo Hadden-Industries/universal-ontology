@@ -59,6 +59,9 @@ parentPort.on("message", async ({ taskId, input }) => {
 
     if (requestedAssetKinds.has("query_index")) {
       response.queryIndexContent = Buffer.from(`query:${result}`, "utf8");
+      response.datasetContent = Buffer.from(`dataset:${result}`, "utf8");
+      response.datasetQuadCount = 0;
+      response.declaredImports = [];
     }
 
     parentPort.postMessage(response);

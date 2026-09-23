@@ -85,6 +85,30 @@
   },
   "packagedStaticFiles": [
     {
+      "sourceRelativePath": "packages/universal-ontology-mcp-server/dist/ontologyStoreWorker.cjs",
+      "packagedRelativePath": "app/ontologyStoreWorker.cjs",
+      "maximumByteSize": 4194304,
+      "mode": "0644"
+    },
+    {
+      "sourceRelativePath": "packages/universal-ontology-mcp-server/dist/node_bg.wasm",
+      "packagedRelativePath": "app/node_bg.wasm",
+      "maximumByteSize": 8388608,
+      "mode": "0644"
+    },
+    {
+      "sourceRelativePath": "packages/universal-ontology-mcp-server/third-party/oxigraph/LICENSE-MIT",
+      "packagedRelativePath": "third-party/oxigraph/LICENSE-MIT",
+      "maximumByteSize": 65536,
+      "mode": "0644"
+    },
+    {
+      "sourceRelativePath": "packages/universal-ontology-mcp-server/third-party/oxigraph/component-notices.json",
+      "packagedRelativePath": "third-party/oxigraph/component-notices.json",
+      "maximumByteSize": 4194304,
+      "mode": "0644"
+    },
+    {
       "sourceRelativePath": "packages/universal-ontology-mcp-server/LICENSE",
       "packagedRelativePath": "LICENSE",
       "maximumByteSize": 1048576,

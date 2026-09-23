@@ -573,7 +573,7 @@ describe("ontology entity-definition resolver", () => {
     });
     const catalogContent = serializeOntologyQueryArtifact({
       queryArtifactKind: "universal_ontology_query_catalog",
-      queryArtifactFormatVersion: 1,
+      queryArtifactFormatVersion: 2,
       releases: [releaseArtifact.catalogRelease],
     });
     const catalogIri = "https://example.test/query/v1/catalog.json";

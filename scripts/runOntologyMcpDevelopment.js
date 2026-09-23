@@ -2,6 +2,8 @@ import { resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { generateOntologyQueryIndexes } from "./generateOntologyQueryIndexes.js";
+import { readOntologySourceCatalog } from "./build/readOntologySourceCatalog.js";
+import { readOntologyOwnershipInventory } from "./build/readOntologyOwnershipInventory.js";
 import {
   readLocalOntologyMcpServerConfiguration,
   runLocalOntologyMcpServer,
@@ -15,6 +17,13 @@ export async function runOntologyMcpDevelopment({
   environment = process.env,
   arguments: arguments_ = process.argv.slice(2),
   projectRoot = REPOSITORY_ROOT_PATH,
+  readGenerationContext = async (repositoryRoot) => ({
+    sourceCatalog: await readOntologySourceCatalog({
+      repositoryRoot,
+      catalogPath: resolve(repositoryRoot, "core/catalog-v001.xml"),
+    }),
+    ownershipInventory: await readOntologyOwnershipInventory(repositoryRoot),
+  }),
 } = {}) {
   for (const argument of arguments_) {
     if (argument !== "--refresh-index") {
@@ -28,6 +37,8 @@ export async function runOntologyMcpDevelopment({
   });
   if (arguments_.includes("--refresh-index")) {
     await generateOntologyQueryIndexes({
+      ...(await readGenerationContext(projectRoot)),
+      repositoryRoot: projectRoot,
       sourceDirectory: resolve(projectRoot, "src"),
       outputDirectory: configuration.queryRoot,
     });

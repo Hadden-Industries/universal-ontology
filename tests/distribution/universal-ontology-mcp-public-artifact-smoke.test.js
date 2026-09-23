@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  assertExpectedPublicPersonSearchResult,
+  assertExpectedPublicPersonResolutionResult,
   smokeTestUniversalOntologyMcpPublicArtifactOrigin,
 } from "../../scripts/distribution/smokeTestUniversalOntologyMcpPublicArtifactOrigin.js";
 import {
@@ -67,7 +67,7 @@ async function createPublicPersonArtifactHttpFixture() {
   const catalogBytes = Buffer.from(
     serializeCanonicalOntologyQueryJsonDocument({
       queryArtifactKind: "universal_ontology_query_catalog",
-      queryArtifactFormatVersion: 1,
+      queryArtifactFormatVersion: 2,
       releases: [
         {
           ...releaseArtifact.catalogRelease,
@@ -104,75 +104,71 @@ describe("public Universal Ontology MCP artifact-origin smoke", () => {
   test("accepts the exact asserted Person definition and immutable provenance", () => {
     const structuredContent = {
       outcome: "success",
-      matches: [
+      ontologyEntities: [
         {
-          ontologyEntity: {
-            entityIri: EXPECTED_PERSON_IRI,
-            selectedPreferredLabel: {
-              resolvedOntologyRelease: EXPECTED_RELEASE,
-              literalValue: { lexicalForm: "Person", languageTag: "en" },
-            },
-            selectedLexicalDefinition: {
-              resolvedOntologyRelease: EXPECTED_RELEASE,
-              literalValue: {
-                lexicalForm: EXPECTED_PERSON_DEFINITION,
-                languageTag: "en-gb",
-              },
-            },
-            sourceArtifactDescriptions: [
-              {
-                resolvedOntologyRelease: EXPECTED_RELEASE,
-                assertionScope: "source_artifact_graph",
-                entityKinds: ["owl_class"],
-                entitySourceIris: [EXPECTED_PERSON_SOURCE_IRI],
-              },
-            ],
+          entityIri: EXPECTED_PERSON_IRI,
+          selectedPreferredLabel: {
+            resolvedOntologyRelease: EXPECTED_RELEASE,
+            literalValue: { lexicalForm: "Person", languageTag: "en" },
           },
+          selectedLexicalDefinition: {
+            resolvedOntologyRelease: EXPECTED_RELEASE,
+            literalValue: {
+              lexicalForm: EXPECTED_PERSON_DEFINITION,
+              languageTag: "en-gb",
+            },
+          },
+          sourceArtifactDescriptions: [
+            {
+              resolvedOntologyRelease: EXPECTED_RELEASE,
+              assertionScope: "source_artifact_graph",
+              entityKinds: ["owl_class"],
+              entitySourceIris: [EXPECTED_PERSON_SOURCE_IRI],
+            },
+          ],
         },
       ],
     };
 
     expect(() =>
-      assertExpectedPublicPersonSearchResult({ structuredContent }),
+      assertExpectedPublicPersonResolutionResult({ structuredContent }),
     ).not.toThrow();
   });
 
   test("rejects a plausible Person response with substituted provenance", () => {
     const structuredContent = {
       outcome: "success",
-      matches: [
+      ontologyEntities: [
         {
-          ontologyEntity: {
-            entityIri: EXPECTED_PERSON_IRI,
-            selectedPreferredLabel: {
-              resolvedOntologyRelease: EXPECTED_RELEASE,
-              literalValue: { lexicalForm: "Person", languageTag: "en" },
-            },
-            selectedLexicalDefinition: {
-              resolvedOntologyRelease: EXPECTED_RELEASE,
-              literalValue: {
-                lexicalForm: EXPECTED_PERSON_DEFINITION,
-                languageTag: "en-gb",
-              },
-            },
-            sourceArtifactDescriptions: [
-              {
-                resolvedOntologyRelease: {
-                  ...EXPECTED_RELEASE,
-                  sourceArtifactSha256: "f".repeat(64),
-                },
-                assertionScope: "source_artifact_graph",
-                entityKinds: ["owl_class"],
-                entitySourceIris: [EXPECTED_PERSON_SOURCE_IRI],
-              },
-            ],
+          entityIri: EXPECTED_PERSON_IRI,
+          selectedPreferredLabel: {
+            resolvedOntologyRelease: EXPECTED_RELEASE,
+            literalValue: { lexicalForm: "Person", languageTag: "en" },
           },
+          selectedLexicalDefinition: {
+            resolvedOntologyRelease: EXPECTED_RELEASE,
+            literalValue: {
+              lexicalForm: EXPECTED_PERSON_DEFINITION,
+              languageTag: "en-gb",
+            },
+          },
+          sourceArtifactDescriptions: [
+            {
+              resolvedOntologyRelease: {
+                ...EXPECTED_RELEASE,
+                sourceArtifactSha256: "f".repeat(64),
+              },
+              assertionScope: "source_artifact_graph",
+              entityKinds: ["owl_class"],
+              entitySourceIris: [EXPECTED_PERSON_SOURCE_IRI],
+            },
+          ],
         },
       ],
     };
 
     expect(() =>
-      assertExpectedPublicPersonSearchResult({ structuredContent }),
+      assertExpectedPublicPersonResolutionResult({ structuredContent }),
     ).toThrow(/Person|provenance/iu);
   });
 

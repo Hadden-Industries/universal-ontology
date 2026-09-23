@@ -146,7 +146,7 @@ describe("ontology query schemas", () => {
       entityKinds: ["owl_class", "owl_named_individual"],
       preferredLanguageTags: ["en-GB", "en"],
       maximumResultCount: 10,
-      entityDetailLevel: "summary",
+      maximumResultBytes: 32768,
     });
     expect(Object.isFrozen(parsed)).toBe(true);
     expect(Object.isFrozen(parsed.ontologyReleaseSelection)).toBe(true);
@@ -276,7 +276,7 @@ describe("ontology query schemas", () => {
     expect(() =>
       OntologyQueryCatalogSchema.parse({
         queryArtifactKind: "universal_ontology_query_catalog",
-        queryArtifactFormatVersion: 1,
+        queryArtifactFormatVersion: 2,
         releases: [],
         unexpected: true,
       }),
@@ -320,7 +320,7 @@ describe("ontology release query-index projection", () => {
 
     expect(index).toMatchObject({
       queryArtifactKind: "universal_ontology_release_query_index",
-      queryArtifactFormatVersion: 1,
+      queryArtifactFormatVersion: 2,
       resolvedOntologyRelease: {
         ontologyArtifactFamilyId: "universal/test",
         versionTag: "20260830",

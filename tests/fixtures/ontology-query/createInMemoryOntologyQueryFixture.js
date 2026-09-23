@@ -1,8 +1,12 @@
 import { createHash } from "node:crypto";
+import rdfCanonize from "rdf-canonize";
 import { readFile } from "node:fs/promises";
 
 import { parseRdfXmlToQuads } from "../../../scripts/rdfXmlToJsonLd.js";
-import { createOntologyReleaseQueryIndex } from "universal-ontology-query/artifacts";
+import {
+  createOntologyReleaseQueryIndex,
+  serializeCanonicalOntologyQueryJsonDocument,
+} from "universal-ontology-query/artifacts";
 
 const MINIMAL_ONTOLOGY_RELEASE_URL = new URL(
   "./minimal-ontology-release",
@@ -14,7 +18,10 @@ const MINIMAL_ONTOLOGY_RELEASE_URL = new URL(
  * Tests reuse these bytes so digest verification exercises the real contract.
  */
 export function serializeOntologyQueryArtifact(document) {
-  return Buffer.from(`${JSON.stringify(document, null, 2)}\n`, "utf8");
+  return Buffer.from(
+    serializeCanonicalOntologyQueryJsonDocument(document),
+    "utf8",
+  );
 }
 
 /** Returns the lowercase SHA-256 hexadecimal form used by catalog entries. */
@@ -31,8 +38,12 @@ export async function createInMemoryOntologyReleaseArtifact({
   versionTag,
   latestStableRelease = true,
   transformIndex,
+  transformSource,
 }) {
-  const rdfXml = await readFile(MINIMAL_ONTOLOGY_RELEASE_URL);
+  const sourceBytes = await readFile(MINIMAL_ONTOLOGY_RELEASE_URL);
+  const rdfXml = transformSource
+    ? Buffer.from(transformSource(sourceBytes.toString("utf8")))
+    : sourceBytes;
   const sourceArtifactRelativePath = `${ontologyArtifactFamilyId}/${versionTag}`;
   const sourceArtifactUrl = `https://example.com/ontology/${sourceArtifactRelativePath}`;
   const quads = await parseRdfXmlToQuads({
@@ -50,7 +61,14 @@ export async function createInMemoryOntologyReleaseArtifact({
   const index = transformIndex
     ? transformIndex(JSON.parse(JSON.stringify(projectedIndex)))
     : projectedIndex;
-  const indexBytes = serializeOntologyQueryArtifact(index);
+  const indexBytes = transformIndex
+    ? Buffer.from(`${JSON.stringify(index, null, 2)}\n`)
+    : Buffer.from(serializeCanonicalOntologyQueryJsonDocument(index));
+  const datasetBytes = Buffer.from(
+    await rdfCanonize.canonize([...quads], { algorithm: "RDFC-1.0" }),
+  );
+  const datasetSha256 = calculateOntologyQueryArtifactSha256(datasetBytes);
+  const snapshotId = `urn:uo:snapshot:${calculateOntologyQueryArtifactSha256(sourceArtifactUrl)}`;
   const queryIndexSha256 = calculateOntologyQueryArtifactSha256(indexBytes);
   const queryIndexRelativePath =
     `releases/${ontologyArtifactFamilyId}/${versionTag}/` +
@@ -58,6 +76,20 @@ export async function createInMemoryOntologyReleaseArtifact({
 
   return {
     catalogRelease: {
+      activePublication: false,
+      snapshotId,
+      ownedNamespaces: ["https://example.com/ontology/test/"],
+      ownershipPolicySha256: null,
+      dataset: {
+        relativePath: `datasets/${datasetSha256}.nq`,
+        sha256: datasetSha256,
+        byteLength: datasetBytes.length,
+        quadCount: quads.length,
+      },
+      declaredImports: [],
+      importCoverage: { catalogSha256: null, resolved: [], unresolved: [] },
+      ontologyIri: index.resolvedOntologyRelease.ontologyIri,
+      versionIri: index.resolvedOntologyRelease.versionIri,
       ontologyArtifactFamilyId,
       versionTag,
       latestStableRelease,
@@ -70,6 +102,7 @@ export async function createInMemoryOntologyReleaseArtifact({
     },
     queryIndexRelativePath,
     indexBytes,
+    datasetBytes,
   };
 }
 
@@ -83,7 +116,7 @@ export function createInMemoryOntologyQueryArtifactRepositoryFixture(
 ) {
   const catalog = {
     queryArtifactKind: "universal_ontology_query_catalog",
-    queryArtifactFormatVersion: 1,
+    queryArtifactFormatVersion: 2,
     releases: releaseArtifacts.map(({ catalogRelease }) => catalogRelease),
   };
   const indexBytesByPath = new Map(
@@ -97,6 +130,13 @@ export function createInMemoryOntologyQueryArtifactRepositoryFixture(
   return {
     readCounts,
     ontologyQueryArtifactRepository: {
+      async readOntologyDataset({ relativePath, signal }) {
+        signal?.throwIfAborted();
+        return releaseArtifacts.find(
+          (artifact) =>
+            artifact.catalogRelease.dataset.relativePath === relativePath,
+        )?.datasetBytes;
+      },
       async readOntologyQueryCatalog({ signal } = {}) {
         signal?.throwIfAborted();
 
@@ -110,7 +150,8 @@ export function createInMemoryOntologyQueryArtifactRepositoryFixture(
 
         signal?.throwIfAborted();
         return (
-          overrides.catalogBytes ?? serializeOntologyQueryArtifact(catalog)
+          overrides.catalogBytes ??
+          Buffer.from(serializeCanonicalOntologyQueryJsonDocument(catalog))
         );
       },
       async readOntologyReleaseQueryIndex({ relativePath, signal }) {

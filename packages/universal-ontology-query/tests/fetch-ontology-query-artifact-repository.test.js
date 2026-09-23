@@ -278,7 +278,7 @@ describe("Fetch ontology query-artifact repository", () => {
     });
     const catalogBytes = serializeOntologyQueryArtifact({
       queryArtifactKind: "universal_ontology_query_catalog",
-      queryArtifactFormatVersion: 1,
+      queryArtifactFormatVersion: 2,
       releases: [releaseArtifact.catalogRelease],
     });
     const fetchImplementation = async (url) => {

@@ -36,7 +36,7 @@ async function createStdioIntegrationFixture() {
   const catalogBytes = Buffer.from(
     serializeCanonicalOntologyQueryJsonDocument({
       queryArtifactKind: "universal_ontology_query_catalog",
-      queryArtifactFormatVersion: 1,
+      queryArtifactFormatVersion: 2,
       releases: [releaseArtifact.catalogRelease],
     }),
   );
@@ -54,6 +54,12 @@ async function createStdioIntegrationFixture() {
   await nodeFileSystem.mkdir(dirname(releaseQueryIndexPath), {
     recursive: true,
   });
+  const datasetPath = join(
+    queryArtifactRootDirectoryPath,
+    releaseArtifact.catalogRelease.dataset.relativePath,
+  );
+  await nodeFileSystem.mkdir(dirname(datasetPath), { recursive: true });
+  await nodeFileSystem.writeFile(datasetPath, releaseArtifact.datasetBytes);
   await Promise.all([
     nodeFileSystem.writeFile(
       join(queryArtifactRootDirectoryPath, "catalog.json"),
@@ -167,7 +173,7 @@ function createPersonSearchArguments() {
     },
     preferredLanguageTags: ["en-GB", "en"],
     maximumResultCount: 10,
-    entityDetailLevel: "full",
+    entityKinds: ["owl_class"],
   };
 }
 
@@ -192,7 +198,7 @@ describe("Universal Ontology MCP stdio source process", () => {
       expect(result).toMatchObject({
         structuredContent: {
           outcome: "success",
-          totalMatchedEntityCount: 1,
+          returnedEntityCount: 1,
           matches: [
             {
               ontologyEntity: {
@@ -237,6 +243,8 @@ describe("Universal Ontology MCP stdio source process", () => {
         expect(toolList.tools.map(({ name }) => name)).toEqual([
           SEARCH_ENTITIES_TOOL_NAME,
           RESOLVE_ENTITY_TOOL_NAME,
+          "get_entity_context",
+          "find_entity_connections",
         ]);
         await expect(client.listResources()).resolves.toEqual({
           resources: [],
@@ -251,8 +259,7 @@ describe("Universal Ontology MCP stdio source process", () => {
           structuredContent: {
             outcome: "success",
             resultKind: "ontology_entity_search",
-            entityDetailLevel: "full",
-            totalMatchedEntityCount: 1,
+            returnedEntityCount: 1,
             matches: [
               {
                 ontologyEntity: {
@@ -312,7 +319,7 @@ describe("Universal Ontology MCP stdio source process", () => {
       expect(result).toMatchObject({
         structuredContent: {
           outcome: "success",
-          totalMatchedEntityCount: 1,
+          returnedEntityCount: 1,
         },
       });
       expect(result.isError).not.toBe(true);
@@ -388,7 +395,7 @@ describe("Universal Ontology MCP stdio source process", () => {
       expect(survivingResult).toMatchObject({
         structuredContent: {
           outcome: "success",
-          totalMatchedEntityCount: 1,
+          returnedEntityCount: 1,
         },
       });
       expect(

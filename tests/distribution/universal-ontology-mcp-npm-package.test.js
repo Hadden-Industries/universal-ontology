@@ -50,12 +50,19 @@ const EXPECTED_PACKED_FILE_PATHS = Object.freeze([
   "LICENSE",
   "README.md",
   "THIRD_PARTY_NOTICES.md",
+  "dist/node_bg.wasm",
+  "dist/ontologyStoreWorker.cjs",
   "dist/universal-ontology-mcp-server.mjs",
   "package.json",
+  "third-party/oxigraph/component-notices.json",
+  "third-party/oxigraph/LICENSE-MIT",
 ]);
 
 const EXPECTED_PUBLIC_PACKAGE_FILES = Object.freeze([
   "dist/universal-ontology-mcp-server.mjs",
+  "dist/ontologyStoreWorker.cjs",
+  "dist/node_bg.wasm",
+  "third-party/oxigraph/",
   "LICENSE",
   "README.md",
   "THIRD_PARTY_NOTICES.md",
@@ -84,6 +91,7 @@ const EXPECTED_BUNDLED_COMPONENTS = Object.freeze([
   { name: "fast-deep-equal", version: "3.1.3", license: "MIT" },
   { name: "fast-uri", version: "3.1.0", license: "BSD-3-Clause" },
   { name: "json-schema-traverse", version: "1.0.0", license: "MIT" },
+  { name: "oxigraph", version: "0.5.11", license: "MIT OR Apache-2.0" },
   { name: "zod", version: "4.6.5", license: "MIT" },
 ]);
 
@@ -168,7 +176,7 @@ async function createPackagedPersonQueryFixture() {
   const catalogBytes = Buffer.from(
     serializeCanonicalOntologyQueryJsonDocument({
       queryArtifactKind: "universal_ontology_query_catalog",
-      queryArtifactFormatVersion: 1,
+      queryArtifactFormatVersion: 2,
       releases: [releaseArtifact.catalogRelease],
     }),
   );
@@ -545,7 +553,7 @@ describe("public Universal Ontology MCP npm package", () => {
       name: "universal-ontology-mcp-server",
       version: "1.0.0",
       filename: "universal-ontology-mcp-server-1.0.0.tgz",
-      entryCount: 5,
+      entryCount: 9,
       bundled: [],
     });
     expect(packResult.files.map(({ path }) => path)).toEqual(
@@ -684,13 +692,15 @@ describe("public Universal Ontology MCP npm package", () => {
       expect(toolList.tools.map(({ name }) => name)).toEqual([
         "search_entities",
         "resolve_entity",
+        "get_entity_context",
+        "find_entity_connections",
       ]);
       const result = await client.callTool({
         name: "search_entities",
         arguments: {
           queryText: "Person",
           preferredLanguageTags: ["en-GB", "en"],
-          entityDetailLevel: "full",
+          entityKinds: ["owl_class"],
           ontologyReleaseSelection: {
             selectionKind: "specified_releases",
             ontologyReleases: [
@@ -705,7 +715,7 @@ describe("public Universal Ontology MCP npm package", () => {
       expect(result).toMatchObject({
         structuredContent: {
           outcome: "success",
-          totalMatchedEntityCount: 1,
+          returnedEntityCount: 1,
           matches: [
             {
               ontologyEntity: {
@@ -721,7 +731,10 @@ describe("public Universal Ontology MCP npm package", () => {
       const searchContent = OntologyEntitySearchSuccessSchema.parse(
         result.structuredContent,
       );
-      expectPackagedAuthoredPerson(searchContent.matches[0].ontologyEntity);
+      expect(
+        searchContent.matches[0].ontologyEntity.selectedLexicalDefinition
+          .literalValue.lexicalForm,
+      ).toBe("A natural or legal person recognised by law.");
       const resolution = await client.callTool({
         name: "resolve_entity",
         arguments: {

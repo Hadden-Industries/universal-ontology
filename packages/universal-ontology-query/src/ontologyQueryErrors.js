@@ -5,6 +5,28 @@
  */
 
 const ONTOLOGY_QUERY_ERROR_DEFINITIONS = Object.freeze({
+  UNKNOWN_ENTITY: {
+    retryable: false,
+    defaultMessage:
+      "The entity is missing or ambiguous in the selected snapshot. Use an exact entity IRI present in that selection.",
+  },
+  RESULT_SIZE_EXCEEDED: {
+    retryable: false,
+    defaultMessage:
+      "The result exceeds the response byte limit. Reduce depth or page size, or increase maximumResultBytes within its allowed bound.",
+  },
+  DATASET_LIMIT_EXCEEDED: {
+    retryable: false,
+    defaultMessage: "The selected dataset exceeds the local admission limit.",
+  },
+  QUERY_DEADLINE_EXCEEDED: {
+    retryable: true,
+    defaultMessage: "The ontology query exceeded its execution deadline.",
+  },
+  QUERY_QUEUE_FULL: {
+    retryable: true,
+    defaultMessage: "The local ontology query queue is full.",
+  },
   UNKNOWN_ONTOLOGY_ARTIFACT_FAMILY: {
     retryable: false,
     defaultMessage: "The requested ontology artifact family is not cataloged.",

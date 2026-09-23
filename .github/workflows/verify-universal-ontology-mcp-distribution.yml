@@ -324,7 +324,12 @@ jobs:
                 client.getServerVersion()?.version !==
                   process.env.MCP_CONTAINER_EXPECTED_VERSION ||
                 JSON.stringify(toolNames) !==
-                  JSON.stringify(["search_entities", "resolve_entity"])
+                  JSON.stringify([
+                    "search_entities",
+                    "resolve_entity",
+                    "get_entity_context",
+                    "find_entity_connections",
+                  ])
               ) {
                 throw new Error(
                   "Container MCP initialization smoke returned an invalid server identity or tool list.",

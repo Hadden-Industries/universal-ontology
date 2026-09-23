@@ -8,6 +8,9 @@
   },
   "files": [
     "dist/universal-ontology-mcp-server.mjs",
+    "dist/ontologyStoreWorker.cjs",
+    "dist/node_bg.wasm",
+    "third-party/oxigraph/",
     "LICENSE",
     "README.md",
     "THIRD_PARTY_NOTICES.md"

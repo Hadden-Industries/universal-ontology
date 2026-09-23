@@ -3,6 +3,7 @@ import { homedir } from "node:os";
 import process from "node:process";
 
 import { createOntologyQueryModule } from "universal-ontology-query";
+import { createNodeOntologyQueryModule } from "universal-ontology-query/node";
 import { createFileSystemOntologyQueryArtifactRepository } from "universal-ontology-query/repositories/file-system";
 import {
   createHttpOntologyQueryArtifactReader,
@@ -205,7 +206,11 @@ export async function runUniversalOntologyMcpStdioServer({
         createFileSystemOntologyQueryArtifactRepositoryImplementation({
           queryRoot: ontologyQueryArtifactSource.rootDirectoryPath,
         });
-      return createOntologyQueryModuleImplementation({
+      return (
+        createOntologyQueryModuleImplementation === createOntologyQueryModule
+          ? createNodeOntologyQueryModule
+          : createOntologyQueryModuleImplementation
+      )({
         ontologyQueryArtifactRepository,
       });
     }
@@ -287,9 +292,12 @@ export async function runUniversalOntologyMcpStdioServer({
       new DOMException("Universal Ontology MCP server shutdown.", "AbortError"),
     );
     removeLifecycleHandlers();
-    const closeOperation = Promise.resolve().then(() =>
-      stdioServerHandle.close(),
-    );
+    const closeOperation = Promise.resolve().then(async () => {
+      await Promise.all([
+        stdioServerHandle.close(),
+        ontologyQueryPromise?.then((query) => query.close?.()),
+      ]);
+    });
     // Always observe a late close rejection, including after the deadline wins.
     const observedCloseOperation = closeOperation.then(
       () => ({ closeOutcome: "closed" }),

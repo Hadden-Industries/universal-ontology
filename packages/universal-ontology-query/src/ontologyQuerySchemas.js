@@ -2,6 +2,16 @@ import { freezeJsonValueDeeply } from "./jsonValueImmutability.js";
 import * as z from "zod";
 
 import { MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH } from "./ontologyQueryArtifactLimits.js";
+import {
+  OntologySnapshotReferenceSchema,
+  OntologyContextProjectionSchema,
+  ContextDefinitionSchema,
+  DefinitionSourceStatusSchema,
+} from "./ontologyContextSchemas.js";
+export {
+  OntologySnapshotReferenceSchema,
+  DefinitionSourceStatusSchema,
+} from "./ontologyContextSchemas.js";
 
 const GREGORIAN_DATE_VERSION_PATTERN = /^(\d{4})(\d{2})(\d{2})$/u;
 
@@ -60,9 +70,12 @@ export const OntologyArtifactFamilyIdSchema = z
 /** One immutable ontology release name supported by the source repository. */
 export const OntologyVersionTagSchema = z
   .string()
-  .regex(/^(?:\d{8}|v[1-9][0-9]*)$/u)
+  .regex(/^(?:\d{8}|v[1-9][0-9]*|working|dependency)$/u)
   .refine(
-    (value) => value.startsWith("v") || isGregorianDateVersion(value),
+    (value) =>
+      ["working", "dependency"].includes(value) ||
+      value.startsWith("v") ||
+      isGregorianDateVersion(value),
     "Eight-digit ontology version tags must be valid Gregorian dates.",
   );
 
@@ -96,6 +109,7 @@ export const ONTOLOGY_ENTITY_KIND_VALUES = Object.freeze([
   "owl_annotation_property",
   "owl_named_individual",
   "rdfs_datatype",
+  "named_resource",
 ]);
 
 export const OntologyEntityKindSchema = z.enum(ONTOLOGY_ENTITY_KIND_VALUES);
@@ -151,7 +165,7 @@ export const OntologyReleaseSelectionSchema = z.discriminatedUnion(
   "selectionKind",
   [
     z.strictObject({
-      selectionKind: z.literal("latest_stable_releases"),
+      selectionKind: z.enum(["latest_stable_releases", "active_publications"]),
       ontologyArtifactFamilyIds: z
         .array(OntologyArtifactFamilyIdSchema)
         .min(1)
@@ -170,18 +184,78 @@ export const OntologyReleaseSelectionSchema = z.discriminatedUnion(
  * source from which MCP emits JSON Schema 2020-12. It deliberately contains
  * no trimming transform; validation must apply to the raw caller value.
  */
-export const SearchOntologyEntitiesInputSchema = z.strictObject({
-  queryText: NonBlankOntologyLookupTextSchema,
-  ontologyReleaseSelection: OntologyReleaseSelectionSchema.optional(),
-  entityKinds: z
-    .array(OntologyEntityKindSchema)
-    .min(1)
-    .max(ONTOLOGY_ENTITY_KIND_VALUES.length)
-    .optional(),
-  preferredLanguageTags: PreferredLanguageTagsSchema.default(["en-GB", "en"]),
-  maximumResultCount: z.number().int().min(1).max(20).default(10),
-  entityDetailLevel: OntologyEntityDetailLevelSchema.default("summary"),
-});
+export const SearchOntologyEntitiesInputSchema = z
+  .strictObject({
+    queryText: NonBlankOntologyLookupTextSchema.optional(),
+    ontologyReleaseSelection: OntologyReleaseSelectionSchema.optional(),
+    snapshotRef: OntologySnapshotReferenceSchema.optional(),
+    rootSnapshotId: z
+      .string()
+      .regex(/^urn:uo:snapshot:[0-9a-f]{64}$/u)
+      .optional(),
+    graphSelection: z
+      .enum(["source_graph", "catalogued_imports", "selected_graphs"])
+      .optional(),
+    selectedSnapshotIds: z
+      .array(z.string().regex(/^urn:uo:snapshot:[0-9a-f]{64}$/u))
+      .max(15)
+      .optional(),
+    definitionSourceStatus: DefinitionSourceStatusSchema.optional(),
+    ownership: z.enum(["root_module", "all"]).optional(),
+    ownershipNamespaceIris: z
+      .array(AbsoluteIriSchema)
+      .min(1)
+      .max(16)
+      .optional(),
+    cursor: z.string().min(1).max(8192).optional(),
+    maximumResultBytes: z
+      .number()
+      .int()
+      .min(1024)
+      .max(128 * 1024)
+      .default(32 * 1024),
+    entityKinds: z
+      .array(OntologyEntityKindSchema)
+      .min(1)
+      .max(ONTOLOGY_ENTITY_KIND_VALUES.length)
+      .optional(),
+    preferredLanguageTags: PreferredLanguageTagsSchema.default(["en-GB", "en"]),
+    maximumResultCount: z.number().int().min(1).max(20).default(10),
+  })
+  .superRefine((input, context) => {
+    if (
+      !input.queryText &&
+      !input.entityKinds &&
+      !input.definitionSourceStatus &&
+      !input.ownership &&
+      !input.cursor
+    )
+      context.addIssue({
+        code: "custom",
+        message: "Supply search text, a metadata filter, or a cursor.",
+      });
+    if (
+      input.snapshotRef &&
+      (input.ontologyReleaseSelection ||
+        input.rootSnapshotId ||
+        input.graphSelection ||
+        input.selectedSnapshotIds)
+    )
+      context.addIssue({
+        code: "custom",
+        message: "snapshotRef excludes fresh selection.",
+      });
+    if (input.ontologyReleaseSelection && input.rootSnapshotId)
+      context.addIssue({
+        code: "custom",
+        message: "Choose an ontology release or rootSnapshotId.",
+      });
+    if (input.selectedSnapshotIds && input.graphSelection !== "selected_graphs")
+      context.addIssue({
+        code: "custom",
+        message: "Additional snapshots require selected_graphs.",
+      });
+  });
 
 export const OntologyEntityIdentifierSchema = z.discriminatedUnion(
   "identifierKind",
@@ -207,6 +281,112 @@ export const ResolveOntologyEntityInputSchema = z.strictObject({
   preferredLanguageTags: PreferredLanguageTagsSchema.default(["en-GB", "en"]),
   entityDetailLevel: OntologyEntityDetailLevelSchema.default("summary"),
 });
+
+/** One root and explicit graph scope; pinned references exclude fresh selection. */
+export const GetOntologyEntityContextInputSchema = z
+  .strictObject({
+    entityIdentifier: OntologyEntityIdentifierSchema,
+    ontologyReleaseSelection: OntologyReleaseSelectionSchema.optional(),
+    rootSnapshotId: z
+      .string()
+      .regex(/^urn:uo:snapshot:[0-9a-f]{64}$/u)
+      .optional(),
+    snapshotRef: OntologySnapshotReferenceSchema.optional(),
+    graphSelection: z
+      .enum(["source_graph", "catalogued_imports", "selected_graphs"])
+      .optional(),
+    selectedSnapshotIds: z
+      .array(z.string().regex(/^urn:uo:snapshot:[0-9a-f]{64}$/u))
+      .max(15)
+      .optional(),
+    definitionAssertionRef: z
+      .string()
+      .regex(/^[0-9a-f]{64}$/u)
+      .optional(),
+    depth: z.number().int().min(0).max(4).default(1),
+    direction: z.enum(["incoming", "outgoing", "both"]).default("both"),
+    relationProfile: z
+      .enum(["definition_review", "all_asserted"])
+      .default("definition_review"),
+    predicateIris: z.array(AbsoluteIriSchema).min(1).max(32).optional(),
+    preferredLanguageTags: PreferredLanguageTagsSchema.default(["en-GB", "en"]),
+    maximumNodes: z.number().int().min(1).max(200).default(40),
+    maximumConnections: z.number().int().min(1).max(1000).default(120),
+    maximumResultBytes: z
+      .number()
+      .int()
+      .min(1024)
+      .max(128 * 1024)
+      .default(32 * 1024),
+  })
+  .superRefine((input, context) => {
+    if (
+      input.snapshotRef &&
+      (input.ontologyReleaseSelection ||
+        input.rootSnapshotId ||
+        input.graphSelection ||
+        input.selectedSnapshotIds)
+    )
+      context.addIssue({
+        code: "custom",
+        message: "snapshotRef excludes fresh ontology and graph selection.",
+      });
+    if (input.ontologyReleaseSelection && input.rootSnapshotId)
+      context.addIssue({
+        code: "custom",
+        message: "Choose an ontology release or rootSnapshotId.",
+      });
+    if (input.selectedSnapshotIds && input.graphSelection !== "selected_graphs")
+      context.addIssue({
+        code: "custom",
+        message: "Additional snapshots require selected_graphs.",
+      });
+  });
+
+export const OntologyEntityContextSuccessSchema = z.strictObject({
+  outcome: z.literal("success"),
+  resultKind: z.literal("ontology_entity_context"),
+  snapshotRef: OntologySnapshotReferenceSchema,
+  selectedDefinitionAssertionRef: z
+    .string()
+    .regex(/^[0-9a-f]{64}$/u)
+    .nullable(),
+  context: OntologyContextProjectionSchema,
+  importCoverage: z.array(
+    z.strictObject({
+      snapshotId: z.string(),
+      unresolved: z.array(
+        z.strictObject({ importIri: AbsoluteIriSchema, reason: z.string() }),
+      ),
+    }),
+  ),
+});
+
+export const FindOntologyEntityConnectionsInputSchema =
+  GetOntologyEntityContextInputSchema.safeExtend({
+    targetEntityIdentifier: OntologyEntityIdentifierSchema,
+    maximumPaths: z.number().int().min(1).max(10).default(3),
+  });
+
+export const OntologyEntityConnectionsSuccessSchema =
+  OntologyEntityContextSuccessSchema.extend({
+    resultKind: z.literal("ontology_entity_connections"),
+    targetEntityIri: AbsoluteIriSchema,
+    status: z.enum([
+      "paths_found",
+      "no_path_within_depth",
+      "search_incomplete",
+    ]),
+    paths: z
+      .array(
+        z
+          .array(OntologyContextProjectionSchema.shape.connections.element)
+          .max(4),
+      )
+      .max(10),
+    additionalShortestPathsOmitted: z.boolean(),
+    shortestPathsEstablished: z.boolean(),
+  });
 
 /**
  * RDF literal values preserve the exact lexical form. RDF assigns
@@ -337,9 +517,51 @@ export const OntologyEntitySummarySchema = z.strictObject({
 });
 
 export const OntologyQueryCatalogReleaseSchema = z.strictObject({
+  ownedNamespaces: z.array(AbsoluteIriSchema).max(32),
+  ownershipPolicySha256: z
+    .string()
+    .regex(/^[0-9a-f]{64}$/u)
+    .nullable(),
+  snapshotId: z.string().regex(/^urn:uo:snapshot:[0-9a-f]{64}$/u),
+  dataset: z.strictObject({
+    relativePath: z.string().regex(/^datasets\/[0-9a-f]{64}\.nq$/u),
+    sha256: z.string().regex(/^[0-9a-f]{64}$/u),
+    byteLength: z
+      .number()
+      .int()
+      .nonnegative()
+      .max(8 * 1024 * 1024),
+    quadCount: z.number().int().nonnegative().max(200000),
+  }),
+  declaredImports: z.array(AbsoluteIriSchema).max(256),
+  importCoverage: z.strictObject({
+    catalogSha256: z
+      .string()
+      .regex(/^[0-9a-f]{64}$/u)
+      .nullable(),
+    resolved: z
+      .array(
+        z.strictObject({
+          importIri: AbsoluteIriSchema,
+          snapshotId: z.string().regex(/^urn:uo:snapshot:[0-9a-f]{64}$/u),
+        }),
+      )
+      .max(256),
+    unresolved: z
+      .array(
+        z.strictObject({
+          importIri: AbsoluteIriSchema,
+          reason: z.enum(["not_catalogued", "file_unavailable"]),
+        }),
+      )
+      .max(256),
+  }),
+  ontologyIri: AbsoluteIriSchema.nullable(),
+  versionIri: AbsoluteIriSchema.nullable(),
   ontologyArtifactFamilyId: OntologyArtifactFamilyIdSchema,
   versionTag: OntologyVersionTagSchema,
   latestStableRelease: z.boolean(),
+  activePublication: z.boolean(),
   sourceArtifactRelativePath: z
     .string()
     .regex(/^(?!(?:.*\/)?\.{1,2}(?:\/|$))[^/\\]+(?:\/[^/\\]+)*$/u),
@@ -358,13 +580,13 @@ export const OntologyQueryCatalogReleaseSchema = z.strictObject({
 
 export const OntologyQueryCatalogSchema = z.strictObject({
   queryArtifactKind: z.literal("universal_ontology_query_catalog"),
-  queryArtifactFormatVersion: z.literal(1),
+  queryArtifactFormatVersion: z.literal(2),
   releases: z.array(OntologyQueryCatalogReleaseSchema),
 });
 
 export const OntologyReleaseQueryIndexSchema = z.strictObject({
   queryArtifactKind: z.literal("universal_ontology_release_query_index"),
-  queryArtifactFormatVersion: z.literal(1),
+  queryArtifactFormatVersion: z.literal(2),
   resolvedOntologyRelease: ResolvedOntologyReleaseSchema,
   ontologyEntityDescriptions: z.array(IndexedOntologyEntityDescriptionSchema),
 });
@@ -405,46 +627,30 @@ const OntologyEntitySearchMatchShape = {
   matchedOntologyValue: MatchedOntologyValueSchema,
 };
 
-export const OntologyEntitySearchMatchSchema = z.strictObject({
-  ...OntologyEntitySearchMatchShape,
-  ontologyEntity: OntologyEntitySchema,
-});
-
-export const OntologyEntitySearchSummaryMatchSchema = z.strictObject({
-  ...OntologyEntitySearchMatchShape,
-  ontologyEntity: OntologyEntitySummarySchema,
-});
-
-const OntologyEntitySearchSuccessShape = {
+/** One current search contract, with optional lexical ranking evidence. */
+export const OntologyEntitySearchSuccessSchema = z.strictObject({
   outcome: z.literal("success"),
   resultKind: z.literal("ontology_entity_search"),
-  queryText: NonBlankOntologyLookupTextSchema,
+  queryText: NonBlankOntologyLookupTextSchema.optional(),
   preferredLanguageTags: PreferredLanguageTagsSchema,
+  snapshotRef: OntologySnapshotReferenceSchema,
   resolvedOntologyReleases: z.array(ResolvedOntologyReleaseSchema).min(1),
-  totalMatchedEntityCount: z.number().int().nonnegative(),
   returnedEntityCount: z.number().int().nonnegative(),
+  returnedDefinitionAssertionCount: z.number().int().nonnegative(),
   resultSetTruncated: z.boolean(),
-};
-
-/**
- * The echoed `entityDetailLevel` discriminates the two entity shapes so a
- * consumer can validate a result without inspecting individual entities.
- */
-export const OntologyEntitySearchSuccessSchema = z.discriminatedUnion(
-  "entityDetailLevel",
-  [
-    z.strictObject({
-      ...OntologyEntitySearchSuccessShape,
-      entityDetailLevel: z.literal("full"),
-      matches: z.array(OntologyEntitySearchMatchSchema),
-    }),
-    z.strictObject({
-      ...OntologyEntitySearchSuccessShape,
-      entityDetailLevel: z.literal("summary"),
-      matches: z.array(OntologyEntitySearchSummaryMatchSchema),
-    }),
-  ],
-);
+  nextCursor: z.string().nullable(),
+  truncationReasons: z.array(z.string()),
+  matches: z
+    .array(
+      z.strictObject({
+        ontologyEntity: OntologyEntitySummarySchema,
+        lexicalMatch: z.strictObject(OntologyEntitySearchMatchShape).optional(),
+        matchingDefinitions: z.array(ContextDefinitionSchema),
+        repeatedEntityGroup: z.boolean(),
+      }),
+    )
+    .max(20),
+});
 
 const OntologyEntityResolutionSuccessShape = {
   outcome: z.literal("success"),
@@ -477,6 +683,7 @@ function hasCaseInsensitiveDuplicates(values) {
 }
 
 function validateVersionTagSemantics(versionTag) {
+  if (["working", "dependency"].includes(versionTag)) return;
   if (!versionTag.startsWith("v") && !isGregorianDateVersion(versionTag)) {
     throw new TypeError(
       `Ontology version tag "${versionTag}" is not a valid Gregorian date.`,
@@ -485,7 +692,7 @@ function validateVersionTagSemantics(versionTag) {
 }
 
 function validateOntologyReleaseSelectionSemantics(selection) {
-  if (!selection || selection.selectionKind === "latest_stable_releases") {
+  if (!selection || selection.selectionKind !== "specified_releases") {
     return;
   }
 

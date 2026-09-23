@@ -22,7 +22,7 @@ async function createNestedMcpBuildFixture() {
     JSON.stringify({ private: true, type: "module", version: "99.0.0" }),
   );
   for (const [packageName, directories] of [
-    ["universal-ontology-mcp-server", ["src", "scripts"]],
+    ["universal-ontology-mcp-server", ["src", "scripts", "third-party"]],
     ["universal-ontology-query", ["src"]],
     ["universal-ontology-projection-policy", ["src", "data"]],
   ]) {
@@ -65,6 +65,11 @@ async function createNestedMcpBuildFixture() {
     join(REPOSITORY_ROOT_PATH, "node_modules", "zod"),
     join(repositoryPath, "node_modules", "zod"),
     { recursive: true },
+  );
+  await nodeFileSystem.symlink(
+    join(REPOSITORY_ROOT_PATH, "node_modules", "oxigraph"),
+    join(repositoryPath, "node_modules", "oxigraph"),
+    process.platform === "win32" ? "junction" : "dir",
   );
   await nodeFileSystem.cp(
     join(REPOSITORY_ROOT_PATH, "node_modules", "zod"),

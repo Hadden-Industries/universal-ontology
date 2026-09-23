@@ -124,6 +124,8 @@ UNIVERSAL_ONTOLOGY_MCP_TOOL_TIMEOUT_SECONDS = 30
 UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES = [
     "search_entities",
     "resolve_entity",
+    "get_entity_context",
+    "find_entity_connections",
 ]
 CAPTURED_MCP_VERIFIER_DIAGNOSTIC_MAXIMUM_CHARACTER_COUNT = 4_096
 
@@ -204,6 +206,7 @@ class BuiltUniversalOntologyMcpApplicationBundle:
     application_bundle_sha256: str
     package_name: str
     package_version: str
+    runtime_assets: tuple[tuple[Path, int, str], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -214,6 +217,7 @@ class StagedMcpServerInstallation:
     installed_program_path: Path
     staged_installation_record_path: Path
     installed_installation_record_path: Path
+    additional_files: tuple[tuple[Path, Path], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -2142,6 +2146,13 @@ def activate_staged_mcp_server_installations_and_host_configurations(
 
     try:
         for installation in staged_installations:
+            for source, destination in installation.additional_files:
+                replacements.append(
+                    (
+                        destination,
+                        _stage_file_for_atomic_replacement(source, destination),
+                    )
+                )
             replacements.extend(
                 [
                     (
@@ -2634,12 +2645,33 @@ def build_universal_ontology_mcp_application_bundle(
             f"declared software version {declared_package_version!r}."
         )
 
+    runtime_assets = metadata.get("runtimeAssets")
+    if (
+        not isinstance(runtime_assets, list)
+        or {asset.get("relativePath") for asset in runtime_assets}
+        != {"ontologyStoreWorker.cjs", "node_bg.wasm"}
+        or len(runtime_assets) != 2
+    ):
+        raise SetupError("Application context runtime inventory is incomplete.")
+    validated_assets = []
+    for asset in runtime_assets:
+        asset_path = application_bundle_path.parent / asset["relativePath"]
+        if (
+            asset_path.is_symlink()
+            or not asset_path.is_file()
+            or asset_path.stat().st_size != asset.get("byteLength")
+            or calculate_file_sha256(asset_path) != asset.get("sha256")
+        ):
+            raise SetupError("Application context runtime does not match its metadata.")
+        validated_assets.append((asset_path, asset["byteLength"], asset["sha256"]))
+
     return BuiltUniversalOntologyMcpApplicationBundle(
         application_bundle_path=application_bundle_path,
         application_bundle_byte_length=bundle_byte_length,
         application_bundle_sha256=bundle_sha256,
         package_name=package_name,
         package_version=package_version,
+        runtime_assets=tuple(validated_assets),
     )
 
 
@@ -2671,6 +2703,39 @@ def stage_universal_ontology_mcp_server_installation(
     )
     staged_program_path = staging_directory / installed_application_bundle_file_name
     shutil.copy2(built_bundle.application_bundle_path, staged_program_path)
+    additional_files = []
+    for source, byte_length, digest in built_bundle.runtime_assets:
+        staged = staging_directory / source.name
+        shutil.copy2(source, staged)
+        if (
+            staged.stat().st_size != byte_length
+            or calculate_file_sha256(staged) != digest
+        ):
+            raise SetupError("Staged context runtime differs from the validated build.")
+        additional_files.append(
+            (
+                staged,
+                repo
+                / UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH.parent
+                / source.name,
+            )
+        )
+    for name in ("LICENSE-MIT", "component-notices.json"):
+        source = (
+            repo / "packages/universal-ontology-mcp-server/third-party/oxigraph" / name
+        )
+        staged = staging_directory / "third-party/oxigraph" / name
+        staged.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, staged)
+        additional_files.append(
+            (
+                staged,
+                repo
+                / UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH.parent
+                / "third-party/oxigraph"
+                / name,
+            )
+        )
 
     # The canonical bundle is atomically replaceable so other verifiers never
     # observe it missing. A replacement between validation and this copy is
@@ -2709,6 +2774,10 @@ def stage_universal_ontology_mcp_server_installation(
         "packageVersion": built_bundle.package_version,
         "applicationBundleByteLength": (staged_application_bundle_byte_length),
         "applicationBundleSha256": staged_application_bundle_sha256,
+        "runtimeAssets": [
+            {"relativePath": path.name, "byteLength": size, "sha256": digest}
+            for path, size, digest in built_bundle.runtime_assets
+        ],
         "installedApplicationBundleRelativePath": (
             UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH.as_posix()
         ),
@@ -2733,6 +2802,7 @@ def stage_universal_ontology_mcp_server_installation(
         installed_installation_record_path=(
             repo / UNIVERSAL_ONTOLOGY_MCP_INSTALLATION_RECORD_PATH
         ),
+        additional_files=tuple(additional_files),
     )
 
 

@@ -111,7 +111,7 @@ function chooseCatalogReleases(catalog, ontologyReleaseSelection) {
     }
   }
 
-  if (selection.selectionKind === "latest_stable_releases") {
+  if (selection.selectionKind !== "specified_releases") {
     const requestedFamilyIds =
       selection.ontologyArtifactFamilyIds ??
       DEFAULT_ONTOLOGY_ARTIFACT_FAMILY_IDS;
@@ -125,8 +125,10 @@ function chooseCatalogReleases(catalog, ontologyReleaseSelection) {
         });
       }
 
-      const stableRelease = familyReleases.find(
-        ({ latestStableRelease }) => latestStableRelease,
+      const stableRelease = familyReleases.find((release) =>
+        selection.selectionKind === "active_publications"
+          ? release.activePublication
+          : release.latestStableRelease,
       );
 
       if (!stableRelease) {
@@ -589,6 +591,7 @@ function collectDescriptionsByEntityIri(runtimeIndexes) {
 export function createOntologyQueryModule({
   ontologyQueryArtifactRepository,
   maximumInMemoryQueryIndexCacheByteSize = DEFAULT_MAXIMUM_IN_MEMORY_QUERY_INDEX_CACHE_BYTE_SIZE,
+  searchContext,
 }) {
   if (
     !ontologyQueryArtifactRepository ||
@@ -612,6 +615,7 @@ export function createOntologyQueryModule({
   }
 
   let catalogValue;
+  let catalogSha256;
   let inMemoryQueryIndexCacheByteSize = 0;
   let accessSequence = 0;
   const runtimeIndexCacheEntriesByKey = new Map();
@@ -651,6 +655,7 @@ export function createOntologyQueryModule({
               signal: internalSignal,
             });
           throwIfCancelled(internalSignal);
+          catalogSha256 = await calculateSha256(bytes);
           catalogValue = parseOntologyQueryCatalogBytes(bytes);
           return catalogValue;
         } catch (error) {
@@ -787,20 +792,30 @@ export function createOntologyQueryModule({
   return Object.freeze({
     /** Search authored lexical and identifier values with deterministic ranks. */
     async searchOntologyEntities(input, { signal } = {}) {
-      const parsedInput = parseSearchOntologyEntitiesInput(input);
-      const queryText = parsedInput.queryText.trim();
-      const normalizedQuery = normalizeLexicalSearchValue(queryText);
-      const queryTokens = tokenizeNormalizedValue(normalizedQuery);
-      const { runtimeIndexes } = await loadSelection(
-        parsedInput.ontologyReleaseSelection,
-        signal,
+      const parsedInput = parseSearchOntologyEntitiesInput(
+        searchContext ? searchContext.normalize(input) : input,
       );
+      const queryText = parsedInput.queryText?.trim();
+      const normalizedQuery = normalizeLexicalSearchValue(queryText ?? "");
+      const queryTokens = tokenizeNormalizedValue(normalizedQuery);
+      const selection = searchContext
+        ? await searchContext.select(parsedInput, signal)
+        : null;
+      const { runtimeIndexes } = selection
+        ? {
+            runtimeIndexes: await Promise.all(
+              selection.releases.map((release) =>
+                loadRuntimeIndex(release, signal),
+              ),
+            ),
+          }
+        : await loadSelection(parsedInput.ontologyReleaseSelection, signal);
       const descriptionsByEntityIri =
         collectDescriptionsByEntityIri(runtimeIndexes);
       const bestCandidateByEntityIri = new Map();
       let candidateCount = 0;
 
-      for (const runtimeIndex of runtimeIndexes) {
+      for (const runtimeIndex of queryText ? runtimeIndexes : []) {
         for (const candidate of runtimeIndex.searchCandidates) {
           candidateCount += 1;
 
@@ -856,47 +871,133 @@ export function createOntologyQueryModule({
       }
 
       throwIfCancelled(signal);
-      const rankedCandidates = [...bestCandidateByEntityIri.values()].sort(
-        compareEvaluatedCandidates,
-      );
-      const returnedCandidates = rankedCandidates.slice(
-        0,
-        parsedInput.maximumResultCount,
-      );
-      const result = OntologyEntitySearchSuccessSchema.parse({
-        outcome: "success",
-        resultKind: "ontology_entity_search",
-        queryText,
-        preferredLanguageTags: parsedInput.preferredLanguageTags,
-        entityDetailLevel: parsedInput.entityDetailLevel,
-        resolvedOntologyReleases: runtimeIndexes.map(
-          ({ queryIndex }) => queryIndex.resolvedOntologyRelease,
-        ),
-        totalMatchedEntityCount: rankedCandidates.length,
-        returnedEntityCount: returnedCandidates.length,
-        resultSetTruncated: returnedCandidates.length < rankedCandidates.length,
-        matches: returnedCandidates.map((evaluatedCandidate, index) => ({
-          matchRank: index + 1,
-          matchBasis: evaluatedCandidate.matchBasis,
-          matchedOntologyValue: toMatchedOntologyValue(
-            evaluatedCandidate.candidate,
+      const rankedCandidates = queryText
+        ? [...bestCandidateByEntityIri.values()].sort(
+            compareEvaluatedCandidates,
+          )
+        : [...descriptionsByEntityIri.keys()]
+            .sort(compareBinary)
+            .filter(
+              (entityIri) =>
+                !parsedInput.entityKinds ||
+                descriptionsByEntityIri
+                  .get(entityIri)
+                  .some((description) =>
+                    description.entityKinds.some((kind) =>
+                      parsedInput.entityKinds.includes(kind),
+                    ),
+                  ),
+            )
+            .map((entityIri) => ({ candidate: { entityIri } }));
+      const matches = rankedCandidates.map((evaluatedCandidate, index) => ({
+        ...(queryText
+          ? {
+              lexicalMatch: {
+                matchRank: index + 1,
+                matchBasis: evaluatedCandidate.matchBasis,
+                matchedOntologyValue: toMatchedOntologyValue(
+                  evaluatedCandidate.candidate,
+                ),
+              },
+            }
+          : {}),
+        ontologyEntity: aggregateOntologyEntity({
+          entityIri: evaluatedCandidate.candidate.entityIri,
+          descriptions: descriptionsByEntityIri.get(
+            evaluatedCandidate.candidate.entityIri,
           ),
-          ontologyEntity: aggregateOntologyEntity({
-            entityIri: evaluatedCandidate.candidate.entityIri,
-            descriptions: descriptionsByEntityIri.get(
-              evaluatedCandidate.candidate.entityIri,
-            ),
-            preferredLanguageTags: parsedInput.preferredLanguageTags,
-            entityDetailLevel: parsedInput.entityDetailLevel,
-          }),
-        })),
-      });
+          preferredLanguageTags: parsedInput.preferredLanguageTags,
+          entityDetailLevel: "summary",
+        }),
+        matchingDefinitions: [],
+        repeatedEntityGroup: false,
+      }));
+      let searchResult;
+      if (searchContext)
+        searchResult = await searchContext.search({
+          input: { ...parsedInput, queryText },
+          selection,
+          matches,
+          resolvedOntologyReleases: runtimeIndexes.map(
+            ({ queryIndex }) => queryIndex.resolvedOntologyRelease,
+          ),
+          signal,
+        });
+      else {
+        if (
+          parsedInput.definitionSourceStatus ||
+          parsedInput.ownership ||
+          parsedInput.cursor ||
+          parsedInput.snapshotRef ||
+          parsedInput.rootSnapshotId ||
+          parsedInput.graphSelection ||
+          parsedInput.selectedSnapshotIds
+        )
+          throw new OntologyQueryError("QUERY_INDEX_UNAVAILABLE", {
+            message:
+              "Snapshot filters and continuation require local context artifacts and the Node query entry.",
+          });
+        const catalog = await loadCatalog(signal);
+        const releases = chooseCatalogReleases(
+          catalog,
+          parsedInput.ontologyReleaseSelection,
+        );
+        const snapshotIds = releases
+          .map((release) => release.snapshotId)
+          .sort(compareBinary);
+        const rootSnapshotId = releases[0].snapshotId;
+        const graphSelection = "selected_graphs";
+        const selectionSha256 = await calculateSha256(
+          new TextEncoder().encode(
+            JSON.stringify({
+              rootSnapshotId,
+              graphSelection,
+              datasets: snapshotIds.map((id) => [
+                id,
+                releases.find((release) => release.snapshotId === id).dataset
+                  .sha256,
+              ]),
+            }),
+          ),
+        );
+        searchResult = {
+          outcome: "success",
+          resultKind: "ontology_entity_search",
+          ...(queryText ? { queryText } : {}),
+          preferredLanguageTags: parsedInput.preferredLanguageTags,
+          snapshotRef: {
+            catalogSha256,
+            rootSnapshotId,
+            snapshotIds,
+            graphSelection,
+            selectionSha256,
+          },
+          resolvedOntologyReleases: runtimeIndexes.map(
+            ({ queryIndex }) => queryIndex.resolvedOntologyRelease,
+          ),
+          returnedEntityCount: Math.min(
+            matches.length,
+            parsedInput.maximumResultCount,
+          ),
+          returnedDefinitionAssertionCount: 0,
+          resultSetTruncated: matches.length > parsedInput.maximumResultCount,
+          nextCursor: null,
+          truncationReasons: [
+            "source_evidence_unavailable",
+            ...(matches.length > parsedInput.maximumResultCount
+              ? ["page_limit"]
+              : []),
+          ],
+          matches: matches.slice(0, parsedInput.maximumResultCount),
+        };
+      }
+      const result = OntologyEntitySearchSuccessSchema.parse(searchResult);
 
       return freezeJsonValueDeeply(result);
     },
 
     /** Resolve exactly one typed IRI, UUID URN, or preferred-label value. */
-    async resolveOntologyEntity(input, { signal } = {}) {
+    async resolveOntologyEntity(input, { signal, catalogReleases } = {}) {
       const parsedInput = parseResolveOntologyEntityInput(input);
       const requestedEntityIdentifier =
         parsedInput.entityIdentifier.identifierKind === "preferred_label"
@@ -906,10 +1007,15 @@ export function createOntologyQueryModule({
                 parsedInput.entityIdentifier.identifierValue.trim(),
             }
           : parsedInput.entityIdentifier;
-      const { runtimeIndexes } = await loadSelection(
-        parsedInput.ontologyReleaseSelection,
-        signal,
-      );
+      const { runtimeIndexes } = catalogReleases
+        ? {
+            runtimeIndexes: await Promise.all(
+              catalogReleases.map((release) =>
+                loadRuntimeIndex(release, signal),
+              ),
+            ),
+          }
+        : await loadSelection(parsedInput.ontologyReleaseSelection, signal);
       const descriptionsByEntityIri =
         collectDescriptionsByEntityIri(runtimeIndexes);
       const resolvedEntityIris = new Set();

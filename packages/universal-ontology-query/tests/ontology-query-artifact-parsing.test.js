@@ -15,9 +15,23 @@ const XSD_STRING_IRI = "http://www.w3.org/2001/XMLSchema#string";
 function createCatalogDocument() {
   return {
     queryArtifactKind: "universal_ontology_query_catalog",
-    queryArtifactFormatVersion: 1,
+    queryArtifactFormatVersion: 2,
     releases: [
       {
+        ownedNamespaces: [],
+        ownershipPolicySha256: null,
+        activePublication: false,
+        snapshotId: `urn:uo:snapshot:${SHA_256_A}`,
+        dataset: {
+          relativePath: `datasets/${SHA_256_A}.nq`,
+          sha256: SHA_256_A,
+          byteLength: 100,
+          quadCount: 1,
+        },
+        declaredImports: [],
+        importCoverage: { catalogSha256: null, resolved: [], unresolved: [] },
+        ontologyIri: "https://example.com/ontology/universal/core",
+        versionIri: "https://example.com/ontology/universal/core/20260830",
         ontologyArtifactFamilyId: "universal/core",
         versionTag: "20260830",
         latestStableRelease: true,
@@ -45,7 +59,7 @@ function createReleaseIndexDocument() {
 
   return {
     queryArtifactKind: "universal_ontology_release_query_index",
-    queryArtifactFormatVersion: 1,
+    queryArtifactFormatVersion: 2,
     resolvedOntologyRelease,
     ontologyEntityDescriptions: [
       {
@@ -227,20 +241,20 @@ describe("ontology query-artifact parsing", () => {
         parseOntologyQueryCatalogBytes(
           serializeWithoutCanonicalization({
             queryArtifactKind: "universal_ontology_release_query_index",
-            queryArtifactFormatVersion: 1,
+            queryArtifactFormatVersion: 2,
           }),
         ),
-      "The ontology query-index catalog format is unsupported.",
+      "The ontology query-index catalog format is unsupported. Regenerate the ontology query artifacts.",
     );
     expectUnsupportedArtifact(
       () =>
         parseOntologyReleaseQueryIndexBytes(
           serializeWithoutCanonicalization({
             ...createReleaseIndexDocument(),
-            queryArtifactFormatVersion: 2,
+            queryArtifactFormatVersion: 3,
           }),
         ),
-      "The ontology release query-index format is unsupported.",
+      "The ontology release query-index format is unsupported. Regenerate the ontology query artifacts.",
     );
   });
 

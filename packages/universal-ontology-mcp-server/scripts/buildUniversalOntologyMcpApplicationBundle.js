@@ -64,6 +64,7 @@ const ALLOWED_DIRECT_BUNDLED_COMPONENT_NAMES = new Set([
   "@modelcontextprotocol/core",
   "@modelcontextprotocol/server",
   "zod",
+  "oxigraph",
 ]);
 // The published MCP server artifact is itself prebundled. esbuild attributes
 // these validators to @modelcontextprotocol/server in its metafile. These
@@ -362,7 +363,14 @@ async function assertNoticesCoverBundledComponents(
   }
   for (const { name, packageJsonPath } of bundledPackages) {
     const licenseText = await nodeFileSystem.readFile(
-      join(dirname(packageJsonPath), "LICENSE"),
+      name === "oxigraph"
+        ? join(
+            PUBLIC_PACKAGE_DIRECTORY_PATH,
+            "third-party",
+            "oxigraph",
+            "LICENSE-MIT",
+          )
+        : join(dirname(packageJsonPath), "LICENSE"),
       "utf8",
     );
     if (
@@ -571,7 +579,13 @@ export async function removeUnexpectedPublicPackageDistributionEntries(
   });
 
   for (const { name } of entries) {
-    if (name === applicationBundleFileName) {
+    if (
+      [
+        applicationBundleFileName,
+        "ontologyStoreWorker.cjs",
+        "node_bg.wasm",
+      ].includes(name)
+    ) {
       continue;
     }
 
@@ -665,8 +679,52 @@ export async function buildUniversalOntologyMcpApplicationBundle() {
       logLevel: "silent",
       plugins: [createMcpPackageVersionProjectionPlugin(publicPackage.version)],
     });
-    const bundledPackages = await collectAndValidateBundledPackageInputs(
-      buildResult.metafile,
+    const workerCandidatePath = join(
+      candidateDirectoryPath,
+      "ontologyStoreWorker.cjs",
+    );
+    const workerBuild = await build({
+      absWorkingDir: REPOSITORY_ROOT_PATH,
+      entryPoints: [
+        join(
+          REPOSITORY_ROOT_PATH,
+          "packages/universal-ontology-query/src/ontologyStoreWorker.cjs",
+        ),
+      ],
+      outfile: workerCandidatePath,
+      bundle: true,
+      platform: "node",
+      format: "cjs",
+      target: "node24",
+      metafile: true,
+      sourcemap: false,
+      legalComments: "eof",
+      logLevel: "silent",
+    });
+    const combinedMetafile = {
+      inputs: {
+        ...buildResult.metafile.inputs,
+        ...workerBuild.metafile.inputs,
+      },
+    };
+    const bundledPackages =
+      await collectAndValidateBundledPackageInputs(combinedMetafile);
+    const oxigraphPackage = bundledPackages.find(
+      (component) => component.name === "oxigraph",
+    );
+    const wasmBytes = await nodeFileSystem.readFile(
+      join(dirname(oxigraphPackage.packageJsonPath), "node_bg.wasm"),
+    );
+    if (
+      calculateSha256(wasmBytes) !==
+      "be0b89d82fa81b91c23426af04e301f1ff276dce1fded8ca2bd2a13c371cc327"
+    )
+      throw new Error(
+        "Oxigraph WASM differs from the qualified 0.5.11 artifact.",
+      );
+    await nodeFileSystem.writeFile(
+      join(candidateDirectoryPath, "node_bg.wasm"),
+      wasmBytes,
     );
     const [directBundledComponents, prebundledServerComponents] =
       await Promise.all([
@@ -701,6 +759,18 @@ export async function buildUniversalOntologyMcpApplicationBundle() {
       bundleRelativePath: APPLICATION_BUNDLE_RELATIVE_PATH,
       bundleByteLength: bundleBytes.byteLength,
       bundleSha256: calculateSha256(bundleBytes),
+      runtimeAssets: await Promise.all(
+        ["ontologyStoreWorker.cjs", "node_bg.wasm"].map(async (name) => {
+          const bytes = await nodeFileSystem.readFile(
+            join(candidateDirectoryPath, name),
+          );
+          return {
+            relativePath: name,
+            byteLength: bytes.length,
+            sha256: calculateSha256(bytes),
+          };
+        }),
+      ),
       approvedDynamicCodeGeneration: [
         {
           componentName: "ajv",
@@ -710,7 +780,7 @@ export async function buildUniversalOntologyMcpApplicationBundle() {
         },
       ],
       bundledComponents,
-      bundledInputPaths: Object.keys(buildResult.metafile.inputs)
+      bundledInputPaths: Object.keys(combinedMetafile.inputs)
         .map(normalizeRelativePath)
         .sort((left, right) => left.localeCompare(right)),
     });
@@ -734,6 +804,11 @@ export async function buildUniversalOntologyMcpApplicationBundle() {
         REPOSITORY_ROOT_PATH,
       ),
     ]);
+    for (const name of ["ontologyStoreWorker.cjs", "node_bg.wasm"])
+      await nodeFileSystem.rename(
+        join(candidateDirectoryPath, name),
+        join(publicPackageDistPath, name),
+      );
     await nodeFileSystem.rename(
       applicationBundleCandidatePath,
       APPLICATION_BUNDLE_PATH,

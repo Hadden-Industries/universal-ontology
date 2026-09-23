@@ -88,7 +88,7 @@ async function createArchivedPersonQueryFixture() {
   const catalogBytes = Buffer.from(
     serializeCanonicalOntologyQueryJsonDocument({
       queryArtifactKind: "universal_ontology_query_catalog",
-      queryArtifactFormatVersion: 1,
+      queryArtifactFormatVersion: 2,
       releases: [releaseArtifact.catalogRelease],
     }),
   );
@@ -803,6 +803,10 @@ describe("deterministic Universal Ontology MCP platform archive", () => {
           `${archiveRootName}/THIRD_PARTY_NOTICES.md`,
           `${archiveRootName}/app/universal-ontology-mcp-server.mjs`,
           `${archiveRootName}/runtime/node.exe`,
+          `${archiveRootName}/app/ontologyStoreWorker.cjs`,
+          `${archiveRootName}/app/node_bg.wasm`,
+          `${archiveRootName}/third-party/oxigraph/LICENSE-MIT`,
+          `${archiveRootName}/third-party/oxigraph/component-notices.json`,
         ].sort((left, right) =>
           Buffer.compare(Buffer.from(left), Buffer.from(right)),
         ),
@@ -916,8 +920,12 @@ describe("deterministic Universal Ontology MCP platform archive", () => {
         `${archiveRootName}/LICENSE`,
         `${archiveRootName}/README.md`,
         `${archiveRootName}/THIRD_PARTY_NOTICES.md`,
+        `${archiveRootName}/app/node_bg.wasm`,
+        `${archiveRootName}/app/ontologyStoreWorker.cjs`,
         `${archiveRootName}/app/universal-ontology-mcp-server.mjs`,
         `${archiveRootName}/runtime/bin/node`,
+        `${archiveRootName}/third-party/oxigraph/LICENSE-MIT`,
+        `${archiveRootName}/third-party/oxigraph/component-notices.json`,
       ]);
       expect(
         archiveEntries.get(`${archiveRootName}/runtime/bin/node`),
@@ -1057,13 +1065,19 @@ describe("deterministic Universal Ontology MCP platform archive", () => {
       );
       await client.connect(transport);
       await expect(client.listTools()).resolves.toMatchObject({
-        tools: [{ name: "search_entities" }, { name: "resolve_entity" }],
+        tools: [
+          { name: "search_entities" },
+          { name: "resolve_entity" },
+          { name: "get_entity_context" },
+          { name: "find_entity_connections" },
+        ],
       });
       await expect(
         client.callTool({
           name: "search_entities",
           arguments: {
             queryText: "Person",
+            entityKinds: ["owl_class"],
             ontologyReleaseSelection: {
               selectionKind: "specified_releases",
               ontologyReleases: [
@@ -1078,7 +1092,7 @@ describe("deterministic Universal Ontology MCP platform archive", () => {
       ).resolves.toMatchObject({
         structuredContent: {
           outcome: "success",
-          totalMatchedEntityCount: 1,
+          returnedEntityCount: 1,
           matches: [
             {
               ontologyEntity: {

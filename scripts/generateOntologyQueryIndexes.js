@@ -1,6 +1,10 @@
-import { mkdir, rename, unlink, writeFile } from "node:fs/promises";
-import { dirname } from "node:path";
+import { mkdir, rename, unlink, writeFile, readFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
+import { dirname, resolve, relative, isAbsolute, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { parseArgs } from "node:util";
+import { readOntologySourceCatalog } from "./build/readOntologySourceCatalog.js";
+import { readOntologyOwnershipInventory } from "./build/readOntologyOwnershipInventory.js";
 
 import { createOntologyQueryArtifacts } from "./build/createOntologyQueryArtifacts.js";
 import {
@@ -15,14 +19,23 @@ async function writeImmutableArtifact({
 }) {
   const outputPath = resolveOutputPath(outputDirectory, relativePath);
   await mkdir(dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, content);
+  try {
+    await writeFile(outputPath, content, { flag: "wx" });
+  } catch (error) {
+    if (error.code !== "EEXIST") throw error;
+    if (!Buffer.from(await readFile(outputPath)).equals(Buffer.from(content)))
+      throw new Error(
+        "Existing immutable query artifact differs from its content address.",
+        { cause: error },
+      );
+  }
 }
 
 async function publishCatalogAtomically({ outputDirectory, catalogContent }) {
   const catalogPath = resolveOutputPath(outputDirectory, "catalog.json");
   const temporaryCatalogPath = resolveOutputPath(
     outputDirectory,
-    `catalog.json.${process.pid}.tmp`,
+    `catalog.json.${process.pid}.${randomUUID()}.tmp`,
   );
 
   await mkdir(dirname(catalogPath), { recursive: true });
@@ -55,6 +68,11 @@ export async function generateOntologyQueryIndexes({
   outputDirectory,
   workerCount,
   latestUniversalOnly = false,
+  sourceFile,
+  ontologyArtifactFamilyId,
+  repositoryRoot,
+  sourceCatalog,
+  ownershipInventory,
 }) {
   if (!sourceDirectory) {
     throw new TypeError("sourceDirectory is required.");
@@ -64,13 +82,30 @@ export async function generateOntologyQueryIndexes({
     throw new TypeError("outputDirectory is required.");
   }
 
-  const { ontologySources } = await inventorySourceTree({ sourceDirectory });
-  const { catalog, catalogContent, artifactContentsByRelativePath } =
-    await createOntologyQueryArtifacts({
-      ontologySources,
-      workerCount,
-      latestUniversalOnly,
-    });
+  const { ontologySources } = sourceFile
+    ? {
+        ontologySources: [
+          {
+            sourcePath: sourceFile,
+            outputPath: `${ontologyArtifactFamilyId}/working`,
+            snapshotKind: "working",
+          },
+        ],
+      }
+    : await inventorySourceTree({ sourceDirectory });
+  const {
+    catalog,
+    catalogContent,
+    artifactContentsByRelativePath,
+    assertSourcesUnchanged,
+  } = await createOntologyQueryArtifacts({
+    ontologySources,
+    workerCount,
+    latestUniversalOnly,
+    repositoryRoot,
+    sourceCatalog,
+    ownershipInventory,
+  });
 
   if (catalog.releases.length === 0) {
     // Preserve the standalone publisher's historical contract: invoking the
@@ -93,37 +128,67 @@ export async function generateOntologyQueryIndexes({
     });
   }
 
+  await assertSourcesUnchanged();
   await publishCatalogAtomically({ outputDirectory, catalogContent });
 
   return catalog;
 }
 
 function parseCommandLineArguments(arguments_) {
-  const supportedArguments = new Set(["--latest-universal-only"]);
-
-  for (const argument of arguments_) {
-    if (!supportedArguments.has(argument)) {
-      throw new Error(`Unknown argument: ${argument}`);
-    }
-  }
-
-  return {
-    latestUniversalOnly: arguments_.includes("--latest-universal-only"),
-  };
+  const { values } = parseArgs({
+    args: arguments_,
+    options: {
+      "latest-universal-only": { type: "boolean", default: false },
+      source: { type: "string" },
+      family: { type: "string" },
+      catalog: { type: "string" },
+      output: { type: "string" },
+    },
+    strict: true,
+  });
+  if (values.source && !values.family)
+    throw new TypeError("--source requires --family.");
+  if (values.source && values["latest-universal-only"])
+    throw new TypeError(
+      "Working snapshots cannot use --latest-universal-only.",
+    );
+  return values;
 }
 
 async function runFromCommandLine() {
-  const { latestUniversalOnly } = parseCommandLineArguments(
-    process.argv.slice(2),
-  );
+  const values = parseCommandLineArguments(process.argv.slice(2));
   const sourceDirectory = fileURLToPath(new URL("../src/", import.meta.url));
-  const outputDirectory = fileURLToPath(
-    new URL("../dist/query/v1/", import.meta.url),
-  );
+  const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
+  const outputDirectory = values.output
+    ? resolve(values.output)
+    : fileURLToPath(new URL("../dist/query/v1/", import.meta.url));
+  const sourceFile = values.source ? resolve(values.source) : undefined;
+  if (sourceFile) {
+    const path = relative(repositoryRoot, sourceFile);
+    if (isAbsolute(path) || path === ".." || path.startsWith(`..${sep}`))
+      throw new Error("Working snapshots must be inside the repository.");
+  }
+  const ownershipInventory =
+    await readOntologyOwnershipInventory(repositoryRoot);
+  const sourceCatalog = await readOntologySourceCatalog({
+    repositoryRoot,
+    catalogPath: resolve(
+      repositoryRoot,
+      values.catalog ??
+        (sourceFile
+          ? `${dirname(relative(repositoryRoot, sourceFile))}/catalog-v001.xml`
+          : "core/catalog-v001.xml"),
+    ),
+  });
   const catalog = await generateOntologyQueryIndexes({
     sourceDirectory,
     outputDirectory,
-    latestUniversalOnly,
+    latestUniversalOnly: values["latest-universal-only"],
+    sourceFile,
+    ontologyArtifactFamilyId: values.family,
+    repositoryRoot,
+    sourceCatalog,
+    ownershipInventory,
   });
 
   process.stdout.write(
