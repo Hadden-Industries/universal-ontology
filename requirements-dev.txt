@@ -11,5 +11,5 @@ PyYAML>=6.0.3
 pip-tools>=7.6.1
 
 # Python lint/format and native Markdown semantic-line formatting.
-ruff>=0.16.7
-snapper-fmt>=0.11.2
+ruff>=0.16.8
+snapper-fmt>=0.11.6
