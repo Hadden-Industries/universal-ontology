@@ -53,7 +53,7 @@
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/committing-to-git/SKILL.md",
-      "computedHash": "58b9c5d54d1406729b1ff278c4fce1bd758e509145933ffe719b526af5df34db"
+      "computedHash": "29f146a9c7819d78ee83dbce3ef31b257ced8b63b2906e52110716828e0821cc"
     },
     "defining-concepts": {
       "source": "Hadden-Industries/agent-skills",
