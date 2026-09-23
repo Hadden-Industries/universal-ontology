@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { parentPort } from "node:worker_threads";
+import rdfCanonize from "rdf-canonize";
+import oxigraph from "oxigraph";
 
 import {
   createOntologyReleaseQueryIndex,
@@ -34,15 +36,24 @@ function createTransferableBuffer(content) {
 
 parentPort.on("message", async ({ taskId, input }) => {
   try {
-    const rdfXml = input.sourcePath
-      ? await readFile(input.sourcePath)
-      : Buffer.from(input.content);
+    const rdfXml =
+      input.content !== undefined
+        ? Buffer.from(input.content)
+        : await readFile(input.sourcePath);
     const requestedAssetKinds = new Set(input.requestedAssetKinds);
-    const quads = await parseRdfXmlToQuads({
-      rdfXml,
-      sourceName: input.outputPath,
-      fallbackBaseIri: input.fallbackBaseIRI,
-    });
+    const quads =
+      input.sourceFormat === "text/turtle"
+        ? [
+            ...oxigraph.parse(rdfXml, {
+              format: "text/turtle",
+              base_iri: input.sourceArtifactUrl,
+            }),
+          ]
+        : await parseRdfXmlToQuads({
+            rdfXml,
+            sourceName: input.outputPath,
+            fallbackBaseIri: input.fallbackBaseIRI,
+          });
     const response = { taskId };
     const transferList = [];
 
@@ -70,6 +81,29 @@ parentPort.on("message", async ({ taskId, input }) => {
     }
 
     if (requestedAssetKinds.has("query_index")) {
+      const dataset = Buffer.from(
+        await rdfCanonize.canonize([...quads], {
+          algorithm: "RDFC-1.0",
+          maxWorkFactor: 3,
+        }),
+      );
+      if (dataset.byteLength > 8 * 1024 * 1024 || quads.length > 200000) {
+        throw new RangeError("Ontology dataset exceeds its admission limit.");
+      }
+      response.datasetContent = createTransferableBuffer(dataset);
+      transferList.push(response.datasetContent);
+      response.datasetQuadCount = quads.length;
+      response.declaredImports = [
+        ...new Set(
+          quads
+            .filter(
+              ({ predicate, object }) =>
+                predicate.value === "http://www.w3.org/2002/07/owl#imports" &&
+                object.termType === "NamedNode",
+            )
+            .map(({ object }) => object.value),
+        ),
+      ].sort();
       const queryIndex = createOntologyReleaseQueryIndex({
         quads: [...quads],
         ontologyArtifactFamilyId: input.ontologyArtifactFamilyId,

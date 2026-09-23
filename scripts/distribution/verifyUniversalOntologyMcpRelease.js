@@ -993,6 +993,18 @@ function requireApplicationBundleIdentity(
 
 function createNpmArchiveSpecifications(publicPackage, releaseInputs) {
   return createArchiveEntrySpecificationMap([
+    ...releaseInputs.packagedStaticFiles
+      .filter(
+        (file) =>
+          file.packagedRelativePath.startsWith("app/") ||
+          file.packagedRelativePath.startsWith("third-party/"),
+      )
+      .map((file) => ({
+        path: `package/${file.packagedRelativePath.replace(/^app\//u, "dist/")}`,
+        maximumByteSize: file.maximumByteSize,
+        collectBytes: true,
+        inspectTextContent: file.packagedRelativePath !== "app/node_bg.wasm",
+      })),
     {
       path: "package/LICENSE",
       maximumByteSize: 1_048_576,
@@ -1060,6 +1072,15 @@ async function verifyNpmTarball({
     applicationBundleMetadata,
     tarballPath,
   );
+  for (const asset of applicationBundleMetadata.runtimeAssets) {
+    const bytes = entries.get(`package/dist/${asset.relativePath}`)?.bytes;
+    if (
+      !bytes ||
+      bytes.length !== asset.byteLength ||
+      calculateSha256(bytes) !== asset.sha256
+    )
+      throw new Error("Packaged context runtime identity disagrees.");
+  }
 }
 
 function createPlatformArchiveSpecifications({
@@ -1075,7 +1096,7 @@ function createPlatformArchiveSpecifications({
           ? maximumByteSize + releaseInputs.nodeRuntime.licenseMaximumByteSize
           : maximumByteSize,
       collectBytes: true,
-      inspectTextContent: true,
+      inspectTextContent: packagedRelativePath !== "app/node_bg.wasm",
     }),
   );
   return createArchiveEntrySpecificationMap([
@@ -1124,6 +1145,17 @@ async function verifyPlatformArchives({
       applicationBundleMetadata,
       archiveFileName,
     );
+    for (const asset of applicationBundleMetadata.runtimeAssets) {
+      const bytes = entries.get(
+        `${archiveRootName}/app/${asset.relativePath}`,
+      )?.bytes;
+      if (
+        !bytes ||
+        bytes.length !== asset.byteLength ||
+        calculateSha256(bytes) !== asset.sha256
+      )
+        throw new Error("Platform context runtime identity disagrees.");
+    }
   }
 }
 
@@ -1391,7 +1423,23 @@ function validateApplicationBundleMetadata(
     applicationBundleMetadata.packageVersion !== publicPackage.version ||
     !SHA256_PATTERN.test(applicationBundleMetadata.bundleSha256) ||
     !Array.isArray(applicationBundleMetadata.bundledComponents) ||
-    applicationBundleMetadata.bundledComponents.length === 0
+    applicationBundleMetadata.bundledComponents.length === 0 ||
+    !Array.isArray(applicationBundleMetadata.runtimeAssets) ||
+    applicationBundleMetadata.runtimeAssets.length !== 2 ||
+    new Set(
+      applicationBundleMetadata.runtimeAssets.map(
+        (asset) => asset.relativePath,
+      ),
+    ).size !== 2 ||
+    applicationBundleMetadata.runtimeAssets.some(
+      (asset) =>
+        !["ontologyStoreWorker.cjs", "node_bg.wasm"].includes(
+          asset.relativePath,
+        ) ||
+        !Number.isSafeInteger(asset.byteLength) ||
+        asset.byteLength <= 0 ||
+        !SHA256_PATTERN.test(asset.sha256),
+    )
   ) {
     throw new Error(
       "Application bundle metadata is incomplete or inconsistent.",

@@ -43,14 +43,11 @@ async function createFilesystemQueryArtifactFixture() {
   const releaseArtifact = await createInMemoryOntologyReleaseArtifact({
     ontologyArtifactFamilyId: "universal/core",
     versionTag: "20260714",
-    transformIndex(index) {
-      // Preserve the shared fixture's real projection while assigning the
-      // production entity namespace required by the readiness contract.
-      return JSON.parse(
-        JSON.stringify(index).replaceAll(
-          "https://example.com/ontology/test",
-          "https://haddenindustries.com/ontology/universal/core",
-        ),
+    transformSource(source) {
+      // Project lexical and RDF data from the same captured source bytes.
+      return source.replaceAll(
+        "https://example.com/ontology/test",
+        "https://haddenindustries.com/ontology/universal/core",
       );
     },
   });
@@ -61,13 +58,19 @@ async function createFilesystemQueryArtifactFixture() {
   const catalogBytes = Buffer.from(
     serializeCanonicalOntologyQueryJsonDocument({
       queryArtifactKind: "universal_ontology_query_catalog",
-      queryArtifactFormatVersion: 1,
+      queryArtifactFormatVersion: 2,
       releases: [releaseArtifact.catalogRelease],
     }),
   );
   await nodeFileSystem.mkdir(dirname(releaseQueryIndexPath), {
     recursive: true,
   });
+  const datasetPath = join(
+    queryArtifactRootDirectoryPath,
+    releaseArtifact.catalogRelease.dataset.relativePath,
+  );
+  await nodeFileSystem.mkdir(dirname(datasetPath), { recursive: true });
+  await nodeFileSystem.writeFile(datasetPath, releaseArtifact.datasetBytes);
   await Promise.all([
     nodeFileSystem.writeFile(
       join(queryArtifactRootDirectoryPath, "catalog.json"),
@@ -119,7 +122,12 @@ describe("Universal Ontology MCP application-bundle verifier", () => {
           title: "Universal Ontology",
           version: "1.0.0",
         },
-        toolNames: ["search_entities", "resolve_entity"],
+        toolNames: [
+          "search_entities",
+          "resolve_entity",
+          "get_entity_context",
+          "find_entity_connections",
+        ],
       });
     } finally {
       await fixture.close();
@@ -179,7 +187,12 @@ if (
         }),
       ).resolves.toMatchObject({
         serverInfo: { name: "universal-ontology" },
-        toolNames: ["search_entities", "resolve_entity"],
+        toolNames: [
+          "search_entities",
+          "resolve_entity",
+          "get_entity_context",
+          "find_entity_connections",
+        ],
       });
 
       const verifierOwnedCacheDirectoryPath = await nodeFileSystem.readFile(

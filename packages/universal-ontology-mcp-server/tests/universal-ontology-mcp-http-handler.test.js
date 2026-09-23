@@ -26,11 +26,19 @@ function createOntologyQueryStub() {
     searchOntologyEntities: jest.fn(async (input) => ({
       outcome: "success",
       resultKind: "ontology_entity_search",
-      entityDetailLevel: "full",
       queryText: input.queryText.trim(),
       preferredLanguageTags: input.preferredLanguageTags,
       resolvedOntologyReleases: [RESOLVED_RELEASE],
-      totalMatchedEntityCount: 0,
+      snapshotRef: {
+        catalogSha256: "c".repeat(64),
+        rootSnapshotId: `urn:uo:snapshot:${"a".repeat(64)}`,
+        snapshotIds: [`urn:uo:snapshot:${"a".repeat(64)}`],
+        graphSelection: "source_graph",
+        selectionSha256: "b".repeat(64),
+      },
+      returnedDefinitionAssertionCount: 0,
+      nextCursor: null,
+      truncationReasons: [],
       returnedEntityCount: 0,
       resultSetTruncated: false,
       matches: [],
@@ -290,7 +298,12 @@ describe("Universal Ontology MCP HTTP handler", () => {
       expect(modern.status).toBe(200);
       expect(
         (await modern.json()).result.tools.map(({ name }) => name),
-      ).toEqual(["search_entities", "resolve_entity"]);
+      ).toEqual([
+        "search_entities",
+        "resolve_entity",
+        "get_entity_context",
+        "find_entity_connections",
+      ]);
       const legacy = await handler.fetch(
         new Request(MCP_URL, {
           method: "POST",
@@ -372,7 +385,7 @@ describe("Universal Ontology MCP HTTP handler", () => {
         expect(response.status).toBe(expectedStatus);
         expect(cancelled).toBe(expectedStatus === 413);
         if (expectedStatus === 200)
-          expect((await response.json()).result.tools).toHaveLength(2);
+          expect((await response.json()).result.tools).toHaveLength(4);
         else expect(response.headers.get("connection")).toBe("close");
       } finally {
         await handler.close();

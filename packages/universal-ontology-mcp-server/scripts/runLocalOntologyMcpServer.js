@@ -16,7 +16,7 @@ import {
   UNIVERSAL_ONTOLOGY_MCP_REQUEST_BODY_MAXIMUM_BYTES,
 } from "../src/universalOntologyMcpHttpHandlers.js";
 import { createFileSystemOntologyQueryArtifactRepository } from "universal-ontology-query/repositories/file-system";
-import { createOntologyQueryModule } from "universal-ontology-query";
+import { createNodeOntologyQueryModule as createOntologyQueryModule } from "universal-ontology-query/node";
 
 export const LOCAL_ONTOLOGY_MCP_BIND_ADDRESS = "127.0.0.1";
 export const LOCAL_ONTOLOGY_MCP_DEFAULT_PORT = 8000;
@@ -742,6 +742,7 @@ export function createLocalUniversalOntologyMcpServer({
       await serverClosure;
       await closeOntologyQuery();
       await mcpHandler.close();
+      await ontologyQuery.close?.();
       logEvent({
         severity: forced ? "error" : "info",
         eventName: "mcp_server_shutdown",
@@ -935,13 +936,8 @@ export async function runLocalOntologyMcpServer({
       configuration.maximumInMemoryQueryIndexCacheByteSize,
   });
 
-  // Readiness uses the public query seam: this validates the catalog, selects
-  // the default release families, verifies their content digests, and builds
-  // their runtime indexes before the TCP port can accept calls.
-  await ontologyQuery.searchOntologyEntities({
-    queryText: "__local_mcp_readiness_probe__",
-    maximumResultCount: 1,
-  });
+  // Validate actual catalog selections, including working-only snapshots.
+  await ontologyQuery.checkReadiness();
 
   const localServer = createLocalUniversalOntologyMcpServer({
     ontologyQuery,

@@ -6,7 +6,6 @@ import {
 import {
   createInMemoryOntologyReleaseArtifact as createReleaseArtifact,
   createInMemoryOntologyQueryArtifactRepositoryFixture,
-  serializeOntologyQueryArtifact as serialize,
 } from "../../../tests/fixtures/ontology-query/createInMemoryOntologyQueryFixture.js";
 
 function createDeferred() {
@@ -45,7 +44,6 @@ describe("ontology query module", () => {
     const result = await ontologyQuery.searchOntologyEntities({
       queryText: "  Person  ",
       maximumResultCount: 10,
-      entityDetailLevel: "full",
     });
 
     expect(OntologyEntitySearchSuccessSchema.parse(result)).toEqual(result);
@@ -59,13 +57,20 @@ describe("ontology query module", () => {
       "universal/extended",
       "universal/reference-data",
     ]);
-    expect(result.matches).toHaveLength(1);
+    expect(
+      result.matches.map((match) => match.ontologyEntity.entityIri),
+    ).toEqual([
+      "https://example.com/ontology/test/Person",
+      "https://example.com/glossary/person",
+    ]);
     expect(result.matches[0]).toMatchObject({
-      matchRank: 1,
-      matchBasis: "preferred_label_exact",
-      matchedOntologyValue: {
-        matchedValueKind: "rdf_literal",
-        literalValue: { lexicalForm: "Person" },
+      lexicalMatch: {
+        matchRank: 1,
+        matchBasis: "preferred_label_exact",
+        matchedOntologyValue: {
+          matchedValueKind: "rdf_literal",
+          literalValue: { lexicalForm: "Person" },
+        },
       },
       ontologyEntity: {
         entityIri: "https://example.com/ontology/test/Person",
@@ -80,10 +85,8 @@ describe("ontology query module", () => {
         },
       },
     });
-    expect(result.entityDetailLevel).toBe("full");
-    expect(
-      result.matches[0].ontologyEntity.sourceArtifactDescriptions,
-    ).toHaveLength(3);
+    expect(result.returnedDefinitionAssertionCount).toBe(0);
+    expect(result.truncationReasons).toContain("source_evidence_unavailable");
   });
 
   test("returns summary entities that cite releases by reference only", async () => {
@@ -94,32 +97,32 @@ describe("ontology query module", () => {
     const ontologyQuery = createOntologyQueryModule({
       ontologyQueryArtifactRepository,
     });
-    const fullResult = await ontologyQuery.searchOntologyEntities({
-      queryText: "Person",
+    const fullResult = await ontologyQuery.resolveOntologyEntity({
+      entityIdentifier: {
+        identifierKind: "preferred_label",
+        identifierValue: "Person",
+      },
       entityDetailLevel: "full",
     });
     // Omitting the level selects the summary shape.
     const summaryResult = await ontologyQuery.searchOntologyEntities({
       queryText: "Person",
+      entityKinds: ["owl_class"],
     });
 
     expect(OntologyEntitySearchSuccessSchema.parse(summaryResult)).toEqual(
       summaryResult,
     );
     expect(summaryResult).toMatchObject({
-      entityDetailLevel: "summary",
       resolvedOntologyReleases: fullResult.resolvedOntologyReleases,
-      totalMatchedEntityCount: fullResult.totalMatchedEntityCount,
       matches: [
         {
-          matchRank: 1,
-          matchBasis: "preferred_label_exact",
-          matchedOntologyValue: fullResult.matches[0].matchedOntologyValue,
+          lexicalMatch: { matchRank: 1, matchBasis: "preferred_label_exact" },
         },
       ],
     });
 
-    const fullEntity = fullResult.matches[0].ontologyEntity;
+    const fullEntity = fullResult.ontologyEntities[0];
     const summaryEntity = summaryResult.matches[0].ontologyEntity;
     const {
       resolvedOntologyRelease: labelRelease,
@@ -288,11 +291,13 @@ describe("ontology query module", () => {
     const unsupportedQuery = createOntologyQueryModule({
       ontologyQueryArtifactRepository:
         createInMemoryOntologyQueryArtifactRepositoryFixture(releaseArtifacts, {
-          catalogBytes: serialize({
-            queryArtifactKind: "universal_ontology_query_catalog",
-            queryArtifactFormatVersion: 2,
-            releases: [],
-          }),
+          catalogBytes: Buffer.from(
+            JSON.stringify({
+              queryArtifactKind: "universal_ontology_query_catalog",
+              queryArtifactFormatVersion: 3,
+              releases: [],
+            }),
+          ),
         }).ontologyQueryArtifactRepository,
     });
     await expect(
@@ -325,7 +330,7 @@ describe("ontology query module", () => {
       ontologyArtifactFamilyId: "universal/unsupported-index",
       versionTag: "20260830",
       transformIndex(index) {
-        index.queryArtifactFormatVersion = 2;
+        index.queryArtifactFormatVersion = 3;
         return index;
       },
     });
@@ -476,7 +481,7 @@ describe("ontology query module", () => {
         },
       });
 
-      expect(result.matches[0].matchBasis).toBe(matchBasis);
+      expect(result.matches[0].lexicalMatch.matchBasis).toBe(matchBasis);
     },
   );
 
@@ -589,7 +594,7 @@ describe("ontology query module", () => {
       maximumResultCount: 1,
     });
     expect(truncated.returnedEntityCount).toBe(1);
-    expect(truncated.totalMatchedEntityCount).toBeGreaterThan(1);
+    expect(truncated.resultSetTruncated).toBe(true);
     expect(truncated.resultSetTruncated).toBe(true);
 
     const noDefinition = await ontologyQuery.searchOntologyEntities({

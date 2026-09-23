@@ -47,19 +47,19 @@ function requireExactResolvedRelease(actualRelease, semanticLocation) {
  * that make the public smoke meaningful. A label-only or merely nonempty
  * response must never unlock write-capable release jobs.
  */
-export function assertExpectedPublicPersonSearchResult(result) {
+export function assertExpectedPublicPersonResolutionResult(result) {
   if (
     result?.isError === true ||
     result?.structuredContent?.outcome !== "success" ||
-    !Array.isArray(result.structuredContent.matches)
+    !Array.isArray(result.structuredContent.ontologyEntities)
   ) {
     throw new Error(
       "Public Person smoke failed: ontology search was not successful.",
     );
   }
-  const matchingEntity = result.structuredContent.matches
-    .map(({ ontologyEntity }) => ontologyEntity)
-    .find(({ entityIri }) => entityIri === EXPECTED_PERSON_IRI);
+  const matchingEntity = result.structuredContent.ontologyEntities.find(
+    ({ entityIri }) => entityIri === EXPECTED_PERSON_IRI,
+  );
   if (!matchingEntity) {
     throw new Error(
       "Public Person smoke failed: exact entity IRI was not returned.",
@@ -137,11 +137,13 @@ export function assertExpectedPublicPersonSearchResult(result) {
   return matchingEntity;
 }
 
-function createPersonSearchArguments() {
+function createPersonResolutionArguments() {
   return {
-    queryText: "Person",
+    entityIdentifier: {
+      identifierKind: "entity_iri",
+      identifierValue: EXPECTED_PERSON_IRI,
+    },
     preferredLanguageTags: ["en", "en-GB"],
-    maximumResultCount: 10,
     // The gate checks source-graph provenance, which only the full shape has.
     entityDetailLevel: "full",
     ontologyReleaseSelection: {
@@ -227,7 +229,12 @@ export async function smokeTestUniversalOntologyMcpPublicArtifactOrigin({
     const toolList = await client.listTools();
     if (
       JSON.stringify(toolList.tools.map(({ name }) => name)) !==
-      JSON.stringify(["search_entities", "resolve_entity"])
+      JSON.stringify([
+        "search_entities",
+        "resolve_entity",
+        "get_entity_context",
+        "find_entity_connections",
+      ])
     ) {
       throw new Error(
         "Public Person smoke failed: installed tool list disagrees.",
@@ -235,12 +242,12 @@ export async function smokeTestUniversalOntologyMcpPublicArtifactOrigin({
     }
     const result = await client.callTool(
       {
-        name: "search_entities",
-        arguments: createPersonSearchArguments(),
+        name: "resolve_entity",
+        arguments: createPersonResolutionArguments(),
       },
       { signal: AbortSignal.timeout(30_000) },
     );
-    const matchingEntity = assertExpectedPublicPersonSearchResult(result);
+    const matchingEntity = assertExpectedPublicPersonResolutionResult(result);
     smokeResult = Object.freeze({
       artifactChannelName,
       entityIri: matchingEntity.entityIri,

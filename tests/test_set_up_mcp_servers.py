@@ -272,7 +272,12 @@ class HostConfigurationRenderingTests(unittest.TestCase):
                 **expected_ontology_entry,
                 "startup_timeout_sec": 15,
                 "tool_timeout_sec": 30,
-                "enabled_tools": ["search_entities", "resolve_entity"],
+                "enabled_tools": [
+                    "search_entities",
+                    "resolve_entity",
+                    "get_entity_context",
+                    "find_entity_connections",
+                ],
                 "default_tools_approval_mode": "writes",
             },
         )
@@ -412,7 +417,7 @@ class HostConfigurationRenderingTests(unittest.TestCase):
                         "startup_timeout_sec = 10",
                         "tool_timeout_sec = 30",
                         'default_tools_approval_mode = "writes"',
-                        'enabled_tools = ["search_entities", "resolve_entity"]',
+                        'enabled_tools = ["search_entities", "resolve_entity", "get_entity_context", "find_entity_connections"]',
                         "",
                         "[sandbox_workspace_write]",
                         "network_access = true",
@@ -1823,7 +1828,12 @@ class SetupCommandLineTests(unittest.TestCase):
             github_mcp_server_version="github-mcp-server Version: v1.11.0",
             universal_ontology_mcp_verification={
                 "ontologyQueryArtifactSourceKind": "http",
-                "toolNames": ["search_entities", "resolve_entity"],
+                "toolNames": [
+                    "search_entities",
+                    "resolve_entity",
+                    "get_entity_context",
+                    "find_entity_connections",
+                ],
             },
             activated_paths=(),
         )
@@ -1940,7 +1950,12 @@ class SetupCommandLineTests(unittest.TestCase):
             github_mcp_server_version="github-mcp-server Version: v1.11.0",
             universal_ontology_mcp_verification={
                 "ontologyQueryArtifactChannelName": "development",
-                "toolNames": ["search_entities", "resolve_entity"],
+                "toolNames": [
+                    "search_entities",
+                    "resolve_entity",
+                    "get_entity_context",
+                    "find_entity_connections",
+                ],
             },
             activated_paths=(repository_root / ".mcp.json",),
         )
@@ -2102,6 +2117,17 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                     bundle_path.parent.mkdir(parents=True)
                     bundle_bytes = b"#!/usr/bin/env node\n// staged bundle\n"
                     bundle_path.write_bytes(bundle_bytes)
+                    runtime_assets = []
+                    for name in ("ontologyStoreWorker.cjs", "node_bg.wasm"):
+                        asset_bytes = name.encode("ascii")
+                        (bundle_path.parent / name).write_bytes(asset_bytes)
+                        runtime_assets.append(
+                            {
+                                "relativePath": name,
+                                "byteLength": len(asset_bytes),
+                                "sha256": hashlib.sha256(asset_bytes).hexdigest(),
+                            }
+                        )
                     metadata_path.parent.mkdir(parents=True)
                     metadata_path.write_text(
                         json.dumps(
@@ -2114,6 +2140,7 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                                     "universal-ontology-mcp-server.mjs"
                                 ),
                                 "bundleByteLength": len(bundle_bytes),
+                                "runtimeAssets": runtime_assets,
                                 "bundleSha256": hashlib.sha256(
                                     bundle_bytes
                                 ).hexdigest(),
@@ -2185,7 +2212,15 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
             built_bundle_path = root / "built-bundle.mjs"
             built_bundle_bytes = b"application bundle"
             built_bundle_path.write_bytes(built_bundle_bytes)
+            vendor_path = (
+                repository_root
+                / "packages/universal-ontology-mcp-server/third-party/oxigraph"
+            )
+            vendor_path.mkdir(parents=True)
+            for name in ("LICENSE-MIT", "component-notices.json"):
+                (vendor_path / name).write_text("fixture", encoding="utf-8")
             built_bundle = mock.Mock(
+                runtime_assets=(),
                 application_bundle_path=built_bundle_path,
                 application_bundle_byte_length=len(built_bundle_bytes),
                 application_bundle_sha256=hashlib.sha256(
@@ -2240,6 +2275,7 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 "packageName": "universal-ontology-mcp-server",
                 "packageVersion": "1.0.0",
                 "applicationBundleByteLength": len(built_bundle_bytes),
+                "runtimeAssets": [],
                 "applicationBundleSha256": hashlib.sha256(
                     built_bundle_bytes
                 ).hexdigest(),
@@ -2270,7 +2306,15 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
             staging_directory.mkdir()
             built_bundle_path = root / "built-bundle.mjs"
             built_bundle_path.write_bytes(validated_bundle_bytes)
+            vendor_path = (
+                repository_root
+                / "packages/universal-ontology-mcp-server/third-party/oxigraph"
+            )
+            vendor_path.mkdir(parents=True)
+            for name in ("LICENSE-MIT", "component-notices.json"):
+                (vendor_path / name).write_text("fixture", encoding="utf-8")
             built_bundle = mock.Mock(
+                runtime_assets=(),
                 application_bundle_path=built_bundle_path,
                 application_bundle_byte_length=len(validated_bundle_bytes),
                 application_bundle_sha256=hashlib.sha256(
@@ -2357,7 +2401,12 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                             "title": "Universal Ontology",
                             "version": "1.0.0",
                         },
-                        "toolNames": ["search_entities", "resolve_entity"],
+                        "toolNames": [
+                            "search_entities",
+                            "resolve_entity",
+                            "get_entity_context",
+                            "find_entity_connections",
+                        ],
                     }
                 )
                 + "\n",
@@ -2391,7 +2440,12 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
 
         self.assertEqual(
             verification["toolNames"],
-            ["search_entities", "resolve_entity"],
+            [
+                "search_entities",
+                "resolve_entity",
+                "get_entity_context",
+                "find_entity_connections",
+            ],
         )
         run_command.assert_called_once_with(
             [
@@ -3045,7 +3099,12 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
                     "verify_staged_universal_ontology_mcp_server_installation",
                     return_value={
                         "ontologyQueryArtifactSourceKind": "http",
-                        "toolNames": ["search_entities", "resolve_entity"],
+                        "toolNames": [
+                            "search_entities",
+                            "resolve_entity",
+                            "get_entity_context",
+                            "find_entity_connections",
+                        ],
                     },
                 ) as verify_ontology,
                 mock.patch.object(
@@ -3113,7 +3172,12 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
                 github_mcp_server_version="GitHub MCP Server v1.11.0",
                 universal_ontology_mcp_verification={
                     "ontologyQueryArtifactSourceKind": "http",
-                    "toolNames": ["search_entities", "resolve_entity"],
+                    "toolNames": [
+                        "search_entities",
+                        "resolve_entity",
+                        "get_entity_context",
+                        "find_entity_connections",
+                    ],
                 },
                 activated_paths=(repository_root / ".mcp.json",),
             ),

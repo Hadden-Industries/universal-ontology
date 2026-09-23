@@ -1,4 +1,4 @@
-import { lstat, readFile, realpath } from "node:fs/promises";
+import { lstat, open, realpath } from "node:fs/promises";
 import { resolve, sep } from "node:path";
 
 import { parseContainedOntologyQueryArtifactRelativePath } from "./ontologyQueryArtifactRelativePath.js";
@@ -70,13 +70,51 @@ export function createFileSystemOntologyQueryArtifactRepository({ queryRoot }) {
     }
 
     throwIfAborted(signal);
-    return readFile(resolvedTarget, { signal });
+    const maximum =
+      relativePath === "catalog.json" || relativePath.startsWith("catalogs/")
+        ? 1024 * 1024
+        : 8 * 1024 * 1024;
+    const handle = await open(resolvedTarget, "r");
+    try {
+      const size = (await handle.stat()).size;
+      if (size > maximum)
+        throw new RangeError(
+          "Ontology artifact exceeds its byte admission limit.",
+        );
+      const bytes = Buffer.alloc(Math.min(size + 1, maximum + 1));
+      let length = 0;
+      while (length < bytes.length) {
+        throwIfAborted(signal);
+        const { bytesRead } = await handle.read(
+          bytes,
+          length,
+          bytes.length - length,
+          null,
+        );
+        if (!bytesRead) break;
+        length += bytesRead;
+      }
+      if (length > size)
+        throw new Error("Ontology artifact grew while being read.");
+      return bytes.subarray(0, length);
+    } finally {
+      await handle.close();
+    }
   }
 
   return Object.freeze({
+    /** Read an admitted catalog-selected canonical RDF dataset. */
+    readOntologyDataset({ relativePath, signal }) {
+      return readContainedFile(relativePath, { signal });
+    },
     /** Read the generated catalog as untrusted bytes. */
-    readOntologyQueryCatalog({ signal } = {}) {
-      return readContainedFile("catalog.json", { signal });
+    readOntologyQueryCatalog({ signal, catalogSha256 } = {}) {
+      if (catalogSha256 !== undefined && !/^[0-9a-f]{64}$/u.test(catalogSha256))
+        throw new TypeError("Invalid catalog digest.");
+      return readContainedFile(
+        catalogSha256 ? `catalogs/${catalogSha256}.json` : "catalog.json",
+        { signal },
+      );
     },
 
     /** Read one catalog-selected immutable release index as untrusted bytes. */

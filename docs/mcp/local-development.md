@@ -1,6 +1,6 @@
 # Local Universal Ontology MCP server
 
-The local Universal Ontology MCP server gives MCP-capable hosts read-only, page-independent access to authored ontology labels, identifiers, and lexical definitions.
+The local Universal Ontology MCP server gives MCP-capable hosts read-only, page-independent access to authored ontology labels, identifiers, lexical definitions, exact definition citations, and bounded structural context.
 It runs directly from generated repository artifacts at `http://127.0.0.1:8000/mcp`; no website, browser tab, frontend development server, AWS resource, or Google Cloud resource is involved.
 
 The implementation's primary protocol revision is MCP `2026-07-28`.
@@ -76,7 +76,7 @@ npm run serve --workspace universal-ontology-mcp-server
 Root `serve:mcp-development` composes the same listener; root `serve:mcp-development:refresh` additionally generates artifacts, honoring `UNIVERSAL_ONTOLOGY_QUERY_ROOT`.
 The workspace listener does not own RDF/XML generation or accept `--refresh-index`.
 Root `npm test -- --runInBand` includes workspace suites and distribution/website consumers.
-A packed installation contains only the executable and four package documents, with no installed query workspace or SDK dependency.
+A packed installation contains nine files: the executable, context worker, WASM runtime, four package documents, and two Oxigraph notice files, with no installed query workspace or SDK dependency.
 The MCP workspace manifest declares direct build, test, and query workspace tooling as `devDependencies`.
 Distribution qualification validates this dependency boundary (verifying that no runtime dependencies are shipped and only approved development tools exist) rather than asserting exact development-only patch versions.
 
@@ -99,8 +99,8 @@ flowchart LR
     A[Immutable RDF/XML releases under src] --> B[npm run generate:ontology-indexes]
     B --> C[Versioned query catalog and content-addressed release indexes]
     C --> D[Filesystem ontology query-artifact repository]
-    D --> E[Ontology query module]
-    E --> F[Two read-only MCP tools]
+    D --> E[Ontology query module and private Oxigraph worker]
+    E --> F[Four read-only MCP tools]
     F --> G[Loopback Streamable HTTP endpoint]
     G --> H[Codex, MCP Inspector, or another MCP host]
 ```
@@ -128,21 +128,23 @@ The default output root is `dist/query/v1`:
 ```text
 dist/query/v1/
 ├── catalog.json
+├── catalogs/<catalogSha256>.json
+├── datasets/<datasetSha256>.nq
 └── releases/<ontologyArtifactFamilyId>/<versionTag>/<queryIndexSha256>.json
 ```
 
-`catalog.json` has `queryArtifactKind` value `universal_ontology_query_catalog` and `queryArtifactFormatVersion` value `1`.
+`catalog.json` has `queryArtifactKind` value `universal_ontology_query_catalog` and `queryArtifactFormatVersion` value `2`.
 Each referenced release document has kind `universal_ontology_release_query_index` and the same format version.
 The catalog records both the source-artifact SHA-256 digest and the generated query-index SHA-256 digest.
 Release-index filenames are content addressed by the latter digest.
 
 Generation follows a publish-last rule:
 
-1. Discover eligible immutable source artifacts.
-2. Parse and semantically project every selected release.
-3. Validate and serialize each release index deterministically.
-4. Write every content-addressed release index.
-5. Atomically replace `catalog.json` only after all referenced indexes exist.
+1. Capture selected source, local import catalog, and ownership-policy bytes.
+2. Parse each captured source once into lexical metadata and canonical RDFC-1.0 N-Quads.
+3. Validate and serialize the version-2 artifacts.
+4. Write content-addressed indexes, datasets, and an immutable catalog.
+5. Recheck captured inputs and atomically replace `catalog.json` last.
 
 A failed run therefore leaves the preceding catalog usable.
 A later run can leave unreferenced content-addressed files in place; they are unreachable from the new catalog and are not selected by the server.
@@ -195,32 +197,24 @@ A production runner is a separate entry point with a different security model; d
 
 ## Public tool contracts
 
-The catalog exposes exactly two tools, in this order:
-
-1. `search_entities`
-2. `resolve_entity`
-
-The names do not repeat `ontology` or `universal_ontology` because the visible server identity already supplies that namespace.
-Both tools are annotated as read-only, non-destructive, idempotent, and closed-world with respect to the selected generated releases.
+The catalog exposes four read-only tools: `search_entities`, `resolve_entity`, `get_entity_context`, and `find_entity_connections`.
+Local filesystem mode supports all four.
+Remote-artifact and browser clients retain lexical search/resolution; context and exact citation filtering require the Node filesystem adapter.
+See [bounded context and definition review](ontology-context.md) for selection, working snapshots, limits, and exact handoff examples.
 
 ### `search_entities`
 
-Use `search_entities` when the user supplies a name, phrase, identifier, IRI local name, or definition text.
-It searches authored values and returns ranked matches with enough selected lexical-definition and release provenance data to answer a definition question in one call.
+`queryText` is optional when a metadata filter is supplied.
+Use `entityKinds`, `ownership: "root_module"`, or `definitionSourceStatus` to select entities without guessing search text.
+An explicit family selects one root; ambiguous root selection returns an actionable error.
+Optional text retains the existing lexical ranking under each match's `lexicalMatch`.
+Search has one current result contract; it no longer accepts `entityDetailLevel`.
 
-Input fields:
-
-- `queryText` is required, must contain a non-whitespace character, and is at most 256 characters.
-- `ontologyReleaseSelection` is optional.
-  Omission selects the latest stable releases of `universal/core`, `universal/extended`, and `universal/reference-data`.
-- `entityKinds` can restrict results to one or more of `owl_class`, `owl_object_property`, `owl_datatype_property`, `owl_annotation_property`, `owl_named_individual`, and `rdfs_datatype`.
-- `preferredLanguageTags` defaults to `['en-GB', 'en']` and applies RFC 4647 basic language filtering in caller order.
-- `maximumResultCount` defaults to `10` and accepts integers from `1` through `20`.
-- `entityDetailLevel` is `summary` (the default) or `full`.
-  See [Entity detail level](#entity-detail-level).
-
-The structured success result reports the normalized caller query, every concrete release selected, total and returned match counts, truncation, the deterministic match kind, the exact matched ontology value, and aggregated ontology-entity descriptions.
-It never exposes a private normalized search key as ontology-authored text.
+Results include `snapshotRef`, exact `matchingDefinitions`, returned entity/assertion counts, truncation reasons, and `nextCursor`.
+Pass the cursor with unchanged criteria to continue; a definition group can span pages and is labelled `repeatedEntityGroup`.
+Counts describe this page, never an uncomputed global total.
+`maximumResultCount` defaults to 10 and is capped at 20.
+The browser/remote lexical path labels unavailable assertion evidence explicitly and rejects unsupported metadata filters.
 
 ### `resolve_entity`
 
@@ -231,13 +225,13 @@ Its required `entityIdentifier` is one of:
 - `{"identifierKind":"uuid_urn","identifierValue":"<UUID URN>"}`; or
 - `{"identifierKind":"preferred_label","identifierValue":"<label>"}`.
 
-It accepts the same optional release selection, preferred language tags, and entity detail level as search.
+It accepts optional release selection, preferred language tags, and `entityDetailLevel` (`summary` or `full`).
 A preferred label is not globally unique: the success result's `resolutionStatus` is explicitly `found`, `ambiguous`, or `not_found`.
 Ambiguity and absence are normal successful query outcomes, not permission to select an arbitrary candidate or invent a definition.
 
 ### Entity detail level
 
-Both tools accept an optional `entityDetailLevel`, and both success results echo the level that applied so a consumer can validate the shape without inspecting individual entities.
+`resolve_entity` accepts `entityDetailLevel` and echoes the level that applied.
 
 - `summary` (the default) returns each entity's IRI, `selectedPreferredLabel`, and `selectedLexicalDefinition` only, omitting `sourceArtifactDescriptions`.
   Each selected assertion cites its release as an `ontologyRelease` pair (`ontologyArtifactFamilyId` and `versionTag`), which is the same pair a `specified_releases` selection accepts.
@@ -354,7 +348,7 @@ enabled_tools = [
 
 `default_tools_approval_mode = "writes"` is deliberate.
 These two annotated read-only tools can run without a write prompt, while any future write-capable tool would require approval.
-Restart or reload the relevant Codex host after a manual configuration change, then confirm that exactly the two tools above are visible under the loopback entry.
+Restart or reload the relevant Codex host after a manual configuration change, then confirm that the four tools above are visible under the loopback entry.
 Remove the entry when HTTP-adapter testing is complete; it is not an installed-server configuration.
 
 ## Inspect the server with MCP Inspector

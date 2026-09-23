@@ -1,6 +1,6 @@
 import { freezeJsonValueDeeply } from "universal-ontology-query/json-value-immutability";
-import { stat } from "node:fs/promises";
-import { posix } from "node:path";
+import { open, realpath } from "node:fs/promises";
+import { posix, relative, resolve, sep, isAbsolute } from "node:path";
 
 import {
   calculateSha256,
@@ -17,6 +17,32 @@ import { renderOntologyAssetsWithWorkers } from "./ontologyAssetWorkerPool.js";
 const PUBLIC_ONTOLOGY_ROOT = new URL("https://haddenindustries.com/ontology/");
 const IMMUTABLE_RELEASE_NAME_PATTERN = /^(?:\d{8}|v[1-9][0-9]*)$/u;
 const STABLE_RELEASE_NAME_PATTERN = /^\d{8}$/u;
+
+/** Capture bounded source bytes before parsing, including growth during reads. */
+async function captureSource(sourcePath) {
+  const handle = await open(sourcePath, "r");
+  try {
+    const maximum = 8 * 1024 * 1024;
+    if ((await handle.stat()).size > maximum)
+      throw new RangeError("Ontology source exceeds 8 MiB.");
+    const buffer = Buffer.alloc(maximum + 1);
+    let size = 0;
+    while (size < buffer.length) {
+      const { bytesRead } = await handle.read(
+        buffer,
+        size,
+        buffer.length - size,
+        null,
+      );
+      if (bytesRead === 0) break;
+      size += bytesRead;
+    }
+    if (size > maximum) throw new RangeError("Ontology source exceeds 8 MiB.");
+    return Buffer.from(buffer.subarray(0, size));
+  } finally {
+    await handle.close();
+  }
+}
 
 function compareBinary(left, right) {
   return left < right ? -1 : left > right ? 1 : 0;
@@ -37,8 +63,11 @@ function assertArtifactByteLength({
   );
 }
 
-function isEligibleImmutableRelease({ outputPath }) {
-  return IMMUTABLE_RELEASE_NAME_PATTERN.test(posix.basename(outputPath));
+function isEligibleImmutableRelease({ outputPath, snapshotKind }) {
+  return (
+    snapshotKind === "working" ||
+    IMMUTABLE_RELEASE_NAME_PATTERN.test(posix.basename(outputPath))
+  );
 }
 
 function selectLatestUniversalSources(ontologySources) {
@@ -104,28 +133,46 @@ export async function createOntologyQueryArtifacts({
   ontologySources,
   workerCount,
   latestUniversalOnly = false,
+  sourceCatalog,
+  repositoryRoot,
+  ownershipInventory,
 }) {
   const eligibleSources = ontologySources.filter(isEligibleImmutableRelease);
   const selectedSources = latestUniversalOnly
     ? selectLatestUniversalSources(eligibleSources)
     : eligibleSources;
 
-  const inputs = await Promise.all(
-    selectedSources.map(async (source) => {
-      const ontologyArtifactFamilyId = posix.dirname(source.outputPath);
-      const versionTag = posix.basename(source.outputPath);
+  async function captureInput(source) {
+    if (repositoryRoot) {
+      const child = relative(
+        await realpath(repositoryRoot),
+        await realpath(source.sourcePath),
+      );
+      if (isAbsolute(child) || child === ".." || child.startsWith(`..${sep}`))
+        throw new Error("Ontology source escapes repository containment.");
+    }
+    const ontologyArtifactFamilyId = posix.dirname(source.outputPath);
+    const versionTag = posix.basename(source.outputPath);
+    const content = await captureSource(source.sourcePath);
+    const sourceArtifactUrl =
+      source.sourceArtifactUrl ??
+      new URL(source.outputPath, PUBLIC_ONTOLOGY_ROOT).href;
+    const sourceSha256 = await calculateSha256(content);
+    const snapshotId = `urn:uo:snapshot:${await calculateSha256(new TextEncoder().encode(JSON.stringify([2, sourceSha256, sourceArtifactUrl, source.outputPath, sourceCatalog?.sha256 ?? null, ownershipInventory?.sha256 ?? null])))}`;
 
-      return {
-        ...source,
-        size: (await stat(source.sourcePath)).size,
-        fallbackBaseIRI: buildFallbackBaseIri(source.outputPath),
-        ontologyArtifactFamilyId,
-        versionTag,
-        sourceArtifactUrl: new URL(source.outputPath, PUBLIC_ONTOLOGY_ROOT)
-          .href,
-      };
-    }),
-  );
+    return {
+      ...source,
+      size: content.byteLength,
+      content,
+      sourceSha256,
+      snapshotId,
+      fallbackBaseIRI: buildFallbackBaseIri(source.outputPath),
+      ontologyArtifactFamilyId,
+      versionTag,
+      sourceArtifactUrl,
+    };
+  }
+  const inputs = await Promise.all(selectedSources.map(captureInput));
   inputs.sort(({ outputPath: left }, { outputPath: right }) =>
     compareBinary(left, right),
   );
@@ -135,6 +182,68 @@ export async function createOntologyQueryArtifacts({
     workerCount,
     requestedAssetKinds: ["query_index"],
   });
+  const capturedByPath = new Map(
+    inputs.map((input) => [resolve(input.sourcePath), input]),
+  );
+  const unavailableImports = new Set();
+  // Iterate only imports actually declared by captured sources. A catalog is
+  // a resolver, never an instruction to ingest all of its entries.
+  for (let index = 0; index < renderedIndexes.length; index += 1) {
+    for (const importIri of renderedIndexes[index].declaredImports) {
+      const sourcePath = sourceCatalog?.bindings.get(importIri);
+      if (
+        !sourcePath ||
+        capturedByPath.has(resolve(sourcePath)) ||
+        unavailableImports.has(importIri)
+      )
+        continue;
+      if (!repositoryRoot)
+        throw new TypeError("Catalog import capture requires repositoryRoot.");
+      const containedPath = relative(resolve(repositoryRoot), sourcePath);
+      if (
+        isAbsolute(containedPath) ||
+        containedPath === ".." ||
+        containedPath.startsWith(`..${sep}`)
+      )
+        throw new Error("Import escapes repository containment.");
+      const sourceRelativePath = containedPath.split(sep).join("/");
+      const sourceOutputPath = sourceRelativePath.startsWith("src/")
+        ? sourceRelativePath.slice(4)
+        : sourceRelativePath;
+      const outputPath = IMMUTABLE_RELEASE_NAME_PATTERN.test(
+        posix.basename(sourceOutputPath),
+      )
+        ? sourceOutputPath
+        : `${sourceOutputPath}/dependency`;
+      let importedInput;
+      try {
+        importedInput = await captureInput({
+          sourcePath,
+          outputPath,
+          sourceArtifactUrl: importIri,
+          sourceFormat: sourcePath.endsWith(".ttl")
+            ? "text/turtle"
+            : "application/rdf+xml",
+        });
+      } catch (error) {
+        if (error.code === "ENOENT") {
+          unavailableImports.add(importIri);
+          continue;
+        }
+        throw error;
+      }
+      capturedByPath.set(resolve(sourcePath), importedInput);
+      if (capturedByPath.size > 256)
+        throw new RangeError("Generation import limit exceeded.");
+      inputs.push(importedInput);
+      const [rendered] = await renderOntologyAssetsWithWorkers({
+        inputs: [importedInput],
+        workerCount: 1,
+        requestedAssetKinds: ["query_index"],
+      });
+      renderedIndexes.push(rendered);
+    }
+  }
   const stableVersionByFamily = new Map();
 
   for (const input of inputs) {
@@ -175,10 +284,66 @@ export async function createOntologyQueryArtifacts({
       const queryIndexRelativePath =
         `releases/${input.ontologyArtifactFamilyId}/${input.versionTag}/` +
         `${queryIndexSha256}.json`;
+      const datasetSha256 = await calculateSha256(renderedIndex.datasetContent);
+      const datasetRelativePath = `datasets/${datasetSha256}.nq`;
 
       return {
         content: deterministicContent,
+        datasetContent: renderedIndex.datasetContent,
         catalogRelease: {
+          activePublication:
+            ownershipInventory?.modules.some(
+              (module) =>
+                module.activeContentDigest === `sha256:${input.sourceSha256}` &&
+                module.activeArtifactPath === `src/${input.outputPath}`,
+            ) ?? false,
+          ownedNamespaces:
+            ownershipInventory?.modules.find(
+              (module) =>
+                module.ontologyIri ===
+                queryIndex.resolvedOntologyRelease.ontologyIri,
+            )?.ownedNamespaces ?? [],
+          ownershipPolicySha256: ownershipInventory?.sha256 ?? null,
+          snapshotId: input.snapshotId,
+          dataset: {
+            relativePath: datasetRelativePath,
+            sha256: datasetSha256,
+            byteLength: renderedIndex.datasetContent.byteLength,
+            quadCount: renderedIndex.datasetQuadCount,
+          },
+          declaredImports: renderedIndex.declaredImports,
+          importCoverage: {
+            catalogSha256: sourceCatalog?.sha256 ?? null,
+            resolved: renderedIndex.declaredImports.flatMap((importIri) => {
+              const path = sourceCatalog?.bindings.get(importIri);
+              const target = path
+                ? capturedByPath.get(resolve(path))
+                : inputs.find(
+                    ({ sourceArtifactUrl }) => sourceArtifactUrl === importIri,
+                  );
+              return target
+                ? [{ importIri, snapshotId: target.snapshotId }]
+                : [];
+            }),
+            unresolved: renderedIndex.declaredImports
+              .filter((importIri) => {
+                const path = sourceCatalog?.bindings.get(importIri);
+                return !(path
+                  ? capturedByPath.has(resolve(path))
+                  : inputs.some(
+                      ({ sourceArtifactUrl }) =>
+                        sourceArtifactUrl === importIri,
+                    ));
+              })
+              .map((importIri) => ({
+                importIri,
+                reason: unavailableImports.has(importIri)
+                  ? "file_unavailable"
+                  : "not_catalogued",
+              })),
+          },
+          ontologyIri: queryIndex.resolvedOntologyRelease.ontologyIri,
+          versionIri: queryIndex.resolvedOntologyRelease.versionIri,
           ontologyArtifactFamilyId: input.ontologyArtifactFamilyId,
           versionTag: input.versionTag,
           latestStableRelease:
@@ -199,7 +364,7 @@ export async function createOntologyQueryArtifacts({
   const catalog = freezeJsonValueDeeply(
     OntologyQueryCatalogSchema.parse({
       queryArtifactKind: "universal_ontology_query_catalog",
-      queryArtifactFormatVersion: 1,
+      queryArtifactFormatVersion: 2,
       releases: releaseArtifacts
         .map(({ catalogRelease }) => catalogRelease)
         .sort(
@@ -229,8 +394,14 @@ export async function createOntologyQueryArtifacts({
       content,
     ]),
   );
+  for (const { catalogRelease, datasetContent } of releaseArtifacts) {
+    artifactContentsByRelativePath.set(
+      catalogRelease.dataset.relativePath,
+      datasetContent,
+    );
+  }
   // Immutable indexes precede the immutable catalog that references them. The
-  // compatibility path is last so existing readers observe the new graph only
+  // discovery path is last so readers observe the new graph only
   // after every content-addressed object is available.
   artifactContentsByRelativePath.set(catalogRelativePath, catalogContent);
   artifactContentsByRelativePath.set("catalog.json", catalogContent);
@@ -241,5 +412,19 @@ export async function createOntologyQueryArtifacts({
     catalogSha256,
     catalogRelativePath,
     artifactContentsByRelativePath,
+    async assertSourcesUnchanged() {
+      await sourceCatalog?.assertUnchanged?.();
+      await ownershipInventory?.assertUnchanged?.();
+      for (const input of inputs) {
+        if (
+          (await calculateSha256(await captureSource(input.sourcePath))) !==
+          input.sourceSha256
+        ) {
+          throw new Error(
+            "Ontology source changed during generation; catalog was not published.",
+          );
+        }
+      }
+    },
   };
 }

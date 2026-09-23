@@ -36,6 +36,8 @@ const EXPECTED_READINESS_ENTITY_IRI =
 const EXPECTED_MCP_TOOL_NAMES = Object.freeze([
   SEARCH_ENTITIES_TOOL_NAME,
   RESOLVE_ENTITY_TOOL_NAME,
+  "get_entity_context",
+  "find_entity_connections",
 ]);
 
 function validateOntologyQueryArtifactChannelName(

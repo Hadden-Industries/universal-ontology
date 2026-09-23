@@ -133,6 +133,7 @@ export async function renderOntologyAssetsWithWorkers({
       }
 
       settled = true;
+      for (const state of states) clearTimeout(state.deadline);
       await Promise.allSettled(states.map(({ worker }) => worker.terminate()));
 
       if (failures.length > 0) {
@@ -154,6 +155,17 @@ export async function renderOntologyAssetsWithWorkers({
       const task = state.queue.shift();
       activeTasks += 1;
       state.task = task;
+      if (requestedAssetKinds.includes("query_index"))
+        state.deadline = setTimeout(() => {
+          state.alive = false;
+          void state.worker.terminate();
+          failState(
+            state,
+            new Error(
+              "Ontology snapshot generation exceeded its 30 second per-source deadline.",
+            ),
+          );
+        }, 30000);
       state.worker.postMessage({
         taskId: task.index,
         input: {
@@ -167,6 +179,7 @@ export async function renderOntologyAssetsWithWorkers({
       if (!state.task) {
         return;
       }
+      clearTimeout(state.deadline);
 
       failures.push(
         createFailure({
@@ -196,6 +209,7 @@ export async function renderOntologyAssetsWithWorkers({
         }
 
         const task = state.task;
+        clearTimeout(state.deadline);
         state.task = undefined;
         activeTasks -= 1;
 
@@ -221,7 +235,26 @@ export async function renderOntologyAssetsWithWorkers({
           }
 
           if (message.queryIndexContent !== undefined) {
+            if (
+              !ArrayBuffer.isView(message.datasetContent) &&
+              !(message.datasetContent instanceof ArrayBuffer)
+            ) {
+              failures.push(
+                createFailure({
+                  outputPath: task.input.outputPath,
+                  error: new Error(
+                    "Query worker returned no canonical dataset.",
+                  ),
+                }),
+              );
+              dispatchStopped = true;
+              void finish();
+              return;
+            }
             result.queryIndexContent = Buffer.from(message.queryIndexContent);
+            result.datasetContent = Buffer.from(message.datasetContent);
+            result.datasetQuadCount = message.datasetQuadCount;
+            result.declaredImports = message.declaredImports;
           }
 
           results[task.index] = result;

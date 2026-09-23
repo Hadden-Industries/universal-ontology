@@ -64,10 +64,13 @@ function parseCanonicalArtifactBytes({
 
   if (
     parsedJson?.queryArtifactKind !== expectedArtifactKind ||
-    parsedJson?.queryArtifactFormatVersion !== 1
+    parsedJson?.queryArtifactFormatVersion !==
+      (expectedArtifactKind === "universal_ontology_query_channel_manifest"
+        ? 1
+        : 2)
   ) {
     throw new OntologyQueryError("QUERY_INDEX_SCHEMA_UNSUPPORTED", {
-      message: unsupportedFormatMessage,
+      message: `${unsupportedFormatMessage} Regenerate the ontology query artifacts.`,
     });
   }
 

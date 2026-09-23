@@ -1,10 +1,12 @@
 # Universal Ontology MCP Server
 
 The Universal Ontology MCP Server gives Model Context Protocol (MCP) hosts read-only, page-independent access to authored entity labels, lexical definitions, identifiers, and immutable ontology-release provenance.
-It runs as a local `stdio` process, opens no inbound port, and exposes exactly two tools:
+It runs as a local `stdio` process, opens no inbound port, and exposes four tools:
 
 - `search_entities`
 - `resolve_entity`
+- `get_entity_context`
+- `find_entity_connections`
 
 ## Development status
 
@@ -18,7 +20,9 @@ For repository-only Streamable HTTP development at loopback, use the separate [l
 
 ## Runtime boundary
 
-The executable contains the MCP and ontology-query implementation but no ontology indexes.
+The executable, adjacent worker, and Oxigraph WASM asset contain the MCP and ontology-query implementation but no ontology datasets.
+Local filesystem mode supports bounded context, paths, and exact citation filtering; remote-artifact mode supports lexical search and resolution.
+See the [context guide](https://github.com/Hadden-Industries/universal-ontology/blob/main/docs/mcp/ontology-context.md) for snapshot selection and limits.
 It retrieves only selected channel/catalog/index artifacts from the configured HTTPS origin, verifies content-addressed bytes, and retains them in a private operating-system cache.
 User query text and tool results are processed locally and are not sent to that artifact origin.
 

@@ -91,6 +91,9 @@ test("returns only query-index bytes when that asset kind is requested", async (
     {
       outputPath: "universal/core/20260101",
       queryIndexContent: Buffer.from("query:universal/core/20260101", "utf8"),
+      datasetContent: Buffer.from("dataset:universal/core/20260101", "utf8"),
+      datasetQuadCount: 0,
+      declaredImports: [],
     },
   ]);
 });

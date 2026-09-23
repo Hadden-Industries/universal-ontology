@@ -11,7 +11,7 @@ import {
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 
 import { createLocalUniversalOntologyMcpServer } from "../scripts/runLocalOntologyMcpServer.js";
-import { createOntologyQueryModule } from "universal-ontology-query";
+import { createNodeOntologyQueryModule as createOntologyQueryModule } from "universal-ontology-query/node";
 import { createFileSystemOntologyQueryArtifactRepository } from "universal-ontology-query/repositories/file-system";
 import {
   OntologyEntityResolutionSuccessSchema,
@@ -77,13 +77,19 @@ beforeAll(async () => {
     ...release.queryIndexRelativePath.split("/"),
   );
   await mkdir(dirname(indexPath), { recursive: true });
+  const datasetPath = join(
+    queryRoot,
+    release.catalogRelease.dataset.relativePath,
+  );
+  await mkdir(dirname(datasetPath), { recursive: true });
+  await writeFile(datasetPath, release.datasetBytes);
   await Promise.all([
     writeFile(indexPath, release.indexBytes),
     writeFile(
       join(queryRoot, "catalog.json"),
       serializeOntologyQueryArtifact({
         queryArtifactKind: "universal_ontology_query_catalog",
-        queryArtifactFormatVersion: 1,
+        queryArtifactFormatVersion: 2,
         releases: [release.catalogRelease],
       }),
     ),
@@ -234,6 +240,8 @@ describe.each([
       expect((await client.listTools()).tools.map(({ name }) => name)).toEqual([
         "search_entities",
         "resolve_entity",
+        "get_entity_context",
+        "find_entity_connections",
       ]);
       const search = await client.callTool({
         name: "search_entities",
@@ -241,7 +249,7 @@ describe.each([
           queryText: "Person",
           ontologyReleaseSelection: RELEASE_SELECTION,
           preferredLanguageTags: ["en-GB", "en"],
-          entityDetailLevel: "full",
+          entityKinds: ["owl_class"],
         },
       });
       expect(search.isError).not.toBe(true);
@@ -251,13 +259,18 @@ describe.each([
       expect(searchContent).toMatchObject({
         queryText: "Person",
         resolvedOntologyReleases: [EXPECTED_RELEASE],
-        totalMatchedEntityCount: 1,
         returnedEntityCount: 1,
         resultSetTruncated: false,
       });
       expect(searchContent.matches).toHaveLength(1);
-      expect(searchContent.matches[0].matchBasis).toBe("preferred_label_exact");
-      expectAuthoredPerson(searchContent.matches[0].ontologyEntity);
+      expect(searchContent.matches[0].lexicalMatch.matchBasis).toBe(
+        "preferred_label_exact",
+      );
+      expect(
+        searchContent.matches[0].ontologyEntity.selectedLexicalDefinition
+          .literalValue,
+      ).toEqual(DEFINITION_VALUE);
+      expect(searchContent.matches[0].matchingDefinitions).toHaveLength(2);
 
       const resolution = await client.callTool({
         name: "resolve_entity",

@@ -376,7 +376,9 @@ function projectOntologyEntityDescription({
     entityIri,
     resolvedOntologyRelease,
     assertionScope: "source_artifact_graph",
-    entityKinds: [...new Set(entityKinds)].sort(
+    entityKinds: [
+      ...new Set(entityKinds.length ? entityKinds : ["named_resource"]),
+    ].sort(
       (left, right) =>
         ENTITY_KIND_ORDER.get(left) - ENTITY_KIND_ORDER.get(right),
     ),
@@ -494,21 +496,17 @@ export function createOntologyReleaseQueryIndex({
     `${DC_ELEMENTS_NAMESPACE_IRI}identifier`,
   ]);
   const entityIris = sortAndDeduplicate(
-    quads
-      .filter(
-        ({ subject, predicate, object }) =>
-          subject.termType === "NamedNode" &&
-          predicate.value === RDF_TYPE_IRI &&
-          object.termType === "NamedNode" &&
-          ENTITY_KIND_BY_ASSERTED_TYPE_IRI.has(object.value),
-      )
-      .map(({ subject }) => subject.value),
+    quads.flatMap(({ subject, predicate, object }) =>
+      [subject, predicate, object]
+        .filter((term) => term.termType === "NamedNode")
+        .map((term) => term.value),
+    ),
     (value) => value,
   );
   const ontologyEntityDescriptions = entityIris.map((entityIri) =>
     projectOntologyEntityDescription({
       entityIri,
-      subjectQuads: groupedQuads.get(`N\u0000${entityIri}`),
+      subjectQuads: groupedQuads.get(`N\u0000${entityIri}`) ?? [],
       resolvedOntologyRelease,
       annotationIndex,
       preferredLabelPropertyIris,
@@ -522,7 +520,7 @@ export function createOntologyReleaseQueryIndex({
   );
   const queryIndex = OntologyReleaseQueryIndexSchema.parse({
     queryArtifactKind: "universal_ontology_release_query_index",
-    queryArtifactFormatVersion: 1,
+    queryArtifactFormatVersion: 2,
     resolvedOntologyRelease,
     ontologyEntityDescriptions,
   });

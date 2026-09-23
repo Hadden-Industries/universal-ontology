@@ -8,6 +8,8 @@ LABEL org.opencontainers.image.title="Universal Ontology MCP Server" \
 
 WORKDIR /opt/universal-ontology-mcp-server
 COPY --chown=node:node dist/universal-ontology-mcp-server.mjs ./server.mjs
+COPY --chown=node:node dist/ontologyStoreWorker.cjs dist/node_bg.wasm ./
+COPY --chown=node:node third-party/ ./third-party/
 COPY --chown=node:node LICENSE README.md THIRD_PARTY_NOTICES.md ./
 
 # The stdio process needs no root privileges or listening port. Only its

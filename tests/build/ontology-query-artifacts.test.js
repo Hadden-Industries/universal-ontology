@@ -86,6 +86,9 @@ describe("ontology query-artifact producer", () => {
       );
       expect([...artifactContentsByRelativePath.keys()]).toEqual([
         ...expectedReleasePaths,
+        ...new Set(
+          catalog.releases.map((release) => release.dataset.relativePath),
+        ),
         catalogRelativePath,
         "catalog.json",
       ]);

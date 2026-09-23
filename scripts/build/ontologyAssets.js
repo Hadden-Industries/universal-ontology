@@ -49,9 +49,8 @@ export async function createOntologyBuildAssets({
     assets.set(`${outputPath}.csv`, csvContent);
   }
 
-  const { artifactContentsByRelativePath } = await createOntologyQueryArtifacts(
-    { ontologySources, workerCount },
-  );
+  const { artifactContentsByRelativePath, assertSourcesUnchanged } =
+    await createOntologyQueryArtifacts({ ontologySources, workerCount });
 
   for (const [relativePath, content] of artifactContentsByRelativePath) {
     const outputPath = `query/v1/${relativePath}`;
@@ -66,5 +65,6 @@ export async function createOntologyBuildAssets({
     assets.set(outputPath, content);
   }
 
+  await assertSourcesUnchanged();
   return assets;
 }

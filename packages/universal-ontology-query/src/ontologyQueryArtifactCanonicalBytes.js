@@ -103,6 +103,28 @@ function rebuildIndexedOntologyEntityDescription(description) {
 
 function rebuildOntologyQueryCatalogRelease(release) {
   return {
+    activePublication: release.activePublication,
+    ownedNamespaces: [...release.ownedNamespaces],
+    ownershipPolicySha256: release.ownershipPolicySha256,
+    snapshotId: release.snapshotId,
+    dataset: {
+      relativePath: release.dataset.relativePath,
+      sha256: release.dataset.sha256,
+      byteLength: release.dataset.byteLength,
+      quadCount: release.dataset.quadCount,
+    },
+    declaredImports: [...release.declaredImports],
+    importCoverage: {
+      catalogSha256: release.importCoverage.catalogSha256,
+      resolved: release.importCoverage.resolved.map(
+        ({ importIri, snapshotId }) => ({ importIri, snapshotId }),
+      ),
+      unresolved: release.importCoverage.unresolved.map(
+        ({ importIri, reason }) => ({ importIri, reason }),
+      ),
+    },
+    ontologyIri: release.ontologyIri,
+    versionIri: release.versionIri,
     ontologyArtifactFamilyId: release.ontologyArtifactFamilyId,
     versionTag: release.versionTag,
     latestStableRelease: release.latestStableRelease,

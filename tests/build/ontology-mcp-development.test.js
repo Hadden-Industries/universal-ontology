@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 import { runOntologyMcpDevelopment } from "../../scripts/runOntologyMcpDevelopment.js";
+import { generateOntologyQueryIndexes } from "../../scripts/generateOntologyQueryIndexes.js";
 
 test("refreshes the selected artifact root before the real workspace listener becomes ready", async () => {
   const projectRoot = await nodeFileSystem.mkdtemp(
@@ -45,6 +46,21 @@ test("refreshes the selected artifact root before the real workspace listener be
         UNIVERSAL_ONTOLOGY_MCP_PORT: String(port),
       },
       arguments: ["--refresh-index"],
+      readGenerationContext: async () => ({
+        sourceCatalog: { sha256: "a".repeat(64), bindings: new Map() },
+        ownershipInventory: {
+          sha256: "b".repeat(64),
+          modules: [
+            {
+              ontologyIri: "https://example.com/ontology/test",
+              ownedNamespaces: ["https://example.com/ontology/test/"],
+              activeArtifactPath: "src/universal/core/20260830",
+              activeContentDigest:
+                "sha256:efbb5401bbe45464f916875b81777c9132fac63f56c8d34b0b3af27601aa163b",
+            },
+          ],
+        },
+      }),
     });
     expect(
       await (await fetch(`http://127.0.0.1:${port}/healthz`)).json(),
@@ -58,6 +74,11 @@ test("refreshes the selected artifact root before the real workspace listener be
         expect.objectContaining({
           ontologyArtifactFamilyId: "universal/core",
           versionTag: "20260830",
+          activePublication: true,
+          ownedNamespaces: ["https://example.com/ontology/test/"],
+          importCoverage: expect.objectContaining({
+            catalogSha256: "a".repeat(64),
+          }),
           sourceArtifactSha256:
             "efbb5401bbe45464f916875b81777c9132fac63f56c8d34b0b3af27601aa163b",
         }),
@@ -66,6 +87,26 @@ test("refreshes the selected artifact root before the real workspace listener be
     await expect(
       nodeFileSystem.stat(join(projectRoot, "dist")),
     ).rejects.toMatchObject({ code: "ENOENT" });
+    await localServer.shutdown();
+    await generateOntologyQueryIndexes({
+      sourceDirectory: join(projectRoot, "src"),
+      sourceFile: join(projectRoot, "src/universal/core/20260830"),
+      repositoryRoot: projectRoot,
+      ontologyArtifactFamilyId: "universal/core",
+      outputDirectory: queryRoot,
+      workerCount: 1,
+    });
+    localServer = await runOntologyMcpDevelopment({
+      projectRoot,
+      environment: {
+        UNIVERSAL_ONTOLOGY_QUERY_ROOT: queryRoot,
+        UNIVERSAL_ONTOLOGY_MCP_PORT: String(port),
+      },
+      arguments: [],
+    });
+    expect(
+      await (await fetch(`http://127.0.0.1:${port}/healthz`)).json(),
+    ).toMatchObject({ status: "ready", catalogReady: true });
   } finally {
     await localServer?.shutdown();
     // Remove only signal listeners installed by this invocation, preserving

@@ -53,6 +53,8 @@ describe("Universal Ontology MCP container package", () => {
       'LABEL org.opencontainers.image.title="Universal Ontology MCP Server" org.opencontainers.image.licenses="MIT" io.modelcontextprotocol.server.name="io.github.hadden-industries/universal-ontology"',
       "WORKDIR /opt/universal-ontology-mcp-server",
       "COPY --chown=node:node dist/universal-ontology-mcp-server.mjs ./server.mjs",
+      "COPY --chown=node:node dist/ontologyStoreWorker.cjs dist/node_bg.wasm ./",
+      "COPY --chown=node:node third-party/ ./third-party/",
       "COPY --chown=node:node LICENSE README.md THIRD_PARTY_NOTICES.md ./",
       "RUN install --directory --owner=node --group=node --mode=0700 /home/node/.cache/universal-ontology-mcp-server/v1",
       "USER node:node",

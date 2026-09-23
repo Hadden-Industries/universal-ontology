@@ -225,8 +225,8 @@ export const UNIVERSAL_ONTOLOGY_MCP_RELEASE_INPUT_SCHEMA = Object.freeze({
     applicationBundle: boundedFileSchema,
     packagedStaticFiles: {
       type: "array",
-      minItems: 3,
-      maxItems: 3,
+      minItems: 7,
+      maxItems: 7,
       items: boundedFileSchema,
     },
     buildToolVersions: {

@@ -85,7 +85,7 @@ The command installs two distinct local programs:
   It then requires the copied staging file's byte length and SHA-256 digest to match that validated snapshot before writing the installation record, so a concurrent canonical-bundle replacement cannot make the record describe different bytes.
 
 Before changing active files, setup verifies the staged GitHub executable with `--version` and connects to the staged Universal Ontology bundle with the official MCP v2 client pinned to protocol version `2026-07-28`.
-That protocol probe requires the exact `universal-ontology` server identity and exactly `search_entities` and `resolve_entity`.
+That protocol probe requires the exact `universal-ontology` server identity and the four documented tools.
 It then calls `search_entities` for `Person` in the latest stable `universal/core` release and requires the expected Universal Ontology entity IRI before activation.
 Filesystem verification reads the newly generated `dist/query/v1` tree.
 HTTP verification uses the selected remote source and a unique operating-system-temporary `--cache-directory`, then closes the MCP process and removes that cache.
@@ -401,10 +401,14 @@ Substitute the locally installed tarball path, the archive runtime/application p
 These examples are manual alternatives to the repository-local installation command above.
 That command manages only this checkout's `.mcp.json`, `.codex/config.toml`, and Git-ignored `.agents/mcp_config.json`; it does not modify a user-profile MCP configuration.
 
-The server exposes exactly two read-only tools:
+The server exposes four read-only tools:
 
 1. `search_entities` searches authored labels, identifiers, IRI local names, and lexical definitions.
 2. `resolve_entity` resolves an exact IRI, UUID URN, or preferred label and reports `found`, `ambiguous`, or `not_found` without guessing.
+3. `get_entity_context` retrieves bounded asserted and OWL structural context in local filesystem mode.
+4. `find_entity_connections` finds bounded structural paths in local filesystem mode.
+
+See the [context guide](ontology-context.md) for exact definition-source filtering, snapshot handoff, and working-file refresh.
 
 ### Codex
 
@@ -426,7 +430,7 @@ args = ["C:\\absolute\\path\\to\\universal-ontology\\packages\\universal-ontolog
 startup_timeout_sec = 15
 tool_timeout_sec = 30
 required = true
-enabled_tools = ["search_entities", "resolve_entity"]
+enabled_tools = ["search_entities", "resolve_entity", "get_entity_context", "find_entity_connections"]
 default_tools_approval_mode = "writes"
 ```
 
@@ -439,7 +443,7 @@ For the extracted Windows archive, the runtime is the command and the applicatio
 [mcp_servers.universal_ontology_archive]
 command = "C:\\Tools\\UniversalOntologyMcpServer\\runtime\\node.exe"
 args = ["C:\\Tools\\UniversalOntologyMcpServer\\app\\universal-ontology-mcp-server.mjs"]
-enabled_tools = ["search_entities", "resolve_entity"]
+enabled_tools = ["search_entities", "resolve_entity", "get_entity_context", "find_entity_connections"]
 default_tools_approval_mode = "writes"
 ```
 
@@ -499,7 +503,7 @@ A generic stdio host needs an executable plus an argument array and must keep st
   "args": [
     "C:\\absolute\\path\\to\\universal-ontology\\packages\\universal-ontology-mcp-server\\dist\\universal-ontology-mcp-server.mjs"
   ],
-  "enabledTools": ["search_entities", "resolve_entity"]
+  "enabledTools": ["search_entities", "resolve_entity", "get_entity_context", "find_entity_connections"]
 }
 ```
 

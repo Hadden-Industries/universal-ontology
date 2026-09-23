@@ -7,6 +7,8 @@ import {
 import {
   RESOLVE_ENTITY_TOOL_NAME,
   SEARCH_ENTITIES_TOOL_NAME,
+  GET_ENTITY_CONTEXT_TOOL_NAME,
+  FIND_ENTITY_CONNECTIONS_TOOL_NAME,
   UNIVERSAL_ONTOLOGY_MCP_INSTRUCTIONS,
   UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO,
 } from "./universalOntologyMcpMetadata.js";
@@ -16,6 +18,10 @@ import {
   ResolveEntityToolOutputSchema,
   SEARCH_ENTITIES_TOOL_CONFIGURATION,
   SearchEntitiesToolOutputSchema,
+  GET_ENTITY_CONTEXT_TOOL_CONFIGURATION,
+  FIND_ENTITY_CONNECTIONS_TOOL_CONFIGURATION,
+  EntityContextToolOutputSchema,
+  EntityConnectionsToolOutputSchema,
 } from "./universalOntologyToolSchemas.js";
 import {
   ONTOLOGY_AUTHORED_CONTENT_WARNING,
@@ -85,14 +91,102 @@ function createInternalFailureResult() {
   }
 }
 
+function fitApplicationResult(structuredContent, maximumResultBytes) {
+  let result = createApplicationToolResult(structuredContent);
+  while (
+    Buffer.byteLength(JSON.stringify(result), "utf8") > maximumResultBytes
+  ) {
+    const projection = structuredContent.context;
+    const detailedExpression = projection?.expressions.find(
+      (expression) => expression.statements.length > 0,
+    );
+    if (detailedExpression) {
+      detailedExpression.statements = [];
+      detailedExpression.diagnostics.push(
+        "raw_structure_omitted_for_byte_limit",
+      );
+      if (
+        !projection.completeness.truncationReasons.includes(
+          "expression_detail_byte_limit",
+        )
+      )
+        projection.completeness.truncationReasons.push(
+          "expression_detail_byte_limit",
+        );
+      result = createApplicationToolResult(structuredContent);
+      continue;
+    }
+    const peripheralDetail = projection?.nodes.findLast(
+      (node) =>
+        node.entityIri !== projection.entityIri &&
+        (node.definitions.length ||
+          node.notes.length ||
+          node.entitySources.length),
+    );
+    if (peripheralDetail) {
+      peripheralDetail.definitions = [];
+      peripheralDetail.notes = [];
+      peripheralDetail.entitySources = [];
+      peripheralDetail.detailsOmitted = true;
+      if (
+        !projection.completeness.truncationReasons.includes(
+          "neighbour_detail_byte_limit",
+        )
+      )
+        projection.completeness.truncationReasons.push(
+          "neighbour_detail_byte_limit",
+        );
+      result = createApplicationToolResult(structuredContent);
+      continue;
+    }
+    if (!projection || projection.nodes.length <= 1)
+      throw new OntologyQueryError("RESULT_SIZE_EXCEEDED");
+    const removed = projection.nodes.pop();
+    projection.connections = projection.connections.filter(
+      (connection) =>
+        connection.sourceIri !== removed.entityIri &&
+        connection.targetIri !== removed.entityIri,
+    );
+    const retainedExpressions = new Set(
+      projection.connections.map((connection) => connection.expressionRef),
+    );
+    projection.expressions = projection.expressions.filter((expression) =>
+      retainedExpressions.has(expression.expressionRef),
+    );
+    const completeness = projection.completeness;
+    if (!completeness.truncationReasons.includes("byte_limit"))
+      completeness.truncationReasons.push("byte_limit");
+    completeness.completedExpansionDepth = 0;
+    completeness.returnedNodeCount = projection.nodes.length;
+    completeness.returnedConnectionCount = projection.connections.length;
+    if (completeness.frontierHints.length < 10)
+      completeness.frontierHints.push(removed.entityIri);
+    if (structuredContent.paths) {
+      const retainedConnections = new Set(
+        projection.connections.map((connection) => connection.connectionRef),
+      );
+      structuredContent.paths = structuredContent.paths.filter((path) =>
+        path.every((connection) =>
+          retainedConnections.has(connection.connectionRef),
+        ),
+      );
+      structuredContent.status = "search_incomplete";
+      structuredContent.shortestPathsEstablished = false;
+    }
+    result = createApplicationToolResult(structuredContent);
+  }
+  return result;
+}
+
 async function executeOntologyToolSafely({
   execute,
   outputSchema,
   reportUnhandledToolError,
+  maximumResultBytes = 32 * 1024,
 }) {
   try {
     const structuredContent = outputSchema.parse(await execute());
-    return createApplicationToolResult(structuredContent);
+    return fitApplicationResult(structuredContent, maximumResultBytes);
   } catch (error) {
     if (!isOntologyQueryError(error)) {
       reportWithoutBreakingToolSafety(reportUnhandledToolError, error);
@@ -174,6 +268,7 @@ export function createUniversalOntologyMcpServer({
       executeOntologyToolSafely({
         reportUnhandledToolError,
         outputSchema: SearchEntitiesToolOutputSchema,
+        maximumResultBytes: input.maximumResultBytes,
         execute: () =>
           ontologyQuery.searchOntologyEntities(input, {
             signal: createOntologyQuerySignal(context.mcpReq.signal),
@@ -195,5 +290,37 @@ export function createUniversalOntologyMcpServer({
       }),
   );
 
+  for (const [name, configuration, outputSchema, method] of [
+    [
+      GET_ENTITY_CONTEXT_TOOL_NAME,
+      GET_ENTITY_CONTEXT_TOOL_CONFIGURATION,
+      EntityContextToolOutputSchema,
+      "getOntologyEntityContext",
+    ],
+    [
+      FIND_ENTITY_CONNECTIONS_TOOL_NAME,
+      FIND_ENTITY_CONNECTIONS_TOOL_CONFIGURATION,
+      EntityConnectionsToolOutputSchema,
+      "findOntologyEntityConnections",
+    ],
+  ]) {
+    server.registerTool(name, configuration, async (input, context) =>
+      executeOntologyToolSafely({
+        reportUnhandledToolError,
+        outputSchema,
+        maximumResultBytes: input.maximumResultBytes,
+        execute: () => {
+          if (typeof ontologyQuery[method] !== "function")
+            throw new OntologyQueryError("QUERY_INDEX_UNAVAILABLE", {
+              message:
+                "This operation requires local context artifacts and the filesystem MCP entry point.",
+            });
+          return ontologyQuery[method](input, {
+            signal: createOntologyQuerySignal(context.mcpReq.signal),
+          });
+        },
+      }),
+    );
+  }
   return server;
 }

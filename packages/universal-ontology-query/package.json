@@ -8,12 +8,14 @@
     ".": "./src/index.js",
     "./schemas": "./src/ontologyQuerySchemas.js",
     "./artifacts": "./src/artifacts.js",
+    "./node": "./src/node.js",
     "./repositories/same-origin-fetch": "./src/fetchOntologyQueryArtifactRepository.js",
     "./repositories/file-system": "./src/fileSystemOntologyQueryArtifactRepository.js",
     "./repositories/persistent-http": "./src/persistentHttpRepository.js",
     "./json-value-immutability": "./src/jsonValueImmutability.js"
   },
   "dependencies": {
+    "oxigraph": "0.5.11",
     "universal-ontology-projection-policy": "1.0.0",
     "zod": "4.6.5"
   },

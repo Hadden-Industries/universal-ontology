@@ -72,11 +72,17 @@ beforeAll(async () => {
     );
     await nodeFileSystem.mkdir(dirname(indexPath), { recursive: true });
     await nodeFileSystem.writeFile(indexPath, release.indexBytes);
+    const datasetPath = join(
+      queryRoot,
+      release.catalogRelease.dataset.relativePath,
+    );
+    await nodeFileSystem.mkdir(dirname(datasetPath), { recursive: true });
+    await nodeFileSystem.writeFile(datasetPath, release.datasetBytes);
     await nodeFileSystem.writeFile(
       join(queryRoot, "catalog.json"),
       serializeOntologyQueryArtifact({
         queryArtifactKind: "universal_ontology_query_catalog",
-        queryArtifactFormatVersion: 1,
+        queryArtifactFormatVersion: 2,
         releases: [release.catalogRelease],
       }),
     );
@@ -162,6 +168,7 @@ test.each([
         name: "search_entities",
         arguments: {
           queryText: "Person",
+          entityKinds: ["owl_class"],
           ontologyReleaseSelection: {
             selectionKind: "specified_releases",
             ontologyReleases: [

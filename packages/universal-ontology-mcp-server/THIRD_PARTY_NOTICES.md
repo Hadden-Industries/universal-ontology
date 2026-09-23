@@ -457,3 +457,42 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## oxigraph 0.5.11
+
+License: MIT OR Apache-2.0
+
+This distribution selects the MIT licence.
+The licence below is from Oxigraph tag v0.5.11, commit df37a5c98e2497135cdd4cfce01a049b78ca6740.
+The pinned npm package's WASM SHA-256 is be0b89d82fa81b91c23426af04e301f1ff276dce1fded8ca2bd2a13c371cc327.
+Additional upstream licence texts and crate archive digests are shipped in third-party/oxigraph/component-notices.json.
+That inventory conservatively includes the tagged source lock's dependency closure and versions observed in the distributed WASM; it is not a claim that all those crates are linked.
+In particular, the published WASM identifies hashbrown 0.17.1, whose actual archive and MIT licence are included, rather than assuming the source lock's hashbrown 0.16.1 identifies the prebuilt binary.
+
+```text
+Copyright (c) 2018 Oxigraph developers
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+```
