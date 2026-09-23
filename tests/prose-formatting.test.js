@@ -42,6 +42,16 @@ function write(name, content = "First sentence. Second sentence.\n") {
   writeFileSync(path, content);
   return path;
 }
+
+test("a selected document does not check or rewrite unchanged prose", async () => {
+  write("docs/changed.md", "One sentence.\n");
+  const untouched = write("docs/unchanged.md");
+  const before = readFileSync(untouched, "utf8");
+  expect(await processDocumentation({ root, paths: ["docs/changed.md"] })).toBe(
+    0,
+  );
+  expect(readFileSync(untouched, "utf8")).toBe(before);
+});
 test("selection shares current Prettier and Git ignore rules, including negation", async () => {
   for (const name of [
     "README.md",

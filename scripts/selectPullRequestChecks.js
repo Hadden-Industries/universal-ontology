@@ -9,6 +9,7 @@ const REPOSITORY_ROOT = fileURLToPath(new URL("../", import.meta.url));
 const require = createRequire(import.meta.url);
 const ONTOLOGY_WORKFLOW = ".github/workflows/ontology-validation.yml";
 const ONTOLOGY_WORKFLOW_SCOPES = [
+  "ontology_validation",
   "ontology_policy_qa",
   "ontology_entity_contracts",
   "ontology_qualification",
@@ -58,7 +59,9 @@ const ONTOLOGY_POLICY_INPUTS = [
   "tests/test_ontology_entity_changes.py",
 ];
 export const CHECK_INPUTS = {
-  style: [
+  // Content checks and toolchain verification have different consumers: a
+  // Markdown edit must not select Python or platform regression checks.
+  style_tooling: [
     ...COMMON_INPUTS,
     ".python-version",
     "requirements.txt",
@@ -71,11 +74,25 @@ export const CHECK_INPUTS = {
     "ruff.toml",
     ".github/workflows/development-checks.yml",
     "scripts/formatDocumentation.js",
+    "scripts/prepareDocumentationTools.js",
+    "scripts/setUpDevelopmentEnvironment.js",
     "scripts/runRepositoryPython.js",
     "tests/prose-formatting.test.js",
+    "tests/documentation-tools.test.js",
+  ],
+  python_style: [
     ":(glob)**/*.py",
     ":(glob)**/*.pyi",
     ":(glob)**/*.ipynb",
+    ":(exclude)src/external",
+    ":(exclude)tests/fixtures",
+    ":(exclude)dist",
+    ":(exclude).agents/skills",
+    ":(exclude).claude/skills",
+    ":(exclude).agent-tools",
+    ":(exclude).sdlc",
+  ],
+  documentation: [
     ":(glob)*.md",
     ":(glob)docs/**/*.md",
     ":(glob)packages/*/*.md",
@@ -92,6 +109,13 @@ export const CHECK_INPUTS = {
     ":(exclude).claude/skills",
     ":(exclude).agent-tools",
     ":(exclude).sdlc",
+  ],
+  // This is a conservative preflight only. The Python runner remains the
+  // authority for exact ontology selection after a possible input changes.
+  ontology_validation: [
+    ...ONTOLOGY_POLICY_INPUTS,
+    ".java-version",
+    "tests/test_validate_ontologies.py",
   ],
   // Workflow orchestration is owned here, not by the Python data validator.
   ontology_validation_workflow: [
@@ -289,6 +313,30 @@ function hasChanges(root, base, head, paths) {
     );
   }
   return result.status === 1;
+}
+
+/** Return changed, surviving paths from two commits without shell or line parsing.
+ * Deletions need no content check; treating renames as delete/add keeps their
+ * destination eligible even when Git's rename heuristics would differ.
+ */
+export function changedFilePaths({ root = REPOSITORY_ROOT, base, head }) {
+  requireCommit(root, base);
+  requireCommit(root, head);
+  const result = git(root, [
+    "diff",
+    "--name-only",
+    "-z",
+    "--no-ext-diff",
+    "--no-textconv",
+    "--no-renames",
+    "--diff-filter=ACMT",
+    base,
+    head,
+    "--",
+  ]);
+  if (result.status !== 0)
+    throw new Error("Cannot select changed files: " + result.stderr.trim());
+  return result.stdout.split("\0").filter(Boolean);
 }
 
 function readOntologyWorkflow(root, revision) {

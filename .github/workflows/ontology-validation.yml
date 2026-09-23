@@ -56,9 +56,10 @@ jobs:
           npm ci --ignore-scripts --no-audit --no-fund
       - name: Select ontology jobs before provisioning their toolchains
         id: ontology_jobs
-        run: node scripts/selectPullRequestChecks.js --scope ontology_policy_qa --scope ontology_entity_contracts --scope ontology_qualification --scope ontology_validation_workflow
+        run: node scripts/selectPullRequestChecks.js --scope ontology_validation --scope ontology_policy_qa --scope ontology_entity_contracts --scope ontology_qualification --scope ontology_validation_workflow
 
       - name: Provision Python Runtime
+        if: steps.ontology_jobs.outputs.ontology_validation == 'true'
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
@@ -66,9 +67,11 @@ jobs:
           cache-dependency-path: requirements.lock.txt
 
       - name: Create isolated Python environment
+        if: steps.ontology_jobs.outputs.ontology_validation == 'true'
         run: python -m venv .venv
 
       - name: Select ontology validation before installing dependencies
+        if: steps.ontology_jobs.outputs.ontology_validation == 'true'
         id: scope
         shell: bash
         run: |
@@ -113,7 +116,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Report unchanged ontology inputs
-        if: steps.scope.outputs.validation_required == 'false'
+        if: steps.ontology_jobs.outputs.ontology_validation == 'false' || steps.scope.outputs.validation_required == 'false'
         run: echo "Ontology validation not applicable; no supported ontology or validator input changed."
 
   policy-qa:

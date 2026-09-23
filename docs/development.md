@@ -88,6 +88,9 @@ Ruff checks correctness and import ordering with the Python version declared in 
 `npm run format:docs` combines Prettier's Markdown layout with native Snapper sentence breaks.
 `npm run format:docs:check` checks without writing, including native prose diagnostics even when Snapper's preservation backstop leaves a document unchanged.
 Such findings can require manual sentence breaks.
+Supply `-- --base <full-commit-SHA> --head <full-commit-SHA>` to check only authored documents added or changed between two commits.
+The documents are read from the current checkout; CI checks out the compared head.
+Renamed destinations are included, deleted files are omitted, and the current ignore rules still apply.
 Both operations select root Markdown, `docs/**/*.md`, and `packages/*/*.md` through Prettier's API and the current `.gitignore` and `.prettierignore`; negated ignore patterns work the same way in checks and fixes.
 Markdown prose wrapping and embedded-language formatting are disabled in Prettier, and Snapper uses unlimited sentence width without clause breaks.
 Use `prettier-ignore` on literal examples whose trailing spaces carry meaning.
@@ -98,7 +101,9 @@ Dependencies, vendored sources, generated output and Python fixtures are exclude
 
 `npm run check:qualification` includes Python and Markdown checks.
 The distribution jobs retain `test:node`, `lint:node`, `format:node:check`, and the Prettier-only `format:docs:prettier:check` so their Node-only environments do not acquire a Python dependency.
-The dedicated style matrix installs both locked toolchains on Linux and Windows.
+Ordinary Markdown edits run one Linux documentation job, installing only Prettier and Snapper from the existing lockfiles, including their integrity hashes.
+Python source edits select Python lint and formatting checks separately.
+Changes to the style tools, dependencies, configuration, or workflow select the Linux/Windows toolchain regression matrix and a complete documentation check.
 
 ## Publication safeguards
 
@@ -111,10 +116,12 @@ Historical receipts do not qualify a later publication.
 Pull requests run, as applicable to the changed files:
 
 - [Ontology validation](../.github/workflows/ontology-validation.yml): the editing policy on the changed sources, policy/publication-gate tests, and the Linux/Windows two-engine qualification of the active set.
-- [Development checks](../.github/workflows/development-checks.yml): independently selected Linux/Windows jobs for Python and Markdown style, and for the ontology runner, setup-tool, launcher, hook and check-selection tests.
-  Both use a clean `npm run set-up:development`.
+- [Development checks](../.github/workflows/development-checks.yml): changed Markdown on Linux, Python style on Linux, and Linux/Windows matrices for affected style tools or development tools.
+  Development and toolchain verification use `npm run set-up:development`; documentation-only checks install just the locked formatters.
 - [MCP distribution](../.github/workflows/verify-universal-ontology-mcp-distribution.yml): product tests, website build, package, archive and container checks.
 - [CodeQL](../.github/workflows/codeql.yml).
 
 `scripts/selectPullRequestChecks.js` decides which jobs apply from the changed paths.
-Authored documentation selects the style matrix; preserved documents do not select it by themselves.
+Authored documentation selects only its content check; preserved documents do not select style checks by themselves.
+Mixed changes retain every applicable consumer check.
+The required ontology status reports unchanged inputs before Python provisioning when its conservative preflight finds no possible ontology or validator change.
