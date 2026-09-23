@@ -14,6 +14,7 @@ import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
+import { changedFilePaths } from "../scripts/selectPullRequestChecks.js";
 
 const SCOPES = [
   "development",
@@ -78,7 +79,7 @@ test("the stable ontology check selects files before installing its dependencies
   expect(selectionStep.if).toBeUndefined();
   expect(selectionStep["continue-on-error"]).toBeUndefined();
   expect(selectionStep.run).toBe(
-    "node scripts/selectPullRequestChecks.js --scope ontology_policy_qa --scope ontology_entity_contracts --scope ontology_qualification --scope ontology_validation_workflow",
+    "node scripts/selectPullRequestChecks.js --scope ontology_validation --scope ontology_policy_qa --scope ontology_entity_contracts --scope ontology_qualification --scope ontology_validation_workflow",
   );
   const job = workflow.jobs["validate-ontologies"];
   expect(job.name).toBe("OWL Differential Analysis");
@@ -129,7 +130,7 @@ test("the stable ontology check selects files before installing its dependencies
     );
   }
   expect(job.steps.at(-1).if).toBe(
-    "steps.scope.outputs.validation_required == 'false'",
+    "steps.ontology_jobs.outputs.ontology_validation == 'false' || steps.scope.outputs.validation_required == 'false'",
   );
 });
 
@@ -343,31 +344,108 @@ describe("native Git PR check selection", () => {
     expectSelection(["development"], { scopes: ["development"] });
   });
 
-  test.each([
-    ["README.md", true],
-    ["docs/development.md", true],
-    ["packages/universal-ontology-mcp-server/README.md", true],
-    ["scripts/ontology_policy/validation.py", true],
-    ["scripts/formatDocumentation.js", true],
-    ["tests/prose-formatting.test.js", true],
-    ["ruff.toml", true],
-    [".prettierignore", true],
-    [".gitignore", true],
-    [".prettierrc.json", true],
-    [".snapperrc.toml", true],
-    ["requirements.lock.txt", true],
-    ["docs/reviews/external.md", false],
-    ["docs/sdlc/baseline.md", false],
-    ["docs/plans/sdlc-improvements/README.md", false],
-    ["docs/policy/Editing-Policy.generated.md", false],
-    ["docs/policy/migration-evidence.md", false],
-    ["AGENTS.md", false],
-    ["src/external/vendor.py", false],
-    ["src/universal/example.ttl", false],
-  ])("style selection for %s is %s", (path, selected) => {
+  test("a draft plan selects documentation alone", () => {
+    const path = "docs/plans/2026-09-23-mcp-ontology-context.md";
     write(path);
     commit([path]);
-    expectSelection(selected ? ["style"] : [], { scopes: ["style"] });
+    const result = runSelection({ scopes: [] });
+    expect({ status: result.status, error: result.stderr }).toEqual({
+      status: 0,
+      error: "",
+    });
+    const selected = readFileSync(join(root, "github-output.txt"), "utf8")
+      .trim()
+      .split("\n")
+      .filter((line) => line.endsWith("=true"));
+    expect(selected).toEqual(["documentation=true"]);
+  });
+
+  test.each([
+    ["README.md", ["documentation"]],
+    ["docs/development.md", ["documentation"]],
+    ["packages/universal-ontology-mcp-server/README.md", ["documentation"]],
+    ["scripts/ontology_policy/validation.py", ["python_style"]],
+    ["scripts/formatDocumentation.js", ["style_tooling"]],
+    ["scripts/prepareDocumentationTools.js", ["style_tooling"]],
+    ["tests/prose-formatting.test.js", ["style_tooling"]],
+    ["tests/documentation-tools.test.js", ["style_tooling"]],
+    ["ruff.toml", ["style_tooling"]],
+    [".prettierignore", ["style_tooling"]],
+    [".gitignore", ["style_tooling"]],
+    [".prettierrc.json", ["style_tooling"]],
+    [".snapperrc.toml", ["style_tooling"]],
+    ["requirements.lock.txt", ["style_tooling"]],
+    ["docs/reviews/external.md", []],
+    ["docs/sdlc/baseline.md", []],
+    ["docs/plans/sdlc-improvements/README.md", []],
+    ["docs/policy/Editing-Policy.generated.md", []],
+    ["docs/policy/migration-evidence.md", []],
+    ["AGENTS.md", []],
+    ["src/external/vendor.py", []],
+    ["src/universal/example.ttl", []],
+  ])("selects the applicable style consumer for %s", (path, selected) => {
+    write(path);
+    commit([path]);
+    expectSelection(selected, {
+      scopes: ["documentation", "python_style", "style_tooling"],
+    });
+  });
+
+  test("a plan mixed with application changes retains product checks", () => {
+    const paths = ["docs/plans/draft.md", "src/ontology.js"];
+    paths.forEach((path) => write(path));
+    commit(paths);
+    expectSelection(["documentation", "product_tests", "website_build"], {
+      scopes: [
+        "documentation",
+        "product_tests",
+        "website_build",
+        "python_style",
+        "style_tooling",
+      ],
+    });
+  });
+
+  test.each(["pull_request", "push"])(
+    "ontology preflight retains removed validator inputs on %s",
+    (eventName) => {
+      const path = "tests/test_validate_ontologies.py";
+      write(path);
+      base = commit([path]);
+      unlinkSync(join(root, path));
+      commit([path]);
+      expectSelection(["ontology_validation"], {
+        scopes: ["ontology_validation"],
+        eventName,
+      });
+    },
+  );
+
+  test.each([
+    ".java-version",
+    "core/universal-core.owl",
+    "src/universal/core/20260923",
+    "dist/iso/31073/ed-1/example.ttl",
+  ])("ontology preflight includes %s", (path) => {
+    write(path);
+    commit([path]);
+    expectSelection(["ontology_validation"], {
+      scopes: ["ontology_validation"],
+    });
+  });
+
+  test("changed-file selection keeps literal rename destinations and excludes deletions", () => {
+    write("docs/old.md");
+    write("docs/deleted.md");
+    base = commit(["docs/old.md", "docs/deleted.md"]);
+    const destination =
+      process.platform === "win32"
+        ? "docs/quoted ' café.md"
+        : "docs/quoted ' café\nline.md";
+    renameSync(join(root, "docs/old.md"), join(root, destination));
+    unlinkSync(join(root, "docs/deleted.md"));
+    const head = commit(["docs/old.md", "docs/deleted.md", destination]);
+    expect(changedFilePaths({ root, base, head })).toEqual([destination]);
   });
 
   test.each([

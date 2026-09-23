@@ -1,9 +1,13 @@
+/** Check or format authored Markdown with the same Prettier/Snapper policy locally
+ * and in CI. Optional changed paths narrow content checks without changing policy.
+ */
 import { spawnSync } from "node:child_process";
 import { globSync, lstatSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
 import * as prettier from "prettier";
+import { changedFilePaths } from "./selectPullRequestChecks.js";
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 const snapper = join(
@@ -14,12 +18,20 @@ const snapper = join(
     : ["bin", "snapper-fmt"]),
 );
 
-export async function selectDocumentationFiles(root = repositoryRoot) {
+/** Select authored Markdown under the current ignore policy, optionally limited
+ * to literal repository-relative paths. Unselected documents are never read.
+ */
+export async function selectDocumentationFiles(root = repositoryRoot, paths) {
   const selected = [];
+  const requested =
+    paths === undefined
+      ? null
+      : new Set(paths.map((path) => resolve(root, path)));
   for (const relative of globSync(["*.md", "docs/**/*.md", "packages/*/*.md"], {
     cwd: root,
   })) {
     const path = resolve(root, relative);
+    if (requested && !requested.has(path)) continue;
     if (!lstatSync(path).isFile()) continue;
     const info = await prettier.getFileInfo(path, {
       ignorePath: [join(root, ".gitignore"), join(root, ".prettierignore")],
@@ -51,13 +63,17 @@ function runSnapper(root, args, input) {
   return result;
 }
 
+/** Process the selected authored documents; return a failing status for format or
+ * prose diagnostics and throw when a formatter cannot complete reliably.
+ */
 export async function processDocumentation({
   root = repositoryRoot,
   write = false,
+  paths,
 } = {}) {
-  const paths = await selectDocumentationFiles(root);
+  const selectedPaths = await selectDocumentationFiles(root, paths);
   let failed = false;
-  for (const path of paths) {
+  for (const path of selectedPaths) {
     const options = { ...(await prettier.resolveConfig(path)), filepath: path };
     const original = readFileSync(path, "utf8");
     const layout = await prettier.format(original, options);
@@ -135,7 +151,7 @@ export async function processDocumentation({
     }
   }
   process.stdout.write(
-    `${write ? "Formatted" : "Checked"} ${paths.length} authored Markdown documents.\n`,
+    `${write ? "Formatted" : "Checked"} ${selectedPaths.length} authored Markdown documents.\n`,
   );
   return failed ? 1 : 0;
 }
@@ -146,12 +162,24 @@ if (
 ) {
   try {
     const { values } = parseArgs({
-      options: { check: { type: "boolean" }, write: { type: "boolean" } },
+      options: {
+        check: { type: "boolean" },
+        write: { type: "boolean" },
+        base: { type: "string" },
+        head: { type: "string" },
+      },
     });
     if (Boolean(values.check) === Boolean(values.write))
       throw new Error("Choose exactly one of --check or --write.");
+    if (Boolean(values.base) !== Boolean(values.head))
+      throw new Error(
+        "Provide both --base and --head for changed-document selection.",
+      );
     process.exitCode = await processDocumentation({
       write: Boolean(values.write),
+      paths: values.base
+        ? changedFilePaths({ base: values.base, head: values.head })
+        : undefined,
     });
   } catch (error) {
     process.stderr.write(`${error.message}\n`);

@@ -12,7 +12,9 @@ jobs:
       contents: read
     outputs:
       development: ${{ steps.scope.outputs.development }}
-      style: ${{ steps.scope.outputs.style }}
+      documentation: ${{ steps.scope.outputs.documentation }}
+      python_style: ${{ steps.scope.outputs.python_style }}
+      style_tooling: ${{ steps.scope.outputs.style_tooling }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -23,12 +25,74 @@ jobs:
           node-version-file: .node-version
       - name: Compare PR inputs before installing dependencies
         id: scope
-        run: node scripts/selectPullRequestChecks.js --scope development --scope style
+        run: node scripts/selectPullRequestChecks.js --scope development --scope documentation --scope python_style --scope style_tooling
 
-  style:
-    name: Python and Markdown style (${{ matrix.os }})
+  documentation:
+    name: Markdown documents
     needs: scope
-    if: needs.scope.outputs.style == 'true'
+    if: needs.scope.outputs.documentation == 'true' || needs.scope.outputs.style_tooling == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - name: Install only the locked documentation tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/prepareDocumentationTools.js --output "$RUNNER_TEMP/documentation-tools"
+          npm ci --prefix "$RUNNER_TEMP/documentation-tools" --ignore-scripts --no-audit --no-fund
+          mkdir node_modules
+          cp -R "$RUNNER_TEMP/documentation-tools/node_modules/prettier" node_modules/prettier
+          python -m venv .venv
+          .venv/bin/python -m pip install --require-hashes --only-binary=:all: -r "$RUNNER_TEMP/documentation-tools/requirements.txt"
+      - name: Check authored documents
+        env:
+          DOCUMENTATION_CHECK_ALL: ${{ needs.scope.outputs.style_tooling }}
+          DOCUMENTATION_DIFF_BASE: ${{ github.event.pull_request.base.sha }}
+          DOCUMENTATION_DIFF_HEAD: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$DOCUMENTATION_CHECK_ALL" == "true" ]]; then
+            npm run format:docs:check
+          else
+            npm run format:docs:check -- --base "$DOCUMENTATION_DIFF_BASE" --head "$DOCUMENTATION_DIFF_HEAD"
+          fi
+
+  python-style:
+    name: Python style
+    needs: scope
+    if: needs.scope.outputs.python_style == 'true' && needs.scope.outputs.style_tooling != 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - name: Select package manager
+        run: npm install --global --no-audit --no-fund npm@12.0.2
+      - name: Set up the locked development environment
+        run: npm run set-up:development
+      - name: Check Python sources
+        run: npm run lint:python && npm run format:python:check
+
+  style-tooling:
+    name: Style toolchain (${{ matrix.os }})
+    needs: scope
+    if: needs.scope.outputs.style_tooling == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -48,8 +112,10 @@ jobs:
         run: npm install --global --no-audit --no-fund npm@12.0.2
       - name: Set up the locked development environment
         run: npm run set-up:development
-      - name: Check Python, Markdown and prose tooling
-        run: npm run check:style
+      - name: Check Python style and formatter regressions
+        run: npm run lint:python && npm run format:python:check && npm run test:prose
+      - name: Check minimal documentation installation inputs
+        run: npm test -- --runInBand --runTestsByPath tests/documentation-tools.test.js
 
   checks:
     needs: scope
