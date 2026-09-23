@@ -1,6 +1,6 @@
 # Ontology relationship context through MCP: implementation plan
 
-**Status:** Working implementation plan, revision 5, 23 September 2026.
+**Status:** Working implementation plan, revision 6, 23 September 2026.
 This document records accepted decisions and remaining implementation hypotheses; the current delivery follows the R1 brief below without a separate protected requirement baseline.
 Max has confirmed explicit assertions and OWL structural summaries for reviewing a specific entity's definition, whether it lacks a recorded source or has wording that needs review despite a citation.
 Max has also approved evaluating embedded Oxigraph first and requiring evidence before introducing custom storage, traversal, or additional indexes.
@@ -11,12 +11,14 @@ Change tool and artifact contracts directly; maintain one current schema for eac
 Revision 4 adopts R1 for this local, single-consumer iteration at Max's request; the earlier R2 assumption of a supported public contract and release campaign does not apply to this stage.
 Latency and memory figures guide local calibration; correctness, explicit limits and honest completeness remain requirements.
 Revision 5 validates the ontology-context handoff against the installed Hadden-Industries `defining-concepts` skill and two real source examples; execution through the proposed MCP tools remains an implementation acceptance check.
+Revision 6 records the researched grilling review: resolve engineering choices from the accepted use case, authoritative specifications and current implementation evidence; retain empirical gates instead of asking Max to guess their results.
+These are reviewable planning decisions, not authorization for dependency/configuration changes or product implementation.
 
 **Goal:** Let an agent obtain the definition, source evidence, relationships, and bounded surrounding ontology context needed for a concept review through predictable MCP calls, without generating queries or reconstructing OWL structures itself.
 
 **Architecture:** Extend entity search and add two entity-context operations through the existing query/artifact boundaries, with an embedded RDF store executing maintained SPARQL queries internally.
 Evaluate Oxigraph for JavaScript first against immutable snapshot datasets; retain UO-specific relationship meaning, OWL summaries, source evidence, and response limits above that store.
-Choose the representation and any additional indexes only after the first slice proves their need and cost.
+Use canonical N-Quads and browser-safe lexical JSON; qualify that composition in the first slice and add indexes only for a demonstrated need.
 Serve filesystem artifacts through both stdio and the existing loopback HTTP transport.
 
 **Authority:** Update this plan on `feat/mcp-ontology-context` in the existing checkout using the existing environment.
@@ -39,7 +41,7 @@ The server performs no model call, ontology inference, source-quality assessment
 
 Original repository observation: `main` at `b4b964d4df7dae60200d1cd238a6d6f28ed25715`.
 Revision 2 started from clean `main` at `2a2b6e4f021c4096cb02546c4c117ea4b0fdc35f`, after the documentation CI change, skill-lock update, and supplied OWL review were merged.
-Revisions 3–5 build on that uncommitted plan revision in the same checkout and branch.
+Revisions 3–5 built on that plan revision in the same checkout and branch; revision 5 was committed as `d45d4b42a8f7ec31d414de54091b625d7abb2bab` and pushed before this review.
 Those earlier merged changes remain outside this plan revision.
 The review's conclusions are not used as proof of current ontology conformance.
 
@@ -57,7 +59,8 @@ The review's conclusions are not used as proof of current ontology conformance.
 A read-only RDFLib inventory through the repository `.venv` measured the following source graphs.
 These are inventory counts, not a benchmark or the final filtered-search result set.
 Definitions are counted as distinct subject/predicate/literal assertions, including languages and foreign support subjects.
-Filtered search additionally applies the requested ownership selection and historical projection rules.
+Filtered search additionally applies ownership, historical projection rules and citations from all selected graphs.
+The inventory is source-graph-only; its counts are not predictions for the default import-aware scope.
 
 | Source artifact                         | Triples | Named subjects | `skos:definition` assertions | OWL restrictions | Definitions with neither matching definition-axiom source nor entity source |
 | --------------------------------------- | ------: | -------------: | ---------------------------: | ---------------: | --------------------------------------------------------------------------: |
@@ -75,6 +78,7 @@ The source SHA-256 values are, respectively:
 
 Include named classes, properties, individuals, datatypes, and other named resources present in the selected graph, including referenced resources without local declarations.
 Include incoming and outgoing assertions, meaningful OWL structural references, source evidence, exact snapshot identity, and explicit import coverage.
+Include existing locally catalogued RDF/XML and Turtle dependencies, resolving and capturing them during generation without network acquisition.
 Include a local authoring-file snapshot path so repeated reviews can target saved edits.
 
 The initial delivery does not provide an OWL reasoner, entailment closure, caller-supplied SPARQL, a separately operated graph database service, embeddings, source discovery on the web, source-quality certification, ontology repair, or automatic rewriting.
@@ -160,21 +164,22 @@ Max reviews the working local outcome at SLICE-006.
 
 Research was checked on 23 September 2026 against repository code, installed license texts, upstream documentation, and npm's authoritative `latest` metadata.
 Revision 2 refreshed the Oxigraph selection against its versioned documentation and registry metadata and retained the original evidence for existing dependencies.
-Revision 3 retains that research and changes the caller contract; it does not claim a new engine trial or adoption decision.
+Revision 3 retained that research and changed the caller contract.
+Revision 6 checked authoritative semantics, current Node/MCP documentation, published Oxigraph package bytes, local imports and packaging seams; no engine execution or adoption is claimed.
 No package was installed or executed from a floating registry reference.
 
 Revision 1 deferred Oxigraph because of WASM packaging and UO-specific semantics, without comparative integration or performance evidence.
 Those are questions for a feasibility gate; they do not justify choosing custom storage and traversal first.
 The simple MCP interface does not constrain the server to a custom graph implementation.
 
-| Candidate                                                                            | Capability fit and limitation                                                                                                                                                                                                          | Selection                                                                                                                                               |
-| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Oxigraph JS](https://github.com/oxigraph/oxigraph/blob/v0.5.11/js/README.md) 0.5.11 | Embedded, in-memory RDF dataset and SPARQL through WASM, including named graphs and RDF/XML loading. The upstream JavaScript API is described as work in progress; UO packaging, cancellation and resource behavior need direct proof. | Preferred first candidate. Run SLICE-000 before committing to storage, query orchestration or artifact layout. No separate database server is required. |
-| Existing query/projection packages, MCP SDK 2.0.0 and Zod 4.6.5                      | Already own lexical/source policy, validated artifacts, tool contracts and safe protocol behavior. These responsibilities remain necessary with an RDF store.                                                                          | Reuse around the selected store; keep UO semantics out of the transport adapter.                                                                        |
-| Existing `rdfxml-streaming-parser` 3.3.0 and `rdf-canonize` 5.0.0                    | Existing generation and canonicalization boundaries preserve exact snapshot evidence. They are not a query engine.                                                                                                                     | Reuse parsing and canonicalization in the revised generator. Avoid introducing a second parser implementation or a parallel generator for old formats.  |
-| Existing RDFLib in the repository `.venv`                                            | Can run the same portable SPARQL patterns for a semantic cross-check. A prior probe returned all three AddressRelationship restrictions.                                                                                               | Use as existing investigation/oracle support, not as a new Python runtime requirement for the MCP executable or as an Oxigraph benchmark.               |
-| [N3.js](https://github.com/rdfjs/N3.js) 2.7.12                                       | Reusable RDF/JS indexed matching and lists; would need a supported query-engine composition for SPARQL.                                                                                                                                | Retain as an alternative to investigate if a concrete Oxigraph blocker is established. Do not implement multiple production backends now.               |
-| Bespoke adjacency indexes and traversal                                              | Could meet a specialized residual requirement but duplicate storage/query responsibilities and create maintenance cost. No comparative evidence currently establishes a benefit.                                                       | Not selected. Require a measured, named gap that supported engine queries or extensions cannot satisfy before adding such code.                         |
+| Candidate                                                                            | Capability fit and limitation                                                                                                                                                                                                          | Selection                                                                                                                                              |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [Oxigraph JS](https://github.com/oxigraph/oxigraph/blob/v0.5.11/js/README.md) 0.5.11 | Embedded, in-memory RDF dataset and SPARQL through WASM, including named graphs and RDF/XML loading. The upstream JavaScript API is described as work in progress; UO packaging, cancellation and resource behavior need direct proof. | Preferred first candidate. Run SLICE-000 to qualify the selected store, artifact and execution composition. No separate database server is required.   |
+| Existing query/projection packages, MCP SDK 2.0.0 and Zod 4.6.5                      | Already own lexical/source policy, validated artifacts, tool contracts and safe protocol behavior. These responsibilities remain necessary with an RDF store.                                                                          | Reuse around the selected store; keep UO semantics out of the transport adapter.                                                                       |
+| Existing `rdfxml-streaming-parser` 3.3.0 and `rdf-canonize` 5.0.0                    | Existing generation and canonicalization boundaries preserve exact snapshot evidence. They are not a query engine.                                                                                                                     | Reuse parsing and canonicalization in the revised generator. Avoid introducing a second parser implementation or a parallel generator for old formats. |
+| Existing RDFLib in the repository `.venv`                                            | Can run the same portable SPARQL patterns for a semantic cross-check. A prior probe returned all three AddressRelationship restrictions.                                                                                               | Use as existing investigation/oracle support, not as a new Python runtime requirement for the MCP executable or as an Oxigraph benchmark.              |
+| [N3.js](https://github.com/rdfjs/N3.js) 2.7.12                                       | Reusable RDF/JS indexed matching and lists; would need a supported query-engine composition for SPARQL.                                                                                                                                | Retain as an alternative to investigate if a concrete Oxigraph blocker is established. Do not implement multiple production backends now.              |
+| Bespoke adjacency indexes and traversal                                              | Could meet a specialized residual requirement but duplicate storage/query responsibilities and create maintenance cost. No comparative evidence currently establishes a benefit.                                                       | Not selected. Require a measured, named gap that supported engine queries or extensions cannot satisfy before adding such code.                        |
 
 Oxigraph's npm identity was refreshed from `https://registry.npmjs.org/oxigraph/latest`: version `0.5.11`, license expression `MIT OR Apache-2.0`, integrity `sha512-zKdgmp1tsrutGzC1lCCywwZRPpLJKaJnKSDWoY2hIhMiwiCRRXNN1DU7WUyTInBvgPKT8Y5N+RgwTL8qKXpLng==`.
 Its versioned [license options](https://github.com/oxigraph/oxigraph/blob/v0.5.11/js/README.md#license) and [MIT text](https://github.com/oxigraph/oxigraph/blob/v0.5.11/LICENSE-MIT) were inspected; exact distributed WASM/transitive assets and notices still need adoption clearance.
@@ -192,22 +197,25 @@ Any remaining orchestration must name the unmet requirement and stay above the s
 | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | DEC-001 — Explicit assertions plus labelled OWL structural summaries    | Confirmed by Max in this task. No reasoner-derived edges.                                                                                                                                                                                     |
 | DEC-002 — Start with definitions lacking recorded sources               | Confirmed by Max. Citation quality is reported as unevaluated.                                                                                                                                                                                |
-| DEC-003 — Revise the shared query/artifact architecture directly        | Proposed placement. Reuse current semantic and transport responsibilities, updating their contracts and callers together without a compatibility layer.                                                                                       |
+| DEC-003 — Revise the shared query/artifact architecture directly        | Resolved: query semantics and Node execution belong in the query package; MCP validates/renders and composes transports. Keep the browser-safe entry separate; update current contracts without a compatibility layer.                        |
 | DEC-004 — One current generated artifact contract                       | Revised for Max's no-compatibility instruction. Revise the catalog, dataset and lookup metadata together; regenerate derived artifacts. Physical separation is justified only by loading or runtime needs, not by preserving old readers.     |
-| DEC-005 — Count named-resource connections, retain expression structure | Proposed. RDF list cells and restriction implementation nodes should not consume user-visible concept depth.                                                                                                                                  |
-| DEC-006 — Local filesystem delivery first, explicit working snapshots   | Proposed. Both local transports work; remote artifact publication and automatic import acquisition are outside this delivery.                                                                                                                 |
-| DEC-007 — Bounded deterministic retrieval, no implicit completeness     | Proposed. Fewer tool calls must not hide omitted edges, unresolved imports, or incomplete source evidence.                                                                                                                                    |
+| DEC-005 — Count named-resource connections, retain expression structure | Resolved UO convention: count projected named-resource references, retaining full expression paths and qualifiers. Blank nodes/list cells do not consume concept depth. OWL does not prescribe this application convention.                   |
+| DEC-006 — Local filesystem delivery first, explicit working snapshots   | Resolved: local delivery and explicit working snapshots; default scope includes exactly catalogued local declared imports, including Turtle. No remote acquisition or automatic inclusion of unrelated extending ontologies.                  |
+| DEC-007 — Bounded deterministic retrieval, no implicit completeness     | Resolved: enforce admission/output bounds and cancellation; expose omissions and unrecoverable size errors. Calibrate timing/RSS empirically; worker settings do not establish a hard native-memory bound.                                    |
 | DEC-008 — Evaluate embedded Oxigraph before custom storage/traversal    | Investigation direction confirmed by Max for revision 2. Adoption and any additional indexes depend on SLICE-000 evidence and exact configuration approval.                                                                                   |
 | DEC-009 — Keep SPARQL behind the initial tools                          | Confirmed by Max for revision 3. Server-owned queries implement the ordinary search/context path. No hybrid `query_ontology` dispatcher, named-recipe parameter or public SPARQL executor is included.                                        |
 | DEC-010 — Extend search with bounded metadata selection                 | Confirmed by Max for revision 3. Reuse `search_entities` for text and explicit metadata filters, with pagination and exact matching definition evidence. Avoid a dedicated review-candidate tool or a custom query language.                  |
 | DEC-011 — Entity context within a selected ontology                     | Confirmed by Max for revision 3. `get_entity_context` and `find_entity_connections` return entity relationships. Ontology/snapshot scope is an input and returned provenance; no catalogue-listing tool is required for the initial workflow. |
 | DEC-012 — No compatibility work or shims                                | Explicitly required by Max; he is the sole consumer. Replace superseded schemas and code directly. No legacy modes, aliases, dual readers/writers, translators, or compatibility-only tests.                                                  |
 | DEC-013 — R1 for the local single-consumer stage                        | Requested by Max for revision 4 and justified by read-only, bounded local impact and straightforward recovery. Use affected checks and ordinary review; reassess before introducing public/shared or persistent-data obligations.             |
+| DEC-014 — Exact citations across selected graphs                        | Resolved: match entity, predicate and RDF term throughout the selected dataset; retain definition and annotation graph provenance separately.                                                                                                 |
+| DEC-015 — Canonical RDF artifacts                                       | Resolved: RDFC-1.0 canonical N-Quads, strict manifest and browser-safe lexical JSON under one current contract. Scope blank-node handles by source document/snapshot.                                                                         |
+| DEC-016 — One reusable local query worker                               | Resolved first composition: one Node worker owns the store; the parent owns a bounded queue and request lifecycle. Add workers or caches only for an observed need.                                                                           |
 
 Doing nothing leaves agents to search repeatedly and inspect RDF manually; it does not meet REQ-002 or REQ-003.
 Having the agent write SPARQL would not meet REQ-006; executing SPARQL internally can.
 
-### SLICE-000: evidence required before selecting the implementation
+### SLICE-000: evidence required to qualify the selected composition
 
 Start on the existing local environment with the pinned core graph, the AddressRelationship oracle and small hand-authored cycle, expression and mixed-source fixtures.
 Exercise the other pinned graphs as the relevant feature slices need them; a complete distribution or performance matrix is not an entry condition.
@@ -224,7 +232,9 @@ The earlier RDFLib query returned the two Address roles and the relationship-typ
 | Does the intended local entry point load it? | Prove engine/WASM/worker loading through the actual entry point used by Max in the existing environment. Check the local package/executable when that path is changed or selected for use; do not require all supported target executables before the first implementation slice. Keep engine dependencies out of the browser entry.          |
 | Is adoption justified?                       | Record the exact package/assets, license/notice obligations and configuration delta. Accept the local integration after representative semantics, enforceable bounds/cancellation and local loading are demonstrated. A concrete failure needs diagnosis or another maintained composition; custom storage still requires a demonstrated gap. |
 
-SLICE-000 delivers a small reproducible local probe and a recorded selection decision.
+SLICE-000 delivers a small reproducible local probe and a recorded suitability decision for the selected first composition.
+Use RDF 1.1/SPARQL 1.1, OWL 2 and RDFC-1.0; RDF/SPARQL 1.2 draft work does not require migrating this feature.
+Standards determine semantic correctness; depth/filter conventions and the one-worker default are use-case-driven engineering decisions, not universal standards.
 The probe must establish semantic suitability, enforceable request bounds/cancellation and local asset loading; it need not qualify the complete product first.
 Keep the numeric performance targets visible for calibration and diagnose failures; never weaken correctness or resource limits silently.
 Proceed to the feature slices once those local feasibility questions are resolved; qualify additional delivery targets only when they become part of the requested scope.
@@ -236,6 +246,7 @@ Proceed to the feature slices once those local feasibility questions are resolve
 Extend `search_entities` with a small, explicit set of metadata filters and pagination.
 `resolve_entity` continues to serve exact identifier lookup; update its shared contracts directly where the new snapshot model requires it.
 Add `get_entity_context` and `find_entity_connections`, with explicit input/output schemas, read-only annotations, and short task-oriented descriptions.
+Update server instructions to send known-entity reviews straight to `get_entity_context`; `resolve_entity` remains lightweight lookup, not a prerequisite.
 Reuse useful entity identifiers and selection semantics, without retaining obsolete signatures or adding aliases.
 Here, context means the information surrounding an entity within the selected ontology.
 Use `snapshotRef` for the pinned dataset selection so its identity is distinct from the entity-context packet.
@@ -278,6 +289,7 @@ Requests for arbitrary joins, predicates or expression trees require a separate 
 The primary review sequence is:
 
 1. For a known entity, call `get_entity_context` with its identifier and the selected ontology or working snapshot, `depth: 2`, both directions, and the `definition_review` profile.
+   Use the default locally catalogued import scope unless the request explicitly asks for the root source graph only.
    This applies equally to uncited definitions and cited definitions suspected of being too generic.
    If the identifier is ambiguous or only approximately known, use text search first.
 2. Retain the returned `snapshotRef`, exact definition term and `definitionAssertionRef`.
@@ -298,15 +310,18 @@ Validating an external best-practice source requires that source's contents and 
 The first search or context call accepts a supplied ontology/release selection or an identifier for a generated working snapshot.
 Search and context operations use one root ontology, selected explicitly or resolved unambiguously from the available/configured default.
 Return a bounded ambiguity diagnostic instead of guessing; additional graphs are selected explicitly as described below.
-Resolve the selection once and return a ready-to-use `snapshotRef`; subsequent context calls and search pages reuse it without resolving “latest” again.
-Tool descriptions and results expose availability and scope diagnostics directly; no preliminary ontology-catalogue tool is necessary.
-They distinguish latest dated releases, active publication and working snapshots.
+Make fresh ontology/graph selection and `snapshotRef` mutually exclusive; reject their combination instead of applying hidden precedence.
+Resolve the selection once and return a ready-to-use `snapshotRef`; subsequent calls and pages reuse it without resolving “latest” again.
+Stable tool descriptions explain selection; results and bounded diagnostics expose current availability and usable choices, since tool/discovery metadata is cached.
+No catalogue-listing tool or implicit per-connection selection state is required.
+Distinguish latest dated releases, active publication and working snapshots; never guess the root or silently substitute working files for a release.
 
 A `snapshotRef` pins an exact root snapshot identifier and one explicit graph selection:
 
-- `source_graph`: only the root source graph; the default.
-- `catalogued_imports`: transitive imports that resolve exactly to available context artifacts, with cycle detection and a manifest of resolved and unresolved imports.
-- `selected_graphs`: the root plus explicitly selected additional snapshot identifiers, useful for incoming references from extending ontologies that the root does not itself import.
+- `source_graph`: explicitly inspect only the root source graph; do not label it a complete ontology import closure.
+- `catalogued_imports`: the default; root plus transitive declared imports resolving exactly to generated local artifacts, with cycle detection and a manifest of resolved and unresolved imports.
+- `selected_graphs`: exactly the root plus explicitly selected additional snapshot identifiers, useful for incoming references from extending ontologies that the root does not itself import.
+  Include any desired import snapshots explicitly in this mode; no implicit graph expansion occurs.
 
 An unversioned import without an unambiguous approved catalog binding stays unresolved.
 Never substitute the newest release for a requested import version.
@@ -315,11 +330,17 @@ Admit at most 16 source snapshots into one context.
 Do not silently traverse unrelated catalog entries or dereference an entity IRI.
 An unavailable neighbour becomes an external reference with known IRI and evidence, not an invented entity description.
 
-The existing core catalog includes a Turtle import, `src/external/time-gregorian.ttl`.
-It is outside the current RDF/XML query-artifact selection.
-Report it as unavailable to the context artifact loader until a separately accepted ingestion path supports it; do not describe the initial local set as a complete import closure.
-The existing imports merger is not a drop-in context builder: it can load remote documents, strip headers/imports, and sanitize literals.
-Those transformations would change this retrieval contract.
+The [core catalog](../../core/catalog-v001.xml) maps its declared dependency closure to six local files: core, reference data, ISO/IEC 11179-3, SKOS, Gregorian months and OWL-Time.
+Include these exact local dependencies; omitting Gregorian Turtle solely because the old generator selects RDF/XML creates an avoidable context gap.
+[OWL imports](https://www.w3.org/TR/owl2-syntax/#Imports) provide access to imported entities/axioms and permit local redirection; this default serves the review while preserving each source's provenance.
+Implement bounded exact-IRI resolution through the selected catalog, including its namespace and inherited `xml:base`, with repository containment.
+State the supported catalog subset and reject unsupported directives; follow only declared reachable imports, not every catalog entry.
+Reuse the directly declared Saxes dependency for catalog XML and the existing RDF/XML parser.
+Use `oxigraph.parse` with `text/turtle` at generation time for Turtle; keep unchecked parsing disabled.
+Both adapters feed one RDF/JS quad/canonicalization pipeline inside the existing build workers; transfer finished artifact bytes rather than WASM-backed terms.
+Preserve literal terms, headers and imports; resolve relative IRIs against the document IRI.
+The existing merger is unsuitable because it can fetch remote documents, use basename fallbacks, remove headers/imports and sanitize literals.
+Missing mappings, unsupported syntax and absent files remain explicit coverage gaps; never download them implicitly.
 
 ### Relationships and OWL expressions
 
@@ -331,11 +352,15 @@ Equivalence and `sameAs` assertions do not merge entity identities in this retri
 The default `definition_review` profile includes named subclass, equivalence/disjointness, meaningful class membership, property domain/range and hierarchy, inverse-property declarations, SKOS semantic links, authored object-property assertions, and restriction references.
 Keep RDF/OWL declaration types and annotation/source links available as metadata without expanding through ubiquitous vocabulary nodes by default.
 An `all_asserted` profile and predicate filters expose other recorded relations; category exclusions and unsupported expression coverage are reported.
-Predicate filters match actual IRIs, not labels, and their interaction with the selected profile is an intersection.
+Predicate filters match actual IRIs, not labels, and intersect with the profile.
+Asserted edges match their predicate; restriction references match the domain property recorded in `owl:onProperty`, retaining any inverse qualifier and the complete expression.
+A caller can filter `core:hasAddressIs` without knowing RDF serialization predicates.
 
 Preserve expression trees and their RDF witnesses, including restriction operator, property expression, filler, qualified/unqualified cardinality, list order, nesting, and axiom annotations.
 Support the restrictions and unions present in the inspected UO graphs first, with explicit tests for existential/universal/value restrictions, cardinality zero, inverse properties, intersections, and nested lists.
 Unknown or malformed constructs remain bounded raw expression evidence with a diagnostic; they are never flattened into a stronger claim.
+Paths involving negation, disjointness, universal restrictions or cardinality zero remain structural references, not entailed domain relationships.
+Universal restrictions and minimum zero impose no existence requirement; qualified exact cardinality constrains successors in the qualifier class, not all successors.
 This is a structural view, not an OWL validity checker or reasoner.
 The semantics follow the [OWL structural specification](https://www.w3.org/TR/owl2-syntax/) and [OWL-to-RDF mapping](https://www.w3.org/TR/owl2-mapping-to-rdf/).
 
@@ -351,15 +376,16 @@ It has three qualified exact-cardinality restrictions:
 
 The current named-superclass projection returns none of these restrictions.
 The new packet must expose all three, preserve the two distinct Address roles, include the incoming domain assertions of those properties, and mark the reference-data description unavailable under `source_graph` if it is not described there.
-With the pinned reference-data graph selected, it may attach that graph's description with separate provenance.
+With the pinned reference-data graph selected, including through the default import scope, attach its available description with separate provenance.
 It must not emit an asserted triple saying the class itself has one particular address.
 
 ### Depth, ordering, limits, and completeness
 
 Depth zero returns the seed description without relationship expansion.
 Depth one returns adjacent named resources; depth two also expands those resources.
-A reference from a class through its OWL restriction to a named filler counts as one structural connection, labelled `restriction_filler`.
-A property's use in the same expression can be exposed as `restriction_property`; attached property descriptions do not invent an additional RDF assertion.
+A named reference inside a supported expression attached to the seed counts as one structural connection, retaining the full operator/operand path; a restriction filler is labelled `restriction_filler`.
+Apply this to nested restrictions and unions without flattening their meaning.
+A property's use may be exposed as `restriction_property`; supporting descriptions alone do not expand the frontier or invent an assertion.
 Blank nodes and RDF list cells do not consume concept depth, but have independent expression-size/depth limits.
 Paths use this same connection model, so a displayed depth has one consistent meaning.
 
@@ -370,11 +396,12 @@ Use explicit hop patterns or, if the gate demonstrates the need, small request-l
 Do not use unrestricted `*` or `+` expansion as a substitute for the requested concept-depth and work bounds, or assume non-standard `{1,4}` path syntax is SPARQL 1.1.
 For shortest paths, establish that every smaller depth is exhausted; return `search_incomplete` when a limit prevents that proof.
 Return all admitted edge evidence within the requested neighbourhood, not merely the discovery tree.
-Keep multiple predicates and source witnesses between the same endpoints.
+Keep distinct predicates and expression roles between the same endpoints.
+Count paths as distinct ordered relationship chains; duplicate source copies of the same assertion contribute witnesses to a step rather than consume additional path slots.
 Check boundary-node edges without expanding beyond the requested depth.
 Literal values are retained metadata or terminal values and are not expandable concept neighbours.
 
-Proposed defaults and ceilings, subject to the QA calibration slice:
+Initial engineering defaults and ceilings, to be measured locally; these numerical values are not prescribed by RDF, OWL or MCP:
 
 | Control                                                                    |  Default | Hard ceiling |
 | -------------------------------------------------------------------------- | -------: | -----------: |
@@ -387,17 +414,23 @@ Proposed defaults and ceilings, subject to the QA calibration slice:
 | Search page size, in entities                                              |       10 |           20 |
 | Expression nesting / structural nodes per expression                       | 16 / 256 |     16 / 256 |
 | Complete MCP result size, UTF-8 bytes including text and structured output |   32 KiB |      128 KiB |
-| Retrieval execution deadline after snapshot/store acquisition              | 1 second |     1 second |
+| Query execution timeout; overall lifecycle bounded separately              | 1 second |     1 second |
 
 Enforce budgets while constructing results, before large materializations.
 The candidate limit counts rows/connections delivered to UO's orchestration layer, not unobservable joins or internal RDF edges examined by the engine.
 SPARQL [`LIMIT`](https://www.w3.org/TR/sparql11-query/#modResultLimit) bounds returned solutions; it is not a CPU, intermediate-memory or cancellation guarantee.
 The versioned [Oxigraph query API](https://github.com/oxigraph/oxigraph/blob/v0.5.11/js/README.md#storeprototypequerystring-query-object-options) documents synchronous array-valued query results and no query `AbortSignal` option.
-SLICE-000 must demonstrate an interruptible execution boundary, such as an owned worker, that enforces deadlines while a query is running; a main-thread Promise race is insufficient.
-Include store admission, WASM memory, intermediate results, sorting, expression expansion, path enumeration, worker duplication, queues and rendering in the resource proof.
+Use the reusable worker to request termination when execution times out; a main-thread Promise race cannot stop the engine.
+Bound queue wait, artifact acquisition, store loading and rendering under an overall request timeout too; the one-second query timeout is not an end-to-end guarantee.
+Choose those operational settings from existing ingress controls and the local cold/warm probe; no lifecycle stage may remain unlimited.
+Include store admission, WASM memory, intermediate results, sorting, expression expansion, paths, queues and rendering in measurements.
+[Node workers](https://nodejs.org/docs/latest-v24.x/api/worker_threads.html) terminate asynchronously; their `resourceLimits` exclude external/ArrayBuffer memory, and global out-of-memory failure can still abort the process.
+Admission limits are enforceable; total RSS and the proposed 100 ms cancellation latency are measured targets, not hard platform guarantees.
 On cancellation or deadline, stop the affected execution, release its resources and rebuild only its execution state from the pinned snapshot when necessary; do not cancel sibling requests or mutate shared RDF.
 If a mandatory seed field cannot fit, return a size diagnostic rather than silently cutting its literal.
-Long optional fields may be omitted only with explicit field-level omission metadata and a documented bounded retrieval path.
+For each omitted optional field, distinguish a concrete narrower follow-up from a value that cannot fit the hard ceiling or evidence unavailable in the selected dataset.
+Give an explicit per-item size diagnostic when an individual value cannot fit; do not promise narrowing will recover it or issue a non-progressing cursor.
+No chunking/resource endpoint is added without a demonstrated corpus need.
 
 Every response distinguishes requested depth, completed expansion depth, returned counts, truncation reasons, and unresolved references/imports.
 Do not report a total count unless it was actually computed or precomputed for exactly that scope.
@@ -409,20 +442,24 @@ Changed search criteria or snapshot references invalidate a cursor; it cannot se
 
 ### Source evidence and the review packet
 
-Classify each definition assertion using its exact subject, predicate, literal, language, datatype, and source graph.
-For the current `skos:definition` case, an axiom citation must match `owl:annotatedSource` to that entity, `owl:annotatedProperty` to `skos:definition`, and `owl:annotatedTarget` to the exact RDF term, with `dcterms:source` on the matching `owl:Axiom` in the same source graph.
-Return entity-level `dcterms:source` separately, including when both citation levels are present.
-A citation on an example, scope note, different definition, language, entity or graph cannot become that definition's source.
+Keep each definition assertion's subject, predicate, RDF term and source graph; assess citations across all selected snapshot graphs.
+For `skos:definition`, match `owl:annotatedSource` to the entity, `owl:annotatedProperty` to `skos:definition`, and `owl:annotatedTarget` to the exact literal term.
+Use shared RDF terms or `sameTerm`, preserving lexical form, language and datatype rather than comparing normalized strings or coerced values.
+A matching `owl:Axiom` may carry `dcterms:source` in another selected graph; retain both `definitionGraph` and `annotationGraph`.
+That citation concerns statement content; it does not establish every containing graph's derivation history.
+The [OWL annotation mapping](https://www.w3.org/TR/owl2-mapping-to-rdf/#Axioms_that_Generate_a_Main_Triple) has no graph identifier in the annotated source/property/target structure.
+Return entity-level `dcterms:source` from the same selected dataset separately, including when both citation levels exist.
+Exclude unselected graphs and citations attached to examples, scope notes or different definition terms/entities; never fetch additional graphs to complete a match.
 The status summarizes the citation evidence, not the quality of the definition:
 
 - `definition_source_recorded`: a source annotates that exact definition assertion.
 - `entity_source_only`: a source is attached to the entity, but none to that definition assertion.
-- `no_recorded_source`: neither exists in that source graph under the applicable projection rules.
+- `no_recorded_source`: neither exists in the selected dataset under the applicable projection rules.
 - `source_evidence_incomplete`: source structure is present but cannot be fully represented or resolved within supported bounds.
 
 The optional uncited-candidate search filters for `no_recorded_source` definitions owned by the root module; the primary known-entity review has no source-status eligibility filter.
 Do not suppress one uncited language's definition because another language has a cited definition.
-Do not borrow a citation from a different release or from an unrelated assertion.
+Do not borrow a citation from an unselected release or from an unrelated assertion.
 Entity-only citations are visible and separately queryable; they do not certify every definition's derivation.
 An entity without a definition remains distinguishable from one with an uncited definition and is excluded by the definition-source filter.
 
@@ -439,7 +476,9 @@ The packet contains the chosen definition assertion, alternative definitions/lan
 Attach source annotations to the statement they actually annotate, including examples and scope notes; never merge them into definition provenance.
 Include available ontology-level descriptive metadata needed to identify its stated purpose and scope, but do not infer a domain or intended use from namespace spelling.
 A missing property definition, example or scope note remains visibly unavailable; a label or IRI fragment is not a substitute.
-Deterministic text groups these into readable facts; it does not synthesize a replacement definition or a confidence score for source quality.
+Structured output is authoritative; readable text carries the useful facts, follow-up references and material warnings.
+Validate both from the same result and count both toward the byte budget; do not duplicate serialized JSON solely for compatibility.
+Neither representation synthesizes a replacement definition or source-quality score.
 Both output representations carry the important scope and truncation warnings, using the existing treatment of ontology-authored strings as untrusted data.
 Source presence concerns derivation metadata, consistent with [DCMI's source term](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/source/), not best-practice certification.
 
@@ -501,11 +540,11 @@ Revise the existing generator, catalog, query schemas and loaders directly aroun
 Use one catalog generation linking immutable snapshot RDF datasets and the lexical/source metadata required by search and resolution.
 Regenerate all derived artifacts from authored sources; do not retain the v1 reader/writer contract or add format translation.
 The separate companion catalog proposed solely to protect old readers is removed.
-Physical dataset and lexical files may remain separate when that reduces loading or keeps the browser entry lightweight; both belong to the same current manifest and snapshot identity.
-Finalize format identifiers and layout in SLICE-000, with exact approval for any resulting configuration change.
+Use separate canonical RDF dataset and browser-safe lexical JSON files under one manifest/snapshot identity; they serve different runtime consumers.
+Probe exact loading/packaging in SLICE-000, with approval for any resulting configuration change.
 
 Each snapshot records source kind, ontology identity, source-byte digest, dataset/semantic-projection format identity, graph mapping, ownership basis, declared imports and canonical source witnesses.
-Start with canonical RDF serialization, such as N-Quads, plus a strict manifest and reused lexical metadata; finalize the byte format after load, size and packaging measurements.
+Use RDFC-1.0 canonical N-Quads, a strict manifest and reused lexical metadata; measure size/load cost without leaving the basic representation undecided.
 Load each source snapshot into its own identified named graph, retaining every admitted source assertion and its snapshot-scoped blank-node mapping.
 Reuse historical label, definition and source interpretation from the projection policy rather than duplicating its ontology-data semantics.
 OWL summaries and source-status results can be queried and projected from this dataset; cache or materialize them only for a demonstrated repeated-work or latency gap.
@@ -514,7 +553,9 @@ A store-specific database file is not the portable source of truth or a user-dat
 A working snapshot records a source-relative locator and its declared ontology/version IRIs as claims, separately from its digest identity.
 Its content digest changes after any source-byte change even if the authoring file's version IRI has not changed.
 Record generation time outside content identity.
-Canonical blank-node identities are scoped by source graph and snapshot; they cannot collide across documents or be treated as public concept IRIs.
+Standardize independently parsed documents apart; current RDF/XML/Turtle sources each supply one graph.
+RDF permits shared blank nodes across graphs of one dataset, so document scoping is this ingestion contract rather than a universal graph rule.
+Namespace canonical evidence handles by document/snapshot identity; they are not public concept IRIs or guaranteed identities across edits.
 Reuse [RDFC-1.0](https://www.w3.org/TR/rdf-canon/) and the installed canonicalizer, with build-time work and cancellation limits.
 
 Generate the current dataset and lookup metadata from the same parser pass where practical.
@@ -526,7 +567,12 @@ No watcher, live partial reload, or mutable “latest” cache key is introduced
 Reject unsupported artifact schemas with a clear regeneration instruction; never fall back to an old reader or migrate artifacts at load time.
 
 Reuse filesystem containment, digest verification, schema validation, immutable data, shared-load cancellation and LRU principles.
-Own engine creation, query execution, cancellation, disposal and restart in one internal module; do not introduce a generic multi-backend framework.
+Own engine creation, execution, cancellation, disposal and restart behind an explicit `universal-ontology-query/node` entry; keep the current root entry browser-safe and the worker private.
+Start with one reusable worker and a bounded parent-owned queue, executing one request at a time.
+Keep the current dataset store warm; add resident stores, workers, result caches or materialized indexes only for a demonstrated cost.
+Queued cancellation removes that request; active cancellation terminates/replaces the worker, discards late output and leaves queued siblings under their own deadlines.
+The parent may retain validated immutable bytes and lexical metadata; worker stores are disposable and never shared as live objects across workers.
+Consider a child process only if interruption/recovery fails or stronger process-failure containment becomes necessary; no generic backend framework.
 Bound filesystem reads and source/artifact bytes before parsing; a schema check after an unlimited read is not an allocation bound.
 Keep Node filesystem, workers, Oxigraph/WASM and canonicalization dependencies out of the browser entry; update browser call sites to the current shared contract.
 Store/cache keys include exact dataset and graph-selection identity plus engine/representation version; result-cache keys also include filters, relation profile, query/projection version and request controls.
@@ -538,7 +584,11 @@ Missing required dataset or evidence files produce an explicit availability erro
 Never return an empty successful filtered search because source evidence is unavailable, or call superclass-only lookup data a complete neighbourhood.
 Tool descriptions and capability diagnostics describe the capabilities of the current admitted dataset.
 Any retained remote lookup path consumes the current schema too; publishing remote context datasets remains outside this local delivery.
-SLICE-000 checks the actual local entry point and required WASM/worker assets; check package/executable delivery when that path is changed or selected for local use.
+SLICE-000 checks actual source and packaged entry points; current distribution uses a Node 24 archive and esbuild ESM application bundle.
+Oxigraph 0.5.11's inspected Node loader reads adjacent `node_bg.wasm` (4,051,880 bytes); preserve that relationship.
+First probe a separate CommonJS worker bundle with adjacent WASM, retaining the ESM application; if bundling changes loader behavior, preserve the upstream loader/WASM as an explicit private pair.
+Current bundle cleanup, package-file and archive inventories only retain the main bundle, so dependency installation alone is insufficient.
+The npm tarball lacks a LICENSE file; retain source-pinned upstream license text and inspect embedded component notices without weakening license validation.
 The local runtime loads admitted snapshot artifacts through the selected engine; it does not need original authoring files, Python, a database daemon or network acquisition.
 If the executable cannot carry the required assets, present the measured packaging blocker and smallest alternative before changing distribution configuration.
 
@@ -553,8 +603,8 @@ Use representative tests and local measurements now; expand workload sizes or pl
 | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | QA-001 / hard                                   | Reviewing agent requests the AddressRelationship and Activity fixtures in normal local operation                                    | Correct exact-definition citations, notes/examples, hierarchy and OWL witnesses. Preserve all three AddressRelationship roles/cardinalities and Activity's minimum zero; no fabricated assertions or source-quality judgments                                                                                                                                                                                                         | Hand-reviewed fixture, real-source comparison, semantic transport tests; production coverage/diagnostic counters                                                                                                                                                                               | Wrong summaries can corrupt the definition review while appearing plausible.                                                                   |
 | QA-002 / local calibration                      | Agent requests representative depth 1–2 context on the pinned local snapshots                                                       | Record query-core and end-to-end elapsed time and output size; use ≤50 ms query time and ≤150 ms local transport time as provisional engineering targets. Distinguish warm retrieval, cold loading and truncation; make no p95 claim without adequate samples                                                                                                                                                                         | Reuse the semantic smoke cases with timings and environment/source identities; add a benchmark only if these reveal a material performance issue                                                                                                                                               | Local responsiveness matters now; a 100-request percentile campaign is not required to start using the feature.                                |
-| QA-003 / hard admission, local calibration      | Local process loads selected snapshots and a bounded dense/cyclic fixture                                                           | Enforce artifact, term, instance and request limits. Record startup and RSS, using ≤2 s readiness and ≤128 MiB incremental RSS as provisional targets, including WASM/worker cost. Check sibling isolation with two requests                                                                                                                                                                                                          | A local cold-start measurement, a fixture that reaches a request limit, and the cancellation/isolation test; larger load studies only when justified                                                                                                                                           | Preserve bounds while avoiding an eight-request, 20-start qualification campaign for one local consumer.                                       |
-| QA-004 / hard                                   | Buggy or hostile caller requests excessive depth, large fan-out, cycles, large literals, or cancels during an executing store query | Invalid requests rejected before query construction; accepted work respects deadlines and admission limits; cancellation stops the affected execution within 100 ms without cancelling siblings                                                                                                                                                                                                                                       | Real-engine dense/cyclic, cancellation, worker disposal/recovery and concurrent transport tests; limit/cancel codes                                                                                                                                                                            | A synchronous query and a timed-out wrapper can leave work running. An enforced execution boundary must be demonstrated.                       |
+| QA-003 / hard admission, local calibration      | Local process loads selected snapshots and a bounded dense/cyclic fixture                                                           | Enforce artifact, term, instance and request limits. Record startup and RSS, using ≤2 s readiness and ≤128 MiB incremental RSS as provisional targets, including WASM/worker cost. Use one worker and prove a queued sibling survives active-request cancellation                                                                                                                                                                     | A local cold-start measurement, a fixture that reaches a request limit, and the cancellation/isolation test; larger load studies only when justified                                                                                                                                           | Preserve bounds while avoiding an eight-request, 20-start qualification campaign for one local consumer.                                       |
+| QA-004 / hard                                   | Buggy or hostile caller requests excessive depth, large fan-out, cycles, large literals, or cancels during an executing store query | Reject invalid requests; enforce admission, overall lifecycle and query timeouts. Prove real worker termination and queued-sibling recovery; measure against an initial 100 ms cancellation target without claiming a hard WASM/RSS guarantee                                                                                                                                                                                         | Real-engine dense/cyclic, cancellation, worker disposal/recovery and concurrent transport tests; limit/cancel codes                                                                                                                                                                            | A synchronous query and a timed-out wrapper can leave work running. An enforced execution boundary must be demonstrated.                       |
 | QA-005 / hard                                   | Publisher interruption, corrupted artifact, mismatched digest, or authoring-file change                                             | No mixed snapshot; corruption is an explicit safe error; interrupted generation leaves the previous catalog usable; edited sources receive a new identity                                                                                                                                                                                                                                                                             | Fault-injection and real filesystem tests; snapshot identity/generation and admission-failure logs                                                                                                                                                                                             | A fast answer about the wrong graph does not satisfy the outcome.                                                                              |
 | QA-006 / hard contract and affected integration | Current MCP tools and changed repository call sites use regenerated artifacts in Max's local environment                            | One current schema per tool and artifact; text, metadata and combined search return the documented structure. Local transports agree and unsupported artifacts fail explicitly. Check browser and package/asset loading where touched                                                                                                                                                                                                 | Current-schema and transport tests in affected verification, plus relevant local build/browser/package checks. Replace obsolete fixtures directly                                                                                                                                              | Prove changed behavior and the actual local entry point; a complete cross-platform qualification matrix is not part of this local iteration.   |
 | QA-007 / representative host demonstration      | Max's existing host uses the documented MCP functions, with reasoning disabled where supported                                      | Demonstrate three tasks: uncited selection plus AddressRelationship context, direct Activity depth-two context despite its citations, and a connection question. For the first two, pass the packet to defining-concepts and show that the audit uses ontology evidence and exposes gaps. Initial retrieval takes at most two calls for discovery and one for a known entity or specified-endpoint paths; label follow-ups separately | Record host/model/settings, calls and results against the hand-checked oracle. Gather ontology evidence without external recipes or shell/browser help; keep any subsequent external source research separate. No 20-task harness; unavailable reasoning controls remain an explicit proof gap | Demonstrates the intended agent path without a separate evaluation campaign. Any additional metered model harness needs its own authorization. |
@@ -563,46 +613,49 @@ Use representative tests and local measurements now; expand workload sizes or pl
 Log structured counts, durations, cache outcomes, snapshot identity, and error/limit codes through the existing operational-event boundary.
 Do not log definition bodies, absolute local paths, arbitrary IRIs, or source citations as metric labels.
 No telemetry service or remote collection is introduced.
+Propagate the SDK cancellation signal through every stage: current MCP uses HTTP response-stream closure or stdio `notifications/cancelled`; suppress late responses.
+Server timeouts remain distinct from client cancellation and may return a safe tool failure or valid incomplete result, never a false complete no-path answer.
 
 ## 8. Vertical delivery slices
 
 The predicted files below describe ownership and likely seams, not approved line-level edits.
-Use the existing public package exports; extend their exported members without adding wildcard source exports.
+Keep the existing public package boundaries; add the explicit Node execution entry described above without wildcard source or worker exports.
 Tests use hand-authored expected results and independent source inspection, never the production projector to generate its own expected answer.
 Mock only genuine external boundaries such as artifact I/O, transport, time, and cancellation.
 Use real RDF parsing, the selected store and real MCP client/server exchanges for the relevant integration proofs.
 Keep portable query fixtures and the semantic oracle independent of both the engine adapter and any later optimization.
 
-| Slice                                                            | Linked obligations                                                                           | Demonstrable result and falsifiable proof                                                                                                                                                                                                                                                                                                                                                                                                                                 | Release / recovery implication                                                                                                                                                                                                  |
-| ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SLICE-000 — Prove local Oxigraph suitability                     | REQ-001–008; representative ACs; QA-001/003–006/008; DEC-001/002/008–013                     | Run the small local probe in section 4. Retain portable query fixtures, core restriction/source results, a bounded path, cancellation/isolation proof, local loading and timing/RSS notes. Record the selected composition and any concrete custom gap.                                                                                                                                                                                                                   | Start feature implementation after focused local feasibility and exact adoption authorization; complete broader cases in the slices that own them. Keep useful queries/fixtures and dispose only obsolete scratch.              |
-| SLICE-001 — One concept's asserted context end to end            | REQ-001/002/005/007; AC-001/002/005/007; QA-001/004/006/008; DEC-001/003/004/008/009/011/012 | Revise generator, loader and schemas for the selected dataset and store. Expose `get_entity_context` at depth 0/1 over stdio with ontology selection, `snapshotRef`, incoming/outgoing relationships, definitions, notes/examples and their annotations, evidence, source status and limits. Update affected lookup call sites and fixtures directly; hand-check a cycle and the core seed's incoming domains.                                                            | Independently usable for direct relationships without a catalogue call; explicitly reports expression support incomplete until SLICE-002. Regenerate fixtures/artifacts in the current format; introduce no compatibility path. |
-| SLICE-002 — Preserve OWL context and support bounded depth       | REQ-002/005; AC-002/005; QA-001/004; DEC-001/005/007/008/009                                 | Promote the gate's restriction and bounded-neighbourhood queries, returning the AddressRelationship restrictions and Activity's hierarchy/minimum-zero fixture, depth 2–4, incoming structural references, external stubs, loops and unions. Include the skill handoff's supporting descriptions and scoped omissions. Compare expression trees and RDF witnesses; prove capped expansion and execution cancellation.                                                     | First semantically adequate neighbourhood for the main review use case. No reasoner or ontology migration.                                                                                                                      |
-| SLICE-003 — Connections between specified concepts               | REQ-003/005/006; AC-003/005/006; QA-001/002/004; DEC-005/007/008/009                         | Use the selected bounded query patterns and only gate-justified orchestration to return shortest paths with intermediate resources and witnesses. Test distinct Address roles, reverse traversal, ties, self endpoints, complete no-path results and incomplete searches separately.                                                                                                                                                                                      | Adds one bounded read-only operation; withdraw it independently if path behavior fails. No claim of inferred relationships.                                                                                                     |
-| SLICE-004 — Filtered entity search and exact definition handoff  | REQ-004/005/006/007; AC-004/005/006/007; QA-001/004/006/007; DEC-002/007/009–012             | Update `search_entities` to its single current contract for metadata-only and text-plus-filter selection, pagination and exact definition references. Retrieve a selected assertion through `get_entity_context`. Fixtures cover citation forms, axiom/entity-only sources, mixed-source and multilingual definitions on one entity, missing definitions, ownership, cursor misuse and continuation within an entity. Reconcile inventory counts with the precise filter. | Delivers the MCP-only review path through general entity search. No dedicated candidate tool, query/recipe dispatcher, source-quality allowlist, persistent review queue or compatibility branch.                               |
-| SLICE-005 — Local working snapshots and explicit graph selection | REQ-001/004/008; AC-001/004/008; QA-003/005; DEC-004/006/010/011                             | Generate from a saved authoring RDF/XML file; use both filtered search and context retrieval on a working snapshot, catalogued imports or selected additional graphs. Edit only a disposable fixture, rebuild, restart, and prove old/new identities, pinned handoff and graph isolation. Prove unresolved Turtle imports remain visible.                                                                                                                                 | Completes the local editing loop. Authoring inputs are never rewritten; restarting with prior retained artifacts restores the previous snapshot selection.                                                                      |
-| SLICE-006 — Check the integrated local review path               | All requirements and ACs; QA-001 through QA-008 at their stated R1 scope; DEC-012/013        | Run affected verification on the integrated candidate and add only the relevant local build/asset/browser checks. Demonstrate the three representative host tasks, including defining-concepts audits for both review triggers. Inspect semantic/source/snapshot and resource evidence, and complete one ordinary review.                                                                                                                                                 | Hand off a usable local iteration with truthful limitations. No mandatory R2 verifier, full-profile run, release dossier or cross-platform campaign. Publication remains separately authorized.                                 |
+| Slice                                                            | Linked obligations                                                                                       | Demonstrable result and falsifiable proof                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Release / recovery implication                                                                                                                                                                                                  |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SLICE-000 — Prove local Oxigraph suitability                     | REQ-001–008; representative ACs; QA-001/003–006/008; DEC-001/002/008–016                                 | Run the small local probe in section 4. Retain portable query fixtures, core restriction/source results, a bounded path, cancellation/isolation proof, local loading and timing/RSS notes. Record the selected composition and any concrete custom gap.                                                                                                                                                                                                                                                                                         | Start feature implementation after focused local feasibility and exact adoption authorization; complete broader cases in the slices that own them. Keep useful queries/fixtures and dispose only obsolete scratch.              |
+| SLICE-001 — One concept's asserted context end to end            | REQ-001/002/005/007; AC-001/002/005/007; QA-001/004/006/008; DEC-001/003/004/006/008/009/011/012/014–016 | Revise generator, loader and schemas for the selected dataset and store. Expose `get_entity_context` at depth 0/1 over stdio with ontology selection, `snapshotRef`, incoming/outgoing relationships, definitions, notes/examples and their annotations, evidence, source status and limits. Update affected lookup call sites and fixtures directly; hand-check a cycle and the core seed's incoming domains. Capture declared local RDF/XML/Turtle imports and retain explicit source-graph-only selection.                                   | Independently usable for direct relationships without a catalogue call; explicitly reports expression support incomplete until SLICE-002. Regenerate fixtures/artifacts in the current format; introduce no compatibility path. |
+| SLICE-002 — Preserve OWL context and support bounded depth       | REQ-002/005; AC-002/005; QA-001/004; DEC-001/005/007/008/009                                             | Promote the gate's restriction and bounded-neighbourhood queries, returning the AddressRelationship restrictions and Activity's hierarchy/minimum-zero fixture, depth 2–4, incoming structural references, external stubs, loops and nested unions. Prove named-resource depth and domain-property filtering with full qualifiers. Include the skill handoff's supporting descriptions and scoped omissions. Compare expression trees and RDF witnesses; prove capped expansion and execution cancellation.                                     | First semantically adequate neighbourhood for the main review use case. No reasoner or ontology migration.                                                                                                                      |
+| SLICE-003 — Connections between specified concepts               | REQ-003/005/006; AC-003/005/006; QA-001/002/004; DEC-005/007/008/009                                     | Use the selected bounded query patterns and only gate-justified orchestration to return shortest paths with intermediate resources and witnesses. Test distinct Address roles, reverse traversal, ties, duplicate-source witnesses, self endpoints, complete no-path results and incomplete searches separately.                                                                                                                                                                                                                                | Adds one bounded read-only operation; withdraw it independently if path behavior fails. No claim of inferred relationships.                                                                                                     |
+| SLICE-004 — Filtered entity search and exact definition handoff  | REQ-004/005/006/007; AC-004/005/006/007; QA-001/004/006/007; DEC-002/007/009–012/014                     | Update `search_entities` to its single current contract for metadata-only and text-plus-filter selection, pagination and exact definition references. Retrieve a selected assertion through `get_entity_context`. Fixtures cover citation forms, axiom/entity-only sources, exact annotations across selected graphs, unselected-graph exclusion, mixed-source and multilingual definitions on one entity, missing definitions, ownership, cursor misuse and continuation within an entity. Reconcile inventory counts with the precise filter. | Delivers the MCP-only review path through general entity search. No dedicated candidate tool, query/recipe dispatcher, source-quality allowlist, persistent review queue or compatibility branch.                               |
+| SLICE-005 — Local working snapshots and explicit graph selection | REQ-001/004/008; AC-001/004/008; QA-003/005; DEC-004/006/010/011/014/015                                 | Generate from a saved authoring RDF/XML file; use both filtered search and context retrieval on a working snapshot, catalogued imports or selected additional graphs. Edit only a disposable fixture, rebuild, restart, and prove old/new identities, pinned handoff and graph isolation. Prove local Turtle inclusion, explicit missing-import gaps, catalog identity and graph-version conflicts.                                                                                                                                             | Completes the local editing loop. Authoring inputs are never rewritten; restarting with prior retained artifacts restores the previous snapshot selection.                                                                      |
+| SLICE-006 — Check the integrated local review path               | All requirements, ACs and decisions; QA-001 through QA-008 at their stated R1 scope                      | Run affected verification on the integrated candidate and add only the relevant local build/asset/browser checks. Demonstrate the three representative host tasks, including defining-concepts audits for both review triggers. Inspect semantic/source/snapshot and resource evidence, and complete one ordinary review.                                                                                                                                                                                                                       | Hand off a usable local iteration with truthful limitations. No mandatory R2 verifier, full-profile run, release dossier or cross-platform campaign. Publication remains separately authorized.                                 |
 
 ### Predicted file responsibilities
 
 | Owner                           | Existing files likely touched                                                                                                                                                                                                                                                           | New modules/tests likely needed                                                                                                                                                                                                                                                                    |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Query semantics                 | `packages/universal-ontology-query/src/index.js`, `artifacts.js`, `ontologyQuerySchemas.js`, `ontologyQueryErrors.js`, `createOntologyQueryModule.js`, `createOntologyReleaseQueryIndex.js`; update public contracts and call sites directly                                            | Focused `ontologyContextQueries.js`, `ontologyExpressionProjection.js` and `ontologyDefinitionSourceEvidence.js` modules where useful; current-schema, filtered-search, pagination and independent semantic fixtures. No duplicate public query module or schema family to retain an old contract. |
-| Embedded store and execution    | Local query/repository integration and standalone executable build boundaries, finalized in SLICE-000                                                                                                                                                                                   | A focused engine/execution module and isolated query worker if necessary. No generic graph engine, parallel adjacency store, speculative backend framework or compatibility adapter.                                                                                                               |
+| Embedded store and execution    | Explicit Node entry in the query package; MCP launcher composition and application/archive packaging boundaries                                                                                                                                                                         | One engine/execution module, reusable worker and bounded queue; packaged worker/WASM assets and notice evidence. No generic graph engine, parallel adjacency store, speculative backend framework or compatibility adapter.                                                                        |
 | Artifact bytes and repositories | Revise `ontologyQueryArtifactCanonicalBytes.js`, `ontologyQueryArtifactParsing.js`, `fileSystemOntologyQueryArtifactRepository.js` and affected repository contracts directly                                                                                                           | Current-format integrity, admission-bounds and regeneration fixtures; no companion catalog or old-reader fixtures.                                                                                                                                                                                 |
 | Generation                      | Revise `scripts/build/ontologyAssetWorker.js`, `ontologyAssetWorkerPool.js`, `createOntologyQueryArtifacts.js`, `scripts/generateOntologyQueryIndexes.js` to emit the current contract                                                                                                  | Focused source-snapshot/semantic helpers where needed and `tests/build/` fixtures; no parallel generator preserving the superseded format.                                                                                                                                                         |
 | MCP contract and runtime        | `createUniversalOntologyMcpServer.js`, `universalOntologyToolSchemas.js`, `universalOntologyMcpMetadata.js`, `renderOntologyToolResultAsText.js`, `runUniversalOntologyMcpStdioServer.js`, `universalOntologyMcpOperationalEvents.js`, workspace `scripts/runLocalOntologyMcpServer.js` | Tool schema, renderer, semantic transport, cancellation, and capability tests under the MCP workspace                                                                                                                                                                                              |
 | Delivery evidence and guidance  | `docs/mcp/local-development.md`, workspace `README.md`; relevant local distribution and browser-import tests when touched                                                                                                                                                               | Representative smoke/host examples and concise timing observations; no separate benchmark harness by default.                                                                                                                                                                                      |
 
 Keep protocol composition thin: the MCP layer validates and renders; the query package owns maintained queries and UO meaning; the reused engine owns RDF storage and query evaluation; generation owns snapshot capture and canonicalization.
-SLICE-000 fixes the placement of any Node-specific adapter/worker so the shared public/browser boundary remains independent of it.
+The query package owns the Node adapter/worker; MCP transports compose it while the browser uses the current platform-neutral entry.
+SLICE-000 proves source and packaged wiring, including startup from an unrelated working directory.
 Do not move the standalone server's existing Node-free consumer boundary or bundle the repository's authoring toolchain into it.
 
 One integration owner maintains the current search/context schemas, depth definition, definition-assertion identifiers and snapshot references across all slices.
 SLICE-000 gates SLICE-001; SLICE-001 precedes SLICE-002; SLICE-002 precedes SLICE-003 and SLICE-004; SLICE-005 uses the current artifact contract; SLICE-006 follows integration.
 Fixture authoring and documentation can proceed as their consumers need them; no parallel setup or benchmark harness is required merely to begin.
 Parallel implementation of schemas, projection, and traversal before those semantics stabilize is unsuitable.
-No agents are delegated by this plan.
+This plan does not authorize implementation delegation; the invoked grilling skill authorized the completed read-only research lanes.
 
 ## 9. Verification cadence and configuration boundary
 
@@ -632,14 +685,16 @@ A relevant later edit requires affected evidence to be refreshed.
 
 This plan revision requires no package, lockfile, policy, build or host MCP configuration change and installs nothing.
 An executable Oxigraph probe and subsequent adoption require separately authorized dependency acquisition and likely configuration changes; the package is not treated as already available merely because its documentation was reviewed.
-Before that step, present the smallest exact proposal, likely the owning workspace's `package.json` dependency entry (absent to the assessed pinned `oxigraph` release) and root `package-lock.json`, plus any necessary WASM/worker packaging or package-file declaration.
-Determine the owning workspace and precise asset strategy from the supported integration boundary, then name each exact file, old/new setting and build/runtime effect before editing it.
+Before that step, present the exact proposed configuration delta: `packages/universal-ontology-query/package.json` gains an explicit `./node` export and pinned `oxigraph: 0.5.11` dependency; root `package.json` gains the same direct development dependency for generation-time Turtle parsing; regenerate `package-lock.json` once.
+The MCP package `files` setting and application/archive asset inventories must include the chosen worker/WASM files; license handling must retain verified upstream text and required notices.
+Name the exact worker filenames/export target and every old/new setting before approval; the small build probe chooses that wiring, not a user preference.
+The root already directly declares Saxes, so no additional catalog-parser dependency is proposed.
 Complete exact license/notice and asset inspection before execution; retain existing parser/canonicalizer/SDK/schema dependencies where their current responsibilities remain necessary.
 Extend the existing generation command's implementation with explicit source/context options rather than requiring another npm-script setting.
 Reuse the filesystem root option for the current artifact layout; any required setting change must be proposed explicitly.
 Replace superseded schemas, code paths and fixture expectations in the affected files; do not add compatibility-only tests or leave unused legacy implementations behind.
 
-Additional decision points include a package export, test-discovery scope, CI selection, a changed artifact-root setting or public package/Registry versioning for release.
+Separately authorized settings include the proposed Node package export and any necessary change to test discovery, CI selection, artifact roots or public package/Registry versioning for release.
 This plan does not authorize those changes in advance.
 
 The configured HISEW profiles remain outside UO.
@@ -647,7 +702,7 @@ No `.engineering-workflow` directory, copied lifecycle script, or repository pol
 
 ## 10. Rollout, recovery, and remaining decisions
 
-Once implementation is requested and SLICE-000 establishes local suitability, iterate on the pinned core release, then core plus reference data and extended graphs, then saved working snapshots.
+Once implementation is requested and SLICE-000 establishes local suitability, iterate on the pinned core release with its local import closure, then explicit additional graphs such as extended, then saved working snapshots.
 Max observes source identity, both definition-review fixtures, the skill handoff, citation status and truncation behavior as the working slices become usable.
 Complete the local iteration with affected checks, relevant integration checks, the representative MCP-only demonstration and one ordinary review.
 Do not hold local use behind a separate release-readiness dossier or a broad performance/platform campaign; record any concrete remaining limitation.
@@ -663,19 +718,24 @@ There is no backfill of authored data and no persistent user review-state migrat
 
 Remove task-created disposable fixture outputs only after their consumers finish.
 Retain the inputs for any measurements actually performed, failing/counterexample fixtures, source digests, review results and recovery evidence.
-Retained generated snapshots need an owner and retention decision before later cache or artifact cleanup; this plan does not authorize broad deletion.
+Max owns retained local snapshots; introduce no automatic artifact garbage collection in this iteration.
+Retain immutable objects needed by the catalog, requests or recovery evidence; a later explicit cleanup can retire unreferenced artifacts.
+Bounded in-memory store eviction is independent of artifact deletion; no broad filesystem cleanup is authorized.
 
-| Question / decision owner                                                         | Cheapest discriminating evidence                                                                                                                | Replan condition                                                                                                                                                                                      |
-| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Max: are the proposed depth, byte, latency and memory thresholds useful?          | Representative local measurements and fixed real-source examples from the current candidate                                                     | Useful context routinely hits limits or requires materially larger retained graphs; investigate the measured issue rather than adding an automatic benchmark campaign.                                |
-| Ontology reviewer: does the structural connection model preserve meaning?         | Hand-reviewed AddressRelationship fixture, nested expressions, cardinality-zero and inverse traversal cases                                     | Correct answers require entailment or a different concept of graph depth.                                                                                                                             |
-| Integration owner: does embedded Oxigraph satisfy the local contract?             | Small local query, cancellation/loading and license/asset probe, with startup/RSS notes                                                         | A specific accepted requirement fails after supported composition; investigate another maintained engine before custom storage.                                                                       |
-| Integration owner: is any extra index or traversal code justified?                | Retained counterexample and before/after measurements for an explicit REQ/AC/QA gap                                                             | New code duplicates the engine or loses evidence; reject it unless the measured benefit and maintenance cost are accepted.                                                                            |
-| Max: do catalogued graphs cover the intended review context?                      | Count unresolved imports and foreign references for the actual review set                                                                       | Complete Turtle/import ingestion, import downloading, or reasoner closure becomes required.                                                                                                           |
-| Max: can a non-thinking host reliably use the tool descriptions?                  | Authorized QA-007 trial of filtered search, exact-definition context handoff and connection questions, with actual supported reasoning controls | Correct retrieval needs manual queries, external recipes, an ontology-catalogue call or repeated interpretation of raw RDF.                                                                           |
-| Integration owner: are metadata filters still a small, coherent search interface? | User tasks, the current schema, mixed-source definitions and complete pagination fixtures                                                       | New requests require arbitrary joins or a filter language; revisit a separate SPARQL capability instead of adding dispatcher modes.                                                                   |
-| Maintainer: can the candidate use current release/adoption boundaries?            | Current package advisories, exact bundle inventory, notices, and native review                                                                  | New untrusted schema processing, fetch behavior, dependencies, or distribution formats are needed.                                                                                                    |
-| Max: does the R1 exposure assumption still hold?                                  | Confirm who depends on the contract, where it runs, what data it can change and the consequence of failure                                      | Reassess before supported public/shared use, persistent authored-data writes, new sensitive-data/authentication exposure, remote acquisition or material shared availability/concurrency obligations. |
+The grilling decision tree is: accepted review purpose → explicit ontology/snapshot scope → evidence-preserving graph semantics → bounded MCP contract → one-worker local delivery → measured acceptance.
+No remaining user-preference question was identified within the accepted scope.
+These are proof gates and conditional replanning triggers, not unanswered requests for Max to choose technical mechanisms.
+
+| Branch / disposition                              | Resolution or remaining proof                                                                                                                             | Replan condition                                                                                                             |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Scope and imports — resolved                      | Default to root plus exactly catalogued local declared imports, including Turtle; retain explicit root-only/additional-graph selection.                   | Required imports cannot resolve locally, or external acquisition becomes necessary.                                          |
+| Meaning and citations — resolved                  | Exact RDF terms, expression qualifiers, original direction, named-resource depth and separate definition/annotation provenance across selected graphs.    | Fixtures expose missing expression support, or the task needs entailment.                                                    |
+| Tool contract — resolved                          | Search for discovery, direct known-entity context, connections for a path question; explicit pinned selection and actionable bounded diagnostics.         | Real tasks require arbitrary queries, chunking or persistent review state.                                                   |
+| Runtime/artifacts — selected, suitability pending | Oxigraph, one Node worker, bounded queue, canonical N-Quads and lexical JSON. Probe interruption, recovery, startup, output size and RSS.                 | Measured failure needs another maintained composition; no speculative custom store.                                          |
+| Packaging/notices — concrete work pending         | Declare worker/WASM assets, preserve loader-relative paths, retain source-pinned license text and inspect embedded notices.                               | Source/built entry points cannot carry the candidate or rights evidence is incomplete.                                       |
+| Host usability — proof pending                    | Three QA-007 tasks in the real host, checking exact references, warning visibility and both review triggers.                                              | Retrieval requires manual queries, repeated RDF reconstruction or unsupported host behavior.                                 |
+| Numerical limits — calibration pending            | Tune initial bounded defaults against fixed examples and cold/warm/end-to-end measurements.                                                               | Important context routinely cannot fit or local resource behavior is unusable.                                               |
+| Retention/R1 — resolved for present scope         | Retain required immutable artifacts; automatically evict only disposable memory. Sole consumer, local read-only use, affected checks and ordinary review. | Other consumers, shared hosting, authored-data writes, sensitive/authentication exposure or destructive cleanup enter scope. |
 
 Any shift toward having the MCP server assess source authority, rewrite definitions, change ontology axioms or publish new artifacts is a new decision rather than a silent extension of this plan.
 The consuming agent's requested definition review is the supported use case; its semantic judgments and any external research remain in the skill.
@@ -695,12 +755,18 @@ An in-memory two-graph fixture passed eight definition-assertion checks covering
 The first probe's projected `EXISTS` form failed in RDFLib; the successful probe used `OPTIONAL` bindings.
 This is retained as a query-engine limitation observed during planning, not an Oxigraph finding.
 These decisions are carried through requirements, quality scenarios, delivery slices and recovery.
-The RDFLib results and manual skill mapping establish semantic feasibility only; no Oxigraph trial, comparative performance measurement, production implementation test, model/host trial, independent review or release acceptance has been performed.
+Revision 6 used the invoked grilling skill's independent read-only fact-finding lanes for semantic, runtime and MCP questions, alongside local catalog/source inspection.
+A four-assertion RDFLib probe demonstrated exact citations across selected graphs while excluding an unselected graph and wrong-language annotation; replace blanket cross-graph rejection with these expectations.
+Package inspection verified the published Oxigraph archive's integrity, relative WASM loader and absent packaged LICENSE without installation or execution.
+Native XML reads confirmed catalog/source facts and small file sizes; they do not qualify a generated closure or benchmark the engine.
+The RDFLib results and manual skill mapping establish semantic feasibility only; no Oxigraph execution, comparative performance measurement, production implementation test, model/host trial or release acceptance has been performed.
 
 Primary references used for the contract include the [MCP tools specification](https://modelcontextprotocol.io/specification/2026-07-28/server/tools), [RDF concepts and blank-node scope](https://www.w3.org/TR/rdf11-concepts/#section-blank-nodes), the OWL and RDFC specifications linked above, [parser release notes](https://github.com/rdfjs/rdfxml-streaming-parser.js/blob/v3.3.0/CHANGELOG.md), and [canonicalizer API guidance](https://github.com/digitalbazaar/rdf-canonize).
 Registry identities were read from `https://registry.npmjs.org/<package>/latest` for each candidate on the research date and cross-checked against the repository lock for reused dependencies.
 The revised selection additionally uses the [Oxigraph 0.5.11 JavaScript API](https://github.com/oxigraph/oxigraph/blob/v0.5.11/js/README.md), its license texts linked above, and the [SPARQL 1.1 query specification](https://www.w3.org/TR/sparql11-query/).
 The interface review also used [Anthropic's agent-tool design guidance](https://www.anthropic.com/engineering/writing-tools-for-agents): keep purposes distinct, return useful context, and verify the actual agent workflow rather than assuming a smaller signature is easier to use.
+Revision 6 additionally checked [Node worker termination/resource limits](https://nodejs.org/docs/latest-v24.x/api/worker_threads.html), [MCP structured results](https://modelcontextprotocol.io/specification/2026-07-28/server/tools#structured-content), [transport-specific cancellation](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/cancellation) and [RDFC serialization](https://www.w3.org/TR/rdf-canon/#serialization).
+Authoritative sources and local evidence resolved the technical questions; no weaker community convention was needed to override them.
 
 Use the accepted intent and decisions in this task as the R1 brief; the REQ/AC/QA/DEC references remain useful implementation and review aids, not a requirement to capture a protected baseline.
 Update the plan when implementation evidence materially changes a decision.
