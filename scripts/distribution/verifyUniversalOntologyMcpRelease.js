@@ -86,7 +86,7 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "2ef27cdcff204be15c36ed7cf219b712973c37abe7839afa00ba51124a22b91d";
+  "74583eb7205d06800c6d964b2d649497568317430596d6a647092c05ce70d4df";
 
 const FORBIDDEN_ARCHIVE_CONTENT_MARKERS = Object.freeze([
   "A natural or legal person recognised by law.",
