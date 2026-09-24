@@ -65,7 +65,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@jest/globals": "30.5.2",
-    "@modelcontextprotocol/client": "2.0.0",
+    "@modelcontextprotocol/client": "2.1.0",
     "@rdfjs/serializer-jsonld-ext": "^4.0.2",
     "@rdfjs/serializer-ntriples": "^2.0.1",
     "@rubensworks/saxes": "^ 6.0.1",
@@ -80,7 +80,7 @@
     "jsonld": "^9.0.0",
     "oxigraph": "0.5.11",
     "playwright": "^1.63.0",
-    "prettier": "^3.9.8",
+    "prettier": "^3.9.9",
     "rdf-canonize": "^5.0.0",
     "rdfxml-streaming-parser": "^3.2.0",
     "skills": "1.7.0",
