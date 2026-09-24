@@ -3,14 +3,14 @@
 The Universal Ontology MCP Server application bundle includes the following runtime components.
 The package's `LICENSE` applies only to the Universal Ontology MCP Server's own code; each component remains subject to its listed license.
 
-## @modelcontextprotocol/core 2.0.0
+## @modelcontextprotocol/core 2.1.0
 
 License: MIT
 
 Copyright (c) 2024-2025 Model Context Protocol a Series of LF Projects, LLC.
 Source: <https://github.com/modelcontextprotocol/typescript-sdk>
 
-## @modelcontextprotocol/server 2.0.0
+## @modelcontextprotocol/server 2.1.0
 
 License: MIT
 
@@ -62,7 +62,7 @@ Source: <https://github.com/colinhacks/zod>
 ## Complete published SDK terms
 
 The published metadata labels above are retained for component identity.
-Both SDK 2.0.0 packages ship the identical LICENSE below, including its licensing-transition statement.
+Both SDK 2.1.0 packages ship the identical LICENSE below, including its licensing-transition statement.
 The statement governs applicable contribution terms; the metadata label alone is not a complete rights determination.
 This bundle contains SDK code, not SDK documentation.
 No dependency implementation is patched by this build; esbuild bundles and tree-shakes the published code.
