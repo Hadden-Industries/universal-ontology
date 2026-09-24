@@ -50,8 +50,8 @@
   },
   "devDependencies": {
     "@jest/globals": "^30.5.2",
-    "@modelcontextprotocol/client": "^2.0.0",
-    "@modelcontextprotocol/node": "^2.0.0",
+    "@modelcontextprotocol/client": "^2.1.0",
+    "@modelcontextprotocol/node": "^2.1.0",
     "@modelcontextprotocol/server": "^2.0.0",
     "esbuild": "^0.28.2",
     "jest": "^30.5.2",
