@@ -1092,64 +1092,99 @@ describe("persistent ontology query-artifact cache immutable artifacts", () => {
 });
 
 describe("persistent ontology query-artifact cache leases and channel state", () => {
-  test("serializes two artifact-population operations under one digest lease", async () => {
-    const { parent, cacheRoot } = await createTemporaryCacheRoot(
-      "uo-cache-artifact-lease-",
-    );
-    const artifact = await createArtifactFixture();
-    let concurrentOperationCount = 0;
-    let maximumConcurrentOperationCount = 0;
-    let releaseFirstOperation;
-    const firstOperationMayFinish = new Promise((resolve) => {
-      releaseFirstOperation = resolve;
-    });
-
-    try {
-      const cache = await createPersistentOntologyQueryArtifactCache({
-        ontologyQueryArtifactCacheDirectoryPath: cacheRoot,
-        ontologyQueryArtifactBaseUrlSha256: BASE_URL_SHA_256,
-        leaseRetryDelayMilliseconds: 5,
+  test.each([0, 50])(
+    "serializes two artifact-population operations with %i ms lease creation latency",
+    async (leaseCreationDelayMilliseconds) => {
+      const { parent, cacheRoot } = await createTemporaryCacheRoot(
+        "uo-cache-artifact-lease-",
+      );
+      const artifact = await createArtifactFixture();
+      let concurrentOperationCount = 0;
+      let maximumConcurrentOperationCount = 0;
+      let releaseFirstOperation;
+      const operations = [];
+      const firstOperationStarted = Promise.withResolvers();
+      const contenderObservedLease = Promise.withResolvers();
+      const enteredOperations = [];
+      const firstOperationMayFinish = new Promise((resolve) => {
+        releaseFirstOperation = resolve;
       });
-      const runOperation = (result, waitForRelease = false) =>
-        cache.withArtifactPopulationLease({
-          expectedSha256: artifact.expectedSha256,
-          async operation() {
-            concurrentOperationCount += 1;
-            maximumConcurrentOperationCount = Math.max(
-              maximumConcurrentOperationCount,
-              concurrentOperationCount,
-            );
 
-            if (waitForRelease) {
-              await firstOperationMayFinish;
-            }
-
-            concurrentOperationCount -= 1;
-            return result;
+      try {
+        const cache = await createPersistentOntologyQueryArtifactCache({
+          ontologyQueryArtifactCacheDirectoryPath: cacheRoot,
+          ontologyQueryArtifactBaseUrlSha256: BASE_URL_SHA_256,
+          leaseRetryDelayMilliseconds: 5,
+          fileSystem: {
+            ...nodeFileSystem,
+            async mkdir(path, options) {
+              if (
+                path.endsWith(".lease") &&
+                leaseCreationDelayMilliseconds > 0
+              ) {
+                await new Promise((resolve) =>
+                  setTimeout(resolve, leaseCreationDelayMilliseconds),
+                );
+              }
+              try {
+                return await nodeFileSystem.mkdir(path, options);
+              } catch (error) {
+                if (path.endsWith(".lease") && error.code === "EEXIST") {
+                  contenderObservedLease.resolve();
+                }
+                throw error;
+              }
+            },
           },
         });
+        const runOperation = (result, waitForRelease = false) =>
+          cache.withArtifactPopulationLease({
+            expectedSha256: artifact.expectedSha256,
+            async operation() {
+              enteredOperations.push(result);
+              concurrentOperationCount += 1;
+              maximumConcurrentOperationCount = Math.max(
+                maximumConcurrentOperationCount,
+                concurrentOperationCount,
+              );
 
-      const first = runOperation("first", true);
-      const second = runOperation("second");
-      await new Promise((resolve) => setTimeout(resolve, 20));
+              if (waitForRelease) {
+                firstOperationStarted.resolve();
+                await firstOperationMayFinish;
+              }
 
-      expect(maximumConcurrentOperationCount).toBe(1);
-      releaseFirstOperation();
-      await expect(Promise.all([first, second])).resolves.toEqual([
-        "first",
-        "second",
-      ]);
-      expect(maximumConcurrentOperationCount).toBe(1);
-      expect(
-        await nodeFileSystem.readdir(
-          join(getRepositoryRootPath(cacheRoot), "locks", "artifacts"),
-        ),
-      ).toEqual([]);
-    } finally {
-      releaseFirstOperation?.();
-      await nodeFileSystem.rm(parent, { recursive: true, force: true });
-    }
-  });
+              concurrentOperationCount -= 1;
+              return result;
+            },
+          });
+
+        const first = runOperation("first", true);
+        operations.push(first);
+        await Promise.race([firstOperationStarted.promise, first]);
+        const second = runOperation("second");
+        operations.push(second);
+        await Promise.race([contenderObservedLease.promise, second]);
+
+        expect(enteredOperations).toEqual(["first"]);
+        expect(maximumConcurrentOperationCount).toBe(1);
+        releaseFirstOperation();
+        await expect(Promise.all([first, second])).resolves.toEqual([
+          "first",
+          "second",
+        ]);
+        expect(maximumConcurrentOperationCount).toBe(1);
+        expect(
+          await nodeFileSystem.readdir(
+            join(getRepositoryRootPath(cacheRoot), "locks", "artifacts"),
+          ),
+        ).toEqual([]);
+      } finally {
+        releaseFirstOperation?.();
+        await Promise.allSettled(operations);
+        await nodeFileSystem.rm(parent, { recursive: true, force: true });
+      }
+    },
+  );
 
   test("cancels a waiting lease contender without interrupting its owner", async () => {
     const { parent, cacheRoot } = await createTemporaryCacheRoot(
