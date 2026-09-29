@@ -391,6 +391,26 @@ describe("native Git PR check selection", () => {
     });
   });
 
+  test.each([
+    ["scripts/runTestsInParallel.py", ["python_tests"]],
+    ["scripts/merge_owl_imports.py", ["python_tests"]],
+    ["scripts/ontology_policy/rendering.py", ["python_tests"]],
+    ["tests/test_run_tests_in_parallel.py", ["python_tests"]],
+    ["tests/fixtures/ontology-policy/example.ttl", ["python_tests"]],
+    ["requirements.lock.txt", ["python_tests"]],
+    [".python-version", ["python_tests"]],
+    ["scripts/runRepositoryPython.js", ["python_tests"]],
+    [".github/workflows/development-checks.yml", ["python_tests"]],
+    ["docs/development.md", []],
+    ["src/ontology.js", []],
+    ["core/universal-core.owl", []],
+    ["docs/plans/sdlc-improvements/wp3/check_planning_package.py", []],
+  ])("the full Python suite runs for %s: %j", (path, selected) => {
+    write(path);
+    commit([path]);
+    expectSelection(selected, { scopes: ["python_tests"] });
+  });
+
   test("a plan mixed with application changes retains product checks", () => {
     const paths = ["docs/plans/draft.md", "src/ontology.js"];
     paths.forEach((path) => write(path));
