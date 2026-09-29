@@ -8,7 +8,10 @@
 **Architecture:** The independently published `owlapi` package remains a Java-OWLAPI-compatible ontology library: it loads the closure and supplies only registry-approved manager, merger, change, document, format, and storage APIs.
 A private `universal-ontology` runner consumes exact public package subpaths, composes those APIs with application-owned catalog and network policies, builds a one-ontology distribution artifact, performs a strict offline structural round trip, and publishes only after the proof passes.
 
-**Tech Stack:** Native ESM JavaScript on Node.js 24 LTS; exact public-registry `owlapi@0.2.0`; RDF/JS; W3C OWL 2 structural semantics and OWL-to-RDF mapping; OASIS XML Catalogs; Jest; the pinned Java OWLAPI 5.5.1 differential harness.
+**Tech Stack:** Native ESM JavaScript on Node.js 24 LTS; exact public-registry `@hadden-industries/owlapi@0.1.0-rc.1` through the native npm alias `owlapi`; RDF/JS; W3C OWL 2 structural semantics and OWL-to-RDF mapping; OASIS XML Catalogs; Jest; the pinned Java OWLAPI 5.5.1 differential harness.
+
+**Release acceptance:** The selected public RC may be used for UO production generation and hard cutover after exact-artifact and complete consumer acceptance.
+A stable `0.1.0` is not a prerequisite, and this plan does not assert that the selected RC is already published or accepted.
 
 **Spec:** `docs/specs/2026-08-22-self-contained-owl-import-closure-contract.md` is the normative consumer-owned contract.
 The canonical `Hadden-Industries/owlapi` Public API Surface Registry, capability matrix, and ontology-lifecycle capability plan govern the package boundary and upstream feature implementation; this plan does not duplicate them.
@@ -24,13 +27,15 @@ The canonical `Hadden-Industries/owlapi` Public API Surface Registry, capability
   ROBOT, Protege, and current Python behavior are comparative evidence, not normative authorities.
 - `owlapi` **MUST NOT** expose `materializeImportClosure`, `collapseImports`, or any other project-invented convenience method.
   The materialization policy belongs only to `universal-ontology`.
-- Except for the curated bare aggregate, a public `owlapi` subpath **MUST** map exactly to a separately approved package beneath `org.semanticweb.owlapi`.
+- Except for the curated root aggregate, a public subpath beneath the approved `owlapi` dependency alias **MUST** map exactly to a separately approved package beneath `org.semanticweb.owlapi`.
   A public binding **MUST** retain its Java responsibility, have an approved registry row and focused parity tests, and own one canonical definition in the matching Java-shaped namespace.
   If no corresponding upstream namespace exists, keep the helper private to `universal-ontology` or stop for an approved architecture amendment.
-- `universal-ontology` **MUST** consume exact public-registry `owlapi@0.2.0` through only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`.
-  Relative, `file:`, `link:`, workspace, Git, copied-source, package-alias, resolver-alias, `owlapi/internal/*`, unexported deep, and nominal `owlapi/rdf` imports are forbidden.
+- `universal-ontology` **MUST** declare `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"` in `devDependencies`, lock the registry resolution and integrity, and consume only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`.
+  This exact native npm alias is approved; relative, `file:`, `link:`, workspace, Git, copied-source, other package-alias, resolver-alias, `owlapi/internal/*`, unexported deep, and nominal `owlapi/rdf` imports are forbidden.
+  Floating tags and version ranges are forbidden dependency selections; `next` is only the upstream discovery/publication channel.
 - Functional Syntax and RDF/XML storage **MUST** be selected through `OWLOntologyManager.saveOntology`; this consumer neither requires nor directly imports `FunctionalSyntaxStorer` or `RDFXMLStorer` constructors.
-- There **MUST NOT** be a compatibility shim, wrapper, forwarding module, deprecated alias, Python launcher for JavaScript, or parallel old/new implementation in either repository.
+- There **MUST NOT** be an API compatibility shim, wrapper, forwarding module, deprecated API alias, Python launcher for JavaScript, or parallel maintained old/new implementation in either repository.
+  The approved native npm dependency alias changes installation only and creates no compatibility implementation.
 - Import resolution during generation **MUST** enable remote imports, catalog mappings, redirects, retries, and HTTP-to-HTTPS retry promotion.
   Missing, unreadable, unsupported, or unparsed input **MUST** fail generation.
 - The output **MUST** load in a fresh manager with no catalog, no network loader, no local import resolver, and an imports closure of exactly one ontology.
@@ -77,18 +82,30 @@ During repository extraction, its planning source is `Hadden-Industries/webvowl:
 
 ### Prerequisites
 
-This consumer plan starts only after all of these upstream gates are complete:
+Consumer implementation and qualification start after all of these upstream gates are complete:
 
-1. the extraction/publication plan has completed with verified public production `owlapi@0.1.0`—or only its recorded same-surface cutover patch—and WebVOWL consuming that exact package;
+1. the selected public `@hadden-industries/owlapi@0.1.0-rc.1` integrates the approved Phase 21/22 lifecycle work and satisfies the canonical package's RC qualification; no earlier public release or public alpha is required;
 2. the separate ontology-lifecycle capability plan has implemented the complete imports-closure, mutation, merger, strict reconstruction, and Functional Syntax/RDF/XML storage slice in the canonical `Hadden-Industries/owlapi` repository;
 3. the Public API Surface Registry and capability matrix classify every consumed binding as complete and public at its exact Java-backed subpath;
-4. the exact retained `owlapi@0.2.0` artifact has passed installed-package, browser, Node, Java differential, round-trip, provenance, and public-registry verification.
+4. the exact retained `@hadden-industries/owlapi@0.1.0-rc.1` artifact has passed installed-package, browser, Node, Java differential, round-trip, provenance, and fresh-cache public-registry verification.
 
 The upstream work is a prerequisite, not an executable task group in this consumer plan.
+The complete lifecycle scope from the 28 September 2026 amendment is retained; the scoped-publication amendment selects a public RC for consumer qualification and permits that same RC in production after acceptance.
+RC publication and upstream registry verification are prerequisites for the UO tasks; passing the UO end-to-end suite is a later production acceptance gate and cannot be required before publishing that same RC.
+Run Tasks 1–7 in an isolated qualification checkout or output location so candidate outputs cannot replace maintained production distributions.
+Production generation and the Task 8 hard cutover require the complete acceptance matrix and an acceptance record bound to the exact consumed artifact, not a stable version number.
+The package may remain under `next` after UO accepts it for production because UO pins its exact version.
 `universal-ontology` does not edit WebVOWL staging paths, the canonical package source, its registry, or its capability matrix while executing this plan.
-The exact `0.2.0` package is an immutable upstream prerequisite selected and published by the ontology-lifecycle programme.
+The exact `@hadden-industries/owlapi@0.1.0-rc.1` package is an immutable upstream prerequisite selected and published by the ontology-lifecycle programme.
 This consumer plan neither creates a new `owlapi` release nor advances its version.
 If the required capabilities are not available at that exact coordinate, implementation stops for an explicit cross-plan/version decision rather than silently selecting a different package or publishing one from this repository.
+Fixes to a published RC require another upstream version; selecting a later RC or `0.1.0` requires explicit contract, dependency, lockfile and acceptance-evidence updates and requalification.
+Migration to unscoped `owlapi`, dual publishing and redirect packages are outside this implementation.
+
+The upstream handoff must identify the exact coordinate, public registry URL, tarball integrity and retained digest, source commit/tag, provenance verification, public API registry digest and complete capability evidence.
+The existing upstream UO-source qualification runner uses source or a retained tarball; its registry-installed mode must retain separate evidence proving a fresh npm fetch of the scoped RC through the native alias.
+That upstream experiment uses pinned UO inputs but does not implement or replace this repository's planned consumer workflow.
+Task 1 verifies the public artifact independently; Tasks 2–8 own the real UO application and its acceptance.
 
 The executor must inspect the `universal-ontology` working tree before every task.
 A dirty tree is not a blocker, but overlapping user changes must be preserved and raised before editing.
@@ -157,7 +174,7 @@ The upstream gate is satisfied only when:
 4. Functional Syntax and RDF/XML storage pass exhaustive structural round trips and explicit representability-failure tests through `OWLOntologyManager.saveOntology`;
 5. strict RDF reconstruction rejects rather than drops an unconsumed authored statement;
 6. the complete composition agrees with the pinned Java OWLAPI 5.5.1 oracle on full ontology identity, root annotations, empty imports, axiom set, and anonymous-individual relationships; and
-7. the exact retained artifact is publicly published as `owlapi@0.2.0` and verified from a fresh registry cache.
+7. the exact retained artifact is publicly published as `@hadden-industries/owlapi@0.1.0-rc.1` and verified from a fresh registry cache through the approved native alias.
 
 Direct `FunctionalSyntaxStorer` or `RDFXMLStorer` constructors are not part of this gate.
 If the package publishes either under its exact Java package path for another consumer, this workflow still uses manager-mediated storage.
@@ -178,20 +195,23 @@ If any gate above is absent, implementation stops; it must not reach into a sibl
 
 **Interfaces:**
 
-- Consumes: the approved consumer contract, its versioned machine-readable policy, and exact public-registry `owlapi@0.2.0` after the upstream prerequisite gate.
-- Produces: a contract-lock test, one exact development dependency, and a test proving the consumer uses only published Java-compatible exports.
+- Consumes: the approved consumer contract, its versioned machine-readable policy, and exact public-registry `@hadden-industries/owlapi@0.1.0-rc.1` after the upstream qualification-entry gate.
+- Produces: a contract-lock test, one exact aliased development dependency, and tests proving scoped artifact identity and use of only published Java-compatible exports.
 
 - [ ] **Step 1: Verify the package release before changing consumer configuration**
 
-From a clean temporary consumer with the canonical public npm registry selected, verify that `owlapi@0.2.0` resolves, its registry integrity/provenance and source tag match the accepted retained artifact, and its installed-package tests expose the five required subpaths.
-Confirm the upstream registry marks every consumed symbol public and complete.
-Do not install a workspace path, `file:`, `link:`, Git URL, unpublished tarball, symlink, copied source tree, package alias, local re-export, or resolver alias as a substitute for the release.
+From a clean temporary consumer with a fresh cache and the canonical public npm registry selected, verify that `@hadden-industries/owlapi@0.1.0-rc.1` resolves and its registry integrity, provenance, source tag and retained digest agree with the upstream handoff.
+Install it through `owlapi@npm:@hadden-industries/owlapi@0.1.0-rc.1`, verify the actual installed name/version and registry resolution, and exercise the five required subpaths without access to ancestor `node_modules` or a source checkout.
+Confirm the upstream registry marks every consumed symbol public and complete, mapping each aliased import to its scoped canonical entry.
+Retain the exact package identity, source/API-registry evidence and fetch results separately from any earlier local-tarball qualification.
+Do not install a workspace path, `file:`, `link:`, Git URL, unpublished tarball, symlink, copied source tree, another package alias, local re-export, or resolver alias as a substitute for the release.
+An absent package, unavailable version or failed registry verification blocks this step; a 404 or successful local pack is not publication evidence.
 
 - [ ] **Step 2: Request exact configuration approval**
 
 Ask for approval to make only these changes:
 
-- add `"owlapi": "0.2.0"` to `devDependencies` in `universal-ontology/package.json` because the package is used by repository generation tooling and tests, not browser runtime code;
+- add `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"` to `devDependencies` in `universal-ontology/package.json` because the package is used by repository generation tooling and tests, not browser runtime code;
 - add `"generate:full-ontologies": "node scripts/createFullVersions.js"` to `scripts`;
 - update `universal-ontology/package-lock.json` to pin the resolved package and integrity tree.
 
@@ -218,11 +238,18 @@ test("locks the approved standalone import-closure policy", async () => {
   expect(contract).toEqual({
     schemaVersion: 1,
     owlapiBoundary: {
-      packageName: "owlapi",
+      packageName: "@hadden-industries/owlapi",
+      dependencyName: "owlapi",
       sourceRepository: "https://github.com/Hadden-Industries/owlapi",
       registry: "https://registry.npmjs.org/",
-      exactVersion: "0.2.0",
+      exactVersion: "0.1.0-rc.1",
+      dependencySpecifier: "npm:@hadden-industries/owlapi@0.1.0-rc.1",
       dependencySection: "devDependencies",
+      qualificationPrerequisite:
+        "upstream-capabilities-and-public-registry-verification",
+      productionPrerequisite: "exact-artifact-and-complete-consumer-acceptance",
+      releaseCandidateProductionUse:
+        "allowed-after-exact-artifact-and-consumer-acceptance",
       publicSubpathAuthority: "public-api-surface-registry",
       publicSubpathRule: "exact-approved-org.semanticweb.owlapi-package",
       publicBindingSourceOwnership:
@@ -289,6 +316,11 @@ test("uses only the released Java-compatible package boundary", () => {
 
 Add an import-graph assertion over `scripts/` and `tests/import-closure/` that rejects the bare `owlapi` aggregate (unused by this consumer), relative or source-tree reach-in, `owlapi/internal/*`, unexported subpaths, and nominal `owlapi/rdf`.
 Do not assert that independently approved future deep Java-package exports can never exist; assert only that this consumer does not depend on them.
+Add package-identity assertions that the manifest and lockfile root declare the exact native alias, the `node_modules/owlapi` lock entry and installed manifest identify `@hadden-industries/owlapi@0.1.0-rc.1`, and the registry URL/integrity match the upstream handoff.
+Read installed metadata from the filesystem; do not add a `package.json` export to the library.
+Include rejection fixtures for an unscoped target, another scope, another version, floating `next`/`latest`, a semver range, link/source fallback, and mismatched integrity or provenance.
+The acceptance-policy assertions must permit the exact RC after complete artifact and consumer acceptance, reject production acceptance with missing evidence, and never require `0.1.0` merely because the selected version is an RC.
+Policy eligibility is not an assertion that current acceptance evidence already exists.
 
 - [ ] **Step 4: Run both tests before package installation**
 
@@ -305,7 +337,7 @@ Expected: the contract-policy test passes, and the package-boundary test fails b
 Run this as one command:
 
 ```powershell
-npm install --save-dev --save-exact owlapi@0.2.0
+npm install --save-dev --save-exact "owlapi@npm:@hadden-industries/owlapi@0.1.0-rc.1"
 ```
 
 Then add the one approved `generate:full-ontologies` script entry with a targeted edit.
@@ -888,7 +920,7 @@ const generationConfiguration = new OWLOntologyLoaderConfiguration({
 });
 ```
 
-Use the finite byte/axiom/import/depth ceilings supplied by the completed `owlapi@0.2.0` resource contract.
+Use the finite byte/axiom/import/depth ceilings supplied by the qualified `@hadden-industries/owlapi@0.1.0-rc.1` resource contract.
 Do not replace them with infinity.
 
 - [ ] **Step 7: Run CLI tests**
@@ -984,6 +1016,9 @@ npm run generate:full-ontologies
 
 Expected: all four targets report a fully resolved closure and pass their embedded offline proof.
 No import fetch should be required when the four catalogs cover the closure; network remains enabled as fallback.
+Run this step in the isolated qualification checkout/output location until UO production acceptance is recorded.
+Exercise controlled remote-import fixtures and real remote resolution separately from npm package fetching; retain UO revision, input digests, resolved document identities and outcomes in workflow evidence outside the ontology outputs.
+The finished standalone ontology must still verify with zero network or external-loader calls.
 
 - [ ] **Step 6: Add and run the real-distribution contract test**
 
@@ -1005,6 +1040,7 @@ Add this exact operator table:
 | `python scripts/create_full_versions.py`                             | `npm run generate:full-ontologies`                                                        |
 
 Document retained/dropped information, fatal conditions, HTTPS promotion, no-sidecar policy, output-format choice, and the offline proof.
+Document the exact scoped npm alias, immutable version/integrity checks, qualification-output isolation, accepted-RC production eligibility, and the explicit requalification needed for any later package version.
 State that there is no compatibility wrapper and that Git history is the only recovery path for the Python implementation.
 
 - [ ] **Step 8: Run docs-adjacent and full consumer tests**
@@ -1036,7 +1072,7 @@ git commit -m "feat: generate full ontologies with owlapi"
 
 **Interfaces:**
 
-- Consumes: the green JavaScript runner and real-distribution proof.
+- Consumes: the green JavaScript runner, exact public-registry RC evidence and real-distribution proof; production acceptance is completed against that same artifact.
 - Produces: one supported generation path with no shim or legacy implementation.
 
 - [ ] **Step 1: Search for every legacy reference before deletion**
@@ -1114,7 +1150,7 @@ npm run generate:full-ontologies
 
 Expected: PASS.
 
-For each output, verify with the exact installed public-registry `owlapi@0.2.0` package in a fresh Node process that:
+For each output, verify with the exact installed public-registry `@hadden-industries/owlapi@0.1.0-rc.1` package through the `owlapi` alias in a fresh Node process that:
 
 ```text
 imports declarations = 0
@@ -1125,7 +1161,7 @@ axiom fingerprint     = source closure axiom-union fingerprint
 external loader calls = 0
 ```
 
-Run the independent pinned Java OWLAPI oracle for the same four artifacts, one command at a time from a clean checkout of `Hadden-Industries/owlapi` at the source tag recorded for `owlapi@0.2.0`:
+Run the independent pinned Java OWLAPI oracle for the same four artifacts, one command at a time from a clean checkout of `Hadden-Industries/owlapi` at the source tag recorded for `@hadden-industries/owlapi@0.1.0-rc.1`:
 
 ```powershell
 node util/owlapi-reference/run-import-closure-contract.mjs --root C:\Users\maksy\GitHub\universal-ontology\dist\iso-iec\11179\-3\ed-4\20260714 --catalog C:\Users\maksy\GitHub\universal-ontology\iso-iec11179-3\catalog-v001.xml --verify-output C:\Users\maksy\GitHub\universal-ontology\dist\iso-iec\11179\-3\ed-4\20260714-full
@@ -1153,7 +1189,8 @@ From `C:\Users\maksy\GitHub\universal-ontology`:
 npm ls owlapi --depth=0
 ```
 
-Expected: exactly `owlapi@0.2.0`, with no invalid, extraneous, linked, or deduplicated alternate copy.
+Expected: exactly the `owlapi` dependency alias targeting `@hadden-industries/owlapi@0.1.0-rc.1`, with no invalid, extraneous, linked, or deduplicated alternate copy.
+Do not confuse the dependency key with the actual scoped package name when inspecting npm's output.
 
 ```powershell
 npm test -- --runInBand tests/import-closure/owlapi-package-boundary.test.js tests/import-closure/real-distribution-contract.test.js
@@ -1162,6 +1199,9 @@ npm test -- --runInBand tests/import-closure/owlapi-package-boundary.test.js tes
 Expected: PASS through package specifiers only.
 Inspect `package-lock.json` and the installed package metadata to confirm the resolved registry URL and integrity match the accepted public artifact.
 Re-running upstream source tests is not a substitute for this installed-consumer proof and is not owned by this plan.
+After all acceptance checks pass, record UO production acceptance for the exact scoped RC and integrity, upstream source commit/tag and API-registry evidence, UO revision, input digests and complete consumer results.
+Keep that record in repository/workflow evidence, not alongside ontology output as a sidecar.
+The accepted RC may remain under `next` and may be used for normal production generation and the hard cutover; no separate `0.1.0` release is required.
 
 - [ ] **Step 7: Review diffs and generated behavior before declaring completion**
 
@@ -1184,8 +1224,11 @@ Do not push without separate explicit push authorization.
 
 ## Acceptance authority
 
-Every row in Section 11 of `docs/specs/2026-08-22-self-contained-owl-import-closure-contract.md` is a release blocker.
+Every package-acceptance check and matrix row in Section 11 of `docs/specs/2026-08-22-self-contained-owl-import-closure-contract.md` blocks UO production acceptance, including production use of an RC.
 Tasks 1–7 introduce the package-boundary and focused consumer proofs; Task 8 runs the complete matrix against every real distribution and checks every completion criterion in Section 13 of the spec.
+Qualification and production differ by accepted evidence for the exact artifact, not by prerelease versus stable version syntax.
+These UO checks follow RC publication and must not become a circular prerequisite for that publication.
+Public publication alone does not authorize production cutover, and adopting a later RC or `0.1.0` requires an explicit dependency/contract update and requalification.
 
 A passing happy path never compensates for a missing acceptance row.
 If a task discovers that the released public `owlapi` surface or registry classification cannot satisfy the Java-compatible contract, or that the output contract cannot be verified without adding sidecar information, stop and request an approved spec and plan amendment.
