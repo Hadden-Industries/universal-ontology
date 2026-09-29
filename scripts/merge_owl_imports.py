@@ -587,6 +587,9 @@ def main():
             # Run deterministic XML formatter to sort tags and namespaces alphabetically
             deterministic_xml_formatting(temp_file_path)
         except Exception as e:
+            # Windows cannot delete a file that still has an open handle; closing
+            # an already-closed file is a no-op.
+            temp_file.close()
             if os.path.exists(temp_file_path):
                 os.remove(temp_file_path)
             logging.error(f"Failed to serialize and format merged ontology: {e}")

@@ -72,6 +72,23 @@ class RenderedPolicyContentTest(unittest.TestCase):
         self.assertEqual(markdown_inline("<b>bold</b>"), "\\<b\\>bold\\</b\\>")
         self.assertEqual(markdown_inline("x `y` z"), "x \\`y\\` z")
 
+    def test_code_spans_fence_embedded_backticks_per_commonmark(self):
+        """Expectations follow CommonMark 0.31.2 section 6.1 (code spans)."""
+        from ontology_policy.rendering import code
+
+        cases = {
+            "simple": "`simple`",
+            "foo`bar": "``foo`bar``",
+            "a``b": "```a``b```",
+            "`start": "`` `start ``",
+            "end`": "`` end` ``",
+            " spaced ": "`  spaced  `",
+            "  ": "`  `",
+        }
+        for text, rendered in cases.items():
+            with self.subTest(text=text):
+                self.assertEqual(code(text), rendered)
+
 
 class RendererCommandTest(unittest.TestCase):
     def test_check_mode_passes_for_the_committed_document_and_writes_nothing(self):

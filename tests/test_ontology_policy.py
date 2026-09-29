@@ -5,6 +5,7 @@ fixture; the shapes under test are never the oracle.
 """
 
 import json
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -336,6 +337,30 @@ class PolicyDefinitionGuardTest(unittest.TestCase):
             )
             with self.assertRaises(PolicyDefinitionError):
                 load_policy(directory)
+
+    def test_every_missing_rule_file_is_a_policy_definition_error(self):
+        """Each canonical rule file is required; none may be silently skipped."""
+        import shutil
+        import tempfile
+
+        rule_files = (
+            "editing-policy.ttl",
+            "entity-policy.ttl",
+            "ontology-policy.ttl",
+            "axiom-policy.ttl",
+            "dataset-distribution-policy.ttl",
+        )
+        for missing in rule_files:
+            with (
+                self.subTest(missing=missing),
+                tempfile.TemporaryDirectory() as temporary,
+            ):
+                directory = Path(temporary)
+                for path in (REPOSITORY_ROOT / "policy").glob("*.ttl"):
+                    shutil.copyfile(path, directory / path.name)
+                (directory / missing).unlink()
+                with self.assertRaisesRegex(PolicyDefinitionError, re.escape(missing)):
+                    load_policy(directory)
 
 
 class TargetMutationControlTest(unittest.TestCase):
