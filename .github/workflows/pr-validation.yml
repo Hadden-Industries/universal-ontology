@@ -68,7 +68,7 @@ jobs:
           console.log(ignored.join("|"));
           NODE
           )"
-          npm test -- --runInBand --testPathIgnorePatterns="$ignored"
+          DEBUG=pw:api npm test -- --runInBand --testPathIgnorePatterns="$ignored"
           npm run lint:node
           npm run format:node:check
       - id: complete

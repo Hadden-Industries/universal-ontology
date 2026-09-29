@@ -92,7 +92,7 @@ const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/pr-validation.yml":
-    "fbaeed06ababe157348c85c2b8fce7bc4c5dddc7612a58df9228b36b85f68c88",
+    "7fd478f65fc44e074bb05be7fa9ec2544147ad5d64fbcbcaa2114ea96c70ce8a",
   ".github/workflows/full-qualification.yml":
     "92850d994441848d3f15543bf042a5b80c6a0da9fd9996a3091fd0641978e48b",
   ".github/workflows/pr-development-consumer.yml":
