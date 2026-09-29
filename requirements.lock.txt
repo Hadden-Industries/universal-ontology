@@ -201,9 +201,7 @@ lxml==6.1.3 \
     --hash=sha256:fe91993149523aa59941b9e3c90e2eb45f57ad014697aef6c8b13339a59c019e \
     --hash=sha256:febd35ef45f603c2d74b74655efdbf45e14f55fc0aef4ac82b663ca829b283e0 \
     --hash=sha256:ff88a92cafde90888511242d1c54afcc1a8adbb6dc0a88fa7f87e29e92400d4a
-    # via
-    #   -r requirements.txt
-    #   xmlunittest
+    # via -r requirements.txt
 owlrl==7.6.2 \
     --hash=sha256:83347bf7f133979e87b2b18695d51d25510b99cec3f6919b5df05d4fbf058ae0 \
     --hash=sha256:c743f35c2d908396e77823852bb1ebbce88340cd49961493983bec42c93283a8
@@ -374,10 +372,6 @@ wheel==0.48.0 \
     --hash=sha256:3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab \
     --hash=sha256:94800765601e9171bf5d58d066e640662842bcedcbab982b2c90787a2c987322
     # via pip-tools
-xmlunittest==1.0.1 \
-    --hash=sha256:1db262eac652d21a4af4548e8fb761f516918b980d9c1ba2828e4c7ff615e19f \
-    --hash=sha256:48d76246f3dbfd0b644d9844394e165b8f482b33996bbebe324586fe9f9cfa7a
-    # via -r requirements.txt
 
 # The following packages are considered to be unsafe in a requirements file:
 pip==26.2.1 \

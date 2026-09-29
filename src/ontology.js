@@ -168,42 +168,6 @@ async function exportXMI(xmlDoc, filename = "Ontology.xmi") {
 }
 
 /**
- * Applies the XSLT stylesheet to the OWL XML document and triggers a download of the resulting UML XMI file.
- * @param {Document} xmlDoc - The parsed OWL XML DOM document.
- * @param {string} xsltText - The raw text of the XSLT stylesheet.
- * @param {string} [filename="Ontology.xmi"] - The name of the file to save.
- */
-function exportXMIviaXslt(xmlDoc, xsltText, filename = "Ontology.xmi") {
-  const parser = new DOMParser();
-  const xsltDoc = parser.parseFromString(xsltText, "application/xml");
-
-  if (xsltDoc.getElementsByTagName("parsererror").length > 0) {
-    throw new Error("Error parsing XSLT stylesheet");
-  }
-
-  const xsltProcessor = new XSLTProcessor();
-  xsltProcessor.importStylesheet(xsltDoc);
-
-  const resultDoc = xsltProcessor.transformToDocument(xmlDoc);
-  if (!resultDoc) {
-    throw new Error("XSLT transformation returned null document");
-  }
-
-  const serializer = new XMLSerializer();
-  const xmiText = serializer.serializeToString(resultDoc);
-
-  const blob = new Blob([xmiText], { type: "application/xml;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
-
-/**
  * Encapsulated UI Controller class managing table rendering, dropdown actions, sorting, and export logic.
  */
 export class OntologyUIController {
@@ -375,29 +339,6 @@ export class OntologyUIController {
         } finally {
           exportXmiBtn.classList.remove("exporting");
           exportXmiBtn.disabled = false;
-        }
-      });
-    }
-
-    const exportXmiViaXsltBtn = document.getElementById("export-xmi-xslt");
-    if (exportXmiViaXsltBtn) {
-      exportXmiViaXsltBtn.addEventListener("click", async (e) => {
-        e.stopPropagation();
-        exportXmiViaXsltBtn.disabled = true;
-        exportXmiViaXsltBtn.classList.add("exporting");
-        const xsltUrl = "/ontology/owl-to-uml-xmi.xsl";
-
-        try {
-          const xmlDoc = await this.#getXmlDocument();
-          const xsltResponse = await fetch(xsltUrl);
-          if (!xsltResponse.ok) throw new Error("Local XSLT fetch failed");
-          const xsltText = await xsltResponse.text();
-          exportXMIviaXslt(xmlDoc, xsltText, `${this.#fileName}.xmi`);
-        } catch (error) {
-          console.error("XMI Export failed:", error);
-        } finally {
-          exportXmiViaXsltBtn.classList.remove("exporting");
-          exportXmiViaXsltBtn.disabled = false;
         }
       });
     }
