@@ -344,6 +344,38 @@ describe("native Git PR check selection", () => {
     expectSelection(["development"], { scopes: ["development"] });
   });
 
+  test("a lock-only change selects the Agent Skills lock check alone", () => {
+    write("skills-lock.json");
+    commit(["skills-lock.json"]);
+    expectSelection(["agent_skills_lock"], {
+      scopes: ["development", "agent_skills_lock", "python_tests"],
+    });
+  });
+
+  test.each([
+    ["scripts/set_up_agent_skills.py", ["development", "agent_skills_lock"]],
+    ["tests/test_set_up_agent_skills.py", ["development", "agent_skills_lock"]],
+    ["scripts/_repository.py", ["development", "agent_skills_lock"]],
+    [".python-version", ["development", "agent_skills_lock"]],
+    ["requirements.txt", ["development"]],
+    ["scripts/set_up_mcp_servers.py", ["development"]],
+  ])("%s selects %j among the development checks", (path, selected) => {
+    write(path);
+    commit([path]);
+    expectSelection(selected, {
+      scopes: ["development", "agent_skills_lock"],
+    });
+  });
+
+  test("the lock with a tooling change selects both development checks", () => {
+    const paths = ["skills-lock.json", "scripts/set_up_agent_skills.py"];
+    paths.forEach((path) => write(path));
+    commit(paths);
+    expectSelection(["development", "agent_skills_lock"], {
+      scopes: ["development", "agent_skills_lock"],
+    });
+  });
+
   test("a draft plan selects documentation alone", () => {
     const path = "docs/plans/2026-09-23-mcp-ontology-context.md";
     write(path);
@@ -820,7 +852,7 @@ describe("native Git PR check selection", () => {
     ["scripts/_repository.py", ["development"]],
     ["scripts/setUpDevelopmentEnvironment.js", ["development"]],
     [".githooks/pre-commit", ["development"]],
-    ["skills-lock.json", ["development"]],
+    ["skills-lock.json", []],
     ["tests/development-workflow.test.js", ["development"]],
     [".github/workflows/development-checks.yml", ["development"]],
     ["README.md", ["mcp_docs"]],
