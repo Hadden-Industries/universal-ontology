@@ -150,7 +150,6 @@ jobs:
     env:
       PR_CHECK_PLAN: ${{ needs.select.outputs.plan }}
       PR_CHECK_RESULTS: ${{ toJSON(needs) }}
-      PR_CHECK_CANCELLED: ${{ cancelled() }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -161,4 +160,8 @@ jobs:
         with:
           node-version-file: .node-version
           package-manager-cache: false
-      - run: node scripts/evaluatePullRequestChecks.js
+      - if: ${{ success() && !cancelled() }}
+        run: node scripts/evaluatePullRequestChecks.js
+      - name: Reject workflow cancellation
+        if: ${{ cancelled() }}
+        run: exit 1

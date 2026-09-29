@@ -430,10 +430,13 @@ jobs:
           node-version-file: .node-version
           package-manager-cache: false
       - id: complete
+        if: ${{ success() && !cancelled() }}
         env:
           PR_CHECK_RESULTS: ${{ toJSON(needs) }}
-          PR_CHECK_CANCELLED: ${{ cancelled() }}
         run: node scripts/evaluatePullRequestChecks.js --consumer distribution
+      - name: Reject workflow cancellation
+        if: ${{ cancelled() }}
+        run: exit 1
 defaults:
   run:
     shell: bash

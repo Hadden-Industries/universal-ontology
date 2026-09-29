@@ -92,15 +92,15 @@ const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/pr-validation.yml":
-    "30e24f2860abe3156ef40a0affd23f456507151f00fc2178912941d77fbf11e8",
+    "fbaeed06ababe157348c85c2b8fce7bc4c5dddc7612a58df9228b36b85f68c88",
   ".github/workflows/full-qualification.yml":
-    "b33bd06501a249a4b490ce62b44572521780595e8c8821bac2bef593a7786437",
+    "92850d994441848d3f15543bf042a5b80c6a0da9fd9996a3091fd0641978e48b",
   ".github/workflows/pr-development-consumer.yml":
-    "daf032bdcd806219f3349ec88a0656bf8023764a50b2f909ce7681db8a386cde",
+    "c3983238326aaedfd68bcc96408ca0f7611d25b9a625a016b4eba42331a5b66a",
   ".github/workflows/pr-ontology-consumer.yml":
-    "0012f7552a61f66790ea6f221479b014f9e1d6c1f58ca2da88195af347138fd8",
+    "9f0ef67c4681f30a5cc66c080d4a18bd142193a3c76ec7ec8ed1f2706852da61",
   ".github/workflows/pr-distribution-consumer.yml":
-    "7c9cc085d7e86e5924b145070c56dc188dbee62e9aa524d46e9883a28027dd87",
+    "2a671dbefdb7eff3b0c1c6b6122c4f2d69725c06ee00c83ae3165f3536912e2e",
   "scripts/selectPullRequestChecks.js":
     "15290bf8aa677304b486fd7292fba800993d9fe39e9d01d5a7b3285774441b9a",
   "scripts/evaluatePullRequestChecks.js":

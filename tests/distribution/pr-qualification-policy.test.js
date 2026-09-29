@@ -23,6 +23,39 @@ const files = [
   "scripts/generatePullRequestCheckPlanValidator.js",
 ];
 
+test.each(files.slice(0, 5))(
+  "%s uses supported cancellation contexts",
+  (file) => {
+    const workflow = parse(
+      readFileSync(new URL(`../../${file}`, import.meta.url), "utf8"),
+    );
+    const checkExpressions = (value, path = []) => {
+      if (
+        typeof value === "string" &&
+        /\b(?:always|cancelled|success|failure)\(\)/u.test(value)
+      ) {
+        expect(path.at(-1)).toBe("if");
+      } else if (value && typeof value === "object") {
+        for (const [key, child] of Object.entries(value))
+          checkExpressions(child, [...path, key]);
+      }
+    };
+    checkExpressions(workflow);
+    const completion = workflow.jobs.gate ?? workflow.jobs.complete;
+    const rejectIndex = completion.steps.findIndex(
+      (step) => step.if === "${{ cancelled() }}" && step.run === "exit 1",
+    );
+    const evaluateIndex = completion.steps.findIndex((step) =>
+      step.run?.includes("evaluatePullRequestChecks.js"),
+    );
+    expect(rejectIndex).toBeGreaterThanOrEqual(0);
+    expect(rejectIndex).toBeGreaterThan(evaluateIndex);
+    expect(completion.steps[evaluateIndex].if).toBe(
+      "${{ success() && !cancelled() }}",
+    );
+  },
+);
+
 test.each(files.slice(0, 2))("%s preserves npm's test environment", (file) => {
   const workflow = parse(
     readFileSync(new URL(`../../${file}`, import.meta.url), "utf8"),
