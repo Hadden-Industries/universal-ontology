@@ -4,9 +4,67 @@ import { resolve } from "node:path";
 import { createRequire } from "node:module";
 import { isDeepStrictEqual, parseArgs } from "node:util";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import validatePlan from "./pullRequestCheckPlanValidator.js";
 
 const REPOSITORY_ROOT = fileURLToPath(new URL("../", import.meta.url));
 const require = createRequire(import.meta.url);
+export const CORE_CHECK_CONSUMER_IDS = Object.freeze([
+  "development",
+  "ontology",
+  "node",
+  "website",
+  "distribution",
+]);
+export const CORE_SCOPE_TO_JOBS = Object.freeze({
+  style_tooling: ["development"],
+  python_style: ["development"],
+  python_tests: ["development"],
+  documentation: ["development"],
+  ontology_validation: ["ontology"],
+  ontology_validation_workflow: ["ontology"],
+  ontology_entity_contracts: ["ontology"],
+  ontology_policy_qa: ["ontology"],
+  ontology_qualification: ["ontology"],
+  agent_skills_lock: ["development"],
+  development: ["development"],
+  product_tests: ["node"],
+  mcp_artifacts: ["node", "distribution"],
+  website_build: ["node", "website"],
+  mcp_docs: ["distribution"],
+  mcp_application: ["node", "distribution"],
+  mcp_release_qualification: ["node", "distribution"],
+});
+export const CORE_CHECK_SCOPE_NAMES = Object.freeze(
+  Object.keys(CORE_SCOPE_TO_JOBS),
+);
+/** Derive the complete ordered consumer set; the gate independently recomputes it. */
+export function requiredJobsForScopes(scopes) {
+  const selected = new Set(
+    Object.entries(CORE_SCOPE_TO_JOBS).flatMap(([scope, jobs]) =>
+      scopes[scope] === true ? jobs : [],
+    ),
+  );
+  return CORE_CHECK_CONSUMER_IDS.filter((id) => selected.has(id));
+}
+
+/** Validate schema and redundant selection invariants without installing dependencies. */
+export function assertCheckPlan(plan) {
+  if (!validatePlan(plan))
+    throw new Error(
+      `Invalid check plan: ${JSON.stringify(validatePlan.errors)}`,
+    );
+  if (
+    JSON.stringify(plan.requiredJobs) !==
+    JSON.stringify(requiredJobsForScopes(plan.scopes))
+  )
+    throw new Error("Plan consumers disagree with scopes.");
+  if (
+    plan.scopes.mcp_artifacts !==
+    (plan.scopes.mcp_application || plan.scopes.mcp_release_qualification)
+  )
+    throw new Error("MCP scope union disagrees.");
+  return plan;
+}
 const ONTOLOGY_WORKFLOW = ".github/workflows/ontology-validation.yml";
 const ONTOLOGY_WORKFLOW_SCOPES = [
   "ontology_validation",
@@ -75,10 +133,12 @@ export const CHECK_INPUTS = {
     ".github/workflows/development-checks.yml",
     "scripts/formatDocumentation.js",
     "scripts/prepareDocumentationTools.js",
+    "scripts/preparePythonStyleTools.js",
     "scripts/setUpDevelopmentEnvironment.js",
     "scripts/runRepositoryPython.js",
     "tests/prose-formatting.test.js",
     "tests/documentation-tools.test.js",
+    "tests/python-style-tools.test.js",
   ],
   python_style: [
     ":(glob)**/*.py",
@@ -557,6 +617,106 @@ export function runFromGitHubEnvironment(
   return selected;
 }
 
+/** Build the core plan for the checked-out event revision. Unknown inputs widen
+ * coverage; unavailable comparisons and unsupported events are fatal.
+ * Legacy callers retain their narrower ontology YAML comparison separately.
+ */
+export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
+  const revision = env.GITHUB_SHA;
+  const head = git(root, ["rev-parse", "HEAD"]);
+  if (
+    !/^[a-f0-9]{40}$/u.test(revision ?? "") ||
+    head.status !== 0 ||
+    head.stdout.trim() !== revision
+  )
+    throw new Error("The checkout does not match the event revision.");
+  const full = ["schedule", "workflow_dispatch"].includes(
+    env.GITHUB_EVENT_NAME,
+  );
+  if (
+    !full &&
+    env.GITHUB_EVENT_NAME !== "pull_request" &&
+    !(env.GITHUB_EVENT_NAME === "push" && env.GITHUB_REF === "refs/heads/main")
+  )
+    throw new Error("Unsupported core check event.");
+  const event = full
+    ? {}
+    : JSON.parse(readFileSync(env.GITHUB_EVENT_PATH, "utf8"));
+  const comparisonBase = full
+    ? null
+    : env.GITHUB_EVENT_NAME === "pull_request"
+      ? event.pull_request?.base?.sha
+      : event.before;
+  if (!full && !/^[a-f0-9]{40}$/u.test(comparisonBase ?? ""))
+    throw new Error("Missing exact comparison base.");
+  let scopes;
+  if (full)
+    scopes = Object.fromEntries(
+      CORE_CHECK_SCOPE_NAMES.map((name) => [name, true]),
+    );
+  else {
+    requireCommit(root, comparisonBase);
+    const changed = git(root, [
+      "diff",
+      "--name-only",
+      "-z",
+      "--no-renames",
+      "--no-ext-diff",
+      "--no-textconv",
+      comparisonBase,
+      revision,
+      "--",
+    ]);
+    if (changed.status !== 0)
+      throw new Error("Cannot compare event revisions.");
+    const paths = changed.stdout.split("\0").filter(Boolean);
+    const knownPaths = Object.values(CHECK_INPUTS)
+      .flat()
+      .filter((path) => !path.startsWith(":"));
+    const unknown = paths.some(
+      (path) =>
+        !/^(?:docs\/.*\.md|[^/]+\.md|packages\/[^/]+\/[^/]+\.md)$/u.test(
+          path,
+        ) &&
+        !knownPaths.some(
+          (known) => path === known || path.startsWith(`${known}/`),
+        ) &&
+        !/^src\/.+\.(?:js|css|html)$/u.test(path),
+    );
+    const orchestration = paths.some(
+      (path) =>
+        path.startsWith(".github/workflows/") ||
+        path.startsWith(".github/actions/") ||
+        /^(?:scripts\/(?:selectPullRequestChecks|evaluatePullRequestChecks|generatePullRequestCheckPlanValidator|pullRequestCheckPlanValidator)\.js|scripts\/pullRequestCheckPlan\.schema\.json)$/u.test(
+          path,
+        ),
+    );
+    scopes = Object.fromEntries(
+      CORE_CHECK_SCOPE_NAMES.filter((name) =>
+        Object.hasOwn(CHECK_INPUTS, name),
+      ).map((name) => [
+        name,
+        unknown ||
+          orchestration ||
+          hasChanges(root, comparisonBase, revision, CHECK_INPUTS[name]),
+      ]),
+    );
+    if (paths.some((path) => /^packages\/[^/]+\/README\.md$/u.test(path)))
+      scopes.mcp_artifacts = true;
+    // Retain all five targets for application inputs until remote proof permits reduction.
+    scopes.mcp_application = scopes.mcp_artifacts;
+    scopes.mcp_release_qualification = scopes.mcp_artifacts;
+  }
+  return assertCheckPlan({
+    schemaVersion: 1,
+    mode: full ? "full" : "changed",
+    revision,
+    comparisonBase,
+    scopes,
+    requiredJobs: requiredJobsForScopes(scopes),
+  });
+}
+
 if (
   process.argv[1] &&
   import.meta.url === pathToFileURL(resolve(process.argv[1])).href
@@ -566,14 +726,32 @@ if (
       options: {
         scope: { type: "string", multiple: true },
         "codeql-matrix": { type: "boolean" },
+        plan: { type: "boolean" },
       },
       allowPositionals: false,
     });
-    runFromGitHubEnvironment(
-      process.env,
-      values.scope ?? Object.keys(CHECK_INPUTS),
-      { codeqlMatrix: values["codeql-matrix"] },
-    );
+    if (values.plan) {
+      const plan = createCheckPlan();
+      if (!process.env.GITHUB_OUTPUT)
+        throw new Error("GITHUB_OUTPUT is required.");
+      appendFileSync(
+        process.env.GITHUB_OUTPUT,
+        `plan=${JSON.stringify(plan)}\n`,
+      );
+      const summary = Object.entries(plan.scopes)
+        .map(
+          ([scope, selected]) =>
+            `- ${scope}: ${selected ? "selected (matching input or conservative policy)" : "unselected (inputs unchanged)"}`,
+        )
+        .join("\n");
+      if (process.env.GITHUB_STEP_SUMMARY)
+        appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${summary}\n`);
+    } else
+      runFromGitHubEnvironment(
+        process.env,
+        values.scope ?? Object.keys(CHECK_INPUTS),
+        { codeqlMatrix: values["codeql-matrix"] },
+      );
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;

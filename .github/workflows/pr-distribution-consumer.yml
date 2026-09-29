@@ -1,20 +1,14 @@
-name: Verify Universal Ontology MCP Distribution
-
+name: PR distribution consumer
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-  workflow_dispatch:
-
-    # Default-deny token capabilities. Development jobs receive repository read
-    # access only; no job can mint OIDC credentials or mutate a remote namespace.
+  workflow_call:
+    inputs:
+      plan:
+        required: true
+        type: string
+    outputs:
+      verified-revision:
+        value: ${{ jobs.complete.outputs.verified-revision }}
 permissions: {}
-
-# Only superseded PRs share a group; each non-PR run attempt remains eligible.
-concurrency:
-  group: universal-ontology-mcp-distribution-${{ github.event_name }}-${{ github.event.pull_request.number || format('{0}-{1}', github.run_id, github.run_attempt) }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   scope:
     timeout-minutes: 5
@@ -32,15 +26,17 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
           package-manager-cache: false
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Compare PR inputs before installing dependencies
         id: scope
-        run: node scripts/selectPullRequestChecks.js --scope product_tests --scope mcp_artifacts --scope website_build --scope mcp_docs
+        run: node scripts/evaluatePullRequestChecks.js --scopes
     cache-mode: none
-
   validate:
     timeout-minutes: 30
     needs: scope
@@ -55,27 +51,24 @@ jobs:
       target-matrix: ${{ steps.candidate-metadata.outputs.target-matrix }}
     steps:
       - name: Check out the exact source revision
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          # Keeping credentials out of the worktree prevents later shell steps
-          # from acquiring an accidental repository-write capability.
           persist-credentials: false
-
+          ref: ${{ github.sha }}
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: "24.20.0"
+          node-version: 24.20.0
           package-manager-cache: false
-
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Select exact npm CLI
         shell: bash
         run: |
           npm install --global --no-audit --no-fund npm@12.0.2
           test "$(npm --version)" = "12.0.2"
-
       - name: Install the exact locked dependency graph
         run: npm ci --ignore-scripts
-
       - name: Derive deterministic development candidate metadata
         if: needs.scope.outputs.mcp_artifacts == 'true'
         id: candidate-metadata
@@ -137,32 +130,20 @@ jobs:
             ].join("\n"),
           );
           NODE
-
-      - name: Run product regression and static checks
-        if: needs.scope.outputs.product_tests == 'true' || needs.scope.outputs.mcp_artifacts == 'true' || needs.scope.outputs.website_build == 'true'
-        run: |
-          npm run test:node
-          npm run lint:node
-          npm run format:node:check
-
       - name: Check MCP documentation
         if: needs.scope.outputs.mcp_docs == 'true' && needs.scope.outputs.product_tests != 'true' && needs.scope.outputs.mcp_artifacts != 'true' && needs.scope.outputs.website_build != 'true'
         run: |
           npm test -- --runInBand --runTestsByPath tests/distribution/universal-ontology-mcp-documentation.test.js
           npm run format:docs:prettier:check
-
-      - name: Build the affected website and generators without auto-fixes
-        if: needs.scope.outputs.website_build == 'true'
-        run: node node_modules/vite/bin/vite.js build
-
       - name: Build the affected MCP application bundle
         if: needs.scope.outputs.mcp_artifacts == 'true'
         run: npm run build:mcp-package
-
   archive:
     timeout-minutes: 30
     name: Build development archive for ${{ matrix.targetName }}
-    needs: [ scope, validate ]
+    needs:
+      - scope
+      - validate
     if: needs.scope.outputs.mcp_artifacts == 'true'
     runs-on: ${{ matrix.runnerLabel }}
     permissions:
@@ -175,28 +156,26 @@ jobs:
       SOURCE_DATE_EPOCH: ${{ needs.validate.outputs.source-date-epoch }}
     steps:
       - name: Check out the exact source revision
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
+          ref: ${{ github.sha }}
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: "24.20.0"
+          node-version: 24.20.0
           package-manager-cache: false
-
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Select exact npm CLI
         shell: bash
         run: |
           npm install --global --no-audit --no-fund npm@12.0.2
           test "$(npm --version)" = "12.0.2"
-
       - name: Install the exact locked dependency graph
         run: npm ci --ignore-scripts
-
       - name: Build the native self-contained archive
         run: npm run build:mcp-platform-archives -- --target=${{ matrix.targetName }}
-
       - name: Smoke-test the extracted Unix runtime and application
         if: runner.os != 'Windows'
         shell: bash
@@ -212,7 +191,6 @@ jobs:
           test "$("${runtime_path}" --version)" = "v24.20.0"
           "${runtime_path}" "${application_path}" --version
           "${runtime_path}" "${application_path}" --help | grep --fixed-strings "universal-ontology-mcp-server [options]"
-
       - name: Smoke-test the extracted Windows runtime and application
         if: runner.os == 'Windows'
         shell: pwsh
@@ -234,46 +212,45 @@ jobs:
           if (-not $helpText.Contains("universal-ontology-mcp-server [options]")) {
             throw "The packaged application help smoke failed."
           }
-
       - name: Upload the verified development archive
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: universal-ontology-mcp-server-${{ matrix.targetName }}
           path: dist/releases/universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}-${{ matrix.targetName }}.${{ matrix.releaseArchiveFormat }}
           if-no-files-found: error
           retention-days: 3
-
   container:
     timeout-minutes: 30
     name: Verify local development container
-    needs: [ scope, validate ]
+    needs:
+      - scope
+      - validate
     if: needs.scope.outputs.mcp_artifacts == 'true'
     runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
       - name: Check out the exact source revision
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
+          ref: ${{ github.sha }}
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: "24.20.0"
+          node-version: 24.20.0
           package-manager-cache: false
-
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Select exact npm CLI
         shell: bash
         run: |
           npm install --global --no-audit --no-fund npm@12.0.2
           test "$(npm --version)" = "12.0.2"
-
       - name: Install dependencies and build the canonical bundle
         run: |
           npm ci --ignore-scripts
           npm run build:mcp-package
-
       - name: Build and smoke-test the image without registry access
         shell: bash
         run: |
@@ -349,11 +326,14 @@ jobs:
               await client.close();
             }
           '
-
   assemble:
     timeout-minutes: 20
     name: Assemble verified development candidate
-    needs: [ scope, archive, container, validate ]
+    needs:
+      - scope
+      - archive
+      - container
+      - validate
     if: needs.scope.outputs.mcp_artifacts == 'true'
     runs-on: ubuntu-24.04
     permissions:
@@ -362,48 +342,42 @@ jobs:
       SOURCE_DATE_EPOCH: ${{ needs.validate.outputs.source-date-epoch }}
     steps:
       - name: Check out the exact source revision
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-
+          ref: ${{ github.sha }}
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: "24.20.0"
+          node-version: 24.20.0
           package-manager-cache: false
-
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Select exact npm CLI
         shell: bash
         run: |
           npm install --global --no-audit --no-fund npm@12.0.2
           test "$(npm --version)" = "12.0.2"
-
       - name: Install the exact locked dependency graph
         run: npm ci --ignore-scripts
-
       - name: Download all native development archives
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: universal-ontology-mcp-server-*
           path: dist/releases
           merge-multiple: true
-
       - name: Build and pack the local npm artifact
         run: |
           npm run build:mcp-package
           npm run pack:mcp-package
-
       - name: Generate independent npm and deterministic SPDX documents
         shell: bash
         run: |
           mkdir -p dist/release-work
           npm sbom --workspace universal-ontology-mcp-server --sbom-format spdx --sbom-type application > dist/release-work/npm-workspace.spdx.json
           npm run generate:mcp-sbom
-
       - name: Verify the complete development candidate
-        run: >-
-          npm run verify:mcp-release -- --tag "universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}" --release-directory dist/releases --npm-comparison-sbom dist/release-work/npm-workspace.spdx.json
-
+        run: npm run verify:mcp-release -- --tag "universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}" --release-directory dist/releases --npm-comparison-sbom dist/release-work/npm-workspace.spdx.json
       - name: Derive the verified candidate identity
         id: candidate-identity
         shell: bash
@@ -422,15 +396,48 @@ jobs:
             `candidate-sha256=${candidateSha256}\n`,
           );
           NODE
-
       - name: Upload the verified development candidate
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: universal-ontology-mcp-server-development-candidate-${{ steps.candidate-identity.outputs.candidate-sha256 }}
           path: dist/releases/*
           if-no-files-found: error
           retention-days: 3
+  complete:
+    name: Verify internal completion
+    if: ${{ always() }}
+    needs:
+      - scope
+      - validate
+      - archive
+      - container
+      - assemble
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    cache-mode: none
+    outputs:
+      verified-revision: ${{ steps.complete.outputs.verified-revision }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - id: complete
+        env:
+          PR_CHECK_RESULTS: ${{ toJSON(needs) }}
+          PR_CHECK_CANCELLED: ${{ cancelled() }}
+        run: node scripts/evaluatePullRequestChecks.js --consumer distribution
 defaults:
   run:
     shell: bash
 cache-mode: none
+env:
+  PR_CHECK_PLAN: ${{ inputs.plan }}
+  PR_CHECK_MODE: ${{ fromJSON(inputs.plan).mode }}

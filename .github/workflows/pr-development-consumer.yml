@@ -1,12 +1,14 @@
-name: Development checks
+name: PR development consumer
 on:
-  pull_request:
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      plan:
+        required: true
+        type: string
+    outputs:
+      verified-revision:
+        value: ${{ jobs.complete.outputs.verified-revision }}
 permissions: {}
-# Only superseded PRs share a group; each non-PR run attempt remains eligible.
-concurrency:
-  group: development-checks-${{ github.event_name }}-${{ github.event.pull_request.number || format('{0}-{1}', github.run_id, github.run_attempt) }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   scope:
     timeout-minutes: 5
@@ -26,15 +28,17 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
           package-manager-cache: false
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Compare PR inputs before installing dependencies
         id: scope
-        run: node scripts/selectPullRequestChecks.js --scope development --scope documentation --scope python_style --scope python_tests --scope agent_skills_lock --scope style_tooling
+        run: node scripts/evaluatePullRequestChecks.js --scopes
     cache-mode: none
-
   documentation:
     timeout-minutes: 10
     name: Markdown documents
@@ -46,10 +50,13 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
           package-manager-cache: false
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
@@ -67,8 +74,8 @@ jobs:
           .venv/bin/python -m pip install --require-hashes --only-binary=:all: -r "$RUNNER_TEMP/documentation-tools/requirements.txt"
       - name: Check authored documents
         env:
-          DOCUMENTATION_CHECK_ALL: ${{ needs.scope.outputs.style_tooling }}
-          DOCUMENTATION_DIFF_BASE: ${{ github.event.pull_request.base.sha }}
+          DOCUMENTATION_CHECK_ALL: ${{ fromJSON(inputs.plan).mode == 'full' || needs.scope.outputs.style_tooling == 'true' }}
+          DOCUMENTATION_DIFF_BASE: ${{ fromJSON(inputs.plan).comparisonBase }}
           DOCUMENTATION_DIFF_HEAD: ${{ github.sha }}
         shell: bash
         run: |
@@ -80,7 +87,6 @@ jobs:
           fi
     permissions:
       contents: read
-
   python-style:
     timeout-minutes: 10
     name: Python style
@@ -91,10 +97,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
           package-manager-cache: false
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
@@ -110,7 +119,6 @@ jobs:
     permissions:
       contents: read
     cache-mode: none
-
   python-tests:
     timeout-minutes: 30
     name: Python tests (${{ matrix.os }})
@@ -119,15 +127,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-24.04, windows-2025 ]
+        os:
+          - ubuntu-24.04
+          - windows-2025
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
@@ -144,9 +157,6 @@ jobs:
     defaults:
       run:
         shell: ${{ matrix.os == 'windows-2025' && 'pwsh' || 'bash' }}
-
-  # Offline validation of the committed lock needs only the standard library,
-  # so a lock-only change skips the development setup and the platform matrix.
   agent-skills-lock:
     timeout-minutes: 5
     name: Agent Skills lock
@@ -157,6 +167,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
@@ -165,7 +182,6 @@ jobs:
     permissions:
       contents: read
     cache-mode: none
-
   style-tooling:
     timeout-minutes: 30
     name: Style toolchain (${{ matrix.os }})
@@ -174,15 +190,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-24.04, windows-2025 ]
+        os:
+          - ubuntu-24.04
+          - windows-2025
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
@@ -201,7 +222,6 @@ jobs:
     defaults:
       run:
         shell: ${{ matrix.os == 'windows-2025' && 'pwsh' || 'bash' }}
-
   checks:
     timeout-minutes: 30
     needs: scope
@@ -209,15 +229,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-24.04, windows-2025 ]
+        os:
+          - ubuntu-24.04
+          - windows-2025
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
@@ -229,8 +254,10 @@ jobs:
         run: npm run set-up:development
       - name: Verify the installed ontology runner
         run: node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v
+        if: "!fromJSON(inputs.plan).scopes.python_tests"
       - name: Test the optional Python setup tools
         run: node scripts/runRepositoryPython.js -m unittest discover -s tests -p "test_set_up_*.py"
+        if: "!fromJSON(inputs.plan).scopes.python_tests"
       - name: Test development setup, launcher, hooks and check selection
         run: npm test -- --runInBand tests/configure-git-hooks.test.js tests/set-up-development-environment.test.js tests/run-repository-python.test.js tests/development-workflow.test.js tests/pr-check-scopes.test.js
     permissions:
@@ -238,11 +265,43 @@ jobs:
     defaults:
       run:
         shell: ${{ matrix.os == 'windows-2025' && 'pwsh' || 'bash' }}
+  complete:
+    name: Verify internal completion
+    if: ${{ always() }}
+    needs:
+      - scope
+      - documentation
+      - python-style
+      - python-tests
+      - agent-skills-lock
+      - style-tooling
+      - checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    cache-mode: none
+    outputs:
+      verified-revision: ${{ steps.complete.outputs.verified-revision }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - id: complete
+        env:
+          PR_CHECK_RESULTS: ${{ toJSON(needs) }}
+          PR_CHECK_CANCELLED: ${{ cancelled() }}
+        run: node scripts/evaluatePullRequestChecks.js --consumer development
 defaults:
   run:
     shell: bash
 cache-mode: read
-
-# Real development bootstrap followed by the development-tool fixtures and the
-# ontology runner tests; no skill refresh, MCP installation, hook trust, live
-# model calls or security scans.
+env:
+  PR_CHECK_PLAN: ${{ inputs.plan }}
+  PR_CHECK_MODE: ${{ fromJSON(inputs.plan).mode }}

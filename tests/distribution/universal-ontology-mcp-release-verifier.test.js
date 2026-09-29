@@ -284,6 +284,55 @@ async function updateChecksumManifest(releaseDirectoryPath) {
   );
 }
 
+describe("distribution workflow concurrency policy", () => {
+  test("accepts the approved workflow without constructing release artifacts", async () => {
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).resolves.toEqual({ verifiedJobCount: 5 });
+  });
+
+  test.each([
+    ["unconditional non-PR cancellation", "cancel-in-progress", true],
+    [
+      "a shared non-PR group that replaces pending runs",
+      "group",
+      "universal-ontology-mcp-distribution-${{ github.ref }}",
+    ],
+    [
+      "a group shared by rerun attempts",
+      "group",
+      "universal-ontology-mcp-distribution-${{ github.event_name }}-${{ github.event.pull_request.number || github.run_id }}",
+    ],
+  ])("rejects %s", async (_caseName, setting, value) => {
+    // Workflow-only policy needs no package/SBOM fixture or installed npm graph.
+    const workflow = parseYaml(
+      await nodeFileSystem.readFile(DISTRIBUTION_WORKFLOW_URL, "utf8"),
+    );
+    expect(workflow.concurrency[setting]).not.toEqual(value);
+    workflow.concurrency[setting] = value;
+    const fixturePath = await nodeFileSystem.mkdtemp(
+      join(tmpdir(), "uo-workflow-concurrency-"),
+    );
+    try {
+      const distributionWorkflowPath = join(fixturePath, "workflow.yml");
+      await nodeFileSystem.writeFile(
+        distributionWorkflowPath,
+        stringifyYaml(workflow),
+      );
+      await expect(
+        verifyUniversalOntologyMcpDistributionWorkflow({
+          distributionWorkflowPath,
+          releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+        }),
+      ).rejects.toThrow(/workflow.*(?:policy|manifest)/iu);
+    } finally {
+      await nodeFileSystem.rm(fixturePath, { recursive: true, force: true });
+    }
+  });
+});
+
 describe("Universal Ontology MCP release verifier", () => {
   let fixtureParentDirectoryPath;
   let baseReleaseDirectoryPath;
@@ -494,6 +543,18 @@ describe("Universal Ontology MCP release verifier", () => {
   });
 
   test.each([
+    [
+      "a missing job timeout",
+      (workflow) => {
+        delete workflow.jobs.archive["timeout-minutes"];
+      },
+    ],
+    [
+      "an unapproved job timeout increase",
+      (workflow) => {
+        workflow.jobs.assemble["timeout-minutes"] = 360;
+      },
+    ],
     [
       "write permission in the scope job",
       (workflow) => {

@@ -114,6 +114,10 @@ Historical receipts do not qualify a later publication.
 
 ## Continuous integration
 
+Each workflow cancels superseded runs of the same pull request.
+Workflow-specific concurrency groups keep unrelated pull requests separate.
+Non-PR events use a unique run ID and attempt, so concurrency does not cancel running or replace pending main, scheduled, or manual runs.
+
 Pull requests run, as applicable to the changed files:
 
 - [Ontology validation](../.github/workflows/ontology-validation.yml): the editing policy on the changed sources, policy/publication-gate tests, and the Linux/Windows two-engine qualification of the active set.
@@ -121,6 +125,37 @@ Pull requests run, as applicable to the changed files:
   Development and toolchain verification use `npm run set-up:development`; documentation-only checks install just the locked formatters.
 - [MCP distribution](../.github/workflows/verify-universal-ontology-mcp-distribution.yml): product tests, website build, package, archive and container checks.
 - [CodeQL](../.github/workflows/codeql.yml).
+
+The [PR validation shadow workflow](../.github/workflows/pr-validation.yml) runs alongside these entry points during migration.
+Its single selector emits a versioned plan for the tested merge revision; every consumer checks that revision before executing product code.
+The final `PR validation` job rejects failed, cancelled, missing, or unexpectedly skipped work and requires a matching completion output from each selected consumer.
+Reusable consumers also check their internal jobs before publishing that output.
+CodeQL remains separate and is not included in this functional gate.
+The existing `OWL Differential Analysis` required context remains in force until the separately authorized remote rollout proves and enforces the replacement.
+Shadow runs intentionally duplicate legacy work; their cost is not a steady-state saving.
+
+[Full qualification](../.github/workflows/full-qualification.yml) selects every core scope on manual dispatch and Wednesdays at 04:17 UTC.
+Repository maintainers own failures and should use their GitHub Actions notification subscriptions to receive failure notifications.
+Maintainers must inspect the most recent successful full run before relying on it, and dispatch an authorized full run at the exact intended release revision when necessary.
+Schedules can be delayed or disabled after repository inactivity; re-enable a disabled workflow through its Actions page, then obtain an exact-revision successful run.
+Legacy workflows still own main pushes during shadow operation.
+The trigger transfer and removal of temporary consumers wait for required-check transition evidence.
+
+The shadow graph gives each Jest suite one Linux owner when all scopes are selected; bootstrap and formatter qualification retain Windows coverage.
+Python unit tests own the full suite when selected, while generated-policy checks, active-set qualification, and Jena parity remain distinct.
+All five native archive targets remain selected for application and release-qualification changes.
+Packaged README changes retain full native qualification until independent package-content coverage justifies narrowing it.
+Application bundles are still built through the standalone paths: no measured artifact-transfer benefit has yet justified reuse.
+
+Ordinary Python style jobs install only the exact hash-locked Ruff wheel and reject a changed runtime dependency closure.
+Bootstrap jobs continue to exercise full development setup.
+Selectors and release-candidate jobs have caching disabled; other functional consumers use read-only cache access.
+No trusted cache warmer is introduced before measurement.
+
+When editing the execution policy, update its schema and regenerate the standalone validator with `node scripts/generatePullRequestCheckPlanValidator.js --write`.
+Use `--check` to verify freshness without writing.
+The distribution verifier also checks an explicit ten-file policy manifest covering the shadow entry points, reusable consumers, and selection/evaluation inputs.
+A semantic workflow or control-input change requires coordinated review, updated assertions, negative tests, and a deliberate digest update.
 
 `scripts/selectPullRequestChecks.js` decides which jobs apply from the changed paths.
 Authored documentation selects only its content check; preserved documents do not select style checks by themselves.
