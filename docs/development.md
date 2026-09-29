@@ -117,7 +117,7 @@ Historical receipts do not qualify a later publication.
 Pull requests run, as applicable to the changed files:
 
 - [Ontology validation](../.github/workflows/ontology-validation.yml): the editing policy on the changed sources, policy/publication-gate tests, and the Linux/Windows two-engine qualification of the active set.
-- [Development checks](../.github/workflows/development-checks.yml): changed Markdown on Linux, Python style on Linux, the whole Python test suite on Linux and Windows when Python sources, tests or their runtime change, and Linux/Windows matrices for affected style tools or development tools.
+- [Development checks](../.github/workflows/development-checks.yml): changed Markdown on Linux, Python style on Linux, the whole Python test suite on Linux and Windows when Python sources, tests or their runtime change, an offline validation of `skills-lock.json` on Linux when the lock or its tooling changes, and Linux/Windows matrices for affected style tools or development tools.
   Development and toolchain verification use `npm run set-up:development`; documentation-only checks install just the locked formatters.
 - [MCP distribution](../.github/workflows/verify-universal-ontology-mcp-distribution.yml): product tests, website build, package, archive and container checks.
 - [CodeQL](../.github/workflows/codeql.yml).

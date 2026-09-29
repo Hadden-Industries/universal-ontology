@@ -416,5 +416,22 @@ class SkillActivationPreservationTests(unittest.TestCase):
             self.assertEqual(user_file.read_bytes(), before)
 
 
+class CommittedSkillsLockTests(unittest.TestCase):
+    """The committed lock satisfies the setup script's own offline contract.
+
+    Runs alone in the lean Agent Skills lock CI job, so it must stay offline and
+    need nothing beyond the standard library and the repository's scripts.
+    """
+
+    def test_committed_lock_loads_and_every_entry_is_valid(self):
+        repository_root = Path(__file__).resolve().parents[1]
+
+        lock_path, data, raw = setup.load_lock(repository_root)
+
+        self.assertEqual(lock_path, repository_root / "skills-lock.json")
+        self.assertEqual(raw, lock_path.read_bytes())
+        self.assertTrue(data["skills"])
+
+
 if __name__ == "__main__":
     unittest.main()

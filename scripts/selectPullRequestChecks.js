@@ -194,6 +194,21 @@ export const CHECK_INPUTS = {
     ":(glob)**/pnpm-lock.yaml",
     ".node-version",
   ],
+  // The committed Agent Skills lock is validated offline by a lean job, so a
+  // lock-only change does not launch the development matrix. The lock is kept
+  // out of `development` for that reason; the matrix still covers the same
+  // test whenever the skills tooling itself changes.
+  agent_skills_lock: [
+    "scripts/selectPullRequestChecks.js",
+    "tests/pr-check-scopes.test.js",
+    ".github/workflows/development-checks.yml",
+    ".python-version",
+    "skills-lock.json",
+    "scripts/set_up_agent_skills.py",
+    "scripts/_commands.py",
+    "scripts/_repository.py",
+    "tests/test_set_up_agent_skills.py",
+  ],
   // Development tooling: setup, the Python launcher, optional skill/MCP setup,
   // Git hooks and this selector, plus the ontology runner they install.
   development: [
@@ -202,7 +217,6 @@ export const CHECK_INPUTS = {
     "requirements.txt",
     "requirements-dev.txt",
     "requirements.lock.txt",
-    "skills-lock.json",
     "scripts/validate_ontologies.py",
     "tests/test_validate_ontologies.py",
     ".github/workflows/development-checks.yml",
