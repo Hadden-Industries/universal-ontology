@@ -1,11 +1,16 @@
 {
   "schemaVersion": 1,
   "owlapiBoundary": {
-    "packageName": "owlapi",
+    "packageName": "@hadden-industries/owlapi",
+    "dependencyName": "owlapi",
     "sourceRepository": "https://github.com/Hadden-Industries/owlapi",
     "registry": "https://registry.npmjs.org/",
-    "exactVersion": "0.2.0",
+    "exactVersion": "0.1.0-rc.1",
+    "dependencySpecifier": "npm:@hadden-industries/owlapi@0.1.0-rc.1",
     "dependencySection": "devDependencies",
+    "qualificationPrerequisite": "upstream-capabilities-and-public-registry-verification",
+    "productionPrerequisite": "exact-artifact-and-complete-consumer-acceptance",
+    "releaseCandidateProductionUse": "allowed-after-exact-artifact-and-consumer-acceptance",
     "publicSubpathAuthority": "public-api-surface-registry",
     "publicSubpathRule": "exact-approved-org.semanticweb.owlapi-package",
     "publicBindingSourceOwnership": "single-canonical-definition-in-java-shaped-namespace",

@@ -8,7 +8,14 @@
 
 **Machine-readable policy:** `docs/import-closure/contract.v1.json`
 
-**Required library release:** exact public-registry dependency `owlapi@0.2.0` from `https://github.com/Hadden-Industries/owlapi`
+**Selected library release:** exact public-registry package `@hadden-industries/owlapi@0.1.0-rc.1` from `https://github.com/Hadden-Industries/owlapi`, installed through the native npm dependency alias `owlapi`.
+
+**Scoped-publication and RC-production amendment:** The selected first public RC includes the approved Phase 21/22 lifecycle work, preserving the capability scope of the 28 September 2026 sequencing amendment.
+Publication under `next` and verification of that exact registry artifact enable UO consumer implementation and qualification.
+The same RC is acceptable for UO production generation and cutover after exact-artifact and complete consumer acceptance; a non-prerelease `0.1.0` is not a prerequisite.
+No earlier public release or public alpha is required.
+This selection does not assert that the RC has already been published or accepted.
+All capability, parity, losslessness, provenance, and public-registry acceptance requirements remain in force.
 
 ## 1. Purpose and conformance
 
@@ -135,14 +142,35 @@ Two axioms that differ in annotations are not equal merely because their unannot
 The materialization workflow is private application behavior owned by `universal-ontology`.
 `owlapi` is the independently published, Java-OWLAPI-compatible library and **MUST NOT** expose a project-invented `materializeImportClosure`, `collapseImports`, or equivalent convenience method.
 
-The consumer implementation starts only after the canonical `Hadden-Industries/owlapi` repository has published the complete required capability slice as `owlapi@0.2.0` to the public npm registry.
-The dependency **MUST** be declared exactly as `"owlapi": "0.2.0"`; a relative source-tree path, `file:`, `link:`, workspace alias, Git URL, copied source, package alias, resolver alias, or unpublished tarball is non-conforming.
+The consumer implementation starts after the canonical `Hadden-Industries/owlapi` repository has qualified the complete required capability slice, published `@hadden-industries/owlapi@0.1.0-rc.1` publicly, and verified that exact registry artifact.
+The dependency **MUST** be declared exactly as `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"` in `devDependencies` and pinned with its registry resolution and integrity in the lockfile.
+`@hadden-industries/owlapi` is the registry identity; `owlapi` is the approved native npm dependency name used by this consumer's imports.
+The installed `node_modules/owlapi/package.json` **MUST** identify `@hadden-industries/owlapi` at the selected exact version.
+The alias applies to this dependency declaration; it does not rewrite another package's dependencies or peer requirements.
+Only this exact native registry alias is permitted: relative source-tree paths, `file:`, `link:`, workspace aliases, Git URLs, copied source, other package aliases, resolver aliases, and unpublished tarballs are non-conforming.
+Ranges, floating dist-tags, and source-checkout fallback **MUST NOT** substitute for the exact registry artifact.
+
+Qualification and production are acceptance states for the same selected artifact:
+
+- **Qualification entry:** upstream capability and exact public-registry verification are complete; UO may implement and test its consumer in an isolated qualification checkout or output location.
+- **Production acceptance:** the same exact artifact passes the complete UO acceptance matrix and completion criteria, with its registry integrity and upstream evidence verified; UO may then use that RC for normal ontology publication and the planned hard cutover.
+
+UO's end-to-end checks against a public RC occur after its publication and **MUST NOT** be made prerequisites for publishing that same RC.
+Until UO acceptance is complete, generated outputs are qualification artifacts and **MUST NOT** replace maintained production distributions.
+A prerelease version number or the package remaining under `next` does not disqualify an accepted artifact from UO production use.
+The acceptance decision **MUST** bind the exact package version and integrity, source commit/tag, upstream capability/API-registry evidence, UO source revision, input digests, and consumer results.
+Acceptance records belong to repository/workflow evidence, not ontology annotations or output sidecars.
 
 This consumer contract does not authorize or create an `owlapi` release.
-The ontology-lifecycle programme owns publication of `0.2.0`; this workflow starts only after that exact immutable registry artefact is accepted.
-If the required capability slice is not available at `0.2.0`, implementation stops for an explicit contract/version decision rather than selecting or publishing a different coordinate from `universal-ontology`.
+The ontology-lifecycle programme owns package qualification and publication; UO owns its application tests and production acceptance.
+If the selected RC is unavailable or lacks the required capability slice, implementation stops for an explicit contract/version decision rather than selecting or publishing a different coordinate from `universal-ontology`.
+An already published package version **MUST NOT** be overwritten; upstream corrections require another explicitly selected RC or release.
+Adopting a later RC or `0.1.0` requires an explicit amendment of the selected version, native alias, lockfile and acceptance evidence, followed by requalification.
+Migration to unscoped `owlapi`, dual publishing, and redirect packages are outside this implementation.
 
-Except for `owlapi`'s curated bare aggregate, every public package subpath is the exact slash-form of a separately approved package beneath `org.semanticweb.owlapi`.
+Except for the curated root aggregate, every public subpath beneath the approved dependency name is the exact slash-form of a separately approved package beneath `org.semanticweb.owlapi`.
+The upstream package has six entry points: the root aggregate and the five namespaces consumed below.
+Map the consumer's aliased specifiers to the corresponding scoped entries when comparing against the upstream Public API Surface Registry; this does not create extra exports or duplicate bindings.
 Java package existence is necessary but does not by itself authorize publication: the upstream Public API Surface Registry, capability matrix, `exports` map, canonical source module, and installed-package tests must agree.
 `universal-ontology` **MUST NOT** import an unregistered subpath, `owlapi/internal/*`, an unexported deep module, or the nominal `owlapi/rdf` prefix.
 
@@ -190,13 +218,16 @@ No nominal class may be added without implemented behavior and parity tests.
 `OWLOntologyMerger` is deliberately insufficient by itself: its Java contract copies axioms only and accepts at most a target ontology IRI.
 The private runner therefore restores the complete root `OWLOntologyID` and then adds only the root ontology annotations.
 
-There **MUST NOT** be a compatibility shim, forwarding module, deprecated alias, Python launcher for JavaScript, or parallel old/new implementation in either repository.
+There **MUST NOT** be an API compatibility shim, forwarding module, deprecated API alias, Python launcher for JavaScript, or parallel maintained old/new implementation in either repository.
+The approved native npm dependency alias changes package installation and does not introduce any such implementation.
 
 ## 7. Generation resolution policy
 
 Generation is deliberately connectivity-first.
 Remote imports are enabled from the first attempt.
 The implementation uses catalogs and local sources when supplied but does not limit itself to them.
+Fetching the JavaScript package from npm and fetching ontology documents are separate operations: both are exercised during qualification, while final standalone-ontology verification remains strictly offline.
+Qualification retains input revisions or content digests and observed document resolution in workflow evidence, never in an ontology-output sidecar.
 
 Resolution order is fixed:
 
@@ -290,8 +321,17 @@ These exclusions do not permit dropping OWL axioms, axiom annotations, annotatio
 
 ## 11. Required acceptance matrix
 
-Every row is a release blocker.
+Every row blocks UO production acceptance, including production use of an RC.
 A passing happy path does not compensate for an untested row.
+These consumer checks follow the selected package's publication and do not require a separate stable library release.
+
+The package-acceptance checks additionally require:
+
+- agreement between the exact native alias, lockfile, installed scoped package identity, and upstream registry integrity;
+- rejection of unscoped or other-scope targets, different versions, ranges, floating tags, links, and source fallbacks;
+- rejection of registry integrity or provenance mismatches;
+- production eligibility for the exact RC only after all artifact and consumer checks pass;
+- isolation of qualification outputs while any acceptance requirement remains incomplete.
 
 | Case                                                                | Required assertion                                                                                                             |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -362,7 +402,8 @@ An implementation is non-conforming if it does any of the following, even when c
 - exposes a nominal Java-compatible class whose behavior is not implemented;
 - depends on a concrete storer constructor instead of the manager storage operation required by this contract;
 - keeps either Python file as a wrapper, alias, fallback, or deprecation launcher;
-- uses a local path, workspace/link, Git dependency, copied source, package or resolver alias, internal/deep import, or re-export shim in place of exact public-registry `owlapi@0.2.0` package specifiers;
+- uses a local path, workspace/link, Git dependency, copied source, any package alias other than the exact approved native npm alias, resolver alias, internal/deep import, or re-export shim in place of the selected public-registry `@hadden-industries/owlapi@0.1.0-rc.1` artifact;
+- treats publication or a dist-tag alone as UO production acceptance, or selects another package version without explicit amendment and requalification;
 - publishes a temporary file before every contract equality check passes.
 
 ## 13. Conformance completion criteria
@@ -370,7 +411,8 @@ An implementation is non-conforming if it does any of the following, even when c
 The migration is complete only when all of the following are true:
 
 - the machine-readable policy and relevant capability matrix entries are green;
-- exact public-registry `owlapi@0.2.0` is declared and all consumer imports use only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`;
+- exact public-registry `@hadden-industries/owlapi@0.1.0-rc.1` is declared through `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"`, with matching installed metadata and lockfile integrity, and all consumer imports use only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`;
+- UO production acceptance is recorded for that exact artifact; its RC version is permitted and no `0.1.0` prerequisite remains;
 - the upstream Public API Surface Registry, capability matrix, package exports, canonical source bindings, and installed-package evidence agree for every consumed symbol;
 - every new `owlapi` public surface has a Java OWLAPI counterpart and parity test;
 - no materialization or collapse convenience API exists in `owlapi`;
@@ -387,8 +429,8 @@ The migration is complete only when all of the following are true:
 - imported ontology annotations are absent and imported annotation assertion axioms remain;
 - no sidecar, provenance axiom, inference, repair, or literal sanitization is produced;
 - `scripts/merge_owl_imports.py` and `scripts/create_full_versions.py` are deleted together;
-- no shim, alias, fallback, or stale command reference remains;
-- focused tests, complete tests, lint, formatting checks, and builds pass in `universal-ontology`, while the accepted release evidence remains valid for the exact consumed `owlapi@0.2.0` artifact;
+- no API shim, deprecated command alias, source fallback, or stale command reference remains; the approved native npm dependency alias is retained;
+- focused tests, complete tests, lint, formatting checks, and builds pass in `universal-ontology`, while the accepted release evidence remains valid for the exact consumed `@hadden-industries/owlapi@0.1.0-rc.1` artifact;
 - unrelated working-tree changes remain intact;
 - no commit or push occurs without separate explicit authorization.
 
@@ -400,7 +442,7 @@ Use these sources in this order when resolving an implementation question:
 2. [OWL 2 Structural Specification — Ontologies](https://www.w3.org/TR/owl2-syntax/#Ontologies), including imports and axiom closure.
 3. [OWL 2 Mapping to RDF Graphs](https://www.w3.org/TR/owl2-mapping-to-rdf/) for OWL-to-RDF behavior.
 4. [OWL 2 Conformance](https://www.w3.org/TR/owl2-conformance/) for structural and semantic comparison expectations.
-5. The canonical `Hadden-Industries/owlapi` Public API Surface Registry, capability matrix, ontology-lifecycle capability plan, and public package documentation for the exact `owlapi@0.2.0` consumer boundary.
+5. The canonical `Hadden-Industries/owlapi` Public API Surface Registry, capability matrix, ontology-lifecycle capability plan, and public package documentation for the exact `@hadden-industries/owlapi@0.1.0-rc.1` consumer boundary.
 6. Public Java OWLAPI 5.5.1 contracts and the pinned local source at `C:\Users\maksy\GitHub\owlcs\owlapi`, especially `OWLOntologyManager`, `OWLOntologyImportsClosureSetProvider`, `OWLOntologyMerger`, `SetOntologyID`, `AddOntologyAnnotation`, `OWLStorer`, `FunctionalSyntaxStorer`, and `RDFXMLStorer`.
 7. [OASIS XML Catalogs 1.0](https://www.oasis-open.org/committees/entity/specs/cs-entity-xml-catalogs-1.0.html) for URI catalog precedence and `xml:base`.
 8. [RDF/XML Syntax](https://www.w3.org/TR/rdf-syntax-grammar/) for concrete output constraints.
