@@ -92,6 +92,20 @@ export const CHECK_INPUTS = {
     ":(exclude).agent-tools",
     ":(exclude).sdlc",
   ],
+  // The whole Python unit suite: every Python source, test and fixture, plus the
+  // interpreter, locked requirements, launcher and workflow that execute it.
+  python_tests: [
+    ...COMMON_INPUTS,
+    ".python-version",
+    "requirements.txt",
+    "requirements-dev.txt",
+    "requirements.lock.txt",
+    ".github/workflows/development-checks.yml",
+    "scripts/runRepositoryPython.js",
+    ":(glob)scripts/**/*.py",
+    ":(glob)tests/**/*.py",
+    "tests/fixtures",
+  ],
   documentation: [
     ":(glob)*.md",
     ":(glob)docs/**/*.md",

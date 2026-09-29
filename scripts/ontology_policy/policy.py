@@ -47,27 +47,25 @@ class Policy:
         return None
 
 
-def _read(directory: Path, filename: str, *, required: bool) -> bytes | None:
+def _read(directory: Path, filename: str) -> bytes:
+    """Return a policy file's bytes; every policy file is required."""
     path = directory / filename
     if not path.is_file():
-        if required:
-            raise PolicyDefinitionError(f"Policy file is missing: {path}")
-        return None
+        raise PolicyDefinitionError(f"Policy file is missing: {path}")
     return path.read_bytes()
 
 
 def load_policy(policy_directory: Path = POLICY_DIRECTORY) -> Policy:
     """Parse the policy files, prove the policy graph's own contract, then return it.
 
-    A policy that fails Meta-SHACL or the documentary metadata contract is a
-    policy-definition error: it cannot silently produce fewer executed rules.
+    A missing policy file, or a policy that fails Meta-SHACL or the documentary
+    metadata contract, is a policy-definition error: it cannot silently produce
+    fewer executed rules.
     """
     rules = Graph()
     digest = hashlib.sha256()
     for filename in RULE_FILENAMES:
-        raw = _read(policy_directory, filename, required=filename == RULE_FILENAMES[0])
-        if raw is None:
-            continue
+        raw = _read(policy_directory, filename)
         digest.update(filename.encode("utf-8") + b"\0" + raw + b"\0")
         try:
             rules.parse(data=raw, format="turtle")
@@ -76,11 +74,11 @@ def load_policy(policy_directory: Path = POLICY_DIRECTORY) -> Policy:
                 f"{filename}: {type(exc).__name__}: {exc}"
             ) from exc
     context_shapes = Graph().parse(
-        data=_read(policy_directory, CONTEXT_SHAPES_FILENAME, required=True),
+        data=_read(policy_directory, CONTEXT_SHAPES_FILENAME),
         format="turtle",
     )
     metadata_shapes = Graph().parse(
-        data=_read(policy_directory, POLICY_METADATA_SHAPES_FILENAME, required=True),
+        data=_read(policy_directory, POLICY_METADATA_SHAPES_FILENAME),
         format="turtle",
     )
     for graph_name in (CONTEXT_SHAPES_FILENAME, POLICY_METADATA_SHAPES_FILENAME):

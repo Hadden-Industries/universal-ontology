@@ -106,11 +106,6 @@ window.loadConverter = () => import("./OwlToUmlXmiConverter.js");
     "nested/about.js",
     "document.body.dataset.about='yes';\n",
   );
-  await put(
-    sourceDirectory,
-    "owl-to-uml-xmi.xsl",
-    '<xsl:stylesheet version="1.0" />',
-  );
   await put(sourceDirectory, "external/kept.rdf", Buffer.from([0, 255, 1]));
   await put(sourceDirectory, "external/.editorconfig", "excluded");
   await put(sourceDirectory, "external/source.url", "excluded");
@@ -183,7 +178,6 @@ test("builds multi-page website and ontology assets with stable public paths", a
       "OwlToUmlXmiConverter.js",
       "nested/about.html",
       "nested/about.js",
-      "owl-to-uml-xmi.xsl",
       "external/kept.rdf",
       "universal/core/20260101",
       "universal/core/20260101.csv",

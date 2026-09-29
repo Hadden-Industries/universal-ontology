@@ -62,8 +62,18 @@ def iterate_tests(suite):
 
 
 def discover_units(tests_dir: Path, pattern: str, granularity: str):
-    """Return (label, argv) units, largest module first, without running anything."""
+    """Return (label, argv, environment) units, largest module first, without running anything.
+
+    Module units rely on ``unittest discover -s`` to put the tests directory on
+    ``sys.path``. Per-test units name a method as ``module.Class.method``, so their
+    environment prepends the tests directory to ``PYTHONPATH`` instead; ``None``
+    means the worker inherits this process's environment unchanged.
+    """
     tests_dir = tests_dir.resolve()
+    per_test_environment = dict(os.environ)
+    per_test_environment["PYTHONPATH"] = os.pathsep.join(
+        filter(None, (str(tests_dir), os.environ.get("PYTHONPATH")))
+    )
     modules = []
     for path in sorted(tests_dir.glob(pattern)):
         modules.append((path.stat().st_size, path))
@@ -85,6 +95,7 @@ def discover_units(tests_dir: Path, pattern: str, granularity: str):
                         "-p",
                         path.name,
                     ],
+                    None,
                 )
             )
             continue
@@ -92,7 +103,7 @@ def discover_units(tests_dir: Path, pattern: str, granularity: str):
         sys.path.insert(0, str(REPOSITORY_ROOT / "scripts"))
         try:
             suite = unittest.defaultTestLoader.discover(
-                str(tests_dir), pattern=path.name, top_level_dir=str(REPOSITORY_ROOT)
+                str(tests_dir), pattern=path.name, top_level_dir=str(tests_dir)
             )
         finally:
             if str(REPOSITORY_ROOT) in sys.path:
@@ -111,17 +122,19 @@ def discover_units(tests_dir: Path, pattern: str, granularity: str):
                         "unittest",
                         identifier,
                     ],
+                    per_test_environment,
                 )
             )
     return units
 
 
 def execute(unit):
-    label, argv = unit
+    label, argv, environment = unit
     started = time.monotonic()
     completed = run(
         argv,
         cwd=str(REPOSITORY_ROOT),
+        env=environment,
         capture_output=True,
         text=True,
         encoding="utf-8",

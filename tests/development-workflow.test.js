@@ -6,7 +6,7 @@ const WORKFLOW_URL = new URL(
   import.meta.url,
 );
 const SELECTOR_COMMAND =
-  "node scripts/selectPullRequestChecks.js --scope development --scope documentation --scope python_style --scope style_tooling";
+  "node scripts/selectPullRequestChecks.js --scope development --scope documentation --scope python_style --scope python_tests --scope style_tooling";
 const ONTOLOGY_RUNNER_COMMAND =
   "node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v";
 const PYTHON_SETUP_TOOL_COMMAND =
@@ -46,6 +46,7 @@ test("development checks run on pull requests and manual dispatch with read-only
     "scope",
     "documentation",
     "python-style",
+    "python-tests",
     "style-tooling",
     "checks",
   ]);
@@ -65,6 +66,7 @@ test("unrelated PRs do not unconditionally launch the development matrix", () =>
     development: "${{ steps.scope.outputs.development }}",
     documentation: "${{ steps.scope.outputs.documentation }}",
     python_style: "${{ steps.scope.outputs.python_style }}",
+    python_tests: "${{ steps.scope.outputs.python_tests }}",
     style_tooling: "${{ steps.scope.outputs.style_tooling }}",
   });
   expect(workflow.jobs.scope.steps.at(-1).run).toBe(SELECTOR_COMMAND);
@@ -72,6 +74,18 @@ test("unrelated PRs do not unconditionally launch the development matrix", () =>
   expect(workflow.jobs.checks.if).toBe(
     "needs.scope.outputs.development == 'true'",
   );
+});
+
+test("Python changes run the whole Python suite on Windows and Ubuntu", () => {
+  const job = readWorkflow().jobs["python-tests"];
+  expect(job.needs).toBe("scope");
+  expect(job.if).toBe("needs.scope.outputs.python_tests == 'true'");
+  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-latest"]);
+  const runs = job.steps.map(({ run }) => run).filter(Boolean);
+  expect(runs.indexOf("npm run set-up:development")).toBeLessThan(
+    runs.indexOf("npm run test:python"),
+  );
+  expect(runs.at(-1)).toBe("npm run test:python");
 });
 
 test("toolchain changes retain a Windows and Ubuntu owner for formatter regressions", () => {

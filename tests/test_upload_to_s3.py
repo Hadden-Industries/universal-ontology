@@ -58,12 +58,15 @@ class UploadToS3CommandTests(unittest.TestCase):
         import tempfile
 
         with tempfile.TemporaryDirectory() as temporary:
-            helper = Path(temporary) / "amazon-aws" / "scripts" / "upload_to_s3.py"
+            # The helper resolves paths, which expands Windows 8.3 short names
+            # such as RUNNER~1; expectations must use the same canonical form.
+            root = Path(temporary).resolve()
+            helper = root / "amazon-aws" / "scripts" / "upload_to_s3.py"
             helper.parent.mkdir(parents=True)
             helper.write_text("", encoding="utf-8")
             self.assertEqual(upload_to_s3.helper_interpreter(helper), sys.executable)
             venv_python = (
-                Path(temporary)
+                root
                 / "amazon-aws"
                 / ".venv"
                 / ("Scripts/python.exe" if sys.platform == "win32" else "bin/python")
@@ -82,7 +85,9 @@ class UploadToS3CommandTests(unittest.TestCase):
         import tempfile
 
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
+            # Git and the helper resolve paths, which expands Windows 8.3 short
+            # names such as RUNNER~1; expectations must use the same canonical form.
+            root = Path(temporary).resolve()
             main_repository = root / "main-checkout" / "universal-ontology"
             main_repository.mkdir(parents=True)
             subprocess.run(

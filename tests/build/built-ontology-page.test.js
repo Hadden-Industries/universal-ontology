@@ -58,7 +58,6 @@ const CONTENT_TYPES = new Map([
   [".js", "text/javascript; charset=utf-8"],
   [".json", "application/json; charset=utf-8"],
   [".jsonld", "application/ld+json; charset=utf-8"],
-  [".xsl", "application/xml; charset=utf-8"],
 ]);
 
 async function put(root, relativePath, content) {
@@ -97,7 +96,6 @@ async function createFixture() {
     "ontology.css",
     "ontologyViewModel.js",
     "OwlToUmlXmiConverter.js",
-    "owl-to-uml-xmi.xsl",
     "webmcp/createOntologyEntityDefinitionResolver.js",
     "webmcp/ontologyEntityDefinitionResultSchemas.js",
     "webmcp/registerDisplayedOntologyEntityDefinitionTool.js",
