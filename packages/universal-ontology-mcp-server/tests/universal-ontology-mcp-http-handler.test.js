@@ -2,6 +2,7 @@ import { jest } from "@jest/globals";
 
 import {
   createUniversalOntologyMcpFetchHandler,
+  createUniversalOntologyMcpHttpProtocolHandler,
   UNIVERSAL_ONTOLOGY_MCP_REQUEST_BODY_MAXIMUM_BYTES,
 } from "../src/universalOntologyMcpHttpHandlers.js";
 
@@ -138,6 +139,31 @@ async function readJsonResponse(response) {
 }
 
 describe("Universal Ontology MCP HTTP handler", () => {
+  test.each([131072, 131073])(
+    "bounds SDK-owned request reads at %i bytes",
+    async (byteLength) => {
+      const ontologyQuery = createOntologyQueryStub();
+      const handler = createUniversalOntologyMcpHttpProtocolHandler({
+        ontologyQuery,
+      });
+      const body = JSON.stringify(modernEnvelope("tools/list")).padEnd(
+        byteLength,
+      );
+      try {
+        const response = await handler.fetch(
+          modernRequest("tools/list", {}, { body }),
+        );
+        expect(response.status).toBe(byteLength === 131072 ? 200 : 413);
+        if (byteLength === 131072) {
+          expect((await response.json()).result.tools).toHaveLength(4);
+        }
+        expect(ontologyQuery.searchOntologyEntities).not.toHaveBeenCalled();
+      } finally {
+        await handler.close();
+      }
+    },
+  );
+
   test("accepts complete modern metadata and never creates a session", async () => {
     const { handler } = createHandler();
 

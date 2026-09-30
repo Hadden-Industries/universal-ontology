@@ -432,6 +432,19 @@ The server provides a precise projection, not an OWL reasoner or general SPARQL 
 
 ## Common errors
 
+The application-bundle verifier prints fixed diagnostic categories on stderr and exits with status 1 on failure.
+It examines at most eight objects in the standard error cause chain, without printing exception messages, paths, URLs, credentials, or stacks.
+These categories describe errors that reach the verifier; they cannot recover details already withheld by a server's safe tool-error response.
+
+- `MCP_DNS_LOOKUP_FAILED`: check the configured endpoint and DNS availability (`ENOTFOUND` or `EAI_AGAIN`).
+- `MCP_CONNECTION_REFUSED`: check that the configured service is listening (`ECONNREFUSED`).
+- `MCP_CONNECTION_TIMED_OUT`: check service availability and network reachability (`ETIMEDOUT`).
+- `MCP_FILE_NOT_FOUND`: check the application bundle and executable paths (`ENOENT`).
+- `MCP_VERIFICATION_FAILED`: inspect the verification inputs and server lifecycle diagnostics; no recognized cause was available.
+
+The HTTP ingress and SDK-owned body reads both enforce the 131072-byte limit.
+The custom ingress readers remain responsible for stream cancellation and connection closure; supplying a parsed body to the SDK bypasses its own byte reader.
+
 | Symptom                                                                         | Meaning and action                                                                                                                                    |
 | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Startup exits with `SERVER_STARTUP_FAILED` or `QUERY_INDEX_CATALOG_UNAVAILABLE` | Generate artifacts with `npm run generate:ontology-indexes`, verify `UNIVERSAL_ONTOLOGY_QUERY_ROOT`, and restart. The port was not opened.            |

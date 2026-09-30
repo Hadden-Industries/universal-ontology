@@ -99,6 +99,9 @@ export function createUniversalOntologyMcpHttpProtocolHandler({
     {
       legacy: "stateless",
       responseMode: "json",
+      // Bound SDK-owned reads too. Node's parsedBody path still depends on
+      // its ingress guard; the Fetch guard additionally cancels oversized streams.
+      maxRequestBodySize: UNIVERSAL_ONTOLOGY_MCP_REQUEST_BODY_MAXIMUM_BYTES,
       onerror: onError,
     },
   );
