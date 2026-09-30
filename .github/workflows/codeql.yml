@@ -2,12 +2,12 @@ name: CodeQL
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
     paths-ignore:
       - "**/*.md"
       - "**/*.owl"
   pull_request:
-    branches: [main]
+    branches: [ main ]
     paths-ignore:
       - "**/*.md"
       - "**/*.owl"
@@ -17,12 +17,14 @@ on:
 
 permissions: {}
 
+# Only superseded PRs share a group; each non-PR run attempt remains eligible.
 concurrency:
-  group: codeql-${{ github.event.pull_request.number || github.ref }}
+  group: codeql-${{ github.event_name }}-${{ github.event.pull_request.number || format('{0}-{1}', github.run_id, github.run_attempt) }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   scope:
+    timeout-minutes: 5
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     name: Select CodeQL languages
     runs-on: ubuntu-24.04
@@ -31,16 +33,18 @@ jobs:
     outputs:
       languages: ${{ steps.languages.outputs.codeql_languages }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
+          package-manager-cache: false
       - name: Select languages from their source and execution inputs
         id: languages
         run: node scripts/selectPullRequestChecks.js --scope codeql_actions --scope codeql_python --scope codeql_javascript --codeql-matrix
+    cache-mode: none
   analyze:
     needs: scope
     if: needs.scope.outputs.languages != '[]'
@@ -69,3 +73,7 @@ jobs:
         uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
         with:
           category: "/language:${{ matrix.language }}"
+defaults:
+  run:
+    shell: bash
+cache-mode: read

@@ -18,6 +18,77 @@ function readWorkflow() {
   return parseYaml(readFileSync(WORKFLOW_URL, "utf8"));
 }
 
+test.each([
+  [
+    "development-checks.yml",
+    {
+      scope: 5,
+      documentation: 10,
+      "python-style": 10,
+      "python-tests": 30,
+      "agent-skills-lock": 5,
+      "style-tooling": 30,
+      checks: 30,
+    },
+  ],
+  [
+    "ontology-validation.yml",
+    { "validate-ontologies": 20, "policy-qa": 30, qualify: 45 },
+  ],
+  [
+    "verify-universal-ontology-mcp-distribution.yml",
+    { scope: 5, validate: 30, archive: 30, container: 30, assemble: 20 },
+  ],
+  ["codeql.yml", { scope: 5, analyze: 20 }],
+])(
+  "%s bounds every job with its approved timeout",
+  (fileName, expectedTimeouts) => {
+    const workflow = parseYaml(
+      readFileSync(
+        new URL(`../.github/workflows/${fileName}`, import.meta.url),
+        "utf8",
+      ),
+    );
+    expect(
+      Object.fromEntries(
+        Object.entries(workflow.jobs).map(([name, job]) => [
+          name,
+          job["timeout-minutes"],
+        ]),
+      ),
+    ).toEqual(expectedTimeouts);
+  },
+);
+
+test.each([
+  ["development-checks.yml", "development-checks"],
+  ["ontology-validation.yml", "ontology-validation"],
+  [
+    "verify-universal-ontology-mcp-distribution.yml",
+    "universal-ontology-mcp-distribution",
+  ],
+  ["codeql.yml", "codeql"],
+])(
+  "%s cancels only PR runs and isolates every non-PR run attempt",
+  (fileName, prefix) => {
+    const workflow = parseYaml(
+      readFileSync(
+        new URL(`../.github/workflows/${fileName}`, import.meta.url),
+        "utf8",
+      ),
+    );
+    // A shared non-PR group replaces pending runs even when cancellation is false.
+    // This exact approved Actions expression isolates runs and their reruns.
+    expect(workflow.concurrency).toEqual({
+      group: `${prefix}-\${{ github.event_name }}-\${{ github.event.pull_request.number || format('{0}-{1}', github.run_id, github.run_attempt) }}`,
+      "cancel-in-progress": "${{ github.event_name == 'pull_request' }}",
+    });
+    for (const job of Object.values(workflow.jobs)) {
+      expect(job.concurrency).toBeUndefined();
+    }
+  },
+);
+
 test("the ontology gate excludes Python provisioning when no ontology input changed", () => {
   const workflow = parseYaml(
     readFileSync(
@@ -41,7 +112,7 @@ test("development checks run on pull requests and manual dispatch with read-only
   const workflow = readWorkflow();
   expect(workflow.name).toBe("Development checks");
   expect(workflow.on).toEqual({ pull_request: null, workflow_dispatch: null });
-  expect(workflow.permissions).toEqual({ contents: "read" });
+  expect(workflow.permissions).toEqual({});
   expect(Object.keys(workflow.jobs)).toEqual([
     "scope",
     "documentation",
@@ -82,7 +153,7 @@ test("Python changes run the whole Python suite on Windows and Ubuntu", () => {
   const job = readWorkflow().jobs["python-tests"];
   expect(job.needs).toBe("scope");
   expect(job.if).toBe("needs.scope.outputs.python_tests == 'true'");
-  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-latest"]);
+  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
   expect(runs.indexOf("npm run set-up:development")).toBeLessThan(
     runs.indexOf("npm run test:python"),
@@ -109,7 +180,7 @@ test("toolchain changes retain a Windows and Ubuntu owner for formatter regressi
   const job = readWorkflow().jobs["style-tooling"];
   expect(job.needs).toBe("scope");
   expect(job.if).toBe("needs.scope.outputs.style_tooling == 'true'");
-  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-latest"]);
+  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
   expect(
     job.steps.some(({ uses }) => uses?.startsWith("actions/setup-python@")),
   ).toBe(true);
@@ -123,7 +194,7 @@ test("toolchain changes retain a Windows and Ubuntu owner for formatter regressi
     ),
   );
   expect(runs).toContain(
-    "npm test -- --runInBand --runTestsByPath tests/documentation-tools.test.js",
+    "npm test -- --runInBand --runTestsByPath tests/documentation-tools.test.js tests/python-style-tools.test.js",
   );
 });
 
@@ -159,7 +230,7 @@ test("Windows and Ubuntu checks exercise the complete development setup before t
   const job = readWorkflow().jobs.checks;
   expect(job.strategy).toEqual({
     "fail-fast": false,
-    matrix: { os: ["ubuntu-24.04", "windows-latest"] },
+    matrix: { os: ["ubuntu-24.04", "windows-2025"] },
   });
   expect(job["runs-on"]).toBe("${{ matrix.os }}");
   const runs = job.steps.map(({ run }) => run).filter(Boolean);

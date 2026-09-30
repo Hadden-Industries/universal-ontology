@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "mode",
+    "revision",
+    "comparisonBase",
+    "scopes",
+    "requiredJobs"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "mode": {
+      "enum": [
+        "changed",
+        "full"
+      ]
+    },
+    "revision": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "comparisonBase": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        }
+      ]
+    },
+    "scopes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "style_tooling",
+        "python_style",
+        "python_tests",
+        "documentation",
+        "ontology_validation",
+        "ontology_validation_workflow",
+        "ontology_entity_contracts",
+        "ontology_policy_qa",
+        "ontology_qualification",
+        "agent_skills_lock",
+        "development",
+        "product_tests",
+        "mcp_artifacts",
+        "website_build",
+        "mcp_docs",
+        "mcp_application",
+        "mcp_release_qualification"
+      ],
+      "properties": {
+        "style_tooling": {
+          "type": "boolean"
+        },
+        "python_style": {
+          "type": "boolean"
+        },
+        "python_tests": {
+          "type": "boolean"
+        },
+        "documentation": {
+          "type": "boolean"
+        },
+        "ontology_validation": {
+          "type": "boolean"
+        },
+        "ontology_validation_workflow": {
+          "type": "boolean"
+        },
+        "ontology_entity_contracts": {
+          "type": "boolean"
+        },
+        "ontology_policy_qa": {
+          "type": "boolean"
+        },
+        "ontology_qualification": {
+          "type": "boolean"
+        },
+        "agent_skills_lock": {
+          "type": "boolean"
+        },
+        "development": {
+          "type": "boolean"
+        },
+        "product_tests": {
+          "type": "boolean"
+        },
+        "mcp_artifacts": {
+          "type": "boolean"
+        },
+        "website_build": {
+          "type": "boolean"
+        },
+        "mcp_docs": {
+          "type": "boolean"
+        },
+        "mcp_application": {
+          "type": "boolean"
+        },
+        "mcp_release_qualification": {
+          "type": "boolean"
+        }
+      }
+    },
+    "requiredJobs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "development",
+          "ontology",
+          "node",
+          "website",
+          "distribution"
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "changed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "comparisonBase": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{40}$"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "comparisonBase": {
+            "type": "null"
+          },
+          "scopes": {
+            "properties": {
+              "style_tooling": {
+                "const": true
+              },
+              "python_style": {
+                "const": true
+              },
+              "python_tests": {
+                "const": true
+              },
+              "documentation": {
+                "const": true
+              },
+              "ontology_validation": {
+                "const": true
+              },
+              "ontology_validation_workflow": {
+                "const": true
+              },
+              "ontology_entity_contracts": {
+                "const": true
+              },
+              "ontology_policy_qa": {
+                "const": true
+              },
+              "ontology_qualification": {
+                "const": true
+              },
+              "agent_skills_lock": {
+                "const": true
+              },
+              "development": {
+                "const": true
+              },
+              "product_tests": {
+                "const": true
+              },
+              "mcp_artifacts": {
+                "const": true
+              },
+              "website_build": {
+                "const": true
+              },
+              "mcp_docs": {
+                "const": true
+              },
+              "mcp_application": {
+                "const": true
+              },
+              "mcp_release_qualification": {
+                "const": true
+              }
+            },
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -14,7 +14,11 @@ import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
-import { changedFilePaths } from "../scripts/selectPullRequestChecks.js";
+import {
+  changedFilePaths,
+  createCheckPlan,
+  CORE_CHECK_CONSUMER_IDS,
+} from "../scripts/selectPullRequestChecks.js";
 
 const SCOPES = [
   "development",
@@ -36,7 +40,7 @@ test("the stable ontology check selects files before installing its dependencies
     pull_request: { branches: ["**"] },
     workflow_dispatch: null,
   });
-  expect(workflow.permissions).toEqual({ contents: "read" });
+  expect(workflow.permissions).toEqual({});
   for (const [jobId, scope] of [["qualify", "ontology_qualification"]]) {
     expect(workflow.jobs[jobId].needs).toBe("validate-ontologies");
     expect(workflow.jobs[jobId].if).toBe(
@@ -217,6 +221,76 @@ describe("native Git PR check selection", () => {
     return git(["rev-parse", "HEAD"]);
   }
 
+  function corePlan(overrides = {}) {
+    const eventPath = join(root, "core-event.json");
+    writeFileSync(
+      eventPath,
+      JSON.stringify({ pull_request: { base: { sha: base } } }),
+    );
+    return createCheckPlan(
+      {
+        GITHUB_EVENT_NAME: "pull_request",
+        GITHUB_SHA: git(["rev-parse", "HEAD"]),
+        GITHUB_EVENT_PATH: eventPath,
+        ...overrides,
+      },
+      root,
+    );
+  }
+
+  test("core docs selection transports more than 300 paths including shell metacharacters", () => {
+    const paths = Array.from(
+      { length: 305 },
+      (_, i) => `docs/example ${i} & 'quoted'.md`,
+    );
+    for (const path of paths) write(path);
+    commit(paths);
+    expect(corePlan().requiredJobs).toEqual(["development"]);
+  });
+
+  test.each([
+    "unclassified/tool.xyz",
+    ".github/workflows/new.yml",
+    ".github/actions/example/action.yml",
+  ])("core plan selects full conservative coverage for %s", (path) => {
+    write(path);
+    commit([path]);
+    expect(corePlan().requiredJobs).toEqual(CORE_CHECK_CONSUMER_IDS);
+  });
+
+  test("new distribution tooling selects product and complete native qualification", () => {
+    write("scripts/distribution/new-runtime.js");
+    commit(["scripts/distribution/new-runtime.js"]);
+    expect(corePlan().requiredJobs).toEqual(["node", "distribution"]);
+    expect(corePlan().scopes.mcp_release_qualification).toBe(true);
+  });
+
+  test("packaged README retains native qualification until independent package coverage is proven", () => {
+    write("packages/universal-ontology-mcp-server/README.md");
+    commit(["packages/universal-ontology-mcp-server/README.md"]);
+    expect(corePlan().scopes.mcp_release_qualification).toBe(true);
+  });
+
+  test("full events require checkout identity and select every scope", () => {
+    expect(
+      Object.values(corePlan({ GITHUB_EVENT_NAME: "schedule" }).scopes).every(
+        Boolean,
+      ),
+    ).toBe(true);
+    expect(() =>
+      corePlan({ GITHUB_EVENT_NAME: "schedule", GITHUB_SHA: "a".repeat(40) }),
+    ).toThrow(/checkout/u);
+    expect(() => corePlan({ GITHUB_EVENT_NAME: "merge_group" })).toThrow(
+      /Unsupported/u,
+    );
+    expect(() => corePlan({ GITHUB_SHA: "" })).toThrow();
+  });
+
+  test("unavailable comparison objects never become an empty plan", () => {
+    base = "f".repeat(40);
+    expect(() => corePlan()).toThrow();
+  });
+
   function runSelection({
     eventName = "pull_request",
     head = git(["rev-parse", "HEAD"]),
@@ -318,6 +392,13 @@ describe("native Git PR check selection", () => {
       ),
     );
     selectorPath = join(root, "scripts/selectPullRequestChecks.js");
+    write(
+      "scripts/pullRequestCheckPlanValidator.js",
+      readFileSync(
+        new URL("../scripts/pullRequestCheckPlanValidator.js", import.meta.url),
+        "utf8",
+      ),
+    );
     base = commit(["package.json", "scripts/selectPullRequestChecks.js"]);
   });
 

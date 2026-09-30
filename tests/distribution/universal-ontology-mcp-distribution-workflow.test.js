@@ -271,8 +271,9 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     });
     expect(workflow.on.push.tags).toBeUndefined();
     expect(workflow.concurrency).toEqual({
-      group: "universal-ontology-mcp-distribution-${{ github.ref }}",
-      "cancel-in-progress": true,
+      group:
+        "universal-ontology-mcp-distribution-${{ github.event_name }}-${{ github.event.pull_request.number || format('{0}-{1}', github.run_id, github.run_attempt) }}",
+      "cancel-in-progress": "${{ github.event_name == 'pull_request' }}",
     });
   });
 
@@ -403,6 +404,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
       if (jobName === "scope") {
         expect(job.steps[setupNodeIndex].with).toEqual({
           "node-version-file": ".node-version",
+          "package-manager-cache": false,
         });
         expect(bootstrapIndex).toBe(-1);
         expect(npmOperationIndices).toEqual([]);

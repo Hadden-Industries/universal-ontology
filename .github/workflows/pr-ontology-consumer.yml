@@ -1,26 +1,20 @@
-name: Enterprise Ontology Validation Pipeline
-
+name: PR ontology consumer
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ "**" ]
-  workflow_dispatch:
-
+  workflow_call:
+    inputs:
+      plan:
+        required: true
+        type: string
+    outputs:
+      verified-revision:
+        value: ${{ jobs.complete.outputs.verified-revision }}
 permissions: {}
-
-# Only superseded PRs share a group; each non-PR run attempt remains eligible.
-concurrency:
-  group: ontology-validation-${{ github.event_name }}-${{ github.event.pull_request.number || format('{0}-{1}', github.run_id, github.run_attempt) }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 env:
-  # Apache Jena 6.2.0 command distribution, verified against the published
-  # SHA-512 and the release manager's signature (KEYS fingerprint below).
   JENA_VERSION: 6.2.0
   JENA_SHA512: fb97634215b4667124bdbe4f42efc25d4dc4e9046b70bfa702d7a71e1a8aed049ec79a38eb469cf0e13b18724cc024adec3cc35113a24e8fa62aa66091d7431e
   JENA_SIGNER_FINGERPRINT: D99038A1731B8B31B71549EF04C95136D236A58F
-
+  PR_CHECK_PLAN: ${{ inputs.plan }}
+  PR_CHECK_MODE: ${{ fromJSON(inputs.plan).mode }}
 jobs:
   validate-ontologies:
     timeout-minutes: 20
@@ -31,7 +25,7 @@ jobs:
       ontology_entity_contracts: ${{ steps.ontology_jobs.outputs.ontology_entity_contracts }}
       ontology_qualification: ${{ steps.ontology_jobs.outputs.ontology_qualification }}
     env:
-      ONTOLOGY_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+      ONTOLOGY_DIFF_BASE: ${{ fromJSON(inputs.plan).comparisonBase }}
       ONTOLOGY_DIFF_HEAD: ${{ github.sha }}
     steps:
       - name: Checkout Repository
@@ -39,37 +33,24 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
           package-manager-cache: false
-      - name: Install the locked workflow parser only for workflow comparisons
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then exit 0; fi
-          if git diff --quiet --no-ext-diff --no-textconv --no-renames "$ONTOLOGY_DIFF_BASE" "$ONTOLOGY_DIFF_HEAD" -- .github/workflows/ontology-validation.yml; then
-            exit 0
-          else
-            status=$?
-            if [[ "$status" != 1 ]]; then exit "$status"; fi
-          fi
-          npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Select ontology jobs before provisioning their toolchains
         id: ontology_jobs
-        run: node scripts/selectPullRequestChecks.js --scope ontology_validation --scope ontology_policy_qa --scope ontology_entity_contracts --scope ontology_qualification --scope ontology_validation_workflow
-
+        run: node scripts/evaluatePullRequestChecks.js --scopes
       - name: Provision Python Runtime
         if: steps.ontology_jobs.outputs.ontology_validation == 'true'
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
-
       - name: Create isolated Python environment
         if: steps.ontology_jobs.outputs.ontology_validation == 'true'
         run: python -m venv .venv
-
       - name: Select ontology validation before installing dependencies
         if: steps.ontology_jobs.outputs.ontology_validation == 'true'
         id: scope
@@ -77,36 +58,32 @@ jobs:
         run: |
           set -euo pipefail
           args=(--diff-base "$ONTOLOGY_DIFF_BASE" --diff-head "$ONTOLOGY_DIFF_HEAD")
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+          if [[ "$PR_CHECK_MODE" == "full" ]]; then
             args=(--all-current)
           fi
           if [[ "${{ steps.ontology_jobs.outputs.ontology_validation_workflow }}" == "true" ]]; then
             args+=(--validation-workflow-changed)
           fi
           .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --plan >> "$GITHUB_OUTPUT"
-
       - name: Install the hash-locked Python environment
         if: steps.scope.outputs.validation_required == 'true'
         run: .venv/bin/python -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt
-
       - name: Test ontology validation runner
-        if: steps.scope.outputs.validator_changed == 'true'
+        if: steps.scope.outputs.validator_changed == 'true' && !fromJSON(inputs.plan).scopes.python_tests && !fromJSON(inputs.plan).scopes.development
         run: .venv/bin/python -B -m unittest discover -s tests -p test_validate_ontologies.py -v
-
       - name: Editing-policy draft diagnostics for the changed sources
         if: steps.scope.outputs.validation_required == 'true'
         shell: bash
         run: |
           set -euo pipefail
           args=(--diff-base "$ONTOLOGY_DIFF_BASE" --diff-head "$ONTOLOGY_DIFF_HEAD")
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+          if [[ "$PR_CHECK_MODE" == "full" ]]; then
             args=(--all-current)
           fi
           if [[ "${{ steps.ontology_jobs.outputs.ontology_validation_workflow }}" == "true" ]]; then
             args+=(--validation-workflow-changed)
           fi
           .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --purpose draft --github-actions --report-directory policy-reports
-
       - name: Retain policy reports
         if: always() && steps.scope.outputs.validation_required == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -114,14 +91,12 @@ jobs:
           name: policy-reports-differential
           path: policy-reports
           if-no-files-found: ignore
-
       - name: Report unchanged ontology inputs
         if: steps.ontology_jobs.outputs.ontology_validation == 'false' || steps.scope.outputs.validation_required == 'false'
         run: echo "Ontology validation not applicable; no supported ontology or validator input changed."
     permissions:
       contents: read
     cache-mode: none
-
   policy-qa:
     timeout-minutes: 30
     name: Editing policy QA
@@ -132,10 +107,17 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
-          cache: 'pip'
+          cache: pip
           cache-dependency-path: requirements.lock.txt
       - name: Install the hash-locked Python environment
         run: |
@@ -146,17 +128,13 @@ jobs:
         if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
         run: .venv/bin/python -B scripts/render_editing_policy.py --check
       - name: Policy, rendering, authority, change and publication-gate contracts
-        if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
+        if: (needs.validate-ontologies.outputs.ontology_policy_qa == 'true') && !fromJSON(inputs.plan).scopes.python_tests
         run: .venv/bin/python -B -m unittest discover -s tests -p "test_*polic*.py" -v
       - name: Entity change and publication gate contracts
-        if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true' || needs.validate-ontologies.outputs.ontology_entity_contracts == 'true'
-        # Remove this filter after upgrading to an RDFLib release fixing
-        # https://github.com/RDFLib/rdflib/issues/3511.
-        run: >-
-          .venv/bin/python -B -W "ignore:'count' is passed as positional argument:DeprecationWarning:rdflib.plugins.sparql.operators" -m unittest tests.test_ontology_entity_changes tests.test_publication_gate -v
+        if: (needs.validate-ontologies.outputs.ontology_policy_qa == 'true' || needs.validate-ontologies.outputs.ontology_entity_contracts == 'true') && !fromJSON(inputs.plan).scopes.python_tests
+        run: .venv/bin/python -B -W "ignore:'count' is passed as positional argument:DeprecationWarning:rdflib.plugins.sparql.operators" -m unittest tests.test_ontology_entity_changes tests.test_publication_gate -v
     permissions:
       contents: read
-
   qualify:
     timeout-minutes: 45
     name: Latest-active qualification (${{ matrix.os }})
@@ -165,20 +143,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-24.04, windows-2025 ]
+        os:
+          - ubuntu-24.04
+          - windows-2025
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
-          cache: 'pip'
+          cache: pip
           cache-dependency-path: requirements.lock.txt
       - name: Provision the qualified Temurin JDK
         id: java
-        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6
         with:
           distribution: temurin
           java-version-file: .java-version
@@ -186,7 +173,7 @@ jobs:
           verify-signature: true
       - name: Cache the verified Jena distribution
         id: jena-cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .agent-tools/jena/apache-jena-${{ env.JENA_VERSION }}
           key: jena-${{ env.JENA_VERSION }}-${{ env.JENA_SHA512 }}-${{ runner.os }}-${{ runner.arch }}
@@ -240,6 +227,38 @@ jobs:
           if-no-files-found: ignore
     permissions:
       contents: read
+  complete:
+    name: Verify internal completion
+    if: ${{ always() }}
+    needs:
+      - validate-ontologies
+      - policy-qa
+      - qualify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    cache-mode: none
+    outputs:
+      verified-revision: ${{ steps.complete.outputs.verified-revision }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - id: complete
+        if: ${{ success() && !cancelled() }}
+        env:
+          PR_CHECK_RESULTS: ${{ toJSON(needs) }}
+        run: node scripts/evaluatePullRequestChecks.js --consumer ontology
+      - name: Reject workflow cancellation
+        if: ${{ cancelled() }}
+        run: exit 1
 defaults:
   run:
     shell: bash

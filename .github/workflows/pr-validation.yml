@@ -1,0 +1,167 @@
+name: PR validation shadow
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+permissions: {}
+defaults:
+  run:
+    shell: bash
+cache-mode: read
+concurrency:
+  group: pr-validation-${{ github.event_name }}-${{ github.event.pull_request.number || format('{0}-{1}', github.run_id, github.run_attempt) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  select:
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    cache-mode: none
+    outputs:
+      plan: ${{ steps.select.outputs.plan }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - id: select
+        run: node scripts/selectPullRequestChecks.js --plan
+  node:
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    cache-mode: none
+    needs: select
+    if: ${{ !cancelled() && needs.select.result == 'success' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'node') }}
+    env:
+      PR_CHECK_PLAN: ${{ needs.select.outputs.plan }}
+    outputs:
+      verified-revision: ${{ steps.complete.outputs.verified-revision }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: |-
+          ignored="$(node --input-type=module <<'NODE'
+          const plan = JSON.parse(process.env.PR_CHECK_PLAN);
+          const ignored = ["/node_modules/", "/.sdlc/runtime/", "/tests/prose-formatting.test.js$"];
+          if (plan.scopes.development) ignored.push("/tests/(configure-git-hooks|set-up-development-environment|run-repository-python|development-workflow|pr-check-scopes).test.js$");
+          if (plan.scopes.style_tooling) ignored.push("/tests/(documentation-tools|python-style-tools).test.js$");
+          console.log(ignored.join("|"));
+          NODE
+          )"
+          DEBUG=pw:api npm test -- --runInBand --testPathIgnorePatterns="$ignored"
+          npm run lint:node
+          npm run format:node:check
+      - id: complete
+        run: echo "verified-revision=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+  website:
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    cache-mode: none
+    needs:
+      - select
+      - node
+    if: ${{ !cancelled() && needs.select.result == 'success' && needs.node.result == 'success' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'website') }}
+    env:
+      PR_CHECK_PLAN: ${{ needs.select.outputs.plan }}
+    outputs:
+      verified-revision: ${{ steps.complete.outputs.verified-revision }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run build:verify
+      - id: complete
+        run: echo "verified-revision=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+  development:
+    needs: select
+    if: ${{ !cancelled() && needs.select.result == 'success' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'development') }}
+    uses: ./.github/workflows/pr-development-consumer.yml
+    with:
+      plan: ${{ needs.select.outputs.plan }}
+    permissions:
+      contents: read
+    cache-mode: read
+  ontology:
+    needs: select
+    if: ${{ !cancelled() && needs.select.result == 'success' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'ontology') }}
+    uses: ./.github/workflows/pr-ontology-consumer.yml
+    with:
+      plan: ${{ needs.select.outputs.plan }}
+    permissions:
+      contents: read
+    cache-mode: read
+  distribution:
+    needs:
+      - select
+      - node
+    if: ${{ !cancelled() && needs.select.result == 'success' && (needs.node.result == 'success' || needs.node.result == 'skipped') && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'distribution') }}
+    uses: ./.github/workflows/pr-distribution-consumer.yml
+    with:
+      plan: ${{ needs.select.outputs.plan }}
+    permissions:
+      contents: read
+    cache-mode: none
+  gate:
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    cache-mode: none
+    name: PR validation
+    needs:
+      - select
+      - development
+      - ontology
+      - node
+      - website
+      - distribution
+    if: ${{ always() }}
+    env:
+      PR_CHECK_PLAN: ${{ needs.select.outputs.plan }}
+      PR_CHECK_RESULTS: ${{ toJSON(needs) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - if: ${{ success() && !cancelled() }}
+        run: node scripts/evaluatePullRequestChecks.js
+      - name: Reject workflow cancellation
+        if: ${{ cancelled() }}
+        run: exit 1
