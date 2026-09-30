@@ -8,6 +8,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
+import { formatMcpVerificationFailure } from "./formatMcpVerificationFailure.js";
 
 import {
   RESOLVE_ENTITY_TOOL_NAME,
@@ -416,7 +417,7 @@ if (
     process.stdout.write(`${JSON.stringify(verificationResult)}\n`);
   } catch (error) {
     process.stderr.write(
-      `Universal Ontology MCP application-bundle verification failed: ${error?.message ?? "unknown error"}\n`,
+      `Universal Ontology MCP application-bundle verification failed: ${formatMcpVerificationFailure(error)}\n`,
     );
     process.exitCode = 1;
   }
