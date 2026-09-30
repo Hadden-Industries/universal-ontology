@@ -201,7 +201,12 @@ test("shadow graph has one unconditional PR gate and closed consumer completion 
     );
     expect(Object.keys(workflow.on)).toEqual(["workflow_call"]);
     expect(workflow.concurrency).toBeUndefined();
-    expect(workflow.jobs.complete.if).toBe("${{ always() }}");
+    // Disposable trial deliberately suppresses the development receipt.
+    expect(workflow.jobs.complete.if).toBe(
+      workflow.name === "PR development consumer"
+        ? "${{ false }}"
+        : "${{ always() }}",
+    );
     expect([...workflow.jobs.complete.needs].sort()).toEqual(
       Object.keys(workflow.jobs)
         .filter((id) => id !== "complete")

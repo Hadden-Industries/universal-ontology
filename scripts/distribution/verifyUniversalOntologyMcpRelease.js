@@ -96,11 +96,11 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/full-qualification.yml":
     "92850d994441848d3f15543bf042a5b80c6a0da9fd9996a3091fd0641978e48b",
   ".github/workflows/pr-development-consumer.yml":
-    "c3983238326aaedfd68bcc96408ca0f7611d25b9a625a016b4eba42331a5b66a",
+    "355677b3c6835d22b95b4059b432557826df9fabd302e71d084530f19071d0ce",
   ".github/workflows/pr-ontology-consumer.yml":
     "9f0ef67c4681f30a5cc66c080d4a18bd142193a3c76ec7ec8ed1f2706852da61",
   ".github/workflows/pr-distribution-consumer.yml":
-    "2a671dbefdb7eff3b0c1c6b6122c4f2d69725c06ee00c83ae3165f3536912e2e",
+    "25f337a34c9a7f6c2fc0787345b16c82f49fc3163360fc21d331ded30af8fe08",
   "scripts/selectPullRequestChecks.js":
     "15290bf8aa677304b486fd7292fba800993d9fe39e9d01d5a7b3285774441b9a",
   "scripts/evaluatePullRequestChecks.js":

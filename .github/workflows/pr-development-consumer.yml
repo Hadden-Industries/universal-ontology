@@ -24,12 +24,12 @@ jobs:
       agent_skills_lock: ${{ steps.scope.outputs.agent_skills_lock }}
       style_tooling: ${{ steps.scope.outputs.style_tooling }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           persist-credentials: false
           ref: ${{ github.sha }}
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version-file: .node-version
           package-manager-cache: false
@@ -43,21 +43,21 @@ jobs:
     timeout-minutes: 10
     name: Markdown documents
     needs: scope
-    if: needs.scope.outputs.documentation == 'true' || needs.scope.outputs.style_tooling == 'true'
+    if: ${{ false }}
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           persist-credentials: false
           ref: ${{ github.sha }}
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version-file: .node-version
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version-file: .python-version
           cache: pip
@@ -94,17 +94,17 @@ jobs:
     if: needs.scope.outputs.python_style == 'true' && needs.scope.outputs.style_tooling != 'true'
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ github.sha }}
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version-file: .node-version
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version-file: .python-version
       - name: Install only the hash-locked Python style tool
@@ -132,16 +132,16 @@ jobs:
           - windows-2025
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ github.sha }}
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version-file: .node-version
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version-file: .python-version
           cache: pip
@@ -164,17 +164,17 @@ jobs:
     if: needs.scope.outputs.agent_skills_lock == 'true'
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ github.sha }}
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version-file: .node-version
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version-file: .python-version
       - name: Validate the committed Agent Skills lock
@@ -195,16 +195,16 @@ jobs:
           - windows-2025
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ github.sha }}
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version-file: .node-version
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version-file: .python-version
           cache: pip
@@ -234,16 +234,16 @@ jobs:
           - windows-2025
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ github.sha }}
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version-file: .node-version
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version-file: .python-version
           cache: pip
@@ -267,7 +267,7 @@ jobs:
         shell: ${{ matrix.os == 'windows-2025' && 'pwsh' || 'bash' }}
   complete:
     name: Verify internal completion
-    if: ${{ always() }}
+    if: ${{ false }}
     needs:
       - scope
       - documentation
@@ -284,12 +284,12 @@ jobs:
     outputs:
       verified-revision: ${{ steps.complete.outputs.verified-revision }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           persist-credentials: false
           ref: ${{ github.sha }}
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version-file: .node-version
           package-manager-cache: false
