@@ -18,6 +18,7 @@ const EXPECTED_JOB_PERMISSIONS = Object.freeze({
   archive: { contents: "read" },
   container: { contents: "read" },
   assemble: { contents: "read" },
+  complete: { contents: "read" },
 });
 const EXPECTED_JOB_DEPENDENCIES = Object.freeze({
   scope: [],
@@ -25,6 +26,7 @@ const EXPECTED_JOB_DEPENDENCIES = Object.freeze({
   archive: ["scope", "validate"],
   container: ["scope", "validate"],
   assemble: ["archive", "container", "scope", "validate"],
+  complete: ["archive", "assemble", "container", "scope", "validate"],
 });
 const ACTIVE_ACTION_NAMES = Object.freeze([
   "actions/checkout",
@@ -262,19 +264,12 @@ describe("Universal Ontology MCP development distribution workflow", () => {
   test("selects checks within PR, main-push and manual verification runs", () => {
     expect(workflow.name).toBe("Verify Universal Ontology MCP Distribution");
     expect(workflow.permissions).toEqual({});
-    expect(workflow.on).toEqual({
-      pull_request: null,
-      push: {
-        branches: ["main"],
-      },
-      workflow_dispatch: null,
+    expect(Object.keys(workflow.on)).toEqual(["workflow_call"]);
+    expect(workflow.on.workflow_call.inputs.plan).toEqual({
+      required: true,
+      type: "string",
     });
-    expect(workflow.on.push.tags).toBeUndefined();
-    expect(workflow.concurrency).toEqual({
-      group:
-        "universal-ontology-mcp-distribution-${{ github.event_name }}-${{ github.event.pull_request.number || format('{0}-{1}', github.run_id, github.run_attempt) }}",
-      "cancel-in-progress": "${{ github.event_name == 'pull_request' }}",
-    });
+    expect(workflow.concurrency).toBeUndefined();
   });
 
   test("defines the read-only scope job and four conditional verification jobs", () => {
@@ -319,10 +314,11 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     expect(scope.steps[0].with).toEqual({
       "fetch-depth": 0,
       "persist-credentials": false,
+      ref: "${{ github.sha }}",
     });
     expect(scope.steps.at(-1)).toMatchObject({
       id: "scope",
-      run: "node scripts/selectPullRequestChecks.js --scope product_tests --scope mcp_artifacts --scope website_build --scope mcp_docs",
+      run: "node scripts/evaluatePullRequestChecks.js --scopes",
     });
     expect(concatenateRunScripts(scope)).not.toMatch(/\bnpm\b/u);
   });
@@ -330,19 +326,14 @@ describe("Universal Ontology MCP development distribution workflow", () => {
   test("separates product, documentation, website and MCP artifact work", () => {
     const steps = workflow.jobs.validate.steps;
     const byName = (name) => steps.find((step) => step.name === name);
-    expect(byName("Run product regression and static checks")?.if).toBe(
-      "needs.scope.outputs.product_tests == 'true' || needs.scope.outputs.mcp_artifacts == 'true' || needs.scope.outputs.website_build == 'true'",
-    );
+    expect(byName("Run product regression and static checks")).toBeUndefined();
     expect(byName("Check MCP documentation")).toMatchObject({
       if: "needs.scope.outputs.mcp_docs == 'true' && needs.scope.outputs.product_tests != 'true' && needs.scope.outputs.mcp_artifacts != 'true' && needs.scope.outputs.website_build != 'true'",
       run: "npm test -- --runInBand --runTestsByPath tests/distribution/universal-ontology-mcp-documentation.test.js\nnpm run format:docs:prettier:check\n",
     });
     expect(
       byName("Build the affected website and generators without auto-fixes"),
-    ).toMatchObject({
-      if: "needs.scope.outputs.website_build == 'true'",
-      run: "node node_modules/vite/bin/vite.js build",
-    });
+    ).toBeUndefined();
     expect(byName("Build the affected MCP application bundle")).toMatchObject({
       if: "needs.scope.outputs.mcp_artifacts == 'true'",
       run: "npm run build:mcp-package",
@@ -401,7 +392,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
         .map(({ index }) => index);
 
       expect(setupNodeIndex).toBeGreaterThanOrEqual(0);
-      if (jobName === "scope") {
+      if (jobName === "scope" || jobName === "complete") {
         expect(job.steps[setupNodeIndex].with).toEqual({
           "node-version-file": ".node-version",
           "package-manager-cache": false,
@@ -429,9 +420,9 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     const containerScripts = concatenateRunScripts(workflow.jobs.container);
 
     expect(validateScripts).toContain("npm ci --ignore-scripts");
-    expect(validateScripts).toContain("npm run test:node");
-    expect(validateScripts).toContain("npm run lint:node");
-    expect(validateScripts).toContain("npm run format:node:check");
+    expect(validateScripts).not.toContain("npm run test:node");
+    expect(validateScripts).not.toContain("npm run lint:node");
+    expect(validateScripts).not.toContain("npm run format:node:check");
     expect(validateScripts).toContain("npm test -- --runInBand");
     expect(validateScripts).not.toContain(
       "smokeTestUniversalOntologyMcpPublicArtifactOrigin.js",

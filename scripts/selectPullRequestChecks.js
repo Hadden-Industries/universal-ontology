@@ -1,13 +1,11 @@
 import { spawnSync } from "node:child_process";
 import { appendFileSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { createRequire } from "node:module";
-import { isDeepStrictEqual, parseArgs } from "node:util";
+import { parseArgs } from "node:util";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import validatePlan from "./pullRequestCheckPlanValidator.js";
 
 const REPOSITORY_ROOT = fileURLToPath(new URL("../", import.meta.url));
-const require = createRequire(import.meta.url);
 export const CORE_CHECK_CONSUMER_IDS = Object.freeze([
   "development",
   "ontology",
@@ -427,90 +425,6 @@ export function changedFilePaths({ root = REPOSITORY_ROOT, base, head }) {
   return result.stdout.split("\0").filter(Boolean);
 }
 
-function readOntologyWorkflow(root, revision) {
-  const entry = git(root, ["ls-tree", "-z", revision, "--", ONTOLOGY_WORKFLOW]);
-  if (entry.status !== 0)
-    throw new Error("Cannot read workflow tree: " + entry.stderr.trim());
-  if (!entry.stdout || !/^100(?:644|755) blob /u.test(entry.stdout))
-    return null;
-  const source = git(root, ["show", `${revision}:${ONTOLOGY_WORKFLOW}`]);
-  if (source.status !== 0)
-    throw new Error("Cannot read workflow blob: " + source.stderr.trim());
-  // Load the existing pinned parser only for workflow comparisons. Ordinary
-  // path selection and CodeQL language selection require no npm installation.
-  const { parseDocument } = require("yaml");
-  const document = parseDocument(source.stdout, {
-    uniqueKeys: true,
-    stringKeys: true,
-  });
-  if (document.errors.length || document.warnings.length) {
-    throw new Error(
-      "Cannot safely parse ontology workflow: " +
-        [...document.errors, ...document.warnings]
-          .map((error) => error.message)
-          .join("; "),
-    );
-  }
-  return document.toJS({ maxAliasCount: 100 });
-}
-
-function selectOntologyWorkflowChanges(root, base, head) {
-  const selected = Object.fromEntries(
-    ONTOLOGY_WORKFLOW_SCOPES.map((name) => [name, false]),
-  );
-  if (!hasChanges(root, base, head, [ONTOLOGY_WORKFLOW])) return selected;
-  const before = readOntologyWorkflow(root, base);
-  const after = readOntologyWorkflow(root, head);
-  const selectAll = () =>
-    Object.fromEntries(ONTOLOGY_WORKFLOW_SCOPES.map((name) => [name, true]));
-  const jobIds = ["policy-qa", "qualify", "validate-ontologies"];
-  if (
-    !before ||
-    !after ||
-    !isDeepStrictEqual(Object.keys(before.jobs ?? {}).sort(), jobIds) ||
-    !isDeepStrictEqual(Object.keys(after.jobs ?? {}).sort(), jobIds)
-  )
-    return selectAll();
-  const { jobs: beforeJobs, ...beforeShared } = before;
-  const { jobs: afterJobs, ...afterShared } = after;
-  if (
-    !isDeepStrictEqual(beforeShared, afterShared) ||
-    !isDeepStrictEqual(
-      beforeJobs["validate-ontologies"],
-      afterJobs["validate-ontologies"],
-    )
-  ) {
-    return selectAll();
-  }
-  selected.ontology_qualification = !isDeepStrictEqual(
-    beforeJobs.qualify,
-    afterJobs.qualify,
-  );
-  if (!isDeepStrictEqual(beforeJobs["policy-qa"], afterJobs["policy-qa"])) {
-    selected.ontology_entity_contracts = true;
-    // Only the established entity-test run field has a narrower contract.
-    // Changes to setup, conditions, environment or other steps run all QA.
-    const withoutEntityCommand = (job) => {
-      const copy = structuredClone(job);
-      const matches = copy?.steps?.filter(
-        (step) =>
-          step.name === "Entity change and publication gate contracts" &&
-          typeof step.run === "string",
-      );
-      if (matches?.length !== 1) return null;
-      delete matches[0].run;
-      return copy;
-    };
-    const beforeOther = withoutEntityCommand(beforeJobs["policy-qa"]);
-    const afterOther = withoutEntityCommand(afterJobs["policy-qa"]);
-    selected.ontology_policy_qa =
-      !beforeOther ||
-      !afterOther ||
-      !isDeepStrictEqual(beforeOther, afterOther);
-  }
-  return selected;
-}
-
 export function selectPullRequestChecks({
   root = REPOSITORY_ROOT,
   base,
@@ -519,17 +433,16 @@ export function selectPullRequestChecks({
 }) {
   requireCommit(root, base);
   requireCommit(root, head);
-  const workflowChanges = scopes.some((name) =>
-    ONTOLOGY_WORKFLOW_SCOPES.includes(name),
-  )
-    ? selectOntologyWorkflowChanges(root, base, head)
-    : {};
+  const ontologyWorkflowChanged = hasChanges(root, base, head, [
+    ONTOLOGY_WORKFLOW,
+  ]);
   const selected = {};
   for (const name of scopes) {
     const paths = CHECK_INPUTS[name];
     if (!paths) throw new Error("Unknown check scope: " + name);
     selected[name] =
-      hasChanges(root, base, head, paths) || workflowChanges[name] === true;
+      hasChanges(root, base, head, paths) ||
+      (ontologyWorkflowChanged && ONTOLOGY_WORKFLOW_SCOPES.includes(name));
   }
   return selected;
 }
@@ -619,7 +532,6 @@ export function runFromGitHubEnvironment(
 
 /** Build the core plan for the checked-out event revision. Unknown inputs widen
  * coverage; unavailable comparisons and unsupported events are fatal.
- * Legacy callers retain their narrower ontology YAML comparison separately.
  */
 export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
   const revision = env.GITHUB_SHA;
@@ -630,9 +542,9 @@ export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
     head.stdout.trim() !== revision
   )
     throw new Error("The checkout does not match the event revision.");
-  const full = ["schedule", "workflow_dispatch"].includes(
-    env.GITHUB_EVENT_NAME,
-  );
+  const full =
+    ["schedule", "workflow_dispatch"].includes(env.GITHUB_EVENT_NAME) ||
+    (env.GITHUB_EVENT_NAME === "push" && env.GITHUB_REF === "refs/heads/main");
   if (
     !full &&
     env.GITHUB_EVENT_NAME !== "pull_request" &&

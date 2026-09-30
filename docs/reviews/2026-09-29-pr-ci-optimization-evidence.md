@@ -270,3 +270,38 @@ Fresh final verification and reviewer output are retained in HISEW's native evid
 Cross-vendor verification first attempted Claude Code 2.1.281 in an isolated copy; it returned an expired OAuth session and executed no verification.
 The installed Antigravity verifier is the bounded recovery route, with its actual output and any execution limitations retained separately.
 No successful cross-vendor result or hosted acceptance is implied by provider discovery.
+
+## Production cutover, September 30
+
+The user authorized production cutover without shims, chose strict up-to-date PRs, and authorized continued delivery through normal merge.
+The preceding shadow and deferred-rollout sections describe historical states.
+
+Successful PR runs `36643160548` and `36645784567` established the aggregate before enforcement.
+Disposable [PR 109](https://github.com/Hadden-Industries/universal-ontology/pull/109) then exercised two real pull-request failures and was closed without merging:
+
+- Run `36649254916`, head `82d553a82d1ceb136924615142fdaff782c20e4d`, failed its deliberately added product test and `PR validation` while the old `OWL Differential Analysis` check passed.
+  After adding the aggregate to ruleset `22485773`, GitHub reported the PR as `BLOCKED`.
+- Run `36649966639`, head `69e9ddf4b4776ef210c3c833b3366ea14d80b422`, tested merge revision `8e2002b0ce97f2101c80a149670f15d3f7fa3202`.
+  The development wrapper returned `success` with an empty `verified-revision` after deliberately skipping documentation and completion.
+  The aggregate rejected `development: absent or stale completion proof`.
+  Four native archives and the container passed; candidate assembly failed when SPDX generation could not open the deliberately omitted Linux ARM64 archive, and distribution completion and the aggregate failed.
+  GitHub again reported `BLOCKED`.
+
+The ruleset was updated in two stages: first both required contexts with strict updates, then only `PR validation`, bound to GitHub Actions integration `15368`.
+Effective main-branch rules were read back after each stage.
+No bypass actor, merge method, or unrelated rule changed.
+Raw run/job logs, failing PR readbacks, and both exact ruleset requests are retained in the task's external evidence directory `pr-ci-final-review-20260929`.
+The disposable commits remain outside main; worktree archival was refused because the app reports a pinned task or workspace, so the protected worktree was preserved.
+
+After final ruleset readback, the original development, ontology, and distribution filenames were converted to `workflow_call`-only consumers.
+Parsed consumer bodies match their proven shadow equivalents exactly except display names.
+The temporary consumer files, duplicate legacy triggers, and obsolete ontology YAML comparison path were removed.
+The PR entry point keeps the stable required job name; full qualification owns main pushes, manual dispatch, and the weekly schedule, selecting all scopes without a concurrency group.
+Temporary browser diagnostic logging was removed.
+The release-policy manifest and six-job distribution assertions were coordinated with the final call graph, retaining all five native targets and artifact integrity checks.
+
+CodeQL remains separate and is not required by this ruleset; its fork limitation is unchanged.
+Standalone application builds remain in place because bundle-transfer savings have not been established.
+Live trials prove enforcement and the two failure paths above, not every rollout scenario.
+Five-run timing cohorts, fork execution, cancellation/burst trials, billing, and cache-hit comparisons remain unmeasured; no numerical performance saving is claimed.
+Final candidate review, local verification, and post-merge hosted results belong in the native evidence store after this document is frozen.

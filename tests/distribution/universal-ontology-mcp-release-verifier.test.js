@@ -290,7 +290,7 @@ describe("distribution workflow concurrency policy", () => {
       verifyUniversalOntologyMcpDistributionWorkflow({
         releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
       }),
-    ).resolves.toEqual({ verifiedJobCount: 5 });
+    ).resolves.toEqual({ verifiedJobCount: 6 });
   });
 
   test.each([
@@ -310,7 +310,8 @@ describe("distribution workflow concurrency policy", () => {
     const workflow = parseYaml(
       await nodeFileSystem.readFile(DISTRIBUTION_WORKFLOW_URL, "utf8"),
     );
-    expect(workflow.concurrency[setting]).not.toEqual(value);
+    expect(workflow.concurrency).toBeUndefined();
+    workflow.concurrency = {};
     workflow.concurrency[setting] = value;
     const fixturePath = await nodeFileSystem.mkdtemp(
       join(tmpdir(), "uo-workflow-concurrency-"),
@@ -474,8 +475,9 @@ describe("Universal Ontology MCP release verifier", () => {
       "modified-approved-run-script",
       (workflowText) =>
         workflowText.replace(
-          "          npm run build:mcp-package\n",
+          "        run: npm run build:mcp-package\n",
           [
+            "        run: |",
             "          npm run build:mcp-package",
             "          node --version",
             "",
@@ -501,12 +503,8 @@ describe("Universal Ontology MCP release verifier", () => {
 
         // Mapping order is not part of YAML's data model. Exercise mappings
         // checked both as policy values and as explicit topology key sets.
-        parsedWorkflow.concurrency = {
-          "cancel-in-progress":
-            parsedWorkflow.concurrency["cancel-in-progress"],
-          group: parsedWorkflow.concurrency.group,
-        };
         parsedWorkflow.jobs = {
+          complete: parsedWorkflow.jobs.complete,
           assemble: parsedWorkflow.jobs.assemble,
           container: parsedWorkflow.jobs.container,
           archive: parsedWorkflow.jobs.archive,
@@ -539,7 +537,7 @@ describe("Universal Ontology MCP release verifier", () => {
         distributionWorkflowPath,
         releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
       }),
-    ).resolves.toEqual({ verifiedJobCount: 5 });
+    ).resolves.toEqual({ verifiedJobCount: 6 });
   });
 
   test.each([
