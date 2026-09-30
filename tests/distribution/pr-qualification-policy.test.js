@@ -13,9 +13,9 @@ import { verifyPullRequestPolicyGraph } from "../../scripts/distribution/verifyU
 const files = [
   ".github/workflows/pr-validation.yml",
   ".github/workflows/full-qualification.yml",
-  ".github/workflows/pr-development-consumer.yml",
-  ".github/workflows/pr-ontology-consumer.yml",
-  ".github/workflows/pr-distribution-consumer.yml",
+  ".github/workflows/development-checks.yml",
+  ".github/workflows/ontology-validation.yml",
+  ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
   "scripts/selectPullRequestChecks.js",
   "scripts/evaluatePullRequestChecks.js",
   "scripts/pullRequestCheckPlan.schema.json",
@@ -69,7 +69,7 @@ test.each(files.slice(0, 2))("%s preserves npm's test environment", (file) => {
   ).toBe(true);
 });
 
-test("full shadow plan assigns each discovered Jest suite exactly one Linux test owner", () => {
+test("full plan assigns each discovered Jest suite exactly one Linux test owner", () => {
   const entry = parse(
     readFileSync(
       new URL("../../.github/workflows/pr-validation.yml", import.meta.url),
@@ -79,7 +79,7 @@ test("full shadow plan assigns each discovered Jest suite exactly one Linux test
   const development = parse(
     readFileSync(
       new URL(
-        "../../.github/workflows/pr-development-consumer.yml",
+        "../../.github/workflows/development-checks.yml",
         import.meta.url,
       ),
       "utf8",
@@ -175,7 +175,7 @@ test.each(files)("rejects a semantic modification to %s", async (changed) => {
     rmSync(root, { recursive: true, force: true });
   }
 });
-test("shadow graph has one unconditional PR gate and closed consumer completion sets", () => {
+test("graph has one unconditional PR gate and closed consumer completion sets", () => {
   const entry = parse(
     readFileSync(
       new URL("../../.github/workflows/pr-validation.yml", import.meta.url),
@@ -192,10 +192,7 @@ test("shadow graph has one unconditional PR gate and closed consumer completion 
   for (const consumer of ["development", "ontology", "distribution"]) {
     const workflow = parse(
       readFileSync(
-        new URL(
-          `../../.github/workflows/pr-${consumer}-consumer.yml`,
-          import.meta.url,
-        ),
+        new URL(`../../${entry.jobs[consumer].uses.slice(2)}`, import.meta.url),
         "utf8",
       ),
     );
@@ -229,5 +226,16 @@ test("shadow graph has one unconditional PR gate and closed consumer completion 
   );
   expect(full.on.schedule).toEqual([{ cron: "17 4 * * 3" }]);
   expect(full.concurrency).toBeUndefined();
-  expect(full.on.push).toBeUndefined();
+  expect(full.on.push).toEqual({ branches: ["main"] });
+  expect(Object.keys(full.on).sort()).toEqual([
+    "push",
+    "schedule",
+    "workflow_dispatch",
+  ]);
+  expect(entry.on).toEqual({
+    pull_request: { types: ["opened", "synchronize", "reopened"] },
+  });
+  expect(entry.name).toBe("PR validation");
+  for (const consumer of ["development", "ontology", "distribution"])
+    expect(full.jobs[consumer].uses).toBe(entry.jobs[consumer].uses);
 });

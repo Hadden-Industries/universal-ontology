@@ -13,7 +13,7 @@ import {
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
+import { parse as parseYaml } from "yaml";
 import {
   changedFilePaths,
   createCheckPlan,
@@ -35,11 +35,7 @@ test("the stable ontology check selects files before installing its dependencies
       "utf8",
     ),
   );
-  expect(workflow.on).toEqual({
-    push: { branches: ["main"] },
-    pull_request: { branches: ["**"] },
-    workflow_dispatch: null,
-  });
+  expect(Object.keys(workflow.on)).toEqual(["workflow_call"]);
   expect(workflow.permissions).toEqual({});
   for (const [jobId, scope] of [["qualify", "ontology_qualification"]]) {
     expect(workflow.jobs[jobId].needs).toBe("validate-ontologies");
@@ -64,14 +60,18 @@ test("the stable ontology check selects files before installing its dependencies
     "Policy, rendering, authority, change and publication-gate contracts",
   ]) {
     expect(policyJob.steps.find((step) => step.name === name).if).toBe(
-      generalPolicy,
+      name === "Generated policy is current"
+        ? generalPolicy
+        : `(${generalPolicy}) && !fromJSON(inputs.plan).scopes.python_tests`,
     );
   }
   expect(
     policyJob.steps.find(
       (step) => step.name === "Entity change and publication gate contracts",
     ).if,
-  ).toBe(`${generalPolicy} || ${entityContracts}`);
+  ).toBe(
+    `(${generalPolicy} || ${entityContracts}) && !fromJSON(inputs.plan).scopes.python_tests`,
+  );
   for (const scope of ["ontology_policy_qa", "ontology_entity_contracts"]) {
     expect(workflow.jobs["validate-ontologies"].outputs[scope]).toBe(
       `\${{ steps.ontology_jobs.outputs.${scope} }}`,
@@ -83,13 +83,12 @@ test("the stable ontology check selects files before installing its dependencies
   expect(selectionStep.if).toBeUndefined();
   expect(selectionStep["continue-on-error"]).toBeUndefined();
   expect(selectionStep.run).toBe(
-    "node scripts/selectPullRequestChecks.js --scope ontology_validation --scope ontology_policy_qa --scope ontology_entity_contracts --scope ontology_qualification --scope ontology_validation_workflow",
+    "node scripts/evaluatePullRequestChecks.js --scopes",
   );
   const job = workflow.jobs["validate-ontologies"];
   expect(job.name).toBe("OWL Differential Analysis");
   expect(job.env).toEqual({
-    ONTOLOGY_DIFF_BASE:
-      "${{ github.event.pull_request.base.sha || github.event.before }}",
+    ONTOLOGY_DIFF_BASE: "${{ fromJSON(inputs.plan).comparisonBase }}",
     ONTOLOGY_DIFF_HEAD: "${{ github.sha }}",
   });
   const scopeIndex = job.steps.findIndex(({ id }) => id === "scope");
@@ -107,7 +106,7 @@ test("the stable ontology check selects files before installing its dependencies
   expect(
     job.steps.find(({ name }) => name === "Test ontology validation runner"),
   ).toMatchObject({
-    if: "steps.scope.outputs.validator_changed == 'true'",
+    if: "steps.scope.outputs.validator_changed == 'true' && !fromJSON(inputs.plan).scopes.python_tests && !fromJSON(inputs.plan).scopes.development",
     run: ".venv/bin/python -B -m unittest discover -s tests -p test_validate_ontologies.py -v",
   });
   // The SHACL editing policy is the only validator; the legacy per-file
@@ -271,6 +270,19 @@ describe("native Git PR check selection", () => {
     expect(corePlan().scopes.mcp_release_qualification).toBe(true);
   });
 
+  test.each(["schedule", "workflow_dispatch", "push"])(
+    "%s selects full qualification independently of changed paths",
+    (eventName) => {
+      const plan = corePlan({
+        GITHUB_EVENT_NAME: eventName,
+        GITHUB_REF: "refs/heads/main",
+      });
+      expect(plan.mode).toBe("full");
+      expect(plan.comparisonBase).toBeNull();
+      expect(plan.requiredJobs).toEqual(CORE_CHECK_CONSUMER_IDS);
+      expect(Object.values(plan.scopes).every(Boolean)).toBe(true);
+    },
+  );
   test("full events require checkout identity and select every scope", () => {
     expect(
       Object.values(corePlan({ GITHUB_EVENT_NAME: "schedule" }).scopes).every(
@@ -618,228 +630,19 @@ describe("native Git PR check selection", () => {
     });
   });
 
-  const workflowScopes = [
-    "ontology_policy_qa",
-    "ontology_entity_contracts",
-    "ontology_qualification",
-    "ontology_validation_workflow",
-  ];
   const ontologyWorkflowPath = ".github/workflows/ontology-validation.yml";
-
-  function changeWorkflow(mutate) {
-    const contents = readFileSync(
-      new URL(`../${ontologyWorkflowPath}`, import.meta.url),
-      "utf8",
-    );
-    write(ontologyWorkflowPath, contents);
-    base = commit([ontologyWorkflowPath]);
-    const workflow = parseYaml(contents);
-    mutate(workflow);
-    write(ontologyWorkflowPath, stringifyYaml(workflow));
-    commit([ontologyWorkflowPath]);
-  }
-
-  test("the warning-filter command change selects only entity contracts", () => {
-    // Replay the before/after command from 196b02a without depending on
-    // unreachable historical objects or a non-shallow developer checkout.
-    const workflow = parseYaml(
-      readFileSync(
-        new URL(`../${ontologyWorkflowPath}`, import.meta.url),
-        "utf8",
-      ),
-    );
-    const entityStep = workflow.jobs["policy-qa"].steps.find(
-      (step) => step.name === "Entity change and publication gate contracts",
-    );
-    const suite =
-      "-m unittest tests.test_ontology_entity_changes tests.test_publication_gate -v";
-    entityStep.run = `.venv/bin/python -B ${suite}`;
-    write(ontologyWorkflowPath, stringifyYaml(workflow));
-    base = commit([ontologyWorkflowPath]);
-    entityStep.run = `.venv/bin/python -B -W "ignore:'count' is passed as positional argument:DeprecationWarning:rdflib.plugins.sparql.operators" ${suite}`;
-    write(ontologyWorkflowPath, stringifyYaml(workflow));
-    commit([ontologyWorkflowPath]);
-    expectSelection([], { scopes: ontologyScopes });
-    unlinkSync(join(root, "github-output.txt"));
-    expectSelection(["ontology_entity_contracts"], { scopes: workflowScopes });
-  });
-
-  test.each(["unchanged", "changed", "manual", "invalid comparison"])(
-    "workflow parser provisioning handles %s inputs with native Git",
-    (scenario) => {
-      const workflow = parseYaml(
-        readFileSync(
-          new URL(`../${ontologyWorkflowPath}`, import.meta.url),
-          "utf8",
-        ),
-      );
-      const script = workflow.jobs["validate-ontologies"].steps.find(
-        (step) =>
-          step.name ===
-          "Install the locked workflow parser only for workflow comparisons",
-      ).run;
-      write(ontologyWorkflowPath, "name: initial\n");
-      base = commit([ontologyWorkflowPath]);
-      if (scenario === "changed") {
-        write(ontologyWorkflowPath, "name: changed\n");
-        commit([ontologyWorkflowPath]);
-      }
-      // Intercept only the installation side effect; execute the production
-      // Bash gate and actual Git comparison, including its failure path.
-      const result = spawnSync(
-        process.platform === "win32"
-          ? "C:/Program Files/Git/bin/bash.exe"
-          : "bash",
-        [
-          "-c",
-          `npm() { printf '%s\\n' "$*" > npm-invocation.txt; }\n${script}`,
-        ],
-        {
-          cwd: root,
-          env: {
-            ...environment,
-            GITHUB_EVENT_NAME:
-              scenario === "manual" ? "workflow_dispatch" : "pull_request",
-            ONTOLOGY_DIFF_BASE:
-              scenario === "invalid comparison" || scenario === "manual"
-                ? "f".repeat(40)
-                : base,
-            ONTOLOGY_DIFF_HEAD: git(["rev-parse", "HEAD"]),
-          },
-          encoding: "utf8",
-          windowsHide: true,
-        },
-      );
-      expect(result.error).toBeUndefined();
-      if (scenario === "invalid comparison") expect(result.status).not.toBe(0);
-      else expect(result.status).toBe(0);
-      expect(existsSync(join(root, "npm-invocation.txt"))).toBe(
-        scenario === "changed",
-      );
-      if (scenario === "changed")
-        expect(readFileSync(join(root, "npm-invocation.txt"), "utf8")).toBe(
-          "ci --ignore-scripts --no-audit --no-fund\n",
-        );
+  test.each([
+    "name: changed\n",
+    "jobs: [broken\n",
+    "name: first\nname: second\n",
+  ])(
+    "changed orchestration selects all consumers without loading a YAML parser: %s",
+    (contents) => {
+      write(ontologyWorkflowPath, contents);
+      commit([ontologyWorkflowPath]);
+      expect(corePlan().requiredJobs).toEqual(CORE_CHECK_CONSUMER_IDS);
     },
   );
-
-  test.each([
-    [
-      "entity command",
-      (w) => {
-        w.jobs["policy-qa"].steps.find(
-          (s) => s.name === "Entity change and publication gate contracts",
-        ).run += " --buffer";
-      },
-      ["ontology_entity_contracts"],
-    ],
-    [
-      "policy command",
-      (w) => {
-        w.jobs["policy-qa"].steps.find(
-          (s) =>
-            s.name ===
-            "Policy, rendering, authority, change and publication-gate contracts",
-        ).run += " --buffer";
-      },
-      ["ontology_policy_qa", "ontology_entity_contracts"],
-    ],
-    [
-      "qualification command",
-      (w) => {
-        w.jobs.qualify.steps.find(
-          (s) => s.name === "Cross-engine parity (Apache Jena)",
-        ).run += " --buffer";
-      },
-      ["ontology_qualification"],
-    ],
-    [
-      "validator command",
-      (w) => {
-        w.jobs["validate-ontologies"].steps.find(
-          (s) =>
-            s.name ===
-            "Editing-policy draft diagnostics for the changed sources",
-        ).run += "\necho checked";
-      },
-      workflowScopes,
-    ],
-    [
-      "shared environment",
-      (w) => {
-        w.env.JENA_VERSION = "different";
-      },
-      workflowScopes,
-    ],
-    [
-      "permissions",
-      (w) => {
-        w.permissions.contents = "write";
-      },
-      workflowScopes,
-    ],
-    [
-      "unknown job",
-      (w) => {
-        w.jobs.extra = { "runs-on": "ubuntu-latest", steps: [{ run: "true" }] };
-      },
-      workflowScopes,
-    ],
-  ])("workflow selection follows %s impact", (_label, mutate, expected) => {
-    changeWorkflow(mutate);
-    expectSelection(expected, { scopes: workflowScopes });
-  });
-
-  test("malformed changed workflow fails before writing selection outputs", () => {
-    changeWorkflow((w) => {
-      w.name += " changed";
-    });
-    write(ontologyWorkflowPath, "jobs: [broken\n");
-    commit([ontologyWorkflowPath]);
-    expectFailureWithoutOutputs({ scopes: workflowScopes });
-  });
-
-  test("a YAML-only reformat does not select ontology executions", () => {
-    changeWorkflow(() => {});
-    expectSelection([], { scopes: workflowScopes });
-  });
-
-  test("duplicate workflow keys fail closed", () => {
-    changeWorkflow((w) => {
-      w.name += " changed";
-    });
-    write(ontologyWorkflowPath, "name: first\nname: second\njobs: {}\n");
-    commit([ontologyWorkflowPath]);
-    expectFailureWithoutOutputs({ scopes: workflowScopes });
-  });
-
-  test("deleted workflow selects every affected ontology scope", () => {
-    changeWorkflow((w) => {
-      w.name += " changed";
-    });
-    unlinkSync(join(root, ontologyWorkflowPath));
-    commit([ontologyWorkflowPath]);
-    expectSelection(workflowScopes, { scopes: workflowScopes });
-  });
-
-  test("an entity command plus changed policy still selects broad validation", () => {
-    changeWorkflow((w) => {
-      w.jobs["policy-qa"].steps.find(
-        (s) => s.name === "Entity change and publication gate contracts",
-      ).run += " --buffer";
-    });
-    write("policy/entity-policy.ttl");
-    commit(["policy/entity-policy.ttl"]);
-    expectSelection(
-      [
-        "ontology_policy_qa",
-        "ontology_entity_contracts",
-        "ontology_qualification",
-      ],
-      { scopes: workflowScopes },
-    );
-  });
-
   const codeqlScopes = ["codeql_actions", "codeql_python", "codeql_javascript"];
   test.each([
     [ontologyWorkflowPath, ["codeql_actions"]],

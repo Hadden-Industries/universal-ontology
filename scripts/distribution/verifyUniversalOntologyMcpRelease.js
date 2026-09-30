@@ -52,6 +52,7 @@ const EXPECTED_WORKFLOW_JOB_PERMISSIONS = Object.freeze({
   archive: { contents: "read" },
   container: { contents: "read" },
   assemble: { contents: "read" },
+  complete: { contents: "read" },
 });
 const EXPECTED_WORKFLOW_JOB_DEPENDENCIES = Object.freeze({
   scope: [],
@@ -59,6 +60,7 @@ const EXPECTED_WORKFLOW_JOB_DEPENDENCIES = Object.freeze({
   archive: ["scope", "validate"],
   container: ["scope", "validate"],
   assemble: ["archive", "container", "scope", "validate"],
+  complete: ["archive", "assemble", "container", "scope", "validate"],
 });
 const ACTIVE_DISTRIBUTION_WORKFLOW_ACTION_NAMES = Object.freeze([
   "actions/checkout",
@@ -86,23 +88,23 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "29e8e808b6a2117bc145bd6f1fd0a855d15c6146a6beb4f901392353a1f6c9a4";
+  "321898b3be738ca562aea66b98dd0bf001f9f1156f0a3916026b9ce87d3ffb04";
 
 // Explicit reviewed execution graph; values are refreshed only with coordinated
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/pr-validation.yml":
-    "7fd478f65fc44e074bb05be7fa9ec2544147ad5d64fbcbcaa2114ea96c70ce8a",
+    "615bed18a75eaeaa97863de236cf3029f20b4e064136cc19dda6e5d04459eb6b",
   ".github/workflows/full-qualification.yml":
-    "92850d994441848d3f15543bf042a5b80c6a0da9fd9996a3091fd0641978e48b",
-  ".github/workflows/pr-development-consumer.yml":
-    "c3983238326aaedfd68bcc96408ca0f7611d25b9a625a016b4eba42331a5b66a",
-  ".github/workflows/pr-ontology-consumer.yml":
-    "9f0ef67c4681f30a5cc66c080d4a18bd142193a3c76ec7ec8ed1f2706852da61",
-  ".github/workflows/pr-distribution-consumer.yml":
-    "2a671dbefdb7eff3b0c1c6b6122c4f2d69725c06ee00c83ae3165f3536912e2e",
+    "d471aa088a13eed1eb9a0b3cff872fe0718f29889e869500b01f870369944352",
+  ".github/workflows/development-checks.yml":
+    "67e05388752a8c01f9d0e7c12fd67415817c01938d5bd47334bcc9d0278e4852",
+  ".github/workflows/ontology-validation.yml":
+    "5f304338b3a980f6ac93799314fb3a1f4915443230e3f646ad8bd41a0979dd3b",
+  ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
+    "321898b3be738ca562aea66b98dd0bf001f9f1156f0a3916026b9ce87d3ffb04",
   "scripts/selectPullRequestChecks.js":
-    "15290bf8aa677304b486fd7292fba800993d9fe39e9d01d5a7b3285774441b9a",
+    "635c1765f2fd8767c910c589a8e8c00f5e9ec63a8ca603157c7b2773b7bca0f4",
   "scripts/evaluatePullRequestChecks.js":
     "164fd947ce9dc428a48a1b0cf07898ec21df995c60dbd2b4580b3e34cafa5643",
   "scripts/pullRequestCheckPlan.schema.json":
@@ -113,7 +115,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
     "2f41ef656395f39d1a364ca8d66e872cf75cca5e80cad7948526b4f33ae0554b",
 });
 
-/** Bind every shadow entry point, local consumer, and control-plane input.
+/** Bind every entry point, local consumer, and control-plane input.
  * A local root override permits isolated policy-mutation fixtures, not relaxed
  * validation: all files and all call targets remain mandatory and allowlisted.
  */
@@ -372,27 +374,25 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
   requireExactJsonValue(
     workflow.on,
     {
-      push: { branches: ["main"] },
-      pull_request: null,
-      workflow_dispatch: null,
+      workflow_call: {
+        inputs: { plan: { required: true, type: "string" } },
+        outputs: {
+          "verified-revision": {
+            value: "${{ jobs.complete.outputs.verified-revision }}",
+          },
+        },
+      },
     },
-    "branch and pull-request triggers",
+    "reusable consumer interface",
   );
-  requireExactJsonValue(
-    workflow.concurrency,
-    {
-      group:
-        "universal-ontology-mcp-distribution-${{ github.event_name }}-${{ github.event.pull_request.number || format('{0}-{1}', github.run_id, github.run_attempt) }}",
-      "cancel-in-progress": "${{ github.event_name == 'pull_request' }}",
-    },
-    "concurrency policy",
-  );
+  if (workflow.concurrency !== undefined)
+    throw new Error("Distribution consumer must not own concurrency.");
 
   const expectedJobNames = Object.keys(EXPECTED_WORKFLOW_JOB_PERMISSIONS);
   requireExactJsonValue(
     Object.keys(workflow.jobs).sort(compareBinaryText),
     [...expectedJobNames].sort(compareBinaryText),
-    "five-job topology",
+    "six-job topology",
   );
   requireExactJsonValue(
     Object.fromEntries(
@@ -401,7 +401,14 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
         workflow.jobs[jobName]["timeout-minutes"],
       ]),
     ),
-    { scope: 5, validate: 30, archive: 30, container: 30, assemble: 20 },
+    {
+      scope: 5,
+      validate: 30,
+      archive: 30,
+      container: 30,
+      assemble: 20,
+      complete: 5,
+    },
     "job timeout ceilings",
   );
   const allowedActionCommits = new Map(
@@ -449,18 +456,18 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
         `Distribution workflow job ${jobName} omits Node.js setup.`,
       );
     }
-    if (jobName === "scope") {
+    if (jobName === "scope" || jobName === "complete") {
       requireExactJsonValue(
         job.steps[setupNodeIndex].with,
         {
           "node-version-file": ".node-version",
           "package-manager-cache": false,
         },
-        "scope Node.js version-file selection",
+        `${jobName} Node.js version-file selection`,
       );
       if (npmBootstrapIndex !== -1) {
         throw new Error(
-          "Distribution scope job must select checks without installing npm.",
+          "Distribution control jobs must run without installing npm.",
         );
       }
     } else if (

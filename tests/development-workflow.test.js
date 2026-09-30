@@ -5,8 +5,7 @@ const WORKFLOW_URL = new URL(
   "../.github/workflows/development-checks.yml",
   import.meta.url,
 );
-const SELECTOR_COMMAND =
-  "node scripts/selectPullRequestChecks.js --scope development --scope documentation --scope python_style --scope python_tests --scope agent_skills_lock --scope style_tooling";
+const SELECTOR_COMMAND = "node scripts/evaluatePullRequestChecks.js --scopes";
 const ONTOLOGY_RUNNER_COMMAND =
   "node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v";
 const PYTHON_SETUP_TOOL_COMMAND =
@@ -29,15 +28,23 @@ test.each([
       "agent-skills-lock": 5,
       "style-tooling": 30,
       checks: 30,
+      complete: 5,
     },
   ],
   [
     "ontology-validation.yml",
-    { "validate-ontologies": 20, "policy-qa": 30, qualify: 45 },
+    { "validate-ontologies": 20, "policy-qa": 30, qualify: 45, complete: 5 },
   ],
   [
     "verify-universal-ontology-mcp-distribution.yml",
-    { scope: 5, validate: 30, archive: 30, container: 30, assemble: 20 },
+    {
+      scope: 5,
+      validate: 30,
+      archive: 30,
+      container: 30,
+      assemble: 20,
+      complete: 5,
+    },
   ],
   ["codeql.yml", { scope: 5, analyze: 20 }],
 ])(
@@ -60,15 +67,7 @@ test.each([
   },
 );
 
-test.each([
-  ["development-checks.yml", "development-checks"],
-  ["ontology-validation.yml", "ontology-validation"],
-  [
-    "verify-universal-ontology-mcp-distribution.yml",
-    "universal-ontology-mcp-distribution",
-  ],
-  ["codeql.yml", "codeql"],
-])(
+test.each([["codeql.yml", "codeql"]])(
   "%s cancels only PR runs and isolates every non-PR run attempt",
   (fileName, prefix) => {
     const workflow = parseYaml(
@@ -108,10 +107,14 @@ test("the ontology gate excludes Python provisioning when no ontology input chan
   }
 });
 
-test("development checks run on pull requests and manual dispatch with read-only permissions", () => {
+test("development checks accept only a revision-bound reusable plan", () => {
   const workflow = readWorkflow();
   expect(workflow.name).toBe("Development checks");
-  expect(workflow.on).toEqual({ pull_request: null, workflow_dispatch: null });
+  expect(Object.keys(workflow.on)).toEqual(["workflow_call"]);
+  expect(workflow.on.workflow_call.inputs.plan).toEqual({
+    required: true,
+    type: "string",
+  });
   expect(workflow.permissions).toEqual({});
   expect(Object.keys(workflow.jobs)).toEqual([
     "scope",
@@ -121,6 +124,7 @@ test("development checks run on pull requests and manual dispatch with read-only
     "agent-skills-lock",
     "style-tooling",
     "checks",
+    "complete",
   ]);
   for (const job of Object.values(workflow.jobs)) {
     for (const { uses } of job.steps) {
@@ -169,6 +173,7 @@ test("a lock change validates the committed Agent Skills lock without the develo
   expect(job.strategy).toBeUndefined();
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
   expect(runs).toEqual([
+    "node scripts/evaluatePullRequestChecks.js --verify",
     "python -B -m unittest tests.test_set_up_agent_skills.CommittedSkillsLockTests -v",
   ]);
   expect(
@@ -219,7 +224,7 @@ test("documentation content owns one Linux job with only the locked formatters",
   );
   const check = job.steps.at(-1);
   expect(check.env.DOCUMENTATION_CHECK_ALL).toBe(
-    "${{ needs.scope.outputs.style_tooling }}",
+    "${{ fromJSON(inputs.plan).mode == 'full' || needs.scope.outputs.style_tooling == 'true' }}",
   );
   expect(check.run).toContain(
     '--base "$DOCUMENTATION_DIFF_BASE" --head "$DOCUMENTATION_DIFF_HEAD"',

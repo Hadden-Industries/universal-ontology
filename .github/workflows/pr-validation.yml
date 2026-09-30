@@ -1,4 +1,4 @@
-name: PR validation shadow
+name: PR validation
 on:
   pull_request:
     types:
@@ -68,7 +68,7 @@ jobs:
           console.log(ignored.join("|"));
           NODE
           )"
-          DEBUG=pw:api npm test -- --runInBand --testPathIgnorePatterns="$ignored"
+          npm test -- --runInBand --testPathIgnorePatterns="$ignored"
           npm run lint:node
           npm run format:node:check
       - id: complete
@@ -106,7 +106,7 @@ jobs:
   development:
     needs: select
     if: ${{ !cancelled() && needs.select.result == 'success' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'development') }}
-    uses: ./.github/workflows/pr-development-consumer.yml
+    uses: ./.github/workflows/development-checks.yml
     with:
       plan: ${{ needs.select.outputs.plan }}
     permissions:
@@ -115,7 +115,7 @@ jobs:
   ontology:
     needs: select
     if: ${{ !cancelled() && needs.select.result == 'success' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'ontology') }}
-    uses: ./.github/workflows/pr-ontology-consumer.yml
+    uses: ./.github/workflows/ontology-validation.yml
     with:
       plan: ${{ needs.select.outputs.plan }}
     permissions:
@@ -126,7 +126,7 @@ jobs:
       - select
       - node
     if: ${{ !cancelled() && needs.select.result == 'success' && (needs.node.result == 'success' || needs.node.result == 'skipped') && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'distribution') }}
-    uses: ./.github/workflows/pr-distribution-consumer.yml
+    uses: ./.github/workflows/verify-universal-ontology-mcp-distribution.yml
     with:
       plan: ${{ needs.select.outputs.plan }}
     permissions:
