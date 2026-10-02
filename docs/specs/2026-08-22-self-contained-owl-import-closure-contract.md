@@ -126,6 +126,12 @@ Dropping imported ontology annotations is intentional attribution hygiene.
 Those annotations describe their source ontology as a separate ontology; attaching them to the materialized root would change their subject and misattribute them.
 The policy does not authorize dropping any imported axiom.
 
+The owner-approved 2 October 2026 input-conversion exception accepts the pinned Java OWLAPI 5.5.1 behavior for JSON-LD text direction in the current implementation.
+Default conversion may yield a language-tagged `rdf:langString` literal without retaining source `@direction`; this is not claimed as preservation of that source feature.
+Structural preservation applies to the resulting OWL literal, while all other accepted invariants remain in force.
+Stronger direction preservation and its explicit representation/configuration policy are deferred to [UO issue 117](https://github.com/Hadden-Industries/universal-ontology/issues/117) and [owlapi issue 28](https://github.com/Hadden-Industries/owlapi/issues/28).
+This narrowly scoped exception does not waive registry acceptance, authorize production cutover, or permit other silent metadata loss.
+
 ## 5. Anonymous individuals and structural set semantics
 
 Anonymous individuals **MUST** retain their identity relationships within each source ontology.
@@ -266,7 +272,11 @@ A byte-order mark, HTTP `charset`, and XML declaration are honored in that order
 Invalid byte sequences are fatal.
 Response bodies are streamed into the manager's configured byte ceiling rather than buffered without a bound.
 
-The OASIS catalog resolver handles the URI-resolution constructs `uri`, `rewriteURI`, `delegateURI`, and `nextCatalog`, including nested `catalog`/`group` elements and inherited `xml:base`. Exact `uri` entries win; the longest matching rewrite/delegate prefix wins; `nextCatalog` is consulted only after local entries fail.
+The OASIS catalog resolver handles the URI-resolution constructs `uri`, `rewriteURI`, `delegateURI`, and `nextCatalog`, including nested `catalog`/`group` elements and inherited `xml:base`.
+Exact `uri` entries win, followed by the longest matching rewrite prefix.
+If delegation applies, search all matching delegated catalogs in descending normalized prefix length, retaining document order for equal lengths.
+Delegation replaces the current catalog list; exhaustion must not resume that original list or its `nextCatalog` entries, including when delegation is nested.
+When no exact entry, rewrite, or delegation applies, insert `nextCatalog` entries in document order immediately after the current catalog in the current list.
 Catalog cycles and malformed mappings are fatal.
 Public/system entity entries are not ontology-import URI mappings.
 

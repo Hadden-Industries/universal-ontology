@@ -1,6 +1,5 @@
 # Self-Contained OWL Import Closure Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task.
 > Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Replace the two Python import-merging scripts with a JavaScript generation workflow that resolves a root ontology's complete imports closure and atomically publishes one structurally faithful, independently loadable ontology document.
@@ -163,6 +162,31 @@ The planned UO JavaScript materializer and qualification runner were absent at t
   No UO candidate tests had run in this assessment.
 
 ### Planned file responsibilities
+
+#### Prepublication execution checkpoint, 2 October 2026
+
+The verified retained candidate was installed only in the approved external consumer.
+The approved corrections to `src/external/skos.rdf`, `src/external/time-gregorian.ttl`, and `src/external/time.rdf` are applied.
+All four maintained source closures pass both output formats; the eight output byte identities match the retained pinned Java comparison evidence.
+These results do not establish registry acceptance.
+
+The current focused consumer suite has 173 passing tests and one failing directional-literal regression.
+The added structural fixtures reach every advertised axiom and structural kind and verify mutation detection; nested annotations, alias identity conflicts, malformed sources, and destination preservation have focused coverage.
+JSON-LD automatic format selection silently drops `@direction: "rtl"` from an Arabic annotation before offline verification.
+The explicit public JSON-LD format option `rdfDirection=i18n-datatype` preserves it, but a format-specific default for heterogeneous automatic loading has not been found on the approved public surface.
+Do not introduce private parser access, a second syntax detector, or source rewriting to conceal this gap.
+The pinned Java OWLAPI 5.5.1 behaves identically in both strict and compatible modes: direction is absent from the resulting language-tagged literal and unparsed-triple count is zero.
+JSON-LD's default `rdfDirection=null` explains this result; an upstream defect is not established.
+The owner subsequently accepted Java parity for this case to unblock the current implementation.
+The directional test now characterizes the demonstrated Java-compatible result; the earlier failed run remains retained evidence of the stronger requirement.
+Durable preservation is deferred to [UO issue 117](https://github.com/Hadden-Industries/universal-ontology/issues/117) and [owlapi issue 28](https://github.com/Hadden-Industries/owlapi/issues/28), without changing the current package.
+This removes only the direction-policy blocker; registry acceptance and other verification gates remain in force.
+
+Current evidence is retained under `C:\Users\maksy\AppData\Local\Temp\uo-import-closure-01a0fc40`: `consumer-acceptance-current.json`, `directional-literal-blocker.md`, `directional-literal-probe.json`, `qualification-maintained-sources.json`, and `maintained-source-output-equivalence.json`.
+The earlier full HISEW qualification failed because the maintained registry dependency is not installed; it has not been relabeled or repeatedly retried.
+No production cutover, dependency change, push, or publication has occurred.
+The owner subsequently authorized a local prepublication checkpoint commit containing this updated plan and the current implementation before registry acceptance.
+That checkpoint records incomplete work; it does not satisfy Task 1's registry gate or the final HISEW verification requirement.
 
 #### External `Hadden-Industries/owlapi` prerequisite
 
@@ -478,23 +502,31 @@ Task 3 supplies `OntologyDocumentLoader.loadCatalogDocument`; Task 6 wires it in
 - [ ] **Step 4: Implement URI-resolution precedence exactly**
 
 Normalize the requested URI and catalog URI keys according to the OASIS URI-resolution rules before matching.
-Represent compiled entries as immutable records and resolve in this order:
+Represent compiled entries as immutable records and resolve catalog lists in this order:
 
 ```javascript
-resolve(uri) {
-  const exact = this.exactUriEntries.get(uri);
-  if (exact) return exact;
-  const rewrite = longestPrefix(this.rewriteEntries, uri);
-  if (rewrite) return rewrite.rewrite(uri);
-  const delegation = longestPrefix(this.delegateEntries, uri);
-  if (delegation) return delegation.catalog.resolve(uri);
-  for (const next of this.nextCatalogs) {
-    const resolved = next.resolve(uri);
-    if (resolved) return resolved;
+resolveCatalogList(catalogs, uri) {
+  const pending = [...catalogs];
+  while (pending.length) {
+    const catalog = pending.shift();
+    const exact = catalog.exactUriEntries.get(uri);
+    if (exact) return exact;
+    const rewrite = longestPrefix(catalog.rewriteEntries, uri);
+    if (rewrite) return rewrite.rewrite(uri);
+    const delegates = matchingDelegatesLongestFirst(catalog.delegateEntries, uri);
+    if (delegates.length) {
+      return resolveCatalogList(delegates.map((entry) => entry.catalog), uri);
+    }
+    pending.unshift(...catalog.nextCatalogs);
   }
   return undefined;
 }
 ```
+
+Search all matching delegates in descending normalized prefix length, retaining document order for equal lengths.
+Delegation replaces the current catalog list; exhaustion does not resume the original list or its `nextCatalog` entries.
+Apply the same rule to nested delegation, as required by OASIS XML Catalogs 1.0 Section 7.2.2.
+Test a longest-prefix delegate that misses followed by a shorter-prefix delegate that resolves, equal-length ordering, delegated-list exhaustion, and nested delegation that abandons the previous list.
 
 Two conflicting exact `uri` entries at the same effective catalog priority are fatal instead of using document order silently.
 Detect catalog recursion by canonical catalog URL and report the entire cycle.
