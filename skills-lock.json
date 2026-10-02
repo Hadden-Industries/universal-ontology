@@ -15,13 +15,6 @@
       "skillPath": "skills/apple-design/SKILL.md",
       "computedHash": "0190417d092a0df447b000154e39733ea6d97efad6d3bec8a6ce3845aeb88914"
     },
-    "brainstorming": {
-      "source": "obra/superpowers",
-      "ref": "main",
-      "sourceType": "github",
-      "skillPath": "skills/brainstorming/SKILL.md",
-      "computedHash": "b58d55b64742ecd37923985ec7bdfbe678ffbcb9895562abd28c0a32dcacd7fb"
-    },
     "brooks-audit": {
       "source": "hyhmrright/brooks-lint",
       "sourceType": "github",
@@ -141,13 +134,6 @@
       "sourceType": "github",
       "skillPath": "skills/productivity/writing-for-agents/SKILL.md",
       "computedHash": "95da47fc97af998e85b7d7e6d57b3ac76727c1e290cfe9ea09005aacb826959f"
-    },
-    "writing-plans": {
-      "source": "obra/superpowers",
-      "ref": "main",
-      "sourceType": "github",
-      "skillPath": "skills/writing-plans/SKILL.md",
-      "computedHash": "27c75044e444a4fc68798c3f799dc23eaff3a6bfabff32e6ad75bb20f881c094"
     }
   }
 }
