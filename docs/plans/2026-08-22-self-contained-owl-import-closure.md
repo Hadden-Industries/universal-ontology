@@ -12,6 +12,7 @@ A private `universal-ontology` runner consumes exact public package subpaths, co
 
 **Release acceptance:** The selected public RC may be used for UO production generation and hard cutover after exact-artifact and complete consumer acceptance.
 A stable `0.1.0` is not a prerequisite, and this plan does not assert that the selected RC is already published or accepted.
+The 2 October 2026 amendment adds isolated prepublication UO fitness testing before candidate selection for publication; independent registry acceptance remains a later gate.
 
 **Spec:** `docs/specs/2026-08-22-self-contained-owl-import-closure-contract.md` is the normative consumer-owned contract.
 The canonical `Hadden-Industries/owlapi` Public API Surface Registry, capability matrix, and ontology-lifecycle capability plan govern the package boundary and upstream feature implementation; this plan does not duplicate them.
@@ -32,6 +33,7 @@ The canonical `Hadden-Industries/owlapi` Public API Surface Registry, capability
   If no corresponding upstream namespace exists, keep the helper private to `universal-ontology` or stop for an approved architecture amendment.
 - `universal-ontology` **MUST** declare `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"` in `devDependencies`, lock the registry resolution and integrity, and consume only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`.
   This exact native npm alias is approved; relative, `file:`, `link:`, workspace, Git, copied-source, other package-alias, resolver-alias, `owlapi/internal/*`, unexported deep, and nominal `owlapi/rdf` imports are forbidden.
+  The only installation exception is the verified retained RC tarball in the disposable prepublication consumer described below; it cannot become a maintained or committed dependency.
   Floating tags and version ranges are forbidden dependency selections; `next` is only the upstream discovery/publication channel.
 - Functional Syntax and RDF/XML storage **MUST** be selected through `OWLOntologyManager.saveOntology`; this consumer neither requires nor directly imports `FunctionalSyntaxStorer` or `RDFXMLStorer` constructors.
 - There **MUST NOT** be an API compatibility shim, wrapper, forwarding module, deprecated API alias, Python launcher for JavaScript, or parallel maintained old/new implementation in either repository.
@@ -82,7 +84,7 @@ During repository extraction, its planning source is `Hadden-Industries/webvowl:
 
 ### Prerequisites
 
-Consumer implementation and qualification start after all of these upstream gates are complete:
+Registry acceptance requires all of these upstream gates to be complete; isolated prepublication implementation and testing may proceed under the separate stage below:
 
 1. the selected public `@hadden-industries/owlapi@0.1.0-rc.1` integrates the approved Phase 21/22 lifecycle work and satisfies the canonical package's RC qualification; no earlier public release or public alpha is required;
 2. the separate ontology-lifecycle capability plan has implemented the complete imports-closure, mutation, merger, strict reconstruction, and Functional Syntax/RDF/XML storage slice in the canonical `Hadden-Industries/owlapi` repository;
@@ -91,25 +93,74 @@ Consumer implementation and qualification start after all of these upstream gate
 
 The upstream work is a prerequisite, not an executable task group in this consumer plan.
 The complete lifecycle scope from the 28 September 2026 amendment is retained; the scoped-publication amendment selects a public RC for consumer qualification and permits that same RC in production after acceptance.
-RC publication and upstream registry verification are prerequisites for the UO tasks; passing the UO end-to-end suite is a later production acceptance gate and cannot be required before publishing that same RC.
+UO-specific prepublication fitness testing is required before selecting or authorizing the candidate for publication.
+Registry fetch, integrity/signature/provenance verification and registry-backed acceptance follow publication; these later checks cannot be prerequisites for publishing that same artifact.
 Run Tasks 1–7 in an isolated qualification checkout or output location so candidate outputs cannot replace maintained production distributions.
 Production generation and the Task 8 hard cutover require the complete acceptance matrix and an acceptance record bound to the exact consumed artifact, not a stable version number.
 The package may remain under `next` after UO accepts it for production because UO pins its exact version.
 `universal-ontology` does not edit WebVOWL staging paths, the canonical package source, its registry, or its capability matrix while executing this plan.
-The exact `@hadden-industries/owlapi@0.1.0-rc.1` package is an immutable upstream prerequisite selected and published by the ontology-lifecycle programme.
+The exact retained `@hadden-industries/owlapi@0.1.0-rc.1` candidate is an immutable upstream input; the ontology-lifecycle programme owns its qualification and publication.
 This consumer plan neither creates a new `owlapi` release nor advances its version.
-If the required capabilities are not available at that exact coordinate, implementation stops for an explicit cross-plan/version decision rather than silently selecting a different package or publishing one from this repository.
+If candidate tests reveal missing capabilities, retain minimized Java-compatible failures for upstream resolution rather than silently selecting a different package, adding a shim or publishing one from this repository.
 Fixes to a published RC require another upstream version; selecting a later RC or `0.1.0` requires explicit contract, dependency, lockfile and acceptance-evidence updates and requalification.
 Migration to unscoped `owlapi`, dual publishing and redirect packages are outside this implementation.
 
 The upstream handoff must identify the exact coordinate, public registry URL, tarball integrity and retained digest, source commit/tag, provenance verification, public API registry digest and complete capability evidence.
-The existing upstream UO-source qualification runner uses source or a retained tarball; its registry-installed mode must retain separate evidence proving a fresh npm fetch of the scoped RC through the native alias.
+The existing upstream UO qualification runner supports source, retained-candidate and registry modes; registry-installed results must retain separate evidence proving a fresh npm fetch of the scoped RC through the native alias.
 That upstream experiment uses pinned UO inputs but does not implement or replace this repository's planned consumer workflow.
 Task 1 verifies the public artifact independently; Tasks 2–8 own the real UO application and its acceptance.
 
 The executor must inspect the `universal-ontology` working tree before every task.
 A dirty tree is not a blocker, but overlapping user changes must be preserved and raised before editing.
-The released `owlapi` artifact and its canonical registry evidence are immutable inputs, not a second working tree modified by this plan.
+The retained candidate and later registry artifact are immutable inputs, not a second working tree modified by this plan.
+
+### Prepublication qualification stage
+
+This stage precedes Task 1's public-registry gate and permits the isolated consumer work needed to exercise Tasks 2–7 before npm publication.
+It does not mark Task 1's registry checks complete or authorize Task 8's production cutover.
+The machine-readable policy's `qualificationPrerequisite` and non-registry-dependency prohibition retain their registry-acceptance and maintained-dependency scope; do not rewrite the policy or its test fixture to count a tarball experiment as registry acceptance.
+
+1. Obtain the retained candidate in an external qualification directory.
+   Verify its closed inventory, manifest, scoped name/version, source identity, API-registry digest and actual tarball hash before installation.
+   Check the download archive digest separately; it is not the npm tarball hash.
+   Install only those retained bytes as `owlapi` in a disposable consumer, with no ancestor `node_modules` or source-checkout fallback.
+2. Implement the minimum UO-owned qualification runner and reusable consumer composition needed for Tasks 2–7, preserving the same public namespace boundary and semantic contract as the eventual production path.
+   Keep manifests, installations and generated outputs for this experiment outside the maintained checkout; never commit a tarball, Git, file or workspace dependency.
+   Repository configuration changes still require exact approval.
+3. Exercise all four target ontology families at a recorded UO revision with hashed inputs.
+   Cover catalog and authorized remote resolution, retries and fatal failures, complete closure and structural axiom union, root identity and root-only ontology annotations, anonymous-individual relationships, no remaining imports, Functional Syntax and RDF/XML lossless-or-fail storage, strict fresh-manager offline reload with zero external resolution, and structural comparison with pinned Java OWLAPI 5.5.1.
+   Exercise UO's temporary-output, verification and atomic replacement path, including failure preservation of an existing destination, only in isolated output directories.
+4. Retain commands, results, UO/input identities, source/API-registry identity, artifact hashes and explicit gaps in qualification evidence outside ontology outputs.
+   A missing runner, skipped case or formally incomplete upstream capability is not PASS.
+   Missing Java-compatible behavior is reported as a minimized regression or capability gap; no library-level materialization convenience API is requested.
+5. Supply UO-specific fitness evidence before publication selection or authorization.
+   An unavailable consumer runner must be implemented or reported as an unresolved prerequisite; the older statement that unavailable downstream acceptance need not block publication does not waive this requirement.
+   This stage grants no publication authority and cannot promote upstream capability rows.
+6. After publication, execute Task 1's independent fresh-cache registry installation through the approved alias, verify integrity/signature/provenance and byte equality with the qualified tarball, and repeat the necessary consumer acceptance checks.
+   Record which checks ran and justify any reused evidence.
+   A changed or rebuilt candidate needs evidence bound to its exact bytes; older tarball results cannot qualify different bytes.
+
+#### Existing harness and remaining UO work
+
+The upstream `util/owlapi-reference/qualify-universal-ontology.mjs` is a useful prerequisite harness: it supports retained candidates, pinned UO inputs, public merger/change composition, both output formats, strict offline reload and Java comparisons.
+Its inspected source uses compatible input parsing with diagnostic reconciliation, exact local import mappings and disabled remote loading.
+It does not establish UO's complete OASIS catalog/network policy or atomic output behavior, and its result is labeled `PRE_INTEGRATION`.
+Reuse candidate verification and oracle helpers where appropriate, but require UO-owned composition and acceptance evidence rather than relabeling this experiment as full UO acceptance.
+The planned UO JavaScript materializer and qualification runner were absent at the 2 October assessment; implementing that runner is prerequisite work, not a passed check.
+
+#### Candidate handoff observed on 2 October 2026
+
+- Upstream main: `19cf43d4288d20a737ecac0a39ccd1c53f9a3e77`, normal merge of PR #27.
+  Candidate source head: `63490d2cad24db41a92d949288337925e7d1a442`; the supplied source tree is `55111092290a538a3a9eee710a75ac45ffbab951` and must be checked during candidate identity verification.
+- [Candidate run 36985769536, attempt 1](https://github.com/Hadden-Industries/owlapi/actions/runs/36985769536), artifact ID `11218050915`, name `hadden-industries-owlapi-0.1.0-rc.1-candidate-36985769536-1`.
+  GitHub metadata confirmed it unexpired at inspection; recheck availability before use.
+- Actions archive digest: `sha256:e0bc8d419182a5ec5a452c348b4b82c4cccf1c1671ed755a55a57e7298e04093`.
+  The inner manifest, closed inventory and actual npm tarball digest had not yet been independently verified by UO.
+- The upstream handoff reports fresh PR platform/package/browser and installed-tarball WebVOWL qualification, with main CI reusing that proof.
+  These are upstream evidence, not UO-specific fitness results.
+- Publication control remained disabled, the public registry returned 404 for the selected scoped package, and the eight lifecycle capability rows remained formally deferred.
+  Source implementation and CI success do not establish their completion.
+  No UO candidate tests had run in this assessment.
 
 ### Planned file responsibilities
 
@@ -153,7 +204,7 @@ Direct concrete-storer constructors are not a consumer prerequisite.
 The implementation formerly described here as Tasks 1–6 is owned exclusively by the canonical `Hadden-Industries/owlapi` ontology-lifecycle capability plan.
 It is not executed from this repository, and this consumer plan deliberately does not duplicate upstream source paths, internal architecture, commits, or task instructions.
 
-Before Task 1 begins, the released package must provide these complete capability IDs:
+Before Task 1's registry acceptance begins, the released package must provide these complete capability IDs; prepublication tests may exercise and expose gaps in their candidate implementations:
 
 ```text
 manager.imports-closure-query
@@ -178,11 +229,15 @@ The upstream gate is satisfied only when:
 
 Direct `FunctionalSyntaxStorer` or `RDFXMLStorer` constructors are not part of this gate.
 If the package publishes either under its exact Java package path for another consumer, this workflow still uses manager-mediated storage.
-If any gate above is absent, implementation stops; it must not reach into a sibling checkout, reintroduce the former WebVOWL staging tree, or create a consumer shim.
+If any gate above is absent, registry acceptance and production cutover stop; only the isolated prepublication stage may proceed.
+Neither stage may reach into a sibling checkout for runtime imports, reintroduce the former WebVOWL staging tree, or create a consumer shim.
 
 ---
 
 ### Task 1: Lock the consumer contract and add the exact `owlapi` dependency boundary
+
+The public-registry steps in this task run after the prepublication stage and npm publication.
+Before publication, develop and exercise the contract and public-namespace assertions in the disposable consumer; defer maintained manifest/lockfile changes and registry assertions until their gate is satisfied.
 
 **Files:**
 
@@ -200,7 +255,7 @@ If any gate above is absent, implementation stops; it must not reach into a sibl
 
 - [ ] **Step 1: Verify the package release before changing consumer configuration**
 
-From a clean temporary consumer with a fresh cache and the canonical public npm registry selected, verify that `@hadden-industries/owlapi@0.1.0-rc.1` resolves and its registry integrity, provenance, source tag and retained digest agree with the upstream handoff.
+From a clean temporary consumer with a fresh cache and the canonical public npm registry selected, verify that `@hadden-industries/owlapi@0.1.0-rc.1` resolves and its registry integrity, signature, provenance, source tag and retained digest agree with the upstream handoff and prepublication-qualified tarball bytes.
 Install it through `owlapi@npm:@hadden-industries/owlapi@0.1.0-rc.1`, verify the actual installed name/version and registry resolution, and exercise the five required subpaths without access to ancestor `node_modules` or a source checkout.
 Confirm the upstream registry marks every consumed symbol public and complete, mapping each aliased import to its scoped canonical entry.
 Retain the exact package identity, source/API-registry evidence and fetch results separately from any earlier local-tarball qualification.
@@ -1227,7 +1282,8 @@ Do not push without separate explicit push authorization.
 Every package-acceptance check and matrix row in Section 11 of `docs/specs/2026-08-22-self-contained-owl-import-closure-contract.md` blocks UO production acceptance, including production use of an RC.
 Tasks 1–7 introduce the package-boundary and focused consumer proofs; Task 8 runs the complete matrix against every real distribution and checks every completion criterion in Section 13 of the spec.
 Qualification and production differ by accepted evidence for the exact artifact, not by prerelease versus stable version syntax.
-These UO checks follow RC publication and must not become a circular prerequisite for that publication.
+UO behavioral fitness checks run first in the prepublication stage; only registry-specific checks and registry-backed production acceptance wait for RC publication.
+Missing prepublication coverage remains a publication-selection prerequisite, while Task 8 remains the later production-cutover gate.
 Public publication alone does not authorize production cutover, and adopting a later RC or `0.1.0` requires an explicit dependency/contract update and requalification.
 
 A passing happy path never compensates for a missing acceptance row.
@@ -1236,6 +1292,6 @@ Do not work around the package through a private or local source path.
 
 ## Execution handoff
 
-Implement one task at a time in the listed order.
+Execute the prepublication stage first, developing dependency-ready consumer behavior from Tasks 2–7 in isolation; after publication, complete Task 1's registry gate and the remaining task acceptance in order.
 Use test-driven development for every behavior change, inspect the `universal-ontology` working tree before each task, and stop at every explicit approval gate.
 The plan does not authorize configuration edits, commits, pushes, or publication on its own.
