@@ -11,7 +11,8 @@
 **Selected library release:** exact public-registry package `@hadden-industries/owlapi@0.1.0-rc.1` from `https://github.com/Hadden-Industries/owlapi`, installed through the native npm dependency alias `owlapi`.
 
 **Scoped-publication and RC-production amendment:** The selected first public RC includes the approved Phase 21/22 lifecycle work, preserving the capability scope of the 28 September 2026 sequencing amendment.
-Publication under `next` and verification of that exact registry artifact enable UO consumer implementation and qualification.
+The 2 October 2026 sequencing amendment permits isolated UO implementation and prepublication qualification against an identity-verified retained RC tarball before npm publication.
+Publication under `next` and independent verification of the exact registry artifact remain prerequisites for registry acceptance and production cutover.
 The same RC is acceptable for UO production generation and cutover after exact-artifact and complete consumer acceptance; a non-prerelease `0.1.0` is not a prerequisite.
 No earlier public release or public alpha is required.
 This selection does not assert that the RC has already been published or accepted.
@@ -142,20 +143,34 @@ Two axioms that differ in annotations are not equal merely because their unannot
 The materialization workflow is private application behavior owned by `universal-ontology`.
 `owlapi` is the independently published, Java-OWLAPI-compatible library and **MUST NOT** expose a project-invented `materializeImportClosure`, `collapseImports`, or equivalent convenience method.
 
-The consumer implementation starts after the canonical `Hadden-Industries/owlapi` repository has qualified the complete required capability slice, published `@hadden-industries/owlapi@0.1.0-rc.1` publicly, and verified that exact registry artifact.
+Consumer implementation and candidate fitness testing may start in the isolated prepublication stage below, before public-registry verification and formal upstream capability completion.
+Incomplete capability or parity evidence remains an explicit qualification gap; source code or passing general CI **MUST NOT** be treated as complete capability acceptance.
 The dependency **MUST** be declared exactly as `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"` in `devDependencies` and pinned with its registry resolution and integrity in the lockfile.
 `@hadden-industries/owlapi` is the registry identity; `owlapi` is the approved native npm dependency name used by this consumer's imports.
 The installed `node_modules/owlapi/package.json` **MUST** identify `@hadden-industries/owlapi` at the selected exact version.
 The alias applies to this dependency declaration; it does not rewrite another package's dependencies or peer requirements.
-Only this exact native registry alias is permitted: relative source-tree paths, `file:`, `link:`, workspace aliases, Git URLs, copied source, other package aliases, resolver aliases, and unpublished tarballs are non-conforming.
+For the maintained dependency and registry acceptance, only this exact native registry alias is permitted: relative source-tree paths, `file:`, `link:`, workspace aliases, Git URLs, copied source, other package aliases, resolver aliases, and unpublished tarballs are non-conforming.
+The sole prepublication exception permits installing the verified retained scoped RC tarball as `owlapi` in a disposable consumer environment outside the maintained checkout, without ancestor dependency or source-checkout fallback.
+That temporary installation **MUST NOT** become a committed dependency, modify the maintained manifest or lockfile, or replace production ontology outputs.
 Ranges, floating dist-tags, and source-checkout fallback **MUST NOT** substitute for the exact registry artifact.
 
-Qualification and production are acceptance states for the same selected artifact:
+Qualification has two stages followed by production acceptance for the same selected artifact:
 
-- **Qualification entry:** upstream capability and exact public-registry verification are complete; UO may implement and test its consumer in an isolated qualification checkout or output location.
+- **PREPUBLICATION:** verify the retained candidate manifest, closed file inventory, scoped name/version, source identity, API-registry digest and actual tarball hash before installation; the download archive digest is not the npm tarball digest.
+  Exercise UO's intended composition on pinned inputs through only the five approved public namespaces.
+  Record commands, results and gaps without asserting registry or production acceptance.
+- **REGISTRY_ACCEPTANCE:** upstream capabilities are complete; independently fetch the exact public version through the approved native alias from a fresh cache, verify registry integrity, signature and provenance, and prove equality with the prepublication-qualified tarball.
+  Repeat the necessary consumer acceptance checks against that installed registry artifact, recording the executed checks and the justification for any reused evidence.
 - **Production acceptance:** the same exact artifact passes the complete UO acceptance matrix and completion criteria, with its registry integrity and upstream evidence verified; UO may then use that RC for normal ontology publication and the planned hard cutover.
 
-UO's end-to-end checks against a public RC occur after its publication and **MUST NOT** be made prerequisites for publishing that same RC.
+UO-specific prepublication fitness evidence **MUST** be available before selecting or authorizing the candidate for publication.
+A missing consumer runner or untested requirement is a gap to address, not a pass or an implicit waiver of this prerequisite.
+Only public-registry installation, signature/provenance verification and registry-backed acceptance necessarily follow publication.
+Catalog and remote ontology retrieval tests **MUST NOT** be postponed merely because the library tarball has not been published to npm.
+Prepublication proof covers all four target ontology families, complete closure and structural axiom union, root identity and root-only ontology annotations, anonymous-individual relationships, empty imports, both storage formats with lossless-or-fail behavior, strict fresh-manager offline reload with zero external resolution, structural and pinned Java OWLAPI 5.5.1 comparison, and UO-owned atomic-output and failure behavior.
+The upstream pinned-UO experiment may supply prerequisite evidence but **MUST NOT** replace qualification of UO's own composition, resolver and output workflow.
+If the candidate is rebuilt or changed, prior results **MUST NOT** be attributed to different tarball bytes; bind new qualification evidence to the exact replacement artifact.
+The machine-readable policy's `qualificationPrerequisite` and non-registry-dependency prohibition continue to govern registry acceptance and the maintained dependency; this isolated experimental stage does not satisfy or weaken either gate.
 Until UO acceptance is complete, generated outputs are qualification artifacts and **MUST NOT** replace maintained production distributions.
 A prerelease version number or the package remaining under `next` does not disqualify an accepted artifact from UO production use.
 The acceptance decision **MUST** bind the exact package version and integrity, source commit/tag, upstream capability/API-registry evidence, UO source revision, input digests, and consumer results.
@@ -163,7 +178,7 @@ Acceptance records belong to repository/workflow evidence, not ontology annotati
 
 This consumer contract does not authorize or create an `owlapi` release.
 The ontology-lifecycle programme owns package qualification and publication; UO owns its application tests and production acceptance.
-If the selected RC is unavailable or lacks the required capability slice, implementation stops for an explicit contract/version decision rather than selecting or publishing a different coordinate from `universal-ontology`.
+If the selected RC lacks a required capability, record a minimized Java-compatible regression or missing capability for upstream resolution; do not introduce a consumer shim or silently select or publish a different coordinate from `universal-ontology`.
 An already published package version **MUST NOT** be overwritten; upstream corrections require another explicitly selected RC or release.
 Adopting a later RC or `0.1.0` requires an explicit amendment of the selected version, native alias, lockfile and acceptance evidence, followed by requalification.
 Migration to unscoped `owlapi`, dual publishing, and redirect packages are outside this implementation.
@@ -323,7 +338,8 @@ These exclusions do not permit dropping OWL axioms, axiom annotations, annotatio
 
 Every row blocks UO production acceptance, including production use of an RC.
 A passing happy path does not compensate for an untested row.
-These consumer checks follow the selected package's publication and do not require a separate stable library release.
+Run the behavioral matrix during prepublication qualification, then repeat the necessary consumer checks against the independently verified registry artifact before production acceptance.
+Registry-specific checks follow publication; no separate stable library release is required.
 
 The package-acceptance checks additionally require:
 
@@ -404,12 +420,14 @@ An implementation is non-conforming if it does any of the following, even when c
 - keeps either Python file as a wrapper, alias, fallback, or deprecation launcher;
 - uses a local path, workspace/link, Git dependency, copied source, any package alias other than the exact approved native npm alias, resolver alias, internal/deep import, or re-export shim in place of the selected public-registry `@hadden-industries/owlapi@0.1.0-rc.1` artifact;
 - treats publication or a dist-tag alone as UO production acceptance, or selects another package version without explicit amendment and requalification;
+- treats a prepublication tarball installation as registry acceptance, commits its temporary dependency, or reuses candidate results for different tarball bytes;
 - publishes a temporary file before every contract equality check passes.
 
 ## 13. Conformance completion criteria
 
 The migration is complete only when all of the following are true:
 
+- prepublication UO fitness evidence and subsequent independent registry verification are retained, with byte equality to the qualified tarball and the necessary registry-backed consumer checks recorded;
 - the machine-readable policy and relevant capability matrix entries are green;
 - exact public-registry `@hadden-industries/owlapi@0.1.0-rc.1` is declared through `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"`, with matching installed metadata and lockfile integrity, and all consumer imports use only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`;
 - UO production acceptance is recorded for that exact artifact; its RC version is permitted and no `0.1.0` prerequisite remains;
