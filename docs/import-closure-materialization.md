@@ -1,12 +1,15 @@
 # Self-contained OWL import closures
 
-The JavaScript materializer is under prepublication qualification.
-The maintained npm dependency, batch npm entry point, and Python removal have not yet been activated.
-Use the approved isolated consumer and external output locations until registry acceptance and production qualification are complete.
+The JavaScript materializer replaces the Python import merger.
+It uses the exact registry-published dependency qualified against all four distributions in both supported formats, with strict offline reload and independent Java OWLAPI comparisons.
+Repository-wide verification and independent review remain separate from these consumer checks.
+The [registry artifact record](import-closure/registry-artifact-verification.json) captures identity, signature, provenance and signed-tag checks.
+The [registry consumer record](import-closure/registry-consumer-qualification.json) binds the eight real cases, input digests, Java comparisons and focused tests to their executed source observation.
+HISEW retains the final candidate's full verification receipt and completion decision separately; these qualification observations do not claim deployment.
 
 ## Qualification and dependency boundary
 
-The intended maintained development dependency is exactly `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"`.
+The maintained development dependency is exactly `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"`.
 Application code imports only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`.
 The lockfile must identify the accepted public registry artifact and integrity.
 An identity-verified retained tarball may be tested in the separately approved external consumer; it must not become a maintained dependency.
@@ -19,10 +22,11 @@ An accepted release candidate may be used for production without waiting for a s
 `scripts/qualifyImportClosure.js` exercises the four accepted roots in Functional Syntax and RDF/XML, writing to an external output root.
 Its report records document bytes and identities but does not itself establish registry acceptance or run the independent Java comparison.
 Combine it with focused consumer tests and pinned Java evidence, keeping each result's actual scope explicit.
+The retained-candidate identity collector intentionally remains a prepublication observer; it is not a registry attestation verifier.
 
-## Commands after the approved cutover
+## Commands
 
-The following table describes the planned hard migration, not commands already removed in this prepublication checkout.
+The following table records the completed command migration.
 
 | Removed command                                                      | Required command                                                                          |
 | -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -31,7 +35,7 @@ The following table describes the planned hard migration, not commands already r
 
 The batch directly composes the materializer for the four `20260714` distributions: ISO/IEC 11179-3, reference data, core, and extended.
 It supplies each family's catalog explicitly and stops at the first failure.
-After cutover there will be no compatibility wrapper; Git history will be the recovery path for the removed Python implementation.
+There is no compatibility wrapper; Git history is the recovery path for the removed Python implementation.
 
 The one-root command accepts `--format rdfxml` or `--format functional`.
 RDF/XML is the default.

@@ -168,7 +168,7 @@ Provenance-based ownership does not claim every resource at standards.iso.org.
 The four existing `catalog-v001.xml` files in core, extended, reference-data and iso-iec11179-3 map imports to generated `dist/` files plus the module's working file.
 There is no root catalog.
 These editor/build mappings do not specify a complete historical corpus or authorize live retrieval.
-The current `create_full_versions.py` calls the repository's RDFLib-based `merge_owl_imports.py`; its network retrieval, metadata stripping and output writes are unsuitable as an editing validator's read-only context-loading procedure.
+The import-closure generator (`npm run generate:full-ontologies`) performs network retrieval and output writes and is unsuitable as an editing validator's read-only context-loading procedure.
 This inventory does not propose changing that separate generator.
 
 ### Accepted active/candidate context and new discovery evidence

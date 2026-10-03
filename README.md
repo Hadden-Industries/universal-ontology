@@ -10,11 +10,11 @@ The [communication privacy notice](PRIVACY.md) covers private reports and relate
 
 ### Development setup
 
-The [self-contained OWL import-closure guide](docs/import-closure-materialization.md) describes the JavaScript materializer currently under prepublication qualification, its preservation boundary, and the planned command migration.
-Production cutover remains gated by exact-package registry acceptance and verification.
+The [self-contained OWL import-closure guide](docs/import-closure-materialization.md) describes the JavaScript materializer, its preservation boundary, and the migration from the Python commands.
+The exact registry artifact has passed consumer qualification; final acceptance evidence is retained separately from the historical artifact-verification observation.
 
-Install Git 2.46 or later, an LTS build of Node.js 24.15.0 or later, and stable npm 12.0.2 or a newer npm 12 patch/minor release. Setup accepts the caret range of the exact `packageManager` version in `package.json`; major upgrades and prereleases require a separate compatibility review. Use the latest patch of a [supported LTS release](https://nodejs.org/en/about/previous-releases).
-The minimum reflects the MCP workspace's Node 24 requirement and [npm 12's Node 24.15.0 minimum](https://github.com/npm/cli/blob/v12.0.2/package.json).
+Install Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, and stable npm 12.0.2 or a newer npm 12 patch/minor release. Setup accepts the caret range of the exact `packageManager` version in `package.json`; major upgrades and prereleases require a separate compatibility review. Use the latest compatible patch of the [supported LTS release](https://nodejs.org/en/about/previous-releases).
+The minimum reflects the qualified owlapi RC's Node 24.21.0 requirement and the MCP workspace's Node 24 requirement.
 `.node-version` selects the CI runtime; local setup accepts compatible LTS updates.
 The Python version in `.python-version` is also required.
 An existing `.venv` is reused, or setup creates one using `python` on Windows and `python3` on macOS/Linux.

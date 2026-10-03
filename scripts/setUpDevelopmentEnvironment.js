@@ -92,16 +92,13 @@ export function setUpDevelopmentEnvironment({
     }
   }
 
-  // The MCP workspace requires Node 24+, and npm 12 requires 24.15+.
+  // The MCP workspace requires Node 24+, and the qualified owlapi RC supports
+  // Node 24.21+ within the Node 24 line. Other majors need requalification.
   // .node-version selects CI's runtime; it is not a local equality constraint.
   const [nodeMajor, nodeMinor] = process.versions.node.split(".").map(Number);
-  if (
-    !process.release.lts ||
-    nodeMajor < 24 ||
-    (nodeMajor === 24 && nodeMinor < 15)
-  ) {
+  if (!process.release.lts || nodeMajor !== 24 || nodeMinor < 21) {
     throw new Error(
-      `Development setup requires an LTS build of Node.js 24.15.0 or later; found ${process.versions.node}. Use the latest patch of a supported LTS release.`,
+      `Development setup requires an LTS build of Node.js 24.21.0 or a newer 24.x release; found ${process.versions.node}. Other major versions require dependency requalification.`,
     );
   }
   const selectedPythonVersion = readFileSync(

@@ -99,7 +99,7 @@ beforeEach(() => {
     join(repositoryRoot, "requirements-dev.txt"),
     "PyYAML==6.0.3\n",
   );
-  Object.defineProperty(process.versions, "node", { value: "24.20.0" });
+  Object.defineProperty(process.versions, "node", { value: "24.21.0" });
   Object.defineProperty(process.release, "lts", {
     value: "Krypton",
     configurable: true,
@@ -309,7 +309,7 @@ test("requires invocation through npm before changing the environment", () => {
   expect(spawnSyncMock).not.toHaveBeenCalled();
 });
 
-test.each(["24.15.0", "24.20.1", "24.21.0"])(
+test.each(["24.21.0", "24.21.1", "24.22.0"])(
   "accepts compatible LTS Node %s independently of the CI pin",
   (version) => {
     Object.defineProperty(process.versions, "node", { value: version });
@@ -320,11 +320,16 @@ test.each(["24.15.0", "24.20.1", "24.21.0"])(
   },
 );
 
-test.each(["22.22.2", "24.14.0"])("rejects unsupported Node %s", (version) => {
-  Object.defineProperty(process.versions, "node", { value: version });
-  expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(/Node/);
-  expect(spawnSyncMock).not.toHaveBeenCalled();
-});
+test.each(["22.23.3", "24.15.0", "24.20.1", "26.8.2"])(
+  "rejects unsupported Node %s",
+  (version) => {
+    Object.defineProperty(process.versions, "node", { value: version });
+    expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
+      /Node/,
+    );
+    expect(spawnSyncMock).not.toHaveBeenCalled();
+  },
+);
 
 test("rejects a Current release before any installation", () => {
   Object.defineProperty(process.versions, "node", { value: "26.8.2" });

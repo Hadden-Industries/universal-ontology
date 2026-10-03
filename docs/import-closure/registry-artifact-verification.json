@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "stage": "PUBLIC_REGISTRY_ARTIFACT_VERIFICATION",
+  "verifiedAt": "2026-10-02T23:39:22.097Z",
+  "tarballSha256": "4e18d8a1d2f41af0f31f0426a24d57ddfa25316fba6be550adf2edd6202cabf8",
+  "apiRegistrySha256": "cf367d97cea09eb9fe99b6f0e68f8ddb8ded8555259a4cc956b16bb19218ba6a",
+  "identity": {
+    "mode": "PUBLIC_REGISTRY",
+    "package": {
+      "name": "@hadden-industries/owlapi",
+      "version": "0.1.0-rc.1"
+    },
+    "dependencyName": "owlapi",
+    "specifier": "npm:@hadden-industries/owlapi@0.1.0-rc.1",
+    "resolved": "https://registry.npmjs.org/@hadden-industries/owlapi/-/owlapi-0.1.0-rc.1.tgz",
+    "integrity": "sha512-uDv9Omh2l2zxAjpVeQi4UxXEad/cRiKQUJT5RhxR3WtaAjPL3gAoOha9dPRhH6o2zlBdeg50g8EIVQgtt8RGqA==",
+    "importSpecifiers": [
+      "owlapi",
+      "owlapi/apibinding",
+      "owlapi/model",
+      "owlapi/io",
+      "owlapi/formats",
+      "owlapi/profiles",
+      "owlapi/util"
+    ]
+  },
+  "tests": [
+    {
+      "script": "installed-package-smoke.mjs",
+      "status": "PASS"
+    },
+    {
+      "script": "installed-package-boundary.mjs",
+      "status": "PASS"
+    },
+    {
+      "script": "installed-package-import-purity.mjs",
+      "status": "PASS"
+    },
+    {
+      "script": "installed-package-no-network.mjs",
+      "status": "PASS"
+    },
+    {
+      "script": "installed-package-import-closure.mjs",
+      "status": "PASS"
+    }
+  ],
+  "signatures": {
+    "invalid": [],
+    "missing": []
+  },
+  "provenance": {
+    "sourceCommit": "59131be0c1dc3a634e8433b06d2949051c051c0a",
+    "sourceRef": "refs/heads/main",
+    "workflow": ".github/workflows/release.yml",
+    "subjectSha256": "4e18d8a1d2f41af0f31f0426a24d57ddfa25316fba6be550adf2edd6202cabf8",
+    "runId": "37072579336",
+    "runAttempt": 1
+  },
+  "releaseTagVerification": {
+    "tag": "v0.1.0-rc.1",
+    "tagObject": "8b944e532430ebd3a10b834309b54fb0428f7eed",
+    "sourceCommit": "59131be0c1dc3a634e8433b06d2949051c051c0a",
+    "localSignature": "PASS",
+    "fingerprint": "SHA256:0lELaqBbgGHdSctv4GOpPmROX56wNCaii2PLZI5pXCU",
+    "githubVerified": true,
+    "githubReason": "valid"
+  },
+  "consumerAcceptance": "NOT_ASSESSED_BY_THIS_ARTIFACT_RECORD",
+  "helpers": "Existing producer verification helpers inspected and reused; consumer executes isolated installed registry exports only."
+}

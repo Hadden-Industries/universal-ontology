@@ -79,24 +79,36 @@ export async function collectQualificationIdentity({
   );
   const upstream = await json(upstreamEvidencePath);
   if (
-    !/^[a-f0-9]{40}$/u.test(upstream.value.snapshot?.commit ?? "") ||
+    !/^[a-f0-9]{40}$/u.test(upstream.value.snapshot?.baseCommit ?? "") ||
     !/^[a-f0-9]{40}$/u.test(upstream.value.snapshot?.tree ?? "")
   )
     throw new Error("Missing upstream source identity");
-  // Pins come from the previously verified retained same-run candidate handoff.
-  // The archive digest is an upstream artifact identity, not the tarball digest.
+  // This handoff is a local qualification snapshot, not the earlier CI artifact.
+  // Bind its base commit and exact tree without inventing a snapshot commit/tag.
+  // Pin the independently checked acquisition record too: contradictory signature
+  // or per-file observations must not be embedded as accepted upstream evidence.
   if (
+    upstream.sha256 !==
+      "d234d64536fd4f4b8e54f335b935a7e5044c87ddf25b63759f1f1a5b2ee775cb" ||
     tarballSha256 !==
-      "59744b8d3a65ee8b6c0e41b963ada4132a128f083f7612442bd4abb46da96b7a" ||
+      "4e18d8a1d2f41af0f31f0426a24d57ddfa25316fba6be550adf2edd6202cabf8" ||
+    tarball.length !== 262167 ||
+    manifest.value.sourceState !== "UNCOMMITTED_QUALIFICATION_SNAPSHOT" ||
     apiRegistry.sha256 !==
-      "1807e113c5db152417e62a56ba7feb95f4bb7e8f2775fa37e76d100303f4bb41" ||
-    upstream.value.snapshot.commit !==
-      "53fccadca283c1184d3f9b0c090782b185b715a5" ||
+      "cf367d97cea09eb9fe99b6f0e68f8ddb8ded8555259a4cc956b16bb19218ba6a" ||
+    upstream.value.kind !== "LOCAL_PREPUBLICATION_HANDOFF" ||
+    upstream.value.snapshot.kind !== "UNCOMMITTED_QUALIFICATION_SNAPSHOT" ||
+    upstream.value.snapshot.baseCommit !==
+      "c45f07719e0d846be354c818d281a38281913c38" ||
     upstream.value.snapshot.tree !==
-      "55111092290a538a3a9eee710a75ac45ffbab951" ||
-    upstream.value.candidate?.id !== 11218050915 ||
-    upstream.value.candidate?.digest !==
-      "sha256:e0bc8d419182a5ec5a452c348b4b82c4cccf1c1671ed755a55a57e7298e04093"
+      "dc0f1784407f5f89df0aedd1adf68c9d32127a5b" ||
+    upstream.value.candidate?.sha256 !== tarballSha256 ||
+    upstream.value.apiRegistrySha256 !== apiRegistry.sha256 ||
+    upstream.value.snapshot.commit !== undefined ||
+    upstream.value.candidate?.id !== undefined ||
+    upstream.value.actionsArtifactEvidence !== null ||
+    upstream.value.registryEvidence !== null ||
+    upstream.value.releaseTag !== null
   )
     throw new Error(
       "Retained candidate/source/API evidence differs from the accepted handoff",
@@ -181,7 +193,9 @@ export async function collectQualificationIdentity({
     uo: {
       root: sourceRoot,
       head: git("rev-parse", "HEAD").toString().trim(),
+      headTree: git("rev-parse", "HEAD^{tree}").toString().trim(),
       status: git("status", "--porcelain=v1").toString(),
+      workingFilesSha256: sha256(JSON.stringify(workingFiles)),
       workingFiles,
     },
     candidate: { manifest, tarballSha256, integrity, bytes: tarball.length },
