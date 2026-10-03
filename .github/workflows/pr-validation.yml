@@ -59,6 +59,10 @@ jobs:
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
       - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Static checks
+        run: |-
+          npm run lint:node
+          npm run format:node:check
       - run: |-
           ignored="$(node --input-type=module <<'NODE'
           const plan = JSON.parse(process.env.PR_CHECK_PLAN);
@@ -69,8 +73,6 @@ jobs:
           NODE
           )"
           npm test -- --runInBand --testPathIgnorePatterns="$ignored"
-          npm run lint:node
-          npm run format:node:check
       - id: complete
         run: echo "verified-revision=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
   website:
