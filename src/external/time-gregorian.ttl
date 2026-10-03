@@ -10,6 +10,11 @@
 @prefix time: <http://www.w3.org/2006/time#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+dct:created rdf:type owl:AnnotationProperty .
+dct:creator rdf:type owl:AnnotationProperty .
+skos:prefLabel rdf:type owl:AnnotationProperty .
+skos:historyNote rdf:type owl:AnnotationProperty .
+
 <http://www.w3.org/ns/time/gregorian>
   rdf:type owl:Ontology ;
   dct:created "2017-01-20"^^xsd:date ;

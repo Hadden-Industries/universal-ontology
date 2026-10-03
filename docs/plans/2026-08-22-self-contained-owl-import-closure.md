@@ -1,6 +1,5 @@
 # Self-Contained OWL Import Closure Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task.
 > Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Replace the two Python import-merging scripts with a JavaScript generation workflow that resolves a root ontology's complete imports closure and atomically publishes one structurally faithful, independently loadable ontology document.
@@ -18,6 +17,43 @@ The 2 October 2026 amendment adds isolated prepublication UO fitness testing bef
 The canonical `Hadden-Industries/owlapi` Public API Surface Registry, capability matrix, and ontology-lifecycle capability plan govern the package boundary and upstream feature implementation; this plan does not duplicate them.
 
 ## Global Constraints
+
+### Execution checkpoint: public registry adoption, 3 October 2026
+
+The exact scoped RC is now public.
+A fresh external consumer installed the native alias from the canonical npm registry using a new cache and disabled lifecycle scripts.
+Its tarball SHA-256 is `4e18d8a1d2f41af0f31f0426a24d57ddfa25316fba6be550adf2edd6202cabf8`, identical to the retained qualified candidate.
+All five upstream installed-consumer suites passed; npm signature verification and authenticated provenance bind the artifact to commit `59131be0c1dc3a634e8433b06d2949051c051c0a`, release workflow run `37072579336`, attempt 1.
+Signed tag `v0.1.0-rc.1` resolves to that commit and verifies both locally and on GitHub.
+The API registry digest remains `cf367d97cea09eb9fe99b6f0e68f8ddb8ded8555259a4cc956b16bb19218ba6a`.
+The durable artifact-verification observation is `docs/import-closure/registry-artifact-verification.json`; it deliberately does not assert complete UO acceptance.
+
+The user's standing approval covers the plan-required package alias, lockfile and generation script changes, commit messages and pushes.
+Task 1's initial package-boundary test recorded the expected missing-module setup failure before installation; the contract lock passed.
+After installation, all 207 tests in 14 import-closure suites passed, including the four real-distribution cases and substitution/provenance rejection controls.
+All eight external generation cases (four families, both formats) passed strict offline structural reload and fresh pinned Java comparisons.
+The observed JSON-LD direction exception remains the previously approved Java-parity boundary, tracked in UO issue 117 and owlapi issue 28.
+
+The Python generators and their obsolete two-test atomic-write suite are removed together; the maintained JavaScript atomic writer and CLI tests cover their publication behavior more extensively.
+The PR-scope test retains a generic Python-script fixture, and the two policy inventories now refer to the JavaScript command.
+RDFLib remains in unrelated validation, conversion and policy tools.
+The dependency audit reports the pre-existing `hono@4.13.5` advisory `GHSA-hxh3-vqpv-xpqv` (moderate); its lock entry was unchanged by this adoption.
+
+Independent Claude review, full governed verification and final distribution regeneration are the remaining handoff checks at this checkpoint.
+Earlier prepublication checkpoints below remain historical records; their registry-pending statements describe their original execution time.
+
+The first full governed profile subsequently passed.
+Claude's consolidated cutover review identified a runtime mismatch and incomplete evidence assertions.
+The plan-required runtime selection is therefore Node 24.21.0 in `.node-version`; setup and its tests reject earlier Node 24 releases and unqualified major lines, matching the published dependency's engines contract.
+README and development guidance use the same minimum.
+This uses the owner's existing approval for configuration changes required to implement the plan.
+The real-distribution test now asserts local catalog resolution, explicitly allows only the three dated remote module imports, and checks identical observed input hashes between generation and its independent expected union.
+The release record now includes the verified signed tag; identity tests also reject lockfile-only substitution and altered tag/API-registry evidence.
+All 78 affected tests passed after these changes.
+The four maintained outputs were regenerated and verified in fresh offline Node processes and fresh Java comparisons.
+`docs/import-closure/registry-consumer-qualification.json` retains the scoped consumer evidence; final full verification and the narrow review follow-up consume the repaired staged candidate.
+
+### Required constraints
 
 - This plan is **normative for execution order and gates**.
   Implementers **MUST** follow it task-by-task.
@@ -163,6 +199,42 @@ The planned UO JavaScript materializer and qualification runner were absent at t
   No UO candidate tests had run in this assessment.
 
 ### Planned file responsibilities
+
+#### Replacement retained candidate qualification
+
+The upstream handoff requests fresh prepublication qualification of the unpublished RC tarball with SHA256 `4e18d8a1d2f41af0f31f0426a24d57ddfa25316fba6be550adf2edd6202cabf8` (262167 bytes, 110 files).
+Its API-registry SHA256 is `cf367d97cea09eb9fe99b6f0e68f8ddb8ded8555259a4cc956b16bb19218ba6a` and its SBOM digest remains `84637ec522451cd44c55bbd0aaa6674070161d14b28b1b92cf85a964e9603e14`.
+This is a local `UNCOMMITTED_QUALIFICATION_SNAPSHOT` based on signed commit `c45f07719e0d846be354c818d281a38281913c38`, not the original Actions artifact or a public registry release.
+The final review snapshot tree is `dc0f1784407f5f89df0aedd1adf68c9d32127a5b`; the earlier producer verification tree `ad48ace3592fc43d73e3181fcc614f8c517e77b6` remains a distinct evidence identity.
+All 110 package entries were independently matched to both trees before testing; later non-packed review changes do not change the tarball.
+Retain the original candidate's 174-test and eight-case evidence under its original digest, and rerun the isolated consumer, remote-policy fixtures, and eight real cases for these replacement bytes.
+The current UO checkpoint is `ef1d278d9c63b1b9fdb9047a8700d887c118051b`; record subsequent dirty files and hashes in the new report.
+No maintained dependency or lockfile change, production cutover, additional commit, push, or registry acceptance follows from this qualification handoff.
+
+#### Prepublication execution checkpoint, 2 October 2026
+
+The verified retained candidate was installed only in the approved external consumer.
+The approved corrections to `src/external/skos.rdf`, `src/external/time-gregorian.ttl`, and `src/external/time.rdf` are applied.
+All four maintained source closures pass both output formats; the eight output byte identities match the retained pinned Java comparison evidence.
+These results do not establish registry acceptance.
+
+The current focused consumer suite has 173 passing tests and one failing directional-literal regression.
+The added structural fixtures reach every advertised axiom and structural kind and verify mutation detection; nested annotations, alias identity conflicts, malformed sources, and destination preservation have focused coverage.
+JSON-LD automatic format selection silently drops `@direction: "rtl"` from an Arabic annotation before offline verification.
+The explicit public JSON-LD format option `rdfDirection=i18n-datatype` preserves it, but a format-specific default for heterogeneous automatic loading has not been found on the approved public surface.
+Do not introduce private parser access, a second syntax detector, or source rewriting to conceal this gap.
+The pinned Java OWLAPI 5.5.1 behaves identically in both strict and compatible modes: direction is absent from the resulting language-tagged literal and unparsed-triple count is zero.
+JSON-LD's default `rdfDirection=null` explains this result; an upstream defect is not established.
+The owner subsequently accepted Java parity for this case to unblock the current implementation.
+The directional test now characterizes the demonstrated Java-compatible result; the earlier failed run remains retained evidence of the stronger requirement.
+Durable preservation is deferred to [UO issue 117](https://github.com/Hadden-Industries/universal-ontology/issues/117) and [owlapi issue 28](https://github.com/Hadden-Industries/owlapi/issues/28), without changing the current package.
+This removes only the direction-policy blocker; registry acceptance and other verification gates remain in force.
+
+Current evidence is retained under `C:\Users\maksy\AppData\Local\Temp\uo-import-closure-01a0fc40`: `consumer-acceptance-current.json`, `directional-literal-blocker.md`, `directional-literal-probe.json`, `qualification-maintained-sources.json`, and `maintained-source-output-equivalence.json`.
+The earlier full HISEW qualification failed because the maintained registry dependency is not installed; it has not been relabeled or repeatedly retried.
+No production cutover, dependency change, push, or publication has occurred.
+The owner subsequently authorized a local prepublication checkpoint commit containing this updated plan and the current implementation before registry acceptance.
+That checkpoint records incomplete work; it does not satisfy Task 1's registry gate or the final HISEW verification requirement.
 
 #### External `Hadden-Industries/owlapi` prerequisite
 
@@ -478,23 +550,31 @@ Task 3 supplies `OntologyDocumentLoader.loadCatalogDocument`; Task 6 wires it in
 - [ ] **Step 4: Implement URI-resolution precedence exactly**
 
 Normalize the requested URI and catalog URI keys according to the OASIS URI-resolution rules before matching.
-Represent compiled entries as immutable records and resolve in this order:
+Represent compiled entries as immutable records and resolve catalog lists in this order:
 
 ```javascript
-resolve(uri) {
-  const exact = this.exactUriEntries.get(uri);
-  if (exact) return exact;
-  const rewrite = longestPrefix(this.rewriteEntries, uri);
-  if (rewrite) return rewrite.rewrite(uri);
-  const delegation = longestPrefix(this.delegateEntries, uri);
-  if (delegation) return delegation.catalog.resolve(uri);
-  for (const next of this.nextCatalogs) {
-    const resolved = next.resolve(uri);
-    if (resolved) return resolved;
+resolveCatalogList(catalogs, uri) {
+  const pending = [...catalogs];
+  while (pending.length) {
+    const catalog = pending.shift();
+    const exact = catalog.exactUriEntries.get(uri);
+    if (exact) return exact;
+    const rewrite = longestPrefix(catalog.rewriteEntries, uri);
+    if (rewrite) return rewrite.rewrite(uri);
+    const delegates = matchingDelegatesLongestFirst(catalog.delegateEntries, uri);
+    if (delegates.length) {
+      return resolveCatalogList(delegates.map((entry) => entry.catalog), uri);
+    }
+    pending.unshift(...catalog.nextCatalogs);
   }
   return undefined;
 }
 ```
+
+Search all matching delegates in descending normalized prefix length, retaining document order for equal lengths.
+Delegation replaces the current catalog list; exhaustion does not resume the original list or its `nextCatalog` entries.
+Apply the same rule to nested delegation, as required by OASIS XML Catalogs 1.0 Section 7.2.2.
+Test a longest-prefix delegate that misses followed by a shorter-prefix delegate that resolves, equal-length ordering, delegated-list exhaustion, and nested delegation that abandons the previous list.
 
 Two conflicting exact `uri` entries at the same effective catalog priority are fatal instead of using document order silently.
 Detect catalog recursion by canonical catalog URL and report the entire cycle.

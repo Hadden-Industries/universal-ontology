@@ -518,7 +518,7 @@ describe("native Git PR check selection", () => {
 
   test.each([
     ["scripts/runTestsInParallel.py", ["python_tests"]],
-    ["scripts/merge_owl_imports.py", ["python_tests"]],
+    ["scripts/example_ontology_tool.py", ["python_tests"]],
     ["scripts/ontology_policy/rendering.py", ["python_tests"]],
     ["tests/test_run_tests_in_parallel.py", ["python_tests"]],
     ["tests/fixtures/ontology-policy/example.ttl", ["python_tests"]],

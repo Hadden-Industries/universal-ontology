@@ -1,0 +1,806 @@
+{
+  "schemaVersion": 1,
+  "stage": "REGISTRY_INSTALLED_CONSUMER_QUALIFICATION",
+  "result": "PASS_WITH_ACCEPTED_JAVA_PARITY_BOUNDARY",
+  "package": {
+    "name": "@hadden-industries/owlapi",
+    "version": "0.1.0-rc.1",
+    "tarballSha256": "4e18d8a1d2f41af0f31f0426a24d57ddfa25316fba6be550adf2edd6202cabf8",
+    "integrity": "sha512-uDv9Omh2l2zxAjpVeQi4UxXEad/cRiKQUJT5RhxR3WtaAjPL3gAoOha9dPRhH6o2zlBdeg50g8EIVQgtt8RGqA=="
+  },
+  "sourceObservation": {
+    "head": "ef1d278d9c63b1b9fdb9047a8700d887c118051b",
+    "headTree": "311eb3c89bf6d958152f76c023f0c378fced5a1d",
+    "workingFilesSha256": "5f81cc58bf30041196bd7248294d33398bfc97fc1b8a124d40294c74ae21cc66",
+    "executedScripts": [
+      {
+        "path": "createFullVersions.js",
+        "sha256": "6c7dbd38c9ec520fef48ffc13b98583d1eda2ec27572a7820205dec6f59b9606"
+      },
+      {
+        "path": "materializeImportClosure.js",
+        "sha256": "81bb31d0bf74cda67123765db341e9be2eecbbddc59bfe331f6604b5ed393d90"
+      },
+      {
+        "path": "ontology\\assertLosslessOntologyLoad.js",
+        "sha256": "6e1a171a84792fc7319e16d47bae7c75bf370bbfb53478bf692782d7ec3e85aa"
+      },
+      {
+        "path": "ontology\\atomicOntologyWriter.js",
+        "sha256": "b36a0390db78ce243bdf6ee74683567417cd3fbd616fb75c70213ba76bf84f9e"
+      },
+      {
+        "path": "ontology\\collapseImportsClosure.js",
+        "sha256": "1dc2038ace94b3f436913d23955061105295775c0455b2c09d07391a1d5cd80e"
+      },
+      {
+        "path": "ontology\\oasisXmlCatalogIRIMapper.js",
+        "sha256": "d92505fd4f6269642dd7cdc9ea1659b29dee9d089c10aa0fde867c958f918e19"
+      },
+      {
+        "path": "ontology\\ontologyDocumentLoader.js",
+        "sha256": "8719e545d9cfb80a5678a0528e1a4d20dc2ba5e4f98918274d75b4c172d802dd"
+      },
+      {
+        "path": "ontology\\ontologyStructuralFingerprint.js",
+        "sha256": "ce2ed33b2b3f7b91b566da259fd62c3484b38f091846fc74a2eaadf03d02a62f"
+      },
+      {
+        "path": "ontology\\qualificationIdentity.js",
+        "sha256": "7da74d884d474954d4f643b8544381147b5c6818804f6d0d8be40d427a3b5453"
+      },
+      {
+        "path": "ontology\\verifyStandaloneOntology.js",
+        "sha256": "d72c6710bcd6f374255803b766733b16cff849db48548ac3b5b8da81c21e10c3"
+      },
+      {
+        "path": "qualifyImportClosure.js",
+        "sha256": "6745c425f31322b207aa872f31e26ef1913fa4c36c51c29edc025c0108ded1f1"
+      }
+    ]
+  },
+  "tests": {
+    "suites": 14,
+    "passed": 207,
+    "reviewRepairSuites": 3,
+    "reviewRepairPassed": 78
+  },
+  "cases": [
+    {
+      "inputPath": "C:\\Users\\maksy\\GitHub\\universal-ontology\\dist\\iso-iec\\11179\\-3\\ed-4\\20260714",
+      "inputSha256": "cf348907763d9522a1214fb2b570ef89500136831458393617d1e6a63aae4d06",
+      "catalogSha256": "5a064ad821a8a0f053cc6e49c47a529231fdf262650dff93c48744e6c8353b37",
+      "format": "functional",
+      "outputSha256": "8d3e00d773e38e940d8d2a071e718428a4461807db10ffb8f83769ee1ef87026",
+      "status": "PASS",
+      "documents": [
+        {
+          "kind": "catalog",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/iso-iec11179-3/catalog-v001.xml",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/iso-iec11179-3/catalog-v001.xml"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/iso-iec11179-3/catalog-v001.xml",
+          "sha256": "5a064ad821a8a0f053cc6e49c47a529231fdf262650dff93c48744e6c8353b37",
+          "bytes": 764
+        },
+        {
+          "kind": "root",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/iso-iec/11179/-3/ed-4/20260714",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/dist/iso-iec/11179/-3/ed-4/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/iso-iec/11179/-3/ed-4/20260714",
+          "sha256": "cf348907763d9522a1214fb2b570ef89500136831458393617d1e6a63aae4d06",
+          "bytes": 559036
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2004/02/skos/core",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+            "http://www.w3.org/2004/02/skos/core",
+            "https://www.w3.org/2004/02/skos/core"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+          "sha256": "378fe72e82a529a3338e00c1fb157112d9941c94ac5c8bc7e88a8463ea879e96",
+          "bytes": 29264
+        }
+      ],
+      "javaOutcome": "MATCH",
+      "counts": {
+        "axioms": 3502,
+        "directImports": 0,
+        "ontologyAnnotations": 17,
+        "anonymousIndividuals": 0
+      }
+    },
+    {
+      "inputPath": "C:\\Users\\maksy\\GitHub\\universal-ontology\\dist\\iso-iec\\11179\\-3\\ed-4\\20260714",
+      "inputSha256": "cf348907763d9522a1214fb2b570ef89500136831458393617d1e6a63aae4d06",
+      "catalogSha256": "5a064ad821a8a0f053cc6e49c47a529231fdf262650dff93c48744e6c8353b37",
+      "format": "rdfxml",
+      "outputSha256": "b0755d33bd180b5f2fa4788ce8eea7fc11afa5bb92f20981232f1d1c9436f9eb",
+      "status": "PASS",
+      "documents": [
+        {
+          "kind": "catalog",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/iso-iec11179-3/catalog-v001.xml",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/iso-iec11179-3/catalog-v001.xml"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/iso-iec11179-3/catalog-v001.xml",
+          "sha256": "5a064ad821a8a0f053cc6e49c47a529231fdf262650dff93c48744e6c8353b37",
+          "bytes": 764
+        },
+        {
+          "kind": "root",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/iso-iec/11179/-3/ed-4/20260714",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/dist/iso-iec/11179/-3/ed-4/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/iso-iec/11179/-3/ed-4/20260714",
+          "sha256": "cf348907763d9522a1214fb2b570ef89500136831458393617d1e6a63aae4d06",
+          "bytes": 559036
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2004/02/skos/core",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+            "http://www.w3.org/2004/02/skos/core",
+            "https://www.w3.org/2004/02/skos/core"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+          "sha256": "378fe72e82a529a3338e00c1fb157112d9941c94ac5c8bc7e88a8463ea879e96",
+          "bytes": 29264
+        }
+      ],
+      "javaOutcome": "MATCH",
+      "counts": {
+        "axioms": 3502,
+        "directImports": 0,
+        "ontologyAnnotations": 17,
+        "anonymousIndividuals": 0
+      }
+    },
+    {
+      "inputPath": "C:\\Users\\maksy\\GitHub\\universal-ontology\\dist\\universal\\reference-data\\20260714",
+      "inputSha256": "02190521ed2c20b301097f87ce7ab39d6128e8c0a0487650e97c37796cd79fcc",
+      "catalogSha256": "91edf982effd47e0b3cf44f014038a9b0b22470b5ada0428c3c1af8ae6dd74cc",
+      "format": "functional",
+      "outputSha256": "dac38758b8186eee57d3ec2eeaaa1011f25df08bef44c10e701a7e3954950add",
+      "status": "PASS",
+      "documents": [
+        {
+          "kind": "catalog",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/reference-data/catalog-v001.xml",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/reference-data/catalog-v001.xml"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/reference-data/catalog-v001.xml",
+          "sha256": "91edf982effd47e0b3cf44f014038a9b0b22470b5ada0428c3c1af8ae6dd74cc",
+          "bytes": 1026
+        },
+        {
+          "kind": "root",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/reference-data/20260714",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/reference-data/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/reference-data/20260714",
+          "sha256": "02190521ed2c20b301097f87ce7ab39d6128e8c0a0487650e97c37796cd79fcc",
+          "bytes": 1112426
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "sha256": "dca61e72214993dee89b2add375cebab5fcf3494f8e279991c6dce549fbe13ac",
+          "bytes": 736363,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2004/02/skos/core",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+            "http://www.w3.org/2004/02/skos/core",
+            "https://www.w3.org/2004/02/skos/core"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+          "sha256": "378fe72e82a529a3338e00c1fb157112d9941c94ac5c8bc7e88a8463ea879e96",
+          "bytes": 29264
+        }
+      ],
+      "javaOutcome": "MATCH",
+      "counts": {
+        "axioms": 10826,
+        "directImports": 0,
+        "ontologyAnnotations": 19,
+        "anonymousIndividuals": 0
+      }
+    },
+    {
+      "inputPath": "C:\\Users\\maksy\\GitHub\\universal-ontology\\dist\\universal\\reference-data\\20260714",
+      "inputSha256": "02190521ed2c20b301097f87ce7ab39d6128e8c0a0487650e97c37796cd79fcc",
+      "catalogSha256": "91edf982effd47e0b3cf44f014038a9b0b22470b5ada0428c3c1af8ae6dd74cc",
+      "format": "rdfxml",
+      "outputSha256": "dad1d2f3b827fae97648ffdfc772645acb05fdb9e2b3ad8cd0014a10e53884e6",
+      "status": "PASS",
+      "documents": [
+        {
+          "kind": "catalog",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/reference-data/catalog-v001.xml",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/reference-data/catalog-v001.xml"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/reference-data/catalog-v001.xml",
+          "sha256": "91edf982effd47e0b3cf44f014038a9b0b22470b5ada0428c3c1af8ae6dd74cc",
+          "bytes": 1026
+        },
+        {
+          "kind": "root",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/reference-data/20260714",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/reference-data/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/reference-data/20260714",
+          "sha256": "02190521ed2c20b301097f87ce7ab39d6128e8c0a0487650e97c37796cd79fcc",
+          "bytes": 1112426
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "sha256": "dca61e72214993dee89b2add375cebab5fcf3494f8e279991c6dce549fbe13ac",
+          "bytes": 736363,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2004/02/skos/core",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+            "http://www.w3.org/2004/02/skos/core",
+            "https://www.w3.org/2004/02/skos/core"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+          "sha256": "378fe72e82a529a3338e00c1fb157112d9941c94ac5c8bc7e88a8463ea879e96",
+          "bytes": 29264
+        }
+      ],
+      "javaOutcome": "MATCH",
+      "counts": {
+        "axioms": 10826,
+        "directImports": 0,
+        "ontologyAnnotations": 19,
+        "anonymousIndividuals": 0
+      }
+    },
+    {
+      "inputPath": "C:\\Users\\maksy\\GitHub\\universal-ontology\\dist\\universal\\core\\20260714",
+      "inputSha256": "9cb764f62461835c2ea9d309a9a4d8aca362d464cd3aa43145c3a1d01a8ee228",
+      "catalogSha256": "282f32a371db2d20c6550e20e73832196ba89d60a561764c8a4133c1420acebf",
+      "format": "functional",
+      "outputSha256": "bf9e8237b567266542c24e2092de1ea9e65a4fc084b2c7a46bb4193c6c226c6c",
+      "status": "PASS",
+      "documents": [
+        {
+          "kind": "catalog",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/core/catalog-v001.xml",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/core/catalog-v001.xml"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/core/catalog-v001.xml",
+          "sha256": "282f32a371db2d20c6550e20e73832196ba89d60a561764c8a4133c1420acebf",
+          "bytes": 1403
+        },
+        {
+          "kind": "root",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/core/20260714",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/core/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/core/20260714",
+          "sha256": "9cb764f62461835c2ea9d309a9a4d8aca362d464cd3aa43145c3a1d01a8ee228",
+          "bytes": 364744
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/ns/time/gregorian",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time-gregorian.ttl",
+            "http://www.w3.org/ns/time/gregorian",
+            "https://www.w3.org/ns/time/gregorian"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time-gregorian.ttl",
+          "sha256": "e7a5e5f6ba555bf2086169ed05bdde9901f146ffc25f3d0aa62798170b2b5880",
+          "bytes": 7414
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2006/time",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time.rdf",
+            "http://www.w3.org/2006/time",
+            "https://www.w3.org/2006/time"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time.rdf",
+          "sha256": "8ce934e406401e0e6cb9b6d4407bb69103d62c94107e2a1a30b4a31cc2772e58",
+          "bytes": 136737
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/universal/reference-data/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/universal/reference-data/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/universal/reference-data/20260714",
+          "sha256": "f89189e51687aa627cab82cf53c03bb3fd261420145103fe483438fe8448f25b",
+          "bytes": 1441782,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "sha256": "dca61e72214993dee89b2add375cebab5fcf3494f8e279991c6dce549fbe13ac",
+          "bytes": 736363,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2004/02/skos/core",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+            "http://www.w3.org/2004/02/skos/core",
+            "https://www.w3.org/2004/02/skos/core"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+          "sha256": "378fe72e82a529a3338e00c1fb157112d9941c94ac5c8bc7e88a8463ea879e96",
+          "bytes": 29264
+        }
+      ],
+      "javaOutcome": "MATCH",
+      "counts": {
+        "axioms": 14197,
+        "directImports": 0,
+        "ontologyAnnotations": 19,
+        "anonymousIndividuals": 0
+      }
+    },
+    {
+      "inputPath": "C:\\Users\\maksy\\GitHub\\universal-ontology\\dist\\universal\\core\\20260714",
+      "inputSha256": "9cb764f62461835c2ea9d309a9a4d8aca362d464cd3aa43145c3a1d01a8ee228",
+      "catalogSha256": "282f32a371db2d20c6550e20e73832196ba89d60a561764c8a4133c1420acebf",
+      "format": "rdfxml",
+      "outputSha256": "a4d34f454e341a0647bec8bb1e2f6e5ee25f8615351368c0d0243dd9e7eeee7f",
+      "status": "PASS",
+      "documents": [
+        {
+          "kind": "catalog",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/core/catalog-v001.xml",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/core/catalog-v001.xml"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/core/catalog-v001.xml",
+          "sha256": "282f32a371db2d20c6550e20e73832196ba89d60a561764c8a4133c1420acebf",
+          "bytes": 1403
+        },
+        {
+          "kind": "root",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/core/20260714",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/core/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/core/20260714",
+          "sha256": "9cb764f62461835c2ea9d309a9a4d8aca362d464cd3aa43145c3a1d01a8ee228",
+          "bytes": 364744
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/ns/time/gregorian",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time-gregorian.ttl",
+            "http://www.w3.org/ns/time/gregorian",
+            "https://www.w3.org/ns/time/gregorian"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time-gregorian.ttl",
+          "sha256": "e7a5e5f6ba555bf2086169ed05bdde9901f146ffc25f3d0aa62798170b2b5880",
+          "bytes": 7414
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2006/time",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time.rdf",
+            "http://www.w3.org/2006/time",
+            "https://www.w3.org/2006/time"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time.rdf",
+          "sha256": "8ce934e406401e0e6cb9b6d4407bb69103d62c94107e2a1a30b4a31cc2772e58",
+          "bytes": 136737
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/universal/reference-data/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/universal/reference-data/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/universal/reference-data/20260714",
+          "sha256": "f89189e51687aa627cab82cf53c03bb3fd261420145103fe483438fe8448f25b",
+          "bytes": 1441782,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "sha256": "dca61e72214993dee89b2add375cebab5fcf3494f8e279991c6dce549fbe13ac",
+          "bytes": 736363,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2004/02/skos/core",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+            "http://www.w3.org/2004/02/skos/core",
+            "https://www.w3.org/2004/02/skos/core"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+          "sha256": "378fe72e82a529a3338e00c1fb157112d9941c94ac5c8bc7e88a8463ea879e96",
+          "bytes": 29264
+        }
+      ],
+      "javaOutcome": "MATCH",
+      "counts": {
+        "axioms": 14197,
+        "directImports": 0,
+        "ontologyAnnotations": 19,
+        "anonymousIndividuals": 0
+      }
+    },
+    {
+      "inputPath": "C:\\Users\\maksy\\GitHub\\universal-ontology\\dist\\universal\\extended\\20260714",
+      "inputSha256": "d28a04e7be294aa66356d7ada8dd0ebb42284dc8db1d5b5440aff874b68b1039",
+      "catalogSha256": "011860d5769376cf037e11b115896b0cd175f511f6fbb6c562da8c145dd9aece",
+      "format": "functional",
+      "outputSha256": "e63f66c070954924399f527dcf5c3c737dc7697e76de6ff035cf1889fd712d2f",
+      "status": "PASS",
+      "documents": [
+        {
+          "kind": "catalog",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/extended/catalog-v001.xml",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/extended/catalog-v001.xml"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/extended/catalog-v001.xml",
+          "sha256": "011860d5769376cf037e11b115896b0cd175f511f6fbb6c562da8c145dd9aece",
+          "bytes": 1554
+        },
+        {
+          "kind": "root",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/extended/20260714",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/extended/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/extended/20260714",
+          "sha256": "d28a04e7be294aa66356d7ada8dd0ebb42284dc8db1d5b5440aff874b68b1039",
+          "bytes": 713305
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/universal/core/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/universal/core/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/universal/core/20260714",
+          "sha256": "03ede2034a3bb6a221560d15933c9e7546bb033be802e30af7f2800a8f050a70",
+          "bytes": 491977,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/ns/time/gregorian",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time-gregorian.ttl",
+            "http://www.w3.org/ns/time/gregorian",
+            "https://www.w3.org/ns/time/gregorian"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time-gregorian.ttl",
+          "sha256": "e7a5e5f6ba555bf2086169ed05bdde9901f146ffc25f3d0aa62798170b2b5880",
+          "bytes": 7414
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2006/time",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time.rdf",
+            "http://www.w3.org/2006/time",
+            "https://www.w3.org/2006/time"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time.rdf",
+          "sha256": "8ce934e406401e0e6cb9b6d4407bb69103d62c94107e2a1a30b4a31cc2772e58",
+          "bytes": 136737
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/universal/reference-data/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/universal/reference-data/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/universal/reference-data/20260714",
+          "sha256": "f89189e51687aa627cab82cf53c03bb3fd261420145103fe483438fe8448f25b",
+          "bytes": 1441782,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "sha256": "dca61e72214993dee89b2add375cebab5fcf3494f8e279991c6dce549fbe13ac",
+          "bytes": 736363,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2004/02/skos/core",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+            "http://www.w3.org/2004/02/skos/core",
+            "https://www.w3.org/2004/02/skos/core"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+          "sha256": "378fe72e82a529a3338e00c1fb157112d9941c94ac5c8bc7e88a8463ea879e96",
+          "bytes": 29264
+        }
+      ],
+      "javaOutcome": "MATCH",
+      "counts": {
+        "axioms": 18982,
+        "directImports": 0,
+        "ontologyAnnotations": 19,
+        "anonymousIndividuals": 0
+      }
+    },
+    {
+      "inputPath": "C:\\Users\\maksy\\GitHub\\universal-ontology\\dist\\universal\\extended\\20260714",
+      "inputSha256": "d28a04e7be294aa66356d7ada8dd0ebb42284dc8db1d5b5440aff874b68b1039",
+      "catalogSha256": "011860d5769376cf037e11b115896b0cd175f511f6fbb6c562da8c145dd9aece",
+      "format": "rdfxml",
+      "outputSha256": "96708c4959fbbb48e7eb50af69a35afdd7ce704808ef92f6ee00b7d1ab01b08b",
+      "status": "PASS",
+      "documents": [
+        {
+          "kind": "catalog",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/extended/catalog-v001.xml",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/extended/catalog-v001.xml"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/extended/catalog-v001.xml",
+          "sha256": "011860d5769376cf037e11b115896b0cd175f511f6fbb6c562da8c145dd9aece",
+          "bytes": 1554
+        },
+        {
+          "kind": "root",
+          "authored": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/extended/20260714",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/extended/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/dist/universal/extended/20260714",
+          "sha256": "d28a04e7be294aa66356d7ada8dd0ebb42284dc8db1d5b5440aff874b68b1039",
+          "bytes": 713305
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/universal/core/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/universal/core/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/universal/core/20260714",
+          "sha256": "03ede2034a3bb6a221560d15933c9e7546bb033be802e30af7f2800a8f050a70",
+          "bytes": 491977,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/ns/time/gregorian",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time-gregorian.ttl",
+            "http://www.w3.org/ns/time/gregorian",
+            "https://www.w3.org/ns/time/gregorian"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time-gregorian.ttl",
+          "sha256": "e7a5e5f6ba555bf2086169ed05bdde9901f146ffc25f3d0aa62798170b2b5880",
+          "bytes": 7414
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2006/time",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time.rdf",
+            "http://www.w3.org/2006/time",
+            "https://www.w3.org/2006/time"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/time.rdf",
+          "sha256": "8ce934e406401e0e6cb9b6d4407bb69103d62c94107e2a1a30b4a31cc2772e58",
+          "bytes": 136737
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/universal/reference-data/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/universal/reference-data/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/universal/reference-data/20260714",
+          "sha256": "f89189e51687aa627cab82cf53c03bb3fd261420145103fe483438fe8448f25b",
+          "bytes": 1441782,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "candidates": [
+            "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714"
+          ],
+          "failedAttempts": [],
+          "resolved": "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
+          "sha256": "dca61e72214993dee89b2add375cebab5fcf3494f8e279991c6dce549fbe13ac",
+          "bytes": 736363,
+          "contentType": "application/ld+json"
+        },
+        {
+          "kind": "import",
+          "authored": "http://www.w3.org/2004/02/skos/core",
+          "candidates": [
+            "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+            "http://www.w3.org/2004/02/skos/core",
+            "https://www.w3.org/2004/02/skos/core"
+          ],
+          "failedAttempts": [],
+          "resolved": "file:///C:/Users/maksy/GitHub/universal-ontology/src/external/skos.rdf",
+          "sha256": "378fe72e82a529a3338e00c1fb157112d9941c94ac5c8bc7e88a8463ea879e96",
+          "bytes": 29264
+        }
+      ],
+      "javaOutcome": "MATCH",
+      "counts": {
+        "axioms": 18982,
+        "directImports": 0,
+        "ontologyAnnotations": 19,
+        "anonymousIndividuals": 0
+      }
+    }
+  ],
+  "javaReference": {
+    "classpathFile": "C:\\Users\\maksy\\GitHub\\owlcs\\owlapi-worktrees\\import-closure-reference-d7e997a5\\distribution\\target\\owlapi-runtime-classpath.txt",
+    "launcherSource": "C:\\Users\\maksy\\GitHub\\owlapi\\util\\owlapi-reference\\RunWithClasspath.java",
+    "oracleSources": [
+      "C:\\Users\\maksy\\GitHub\\owlapi\\util\\owlapi-reference\\RunImportClosureContract.java",
+      "C:\\Users\\maksy\\GitHub\\owlapi\\util\\owlapi-reference\\RunOntologyParsingContract.java",
+      "C:\\Users\\maksy\\GitHub\\owlapi\\util\\owlapi-reference\\OntologyReferenceContract.java",
+      "C:\\Users\\maksy\\GitHub\\owlapi\\util\\owlapi-reference\\OntologyStructuralComparison.java"
+    ],
+    "owlapiVersion": "5.5.1",
+    "pinnedRevision": "d7e997a53b470e32700de89cc610d9daf01ea769",
+    "sourceCheckout": "C:\\Users\\maksy\\GitHub\\owlcs\\owlapi-worktrees\\import-closure-reference-d7e997a5"
+  },
+  "acceptedException": {
+    "description": "Default JSON-LD direction loss matching Java OWLAPI 5.5.1; all other no-loss rules remain",
+    "issues": [
+      "https://github.com/Hadden-Industries/owlapi/issues/28",
+      "https://github.com/Hadden-Industries/universal-ontology/issues/117"
+    ]
+  },
+  "fullRepositoryVerification": "Separate HISEW receipt for final staged candidate; this record establishes consumer behavior only",
+  "artifactDirectory": "C:/Users/maksy/.hi/w/e/task-artifacts/uo-import-closure-registry-20261003",
+  "artifacts": [
+    {
+      "path": "report.json",
+      "sha256": "60858a33132d11f44f8f08d11e08cbb988e8df4f8fe150532f7dadc132fc9c2c"
+    },
+    {
+      "path": "metadata.json",
+      "sha256": "b5bf654c45ce2a1ffe86d88d39d34c66658f349030dd70c1c6cc0a8893adefb5"
+    },
+    {
+      "path": "signatures.json",
+      "sha256": "539ea4684b22e24869bace50b48bda695776477f892861b08d51d219f0d08faf"
+    },
+    {
+      "path": "provenance.json",
+      "sha256": "cd9631db317b168d8aa03cb9147b02a01683a4ec914088d0ab2cbbfbb7713ea9"
+    },
+    {
+      "path": "qualification.json",
+      "sha256": "62e77168860862f138dfcba0031d66e0a2a4f766bf563274323771f9f7c981e7"
+    },
+    {
+      "path": "java-comparison.json",
+      "sha256": "de0fc5f28e34e5df4b900db9e4670c84686b917b1c5a480623ca2b8b16d20df1"
+    },
+    {
+      "path": "uo-tests.json",
+      "sha256": "30bbc158590785256656bc895b62c10f1c8723449650ed25d9e165b8227cef46"
+    },
+    {
+      "path": "review-repair-tests.json",
+      "sha256": "36b10e8f40fd3ada09de4bdd12cd2616467920c85a934af5253f01360febad27"
+    },
+    {
+      "path": "dependency-audit.json",
+      "sha256": "0752c070c6f57807fd200b90535187ca5a9db34e022686fa5bc2aa3b384c83e6"
+    },
+    {
+      "path": "claude-cutover-review.json",
+      "sha256": "3ae9e2a038b6d8723a66e8e5e33ee824aa1d3348ad4901446f7b95730d22fb6d"
+    },
+    {
+      "path": "production/qualification.json",
+      "sha256": "b433f152749e5433a4fd805d5f206b7c3a24611186ba87c53d0f6e720baef579"
+    },
+    {
+      "path": "production/java-comparison.json",
+      "sha256": "9751b01adf6aa5b37c3e55a8c1ef4ea17226baf54c32c3090e2f4679cd7eff41"
+    }
+  ]
+}

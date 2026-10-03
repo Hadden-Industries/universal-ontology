@@ -8,6 +8,20 @@
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
   xml:base="http://www.w3.org/2006/time">
+  <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/contributor"/>
+  <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
+  <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/creator"/>
+  <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/isVersionOf"/>
+  <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/license"/>
+  <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/modified"/>
+  <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/rights"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#changeNote"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#definition"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#editorialNote"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#historyNote"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#note"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#prefLabel"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#scopeNote"/>
   <owl:Ontology rdf:about="">
     <dct:creator rdf:resource="http://orcid.org/0000-0002-3884-3420"/>
     <rdfs:seeAlso rdf:resource="http://www.w3.org/TR/owl-time"/>
@@ -45,15 +59,22 @@ Ontology engineering by Simon J D Cox</skos:historyNote>
             Nótese que el espacio de valores no está definido, por tanto, un procesador genérico de OWL2 no puede computar relaciones de orden de valores de este tipo.</rdfs:comment>
     <skos:definition xml:lang="en">Year number - formulated as a text string with a pattern constraint to reproduce the same lexical form as gYear, but not restricted to values from the Gregorian calendar.
 Note that the value-space is not defined, so a generic OWL2 processor cannot compute ordering relationships of values of this type.</skos:definition>
-    <owl:withRestrictions rdf:parseType="Collection">
+    
+    
+    <rdfs:label xml:lang="en">Generalized year</rdfs:label>
+    <rdfs:comment xml:lang="en">Year number - formulated as a text string with a pattern constraint to reproduce the same lexical form as gYear, but not restricted to values from the Gregorian calendar.
+Note that the value-space is not defined, so a generic OWL2 processor cannot compute ordering relationships of values of this type.</rdfs:comment>
+  
+    <owl:equivalentClass>
+      <rdfs:Datatype>
+        <owl:onDatatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <owl:withRestrictions rdf:parseType="Collection">
       <rdf:Description>
         <xsd:pattern>-?([1-9][0-9]{3,}|0[0-9]{3})(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?</xsd:pattern>
       </rdf:Description>
     </owl:withRestrictions>
-    <owl:onDatatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label xml:lang="en">Generalized year</rdfs:label>
-    <rdfs:comment xml:lang="en">Year number - formulated as a text string with a pattern constraint to reproduce the same lexical form as gYear, but not restricted to values from the Gregorian calendar.
-Note that the value-space is not defined, so a generic OWL2 processor cannot compute ordering relationships of values of this type.</rdfs:comment>
+      </rdfs:Datatype>
+    </owl:equivalentClass>
   </rdfs:Datatype>
   <rdfs:Datatype rdf:ID="generalMonth">
     <skos:definition xml:lang="es">Mes del año - formulado como una cadena de texto con una restricción patrón para reproducir la misma forma léxica que gMonth, excepto que se permiten valores hasta el 20, con el propósito de proporcionar soporte a calendarios con años con más de 12 meses.
@@ -63,15 +84,22 @@ Note that the value-space is not defined, so a generic OWL2 processor cannot com
             Nótese que el espacio de valores no está definido, por tanto, un procesador genérico de OWL2 no puede computar relaciones de orden de valores de este tipo.</rdfs:comment>
     <skos:definition xml:lang="en">Month of year - formulated as a text string with a pattern constraint to reproduce the same lexical form as gMonth, except that values up to 20 are permitted, in order to support calendars with more than 12 months in the year.
 Note that the value-space is not defined, so a generic OWL2 processor cannot compute ordering relationships of values of this type.</skos:definition>
-    <owl:withRestrictions rdf:parseType="Collection">
+    
+    
+    <rdfs:label xml:lang="en">Generalized month</rdfs:label>
+    <rdfs:comment xml:lang="en">Month of year - formulated as a text string with a pattern constraint to reproduce the same lexical form as gMonth, except that values up to 20 are permitted, in order to support calendars with more than 12 months in the year.
+Note that the value-space is not defined, so a generic OWL2 processor cannot compute ordering relationships of values of this type.</rdfs:comment>
+  
+    <owl:equivalentClass>
+      <rdfs:Datatype>
+        <owl:onDatatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <owl:withRestrictions rdf:parseType="Collection">
       <rdf:Description>
         <xsd:pattern>--(0[1-9]|1[0-9]|20)(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?</xsd:pattern>
       </rdf:Description>
     </owl:withRestrictions>
-    <owl:onDatatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label xml:lang="en">Generalized month</rdfs:label>
-    <rdfs:comment xml:lang="en">Month of year - formulated as a text string with a pattern constraint to reproduce the same lexical form as gMonth, except that values up to 20 are permitted, in order to support calendars with more than 12 months in the year.
-Note that the value-space is not defined, so a generic OWL2 processor cannot compute ordering relationships of values of this type.</rdfs:comment>
+      </rdfs:Datatype>
+    </owl:equivalentClass>
   </rdfs:Datatype>
   <rdfs:Datatype rdf:ID="generalDay">
     <skos:definition xml:lang="es">Día del mes - formulado como una cadena de texto con una restricción patrón para reproducir la misma forma léxica que gDay, excepto que se permiten valores hasta el 99, con el propósito de proporcionar soporte a calendarios con meses con más de 31 días.
@@ -81,15 +109,22 @@ Note that the value-space is not defined, so a generic OWL2 processor cannot com
             Nótese que el espacio de valores no está definido, por tanto, un procesador genérico de OWL2 no puede computar relaciones de orden de valores de este tipo.</rdfs:comment>
     <skos:definition xml:lang="en">Day of month - formulated as a text string with a pattern constraint to reproduce the same lexical form as gDay, except that values up to 99 are permitted, in order to support calendars with more than 31 days in a month.
 Note that the value-space is not defined, so a generic OWL2 processor cannot compute ordering relationships of values of this type.</skos:definition>
-    <owl:withRestrictions rdf:parseType="Collection">
+    
+    
+    <rdfs:label xml:lang="en">Generalized day</rdfs:label>
+    <rdfs:comment xml:lang="en">Day of month - formulated as a text string with a pattern constraint to reproduce the same lexical form as gDay, except that values up to 99 are permitted, in order to support calendars with more than 31 days in a month.
+Note that the value-space is not defined, so a generic OWL2 processor cannot compute ordering relationships of values of this type.</rdfs:comment>
+  
+    <owl:equivalentClass>
+      <rdfs:Datatype>
+        <owl:onDatatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <owl:withRestrictions rdf:parseType="Collection">
       <rdf:Description>
         <xsd:pattern>---(0[1-9]|[1-9][0-9])(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?</xsd:pattern>
       </rdf:Description>
     </owl:withRestrictions>
-    <owl:onDatatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label xml:lang="en">Generalized day</rdfs:label>
-    <rdfs:comment xml:lang="en">Day of month - formulated as a text string with a pattern constraint to reproduce the same lexical form as gDay, except that values up to 99 are permitted, in order to support calendars with more than 31 days in a month.
-Note that the value-space is not defined, so a generic OWL2 processor cannot compute ordering relationships of values of this type.</rdfs:comment>
+      </rdfs:Datatype>
+    </owl:equivalentClass>
   </rdfs:Datatype>
   <owl:Class rdf:ID="DayOfWeek">
     <rdfs:comment xml:lang="en">The day of week</rdfs:comment>
