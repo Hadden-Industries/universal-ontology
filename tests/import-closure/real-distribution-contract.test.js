@@ -50,7 +50,7 @@ test.each(targets)(
       new URL(target.input.replace("../dist/", "../../src/"), import.meta.url),
     );
     const catalogPath = fileURLToPath(
-      new URL(target.catalog.replace("../", "../../"), import.meta.url),
+      new URL(target.catalog, new URL("../../scripts/", import.meta.url)),
     );
     const directory = await mkdtemp(join(tmpdir(), "uo-real-contract-"));
     directories.push(directory);
