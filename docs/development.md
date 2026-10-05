@@ -112,6 +112,17 @@ Changes to the style tools, dependencies, configuration, or workflow select the 
 `scripts/upload_to_s3.py` reads the same receipt and refuses to publish when it is missing, was produced for a diagnostic purpose, or no longer matches the current policy, authority snapshot, dependency lock, active module set, sources or built artifacts.
 Historical receipts do not qualify a later publication.
 
+The website build also discovers every valid dated ontology at or after `20260714` under the three ontology source roots.
+Roots declaring imports get freshly materialized `-full`, `-full.jsonld` and `-full.csv` outputs, using checked-in release mappings and local catalogs with network acquisition disabled.
+Roots without imports get no full counterparts.
+The same path is available through `npm run generate:full-ontologies`; maintained full copies at or after the cutoff are rejected.
+Generation invalidates the previous `full-ontology-build.json` receipt before work starts and seals a new one only after all output bytes are verified.
+Both normal and forced publication invoke `node scripts/verifyFullOntologyBuild.js --repository . --output dist` without regenerating anything.
+The upload wrapper copies the complete built tree into an isolated candidate, verifies its identity and qualification, and passes that candidate to the existing upload helper.
+Successful candidates are removed; failed candidates remain under the ignored policy-report directory for diagnosis.
+Rebuild when inputs, producer bytes, installed OWLAPI, candidate selection or outputs change.
+Unknown stale full files are preserved and cause refusal; only matching prior receipt-owned stale files are removed automatically.
+
 ## Continuous integration
 
 PR validation cancels superseded runs of the same pull request; unrelated pull requests remain separate.

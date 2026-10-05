@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { posix } from "node:path";
+import { parseRdfXmlToQuads } from "../rdfXmlToJsonLd.js";
 
 const DATED_VERSION = /^\d{8}$/u;
 const ISO_IEC_ED_4_PREFIX =
@@ -13,7 +14,19 @@ function replaceTerminalVersion(url, aliasName) {
   return `${withoutTrailingSlash.slice(0, finalSeparator + 1)}${aliasName}`;
 }
 
-function createUnstableAlias(stableBytes, outputPath) {
+async function createUnstableAlias(stableBytes, outputPath) {
+  const quads = await parseRdfXmlToQuads({
+    rdfXml: stableBytes,
+    sourceName: outputPath,
+    fallbackBaseIri: `https://haddenindustries.com/ontology/${outputPath}`,
+  });
+  // Import-free releases have no dependency aliases to rewrite, including comments.
+  if (
+    !quads.some(
+      (q) => q.predicate.value === "http://www.w3.org/2002/07/owl#imports",
+    )
+  )
+    return stableBytes;
   let rewrittenImportCount = 0;
   const rewritten = stableBytes
     .toString("utf8")
@@ -68,7 +81,10 @@ export async function generateOntologyAliases({ ontologySources }) {
 
     if (directory === "universal" || directory.startsWith("universal/")) {
       const unstablePath = posix.join(directory, "latest-unstable");
-      aliases.set(unstablePath, createUnstableAlias(stableBytes, unstablePath));
+      aliases.set(
+        unstablePath,
+        await createUnstableAlias(stableBytes, unstablePath),
+      );
     }
   }
 

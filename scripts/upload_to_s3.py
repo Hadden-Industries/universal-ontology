@@ -8,8 +8,11 @@ copies must match those bytes, or nothing is uploaded.
 """
 
 import argparse
+import hashlib
+import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -50,6 +53,48 @@ def locate_helper_script(repository_root: Path = SCRIPT_DIRECTORY.parent) -> Pat
 
 
 HELPER_SCRIPT_PATH = locate_helper_script()
+
+
+def _tree_identity(root: Path) -> dict[str, str]:
+    """Capture all upload bytes, refusing links before copying or invoking the helper."""
+    if root.is_symlink() or root.is_junction():
+        raise PublicationRefusal(f"Linked upload root: {root}")
+    identity = {}
+    for path in sorted(root.rglob("*")):
+        if path.is_symlink() or path.is_junction():
+            raise PublicationRefusal(f"Linked upload candidate: {path}")
+        if path.is_file():
+            identity[path.relative_to(root).as_posix()] = hashlib.sha256(
+                path.read_bytes()
+            ).hexdigest()
+    return identity
+
+
+def prepare_publication_candidate(
+    repository: Path,
+) -> tuple[Path, Path, dict[str, str]]:
+    """Snapshot the complete built tree and reject mutation during preparation; never regenerate."""
+    live = repository / "dist"
+    before = _tree_identity(live)
+    parent = repository / ".sdlc/runtime/policy-reports/publication-candidates"
+    for component in (parent, *parent.parents):
+        if component.is_symlink() or component.is_junction():
+            raise PublicationRefusal(
+                f"Linked publication snapshot directory: {component}"
+            )
+        if component == repository:
+            break
+    parent.mkdir(parents=True, exist_ok=True)
+    owned = Path(tempfile.mkdtemp(prefix="website-", dir=parent))
+    candidate = owned / "dist"
+    # Failed candidates remain available for diagnosis; they are never passed to the upload helper.
+    shutil.copytree(live, candidate)
+    if before != _tree_identity(live) or before != _tree_identity(candidate):
+        raise PublicationRefusal(
+            "Website output changed while preparing the upload snapshot."
+        )
+    check_repository_publication(repository=repository, dist_directory=candidate)
+    return owned, candidate, before
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -124,7 +169,7 @@ def main(argv: list[str] | None = None) -> None:
         sys.exit(1)
 
     try:
-        verdict = check_repository_publication()
+        verdict = check_repository_publication(repository=SCRIPT_DIRECTORY.parent)
     except PublicationRefusal as refusal:
         print(f"PUBLICATION_REFUSED: {refusal}", file=sys.stderr)
         sys.exit(2)
@@ -132,7 +177,13 @@ def main(argv: list[str] | None = None) -> None:
         f"Publication gate: {verdict.receipt_purpose} qualification covers {len(verdict.bound_artifacts)} active artifact(s); policy {verdict.policy_identity}."
     )
 
-    local_directory = (SCRIPT_DIRECTORY / "../dist/").resolve()
+    try:
+        owned, local_directory, candidate_identity = prepare_publication_candidate(
+            SCRIPT_DIRECTORY.parent
+        )
+    except (PublicationRefusal, OSError) as refusal:
+        print(f"PUBLICATION_REFUSED: {refusal}", file=sys.stderr)
+        sys.exit(2)
     command = build_upload_command(
         upload_script,
         local_directory,
@@ -141,9 +192,22 @@ def main(argv: list[str] | None = None) -> None:
     )
 
     try:
+        # Recheck the isolated candidate immediately before starting the external helper.
+        check_repository_publication(
+            repository=SCRIPT_DIRECTORY.parent, dist_directory=local_directory
+        )
+        if _tree_identity(local_directory) != candidate_identity:
+            raise PublicationRefusal(
+                "The sealed upload snapshot changed before upload."
+            )
         subprocess.run(command, check=True)
+    except PublicationRefusal as refusal:
+        print(f"PUBLICATION_REFUSED: {refusal}", file=sys.stderr)
+        sys.exit(2)
     except subprocess.CalledProcessError as error:
         sys.exit(error.returncode)
+
+    shutil.rmtree(owned)
 
     print("SUCCESS: S3 upload completed successfully.")
 

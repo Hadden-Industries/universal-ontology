@@ -82,7 +82,17 @@ export async function createWebsiteConfig({
     },
     plugins: [
       globalHeadPlugin({ partialPath: headPartialPath }),
-      ontologyAssetsPlugin({ ontologySources: inventory.ontologySources }),
+      ontologyAssetsPlugin({
+        ontologySources: inventory.ontologySources,
+        fullOntologyContext:
+          command === "build"
+            ? {
+                repositoryDirectory,
+                sourceDirectory,
+                outputDirectory,
+              }
+            : undefined,
+      }),
       ...viteStaticCopy({ targets: staticCopyTargets }),
       outputCollisionPlugin({ reservedOutputPaths }),
       preserveUnchangedOutputPlugin({ outputDirectory }),

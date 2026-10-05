@@ -23,6 +23,7 @@ const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
   xmlns:owl="http://www.w3.org/2002/07/owl#">
   <owl:Ontology rdf:about="">
+    <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260101" />
     <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260101" />
   </owl:Ontology>
 </rdf:RDF>
@@ -123,7 +124,7 @@ window.loadConverter = () => import("./OwlToUmlXmiConverter.js");
   return { root, sourceDirectory, outputDirectory, headPartialPath };
 }
 
-async function runViteBuild(fixture) {
+async function runViteBuild(fixture, failure) {
   await execFileAsync(
     process.execPath,
     [
@@ -132,10 +133,49 @@ async function runViteBuild(fixture) {
       fixture.sourceDirectory,
       fixture.outputDirectory,
       fixture.headPartialPath,
+      ...(failure ? [failure] : []),
     ],
     { cwd: process.cwd() },
   );
 }
+
+test("a failing Vite output hook cannot seal a receipt even when full files already exist", async () => {
+  const fixture = await createWebsiteFixture();
+  try {
+    const document = (date, imports = "") =>
+      `<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:owl="http://www.w3.org/2002/07/owl#"><owl:Ontology rdf:about="https://haddenindustries.com/ontology/iso/example/"><owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso/example/${date}"/>${imports}</owl:Ontology></rdf:RDF>`;
+    await put(
+      fixture.sourceDirectory,
+      "iso/example/20260713",
+      document("20260713"),
+    );
+    await put(
+      fixture.sourceDirectory,
+      "iso/example/20260714",
+      document(
+        "20260714",
+        '<owl:imports rdf:resource="https://haddenindustries.com/ontology/iso/example/20260713"/>',
+      ),
+    );
+    await runViteBuild(fixture);
+    const receipt = join(
+      fixture.root,
+      ".sdlc/runtime/policy-reports/full-ontology-build.json",
+    );
+    await expect(access(receipt)).resolves.toBeUndefined();
+    await expectExisting(fixture.outputDirectory, [
+      "iso/example/20260714-full",
+      "iso/example/20260714-full.jsonld",
+      "iso/example/20260714-full.csv",
+    ]);
+    await expect(runViteBuild(fixture, "fail-write")).rejects.toThrow(
+      "injected output failure",
+    );
+    await expect(access(receipt)).rejects.toMatchObject({ code: "ENOENT" });
+  } finally {
+    await rm(fixture.root, { recursive: true, force: true });
+  }
+});
 
 test.each([
   "field-property-history.v1.json",

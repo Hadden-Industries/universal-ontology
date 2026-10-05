@@ -40,6 +40,8 @@ export async function materializeImportClosure({
   catalogPath,
   format = "rdfxml",
   onDocument,
+  loaderConfiguration = generationConfiguration,
+  iriMapper,
 }) {
   if (
     !inputPath ||
@@ -61,16 +63,20 @@ export async function materializeImportClosure({
       ? await OasisXmlCatalogIRIMapper.fromFile(selectedCatalog, {
           loadCatalogDocument: (iri) =>
             catalogLoader.loadCatalogDocument(iri, {
-              config: generationConfiguration,
+              config: loaderConfiguration,
             }),
         })
       : undefined;
   } catch (cause) {
     throw failure("imports", cause);
   }
-  const loader = new OntologyDocumentLoader({ iriMapper: mapper, onDocument });
+  const loader = new OntologyDocumentLoader({
+    iriMapper: iriMapper ?? mapper,
+    onDocument,
+  });
   let resolvingImports = false;
   const inputManager = OWLManager.createOWLOntologyManager({
+    iriMappers: iriMapper ? [iriMapper] : mapper ? [mapper] : [],
     documentLoader: {
       load(...args) {
         // The manager requests imports only after parsing the root document.
@@ -82,11 +88,11 @@ export async function materializeImportClosure({
   let rootOntology;
   try {
     const source = await loader.loadRootDocument(inputPath, {
-      config: generationConfiguration,
+      config: loaderConfiguration,
     });
     const result = await inputManager.loadOntologyGraphFromOntologyDocument(
       source,
-      generationConfiguration,
+      loaderConfiguration,
     );
     assertLosslessOntologyLoad(result);
     rootOntology = result.ontology;

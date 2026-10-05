@@ -28,7 +28,7 @@ test("classifies pages, passthrough files, exclusions, and ontology sources", as
     await put(root, "external/nested/vendor.url");
     await put(root, "downloads/kept.url");
     await put(root, "universal/core/20260714");
-    await put(root, "universal/core/20260714-full");
+    await put(root, "universal/core/20260713-full");
     await put(root, "universal/core/latest", "stale stable alias");
     await put(root, "universal/core/latest-unstable", "stale unstable alias");
     await put(root, "iso-iec/11179/-3/ed-3/v1");
@@ -45,15 +45,15 @@ test("classifies pages, passthrough files, exclusions, and ontology sources", as
       "assets/blob.bin",
       "downloads/kept.url",
       "iso-iec/11179/-3/ed-3/v1",
+      "universal/core/20260713-full",
       "universal/core/20260714",
-      "universal/core/20260714-full",
     ]);
     expect(
       inventory.ontologySources.map(({ outputPath }) => outputPath),
     ).toEqual([
       "iso-iec/11179/-3/ed-3/v1",
+      "universal/core/20260713-full",
       "universal/core/20260714",
-      "universal/core/20260714-full",
     ]);
   } finally {
     await rm(root, { recursive: true, force: true });
