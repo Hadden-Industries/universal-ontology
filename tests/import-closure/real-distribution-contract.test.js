@@ -9,32 +9,38 @@ import {
   OWLOntologyLoaderConfiguration,
 } from "owlapi/model";
 import { OWLDocumentFormats } from "owlapi/formats";
-import { targets } from "../../scripts/createFullVersions.js";
+import {
+  discoverFullOntologyCandidates,
+  createLocalMapper,
+} from "../../scripts/build/fullOntologyAssets.js";
 import { materializeImportClosure } from "../../scripts/materializeImportClosure.js";
-import { OasisXmlCatalogIRIMapper } from "../../scripts/ontology/oasisXmlCatalogIRIMapper.js";
 import { OntologyDocumentLoader } from "../../scripts/ontology/ontologyDocumentLoader.js";
 import { assertLosslessOntologyLoad } from "../../scripts/ontology/assertLosslessOntologyLoad.js";
 import { verifyStandaloneOntology } from "../../scripts/ontology/verifyStandaloneOntology.js";
 
 const directories = [];
 const repositoryRoot = fileURLToPath(new URL("../../", import.meta.url));
-const remoteImports = new Set([
-  "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/20260714",
-  "https://haddenindustries.com/ontology/universal/reference-data/20260714",
-  "https://haddenindustries.com/ontology/universal/core/20260714",
-]);
-
+const discovery = await discoverFullOntologyCandidates({
+  repositoryDirectory: repositoryRoot,
+});
+const targets = discovery.candidates
+  .filter((source) => source.imports.length)
+  .map((source) => ({
+    input: source.outputPath,
+    sourcePath: source.sourcePath,
+  }));
+const mapper = await createLocalMapper(
+  { repositoryDirectory: repositoryRoot },
+  discovery.sources,
+  {},
+);
 function assertDocumentOrigin(document) {
-  if (document.candidates[0].startsWith("file:")) {
-    // A missing catalog mapping must never silently substitute a web copy in
-    // this real-source regression. The loader's fallback has separate tests.
-    expect(document.resolved).toBe(document.candidates[0]);
-    const path = relative(repositoryRoot, fileURLToPath(document.resolved));
-    expect(isAbsolute(path) || path.startsWith("..")).toBe(false);
-  } else {
-    expect(remoteImports.has(document.authored)).toBe(true);
-    expect(document.resolved).toBe(document.authored);
-  }
+  expect(document.candidates[0].startsWith("file:")).toBe(true);
+  // A missing catalog mapping must never silently substitute a web copy in
+  // this real-source regression. The loader's fallback has separate tests.
+  expect(document.resolved).toBe(document.candidates[0]);
+  const path = relative(repositoryRoot, fileURLToPath(document.resolved));
+  expect(isAbsolute(path) || path.startsWith("..")).toBe(false);
 }
 afterEach(async () => {
   for (const path of directories.splice(0)) await rm(path, { recursive: true });
@@ -43,15 +49,8 @@ afterEach(async () => {
 test.each(targets)(
   "real source $input preserves the full closure contract",
   async (target) => {
-    // src contains the exact published root bytes copied to dist by the build;
-    // using it avoids a build prerequisite. The three dated module imports are
-    // intentionally remote, as in production; mapped vocabulary files stay local.
-    const inputPath = fileURLToPath(
-      new URL(target.input.replace("../dist/", "../../src/"), import.meta.url),
-    );
-    const catalogPath = fileURLToPath(
-      new URL(target.catalog, new URL("../../scripts/", import.meta.url)),
-    );
+    // Read current authored roots directly and resolve their closure locally, without requiring dist.
+    const inputPath = target.sourcePath;
     const directory = await mkdtemp(join(tmpdir(), "uo-real-contract-"));
     directories.push(directory);
     const outputPath = join(directory, "standalone.owl");
@@ -59,7 +58,11 @@ test.each(targets)(
     await materializeImportClosure({
       inputPath,
       outputPath,
-      catalogPath,
+      iriMapper: mapper,
+      loaderConfiguration: new OWLOntologyLoaderConfiguration({
+        remoteImports: false,
+        remoteJsonLdContexts: false,
+      }),
       format: "rdfxml",
       onDocument(document) {
         assertDocumentOrigin(document);
@@ -70,15 +73,15 @@ test.each(targets)(
     const configuration = new OWLOntologyLoaderConfiguration({
       parsingMode: "strict",
       loadAnnotationAxioms: true,
-      remoteImports: true,
-      remoteJsonLdContexts: true,
+      remoteImports: false,
+      remoteJsonLdContexts: false,
       missingImportHandling: "throw",
       rdfDatasetGraphPolicy: "requireSingleGraph",
       collectWarnings: true,
     });
     const expectedDocuments = [];
     const loader = new OntologyDocumentLoader({
-      iriMapper: await OasisXmlCatalogIRIMapper.fromFile(catalogPath),
+      iriMapper: mapper,
       onDocument(document) {
         assertDocumentOrigin(document);
         expectedDocuments.push([document.authored, document.sha256]);
@@ -86,6 +89,7 @@ test.each(targets)(
     });
     const manager = OWLManager.createOWLOntologyManager({
       documentLoader: loader,
+      iriMappers: [mapper],
     });
     const loaded = await manager.loadOntologyGraphFromOntologyDocument(
       await loader.loadRootDocument(inputPath, { config: configuration }),
@@ -116,6 +120,22 @@ test.each(targets)(
   },
   180000,
 );
+
+test("real discovered targets match the independently stated accepted eight-case inventory", () => {
+  const expected = [
+    "iso-iec/11179/-3/ed-4",
+    "universal/core",
+    "universal/extended",
+    "universal/reference-data",
+  ]
+    .flatMap((family) => [`${family}/20260714`, `${family}/20260912`])
+    .sort();
+  expect(targets.map((t) => t.input).sort()).toEqual(expected);
+  expect(
+    discovery.candidates.find((c) => c.outputPath === "iso/31073/ed-1/20260912")
+      .imports,
+  ).toEqual([]);
+});
 
 test("real-source checks reject fallback from a missing local mapping", () => {
   expect(() =>

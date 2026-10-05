@@ -547,7 +547,7 @@ describe("ontology query-index generation", () => {
       await writeFile(join(familyDirectory, "20260829"), fixtureBytes);
       await writeFile(join(familyDirectory, "20260830"), fixtureBytes);
       await writeFile(join(familyDirectory, "v1"), fixtureBytes);
-      await writeFile(join(familyDirectory, "20260830-full"), fixtureBytes);
+      await writeFile(join(familyDirectory, "20260713-full"), fixtureBytes);
 
       await generateOntologyQueryIndexes({
         sourceDirectory,
@@ -561,7 +561,7 @@ describe("ontology query-index generation", () => {
       });
       const { catalog: inMemoryCatalog, artifactContentsByRelativePath } =
         await createOntologyQueryArtifacts({
-          ontologySources: ["20260829", "20260830", "v1", "20260830-full"].map(
+          ontologySources: ["20260829", "20260830", "v1", "20260713-full"].map(
             (versionTag) => ({
               sourcePath: join(familyDirectory, versionTag),
               outputPath: `universal/test/${versionTag}`,

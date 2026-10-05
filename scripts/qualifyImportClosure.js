@@ -3,7 +3,11 @@ import { mkdir, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
-import { targets } from "./createFullVersions.js";
+import {
+  discoverFullOntologyCandidates,
+  createLocalMapper,
+} from "./build/fullOntologyAssets.js";
+import { OWLOntologyLoaderConfiguration } from "owlapi/model";
 import { materializeImportClosure } from "./materializeImportClosure.js";
 import {
   collectQualificationIdentity,
@@ -37,7 +41,7 @@ function describe(error) {
   };
 }
 
-/** Exercise both formats on all four roots without touching maintained distributions. */
+/** Exercise both formats on every discovered import-declaring root without touching maintained distributions. */
 export async function qualifyImportClosure({
   sourceRoot,
   outputRoot,
@@ -65,11 +69,21 @@ export async function qualifyImportClosure({
   });
   const inputInventory = await inventory(join(sourceRoot, "src"));
   const results = [];
+  const { sources, candidates } = await discoverFullOntologyCandidates({
+    repositoryDirectory: sourceRoot,
+  });
+  const localInputs = {};
+  const iriMapper = await createLocalMapper(
+    { repositoryDirectory: sourceRoot },
+    sources,
+    localInputs,
+  );
+  const targets = candidates.filter((source) => source.imports.length);
   for (const [index, target] of targets.entries()) {
-    const inputPath = resolve(sourceRoot, "scripts", target.input);
-    const catalogPath = resolve(sourceRoot, "scripts", target.catalog);
+    const inputPath = target.sourcePath;
+    const catalogPath = null;
     const inputSha256 = hash(await readFile(inputPath));
-    const catalogSha256 = hash(await readFile(catalogPath));
+    const catalogSha256 = null;
     for (const format of ["functional", "rdfxml"]) {
       const outputPath = join(directory, `${index}-${format}.owl`);
       await writeFile(outputPath, "qualification-sentinel");
@@ -78,6 +92,12 @@ export async function qualifyImportClosure({
         await materializeImportClosure({
           inputPath,
           catalogPath,
+          iriMapper,
+          loaderConfiguration: new OWLOntologyLoaderConfiguration({
+            remoteImports: false,
+            remoteJsonLdContexts: false,
+            missingImportHandling: "throw",
+          }),
           outputPath,
           format,
           onDocument: (document) => documents.push(document),

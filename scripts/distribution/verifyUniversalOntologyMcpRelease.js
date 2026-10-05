@@ -104,7 +104,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
     "321898b3be738ca562aea66b98dd0bf001f9f1156f0a3916026b9ce87d3ffb04",
   "scripts/selectPullRequestChecks.js":
-    "635c1765f2fd8767c910c589a8e8c00f5e9ec63a8ca603157c7b2773b7bca0f4",
+    "c5f4f5db2b71f9fa823375581118d479e17439cf6d92d2c0d9edf4394720203f",
   "scripts/evaluatePullRequestChecks.js":
     "164fd947ce9dc428a48a1b0cf07898ec21df995c60dbd2b4580b3e34cafa5643",
   "scripts/pullRequestCheckPlan.schema.json":

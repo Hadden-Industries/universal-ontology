@@ -15,15 +15,21 @@ function toPosix(path) {
   return path.split(sep).join("/");
 }
 
-async function findRegularFiles(directory) {
+async function findRegularFiles(directory, sourceDirectory = directory) {
   const entries = await readdir(directory, { withFileTypes: true });
   const files = [];
 
   for (const entry of entries) {
     const path = resolve(directory, entry.name);
 
+    if (
+      entry.isSymbolicLink() &&
+      ONTOLOGY_ROOTS.has(relative(sourceDirectory, path).split(sep)[0])
+    ) {
+      throw new Error(`Linked ontology source path: ${path}`);
+    }
     if (entry.isDirectory()) {
-      files.push(...(await findRegularFiles(path)));
+      files.push(...(await findRegularFiles(path, sourceDirectory)));
     } else if (entry.isFile()) {
       files.push(path);
     }
@@ -78,6 +84,17 @@ export async function inventorySourceTree({ sourceDirectory }) {
     const extension = extname(name);
     const isExternalUrl = parts[0] === "external" && extension === ".url";
     const isOntologySource = ONTOLOGY_ROOTS.has(parts[0]) && extension === "";
+
+    // Dated full paths belong exclusively to the generator, including no-import exclusions.
+    if (
+      ONTOLOGY_ROOTS.has(parts[0]) &&
+      /^\d{8}-full(?:\.jsonld|\.csv)?$/u.test(name) &&
+      name.slice(0, 8) >= "20260714"
+    ) {
+      throw new Error(
+        `Authored asset competes with generated full ontology: ${outputPath}`,
+      );
+    }
 
     if (name === ".editorconfig" || isExternalUrl) {
       continue;

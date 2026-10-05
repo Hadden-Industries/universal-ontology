@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
+import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -19,7 +21,7 @@ from .authorities import AUTHORITIES_DIRECTORY, authority_identities
 from .modules import load_owned_modules
 from .namespaces import REPOSITORY_ROOT
 from .policy import load_policy
-from .reports import RECEIPT_FILENAME, REPORT_DIRECTORY, lock_identity
+from .reports import RECEIPT_FILENAME, lock_identity
 
 
 class PublicationRefusal(Exception):
@@ -109,11 +111,14 @@ def check_publication_gate(
 
 def check_repository_publication(
     repository: Path = REPOSITORY_ROOT,
-    report_directory: Path = REPORT_DIRECTORY,
+    report_directory: Path | None = None,
     authorities_directory: Path = AUTHORITIES_DIRECTORY,
+    dist_directory: Path | None = None,
 ) -> GateVerdict:
     """Gate the real repository: recorded active artifacts, current policy, authorities and lock."""
     policy = load_policy()
+    if report_directory is None:
+        report_directory = repository / ".sdlc/runtime/policy-reports"
     from .validation import required_authorities
 
     required = required_authorities(policy)
@@ -122,7 +127,8 @@ def check_repository_publication(
         for m in load_owned_modules()
         if m.active_artifact_path
     }
-    return check_publication_gate(
+    candidate = dist_directory if dist_directory is not None else repository / "dist"
+    verdict = check_publication_gate(
         repository=repository,
         report_directory=report_directory,
         active_artifacts=active,
@@ -131,5 +137,37 @@ def check_repository_publication(
         if required
         else (),
         lock_identity=lock_identity(repository),
-        dist_directory=repository / "dist",
+        dist_directory=candidate,
     )
+    node = shutil.which("node")
+    if node is None:
+        raise PublicationRefusal(
+            "Node.js is required to verify full ontology build evidence."
+        )
+    try:
+        result = subprocess.run(
+            [
+                node,
+                str(repository / "scripts/verifyFullOntologyBuild.js"),
+                "--repository",
+                str(repository),
+                "--output",
+                str(candidate),
+                "--reports",
+                str(report_directory),
+            ],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=120,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as error:
+        raise PublicationRefusal(
+            f"Full ontology build verification unavailable: {error}"
+        ) from error
+    if result.returncode:
+        raise PublicationRefusal(
+            f"Full ontology build refused: {result.stderr.strip()}"
+        )
+    return verdict
