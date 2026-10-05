@@ -102,7 +102,7 @@ test("rewrites every internal import in Universal unstable aliases without chang
   }
 });
 
-test("rejects a Universal unstable alias with no eligible internal import", async () => {
+test("preserves a no-import Universal source in both ordinary aliases", async () => {
   const root = await mkdtemp(join(tmpdir(), "uo-empty-unstable-alias-"));
 
   try {
@@ -112,10 +112,11 @@ test("rejects a Universal unstable alias with no eligible internal import", asyn
       '<owl:Ontology xmlns:owl="http://www.w3.org/2002/07/owl#" />',
     );
 
-    await expect(
-      generateOntologyAliases({ ontologySources: [source] }),
-    ).rejects.toThrow(
-      /universal\/core\/latest-unstable: no eligible internal owl:imports/u,
+    const aliases = await generateOntologyAliases({
+      ontologySources: [source],
+    });
+    expect(aliases.get("universal/core/latest-unstable")).toEqual(
+      aliases.get("universal/core/latest"),
     );
   } finally {
     await rm(root, { recursive: true, force: true });

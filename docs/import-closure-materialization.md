@@ -19,7 +19,7 @@ After publication, independently fetch the exact package through the native alia
 Keep these records outside ontology outputs.
 An accepted release candidate may be used for production without waiting for a stable version; a later package version or different candidate bytes require explicit adoption and requalification.
 
-`scripts/qualifyImportClosure.js` exercises the four accepted roots in Functional Syntax and RDF/XML, writing to an external output root.
+`scripts/qualifyImportClosure.js` discovers all import-declaring roots dated `20260714` or later and exercises them in Functional Syntax and RDF/XML, writing to an external output root.
 Its report records document bytes and identities but does not itself establish registry acceptance or run the independent Java comparison.
 Combine it with focused consumer tests and pinned Java evidence, keeping each result's actual scope explicit.
 The retained-candidate identity collector intentionally remains a prepublication observer; it is not a registry attestation verifier.
@@ -33,8 +33,17 @@ The following table records the completed command migration.
 | `python scripts/merge_owl_imports.py INPUT OUTPUT --catalog CATALOG` | `node scripts/materializeImportClosure.js INPUT OUTPUT --catalog CATALOG --format rdfxml` |
 | `python scripts/create_full_versions.py`                             | `npm run generate:full-ontologies`                                                        |
 
-The batch directly composes the materializer for the four `20260714` distributions: ISO/IEC 11179-3, reference data, core, and extended.
-It supplies each family's catalog explicitly and stops at the first failure.
+The batch and ordinary website build share source-driven discovery and local-only materialization.
+Every ordinary extensionless release with a valid date at or after `20260714` is considered, including future dates and newly added families.
+A parsed root with imports gets all three fresh representations; a root without imports gets none of the three full counterparts.
+The current corpus has eight importing roots across ISO/IEC 11179-3, reference data, core and extended, at dates `20260714` and `20260912`; ISO 31073 `20260912` has no imports and is skipped.
+This observation is not an allowlist.
+Release mappings come from checked-in source identities, combined with existing local catalogs; conflicting mappings, missing local imports, malformed sources and linked paths fail.
+Ordinary distributions, existing alias rewriting, earlier releases and query artifact admission retain their contracts.
+The batch stops at the first failure and leaves no usable build receipt.
+The ignored `full-ontology-build.json` product receipt binds candidate selection, source and catalog inputs, producer and installed OWLAPI bytes, and all required output hashes.
+Read-only publication admission recomputes selection, checks required outputs and forbids full counterparts for no-import roots.
+Normal and forced uploads use the same gate and an isolated snapshot of the entire built tree.
 There is no compatibility wrapper; Git history is the recovery path for the removed Python implementation.
 
 The one-root command accepts `--format rdfxml` or `--format functional`.
@@ -64,7 +73,8 @@ Catalog resolution follows the accepted OASIS URI rules, including exact mapping
 Unreadable mapped documents fall through to the authored import IRI after bounded attempts; successfully read malformed content is fatal.
 An authored HTTP IRI is attempted before HTTPS promotion.
 Transport retries, redirects, response size, and attempt duration are bounded.
-Successfully loading the source may use the network; verifying the standalone output cannot.
+The general one-root CLI may use the network when loading the source; verifying the standalone output cannot.
+The website and batch production paths disable network acquisition for both phases.
 
 Missing imports, unsupported constructs, unconsumed RDF, ambiguous headers, conflicting identities, ambiguous RDF datasets, resource limits, and output verification failures stop publication.
 Warnings do not waive structural invariants.

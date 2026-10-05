@@ -202,7 +202,46 @@ class PublicationGateIntegrationTests(unittest.TestCase):
                 ),
                 mock.patch.object(upload_to_s3.subprocess, "run") as run,
                 mock.patch.object(upload_to_s3, "HELPER_SCRIPT_PATH", helper),
+                mock.patch.object(
+                    upload_to_s3,
+                    "prepare_publication_candidate",
+                    return_value=(
+                        Path(temporary) / "candidate",
+                        Path(temporary) / "candidate/dist",
+                        {},
+                    ),
+                ),
+                mock.patch.object(upload_to_s3.shutil, "rmtree"),
+                mock.patch.object(upload_to_s3, "_tree_identity", return_value={}),
             ):
                 upload_to_s3.main([])
                 run.assert_called_once()
                 self.assertEqual(run.call_args.args[0][1], str(helper))
+                self.assertEqual(
+                    run.call_args.args[0][2], str(Path(temporary) / "candidate/dist")
+                )
+
+    def test_snapshot_rejects_live_mutation_without_uploading(self):
+        import tempfile
+        from unittest import mock
+
+        from ontology_policy.publication import PublicationRefusal
+
+        with tempfile.TemporaryDirectory() as temporary:
+            repository = Path(temporary)
+            live = repository / "dist"
+            live.mkdir()
+            (live / "asset").write_text("original", encoding="utf-8")
+            real_copy = upload_to_s3.shutil.copytree
+
+            def mutate(source, destination):
+                real_copy(source, destination)
+                (live / "asset").write_text("changed", encoding="utf-8")
+
+            with (
+                mock.patch.object(upload_to_s3.shutil, "copytree", side_effect=mutate),
+                mock.patch.object(upload_to_s3, "check_repository_publication") as gate,
+            ):
+                with self.assertRaisesRegex(PublicationRefusal, "changed"):
+                    upload_to_s3.prepare_publication_candidate(repository)
+                gate.assert_not_called()

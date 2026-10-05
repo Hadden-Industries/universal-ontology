@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { lstatSync } from "node:fs";
 import {
   mkdir,
   readFile,
@@ -21,6 +22,10 @@ import {
 } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { IRI, OWLOntologyLoaderConfiguration } from "owlapi/model";
+import { OWLManager } from "owlapi/apibinding";
+import { OntologyDocumentLoader } from "../ontology/ontologyDocumentLoader.js";
+import { assertLosslessOntologyLoad } from "../ontology/assertLosslessOntologyLoad.js";
+import { findOwlapiPackageRoot } from "../ontology/qualificationIdentity.js";
 import { parseRdfXmlToQuads } from "../rdfXmlToJsonLd.js";
 import { materializeImportClosure } from "../materializeImportClosure.js";
 import { OasisXmlCatalogIRIMapper } from "../ontology/oasisXmlCatalogIRIMapper.js";
@@ -133,13 +138,15 @@ export async function discoverFullOntologyCandidates(options) {
       (q) =>
         q.subject.value === header && q.predicate.value === `${OWL}versionIRI`,
     );
-    const publicIri = `${PUBLIC_ROOT}${source.outputPath}`;
+    const expectedIri = `${PUBLIC_ROOT}${source.outputPath}`;
+    const publicIri = versions[0]?.object.value;
     if (
       versions.length !== 1 ||
       versions[0].object.termType !== "NamedNode" ||
-      versions[0].object.value !== publicIri ||
-      header !==
-        `${PUBLIC_ROOT}${dirname(source.outputPath).replaceAll("\\", "/")}/`
+      (name >= FULL_ONTOLOGY_CUTOFF &&
+        (publicIri !== expectedIri ||
+          header !==
+            `${PUBLIC_ROOT}${dirname(source.outputPath).replaceAll("\\", "/")}/`))
     )
       throw new Error(
         `Ontology release identity mismatch: ${source.outputPath}`,
@@ -153,6 +160,24 @@ export async function discoverFullOntologyCandidates(options) {
       )
     )
       throw new Error(`Invalid root import declaration: ${source.outputPath}`);
+    if (name >= FULL_ONTOLOGY_CUTOFF && importQuads.length === 0) {
+      const loader = new OntologyDocumentLoader();
+      const manager = OWLManager.createOWLOntologyManager();
+      const parsed = await manager.loadOntologyGraphFromOntologyDocument(
+        await loader.loadRootDocument(source.sourcePath, {
+          config: offlineConfiguration,
+        }),
+        offlineConfiguration,
+      );
+      assertLosslessOntologyLoad(parsed);
+      if (
+        parsed.ontology.getOntologyID().ontologyIRI?.value !== header ||
+        parsed.ontology.getOntologyID().versionIRI?.value !== publicIri
+      )
+        throw new Error(
+          `Native ontology identity mismatch: ${source.outputPath}`,
+        );
+    }
     sources.push({
       ...source,
       publicIri,
@@ -203,7 +228,22 @@ async function producerEvidence() {
   const files = {};
   for (const path of paths.sort(binarySort))
     files[path] = digest(await readFile(resolve(repository, path)));
-  return { node: process.version, files };
+  const packageRoot = await findOwlapiPackageRoot();
+  const packageFiles = {};
+  async function capturePackage(folder) {
+    for (const entry of await readdir(folder, { withFileTypes: true })) {
+      const path = resolve(folder, entry.name);
+      if (entry.isSymbolicLink())
+        throw new Error("Linked OWLAPI package input");
+      if (entry.isDirectory()) await capturePackage(path);
+      else if (entry.isFile())
+        packageFiles[relative(packageRoot, path).split(sep).join("/")] = digest(
+          await readFile(path),
+        );
+    }
+  }
+  await capturePackage(packageRoot);
+  return { node: process.version, files, owlapi: packageFiles };
 }
 
 async function captureInput(ctx, path, inputs) {
@@ -216,7 +256,7 @@ async function captureInput(ctx, path, inputs) {
 }
 
 /** Compose local-only release mappings with existing catalogs, rejecting competing identity bindings. */
-async function createLocalMapper(ctx, sources, inputs) {
+export async function createLocalMapper(ctx, sources, inputs) {
   const releaseMap = new Map(
     sources.map((s) => [s.publicIri, pathToFileURL(s.sourcePath).href]),
   );
@@ -267,6 +307,16 @@ async function createLocalMapper(ctx, sources, inputs) {
       const selected = direct ?? choices[0];
       if (selected && !selected.startsWith("file:"))
         throw new Error(`Remote catalog target: ${iri.value}`);
+      if (selected) {
+        let path = fileURLToPath(selected);
+        assertContained(ctx.repositoryDirectory, path);
+        for (;;) {
+          if (lstatSync(path).isSymbolicLink())
+            throw new Error(`Linked local ontology input: ${path}`);
+          if (path === ctx.repositoryDirectory) break;
+          path = dirname(path);
+        }
+      }
       if (!selected && imports.has(iri.value))
         throw new Error(`Missing local ontology input: ${iri.value}`);
       return selected ? IRI.create(selected) : undefined;
@@ -352,6 +402,50 @@ export async function createFullOntologyAssets(options) {
 
 async function assertBuildInputs(ctx, receipt) {
   const current = await discoverFullOntologyCandidates(ctx);
+  for (const source of current.sources) {
+    const path = relative(ctx.repositoryDirectory, source.sourcePath)
+      .split(sep)
+      .join("/");
+    if (receipt.inputs[path] !== source.sha256)
+      throw new Error(
+        `Missing or changed full ontology source binding: ${path}`,
+      );
+  }
+  // Reconstruct the required local dependency bindings without trusting the receipt's input list.
+  const requiredInputs = {};
+  const mapper = await createLocalMapper(ctx, current.sources, requiredInputs);
+  const pending = current.candidates
+    .filter((s) => s.imports.length)
+    .map((s) => s.sourcePath);
+  const visited = new Set();
+  while (pending.length) {
+    const path = pending.pop();
+    if (visited.has(path)) continue;
+    visited.add(path);
+    await captureInput(ctx, path, requiredInputs);
+    const quads = await parseRdfXmlToQuads({
+      rdfXml: await readFile(path),
+      sourceName: path,
+      fallbackBaseIri: pathToFileURL(path).href,
+    });
+    for (const quad of quads.filter(
+      (q) => q.predicate.value === `${OWL}imports`,
+    )) {
+      if (quad.object.termType !== "NamedNode")
+        throw new Error("Invalid local import target");
+      const target =
+        mapper.getDocumentIRI(IRI.create(quad.object.value))?.value ??
+        quad.object.value;
+      if (!target.startsWith("file:"))
+        throw new Error(`Missing local ontology input: ${target}`);
+      pending.push(fileURLToPath(target));
+    }
+  }
+  for (const [path, hash] of Object.entries(requiredInputs))
+    if (receipt.inputs[path] !== hash)
+      throw new Error(
+        `Missing or changed full ontology dependency binding: ${path}`,
+      );
   if (
     JSON.stringify(candidateEvidence(current.candidates)) !==
     JSON.stringify(receipt.candidates)
@@ -471,32 +565,39 @@ export async function beginFullOntologyBuild(options) {
 /** Seal evidence only after emitted files exist; remove only hash-bound prior owned redundant counterparts. */
 export async function completeFullOntologyBuild(state, receipt) {
   const { ctx, previous, receiptPath } = state;
-  for (const candidate of receipt.candidates.filter((c) => !c.imports.length))
-    for (const suffix of SUFFIXES) {
-      const outputPath = `${candidate.outputPath}${suffix}`;
-      const path = await containedPath(
-        ctx.outputDirectory,
-        resolveOutputPath(ctx.outputDirectory, outputPath),
-      );
-      let bytes;
-      try {
-        bytes = await readFile(path);
-      } catch (error) {
-        if (error.code === "ENOENT") continue;
-        throw error;
-      }
-      const owned = previous?.outputs?.find(
-        (o) =>
-          o.path === outputPath &&
-          o.sha256 === digest(bytes) &&
-          o.size === bytes.length,
-      );
-      if (!owned)
-        throw new Error(
-          `Unknown ownership of stale full ontology output: ${outputPath}`,
-        );
-      await rm(path);
+  const currentOutputs = new Set(receipt.outputs.map((o) => o.path));
+  const stalePaths = new Set([
+    ...receipt.candidates
+      .filter((c) => !c.imports.length)
+      .flatMap((c) => SUFFIXES.map((suffix) => `${c.outputPath}${suffix}`)),
+    ...(previous?.outputs ?? [])
+      .filter((o) => !currentOutputs.has(o.path))
+      .map((o) => o.path),
+  ]);
+  for (const outputPath of stalePaths) {
+    const path = await containedPath(
+      ctx.outputDirectory,
+      resolveOutputPath(ctx.outputDirectory, outputPath),
+    );
+    let bytes;
+    try {
+      bytes = await readFile(path);
+    } catch (error) {
+      if (error.code === "ENOENT") continue;
+      throw error;
     }
+    const owned = previous?.outputs?.find(
+      (o) =>
+        o.path === outputPath &&
+        o.sha256 === digest(bytes) &&
+        o.size === bytes.length,
+    );
+    if (!owned)
+      throw new Error(
+        `Unknown ownership of stale full ontology output: ${outputPath}`,
+      );
+    await rm(path);
+  }
   await assertBuildInputs(ctx, receipt);
   await assertOutputs(ctx, receipt);
   const temporary = `${receiptPath}.pending`;
@@ -508,6 +609,16 @@ export async function completeFullOntologyBuild(state, receipt) {
   } finally {
     await rm(temporary, { force: true });
   }
+}
+
+/** Check destination components before either writer can follow a linked output path. */
+export async function checkFullOntologyOutputPaths(options, paths) {
+  const ctx = context(options);
+  for (const path of paths)
+    await containedPath(
+      ctx.outputDirectory,
+      resolveOutputPath(ctx.outputDirectory, path),
+    );
 }
 
 /** Release only the lock acquired by this invocation; partial outputs never acquire a valid receipt. */

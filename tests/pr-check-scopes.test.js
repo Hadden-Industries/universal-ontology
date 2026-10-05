@@ -723,8 +723,15 @@ describe("native Git PR check selection", () => {
   });
 
   test.each([
-    ["core/universal-core.owl", []],
-    ["src/universal/core/20260907", []],
+    ["core/universal-core.owl", ["website_build"]],
+    ["src/universal/core/20260907", ["website_build"]],
+    ["src/iso/new-family/20261005", ["website_build"]],
+    ["src/iso-iec/11179/-3/ed-4/20260912", ["website_build"]],
+    ["src/external/skos.rdf", ["website_build"]],
+    ["core/catalog-v001.xml", ["website_build"]],
+    ["scripts/verifyFullOntologyBuild.js", ["product_tests", "website_build"]],
+    ["scripts/ontology_policy/publication.py", ["website_build"]],
+    ["scripts/upload_to_s3.py", ["website_build"]],
     ["docs/sdlc/baselines/issue-1/v1.json", []],
     ["docs/sdlc/verification.md", []],
     ["docs/sdlc/README.md", []],
@@ -805,14 +812,14 @@ describe("native Git PR check selection", () => {
     },
   );
 
-  test("an ontology plus its accepted baseline does not select unrelated checks", () => {
+  test("an ontology plus its accepted baseline selects its generated website consumer", () => {
     const paths = [
       "core/universal-core.owl",
       "docs/sdlc/baselines/issue-7/v1.json",
     ];
     paths.forEach((path) => write(path));
     commit(paths);
-    expectSelection([]);
+    expectSelection(["website_build"]);
   });
 
   test("mixed changes take the union of their applicable checks", () => {

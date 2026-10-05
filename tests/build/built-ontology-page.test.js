@@ -33,7 +33,7 @@ const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
     <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260714" />
     <owl:versionInfo>2026-07-14</owl:versionInfo>
     <owl:priorVersion rdf:resource="https://haddenindustries.com/ontology/universal/core/20260625" />
-    <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260714" />
+    <owl:imports rdf:resource="https://haddenindustries.com/ontology/iso/example/20260714" />
   </owl:Ontology>
   <owl:Class rdf:about="Person">
     <dcterms:identifier rdf:resource="urn:uuid:1ef827ec-12a3-43e6-88de-d149d3be2b8e" />
@@ -105,7 +105,17 @@ async function createFixture() {
   }
 
   await put(sourceDirectory, "universal/core/20260714", RDF_XML);
-  await put(sourceDirectory, "universal/core/20260714-full", RDF_XML);
+  // The full page must consume a real generated closure, with declared imported vocabulary roles.
+  await put(
+    sourceDirectory,
+    "iso/example/20260714",
+    `<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:owl="http://www.w3.org/2002/07/owl#">
+  <owl:Ontology rdf:about="https://haddenindustries.com/ontology/iso/example/"><owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/iso/example/20260714"/></owl:Ontology>
+  ${["title", "modified", "identifier", "source", "references"].map((name) => `<owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/${name}"/>`).join("")}
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#prefLabel"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#definition"/>
+  </rdf:RDF>`,
+  );
   await put(
     root,
     "templates/head-icons.html",
@@ -672,6 +682,13 @@ test("isolates WebMCP registration, lifecycle, identity, and integrity failures"
       );
 
       expect(await page.locator("#table-body tr").count()).toBeGreaterThan(0);
+      for (const suffix of ["", ".jsonld", ".csv"]) {
+        const download = await page.request.get(
+          `${server.origin}/ontology/universal/core/20260714-full${suffix}`,
+        );
+        expect(download.status()).toBe(200);
+        expect((await download.body()).length).toBeGreaterThan(0);
+      }
       expect(await page.evaluate(() => window.__registrationCallCount)).toBe(0);
       expect(
         consoleFailures.filter((message) =>

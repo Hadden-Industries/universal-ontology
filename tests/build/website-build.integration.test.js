@@ -23,6 +23,7 @@ const RDF_XML = `<?xml version="1.0" encoding="utf-8"?>
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
   xmlns:owl="http://www.w3.org/2002/07/owl#">
   <owl:Ontology rdf:about="">
+    <owl:versionIRI rdf:resource="https://haddenindustries.com/ontology/universal/core/20260101" />
     <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/reference-data/20260101" />
   </owl:Ontology>
 </rdf:RDF>

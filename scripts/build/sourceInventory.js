@@ -79,6 +79,17 @@ export async function inventorySourceTree({ sourceDirectory }) {
     const isExternalUrl = parts[0] === "external" && extension === ".url";
     const isOntologySource = ONTOLOGY_ROOTS.has(parts[0]) && extension === "";
 
+    // Dated full paths belong exclusively to the generator, including no-import exclusions.
+    if (
+      ONTOLOGY_ROOTS.has(parts[0]) &&
+      /^\d{8}-full(?:\.jsonld|\.csv)?$/u.test(name) &&
+      name.slice(0, 8) >= "20260714"
+    ) {
+      throw new Error(
+        `Authored asset competes with generated full ontology: ${outputPath}`,
+      );
+    }
+
     if (name === ".editorconfig" || isExternalUrl) {
       continue;
     }

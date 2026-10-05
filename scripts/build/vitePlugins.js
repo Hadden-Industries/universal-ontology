@@ -4,6 +4,12 @@ import { posix } from "node:path";
 
 import { resolveOutputPath } from "./sourceInventory.js";
 import { createOntologyBuildAssets } from "./ontologyAssets.js";
+import {
+  beginFullOntologyBuild,
+  completeFullOntologyBuild,
+  endFullOntologyBuild,
+  checkFullOntologyOutputPaths,
+} from "./fullOntologyAssets.js";
 
 function outputBytes(entry) {
   if (entry.type === "chunk") {
@@ -130,15 +136,57 @@ export function globalHeadPlugin({ partialPath }) {
   };
 }
 
-export function ontologyAssetsPlugin({ ontologySources }) {
+export function ontologyAssetsPlugin({ ontologySources, fullOntologyContext }) {
+  let state;
+  let receipt;
+  async function release() {
+    if (!state) return;
+    const owned = state;
+    state = undefined;
+    await endFullOntologyBuild(owned);
+  }
   return {
     name: "universal-ontology-generated-assets",
     async buildStart() {
-      const assets = await createOntologyBuildAssets({ ontologySources });
-
-      for (const [fileName, source] of assets) {
-        this.emitFile({ type: "asset", fileName, source });
+      try {
+        if (fullOntologyContext)
+          state = await beginFullOntologyBuild(fullOntologyContext);
+        const assets = await createOntologyBuildAssets({
+          ontologySources,
+          fullOntologyContext: fullOntologyContext
+            ? {
+                ...fullOntologyContext,
+                onReceipt: (value) => {
+                  receipt = value;
+                },
+              }
+            : undefined,
+        });
+        if (fullOntologyContext)
+          await checkFullOntologyOutputPaths(
+            fullOntologyContext,
+            assets.keys(),
+          );
+        for (const [fileName, source] of assets)
+          this.emitFile({ type: "asset", fileName, source });
+      } catch (error) {
+        await release();
+        throw error;
       }
+    },
+    async buildEnd(error) {
+      if (error) await release();
+    },
+    closeBundle: {
+      order: "post",
+      async handler() {
+        if (!state) return;
+        try {
+          await completeFullOntologyBuild(state, receipt);
+        } finally {
+          await release();
+        }
+      },
     },
   };
 }
