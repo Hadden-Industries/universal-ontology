@@ -21,7 +21,7 @@ from .authorities import AUTHORITIES_DIRECTORY, authority_identities
 from .modules import load_owned_modules
 from .namespaces import REPOSITORY_ROOT
 from .policy import load_policy
-from .reports import RECEIPT_FILENAME, REPORT_DIRECTORY, lock_identity
+from .reports import RECEIPT_FILENAME, lock_identity
 
 
 class PublicationRefusal(Exception):
@@ -111,12 +111,14 @@ def check_publication_gate(
 
 def check_repository_publication(
     repository: Path = REPOSITORY_ROOT,
-    report_directory: Path = REPORT_DIRECTORY,
+    report_directory: Path | None = None,
     authorities_directory: Path = AUTHORITIES_DIRECTORY,
     dist_directory: Path | None = None,
 ) -> GateVerdict:
     """Gate the real repository: recorded active artifacts, current policy, authorities and lock."""
     policy = load_policy()
+    if report_directory is None:
+        report_directory = repository / ".sdlc/runtime/policy-reports"
     from .validation import required_authorities
 
     required = required_authorities(policy)

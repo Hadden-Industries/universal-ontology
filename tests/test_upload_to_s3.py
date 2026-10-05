@@ -245,3 +245,142 @@ class PublicationGateIntegrationTests(unittest.TestCase):
                 with self.assertRaisesRegex(PublicationRefusal, "changed"):
                     upload_to_s3.prepare_publication_candidate(repository)
                 gate.assert_not_called()
+
+
+class RealPublicationAdmissionTests(unittest.TestCase):
+    """Exercise actual normal/force admission; only the AWS helper is replaced by a local observer."""
+
+    def test_actual_upload_boundary_checks_full_outputs_and_uses_a_separate_snapshot(
+        self,
+    ):
+        import hashlib
+        import json
+        import shutil
+        import subprocess
+        import tempfile
+        from unittest import mock
+
+        from ontology_policy import publication
+        from ontology_policy.validation import required_authorities
+
+        repository = SCRIPTS_DIRECTORY.parent
+        temporary_parent = repository / ".sdlc/runtime"
+        temporary_parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(
+            prefix="upload-contract-", dir=temporary_parent
+        ) as temporary:
+            root = Path(temporary).resolve()
+            shutil.copytree(repository / "scripts", root / "scripts")
+            (root / "src").mkdir()
+            for path in (repository / "src").glob("*.js"):
+                shutil.copyfile(path, root / "src" / path.name)
+            (root / "docs/import-closure").mkdir(parents=True)
+            shutil.copyfile(
+                repository / "docs/import-closure/contract.v1.json",
+                root / "docs/import-closure/contract.v1.json",
+            )
+            for name in ("package-lock.json", "requirements.lock.txt"):
+                shutil.copyfile(repository / name, root / name)
+            base = "https://haddenindustries.com/ontology/"
+            modules = publication.load_owned_modules()
+            dep = "iso/example/20260713"
+
+            def source(path, imports=""):
+                family = path.rsplit("/", 1)[0]
+                return f'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:owl="http://www.w3.org/2002/07/owl#"><owl:Ontology rdf:about="{base}{family}/"><owl:versionIRI rdf:resource="{base}{path}"/>{imports}</owl:Ontology><owl:Class rdf:about="{base}{path}#Class"/></rdf:RDF>'.encode()
+
+            records = []
+            for module in modules:
+                locator = module.active_artifact_path
+                if not locator:
+                    continue
+                path = locator.removeprefix("src/")
+                imports = (
+                    f'<owl:imports rdf:resource="{base}{dep}"/>'
+                    if path.startswith("universal/core/")
+                    else ""
+                )
+                data = source(path, imports)
+                for destination in (root / locator, root / "dist" / path):
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    destination.write_bytes(data)
+                records.append(
+                    {
+                        "module": str(module.iri),
+                        "locator": locator,
+                        "digest": "sha256:" + hashlib.sha256(data).hexdigest(),
+                    }
+                )
+            dependency = root / "src" / dep
+            dependency.parent.mkdir(parents=True, exist_ok=True)
+            dependency.write_bytes(source(dep))
+            (root / "dist/sentinel").write_text("original", encoding="utf-8")
+            reports = root / ".sdlc/runtime/policy-reports"
+            reports.mkdir(parents=True)
+            policy = publication.load_policy()
+            receipt = {
+                "receiptVersion": 1,
+                "purpose": "latest-active",
+                "qualifies": True,
+                "policyIdentity": policy.identity,
+                "lockIdentity": publication.lock_identity(root),
+                "modules": records,
+                "authorities": [
+                    {"name": name, "digest": digest}
+                    for name, digest in publication.authority_identities(
+                        publication.AUTHORITIES_DIRECTORY, required_authorities(policy)
+                    )
+                ],
+            }
+            (reports / "qualification-receipt.json").write_text(
+                json.dumps(receipt), encoding="utf-8"
+            )
+            generated = subprocess.run(
+                [shutil.which("node"), str(root / "scripts/createFullVersions.js")],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            self.assertEqual(generated.returncode, 0, generated.stderr)
+            helper = root / "mock-helper.py"
+            observation = root / "upload-observed.json"
+            helper.write_text(
+                "import json,sys\nfrom pathlib import Path\nr=Path(__file__).parent\ncandidate=Path(sys.argv[1])\n(r/'dist/sentinel').write_text('live changed',encoding='utf-8')\n(r/'upload-observed.json').write_text(json.dumps({'candidate':str(candidate),'sentinel':(candidate/'sentinel').read_text(encoding='utf-8'),'args':sys.argv[2:]}),encoding='utf-8')\n",
+                encoding="utf-8",
+            )
+            full = root / "dist/universal/core/20260912-full.jsonld"
+            original = full.read_bytes()
+            forbidden = root / "dist/iso/31073/ed-1/20260912-full"
+            with (
+                mock.patch.object(upload_to_s3, "SCRIPT_DIRECTORY", root / "scripts"),
+                mock.patch.object(upload_to_s3, "HELPER_SCRIPT_PATH", helper),
+            ):
+                for force in (False, True):
+                    arguments = ["--force"] if force else []
+                    with self.subTest(force=force, case="valid"):
+                        (root / "dist/sentinel").write_text(
+                            "original", encoding="utf-8"
+                        )
+                        upload_to_s3.main(arguments)
+                        observed = json.loads(observation.read_text(encoding="utf-8"))
+                        self.assertEqual(observed["sentinel"], "original")
+                        self.assertNotEqual(Path(observed["candidate"]), root / "dist")
+                        self.assertEqual("force" in observed["args"], force)
+                        observation.unlink()
+                    for fault in ("corrupt", "forbidden"):
+                        with self.subTest(force=force, case=fault):
+                            if fault == "corrupt":
+                                full.write_bytes(b"corrupt")
+                            else:
+                                forbidden.write_bytes(b"unknown stale output")
+                            try:
+                                with self.assertRaises(SystemExit) as stop:
+                                    upload_to_s3.main(arguments)
+                                self.assertEqual(stop.exception.code, 2)
+                                self.assertFalse(observation.exists())
+                            finally:
+                                if fault == "corrupt":
+                                    full.write_bytes(original)
+                                else:
+                                    forbidden.unlink()

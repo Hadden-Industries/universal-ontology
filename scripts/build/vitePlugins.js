@@ -139,6 +139,7 @@ export function globalHeadPlugin({ partialPath }) {
 export function ontologyAssetsPlugin({ ontologySources, fullOntologyContext }) {
   let state;
   let receipt;
+  let writesCompleted = false;
   async function release() {
     if (!state) return;
     const owned = state;
@@ -148,6 +149,7 @@ export function ontologyAssetsPlugin({ ontologySources, fullOntologyContext }) {
   return {
     name: "universal-ontology-generated-assets",
     async buildStart() {
+      writesCompleted = false;
       try {
         if (fullOntologyContext)
           state = await beginFullOntologyBuild(fullOntologyContext);
@@ -177,12 +179,22 @@ export function ontologyAssetsPlugin({ ontologySources, fullOntologyContext }) {
     async buildEnd(error) {
       if (error) await release();
     },
+    // Vite calls close even when bundle.write fails. This ordered sentinel runs
+    // only after the preceding output writers completed successfully.
+    writeBundle: {
+      order: "post",
+      sequential: true,
+      handler() {
+        writesCompleted = true;
+      },
+    },
     closeBundle: {
       order: "post",
+      sequential: true,
       async handler() {
         if (!state) return;
         try {
-          await completeFullOntologyBuild(state, receipt);
+          if (writesCompleted) await completeFullOntologyBuild(state, receipt);
         } finally {
           await release();
         }

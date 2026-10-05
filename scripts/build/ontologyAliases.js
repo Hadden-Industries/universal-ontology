@@ -15,6 +15,18 @@ function replaceTerminalVersion(url, aliasName) {
 }
 
 async function createUnstableAlias(stableBytes, outputPath) {
+  const quads = await parseRdfXmlToQuads({
+    rdfXml: stableBytes,
+    sourceName: outputPath,
+    fallbackBaseIri: `https://haddenindustries.com/ontology/${outputPath}`,
+  });
+  // Import-free releases have no dependency aliases to rewrite, including comments.
+  if (
+    !quads.some(
+      (q) => q.predicate.value === "http://www.w3.org/2002/07/owl#imports",
+    )
+  )
+    return stableBytes;
   let rewrittenImportCount = 0;
   const rewritten = stableBytes
     .toString("utf8")
@@ -30,18 +42,6 @@ async function createUnstableAlias(stableBytes, outputPath) {
     });
 
   if (rewrittenImportCount === 0) {
-    // Import-free releases have no dependency aliases to rewrite; preserve their bytes.
-    const quads = await parseRdfXmlToQuads({
-      rdfXml: stableBytes,
-      sourceName: outputPath,
-      fallbackBaseIri: `https://haddenindustries.com/ontology/${outputPath}`,
-    });
-    if (
-      !quads.some(
-        (q) => q.predicate.value === "http://www.w3.org/2002/07/owl#imports",
-      )
-    )
-      return stableBytes;
     throw new Error(
       `${outputPath}: no eligible internal owl:imports resources were found.`,
     );

@@ -109,7 +109,7 @@ test("preserves a no-import Universal source in both ordinary aliases", async ()
     const source = await ontologySource(
       root,
       "universal/core/20260714",
-      '<owl:Ontology xmlns:owl="http://www.w3.org/2002/07/owl#" />',
+      '<owl:Ontology xmlns:owl="http://www.w3.org/2002/07/owl#"><!-- <owl:imports rdf:resource="https://haddenindustries.com/ontology/universal/core/20260714"/> --></owl:Ontology>',
     );
 
     const aliases = await generateOntologyAliases({

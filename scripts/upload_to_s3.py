@@ -169,7 +169,7 @@ def main(argv: list[str] | None = None) -> None:
         sys.exit(1)
 
     try:
-        verdict = check_repository_publication()
+        verdict = check_repository_publication(repository=SCRIPT_DIRECTORY.parent)
     except PublicationRefusal as refusal:
         print(f"PUBLICATION_REFUSED: {refusal}", file=sys.stderr)
         sys.exit(2)

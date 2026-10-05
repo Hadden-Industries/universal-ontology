@@ -15,15 +15,21 @@ function toPosix(path) {
   return path.split(sep).join("/");
 }
 
-async function findRegularFiles(directory) {
+async function findRegularFiles(directory, sourceDirectory = directory) {
   const entries = await readdir(directory, { withFileTypes: true });
   const files = [];
 
   for (const entry of entries) {
     const path = resolve(directory, entry.name);
 
+    if (
+      entry.isSymbolicLink() &&
+      ONTOLOGY_ROOTS.has(relative(sourceDirectory, path).split(sep)[0])
+    ) {
+      throw new Error(`Linked ontology source path: ${path}`);
+    }
     if (entry.isDirectory()) {
-      files.push(...(await findRegularFiles(path)));
+      files.push(...(await findRegularFiles(path, sourceDirectory)));
     } else if (entry.isFile()) {
       files.push(path);
     }

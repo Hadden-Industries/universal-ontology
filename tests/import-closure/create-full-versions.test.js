@@ -8,12 +8,15 @@ import {
   symlink,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { createFullVersions } from "../../scripts/createFullVersions.js";
 import {
   verifyFullOntologyBuild,
   beginFullOntologyBuild,
   endFullOntologyBuild,
+  createLocalMapper,
+  discoverFullOntologyCandidates,
 } from "../../scripts/build/fullOntologyAssets.js";
 
 const base = "https://haddenindustries.com/ontology/";
@@ -215,4 +218,89 @@ test("removed releases clear only receipt-owned outputs and incomplete receipts 
     await expect(
       access(join(outputDirectory, `${rootPath}-full`)),
     ).rejects.toMatchObject({ code: "ENOENT" });
+  }));
+
+test("invalid ownership receipts and existing pending evidence never delete unrelated files", async () =>
+  fixture(async ({ options, repositoryDirectory, outputDirectory }) => {
+    await createFullVersions(options);
+    const report = join(
+      repositoryDirectory,
+      ".sdlc/runtime/policy-reports/full-ontology-build.json",
+    );
+    const original = await readFile(report, "utf8");
+    const receipt = JSON.parse(original);
+    const sentinel = join(outputDirectory, "sentinel.txt");
+    await writeFile(sentinel, "preserve");
+    receipt.outputs.push({
+      path: "sentinel.txt",
+      size: 8,
+      sha256: createHash("sha256").update("preserve").digest("hex"),
+    });
+    await writeFile(report, JSON.stringify(receipt));
+    await expect(createFullVersions(options)).rejects.toThrow(
+      "ownership receipt",
+    );
+    expect(await readFile(sentinel, "utf8")).toBe("preserve");
+    await writeFile(report, original);
+    await writeFile(`${report}.pending`, "interruption evidence");
+    await expect(createFullVersions(options)).rejects.toMatchObject({
+      code: "EEXIST",
+    });
+    expect(await readFile(`${report}.pending`, "utf8")).toBe(
+      "interruption evidence",
+    );
+  }));
+
+test("linked report directories and ontology families are refused without touching their contents", async () =>
+  fixture(async ({ options, repositoryDirectory }) => {
+    const outside = join(repositoryDirectory, "unowned");
+    await mkdir(outside);
+    const sentinel = join(outside, "full-ontology-build.json");
+    await writeFile(sentinel, "preserve");
+    const reports = join(repositoryDirectory, "reports");
+    await symlink(outside, reports, "junction");
+    await expect(
+      createFullVersions({ ...options, reportDirectory: reports }),
+    ).rejects.toThrow("Linked full ontology path");
+    expect(await readFile(sentinel, "utf8")).toBe("preserve");
+    await symlink(
+      outside,
+      join(repositoryDirectory, "src/iso/linked-family"),
+      "junction",
+    );
+    await expect(createFullVersions(options)).rejects.toThrow(
+      "Linked ontology source path",
+    );
+  }));
+
+test("mapper normalizes caller paths and rejects competing historical version identities", async () =>
+  fixture(async ({ options, put, repositoryDirectory }) => {
+    const { sources } = await discoverFullOntologyCandidates(options);
+    const mapper = await createLocalMapper(
+      { repositoryDirectory: `${repositoryDirectory}/` },
+      sources,
+      {},
+    );
+    expect(
+      mapper.getDocumentIRI({ value: `${base}${depPath}` }).value,
+    ).toContain("20260713");
+    if (process.platform === "win32") {
+      const caseVariant = await createLocalMapper(
+        { repositoryDirectory: repositoryDirectory.toLowerCase() },
+        sources,
+        {},
+      );
+      expect(
+        caseVariant.getDocumentIRI({ value: `${base}${depPath}` }).value,
+      ).toContain("20260713");
+    }
+    const other = "iso/other/20260712";
+    await put(
+      other,
+      xml(other).replace(`${base}${other}`, `${base}${depPath}`),
+    );
+    const duplicate = await discoverFullOntologyCandidates(options);
+    await expect(
+      createLocalMapper(options, duplicate.sources, {}),
+    ).rejects.toThrow("Conflicting local ontology release identity");
   }));
