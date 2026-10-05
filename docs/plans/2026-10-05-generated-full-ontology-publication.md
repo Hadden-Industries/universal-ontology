@@ -19,6 +19,12 @@ The owner separately approved `scripts/build/ontologyAliases.js` producing a byt
 Existing import rewriting and alias paths remain unchanged.
 The new alias regression failed on the former rejection before the fix.
 
+Approved provenance correction: the VANN declaration changes the activated ISO/IEC source hash.
+The native candidate-policy procedure qualified all five exact dated sources in receipt `20261005T140544Z` (zero violations, 191 existing warnings), comparing the corrected source with its pre-change Git blob.
+The owner separately approved updating only its digest, the qualifying receipt reference and the historical provenance comment in `policy/activation.ttl`, followed by latest-active qualification.
+Policy rules, version selections and other module digests remain unchanged.
+The owner also exactly approved the external HISEW `full` profile deadline increasing from 600 to 1800 seconds for the unchanged qualification command; native rerouting preserves the accepted R2 scope and baseline.
+
 Scope revision: the owner's subsequent instructions require full versions for **all ontology releases dated 20260714 and later that declare imports**, inclusive.
 A source ontology with no import statements must have no full counterpart.
 These instructions supersede the original four-target limit and the preceding draft's root-only full output; other approvals remain outstanding.
