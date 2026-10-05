@@ -78,13 +78,13 @@ const EXPECTED_PACKAGING_DEV_DEPENDENCIES = Object.freeze({
 const EXPECTED_BUNDLED_COMPONENTS = Object.freeze([
   {
     name: "@modelcontextprotocol/core",
-    version: "2.2.0",
-    license: "MIT",
+    version: "2.3.0",
+    license: "Apache-2.0",
   },
   {
     name: "@modelcontextprotocol/server",
-    version: "2.2.0",
-    license: "MIT",
+    version: "2.3.0",
+    license: "Apache-2.0",
   },
   { name: "ajv", version: "8.18.0", license: "MIT" },
   { name: "ajv-formats", version: "3.0.1", license: "MIT" },
