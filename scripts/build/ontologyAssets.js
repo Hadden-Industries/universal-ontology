@@ -4,6 +4,7 @@ import { posix } from "node:path";
 import { createOntologyQueryArtifacts } from "./createOntologyQueryArtifacts.js";
 import { renderOntologyAssetsWithWorkers } from "./ontologyAssetWorkerPool.js";
 import { generateOntologyAliases } from "./ontologyAliases.js";
+import { createFullOntologyAssets } from "./fullOntologyAssets.js";
 
 const PUBLIC_ONTOLOGY_ROOT = new URL("https://haddenindustries.com/ontology/");
 
@@ -14,6 +15,7 @@ function buildFallbackBaseIri(outputPath) {
 export async function createOntologyBuildAssets({
   ontologySources,
   workerCount,
+  fullOntologyContext,
 }) {
   const aliases = await generateOntologyAliases({ ontologySources });
   const assets = new Map(aliases);
@@ -66,5 +68,14 @@ export async function createOntologyBuildAssets({
   }
 
   await assertSourcesUnchanged();
+  if (fullOntologyContext) {
+    const full = await createFullOntologyAssets(fullOntologyContext);
+    for (const [path, bytes] of full.assets) {
+      if (assets.has(path))
+        throw new Error(`Full ontology output collision: ${path}`);
+      assets.set(path, bytes);
+    }
+    fullOntologyContext.onReceipt?.(full.receipt);
+  }
   return assets;
 }
