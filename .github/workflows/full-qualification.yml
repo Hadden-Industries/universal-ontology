@@ -3,6 +3,22 @@ on:
   push:
     branches: [main]
   workflow_dispatch: null
+  workflow_call:
+    inputs:
+      include_mcp_packages:
+        type: boolean
+        default: false
+    outputs:
+      verified-revision:
+        value: ${{ jobs.gate.outputs.verified-revision }}
+      software-version:
+        value: ${{ jobs.distribution.outputs.software-version }}
+      candidate-sha256:
+        value: ${{ jobs.distribution.outputs.candidate-sha256 }}
+      artifact-id:
+        value: ${{ jobs.distribution.outputs.artifact-id }}
+      artifact-digest:
+        value: ${{ jobs.distribution.outputs.artifact-digest }}
   schedule:
     - cron: 17 4 * * 3
 permissions: {}
@@ -30,6 +46,9 @@ jobs:
           node-version-file: .node-version
           package-manager-cache: false
       - id: select
+        env:
+          MCP_PACKAGE_CI_ENABLED: ${{ vars.MCP_PACKAGE_CI_ENABLED }}
+          MCP_INCLUDE_PACKAGES: ${{ inputs.include_mcp_packages || false }}
         run: node scripts/selectPullRequestChecks.js --plan
   node:
     permissions:
@@ -138,6 +157,8 @@ jobs:
     timeout-minutes: 5
     cache-mode: none
     name: Full qualification
+    outputs:
+      verified-revision: ${{ steps.complete.outputs.verified-revision }}
     needs:
       - select
       - development
@@ -159,7 +180,8 @@ jobs:
         with:
           node-version-file: .node-version
           package-manager-cache: false
-      - if: ${{ success() && !cancelled() }}
+      - id: complete
+        if: ${{ success() && !cancelled() }}
         run: node scripts/evaluatePullRequestChecks.js
       - name: Reject workflow cancellation
         if: ${{ cancelled() }}

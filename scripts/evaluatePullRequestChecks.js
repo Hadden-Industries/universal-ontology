@@ -114,8 +114,27 @@ export function runCheckEvaluation(
       )
     )
       throw new Error("Consumer completion is incomplete.");
+    let candidateOutput = "";
+    if (consumer === "distribution" && plan.scopes.mcp_artifacts) {
+      const output = needs.assemble.outputs ?? {};
+      const patterns = {
+        "software-version":
+          /^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$/u,
+        "candidate-sha256": /^[a-f0-9]{64}$/u,
+        "artifact-id": /^[1-9][0-9]*$/u,
+        "artifact-digest": /^[a-f0-9]{64}$/u,
+      };
+      for (const [key, pattern] of Object.entries(patterns)) {
+        if (typeof output[key] !== "string" || !pattern.test(output[key]))
+          throw new Error(`Missing qualified candidate output: ${key}`);
+        candidateOutput += `${key}=${output[key]}\n`;
+      }
+    }
     if (!env.GITHUB_OUTPUT) throw new Error("GITHUB_OUTPUT is required.");
-    appendFileSync(env.GITHUB_OUTPUT, `verified-revision=${plan.revision}\n`);
+    appendFileSync(
+      env.GITHUB_OUTPUT,
+      `verified-revision=${plan.revision}\n${candidateOutput}`,
+    );
     return;
   }
   if (args.length) throw new Error("Unknown evaluation arguments.");
@@ -129,6 +148,8 @@ export function runCheckEvaluation(
     if (needs[id]?.outputs?.["verified-revision"] !== plan.revision)
       result.failures.push(`${id}: absent or stale completion proof`);
   if (result.failures.length) throw new Error(result.failures.join("\n"));
+  if (env.GITHUB_OUTPUT)
+    appendFileSync(env.GITHUB_OUTPUT, `verified-revision=${plan.revision}\n`);
 }
 
 if (

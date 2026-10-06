@@ -33,6 +33,8 @@ jobs:
           node-version-file: .node-version
           package-manager-cache: false
       - id: select
+        env:
+          MCP_PACKAGE_CI_ENABLED: ${{ vars.MCP_PACKAGE_CI_ENABLED }}
         run: node scripts/selectPullRequestChecks.js --plan
   node:
     permissions:

@@ -224,7 +224,7 @@ describe("native Git PR check selection", () => {
     const eventPath = join(root, "core-event.json");
     writeFileSync(
       eventPath,
-      JSON.stringify({ pull_request: { base: { sha: base } } }),
+      JSON.stringify({ pull_request: { base: { sha: base } }, before: base }),
     );
     return createCheckPlan(
       {
@@ -236,6 +236,72 @@ describe("native Git PR check selection", () => {
       root,
     );
   }
+
+  test.each(["pull_request", "push", "schedule", "workflow_dispatch"])(
+    "%s keeps application assurance with package CI disabled by default",
+    (eventName) => {
+      write("packages/universal-ontology-mcp-server/src/server.js");
+      commit(["packages/universal-ontology-mcp-server/src/server.js"]);
+      const plan = corePlan({
+        GITHUB_EVENT_NAME: eventName,
+        GITHUB_REF: "refs/heads/main",
+      });
+      expect(plan.packageMode).toBe("disabled");
+      expect(plan.scopes.mcp_application).toBe(true);
+      expect(plan.scopes.mcp_artifacts).toBe(false);
+      expect(plan.scopes.mcp_release_qualification).toBe(false);
+      expect(plan.requiredJobs).toContain("node");
+      expect(plan.requiredJobs).toContain("distribution");
+    },
+  );
+
+  test("a main documentation push uses affected checks", () => {
+    write("docs/development.md");
+    commit(["docs/development.md"]);
+    const plan = corePlan({
+      GITHUB_EVENT_NAME: "push",
+      GITHUB_REF: "refs/heads/main",
+    });
+    expect(plan.mode).toBe("changed");
+    expect(plan.comparisonBase).toBe(base);
+    expect(plan.requiredJobs).toEqual(["development"]);
+  });
+
+  test("explicit package CI restores affected archives without enabling release", () => {
+    write("scripts/distribution/new-runtime.js");
+    commit(["scripts/distribution/new-runtime.js"]);
+    const plan = corePlan({ MCP_PACKAGE_CI_ENABLED: "true" });
+    expect(plan.packageMode).toBe("ci");
+    expect(plan.scopes.mcp_artifacts).toBe(true);
+    expect(plan.scopes.mcp_release_qualification).toBe(false);
+  });
+
+  test("manual packages require a main dispatch and complete source qualification", () => {
+    const env = {
+      GITHUB_EVENT_NAME: "workflow_dispatch",
+      GITHUB_REF: "refs/heads/main",
+      MCP_INCLUDE_PACKAGES: "true",
+    };
+    const plan = corePlan(env);
+    expect(plan.packageMode).toBe("manual");
+    expect(plan.mode).toBe("full");
+    expect(Object.values(plan.scopes).every(Boolean)).toBe(true);
+    expect(() =>
+      corePlan({ ...env, GITHUB_REF: "refs/heads/feature" }),
+    ).toThrow(/main/u);
+    expect(() =>
+      corePlan({ ...env, GITHUB_EVENT_NAME: "pull_request" }),
+    ).toThrow(/manual/u);
+  });
+
+  test.each(["TRUE", "1", "yes"])(
+    "malformed package CI option %s fails",
+    (value) => {
+      expect(() => corePlan({ MCP_PACKAGE_CI_ENABLED: value })).toThrow(
+        /package/u,
+      );
+    },
+  );
 
   test("core docs selection transports more than 300 paths including shell metacharacters", () => {
     const paths = Array.from(
@@ -257,21 +323,25 @@ describe("native Git PR check selection", () => {
     expect(corePlan().requiredJobs).toEqual(CORE_CHECK_CONSUMER_IDS);
   });
 
-  test("new distribution tooling selects product and complete native qualification", () => {
+  test("new distribution tooling selects product and application assurance by default", () => {
     write("scripts/distribution/new-runtime.js");
     commit(["scripts/distribution/new-runtime.js"]);
     expect(corePlan().requiredJobs).toEqual(["node", "distribution"]);
-    expect(corePlan().scopes.mcp_release_qualification).toBe(true);
+    expect(corePlan().scopes.mcp_application).toBe(true);
+    expect(corePlan().scopes.mcp_artifacts).toBe(false);
   });
 
-  test("packaged README retains native qualification until independent package coverage is proven", () => {
+  test("packaged README selects native qualification only with package CI enabled", () => {
     write("packages/universal-ontology-mcp-server/README.md");
     commit(["packages/universal-ontology-mcp-server/README.md"]);
-    expect(corePlan().scopes.mcp_release_qualification).toBe(true);
+    expect(corePlan().scopes.mcp_artifacts).toBe(false);
+    expect(
+      corePlan({ MCP_PACKAGE_CI_ENABLED: "true" }).scopes.mcp_artifacts,
+    ).toBe(true);
   });
 
-  test.each(["schedule", "workflow_dispatch", "push"])(
-    "%s selects full qualification independently of changed paths",
+  test.each(["schedule", "workflow_dispatch"])(
+    "%s selects full source qualification independently of changed paths",
     (eventName) => {
       const plan = corePlan({
         GITHUB_EVENT_NAME: eventName,
@@ -280,14 +350,27 @@ describe("native Git PR check selection", () => {
       expect(plan.mode).toBe("full");
       expect(plan.comparisonBase).toBeNull();
       expect(plan.requiredJobs).toEqual(CORE_CHECK_CONSUMER_IDS);
-      expect(Object.values(plan.scopes).every(Boolean)).toBe(true);
+      expect(plan.scopes.mcp_artifacts).toBe(false);
+      expect(plan.scopes.mcp_release_qualification).toBe(false);
+      expect(
+        Object.entries(plan.scopes)
+          .filter(
+            ([name]) =>
+              !["mcp_artifacts", "mcp_release_qualification"].includes(name),
+          )
+          .every(([, value]) => value),
+      ).toBe(true);
     },
   );
-  test("full events require checkout identity and select every scope", () => {
+  test("full events require checkout identity and package CI opt-in", () => {
     expect(
-      Object.values(corePlan({ GITHUB_EVENT_NAME: "schedule" }).scopes).every(
-        Boolean,
-      ),
+      Object.values(
+        corePlan({
+          GITHUB_EVENT_NAME: "workflow_dispatch",
+          GITHUB_REF: "refs/heads/main",
+          MCP_INCLUDE_PACKAGES: "true",
+        }).scopes,
+      ).every(Boolean),
     ).toBe(true);
     expect(() =>
       corePlan({ GITHUB_EVENT_NAME: "schedule", GITHUB_SHA: "a".repeat(40) }),
@@ -302,6 +385,22 @@ describe("native Git PR check selection", () => {
     base = "f".repeat(40);
     expect(() => corePlan()).toThrow();
   });
+
+  test.each(["0".repeat(40), "f".repeat(40)])(
+    "main push with unavailable base %s preserves all source checks and package default",
+    (missing) => {
+      base = missing;
+      const plan = corePlan({
+        GITHUB_EVENT_NAME: "push",
+        GITHUB_REF: "refs/heads/main",
+      });
+      expect(plan.mode).toBe("full");
+      expect(plan.comparisonBase).toBeNull();
+      expect(plan.requiredJobs).toEqual(CORE_CHECK_CONSUMER_IDS);
+      expect(plan.scopes.mcp_artifacts).toBe(false);
+      expect(plan.scopes.mcp_application).toBe(true);
+    },
+  );
 
   function runSelection({
     eventName = "pull_request",

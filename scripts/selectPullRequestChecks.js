@@ -56,11 +56,6 @@ export function assertCheckPlan(plan) {
     JSON.stringify(requiredJobsForScopes(plan.scopes))
   )
     throw new Error("Plan consumers disagree with scopes.");
-  if (
-    plan.scopes.mcp_artifacts !==
-    (plan.scopes.mcp_application || plan.scopes.mcp_release_qualification)
-  )
-    throw new Error("MCP scope union disagrees.");
   return plan;
 }
 const ONTOLOGY_WORKFLOW = ".github/workflows/ontology-validation.yml";
@@ -546,8 +541,9 @@ export function runFromGitHubEnvironment(
   return selected;
 }
 
-/** Build the core plan for the checked-out event revision. Unknown inputs widen
- * coverage; unavailable comparisons and unsupported events are fatal.
+/** Build the core plan for the exact event revision. Package CI is explicit opt-in;
+ * manual packages require a main dispatch. Missing push bases widen source coverage,
+ * while unavailable PR bases and unsupported events fail closed.
  */
 export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
   const revision = env.GITHUB_SHA;
@@ -558,9 +554,28 @@ export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
     head.stdout.trim() !== revision
   )
     throw new Error("The checkout does not match the event revision.");
-  const full =
-    ["schedule", "workflow_dispatch"].includes(env.GITHUB_EVENT_NAME) ||
-    (env.GITHUB_EVENT_NAME === "push" && env.GITHUB_REF === "refs/heads/main");
+  const packageOption = env.MCP_PACKAGE_CI_ENABLED ?? "";
+  const manualOption = env.MCP_INCLUDE_PACKAGES ?? "";
+  if (
+    !["", "false", "true"].includes(packageOption) ||
+    !["", "false", "true"].includes(manualOption)
+  )
+    throw new Error(
+      "Invalid package qualification option; expected true or false.",
+    );
+  if (
+    manualOption === "true" &&
+    (env.GITHUB_EVENT_NAME !== "workflow_dispatch" ||
+      env.GITHUB_REF !== "refs/heads/main")
+  )
+    throw new Error("Manual packages require a manual dispatch on main.");
+  const packageMode =
+    manualOption === "true"
+      ? "manual"
+      : packageOption === "true"
+        ? "ci"
+        : "disabled";
+  let full = ["schedule", "workflow_dispatch"].includes(env.GITHUB_EVENT_NAME);
   if (
     !full &&
     env.GITHUB_EVENT_NAME !== "pull_request" &&
@@ -570,11 +585,21 @@ export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
   const event = full
     ? {}
     : JSON.parse(readFileSync(env.GITHUB_EVENT_PATH, "utf8"));
-  const comparisonBase = full
+  let comparisonBase = full
     ? null
     : env.GITHUB_EVENT_NAME === "pull_request"
       ? event.pull_request?.base?.sha
       : event.before;
+  // Pushes can lack a usable before object (initial push or incomplete history).
+  // Full source coverage is safe; a PR must retain its explicit trusted base.
+  if (!full && env.GITHUB_EVENT_NAME === "push") {
+    try {
+      requireCommit(root, comparisonBase);
+    } catch {
+      full = true;
+      comparisonBase = null;
+    }
+  }
   if (!full && !/^[a-f0-9]{40}$/u.test(comparisonBase ?? ""))
     throw new Error("Missing exact comparison base.");
   let scopes;
@@ -631,12 +656,15 @@ export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
     );
     if (paths.some((path) => /^packages\/[^/]+\/README\.md$/u.test(path)))
       scopes.mcp_artifacts = true;
-    // Retain all five targets for application inputs until remote proof permits reduction.
     scopes.mcp_application = scopes.mcp_artifacts;
-    scopes.mcp_release_qualification = scopes.mcp_artifacts;
   }
+  // Application validation remains independent of the expensive downloadable
+  // package matrix. Automatic package qualification never selects publication.
+  scopes.mcp_artifacts = packageMode !== "disabled" && scopes.mcp_artifacts;
+  scopes.mcp_release_qualification = packageMode === "manual";
   return assertCheckPlan({
-    schemaVersion: 1,
+    schemaVersion: 2,
+    packageMode,
     mode: full ? "full" : "changed",
     revision,
     comparisonBase,

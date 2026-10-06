@@ -322,12 +322,13 @@ Remove unused images with `docker image rm` and remove the cache, only if desire
 
 ## Use a short-lived GitHub Actions artifact
 
-The read-only development workflow may retain a complete candidate as a GitHub Actions artifact for three days.
+The manually dispatched package workflow retains a complete candidate as a GitHub Actions artifact for three days.
+Automatic package qualification is disabled by default; it can be restored through the option described below.
 It is authenticated repository output, not a GitHub Release and not an immutable release artifact.
 Identify an accepted workflow run and its exact SHA-256-suffixed candidate artifact, then download it while signed in with repository read access:
 
 ```powershell
-gh run list --repo hadden-industries/universal-ontology --workflow verify-universal-ontology-mcp-distribution.yml
+gh run list --repo hadden-industries/universal-ontology --workflow manual-mcp-packages.yml
 $artifactName = "universal-ontology-mcp-server-development-candidate-<64-lowercase-hex-digest>"
 gh run download RUN_ID --repo hadden-industries/universal-ontology -n $artifactName --dir .\downloaded-mcp-candidate
 ```
@@ -393,6 +394,34 @@ These checksums detect corruption and substitution, but they do not authenticate
 No publisher signature or attestation accompanies a development candidate.
 Preserve the workflow run identity, source commit, artifact name, and verified checksum manifest in local test records.
 Because Actions retention is three days, do not depend on it as a rollback store; retain a trusted source commit or locally verified candidate.
+
+## Manual package qualification and release
+
+In the repository's **Actions → Manual MCP packages → Run workflow**, select `main`.
+Leave `create_draft_release` unchecked to build and qualify packages without creating a Release.
+The run uses its exact dispatch commit, executes all source checks, builds all five native targets and checks the container and assembled candidate.
+Download the complete candidate from that run's **Artifacts** section while its three-day retention lasts.
+
+The packages contain server software, with ontology data supplied separately:
+
+- Five native archives for Linux x64/arm64, macOS x64/arm64 and Windows x64: the official Node runtime, bundled MCP application and JavaScript dependencies, ontology-store worker, Oxigraph WASM engine, licenses, README and third-party notices.
+- An npm `.tgz` containing the application and supporting files; it requires an existing compatible Node installation.
+- `SHA256SUMS`, npm and release SPDX SBOMs, `server.json`, OCI metadata and candidate notes.
+  The container is built and smoke-tested in the run; no container image is uploaded or published by this workflow.
+
+To prepare durable release downloads, explicitly select `create_draft_release` when dispatching the workflow.
+Only after qualification and independent candidate validation succeed does it attest the candidate and create a draft with tag `universal-ontology-mcp-server-v<qualified version>`.
+It verifies the exact uploaded ZIP digest, source revision, version, file inventory and per-file checksums before attaching the same package bytes.
+Inspect the draft assets, source commit, SBOMs and GitHub provenance attestations, then manually publish the draft from the repository's **Releases** page.
+Published Release assets are durable downloads, distinct from expiring Actions artifacts.
+This pipeline change does not itself create a release; the development status above remains applicable until a maintainer publishes one.
+Existing tags or releases are never overwritten; inspect any partial draft after a failed attempt before choosing recovery.
+
+For future automatic package checks, set the repository Actions variable `MCP_PACKAGE_CI_ENABLED=true`.
+Unset, empty or `false` keeps package CI off; any other nonempty value is rejected.
+With it enabled, affected packaging inputs and scheduled/full qualification restore the complete package matrix.
+PR/main/source checks remain active in either state, and Release publication always stays manual.
+There is no npm, GHCR or MCP Registry publication in this workflow.
 
 ## Configure an MCP host
 
