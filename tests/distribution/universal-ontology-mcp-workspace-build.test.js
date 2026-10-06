@@ -131,7 +131,7 @@ test("attributes a nested SDK installation and executable version to the MCP wor
     for (const name of ["core", "server"]) {
       expect(metadata.bundledComponents).toContainEqual({
         name: `@modelcontextprotocol/${name}`,
-        version: "2.3.0",
+        version: "2.3.1",
         license: "Apache-2.0",
       });
       expect(
