@@ -66,7 +66,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@jest/globals": "30.5.2",
-    "@modelcontextprotocol/client": "2.3.0",
+    "@modelcontextprotocol/client": "2.3.1",
     "@rdfjs/serializer-jsonld-ext": "^4.0.2",
     "@rdfjs/serializer-ntriples": "^2.0.1",
     "@rubensworks/saxes": "^ 6.0.1",
