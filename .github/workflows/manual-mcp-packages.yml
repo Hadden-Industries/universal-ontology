@@ -19,7 +19,7 @@ jobs:
       include_mcp_packages: true
     permissions:
       contents: read
-    cache-mode: none
+    cache-mode: read
   validate:
     needs: qualify
     if: ${{ !cancelled() && needs.qualify.result == 'success' }}

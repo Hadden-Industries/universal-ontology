@@ -114,7 +114,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/generatePullRequestCheckPlanValidator.js":
     "2f41ef656395f39d1a364ca8d66e872cf75cca5e80cad7948526b4f33ae0554b",
   ".github/workflows/manual-mcp-packages.yml":
-    "c7690befc44ea3620bf539330439badd7ae8c8ddb73ba86e5f2d711fdfd1aece",
+    "16cf1e191c4744b573852a4004356956216d47f6b32c78809da2e1f08c5b903f",
   "scripts/distribution/prepareManualMcpRelease.js":
     "f601d23f0f2c62b830f1f8b509a90439618ce1295c5ba9d908b8b42b7ae9080a",
 });
