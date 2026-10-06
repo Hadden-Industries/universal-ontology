@@ -294,7 +294,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     });
     expect(workflow.jobs.archive["runs-on"]).toBe("${{ matrix.runnerLabel }}");
     expect(workflow.jobs.validate.if).toBe(
-      "needs.scope.outputs.product_tests == 'true' || needs.scope.outputs.mcp_artifacts == 'true' || needs.scope.outputs.website_build == 'true' || needs.scope.outputs.mcp_docs == 'true'",
+      "needs.scope.outputs.product_tests == 'true' || needs.scope.outputs.mcp_application == 'true' || needs.scope.outputs.mcp_artifacts == 'true' || needs.scope.outputs.website_build == 'true' || needs.scope.outputs.mcp_docs == 'true'",
     );
     for (const name of ["archive", "container", "assemble"]) {
       expect(workflow.jobs[name].if).toBe(
@@ -308,6 +308,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     expect(scope.outputs).toEqual({
       product_tests: "${{ steps.scope.outputs.product_tests }}",
       mcp_artifacts: "${{ steps.scope.outputs.mcp_artifacts }}",
+      mcp_application: "${{ steps.scope.outputs.mcp_application }}",
       website_build: "${{ steps.scope.outputs.website_build }}",
       mcp_docs: "${{ steps.scope.outputs.mcp_docs }}",
     });
@@ -335,7 +336,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
       byName("Build the affected website and generators without auto-fixes"),
     ).toBeUndefined();
     expect(byName("Build the affected MCP application bundle")).toMatchObject({
-      if: "needs.scope.outputs.mcp_artifacts == 'true'",
+      if: "needs.scope.outputs.mcp_application == 'true'",
       run: "npm run build:mcp-package",
     });
     expect(steps.find(({ id }) => id === "candidate-metadata")?.if).toBe(

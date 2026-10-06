@@ -8,6 +8,14 @@ on:
     outputs:
       verified-revision:
         value: ${{ jobs.complete.outputs.verified-revision }}
+      software-version:
+        value: ${{ jobs.complete.outputs.software-version }}
+      candidate-sha256:
+        value: ${{ jobs.complete.outputs.candidate-sha256 }}
+      artifact-id:
+        value: ${{ jobs.complete.outputs.artifact-id }}
+      artifact-digest:
+        value: ${{ jobs.complete.outputs.artifact-digest }}
 permissions: {}
 jobs:
   scope:
@@ -19,6 +27,7 @@ jobs:
     outputs:
       product_tests: ${{ steps.scope.outputs.product_tests }}
       mcp_artifacts: ${{ steps.scope.outputs.mcp_artifacts }}
+      mcp_application: ${{ steps.scope.outputs.mcp_application }}
       website_build: ${{ steps.scope.outputs.website_build }}
       mcp_docs: ${{ steps.scope.outputs.mcp_docs }}
     steps:
@@ -40,7 +49,7 @@ jobs:
   validate:
     timeout-minutes: 30
     needs: scope
-    if: needs.scope.outputs.product_tests == 'true' || needs.scope.outputs.mcp_artifacts == 'true' || needs.scope.outputs.website_build == 'true' || needs.scope.outputs.mcp_docs == 'true'
+    if: needs.scope.outputs.product_tests == 'true' || needs.scope.outputs.mcp_application == 'true' || needs.scope.outputs.mcp_artifacts == 'true' || needs.scope.outputs.website_build == 'true' || needs.scope.outputs.mcp_docs == 'true'
     name: Validate development distribution sources
     runs-on: ubuntu-24.04
     permissions:
@@ -136,7 +145,7 @@ jobs:
           npm test -- --runInBand --runTestsByPath tests/distribution/universal-ontology-mcp-documentation.test.js
           npm run format:docs:prettier:check
       - name: Build the affected MCP application bundle
-        if: needs.scope.outputs.mcp_artifacts == 'true'
+        if: needs.scope.outputs.mcp_application == 'true'
         run: npm run build:mcp-package
   archive:
     timeout-minutes: 30
@@ -338,6 +347,11 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
+    outputs:
+      software-version: ${{ needs.validate.outputs.software-version }}
+      candidate-sha256: ${{ steps.candidate-identity.outputs.candidate-sha256 }}
+      artifact-id: ${{ steps.candidate-upload.outputs.artifact-id }}
+      artifact-digest: ${{ steps.candidate-upload.outputs.artifact-digest }}
     env:
       SOURCE_DATE_EPOCH: ${{ needs.validate.outputs.source-date-epoch }}
     steps:
@@ -397,6 +411,7 @@ jobs:
           );
           NODE
       - name: Upload the verified development candidate
+        id: candidate-upload
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: universal-ontology-mcp-server-development-candidate-${{ steps.candidate-identity.outputs.candidate-sha256 }}
@@ -419,6 +434,10 @@ jobs:
     cache-mode: none
     outputs:
       verified-revision: ${{ steps.complete.outputs.verified-revision }}
+      software-version: ${{ steps.complete.outputs.software-version }}
+      candidate-sha256: ${{ steps.complete.outputs.candidate-sha256 }}
+      artifact-id: ${{ steps.complete.outputs.artifact-id }}
+      artifact-digest: ${{ steps.complete.outputs.artifact-digest }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

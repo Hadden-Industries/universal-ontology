@@ -4,6 +4,7 @@
   "additionalProperties": false,
   "required": [
     "schemaVersion",
+    "packageMode",
     "mode",
     "revision",
     "comparisonBase",
@@ -12,13 +13,13 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": 1
+      "const": 2
+    },
+    "packageMode": {
+      "enum": ["disabled", "ci", "manual"]
     },
     "mode": {
-      "enum": [
-        "changed",
-        "full"
-      ]
+      "enum": ["changed", "full"]
     },
     "revision": {
       "type": "string",
@@ -115,13 +116,7 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": [
-          "development",
-          "ontology",
-          "node",
-          "website",
-          "distribution"
-        ]
+        "enum": ["development", "ontology", "node", "website", "distribution"]
       }
     }
   },
@@ -185,9 +180,6 @@
               "product_tests": {
                 "const": true
               },
-              "mcp_artifacts": {
-                "const": true
-              },
               "website_build": {
                 "const": true
               },
@@ -196,8 +188,153 @@
               },
               "mcp_application": {
                 "const": true
+              }
+            },
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "packageMode": {
+            "const": "disabled"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "scopes": {
+            "properties": {
+              "mcp_artifacts": {
+                "const": false
               },
               "mcp_release_qualification": {
+                "const": false
+              }
+            },
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "packageMode": {
+            "const": "manual"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "mode": {
+            "const": "full"
+          },
+          "scopes": {
+            "properties": {
+              "mcp_artifacts": {
+                "const": true
+              },
+              "mcp_release_qualification": {
+                "const": true
+              }
+            },
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "packageMode": {
+            "const": "ci"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "scopes": {
+            "properties": {
+              "mcp_release_qualification": {
+                "const": false
+              }
+            },
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "packageMode": {
+            "const": "ci"
+          },
+          "mode": {
+            "const": "full"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "scopes": {
+            "properties": {
+              "mcp_artifacts": {
+                "const": true
+              }
+            },
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scopes": {
+            "properties": {
+              "mcp_artifacts": {
+                "const": true
+              }
+            },
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "scopes": {
+            "properties": {
+              "mcp_application": {
+                "const": true
+              }
+            },
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scopes": {
+            "properties": {
+              "mcp_release_qualification": {
+                "const": true
+              }
+            },
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "scopes": {
+            "properties": {
+              "mcp_artifacts": {
                 "const": true
               }
             },

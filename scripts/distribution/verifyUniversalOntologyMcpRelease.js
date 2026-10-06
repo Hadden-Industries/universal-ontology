@@ -88,31 +88,35 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "321898b3be738ca562aea66b98dd0bf001f9f1156f0a3916026b9ce87d3ffb04";
+  "e45379bed46801ae003e43c8edaa67dc716f41bcdb294fd3efe46b8cc459d8d3";
 
 // Explicit reviewed execution graph; values are refreshed only with coordinated
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/pr-validation.yml":
-    "ad76693bd535be6f6b72f6be5d467d9ebed338f12159cb65337cf13a8da91eeb",
+    "6406ad86a0a71b39e11ecc0110a930ace76478f1a40e8111ab5def2634cbe528",
   ".github/workflows/full-qualification.yml":
-    "1d4e094567996eee217d776fef5f112c6d899fafd4223f67cbac1b36bf0c1544",
+    "bfe5ad0b10efcb4f8a4e20b36713c0609109c3e5f6c0f2ac44e9dca3cf292439",
   ".github/workflows/development-checks.yml":
     "67e05388752a8c01f9d0e7c12fd67415817c01938d5bd47334bcc9d0278e4852",
   ".github/workflows/ontology-validation.yml":
     "5f304338b3a980f6ac93799314fb3a1f4915443230e3f646ad8bd41a0979dd3b",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
-    "321898b3be738ca562aea66b98dd0bf001f9f1156f0a3916026b9ce87d3ffb04",
+    "e45379bed46801ae003e43c8edaa67dc716f41bcdb294fd3efe46b8cc459d8d3",
   "scripts/selectPullRequestChecks.js":
-    "c5f4f5db2b71f9fa823375581118d479e17439cf6d92d2c0d9edf4394720203f",
+    "94d706f8568ada4634df819bf99fb6c77915862f8dd2ffbea6274c150f6a0b24",
   "scripts/evaluatePullRequestChecks.js":
-    "164fd947ce9dc428a48a1b0cf07898ec21df995c60dbd2b4580b3e34cafa5643",
+    "e805c4dddfc25f13f27eb476ab130f86493c59a5b105acd413a45060648cc7bf",
   "scripts/pullRequestCheckPlan.schema.json":
-    "3e0da04b914694574505e143a83a422d87ec7db9193988a8889d1e0c801c415b",
+    "b93465953798b1ae14ba488c46aa786819dd87e68581bd8299a83748f92f7391",
   "scripts/pullRequestCheckPlanValidator.js":
-    "37accd33e89599127733c73111357a488d17970dd72c81b2b084f809015d9cd9",
+    "4a3d4f66817eb3c416abd7f84f17ce60a8af665c0bb43221f2279c3c054078cc",
   "scripts/generatePullRequestCheckPlanValidator.js":
     "2f41ef656395f39d1a364ca8d66e872cf75cca5e80cad7948526b4f33ae0554b",
+  ".github/workflows/manual-mcp-packages.yml":
+    "c7690befc44ea3620bf539330439badd7ae8c8ddb73ba86e5f2d711fdfd1aece",
+  "scripts/distribution/prepareManualMcpRelease.js":
+    "f601d23f0f2c62b830f1f8b509a90439618ce1295c5ba9d908b8b42b7ae9080a",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.
@@ -122,7 +126,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
 export async function verifyPullRequestPolicyGraph({
   root = REPOSITORY_ROOT_PATH,
 } = {}) {
-  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 10)
+  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 12)
     throw new Error("PR policy allowlist is incomplete.");
   for (const [path, expected] of Object.entries(REVIEWED_PR_POLICY_FILES)) {
     const text = (await readBoundedRegularFile(join(root, path)))
@@ -162,7 +166,17 @@ export async function verifyPullRequestPolicyGraph({
         throw new Error("Unsupported reusable caller field.");
       requireExactJsonValue(
         job.permissions,
-        { contents: "read" },
+        path === ".github/workflows/manual-mcp-packages.yml" && id === "draft"
+          ? {
+              contents: "write",
+              actions: "read",
+              attestations: "write",
+              "id-token": "write",
+            }
+          : path === ".github/workflows/manual-mcp-packages.yml" &&
+              id === "validate"
+            ? { contents: "read", actions: "read" }
+            : { contents: "read" },
         "PR job permission ceiling",
       );
     }
@@ -376,11 +390,18 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
     {
       workflow_call: {
         inputs: { plan: { required: true, type: "string" } },
-        outputs: {
-          "verified-revision": {
-            value: "${{ jobs.complete.outputs.verified-revision }}",
-          },
-        },
+        outputs: Object.fromEntries(
+          [
+            "verified-revision",
+            "software-version",
+            "candidate-sha256",
+            "artifact-id",
+            "artifact-digest",
+          ].map((name) => [
+            name,
+            { value: "${{ jobs.complete.outputs." + name + " }}" },
+          ]),
+        ),
       },
     },
     "reusable consumer interface",

@@ -16,6 +16,12 @@ There is also no public container image, MCP Registry record, GitHub Release, im
 
 For trusted-checkout builds, locally packed npm tarballs, self-contained platform archives, local OCI images, short-lived GitHub Actions artifacts, Codex/Claude Desktop/VS Code configuration, cache behavior, offline limits, updates, and removal, use the canonical [local installation and operation guide](https://github.com/Hadden-Industries/universal-ontology/blob/main/docs/mcp/local-installation.md).
 
+Downloadable package qualification is manual by default through **Actions → Manual MCP packages** on `main`.
+The default run qualifies five runtime-inclusive native archives, the Node-required npm tarball and supporting checksums/SBOMs, with a three-day Actions download.
+An explicit option attaches the same verified bytes and provenance to a draft GitHub Release; public publication remains manual.
+The repository variable `MCP_PACKAGE_CI_ENABLED=true` restores automatic package checks later without enabling publication.
+No package is released merely by enabling this pipeline.
+
 For repository-only Streamable HTTP development at loopback, use the separate [local development guide](https://github.com/Hadden-Industries/universal-ontology/blob/main/docs/mcp/local-development.md).
 
 ## Runtime boundary

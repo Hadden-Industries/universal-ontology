@@ -15,7 +15,8 @@ test("generated validator matches its reviewed schema", () => {
 });
 test("full plan requires every scope and unique consumers", () => {
   const plan = {
-    schemaVersion: 1,
+    schemaVersion: 2,
+    packageMode: "manual",
     mode: "full",
     revision: "a".repeat(40),
     comparisonBase: null,

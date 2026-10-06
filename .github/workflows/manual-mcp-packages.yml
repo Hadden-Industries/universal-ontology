@@ -1,0 +1,128 @@
+name: Manual MCP packages
+on:
+  workflow_dispatch:
+    inputs:
+      create_draft_release:
+        description: Create a draft GitHub Release after complete qualification (public publication stays manual)
+        type: boolean
+        default: false
+permissions: {}
+defaults:
+  run:
+    shell: bash
+cache-mode: none
+jobs:
+  qualify:
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/full-qualification.yml
+    with:
+      include_mcp_packages: true
+    permissions:
+      contents: read
+    cache-mode: none
+  validate:
+    needs: qualify
+    if: ${{ !cancelled() && needs.qualify.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+    cache-mode: none
+    env:
+      GH_TOKEN: ${{ github.token }}
+      QUALIFIED_REVISION: ${{ needs.qualify.outputs.verified-revision }}
+      QUALIFIED_VERSION: ${{ needs.qualify.outputs.software-version }}
+      QUALIFIED_CANDIDATE_SHA256: ${{ needs.qualify.outputs.candidate-sha256 }}
+      QUALIFIED_ARTIFACT_ID: ${{ needs.qualify.outputs.artifact-id }}
+      QUALIFIED_ARTIFACT_DIGEST: ${{ needs.qualify.outputs.artifact-digest }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          artifact-ids: ${{ needs.qualify.outputs.artifact-id }}
+          path: dist/manual-candidate
+          merge-multiple: true
+      - run: node scripts/distribution/prepareManualMcpRelease.js --verify
+  draft:
+    concurrency:
+      group: manual-mcp-release-draft
+      cancel-in-progress: false
+    needs:
+      - qualify
+      - validate
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' && inputs.create_draft_release && needs.qualify.result == 'success' && needs.validate.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      actions: read
+      attestations: write
+      id-token: write
+    cache-mode: none
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CREATE_DRAFT_RELEASE: ${{ inputs.create_draft_release }}
+      QUALIFIED_REVISION: ${{ needs.qualify.outputs.verified-revision }}
+      QUALIFIED_VERSION: ${{ needs.qualify.outputs.software-version }}
+      QUALIFIED_CANDIDATE_SHA256: ${{ needs.qualify.outputs.candidate-sha256 }}
+      QUALIFIED_ARTIFACT_ID: ${{ needs.qualify.outputs.artifact-id }}
+      QUALIFIED_ARTIFACT_DIGEST: ${{ needs.qualify.outputs.artifact-digest }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          artifact-ids: ${{ needs.qualify.outputs.artifact-id }}
+          path: dist/manual-candidate
+          merge-multiple: true
+      - run: node scripts/distribution/prepareManualMcpRelease.js --verify
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: dist/manual-candidate/*
+      - run: node scripts/distribution/prepareManualMcpRelease.js --draft
+  complete:
+    if: ${{ always() }}
+    needs:
+      - qualify
+      - validate
+      - draft
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    cache-mode: none
+    env:
+      REQUIRED_DRAFT: ${{ inputs.create_draft_release }}
+      SOURCE_REF: ${{ github.ref }}
+      QUALIFY_RESULT: ${{ needs.qualify.result }}
+      VALIDATE_RESULT: ${{ needs.validate.result }}
+      DRAFT_RESULT: ${{ needs.draft.result }}
+    steps:
+      - name: Verify manual completion
+        if: ${{ success() && !cancelled() }}
+        run: |
+          test "$SOURCE_REF" = refs/heads/main
+          test "$QUALIFY_RESULT" = success
+          test "$VALIDATE_RESULT" = success
+          if [ "$REQUIRED_DRAFT" = true ]; then
+            test "$DRAFT_RESULT" = success
+          else
+            test "$DRAFT_RESULT" = skipped
+          fi
+      - name: Reject workflow cancellation
+        if: ${{ cancelled() }}
+        run: exit 1

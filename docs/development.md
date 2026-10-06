@@ -134,7 +134,8 @@ Pull requests run, as applicable to the changed files:
 - [Ontology validation](../.github/workflows/ontology-validation.yml): the editing policy on the changed sources, policy/publication-gate tests, and the Linux/Windows two-engine qualification of the active set.
 - [Development checks](../.github/workflows/development-checks.yml): changed Markdown on Linux, Python style on Linux, the whole Python test suite on Linux and Windows when Python sources, tests or their runtime change, an offline validation of `skills-lock.json` on Linux when the lock or its tooling changes, and Linux/Windows matrices for affected style tools or development tools.
   Development and toolchain verification use `npm run set-up:development`; documentation-only checks install just the locked formatters.
-- [MCP distribution](../.github/workflows/verify-universal-ontology-mcp-distribution.yml): package, archive and container checks; product tests and website builds have distinct jobs in the caller.
+- [MCP distribution](../.github/workflows/verify-universal-ontology-mcp-distribution.yml): affected application bundle and documentation checks; product tests and website builds have distinct jobs in the caller.
+  Downloadable archive, container and npm candidate qualification is disabled automatically by default.
 - [CodeQL](../.github/workflows/codeql.yml).
 
 The [PR validation workflow](../.github/workflows/pr-validation.yml) is the sole functional PR entry point and calls the three reusable consumers above.
@@ -146,7 +147,9 @@ The `main` ruleset requires `PR validation` from the GitHub Actions app and requ
 The obsolete `OWL Differential Analysis` required context and duplicate workflow triggers have been removed after live failure trials.
 CodeQL is not a required status in that ruleset; fork PR analysis remains limited by its same-repository condition.
 
-[Full qualification](../.github/workflows/full-qualification.yml) selects every core scope on pushes to `main`, manual dispatch, and Wednesdays at 04:17 UTC.
+[Full qualification](../.github/workflows/full-qualification.yml) uses affected checks on pushes to `main`, comparing the exact push revision with its `before` commit.
+An unavailable push comparison conservatively selects every source scope.
+Manual dispatch and Wednesdays at 04:17 UTC select every source scope; package work remains disabled unless explicitly enabled.
 Repository maintainers own failures and should use their GitHub Actions notification subscriptions to receive failure notifications.
 Maintainers must inspect the most recent successful full run before relying on it, and dispatch an authorized full run at the exact intended release revision when necessary.
 Schedules can be delayed or disabled after repository inactivity; re-enable a disabled workflow through its Actions page, then obtain an exact-revision successful run.
@@ -154,9 +157,21 @@ The original consumer filenames accept only `workflow_call`; no compatibility wo
 
 The graph gives each Jest suite one Linux owner when all scopes are selected; bootstrap and formatter qualification retain Windows coverage.
 Python unit tests own the full suite when selected, while generated-policy checks, active-set qualification, and Jena parity remain distinct.
-All five native archive targets remain selected for application and release-qualification changes.
-Packaged README changes retain full native qualification until independent package-content coverage justifies narrowing it.
+Set the repository Actions variable `MCP_PACKAGE_CI_ENABLED` to the literal `true` to restore automatic package qualification.
+Unset, empty or `false` disables it; other values fail selection visibly.
+When enabled, package, runtime, platform and packaged README inputs select all five native archives, the container smoke check and complete npm/checksum/SBOM candidate assembly.
+Scheduled and ordinary manual full runs also include that complete matrix when enabled.
+This option never enables Release publication.
 Application bundles are still built through the standalone paths: no measured artifact-transfer benefit has yet justified reuse.
+
+Use [Manual MCP packages](../.github/workflows/manual-mcp-packages.yml) on `main` to qualify its exact dispatch commit, independently of the automatic option.
+The default `create_draft_release=false` runs every source check and the complete package matrix, then validates the disposable candidate without creating a Release.
+Selecting `create_draft_release=true` adds provenance attestations and attaches those exact verified files to a draft GitHub Release.
+The isolated draft job has publication permissions; builders do not.
+Existing tags or releases cause refusal rather than replacement, and a partially created draft requires deliberate operator recovery.
+Public publication requires manually publishing that draft in GitHub Releases.
+There is no automatic npm, GHCR or MCP Registry publication.
+See the [installation guide](mcp/local-installation.md#manual-package-qualification-and-release) for package contents and where downloads live.
 
 Ordinary Python style jobs install only the exact hash-locked Ruff wheel and reject a changed runtime dependency closure.
 Bootstrap jobs continue to exercise full development setup.
@@ -165,7 +180,7 @@ No trusted cache warmer is introduced before measurement.
 
 When editing the execution policy, update its schema and regenerate the standalone validator with `node scripts/generatePullRequestCheckPlanValidator.js --write`.
 Use `--check` to verify freshness without writing.
-The distribution verifier also checks an explicit ten-file policy manifest covering the production entry points, reusable consumers, and selection/evaluation inputs.
+The distribution verifier also checks an explicit twelve-file policy manifest covering the entry points, reusable consumers, selection/evaluation inputs and manual candidate validator.
 A semantic workflow or control-input change requires coordinated review, updated assertions, negative tests, and a deliberate digest update.
 
 `scripts/selectPullRequestChecks.js` decides which jobs apply from the changed paths.

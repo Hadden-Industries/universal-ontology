@@ -8,7 +8,7 @@ import {
   requiredJobsForScopes,
 } from "../scripts/selectPullRequestChecks.js";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, rmSync, readFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 function fixture() {
@@ -17,7 +17,8 @@ function fixture() {
   );
   return {
     plan: {
-      schemaVersion: 1,
+      schemaVersion: 2,
+      packageMode: "disabled",
       mode: "changed",
       revision: "a".repeat(40),
       comparisonBase: "b".repeat(40),
@@ -35,6 +36,69 @@ function fixture() {
     },
   };
 }
+
+test.each(["valid", "missing-id", "digest-newline", "skipped-archive"])(
+  "distribution completion publishes candidate outputs only for %s",
+  (scenario) => {
+    const directory = mkdtempSync(join(tmpdir(), "uo-candidate-completion-"));
+    const revision = execFileSync("git", ["rev-parse", "HEAD"], {
+      encoding: "utf8",
+    }).trim();
+    const scopes = Object.fromEntries(
+      CORE_CHECK_SCOPE_NAMES.map((name) => [name, true]),
+    );
+    const plan = {
+      schemaVersion: 2,
+      packageMode: "manual",
+      mode: "full",
+      comparisonBase: null,
+      revision,
+      scopes,
+      requiredJobs: requiredJobsForScopes(scopes),
+    };
+    const needs = Object.fromEntries(
+      Object.keys(consumerJobs(plan, "distribution")).map((name) => [
+        name,
+        { result: "success" },
+      ]),
+    );
+    needs.assemble.outputs = {
+      "software-version": "1.0.0",
+      "candidate-sha256": "a".repeat(64),
+      "artifact-id": "42",
+      "artifact-digest": "b".repeat(64),
+    };
+    if (scenario === "missing-id") delete needs.assemble.outputs["artifact-id"];
+    if (scenario === "digest-newline")
+      needs.assemble.outputs["artifact-digest"] += "\ninjected=true";
+    if (scenario === "skipped-archive") needs.archive.result = "skipped";
+    const output = join(directory, "output");
+    try {
+      const result = spawnSync(
+        process.execPath,
+        ["scripts/evaluatePullRequestChecks.js", "--consumer", "distribution"],
+        {
+          encoding: "utf8",
+          env: {
+            ...process.env,
+            GITHUB_SHA: revision,
+            GITHUB_OUTPUT: output,
+            PR_CHECK_PLAN: JSON.stringify(plan),
+            PR_CHECK_RESULTS: JSON.stringify(needs),
+          },
+        },
+      );
+      expect(result.status).toBe(scenario === "valid" ? 0 : 1);
+      if (scenario === "valid")
+        expect(readFileSync(output, "utf8")).toBe(
+          `verified-revision=${revision}\nsoftware-version=1.0.0\ncandidate-sha256=${"a".repeat(64)}\nartifact-id=42\nartifact-digest=${"b".repeat(64)}\n`,
+        );
+      else expect(existsSync(output)).toBe(false);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+);
 
 test.each([
   "valid",
@@ -126,7 +190,7 @@ test.each(["failure", "cancelled", "unknown"])(
 );
 test.each([
   (p) => {
-    p.schemaVersion = 2;
+    p.schemaVersion = 1;
   },
   (p) => {
     p.mode = "bad";

@@ -21,6 +21,8 @@ const files = [
   "scripts/pullRequestCheckPlan.schema.json",
   "scripts/pullRequestCheckPlanValidator.js",
   "scripts/generatePullRequestCheckPlanValidator.js",
+  ".github/workflows/manual-mcp-packages.yml",
+  "scripts/distribution/prepareManualMcpRelease.js",
 ];
 
 test.each(files.slice(0, 5))(
@@ -143,7 +145,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
 });
 test("reviewed graph accepts every entry point and control input", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedFileCount: 10,
+    verifiedFileCount: 12,
   });
 });
 test.each(files)("rejects a semantic modification to %s", async (changed) => {
@@ -230,6 +232,7 @@ test("graph has one unconditional PR gate and closed consumer completion sets", 
   expect(Object.keys(full.on).sort()).toEqual([
     "push",
     "schedule",
+    "workflow_call",
     "workflow_dispatch",
   ]);
   expect(entry.on).toEqual({
