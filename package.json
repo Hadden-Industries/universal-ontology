@@ -73,6 +73,7 @@
     "@xmldom/xmldom": "^0.9.12",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
+    "braces": "file:vendor/braces",
     "eslint": "^10.12.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.13.0",
@@ -99,6 +100,7 @@
     "yazl": "3.3.1"
   },
   "overrides": {
+    "braces": "file:vendor/braces",
     "@istanbuljs/load-nyc-config@1.1.0": {
       "js-yaml": "4.3.2"
     }
