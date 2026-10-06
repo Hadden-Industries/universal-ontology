@@ -1,0 +1,14 @@
+{
+  "name": "braces",
+  "version": "3.0.3",
+  "description": "Braces 3.0.3 with a local backport of bounded AST traversal.",
+  "private": true,
+  "main": "index.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=8"
+  },
+  "dependencies": {
+    "fill-range": "^7.1.1"
+  }
+}
