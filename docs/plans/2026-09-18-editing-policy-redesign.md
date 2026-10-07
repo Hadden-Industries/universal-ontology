@@ -1,12 +1,12 @@
 # Implementation Plan: Editing Policy Documentation Redesign
 
-**Plan date:** 2026-09-19  
-**Repository:** `Hadden-Industries/universal-ontology`  
-**Plan location:** `docs/plans/2026-09-18-editing-policy-redesign.md`  
-**Canonical policy:** `policy/*.ttl`, with `policy/editing-policy.ttl` as the editing-policy root  
-**Current generated projection:** `docs/policy/Editing-Policy.generated.md`  
-**Existing generation commands:** `npm run generate:editing-policy` and `npm run check:editing-policy`  
-**Publication target:** GitHub Wiki, with the reviewable generated artefact retained in the main repository  
+**Plan date:** 2026-09-19\
+**Repository:** `Hadden-Industries/universal-ontology`\
+**Plan location:** `docs/plans/2026-09-18-editing-policy-redesign.md`\
+**Canonical policy:** `policy/*.ttl`, with `policy/editing-policy.ttl` as the editing-policy root\
+**Current generated projection:** `docs/policy/Editing-Policy.generated.md`\
+**Existing generation commands:** `npm run generate:editing-policy` and `npm run check:editing-policy`\
+**Publication target:** GitHub Wiki, with the reviewable generated artefact retained in the main repository\
 **Documentation language:** en-GB, except where canonical policy literals, examples, identifiers or quoted source material must remain byte-for-byte or semantically unchanged
 
 ## Executive summary and evidence

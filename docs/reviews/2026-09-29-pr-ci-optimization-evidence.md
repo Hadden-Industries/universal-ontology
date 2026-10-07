@@ -56,16 +56,16 @@ No improvement claim or p95 estimate is justified yet.
 
 ## Initial ownership inventory
 
-| Current owner | Coverage | Overlap to resolve in the approved ownership migration |
-| --- | --- | --- |
-| Development `python-tests`, each selected OS | All `tests/test_*.py` via parallel unittest discovery | Validation/setup modules also run in development `checks`; policy modules run in ontology jobs |
-| Development `checks`, Linux and Windows | Real setup, ontology runner, `test_set_up_*.py`, five tooling Jest suites | Distinguish real bootstrap proof from repeated unit suites |
-| Development `style-tooling`, Linux and Windows | Python style, prose regressions, documentation-tool tests | Documentation-tool tests also occur in distribution `test:node` |
-| Ontology `validate-ontologies` | Differential validation and `test_validate_ontologies.py` | Validator unit suite also runs in Python and bootstrap jobs |
-| Ontology `policy-qa` | Generated policy freshness, `test_*polic*.py`, entity/publication contracts | Publication and policy modules overlap the broad Python suite; generated freshness remains a distinct obligation |
-| Ontology `qualify`, Linux and Windows | Active-set pySHACL qualification and Jena parity | Preserve this runtime-specific qualification independently of unit coverage |
-| Distribution `validate` | `test:node`, Node lint/format, selected MCP documentation contracts, website and MCP builds | Broad Jest discovery repeats tooling suites; package documentation may overlap selected product tests |
-| Distribution archive/container/assembly | Five native archives, extraction and CLI smoke, MCP container exchange, package/SBOM/release verification | Archive helper builds the application; package `prepack` builds again |
+| Current owner                                  | Coverage                                                                                                  | Overlap to resolve in the approved ownership migration                                                           |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Development `python-tests`, each selected OS   | All `tests/test_*.py` via parallel unittest discovery                                                     | Validation/setup modules also run in development `checks`; policy modules run in ontology jobs                   |
+| Development `checks`, Linux and Windows        | Real setup, ontology runner, `test_set_up_*.py`, five tooling Jest suites                                 | Distinguish real bootstrap proof from repeated unit suites                                                       |
+| Development `style-tooling`, Linux and Windows | Python style, prose regressions, documentation-tool tests                                                 | Documentation-tool tests also occur in distribution `test:node`                                                  |
+| Ontology `validate-ontologies`                 | Differential validation and `test_validate_ontologies.py`                                                 | Validator unit suite also runs in Python and bootstrap jobs                                                      |
+| Ontology `policy-qa`                           | Generated policy freshness, `test_*polic*.py`, entity/publication contracts                               | Publication and policy modules overlap the broad Python suite; generated freshness remains a distinct obligation |
+| Ontology `qualify`, Linux and Windows          | Active-set pySHACL qualification and Jena parity                                                          | Preserve this runtime-specific qualification independently of unit coverage                                      |
+| Distribution `validate`                        | `test:node`, Node lint/format, selected MCP documentation contracts, website and MCP builds               | Broad Jest discovery repeats tooling suites; package documentation may overlap selected product tests            |
+| Distribution archive/container/assembly        | Five native archives, extraction and CLI smoke, MCP container exchange, package/SBOM/release verification | Archive helper builds the application; package `prepack` builds again                                            |
 
 The archive builder calls `buildUniversalOntologyMcpApplicationBundle`; MCP `prepack` is `npm run build`.
 Removing explicit build steps alone cannot prove bundle-build deduplication.
@@ -120,12 +120,12 @@ Large review, final verification, commit, push, and ruleset transition remain pe
 The user separately approved this exact batch together with the locked dependency refresh.
 The following `timeout-minutes` values are now applied to the existing job IDs:
 
-| Workflow under `.github/workflows/` | Exact job settings |
-| --- | --- |
-| `development-checks.yml` | `scope: 5`, `documentation: 10`, `python-style: 10`, `python-tests: 30`, `agent-skills-lock: 5`, `style-tooling: 30`, `checks: 30` |
-| `ontology-validation.yml` | `validate-ontologies: 20`, `policy-qa: 30`, `qualify: 45` |
-| `verify-universal-ontology-mcp-distribution.yml` | `scope: 5`, `validate: 30`, `archive: 30`, `container: 30`, `assemble: 20` |
-| `codeql.yml` | `scope: 5`; retain existing `analyze: 20` |
+| Workflow under `.github/workflows/`              | Exact job settings                                                                                                                 |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `development-checks.yml`                         | `scope: 5`, `documentation: 10`, `python-style: 10`, `python-tests: 30`, `agent-skills-lock: 5`, `style-tooling: 30`, `checks: 30` |
+| `ontology-validation.yml`                        | `validate-ontologies: 20`, `policy-qa: 30`, `qualify: 45`                                                                          |
+| `verify-universal-ontology-mcp-distribution.yml` | `scope: 5`, `validate: 30`, `archive: 30`, `container: 30`, `assemble: 20`                                                         |
+| `codeql.yml`                                     | `scope: 5`; retain existing `analyze: 20`                                                                                          |
 
 Replace `windows-latest` with `windows-2025` in development's `python-tests`, `style-tooling`, and `checks` matrices.
 Retain each Ubuntu entry and all native archive targets.
@@ -165,10 +165,7 @@ No cache stores `node_modules`, `.venv`, generated bundles, or release candidate
 
 GitHub documents `cache-mode` as a workflow/job key, enforced by scoped cache tokens, not a setup-action input.
 The pinned setup-node action exposes `package-manager-cache`; the pinned setup-python action exposes pip caching and the dependency path.
-These exact interfaces were rechecked during this implementation:
-[cache access](https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching#controlling-cache-access-with-cache-mode),
-[setup-node inputs](https://github.com/actions/setup-node/blob/820762786026740c76f36085b0efc47a31fe5020/action.yml),
-[setup-python inputs](https://github.com/actions/setup-python/blob/5fda3b95a4ea91299a34e894583c3862153e4b97/action.yml).
+These exact interfaces were rechecked during this implementation: [cache access](https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching#controlling-cache-access-with-cache-mode), [setup-node inputs](https://github.com/actions/setup-node/blob/820762786026740c76f36085b0efc47a31fe5020/action.yml), [setup-python inputs](https://github.com/actions/setup-python/blob/5fda3b95a4ea91299a34e894583c3862153e4b97/action.yml).
 The effect is to disable implicit cache traffic in selectors/candidates and restrict remaining cache consumers to reads.
 Cache warming and cold/warm timing remain measured rollout decisions, not claimed savings.
 

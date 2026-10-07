@@ -53,7 +53,7 @@ export function consumerJobs(plan, consumer) {
   const jobs = {
     development: {
       scope: true,
-      documentation: s.documentation || s.style_tooling,
+      documentation: true,
       "python-style": s.python_style && !s.style_tooling,
       "python-tests": s.python_tests,
       "python-node-tests": s.python_setup_tests,

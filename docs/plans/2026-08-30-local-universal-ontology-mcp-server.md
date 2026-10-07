@@ -2,9 +2,9 @@
 
 > **Status:** local implementation complete, researched and verified 2026-08-30; AWS production migration remains planned
 >
-> **Primary protocol:** Model Context Protocol (MCP) specification `2026-07-28`  
-> **Local endpoint:** `http://127.0.0.1:8000/mcp`  
-> **Production direction:** Amazon Bedrock AgentCore Runtime with OAuth/JWT ingress and immutable query artifacts in Amazon S3; add AgentCore Gateway only when aggregation or centralized policy justifies its tool-renaming layer  
+> **Primary protocol:** Model Context Protocol (MCP) specification `2026-07-28`\
+> **Local endpoint:** `http://127.0.0.1:8000/mcp`\
+> **Production direction:** Amazon Bedrock AgentCore Runtime with OAuth/JWT ingress and immutable query artifacts in Amazon S3; add AgentCore Gateway only when aggregation or centralized policy justifies its tool-renaming layer\
 > **For implementation:** Execute this plan inline, task by task.
 > Subagents are prohibited by the user.
 > Use the repository's `test-driven-development` and `verification-before-completion` skills where applicable.

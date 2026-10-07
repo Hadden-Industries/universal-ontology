@@ -223,41 +223,30 @@ test("toolchain changes retain a Windows and Ubuntu owner for formatter regressi
   ).toBe(true);
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
   expect(runs.indexOf("npm run set-up:development")).toBeLessThan(
-    runs.indexOf(
-      "npm run lint:python && npm run format:python:check && npm run test:prose",
-    ),
+    runs.indexOf("npm run lint:python && npm run format:python:check"),
   );
   expect(runs).toContain(
-    "npm test -- --runInBand --runTestsByPath tests/documentation-tools.test.js tests/python-style-tools.test.js",
+    "npm test -- --runInBand --runTestsByPath tests/python-style-tools.test.js tests/markdown-quality.test.js",
   );
 });
 
-test("documentation content owns one Linux job with only the locked formatters", () => {
+test("every route checks the full Markdown corpus on Windows and Linux", () => {
   const job = readWorkflow().jobs.documentation;
-  expect(job["runs-on"]).toBe("ubuntu-24.04");
-  expect(job.strategy).toBeUndefined();
-  expect(job.if).toBe(
-    "needs.scope.outputs.documentation == 'true' || needs.scope.outputs.style_tooling == 'true'",
-  );
-  const installation = job.steps.find(
-    (step) => step.name === "Install only the locked documentation tools",
-  );
-  expect(installation.run).toContain("--ignore-scripts --no-audit --no-fund");
-  expect(installation.run).toContain("--require-hashes --only-binary=:all:");
-  const runs = job.steps
-    .map((step) => step.run)
-    .filter(Boolean)
-    .join("\n");
-  expect(runs).not.toMatch(
-    /set-up:development|check:style|npm test|lint:python/u,
-  );
-  const check = job.steps.at(-1);
-  expect(check.env.DOCUMENTATION_CHECK_ALL).toBe(
-    "${{ fromJSON(inputs.plan).mode == 'full' || needs.scope.outputs.style_tooling == 'true' }}",
-  );
-  expect(check.run).toContain(
-    '--base "$DOCUMENTATION_DIFF_BASE" --head "$DOCUMENTATION_DIFF_HEAD"',
-  );
+  expect(job["runs-on"]).toBe("${{ matrix.os }}");
+  expect(job.strategy).toEqual({
+    "fail-fast": false,
+    matrix: { os: ["ubuntu-24.04", "windows-2025"] },
+  });
+  expect(job.if).toBeUndefined();
+  expect(job.steps.map((step) => step.run).filter(Boolean)).toEqual([
+    "node scripts/evaluatePullRequestChecks.js --verify",
+    "npm run install:markdown",
+    "npm run check:markdown",
+    "npm run test:markdown",
+  ]);
+  expect(
+    job.steps.some((step) => step.uses?.startsWith("actions/setup-python@")),
+  ).toBe(false);
 });
 
 test("Windows and Ubuntu checks exercise the complete development setup before the retained tests", () => {

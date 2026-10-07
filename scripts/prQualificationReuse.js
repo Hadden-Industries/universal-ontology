@@ -8,6 +8,7 @@ import {
   eligiblePrQualificationPlan,
   PR_WORKFLOW,
   PR_QUALIFICATION_JOB_NAMES,
+  PR_QUALIFICATION_SUCCESS_JOB_NAMES,
 } from "./prQualification.js";
 import { assertCheckPlan } from "./selectPullRequestChecks.js";
 export const FULL_WORKFLOW = ".github/workflows/full-qualification.yml";
@@ -285,7 +286,7 @@ export async function verifyOriginalPrQualification({
           job.run_attempt <= run.run_attempt &&
           job.status === "completed" &&
           job.conclusion ===
-            (["select", "node", "PR validation"].includes(job.name)
+            (PR_QUALIFICATION_SUCCESS_JOB_NAMES.includes(job.name)
               ? "success"
               : "skipped")
         );
@@ -381,8 +382,10 @@ export function assertMainReuseCompletion(context, qualification, needs) {
     needs &&
       isDeepStrictEqual(Object.keys(needs).sort(), [...names].sort()) &&
       needs.select.result === "success" &&
+      needs.development.result === "success" &&
+      needs.development.outputs?.["verified-revision"] === context.sha &&
       names
-        .filter((n) => n !== "select")
+        .filter((n) => !["select", "development"].includes(n))
         .every((n) => needs[n].result === "skipped"),
     "Reused completion has unexpected, failed or cancelled consumers.",
   );

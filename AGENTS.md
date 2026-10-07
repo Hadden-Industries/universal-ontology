@@ -1,4 +1,4 @@
-﻿# Repository Instructions
+# Repository Instructions
 
 ## Configuration Safety
 
@@ -8,41 +8,47 @@
 - Before requesting approval, identify the exact file and setting, explain the behavioral and pipeline impact, and propose the smallest change.
 - If a task appears to require a configuration change, stop and request approval instead of inferring permission.
 
-# Git Guidance
+## Git Guidance
 
-## Local Workspace Commits & Pushing
+### Local Workspace Commits & Pushing
 
-- For any request to draft a commit message or commit current workspace changes, you MUST load and follow the `committing-to-git` skill. Unless specified otherwise, use the template for a per-file detailed commit message when drafting a commit message.
+- For any request to draft a commit message or commit current workspace changes, you MUST load and follow the `committing-to-git` skill.
+  Unless specified otherwise, use the template for a per-file detailed commit message when drafting a commit message.
 
 - **Explicit User Authorization**:
   - Creating a commit requires explicit user authorization.
   - Pushing requires separate explicit user authorization.
   - A request to push existing commits MUST NOT implicitly authorize staging or committing uncommitted workspace changes.
 
-## Working Tree Safety
+### Working Tree Safety
 
 Treat all existing working-tree changes as user-owned and potentially valuable.
 
 - Use the current working-tree contents as the authoritative starting point for ordinary file editing.
 - Preserve all pre-existing modifications unless the user explicitly requests that they be changed or discarded.
-- Treat any change you did not make as deliberate, including content that was present earlier in the session and is now absent. Never restore it, and do not assume a regression, a sync artefact, or a tooling bug; raise it and ask if it materially affects work in progress.
+- Treat any change you did not make as deliberate, including content that was present earlier in the session and is now absent.
+  Never restore it, and do not assume a regression, a sync artefact, or a tooling bug; raise it and ask if it materially affects work in progress.
 - Edit files directly using minimal, targeted changes.
 - Never use `git checkout`, `git restore`, `git reset --hard`, or another Git restoration operation to undo edits made during the current task.
 - To undo your own changes, reverse only the specific edits you introduced.
 - Use Git primarily to inspect repository state and historical content (`git status`, `git diff`, `git show`) during ordinary editing.
 - Execute operations that discard working-tree changes only when the user explicitly requests that destructive operation.
 
-# GitHub Platform Guidance
+## GitHub Platform Guidance
 
 - Avoid executing destructive Git operations (such as force-pushing to protected branches or deleting remote branches) without explicit, case-by-case approval.
 
-# Python Guidance
+## Python Guidance
 
 - Only use the local Python environment found in the .venv directory for the execution of Python scripts
 
-# Development and verification
+## Development and verification
 
-- Read [docs/development.md](docs/development.md) for setup, optional integrations and the verification commands. Use `npm run ...` entry points for routine controls; Python runs through the existing `.venv`.
-- Inspect lifecycle side effects before executing commands. `npm run build` invokes auto-fixes; use the documented direct Vite command when verification must preserve tracked inputs. Deployment remains separately authorized.
-- Retain truthful failures and proof gaps. Installation, trust, live scans, GitHub writes, commits and pushing are distinct actions; none is implied by another approval.
+- Read [docs/development.md](docs/development.md) for setup, optional integrations and the verification commands.
+  Use `npm run ...` entry points for routine controls; Python runs through the existing `.venv`.
+- Inspect lifecycle side effects before executing commands.
+  `npm run build` invokes auto-fixes; use the documented direct Vite command when verification must preserve tracked inputs.
+  Deployment remains separately authorized.
+- Retain truthful failures and proof gaps.
+  Installation, trust, live scans, GitHub writes, commits and pushing are distinct actions; none is implied by another approval.
 - Remove task-created scratch when its consumers are done; never delete required failure evidence to manufacture completion.

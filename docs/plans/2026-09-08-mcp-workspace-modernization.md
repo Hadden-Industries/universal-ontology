@@ -16,7 +16,7 @@ Judge the result through both the maintainer path and real ontology consumers, i
 Max owns acceptance and scope.
 The implementing agent is the integration owner, coordinating all consumer changes and evidence.
 No parallel write work is assumed.
-Apply the [repository TDD procedure](../../.sdlc/skills/test-driven-development/SKILL.md) once implementation is authorized; this document contains no implementation.
+Apply the [repository TDD procedure](https://github.com/Hadden-Industries/universal-ontology/blob/42b6f93f03b7114e3632c1abbc1503d26ca22e29/.sdlc/skills/test-driven-development/SKILL.md) once implementation is authorized; this document contains no implementation.
 
 ## 1. Accepted design and its authority
 

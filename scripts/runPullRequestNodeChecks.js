@@ -55,17 +55,19 @@ export function nodeCheckArguments(plan, { families = null } = {}) {
     )
   )
     return ["--runTestsByPath", ...suitesForNodeFamilies(families)];
+  // The isolated style-tooling job owns this suite. Ordinary product jobs do
+  // not install the private Markdown graph, even when their scopes are mixed.
   const ignored = [
     "/node_modules/",
     "/.sdlc/runtime/",
-    "/tests/prose-formatting.test.js$",
+    "/tests/markdown-quality.test.js$",
   ];
   if (plan.scopes.development)
     ignored.push(
       "/tests/(configure-git-hooks|set-up-development-environment|run-repository-python|development-workflow|pr-check-scopes).test.js$",
     );
   if (plan.scopes.style_tooling)
-    ignored.push("/tests/(documentation-tools|python-style-tools).test.js$");
+    ignored.push("/tests/python-style-tools.test.js$");
   return [`--testPathIgnorePatterns=${ignored.join("|")}`];
 }
 

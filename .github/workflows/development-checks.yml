@@ -42,10 +42,13 @@ jobs:
     cache-mode: none
   documentation:
     timeout-minutes: 10
-    name: Markdown documents
     needs: scope
-    if: needs.scope.outputs.documentation == 'true' || needs.scope.outputs.style_tooling == 'true'
-    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    name: Markdown documents (${{ matrix.os }})
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -58,34 +61,13 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version-file: .python-version
-          cache: pip
-          cache-dependency-path: requirements.lock.txt
       - name: Install only the locked documentation tools
         shell: bash
-        run: |
-          set -euo pipefail
-          node scripts/prepareDocumentationTools.js --output "$RUNNER_TEMP/documentation-tools"
-          npm ci --prefix "$RUNNER_TEMP/documentation-tools" --ignore-scripts --no-audit --no-fund
-          mkdir node_modules
-          cp -R "$RUNNER_TEMP/documentation-tools/node_modules/prettier" node_modules/prettier
-          python -m venv .venv
-          .venv/bin/python -m pip install --require-hashes --only-binary=:all: -r "$RUNNER_TEMP/documentation-tools/requirements.txt"
-      - name: Check authored documents
-        env:
-          DOCUMENTATION_CHECK_ALL: ${{ fromJSON(inputs.plan).mode == 'full' || needs.scope.outputs.style_tooling == 'true' }}
-          DOCUMENTATION_DIFF_BASE: ${{ fromJSON(inputs.plan).comparisonBase }}
-          DOCUMENTATION_DIFF_HEAD: ${{ github.sha }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [[ "$DOCUMENTATION_CHECK_ALL" == "true" ]]; then
-            npm run format:docs:check
-          else
-            npm run format:docs:check -- --base "$DOCUMENTATION_DIFF_BASE" --head "$DOCUMENTATION_DIFF_HEAD"
-          fi
+        run: npm run install:markdown
+      - name: Check every repository Markdown document
+        run: npm run check:markdown
+      - name: Exercise native trust boundaries
+        run: npm run test:markdown
     permissions:
       contents: read
   python-style:
@@ -159,6 +141,8 @@ jobs:
           fi
           "$python_executable" -m pip install --require-hashes --only-binary=:all: -r requirements.lock.txt
           "$python_executable" -m pip check
+      - name: Install the isolated generated-document formatter
+        run: npm run install:markdown
       - name: Run the Python-only native family
         run: npm run test:python -- --family python-only
     permissions:
@@ -261,15 +245,16 @@ jobs:
       - name: Set up the locked development environment
         run: npm run set-up:development
       - name: Check Python style and formatter regressions
-        run: npm run lint:python && npm run format:python:check && npm run test:prose
+        run: npm run lint:python && npm run format:python:check
       - name: Check minimal documentation installation inputs
-        run: npm test -- --runInBand --runTestsByPath tests/documentation-tools.test.js tests/python-style-tools.test.js
+        run: npm test -- --runInBand --runTestsByPath tests/python-style-tools.test.js tests/markdown-quality.test.js
     permissions:
       contents: read
     defaults:
       run:
         shell: ${{ matrix.os == 'windows-2025' && 'pwsh' || 'bash' }}
   checks:
+    name: Development controls
     timeout-minutes: 30
     needs: scope
     if: needs.scope.outputs.development == 'true'

@@ -126,7 +126,9 @@ jobs:
           .venv/bin/python -m pip check
       - name: Generated policy is current
         if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
-        run: .venv/bin/python -B scripts/render_editing_policy.py --check
+        run: |
+          npm run install:markdown
+          .venv/bin/python -B scripts/render_editing_policy.py --check
       - name: Policy, rendering, authority, change and publication-gate contracts
         if: (needs.validate-ontologies.outputs.ontology_policy_qa == 'true') && !fromJSON(inputs.plan).scopes.python_tests
         run: .venv/bin/python -B -m unittest discover -s tests -p "test_*polic*.py" -v

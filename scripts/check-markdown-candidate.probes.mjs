@@ -9,6 +9,10 @@ import {
   existsSync,
   readFileSync,
   rmSync,
+  symlinkSync,
+  openSync,
+  ftruncateSync,
+  closeSync,
 } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -186,6 +190,28 @@ test("fresh output boundary rejects ancestor, reuse and reserved policy collisio
   const collision = fixture();
   mkdirSync(join(collision.sourceRoot, ".markdown-quality-trusted-inputs"));
   assert.throws(() => stageCandidate(collision));
+});
+test("linked candidate directories and oversized data reject staging before checking", () => {
+  const linked = fixture();
+  const outside = join(linked.trustedRoot, "outside");
+  mkdirSync(outside);
+  writeFileSync(join(outside, "README.md"), "# Outside\n");
+  symlinkSync(
+    outside,
+    join(linked.sourceRoot, "linked"),
+    process.platform === "win32" ? "junction" : "dir",
+  );
+  assert.throws(() => stageCandidate(linked), /Linked candidate data/u);
+  assert.equal(readFileSync(join(outside, "README.md"), "utf8"), "# Outside\n");
+  const oversized = fixture();
+  const member = openSync(join(oversized.sourceRoot, "oversized.dat"), "wx");
+  try {
+    ftruncateSync(member, 134217729);
+  } finally {
+    closeSync(member);
+  }
+  assert.throws(() => stageCandidate(oversized), /Candidate data byte bound/u);
+  assert.equal(existsSync(join(oversized.outputRoot, "oversized.dat")), false);
 });
 test("corpus identity detects same-length edits and renamed local targets", async () => {
   const paths = fixture();

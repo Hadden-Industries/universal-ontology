@@ -1,13 +1,17 @@
 # WP5 — exact proposed policy amendments
 
-> Historical planning document. File references were updated during organization; proposal and recorded outcome statements retain their original scope. See the [initiative index](../README.md) for completion context and original delivery identities.
+> Historical planning document.
+> File references were updated during organization; proposal and recorded outcome statements retain their original scope.
+> See the [initiative index](../README.md) for completion context and original delivery identities.
 
-**Status:** proposed text for exact review/approval; not applied.  
-**Source baseline:** Universal Ontology `79d187802f9255134c03d0786ff75181ed1070ee`.  
-**Maintained owner:** `docs/sdlc/codex-security.md` remains the SEC-01 integration; `docs/sdlc/adoption.md` remains actual environment evidence.  
+**Status:** proposed text for exact review/approval; not applied.\
+**Source baseline:** Universal Ontology `79d187802f9255134c03d0786ff75181ed1070ee`.\
+**Maintained owner:** `docs/sdlc/codex-security.md` remains the SEC-01 integration; `docs/sdlc/adoption.md` remains actual environment evidence.\
 **Boundary:** do not apply these words to an installed native plugin, its skills, schemas, caches or sealed scan bundles.
 
-Reconcile intervening accepted edits before application. Preserve existing risk rules, budgets, permissions, native workflow ownership and Windows artifact procedure. A prepared template or approved wording is not a completed qualification.
+Reconcile intervening accepted edits before application.
+Preserve existing risk rules, budgets, permissions, native workflow ownership and Windows artifact procedure.
+A prepared template or approved wording is not a completed qualification.
 
 ## Amendment A — clarify the scope of the standing inventory alternative
 
@@ -34,11 +38,14 @@ Reconcile intervening accepted edits before application. Preserve existing risk 
   recorded host, route and diff modes; keep the general coverage precheck.
 ```
 
-**Behavioral impact:** the existing alternative remains available only within its original inventory-omission/risk authority. A workflow fix no longer reads as retirement of all scope exceptions. This does not authorise a new R2 alternative or reclassify historical direct review as native review.
+**Behavioral impact:** the existing alternative remains available only within its original inventory-omission/risk authority.
+A workflow fix no longer reads as retirement of all scope exceptions.
+This does not authorise a new R2 alternative or reclassify historical direct review as native review.
 
 ## Amendment B — insert a bounded installed-capability procedure
 
-**Target:** the same file. Insert immediately before `## Temporary Windows artifact I/O`.
+**Target:** the same file.
+Insert immediately before `## Temporary Windows artifact I/O`.
 
 ```markdown
 ## Qualify installed workflow inventory changes
@@ -82,7 +89,9 @@ qualification and owner disposition to the existing task/adoption record, and
 state exactly which hosts, modes, targets and remaining gaps the evidence covers.
 ```
 
-**Behavioral impact:** this is a triggered adoption check, not an every-task matrix or new mandatory native scan. Existing every-review path accounting remains in force. It selects no helper version threshold, install flag, new endpoint, framework or runtime schema.
+**Behavioral impact:** this is a triggered adoption check, not an every-task matrix or new mandatory native scan.
+Existing every-review path accounting remains in force.
+It selects no helper version threshold, install flag, new endpoint, framework or runtime schema.
 
 ## Amendment C — preserve the Windows retirement boundary
 
@@ -101,13 +110,15 @@ contract and obtain acceptance of the corresponding retirement criterion; do not
 represent a host write as a successful sandbox filesystem write.
 ```
 
-**Behavioral impact:** no existing host-operation authority or read/write scope is expanded, and no ACL change is proposed. The previous native artifact and restart requirements remain relevant where required by the accepted issue.
+**Behavioral impact:** no existing host-operation authority or read/write scope is expanded, and no ACL change is proposed.
+The previous native artifact and restart requirements remain relevant where required by the accepted issue.
 
 ## Amendment D — append only actual adoption evidence
 
 **Target:** `docs/sdlc/adoption.md`, a new dated subsection in the existing security/adoption context, placed without altering the original operational events.
 
-This is a **template**, not exact pre-populated evidence. Replace every bracketed field with actual observations before publishing; do not commit a green example as adoption.
+This is a **template**, not exact pre-populated evidence.
+Replace every bracketed field with actual observations before publishing; do not commit a green example as adoption.
 
 ```markdown
 ## Codex Security workflow inventory qualification — [actual date]
@@ -137,8 +148,13 @@ completion, broader permission, release or other-host adoption is implied.
 
 ## Application and verification
 
-Read the effective file versions and exact accepted changes before editing. Keep the two-line source ownership above and the current policy language consistent with WP1–WP4 if those changes have actually landed. There is no dependency on their merely proposed schemas or commands.
+Read the effective file versions and exact accepted changes before editing.
+Keep the two-line source ownership above and the current policy language consistent with WP1–WP4 if those changes have actually landed.
+There is no dependency on their merely proposed schemas or commands.
 
-Inspect the resulting diff, relative references and current formatting/SDLC checks. Use the existing accepted risk route and required profile; retain independent review when that route requires it. Do not fabricate a security assessment just to produce a passing row. If further changes to `SECURITY.md`, native settings, package files or workflow configuration are needed, present the exact separate change and its impact before editing.
+Inspect the resulting diff, relative references and current formatting/SDLC checks.
+Use the existing accepted risk route and required profile; retain independent review when that route requires it.
+Do not fabricate a security assessment just to produce a passing row.
+If further changes to `SECURITY.md`, native settings, package files or workflow configuration are needed, present the exact separate change and its impact before editing.
 
 No new `AGENTS.md`, hook, CI matrix, plugin installer, global exception, timer or deletion code is part of these amendments.

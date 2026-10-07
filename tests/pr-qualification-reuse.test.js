@@ -22,6 +22,7 @@ import {
 import {
   createPrQualificationRecord,
   PR_QUALIFICATION_JOB_NAMES,
+  PR_QUALIFICATION_SUCCESS_JOB_NAMES,
 } from "../scripts/prQualification.js";
 import {
   selectOriginalPrQualification,
@@ -97,7 +98,7 @@ function fixture() {
     CORE_CHECK_SCOPE_NAMES.map((name) => [name, name === "ci_control"]),
   );
   const plan = {
-    schemaVersion: 4,
+    schemaVersion: 5,
     mode: "changed",
     packageMode: "disabled",
     revision: snapshot.commit,
@@ -123,9 +124,12 @@ function fixture() {
     ].map((name) => [
       name,
       {
-        result: ["select", "node"].includes(name) ? "success" : "skipped",
-        outputs:
-          name === "node" ? { "verified-revision": snapshot.commit } : {},
+        result: ["select", "node", "development"].includes(name)
+          ? "success"
+          : "skipped",
+        outputs: ["node", "development"].includes(name)
+          ? { "verified-revision": snapshot.commit }
+          : {},
       },
     ]),
   );
@@ -143,7 +147,7 @@ function fixture() {
     run_started_at: "2026-10-06T19:55:00Z",
   };
   const jobs = {
-    total_count: 7,
+    total_count: PR_QUALIFICATION_JOB_NAMES.length,
     jobs: PR_QUALIFICATION_JOB_NAMES.map((name, index) => ({
       id: 1000 + index,
       name,
@@ -151,7 +155,7 @@ function fixture() {
       run_attempt: name === "PR validation" ? 2 : 1,
       head_sha: hash("b"),
       status: "completed",
-      conclusion: ["select", "node", "PR validation"].includes(name)
+      conclusion: PR_QUALIFICATION_SUCCESS_JOB_NAMES.includes(name)
         ? "success"
         : "skipped",
     })),
@@ -350,7 +354,13 @@ test("admits only the original directly executed assertions after equivalent nor
       "distribution",
     ].map((name) => [
       name,
-      { result: name === "select" ? "success" : "skipped" },
+      {
+        result: ["select", "development"].includes(name)
+          ? "success"
+          : "skipped",
+        outputs:
+          name === "development" ? { "verified-revision": hash("f") } : {},
+      },
     ]),
   );
   expect(assertMainReuseCompletion(data.context, accepted, needs)).toBe(
@@ -445,6 +455,10 @@ test.each([
   "extra-consumer",
   "failed-selector",
   "executed-node",
+  "failed-markdown",
+  "skipped-markdown",
+  "cancelled-markdown",
+  "stale-markdown",
   "foreign-main",
   "foreign-artifact",
   "reissued-proof",
@@ -463,13 +477,24 @@ test.each([
       "distribution",
     ].map((name) => [
       name,
-      { result: name === "select" ? "success" : "skipped" },
+      {
+        result: ["select", "development"].includes(name)
+          ? "success"
+          : "skipped",
+        outputs:
+          name === "development" ? { "verified-revision": hash("f") } : {},
+      },
     ]),
   );
   if (scenario === "missing-consumer") delete needs.website;
   if (scenario === "extra-consumer") needs.extra = { result: "skipped" };
   if (scenario === "failed-selector") needs.select.result = "failure";
   if (scenario === "executed-node") needs.node.result = "success";
+  if (scenario === "failed-markdown") needs.development.result = "failure";
+  if (scenario === "skipped-markdown") needs.development.result = "skipped";
+  if (scenario === "cancelled-markdown") needs.development.result = "cancelled";
+  if (scenario === "stale-markdown")
+    needs.development.outputs["verified-revision"] = hash("0");
   if (scenario === "foreign-main") accepted.main.runId++;
   if (scenario === "foreign-artifact") accepted.artifact.extra = true;
   if (scenario === "reissued-proof")
@@ -503,11 +528,12 @@ test.each([
     ].map((name) => [
       name,
       {
-        result: ["select", "node"].includes(name) ? "success" : "skipped",
-        outputs:
-          name === "node"
-            ? { "verified-revision": revision }
-            : { reuse: "false" },
+        result: ["select", "node", "development"].includes(name)
+          ? "success"
+          : "skipped",
+        outputs: ["node", "development"].includes(name)
+          ? { "verified-revision": revision }
+          : { reuse: "false" },
       },
     ]),
   );

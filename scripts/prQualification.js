@@ -10,13 +10,32 @@ export const PR_WORKFLOW = ".github/workflows/pr-validation.yml";
 export const PR_QUALIFICATION_JOB_NAMES = Object.freeze([
   "select",
   "node",
-  "development",
+  "development / Select relevant checks",
+  "development / Markdown documents (ubuntu-24.04)",
+  "development / Markdown documents (windows-2025)",
+  "development / Python style",
+  "development / Python-only tests (${{ matrix.os }})",
+  "development / Node-backed Python tests (${{ matrix.os }})",
+  "development / Agent Skills lock",
+  "development / Style toolchain (${{ matrix.os }})",
+  "development / Development controls",
+  "development / Verify internal completion",
   "ontology",
   "website",
   "distribution",
   "PR validation",
 ]);
-export const PR_QUALIFICATION_POLICY = "uo-selected-ci-control-v1";
+export const PR_QUALIFICATION_SUCCESS_JOB_NAMES = Object.freeze([
+  "select",
+  "node",
+  "PR validation",
+  "development / Select relevant checks",
+  "development / Markdown documents (ubuntu-24.04)",
+  "development / Markdown documents (windows-2025)",
+  "development / Verify internal completion",
+]);
+export const PR_QUALIFICATION_POLICY =
+  "uo-selected-ci-control-fresh-markdown-v2";
 const sha = (value) =>
   typeof value === "string" && /^[a-f0-9]{40}$/.test(value);
 const id = (value) => Number.isSafeInteger(value) && value > 0;
@@ -34,7 +53,7 @@ export const eligiblePrQualificationPlan = (plan) => {
     plan.mode === "changed" &&
     plan.packageMode === "disabled" &&
     plan.scopes.ci_control &&
-    isDeepStrictEqual(plan.requiredJobs, ["node"]) &&
+    isDeepStrictEqual(plan.requiredJobs, ["development", "node"]) &&
     Object.entries(plan.scopes).every(
       ([scope, selected]) => scope === "ci_control" || !selected,
     )
@@ -248,7 +267,9 @@ export function createPrQualificationRecord({
       Object.fromEntries(
         Object.entries(needs).map(([name, value]) => [name, value.result]),
       ),
-    ).ok && needs.node?.outputs?.["verified-revision"] === snapshot.commit,
+    ).ok &&
+      needs.node?.outputs?.["verified-revision"] === snapshot.commit &&
+      needs.development?.outputs?.["verified-revision"] === snapshot.commit,
     "Selected qualification did not complete.",
   );
   fact(
@@ -281,7 +302,7 @@ export function createPrQualificationRecord({
               (job.status !== "completed" || job.conclusion === "success")
             : job.status === "completed" &&
               job.conclusion ===
-                (["select", "node"].includes(job.name)
+                (PR_QUALIFICATION_SUCCESS_JOB_NAMES.includes(job.name)
                   ? "success"
                   : "skipped")),
       ),

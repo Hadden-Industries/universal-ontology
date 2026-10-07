@@ -214,6 +214,12 @@ export function setUpDevelopmentEnvironment({
     "--include=dev",
     "--ignore-scripts",
   ]);
+  console.log("Installing isolated Markdown tooling from its separate lock...");
+  runRequiredCommand("Markdown tool installation", process.execPath, [
+    npmCliPath,
+    "run",
+    "install:markdown",
+  ]);
 
   if (!pythonVirtualEnvironmentStats) {
     console.log(

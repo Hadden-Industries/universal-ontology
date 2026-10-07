@@ -2,7 +2,7 @@
 
 **Set of concepts and categories, applicable to almost all domains, that shows their properties and the relations between them**
 
-### Community and reporting
+## Community and reporting
 
 See [Contributing](CONTRIBUTING.md) for the contribution and review process and the [Code of Conduct](CODE_OF_CONDUCT.md) for community expectations.
 Report vulnerabilities through the private [security reporting process](SECURITY.md).

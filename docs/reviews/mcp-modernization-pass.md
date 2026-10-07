@@ -1,23 +1,23 @@
 **Our MCP server is already using the right modern foundation. I would not replace it with OpenAI sample code.**
 
-It already uses the official MCP TypeScript v2 SDK correctly in the important places: `McpServer`, `createMcpHandler`, `@modelcontextprotocol/node`, Zod schemas, structured outputs, tool annotations, modern `2026-07-28` protocol support, and stateless HTTP compatibility. 
+It already uses the official MCP TypeScript v2 SDK correctly in the important places: `McpServer`, `createMcpHandler`, `@modelcontextprotocol/node`, Zod schemas, structured outputs, tool annotations, modern `2026-07-28` protocol support, and stateless HTTP compatibility.
 
-What I *would* do now is a relatively focused modernization pass to remove a few pieces of hand-maintained protocol-adjacent machinery, tighten the package architecture, and align the `stdio` production path explicitly with the v2 SDK's modern entry point.
+What I _would_ do now is a relatively focused modernization pass to remove a few pieces of hand-maintained protocol-adjacent machinery, tighten the package architecture, and align the `stdio` production path explicitly with the v2 SDK's modern entry point.
 
 ## Recommended changes, in priority order
 
-| Priority | Change | Recommendation |
-|---|---|---|
-| **P0** | Ensure `stdio` uses `serveStdio()` | Make this explicit and test both modern and legacy eras |
-| **P0** | Clarify what calling the tool catalog “v1” internally means | Current comments/docs may confuse readers who may think “v1” refers to the MCP TypeScript v1 SDK when the implementation is MCP 2026-era |
-| **P1** | Reduce custom HTTP protocol validation where SDK now owns it | Retain only controls the SDK genuinely does not provide |
-| **P1** | Separate protocol adapter from deployment/security adapter more cleanly | `McpServer factory` → protocol transport → Node/loopback policy |
-| **P1** | Add protocol-era conformance tests | Test both `2026-07-28` and legacy fallback through official clients |
-| **P1** | Turn the MCP package into the actual ownership boundary | Move MCP source under the workspace package rather than shipping code sourced broadly from root |
-| **P2** | Strengthen Registry/release metadata automation | Generate `server.json`, package metadata and server identity from one canonical source |
-| **P2** | Revisit HTTP legacy compatibility before production | Keep locally; consider `legacy: "reject"` eventually for a new hosted service |
-| **P2** | Add standard MCP-compatible observability selectively | Keep current redacted operational logs; potentially use `ctx.mcpReq.log()` for opt-in protocol diagnostics |
-| **P3** | Do **not** add resources/prompts/UI merely because MCP supports them | The current two-tool interface is semantically appropriate |
+| Priority | Change                                                                  | Recommendation                                                                                                                           |
+| -------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **P0**   | Ensure `stdio` uses `serveStdio()`                                      | Make this explicit and test both modern and legacy eras                                                                                  |
+| **P0**   | Clarify what calling the tool catalog “v1” internally means             | Current comments/docs may confuse readers who may think “v1” refers to the MCP TypeScript v1 SDK when the implementation is MCP 2026-era |
+| **P1**   | Reduce custom HTTP protocol validation where SDK now owns it            | Retain only controls the SDK genuinely does not provide                                                                                  |
+| **P1**   | Separate protocol adapter from deployment/security adapter more cleanly | `McpServer factory` → protocol transport → Node/loopback policy                                                                          |
+| **P1**   | Add protocol-era conformance tests                                      | Test both `2026-07-28` and legacy fallback through official clients                                                                      |
+| **P1**   | Turn the MCP package into the actual ownership boundary                 | Move MCP source under the workspace package rather than shipping code sourced broadly from root                                          |
+| **P2**   | Strengthen Registry/release metadata automation                         | Generate `server.json`, package metadata and server identity from one canonical source                                                   |
+| **P2**   | Revisit HTTP legacy compatibility before production                     | Keep locally; consider `legacy: "reject"` eventually for a new hosted service                                                            |
+| **P2**   | Add standard MCP-compatible observability selectively                   | Keep current redacted operational logs; potentially use `ctx.mcpReq.log()` for opt-in protocol diagnostics                               |
+| **P3**   | Do **not** add resources/prompts/UI merely because MCP supports them    | The current two-tool interface is semantically appropriate                                                                               |
 
 There are several subtleties behind those recommendations.
 
@@ -43,7 +43,8 @@ A manually constructed:
 server.connect(new StdioServerTransport());
 ```
 
-continues to behave as a **2025-era MCP server**, even when built with v2 of the SDK. `serveStdio()` is what performs modern protocol-era negotiation and pins the appropriate server instance to the connection. 
+continues to behave as a **2025-era MCP server**, even when built with v2 of the SDK.
+`serveStdio()` is what performs modern protocol-era negotiation and pins the appropriate server instance to the connection.
 
 Your HTTP implementation already gets this right:
 
@@ -60,12 +61,13 @@ const sdkHandler = createMcpHandler(
     onerror: onError,
   },
 );
-``` 
+```
 
+The repository's installed production topology, however, is explicitly `stdio`, while HTTP is only the contributor/development topology.
 
-The repository's installed production topology, however, is explicitly `stdio`, while HTTP is only the contributor/development topology. 
-
-So I would verify that `src/mcp/runUniversalOntologyMcpStdioServer.js` eventually delegates to `serveStdio()`. If it does, excellent—make that fact explicit in the architecture documentation and conformance tests. If it still manually connects a `StdioServerTransport`, **that is the single change I would make first.**
+So I would verify that `src/mcp/runUniversalOntologyMcpStdioServer.js` eventually delegates to `serveStdio()`.
+If it does, excellent—make that fact explicit in the architecture documentation and conformance tests.
+If it still manually connects a `StdioServerTransport`, **that is the single change I would make first.**
 
 Conceptually:
 
@@ -81,7 +83,7 @@ That gives both transports one authoritative server factory and leaves protocol-
 
 ---
 
-# 2. Clarify the remaining “v1 tool catalog” terminology
+## 2. Clarify the remaining “v1 tool catalog” terminology
 
 There are several comments like:
 
@@ -89,12 +91,12 @@ There are several comments like:
 
 and:
 
-> `Full v1 catalog definition for lexical ontology discovery.` 
-
+> `Full v1 catalog definition for lexical ontology discovery.`
 
 Those now create unnecessary ambiguity because the server is explicitly targeting MCP `2026-07-28`.
 
-“v1” actually means here is **version 1 of your application/tool contract**, not MCP v1. That distinction should become explicit.
+“v1” actually means here is **version 1 of your application/tool contract**, not MCP v1.
+That distinction should become explicit.
 
 For example:
 
@@ -126,7 +128,7 @@ Your code should make those impossible to confuse.
 
 ---
 
-# 3. Your use of `createMcpHandler()` is exactly the direction I was recommending
+## 3. Your use of `createMcpHandler()` is exactly the direction I was recommending
 
 This deserves emphasis.
 
@@ -144,8 +146,7 @@ import {
   localhostOriginValidation,
   toNodeHandler,
 } from "@modelcontextprotocol/node";
-``` 
-
+```
 
 That is considerably better than copying OpenAI's example server.
 
@@ -153,7 +154,7 @@ Your own adapter explicitly says:
 
 > protocol metadata, argument validation, and modern/legacy classification remain owned by the official SDK.
 
-That is exactly the architectural boundary I would choose. 
+That is exactly the architectural boundary I would choose.
 
 So **don't rewrite this layer.**
 
@@ -163,7 +164,7 @@ Instead, continue applying the rule:
 
 ---
 
-# 4. There is nevertheless some HTTP machinery worth periodically trying to delete
+## 4. There is nevertheless some HTTP machinery worth periodically trying to delete
 
 `createUniversalOntologyMcpHttpHandler.js` currently contains custom implementations for:
 
@@ -171,8 +172,7 @@ Instead, continue applying the rule:
 - Accept validation
 - request-body buffering
 - body-size rejection
-- JSON-RPC-shaped HTTP error responses 
-
+- JSON-RPC-shaped HTTP error responses
 
 Some of this is justified today.
 
@@ -199,15 +199,16 @@ HTTP wrapper
 └── Accept/Content-Type       REVIEW each SDK release
 ```
 
-The upstream implementation itself now documents that certain lower-level building blocks require callers to validate JSON content type, while `createMcpHandler` is the high-level entry. 
+The upstream implementation itself now documents that certain lower-level building blocks require callers to validate JSON content type, while `createMcpHandler` is the high-level entry.
 
-You are using the high-level entry, so I would add regression tests proving exactly which wrapper checks remain necessary with `2.0.0`. When upstream acquires a body limit or equivalent adapter middleware, delete yours.
+You are using the high-level entry, so I would add regression tests proving exactly which wrapper checks remain necessary with `2.0.0`.
+When upstream acquires a body limit or equivalent adapter middleware, delete yours.
 
 **Reducing custom protocol-edge code is a worthwhile objective even when that code is currently correct.**
 
 ---
 
-# 5. Keep the security hardening. It is better than the samples.
+## 5. Keep the security hardening. It is better than the samples.
 
 I would **not** simplify the loopback runner down to the examples in OpenAI or MCP documentation.
 
@@ -225,12 +226,11 @@ You currently have:
 - bounded graceful shutdown;
 - safe error codes;
 - redacted structured logging;
-- no query text, definitions, entity identifiers or local paths in logs. 
-
+- no query text, definitions, entity identifiers or local paths in logs.
 
 That is unusually good.
 
-Recent MCP ecosystem vulnerabilities have specifically involved **browser → unauthenticated localhost MCP attacks caused by incorrect Origin handling**, including seemingly innocuous prefix matching such as accepting `http://localhost.evil.example`. 
+Recent MCP ecosystem vulnerabilities have specifically involved **browser → unauthenticated localhost MCP attacks caused by incorrect Origin handling**, including seemingly innocuous prefix matching such as accepting `http://localhost.evil.example`.
 
 So using the official:
 
@@ -239,7 +239,8 @@ localhostHostValidation
 localhostOriginValidation
 ```
 
-instead of your own string matching is an excellent decision. Keep it.
+instead of your own string matching is an excellent decision.
+Keep it.
 
 I would even turn this into a repository architecture rule:
 
@@ -247,7 +248,7 @@ I would even turn this into a repository architecture rule:
 
 ---
 
-# 6. Strengthen the separation into three layers
+## 6. Strengthen the separation into three layers
 
 You already have most of this architecture, but I would make it more explicit.
 
@@ -265,7 +266,7 @@ MCP server
 HTTP / stdio runner
 ```
 
-Your docs explicitly state that HTTP and MCP adapters contain no ontology semantics. 
+Your docs explicitly state that HTTP and MCP adapters contain no ontology semantics.
 
 I would sharpen it into:
 
@@ -322,7 +323,7 @@ This is exactly why I would **not** introduce OpenAI-specific abstractions into 
 
 ---
 
-# 7. Move the actual MCP implementation under the workspace package
+## 7. Move the actual MCP implementation under the workspace package
 
 This is one architectural area I would change fairly substantially.
 
@@ -342,7 +343,7 @@ scripts/
 src/ontologyQuery/
 ```
 
-while the workspace package mostly contains distribution metadata and has a generated `dist/universal-ontology-mcp-server.mjs`. 
+while the workspace package mostly contains distribution metadata and has a generated `dist/universal-ontology-mcp-server.mjs`.
 
 That works, but the package is not yet a particularly clean software ownership boundary.
 
@@ -381,15 +382,14 @@ This is probably the largest structural improvement I would recommend.
 
 ---
 
-# 8. Your tool design is very good; resist adding more MCP surface area
+## 8. Your tool design is very good; resist adding more MCP surface area
 
 You expose exactly:
 
 ```text
 search_entities
 resolve_entity
-``` 
-
+```
 
 I like this considerably more than exposing:
 
@@ -417,10 +417,9 @@ The tool descriptions are also good:
 
 and explicitly say:
 
-> This tool performs no inference and never dereferences external IRIs. 
+> This tool performs no inference and never dereferences external IRIs.
 
-
-Likewise the server instructions establish a sensible search → resolve workflow and explicitly tell the model that ontology-authored strings are data rather than instructions. 
+Likewise the server instructions establish a sensible search → resolve workflow and explicitly tell the model that ontology-authored strings are data rather than instructions.
 
 I would **not** add MCP resources or prompts simply because the protocol supports them.
 
@@ -437,7 +436,7 @@ The minimalist tool catalog is a strength.
 
 ---
 
-# 9. Structured content + human-readable content is exactly right
+## 9. Structured content + human-readable content is exactly right
 
 Your result shape:
 
@@ -453,7 +452,7 @@ return {
 };
 ```
 
-is a very good MCP pattern. 
+is a very good MCP pattern.
 
 That provides:
 
@@ -473,13 +472,13 @@ is also valuable even though the MCP SDK handles declared output schemas, becaus
 
 I would keep it.
 
-Particularly good is your treatment of `isError`: since the SDK skips output-schema validation for error results, you explicitly validate the failure arm yourself before emitting it. 
+Particularly good is your treatment of `isError`: since the SDK skips output-schema validation for error results, you explicitly validate the failure arm yourself before emitting it.
 
 That's better than most MCP examples.
 
 ---
 
-# 10. The tool annotations are correct
+## 10. The tool annotations are correct
 
 You currently declare:
 
@@ -490,8 +489,7 @@ You currently declare:
   idempotentHint: true,
   openWorldHint: false,
 }
-``` 
-
+```
 
 That is semantically accurate for an immutable ontology-release query interface.
 
@@ -505,11 +503,11 @@ is worth preserving.
 
 It means the **tool's operational universe is bounded by the selected generated release set**, not that OWL itself suddenly acquires a closed-world semantic interpretation.
 
-Your documentation already explains that distinction, which is important. 
+Your documentation already explains that distinction, which is important.
 
 ---
 
-# 11. Add proper modern/legacy protocol conformance tests
+## 11. Add proper modern/legacy protocol conformance tests
 
 This is the testing change I would prioritize most after `serveStdio`.
 
@@ -539,8 +537,7 @@ or:
 
 ```js
 versionNegotiation: { pin: "2026-07-28" }
-``` 
-
+```
 
 For HTTP, the upstream guidance specifically recommends in-process testing by wiring the client transport's `fetch` directly to:
 
@@ -548,7 +545,7 @@ For HTTP, the upstream guidance specifically recommends in-process testing by wi
 handler.fetch(...)
 ```
 
-so no socket is needed. 
+so no socket is needed.
 
 That's attractive for your Jest tests.
 
@@ -569,7 +566,7 @@ That would prove your most important architectural assertion:
 
 ---
 
-# 12. Consider eventually dropping legacy protocol support—but not yet
+## 12. Consider eventually dropping legacy protocol support—but not yet
 
 You currently have:
 
@@ -577,7 +574,7 @@ You currently have:
 legacy: "stateless"
 ```
 
-for HTTP. 
+for HTTP.
 
 That is a sensible compatibility default today.
 
@@ -601,14 +598,13 @@ But I **wouldn't do that now for the local distributable server**, because compa
 
 ---
 
-# 13. One metadata issue worth modernizing: `server.json`
+## 13. One metadata issue worth modernizing: `server.json`
 
 Your Registry manifest still declares:
 
 ```json
 "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json"
-``` 
-
+```
 
 This is not automatically wrong—the Registry schema revision and MCP protocol revision are separate things.
 
@@ -630,8 +626,7 @@ You already derive the runtime MCP version from `package.json`:
 
 ```js
 version: packageMetadata.version
-``` 
-
+```
 
 Extend that approach.
 
@@ -639,7 +634,7 @@ I'd make one version authoritative and **generate `server.json` as a release art
 
 ---
 
-# 14. Keep exact dependency pinning for the MCP stack
+## 14. Keep exact dependency pinning for the MCP stack
 
 The root currently has:
 
@@ -648,12 +643,12 @@ The root currently has:
 "@modelcontextprotocol/node": "2.0.0",
 "@modelcontextprotocol/server": "2.0.0",
 "zod": "4.5.4"
-``` 
-
+```
 
 For an application/server rather than a reusable library, I like the exact MCP pins.
 
-The SDK is still developing relatively rapidly around a major protocol transition. Exact versions plus `package-lock.json` give you:
+The SDK is still developing relatively rapidly around a major protocol transition.
+Exact versions plus `package-lock.json` give you:
 
 ```text
 intentional upgrade
@@ -673,29 +668,28 @@ I would retain that policy.
 
 ---
 
-# 15. One minor modernization: import Zod via `zod/v4`
+## 15. One minor modernization: import Zod via `zod/v4`
 
 Current code has:
 
 ```js
 import * as z from "zod";
-``` 
-
+```
 
 The current MCP v2 examples consistently use:
 
 ```js
 import * as z from "zod/v4";
-``` 
+```
 
-
-Since you're already explicitly on Zod 4, I would consider following that form. It makes the intended Zod major explicit and prevents ambiguous compatibility semantics if package export behavior evolves.
+Since you're already explicitly on Zod 4, I would consider following that form.
+It makes the intended Zod major explicit and prevents ambiguous compatibility semantics if package export behavior evolves.
 
 This is low priority, though.
 
 ---
 
-# 16. I would leave your application-level failure model alone
+## 16. I would leave your application-level failure model alone
 
 You distinguish:
 
@@ -722,8 +716,7 @@ and provide:
     retryable
   }
 }
-``` 
-
+```
 
 That is a strong API.
 
@@ -739,7 +732,7 @@ which is far more actionable than exception strings.
 
 ---
 
-# 17. Don't adopt OpenAI-specific Apps SDK metadata here
+## 17. Don't adopt OpenAI-specific Apps SDK metadata here
 
 Given the context of your previous question, this is worth stating directly.
 
@@ -770,7 +763,7 @@ OpenAI-specific metadata should only be introduced if some future ChatGPT-specif
 
 ---
 
-# Target architecture I would aim for
+## Target architecture I would aim for
 
 Something very close to this:
 
@@ -823,27 +816,28 @@ The critical feature here is that **you own only the shaded conceptual middle**�
 
 ---
 
-# My overall assessment
+## My overall assessment
 
 I'd score the current implementation roughly like this:
 
-| Area | Assessment |
-|---|---|
-| MCP SDK choice | **Excellent** |
-| Current protocol support | **Excellent** |
-| Tool semantics | **Excellent** |
-| Schema discipline | **Excellent** |
-| Error model | **Excellent** |
-| Local HTTP security | **Excellent / unusually thorough** |
-| Prompt-injection boundary | **Excellent** |
-| Transport/domain separation | **Very good** |
-| Distribution/reproducibility | **Very good** |
-| Package/source ownership | **Main architectural improvement opportunity** |
-| Protocol-era testing | **Needs to become first-class** |
+| Area                                | Assessment                                                              |
+| ----------------------------------- | ----------------------------------------------------------------------- |
+| MCP SDK choice                      | **Excellent**                                                           |
+| Current protocol support            | **Excellent**                                                           |
+| Tool semantics                      | **Excellent**                                                           |
+| Schema discipline                   | **Excellent**                                                           |
+| Error model                         | **Excellent**                                                           |
+| Local HTTP security                 | **Excellent / unusually thorough**                                      |
+| Prompt-injection boundary           | **Excellent**                                                           |
+| Transport/domain separation         | **Very good**                                                           |
+| Distribution/reproducibility        | **Very good**                                                           |
+| Package/source ownership            | **Main architectural improvement opportunity**                          |
+| Protocol-era testing                | **Needs to become first-class**                                         |
 | Remaining custom protocol-edge code | **Reasonable today, but target for deletion where upstream catches up** |
 
 So the answer produced by our previous discussion is actually reassuring rather than disruptive:
 
 > **The repo has already independently converged on the modern best-practice architecture: official MCP TypeScript SDK as a dependency, thin protocol adapters, and your own business logic behind it.**
 
-I would **not undertake a wholesale rewrite**. The best next iteration is a focused refactor around `serveStdio()`, package ownership, protocol-era conformance tests, terminology cleanup, and progressively deleting custom HTTP plumbing whenever the official SDK can assume responsibility for it. 
+I would **not undertake a wholesale rewrite**.
+The best next iteration is a focused refactor around `serveStdio()`, package ownership, protocol-era conformance tests, terminology cleanup, and progressively deleting custom HTTP plumbing whenever the official SDK can assume responsibility for it.

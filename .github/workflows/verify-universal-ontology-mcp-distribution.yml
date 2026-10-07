@@ -143,7 +143,6 @@ jobs:
         if: needs.scope.outputs.mcp_docs == 'true' && needs.scope.outputs.product_tests != 'true' && needs.scope.outputs.mcp_artifacts != 'true' && needs.scope.outputs.website_build != 'true'
         run: |
           npm test -- --runInBand --runTestsByPath tests/distribution/universal-ontology-mcp-documentation.test.js
-          npm run format:docs:prettier:check
       - name: Build the affected MCP application bundle
         if: needs.scope.outputs.mcp_application == 'true'
         run: npm run build:mcp-package

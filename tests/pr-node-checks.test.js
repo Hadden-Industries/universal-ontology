@@ -26,7 +26,7 @@ function plan(selected = ["ci_control"]) {
     CORE_CHECK_SCOPE_NAMES.map((scope) => [scope, selected.includes(scope)]),
   );
   return {
-    schemaVersion: 4,
+    schemaVersion: 5,
     packageMode: "disabled",
     mode: "changed",
     revision: "a".repeat(40),
@@ -45,7 +45,7 @@ test("full Node ownership preserves actual development exclusions", () => {
     plan(["product_tests", "development", "style_tooling"]),
   );
   expect(args[0]).toContain("pr-check-scopes");
-  expect(args[0]).toContain("documentation-tools");
+  expect(args[0]).toContain("markdown-quality");
   expect(nodeCheckArguments(plan(["product_tests"]))[0]).not.toContain(
     "pr-check-scopes",
   );
@@ -53,6 +53,18 @@ test("full Node ownership preserves actual development exclusions", () => {
   expect(() =>
     nodeCheckArguments(plan(["ci_control", "documentation"])),
   ).toThrow(/mixed/u);
+});
+
+test("mixed website/product plans exclude Markdown suites owned by isolated tooling", () => {
+  const selected = plan(["product_tests", "website_build"]);
+  expect(selected.scopes.style_tooling).toBe(false);
+  const args = nodeCheckArguments(selected, { families: ["build"] });
+  const ignored = new RegExp(args[0].split("=")[1]);
+  expect(ignored.test("/repo/tests/markdown-quality.test.js")).toBe(true);
+  expect(ignored.test("/repo/tests/build/ontology-assets.test.js")).toBe(false);
+  const discovered = discoverNodeSuites(selected);
+  expect(discovered).not.toContain("tests/markdown-quality.test.js");
+  expect(discovered).toContain("tests/build/ontology-assets.test.js");
 });
 
 describe("real native Jest assertion accounting", () => {

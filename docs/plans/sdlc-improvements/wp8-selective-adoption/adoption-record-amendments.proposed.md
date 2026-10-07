@@ -1,16 +1,25 @@
 # WP8 — Proposed amendments to existing adoption records
 
-> Historical planning document. File references were updated during organization; proposal and recorded outcome statements retain their original scope. See the [initiative index](../README.md) for completion context and original delivery identities.
+> Historical planning document.
+> File references were updated during organization; proposal and recorded outcome statements retain their original scope.
+> See the [initiative index](../README.md) for completion context and original delivery identities.
 
-**Prepared:** 11 September 2026. **Status:** proposed wording, not an applied policy change, host acceptance or completed adoption record.
+**Prepared:** 11 September 2026.
+**Status:** proposed wording, not an applied policy change, host acceptance or completed adoption record.
 
-Apply only the exact locally accepted scope, after reviewing intervening changes. The default WP8 code change is conditional: already repaired products and already adequate SDLC implementations should not be rewritten. Existing records receive current factual evidence; there is no new distribution service or global acceptance schema.
+Apply only the exact locally accepted scope, after reviewing intervening changes.
+The default WP8 code change is conditional: already repaired products and already adequate SDLC implementations should not be rewritten.
+Existing records receive current factual evidence; there is no new distribution service or global acceptance schema.
 
-The proposals below refer to the corresponding sections of `implementation-plan.md`. They do not grant publication, configuration or resource-removal authority. A recipient with materially different existing wording needs a reviewed semantic adaptation, not a blind search/replace.
+The proposals below refer to the corresponding sections of `implementation-plan.md`.
+They do not grant publication, configuration or resource-removal authority.
+A recipient with materially different existing wording needs a reviewed semantic adaptation, not a blind search/replace.
 
 ## Amendment A — Interpret selective adoption in UO's existing adoption guide
 
-**Target:** `docs/sdlc/adoption.md` in UO. **Operation:** add this explanatory section without changing historical source/host records. Reuse equivalent accepted wording if it exists by implementation time; do not duplicate it.
+**Target:** `docs/sdlc/adoption.md` in UO.
+**Operation:** add this explanatory section without changing historical source/host records.
+Reuse equivalent accepted wording if it exists by implementation time; do not duplicate it.
 
 ```markdown
 ## Selective SDLC adoption and product qualification
@@ -44,11 +53,14 @@ refresh digests or rewrite accepted history to complete adoption. Resource relea
 remains governed by the existing temporary-artefact procedure.
 ```
 
-This section reiterates the parent WP8's boundaries at their existing documentation owner. It must not change package version, risk classes, native schemas, baseline acceptance or host permissions by implication.
+This section reiterates the parent WP8's boundaries at their existing documentation owner.
+It must not change package version, risk classes, native schemas, baseline acceptance or host permissions by implication.
 
 ## Amendment B — Minimal guide cross-reference
 
-**Target:** `docs/sdlc/howto.md` in UO. **Operation:** add the following paragraph near the existing adoption/evaluation guidance if an equivalent reference is absent. Do not edit the actual entry-point or verification instructions to make an unselected component appear installed.
+**Target:** `docs/sdlc/howto.md` in UO.
+**Operation:** add the following paragraph near the existing adoption/evaluation guidance if an equivalent reference is absent.
+Do not edit the actual entry-point or verification instructions to make an unselected component appear installed.
 
 ```markdown
 For selective adoption in another repository, use the source/adopter/host evidence
@@ -58,11 +70,14 @@ configuration adaptations. A product repair may proceed under its own authority;
 a source-level SDLC pass does not qualify another host or the real combined product.
 ```
 
-No new configuration generator or activated skill is introduced by this paragraph. Evaluate any documentation delta under the existing applicable route.
+No new configuration generator or activated skill is introduced by this paragraph.
+Evaluate any documentation delta under the existing applicable route.
 
 ## Amendment C — Actual evidence entry, to be completed only after observation
 
-**Targets:** each adopter's existing adoption material. This is a fillable pattern for one component set, not text to publish with placeholders, checkboxes or assumed successful values. Keep it concise when one source and one host suffice.
+**Targets:** each adopter's existing adoption material.
+This is a fillable pattern for one component set, not text to publish with placeholders, checkboxes or assumed successful values.
+Keep it concise when one source and one host suffice.
 
 ```markdown
 ## [Actual adoption date] — [Named accepted correction]
@@ -85,11 +100,14 @@ remaining assurance]. Current disposition: [bounded status]. Next actor and even
 retrievable destination; no implied disposal].
 ```
 
-Do not write `1.0.0 deployed everywhere`, attach UO's receipt as ONI's test, or update an old bootstrap timestamp to a new deployment date. Follow the existing manifest's actual maintenance contract if it needs a new current-state entry; preserve its predecessor and original meaning.
+Do not write `1.0.0 deployed everywhere`, attach UO's receipt as ONI's test, or update an old bootstrap timestamp to a new deployment date.
+Follow the existing manifest's actual maintenance contract if it needs a new current-state entry; preserve its predecessor and original meaning.
 
 ## Amendment D — Dated product-obligation readback
 
-**WebVOWL target:** existing `docs/evaluations/webmcp-integration.md` / `docs/evaluations/2026-09-10-webmcp-completion.md` or a later actual completion owner. Append the relevant new candidate and surface; retain the old failure and recorded outcome. Do not replace the historical source oracle, old SVG identity or development/preview distinction with new values.
+**WebVOWL target:** existing `docs/evaluations/webmcp-integration.md` / `docs/evaluations/2026-09-10-webmcp-completion.md` or a later actual completion owner.
+Append the relevant new candidate and surface; retain the old failure and recorded outcome.
+Do not replace the historical source oracle, old SVG identity or development/preview distinction with new values.
 
 Proposed record structure:
 
@@ -107,7 +125,8 @@ filters/layout and delivery limitations are [actual findings]. Earlier result
 [reference] remains evidence for its own object; it is not relabelled as this run.
 ```
 
-**ONI target:** the existing execution/release/PR handoff, using the currently authorised recording location. A new entry can supplement the stale PR narrative without rewriting or issuing remote writes unless authorised.
+**ONI target:** the existing execution/release/PR handoff, using the currently authorised recording location.
+A new entry can supplement the stale PR narrative without rewriting or issuing remote writes unless authorised.
 
 ```markdown
 ### [Actual date] — [Actual current qualification readback]
@@ -128,6 +147,9 @@ publication is claimed by this record alone.
 
 ## Review and preservation checks for these amendments
 
-Review that every asserted result has actual supporting evidence, that the local guide's links resolve, that no existing historical observation is overwritten and that every important limitation remains visible. Apply WP7's progress-record placement: finalise intended tracked changes before freeze where allowed; any later identity-changing documentation commit receives the actual required treatment. Do not modify fingerprints or runtime receipts to make a factual adoption entry cheaper.
+Review that every asserted result has actual supporting evidence, that the local guide's links resolve, that no existing historical observation is overwritten and that every important limitation remains visible.
+Apply WP7's progress-record placement: finalise intended tracked changes before freeze where allowed; any later identity-changing documentation commit receives the actual required treatment.
+Do not modify fingerprints or runtime receipts to make a factual adoption entry cheaper.
 
-These amendments supply no generic dependency waiver, risk-amendment CLI, native plugin update mechanism or permission to remove resources. Their substantive conditions remain those in the parent, the relevant accepted WPs and the actual repository policy.
+These amendments supply no generic dependency waiver, risk-amendment CLI, native plugin update mechanism or permission to remove resources.
+Their substantive conditions remain those in the parent, the relevant accepted WPs and the actual repository policy.

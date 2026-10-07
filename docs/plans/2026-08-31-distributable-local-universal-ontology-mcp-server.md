@@ -12,7 +12,7 @@
 
 **Protocol baseline:** Model Context Protocol current revision `2026-07-28`, official modular JavaScript SDK v2
 
-### Development-publication amendment — 2026-09-01
+## Development-publication amendment — 2026-09-01
 
 This amendment supersedes every later instruction that would publish a development build.
 The active workflow is verification-only: it runs for branches and pull requests, has no release-tag trigger, grants no write or OIDC permission, and may retain build outputs only as private, short-lived GitHub Actions artifacts for three days.
@@ -77,8 +77,8 @@ With every ontology page closed, a cold online install, warm online install, and
 
 The AWS delivery work remains in these handoffs:
 
-- [`amazon-aws-json-content-type-handoff`](../../../amazon-aws/docs/issues/2026-08-31-amazon-aws-json-content-type-handoff.md)
-- [`cloudfront-ontology-query-artifact-cdk-handoff`](../../../amazon-aws/docs/issues/2026-08-31-cloudfront-ontology-query-artifact-cdk-handoff.md)
+- [`amazon-aws-json-content-type-handoff`](https://github.com/Hadden-Industries/amazon-aws/blob/052c6723a2bad998e8df906b91986c08123e6c6b/docs/issues/2026-08-31-amazon-aws-json-content-type-handoff.md)
+- [`cloudfront-ontology-query-artifact-cdk-handoff`](https://github.com/Hadden-Industries/amazon-aws/blob/052c6723a2bad998e8df906b91986c08123e6c6b/docs/issues/2026-08-31-cloudfront-ontology-query-artifact-cdk-handoff.md)
 
 ## 3. Mandatory engineering protocol
 

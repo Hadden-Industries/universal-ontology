@@ -107,10 +107,17 @@ export default [
   },
 
   {
-    files: ['scripts/**/*.js', 'packages/*/scripts/**/*.js'],
+    files: ['scripts/**/*.{js,mjs}', 'packages/*/scripts/**/*.js'],
     languageOptions: {
       globals: globals.nodeBuiltin,
     },
+  },
+
+  {
+    files: ['scripts/check-markdown-candidate.mjs'],
+    // This boundary intentionally rejects literal control characters in error output.
+    // Keep the installed regex rule elsewhere; permit this reviewed range expression.
+    rules: { 'no-control-regex': 'off' },
   },
 
   eslintConfigPrettier

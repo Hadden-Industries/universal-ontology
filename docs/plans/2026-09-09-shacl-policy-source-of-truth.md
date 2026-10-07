@@ -25,7 +25,7 @@ Python transitives and platform artifacts must be hash-locked.
 All selections must be refreshed at installation and exact changes approved.
 No new service.
 
-**Implementation procedure:** Use only [the repository-adapted TDD skill](../../.sdlc/skills/test-driven-development/SKILL.md).
+**Implementation procedure:** Use only [the repository-adapted TDD skill](https://github.com/Hadden-Industries/universal-ontology/blob/42b6f93f03b7114e3632c1abbc1503d26ca22e29/.sdlc/skills/test-driven-development/SKILL.md).
 Use test-first for new behavior; characterize preserved behavior honestly.
 A missing dependency/import is not behavioral RED.
 This plan specifies contracts, counterexamples and proof rather than invented implementation code.

@@ -17,7 +17,7 @@ function fixture() {
   );
   return {
     plan: {
-      schemaVersion: 4,
+      schemaVersion: 5,
       packageMode: "disabled",
       mode: "changed",
       revision: "a".repeat(40),
@@ -30,7 +30,7 @@ function fixture() {
       ...Object.fromEntries(
         CORE_CHECK_CONSUMER_IDS.map((id) => [
           id,
-          id === "node" ? "success" : "skipped",
+          ["node", "development"].includes(id) ? "success" : "skipped",
         ]),
       ),
     },
@@ -73,7 +73,7 @@ test.each(["valid", "missing-id", "digest-newline", "skipped-archive"])(
       CORE_CHECK_SCOPE_NAMES.map((name) => [name, true]),
     );
     const plan = {
-      schemaVersion: 4,
+      schemaVersion: 5,
       packageMode: "manual",
       mode: "full",
       comparisonBase: null,

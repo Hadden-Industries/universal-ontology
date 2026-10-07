@@ -95,7 +95,7 @@ The rule defining product success remains in the product command and tests.
 - No `.sdlc/runtime/active.json` existed in the main checkout when inspected.
   Several retained runtime/evidence directories do exist.
   This does not establish that all other worktrees or external consumers are idle.
-- HISEW's current [product scope](../../../software-engineering-workflow/docs/product-scope.md) excludes source cutover from its existing implementation authorization.
+- HISEW's current [product scope](https://github.com/Hadden-Industries/software-engineering-workflow/blob/73c72cb4d045f76d69f408d38d47e65cb77a9424/docs/product-scope.md) excludes source cutover from its existing implementation authorization.
   This plan therefore supplies a separate proposed UO migration scope.
 
 ### Findings that affect implementation
