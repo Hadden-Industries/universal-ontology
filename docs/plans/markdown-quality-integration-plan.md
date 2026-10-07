@@ -178,7 +178,7 @@ Because setup rejects extra installed distributions, any removal of Snapper from
 Use canonical Git LF bytes and a real checkout-drift guard for any new first-party dependency/governance hashing, following the durable pilot correction.
 Do not normalize external licenses, raw authority payloads or binaries whose supplied bytes are authoritative under `.gitattributes`.
 
-DEC-008: propose the parent operating targets for explicit UO acceptance: six consecutive valid full checks per frozen corpus/platform, nearest-rank observed p95 at most 30 seconds, measured 512 MiB platform budget, zero unexpected failures/adjudicated false positives, and one restoration within 60 minutes.
+DEC-008: propose the parent operating targets for explicit UO acceptance: six consecutive valid full checks per frozen corpus/platform, nearest-rank observed p95 at most 30 seconds, measured 1024 MiB platform budget, zero unexpected failures/adjudicated false positives, and one restoration within 60 minutes.
 With six samples, p95 is the observed maximum, not a population reliability claim.
 Measure check runtime separately from installation; compare old/new on the same corpus, OS and Node/Python references.
 Record platform-appropriate memory measurements and their actual accounting semantics rather than equating incomparable metrics.

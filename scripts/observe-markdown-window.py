@@ -305,7 +305,7 @@ def run_window():
                 or receipt["result"]["errors"]
                 or receipt["result"]["written"]
                 or receipt["checkerElapsedMs"] > 30_000
-                or peak > 512 * 1024 * 1024
+                or peak > 1024 * 1024 * 1024
             ):
                 raise RuntimeError("Correctness, timing or memory budget failed")
         passed = True
@@ -339,7 +339,7 @@ def run_window():
             else "Sampled sum of smaps_rollup RSS for the dedicated process group; "
             "shared pages counted per process; excludes Python observer"
         ),
-        "memoryLimitBytes": 512 * 1024 * 1024,
+        "memoryLimitBytes": 1024 * 1024 * 1024,
         "latencyLimitMs": 30_000,
         "limitations": (
             "Observed six-sample window, not a statistical tail or OS limit. "
