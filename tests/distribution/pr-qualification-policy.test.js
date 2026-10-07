@@ -19,6 +19,7 @@ import {
   CORE_CHECK_SCOPE_NAMES,
   requiredJobsForScopes,
 } from "../../scripts/selectPullRequestChecks.js";
+import { PR_QUALIFICATION_JOB_NAMES } from "../../scripts/prQualification.js";
 const files = [
   ".github/workflows/pr-validation.yml",
   ".github/workflows/full-qualification.yml",
@@ -170,6 +171,23 @@ test("reviewed graph accepts every entry point and control input", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
     verifiedFileCount: 32,
   });
+});
+
+test("skipped development-control identity comes from a static workflow name", () => {
+  const workflow = parse(
+    readFileSync(
+      new URL(
+        "../../.github/workflows/development-checks.yml",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  expect(workflow.jobs.checks.name).toBe("Development controls");
+  expect(PR_QUALIFICATION_JOB_NAMES).toContain(
+    `development / ${workflow.jobs.checks.name}`,
+  );
+  expect(workflow.jobs.checks.name).not.toContain("${{");
 });
 
 test("narrow native route owns exactly its eleven required control suites", () => {

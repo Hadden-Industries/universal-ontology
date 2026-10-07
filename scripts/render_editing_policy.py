@@ -7,6 +7,7 @@ cannot be loaded or fails its own metadata contract.
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -44,7 +45,20 @@ def format_generated_document(rendered: str) -> bytes:
         output = scratch / "Editing-Policy.generated.md"
         output.write_bytes(rendered.encode("utf-8"))
         result = subprocess.run(
-            [node, str(cli), "format", "--root", str(scratch), "--json"],
+            [
+                node,
+                "--max-old-space-size=256",
+                str(cli),
+                "format",
+                "--root",
+                str(scratch),
+                "--json",
+            ],
+            env={
+                name: os.environ[name]
+                for name in ("SystemRoot", "SYSTEMROOT", "WINDIR", "TEMP", "TMP")
+                if name in os.environ
+            },
             capture_output=True,
             text=True,
             encoding="utf-8",
@@ -52,7 +66,11 @@ def format_generated_document(rendered: str) -> bytes:
             check=False,
         )
         report = json.loads(result.stdout)
-        if result.returncode != 0 or report.get("exitCode") != 0:
+        if (
+            result.returncode != 0
+            or not isinstance(report, dict)
+            or report.get("exitCode") != 0
+        ):
             raise RuntimeError(
                 "Generated policy failed canonical Markdown quality: "
                 + result.stdout[:2048]

@@ -51,5 +51,10 @@ try {
     throw new Error("Isolated Markdown acquisition did not complete.");
   process.exitCode = result.status;
 } finally {
-  rmSync(scratch, { recursive: true });
+  rmSync(scratch, {
+    recursive: true,
+    force: true,
+    maxRetries: 3,
+    retryDelay: 100,
+  });
 }

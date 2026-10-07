@@ -98,13 +98,13 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/full-qualification.yml":
     "eb7643815d915847326b2e61e2a3c388a5ebf848d5f8b4d290aa290194e62ba2",
   ".github/workflows/development-checks.yml":
-    "7628f2f95aafc0dbe958642ed6f1db2cbaebb6b19ae7c10f26b9e38b764fe8ef",
+    "a3a99ee1745540ba0bf6a30e159a5b1e6941e865cd041b8fff56d133f4be8e88",
   ".github/workflows/ontology-validation.yml":
     "e5f819709950ea70647ed5514757d870f09ddf0fdb45aef17d1acf9a8d777538",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
     "0c675e0966118472dbe7fdcd8392a7f5d600138a1eab7b8bcfbd8bd5d464dbc9",
   "scripts/selectPullRequestChecks.js":
-    "90067842988e976c50b2ed753fcc8ca7ec5f949ff3aac2fbbd06cbb773807d56",
+    "3c93dddc56185b570f34fbfe62300503c02376191ae49c5ef1aea03f591e017a",
   "scripts/evaluatePullRequestChecks.js":
     "2a0790abf6aac5580a4073e2fa1e0f67f0e704e5bfb99cfc9cdb088ed3a99a0b",
   "scripts/pullRequestCheckPlan.schema.json":
@@ -118,9 +118,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/distribution/prepareManualMcpRelease.js":
     "f601d23f0f2c62b830f1f8b509a90439618ce1295c5ba9d908b8b42b7ae9080a",
   "scripts/runPullRequestNodeChecks.js":
-    "56ff34ca555fcb1070b6557612708d9984d646b2d45f2dd0eeb06491e7806759",
+    "ffacb5032df73d6e853f61e4d072d33bcf67e2465cf88fedef8515e65881f5e6",
   "scripts/prQualification.js":
-    "9c96a91288a0a7eae7c9d8d29b47d1f17fa66b28d787512e2f3e179fde3141e2",
+    "65123e827f99a7b26805abae9a54575c370f0bd77e1b9f36ffe33af2e2b919f8",
   "scripts/prQualificationReuse.js":
     "fadfeaeffc9d780950d4d4c118a03dea5dcd7641a899e5ab29a964c086d86c3d",
   "scripts/prQualificationReuseCommand.js":
@@ -142,7 +142,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/runMarkdownQuality.mjs":
     "90c25e3d6521994d857ab870469c2333a88ec9ba44aaa7d5ba1b57817d24e221",
   "scripts/installMarkdownTools.mjs":
-    "bf61a90e32cda5a8ed463a423eaf1f68ad638266ce225d265a704a5532cd4b2d",
+    "7e3e907493074c99cc3d095cc149220edcfcedd8651e4fcd073cbb50ff90c326",
   "scripts/check-markdown-candidate.mjs":
     "84f6a64b083c5268b1ca46223f8004d00943619a95bb4f86f62de15250b40379",
   "scripts/check-markdown-candidate.probes.mjs":
@@ -154,7 +154,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/run-markdown-window.mjs":
     "e30a84c1edc0d4045749a97a5e17dfb858f5f3eed7ac8f14de03448258bf2567",
   "scripts/render_editing_policy.py":
-    "e48ebb6fbcefeaba772eb2613de16cf17f7686000824f87e86a09e2dfa58d3eb",
+    "71111815ac18b4f455c4f31f7d492af61f10d74cfe278cd937e81b2218d829f7",
   "scripts/setUpDevelopmentEnvironment.js":
     "1c6196a978f8c498d941c3dc91862df65388d1bfb72279194d84267f6f648859",
 });

@@ -55,6 +55,18 @@ test("full Node ownership preserves actual development exclusions", () => {
   ).toThrow(/mixed/u);
 });
 
+test("mixed website/product plans exclude Markdown suites owned by isolated tooling", () => {
+  const selected = plan(["product_tests", "website_build"]);
+  expect(selected.scopes.style_tooling).toBe(false);
+  const args = nodeCheckArguments(selected, { families: ["build"] });
+  const ignored = new RegExp(args[0].split("=")[1]);
+  expect(ignored.test("/repo/tests/markdown-quality.test.js")).toBe(true);
+  expect(ignored.test("/repo/tests/build/ontology-assets.test.js")).toBe(false);
+  const discovered = discoverNodeSuites(selected);
+  expect(discovered).not.toContain("tests/markdown-quality.test.js");
+  expect(discovered).toContain("tests/build/ontology-assets.test.js");
+});
+
 describe("real native Jest assertion accounting", () => {
   let directory;
   let report;

@@ -200,6 +200,8 @@ export const CHECK_INPUTS = {
   // interpreter, locked requirements, launcher and workflow that execute it.
   python_tests: [
     ...COMMON_INPUTS,
+    ".markdown-quality.json",
+    "tooling/markdown",
     ".python-version",
     "requirements.txt",
     "requirements-dev.txt",
@@ -229,6 +231,8 @@ export const CHECK_INPUTS = {
   ],
   ontology_policy_qa: [
     ...ONTOLOGY_POLICY_INPUTS,
+    ".markdown-quality.json",
+    "tooling/markdown",
     "scripts/render_editing_policy.py",
     "docs/policy/Editing-Policy.generated.md",
     ":(glob)tests/test_*polic*.py",

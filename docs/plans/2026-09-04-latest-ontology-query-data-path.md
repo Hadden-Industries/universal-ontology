@@ -76,7 +76,7 @@ Following W3C DWBP (BP 8, 9, 10, 11) and Cool URIs, URI hierarchy strictly separ
 > The following configuration file changes require explicit user authorization before execution:
 >
 > 1. [`package.json`](../../package.json): Update `mcp:index` to output `dist/query/v1/latest` and `dist/query/v1/all`; update `mcp:channel:stage` for `dist/query/v1/latest`; add `mcp:channel:stage:all` for `dist/query/v1/all`.
-> 2. Host Configs: [`.mcp.json`](../../.mcp.json), `.agents/mcp_config.json` (untracked host-local configuration at the time of this plan), [`.codex/config.toml`](../../.codex/config.toml): Update `--query-artifact-root-directory=dist/query/v1` to `--query-artifact-root-directory=dist/query/v1/latest`.
+> 2. Host Configs: [`.mcp.json`](../../.mcp.json), `.agents/mcp_config.json`, [`.codex/config.toml`](../../.codex/config.toml): Update `--query-artifact-root-directory=dist/query/v1` to `--query-artifact-root-directory=dist/query/v1/latest`.
 
 ---
 
@@ -93,7 +93,9 @@ Following W3C DWBP (BP 8, 9, 10, 11) and Cool URIs, URI hierarchy strictly separ
 
 - Produces: `selectLatestStableOntologySources(ontologySources: ReadonlyArray<{sourcePath: string, outputPath: string}>): Array<{sourcePath: string, outputPath: string}>`
 
-- [ ] **Step 1: Write the failing unit test** In `tests/build/ontology-query-artifacts.test.js`, add a test verifying that `selectLatestStableOntologySources` correctly selects the latest stable release for all 6 families (Universal, ISO, and ISO/IEC):
+#### Step 1: Write the failing unit test
+
+- [ ] In `tests/build/ontology-query-artifacts.test.js`, add a test verifying that `selectLatestStableOntologySources` correctly selects the latest stable release for all 6 families (Universal, ISO, and ISO/IEC):
 
 ```javascript
 test("selectLatestStableOntologySources selects the latest stable release across Universal, ISO, and ISO-IEC families", () => {
@@ -124,9 +126,13 @@ test("selectLatestStableOntologySources selects the latest stable release across
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails** Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: FAIL with `ReferenceError: selectLatestStableOntologySources is not defined`.
+#### Step 2: Run test to verify it fails
 
-- [ ] **Step 3: Write minimal implementation** In `scripts/build/createOntologyQueryArtifacts.js`, implement `selectLatestStableOntologySources` and remove `selectLatestUniversalSources`:
+- [ ] Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: FAIL with `ReferenceError: selectLatestStableOntologySources is not defined`.
+
+#### Step 3: Write minimal implementation
+
+- [ ] In `scripts/build/createOntologyQueryArtifacts.js`, implement `selectLatestStableOntologySources` and remove `selectLatestUniversalSources`:
 
 ```javascript
 export function selectLatestStableOntologySources(ontologySources) {
@@ -152,7 +158,9 @@ export function selectLatestStableOntologySources(ontologySources) {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes** Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: PASS.
+#### Step 4: Run test to verify it passes
+
+- [ ] Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: PASS.
 
 ---
 
@@ -167,8 +175,9 @@ export function selectLatestStableOntologySources(ontologySources) {
 
 - Produces: `createOntologyQueryArtifactDatasets({ ontologySources, workerCount }): Promise<{ latest: OntologyQueryArtifactDataset, all: OntologyQueryArtifactDataset }>`
 
-- [ ] **Step 1: Write the failing unit test**
-      In `tests/build/ontology-query-artifacts.test.js`, add test asserting that `createOntologyQueryArtifactDatasets` renders all sources once and emits both the `latest` dataset (containing only the latest release per family) and the `all` dataset (containing all releases), with matching SHA-256 hashes:
+#### Step 1: Write the failing unit test
+
+- [ ] In `tests/build/ontology-query-artifacts.test.js`, add test asserting that `createOntologyQueryArtifactDatasets` renders all sources once and emits both the `latest` dataset (containing only the latest release per family) and the `all` dataset (containing all releases), with matching SHA-256 hashes:
 
 ```javascript
 test("createOntologyQueryArtifactDatasets emits both latest and all datasets with shared immutable digests", async () => {
@@ -205,12 +214,14 @@ test("createOntologyQueryArtifactDatasets emits both latest and all datasets wit
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
-      Run: `npm test -- tests/build/ontology-query-artifacts.test.js`
+#### Step 2: Run test to verify it fails
+
+- [ ] Run: `npm test -- tests/build/ontology-query-artifacts.test.js`
       Expected: FAIL with `ReferenceError: createOntologyQueryArtifactDatasets is not defined`.
 
-- [ ] **Step 3: Write minimal implementation**
-      In `scripts/build/createOntologyQueryArtifacts.js`:
+#### Step 3: Write minimal implementation
+
+- [ ] In `scripts/build/createOntologyQueryArtifacts.js`:
   - Implement `createOntologyQueryArtifactDatasets`:
     - Renders all eligible sources once through `renderOntologyAssetsWithWorkers`.
     - Generates release artifacts for all inputs.
@@ -220,8 +231,9 @@ test("createOntologyQueryArtifactDatasets emits both latest and all datasets wit
     - Returns `{ latest, all }`.
   - Update `createOntologyQueryArtifacts` to delegate cleanly to `createOntologyQueryArtifactDatasets`.
 
-- [ ] **Step 4: Run test to verify it passes**
-      Run: `npm test -- tests/build/ontology-query-artifacts.test.js`
+#### Step 4: Run test to verify it passes
+
+- [ ] Run: `npm test -- tests/build/ontology-query-artifacts.test.js`
       Expected: PASS.
 
 ---
@@ -233,7 +245,9 @@ test("createOntologyQueryArtifactDatasets emits both latest and all datasets wit
 - Modify: `scripts/generateOntologyQueryIndexes.js`
 - Test: `tests/build/ontology-query-artifacts.test.js`
 
-- [ ] **Step 1: Write the failing unit test** In `tests/build/ontology-query-artifacts.test.js`, add test asserting `generateOntologyQueryIndexes` produces `dist/query/v1/latest/catalog.json` and `dist/query/v1/all/catalog.json`:
+#### Step 1: Write the failing unit test
+
+- [ ] In `tests/build/ontology-query-artifacts.test.js`, add test asserting `generateOntologyQueryIndexes` produces `dist/query/v1/latest/catalog.json` and `dist/query/v1/all/catalog.json`:
 
 ```javascript
 test("generateOntologyQueryIndexes produces independent latest and all directories", async () => {
@@ -258,16 +272,22 @@ test("generateOntologyQueryIndexes produces independent latest and all directori
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails** Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: FAIL (files in `latest/` and `all/` not found).
+#### Step 2: Run test to verify it fails
 
-- [ ] **Step 3: Write minimal implementation** In `scripts/generateOntologyQueryIndexes.js`:
+- [ ] Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: FAIL (files in `latest/` and `all/` not found).
+
+#### Step 3: Write minimal implementation
+
+- [ ] In `scripts/generateOntologyQueryIndexes.js`:
   - Call `createOntologyQueryArtifactDatasets`.
   - Atomically write `latest` artifacts into `resolve(outputDirectory, "latest")`.
   - Atomically write `all` artifacts into `resolve(outputDirectory, "all")`.
   - Also write into `outputDirectory` root for backward compatibility.
   - Support CLI argument `--dataset-scope <latest|all|both>` (default: `both`).
 
-- [ ] **Step 4: Run test to verify it passes** Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: PASS.
+#### Step 4: Run test to verify it passes
+
+- [ ] Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: PASS.
 
 ---
 
@@ -278,7 +298,9 @@ test("generateOntologyQueryIndexes produces independent latest and all directori
 - Modify: `scripts/build/ontologyAssets.js`
 - Test: `tests/build/ontology-assets.test.js`
 
-- [ ] **Step 1: Write the failing unit test** In `tests/build/ontology-assets.test.js`, assert that `createOntologyBuildAssets` contains keys starting with both `query/v1/latest/` and `query/v1/all/`:
+#### Step 1: Write the failing unit test
+
+- [ ] In `tests/build/ontology-assets.test.js`, assert that `createOntologyBuildAssets` contains keys starting with both `query/v1/latest/` and `query/v1/all/`:
 
 ```javascript
 expect(assets.has("query/v1/latest/catalog.json")).toBe(true);
@@ -287,15 +309,21 @@ const latestCatalog = JSON.parse(assets.get("query/v1/latest/catalog.json").toSt
 expect(latestCatalog.releases).toHaveLength(6);
 ```
 
-- [ ] **Step 2: Run test to verify it fails** Run: `npm test -- tests/build/ontology-assets.test.js` Expected: FAIL (`query/v1/latest/catalog.json` not found).
+#### Step 2: Run test to verify it fails
 
-- [ ] **Step 3: Write minimal implementation** In `scripts/build/ontologyAssets.js`:
+- [ ] Run: `npm test -- tests/build/ontology-assets.test.js` Expected: FAIL (`query/v1/latest/catalog.json` not found).
+
+#### Step 3: Write minimal implementation
+
+- [ ] In `scripts/build/ontologyAssets.js`:
   - Use `createOntologyQueryArtifactDatasets`.
   - Populate `query/v1/latest/${relativePath}` with latest content.
   - Populate `query/v1/all/${relativePath}` with all content.
   - Populate `query/v1/${relativePath}` for compatibility.
 
-- [ ] **Step 4: Run test to verify it passes** Run: `npm test -- tests/build/ontology-assets.test.js` Expected: PASS.
+#### Step 4: Run test to verify it passes
+
+- [ ] Run: `npm test -- tests/build/ontology-assets.test.js` Expected: PASS.
 
 ---
 
@@ -306,18 +334,26 @@ expect(latestCatalog.releases).toHaveLength(6);
 - Modify: `src/mcp/universalOntologyMcpStdioConfiguration.js`
 - Test: `tests/mcp/universal-ontology-mcp-stdio-configuration.test.js`
 
-- [ ] **Step 1: Write the failing unit test** In `tests/mcp/universal-ontology-mcp-stdio-configuration.test.js`, update test asserting default configuration:
+#### Step 1: Write the failing unit test
+
+- [ ] In `tests/mcp/universal-ontology-mcp-stdio-configuration.test.js`, update test asserting default configuration:
   - Filesystem source default root directory must be `dist/query/v1/latest`.
   - HTTP source default base URL must be `https://haddenindustries.com/ontology/query/v1/latest/`.
 
-- [ ] **Step 2: Run test to verify it fails** Run: `npm test -- tests/mcp/universal-ontology-mcp-stdio-configuration.test.js` Expected: FAIL (expected `dist/query/v1/latest`, got `dist/query/v1`).
+#### Step 2: Run test to verify it fails
 
-- [ ] **Step 3: Write minimal implementation** In `src/mcp/universalOntologyMcpStdioConfiguration.js`:
+- [ ] Run: `npm test -- tests/mcp/universal-ontology-mcp-stdio-configuration.test.js` Expected: FAIL (expected `dist/query/v1/latest`, got `dist/query/v1`).
+
+#### Step 3: Write minimal implementation
+
+- [ ] In `src/mcp/universalOntologyMcpStdioConfiguration.js`:
   - Update `DEFAULT_ONTOLOGY_QUERY_ARTIFACT_BASE_URL` to `"https://haddenindustries.com/ontology/query/v1/latest/"`.
   - Update filesystem default to `"dist/query/v1/latest"`.
   - Add strict parser for `--dataset-scope <latest|all>`.
 
-- [ ] **Step 4: Run test to verify it passes** Run: `npm test -- tests/mcp/universal-ontology-mcp-stdio-configuration.test.js` Expected: PASS.
+#### Step 4: Run test to verify it passes
+
+- [ ] Run: `npm test -- tests/mcp/universal-ontology-mcp-stdio-configuration.test.js` Expected: PASS.
 
 ---
 
@@ -328,15 +364,23 @@ expect(latestCatalog.releases).toHaveLength(6);
 - Modify: `scripts/set_up_mcp_servers.py`
 - Test: `tests/test_set_up_mcp_servers.py`
 
-- [ ] **Step 1: Write the failing unit test** In `tests/test_set_up_mcp_servers.py`, update test asserting that the generated host entries for Claude Code, Antigravity, and Codex specify `--query-artifact-root-directory=dist/query/v1/latest`.
+#### Step 1: Write the failing unit test
 
-- [ ] **Step 2: Run test to verify it fails** Run: `.venv\Scripts\python -m unittest tests/test_set_up_mcp_servers.py` Expected: FAIL (asserts `dist/query/v1/latest`, received `dist/query/v1`).
+- [ ] In `tests/test_set_up_mcp_servers.py`, update test asserting that the generated host entries for Claude Code, Antigravity, and Codex specify `--query-artifact-root-directory=dist/query/v1/latest`.
 
-- [ ] **Step 3: Write minimal implementation** In `scripts/set_up_mcp_servers.py`:
+#### Step 2: Run test to verify it fails
+
+- [ ] Run: `.venv\Scripts\python -m unittest tests/test_set_up_mcp_servers.py` Expected: FAIL (asserts `dist/query/v1/latest`, received `dist/query/v1`).
+
+#### Step 3: Write minimal implementation
+
+- [ ] In `scripts/set_up_mcp_servers.py`:
   - Set `UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY = Path("dist") / "query" / "v1" / "latest"`.
   - Update index generation and channel staging to operate on `dist/query/v1/latest`.
 
-- [ ] **Step 4: Run test to verify it passes** Run: `.venv\Scripts\python -m unittest tests/test_set_up_mcp_servers.py` Expected: PASS.
+#### Step 4: Run test to verify it passes
+
+- [ ] Run: `.venv\Scripts\python -m unittest tests/test_set_up_mcp_servers.py` Expected: PASS.
 
 ---
 
@@ -347,13 +391,21 @@ expect(latestCatalog.releases).toHaveLength(6);
 - Modify: `scripts/verifyUniversalOntologyMcpApplicationBundle.js`
 - Test: `tests/distribution/universal-ontology-mcp-application-bundle-verifier.test.js`
 
-- [ ] **Step 1: Write the failing unit test** Update verifier tests to expect `dist/query/v1/latest` by default.
+#### Step 1: Write the failing unit test
 
-- [ ] **Step 2: Run test to verify it fails** Run: `npm test -- tests/distribution/universal-ontology-mcp-application-bundle-verifier.test.js` Expected: FAIL.
+- [ ] Update verifier tests to expect `dist/query/v1/latest` by default.
 
-- [ ] **Step 3: Write minimal implementation** In `scripts/verifyUniversalOntologyMcpApplicationBundle.js`, update defaults to `dist/query/v1/latest`.
+#### Step 2: Run test to verify it fails
 
-- [ ] **Step 4: Run test to verify it passes** Run: `npm test -- tests/distribution/universal-ontology-mcp-application-bundle-verifier.test.js` Expected: PASS.
+- [ ] Run: `npm test -- tests/distribution/universal-ontology-mcp-application-bundle-verifier.test.js` Expected: FAIL.
+
+#### Step 3: Write minimal implementation
+
+- [ ] In `scripts/verifyUniversalOntologyMcpApplicationBundle.js`, update defaults to `dist/query/v1/latest`.
+
+#### Step 4: Run test to verify it passes
+
+- [ ] Run: `npm test -- tests/distribution/universal-ontology-mcp-application-bundle-verifier.test.js` Expected: PASS.
 
 ---
 
@@ -361,18 +413,29 @@ expect(latestCatalog.releases).toHaveLength(6);
 
 _(Executed strictly upon explicit user approval)_
 
-- [ ] **Step 1: Update package.json scripts**
-  - Update `mcp:index` and `mcp:channel:stage`.
-- [ ] **Step 2: Update host configuration files**
-  - Update `.mcp.json`, `.agents/mcp_config.json`, `.codex/config.toml` to point to `dist/query/v1/latest`.
-- [ ] **Step 3: Run authoritative generation**
-  - `npm run mcp:index`
+#### Step 1: Update package.json scripts
+
+- [ ] - Update `mcp:index` and `mcp:channel:stage`.
+
+#### Step 2: Update host configuration files
+
+- [ ] - Update `.mcp.json`, `.agents/mcp_config.json`, `.codex/config.toml` to point to `dist/query/v1/latest`.
+
+#### Step 3: Run authoritative generation
+
+- [ ] - `npm run mcp:index`
   - `npm run mcp:channel:stage`
-- [ ] **Step 4: Run complete test suite**
-  - `npm test`
+
+#### Step 4: Run complete test suite
+
+- [ ] - `npm test`
   - `.venv\Scripts\python -m unittest tests/test_set_up_mcp_servers.py`
-- [ ] **Step 5: Run live readiness verification probe**
-  - `node scripts/verifyUniversalOntologyMcpApplicationBundle.js --application-bundle packages/universal-ontology-mcp-server/dist/universal-ontology-mcp-server.mjs --query-artifact-source=file_system --query-artifact-root-directory=dist/query/v1/latest --verify-query-readiness`
-- [ ] **Step 6: Verify file counts and catalog contents**
-  - Confirm `dist/query/v1/latest/catalog.json` contains exactly 6 releases.
+
+#### Step 5: Run live readiness verification probe
+
+- [ ] - `node scripts/verifyUniversalOntologyMcpApplicationBundle.js --application-bundle packages/universal-ontology-mcp-server/dist/universal-ontology-mcp-server.mjs --query-artifact-source=file_system --query-artifact-root-directory=dist/query/v1/latest --verify-query-readiness`
+
+#### Step 6: Verify file counts and catalog contents
+
+- [ ] - Confirm `dist/query/v1/latest/catalog.json` contains exactly 6 releases.
   - Confirm `dist/query/v1/latest/releases/` has exactly 6 `.json` files totaling ~5.0 MB.

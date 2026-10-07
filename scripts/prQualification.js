@@ -18,7 +18,7 @@ export const PR_QUALIFICATION_JOB_NAMES = Object.freeze([
   "development / Node-backed Python tests (${{ matrix.os }})",
   "development / Agent Skills lock",
   "development / Style toolchain (${{ matrix.os }})",
-  "development / checks (${{ matrix.os }})",
+  "development / Development controls",
   "development / Verify internal completion",
   "ontology",
   "website",

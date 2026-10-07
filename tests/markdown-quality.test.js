@@ -19,6 +19,8 @@ const cli = join(
 function fixture() {
   const directory = mkdtempSync(join(tmpdir(), "uo-markdown-contract-"));
   execFileSync("git", ["init", "--quiet", directory]);
+  // This junction is installed test infrastructure, not repository documents.
+  writeFileSync(join(directory, ".gitignore"), "tooling/markdown/\n");
   writeFileSync(
     join(directory, ".markdown-quality.json"),
     readFileSync(join(root, ".markdown-quality.json")),
@@ -109,8 +111,18 @@ test("format admission rejects tracked Markdown in infrastructure before changin
       { encoding: "utf8" },
     );
     expect(result.status).not.toBe(0);
-    expect(result.stderr).toContain("escaped full selection");
+    expect(result.stderr).toContain(
+      'escaped full selection: [".sdlc/hidden.md"]',
+    );
     expect(readFileSync(join(directory, "README.md"), "utf8")).toBe(text);
+    const writable = spawnSync(
+      process.execPath,
+      [cli, "format", "--root", directory, "--json"],
+      { encoding: "utf8" },
+    );
+    expect(writable.status).toBe(0);
+    expect(JSON.parse(writable.stdout).written).toContain("README.md");
+    expect(readFileSync(join(directory, "README.md"), "utf8")).not.toBe(text);
   } finally {
     rmSync(directory, { recursive: true });
   }

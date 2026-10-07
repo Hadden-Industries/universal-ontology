@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPOSITORY_ROOT / "scripts"))
@@ -14,9 +15,20 @@ from ontology_policy.rendering import (  # noqa: E402
     GENERATED_DOCUMENT_PATH,
     render_editing_policy,
 )
+from render_editing_policy import format_generated_document  # noqa: E402
 
 RENDER_SCRIPT = REPOSITORY_ROOT / "scripts" / "render_editing_policy.py"
 PYTHON = sys.executable
+
+
+class CanonicalFormatterFailureTest(unittest.TestCase):
+    def test_non_object_native_report_is_an_operation_failure(self):
+        with patch(
+            "render_editing_policy.subprocess.run",
+            return_value=subprocess.CompletedProcess([], 0, stdout="[]", stderr=""),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "canonical Markdown quality"):
+                format_generated_document("# Policy\n")
 
 
 def run_renderer(*arguments, cwd=REPOSITORY_ROOT):
