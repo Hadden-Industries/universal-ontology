@@ -43,7 +43,14 @@ export function runMarkdownQuality(mode, repositoryRoot = root, json = false) {
   function invoke(operation) {
     const result = spawnSync(
       process.execPath,
-      [cli, operation, "--root", repositoryRoot, "--json"],
+      [
+        "--max-old-space-size=256",
+        cli,
+        operation,
+        "--root",
+        repositoryRoot,
+        "--json",
+      ],
       {
         cwd: dirname(cli),
         env,

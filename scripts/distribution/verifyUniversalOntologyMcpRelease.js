@@ -140,11 +140,11 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/markdown-quality.yml":
     "9a9d76ea70888076ae2134e7ff09d38fd13624b35c9f1479dca76a41b54dd09c",
   "scripts/runMarkdownQuality.mjs":
-    "8cfb898a5d8b2a2f056db845215f03ce2de2de7ca6165f10be6e52fc089d1b7a",
+    "90c25e3d6521994d857ab870469c2333a88ec9ba44aaa7d5ba1b57817d24e221",
   "scripts/installMarkdownTools.mjs":
     "bf61a90e32cda5a8ed463a423eaf1f68ad638266ce225d265a704a5532cd4b2d",
   "scripts/check-markdown-candidate.mjs":
-    "6749d76ee794f9ec63ba19faad0b457852f4e93f57734ccb12eba5c57a8c5a3f",
+    "84f6a64b083c5268b1ca46223f8004d00943619a95bb4f86f62de15250b40379",
   "scripts/check-markdown-candidate.probes.mjs":
     "ea7d37cde027288eda74b43853ef46893fbcfca34df5ed495767776ce885abe5",
   "scripts/observe-markdown-window.py":
