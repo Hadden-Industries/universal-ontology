@@ -12,7 +12,7 @@
 
 **Protocol baseline:** Model Context Protocol specification `2026-07-28` with the stable modular TypeScript/JavaScript SDK v2 line
 
-### Development-publication amendment — 2026-09-01
+## Development-publication amendment — 2026-09-01
 
 The owner has restricted this implementation increment to development-only software distribution.
 This amendment is normative and supersedes any later language in this design that could otherwise be read as authorizing public publication.
@@ -955,8 +955,8 @@ The Universal Ontology implementation plan MUST NOT modify `amazon-aws/infrastru
 
 Potential AWS delivery changes remain separate work in these handoffs:
 
-- [`amazon-aws/docs/issues/2026-08-31-amazon-aws-json-content-type-handoff.md`](../../../amazon-aws/docs/issues/2026-08-31-amazon-aws-json-content-type-handoff.md) for explicit `.json` media type and UTF-8 upload treatment; and
-- [`amazon-aws/docs/issues/2026-08-31-cloudfront-ontology-query-artifact-cdk-handoff.md`](../../../amazon-aws/docs/issues/2026-08-31-cloudfront-ontology-query-artifact-cdk-handoff.md) for a dedicated `ontology/query/*` CloudFront behavior and explicit compression isolation.
+- [`amazon-aws/docs/issues/2026-08-31-amazon-aws-json-content-type-handoff.md`](https://github.com/Hadden-Industries/amazon-aws/blob/052c6723a2bad998e8df906b91986c08123e6c6b/docs/issues/2026-08-31-amazon-aws-json-content-type-handoff.md) for explicit `.json` media type and UTF-8 upload treatment; and
+- [`amazon-aws/docs/issues/2026-08-31-cloudfront-ontology-query-artifact-cdk-handoff.md`](https://github.com/Hadden-Industries/amazon-aws/blob/052c6723a2bad998e8df906b91986c08123e6c6b/docs/issues/2026-08-31-cloudfront-ontology-query-artifact-cdk-handoff.md) for a dedicated `ontology/query/*` CloudFront behavior and explicit compression isolation.
 
 Those handoffs should be amended, as documentation only, to reference this design and the eventual implementation plan, the finalized channel/catalog paths, and the cache-control distinction between mutable and immutable objects.
 Any uploader cache-control capability not already covered must be proposed there as separate AWS-repository work.

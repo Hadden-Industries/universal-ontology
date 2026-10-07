@@ -1,7 +1,7 @@
 ## Editing policy
 
-[Contributor guide](Editing-Policy#contributor-guide)  
-[Technical reference](Editing-Policy#technical-reference)  
-[Human review](Editing-Policy#human-review)  
-[Dataset profile](Editing-Policy#datasets)  
-[Distribution profile](Editing-Policy#distributions)
+[Contributor guide](Editing-Policy.md#contributor-guide)\
+[Technical reference](Editing-Policy.md#technical-reference)\
+[Human review](Editing-Policy.md#human-review)\
+[Dataset profile](Editing-Policy.md#datasets)\
+[Distribution profile](Editing-Policy.md#distributions)

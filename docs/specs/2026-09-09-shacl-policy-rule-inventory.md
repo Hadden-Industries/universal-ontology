@@ -19,7 +19,7 @@ After migration retain this inventory as historical evidence; the canonical SHAC
 - Local raw capture: `.agent-tools/shacl-policy-baseline/Editing-Policy.source.md`.
   Keep it through baseline acceptance and migration reconciliation.
   The integrator may remove this task-owned temporary copy only after a durable source/evidence reference has been retained and its remaining consumers checked.
-- Python source: [tests/universalontologytest.py](../../tests/universalontologytest.py), 598 lines; SHA-256 `550599fb80299101b554b20d7f6a82180020048719f5b5c73913a8c9a270dca0`.
+- Python source: [tests/universalontologytest.py](https://github.com/Hadden-Industries/universal-ontology/blob/133901221cc14a4c9ff42d93db14c02e56452b84/tests/universalontologytest.py), 598 lines; SHA-256 `550599fb80299101b554b20d7f6a82180020048719f5b5c73913a8c9a270dca0`.
   Native Python AST inspection finds 58 `self.assert*`/`self.fail` call sites.
   Every call site is mapped below.
   Source inspection is not an execution of all branches or proof that all assertions are reachable.
