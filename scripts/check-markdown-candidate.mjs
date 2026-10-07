@@ -204,6 +204,8 @@ export async function checkCandidate({ outputRoot, cli, staging }) {
   for (const name of ["SystemRoot", "SYSTEMROOT", "WINDIR", "TEMP", "TMP"])
     if (process.env[name]) env[name] = process.env[name];
   const args = [
+    // Bound V8 retention while leaving the independently measured process-group budget intact.
+    "--max-old-space-size=256",
     resolve(cli),
     "check",
     "--root",
