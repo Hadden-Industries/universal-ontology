@@ -56,6 +56,7 @@ export function consumerJobs(plan, consumer) {
       documentation: s.documentation || s.style_tooling,
       "python-style": s.python_style && !s.style_tooling,
       "python-tests": s.python_tests,
+      "python-node-tests": s.python_setup_tests,
       "agent-skills-lock": s.agent_skills_lock,
       "style-tooling": s.style_tooling,
       checks: s.development,

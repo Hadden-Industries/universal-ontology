@@ -30,11 +30,14 @@ jobs:
   select:
     permissions:
       contents: read
+      actions: read
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     cache-mode: none
     outputs:
       plan: ${{ steps.select.outputs.plan }}
+      reuse: ${{ steps.reuse.outputs.reuse }}
+      qualification: ${{ steps.reuse.outputs.qualification }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -50,6 +53,12 @@ jobs:
           MCP_PACKAGE_CI_ENABLED: ${{ vars.MCP_PACKAGE_CI_ENABLED }}
           MCP_INCLUDE_PACKAGES: ${{ inputs.include_mcp_packages || false }}
         run: node scripts/selectPullRequestChecks.js --plan
+      - id: reuse
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_CHECK_PLAN: ${{ steps.select.outputs.plan }}
+          UO_PR_QUALIFICATION_REUSE_DISABLED: ${{ vars.UO_PR_QUALIFICATION_REUSE_DISABLED }}
+        run: node scripts/prQualificationReuseCommand.js select
   node:
     permissions:
       contents: read
@@ -57,7 +66,7 @@ jobs:
     timeout-minutes: 30
     cache-mode: none
     needs: select
-    if: ${{ !cancelled() && needs.select.result == 'success' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'node') }}
+    if: ${{ !cancelled() && needs.select.result == 'success' && needs.select.outputs.reuse != 'true' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'node') }}
     env:
       PR_CHECK_PLAN: ${{ needs.select.outputs.plan }}
     outputs:
@@ -79,16 +88,7 @@ jobs:
         run: |-
           npm run lint:node
           npm run format:node:check
-      - run: |-
-          ignored="$(node --input-type=module <<'NODE'
-          const plan = JSON.parse(process.env.PR_CHECK_PLAN);
-          const ignored = ["/node_modules/", "/.sdlc/runtime/", "/tests/prose-formatting.test.js$"];
-          if (plan.scopes.development) ignored.push("/tests/(configure-git-hooks|set-up-development-environment|run-repository-python|development-workflow|pr-check-scopes).test.js$");
-          if (plan.scopes.style_tooling) ignored.push("/tests/(documentation-tools|python-style-tools).test.js$");
-          console.log(ignored.join("|"));
-          NODE
-          )"
-          npm test -- --runInBand --testPathIgnorePatterns="$ignored"
+      - run: node scripts/runPullRequestNodeChecks.js
       - id: complete
         run: echo "verified-revision=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
   website:
@@ -170,6 +170,7 @@ jobs:
     env:
       PR_CHECK_PLAN: ${{ needs.select.outputs.plan }}
       PR_CHECK_RESULTS: ${{ toJSON(needs) }}
+      UO_PR_QUALIFICATION_REUSE_DISABLED: ${{ vars.UO_PR_QUALIFICATION_REUSE_DISABLED }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -182,7 +183,7 @@ jobs:
           package-manager-cache: false
       - id: complete
         if: ${{ success() && !cancelled() }}
-        run: node scripts/evaluatePullRequestChecks.js
+        run: node scripts/prQualificationReuseCommand.js gate
       - name: Reject workflow cancellation
         if: ${{ cancelled() }}
         run: exit 1

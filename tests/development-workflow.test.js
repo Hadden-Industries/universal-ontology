@@ -25,6 +25,7 @@ test.each([
       documentation: 10,
       "python-style": 10,
       "python-tests": 30,
+      "python-node-tests": 30,
       "agent-skills-lock": 5,
       "style-tooling": 30,
       checks: 30,
@@ -121,6 +122,7 @@ test("development checks accept only a revision-bound reusable plan", () => {
     "documentation",
     "python-style",
     "python-tests",
+    "python-node-tests",
     "agent-skills-lock",
     "style-tooling",
     "checks",
@@ -143,6 +145,7 @@ test("unrelated PRs do not unconditionally launch the development matrix", () =>
     documentation: "${{ steps.scope.outputs.documentation }}",
     python_style: "${{ steps.scope.outputs.python_style }}",
     python_tests: "${{ steps.scope.outputs.python_tests }}",
+    python_setup_tests: "${{ steps.scope.outputs.python_setup_tests }}",
     agent_skills_lock: "${{ steps.scope.outputs.agent_skills_lock }}",
     style_tooling: "${{ steps.scope.outputs.style_tooling }}",
   });
@@ -153,16 +156,42 @@ test("unrelated PRs do not unconditionally launch the development matrix", () =>
   );
 });
 
-test("Python changes run the whole Python suite on Windows and Ubuntu", () => {
+test("Python-only work retains both platforms without installing Node dependencies", () => {
   const job = readWorkflow().jobs["python-tests"];
   expect(job.needs).toBe("scope");
   expect(job.if).toBe("needs.scope.outputs.python_tests == 'true'");
   expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
-  expect(runs.indexOf("npm run set-up:development")).toBeLessThan(
-    runs.indexOf("npm run test:python"),
+  expect(
+    runs.some((run) => /npm (?:ci|install)|set-up:development/u.test(run)),
+  ).toBe(false);
+  const setup = job.steps.find(
+    (step) => step.name === "Set up only the locked Python environment",
   );
-  expect(runs.at(-1)).toBe("npm run test:python");
+  expect(setup.run).toContain(
+    "--require-hashes --only-binary=:all: -r requirements.lock.txt",
+  );
+  expect(setup.run).toContain('"$python_executable" -m pip check');
+  expect(setup.run).toContain(".venv/Scripts/python.exe");
+  expect(setup.run).toContain(".venv/bin/python");
+  expect(runs.at(-1)).toBe("npm run test:python -- --family python-only");
+});
+
+test("Node-backed Python work retains full setup and both platforms", () => {
+  const workflow = readWorkflow();
+  const job = workflow.jobs["python-node-tests"];
+  expect(job.needs).toBe("scope");
+  expect(job.if).toBe("needs.scope.outputs.python_setup_tests == 'true'");
+  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
+  const runs = job.steps.map(({ run }) => run).filter(Boolean);
+  expect(runs.indexOf("npm run set-up:development")).toBeGreaterThan(
+    runs.indexOf("node scripts/evaluatePullRequestChecks.js --verify"),
+  );
+  expect(runs.indexOf("npm run set-up:development")).toBeLessThan(
+    runs.indexOf("npm run test:python -- --family node-backed"),
+  );
+  expect(runs.at(-1)).toBe("npm run test:python -- --family node-backed");
+  expect(workflow.jobs.complete.needs).toContain("python-node-tests");
 });
 
 test("a lock change validates the committed Agent Skills lock without the development setup", () => {

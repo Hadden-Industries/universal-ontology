@@ -18,6 +18,8 @@ import {
   changedFilePaths,
   createCheckPlan,
   CORE_CHECK_CONSUMER_IDS,
+  CI_CONTROL_INPUTS,
+  PYTHON_ONLY_TEST_INPUTS,
 } from "../scripts/selectPullRequestChecks.js";
 
 const SCOPES = [
@@ -236,6 +238,123 @@ describe("native Git PR check selection", () => {
       root,
     );
   }
+
+  test.each([
+    "tests/build/built-ontology-page.test.js",
+    "tests/import-closure/atomic-ontology-writer.test.js",
+    "packages/universal-ontology-projection-policy/tests/ontology-projection-properties.test.js",
+    "tests/webmcp/displayed-ontology-entity-definition-tool.test.js",
+    "packages/universal-ontology-mcp-server/tests/local-universal-ontology-mcp-server.integration.test.js",
+    "tests/distribution/mcp-registry-server-metadata.test.js",
+    "tests/braces-dependency.test.js",
+  ])("isolated reviewed native test %s selects only Node", (path) => {
+    write(path);
+    commit([path]);
+    expect(corePlan().requiredJobs).toEqual(["node"]);
+    expect(corePlan().scopes.product_tests).toBe(true);
+  });
+  test("mixed native test and source retains production work", () => {
+    const paths = [
+      "packages/universal-ontology-query/tests/ontology-query-module.test.js",
+      "src/main.js",
+    ];
+    paths.forEach((path) => write(path));
+    commit(paths);
+    expect(corePlan().scopes.website_build).toBe(true);
+  });
+  test.each(PYTHON_ONLY_TEST_INPUTS)(
+    "isolated Python-only test %s retains lean setup",
+    (path) => {
+      write(path);
+      commit([path]);
+      const plan = corePlan();
+      expect(plan.scopes.python_tests).toBe(true);
+      expect(plan.scopes.python_setup_tests).toBe(false);
+      expect(plan.scopes.python_style).toBe(true);
+      expect(plan.requiredJobs).toContain("development");
+      expect(plan.scopes.product_tests).toBe(false);
+    },
+  );
+
+  test.each([
+    "tests/test_set_up_agent_skills.py",
+    "tests/test_set_up_mcp_servers.py",
+    "tests/test_upload_to_s3.py",
+    "tests/test_future_tool.py",
+    "tests/test_import_catalogs.py/unknown.py",
+    "scripts/runTestsInParallel.py",
+    "requirements.lock.txt",
+    "scripts/ontology_policy/publication.py",
+    "scripts/validate_ontologies.py",
+    "scripts/render_editing_policy.py",
+  ])("Node-backed or shared Python input %s retains full setup", (path) => {
+    write(path);
+    commit([path]);
+    expect(corePlan().scopes.python_setup_tests).toBe(true);
+  });
+
+  test.each(["docs/development.md", "tests/test_upload_to_s3.py"])(
+    "mixed Python-only test and %s retains Node-backed assurance",
+    (other) => {
+      const paths = ["tests/test_import_catalogs.py", other];
+      paths.forEach((path) => write(path));
+      commit(paths);
+      expect(corePlan().scopes.python_setup_tests).toBe(true);
+    },
+  );
+
+  test.each(CI_CONTROL_INPUTS)(
+    "isolated MCP control %s selects native controls",
+    (path) => {
+      write(path);
+      commit([path]);
+      const plan = corePlan();
+      expect(plan.schemaVersion).toBe(4);
+      expect(plan.requiredJobs).toEqual(["node"]);
+      expect(
+        Object.entries(plan.scopes)
+          .filter(([, value]) => value)
+          .map(([name]) => name),
+      ).toEqual(["ci_control"]);
+      const packages = corePlan({ MCP_PACKAGE_CI_ENABLED: "true" });
+      expect(packages.requiredJobs).toContain("distribution");
+      expect(packages.scopes.mcp_artifacts).toBe(true);
+      expect(packages.scopes.mcp_release_qualification).toBe(false);
+      expect(packages.scopes.product_tests).toBe(true);
+    },
+  );
+
+  test("measured three-file MCP control union selects only native controls", () => {
+    const paths = [
+      CI_CONTROL_INPUTS[0],
+      CI_CONTROL_INPUTS[2],
+      CI_CONTROL_INPUTS[4],
+    ];
+    paths.forEach((path) => write(path));
+    commit(paths);
+    expect(corePlan().requiredJobs).toEqual(["node"]);
+  });
+
+  test.each([
+    "src/main.js",
+    "docs/development.md",
+    "unclassified/control.xyz",
+    "scripts/selectPullRequestChecks.js",
+  ])("mixed MCP control with %s preserves broad fallback", (path) => {
+    const paths = [CI_CONTROL_INPUTS[0], path];
+    paths.forEach((input) => write(input));
+    commit(paths);
+    expect(corePlan().requiredJobs).toEqual(CORE_CHECK_CONSUMER_IDS);
+  });
+
+  test.each([
+    "scripts/runPullRequestNodeChecks.js",
+    "tests/pr-node-checks.test.js",
+  ])("shared runner input %s selects broad assurance", (path) => {
+    write(path);
+    commit([path]);
+    expect(corePlan().requiredJobs).toEqual(CORE_CHECK_CONSUMER_IDS);
+  });
 
   test.each(["pull_request", "push", "schedule", "workflow_dispatch"])(
     "%s keeps application assurance with package CI disabled by default",
@@ -457,7 +576,7 @@ describe("native Git PR check selection", () => {
     const summary = readFileSync(join(root, "github-summary.md"), "utf8");
     for (const scope of scopes) {
       expect(summary).toContain(
-        `- ${scope}: ${requiredScopes.includes(scope) ? "selected" : "not applicable; inputs unchanged"}`,
+        `- ${scope}: ${requiredScopes.includes(scope) ? "selected" : "not selected by the current input and policy plan"}`,
       );
     }
   }
@@ -499,6 +618,13 @@ describe("native Git PR check selection", () => {
       "scripts/selectPullRequestChecks.js",
       readFileSync(
         new URL("../scripts/selectPullRequestChecks.js", import.meta.url),
+        "utf8",
+      ),
+    );
+    write(
+      "scripts/pullRequestNodeFamilies.js",
+      readFileSync(
+        new URL("../scripts/pullRequestNodeFamilies.js", import.meta.url),
         "utf8",
       ),
     );

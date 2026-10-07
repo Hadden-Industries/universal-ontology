@@ -74,7 +74,10 @@ test("qualify-only read budget admits unchanged full and nested read jobs", () =
   expect(manual["cache-mode"]).toBe("none");
   for (const id of ["validate", "draft", "complete"])
     expect(manual.jobs[id]["cache-mode"]).toBe("none");
-  expect(manual.jobs.qualify.permissions).toEqual({ contents: "read" });
+  expect(manual.jobs.qualify.permissions).toEqual({
+    contents: "read",
+    actions: "read",
+  });
 });
 
 test("a none calling budget rejects the callee and transitive read request", () => {

@@ -13,7 +13,7 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": 2
+      "const": 4
     },
     "packageMode": {
       "enum": ["disabled", "ci", "manual"]
@@ -43,6 +43,7 @@
         "style_tooling",
         "python_style",
         "python_tests",
+        "python_setup_tests",
         "documentation",
         "ontology_validation",
         "ontology_validation_workflow",
@@ -52,6 +53,7 @@
         "agent_skills_lock",
         "development",
         "product_tests",
+        "ci_control",
         "mcp_artifacts",
         "website_build",
         "mcp_docs",
@@ -66,6 +68,9 @@
           "type": "boolean"
         },
         "python_tests": {
+          "type": "boolean"
+        },
+        "python_setup_tests": {
           "type": "boolean"
         },
         "documentation": {
@@ -93,6 +98,9 @@
           "type": "boolean"
         },
         "product_tests": {
+          "type": "boolean"
+        },
+        "ci_control": {
           "type": "boolean"
         },
         "mcp_artifacts": {
@@ -153,6 +161,9 @@
               "python_tests": {
                 "const": true
               },
+              "python_setup_tests": {
+                "const": true
+              },
               "documentation": {
                 "const": true
               },
@@ -178,6 +189,9 @@
                 "const": true
               },
               "product_tests": {
+                "const": true
+              },
+              "ci_control": {
                 "const": true
               },
               "website_build": {

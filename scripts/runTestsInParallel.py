@@ -24,6 +24,38 @@ COUNTED = ("failures", "errors", "skipped", "expected failures", "unexpected suc
 
 REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
 
+# Reviewed native module families. New modules retain full Node-backed setup
+# until their runtime dependencies have been assessed explicitly.
+PYTHON_ONLY_MODULES = frozenset(
+    (
+        "test_editing_policy_rendering.py",
+        "test_import_catalogs.py",
+        "test_ontology_entity_changes.py",
+        "test_ontology_policy.py",
+        "test_ontology_policy_cli.py",
+        "test_ontology_policy_coverage.py",
+        "test_ontology_policy_engines.py",
+        "test_ontology_policy_reports.py",
+        "test_policy_authorities.py",
+        "test_publication_gate.py",
+        "test_run_tests_in_parallel.py",
+        "test_validate_ontologies.py",
+    )
+)
+NODE_BACKED_MODULES = frozenset(
+    (
+        "test_set_up_agent_skills.py",
+        "test_set_up_mcp_servers.py",
+        "test_upload_to_s3.py",
+    )
+)
+
+
+def module_family(path: Path):
+    if PYTHON_ONLY_MODULES & NODE_BACKED_MODULES:
+        raise ValueError("Python module families overlap")
+    return "python-only" if path.name in PYTHON_ONLY_MODULES else "node-backed"
+
 
 def parse_arguments(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
@@ -37,6 +69,12 @@ def parse_arguments(argv=None):
         "--pattern",
         default="test_*.py",
         help="Test filename glob pattern (default: test_*.py)",
+    )
+    parser.add_argument(
+        "--family",
+        choices=("all", "python-only", "node-backed"),
+        default="all",
+        help="Native module family; unknown modules retain Node-backed setup",
     )
     parser.add_argument(
         "--granularity",
@@ -61,7 +99,7 @@ def iterate_tests(suite):
             yield item
 
 
-def discover_units(tests_dir: Path, pattern: str, granularity: str):
+def discover_units(tests_dir: Path, pattern: str, granularity: str, family="all"):
     """Return (label, argv, environment) units, largest module first, without running anything.
 
     Module units rely on ``unittest discover -s`` to put the tests directory on
@@ -69,6 +107,8 @@ def discover_units(tests_dir: Path, pattern: str, granularity: str):
     environment prepends the tests directory to ``PYTHONPATH`` instead; ``None``
     means the worker inherits this process's environment unchanged.
     """
+    if family not in ("all", "python-only", "node-backed"):
+        raise ValueError("Unknown Python module family")
     tests_dir = tests_dir.resolve()
     per_test_environment = dict(os.environ)
     per_test_environment["PYTHONPATH"] = os.pathsep.join(
@@ -76,6 +116,8 @@ def discover_units(tests_dir: Path, pattern: str, granularity: str):
     )
     modules = []
     for path in sorted(tests_dir.glob(pattern)):
+        if family != "all" and module_family(path) != family:
+            continue
         modules.append((path.stat().st_size, path))
     modules.sort(key=lambda item: (-item[0], item[1].name))
     units = []
@@ -151,7 +193,12 @@ def execute(unit):
             name, _, value = part.strip().rpartition("=")
             if name in counts:
                 counts[name] += int(value)
-    passed = completed.returncode == 0 and ran is not None and bool(outcome)
+    passed = (
+        completed.returncode == 0
+        and ran is not None
+        and int(ran.group(1)) > 0
+        and bool(outcome)
+    )
     return {
         "label": label,
         "seconds": elapsed,
@@ -168,6 +215,7 @@ def main(argv=None):
         arguments.tests_dir,
         arguments.pattern,
         arguments.granularity,
+        arguments.family,
     )
     if not units:
         print("No tests were discovered; refusing to report success", file=sys.stderr)
@@ -189,6 +237,14 @@ def main(argv=None):
             )
             if not result["passed"]:
                 print(result["output"], flush=True)
+    expected = [unit[0] for unit in units]
+    completed = [result["label"] for result in results]
+    if len(set(expected)) != len(expected) or sorted(expected) != sorted(completed):
+        print(
+            "Native Python execution inventory is incomplete or duplicate",
+            file=sys.stderr,
+        )
+        return 5
     wall = time.monotonic() - started
     ran = sum(item["ran"] for item in results)
     totals = {name: sum(item["counts"][name] for item in results) for name in COUNTED}

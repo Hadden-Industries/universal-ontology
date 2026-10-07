@@ -17,7 +17,7 @@ function fixture() {
   );
   return {
     plan: {
-      schemaVersion: 2,
+      schemaVersion: 4,
       packageMode: "disabled",
       mode: "changed",
       revision: "a".repeat(40),
@@ -37,6 +37,31 @@ function fixture() {
   };
 }
 
+test("native control route requires node success and rejects mixed omission", () => {
+  const { plan, results } = fixture();
+  plan.scopes.product_tests = false;
+  plan.scopes.ci_control = true;
+  expect(evaluatePullRequestChecks(plan, results).ok).toBe(true);
+  expect(
+    evaluatePullRequestChecks(plan, { ...results, node: "skipped" }).ok,
+  ).toBe(false);
+  plan.scopes.documentation = true;
+  plan.requiredJobs = requiredJobsForScopes(plan.scopes);
+  expect(
+    evaluatePullRequestChecks(plan, { ...results, development: "success" }).ok,
+  ).toBe(false);
+});
+
+test("development completion requires the separately selected Node-backed Python owner", () => {
+  const { plan } = fixture();
+  plan.scopes.product_tests = false;
+  plan.scopes.python_tests = true;
+  expect(consumerJobs(plan, "development")["python-tests"]).toBe(true);
+  expect(consumerJobs(plan, "development")["python-node-tests"]).toBe(false);
+  plan.scopes.python_setup_tests = true;
+  expect(consumerJobs(plan, "development")["python-node-tests"]).toBe(true);
+});
+
 test.each(["valid", "missing-id", "digest-newline", "skipped-archive"])(
   "distribution completion publishes candidate outputs only for %s",
   (scenario) => {
@@ -48,7 +73,7 @@ test.each(["valid", "missing-id", "digest-newline", "skipped-archive"])(
       CORE_CHECK_SCOPE_NAMES.map((name) => [name, true]),
     );
     const plan = {
-      schemaVersion: 2,
+      schemaVersion: 4,
       packageMode: "manual",
       mode: "full",
       comparisonBase: null,
@@ -109,6 +134,10 @@ test.each([
   "stale-plan",
   "extra-result",
   "selected-internal-skip",
+  "selected-node-backed-skip",
+  "selected-node-backed-failure",
+  "selected-node-backed-cancelled",
+  "selected-node-backed-missing",
 ])("CLI enforces %s", (scenario) => {
   const { plan, results } = fixture();
   plan.revision = execFileSync("git", ["rev-parse", "HEAD"], {
@@ -135,8 +164,14 @@ test.each([
   const root = mkdtempSync(join(tmpdir(), "uo-gate-cli-"));
   try {
     env.GITHUB_OUTPUT = join(root, "output");
-    if (scenario === "selected-internal-skip") {
+    if (
+      scenario === "selected-internal-skip" ||
+      scenario.startsWith("selected-node-backed-")
+    ) {
       plan.scopes.python_tests = true;
+      plan.scopes.python_setup_tests = scenario.startsWith(
+        "selected-node-backed-",
+      );
       plan.requiredJobs = requiredJobsForScopes(plan.scopes);
       args.push("--consumer", "development");
       env.PR_CHECK_RESULTS = JSON.stringify(
@@ -146,8 +181,15 @@ test.each([
               id,
               {
                 result:
-                  id === "python-tests"
-                    ? "skipped"
+                  id ===
+                  (plan.scopes.python_setup_tests
+                    ? "python-node-tests"
+                    : "python-tests")
+                    ? scenario.endsWith("failure")
+                      ? "failure"
+                      : scenario.endsWith("cancelled")
+                        ? "cancelled"
+                        : "skipped"
                     : required
                       ? "success"
                       : "skipped",
@@ -156,6 +198,11 @@ test.each([
           ),
         ),
       );
+      if (scenario === "selected-node-backed-missing") {
+        const incomplete = JSON.parse(env.PR_CHECK_RESULTS);
+        delete incomplete["python-node-tests"];
+        env.PR_CHECK_RESULTS = JSON.stringify(incomplete);
+      }
     } else env.PR_CHECK_RESULTS = JSON.stringify(needs);
     env.PR_CHECK_PLAN = scenario === "empty" ? "" : JSON.stringify(plan);
     const result = spawnSync(process.execPath, args, { env, encoding: "utf8" });

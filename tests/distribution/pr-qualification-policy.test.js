@@ -9,7 +9,16 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { parse, stringify } from "yaml";
 import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { verifyPullRequestPolicyGraph } from "../../scripts/distribution/verifyUniversalOntologyMcpRelease.js";
+import {
+  discoverNodeSuites,
+  CI_CONTROL_SUITES,
+} from "../../scripts/runPullRequestNodeChecks.js";
+import {
+  CORE_CHECK_SCOPE_NAMES,
+  requiredJobsForScopes,
+} from "../../scripts/selectPullRequestChecks.js";
 const files = [
   ".github/workflows/pr-validation.yml",
   ".github/workflows/full-qualification.yml",
@@ -23,6 +32,13 @@ const files = [
   "scripts/generatePullRequestCheckPlanValidator.js",
   ".github/workflows/manual-mcp-packages.yml",
   "scripts/distribution/prepareManualMcpRelease.js",
+  "scripts/runPullRequestNodeChecks.js",
+  "scripts/runTestsInParallel.py",
+  "scripts/pullRequestNodeFamilies.js",
+  "scripts/prQualification.js",
+  "scripts/prQualificationCommand.js",
+  "scripts/prQualificationReuse.js",
+  "scripts/prQualificationReuseCommand.js",
 ];
 
 test.each(files.slice(0, 5))(
@@ -48,7 +64,9 @@ test.each(files.slice(0, 5))(
       (step) => step.if === "${{ cancelled() }}" && step.run === "exit 1",
     );
     const evaluateIndex = completion.steps.findIndex((step) =>
-      step.run?.includes("evaluatePullRequestChecks.js"),
+      file === ".github/workflows/full-qualification.yml"
+        ? step.run === "node scripts/prQualificationReuseCommand.js gate"
+        : step.run?.startsWith("node scripts/evaluatePullRequestChecks.js"),
     );
     expect(rejectIndex).toBeGreaterThanOrEqual(0);
     expect(rejectIndex).toBeGreaterThan(evaluateIndex);
@@ -63,10 +81,8 @@ test.each(files.slice(0, 2))("%s preserves npm's test environment", (file) => {
     readFileSync(new URL(`../../${file}`, import.meta.url), "utf8"),
   );
   expect(
-    workflow.jobs.node.steps.some((step) =>
-      step.run?.includes(
-        'npm test -- --runInBand --testPathIgnorePatterns="$ignored"',
-      ),
+    workflow.jobs.node.steps.some(
+      (step) => step.run === "node scripts/runPullRequestNodeChecks.js",
     ),
   ).toBe(true);
 });
@@ -102,28 +118,27 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
       ),
     );
   const discovered = listing([]);
-  const productScript = entry.jobs.node.steps.find((step) =>
-    step.run?.includes("console.log(ignored"),
-  ).run;
-  // Run the actual workflow's exclusion calculation, then discover its suites.
-  const selectionSource = productScript
-    .split("\n")
-    .slice(1, productScript.split("\n").indexOf("NODE"))
-    .join("\n");
-  const ignored = execFileSync(
-    process.execPath,
-    ["--input-type=module", "-e", selectionSource],
-    {
-      encoding: "utf8",
-      env: {
-        ...process.env,
-        PR_CHECK_PLAN: JSON.stringify({
-          scopes: { development: true, style_tooling: true },
-        }),
-      },
-    },
-  ).trim();
-  const product = listing([`--testPathIgnorePatterns=${ignored}`]);
+  expect(
+    entry.jobs.node.steps.some(
+      (step) => step.run === "node scripts/runPullRequestNodeChecks.js",
+    ),
+  ).toBe(true);
+  const scopes = Object.fromEntries(
+    CORE_CHECK_SCOPE_NAMES.map((scope) => [scope, true]),
+  );
+  const plan = {
+    schemaVersion: 4,
+    packageMode: "manual",
+    mode: "full",
+    revision: "a".repeat(40),
+    comparisonBase: null,
+    scopes,
+    requiredJobs: requiredJobsForScopes(scopes),
+  };
+  const repository = fileURLToPath(new URL("../../", import.meta.url));
+  const product = discoverNodeSuites(plan, { root: repository }).map((path) =>
+    join(repository, path),
+  );
   const tooling = development.jobs.checks.steps
     .find((step) => step.run?.startsWith("npm test"))
     .run.split(" ")
@@ -145,8 +160,24 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
 });
 test("reviewed graph accepts every entry point and control input", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedFileCount: 12,
+    verifiedFileCount: 19,
   });
+});
+
+test("narrow native route owns exactly its eleven required control suites", () => {
+  const scopes = Object.fromEntries(
+    CORE_CHECK_SCOPE_NAMES.map((scope) => [scope, scope === "ci_control"]),
+  );
+  const plan = {
+    schemaVersion: 4,
+    packageMode: "disabled",
+    mode: "changed",
+    revision: "a".repeat(40),
+    comparisonBase: "b".repeat(40),
+    scopes,
+    requiredJobs: ["node"],
+  };
+  expect(discoverNodeSuites(plan)).toEqual([...CI_CONTROL_SUITES].sort());
 });
 test.each(files)("rejects a semantic modification to %s", async (changed) => {
   const root = mkdtempSync(join(tmpdir(), "uo-pr-policy-"));
@@ -242,3 +273,102 @@ test("graph has one unconditional PR gate and closed consumer completion sets", 
   for (const consumer of ["development", "ontology", "distribution"])
     expect(full.jobs[consumer].uses).toBe(entry.jobs[consumer].uses);
 });
+
+test("ordinary main admission has a bounded read-only selector and stable closed gate", () => {
+  const full = parse(
+    readFileSync(
+      new URL(
+        "../../.github/workflows/full-qualification.yml",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  expect(full.jobs.select.permissions).toEqual({
+    contents: "read",
+    actions: "read",
+  });
+  expect(full.jobs.gate.permissions).toEqual({ contents: "read" });
+  const reuse = full.jobs.select.steps.find((step) => step.id === "reuse");
+  expect(reuse.run).toBe("node scripts/prQualificationReuseCommand.js select");
+  expect(reuse.env).toEqual({
+    GH_TOKEN: "${{ github.token }}",
+    PR_CHECK_PLAN: "${{ steps.select.outputs.plan }}",
+    UO_PR_QUALIFICATION_REUSE_DISABLED:
+      "${{ vars.UO_PR_QUALIFICATION_REUSE_DISABLED }}",
+  });
+  expect(full.jobs.select.outputs.reuse).toBe(
+    "${{ steps.reuse.outputs.reuse }}",
+  );
+  expect(full.jobs.select.outputs.qualification).toBe(
+    "${{ steps.reuse.outputs.qualification }}",
+  );
+  expect(full.jobs.node.if).toContain("needs.select.outputs.reuse != 'true'");
+  for (const [id, job] of Object.entries(full.jobs))
+    if (id !== "select") expect(job.permissions).toEqual({ contents: "read" });
+  expect(full.jobs.gate.if).toBe("${{ always() }}");
+  expect([...full.jobs.gate.needs].sort()).toEqual(
+    Object.keys(full.jobs)
+      .filter((id) => id !== "gate")
+      .sort(),
+  );
+  expect(full.jobs.gate.env.UO_PR_QUALIFICATION_REUSE_DISABLED).toBe(
+    "${{ vars.UO_PR_QUALIFICATION_REUSE_DISABLED }}",
+  );
+});
+
+function reusablePermissionFailures(workflows) {
+  const rank = { none: 0, read: 1, write: 2 };
+  const failures = [];
+  for (const [path, caller] of Object.entries(workflows)) {
+    for (const [id, job] of Object.entries(caller.jobs)) {
+      if (!job.uses?.startsWith("./.github/workflows/")) continue;
+      const target = job.uses.slice(2),
+        callee = workflows[target];
+      if (!callee) throw Error("Missing actual local reusable workflow");
+      const allowed = job.permissions ?? caller.permissions ?? {};
+      for (const [consumer, called] of Object.entries(callee.jobs)) {
+        for (const [permission, value] of Object.entries(
+          called.permissions ?? callee.permissions ?? {},
+        )) {
+          if (rank[value] > rank[allowed[permission] ?? "none"])
+            failures.push({ path, id, target, consumer, permission });
+        }
+      }
+    }
+  }
+  return failures;
+}
+function actualPolicyWorkflows() {
+  return Object.fromEntries(
+    files
+      .filter((path) => path.endsWith(".yml"))
+      .map((path) => [
+        path,
+        parse(readFileSync(new URL(`../../${path}`, import.meta.url), "utf8")),
+      ]),
+  );
+}
+test("every actual reusable caller permits its callees without token elevation", () => {
+  const workflows = actualPolicyWorkflows();
+  expect(
+    workflows[".github/workflows/manual-mcp-packages.yml"].jobs.qualify
+      .permissions,
+  ).toEqual({ contents: "read", actions: "read" });
+  expect(reusablePermissionFailures(workflows)).toEqual([]);
+});
+test.each(["caller-actions", "caller-contents", "callee-write"])(
+  "rejects reusable permission escalation %s",
+  (scenario) => {
+    const workflows = actualPolicyWorkflows();
+    const caller =
+      workflows[".github/workflows/manual-mcp-packages.yml"].jobs.qualify;
+    if (scenario === "caller-actions") caller.permissions.actions = "none";
+    if (scenario === "caller-contents") caller.permissions.contents = "none";
+    if (scenario === "callee-write")
+      workflows[
+        ".github/workflows/full-qualification.yml"
+      ].jobs.node.permissions.contents = "write";
+    expect(reusablePermissionFailures(workflows).length).toBeGreaterThan(0);
+  },
+);

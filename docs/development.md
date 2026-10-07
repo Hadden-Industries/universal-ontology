@@ -132,8 +132,13 @@ CodeQL retains its separate PR-only cancellation policy and unique non-PR run/at
 Pull requests run, as applicable to the changed files:
 
 - [Ontology validation](../.github/workflows/ontology-validation.yml): the editing policy on the changed sources, policy/publication-gate tests, and the Linux/Windows two-engine qualification of the active set.
-- [Development checks](../.github/workflows/development-checks.yml): changed Markdown on Linux, Python style on Linux, the whole Python test suite on Linux and Windows when Python sources, tests or their runtime change, an offline validation of `skills-lock.json` on Linux when the lock or its tooling changes, and Linux/Windows matrices for affected style tools or development tools.
+- [Development checks](../.github/workflows/development-checks.yml): changed Markdown on Linux, Python style on Linux, Python tests on Linux and Windows when their inputs change, an offline validation of `skills-lock.json` on Linux when the lock or its tooling changes, and Linux/Windows matrices for affected style tools or development tools.
   Development and toolchain verification use `npm run set-up:development`; documentation-only checks install just the locked formatters.
+  Python tests have two native owners: twelve Python-only modules use the hash-locked `.venv` without Node dependency installation; three modules covering Skills/MCP setup and website publication retain full development setup.
+  Both owners keep Linux and Windows coverage.
+  Changes wholly within the twelve known Python-only test files select the Python-only owner; source, mixed, runtime and shared-control changes retain Node-backed assurance.
+  Newly discovered modules belong to the Node-backed family until reviewed.
+  `npm run test:python` still runs every module; `-- --family python-only` and `-- --family node-backed` select the two inventories.
 - [MCP distribution](../.github/workflows/verify-universal-ontology-mcp-distribution.yml): affected application bundle and documentation checks; product tests and website builds have distinct jobs in the caller.
   Downloadable archive, container and npm candidate qualification is disabled automatically by default.
 - [CodeQL](../.github/workflows/codeql.yml).
@@ -143,6 +148,9 @@ Its single selector emits a versioned plan for the tested merge revision; every 
 The final `PR validation` job rejects failed, cancelled, missing, or unexpectedly skipped work and requires a matching completion output from each selected consumer.
 Reusable consumers also check their internal jobs before publishing that output.
 CodeQL remains separate and is not included in this functional gate.
+When automatic package CI is disabled, a change wholly within the six reviewed MCP release-control inputs selects eleven native control suites in the existing Node consumer.
+This selected coverage does not claim full product qualification.
+Mixed or shared-control changes retain conservative coverage; explicit package CI retains its artifact obligations.
 The `main` ruleset requires `PR validation` from the GitHub Actions app and requires PRs to be up to date with `main`.
 The obsolete `OWL Differential Analysis` required context and duplicate workflow triggers have been removed after live failure trials.
 CodeQL is not a required status in that ruleset; fork PR analysis remains limited by its same-repository condition.
@@ -180,10 +188,31 @@ No trusted cache warmer is introduced before measurement.
 
 When editing the execution policy, update its schema and regenerate the standalone validator with `node scripts/generatePullRequestCheckPlanValidator.js --write`.
 Use `--check` to verify freshness without writing.
-The distribution verifier also checks an explicit twelve-file policy manifest covering the entry points, reusable consumers, selection/evaluation inputs and manual candidate validator.
+The distribution verifier also checks an explicit nineteen-file policy manifest covering the entry points, reusable consumers, selection/evaluation inputs, native test runners and manual candidate validator.
 A semantic workflow or control-input change requires coordinated review, updated assertions, negative tests, and a deliberate digest update.
 
 `scripts/selectPullRequestChecks.js` decides which jobs apply from the changed paths.
 Authored documentation selects only its content check; preserved documents do not select style checks by themselves.
 Mixed changes retain every applicable consumer check.
 Unselected ontology work needs no Python provisioning; the aggregate independently verifies selection and every selected consumer's completion receipt.
+
+Reviewed test-only edits can select the complete build, import-closure, query/projection, frontend, MCP, distribution or utility family inside the existing Node consumer. The closed inventory contains 74 existing test files. Mixed known test families run their union. Source, fixture, dependency, new/unknown test, deletion, rename and shared-control changes retain the conservative route.
+Full qualification retains complete discovery and tooling ownership.
+No production website build is needed solely for an isolated reviewed test-file edit; fixture builds within its selected family still execute.
+
+The initial PR qualification writer retains selected MCP-control execution only after the existing gate and native job/output identities agree.
+It records exact tested merge/tree/parents, host and locked tool inputs, native suite/assertion labels/counts, and each producing job attempt.
+Forks, other selected plans and unavailable evidence retain fresh behavior without a reusable record.
+Receipts expire after three days.
+Ordinary main qualification may reuse only this directly executed MCP-control proof after an exact, same-repository two-parent integration.
+The selector authenticates the latest successful original PR run and every producing job attempt, the tested and landed Git tree/parents/workflow, the current supported environment, and the native artifact ID, digest, expiry and bounded ZIP bytes.
+It rereads the source run and artifact after checking jobs; a newer failed or pending run, rerun, mismatch, missing evidence or exhausted budget selects fresh work.
+Only the selected Node consumer may be omitted; the stable full completion gate verifies the source record and current checkout, and rejects unexpected, failed or cancelled consumers.
+The reused result remains original PR evidence and is never reissued as fresh execution.
+Schedules, manual runs, reusable publication callers, broader input scopes, package opt-in, squash/rebase/direct or multi-commit pushes remain fresh.
+The manual package qualification caller grants read-only Actions permission because reusable workflows cannot elevate their caller token; its selector still chooses fresh work.
+Set the independent Actions variable `UO_PR_QUALIFICATION_REUSE_DISABLED` to literal `true` to force fresh work; this implementation does not write that repository setting.
+Admission permits at most 32 bounded JSON reads and one exact-ID native archive operation within 60 seconds; each operation has a ten-second ceiling.
+The native Git snapshot has a 30-second total budget and 1 MiB per-call bound; JSON API responses are limited to 2 MiB, the ZIP to 128 KiB, the sole regular `qualification.json` member to 512 KiB and the job output to 400 KiB.
+The existing GitHub CLI transports authenticated archive bytes, and the Ubuntu runner's native Info-ZIP 6.00 inspects and reads the single member without extracting files.
+Unavailable native tooling retains fresh work; no npm provisioning is added to the selector.

@@ -94,29 +94,43 @@ const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/pr-validation.yml":
-    "6406ad86a0a71b39e11ecc0110a930ace76478f1a40e8111ab5def2634cbe528",
+    "c44778cfad45ae8e4968cc21b164b6e4c77541ae856a6eed5f84f1a2e1698100",
   ".github/workflows/full-qualification.yml":
-    "bfe5ad0b10efcb4f8a4e20b36713c0609109c3e5f6c0f2ac44e9dca3cf292439",
+    "eb7643815d915847326b2e61e2a3c388a5ebf848d5f8b4d290aa290194e62ba2",
   ".github/workflows/development-checks.yml":
-    "67e05388752a8c01f9d0e7c12fd67415817c01938d5bd47334bcc9d0278e4852",
+    "3dd9ed19edbe368c43d6ee709adb1394a1945c57cc624af1a5e259c5554588c3",
   ".github/workflows/ontology-validation.yml":
     "5f304338b3a980f6ac93799314fb3a1f4915443230e3f646ad8bd41a0979dd3b",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
     "e45379bed46801ae003e43c8edaa67dc716f41bcdb294fd3efe46b8cc459d8d3",
   "scripts/selectPullRequestChecks.js":
-    "94d706f8568ada4634df819bf99fb6c77915862f8dd2ffbea6274c150f6a0b24",
+    "c5627cb628b65b0dcd6360081e345c161f2afc90d1af3e378ff837b725d06458",
   "scripts/evaluatePullRequestChecks.js":
-    "e805c4dddfc25f13f27eb476ab130f86493c59a5b105acd413a45060648cc7bf",
+    "691652f2b4d1b1c12a38c0732d89f3672ef80570a1944853602f78c61669c1b4",
   "scripts/pullRequestCheckPlan.schema.json":
-    "b93465953798b1ae14ba488c46aa786819dd87e68581bd8299a83748f92f7391",
+    "8c3d8df24e5abedaeb754e86fd54920489b585029cd999bc5d4690385d8759fe",
   "scripts/pullRequestCheckPlanValidator.js":
-    "4a3d4f66817eb3c416abd7f84f17ce60a8af665c0bb43221f2279c3c054078cc",
+    "1bd68d82d0b2a3fec1b8bba97d6c20a9b62c91047b485f79732c7e66f13c63a7",
   "scripts/generatePullRequestCheckPlanValidator.js":
     "2f41ef656395f39d1a364ca8d66e872cf75cca5e80cad7948526b4f33ae0554b",
   ".github/workflows/manual-mcp-packages.yml":
-    "16cf1e191c4744b573852a4004356956216d47f6b32c78809da2e1f08c5b903f",
+    "c6cf42b815a475ddf496c52eb1fd356c83c20ca7519144261cc3cf394859d857",
   "scripts/distribution/prepareManualMcpRelease.js":
     "f601d23f0f2c62b830f1f8b509a90439618ce1295c5ba9d908b8b42b7ae9080a",
+  "scripts/runPullRequestNodeChecks.js":
+    "c0b18609c6d1b31440f9306c0fddecdc792f289386d2030da76780a5a7234a37",
+  "scripts/prQualification.js":
+    "5cd0e74b7543f109a52df5ecdea7f71e08fe9dfc2907fde75235158093f57f36",
+  "scripts/prQualificationReuse.js":
+    "593f0590c01b00c70fbf4992527d338087f56f5dd0b4b65ad23b8cb3379e7e5b",
+  "scripts/prQualificationReuseCommand.js":
+    "69db0f86f461d850b92f88a6f3e9d149e42da0c07b4dedd43f513c6035dbe16d",
+  "scripts/prQualificationCommand.js":
+    "f7c00852ec2baede4d780a12cf29e8cb292c4cfb63dd45b196f1d5a889f31046",
+  "scripts/pullRequestNodeFamilies.js":
+    "d9e667461bde95dbe4c972423fff831366f4b29428605a291c2d09c42fb0a56f",
+  "scripts/runTestsInParallel.py":
+    "de989eff85073e876136e9a82e104c0bdd6419459119b5759f840e2faaaed8f1",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.
@@ -126,7 +140,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
 export async function verifyPullRequestPolicyGraph({
   root = REPOSITORY_ROOT_PATH,
 } = {}) {
-  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 12)
+  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 19)
     throw new Error("PR policy allowlist is incomplete.");
   for (const [path, expected] of Object.entries(REVIEWED_PR_POLICY_FILES)) {
     const text = (await readBoundedRegularFile(join(root, path)))
@@ -174,9 +188,14 @@ export async function verifyPullRequestPolicyGraph({
               "id-token": "write",
             }
           : path === ".github/workflows/manual-mcp-packages.yml" &&
-              id === "validate"
+              ["validate", "qualify"].includes(id)
             ? { contents: "read", actions: "read" }
-            : { contents: "read" },
+            : (path === ".github/workflows/pr-validation.yml" &&
+                  id === "gate") ||
+                (path === ".github/workflows/full-qualification.yml" &&
+                  id === "select")
+              ? { contents: "read", actions: "read" }
+              : { contents: "read" },
         "PR job permission ceiling",
       );
     }
