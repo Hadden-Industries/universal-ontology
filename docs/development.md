@@ -17,6 +17,7 @@ npm run configure:git-hooks
 
 - checks the Node.js, npm and Python versions;
 - runs `npm ci --include=dev --ignore-scripts` from `package-lock.json`;
+- acquires the separate integrity-pinned Markdown tooling graph with anonymous registry settings and lifecycle scripts disabled;
 - creates `.venv` if it does not exist (an unusable existing `.venv` stops setup so you can repair it), then installs `requirements.lock.txt` with `--require-hashes --only-binary=:all:` and refuses a `.venv` whose installed distributions differ from that lock;
 - runs `pip check`;
 - warns if the AWS CLI is missing (only deployment needs it).
@@ -81,30 +82,33 @@ Report failures, skips and checks you could not run as they are.
 
 ### Python and Markdown style
 
-`npm run check:style` runs Python linting and formatting checks, Markdown checks, and the prose-tool regression tests.
+`npm run check:style` runs full Markdown checking, Python linting and Python formatting checks.
 `npm run lint:python:fix` applies Ruff's safe fixes; `npm run format:python` formats Python.
-Ruff checks correctness and import ordering with the Python version declared in `ruff.toml`.
-`npm run fix:all` includes these controls alongside the existing frontend fixes.
+Ruff retains its configured Python scope and runtime.
 
-`npm run format:docs` combines Prettier's Markdown layout with native Snapper sentence breaks.
-`npm run format:docs:check` checks without writing, including native prose diagnostics even when Snapper's preservation backstop leaves a document unchanged.
-Such findings can require manual sentence breaks.
-Supply `-- --base <full-commit-SHA> --head <full-commit-SHA>` to check only authored documents added or changed between two commits.
-The documents are read from the current checkout; CI checks out the compared head.
-Renamed destinations are included, deleted files are omitted, and the current ignore rules still apply.
-Both operations select root Markdown, `docs/**/*.md`, and `packages/*/*.md` through Prettier's API and the current `.gitignore` and `.prettierignore`; negated ignore patterns work the same way in checks and fixes.
-Markdown prose wrapping and embedded-language formatting are disabled in Prettier, and Snapper uses unlimited sentence width without clause breaks.
-Use `prettier-ignore` on literal examples whose trailing spaces carry meaning.
+`npm run install:markdown` installs the isolated development-only graph in `tooling/markdown` using public registry credentials, empty npm configuration files and no lifecycle scripts.
+`npm run check:markdown` invokes the maintained native capability in full-selection mode without writing or installing anything.
+`npm run format:markdown` formats the same complete corpus; preservation guards reject changes to parsed meaning or literals.
+Both support `-- --json` for the capability's canonical result schema.
+Exit 0 means clean, 1 means quality findings, and 2 means an operational failure; consumers must check process and report identity together.
+Changed-path shortcuts are rejected because deleting a non-Markdown link target can break an unchanged document.
 
-The preserved scope includes `AGENTS.md`, `docs/reviews/`, `docs/sdlc/`, `docs/plans/sdlc-improvements/`, `docs/policy/migration-evidence.md`, and the generated `docs/policy/Editing-Policy.generated.md`.
-Generated policy still has its dedicated freshness check.
-Dependencies, vendored sources, generated output and Python fixtures are excluded from Ruff as configured in `ruff.toml`.
+The policy is `"include": ["**/*.md"]` with no repository-document exceptions and no ignore inputs.
+This includes agent instructions, reviews, historical plans, generated policy, vendored Markdown and fixtures.
+Installed tooling, dependencies, virtual environments, Git metadata and build outputs are infrastructure; an independent Git inventory rejects any tracked Markdown hidden beneath their exclusions.
+Repair missing physical-file links against real files or pinned historical sources; source annotations that are plain prose must be escaped as plain prose.
+Strict whitespace and heading rules remain enabled.
+Generated policy is formatted by its generator through the same maintained capability before output or freshness comparison; regenerate with `npm run generate:editing-policy`.
 
-`npm run check:qualification` includes Python and Markdown checks.
-The distribution jobs retain `test:node`, `lint:node`, `format:node:check`, and the Prettier-only `format:docs:prettier:check` so their Node-only environments do not acquire a Python dependency.
-Ordinary Markdown edits run one Linux documentation job, installing only Prettier and Snapper from the existing lockfiles, including their integrity hashes.
-Python source edits select Python lint and formatting checks separately.
-Changes to the style tools, dependencies, configuration, or workflow select the Linux/Windows toolchain regression matrix and a complete documentation check.
+Every functional PR/main route runs a fresh full-corpus check and native trust probes on Windows and Ubuntu, even for a target-only change.
+Documentation does not select unrelated product or ontology work.
+The existing selected Node assertion reuse remains authenticated and bounded; it never reuses Markdown checking, and the main gate still requires fresh Markdown completion at the exact main revision.
+The separate trusted dispatch workflow uses reviewed default-branch tooling and treats the candidate exclusively as data.
+Its six-run resource windows and provider identities are retained as qualification evidence, separate from ordinary CI.
+
+`npm run check:qualification` includes full Markdown, trust and resource-observer probes before wider product verification.
+The application's workspaces and shipped dependency graph do not include the AGPL Markdown tooling.
+Python source edits retain their existing independent checks; style-tool/configuration changes retain the platform regression matrix.
 
 ## Publication safeguards
 

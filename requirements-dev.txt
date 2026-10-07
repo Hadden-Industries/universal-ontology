@@ -10,6 +10,5 @@ PyYAML>=6.0.3
 # because native `pip lock` hashes only the running platform's wheels.
 pip-tools>=7.6.1
 
-# Python lint/format and native Markdown semantic-line formatting.
+# Python linting and formatting; Markdown uses the separate Node/native graph.
 ruff>=0.16.10
-snapper-fmt>=0.11.9

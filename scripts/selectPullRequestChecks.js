@@ -76,6 +76,8 @@ export function requiredJobsForScopes(scopes) {
       scopes[scope] === true ? jobs : [],
     ),
   );
+  // Every functional route owns a fresh full-corpus Markdown matrix.
+  selected.add("development");
   return CORE_CHECK_CONSUMER_IDS.filter((id) => selected.has(id));
 }
 
@@ -165,16 +167,21 @@ export const CHECK_INPUTS = {
     ".gitignore",
     ".prettierignore",
     ".prettierrc.json",
-    ".snapperrc.toml",
+    ".markdown-quality.json",
+    "tooling/markdown",
     "ruff.toml",
     ".github/workflows/development-checks.yml",
-    "scripts/formatDocumentation.js",
-    "scripts/prepareDocumentationTools.js",
+    "scripts/runMarkdownQuality.mjs",
+    "scripts/installMarkdownTools.mjs",
+    "scripts/check-markdown-candidate.mjs",
+    "scripts/check-markdown-candidate.probes.mjs",
+    "scripts/observe-markdown-window.py",
+    "scripts/observe-markdown-window.probes.py",
+    "scripts/run-markdown-window.mjs",
     "scripts/preparePythonStyleTools.js",
     "scripts/setUpDevelopmentEnvironment.js",
     "scripts/runRepositoryPython.js",
-    "tests/prose-formatting.test.js",
-    "tests/documentation-tools.test.js",
+    "tests/markdown-quality.test.js",
     "tests/python-style-tools.test.js",
   ],
   python_style: [
@@ -203,24 +210,7 @@ export const CHECK_INPUTS = {
     ":(glob)tests/**/*.py",
     "tests/fixtures",
   ],
-  documentation: [
-    ":(glob)*.md",
-    ":(glob)docs/**/*.md",
-    ":(glob)packages/*/*.md",
-    ":(exclude)AGENTS.md",
-    ":(exclude)docs/reviews",
-    ":(exclude)docs/sdlc",
-    ":(exclude)docs/plans/sdlc-improvements",
-    ":(exclude)docs/policy/migration-evidence.md",
-    ":(exclude)docs/policy/Editing-Policy.generated.md",
-    ":(exclude)src/external",
-    ":(exclude)tests/fixtures",
-    ":(exclude)dist",
-    ":(exclude).agents/skills",
-    ":(exclude).claude/skills",
-    ":(exclude).agent-tools",
-    ":(exclude).sdlc",
-  ],
+  documentation: [":(glob)**/*.md"],
   // This is a conservative preflight only. The Python runner remains the
   // authority for exact ontology selection after a possible input changes.
   ontology_validation: [
@@ -735,7 +725,7 @@ export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
   scopes.mcp_artifacts = packageMode !== "disabled" && scopes.mcp_artifacts;
   scopes.mcp_release_qualification = packageMode === "manual";
   return assertCheckPlan({
-    schemaVersion: 4,
+    schemaVersion: 5,
     packageMode,
     mode: full ? "full" : "changed",
     revision,

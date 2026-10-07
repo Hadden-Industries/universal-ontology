@@ -24,6 +24,7 @@ import {
   assertPrQualificationRecord,
   eligiblePrQualificationPlan,
   PR_QUALIFICATION_JOB_NAMES,
+  PR_QUALIFICATION_SUCCESS_JOB_NAMES,
   PR_WORKFLOW,
 } from "../scripts/prQualification.js";
 import {
@@ -150,7 +151,7 @@ function fixture() {
     CORE_CHECK_SCOPE_NAMES.map((name) => [name, name === "ci_control"]),
   );
   const plan = {
-    schemaVersion: 4,
+    schemaVersion: 5,
     mode: "changed",
     packageMode: "disabled",
     revision: snapshot.commit,
@@ -199,9 +200,12 @@ function fixture() {
     ].map((name) => [
       name,
       {
-        result: ["select", "node"].includes(name) ? "success" : "skipped",
-        outputs:
-          name === "node" ? { "verified-revision": snapshot.commit } : {},
+        result: ["select", "node", "development"].includes(name)
+          ? "success"
+          : "skipped",
+        outputs: ["node", "development"].includes(name)
+          ? { "verified-revision": snapshot.commit }
+          : {},
       },
     ]),
   );
@@ -218,7 +222,7 @@ function fixture() {
     run_started_at: "2026-10-06T19:55:00Z",
   };
   const jobs = {
-    total_count: 7,
+    total_count: PR_QUALIFICATION_JOB_NAMES.length,
     jobs: PR_QUALIFICATION_JOB_NAMES.map((name, index) => ({
       id: 1000 + index,
       name,
@@ -229,7 +233,7 @@ function fixture() {
       conclusion:
         name === "PR validation"
           ? null
-          : ["select", "node"].includes(name)
+          : PR_QUALIFICATION_SUCCESS_JOB_NAMES.includes(name)
             ? "success"
             : "skipped",
     })),
@@ -508,6 +512,7 @@ test("native producer binds a real Git merge and retains one closed private reco
     input.context.event.pull_request.base.sha = base;
     input.context.event.pull_request.head.sha = head;
     input.needs.node.outputs["verified-revision"] = snapshot.commit;
+    input.needs.development.outputs["verified-revision"] = snapshot.commit;
     input.nativeNode.revision = snapshot.commit;
     input.nativeNode.environment.node = process.version;
     input.nativeNode.environment.npm = execFileSync(

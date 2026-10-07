@@ -30,6 +30,23 @@ The inspected HISEW profiles are `focused` = `test:unit`, `affected` = `test:con
 Use the existing full profile for native final verification, with Markdown integration and trust probes in the updated qualification aggregate.
 The inspected local runtime is Node `24.21.0`; anonymous registry readback still identifies release `1.0.3` and its recorded core integrity.
 
+#### Bounded cutover baseline amendment
+
+The reviewed bootstrap was integrated by normal merge PR #130 as `dd6cea2f2369438465917ae24cd85ce6709a56fa`.
+Hosted shadow run `37556387729` acquired and exercised release 1.0.3 on Windows x64 and Ubuntu 24.04 x64 with Node 24.21.0, selected all 112 tracked Markdown files, and retained truthful preservation failures from the unmodified corpus.
+It is bootstrap/install evidence, not a successful six-sample cutover window.
+The accepted corpus is expanded to all repository Markdown; original tracked bytes and the installed Python distribution inventory are retained externally before cutover.
+The lock pins `snapper-fmt==0.11.9`, but the retained local inventory contains `0.11.7`.
+After that discrepancy was reported, the owner separately approved uninstalling only the actually installed `snapper-fmt==0.11.7` from the existing repository environment at qualified cutover.
+
+Schema 5 makes the development consumer and its full Markdown matrix mandatory for every functional route while leaving the input-derived product scopes unchanged.
+Selected Node reuse retains its eleven directly executed control suites and exact native workflow/job/attempt/source/artifact admission, with a new policy identity and the expanded native job inventory required by mandatory Markdown.
+Both PR and main require fresh Markdown completion; main reuse omits only selected Node execution.
+The release-policy allowlist is extended and re-digested for the new executable/policy/tool-lock inputs only after coordinated source review and negative tests.
+Old version-4 records cannot authorize the new contract.
+The active policy generator invokes the canonical formatter before producing or comparing generated Markdown.
+Historical supplied-byte hashes retain their original capture identity; normalized reading copies do not become retroactive original-byte proof.
+
 The owner requested this proposal using the successful Markdown Quality integrations as precedents.
 It proposes a bounded R2 developer-tooling and CI migration; its requirements, decisions, scopes and operating targets require acceptance before implementation.
 Universal Ontology is registered and active in personal HISEW mode.

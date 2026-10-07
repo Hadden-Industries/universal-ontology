@@ -26,7 +26,7 @@ function plan(selected = ["ci_control"]) {
     CORE_CHECK_SCOPE_NAMES.map((scope) => [scope, selected.includes(scope)]),
   );
   return {
-    schemaVersion: 4,
+    schemaVersion: 5,
     packageMode: "disabled",
     mode: "changed",
     revision: "a".repeat(40),
@@ -45,7 +45,7 @@ test("full Node ownership preserves actual development exclusions", () => {
     plan(["product_tests", "development", "style_tooling"]),
   );
   expect(args[0]).toContain("pr-check-scopes");
-  expect(args[0]).toContain("documentation-tools");
+  expect(args[0]).toContain("markdown-quality");
   expect(nodeCheckArguments(plan(["product_tests"]))[0]).not.toContain(
     "pr-check-scopes",
   );

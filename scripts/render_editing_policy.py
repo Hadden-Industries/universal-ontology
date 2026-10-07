@@ -6,7 +6,11 @@ cannot be loaded or fails its own metadata contract.
 """
 
 import argparse
+import json
+import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -18,6 +22,42 @@ from ontology_policy.rendering import (  # noqa: E402
     GENERATED_DOCUMENT_PATH,
     render_editing_policy,
 )
+
+
+def format_generated_document(rendered: str) -> bytes:
+    """Let the maintained capability own final layout before generation or comparison."""
+    root = Path(__file__).resolve().parent.parent
+    cli = (
+        root
+        / "tooling/markdown/node_modules/@hadden-industries/markdown-quality/src/cli.js"
+    )
+    node = shutil.which("node")
+    if node is None or not cli.is_file():
+        raise RuntimeError(
+            "Run npm run install:markdown before policy generation/checking"
+        )
+    with tempfile.TemporaryDirectory(prefix="uo-generated-markdown-") as temporary:
+        scratch = Path(temporary)
+        shutil.copyfile(
+            root / ".markdown-quality.json", scratch / ".markdown-quality.json"
+        )
+        output = scratch / "Editing-Policy.generated.md"
+        output.write_bytes(rendered.encode("utf-8"))
+        result = subprocess.run(
+            [node, str(cli), "format", "--root", str(scratch), "--json"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=120,
+            check=False,
+        )
+        report = json.loads(result.stdout)
+        if result.returncode != 0 or report.get("exitCode") != 0:
+            raise RuntimeError(
+                "Generated policy failed canonical Markdown quality: "
+                + result.stdout[:2048]
+            )
+        return output.read_bytes()
 
 
 def main(argv=None) -> int:
@@ -43,10 +83,16 @@ def main(argv=None) -> int:
     )
     args = parser.parse_args(argv)
     try:
-        rendered = render_editing_policy(load_policy(args.policy_directory)).encode(
-            "utf-8"
+        rendered = format_generated_document(
+            render_editing_policy(load_policy(args.policy_directory))
         )
-    except PolicyDefinitionError as error:
+    except (
+        PolicyDefinitionError,
+        RuntimeError,
+        OSError,
+        ValueError,
+        subprocess.TimeoutExpired,
+    ) as error:
         print(f"POLICY_DEFINITION_ERROR: {error}", file=sys.stderr)
         return 2
     if args.check:

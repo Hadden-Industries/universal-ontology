@@ -55,17 +55,13 @@ export function nodeCheckArguments(plan, { families = null } = {}) {
     )
   )
     return ["--runTestsByPath", ...suitesForNodeFamilies(families)];
-  const ignored = [
-    "/node_modules/",
-    "/.sdlc/runtime/",
-    "/tests/prose-formatting.test.js$",
-  ];
+  const ignored = ["/node_modules/", "/.sdlc/runtime/"];
   if (plan.scopes.development)
     ignored.push(
       "/tests/(configure-git-hooks|set-up-development-environment|run-repository-python|development-workflow|pr-check-scopes).test.js$",
     );
   if (plan.scopes.style_tooling)
-    ignored.push("/tests/(documentation-tools|python-style-tools).test.js$");
+    ignored.push("/tests/(markdown-quality|python-style-tools).test.js$");
   return [`--testPathIgnorePatterns=${ignored.join("|")}`];
 }
 

@@ -250,7 +250,7 @@ describe("native Git PR check selection", () => {
   ])("isolated reviewed native test %s selects only Node", (path) => {
     write(path);
     commit([path]);
-    expect(corePlan().requiredJobs).toEqual(["node"]);
+    expect(corePlan().requiredJobs).toEqual(["development", "node"]);
     expect(corePlan().scopes.product_tests).toBe(true);
   });
   test("mixed native test and source retains production work", () => {
@@ -309,8 +309,8 @@ describe("native Git PR check selection", () => {
       write(path);
       commit([path]);
       const plan = corePlan();
-      expect(plan.schemaVersion).toBe(4);
-      expect(plan.requiredJobs).toEqual(["node"]);
+      expect(plan.schemaVersion).toBe(5);
+      expect(plan.requiredJobs).toEqual(["development", "node"]);
       expect(
         Object.entries(plan.scopes)
           .filter(([, value]) => value)
@@ -332,7 +332,7 @@ describe("native Git PR check selection", () => {
     ];
     paths.forEach((path) => write(path));
     commit(paths);
-    expect(corePlan().requiredJobs).toEqual(["node"]);
+    expect(corePlan().requiredJobs).toEqual(["development", "node"]);
   });
 
   test.each([
@@ -445,7 +445,11 @@ describe("native Git PR check selection", () => {
   test("new distribution tooling selects product and application assurance by default", () => {
     write("scripts/distribution/new-runtime.js");
     commit(["scripts/distribution/new-runtime.js"]);
-    expect(corePlan().requiredJobs).toEqual(["node", "distribution"]);
+    expect(corePlan().requiredJobs).toEqual([
+      "development",
+      "node",
+      "distribution",
+    ]);
     expect(corePlan().scopes.mcp_application).toBe(true);
     expect(corePlan().scopes.mcp_artifacts).toBe(false);
   });
@@ -715,22 +719,22 @@ describe("native Git PR check selection", () => {
     ["docs/development.md", ["documentation"]],
     ["packages/universal-ontology-mcp-server/README.md", ["documentation"]],
     ["scripts/ontology_policy/validation.py", ["python_style"]],
-    ["scripts/formatDocumentation.js", ["style_tooling"]],
-    ["scripts/prepareDocumentationTools.js", ["style_tooling"]],
-    ["tests/prose-formatting.test.js", ["style_tooling"]],
-    ["tests/documentation-tools.test.js", ["style_tooling"]],
+    ["scripts/runMarkdownQuality.mjs", ["style_tooling"]],
+    ["scripts/installMarkdownTools.mjs", ["style_tooling"]],
+    ["tests/markdown-quality.test.js", ["style_tooling"]],
+    ["scripts/check-markdown-candidate.probes.mjs", ["style_tooling"]],
     ["ruff.toml", ["style_tooling"]],
     [".prettierignore", ["style_tooling"]],
     [".gitignore", ["style_tooling"]],
     [".prettierrc.json", ["style_tooling"]],
-    [".snapperrc.toml", ["style_tooling"]],
+    [".markdown-quality.json", ["style_tooling"]],
     ["requirements.lock.txt", ["style_tooling"]],
-    ["docs/reviews/external.md", []],
-    ["docs/sdlc/baseline.md", []],
-    ["docs/plans/sdlc-improvements/README.md", []],
-    ["docs/policy/Editing-Policy.generated.md", []],
-    ["docs/policy/migration-evidence.md", []],
-    ["AGENTS.md", []],
+    ["docs/reviews/external.md", ["documentation"]],
+    ["docs/sdlc/baseline.md", ["documentation"]],
+    ["docs/plans/sdlc-improvements/README.md", ["documentation"]],
+    ["docs/policy/Editing-Policy.generated.md", ["documentation"]],
+    ["docs/policy/migration-evidence.md", ["documentation"]],
+    ["AGENTS.md", ["documentation"]],
     ["src/external/vendor.py", []],
     ["src/universal/example.ttl", []],
   ])("selects the applicable style consumer for %s", (path, selected) => {
@@ -960,7 +964,7 @@ describe("native Git PR check selection", () => {
     ["docs/sdlc/baselines/issue-1/v1.json", []],
     ["docs/sdlc/verification.md", []],
     ["docs/sdlc/README.md", []],
-    ["AGENTS.md", []],
+    ["AGENTS.md", ["documentation"]],
     [".codex/config.toml", []],
     [".github/PULL_REQUEST_TEMPLATE.md", []],
     ["scripts/set_up_mcp_servers.py", ["development"]],

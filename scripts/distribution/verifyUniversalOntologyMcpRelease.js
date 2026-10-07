@@ -88,7 +88,7 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "e45379bed46801ae003e43c8edaa67dc716f41bcdb294fd3efe46b8cc459d8d3";
+  "0c675e0966118472dbe7fdcd8392a7f5d600138a1eab7b8bcfbd8bd5d464dbc9";
 
 // Explicit reviewed execution graph; values are refreshed only with coordinated
 // source review and rejection tests, never learned from candidate artifacts.
@@ -98,19 +98,19 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/full-qualification.yml":
     "eb7643815d915847326b2e61e2a3c388a5ebf848d5f8b4d290aa290194e62ba2",
   ".github/workflows/development-checks.yml":
-    "3dd9ed19edbe368c43d6ee709adb1394a1945c57cc624af1a5e259c5554588c3",
+    "7628f2f95aafc0dbe958642ed6f1db2cbaebb6b19ae7c10f26b9e38b764fe8ef",
   ".github/workflows/ontology-validation.yml":
-    "5f304338b3a980f6ac93799314fb3a1f4915443230e3f646ad8bd41a0979dd3b",
+    "e5f819709950ea70647ed5514757d870f09ddf0fdb45aef17d1acf9a8d777538",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
-    "e45379bed46801ae003e43c8edaa67dc716f41bcdb294fd3efe46b8cc459d8d3",
+    "0c675e0966118472dbe7fdcd8392a7f5d600138a1eab7b8bcfbd8bd5d464dbc9",
   "scripts/selectPullRequestChecks.js":
-    "c5627cb628b65b0dcd6360081e345c161f2afc90d1af3e378ff837b725d06458",
+    "90067842988e976c50b2ed753fcc8ca7ec5f949ff3aac2fbbd06cbb773807d56",
   "scripts/evaluatePullRequestChecks.js":
-    "691652f2b4d1b1c12a38c0732d89f3672ef80570a1944853602f78c61669c1b4",
+    "2a0790abf6aac5580a4073e2fa1e0f67f0e704e5bfb99cfc9cdb088ed3a99a0b",
   "scripts/pullRequestCheckPlan.schema.json":
-    "8c3d8df24e5abedaeb754e86fd54920489b585029cd999bc5d4690385d8759fe",
+    "19e3917230870c30c1891b4aadccf78769ac8f9ae2d3a6ff4888e9bc2885ab00",
   "scripts/pullRequestCheckPlanValidator.js":
-    "1bd68d82d0b2a3fec1b8bba97d6c20a9b62c91047b485f79732c7e66f13c63a7",
+    "e6bc3d05726b75b12b517603b80c65f0a1c9a43ec318620f40adadebab5484b9",
   "scripts/generatePullRequestCheckPlanValidator.js":
     "2f41ef656395f39d1a364ca8d66e872cf75cca5e80cad7948526b4f33ae0554b",
   ".github/workflows/manual-mcp-packages.yml":
@@ -118,11 +118,11 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/distribution/prepareManualMcpRelease.js":
     "f601d23f0f2c62b830f1f8b509a90439618ce1295c5ba9d908b8b42b7ae9080a",
   "scripts/runPullRequestNodeChecks.js":
-    "c0b18609c6d1b31440f9306c0fddecdc792f289386d2030da76780a5a7234a37",
+    "56ff34ca555fcb1070b6557612708d9984d646b2d45f2dd0eeb06491e7806759",
   "scripts/prQualification.js":
-    "5cd0e74b7543f109a52df5ecdea7f71e08fe9dfc2907fde75235158093f57f36",
+    "9c96a91288a0a7eae7c9d8d29b47d1f17fa66b28d787512e2f3e179fde3141e2",
   "scripts/prQualificationReuse.js":
-    "593f0590c01b00c70fbf4992527d338087f56f5dd0b4b65ad23b8cb3379e7e5b",
+    "fadfeaeffc9d780950d4d4c118a03dea5dcd7641a899e5ab29a964c086d86c3d",
   "scripts/prQualificationReuseCommand.js":
     "69db0f86f461d850b92f88a6f3e9d149e42da0c07b4dedd43f513c6035dbe16d",
   "scripts/prQualificationCommand.js":
@@ -131,6 +131,32 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
     "d9e667461bde95dbe4c972423fff831366f4b29428605a291c2d09c42fb0a56f",
   "scripts/runTestsInParallel.py":
     "de989eff85073e876136e9a82e104c0bdd6419459119b5759f840e2faaaed8f1",
+  ".markdown-quality.json":
+    "c19c28d9b3d055d56af73d28b7f7cd8aaf835b7224b243df2ca0e1ba321f9df3",
+  "tooling/markdown/package.json":
+    "94f4305354d4dbfee78ad430e5a7672e07ab6e783939a1b1c434fffd22da853a",
+  "tooling/markdown/package-lock.json":
+    "cd3659011575ea158d2d358139a345af85c7683df9adab59cac52c164afe6aac",
+  ".github/workflows/markdown-quality.yml":
+    "9a9d76ea70888076ae2134e7ff09d38fd13624b35c9f1479dca76a41b54dd09c",
+  "scripts/runMarkdownQuality.mjs":
+    "8cfb898a5d8b2a2f056db845215f03ce2de2de7ca6165f10be6e52fc089d1b7a",
+  "scripts/installMarkdownTools.mjs":
+    "bf61a90e32cda5a8ed463a423eaf1f68ad638266ce225d265a704a5532cd4b2d",
+  "scripts/check-markdown-candidate.mjs":
+    "6749d76ee794f9ec63ba19faad0b457852f4e93f57734ccb12eba5c57a8c5a3f",
+  "scripts/check-markdown-candidate.probes.mjs":
+    "ea7d37cde027288eda74b43853ef46893fbcfca34df5ed495767776ce885abe5",
+  "scripts/observe-markdown-window.py":
+    "59f6f65f7ef1b413de23a16bf6c64f195bb27dd2dc1dd45d805b6f3768592f87",
+  "scripts/observe-markdown-window.probes.py":
+    "ab303f493c0e307331839600d319fdf07e753b1667bfedb86ff1a9ecb1ee44b5",
+  "scripts/run-markdown-window.mjs":
+    "e30a84c1edc0d4045749a97a5e17dfb858f5f3eed7ac8f14de03448258bf2567",
+  "scripts/render_editing_policy.py":
+    "e48ebb6fbcefeaba772eb2613de16cf17f7686000824f87e86a09e2dfa58d3eb",
+  "scripts/setUpDevelopmentEnvironment.js":
+    "1c6196a978f8c498d941c3dc91862df65388d1bfb72279194d84267f6f648859",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.
@@ -140,7 +166,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
 export async function verifyPullRequestPolicyGraph({
   root = REPOSITORY_ROOT_PATH,
 } = {}) {
-  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 19)
+  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 32)
     throw new Error("PR policy allowlist is incomplete.");
   for (const [path, expected] of Object.entries(REVIEWED_PR_POLICY_FILES)) {
     const text = (await readBoundedRegularFile(join(root, path)))

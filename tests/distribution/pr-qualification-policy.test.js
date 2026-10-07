@@ -33,12 +33,25 @@ const files = [
   ".github/workflows/manual-mcp-packages.yml",
   "scripts/distribution/prepareManualMcpRelease.js",
   "scripts/runPullRequestNodeChecks.js",
-  "scripts/runTestsInParallel.py",
-  "scripts/pullRequestNodeFamilies.js",
   "scripts/prQualification.js",
-  "scripts/prQualificationCommand.js",
   "scripts/prQualificationReuse.js",
   "scripts/prQualificationReuseCommand.js",
+  "scripts/prQualificationCommand.js",
+  "scripts/pullRequestNodeFamilies.js",
+  "scripts/runTestsInParallel.py",
+  ".markdown-quality.json",
+  "tooling/markdown/package.json",
+  "tooling/markdown/package-lock.json",
+  ".github/workflows/markdown-quality.yml",
+  "scripts/runMarkdownQuality.mjs",
+  "scripts/installMarkdownTools.mjs",
+  "scripts/check-markdown-candidate.mjs",
+  "scripts/check-markdown-candidate.probes.mjs",
+  "scripts/observe-markdown-window.py",
+  "scripts/observe-markdown-window.probes.py",
+  "scripts/run-markdown-window.mjs",
+  "scripts/render_editing_policy.py",
+  "scripts/setUpDevelopmentEnvironment.js",
 ];
 
 test.each(files.slice(0, 5))(
@@ -127,7 +140,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
     CORE_CHECK_SCOPE_NAMES.map((scope) => [scope, true]),
   );
   const plan = {
-    schemaVersion: 4,
+    schemaVersion: 5,
     packageMode: "manual",
     mode: "full",
     revision: "a".repeat(40),
@@ -147,12 +160,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
     .find((step) => step.run?.startsWith("npm test"))
     .run.split(" ")
     .slice(3);
-  const groups = [
-    product,
-    listing(tooling),
-    listing(installers),
-    listing(["tests/prose-formatting.test.js"]),
-  ];
+  const groups = [product, listing(tooling), listing(installers)];
   const owned = groups.flat();
   expect([...new Set(owned)].sort()).toEqual(discovered.sort());
   for (const file of discovered)
@@ -160,7 +168,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
 });
 test("reviewed graph accepts every entry point and control input", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedFileCount: 19,
+    verifiedFileCount: 32,
   });
 });
 
@@ -169,13 +177,13 @@ test("narrow native route owns exactly its eleven required control suites", () =
     CORE_CHECK_SCOPE_NAMES.map((scope) => [scope, scope === "ci_control"]),
   );
   const plan = {
-    schemaVersion: 4,
+    schemaVersion: 5,
     packageMode: "disabled",
     mode: "changed",
     revision: "a".repeat(40),
     comparisonBase: "b".repeat(40),
     scopes,
-    requiredJobs: ["node"],
+    requiredJobs: ["development", "node"],
   };
   expect(discoverNodeSuites(plan)).toEqual([...CI_CONTROL_SUITES].sort());
 });

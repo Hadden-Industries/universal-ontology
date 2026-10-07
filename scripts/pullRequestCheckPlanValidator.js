@@ -82,7 +82,7 @@ var schema31 = {
     "requiredJobs",
   ],
   properties: {
-    schemaVersion: { const: 4 },
+    schemaVersion: { const: 5 },
     packageMode: { enum: ["disabled", "ci", "manual"] },
     mode: { enum: ["changed", "full"] },
     revision: { type: "string", pattern: "^[a-f0-9]{40}$" },
@@ -1561,12 +1561,12 @@ function validate20(
       }
     }
     if (data.schemaVersion !== void 0) {
-      if (4 !== data.schemaVersion) {
+      if (5 !== data.schemaVersion) {
         const err61 = {
           instancePath: instancePath + "/schemaVersion",
           schemaPath: "#/properties/schemaVersion/const",
           keyword: "const",
-          params: { allowedValue: 4 },
+          params: { allowedValue: 5 },
           message: "must be equal to constant",
         };
         if (vErrors === null) {

@@ -133,7 +133,7 @@ test("native arguments select real closed inventories", () => {
     CORE_CHECK_SCOPE_NAMES.map((name) => [name, name === "product_tests"]),
   );
   const plan = {
-    schemaVersion: 4,
+    schemaVersion: 5,
     mode: "changed",
     packageMode: "disabled",
     revision: "a".repeat(40),

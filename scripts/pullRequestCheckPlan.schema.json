@@ -13,7 +13,7 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": 4
+      "const": 5
     },
     "packageMode": {
       "enum": ["disabled", "ci", "manual"]

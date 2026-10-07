@@ -330,7 +330,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     expect(byName("Run product regression and static checks")).toBeUndefined();
     expect(byName("Check MCP documentation")).toMatchObject({
       if: "needs.scope.outputs.mcp_docs == 'true' && needs.scope.outputs.product_tests != 'true' && needs.scope.outputs.mcp_artifacts != 'true' && needs.scope.outputs.website_build != 'true'",
-      run: "npm test -- --runInBand --runTestsByPath tests/distribution/universal-ontology-mcp-documentation.test.js\nnpm run format:docs:prettier:check\n",
+      run: "npm test -- --runInBand --runTestsByPath tests/distribution/universal-ontology-mcp-documentation.test.js\n",
     });
     expect(
       byName("Build the affected website and generators without auto-fixes"),
