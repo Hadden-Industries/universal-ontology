@@ -61,7 +61,11 @@
     "format:docs:check": "node scripts/formatDocumentation.js --check",
     "format:docs:prettier:check": "prettier --check \"*.md\" \"docs/**/*.md\" \"packages/*/*.md\"",
     "test:prose": "npm test -- --runInBand tests/prose-formatting.test.js",
-    "check:style": "npm run lint:python && npm run format:python:check && npm run format:docs:check && npm run test:prose"
+    "check:style": "npm run lint:python && npm run format:python:check && npm run format:docs:check && npm run test:prose",
+    "install:markdown": "npm ci --prefix tooling/markdown --ignore-scripts --no-audit --no-fund",
+    "check:markdown": "node tooling/markdown/node_modules/@hadden-industries/markdown-quality/src/cli.js check --root .",
+    "format:markdown": "node tooling/markdown/node_modules/@hadden-industries/markdown-quality/src/cli.js format --root .",
+    "test:markdown": "node --test scripts/check-markdown-candidate.probes.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

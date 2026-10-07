@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "preset": "authored-gfm@1",
+  "include": ["**/*.md"],
+  "exclude": [
+    ".agents/skills/**",
+    ".claude/skills/**",
+    ".agent-tools/**",
+    "dist/**"
+  ],
+  "ignoreFiles": [],
+  "lint": {},
+  "links": { "localFiles": true, "rootRelative": "reject" },
+  "layout": { "endOfLine": "lf", "tabWidth": 2 }
+}
