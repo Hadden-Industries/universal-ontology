@@ -1,12 +1,22 @@
 # WP6 — Proposed policy and documentation amendments
 
-> Historical planning document. File references were updated during organization; proposal and recorded outcome statements retain their original scope. See the [initiative index](../README.md) for completion context and original delivery identities.
+> Historical planning document.
+> File references were updated during organization; proposal and recorded outcome statements retain their original scope.
+> See the [initiative index](../README.md) for completion context and original delivery identities.
 
-**Status:** proposal for exact-text review, not an applied or accepted policy change. Use with [the WP6 implementation plan](implementation-plan.md). The parent WP6 remains the scope authority; this companion is not a second requirements baseline.
+**Status:** proposal for exact-text review, not an applied or accepted policy change.
+Use with [the WP6 implementation plan](implementation-plan.md).
+The parent WP6 remains the scope authority; this companion is not a second requirements baseline.
 
-**Reference points:** Universal Ontology `4aeae598b12aa005570bfe597b820fdf6aad706a`; ONI candidate `c8b9d0495e2e163d9a8a1812f8124efb04b5c7b1`; ONI trusted base `975acf599d06ec3d274c55bac8d1731278ffa153`. Native governance and PR-template content were read at the UO revision. The other edits below specify insertion/replacement anchors in the already supplied guide/handoff structure; compare the actual accepted revision before applying. Reconcile intervening WP2/WP3 changes rather than pasting duplicate procedures.
+**Reference points:** Universal Ontology `4aeae598b12aa005570bfe597b820fdf6aad706a`; ONI candidate `c8b9d0495e2e163d9a8a1812f8124efb04b5c7b1`; ONI trusted base `975acf599d06ec3d274c55bac8d1731278ffa153`.
+Native governance and PR-template content were read at the UO revision.
+The other edits below specify insertion/replacement anchors in the already supplied guide/handoff structure; compare the actual accepted revision before applying.
+Reconcile intervening WP2/WP3 changes rather than pasting duplicate procedures.
 
-Apply only after the corresponding format/reader contract is accepted. Do not publish documentation that advertises support absent from the actual trusted consumer. Preserve all unrelated content, historical evidence, current action pins and explicit authority boundaries. Do not change package status, global configuration, profiles, dependencies, native security exclusions or workflow permissions through these amendments.
+Apply only after the corresponding format/reader contract is accepted.
+Do not publish documentation that advertises support absent from the actual trusted consumer.
+Preserve all unrelated content, historical evidence, current action pins and explicit authority boundaries.
+Do not change package status, global configuration, profiles, dependencies, native security exclusions or workflow permissions through these amendments.
 
 ## 1. `docs/sdlc/howto.md` — accepted baseline representations
 
@@ -36,7 +46,8 @@ snapshot procedure only for Issue capture. Do not rewrite an accepted plan into
 a fictitious snapshot or edit accepted bytes merely to satisfy metadata syntax.
 ```
 
-The existing begin example remains a small R0 example. Do not add an unconditional network call to `begin` or change an existing active task to demonstrate the new paragraph.
+The existing begin example remains a small R0 example.
+Do not add an unconditional network call to `begin` or change an existing active task to demonstrate the new paragraph.
 
 ## 2. `docs/sdlc/howto.md` — bounded preflight and remote readback
 
@@ -115,7 +126,8 @@ actual decision, authority, scope and exact content binding before reliance.
 A validator success is named and reported as metadata/baseline linkage only.
 ```
 
-Preserve the existing bootstrap paragraph: missing trusted support fails rather than running head policy. Append to that paragraph:
+Preserve the existing bootstrap paragraph: missing trusted support fails rather than running head policy.
+Append to that paragraph:
 
 ```markdown
 An accepted format-support change is landed separately through the currently
@@ -126,7 +138,8 @@ linkage. After deployment, verify the new event's actual policy revision; an old
 workflow rerun is not an update mechanism.
 ```
 
-Keep the existing warnings about non-atomic Issue/PR state, author self-approval and unestablished native rules. After them, add:
+Keep the existing warnings about non-atomic Issue/PR state, author self-approval and unestablished native rules.
+After them, add:
 
 ```markdown
 A missing inspectable acceptance or functioning accountable decision gate is an
@@ -136,11 +149,13 @@ and a passing workflow do not create it. Any settings change retains separate
 exact authority.
 ```
 
-In the later Dependabot paragraph, change **“add the seven SDLC metadata fields”** to **“add the common SDLC metadata fields and the conditional plan-acceptance field when applicable”**. Leave update frequency, grouping, check triggers and other existing configuration unchanged.
+In the later Dependabot paragraph, change **“add the seven SDLC metadata fields”** to **“add the common SDLC metadata fields and the conditional plan-acceptance field when applicable”**.
+Leave update frequency, grouping, check triggers and other existing configuration unchanged.
 
 ## 4. `.github/PULL_REQUEST_TEMPLATE.md` — conditional plan instructions
 
-Replace the first HTML comment with the following. Leave all seven actual field lines in place; **do not add an unconditional eighth placeholder field**:
+Replace the first HTML comment with the following.
+Leave all seven actual field lines in place; **do not add an unconditional eighth placeholder field**:
 
 ```markdown
 <!-- The seven lines below are the common metadata-check contract. R0/R1 may
@@ -173,7 +188,8 @@ configured gate. Keep historical results as historical and update stale current
 status rather than copying an obsolete pending narrative.
 ```
 
-Do not paste an alternative filled PR metadata block into the actual PR body: duplicate fields are invalid. Preserve the existing checkbox disclaimer, security section and all separate release/command-safety authority.
+Do not paste an alternative filled PR metadata block into the actual PR body: duplicate fields are invalid.
+Preserve the existing checkbox disclaimer, security section and all separate release/command-safety authority.
 
 ## 5. Existing routing/handoff references — one brief rule, no new ceremony
 
@@ -203,17 +219,21 @@ content binding separately. Preserve R2/R3 assurance and do not invent an Issue,
 recapture accepted content or run candidate policy to bypass an unavailable route.
 ```
 
-That last replacement is conditional on the actual consumer inventory: no file edit is required where the maintained source is already representation-neutral. Re-read the owning reference; do not infer its exact wording from a skill name.
+That last replacement is conditional on the actual consumer inventory: no file edit is required where the maintained source is already representation-neutral.
+Re-read the owning reference; do not infer its exact wording from a skill name.
 
 ## 6. Verification of the amendments
 
-Acceptance requires the changed text to match the delivered format/CLI/remote contracts; native tests for both representations; a helper-only check-selection regression where applicable; and a reviewer walkthrough using actual accepted and deliberately invalid references. A text search for these paragraphs is not behavioral validation.
+Acceptance requires the changed text to match the delivered format/CLI/remote contracts; native tests for both representations; a helper-only check-selection regression where applicable; and a reviewer walkthrough using actual accepted and deliberately invalid references.
+A text search for these paragraphs is not behavioral validation.
 
-The local preflight recipe must preserve its read-only and child-environment boundary. Record real native outcomes in the existing adoption/task evidence after execution. Do not prefill a future `passed`, manufacture an approval/merge timestamp, overwrite failed history, or update package deployment status solely because this proposal exists.
+The local preflight recipe must preserve its read-only and child-environment boundary.
+Record real native outcomes in the existing adoption/task evidence after execution. Do not prefill a future `passed`, manufacture an approval/merge timestamp, overwrite failed history, or update package deployment status solely because this proposal exists.
 
 ## Evidence references
 
-The parent and WP6 main plan supply the governing scope and detailed source list. Particularly relevant reads are the ONI adapter/validator and exact trusted workflows (main plan S03–S10), current ONI runs (S13–S17), and GitHub primary documentation on `pull_request_target`, reruns and Contents/tree/blob semantics (W01–W07). The UO governance/template anchors were read at `4aeae598b12aa005570bfe597b820fdf6aad706a`:
+The parent and WP6 main plan supply the governing scope and detailed source list.
+Particularly relevant reads are the ONI adapter/validator and exact trusted workflows (main plan S03–S10), current ONI runs (S13–S17), and GitHub primary documentation on `pull_request_target`, reruns and Contents/tree/blob semantics (W01–W07). The UO governance/template anchors were read at `4aeae598b12aa005570bfe597b820fdf6aad706a`:
 
 - [GitHub governance](https://github.com/Hadden-Industries/universal-ontology/blob/4aeae598b12aa005570bfe597b820fdf6aad706a/docs/sdlc/github-governance.md).
 - [PR template](https://github.com/Hadden-Industries/universal-ontology/blob/4aeae598b12aa005570bfe597b820fdf6aad706a/.github/PULL_REQUEST_TEMPLATE.md).

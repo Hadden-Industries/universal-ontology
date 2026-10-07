@@ -1,19 +1,25 @@
 # WP2 — Exact proposed policy and skill amendments
 
-> Historical planning document. File references were updated during organization; proposal and recorded outcome statements retain their original scope. See the [initiative index](../README.md) for completion context and original delivery identities.
+> Historical planning document.
+> File references were updated during organization; proposal and recorded outcome statements retain their original scope.
+> See the [initiative index](../README.md) for completion context and original delivery identities.
 
-**Status:** approval text only; not applied or accepted.  
-**Requirements authority:** Universal Ontology Issue #33, SDLC-PARALLEL-01.  
-**Read with:** `implementation-plan.md`.  
+**Status:** approval text only; not applied or accepted.\
+**Requirements authority:** Universal Ontology Issue #33, SDLC-PARALLEL-01.\
+**Read with:** `implementation-plan.md`.\
 **Observation base:** `79d187802f9255134c03d0786ff75181ed1070ee`.
 
-These three edits elaborate physical execution ownership, initial-start failures and integration evidence in the existing owners. They do not authorize a new scheduler, cleanup operation, reviewer fan-out, configuration waiver or product release. Recheck the exact target text on the implementation base and obtain approval for the actual diff. Do not edit generated `.agents/skills` copies directly.
+These three edits elaborate physical execution ownership, initial-start failures and integration evidence in the existing owners.
+They do not authorize a new scheduler, cleanup operation, reviewer fan-out, configuration waiver or product release.
+Recheck the exact target text on the implementation base and obtain approval for the actual diff.
+Do not edit generated `.agents/skills` copies directly.
 
 ## P-01 — `docs/sdlc/howto.md`
 
 ### Insertion A
 
-Insert the following section after `## Start and scope` and its existing text, before `## Development entry points`. Preserve the existing start/baseline requirements.
+Insert the following section after `## Start and scope` and its existing text, before `## Development entry points`.
+Preserve the existing start/baseline requirements.
 
 ```markdown
 ## Independent executions and integration
@@ -85,11 +91,14 @@ An unsupported publication capability remains an explicit setup/design decision,
 not permission to substitute a weaker copy or replacement operation.
 ```
 
-**Behavioral impact:** users can distinguish a rejected request, unacquired preparation and established task after a reporting failure. Parallel coordination stays in existing records. This wording assumes the selected complete-file publication mechanism has passed its acceptance gate; amend it if a different mechanism is explicitly accepted.
+**Behavioral impact:** users can distinguish a rejected request, unacquired preparation and established task after a reporting failure.
+Parallel coordination stays in existing records.
+This wording assumes the selected complete-file publication mechanism has passed its acceptance gate; amend it if a different mechanism is explicitly accepted.
 
 ## P-02 — `.sdlc/skills/test-driven-development/references/evidence-and-handoffs.md`
 
-Under `## One implementation writer`, insert these paragraphs after the paragraph ending `implementer revise held-out grading tests.` Keep existing verification/independence text and all other sections.
+Under `## One implementation writer`, insert these paragraphs after the paragraph ending `implementer revise held-out grading tests.`
+Keep existing verification/independence text and all other sections.
 
 ```markdown
 The single-writer boundary concerns one physical copy. Independent implementations
@@ -135,6 +144,5 @@ no separate reviewer or additional dossier is mandatory solely for this statemen
 ## Factual verification record
 
 No proposed passing paragraph is supplied for `docs/sdlc/verification.md`.
-After actual execution, append its source/host/filesystem/receipt identity,
-commands, results, limitations and C02 status. Record controlled fixture results
-as control evidence, not operational adoption or a completed product integration.
+After actual execution, append its source/host/filesystem/receipt identity, commands, results, limitations and C02 status.
+Record controlled fixture results as control evidence, not operational adoption or a completed product integration.

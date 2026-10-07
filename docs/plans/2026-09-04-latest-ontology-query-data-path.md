@@ -76,7 +76,7 @@ Following W3C DWBP (BP 8, 9, 10, 11) and Cool URIs, URI hierarchy strictly separ
 > The following configuration file changes require explicit user authorization before execution:
 >
 > 1. [`package.json`](../../package.json): Update `mcp:index` to output `dist/query/v1/latest` and `dist/query/v1/all`; update `mcp:channel:stage` for `dist/query/v1/latest`; add `mcp:channel:stage:all` for `dist/query/v1/all`.
-> 2. Host Configs: [`.mcp.json`](../../.mcp.json), [`.agents/mcp_config.json`](../../.agents/mcp_config.json), [`.codex/config.toml`](../../.codex/config.toml): Update `--query-artifact-root-directory=dist/query/v1` to `--query-artifact-root-directory=dist/query/v1/latest`.
+> 2. Host Configs: [`.mcp.json`](../../.mcp.json), `.agents/mcp_config.json` (untracked host-local configuration at the time of this plan), [`.codex/config.toml`](../../.codex/config.toml): Update `--query-artifact-root-directory=dist/query/v1` to `--query-artifact-root-directory=dist/query/v1/latest`.
 
 ---
 
@@ -95,62 +95,62 @@ Following W3C DWBP (BP 8, 9, 10, 11) and Cool URIs, URI hierarchy strictly separ
 
 - [ ] **Step 1: Write the failing unit test** In `tests/build/ontology-query-artifacts.test.js`, add a test verifying that `selectLatestStableOntologySources` correctly selects the latest stable release for all 6 families (Universal, ISO, and ISO/IEC):
 
-  ```javascript
-  test("selectLatestStableOntologySources selects the latest stable release across Universal, ISO, and ISO-IEC families", () => {
-    const mockSources = [
-      { sourcePath: "src/universal/core/20260625", outputPath: "universal/core/20260625" },
-      { sourcePath: "src/universal/core/20260714", outputPath: "universal/core/20260714" },
-      { sourcePath: "src/universal/extended/20260714", outputPath: "universal/extended/20260714" },
-      { sourcePath: "src/universal/extended/20260610", outputPath: "universal/extended/20260610" },
-      { sourcePath: "src/universal/reference-data/20260714", outputPath: "universal/reference-data/20260714" },
-      { sourcePath: "src/iso/31073/ed-1/20260420", outputPath: "iso/31073/ed-1/20260420" },
-      { sourcePath: "src/iso/31073/ed-1/20260626", outputPath: "iso/31073/ed-1/20260626" },
-      { sourcePath: "src/iso-iec/11179/-3/ed-3/20230510", outputPath: "iso-iec/11179/-3/ed-3/20230510" },
-      { sourcePath: "src/iso-iec/11179/-3/ed-3/20230808", outputPath: "iso-iec/11179/-3/ed-3/20230808" },
-      { sourcePath: "src/iso-iec/11179/-3/ed-3/v1", outputPath: "iso-iec/11179/-3/ed-3/v1" },
-      { sourcePath: "src/iso-iec/11179/-3/ed-4/20260714", outputPath: "iso-iec/11179/-3/ed-4/20260714" },
-      { sourcePath: "src/iso-iec/11179/-3/ed-4/20250404", outputPath: "iso-iec/11179/-3/ed-4/20250404" },
-    ];
+```javascript
+test("selectLatestStableOntologySources selects the latest stable release across Universal, ISO, and ISO-IEC families", () => {
+  const mockSources = [
+    { sourcePath: "src/universal/core/20260625", outputPath: "universal/core/20260625" },
+    { sourcePath: "src/universal/core/20260714", outputPath: "universal/core/20260714" },
+    { sourcePath: "src/universal/extended/20260714", outputPath: "universal/extended/20260714" },
+    { sourcePath: "src/universal/extended/20260610", outputPath: "universal/extended/20260610" },
+    { sourcePath: "src/universal/reference-data/20260714", outputPath: "universal/reference-data/20260714" },
+    { sourcePath: "src/iso/31073/ed-1/20260420", outputPath: "iso/31073/ed-1/20260420" },
+    { sourcePath: "src/iso/31073/ed-1/20260626", outputPath: "iso/31073/ed-1/20260626" },
+    { sourcePath: "src/iso-iec/11179/-3/ed-3/20230510", outputPath: "iso-iec/11179/-3/ed-3/20230510" },
+    { sourcePath: "src/iso-iec/11179/-3/ed-3/20230808", outputPath: "iso-iec/11179/-3/ed-3/20230808" },
+    { sourcePath: "src/iso-iec/11179/-3/ed-3/v1", outputPath: "iso-iec/11179/-3/ed-3/v1" },
+    { sourcePath: "src/iso-iec/11179/-3/ed-4/20260714", outputPath: "iso-iec/11179/-3/ed-4/20260714" },
+    { sourcePath: "src/iso-iec/11179/-3/ed-4/20250404", outputPath: "iso-iec/11179/-3/ed-4/20250404" },
+  ];
 
-    const selected = selectLatestStableOntologySources(mockSources);
-    expect(selected.map((s) => s.outputPath)).toEqual([
-      "iso-iec/11179/-3/ed-3/20230808",
-      "iso-iec/11179/-3/ed-4/20260714",
-      "iso/31073/ed-1/20260626",
-      "universal/core/20260714",
-      "universal/extended/20260714",
-      "universal/reference-data/20260714",
-    ]);
-  });
-  ```
+  const selected = selectLatestStableOntologySources(mockSources);
+  expect(selected.map((s) => s.outputPath)).toEqual([
+    "iso-iec/11179/-3/ed-3/20230808",
+    "iso-iec/11179/-3/ed-4/20260714",
+    "iso/31073/ed-1/20260626",
+    "universal/core/20260714",
+    "universal/extended/20260714",
+    "universal/reference-data/20260714",
+  ]);
+});
+```
 
 - [ ] **Step 2: Run test to verify it fails** Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: FAIL with `ReferenceError: selectLatestStableOntologySources is not defined`.
 
 - [ ] **Step 3: Write minimal implementation** In `scripts/build/createOntologyQueryArtifacts.js`, implement `selectLatestStableOntologySources` and remove `selectLatestUniversalSources`:
 
-  ```javascript
-  export function selectLatestStableOntologySources(ontologySources) {
-    const latestSourceByFamily = new Map();
+```javascript
+export function selectLatestStableOntologySources(ontologySources) {
+  const latestSourceByFamily = new Map();
 
-    for (const source of ontologySources) {
-      const versionTag = posix.basename(source.outputPath);
-      if (!STABLE_RELEASE_NAME_PATTERN.test(versionTag)) {
-        continue;
-      }
-
-      const familyId = posix.dirname(source.outputPath);
-      const preceding = latestSourceByFamily.get(familyId);
-
-      if (!preceding || versionTag > posix.basename(preceding.outputPath)) {
-        latestSourceByFamily.set(familyId, source);
-      }
+  for (const source of ontologySources) {
+    const versionTag = posix.basename(source.outputPath);
+    if (!STABLE_RELEASE_NAME_PATTERN.test(versionTag)) {
+      continue;
     }
 
-    return [...latestSourceByFamily.values()].sort(
-      ({ outputPath: left }, { outputPath: right }) => compareBinary(left, right),
-    );
+    const familyId = posix.dirname(source.outputPath);
+    const preceding = latestSourceByFamily.get(familyId);
+
+    if (!preceding || versionTag > posix.basename(preceding.outputPath)) {
+      latestSourceByFamily.set(familyId, source);
+    }
   }
-  ```
+
+  return [...latestSourceByFamily.values()].sort(
+    ({ outputPath: left }, { outputPath: right }) => compareBinary(left, right),
+  );
+}
+```
 
 - [ ] **Step 4: Run test to verify it passes** Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: PASS.
 
@@ -170,40 +170,40 @@ Following W3C DWBP (BP 8, 9, 10, 11) and Cool URIs, URI hierarchy strictly separ
 - [ ] **Step 1: Write the failing unit test**
       In `tests/build/ontology-query-artifacts.test.js`, add test asserting that `createOntologyQueryArtifactDatasets` renders all sources once and emits both the `latest` dataset (containing only the latest release per family) and the `all` dataset (containing all releases), with matching SHA-256 hashes:
 
-  ```javascript
-  test("createOntologyQueryArtifactDatasets emits both latest and all datasets with shared immutable digests", async () => {
-    const temporaryRoot = await mkdtemp(join(tmpdir(), "uo-query-datasets-test-"));
-    const fixtureBytes = await readFile(MINIMAL_ONTOLOGY_RELEASE_URL);
+```javascript
+test("createOntologyQueryArtifactDatasets emits both latest and all datasets with shared immutable digests", async () => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "uo-query-datasets-test-"));
+  const fixtureBytes = await readFile(MINIMAL_ONTOLOGY_RELEASE_URL);
 
-    try {
-      const ontologySources = await Promise.all([
-        createOntologySource(temporaryRoot, "universal/test/20260829", fixtureBytes),
-        createOntologySource(temporaryRoot, "universal/test/20260830", fixtureBytes),
-        createOntologySource(temporaryRoot, "iso/test/ed-1/20260830", fixtureBytes),
-      ]);
+  try {
+    const ontologySources = await Promise.all([
+      createOntologySource(temporaryRoot, "universal/test/20260829", fixtureBytes),
+      createOntologySource(temporaryRoot, "universal/test/20260830", fixtureBytes),
+      createOntologySource(temporaryRoot, "iso/test/ed-1/20260830", fixtureBytes),
+    ]);
 
-      const { latest, all } = await createOntologyQueryArtifactDatasets({
-        ontologySources,
-        workerCount: 1,
-      });
+    const { latest, all } = await createOntologyQueryArtifactDatasets({
+      ontologySources,
+      workerCount: 1,
+    });
 
-      expect(latest.catalog.releases).toHaveLength(2);
-      expect(latest.catalog.releases.map(r => `${r.ontologyArtifactFamilyId}/${r.versionTag}`)).toEqual([
-        "iso/test/ed-1/20260830",
-        "universal/test/20260830",
-      ]);
-      expect(all.catalog.releases).toHaveLength(3);
+    expect(latest.catalog.releases).toHaveLength(2);
+    expect(latest.catalog.releases.map(r => `${r.ontologyArtifactFamilyId}/${r.versionTag}`)).toEqual([
+      "iso/test/ed-1/20260830",
+      "universal/test/20260830",
+    ]);
+    expect(all.catalog.releases).toHaveLength(3);
 
-      for (const release of latest.catalog.releases) {
-        const latestBytes = latest.artifactContentsByRelativePath.get(release.queryIndexRelativePath);
-        const allBytes = all.artifactContentsByRelativePath.get(release.queryIndexRelativePath);
-        expect(latestBytes).toEqual(allBytes);
-      }
-    } finally {
-      await rm(temporaryRoot, { recursive: true, force: true });
+    for (const release of latest.catalog.releases) {
+      const latestBytes = latest.artifactContentsByRelativePath.get(release.queryIndexRelativePath);
+      const allBytes = all.artifactContentsByRelativePath.get(release.queryIndexRelativePath);
+      expect(latestBytes).toEqual(allBytes);
     }
-  });
-  ```
+  } finally {
+    await rm(temporaryRoot, { recursive: true, force: true });
+  }
+});
+```
 
 - [ ] **Step 2: Run test to verify it fails**
       Run: `npm test -- tests/build/ontology-query-artifacts.test.js`
@@ -235,28 +235,28 @@ Following W3C DWBP (BP 8, 9, 10, 11) and Cool URIs, URI hierarchy strictly separ
 
 - [ ] **Step 1: Write the failing unit test** In `tests/build/ontology-query-artifacts.test.js`, add test asserting `generateOntologyQueryIndexes` produces `dist/query/v1/latest/catalog.json` and `dist/query/v1/all/catalog.json`:
 
-  ```javascript
-  test("generateOntologyQueryIndexes produces independent latest and all directories", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "uo-generate-indexes-test-"));
-    try {
-      await generateOntologyQueryIndexes({
-        sourceDirectory: resolve("src"),
-        outputDirectory: outputRoot,
-        workerCount: 2,
-      });
+```javascript
+test("generateOntologyQueryIndexes produces independent latest and all directories", async () => {
+  const outputRoot = await mkdtemp(join(tmpdir(), "uo-generate-indexes-test-"));
+  try {
+    await generateOntologyQueryIndexes({
+      sourceDirectory: resolve("src"),
+      outputDirectory: outputRoot,
+      workerCount: 2,
+    });
 
-      const latestCatalogPath = join(outputRoot, "latest", "catalog.json");
-      const allCatalogPath = join(outputRoot, "all", "catalog.json");
-      const latestCatalog = JSON.parse(await readFile(latestCatalogPath, "utf8"));
-      const allCatalog = JSON.parse(await readFile(allCatalogPath, "utf8"));
+    const latestCatalogPath = join(outputRoot, "latest", "catalog.json");
+    const allCatalogPath = join(outputRoot, "all", "catalog.json");
+    const latestCatalog = JSON.parse(await readFile(latestCatalogPath, "utf8"));
+    const allCatalog = JSON.parse(await readFile(allCatalogPath, "utf8"));
 
-      expect(latestCatalog.releases).toHaveLength(6);
-      expect(allCatalog.releases.length).toBeGreaterThan(150);
-    } finally {
-      await rm(outputRoot, { recursive: true, force: true });
-    }
-  });
-  ```
+    expect(latestCatalog.releases).toHaveLength(6);
+    expect(allCatalog.releases.length).toBeGreaterThan(150);
+  } finally {
+    await rm(outputRoot, { recursive: true, force: true });
+  }
+});
+```
 
 - [ ] **Step 2: Run test to verify it fails** Run: `npm test -- tests/build/ontology-query-artifacts.test.js` Expected: FAIL (files in `latest/` and `all/` not found).
 
@@ -280,12 +280,12 @@ Following W3C DWBP (BP 8, 9, 10, 11) and Cool URIs, URI hierarchy strictly separ
 
 - [ ] **Step 1: Write the failing unit test** In `tests/build/ontology-assets.test.js`, assert that `createOntologyBuildAssets` contains keys starting with both `query/v1/latest/` and `query/v1/all/`:
 
-  ```javascript
-  expect(assets.has("query/v1/latest/catalog.json")).toBe(true);
-  expect(assets.has("query/v1/all/catalog.json")).toBe(true);
-  const latestCatalog = JSON.parse(assets.get("query/v1/latest/catalog.json").toString("utf8"));
-  expect(latestCatalog.releases).toHaveLength(6);
-  ```
+```javascript
+expect(assets.has("query/v1/latest/catalog.json")).toBe(true);
+expect(assets.has("query/v1/all/catalog.json")).toBe(true);
+const latestCatalog = JSON.parse(assets.get("query/v1/latest/catalog.json").toString("utf8"));
+expect(latestCatalog.releases).toHaveLength(6);
+```
 
 - [ ] **Step 2: Run test to verify it fails** Run: `npm test -- tests/build/ontology-assets.test.js` Expected: FAIL (`query/v1/latest/catalog.json` not found).
 

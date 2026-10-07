@@ -1,15 +1,22 @@
 # WP3 — Exact proposed policy and procedure amendments
 
-> Historical planning document. File references were updated during organization; proposal and recorded outcome statements retain their original scope. See the [initiative index](../README.md) for completion context and original delivery identities.
+> Historical planning document.
+> File references were updated during organization; proposal and recorded outcome statements retain their original scope.
+> See the [initiative index](../README.md) for completion context and original delivery identities.
 
-**Prepared:** 10 September 2026.  
-**Status:** proposal for exact configuration/policy approval; not applied.  
-**Source anchor:** `Hadden-Industries/universal-ontology` at `79d187802f9255134c03d0786ff75181ed1070ee`.  
+**Prepared:** 10 September 2026.\
+**Status:** proposal for exact configuration/policy approval; not applied.\
+**Source anchor:** `Hadden-Industries/universal-ontology` at `79d187802f9255134c03d0786ff75181ed1070ee`.\
 **Companion:** `implementation-plan.md`.
 
-These edits implement the accepted WP3 direction only after the owner approves their exact text and executable interfaces. Preserve existing TA-02 conditions, authority boundaries, declared policy/package status and retained evidence. The proposed `record-resource-disposition` command and changed `status` contract are not existing commands/contracts at the source anchor.
+These edits implement the accepted WP3 direction only after the owner approves their exact text and executable interfaces.
+Preserve existing TA-02 conditions, authority boundaries, declared policy/package status and retained evidence. The proposed `record-resource-disposition` command and changed `status` contract are not existing commands/contracts at the source anchor.
 
-Apply each insertion once at the named semantic anchor. If WP1/WP2 or another accepted change has moved or revised that anchor, reconcile the actual text and present the resulting precise delta; do not overwrite intervening work. Do not create additional copies of the requirements in generated skill directories. Ordinary approved skill activation remains a separate operation. The exact command and source changes are specified in the main plan.
+Apply each insertion once at the named semantic anchor.
+If WP1/WP2 or another accepted change has moved or revised that anchor, reconcile the actual text and present the resulting precise delta; do not overwrite intervening work.
+Do not create additional copies of the requirements in generated skill directories.
+Ordinary approved skill activation remains a separate operation.
+The exact command and source changes are specified in the main plan.
 
 ## 1. `docs/sdlc/temporary-artefacts.md`
 
@@ -80,7 +87,8 @@ abandoned. Access failure, malformed metadata, conflicting snapshots or a read
 limit MUST NOT be reported as an empty inventory or a successful cleanup.
 ```
 
-**Preserved:** the policy header, version/status, all seven TA-02 conditions, TA-04 evidence requirements, TA-06 prohibitions, existing Stop/lifecycle boundaries and native command-protection requirements. This amendment neither adopts a new retention period nor supplies a deletion implementation.
+**Preserved:** the policy header, version/status, all seven TA-02 conditions, TA-04 evidence requirements, TA-06 prohibitions, existing Stop/lifecycle boundaries and native command-protection requirements.
+This amendment neither adopts a new retention period nor supplies a deletion implementation.
 
 ## 2. `docs/sdlc/temporary-artefacts-howto.md`
 
@@ -184,7 +192,8 @@ merely to complete an adoption exercise; state that live removal confirmation
 remains unqualified.
 ```
 
-**Preserved:** the existing operational example, non-forced Git route, existing inspection commands, no universal TTL, no synthetic broad adoption pilot and prohibition on equivalent-path guard evasion. Revise the earlier “statements only” explanation where necessary to avoid contradicting this approved metadata-only implementation; do not change its no-cleanup-orchestrator conclusion.
+**Preserved:** the existing operational example, non-forced Git route, existing inspection commands, no universal TTL, no synthetic broad adoption pilot and prohibition on equivalent-path guard evasion.
+Revise the earlier “statements only” explanation where necessary to avoid contradicting this approved metadata-only implementation; do not change its no-cleanup-orchestrator conclusion.
 
 ## 3. `docs/sdlc/subagent-playbook.md`
 
@@ -273,8 +282,13 @@ this skill's successful implementation work.
 
 ## 6. Configuration and verification follow-through
 
-These amendments are accompanied by the specifically proposed schema, Python metadata module, CLI/status change, native regression tests and the selector's one-path addition. The main plan inventories their exact responsibilities. The existing CI matrix and verification profiles are not changed by these text amendments.
+These amendments are accompanied by the specifically proposed schema, Python metadata module, CLI/status change, native regression tests and the selector's one-path addition.
+The main plan inventories their exact responsibilities.
+The existing CI matrix and verification profiles are not changed by these text amendments.
 
-No amendment is proposed to `AGENTS.md`, `REVIEW.md`, `.codex` hook/trust files, native DCG configuration, retention periods, branch rules or `.sdlc/PACKAGE_STATUS.json`. Inspect their actual compatibility; do not edit them merely for textual uniformity. Record an actual discovered conflict separately.
+No amendment is proposed to `AGENTS.md`, `REVIEW.md`, `.codex` hook/trust files, native DCG configuration, retention periods, branch rules or `.sdlc/PACKAGE_STATUS.json`.
+Inspect their actual compatibility; do not edit them merely for textual uniformity.
+Record an actual discovered conflict separately.
 
-Verify the adopted Markdown with existing native formatting/link checks and focused semantic review. Check the actual record/status behavior through the regressions in the main plan. Presence of these paragraphs is not evidence of agent compliance, operator receipt, preservation or safe disposal.
+Verify the adopted Markdown with existing native formatting/link checks and focused semantic review. Check the actual record/status behavior through the regressions in the main plan.
+Presence of these paragraphs is not evidence of agent compliance, operator receipt, preservation or safe disposal.

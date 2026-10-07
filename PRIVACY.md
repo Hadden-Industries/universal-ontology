@@ -1,6 +1,6 @@
 # Repository Communication Privacy Notice
 
-Last reviewed: 12 September 2026  
+Last reviewed: 12 September 2026\
 Next scheduled review: 12 September 2027, or earlier if the processing changes
 
 This notice covers personal information handled by the Universal Ontology project through private security reports, private Code of Conduct reports, privacy requests, and related project-governance correspondence.

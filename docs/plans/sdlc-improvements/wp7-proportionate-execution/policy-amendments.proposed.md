@@ -1,16 +1,27 @@
 # WP7 — Proposed instruction amendments
 
-> Historical planning document. File references were updated during organization; proposal and recorded outcome statements retain their original scope. See the [initiative index](../README.md) for completion context and original delivery identities.
+> Historical planning document.
+> File references were updated during organization; proposal and recorded outcome statements retain their original scope.
+> See the [initiative index](../README.md) for completion context and original delivery identities.
 
-**Status:** exact proposed text for review; not applied or accepted. Use with [the WP7 implementation plan](implementation-plan.md). The parent WP7 remains the scope basis. This file is not a second requirements store or a mandatory ordinary-task artifact.
+**Status:** exact proposed text for review; not applied or accepted.
+Use with [the WP7 implementation plan](implementation-plan.md).
+The parent WP7 remains the scope basis.
+This file is not a second requirements store or a mandatory ordinary-task artifact.
 
-**Research reference:** Universal Ontology `a0374bad8203aa95f87a0e47a85013fd4b938c7e`. Reconcile current source and any intervening WP2/WP3/WP6 amendments before applying. An absent or changed anchor is a review conflict, not permission to replace an entire file or append duplicate instructions. Preserve all unrelated requirements, examples, links and metadata.
+**Research reference:** Universal Ontology `a0374bad8203aa95f87a0e47a85013fd4b938c7e`.
+Reconcile current source and any intervening WP2/WP3/WP6 amendments before applying.
+An absent or changed anchor is a review conflict, not permission to replace an entire file or append duplicate instructions.
+Preserve all unrelated requirements, examples, links and metadata.
 
-The default patch changes no risk class definition, required profile, fingerprint, receipt schema, baseline representation, dependency, mutation threshold, hook, permission, workflow or package status. Apply source-of-truth skill edits through the repository's existing projection/check mechanism when that operation is authorised. Do not hand-edit generated agent copies.
+The default patch changes no risk class definition, required profile, fingerprint, receipt schema, baseline representation, dependency, mutation threshold, hook, permission, workflow or package status.
+Apply source-of-truth skill edits through the repository's existing projection/check mechanism when that operation is authorised.
+Do not hand-edit generated agent copies.
 
 ## M701 — `docs/sdlc/proportional-workflow.md`
 
-Append this section after the existing content. This is the canonical owner of the new cadence rule; the remaining amendments refer here rather than duplicating the whole procedure.
+Append this section after the existing content.
+This is the canonical owner of the new cadence rule; the remaining amendments refer here rather than duplicating the whole procedure.
 
 ```markdown
 ## Execution cadence and evidence placement
@@ -80,7 +91,8 @@ state and report the exact decision needed; do not invent a command or waiver.
 
 ## M702 — `docs/sdlc/howto.md`
 
-Insert immediately before **Evaluation through useful work**. If that heading has moved, preserve the actual useful-work section and place this connector next to the existing verification/freshness instructions after review.
+Insert immediately before **Evaluation through useful work**.
+If that heading has moved, preserve the actual useful-work section and place this connector next to the existing verification/freshness instructions after review.
 
 ```markdown
 ## Plan the next useful checkpoint
@@ -104,7 +116,8 @@ its state and obtain an explicit supported decision; do not fake completion.
 
 ## M703 — `.sdlc/skills/sdlc-route/SKILL.md`
 
-Insert at the end of **Minimum controls**, immediately before **Output contract**. Keep the existing output headings exactly as they are.
+Insert at the end of **Minimum controls**, immediately before **Output contract**.
+Keep the existing output headings exactly as they are.
 
 ```markdown
 Within Required verification and Next lifecycle step, distinguish the next useful
@@ -149,7 +162,8 @@ under the label of proportionality.
 
 ## M705 — `docs/sdlc/subagent-playbook.md`
 
-Append this section after the existing content. Preserve current thread ceilings, permissions, native security ownership and frozen-target requirements.
+Append this section after the existing content.
+Preserve current thread ceilings, permissions, native security ownership and frozen-target requirements.
 
 ```markdown
 ## Questions and bounded follow-up
@@ -197,6 +211,10 @@ internal test totals and development-only runs do not establish production behav
 
 ## Application and verification
 
-Review these six amendments together with the main plan's change map. Keep the runtime/profile/schema/configuration surfaces unchanged by default. Test the existing route, freshness and retention boundaries; apply the manual instruction scenarios as review, not as a new natural-language policy engine.
+Review these six amendments together with the main plan's change map.
+Keep the runtime/profile/schema/configuration surfaces unchanged by default.
+Test the existing route, freshness and retention boundaries; apply the manual instruction scenarios as review, not as a new natural-language policy engine.
 
-The actual accepted implementation uses its existing repository checks, supported skill projection and independently required review. No checkbox in this companion proves human acceptance, no generated file proves host adoption, and no fixture result is the representative user outcome. A missing anchor or source conflict requires reconciliation before editing, not an unconditional text replacement.
+The actual accepted implementation uses its existing repository checks, supported skill projection and independently required review.
+No checkbox in this companion proves human acceptance, no generated file proves host adoption, and no fixture result is the representative user outcome.
+A missing anchor or source conflict requires reconciliation before editing, not an unconditional text replacement.
