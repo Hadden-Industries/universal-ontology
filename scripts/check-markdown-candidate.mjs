@@ -21,13 +21,7 @@ import { createRequire } from "node:module";
 import { fileURLToPath, pathToFileURL } from "node:url";
 const execute = promisify(execFile);
 const reserved = ".markdown-quality-trusted-inputs";
-const excludedDirectoryNames = new Set([
-  ".git",
-  "node_modules",
-  ".venv",
-  ".development-tools",
-  ".release",
-]);
+const excludedDirectoryNames = new Set([".git", "node_modules", ".venv"]);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const inside = (root, path) => {
   const rel = relative(root, path);
@@ -224,7 +218,7 @@ export async function checkCandidate({ outputRoot, cli, staging }) {
     result = await execute(process.execPath, args, {
       cwd: dirname(resolve(cli)),
       env,
-      timeout: 300000,
+      timeout: 110000,
       maxBuffer: 8000000,
       windowsHide: true,
     });
@@ -247,6 +241,8 @@ export async function checkCandidate({ outputRoot, cli, staging }) {
     throw new Error("Invalid or inconsistent canonical checker result");
   if (report.configDigest !== staging.derivedPolicySha256)
     throw new Error("Checker used an unexpected policy");
+  if (staging.trackedMarkdown && report.exitCode !== 2)
+    assertMarkdownInventory(report.selection.files, staging.trackedMarkdown);
   if (dataDigest(outputRoot) !== staging.stagedDataSha256)
     throw new Error("Full check changed staged inputs");
   return {
@@ -256,6 +252,31 @@ export async function checkCandidate({ outputRoot, cli, staging }) {
     trustedExecutableSha256: hash(readFileSync(cli)),
     trustedPackage: { name: metadata.name, version: metadata.version },
   };
+}
+
+/** Independent Git inventory: no tracked Markdown exception can produce green evidence. */
+export function assertMarkdownInventory(selected, tracked) {
+  if (
+    new Set(selected).size !== selected.length ||
+    JSON.stringify([...selected].sort()) !== JSON.stringify([...tracked].sort())
+  )
+    throw new Error("Full checker selection differs from all tracked Markdown");
+}
+
+export function trackedMarkdown(root, git, revision) {
+  return execFileSync(
+    git,
+    ["-C", root, "ls-tree", "-r", "--name-only", "-z", revision],
+    {
+      encoding: "utf8",
+      timeout: 10000,
+      maxBuffer: 8000000,
+      windowsHide: true,
+    },
+  )
+    .split("\0")
+    .filter((path) => path.endsWith(".md"))
+    .sort();
 }
 
 export function metadataGit(executable, sourceRoot, trustedRoot) {
@@ -327,6 +348,10 @@ async function main() {
   )
     throw new Error("Trusted manifest and lock disagree");
   const staging = stageCandidate({ sourceRoot, trustedRoot, outputRoot });
+  staging.trackedMarkdown = trackedMarkdown(sourceRoot, git, expectedHead);
+  staging.trackedMarkdownSha256 = hash(
+    Buffer.from(JSON.stringify(staging.trackedMarkdown)),
+  );
   const cli = join(
     toolingRoot,
     "node_modules/@hadden-industries/markdown-quality/src/cli.js",
@@ -394,6 +419,8 @@ async function main() {
       platform: process.platform,
       architecture: process.arch,
       node: process.version,
+      image: process.env.ImageOS,
+      imageVersion: process.env.ImageVersion,
     },
     workflow: {
       repository: process.env.GITHUB_REPOSITORY,
@@ -402,6 +429,7 @@ async function main() {
       attempt: process.env.GITHUB_RUN_ATTEMPT,
       job: process.env.GITHUB_JOB,
       event: process.env.GITHUB_EVENT_NAME,
+      actor: process.env.GITHUB_ACTOR,
     },
     checkerElapsedMs: Math.round(performance.now() - started),
     result: result.report,
@@ -422,9 +450,11 @@ if (
   process.argv[1] &&
   import.meta.url === pathToFileURL(resolve(process.argv[1])).href
 ) {
-  main().catch(() => {
+  main().catch((error) => {
     process.stderr.write(
-      "Trusted candidate check failed; no acceptance recorded.\n",
+      `Trusted candidate check failed: ${String(error.message)
+        .replace(/[\u0000-\u001f\u007f]/gu, " ")
+        .slice(0, 2048)}; no acceptance recorded.\n`,
     );
     process.exitCode = 2;
   });

@@ -14,4 +14,4 @@ Their distribution as repository tooling does not relicense the application or e
 
 The isolated graph overrides only `micromark-extension-math`'s KaTeX dependency to a patched version at or above 0.18.2 and below 1.
 The concrete initial graph resolved vulnerable KaTeX, as documented by [GHSA-238p-pmpm-9mq7](https://github.com/advisories/GHSA-238p-pmpm-9mq7).
-The reviewed lock resolves 0.19.0; native consumer and trust probes qualify this graph, and its acquisition audit reports zero vulnerabilities.
+The reviewed lock resolves 0.19.0. The acquisition audit on 2026-10-07 reported zero known vulnerabilities; this dated observation does not replace later audits. Native consumer and trust probes exercise the isolated graph; hosted qualification is recorded separately.

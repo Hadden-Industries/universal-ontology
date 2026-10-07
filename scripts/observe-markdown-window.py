@@ -218,6 +218,9 @@ def run_window():
                     "GITHUB_RUN_ATTEMPT",
                     "GITHUB_JOB",
                     "GITHUB_EVENT_NAME",
+                    "GITHUB_ACTOR",
+                    "ImageOS",
+                    "ImageVersion",
                 ]
                 if name in os.environ
             }
@@ -245,11 +248,11 @@ def run_window():
                         peak = max(peak, rss)
                         max_members = max(max_members, members)
                         polls += 1
-                    if time.monotonic() - started > 180:
+                    if time.monotonic() - started > 120:
                         if not windows:
                             os.killpg(child.pid, signal.SIGKILL)
                             child.wait(timeout=5)
-                        raise TimeoutError("Full trusted check exceeded 180s")
+                        raise TimeoutError("Full trusted check exceeded 120s")
                     time.sleep(0.05)
                 elapsed = round((time.monotonic() - started) * 1000)
             if windows:

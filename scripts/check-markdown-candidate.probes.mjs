@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Explicit Node probes stay outside the application Jest discovery contract.
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { test, after } from "node:test";
 import {
   mkdtempSync,
   mkdirSync,
   writeFileSync,
   existsSync,
   readFileSync,
+  rmSync,
 } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,9 +18,14 @@ import {
   checkCandidate,
   dataDigest,
   metadataGit,
+  assertMarkdownInventory,
 } from "./check-markdown-candidate.mjs";
 
 const artifacts = process.env.MARKDOWN_TEST_ARTIFACT_ROOT ?? tmpdir();
+const fixtures = [];
+after(() => {
+  for (const root of fixtures) rmSync(root, { recursive: true });
+});
 const cli =
   process.env.MARKDOWN_TEST_CLI ??
   fileURLToPath(
@@ -40,6 +46,7 @@ const policy = {
 };
 function fixture() {
   const root = mkdtempSync(join(artifacts, "candidate-staging-test-"));
+  fixtures.push(root);
   const sourceRoot = join(root, "candidate"),
     trustedRoot = join(root, "trusted"),
     outputRoot = join(root, "staged");
@@ -73,13 +80,7 @@ test("repository metadata and dependency environments are excluded from derived 
     join(paths.sourceRoot, "README.md"),
     "# Candidate\n\nSafe prose.\n",
   );
-  for (const name of [
-    ".git",
-    "node_modules",
-    ".venv",
-    ".development-tools",
-    ".release",
-  ]) {
+  for (const name of [".git", "node_modules", ".venv"]) {
     mkdirSync(join(paths.sourceRoot, name));
     writeFileSync(
       join(paths.sourceRoot, name, "README.md"),
@@ -87,17 +88,37 @@ test("repository metadata and dependency environments are excluded from derived 
     );
   }
   stageCandidate(paths);
-  for (const name of [
-    ".git",
-    "node_modules",
-    ".venv",
-    ".development-tools",
-    ".release",
-  ])
+  for (const name of [".git", "node_modules", ".venv"])
     assert.equal(existsSync(join(paths.outputRoot, name)), false, name);
   assert.equal(
     readFileSync(join(paths.outputRoot, "README.md"), "utf8"),
     "# Candidate\n\nSafe prose.\n",
+  );
+});
+test("tracked Markdown under skipped or excluded directories cannot escape inventory admission", async () => {
+  assertMarkdownInventory(["README.md"], ["README.md"]);
+  for (const hidden of [
+    "docs/.sdlc/hidden.md",
+    "node_modules/hidden.md",
+    "dist/generated.md",
+    ".agents/skills/README.md",
+  ])
+    assert.throws(
+      () => assertMarkdownInventory(["README.md"], ["README.md", hidden]),
+      /all tracked Markdown/u,
+    );
+  const paths = fixture();
+  writeFileSync(
+    join(paths.sourceRoot, "README.md"),
+    "# Candidate\n\nSafe prose.\n",
+  );
+  mkdirSync(join(paths.sourceRoot, ".sdlc"));
+  writeFileSync(join(paths.sourceRoot, ".sdlc/hidden.md"), "# Hidden\n");
+  const staging = stageCandidate(paths);
+  staging.trackedMarkdown = ["README.md", ".sdlc/hidden.md"];
+  await assert.rejects(
+    checkCandidate({ outputRoot: paths.outputRoot, cli, staging }),
+    /all tracked Markdown/u,
   );
 });
 test("malicious candidate policy cannot hide a broken authored target; exit and independent native report survive", async () => {

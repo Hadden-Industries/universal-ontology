@@ -24,6 +24,9 @@ for (const name of [
   "GITHUB_RUN_ATTEMPT",
   "GITHUB_JOB",
   "GITHUB_EVENT_NAME",
+  "GITHUB_ACTOR",
+  "ImageOS",
+  "ImageVersion",
 ])
   if (process.env[name]) env[name] = process.env[name];
 env.MARKDOWN_WINDOW_NODE = process.execPath;
@@ -54,7 +57,7 @@ const result = spawnSync(
   {
     env,
     stdio: "inherit",
-    timeout: 600000,
+    timeout: 810000,
     windowsHide: true,
   },
 );
