@@ -4,6 +4,10 @@ import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import validatePlan from "./pullRequestCheckPlanValidator.js";
+import {
+  NODE_FAMILY_TEST_INPUTS,
+  changedNodeFamilies,
+} from "./pullRequestNodeFamilies.js";
 
 const REPOSITORY_ROOT = fileURLToPath(new URL("../", import.meta.url));
 export const CORE_CHECK_CONSUMER_IDS = Object.freeze([
@@ -17,6 +21,7 @@ export const CORE_SCOPE_TO_JOBS = Object.freeze({
   style_tooling: ["development"],
   python_style: ["development"],
   python_tests: ["development"],
+  python_setup_tests: ["development"],
   documentation: ["development"],
   ontology_validation: ["ontology"],
   ontology_validation_workflow: ["ontology"],
@@ -26,6 +31,7 @@ export const CORE_SCOPE_TO_JOBS = Object.freeze({
   agent_skills_lock: ["development"],
   development: ["development"],
   product_tests: ["node"],
+  ci_control: ["node"],
   mcp_artifacts: ["node", "distribution"],
   website_build: ["node", "website"],
   mcp_docs: ["distribution"],
@@ -35,6 +41,34 @@ export const CORE_SCOPE_TO_JOBS = Object.freeze({
 export const CORE_CHECK_SCOPE_NAMES = Object.freeze(
   Object.keys(CORE_SCOPE_TO_JOBS),
 );
+// This closed first route covers package-release controls only. Shared admission
+// inputs and mixed changes keep the existing conservative product route.
+export const CI_CONTROL_INPUTS = Object.freeze([
+  ".github/workflows/manual-mcp-packages.yml",
+  "scripts/distribution/prepareManualMcpRelease.js",
+  "scripts/distribution/verifyUniversalOntologyMcpRelease.js",
+  "tests/distribution/manual-mcp-packages.test.js",
+  "tests/distribution/manual-mcp-cache-budget.test.js",
+  "tests/distribution/universal-ontology-mcp-release-verifier.test.js",
+]);
+export const PYTHON_ONLY_TEST_INPUTS = Object.freeze([
+  "tests/test_editing_policy_rendering.py",
+  "tests/test_import_catalogs.py",
+  "tests/test_ontology_entity_changes.py",
+  "tests/test_ontology_policy.py",
+  "tests/test_ontology_policy_cli.py",
+  "tests/test_ontology_policy_coverage.py",
+  "tests/test_ontology_policy_engines.py",
+  "tests/test_ontology_policy_reports.py",
+  "tests/test_policy_authorities.py",
+  "tests/test_publication_gate.py",
+  "tests/test_run_tests_in_parallel.py",
+  "tests/test_validate_ontologies.py",
+]);
+const PYTHON_ONLY_INPUTS = [...PYTHON_ONLY_TEST_INPUTS];
+function isPythonOnlyInput(path) {
+  return PYTHON_ONLY_INPUTS.includes(path);
+}
 /** Derive the complete ordered consumer set; the gate independently recomputes it. */
 export function requiredJobsForScopes(scopes) {
   const selected = new Set(
@@ -56,6 +90,16 @@ export function assertCheckPlan(plan) {
     JSON.stringify(requiredJobsForScopes(plan.scopes))
   )
     throw new Error("Plan consumers disagree with scopes.");
+  if (
+    plan.scopes.ci_control &&
+    !plan.scopes.product_tests &&
+    Object.entries(plan.scopes).some(
+      ([scope, selected]) => scope !== "ci_control" && selected,
+    )
+  )
+    throw new Error(
+      "Narrow control coverage cannot omit mixed product obligations.",
+    );
   return plan;
 }
 const ONTOLOGY_WORKFLOW = ".github/workflows/ontology-validation.yml";
@@ -532,7 +576,9 @@ export function runFromGitHubEnvironment(
         "- " +
         name +
         ": " +
-        (needed ? "selected" : "not applicable; inputs unchanged"),
+        (needed
+          ? "selected"
+          : "not selected by the current input and policy plan"),
     ),
     "",
   ].join("\n");
@@ -623,9 +669,20 @@ export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
     if (changed.status !== 0)
       throw new Error("Cannot compare event revisions.");
     const paths = changed.stdout.split("\0").filter(Boolean);
-    const knownPaths = Object.values(CHECK_INPUTS)
-      .flat()
-      .filter((path) => !path.startsWith(":"));
+    const controlOnly =
+      packageMode === "disabled" &&
+      paths.length > 0 &&
+      paths.every((path) => CI_CONTROL_INPUTS.includes(path));
+    const testFamilies =
+      packageMode === "disabled" &&
+      paths.length > 0 &&
+      paths.every((path) => NODE_FAMILY_TEST_INPUTS.includes(path))
+        ? changedNodeFamilies({ root, base: comparisonBase, revision })
+        : null;
+    const knownPaths = [
+      ...Object.values(CHECK_INPUTS).flat(),
+      ...PYTHON_ONLY_INPUTS,
+    ].filter((path) => !path.startsWith(":"));
     const unknown = paths.some(
       (path) =>
         !/^(?:docs\/.*\.md|[^/]+\.md|packages\/[^/]+\/[^/]+\.md)$/u.test(
@@ -640,7 +697,7 @@ export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
       (path) =>
         path.startsWith(".github/workflows/") ||
         path.startsWith(".github/actions/") ||
-        /^(?:scripts\/(?:selectPullRequestChecks|evaluatePullRequestChecks|generatePullRequestCheckPlanValidator|pullRequestCheckPlanValidator)\.js|scripts\/pullRequestCheckPlan\.schema\.json)$/u.test(
+        /^(?:scripts\/(?:selectPullRequestChecks|evaluatePullRequestChecks|generatePullRequestCheckPlanValidator|pullRequestCheckPlanValidator|runPullRequestNodeChecks|pullRequestNodeFamilies)\.js|scripts\/pullRequestCheckPlan\.schema\.json|tests\/pr-node-checks\.test\.js)$/u.test(
           path,
         ),
     );
@@ -657,13 +714,28 @@ export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
     if (paths.some((path) => /^packages\/[^/]+\/README\.md$/u.test(path)))
       scopes.mcp_artifacts = true;
     scopes.mcp_application = scopes.mcp_artifacts;
+    scopes.python_setup_tests =
+      scopes.python_tests &&
+      (unknown ||
+        orchestration ||
+        !paths.length ||
+        !paths.every(isPythonOnlyInput));
+    scopes.ci_control = controlOnly || unknown || orchestration;
+    if (testFamilies)
+      scopes = Object.fromEntries(
+        CORE_CHECK_SCOPE_NAMES.map((name) => [name, name === "product_tests"]),
+      );
+    if (controlOnly)
+      scopes = Object.fromEntries(
+        CORE_CHECK_SCOPE_NAMES.map((name) => [name, name === "ci_control"]),
+      );
   }
   // Application validation remains independent of the expensive downloadable
   // package matrix. Automatic package qualification never selects publication.
   scopes.mcp_artifacts = packageMode !== "disabled" && scopes.mcp_artifacts;
   scopes.mcp_release_qualification = packageMode === "manual";
   return assertCheckPlan({
-    schemaVersion: 2,
+    schemaVersion: 4,
     packageMode,
     mode: full ? "full" : "changed",
     revision,
@@ -697,7 +769,7 @@ if (
       const summary = Object.entries(plan.scopes)
         .map(
           ([scope, selected]) =>
-            `- ${scope}: ${selected ? "selected (matching input or conservative policy)" : "unselected (inputs unchanged)"}`,
+            `- ${scope}: ${selected ? "selected (matching input or conservative policy)" : "unselected (current input and package policy)"}`,
         )
         .join("\n");
       if (process.env.GITHUB_STEP_SUMMARY)

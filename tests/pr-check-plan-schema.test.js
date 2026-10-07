@@ -15,7 +15,7 @@ test("generated validator matches its reviewed schema", () => {
 });
 test("full plan requires every scope and unique consumers", () => {
   const plan = {
-    schemaVersion: 2,
+    schemaVersion: 4,
     packageMode: "manual",
     mode: "full",
     revision: "a".repeat(40),
@@ -24,6 +24,18 @@ test("full plan requires every scope and unique consumers", () => {
     requiredJobs: [...CORE_CHECK_CONSUMER_IDS],
   };
   expect(validate(plan)).toBe(true);
+  const old = structuredClone(plan);
+  old.schemaVersion = 3;
+  expect(validate(old)).toBe(false);
+  const missing = structuredClone(plan);
+  delete missing.scopes.ci_control;
+  expect(validate(missing)).toBe(false);
+  const missingSetup = structuredClone(plan);
+  delete missingSetup.scopes.python_setup_tests;
+  expect(validate(missingSetup)).toBe(false);
+  const disabledSetup = structuredClone(plan);
+  disabledSetup.scopes.python_setup_tests = false;
+  expect(validate(disabledSetup)).toBe(false);
   plan.scopes.documentation = false;
   expect(validate(plan)).toBe(false);
 });
@@ -33,6 +45,7 @@ test("control path loads in a clean directory without node_modules", () => {
     writeFileSync(join(root, "package.json"), '{"type":"module"}');
     for (const name of [
       "selectPullRequestChecks.js",
+      "pullRequestNodeFamilies.js",
       "evaluatePullRequestChecks.js",
       "pullRequestCheckPlanValidator.js",
     ])

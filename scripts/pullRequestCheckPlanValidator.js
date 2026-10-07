@@ -82,7 +82,7 @@ var schema31 = {
     "requiredJobs",
   ],
   properties: {
-    schemaVersion: { const: 2 },
+    schemaVersion: { const: 4 },
     packageMode: { enum: ["disabled", "ci", "manual"] },
     mode: { enum: ["changed", "full"] },
     revision: { type: "string", pattern: "^[a-f0-9]{40}$" },
@@ -96,6 +96,7 @@ var schema31 = {
         "style_tooling",
         "python_style",
         "python_tests",
+        "python_setup_tests",
         "documentation",
         "ontology_validation",
         "ontology_validation_workflow",
@@ -105,6 +106,7 @@ var schema31 = {
         "agent_skills_lock",
         "development",
         "product_tests",
+        "ci_control",
         "mcp_artifacts",
         "website_build",
         "mcp_docs",
@@ -115,6 +117,7 @@ var schema31 = {
         style_tooling: { type: "boolean" },
         python_style: { type: "boolean" },
         python_tests: { type: "boolean" },
+        python_setup_tests: { type: "boolean" },
         documentation: { type: "boolean" },
         ontology_validation: { type: "boolean" },
         ontology_validation_workflow: { type: "boolean" },
@@ -124,6 +127,7 @@ var schema31 = {
         agent_skills_lock: { type: "boolean" },
         development: { type: "boolean" },
         product_tests: { type: "boolean" },
+        ci_control: { type: "boolean" },
         mcp_artifacts: { type: "boolean" },
         website_build: { type: "boolean" },
         mcp_docs: { type: "boolean" },
@@ -155,6 +159,7 @@ var schema31 = {
               style_tooling: { const: true },
               python_style: { const: true },
               python_tests: { const: true },
+              python_setup_tests: { const: true },
               documentation: { const: true },
               ontology_validation: { const: true },
               ontology_validation_workflow: { const: true },
@@ -164,6 +169,7 @@ var schema31 = {
               agent_skills_lock: { const: true },
               development: { const: true },
               product_tests: { const: true },
+              ci_control: { const: true },
               website_build: { const: true },
               mcp_docs: { const: true },
               mcp_application: { const: true },
@@ -435,12 +441,12 @@ function validate20(
               errors++;
             }
           }
-          if (data3.documentation !== void 0) {
-            if (true !== data3.documentation) {
+          if (data3.python_setup_tests !== void 0) {
+            if (true !== data3.python_setup_tests) {
               const err7 = {
-                instancePath: instancePath + "/scopes/documentation",
+                instancePath: instancePath + "/scopes/python_setup_tests",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/documentation/const",
+                  "#/allOf/0/else/properties/scopes/properties/python_setup_tests/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -453,12 +459,12 @@ function validate20(
               errors++;
             }
           }
-          if (data3.ontology_validation !== void 0) {
-            if (true !== data3.ontology_validation) {
+          if (data3.documentation !== void 0) {
+            if (true !== data3.documentation) {
               const err8 = {
-                instancePath: instancePath + "/scopes/ontology_validation",
+                instancePath: instancePath + "/scopes/documentation",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/ontology_validation/const",
+                  "#/allOf/0/else/properties/scopes/properties/documentation/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -471,13 +477,12 @@ function validate20(
               errors++;
             }
           }
-          if (data3.ontology_validation_workflow !== void 0) {
-            if (true !== data3.ontology_validation_workflow) {
+          if (data3.ontology_validation !== void 0) {
+            if (true !== data3.ontology_validation) {
               const err9 = {
-                instancePath:
-                  instancePath + "/scopes/ontology_validation_workflow",
+                instancePath: instancePath + "/scopes/ontology_validation",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/ontology_validation_workflow/const",
+                  "#/allOf/0/else/properties/scopes/properties/ontology_validation/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -490,13 +495,13 @@ function validate20(
               errors++;
             }
           }
-          if (data3.ontology_entity_contracts !== void 0) {
-            if (true !== data3.ontology_entity_contracts) {
+          if (data3.ontology_validation_workflow !== void 0) {
+            if (true !== data3.ontology_validation_workflow) {
               const err10 = {
                 instancePath:
-                  instancePath + "/scopes/ontology_entity_contracts",
+                  instancePath + "/scopes/ontology_validation_workflow",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/ontology_entity_contracts/const",
+                  "#/allOf/0/else/properties/scopes/properties/ontology_validation_workflow/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -509,12 +514,13 @@ function validate20(
               errors++;
             }
           }
-          if (data3.ontology_policy_qa !== void 0) {
-            if (true !== data3.ontology_policy_qa) {
+          if (data3.ontology_entity_contracts !== void 0) {
+            if (true !== data3.ontology_entity_contracts) {
               const err11 = {
-                instancePath: instancePath + "/scopes/ontology_policy_qa",
+                instancePath:
+                  instancePath + "/scopes/ontology_entity_contracts",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/ontology_policy_qa/const",
+                  "#/allOf/0/else/properties/scopes/properties/ontology_entity_contracts/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -527,12 +533,12 @@ function validate20(
               errors++;
             }
           }
-          if (data3.ontology_qualification !== void 0) {
-            if (true !== data3.ontology_qualification) {
+          if (data3.ontology_policy_qa !== void 0) {
+            if (true !== data3.ontology_policy_qa) {
               const err12 = {
-                instancePath: instancePath + "/scopes/ontology_qualification",
+                instancePath: instancePath + "/scopes/ontology_policy_qa",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/ontology_qualification/const",
+                  "#/allOf/0/else/properties/scopes/properties/ontology_policy_qa/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -545,12 +551,12 @@ function validate20(
               errors++;
             }
           }
-          if (data3.agent_skills_lock !== void 0) {
-            if (true !== data3.agent_skills_lock) {
+          if (data3.ontology_qualification !== void 0) {
+            if (true !== data3.ontology_qualification) {
               const err13 = {
-                instancePath: instancePath + "/scopes/agent_skills_lock",
+                instancePath: instancePath + "/scopes/ontology_qualification",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/agent_skills_lock/const",
+                  "#/allOf/0/else/properties/scopes/properties/ontology_qualification/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -563,12 +569,12 @@ function validate20(
               errors++;
             }
           }
-          if (data3.development !== void 0) {
-            if (true !== data3.development) {
+          if (data3.agent_skills_lock !== void 0) {
+            if (true !== data3.agent_skills_lock) {
               const err14 = {
-                instancePath: instancePath + "/scopes/development",
+                instancePath: instancePath + "/scopes/agent_skills_lock",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/development/const",
+                  "#/allOf/0/else/properties/scopes/properties/agent_skills_lock/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -581,12 +587,12 @@ function validate20(
               errors++;
             }
           }
-          if (data3.product_tests !== void 0) {
-            if (true !== data3.product_tests) {
+          if (data3.development !== void 0) {
+            if (true !== data3.development) {
               const err15 = {
-                instancePath: instancePath + "/scopes/product_tests",
+                instancePath: instancePath + "/scopes/development",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/product_tests/const",
+                  "#/allOf/0/else/properties/scopes/properties/development/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -599,12 +605,12 @@ function validate20(
               errors++;
             }
           }
-          if (data3.website_build !== void 0) {
-            if (true !== data3.website_build) {
+          if (data3.product_tests !== void 0) {
+            if (true !== data3.product_tests) {
               const err16 = {
-                instancePath: instancePath + "/scopes/website_build",
+                instancePath: instancePath + "/scopes/product_tests",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/website_build/const",
+                  "#/allOf/0/else/properties/scopes/properties/product_tests/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -617,12 +623,12 @@ function validate20(
               errors++;
             }
           }
-          if (data3.mcp_docs !== void 0) {
-            if (true !== data3.mcp_docs) {
+          if (data3.ci_control !== void 0) {
+            if (true !== data3.ci_control) {
               const err17 = {
-                instancePath: instancePath + "/scopes/mcp_docs",
+                instancePath: instancePath + "/scopes/ci_control",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/mcp_docs/const",
+                  "#/allOf/0/else/properties/scopes/properties/ci_control/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -635,12 +641,12 @@ function validate20(
               errors++;
             }
           }
-          if (data3.mcp_application !== void 0) {
-            if (true !== data3.mcp_application) {
+          if (data3.website_build !== void 0) {
+            if (true !== data3.website_build) {
               const err18 = {
-                instancePath: instancePath + "/scopes/mcp_application",
+                instancePath: instancePath + "/scopes/website_build",
                 schemaPath:
-                  "#/allOf/0/else/properties/scopes/properties/mcp_application/const",
+                  "#/allOf/0/else/properties/scopes/properties/website_build/const",
                 keyword: "const",
                 params: { allowedValue: true },
                 message: "must be equal to constant",
@@ -653,8 +659,44 @@ function validate20(
               errors++;
             }
           }
+          if (data3.mcp_docs !== void 0) {
+            if (true !== data3.mcp_docs) {
+              const err19 = {
+                instancePath: instancePath + "/scopes/mcp_docs",
+                schemaPath:
+                  "#/allOf/0/else/properties/scopes/properties/mcp_docs/const",
+                keyword: "const",
+                params: { allowedValue: true },
+                message: "must be equal to constant",
+              };
+              if (vErrors === null) {
+                vErrors = [err19];
+              } else {
+                vErrors.push(err19);
+              }
+              errors++;
+            }
+          }
+          if (data3.mcp_application !== void 0) {
+            if (true !== data3.mcp_application) {
+              const err20 = {
+                instancePath: instancePath + "/scopes/mcp_application",
+                schemaPath:
+                  "#/allOf/0/else/properties/scopes/properties/mcp_application/const",
+                keyword: "const",
+                params: { allowedValue: true },
+                message: "must be equal to constant",
+              };
+              if (vErrors === null) {
+                vErrors = [err20];
+              } else {
+                vErrors.push(err20);
+              }
+              errors++;
+            }
+          }
         } else {
-          const err19 = {
+          const err21 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/allOf/0/else/properties/scopes/type",
             keyword: "type",
@@ -662,9 +704,9 @@ function validate20(
             message: "must be object",
           };
           if (vErrors === null) {
-            vErrors = [err19];
+            vErrors = [err21];
           } else {
-            vErrors.push(err19);
+            vErrors.push(err21);
           }
           errors++;
         }
@@ -682,7 +724,7 @@ function validate20(
     ifClause0 = "else";
   }
   if (!valid1) {
-    const err20 = {
+    const err22 = {
       instancePath,
       schemaPath: "#/allOf/0/if",
       keyword: "if",
@@ -690,46 +732,46 @@ function validate20(
       message: 'must match "' + ifClause0 + '" schema',
     };
     if (vErrors === null) {
-      vErrors = [err20];
+      vErrors = [err22];
     } else {
-      vErrors.push(err20);
+      vErrors.push(err22);
     }
     errors++;
   }
-  const _errs29 = errors;
+  const _errs31 = errors;
   let valid6 = true;
-  const _errs30 = errors;
+  const _errs32 = errors;
   if (data && typeof data == "object" && !Array.isArray(data)) {
     if (data.packageMode !== void 0) {
       if ("disabled" !== data.packageMode) {
-        const err21 = {};
+        const err23 = {};
         if (vErrors === null) {
-          vErrors = [err21];
+          vErrors = [err23];
         } else {
-          vErrors.push(err21);
+          vErrors.push(err23);
         }
         errors++;
       }
     }
   }
-  var _valid1 = _errs30 === errors;
-  errors = _errs29;
+  var _valid1 = _errs32 === errors;
+  errors = _errs31;
   if (vErrors !== null) {
-    if (_errs29) {
-      vErrors.length = _errs29;
+    if (_errs31) {
+      vErrors.length = _errs31;
     } else {
       vErrors = null;
     }
   }
   if (_valid1) {
-    const _errs32 = errors;
+    const _errs34 = errors;
     if (data && typeof data == "object" && !Array.isArray(data)) {
       if (data.scopes !== void 0) {
-        let data20 = data.scopes;
-        if (data20 && typeof data20 == "object" && !Array.isArray(data20)) {
-          if (data20.mcp_artifacts !== void 0) {
-            if (false !== data20.mcp_artifacts) {
-              const err22 = {
+        let data22 = data.scopes;
+        if (data22 && typeof data22 == "object" && !Array.isArray(data22)) {
+          if (data22.mcp_artifacts !== void 0) {
+            if (false !== data22.mcp_artifacts) {
+              const err24 = {
                 instancePath: instancePath + "/scopes/mcp_artifacts",
                 schemaPath:
                   "#/allOf/1/then/properties/scopes/properties/mcp_artifacts/const",
@@ -738,16 +780,16 @@ function validate20(
                 message: "must be equal to constant",
               };
               if (vErrors === null) {
-                vErrors = [err22];
+                vErrors = [err24];
               } else {
-                vErrors.push(err22);
+                vErrors.push(err24);
               }
               errors++;
             }
           }
-          if (data20.mcp_release_qualification !== void 0) {
-            if (false !== data20.mcp_release_qualification) {
-              const err23 = {
+          if (data22.mcp_release_qualification !== void 0) {
+            if (false !== data22.mcp_release_qualification) {
+              const err25 = {
                 instancePath:
                   instancePath + "/scopes/mcp_release_qualification",
                 schemaPath:
@@ -757,15 +799,15 @@ function validate20(
                 message: "must be equal to constant",
               };
               if (vErrors === null) {
-                vErrors = [err23];
+                vErrors = [err25];
               } else {
-                vErrors.push(err23);
+                vErrors.push(err25);
               }
               errors++;
             }
           }
         } else {
-          const err24 = {
+          const err26 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/allOf/1/then/properties/scopes/type",
             keyword: "type",
@@ -773,15 +815,15 @@ function validate20(
             message: "must be object",
           };
           if (vErrors === null) {
-            vErrors = [err24];
+            vErrors = [err26];
           } else {
-            vErrors.push(err24);
+            vErrors.push(err26);
           }
           errors++;
         }
       }
     }
-    var _valid1 = _errs32 === errors;
+    var _valid1 = _errs34 === errors;
     valid6 = _valid1;
     if (valid6) {
       var props1 = {};
@@ -790,7 +832,7 @@ function validate20(
     }
   }
   if (!valid6) {
-    const err25 = {
+    const err27 = {
       instancePath,
       schemaPath: "#/allOf/1/if",
       keyword: "if",
@@ -798,9 +840,9 @@ function validate20(
       message: 'must match "then" schema',
     };
     if (vErrors === null) {
-      vErrors = [err25];
+      vErrors = [err27];
     } else {
-      vErrors.push(err25);
+      vErrors.push(err27);
     }
     errors++;
   }
@@ -812,37 +854,37 @@ function validate20(
       Object.assign(props0, props1);
     }
   }
-  const _errs38 = errors;
+  const _errs40 = errors;
   let valid10 = true;
-  const _errs39 = errors;
+  const _errs41 = errors;
   if (data && typeof data == "object" && !Array.isArray(data)) {
     if (data.packageMode !== void 0) {
       if ("manual" !== data.packageMode) {
-        const err26 = {};
+        const err28 = {};
         if (vErrors === null) {
-          vErrors = [err26];
+          vErrors = [err28];
         } else {
-          vErrors.push(err26);
+          vErrors.push(err28);
         }
         errors++;
       }
     }
   }
-  var _valid2 = _errs39 === errors;
-  errors = _errs38;
+  var _valid2 = _errs41 === errors;
+  errors = _errs40;
   if (vErrors !== null) {
-    if (_errs38) {
-      vErrors.length = _errs38;
+    if (_errs40) {
+      vErrors.length = _errs40;
     } else {
       vErrors = null;
     }
   }
   if (_valid2) {
-    const _errs41 = errors;
+    const _errs43 = errors;
     if (data && typeof data == "object" && !Array.isArray(data)) {
       if (data.mode !== void 0) {
         if ("full" !== data.mode) {
-          const err27 = {
+          const err29 = {
             instancePath: instancePath + "/mode",
             schemaPath: "#/allOf/2/then/properties/mode/const",
             keyword: "const",
@@ -850,19 +892,19 @@ function validate20(
             message: "must be equal to constant",
           };
           if (vErrors === null) {
-            vErrors = [err27];
+            vErrors = [err29];
           } else {
-            vErrors.push(err27);
+            vErrors.push(err29);
           }
           errors++;
         }
       }
       if (data.scopes !== void 0) {
-        let data25 = data.scopes;
-        if (data25 && typeof data25 == "object" && !Array.isArray(data25)) {
-          if (data25.mcp_artifacts !== void 0) {
-            if (true !== data25.mcp_artifacts) {
-              const err28 = {
+        let data27 = data.scopes;
+        if (data27 && typeof data27 == "object" && !Array.isArray(data27)) {
+          if (data27.mcp_artifacts !== void 0) {
+            if (true !== data27.mcp_artifacts) {
+              const err30 = {
                 instancePath: instancePath + "/scopes/mcp_artifacts",
                 schemaPath:
                   "#/allOf/2/then/properties/scopes/properties/mcp_artifacts/const",
@@ -871,16 +913,16 @@ function validate20(
                 message: "must be equal to constant",
               };
               if (vErrors === null) {
-                vErrors = [err28];
+                vErrors = [err30];
               } else {
-                vErrors.push(err28);
+                vErrors.push(err30);
               }
               errors++;
             }
           }
-          if (data25.mcp_release_qualification !== void 0) {
-            if (true !== data25.mcp_release_qualification) {
-              const err29 = {
+          if (data27.mcp_release_qualification !== void 0) {
+            if (true !== data27.mcp_release_qualification) {
+              const err31 = {
                 instancePath:
                   instancePath + "/scopes/mcp_release_qualification",
                 schemaPath:
@@ -890,15 +932,15 @@ function validate20(
                 message: "must be equal to constant",
               };
               if (vErrors === null) {
-                vErrors = [err29];
+                vErrors = [err31];
               } else {
-                vErrors.push(err29);
+                vErrors.push(err31);
               }
               errors++;
             }
           }
         } else {
-          const err30 = {
+          const err32 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/allOf/2/then/properties/scopes/type",
             keyword: "type",
@@ -906,15 +948,15 @@ function validate20(
             message: "must be object",
           };
           if (vErrors === null) {
-            vErrors = [err30];
+            vErrors = [err32];
           } else {
-            vErrors.push(err30);
+            vErrors.push(err32);
           }
           errors++;
         }
       }
     }
-    var _valid2 = _errs41 === errors;
+    var _valid2 = _errs43 === errors;
     valid10 = _valid2;
     if (valid10) {
       var props2 = {};
@@ -924,7 +966,7 @@ function validate20(
     }
   }
   if (!valid10) {
-    const err31 = {
+    const err33 = {
       instancePath,
       schemaPath: "#/allOf/2/if",
       keyword: "if",
@@ -932,9 +974,9 @@ function validate20(
       message: 'must match "then" schema',
     };
     if (vErrors === null) {
-      vErrors = [err31];
+      vErrors = [err33];
     } else {
-      vErrors.push(err31);
+      vErrors.push(err33);
     }
     errors++;
   }
@@ -946,40 +988,40 @@ function validate20(
       Object.assign(props0, props2);
     }
   }
-  const _errs48 = errors;
+  const _errs50 = errors;
   let valid14 = true;
-  const _errs49 = errors;
+  const _errs51 = errors;
   if (data && typeof data == "object" && !Array.isArray(data)) {
     if (data.packageMode !== void 0) {
       if ("ci" !== data.packageMode) {
-        const err32 = {};
+        const err34 = {};
         if (vErrors === null) {
-          vErrors = [err32];
+          vErrors = [err34];
         } else {
-          vErrors.push(err32);
+          vErrors.push(err34);
         }
         errors++;
       }
     }
   }
-  var _valid3 = _errs49 === errors;
-  errors = _errs48;
+  var _valid3 = _errs51 === errors;
+  errors = _errs50;
   if (vErrors !== null) {
-    if (_errs48) {
-      vErrors.length = _errs48;
+    if (_errs50) {
+      vErrors.length = _errs50;
     } else {
       vErrors = null;
     }
   }
   if (_valid3) {
-    const _errs51 = errors;
+    const _errs53 = errors;
     if (data && typeof data == "object" && !Array.isArray(data)) {
       if (data.scopes !== void 0) {
-        let data29 = data.scopes;
-        if (data29 && typeof data29 == "object" && !Array.isArray(data29)) {
-          if (data29.mcp_release_qualification !== void 0) {
-            if (false !== data29.mcp_release_qualification) {
-              const err33 = {
+        let data31 = data.scopes;
+        if (data31 && typeof data31 == "object" && !Array.isArray(data31)) {
+          if (data31.mcp_release_qualification !== void 0) {
+            if (false !== data31.mcp_release_qualification) {
+              const err35 = {
                 instancePath:
                   instancePath + "/scopes/mcp_release_qualification",
                 schemaPath:
@@ -989,15 +1031,15 @@ function validate20(
                 message: "must be equal to constant",
               };
               if (vErrors === null) {
-                vErrors = [err33];
+                vErrors = [err35];
               } else {
-                vErrors.push(err33);
+                vErrors.push(err35);
               }
               errors++;
             }
           }
         } else {
-          const err34 = {
+          const err36 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/allOf/3/then/properties/scopes/type",
             keyword: "type",
@@ -1005,15 +1047,15 @@ function validate20(
             message: "must be object",
           };
           if (vErrors === null) {
-            vErrors = [err34];
+            vErrors = [err36];
           } else {
-            vErrors.push(err34);
+            vErrors.push(err36);
           }
           errors++;
         }
       }
     }
-    var _valid3 = _errs51 === errors;
+    var _valid3 = _errs53 === errors;
     valid14 = _valid3;
     if (valid14) {
       var props3 = {};
@@ -1022,7 +1064,7 @@ function validate20(
     }
   }
   if (!valid14) {
-    const err35 = {
+    const err37 = {
       instancePath,
       schemaPath: "#/allOf/3/if",
       keyword: "if",
@@ -1030,9 +1072,9 @@ function validate20(
       message: 'must match "then" schema',
     };
     if (vErrors === null) {
-      vErrors = [err35];
+      vErrors = [err37];
     } else {
-      vErrors.push(err35);
+      vErrors.push(err37);
     }
     errors++;
   }
@@ -1044,61 +1086,61 @@ function validate20(
       Object.assign(props0, props3);
     }
   }
-  const _errs56 = errors;
+  const _errs58 = errors;
   let valid18 = true;
-  const _errs57 = errors;
+  const _errs59 = errors;
   if (data && typeof data == "object" && !Array.isArray(data)) {
     if (data.packageMode !== void 0) {
-      const _errs58 = errors;
+      const _errs60 = errors;
       if ("ci" !== data.packageMode) {
-        const err36 = {};
+        const err38 = {};
         if (vErrors === null) {
-          vErrors = [err36];
+          vErrors = [err38];
         } else {
-          vErrors.push(err36);
+          vErrors.push(err38);
         }
         errors++;
       }
-      var valid19 = _errs58 === errors;
+      var valid19 = _errs60 === errors;
     } else {
       var valid19 = true;
     }
     if (valid19) {
       if (data.mode !== void 0) {
-        const _errs59 = errors;
+        const _errs61 = errors;
         if ("full" !== data.mode) {
-          const err37 = {};
+          const err39 = {};
           if (vErrors === null) {
-            vErrors = [err37];
+            vErrors = [err39];
           } else {
-            vErrors.push(err37);
+            vErrors.push(err39);
           }
           errors++;
         }
-        var valid19 = _errs59 === errors;
+        var valid19 = _errs61 === errors;
       } else {
         var valid19 = true;
       }
     }
   }
-  var _valid4 = _errs57 === errors;
-  errors = _errs56;
+  var _valid4 = _errs59 === errors;
+  errors = _errs58;
   if (vErrors !== null) {
-    if (_errs56) {
-      vErrors.length = _errs56;
+    if (_errs58) {
+      vErrors.length = _errs58;
     } else {
       vErrors = null;
     }
   }
   if (_valid4) {
-    const _errs60 = errors;
+    const _errs62 = errors;
     if (data && typeof data == "object" && !Array.isArray(data)) {
       if (data.scopes !== void 0) {
-        let data33 = data.scopes;
-        if (data33 && typeof data33 == "object" && !Array.isArray(data33)) {
-          if (data33.mcp_artifacts !== void 0) {
-            if (true !== data33.mcp_artifacts) {
-              const err38 = {
+        let data35 = data.scopes;
+        if (data35 && typeof data35 == "object" && !Array.isArray(data35)) {
+          if (data35.mcp_artifacts !== void 0) {
+            if (true !== data35.mcp_artifacts) {
+              const err40 = {
                 instancePath: instancePath + "/scopes/mcp_artifacts",
                 schemaPath:
                   "#/allOf/4/then/properties/scopes/properties/mcp_artifacts/const",
@@ -1107,15 +1149,15 @@ function validate20(
                 message: "must be equal to constant",
               };
               if (vErrors === null) {
-                vErrors = [err38];
+                vErrors = [err40];
               } else {
-                vErrors.push(err38);
+                vErrors.push(err40);
               }
               errors++;
             }
           }
         } else {
-          const err39 = {
+          const err41 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/allOf/4/then/properties/scopes/type",
             keyword: "type",
@@ -1123,15 +1165,15 @@ function validate20(
             message: "must be object",
           };
           if (vErrors === null) {
-            vErrors = [err39];
+            vErrors = [err41];
           } else {
-            vErrors.push(err39);
+            vErrors.push(err41);
           }
           errors++;
         }
       }
     }
-    var _valid4 = _errs60 === errors;
+    var _valid4 = _errs62 === errors;
     valid18 = _valid4;
     if (valid18) {
       var props4 = {};
@@ -1141,7 +1183,7 @@ function validate20(
     }
   }
   if (!valid18) {
-    const err40 = {
+    const err42 = {
       instancePath,
       schemaPath: "#/allOf/4/if",
       keyword: "if",
@@ -1149,9 +1191,9 @@ function validate20(
       message: 'must match "then" schema',
     };
     if (vErrors === null) {
-      vErrors = [err40];
+      vErrors = [err42];
     } else {
-      vErrors.push(err40);
+      vErrors.push(err42);
     }
     errors++;
   }
@@ -1163,63 +1205,18 @@ function validate20(
       Object.assign(props0, props4);
     }
   }
-  const _errs65 = errors;
+  const _errs67 = errors;
   let valid22 = true;
-  const _errs66 = errors;
+  const _errs68 = errors;
   if (data && typeof data == "object" && !Array.isArray(data)) {
     if (data.scopes !== void 0) {
-      let data35 = data.scopes;
-      const _errs67 = errors;
-      if (errors === _errs67) {
-        if (data35 && typeof data35 == "object" && !Array.isArray(data35)) {
-          if (data35.mcp_artifacts !== void 0) {
-            if (true !== data35.mcp_artifacts) {
-              const err41 = {};
-              if (vErrors === null) {
-                vErrors = [err41];
-              } else {
-                vErrors.push(err41);
-              }
-              errors++;
-            }
-          }
-        } else {
-          const err42 = {};
-          if (vErrors === null) {
-            vErrors = [err42];
-          } else {
-            vErrors.push(err42);
-          }
-          errors++;
-        }
-      }
-    }
-  }
-  var _valid5 = _errs66 === errors;
-  errors = _errs65;
-  if (vErrors !== null) {
-    if (_errs65) {
-      vErrors.length = _errs65;
-    } else {
-      vErrors = null;
-    }
-  }
-  if (_valid5) {
-    const _errs70 = errors;
-    if (data && typeof data == "object" && !Array.isArray(data)) {
-      if (data.scopes !== void 0) {
-        let data37 = data.scopes;
+      let data37 = data.scopes;
+      const _errs69 = errors;
+      if (errors === _errs69) {
         if (data37 && typeof data37 == "object" && !Array.isArray(data37)) {
-          if (data37.mcp_application !== void 0) {
-            if (true !== data37.mcp_application) {
-              const err43 = {
-                instancePath: instancePath + "/scopes/mcp_application",
-                schemaPath:
-                  "#/allOf/5/then/properties/scopes/properties/mcp_application/const",
-                keyword: "const",
-                params: { allowedValue: true },
-                message: "must be equal to constant",
-              };
+          if (data37.mcp_artifacts !== void 0) {
+            if (true !== data37.mcp_artifacts) {
+              const err43 = {};
               if (vErrors === null) {
                 vErrors = [err43];
               } else {
@@ -1229,13 +1226,7 @@ function validate20(
             }
           }
         } else {
-          const err44 = {
-            instancePath: instancePath + "/scopes",
-            schemaPath: "#/allOf/5/then/properties/scopes/type",
-            keyword: "type",
-            params: { type: "object" },
-            message: "must be object",
-          };
+          const err44 = {};
           if (vErrors === null) {
             vErrors = [err44];
           } else {
@@ -1245,7 +1236,58 @@ function validate20(
         }
       }
     }
-    var _valid5 = _errs70 === errors;
+  }
+  var _valid5 = _errs68 === errors;
+  errors = _errs67;
+  if (vErrors !== null) {
+    if (_errs67) {
+      vErrors.length = _errs67;
+    } else {
+      vErrors = null;
+    }
+  }
+  if (_valid5) {
+    const _errs72 = errors;
+    if (data && typeof data == "object" && !Array.isArray(data)) {
+      if (data.scopes !== void 0) {
+        let data39 = data.scopes;
+        if (data39 && typeof data39 == "object" && !Array.isArray(data39)) {
+          if (data39.mcp_application !== void 0) {
+            if (true !== data39.mcp_application) {
+              const err45 = {
+                instancePath: instancePath + "/scopes/mcp_application",
+                schemaPath:
+                  "#/allOf/5/then/properties/scopes/properties/mcp_application/const",
+                keyword: "const",
+                params: { allowedValue: true },
+                message: "must be equal to constant",
+              };
+              if (vErrors === null) {
+                vErrors = [err45];
+              } else {
+                vErrors.push(err45);
+              }
+              errors++;
+            }
+          }
+        } else {
+          const err46 = {
+            instancePath: instancePath + "/scopes",
+            schemaPath: "#/allOf/5/then/properties/scopes/type",
+            keyword: "type",
+            params: { type: "object" },
+            message: "must be object",
+          };
+          if (vErrors === null) {
+            vErrors = [err46];
+          } else {
+            vErrors.push(err46);
+          }
+          errors++;
+        }
+      }
+    }
+    var _valid5 = _errs72 === errors;
     valid22 = _valid5;
     if (valid22) {
       var props5 = {};
@@ -1253,7 +1295,7 @@ function validate20(
     }
   }
   if (!valid22) {
-    const err45 = {
+    const err47 = {
       instancePath,
       schemaPath: "#/allOf/5/if",
       keyword: "if",
@@ -1261,9 +1303,9 @@ function validate20(
       message: 'must match "then" schema',
     };
     if (vErrors === null) {
-      vErrors = [err45];
+      vErrors = [err47];
     } else {
-      vErrors.push(err45);
+      vErrors.push(err47);
     }
     errors++;
   }
@@ -1275,63 +1317,18 @@ function validate20(
       Object.assign(props0, props5);
     }
   }
-  const _errs75 = errors;
+  const _errs77 = errors;
   let valid27 = true;
-  const _errs76 = errors;
+  const _errs78 = errors;
   if (data && typeof data == "object" && !Array.isArray(data)) {
     if (data.scopes !== void 0) {
-      let data39 = data.scopes;
-      const _errs77 = errors;
-      if (errors === _errs77) {
-        if (data39 && typeof data39 == "object" && !Array.isArray(data39)) {
-          if (data39.mcp_release_qualification !== void 0) {
-            if (true !== data39.mcp_release_qualification) {
-              const err46 = {};
-              if (vErrors === null) {
-                vErrors = [err46];
-              } else {
-                vErrors.push(err46);
-              }
-              errors++;
-            }
-          }
-        } else {
-          const err47 = {};
-          if (vErrors === null) {
-            vErrors = [err47];
-          } else {
-            vErrors.push(err47);
-          }
-          errors++;
-        }
-      }
-    }
-  }
-  var _valid6 = _errs76 === errors;
-  errors = _errs75;
-  if (vErrors !== null) {
-    if (_errs75) {
-      vErrors.length = _errs75;
-    } else {
-      vErrors = null;
-    }
-  }
-  if (_valid6) {
-    const _errs80 = errors;
-    if (data && typeof data == "object" && !Array.isArray(data)) {
-      if (data.scopes !== void 0) {
-        let data41 = data.scopes;
+      let data41 = data.scopes;
+      const _errs79 = errors;
+      if (errors === _errs79) {
         if (data41 && typeof data41 == "object" && !Array.isArray(data41)) {
-          if (data41.mcp_artifacts !== void 0) {
-            if (true !== data41.mcp_artifacts) {
-              const err48 = {
-                instancePath: instancePath + "/scopes/mcp_artifacts",
-                schemaPath:
-                  "#/allOf/6/then/properties/scopes/properties/mcp_artifacts/const",
-                keyword: "const",
-                params: { allowedValue: true },
-                message: "must be equal to constant",
-              };
+          if (data41.mcp_release_qualification !== void 0) {
+            if (true !== data41.mcp_release_qualification) {
+              const err48 = {};
               if (vErrors === null) {
                 vErrors = [err48];
               } else {
@@ -1341,13 +1338,7 @@ function validate20(
             }
           }
         } else {
-          const err49 = {
-            instancePath: instancePath + "/scopes",
-            schemaPath: "#/allOf/6/then/properties/scopes/type",
-            keyword: "type",
-            params: { type: "object" },
-            message: "must be object",
-          };
+          const err49 = {};
           if (vErrors === null) {
             vErrors = [err49];
           } else {
@@ -1357,7 +1348,58 @@ function validate20(
         }
       }
     }
-    var _valid6 = _errs80 === errors;
+  }
+  var _valid6 = _errs78 === errors;
+  errors = _errs77;
+  if (vErrors !== null) {
+    if (_errs77) {
+      vErrors.length = _errs77;
+    } else {
+      vErrors = null;
+    }
+  }
+  if (_valid6) {
+    const _errs82 = errors;
+    if (data && typeof data == "object" && !Array.isArray(data)) {
+      if (data.scopes !== void 0) {
+        let data43 = data.scopes;
+        if (data43 && typeof data43 == "object" && !Array.isArray(data43)) {
+          if (data43.mcp_artifacts !== void 0) {
+            if (true !== data43.mcp_artifacts) {
+              const err50 = {
+                instancePath: instancePath + "/scopes/mcp_artifacts",
+                schemaPath:
+                  "#/allOf/6/then/properties/scopes/properties/mcp_artifacts/const",
+                keyword: "const",
+                params: { allowedValue: true },
+                message: "must be equal to constant",
+              };
+              if (vErrors === null) {
+                vErrors = [err50];
+              } else {
+                vErrors.push(err50);
+              }
+              errors++;
+            }
+          }
+        } else {
+          const err51 = {
+            instancePath: instancePath + "/scopes",
+            schemaPath: "#/allOf/6/then/properties/scopes/type",
+            keyword: "type",
+            params: { type: "object" },
+            message: "must be object",
+          };
+          if (vErrors === null) {
+            vErrors = [err51];
+          } else {
+            vErrors.push(err51);
+          }
+          errors++;
+        }
+      }
+    }
+    var _valid6 = _errs82 === errors;
     valid27 = _valid6;
     if (valid27) {
       var props6 = {};
@@ -1365,7 +1407,7 @@ function validate20(
     }
   }
   if (!valid27) {
-    const err50 = {
+    const err52 = {
       instancePath,
       schemaPath: "#/allOf/6/if",
       keyword: "if",
@@ -1373,9 +1415,9 @@ function validate20(
       message: 'must match "then" schema',
     };
     if (vErrors === null) {
-      vErrors = [err50];
+      vErrors = [err52];
     } else {
-      vErrors.push(err50);
+      vErrors.push(err52);
     }
     errors++;
   }
@@ -1389,42 +1431,12 @@ function validate20(
   }
   if (data && typeof data == "object" && !Array.isArray(data)) {
     if (data.schemaVersion === void 0) {
-      const err51 = {
+      const err53 = {
         instancePath,
         schemaPath: "#/required",
         keyword: "required",
         params: { missingProperty: "schemaVersion" },
         message: "must have required property 'schemaVersion'",
-      };
-      if (vErrors === null) {
-        vErrors = [err51];
-      } else {
-        vErrors.push(err51);
-      }
-      errors++;
-    }
-    if (data.packageMode === void 0) {
-      const err52 = {
-        instancePath,
-        schemaPath: "#/required",
-        keyword: "required",
-        params: { missingProperty: "packageMode" },
-        message: "must have required property 'packageMode'",
-      };
-      if (vErrors === null) {
-        vErrors = [err52];
-      } else {
-        vErrors.push(err52);
-      }
-      errors++;
-    }
-    if (data.mode === void 0) {
-      const err53 = {
-        instancePath,
-        schemaPath: "#/required",
-        keyword: "required",
-        params: { missingProperty: "mode" },
-        message: "must have required property 'mode'",
       };
       if (vErrors === null) {
         vErrors = [err53];
@@ -1433,13 +1445,13 @@ function validate20(
       }
       errors++;
     }
-    if (data.revision === void 0) {
+    if (data.packageMode === void 0) {
       const err54 = {
         instancePath,
         schemaPath: "#/required",
         keyword: "required",
-        params: { missingProperty: "revision" },
-        message: "must have required property 'revision'",
+        params: { missingProperty: "packageMode" },
+        message: "must have required property 'packageMode'",
       };
       if (vErrors === null) {
         vErrors = [err54];
@@ -1448,13 +1460,13 @@ function validate20(
       }
       errors++;
     }
-    if (data.comparisonBase === void 0) {
+    if (data.mode === void 0) {
       const err55 = {
         instancePath,
         schemaPath: "#/required",
         keyword: "required",
-        params: { missingProperty: "comparisonBase" },
-        message: "must have required property 'comparisonBase'",
+        params: { missingProperty: "mode" },
+        message: "must have required property 'mode'",
       };
       if (vErrors === null) {
         vErrors = [err55];
@@ -1463,13 +1475,13 @@ function validate20(
       }
       errors++;
     }
-    if (data.scopes === void 0) {
+    if (data.revision === void 0) {
       const err56 = {
         instancePath,
         schemaPath: "#/required",
         keyword: "required",
-        params: { missingProperty: "scopes" },
-        message: "must have required property 'scopes'",
+        params: { missingProperty: "revision" },
+        message: "must have required property 'revision'",
       };
       if (vErrors === null) {
         vErrors = [err56];
@@ -1478,8 +1490,38 @@ function validate20(
       }
       errors++;
     }
-    if (data.requiredJobs === void 0) {
+    if (data.comparisonBase === void 0) {
       const err57 = {
+        instancePath,
+        schemaPath: "#/required",
+        keyword: "required",
+        params: { missingProperty: "comparisonBase" },
+        message: "must have required property 'comparisonBase'",
+      };
+      if (vErrors === null) {
+        vErrors = [err57];
+      } else {
+        vErrors.push(err57);
+      }
+      errors++;
+    }
+    if (data.scopes === void 0) {
+      const err58 = {
+        instancePath,
+        schemaPath: "#/required",
+        keyword: "required",
+        params: { missingProperty: "scopes" },
+        message: "must have required property 'scopes'",
+      };
+      if (vErrors === null) {
+        vErrors = [err58];
+      } else {
+        vErrors.push(err58);
+      }
+      errors++;
+    }
+    if (data.requiredJobs === void 0) {
+      const err59 = {
         instancePath,
         schemaPath: "#/required",
         keyword: "required",
@@ -1487,9 +1529,9 @@ function validate20(
         message: "must have required property 'requiredJobs'",
       };
       if (vErrors === null) {
-        vErrors = [err57];
+        vErrors = [err59];
       } else {
-        vErrors.push(err57);
+        vErrors.push(err59);
       }
       errors++;
     }
@@ -1503,47 +1545,12 @@ function validate20(
         key0 === "scopes" ||
         key0 === "requiredJobs"
       )) {
-        const err58 = {
+        const err60 = {
           instancePath,
           schemaPath: "#/additionalProperties",
           keyword: "additionalProperties",
           params: { additionalProperty: key0 },
           message: "must NOT have additional properties",
-        };
-        if (vErrors === null) {
-          vErrors = [err58];
-        } else {
-          vErrors.push(err58);
-        }
-        errors++;
-      }
-    }
-    if (data.schemaVersion !== void 0) {
-      if (2 !== data.schemaVersion) {
-        const err59 = {
-          instancePath: instancePath + "/schemaVersion",
-          schemaPath: "#/properties/schemaVersion/const",
-          keyword: "const",
-          params: { allowedValue: 2 },
-          message: "must be equal to constant",
-        };
-        if (vErrors === null) {
-          vErrors = [err59];
-        } else {
-          vErrors.push(err59);
-        }
-        errors++;
-      }
-    }
-    if (data.packageMode !== void 0) {
-      let data44 = data.packageMode;
-      if (!(data44 === "disabled" || data44 === "ci" || data44 === "manual")) {
-        const err60 = {
-          instancePath: instancePath + "/packageMode",
-          schemaPath: "#/properties/packageMode/enum",
-          keyword: "enum",
-          params: { allowedValues: schema31.properties.packageMode.enum },
-          message: "must be equal to one of the allowed values",
         };
         if (vErrors === null) {
           vErrors = [err60];
@@ -1553,15 +1560,14 @@ function validate20(
         errors++;
       }
     }
-    if (data.mode !== void 0) {
-      let data45 = data.mode;
-      if (!(data45 === "changed" || data45 === "full")) {
+    if (data.schemaVersion !== void 0) {
+      if (4 !== data.schemaVersion) {
         const err61 = {
-          instancePath: instancePath + "/mode",
-          schemaPath: "#/properties/mode/enum",
-          keyword: "enum",
-          params: { allowedValues: schema31.properties.mode.enum },
-          message: "must be equal to one of the allowed values",
+          instancePath: instancePath + "/schemaVersion",
+          schemaPath: "#/properties/schemaVersion/const",
+          keyword: "const",
+          params: { allowedValue: 4 },
+          message: "must be equal to constant",
         };
         if (vErrors === null) {
           vErrors = [err61];
@@ -1571,31 +1577,33 @@ function validate20(
         errors++;
       }
     }
-    if (data.revision !== void 0) {
-      let data46 = data.revision;
-      if (typeof data46 === "string") {
-        if (!pattern4.test(data46)) {
-          const err62 = {
-            instancePath: instancePath + "/revision",
-            schemaPath: "#/properties/revision/pattern",
-            keyword: "pattern",
-            params: { pattern: "^[a-f0-9]{40}$" },
-            message: 'must match pattern "^[a-f0-9]{40}$"',
-          };
-          if (vErrors === null) {
-            vErrors = [err62];
-          } else {
-            vErrors.push(err62);
-          }
-          errors++;
+    if (data.packageMode !== void 0) {
+      let data46 = data.packageMode;
+      if (!(data46 === "disabled" || data46 === "ci" || data46 === "manual")) {
+        const err62 = {
+          instancePath: instancePath + "/packageMode",
+          schemaPath: "#/properties/packageMode/enum",
+          keyword: "enum",
+          params: { allowedValues: schema31.properties.packageMode.enum },
+          message: "must be equal to one of the allowed values",
+        };
+        if (vErrors === null) {
+          vErrors = [err62];
+        } else {
+          vErrors.push(err62);
         }
-      } else {
+        errors++;
+      }
+    }
+    if (data.mode !== void 0) {
+      let data47 = data.mode;
+      if (!(data47 === "changed" || data47 === "full")) {
         const err63 = {
-          instancePath: instancePath + "/revision",
-          schemaPath: "#/properties/revision/type",
-          keyword: "type",
-          params: { type: "string" },
-          message: "must be string",
+          instancePath: instancePath + "/mode",
+          schemaPath: "#/properties/mode/enum",
+          keyword: "enum",
+          params: { allowedValues: schema31.properties.mode.enum },
+          message: "must be equal to one of the allowed values",
         };
         if (vErrors === null) {
           vErrors = [err63];
@@ -1605,52 +1613,52 @@ function validate20(
         errors++;
       }
     }
-    if (data.comparisonBase !== void 0) {
-      let data47 = data.comparisonBase;
-      const _errs91 = errors;
-      let valid33 = false;
-      const _errs92 = errors;
-      if (data47 !== null) {
-        const err64 = {
-          instancePath: instancePath + "/comparisonBase",
-          schemaPath: "#/properties/comparisonBase/anyOf/0/type",
-          keyword: "type",
-          params: { type: "null" },
-          message: "must be null",
-        };
-        if (vErrors === null) {
-          vErrors = [err64];
-        } else {
-          vErrors.push(err64);
-        }
-        errors++;
-      }
-      var _valid7 = _errs92 === errors;
-      valid33 = valid33 || _valid7;
-      const _errs94 = errors;
-      if (typeof data47 === "string") {
-        if (!pattern4.test(data47)) {
-          const err65 = {
-            instancePath: instancePath + "/comparisonBase",
-            schemaPath: "#/properties/comparisonBase/anyOf/1/pattern",
+    if (data.revision !== void 0) {
+      let data48 = data.revision;
+      if (typeof data48 === "string") {
+        if (!pattern4.test(data48)) {
+          const err64 = {
+            instancePath: instancePath + "/revision",
+            schemaPath: "#/properties/revision/pattern",
             keyword: "pattern",
             params: { pattern: "^[a-f0-9]{40}$" },
             message: 'must match pattern "^[a-f0-9]{40}$"',
           };
           if (vErrors === null) {
-            vErrors = [err65];
+            vErrors = [err64];
           } else {
-            vErrors.push(err65);
+            vErrors.push(err64);
           }
           errors++;
         }
       } else {
-        const err66 = {
-          instancePath: instancePath + "/comparisonBase",
-          schemaPath: "#/properties/comparisonBase/anyOf/1/type",
+        const err65 = {
+          instancePath: instancePath + "/revision",
+          schemaPath: "#/properties/revision/type",
           keyword: "type",
           params: { type: "string" },
           message: "must be string",
+        };
+        if (vErrors === null) {
+          vErrors = [err65];
+        } else {
+          vErrors.push(err65);
+        }
+        errors++;
+      }
+    }
+    if (data.comparisonBase !== void 0) {
+      let data49 = data.comparisonBase;
+      const _errs93 = errors;
+      let valid33 = false;
+      const _errs94 = errors;
+      if (data49 !== null) {
+        const err66 = {
+          instancePath: instancePath + "/comparisonBase",
+          schemaPath: "#/properties/comparisonBase/anyOf/0/type",
+          keyword: "type",
+          params: { type: "null" },
+          message: "must be null",
         };
         if (vErrors === null) {
           vErrors = [err66];
@@ -1661,8 +1669,42 @@ function validate20(
       }
       var _valid7 = _errs94 === errors;
       valid33 = valid33 || _valid7;
+      const _errs96 = errors;
+      if (typeof data49 === "string") {
+        if (!pattern4.test(data49)) {
+          const err67 = {
+            instancePath: instancePath + "/comparisonBase",
+            schemaPath: "#/properties/comparisonBase/anyOf/1/pattern",
+            keyword: "pattern",
+            params: { pattern: "^[a-f0-9]{40}$" },
+            message: 'must match pattern "^[a-f0-9]{40}$"',
+          };
+          if (vErrors === null) {
+            vErrors = [err67];
+          } else {
+            vErrors.push(err67);
+          }
+          errors++;
+        }
+      } else {
+        const err68 = {
+          instancePath: instancePath + "/comparisonBase",
+          schemaPath: "#/properties/comparisonBase/anyOf/1/type",
+          keyword: "type",
+          params: { type: "string" },
+          message: "must be string",
+        };
+        if (vErrors === null) {
+          vErrors = [err68];
+        } else {
+          vErrors.push(err68);
+        }
+        errors++;
+      }
+      var _valid7 = _errs96 === errors;
+      valid33 = valid33 || _valid7;
       if (!valid33) {
-        const err67 = {
+        const err69 = {
           instancePath: instancePath + "/comparisonBase",
           schemaPath: "#/properties/comparisonBase/anyOf",
           keyword: "anyOf",
@@ -1670,16 +1712,16 @@ function validate20(
           message: "must match a schema in anyOf",
         };
         if (vErrors === null) {
-          vErrors = [err67];
+          vErrors = [err69];
         } else {
-          vErrors.push(err67);
+          vErrors.push(err69);
         }
         errors++;
       } else {
-        errors = _errs91;
+        errors = _errs93;
         if (vErrors !== null) {
-          if (_errs91) {
-            vErrors.length = _errs91;
+          if (_errs93) {
+            vErrors.length = _errs93;
           } else {
             vErrors = null;
           }
@@ -1687,45 +1729,15 @@ function validate20(
       }
     }
     if (data.scopes !== void 0) {
-      let data48 = data.scopes;
-      if (data48 && typeof data48 == "object" && !Array.isArray(data48)) {
-        if (data48.style_tooling === void 0) {
-          const err68 = {
+      let data50 = data.scopes;
+      if (data50 && typeof data50 == "object" && !Array.isArray(data50)) {
+        if (data50.style_tooling === void 0) {
+          const err70 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
             params: { missingProperty: "style_tooling" },
             message: "must have required property 'style_tooling'",
-          };
-          if (vErrors === null) {
-            vErrors = [err68];
-          } else {
-            vErrors.push(err68);
-          }
-          errors++;
-        }
-        if (data48.python_style === void 0) {
-          const err69 = {
-            instancePath: instancePath + "/scopes",
-            schemaPath: "#/properties/scopes/required",
-            keyword: "required",
-            params: { missingProperty: "python_style" },
-            message: "must have required property 'python_style'",
-          };
-          if (vErrors === null) {
-            vErrors = [err69];
-          } else {
-            vErrors.push(err69);
-          }
-          errors++;
-        }
-        if (data48.python_tests === void 0) {
-          const err70 = {
-            instancePath: instancePath + "/scopes",
-            schemaPath: "#/properties/scopes/required",
-            keyword: "required",
-            params: { missingProperty: "python_tests" },
-            message: "must have required property 'python_tests'",
           };
           if (vErrors === null) {
             vErrors = [err70];
@@ -1734,13 +1746,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.documentation === void 0) {
+        if (data50.python_style === void 0) {
           const err71 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "documentation" },
-            message: "must have required property 'documentation'",
+            params: { missingProperty: "python_style" },
+            message: "must have required property 'python_style'",
           };
           if (vErrors === null) {
             vErrors = [err71];
@@ -1749,13 +1761,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.ontology_validation === void 0) {
+        if (data50.python_tests === void 0) {
           const err72 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "ontology_validation" },
-            message: "must have required property 'ontology_validation'",
+            params: { missingProperty: "python_tests" },
+            message: "must have required property 'python_tests'",
           };
           if (vErrors === null) {
             vErrors = [err72];
@@ -1764,14 +1776,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.ontology_validation_workflow === void 0) {
+        if (data50.python_setup_tests === void 0) {
           const err73 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "ontology_validation_workflow" },
-            message:
-              "must have required property 'ontology_validation_workflow'",
+            params: { missingProperty: "python_setup_tests" },
+            message: "must have required property 'python_setup_tests'",
           };
           if (vErrors === null) {
             vErrors = [err73];
@@ -1780,13 +1791,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.ontology_entity_contracts === void 0) {
+        if (data50.documentation === void 0) {
           const err74 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "ontology_entity_contracts" },
-            message: "must have required property 'ontology_entity_contracts'",
+            params: { missingProperty: "documentation" },
+            message: "must have required property 'documentation'",
           };
           if (vErrors === null) {
             vErrors = [err74];
@@ -1795,13 +1806,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.ontology_policy_qa === void 0) {
+        if (data50.ontology_validation === void 0) {
           const err75 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "ontology_policy_qa" },
-            message: "must have required property 'ontology_policy_qa'",
+            params: { missingProperty: "ontology_validation" },
+            message: "must have required property 'ontology_validation'",
           };
           if (vErrors === null) {
             vErrors = [err75];
@@ -1810,13 +1821,14 @@ function validate20(
           }
           errors++;
         }
-        if (data48.ontology_qualification === void 0) {
+        if (data50.ontology_validation_workflow === void 0) {
           const err76 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "ontology_qualification" },
-            message: "must have required property 'ontology_qualification'",
+            params: { missingProperty: "ontology_validation_workflow" },
+            message:
+              "must have required property 'ontology_validation_workflow'",
           };
           if (vErrors === null) {
             vErrors = [err76];
@@ -1825,13 +1837,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.agent_skills_lock === void 0) {
+        if (data50.ontology_entity_contracts === void 0) {
           const err77 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "agent_skills_lock" },
-            message: "must have required property 'agent_skills_lock'",
+            params: { missingProperty: "ontology_entity_contracts" },
+            message: "must have required property 'ontology_entity_contracts'",
           };
           if (vErrors === null) {
             vErrors = [err77];
@@ -1840,13 +1852,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.development === void 0) {
+        if (data50.ontology_policy_qa === void 0) {
           const err78 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "development" },
-            message: "must have required property 'development'",
+            params: { missingProperty: "ontology_policy_qa" },
+            message: "must have required property 'ontology_policy_qa'",
           };
           if (vErrors === null) {
             vErrors = [err78];
@@ -1855,13 +1867,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.product_tests === void 0) {
+        if (data50.ontology_qualification === void 0) {
           const err79 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "product_tests" },
-            message: "must have required property 'product_tests'",
+            params: { missingProperty: "ontology_qualification" },
+            message: "must have required property 'ontology_qualification'",
           };
           if (vErrors === null) {
             vErrors = [err79];
@@ -1870,13 +1882,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.mcp_artifacts === void 0) {
+        if (data50.agent_skills_lock === void 0) {
           const err80 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "mcp_artifacts" },
-            message: "must have required property 'mcp_artifacts'",
+            params: { missingProperty: "agent_skills_lock" },
+            message: "must have required property 'agent_skills_lock'",
           };
           if (vErrors === null) {
             vErrors = [err80];
@@ -1885,13 +1897,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.website_build === void 0) {
+        if (data50.development === void 0) {
           const err81 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "website_build" },
-            message: "must have required property 'website_build'",
+            params: { missingProperty: "development" },
+            message: "must have required property 'development'",
           };
           if (vErrors === null) {
             vErrors = [err81];
@@ -1900,13 +1912,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.mcp_docs === void 0) {
+        if (data50.product_tests === void 0) {
           const err82 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "mcp_docs" },
-            message: "must have required property 'mcp_docs'",
+            params: { missingProperty: "product_tests" },
+            message: "must have required property 'product_tests'",
           };
           if (vErrors === null) {
             vErrors = [err82];
@@ -1915,13 +1927,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.mcp_application === void 0) {
+        if (data50.ci_control === void 0) {
           const err83 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "mcp_application" },
-            message: "must have required property 'mcp_application'",
+            params: { missingProperty: "ci_control" },
+            message: "must have required property 'ci_control'",
           };
           if (vErrors === null) {
             vErrors = [err83];
@@ -1930,13 +1942,13 @@ function validate20(
           }
           errors++;
         }
-        if (data48.mcp_release_qualification === void 0) {
+        if (data50.mcp_artifacts === void 0) {
           const err84 = {
             instancePath: instancePath + "/scopes",
             schemaPath: "#/properties/scopes/required",
             keyword: "required",
-            params: { missingProperty: "mcp_release_qualification" },
-            message: "must have required property 'mcp_release_qualification'",
+            params: { missingProperty: "mcp_artifacts" },
+            message: "must have required property 'mcp_artifacts'",
           };
           if (vErrors === null) {
             vErrors = [err84];
@@ -1945,82 +1957,74 @@ function validate20(
           }
           errors++;
         }
-        for (const key1 in data48) {
+        if (data50.website_build === void 0) {
+          const err85 = {
+            instancePath: instancePath + "/scopes",
+            schemaPath: "#/properties/scopes/required",
+            keyword: "required",
+            params: { missingProperty: "website_build" },
+            message: "must have required property 'website_build'",
+          };
+          if (vErrors === null) {
+            vErrors = [err85];
+          } else {
+            vErrors.push(err85);
+          }
+          errors++;
+        }
+        if (data50.mcp_docs === void 0) {
+          const err86 = {
+            instancePath: instancePath + "/scopes",
+            schemaPath: "#/properties/scopes/required",
+            keyword: "required",
+            params: { missingProperty: "mcp_docs" },
+            message: "must have required property 'mcp_docs'",
+          };
+          if (vErrors === null) {
+            vErrors = [err86];
+          } else {
+            vErrors.push(err86);
+          }
+          errors++;
+        }
+        if (data50.mcp_application === void 0) {
+          const err87 = {
+            instancePath: instancePath + "/scopes",
+            schemaPath: "#/properties/scopes/required",
+            keyword: "required",
+            params: { missingProperty: "mcp_application" },
+            message: "must have required property 'mcp_application'",
+          };
+          if (vErrors === null) {
+            vErrors = [err87];
+          } else {
+            vErrors.push(err87);
+          }
+          errors++;
+        }
+        if (data50.mcp_release_qualification === void 0) {
+          const err88 = {
+            instancePath: instancePath + "/scopes",
+            schemaPath: "#/properties/scopes/required",
+            keyword: "required",
+            params: { missingProperty: "mcp_release_qualification" },
+            message: "must have required property 'mcp_release_qualification'",
+          };
+          if (vErrors === null) {
+            vErrors = [err88];
+          } else {
+            vErrors.push(err88);
+          }
+          errors++;
+        }
+        for (const key1 in data50) {
           if (!func1.call(schema31.properties.scopes.properties, key1)) {
-            const err85 = {
+            const err89 = {
               instancePath: instancePath + "/scopes",
               schemaPath: "#/properties/scopes/additionalProperties",
               keyword: "additionalProperties",
               params: { additionalProperty: key1 },
               message: "must NOT have additional properties",
-            };
-            if (vErrors === null) {
-              vErrors = [err85];
-            } else {
-              vErrors.push(err85);
-            }
-            errors++;
-          }
-        }
-        if (data48.style_tooling !== void 0) {
-          if (typeof data48.style_tooling !== "boolean") {
-            const err86 = {
-              instancePath: instancePath + "/scopes/style_tooling",
-              schemaPath: "#/properties/scopes/properties/style_tooling/type",
-              keyword: "type",
-              params: { type: "boolean" },
-              message: "must be boolean",
-            };
-            if (vErrors === null) {
-              vErrors = [err86];
-            } else {
-              vErrors.push(err86);
-            }
-            errors++;
-          }
-        }
-        if (data48.python_style !== void 0) {
-          if (typeof data48.python_style !== "boolean") {
-            const err87 = {
-              instancePath: instancePath + "/scopes/python_style",
-              schemaPath: "#/properties/scopes/properties/python_style/type",
-              keyword: "type",
-              params: { type: "boolean" },
-              message: "must be boolean",
-            };
-            if (vErrors === null) {
-              vErrors = [err87];
-            } else {
-              vErrors.push(err87);
-            }
-            errors++;
-          }
-        }
-        if (data48.python_tests !== void 0) {
-          if (typeof data48.python_tests !== "boolean") {
-            const err88 = {
-              instancePath: instancePath + "/scopes/python_tests",
-              schemaPath: "#/properties/scopes/properties/python_tests/type",
-              keyword: "type",
-              params: { type: "boolean" },
-              message: "must be boolean",
-            };
-            if (vErrors === null) {
-              vErrors = [err88];
-            } else {
-              vErrors.push(err88);
-            }
-            errors++;
-          }
-        }
-        if (data48.documentation !== void 0) {
-          if (typeof data48.documentation !== "boolean") {
-            const err89 = {
-              instancePath: instancePath + "/scopes/documentation",
-              schemaPath: "#/properties/scopes/properties/documentation/type",
-              keyword: "type",
-              params: { type: "boolean" },
-              message: "must be boolean",
             };
             if (vErrors === null) {
               vErrors = [err89];
@@ -2030,12 +2034,11 @@ function validate20(
             errors++;
           }
         }
-        if (data48.ontology_validation !== void 0) {
-          if (typeof data48.ontology_validation !== "boolean") {
+        if (data50.style_tooling !== void 0) {
+          if (typeof data50.style_tooling !== "boolean") {
             const err90 = {
-              instancePath: instancePath + "/scopes/ontology_validation",
-              schemaPath:
-                "#/properties/scopes/properties/ontology_validation/type",
+              instancePath: instancePath + "/scopes/style_tooling",
+              schemaPath: "#/properties/scopes/properties/style_tooling/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2048,13 +2051,11 @@ function validate20(
             errors++;
           }
         }
-        if (data48.ontology_validation_workflow !== void 0) {
-          if (typeof data48.ontology_validation_workflow !== "boolean") {
+        if (data50.python_style !== void 0) {
+          if (typeof data50.python_style !== "boolean") {
             const err91 = {
-              instancePath:
-                instancePath + "/scopes/ontology_validation_workflow",
-              schemaPath:
-                "#/properties/scopes/properties/ontology_validation_workflow/type",
+              instancePath: instancePath + "/scopes/python_style",
+              schemaPath: "#/properties/scopes/properties/python_style/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2067,12 +2068,11 @@ function validate20(
             errors++;
           }
         }
-        if (data48.ontology_entity_contracts !== void 0) {
-          if (typeof data48.ontology_entity_contracts !== "boolean") {
+        if (data50.python_tests !== void 0) {
+          if (typeof data50.python_tests !== "boolean") {
             const err92 = {
-              instancePath: instancePath + "/scopes/ontology_entity_contracts",
-              schemaPath:
-                "#/properties/scopes/properties/ontology_entity_contracts/type",
+              instancePath: instancePath + "/scopes/python_tests",
+              schemaPath: "#/properties/scopes/properties/python_tests/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2085,12 +2085,12 @@ function validate20(
             errors++;
           }
         }
-        if (data48.ontology_policy_qa !== void 0) {
-          if (typeof data48.ontology_policy_qa !== "boolean") {
+        if (data50.python_setup_tests !== void 0) {
+          if (typeof data50.python_setup_tests !== "boolean") {
             const err93 = {
-              instancePath: instancePath + "/scopes/ontology_policy_qa",
+              instancePath: instancePath + "/scopes/python_setup_tests",
               schemaPath:
-                "#/properties/scopes/properties/ontology_policy_qa/type",
+                "#/properties/scopes/properties/python_setup_tests/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2103,12 +2103,11 @@ function validate20(
             errors++;
           }
         }
-        if (data48.ontology_qualification !== void 0) {
-          if (typeof data48.ontology_qualification !== "boolean") {
+        if (data50.documentation !== void 0) {
+          if (typeof data50.documentation !== "boolean") {
             const err94 = {
-              instancePath: instancePath + "/scopes/ontology_qualification",
-              schemaPath:
-                "#/properties/scopes/properties/ontology_qualification/type",
+              instancePath: instancePath + "/scopes/documentation",
+              schemaPath: "#/properties/scopes/properties/documentation/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2121,12 +2120,12 @@ function validate20(
             errors++;
           }
         }
-        if (data48.agent_skills_lock !== void 0) {
-          if (typeof data48.agent_skills_lock !== "boolean") {
+        if (data50.ontology_validation !== void 0) {
+          if (typeof data50.ontology_validation !== "boolean") {
             const err95 = {
-              instancePath: instancePath + "/scopes/agent_skills_lock",
+              instancePath: instancePath + "/scopes/ontology_validation",
               schemaPath:
-                "#/properties/scopes/properties/agent_skills_lock/type",
+                "#/properties/scopes/properties/ontology_validation/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2139,11 +2138,13 @@ function validate20(
             errors++;
           }
         }
-        if (data48.development !== void 0) {
-          if (typeof data48.development !== "boolean") {
+        if (data50.ontology_validation_workflow !== void 0) {
+          if (typeof data50.ontology_validation_workflow !== "boolean") {
             const err96 = {
-              instancePath: instancePath + "/scopes/development",
-              schemaPath: "#/properties/scopes/properties/development/type",
+              instancePath:
+                instancePath + "/scopes/ontology_validation_workflow",
+              schemaPath:
+                "#/properties/scopes/properties/ontology_validation_workflow/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2156,11 +2157,12 @@ function validate20(
             errors++;
           }
         }
-        if (data48.product_tests !== void 0) {
-          if (typeof data48.product_tests !== "boolean") {
+        if (data50.ontology_entity_contracts !== void 0) {
+          if (typeof data50.ontology_entity_contracts !== "boolean") {
             const err97 = {
-              instancePath: instancePath + "/scopes/product_tests",
-              schemaPath: "#/properties/scopes/properties/product_tests/type",
+              instancePath: instancePath + "/scopes/ontology_entity_contracts",
+              schemaPath:
+                "#/properties/scopes/properties/ontology_entity_contracts/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2173,11 +2175,12 @@ function validate20(
             errors++;
           }
         }
-        if (data48.mcp_artifacts !== void 0) {
-          if (typeof data48.mcp_artifacts !== "boolean") {
+        if (data50.ontology_policy_qa !== void 0) {
+          if (typeof data50.ontology_policy_qa !== "boolean") {
             const err98 = {
-              instancePath: instancePath + "/scopes/mcp_artifacts",
-              schemaPath: "#/properties/scopes/properties/mcp_artifacts/type",
+              instancePath: instancePath + "/scopes/ontology_policy_qa",
+              schemaPath:
+                "#/properties/scopes/properties/ontology_policy_qa/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2190,11 +2193,12 @@ function validate20(
             errors++;
           }
         }
-        if (data48.website_build !== void 0) {
-          if (typeof data48.website_build !== "boolean") {
+        if (data50.ontology_qualification !== void 0) {
+          if (typeof data50.ontology_qualification !== "boolean") {
             const err99 = {
-              instancePath: instancePath + "/scopes/website_build",
-              schemaPath: "#/properties/scopes/properties/website_build/type",
+              instancePath: instancePath + "/scopes/ontology_qualification",
+              schemaPath:
+                "#/properties/scopes/properties/ontology_qualification/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2207,11 +2211,12 @@ function validate20(
             errors++;
           }
         }
-        if (data48.mcp_docs !== void 0) {
-          if (typeof data48.mcp_docs !== "boolean") {
+        if (data50.agent_skills_lock !== void 0) {
+          if (typeof data50.agent_skills_lock !== "boolean") {
             const err100 = {
-              instancePath: instancePath + "/scopes/mcp_docs",
-              schemaPath: "#/properties/scopes/properties/mcp_docs/type",
+              instancePath: instancePath + "/scopes/agent_skills_lock",
+              schemaPath:
+                "#/properties/scopes/properties/agent_skills_lock/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2224,11 +2229,11 @@ function validate20(
             errors++;
           }
         }
-        if (data48.mcp_application !== void 0) {
-          if (typeof data48.mcp_application !== "boolean") {
+        if (data50.development !== void 0) {
+          if (typeof data50.development !== "boolean") {
             const err101 = {
-              instancePath: instancePath + "/scopes/mcp_application",
-              schemaPath: "#/properties/scopes/properties/mcp_application/type",
+              instancePath: instancePath + "/scopes/development",
+              schemaPath: "#/properties/scopes/properties/development/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2241,12 +2246,11 @@ function validate20(
             errors++;
           }
         }
-        if (data48.mcp_release_qualification !== void 0) {
-          if (typeof data48.mcp_release_qualification !== "boolean") {
+        if (data50.product_tests !== void 0) {
+          if (typeof data50.product_tests !== "boolean") {
             const err102 = {
-              instancePath: instancePath + "/scopes/mcp_release_qualification",
-              schemaPath:
-                "#/properties/scopes/properties/mcp_release_qualification/type",
+              instancePath: instancePath + "/scopes/product_tests",
+              schemaPath: "#/properties/scopes/properties/product_tests/type",
               keyword: "type",
               params: { type: "boolean" },
               message: "must be boolean",
@@ -2259,43 +2263,31 @@ function validate20(
             errors++;
           }
         }
-      } else {
-        const err103 = {
-          instancePath: instancePath + "/scopes",
-          schemaPath: "#/properties/scopes/type",
-          keyword: "type",
-          params: { type: "object" },
-          message: "must be object",
-        };
-        if (vErrors === null) {
-          vErrors = [err103];
-        } else {
-          vErrors.push(err103);
+        if (data50.ci_control !== void 0) {
+          if (typeof data50.ci_control !== "boolean") {
+            const err103 = {
+              instancePath: instancePath + "/scopes/ci_control",
+              schemaPath: "#/properties/scopes/properties/ci_control/type",
+              keyword: "type",
+              params: { type: "boolean" },
+              message: "must be boolean",
+            };
+            if (vErrors === null) {
+              vErrors = [err103];
+            } else {
+              vErrors.push(err103);
+            }
+            errors++;
+          }
         }
-        errors++;
-      }
-    }
-    if (data.requiredJobs !== void 0) {
-      let data66 = data.requiredJobs;
-      if (Array.isArray(data66)) {
-        const len0 = data66.length;
-        for (let i0 = 0; i0 < len0; i0++) {
-          let data67 = data66[i0];
-          if (!(
-            data67 === "development" ||
-            data67 === "ontology" ||
-            data67 === "node" ||
-            data67 === "website" ||
-            data67 === "distribution"
-          )) {
+        if (data50.mcp_artifacts !== void 0) {
+          if (typeof data50.mcp_artifacts !== "boolean") {
             const err104 = {
-              instancePath: instancePath + "/requiredJobs/" + i0,
-              schemaPath: "#/properties/requiredJobs/items/enum",
-              keyword: "enum",
-              params: {
-                allowedValues: schema31.properties.requiredJobs.items.enum,
-              },
-              message: "must be equal to one of the allowed values",
+              instancePath: instancePath + "/scopes/mcp_artifacts",
+              schemaPath: "#/properties/scopes/properties/mcp_artifacts/type",
+              keyword: "type",
+              params: { type: "boolean" },
+              message: "must be boolean",
             };
             if (vErrors === null) {
               vErrors = [err104];
@@ -2305,13 +2297,128 @@ function validate20(
             errors++;
           }
         }
-        let i1 = data66.length;
+        if (data50.website_build !== void 0) {
+          if (typeof data50.website_build !== "boolean") {
+            const err105 = {
+              instancePath: instancePath + "/scopes/website_build",
+              schemaPath: "#/properties/scopes/properties/website_build/type",
+              keyword: "type",
+              params: { type: "boolean" },
+              message: "must be boolean",
+            };
+            if (vErrors === null) {
+              vErrors = [err105];
+            } else {
+              vErrors.push(err105);
+            }
+            errors++;
+          }
+        }
+        if (data50.mcp_docs !== void 0) {
+          if (typeof data50.mcp_docs !== "boolean") {
+            const err106 = {
+              instancePath: instancePath + "/scopes/mcp_docs",
+              schemaPath: "#/properties/scopes/properties/mcp_docs/type",
+              keyword: "type",
+              params: { type: "boolean" },
+              message: "must be boolean",
+            };
+            if (vErrors === null) {
+              vErrors = [err106];
+            } else {
+              vErrors.push(err106);
+            }
+            errors++;
+          }
+        }
+        if (data50.mcp_application !== void 0) {
+          if (typeof data50.mcp_application !== "boolean") {
+            const err107 = {
+              instancePath: instancePath + "/scopes/mcp_application",
+              schemaPath: "#/properties/scopes/properties/mcp_application/type",
+              keyword: "type",
+              params: { type: "boolean" },
+              message: "must be boolean",
+            };
+            if (vErrors === null) {
+              vErrors = [err107];
+            } else {
+              vErrors.push(err107);
+            }
+            errors++;
+          }
+        }
+        if (data50.mcp_release_qualification !== void 0) {
+          if (typeof data50.mcp_release_qualification !== "boolean") {
+            const err108 = {
+              instancePath: instancePath + "/scopes/mcp_release_qualification",
+              schemaPath:
+                "#/properties/scopes/properties/mcp_release_qualification/type",
+              keyword: "type",
+              params: { type: "boolean" },
+              message: "must be boolean",
+            };
+            if (vErrors === null) {
+              vErrors = [err108];
+            } else {
+              vErrors.push(err108);
+            }
+            errors++;
+          }
+        }
+      } else {
+        const err109 = {
+          instancePath: instancePath + "/scopes",
+          schemaPath: "#/properties/scopes/type",
+          keyword: "type",
+          params: { type: "object" },
+          message: "must be object",
+        };
+        if (vErrors === null) {
+          vErrors = [err109];
+        } else {
+          vErrors.push(err109);
+        }
+        errors++;
+      }
+    }
+    if (data.requiredJobs !== void 0) {
+      let data70 = data.requiredJobs;
+      if (Array.isArray(data70)) {
+        const len0 = data70.length;
+        for (let i0 = 0; i0 < len0; i0++) {
+          let data71 = data70[i0];
+          if (!(
+            data71 === "development" ||
+            data71 === "ontology" ||
+            data71 === "node" ||
+            data71 === "website" ||
+            data71 === "distribution"
+          )) {
+            const err110 = {
+              instancePath: instancePath + "/requiredJobs/" + i0,
+              schemaPath: "#/properties/requiredJobs/items/enum",
+              keyword: "enum",
+              params: {
+                allowedValues: schema31.properties.requiredJobs.items.enum,
+              },
+              message: "must be equal to one of the allowed values",
+            };
+            if (vErrors === null) {
+              vErrors = [err110];
+            } else {
+              vErrors.push(err110);
+            }
+            errors++;
+          }
+        }
+        let i1 = data70.length;
         let j0;
         if (i1 > 1) {
           outer0: for (; i1--;) {
             for (j0 = i1; j0--;) {
-              if (func0(data66[i1], data66[j0])) {
-                const err105 = {
+              if (func0(data70[i1], data70[j0])) {
+                const err111 = {
                   instancePath: instancePath + "/requiredJobs",
                   schemaPath: "#/properties/requiredJobs/uniqueItems",
                   keyword: "uniqueItems",
@@ -2324,9 +2431,9 @@ function validate20(
                     " are identical)",
                 };
                 if (vErrors === null) {
-                  vErrors = [err105];
+                  vErrors = [err111];
                 } else {
-                  vErrors.push(err105);
+                  vErrors.push(err111);
                 }
                 errors++;
                 break outer0;
@@ -2335,7 +2442,7 @@ function validate20(
           }
         }
       } else {
-        const err106 = {
+        const err112 = {
           instancePath: instancePath + "/requiredJobs",
           schemaPath: "#/properties/requiredJobs/type",
           keyword: "type",
@@ -2343,15 +2450,15 @@ function validate20(
           message: "must be array",
         };
         if (vErrors === null) {
-          vErrors = [err106];
+          vErrors = [err112];
         } else {
-          vErrors.push(err106);
+          vErrors.push(err112);
         }
         errors++;
       }
     }
   } else {
-    const err107 = {
+    const err113 = {
       instancePath,
       schemaPath: "#/type",
       keyword: "type",
@@ -2359,9 +2466,9 @@ function validate20(
       message: "must be object",
     };
     if (vErrors === null) {
-      vErrors = [err107];
+      vErrors = [err113];
     } else {
-      vErrors.push(err107);
+      vErrors.push(err113);
     }
     errors++;
   }

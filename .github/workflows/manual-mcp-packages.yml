@@ -19,6 +19,7 @@ jobs:
       include_mcp_packages: true
     permissions:
       contents: read
+      actions: read
     cache-mode: read
   validate:
     needs: qualify
