@@ -44,15 +44,15 @@ const files = [
   "tooling/markdown/package.json",
   "tooling/markdown/package-lock.json",
   ".github/workflows/markdown-quality.yml",
-  "scripts/runMarkdownQuality.mjs",
   "scripts/installMarkdownTools.mjs",
-  "scripts/check-markdown-candidate.mjs",
-  "scripts/check-markdown-candidate.probes.mjs",
-  "scripts/observe-markdown-window.py",
-  "scripts/observe-markdown-window.probes.py",
-  "scripts/run-markdown-window.mjs",
   "scripts/render_editing_policy.py",
   "scripts/setUpDevelopmentEnvironment.js",
+  ".markdown-quality-execution.json",
+  "package.json",
+  "tests/markdown-quality.test.js",
+  "tooling/markdown/archives/hadden-industries-markdown-quality-1.0.3.tgz",
+  "tooling/markdown/archives/hadden-industries-markdown-quality-win32-x64-1.0.3.tgz",
+  "tooling/markdown/archives/hadden-industries-markdown-quality-linux-x64-1.0.3.tgz",
 ];
 
 test.each(files.slice(0, 5))(
@@ -209,23 +209,29 @@ test.each(files)("rejects a semantic modification to %s", async (changed) => {
   const root = mkdtempSync(join(tmpdir(), "uo-pr-policy-"));
   try {
     for (const file of files) {
-      let text = readFileSync(
-        new URL(`../../${file}`, import.meta.url),
-        "utf8",
-      );
+      let bytes = readFileSync(new URL(`../../${file}`, import.meta.url));
       if (file === changed) {
-        if (file.endsWith(".yml")) {
+        if (file.endsWith(".tgz")) {
+          bytes = Buffer.from(bytes);
+          bytes[bytes.length - 1] ^= 1;
+        } else if (file.endsWith(".yml")) {
+          const text = bytes.toString("utf8");
           const value = parse(text);
           value.permissions = { contents: "write" };
-          text = stringify(value);
+          bytes = Buffer.from(stringify(value));
         } else if (file.endsWith(".json")) {
+          const text = bytes.toString("utf8");
           const value = JSON.parse(text);
           value.additionalProperties = true;
-          text = JSON.stringify(value);
-        } else text += "\n// unreviewed control change\n";
+          bytes = Buffer.from(JSON.stringify(value));
+        } else
+          bytes = Buffer.concat([
+            bytes,
+            Buffer.from("\n// unreviewed control change\n"),
+          ]);
       }
       mkdirSync(dirname(join(root, file)), { recursive: true });
-      writeFileSync(join(root, file), text);
+      writeFileSync(join(root, file), bytes);
     }
     await expect(verifyPullRequestPolicyGraph({ root })).rejects.toThrow(
       /Unreviewed PR execution policy/u,

@@ -411,7 +411,7 @@ expect(latestCatalog.releases).toHaveLength(6);
 
 ### Task 8: Configuration Updates & End-to-End Verification
 
-_(Executed strictly upon explicit user approval)_
+*(Executed strictly upon explicit user approval)*
 
 #### Step 1: Update package.json scripts
 

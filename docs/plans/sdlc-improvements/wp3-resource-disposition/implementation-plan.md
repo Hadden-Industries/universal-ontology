@@ -584,7 +584,7 @@ It must not silently convert an unresolved filesystem identity to “not present
 
 ### WP3.5 — Exercise blocked, stale, nested and confirmation outcomes
 
-Record an actual-shaped _synthetic_ guard denial as data and assert the exact rule/reference/operator request survives implementation handoff.
+Record an actual-shaped *synthetic* guard denial as data and assert the exact rule/reference/operator request survives implementation handoff.
 Instrument command dispatch to fail on anything outside the small read-only Git allowlist; independently assert resource and sentinel bytes remain unchanged.
 This establishes no-delete implementation behavior, not actual host interception.
 
@@ -904,7 +904,8 @@ Official documentation establishes native interfaces, not the project's business
 
 ## 20. Final acceptance statement — fill only from actual execution
 
-> WP3 is implemented at <revision> against <accepted scope/baseline and exact configuration>. The metadata-only recorder and status view were exercised through <actual Windows/Ubuntu entry points and run identities>, retaining <history, blocked, nested and failure evidence>.
+> WP3 is implemented at <revision> against <accepted scope/baseline and exact configuration>.
+> The metadata-only recorder and status view were exercised through <actual Windows/Ubuntu entry points and run identities>, retaining <history, blocked, nested and failure evidence>.
 > The actual handoff resource set is <scope/current reconciliation>, with required content preserved and read back at <references>.
 > Every retained item has <owner or explicit hold, consumer and next actor>.
 > Implementation completion is <actual state>; resource disposal is <actual separate state>.

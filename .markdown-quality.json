@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "preset": "authored-gfm@1",
   "include": ["**/*.md"],
   "exclude": [
@@ -12,7 +12,6 @@
     "vendor/*",
     "docs/policy/Editing-Policy.generated.md"
   ],
-  "ignoreFiles": [],
   "lint": {},
   "links": { "localFiles": true, "rootRelative": "reject" },
   "layout": { "endOfLine": "lf", "tabWidth": 2 }

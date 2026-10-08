@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "samples": 6,
+  "checkerMs": 30000,
+  "windowMs": 120000,
+  "memoryBytes": 1073741824,
+  "nodeOldSpaceMb": 256,
+  "reportBytes": 8388608,
+  "requestBytes": 8388608,
+  "stagingBytes": 134217728,
+  "stagingEntries": 100000,
+  "limits": {},
+  "runtimes": {
+    "node": {
+      "file": ".node-version"
+    },
+    "python": {
+      "file": ".python-version"
+    }
+  },
+  "toolchain": {
+    "lockFile": "tooling/markdown/package-lock.json",
+    "coreArchive": "tooling/markdown/archives/hadden-industries-markdown-quality-1.0.3.tgz",
+    "nativeArchives": {
+      "win32-x64": "tooling/markdown/archives/hadden-industries-markdown-quality-win32-x64-1.0.3.tgz",
+      "linux-x64": "tooling/markdown/archives/hadden-industries-markdown-quality-linux-x64-1.0.3.tgz"
+    }
+  }
+}

@@ -6,7 +6,7 @@
 
 **Implementation plan · 10 September 2026**
 
-**Parent:** _SDLC reliability, worktree lifecycle and proportionality — implementation plan_, WP0.
+**Parent:** *SDLC reliability, worktree lifecycle and proportionality — implementation plan*, WP0.
 **Repository:** `Hadden-Industries/universal-ontology`.
 **Priority:** P0 preservation precaution; not a declaration of an incident or a risk-class assignment.
 **Status:** proposed execution instructions.
@@ -722,10 +722,10 @@ Do not substitute reproducibility aspirations for actual copies of irreplaceable
 
 ### Supplied basis
 
-**\[P1]** _SDLC reliability, worktree lifecycle and proportionality — implementation plan_, 10 September 2026, WP0.
+**\[P1]** *SDLC reliability, worktree lifecycle and proportionality — implementation plan*, 10 September 2026, WP0.
 Uploaded file `../implementation-plan.md`, 62,272 bytes; SHA-256 `b560e4b15685c2af42f1cafd1a223ff718d968cc8a0648e9a33522fb07601c82`.
 
-**\[H1]** _Handoff — `.sdlc/runtime/worktrees` lifecycle in `universal-ontology`_, 10 September 2026.
+**\[H1]** *Handoff — `.sdlc/runtime/worktrees` lifecycle in `universal-ontology`*, 10 September 2026.
 Uploaded file `sdlcworktreelifecyclehandoff20260910.md`, 13,079 bytes; SHA-256 `a9cf76ae85ab314b15e80164150e0a69d8c18af836c32a83e8ca689e1a4d16d6`.
 
 These identify the supplied documents, not the current Windows source contents.

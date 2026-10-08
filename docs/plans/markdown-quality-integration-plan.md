@@ -1,5 +1,10 @@
 # Universal Ontology: Markdown Quality integration
 
+Owner-approved follow-on decisions supersede this plan's original all-document enforcement and copied-control design.
+The root `.markdown-quality.json` is now the sole source of Markdown content policy, retaining `include: ["**/*.md"]` and the four approved historical/generated/vendor exclusions.
+The UO-only centralization cutover uses immutable producer archives and the SHA-pinned shared workflow, with operational bounds in `.markdown-quality-execution.json`.
+Historical decisions and measurements below remain records of the original integration; they do not override the current root configuration.
+
 Date: 2026-10-07, Europe/Bucharest.
 Status: accepted for implementation by the owner on 2026-10-07, with the execution amendments below.
 Owner: Maksym Shostak.

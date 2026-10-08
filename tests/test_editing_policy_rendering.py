@@ -1,5 +1,6 @@
 """Rendering contract: the whole Editing Policy page is a checked projection of the policy graph."""
 
+import json
 import subprocess
 import sys
 import tempfile
@@ -41,6 +42,36 @@ class CanonicalFormatterFailureTest(unittest.TestCase):
         ):
             with self.assertRaisesRegex(RuntimeError, "canonical Markdown quality"):
                 format_generated_document("# Policy\n")
+
+    def test_logical_reply_cannot_change_request_or_document_identity(self):
+        for field in ("requestId", "path"):
+            with self.subTest(field=field):
+
+                def mismatched_reply(*args, input, **kwargs):
+                    request = json.loads(input)
+                    request[field] += "-wrong"
+                    return subprocess.CompletedProcess(
+                        args,
+                        0,
+                        stdout=json.dumps(
+                            {
+                                "exitCode": 0,
+                                "operation": "format",
+                                "written": [],
+                                "errors": [],
+                                "document": request,
+                            }
+                        ),
+                        stderr="",
+                    )
+
+                with patch(
+                    "render_editing_policy.subprocess.run", side_effect=mismatched_reply
+                ):
+                    with self.assertRaisesRegex(
+                        RuntimeError, "canonical Markdown quality"
+                    ):
+                        format_generated_document("# Policy\n")
 
 
 def run_renderer(*arguments, cwd=REPOSITORY_ROOT):

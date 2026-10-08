@@ -113,12 +113,5 @@ export default [
     },
   },
 
-  {
-    files: ['scripts/check-markdown-candidate.mjs'],
-    // This boundary intentionally rejects literal control characters in error output.
-    // Keep the installed regex rule elsewhere; permit this reviewed range expression.
-    rules: { 'no-control-regex': 'off' },
-  },
-
   eslintConfigPrettier
 ];
