@@ -98,7 +98,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/full-qualification.yml":
     "7b9fcf32d5f6efc17be1f41eae375b5fcdaa71ccf9e1531440588b4b7519f7cf",
   ".github/workflows/development-checks.yml":
-    "594970d33e2ea90f393f9915e9967cfd88cfb07b9f137eef029555c7c854e9da",
+    "162e1c4f1c4d0694eb670dc80bafbbf979985886a6e8b7df56fd83a98f69fa31",
   ".github/workflows/ontology-validation.yml":
     "387ca921d8f9884f27de13e38eee804c8c87b7ceb7b97ecc7d406be2f98cc3a7",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":

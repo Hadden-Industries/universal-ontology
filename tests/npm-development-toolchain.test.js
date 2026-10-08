@@ -12,7 +12,7 @@ test.each([
   "ontology-validation.yml",
   "verify-universal-ontology-mcp-distribution.yml",
 ])(
-  "%s selects the exact npm reference before every npm consumer",
+  "%s selects the exact npm before direct and implicit npm consumers",
   (filename) => {
     const workflow = parseYaml(
       readFileSync(
@@ -24,6 +24,11 @@ test.each([
     for (const job of Object.values(workflow.jobs)) {
       let selected = false;
       for (const step of job.steps ?? []) {
+        if (step.uses?.startsWith("actions/setup-node@") && !selected) {
+          // Automatic caching asks bundled npm for its cache before bootstrap.
+          expect(step.with["package-manager-cache"]).toBe(false);
+          expect(step.with.cache).toBeUndefined();
+        }
         const run = step.run ?? "";
         if (run.includes("npm install --global")) {
           expect(step.shell).toBe("bash");
