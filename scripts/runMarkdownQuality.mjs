@@ -3,16 +3,34 @@
 import { execFileSync, spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
-import { resolve, dirname } from "node:path";
+import { resolve, dirname, relative, isAbsolute, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 const root = fileURLToPath(new URL("../", import.meta.url));
 export function runMarkdownQuality(mode, repositoryRoot = root, json = false) {
   if (!["check", "format"].includes(mode))
     throw new Error("Use check or format.");
-  const cli = resolve(
+  const packageRoot = resolve(
     repositoryRoot,
-    "tooling/markdown/node_modules/@hadden-industries/markdown-quality/src/cli.js",
+    "tooling/markdown/node_modules/@hadden-industries/markdown-quality",
   );
+  // Consume the installed public bin declaration rather than its implementation path.
+  const metadata = JSON.parse(
+    readFileSync(resolve(packageRoot, "package.json"), "utf8"),
+  );
+  const bin = metadata.bin?.["markdown-quality"];
+  if (
+    metadata.name !== "@hadden-industries/markdown-quality" ||
+    typeof bin !== "string"
+  )
+    throw new Error("Installed Markdown package has no supported public bin.");
+  const cli = resolve(packageRoot, bin);
+  const binRelativePath = relative(packageRoot, cli);
+  if (
+    isAbsolute(binRelativePath) ||
+    binRelativePath === ".." ||
+    binRelativePath.startsWith(".." + sep)
+  )
+    throw new Error("Installed Markdown public bin is outside its package.");
   const requireInventory = execFileSync(
     "git",
     [
@@ -30,11 +48,14 @@ export function runMarkdownQuality(mode, repositoryRoot = root, json = false) {
     .filter((path) => path.endsWith(".md"));
   // Checking never installs or downloads missing tooling.
   readFileSync(cli);
-  const packageRoot = dirname(dirname(cli));
-  const Ajv = createRequire(cli)("ajv");
+  const require = createRequire(resolve(packageRoot, "package.json"));
+  const Ajv = require("ajv");
   const validate = new Ajv({ allErrors: true, strict: true }).compile(
     JSON.parse(
-      readFileSync(resolve(packageRoot, "schemas/result.schema.json"), "utf8"),
+      readFileSync(
+        require.resolve("@hadden-industries/markdown-quality/result-schema"),
+        "utf8",
+      ),
     ),
   );
   const env = {};

@@ -22,6 +22,18 @@ PYTHON = sys.executable
 
 
 class CanonicalFormatterFailureTest(unittest.TestCase):
+    def test_excluded_generated_document_preserves_input_bytes(self):
+        rendered = "# Policy\n\nFirst sentence. Second sentence.\n"
+        # Prove that policy selection, rather than already-clean input, preserves bytes.
+        with patch(
+            "render_editing_policy.GENERATED_DOCUMENT_PATH",
+            REPOSITORY_ROOT / "docs" / "policy" / "README.md",
+        ):
+            self.assertNotEqual(
+                format_generated_document(rendered), rendered.encode("utf-8")
+            )
+        self.assertEqual(format_generated_document(rendered), rendered.encode("utf-8"))
+
     def test_non_object_native_report_is_an_operation_failure(self):
         with patch(
             "render_editing_policy.subprocess.run",

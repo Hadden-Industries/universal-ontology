@@ -1,4 +1,4 @@
-"""Observe six full trusted checks; this records budgets, not OS limits."""
+"""Observe repeated full trusted checks; this records budgets, not OS limits."""
 
 # SPDX-License-Identifier: AGPL-3.0-only
 import ctypes
@@ -11,6 +11,10 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+
+REQUIRED_CONSECUTIVE_SAMPLES = 6
+CHECKER_LATENCY_TARGET_MS = 30_000
+OBSERVED_MEMORY_TARGET_BYTES = 1024 * 1024 * 1024
 
 
 def sha(path):
@@ -198,7 +202,7 @@ def run_window():
     git = None
     try:
         git = host_git()
-        for index in range(1, 7):
+        for index in range(1, REQUIRED_CONSECUTIVE_SAMPLES + 1):
             sample = output / f"sample-{index}"
             sample.mkdir()
             env = {
@@ -304,8 +308,8 @@ def run_window():
                 or receipt["result"]["diagnostics"]
                 or receipt["result"]["errors"]
                 or receipt["result"]["written"]
-                or receipt["checkerElapsedMs"] > 30_000
-                or peak > 1024 * 1024 * 1024
+                or receipt["checkerElapsedMs"] > CHECKER_LATENCY_TARGET_MS
+                or peak > OBSERVED_MEMORY_TARGET_BYTES
             ):
                 raise RuntimeError("Correctness, timing or memory budget failed")
         passed = True
@@ -325,24 +329,25 @@ def run_window():
         "passed": passed,
         "failure": failure,
         "failureCleanup": cleanup,
-        "requiredConsecutiveSamples": 6,
+        "requiredConsecutiveSamples": REQUIRED_CONSECUTIVE_SAMPLES,
         "samples": samples,
         "observedNearestRankP95Ms": max(
             (sample["checkerElapsedMs"] for sample in samples), default=None
         )
-        if len(samples) == 6
+        if len(samples) == REQUIRED_CONSECUTIVE_SAMPLES
         else None,
         "memoryMetric": (
             "Windows Job peak committed bytes, including Python driver; "
-            "cumulative peak across this six-check window"
+            f"cumulative peak across this {REQUIRED_CONSECUTIVE_SAMPLES}-check window"
             if windows
             else "Sampled sum of smaps_rollup RSS for the dedicated process group; "
             "shared pages counted per process; excludes Python observer"
         ),
-        "memoryLimitBytes": 1024 * 1024 * 1024,
-        "latencyLimitMs": 30_000,
+        "memoryLimitBytes": OBSERVED_MEMORY_TARGET_BYTES,
+        "latencyLimitMs": CHECKER_LATENCY_TARGET_MS,
         "limitations": (
-            "Observed six-sample window, not a statistical tail or OS limit. "
+            f"Observed {REQUIRED_CONSECUTIVE_SAMPLES}-sample window, "
+            "not a statistical tail or OS limit. "
             "Linux sampling has at least 50ms plus scan overhead between polls; "
             "short-lived peaks can occur between samples. The qualified checker "
             "and native subprocesses do not escape the dedicated process group. "

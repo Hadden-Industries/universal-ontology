@@ -26,23 +26,39 @@ from ontology_policy.rendering import (  # noqa: E402
 
 
 def format_generated_document(rendered: str) -> bytes:
-    """Let the maintained capability own final layout before generation or comparison."""
+    """Apply the canonical output path's Markdown policy before freshness comparison."""
     root = Path(__file__).resolve().parent.parent
-    cli = (
-        root
-        / "tooling/markdown/node_modules/@hadden-industries/markdown-quality/src/cli.js"
+    package_root = (
+        root / "tooling/markdown/node_modules/@hadden-industries/markdown-quality"
     )
+    metadata_path = package_root / "package.json"
     node = shutil.which("node")
-    if node is None or not cli.is_file():
+    if node is None or not metadata_path.is_file():
         raise RuntimeError(
             "Run npm run install:markdown before policy generation/checking"
+        )
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    bins = metadata.get("bin") if isinstance(metadata, dict) else None
+    bin_path = bins.get("markdown-quality") if isinstance(bins, dict) else None
+    if (
+        not isinstance(metadata, dict)
+        or metadata.get("name") != "@hadden-industries/markdown-quality"
+        or not isinstance(bin_path, str)
+    ):
+        raise RuntimeError("Installed Markdown package has no supported public bin")
+    cli = (package_root / bin_path).resolve()
+    if not cli.is_relative_to(package_root.resolve()) or not cli.is_file():
+        raise RuntimeError(
+            "Installed Markdown public bin is missing or outside its package"
         )
     with tempfile.TemporaryDirectory(prefix="uo-generated-markdown-") as temporary:
         scratch = Path(temporary)
         shutil.copyfile(
             root / ".markdown-quality.json", scratch / ".markdown-quality.json"
         )
-        output = scratch / "Editing-Policy.generated.md"
+        # Selection must see the real logical path, including configured exclusions.
+        output = scratch / GENERATED_DOCUMENT_PATH.relative_to(root)
+        output.parent.mkdir(parents=True)
         output.write_bytes(rendered.encode("utf-8"))
         result = subprocess.run(
             [

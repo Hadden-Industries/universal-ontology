@@ -196,7 +196,10 @@ export async function checkCandidate({ outputRoot, cli, staging }) {
   const Ajv = require("ajv");
   const validateResult = new Ajv({ allErrors: true, strict: true }).compile(
     JSON.parse(
-      readFileSync(resolve(packageRoot, "schemas/result.schema.json"), "utf8"),
+      readFileSync(
+        require.resolve("@hadden-industries/markdown-quality/result-schema"),
+        "utf8",
+      ),
     ),
   );
   const env = {};

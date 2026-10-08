@@ -12,10 +12,14 @@ import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const runner = join(root, "scripts/runMarkdownQuality.mjs");
-const cli = join(
+const packageRoot = join(
   root,
-  "tooling/markdown/node_modules/@hadden-industries/markdown-quality/src/cli.js",
+  "tooling/markdown/node_modules/@hadden-industries/markdown-quality",
 );
+const metadata = JSON.parse(
+  readFileSync(join(packageRoot, "package.json"), "utf8"),
+);
+const cli = resolve(packageRoot, metadata.bin["markdown-quality"]);
 function fixture() {
   const directory = mkdtempSync(join(tmpdir(), "uo-markdown-contract-"));
   execFileSync("git", ["init", "--quiet", directory]);

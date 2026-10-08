@@ -94,12 +94,22 @@ Both support `-- --json` for the capability's canonical result schema.
 Exit 0 means clean, 1 means quality findings, and 2 means an operational failure; consumers must check process and report identity together.
 Changed-path shortcuts are rejected because deleting a non-Markdown link target can break an unchanged document.
 
-The policy is `"include": ["**/*.md"]` with no repository-document exceptions and no ignore inputs.
-This includes agent instructions, reviews, historical plans, generated policy, vendored Markdown and fixtures.
+The policy is `"include": ["**/*.md"]` with no ignore inputs.
+Markdown policy is declared in `.markdown-quality.json`; scripts must not maintain competing exclusion lists.
+The owner-approved exclusions include `docs/sdlc/*`, `docs/reviews/*`, `vendor/*` and the specific `docs/policy/Editing-Policy.generated.md` file, alongside installed skill/tool and build-output paths.
+The installed capability honors those exclusions, but the existing repository and trusted-candidate inventory guards still require every tracked Markdown document.
+Consequently the repository-wide Markdown check remains blocked until the shared package provides policy-aware inventory reconciliation; no local selector shim or silent guard removal substitutes for that contract.
 Installed tooling, dependencies, virtual environments, Git metadata and build outputs are infrastructure; an independent Git inventory rejects any tracked Markdown hidden beneath their exclusions.
 Repair missing physical-file links against real files or pinned historical sources; source annotations that are plain prose must be escaped as plain prose.
 Strict whitespace and heading rules remain enabled.
-Generated policy is formatted by its generator through the same maintained capability before output or freshness comparison; regenerate with `npm run generate:editing-policy`.
+Generated policy is processed by its generator through the same maintained capability using the canonical output path before output or freshness comparison.
+Its configured exclusion preserves raw graph-rendered bytes; freshness still rejects a changed graph or hand-edited document.
+Regenerate with `npm run generate:editing-policy`.
+
+The generator and local wrapper resolve the installed package's public bin declaration; the local wrapper and trusted checker validate results with its exported result schema.
+The trusted checker, its probes and the workflow still depend on private CLI and native asset paths pending shared package contracts.
+Shared bounded execution, logical-document APIs, candidate staging, resource observation and a reusable workflow remain upstream prerequisites for removing the existing local controls.
+Do not reference unavailable APIs, add an unvalidated execution-profile file, or leave forwarding wrappers when their package-owned replacements become available.
 
 Every functional PR/main route runs a fresh full-corpus check and native trust probes on Windows and Ubuntu, even for a target-only change.
 Documentation does not select unrelated product or ontology work.

@@ -140,21 +140,21 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/markdown-quality.yml":
     "3208f8e315be486c23c77a0db32105fb266ef23ce4cf82c90417fef8d34d574c",
   "scripts/runMarkdownQuality.mjs":
-    "90c25e3d6521994d857ab870469c2333a88ec9ba44aaa7d5ba1b57817d24e221",
+    "7fe6f3587750c1ded2c8784a9a6d408caced40452658058ec7abd376f37fc976",
   "scripts/installMarkdownTools.mjs":
     "7e3e907493074c99cc3d095cc149220edcfcedd8651e4fcd073cbb50ff90c326",
   "scripts/check-markdown-candidate.mjs":
-    "84f6a64b083c5268b1ca46223f8004d00943619a95bb4f86f62de15250b40379",
+    "16ab30f5b4f33575ee3cf9f37b389530f84e3ff9f96a8b0fc05c497d65566a98",
   "scripts/check-markdown-candidate.probes.mjs":
     "ea7d37cde027288eda74b43853ef46893fbcfca34df5ed495767776ce885abe5",
   "scripts/observe-markdown-window.py":
-    "ec81028ed781071fbc6f335e0465dc280ecf4691690c1f4693b97f78c73b51a5",
+    "49359afa2abf0b26c7cc3b8117ff8aee5baa25df57b2a3b874c2631386b3d5d1",
   "scripts/observe-markdown-window.probes.py":
     "ab303f493c0e307331839600d319fdf07e753b1667bfedb86ff1a9ecb1ee44b5",
   "scripts/run-markdown-window.mjs":
     "e30a84c1edc0d4045749a97a5e17dfb858f5f3eed7ac8f14de03448258bf2567",
   "scripts/render_editing_policy.py":
-    "71111815ac18b4f455c4f31f7d492af61f10d74cfe278cd937e81b2218d829f7",
+    "aee859c1ff1a0f404572e9de5c9cc19d68453f033fbac58ebf022c0658e7cab2",
   "scripts/setUpDevelopmentEnvironment.js":
     "962de955f9ce32d51298541423c0bdc1c46ef1497753b244f902c9cedf16c63b",
 });
