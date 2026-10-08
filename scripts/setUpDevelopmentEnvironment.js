@@ -138,7 +138,7 @@ export function setUpDevelopmentEnvironment({
     return result.stdout?.trim() ?? "";
   }
 
-  const { packageManager } = JSON.parse(
+  const { packageManager, devEngines } = JSON.parse(
     readFileSync(join(repositoryRoot, "package.json"), "utf8"),
   );
   const npmVersion = runRequiredCommand(
@@ -147,9 +147,11 @@ export function setUpDevelopmentEnvironment({
     [npmCliPath, "--version"],
     { captureOutput: true },
   );
-  // npm bundles semver, so validation works even before npm ci installs the
-  // repository dependencies. Keep patch/minor updates within the selected major.
-  const semver = createRequire(npmCliPath)("semver");
+  // npm's bundled validators work before npm ci installs dependencies. The exact
+  // reproduction reference and the native developer-engine range serve distinct
+  // purposes; setup must not impose a tighter implicit range than devEngines.
+  const requireFromNpm = createRequire(npmCliPath);
+  const semver = requireFromNpm("semver");
   const selectedNpmVersion = packageManager?.startsWith("npm@")
     ? packageManager.slice(4)
     : undefined;
@@ -158,11 +160,17 @@ export function setUpDevelopmentEnvironment({
       "package.json must declare an exact npm packageManager version.",
     );
   }
-  const compatibleNpmRange = `^${selectedNpmVersion}`;
-  if (!semver.satisfies(npmVersion, compatibleNpmRange)) {
-    throw new Error(
-      `Development setup requires stable npm ${compatibleNpmRange}; found npm@${npmVersion}. Use a compatible patch or minor update of ${packageManager}.`,
-    );
+  const { checkDevEngines } = requireFromNpm("npm-install-checks");
+  const failures = checkDevEngines(devEngines, {
+    packageManager: { name: "npm", version: npmVersion },
+  });
+  for (const failure of failures) {
+    if (failure.isError) {
+      throw new Error(
+        `Development setup rejected npm@${npmVersion}: ${failure.errors.map((error) => error.message).join("; ")}`,
+        { cause: failure },
+      );
+    }
   }
 
   const pythonVirtualEnvironmentPath = join(repositoryRoot, ".venv");

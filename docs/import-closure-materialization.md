@@ -9,7 +9,9 @@ HISEW retains the final candidate's full verification receipt and completion dec
 
 ## Qualification and dependency boundary
 
-The maintained development dependency is exactly `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"`.
+The maintained development dependency is `"owlapi": "npm:@hadden-industries/owlapi@>=0.1.0-rc.1"`.
+The manifest uses the repository's floating minimum policy; the lockfile and installed package remain bound to the independently qualified `0.1.0-rc.1` artifact.
+The retained registry record describes the exact artifact fetched during qualification, so its original exact specifier remains unchanged.
 Application code imports only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`.
 The lockfile must identify the accepted public registry artifact and integrity.
 An identity-verified retained tarball may be tested in the separately approved external consumer; it must not become a maintained dependency.

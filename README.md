@@ -13,7 +13,10 @@ The [communication privacy notice](PRIVACY.md) covers private reports and relate
 The [self-contained OWL import-closure guide](docs/import-closure-materialization.md) describes the JavaScript materializer, its preservation boundary, and the migration from the Python commands.
 The exact registry artifact has passed consumer qualification; final acceptance evidence is retained separately from the historical artifact-verification observation.
 
-Install Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, and stable npm 12.0.2 or a newer npm 12 patch/minor release. Setup accepts the caret range of the exact `packageManager` version in `package.json`; major upgrades and prereleases require a separate compatibility review. Use the latest compatible patch of the [supported LTS release](https://nodejs.org/en/about/previous-releases).
+Install Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, and stable npm 12.2.0 or later.
+The native `devEngines.packageManager` range in `package.json` enforces `>=12.2.0`, including later stable majors, before installation and npm scripts; prereleases do not satisfy this range.
+The exact `packageManager` reference selects npm 12.2.0 for reproducible CI and release tooling.
+Use the latest compatible patch of the [supported LTS release](https://nodejs.org/en/about/previous-releases).
 The minimum reflects the qualified owlapi RC's Node 24.21.0 requirement and the MCP workspace's Node 24 requirement.
 `.node-version` selects the CI runtime; local setup accepts compatible LTS updates.
 Stable Python at or above the minimum in `.python-version` is also required; CI provisions that exact version.

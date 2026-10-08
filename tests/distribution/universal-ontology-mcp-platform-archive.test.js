@@ -295,7 +295,7 @@ describe("Universal Ontology MCP platform release inputs", () => {
 
     expect(releaseInputs).toMatchObject({
       releaseInputFormatVersion: 1,
-      selectedNpmVersion: "12.0.2",
+      selectedNpmVersion: "12.2.0",
       modelContextProtocol: {
         revision: "2026-07-28",
         registrySchemaVersion: "2025-12-11",

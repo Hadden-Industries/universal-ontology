@@ -24,7 +24,9 @@ const json = async (path) =>
 const allowed = ["apibinding", "model", "io", "formats", "util"].map(
   (name) => `owlapi/${name}`,
 );
-const specifier = "npm:@hadden-industries/owlapi@0.1.0-rc.1";
+const specifier = "npm:@hadden-industries/owlapi@>=0.1.0-rc.1";
+// The retained verification record describes the exact artifact fetched then.
+const artifactSpecifier = "npm:@hadden-industries/owlapi@0.1.0-rc.1";
 const integrity =
   "sha512-uDv9Omh2l2zxAjpVeQi4UxXEad/cRiKQUJT5RhxR3WtaAjPL3gAoOha9dPRhH6o2zlBdeg50g8EIVQgtt8RGqA==";
 const tarball =
@@ -68,7 +70,7 @@ async function installedIdentity() {
   };
 }
 
-test("pins the native alias to the independently verified public artifact", async () => {
+test("locks the floating native alias to the independently verified public artifact", async () => {
   assertIdentity(await installedIdentity());
   const packageRoot = join(root, "node_modules/owlapi");
   expect((await lstat(packageRoot)).isSymbolicLink()).toBe(false);
@@ -87,8 +89,10 @@ test("pins the native alias to the independently verified public artifact", asyn
 
 test.each([
   "0.1.0-rc.1",
+  "npm:@hadden-industries/owlapi@0.1.0-rc.1",
   "npm:@other/owlapi@0.1.0-rc.1",
   "npm:@hadden-industries/owlapi@0.1.0-rc.2",
+  "npm:@hadden-industries/owlapi@>=0.1.0-rc.2",
   "npm:@hadden-industries/owlapi@next",
   "npm:@hadden-industries/owlapi@latest",
   "npm:@hadden-industries/owlapi@^0.1.0",
@@ -240,7 +244,7 @@ function assertProvenance(record) {
     name: "@hadden-industries/owlapi",
     version: "0.1.0-rc.1",
   });
-  assert.equal(record.identity.specifier, specifier);
+  assert.equal(record.identity.specifier, artifactSpecifier);
   assert.equal(
     record.apiRegistrySha256,
     "cf367d97cea09eb9fe99b6f0e68f8ddb8ded8555259a4cc956b16bb19218ba6a",

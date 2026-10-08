@@ -74,8 +74,8 @@ jobs:
       - name: Select exact npm CLI
         shell: bash
         run: |
-          npm install --global --no-audit --no-fund npm@12.0.2
-          test "$(npm --version)" = "12.0.2"
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Install the exact locked dependency graph
         run: npm ci --ignore-scripts
       - name: Derive deterministic development candidate metadata
@@ -178,8 +178,8 @@ jobs:
       - name: Select exact npm CLI
         shell: bash
         run: |
-          npm install --global --no-audit --no-fund npm@12.0.2
-          test "$(npm --version)" = "12.0.2"
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Install the exact locked dependency graph
         run: npm ci --ignore-scripts
       - name: Build the native self-contained archive
@@ -253,8 +253,8 @@ jobs:
       - name: Select exact npm CLI
         shell: bash
         run: |
-          npm install --global --no-audit --no-fund npm@12.0.2
-          test "$(npm --version)" = "12.0.2"
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Install dependencies and build the canonical bundle
         run: |
           npm ci --ignore-scripts
@@ -369,8 +369,8 @@ jobs:
       - name: Select exact npm CLI
         shell: bash
         run: |
-          npm install --global --no-audit --no-fund npm@12.0.2
-          test "$(npm --version)" = "12.0.2"
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Install the exact locked dependency graph
         run: npm ci --ignore-scripts
       - name: Download all native development archives

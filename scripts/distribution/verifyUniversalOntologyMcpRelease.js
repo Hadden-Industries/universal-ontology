@@ -88,21 +88,21 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "0c675e0966118472dbe7fdcd8392a7f5d600138a1eab7b8bcfbd8bd5d464dbc9";
+  "d5f4bbb30e7b1dd0d153f6b81347931313c6fbc7a43572af100924d9ed892898";
 
 // Explicit reviewed execution graph; values are refreshed only with coordinated
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/pr-validation.yml":
-    "c44778cfad45ae8e4968cc21b164b6e4c77541ae856a6eed5f84f1a2e1698100",
+    "881fca6272ebb4ca88f3fc7a3c4c55260dae1b0d350c644a7e793d5ca7e30649",
   ".github/workflows/full-qualification.yml":
-    "eb7643815d915847326b2e61e2a3c388a5ebf848d5f8b4d290aa290194e62ba2",
+    "7b9fcf32d5f6efc17be1f41eae375b5fcdaa71ccf9e1531440588b4b7519f7cf",
   ".github/workflows/development-checks.yml":
-    "e575b8a91fe51cd526122ebb538cf176795386d663484643617450017c8b1eb8",
+    "162e1c4f1c4d0694eb670dc80bafbbf979985886a6e8b7df56fd83a98f69fa31",
   ".github/workflows/ontology-validation.yml":
-    "e5f819709950ea70647ed5514757d870f09ddf0fdb45aef17d1acf9a8d777538",
+    "387ca921d8f9884f27de13e38eee804c8c87b7ceb7b97ecc7d406be2f98cc3a7",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
-    "0c675e0966118472dbe7fdcd8392a7f5d600138a1eab7b8bcfbd8bd5d464dbc9",
+    "d5f4bbb30e7b1dd0d153f6b81347931313c6fbc7a43572af100924d9ed892898",
   "scripts/selectPullRequestChecks.js":
     "f7dda2d42af03bb349954cb4f5a44770ef6acd13725d9e3ca4c707219a54fc1e",
   "scripts/evaluatePullRequestChecks.js":
@@ -144,11 +144,11 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/render_editing_policy.py":
     "847fab54942db93e19b74b4aacae9d734f8c6cb60762f1108fb58bd3277ce844",
   "scripts/setUpDevelopmentEnvironment.js":
-    "962de955f9ce32d51298541423c0bdc1c46ef1497753b244f902c9cedf16c63b",
+    "4436e627870cb06e2d41254f0aeb63bdd3629ce21f59d979805e3c96cd08990d",
   ".markdown-quality-execution.json":
     "314ef284e247a38ecf5ac2d4d7883c64e1f1ce037a6eba2c7bd0ea1814028b39",
   "package.json":
-    "d1b204ef2126aa0ca86305e18b1864f2b1f8f94100d0c54f75a2c34c60f42578",
+    "9df1cb46b830e411dca572cc43ee7cbc2b9e3eb8c625e34e9dc8506d71bccbeb",
   "tests/markdown-quality.test.js":
     "6d98214ca56141494abce31c9361f9230a10b98fb377f720e9ddd97343306ab1",
   "tooling/markdown/archives/hadden-industries-markdown-quality-1.0.3.tgz":

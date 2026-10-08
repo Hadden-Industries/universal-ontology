@@ -61,6 +61,11 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
+      - name: Select package manager
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Static checks
         run: |-
@@ -96,6 +101,11 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
+      - name: Select package manager
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm run build:verify
       - id: complete
@@ -158,6 +168,12 @@ jobs:
         with:
           node-version-file: .node-version
           package-manager-cache: false
+      - if: ${{ success() && !cancelled() }}
+        name: Select package manager
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - if: ${{ success() && !cancelled() }}
         run: node scripts/evaluatePullRequestChecks.js
       - id: record

@@ -121,15 +121,15 @@ describe("Universal Ontology MCP operator documentation", () => {
   test("documents every permitted unpublished installation form and its integrity boundary", () => {
     expect(localInstallationGuide).toMatch(/source checkout/iu);
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.0.2 run build:mcp-package",
+      "npx --yes npm@12.2.0 run build:mcp-package",
     );
     expect(localInstallationGuide).toMatch(/locally packed npm tarball/iu);
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.0.2 run pack:mcp-package",
+      "npx --yes npm@12.2.0 run pack:mcp-package",
     );
     expect(localInstallationGuide).toMatch(/locally built platform archive/iu);
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.0.2 run build:mcp-platform-archives",
+      "npx --yes npm@12.2.0 run build:mcp-platform-archives",
     );
     expect(localInstallationGuide).toMatch(/locally built OCI image/iu);
     expect(localInstallationGuide).toContain(
@@ -142,9 +142,9 @@ describe("Universal Ontology MCP operator documentation", () => {
     expect(localInstallationGuide).toMatch(
       /checksums detect corruption[\s\S]*do not authenticate the publisher/iu,
     );
-    expect(localInstallationGuide).toContain("npx --yes npm@12.0.2 --version");
+    expect(localInstallationGuide).toContain("npx --yes npm@12.2.0 --version");
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.0.2 ci --ignore-scripts",
+      "npx --yes npm@12.2.0 ci --ignore-scripts",
     );
     expect(localInstallationGuide).not.toMatch(/^npm (?:ci|install|run)\b/mu);
   });

@@ -5,7 +5,10 @@ Nothing here is a prerequisite for opening a pull request; see [CONTRIBUTING.md]
 
 ## Setup
 
-Requirements: Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, npm 12 (`package.json` declares the exact `packageManager` version; compatible patch/minor updates are accepted), stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
+Requirements: Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, stable npm 12.2.0 or later, stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
+`package.json` declares `devEngines.packageManager.version` as `>=12.2.0` with `onFail: "error"`; npm enforces this native contract before install, clean install and script execution, and development setup uses npm's bundled validator.
+Later stable npm majors satisfy the range; prereleases do not.
+The exact `packageManager` reference remains `npm@12.2.0`, and CI and release builds explicitly select and verify that version for reproducibility.
 CI provisions the exact Python version in that file; development setup accepts newer stable versions and preserves the existing `.venv`.
 The README's [development setup](../README.md#development-setup) section explains the version selection.
 
@@ -29,8 +32,14 @@ Development requirements declare minimum versions without upper bounds.
 Routine setup and CI install the exact locked versions rather than resolving those ranges again.
 
 Node.js dependencies are locked via `package-lock.json`.
-Workspace package manifests declare their required build and test tooling under `devDependencies` using standard semver ranges.
-Distribution qualification validates this dependency boundary (ensuring no runtime dependencies are shipped and only approved development tools are declared) without pinning development-only patch versions in test assertions.
+Repository-owned package manifests declare registry and workspace dependencies and development dependencies using `>=` minimum version ranges, including the version inside npm aliases and the vendored Braces package's `fill-range` dependency.
+Registry minimums track the highest published stable release when updated; workspace minimums use the accepted local package version.
+A dependency without a stable release uses its explicitly accepted prerelease.
+Local `file:` sources, including the vendored Braces repair and retained Markdown tooling archives, preserve their source identities.
+The policy allows every newer stable version, then qualifies each refreshed lockfile before adoption.
+Routine setup and CI use the exact lockfile graph; a range permits resolution but does not establish compatibility, including for future major upgrades.
+Refresh qualification covers the affected runtime, build and distribution contracts, including libraries bundled from development dependencies.
+Distribution qualification retains exact bundled component and artifact checks and requires the public MCP package to declare no separately installed runtime dependencies.
 
 `configure:git-hooks` sets the repository-local `core.hooksPath` to `.githooks`.
 The pre-commit hook runs the SHACL editing policy on the exact staged ontology bytes using the `.venv` interpreter and blocks the commit on any violation.

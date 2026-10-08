@@ -68,12 +68,12 @@ const EXPECTED_PUBLIC_PACKAGE_FILES = Object.freeze([
   "THIRD_PARTY_NOTICES.md",
 ]);
 const EXPECTED_PACKAGING_DEV_DEPENDENCIES = Object.freeze({
-  ajv: "8.20.0",
-  "ajv-formats": "3.0.1",
-  tar: "7.5.22",
-  yaml: "2.9.1",
-  yazl: "3.3.1",
-  yauzl: "3.4.0",
+  ajv: ">=8.20.0",
+  "ajv-formats": ">=3.0.1",
+  tar: ">=7.5.22",
+  yaml: ">=2.9.1",
+  yazl: ">=3.3.1",
+  yauzl: ">=3.4.0",
 });
 const EXPECTED_BUNDLED_COMPONENTS = Object.freeze([
   {
@@ -214,7 +214,7 @@ describe("public Universal Ontology MCP npm package", () => {
 
     expect(rootPackage).toMatchObject({
       private: true,
-      packageManager: "npm@12.0.2",
+      packageManager: "npm@12.2.0",
       workspaces: [
         "packages/universal-ontology-mcp-server",
         "packages/universal-ontology-query",
@@ -305,7 +305,12 @@ describe("public Universal Ontology MCP npm package", () => {
   test("retains repository distribution tooling and delegates application commands to the MCP owner", async () => {
     const rootPackage = await readJsonDocument(ROOT_PACKAGE_JSON_URL);
 
-    expect(rootPackage.packageManager).toBe("npm@12.0.2");
+    expect(rootPackage.packageManager).toBe("npm@12.2.0");
+    expect(rootPackage.devEngines.packageManager).toEqual({
+      name: "npm",
+      version: ">=12.2.0",
+      onFail: "error",
+    });
     expect(rootPackage.workspaces).toEqual([
       "packages/universal-ontology-mcp-server",
       "packages/universal-ontology-query",
@@ -406,7 +411,7 @@ describe("public Universal Ontology MCP npm package", () => {
       "A natural or legal person recognised by law.",
       '"mcp:package:build"',
       '"build:mcp-package"',
-      '"packageManager":"npm@12.0.2"',
+      '"packageManager":"npm@12.2.0"',
       "sourceMappingURL=",
     ]) {
       expect(bundleText).not.toContain(forbiddenContent);

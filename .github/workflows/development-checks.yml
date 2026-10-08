@@ -61,6 +61,11 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
+      - name: Select package manager
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Install only the locked documentation tools
         shell: bash
         run: npm run install:markdown
@@ -95,6 +100,11 @@ jobs:
           .venv/bin/python -m pip install --require-hashes --only-binary=:all: --no-deps -r "$RUNNER_TEMP/python-style-tools/requirements.txt"
           .venv/bin/python -m pip check
           .venv/bin/python -c "from importlib.metadata import requires; assert not requires('ruff'), 'Ruff dependency closure needs review'"
+      - name: Select package manager
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Check Python sources
         run: npm run lint:python && npm run format:python:check
     permissions:
@@ -120,6 +130,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
+          package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -139,6 +150,11 @@ jobs:
           fi
           "$python_executable" -m pip install --require-hashes --only-binary=:all: -r requirements.lock.txt
           "$python_executable" -m pip check
+      - name: Select package manager
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Install the isolated generated-document formatter
         run: npm run install:markdown
       - name: Run the Python-only native family
@@ -168,6 +184,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
+          package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -176,7 +193,10 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock.txt
       - name: Select package manager
-        run: npm install --global --no-audit --no-fund npm@12.0.2
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Set up the locked development environment
         run: npm run set-up:development
       - name: Run the Node-backed native family
@@ -231,6 +251,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
+          package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -239,7 +260,10 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock.txt
       - name: Select package manager
-        run: npm install --global --no-audit --no-fund npm@12.0.2
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Set up the locked development environment
         run: npm run set-up:development
       - name: Check Python style and formatter regressions
@@ -271,6 +295,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .node-version
+          package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -279,7 +304,10 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.lock.txt
       - name: Select package manager
-        run: npm install --global --no-audit --no-fund npm@12.0.2
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Set up development from the clean checkout
         run: npm run set-up:development
       - name: Verify the installed ontology runner

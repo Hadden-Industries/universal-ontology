@@ -44,7 +44,7 @@ HTTPS authenticates the configured origin under the operator's CA trust policy.
 - Node.js 24 or later for the source-checkout and local npm-tarball forms.
   The self-contained archives carry the pinned Node.js 24.20.0 runtime.
 - npm using the repository lockfile.
-  Every command below explicitly selects and checks npm 12.0.2; the `packageManager` field alone does not switch npm.
+  Every command below explicitly selects and checks npm 12.2.0; the `packageManager` field alone does not switch npm.
 - An MCP host that can launch a local `stdio` command.
 - HTTPS access to the configured ontology-artifact origin for a cold HTTP-mode query; filesystem mode needs no ontology-artifact network access.
 - Docker or a compatible OCI runtime only for the locally built OCI form.
@@ -216,10 +216,10 @@ GitHub remains only the source of the official GitHub MCP Server dependency and,
 From the repository root, install exactly the locked dependency graph without running dependency lifecycle scripts, then build the canonical single-file bundle:
 
 ```powershell
-$selectedNpmVersion = npx --yes npm@12.0.2 --version
-if ($selectedNpmVersion -cne "12.0.2") { throw "Expected npm 12.0.2." }
-npx --yes npm@12.0.2 ci --ignore-scripts
-npx --yes npm@12.0.2 run build:mcp-package
+$selectedNpmVersion = npx --yes npm@12.2.0 --version
+if ($selectedNpmVersion -cne "12.2.0") { throw "Expected npm 12.2.0." }
+npx --yes npm@12.2.0 ci --ignore-scripts
+npx --yes npm@12.2.0 run build:mcp-package
 $serverEntryPath = (Resolve-Path ".\packages\universal-ontology-mcp-server\dist\universal-ontology-mcp-server.mjs").Path
 node $serverEntryPath --version
 node $serverEntryPath --help
@@ -237,12 +237,12 @@ This is a local package-file workflow.
 It does not contact an npm package registry for the Universal Ontology package:
 
 ```powershell
-npx --yes npm@12.0.2 ci --ignore-scripts
+npx --yes npm@12.2.0 ci --ignore-scripts
 New-Item -ItemType Directory -Path ".\dist\releases" -Force | Out-Null
-npx --yes npm@12.0.2 run pack:mcp-package
+npx --yes npm@12.2.0 run pack:mcp-package
 $packageArchivePath = (Resolve-Path ".\dist\releases\universal-ontology-mcp-server-1.0.0.tgz").Path
 $installationRoot = Join-Path $PWD ".local-mcp-installation"
-npx --yes npm@12.0.2 install --prefix $installationRoot --ignore-scripts --omit=dev $packageArchivePath
+npx --yes npm@12.2.0 install --prefix $installationRoot --ignore-scripts --omit=dev $packageArchivePath
 $serverEntryPath = Join-Path $installationRoot "node_modules\universal-ontology-mcp-server\dist\universal-ontology-mcp-server.mjs"
 node $serverEntryPath --version
 ```
@@ -265,9 +265,9 @@ The archive builder downloads the exact Node.js runtime declared in `scripts/dis
 Select one of `windows-x64`, `linux-x64`, `linux-arm64`, `macos-x64`, or `macos-arm64`:
 
 ```powershell
-npx --yes npm@12.0.2 ci --ignore-scripts
-npx --yes npm@12.0.2 run build:mcp-package
-npx --yes npm@12.0.2 run build:mcp-platform-archives -- --target=windows-x64
+npx --yes npm@12.2.0 ci --ignore-scripts
+npx --yes npm@12.2.0 run build:mcp-package
+npx --yes npm@12.2.0 run build:mcp-platform-archives -- --target=windows-x64
 Get-FileHash -Algorithm SHA256 -LiteralPath ".\dist\releases\universal-ontology-mcp-server-v1.0.0-windows-x64.zip"
 ```
 
@@ -301,8 +301,8 @@ The image is local development output.
 Build it from the checkout and do not assign or resolve a remote registry name:
 
 ```powershell
-npx --yes npm@12.0.2 ci --ignore-scripts
-npx --yes npm@12.0.2 run build:mcp-package
+npx --yes npm@12.2.0 ci --ignore-scripts
+npx --yes npm@12.2.0 run build:mcp-package
 docker build --tag universal-ontology-mcp-server:development packages/universal-ontology-mcp-server
 docker volume create universal-ontology-mcp-cache
 docker run --rm --interactive --read-only --cap-drop=ALL --security-opt=no-new-privileges --mount type=volume,source=universal-ontology-mcp-cache,target=/home/node/.cache/universal-ontology-mcp-server/v1 universal-ontology-mcp-server:development
@@ -444,8 +444,8 @@ See the [context guide](ontology-context.md) for exact definition-source filteri
 Build the bundle and let the Codex CLI record its absolute entry path:
 
 ```powershell
-npx --yes npm@12.0.2 ci --ignore-scripts
-npx --yes npm@12.0.2 run build:mcp-package
+npx --yes npm@12.2.0 ci --ignore-scripts
+npx --yes npm@12.2.0 run build:mcp-package
 $serverEntryPath = (Resolve-Path ".\packages\universal-ontology-mcp-server\dist\universal-ontology-mcp-server.mjs").Path
 codex mcp add universal_ontology -- node $serverEntryPath
 ```
@@ -676,7 +676,7 @@ For an independent HTTP-adapter check, verify the actual locally packed server a
 This test fresh-installs the tarball, starts an ephemeral origin on `127.0.0.1`, passes the explicit HTTP source, `--artifact-base-url`, and `--allow-insecure-loopback-artifact-origin`, performs the `Person` MCP call, and removes the fixture afterward:
 
 ```powershell
-npx --yes npm@12.0.2 test -- --runInBand tests/distribution/universal-ontology-mcp-npm-package.test.js
+npx --yes npm@12.2.0 test -- --runInBand tests/distribution/universal-ontology-mcp-npm-package.test.js
 ```
 
 Once an operator-approved HTTPS base URL serves a complete `stable` channel, configure it explicitly with `--artifact-base-url`, restart the host, close every browser page, and ask:
