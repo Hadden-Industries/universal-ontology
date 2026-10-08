@@ -134,7 +134,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".markdown-quality.json":
     "7f140f74145947c56fb089f307fee83339f1d4bcb62c6593cadef2a3d73eeb9d",
   "tooling/markdown/package.json":
-    "d47bded1915ed677cda94e6a501edc324162b3f9507b8d83d1b29d37660bfc9d",
+    "dd99ee11e572fdd7cc86e37f165876e106b5c64e12855410055a2cbf307cd74b",
   "tooling/markdown/package-lock.json":
     "15a21e151c89bbb102989e4d7d75ce4ccdbf5ac0b642603e71296b3a260cdf63",
   ".github/workflows/markdown-quality.yml":
@@ -150,7 +150,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "package.json":
     "d1b204ef2126aa0ca86305e18b1864f2b1f8f94100d0c54f75a2c34c60f42578",
   "tests/markdown-quality.test.js":
-    "6731608f48415691f0bf4ca9c5b566364f7e4deec85ec05cdd41a7a58402d63d",
+    "6d98214ca56141494abce31c9361f9230a10b98fb377f720e9ddd97343306ab1",
   "tooling/markdown/archives/hadden-industries-markdown-quality-1.0.3.tgz":
     "9bef35fd3fc9f948cfa317a5cad648aa111eb49492a3e984695f9d575a4b0559",
   "tooling/markdown/archives/hadden-industries-markdown-quality-win32-x64-1.0.3.tgz":

@@ -118,9 +118,16 @@ test("full inventory explains policy-excluded review bytes without changing them
   }
 });
 test("canonical command rejects changed-path shortcuts", () => {
-  const result = spawnSync(process.execPath, [cli, "check", "--base", "HEAD"], {
-    encoding: "utf8",
-  });
+  const result = spawnSync(
+    process.execPath,
+    [cli, "check", "--base", "HEAD", "--json"],
+    { encoding: "utf8" },
+  );
   expect(result.status).toBe(2);
-  expect(result.stderr).toContain("--base");
+  const report = JSON.parse(result.stdout);
+  expect(report.errors).toContainEqual({
+    code: "ERR_PARSE_ARGS_UNKNOWN_OPTION",
+    message: expect.stringContaining("--base"),
+  });
+  expect(report.written).toEqual([]);
 });

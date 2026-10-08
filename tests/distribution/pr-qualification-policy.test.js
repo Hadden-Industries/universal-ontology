@@ -213,7 +213,7 @@ test.each(files)("rejects a semantic modification to %s", async (changed) => {
       if (file === changed) {
         if (file.endsWith(".tgz")) {
           bytes = Buffer.from(bytes);
-          bytes[bytes.length - 1] ^= 1;
+          bytes[bytes.length - 1] = (bytes[bytes.length - 1] + 1) % 256;
         } else if (file.endsWith(".yml")) {
           const text = bytes.toString("utf8");
           const value = parse(text);
