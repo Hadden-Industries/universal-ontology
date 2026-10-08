@@ -5,7 +5,8 @@ Nothing here is a prerequisite for opening a pull request; see [CONTRIBUTING.md]
 
 ## Setup
 
-Requirements: Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, npm 12 (`package.json` declares the exact `packageManager` version; compatible patch/minor updates are accepted), the Python version in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
+Requirements: Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, npm 12 (`package.json` declares the exact `packageManager` version; compatible patch/minor updates are accepted), stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
+CI provisions the exact Python version in that file; development setup accepts newer stable versions and preserves the existing `.venv`.
 The README's [development setup](../README.md#development-setup) section explains the version selection.
 
 ```sh

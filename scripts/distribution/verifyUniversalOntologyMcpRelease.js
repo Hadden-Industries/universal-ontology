@@ -138,7 +138,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "tooling/markdown/package-lock.json":
     "cd3659011575ea158d2d358139a345af85c7683df9adab59cac52c164afe6aac",
   ".github/workflows/markdown-quality.yml":
-    "9a9d76ea70888076ae2134e7ff09d38fd13624b35c9f1479dca76a41b54dd09c",
+    "3208f8e315be486c23c77a0db32105fb266ef23ce4cf82c90417fef8d34d574c",
   "scripts/runMarkdownQuality.mjs":
     "90c25e3d6521994d857ab870469c2333a88ec9ba44aaa7d5ba1b57817d24e221",
   "scripts/installMarkdownTools.mjs":
@@ -156,7 +156,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/render_editing_policy.py":
     "71111815ac18b4f455c4f31f7d492af61f10d74cfe278cd937e81b2218d829f7",
   "scripts/setUpDevelopmentEnvironment.js":
-    "1c6196a978f8c498d941c3dc91862df65388d1bfb72279194d84267f6f648859",
+    "962de955f9ce32d51298541423c0bdc1c46ef1497753b244f902c9cedf16c63b",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.
