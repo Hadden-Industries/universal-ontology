@@ -132,7 +132,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/runTestsInParallel.py":
     "de989eff85073e876136e9a82e104c0bdd6419459119b5759f840e2faaaed8f1",
   ".markdown-quality.json":
-    "c19c28d9b3d055d56af73d28b7f7cd8aaf835b7224b243df2ca0e1ba321f9df3",
+    "cb2b81d48542ad14f53db969c062628610f9bfc1580b8477d8831572634825b6",
   "tooling/markdown/package.json":
     "94f4305354d4dbfee78ad430e5a7672e07ab6e783939a1b1c434fffd22da853a",
   "tooling/markdown/package-lock.json":

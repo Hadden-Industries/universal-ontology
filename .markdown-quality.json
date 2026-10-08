@@ -6,7 +6,11 @@
     ".agents/skills/**",
     ".claude/skills/**",
     ".agent-tools/**",
-    "dist/**"
+    "dist/**",
+    "docs/sdlc/*",
+    "docs/reviews/*",
+    "vendor/*",
+    "docs/policy/Editing-Policy.generated.md"
   ],
   "ignoreFiles": [],
   "lint": {},
