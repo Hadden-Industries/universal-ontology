@@ -9,6 +9,16 @@
     }
   },
   "devDependencies": {
-    "@hadden-industries/markdown-quality": "1.0.3"
+    "@hadden-industries/markdown-quality": "file:archives/hadden-industries-markdown-quality-1.0.3.tgz"
+  },
+  "scripts": {
+    "check": "cd ../.. && \"tooling/markdown/node_modules/.bin/markdown-quality\" check --inventory git",
+    "format": "cd ../.. && \"tooling/markdown/node_modules/.bin/markdown-quality\" format --inventory git",
+    "inspect": "cd ../.. && \"tooling/markdown/node_modules/.bin/markdown-quality\" inspect --inventory git",
+    "qualify": "cd ../.. && \"tooling/markdown/node_modules/.bin/markdown-quality-qualify\""
+  },
+  "optionalDependencies": {
+    "@hadden-industries/markdown-quality-win32-x64": "file:archives/hadden-industries-markdown-quality-win32-x64-1.0.3.tgz",
+    "@hadden-industries/markdown-quality-linux-x64": "file:archives/hadden-industries-markdown-quality-linux-x64-1.0.3.tgz"
   }
 }

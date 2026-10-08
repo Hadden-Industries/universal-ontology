@@ -94,7 +94,7 @@ beforeEach(() => {
   );
   writeFileSync(join(repositoryRoot, "package-lock.json"), "{}");
   writeFileSync(join(repositoryRoot, ".node-version"), "24.20.0\n");
-  writeFileSync(join(repositoryRoot, ".python-version"), "3.14.7\n");
+  writeFileSync(join(repositoryRoot, ".python-version"), "3.14.8\n");
   writeFileSync(
     join(repositoryRoot, "requirements-dev.txt"),
     "PyYAML==6.0.3\n",
@@ -146,7 +146,7 @@ beforeEach(() => {
         return createCommandResult("aws-cli/2.30.0\n");
       }
       if (commandArguments[0] === "--version") {
-        return createCommandResult("Python 3.14.7\n");
+        return createCommandResult("Python 3.14.8\n");
       }
       if (commandArguments[2] === "--version") {
         return createCommandResult("pip 26.2.1 from bootstrap (python 3.14)\n");
@@ -360,10 +360,29 @@ test.each(["11.0.0", "12.0.1", "13.0.0", "12.1.0-beta.1", "invalid"])(
   },
 );
 
+test.each(["3.14.8", "3.14.9", "3.15.0", "4.0.0"])(
+  "accepts stable Python %s at or above the selected minimum",
+  (version) => {
+    const successfulCommand = spawnSyncMock.getMockImplementation();
+    spawnSyncMock.mockImplementation((executable, args, options) =>
+      args[0] === "--version"
+        ? createCommandResult(`Python ${version}\n`)
+        : successfulCommand(executable, args, options),
+    );
+    setUpDevelopmentEnvironment({ repositoryRoot });
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      "Development dependencies are installed.",
+    );
+  },
+);
+
 test.each([
   ["missing", { ...createCommandResult("", null), error: new Error("ENOENT") }],
   ["too old", createCommandResult("Python 3.10.0\n")],
-  ["older patch than selected", createCommandResult("Python 3.14.6\n")],
+  ["older patch than selected", createCommandResult("Python 3.14.7\n")],
+  ["older minor", createCommandResult("Python 3.13.20\n")],
+  ["prerelease", createCommandResult("Python 3.15.0rc1\n")],
+  ["malformed version", createCommandResult("Python invalid\n")],
 ])(
   "rejects %s Python before installing npm packages",
   (_description, result) => {

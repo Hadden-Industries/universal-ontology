@@ -1,5 +1,6 @@
 """Rendering contract: the whole Editing Policy page is a checked projection of the policy graph."""
 
+import json
 import subprocess
 import sys
 import tempfile
@@ -22,6 +23,18 @@ PYTHON = sys.executable
 
 
 class CanonicalFormatterFailureTest(unittest.TestCase):
+    def test_excluded_generated_document_preserves_input_bytes(self):
+        rendered = "# Policy\n\nFirst sentence. Second sentence.\n"
+        # Prove that policy selection, rather than already-clean input, preserves bytes.
+        with patch(
+            "render_editing_policy.GENERATED_DOCUMENT_PATH",
+            REPOSITORY_ROOT / "docs" / "policy" / "README.md",
+        ):
+            self.assertNotEqual(
+                format_generated_document(rendered), rendered.encode("utf-8")
+            )
+        self.assertEqual(format_generated_document(rendered), rendered.encode("utf-8"))
+
     def test_non_object_native_report_is_an_operation_failure(self):
         with patch(
             "render_editing_policy.subprocess.run",
@@ -29,6 +42,36 @@ class CanonicalFormatterFailureTest(unittest.TestCase):
         ):
             with self.assertRaisesRegex(RuntimeError, "canonical Markdown quality"):
                 format_generated_document("# Policy\n")
+
+    def test_logical_reply_cannot_change_request_or_document_identity(self):
+        for field in ("requestId", "path"):
+            with self.subTest(field=field):
+
+                def mismatched_reply(*args, input, **kwargs):
+                    request = json.loads(input)
+                    request[field] += "-wrong"
+                    return subprocess.CompletedProcess(
+                        args,
+                        0,
+                        stdout=json.dumps(
+                            {
+                                "exitCode": 0,
+                                "operation": "format",
+                                "written": [],
+                                "errors": [],
+                                "document": request,
+                            }
+                        ),
+                        stderr="",
+                    )
+
+                with patch(
+                    "render_editing_policy.subprocess.run", side_effect=mismatched_reply
+                ):
+                    with self.assertRaisesRegex(
+                        RuntimeError, "canonical Markdown quality"
+                    ):
+                        format_generated_document("# Policy\n")
 
 
 def run_renderer(*arguments, cwd=REPOSITORY_ROOT):

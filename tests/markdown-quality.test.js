@@ -5,31 +5,25 @@ import {
   mkdirSync,
   mkdtempSync,
   rmSync,
-  symlinkSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("../", import.meta.url));
-const runner = join(root, "scripts/runMarkdownQuality.mjs");
-const cli = join(
+const packageRoot = join(
   root,
-  "tooling/markdown/node_modules/@hadden-industries/markdown-quality/src/cli.js",
+  "tooling/markdown/node_modules/@hadden-industries/markdown-quality",
 );
+const metadata = JSON.parse(
+  readFileSync(join(packageRoot, "package.json"), "utf8"),
+);
+const cli = resolve(packageRoot, metadata.bin["markdown-quality"]);
 function fixture() {
   const directory = mkdtempSync(join(tmpdir(), "uo-markdown-contract-"));
   execFileSync("git", ["init", "--quiet", directory]);
-  // This junction is installed test infrastructure, not repository documents.
-  writeFileSync(join(directory, ".gitignore"), "tooling/markdown/\n");
   writeFileSync(
     join(directory, ".markdown-quality.json"),
     readFileSync(join(root, ".markdown-quality.json")),
-  );
-  mkdirSync(join(directory, "tooling"));
-  symlinkSync(
-    resolve(root, "tooling/markdown"),
-    join(directory, "tooling/markdown"),
-    "junction",
   );
   writeFileSync(
     join(directory, "README.md"),
@@ -92,37 +86,33 @@ test("real native operation failure preserves exit 2 and its result schema", () 
     rmSync(directory, { recursive: true });
   }
 });
-test("format admission rejects tracked Markdown in infrastructure before changing other documents", () => {
+test("full inventory explains policy-excluded review bytes without changing them", () => {
   const directory = fixture();
   try {
-    mkdirSync(join(directory, ".sdlc"));
-    writeFileSync(join(directory, ".sdlc/hidden.md"), "# Hidden\n");
-    execFileSync("git", ["-C", directory, "add", ".sdlc/hidden.md"]);
-    const text = "# Corpus\n\nFirst sentence. Second sentence.\n";
-    writeFileSync(join(directory, "README.md"), text);
-    // Import the actual orchestration with an explicit temporary repository root.
+    mkdirSync(join(directory, "docs/reviews/nested"), { recursive: true });
+    const excluded = "docs/reviews/nested/private.md";
+    const bytes = Buffer.from([255, 13, 10, 128]);
+    writeFileSync(join(directory, excluded), bytes);
+    execFileSync("git", ["-C", directory, "add", excluded]);
     const result = spawnSync(
       process.execPath,
-      [
-        "--input-type=module",
-        "-e",
-        `import {runMarkdownQuality} from ${JSON.stringify(new URL("../scripts/runMarkdownQuality.mjs", import.meta.url).href)};process.exitCode=runMarkdownQuality('format',${JSON.stringify(directory)});`,
-      ],
+      [cli, "check", "--root", directory, "--inventory", "git", "--json"],
       { encoding: "utf8" },
     );
-    expect(result.status).not.toBe(0);
-    expect(result.stderr).toContain(
-      'escaped full selection: [".sdlc/hidden.md"]',
+    expect(result.status).toBe(0);
+    const report = JSON.parse(result.stdout);
+    expect(report.selection.files).toEqual(["README.md"]);
+    expect(report.selection.inventory.map(({ path }) => path).sort()).toEqual(
+      ["README.md", excluded].sort(),
     );
-    expect(readFileSync(join(directory, "README.md"), "utf8")).toBe(text);
-    const writable = spawnSync(
-      process.execPath,
-      [cli, "format", "--root", directory, "--json"],
-      { encoding: "utf8" },
-    );
-    expect(writable.status).toBe(0);
-    expect(JSON.parse(writable.stdout).written).toContain("README.md");
-    expect(readFileSync(join(directory, "README.md"), "utf8")).not.toBe(text);
+    expect(report.selection.exclusions).toContainEqual({
+      path: excluded,
+      pattern: "docs/reviews/*",
+      matchedPath: "docs/reviews/nested/",
+      reason: "excluded",
+    });
+    expect(readFileSync(join(directory, excluded))).toEqual(bytes);
+    expect(report.written).toEqual([]);
   } finally {
     rmSync(directory, { recursive: true });
   }
@@ -130,9 +120,14 @@ test("format admission rejects tracked Markdown in infrastructure before changin
 test("canonical command rejects changed-path shortcuts", () => {
   const result = spawnSync(
     process.execPath,
-    [runner, "check", "--base", "HEAD"],
+    [cli, "check", "--base", "HEAD", "--json"],
     { encoding: "utf8" },
   );
   expect(result.status).toBe(2);
-  expect(result.stderr).toContain("full selection is mandatory");
+  const report = JSON.parse(result.stdout);
+  expect(report.errors).toContainEqual({
+    code: "ERR_PARSE_ARGS_UNKNOWN_OPTION",
+    message: expect.stringContaining("--base"),
+  });
+  expect(report.written).toEqual([]);
 });

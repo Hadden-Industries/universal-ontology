@@ -201,9 +201,16 @@ export function setUpDevelopmentEnvironment({
     ["--version"],
     { captureOutput: true },
   );
-  if (pythonVersionOutput !== `Python ${selectedPythonVersion}`) {
+  const pythonVersion = /^Python (\d+\.\d+\.\d+)$/u.exec(
+    pythonVersionOutput,
+  )?.[1];
+  if (
+    !/^\d+\.\d+\.\d+$/u.test(selectedPythonVersion) ||
+    !pythonVersion ||
+    !semver.satisfies(pythonVersion, `>=${selectedPythonVersion}`)
+  ) {
     throw new Error(
-      `Development setup requires Python ${selectedPythonVersion}; found ${pythonVersionOutput}.`,
+      `Development setup requires stable Python >=${selectedPythonVersion}; found ${pythonVersionOutput}.`,
     );
   }
 

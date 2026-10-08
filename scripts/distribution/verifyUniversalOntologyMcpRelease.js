@@ -98,13 +98,13 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/full-qualification.yml":
     "eb7643815d915847326b2e61e2a3c388a5ebf848d5f8b4d290aa290194e62ba2",
   ".github/workflows/development-checks.yml":
-    "a3a99ee1745540ba0bf6a30e159a5b1e6941e865cd041b8fff56d133f4be8e88",
+    "e575b8a91fe51cd526122ebb538cf176795386d663484643617450017c8b1eb8",
   ".github/workflows/ontology-validation.yml":
     "e5f819709950ea70647ed5514757d870f09ddf0fdb45aef17d1acf9a8d777538",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
     "0c675e0966118472dbe7fdcd8392a7f5d600138a1eab7b8bcfbd8bd5d464dbc9",
   "scripts/selectPullRequestChecks.js":
-    "3c93dddc56185b570f34fbfe62300503c02376191ae49c5ef1aea03f591e017a",
+    "f7dda2d42af03bb349954cb4f5a44770ef6acd13725d9e3ca4c707219a54fc1e",
   "scripts/evaluatePullRequestChecks.js":
     "2a0790abf6aac5580a4073e2fa1e0f67f0e704e5bfb99cfc9cdb088ed3a99a0b",
   "scripts/pullRequestCheckPlan.schema.json":
@@ -132,31 +132,31 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/runTestsInParallel.py":
     "de989eff85073e876136e9a82e104c0bdd6419459119b5759f840e2faaaed8f1",
   ".markdown-quality.json":
-    "c19c28d9b3d055d56af73d28b7f7cd8aaf835b7224b243df2ca0e1ba321f9df3",
+    "7f140f74145947c56fb089f307fee83339f1d4bcb62c6593cadef2a3d73eeb9d",
   "tooling/markdown/package.json":
-    "94f4305354d4dbfee78ad430e5a7672e07ab6e783939a1b1c434fffd22da853a",
+    "dd99ee11e572fdd7cc86e37f165876e106b5c64e12855410055a2cbf307cd74b",
   "tooling/markdown/package-lock.json":
-    "cd3659011575ea158d2d358139a345af85c7683df9adab59cac52c164afe6aac",
+    "15a21e151c89bbb102989e4d7d75ce4ccdbf5ac0b642603e71296b3a260cdf63",
   ".github/workflows/markdown-quality.yml":
-    "9a9d76ea70888076ae2134e7ff09d38fd13624b35c9f1479dca76a41b54dd09c",
-  "scripts/runMarkdownQuality.mjs":
-    "90c25e3d6521994d857ab870469c2333a88ec9ba44aaa7d5ba1b57817d24e221",
+    "ed666c58975efb254e8137f2aadf9cabd7bafe7c710f83a847fbcd2e68cf1c39",
   "scripts/installMarkdownTools.mjs":
     "7e3e907493074c99cc3d095cc149220edcfcedd8651e4fcd073cbb50ff90c326",
-  "scripts/check-markdown-candidate.mjs":
-    "84f6a64b083c5268b1ca46223f8004d00943619a95bb4f86f62de15250b40379",
-  "scripts/check-markdown-candidate.probes.mjs":
-    "ea7d37cde027288eda74b43853ef46893fbcfca34df5ed495767776ce885abe5",
-  "scripts/observe-markdown-window.py":
-    "ec81028ed781071fbc6f335e0465dc280ecf4691690c1f4693b97f78c73b51a5",
-  "scripts/observe-markdown-window.probes.py":
-    "ab303f493c0e307331839600d319fdf07e753b1667bfedb86ff1a9ecb1ee44b5",
-  "scripts/run-markdown-window.mjs":
-    "e30a84c1edc0d4045749a97a5e17dfb858f5f3eed7ac8f14de03448258bf2567",
   "scripts/render_editing_policy.py":
-    "71111815ac18b4f455c4f31f7d492af61f10d74cfe278cd937e81b2218d829f7",
+    "847fab54942db93e19b74b4aacae9d734f8c6cb60762f1108fb58bd3277ce844",
   "scripts/setUpDevelopmentEnvironment.js":
-    "1c6196a978f8c498d941c3dc91862df65388d1bfb72279194d84267f6f648859",
+    "962de955f9ce32d51298541423c0bdc1c46ef1497753b244f902c9cedf16c63b",
+  ".markdown-quality-execution.json":
+    "314ef284e247a38ecf5ac2d4d7883c64e1f1ce037a6eba2c7bd0ea1814028b39",
+  "package.json":
+    "d1b204ef2126aa0ca86305e18b1864f2b1f8f94100d0c54f75a2c34c60f42578",
+  "tests/markdown-quality.test.js":
+    "6d98214ca56141494abce31c9361f9230a10b98fb377f720e9ddd97343306ab1",
+  "tooling/markdown/archives/hadden-industries-markdown-quality-1.0.3.tgz":
+    "9bef35fd3fc9f948cfa317a5cad648aa111eb49492a3e984695f9d575a4b0559",
+  "tooling/markdown/archives/hadden-industries-markdown-quality-win32-x64-1.0.3.tgz":
+    "1207f1c49b0f73d8d7bf5c6a74dfdc928daffd132a5adf7d2dbc488f0d2d617d",
+  "tooling/markdown/archives/hadden-industries-markdown-quality-linux-x64-1.0.3.tgz":
+    "d2bd591497f6a0ed9e5ff6165ea3fd5d08645df5ad186ceb8f06a1f30759488f",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.
@@ -169,9 +169,14 @@ export async function verifyPullRequestPolicyGraph({
   if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 32)
     throw new Error("PR policy allowlist is incomplete.");
   for (const [path, expected] of Object.entries(REVIEWED_PR_POLICY_FILES)) {
-    const text = (await readBoundedRegularFile(join(root, path)))
-      .toString("utf8")
-      .replaceAll("\r\n", "\n");
+    const bytes = await readBoundedRegularFile(join(root, path));
+    // Archive integrity is over raw bytes, never a UTF-8 or newline projection.
+    if (path.endsWith(".tgz")) {
+      if (calculateSha256(bytes) !== expected)
+        throw new Error(`Unreviewed PR execution policy: ${path}`);
+      continue;
+    }
+    const text = bytes.toString("utf8").replaceAll("\r\n", "\n");
     const document = path.endsWith(".yml")
       ? parseYaml(text)
       : path.endsWith(".json")
@@ -193,10 +198,16 @@ export async function verifyPullRequestPolicyGraph({
         throw new Error(`PR consumer weakens completion: ${path}/${id}`);
       if (
         job.uses &&
-        (!job.uses.startsWith("./.github/workflows/") ||
-          !Object.hasOwn(REVIEWED_PR_POLICY_FILES, job.uses.slice(2)))
+        !(
+          (job.uses.startsWith("./.github/workflows/") &&
+            Object.hasOwn(REVIEWED_PR_POLICY_FILES, job.uses.slice(2))) ||
+          (path === ".github/workflows/markdown-quality.yml" &&
+            id === "qualify" &&
+            job.uses ===
+              "Hadden-Industries/markdown-quality/.github/workflows/markdown-quality.yml@2a8f162cd98a8548d8fa7b065cd6fe1828efcab7")
+        )
       )
-        throw new Error("PR call leaves reviewed local graph.");
+        throw new Error("PR call leaves reviewed workflow graph.");
       if (
         job.uses &&
         ["steps", "timeout-minutes", "runs-on", "defaults"].some((key) =>

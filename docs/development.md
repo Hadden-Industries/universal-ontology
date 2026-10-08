@@ -5,7 +5,8 @@ Nothing here is a prerequisite for opening a pull request; see [CONTRIBUTING.md]
 
 ## Setup
 
-Requirements: Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, npm 12 (`package.json` declares the exact `packageManager` version; compatible patch/minor updates are accepted), the Python version in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
+Requirements: Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, npm 12 (`package.json` declares the exact `packageManager` version; compatible patch/minor updates are accepted), stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
+CI provisions the exact Python version in that file; development setup accepts newer stable versions and preserves the existing `.venv`.
 The README's [development setup](../README.md#development-setup) section explains the version selection.
 
 ```sh
@@ -86,27 +87,40 @@ Report failures, skips and checks you could not run as they are.
 `npm run lint:python:fix` applies Ruff's safe fixes; `npm run format:python` formats Python.
 Ruff retains its configured Python scope and runtime.
 
-`npm run install:markdown` installs the isolated development-only graph in `tooling/markdown` using public registry credentials, empty npm configuration files and no lifecycle scripts.
+`npm run install:markdown` installs the isolated development-only graph in `tooling/markdown` from the retained core/native archives and frozen lock, with anonymous registry access for the remaining dependencies, empty npm configuration files and no lifecycle scripts.
 `npm run check:markdown` invokes the maintained native capability in full-selection mode without writing or installing anything.
 `npm run format:markdown` formats the same complete corpus; preservation guards reject changes to parsed meaning or literals.
 Both support `-- --json` for the capability's canonical result schema.
-Exit 0 means clean, 1 means quality findings, and 2 means an operational failure; consumers must check process and report identity together.
+Exit 0 means no blockers, 1 means blocking findings or formatting drift, and 2 means an operational failure; advisory findings remain visible on success.
+Consumers must check process and report identity together.
 Changed-path shortcuts are rejected because deleting a non-Markdown link target can break an unchanged document.
 
-The policy is `"include": ["**/*.md"]` with no repository-document exceptions and no ignore inputs.
-This includes agent instructions, reviews, historical plans, generated policy, vendored Markdown and fixtures.
-Installed tooling, dependencies, virtual environments, Git metadata and build outputs are infrastructure; an independent Git inventory rejects any tracked Markdown hidden beneath their exclusions.
+The policy is `"include": ["**/*.md"]` with no ignore inputs.
+Markdown policy is declared in `.markdown-quality.json`; scripts must not maintain competing exclusion lists.
+The owner-approved exclusions include `docs/sdlc/*`, `docs/reviews/*`, `vendor/*` and the specific `docs/policy/Editing-Policy.generated.md` file, alongside installed skill/tool and build-output paths.
+The shared package reconciles full selection with the Git inventory and records each tracked document as selected or policy-excluded.
+`npm run inspect:markdown -- --json` exposes those decisions and exclusion reasons.
+Selected unsafe or missing content fails explicitly; excluded content remains unchanged.
 Repair missing physical-file links against real files or pinned historical sources; source annotations that are plain prose must be escaped as plain prose.
 Strict whitespace and heading rules remain enabled.
-Generated policy is formatted by its generator through the same maintained capability before output or freshness comparison; regenerate with `npm run generate:editing-policy`.
+Generated policy is processed through the public logical-document operation at the canonical output path against the actual repository root, without scratch files or checkout writes.
+Its configured exclusion preserves raw graph-rendered bytes; freshness still rejects a changed graph or hand-edited document.
+Regenerate with `npm run generate:editing-policy`.
 
-Every functional PR/main route runs a fresh full-corpus check and native trust probes on Windows and Ubuntu, even for a target-only change.
+Root npm commands invoke installed public bins in the isolated tooling project.
+The generator resolves the public bin declaration; the package owns bounded invocation, validation, selection, staging and native observation.
+`.markdown-quality-execution.json` is the sole consumer qualification profile: it references the runtime declarations and archive/lock identities, and carries finite operational bounds without Markdown content policy.
+The retained archive tuple is paired with producer source `2a8f162cd98a8548d8fa7b065cd6fe1828efcab7`; its manifest version alone does not identify this development implementation.
+
+Every functional PR/main route runs a fresh full-corpus check on Windows and Ubuntu, even for a target-only change.
+Independent UO consumer assertions remain in Jest; generic transport and trust probes are owned by the producer.
 Documentation does not select unrelated product or ontology work.
 The existing selected Node assertion reuse remains authenticated and bounded; it never reuses Markdown checking, and the main gate still requires fresh Markdown completion at the exact main revision.
-The separate trusted dispatch workflow uses reviewed default-branch tooling and treats the candidate exclusively as data.
+The separate trusted dispatch workflow calls the SHA-pinned producer workflow, takes an explicit reviewed `trusted_sha`, and treats the candidate exclusively as data.
 Its six-run resource windows and provider identities are retained as qualification evidence, separate from ordinary CI.
 
-`npm run check:qualification` includes full Markdown, trust and resource-observer probes before wider product verification.
+`npm run check:qualification` includes full Markdown through lint before wider product verification.
+`npm run qualify:markdown -- --help` describes the separate exact-commit resource qualification; it requires committed inputs and the selected Python runtime.
 The application's workspaces and shipped dependency graph do not include the AGPL Markdown tooling.
 Python source edits retain their existing independent checks; style-tool/configuration changes retain the platform regression matrix.
 

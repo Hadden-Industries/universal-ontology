@@ -242,7 +242,6 @@ test("every route checks the full Markdown corpus on Windows and Linux", () => {
     "node scripts/evaluatePullRequestChecks.js --verify",
     "npm run install:markdown",
     "npm run check:markdown",
-    "npm run test:markdown",
   ]);
   expect(
     job.steps.some((step) => step.uses?.startsWith("actions/setup-python@")),

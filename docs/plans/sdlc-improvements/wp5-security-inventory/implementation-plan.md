@@ -33,7 +33,7 @@ Do not introduce a runtime selector, findings schema, policy engine, global regi
 **Excluded:** patching the installed plugin cache; copying security skills or helper implementations into the repository; widening permissions/ACLs; changing scanner exclusions to make a fixture green; credentialed CI adoption; repeated paid scans for propagation polling; worktree disposal; changes to DCG or the repository verifier; retroactive alteration of native bundles; automatic adoption in WebVOWL or ONI.
 
 A10 can be demonstrated with installed selection evidence without commissioning an unrelated full vulnerability assessment.
-A claim that the _desktop native scan route_ has returned to service additionally needs its actual prepared/paged inventory and applicable artifact/finalisation evidence.
+A claim that the *desktop native scan route* has returned to service additionally needs its actual prepared/paged inventory and applicable artifact/finalisation evidence.
 Use the next already justified authorised scan for that observation.
 A separate fresh-scan requirement applies when retiring the Windows artifact workaround.
 Do not manufacture a new scan for each fixture or matrix cell.
@@ -226,7 +226,7 @@ For a local patch, bind the selected base, current HEAD, index state, tracked wo
 Keep the owner-coordinated snapshot stable for inventory and any later analysis.
 Before/after identities support that coordination; they are not a transactional snapshot guarantee.
 
-The upstream local mode unions staged/working/untracked _paths_, then reads current working files for nondeleted source inspection.
+The upstream local mode unions staged/working/untracked *paths*, then reads current working files for nondeleted source inspection.
 Where staged and working bytes differ, retain both identities and state exactly which snapshot is in the scan.
 An index-only added file removed from disk must not be called reviewed just because a legacy worklist contains its name with an empty preview.
 \[R05; R06]

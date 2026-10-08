@@ -12,179 +12,20 @@ on:
         description: Exact 40-character candidate commit to qualify
         required: true
         type: string
+      trusted_sha:
+        description: Exact reviewed 40-character UO policy, profile and toolchain commit
+        required: true
+        type: string
 
 permissions: {}
 
 jobs:
-  markdown_linux:
-    name: Trusted Markdown / Linux
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
+  qualify:
+    uses: Hadden-Industries/markdown-quality/.github/workflows/markdown-quality.yml@2a8f162cd98a8548d8fa7b065cd6fe1828efcab7
     permissions:
       contents: read
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - name: Require the trusted default branch
-        env:
-          TRUSTED_DEFAULT_REF: refs/heads/${{ github.event.repository.default_branch }}
-        run: test "$GITHUB_REF" = "$TRUSTED_DEFAULT_REF"
-      - name: Check out the exact trusted workflow source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ github.workflow_sha }}
-          path: trusted
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Select the qualified Node runtime without shared caches
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: "24.21.0"
-          check-latest: false
-          cache: ""
-          package-manager-cache: false
-      - name: Select the pinned resource observer Python
-        id: markdown_python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: "3.14.7"
-          architecture: x64
-          check-latest: false
-          update-environment: false
-          cache: ""
-      - name: Acquire only the trusted isolated graph without credentials or lifecycle scripts
-        working-directory: trusted/tooling/markdown
-        env:
-          NODE_AUTH_TOKEN: ""
-          NPM_TOKEN: ""
-          GH_TOKEN: ""
-          GITHUB_TOKEN: ""
-          NODE_OPTIONS: ""
-          NODE_PATH: ""
-        run: |
-          touch "$RUNNER_TEMP/markdown-user.npmrc" "$RUNNER_TEMP/markdown-global.npmrc"
-          npm ci --ignore-scripts --no-audit --no-fund --registry=https://registry.npmjs.org/ --userconfig="$RUNNER_TEMP/markdown-user.npmrc" --globalconfig="$RUNNER_TEMP/markdown-global.npmrc" --cache="$RUNNER_TEMP/markdown-npm-cache"
-      - name: Check out the exact candidate separately as data
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: ${{ inputs.candidate_repository }}
-          ref: ${{ inputs.candidate_sha }}
-          path: candidate
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Run trusted staging negative probes
-        env:
-          MARKDOWN_TEST_CLI: ${{ github.workspace }}/trusted/tooling/markdown/node_modules/@hadden-industries/markdown-quality/src/cli.js
-        run: node --test trusted/scripts/check-markdown-candidate.probes.mjs
-      - name: Observe six consecutive full checks and platform resources
-        env:
-          MARKDOWN_OBSERVER_PYTHON: ${{ steps.markdown_python.outputs.python-path }}
-          MARKDOWN_CANDIDATE_REPOSITORY: ${{ inputs.candidate_repository }}
-          MARKDOWN_CANDIDATE_SHA: ${{ inputs.candidate_sha }}
-          MARKDOWN_TRUSTED_SHA: ${{ github.workflow_sha }}
-        run: node trusted/scripts/run-markdown-window.mjs
-      - name: Retain evidence even when the canonical checker finds a defect
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: trusted-markdown-linux-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            ${{ runner.temp }}/markdown-window/window.json
-            ${{ runner.temp }}/markdown-window/sample-*/markdown-evidence/trusted-markdown-run.json
-            ${{ runner.temp }}/markdown-window/sample-*/stdout.txt
-            ${{ runner.temp }}/markdown-window/sample-*/stderr.txt
-          if-no-files-found: error
-          retention-days: 90
-          compression-level: 0
-          include-hidden-files: false
-          archive: true
-  markdown_windows:
-    name: Trusted Markdown / Windows
-    runs-on: windows-2025
-    timeout-minutes: 15
-    permissions:
-      contents: read
-    defaults:
-      run:
-        shell: pwsh
-    steps:
-      - name: Require the trusted default branch
-        env:
-          TRUSTED_DEFAULT_REF: refs/heads/${{ github.event.repository.default_branch }}
-        run: |
-          if ($env:GITHUB_REF -ne $env:TRUSTED_DEFAULT_REF) { throw 'Trusted default branch required' }
-      - name: Check out the exact trusted workflow source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ github.workflow_sha }}
-          path: trusted
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Select the qualified Node runtime without shared caches
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: "24.21.0"
-          check-latest: false
-          cache: ""
-          package-manager-cache: false
-      - name: Select the pinned resource observer Python
-        id: markdown_python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: "3.14.7"
-          architecture: x64
-          check-latest: false
-          update-environment: false
-          cache: ""
-      - name: Acquire only the trusted isolated graph without credentials or lifecycle scripts
-        working-directory: trusted/tooling/markdown
-        env:
-          NODE_AUTH_TOKEN: ""
-          NPM_TOKEN: ""
-          GH_TOKEN: ""
-          GITHUB_TOKEN: ""
-          NODE_OPTIONS: ""
-          NODE_PATH: ""
-        run: |
-          $markdownUserConfig = Join-Path $env:RUNNER_TEMP 'markdown-user.npmrc'
-          $markdownGlobalConfig = Join-Path $env:RUNNER_TEMP 'markdown-global.npmrc'
-          $markdownCache = Join-Path $env:RUNNER_TEMP 'markdown-npm-cache'
-          Set-Content -LiteralPath $markdownUserConfig -Value '' -Encoding utf8NoBOM
-          Set-Content -LiteralPath $markdownGlobalConfig -Value '' -Encoding utf8NoBOM
-          npm ci --ignore-scripts --no-audit --no-fund --registry=https://registry.npmjs.org/ "--userconfig=$markdownUserConfig" "--globalconfig=$markdownGlobalConfig" "--cache=$markdownCache"
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Check out the exact candidate separately as data
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: ${{ inputs.candidate_repository }}
-          ref: ${{ inputs.candidate_sha }}
-          path: candidate
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Run trusted staging negative probes
-        env:
-          MARKDOWN_TEST_CLI: ${{ github.workspace }}/trusted/tooling/markdown/node_modules/@hadden-industries/markdown-quality/src/cli.js
-        run: node --test trusted/scripts/check-markdown-candidate.probes.mjs
-      - name: Observe six consecutive full checks and platform resources
-        env:
-          MARKDOWN_OBSERVER_PYTHON: ${{ steps.markdown_python.outputs.python-path }}
-          MARKDOWN_CANDIDATE_REPOSITORY: ${{ inputs.candidate_repository }}
-          MARKDOWN_CANDIDATE_SHA: ${{ inputs.candidate_sha }}
-          MARKDOWN_TRUSTED_SHA: ${{ github.workflow_sha }}
-        run: node trusted/scripts/run-markdown-window.mjs
-      - name: Retain evidence even when the canonical checker finds a defect
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: trusted-markdown-windows-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            ${{ runner.temp }}/markdown-window/window.json
-            ${{ runner.temp }}/markdown-window/sample-*/markdown-evidence/trusted-markdown-run.json
-            ${{ runner.temp }}/markdown-window/sample-*/stdout.txt
-            ${{ runner.temp }}/markdown-window/sample-*/stderr.txt
-          if-no-files-found: error
-          retention-days: 90
-          compression-level: 0
-          include-hidden-files: false
-          archive: true
+    with:
+      trusted-repository: ${{ github.repository }}
+      trusted-sha: ${{ inputs.trusted_sha }}
+      candidate-repository: ${{ inputs.candidate_repository }}
+      candidate-sha: ${{ inputs.candidate_sha }}

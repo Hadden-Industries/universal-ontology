@@ -400,6 +400,7 @@ Any exact requirement behind this wording must immediately link to the relevant 
 Every summary unit must render in this form:
 
 <!-- prettier-ignore -->
+
 ```markdown
 **Contributor summary — non-normative.**  
 Classes and named individuals need a definition; properties may omit one.
@@ -410,6 +411,7 @@ Classes and named individuals need a definition; properties may omit one.
 Where a summary synthesises several clauses:
 
 <!-- prettier-ignore -->
+
 ```markdown
 **Contributor summary — non-normative.**  
 An ordinary entity normally needs an identifier, creator information and a creation timestamp. Different rules govern modifications and specialist dataset/distribution resources.
@@ -441,6 +443,7 @@ In particular:
 Use a stable ID-only heading so that changing a human title does not change its GitHub-generated anchor:
 
 <!-- prettier-ignore -->
+
 ```markdown
 ### EP-DISTRIBUTION-MEDIA
 

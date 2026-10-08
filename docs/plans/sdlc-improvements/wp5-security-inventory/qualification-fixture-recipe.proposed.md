@@ -77,7 +77,7 @@ src/handler.py
 Treat this as an expectation for the inspected native contract, not a reimplementation of its exclusions.
 If a later supported installed version has intentionally broader behavior, retain the observed difference and establish its actual documented scope before amending E. Do not change expectations simply because a candidate failed.
 
-The remaining six paths are still in G and need explicit relevance/disposition for a _real_ security review. Fixture exclusion is not a declaration that those categories are safe. Run the source-defined legacy path separately only if supported/used; do not generate extra legacy worklists inside a desktop scan.
+The remaining six paths are still in G and need explicit relevance/disposition for a *real* security review. Fixture exclusion is not a declaration that those categories are safe. Run the source-defined legacy path separately only if supported/used; do not generate extra legacy worklists inside a desktop scan.
 
 ## 4. F53 — local staged, unstaged and untracked states
 
@@ -113,7 +113,7 @@ Renames whose source content cannot be assessed remain coverage gaps rather than
 Prepare separate controlled cases for staged/working byte differences, staged addition then working-file absence, symlink/type changes where the filesystem/authority supports them, unsupported newline names where creation is valid, Unicode/spaces, deliberately invalid revision, missing executable and output failure.
 Do not manufacture unreadability by changing production ACLs.
 
-Record expected _failure or limitation_ where the native contract cannot support the state.
+Record expected *failure or limitation* where the native contract cannot support the state.
 The goal is truthful qualification, not making every arbitrary path look like a supported regular workflow.
 A path inventory and a byte-for-byte snapshot are distinct artifacts.
 

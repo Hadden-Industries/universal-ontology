@@ -60,7 +60,7 @@ The legacy validator applied entity metadata only to IRIs under the module names
 Before this exclusion the 286 DCAT subjects produced 858 spurious entity results.
 
 **Execution structure:** per-focus SPARQL constraints cost 135 s (identifier uniqueness, an unindexed join order in RDFLib), 60 s (label correspondence), 37 s (descriptive language) and 5–10 s each for the naming and definition checks on the real active set.
-Every SPARQL check is therefore a _part shape_ (`uop:partOf`) whose target selects the failing candidates in one query; the constraint re-derives path/value only for those nodes.
+Every SPARQL check is therefore a *part shape* (`uop:partOf`) whose target selects the failing candidates in one query; the constraint re-derives path/value only for those nodes.
 Results are identical; the full active-set run fell from 285 s to 16 s (pySHACL) and Jena takes 2.5 s.
 The metadata contract requires parts to be IRIs with a target and keeps severity agreement across parts.
 
@@ -113,7 +113,7 @@ Facts: `uoc:changeKind` Added/Changed/Unchanged per subject and, per module, `uo
 The mutation proof holds: changing only the SHACL applicability condition (`uoc:Changed` → `uoc:Unchanged` in the candidate target) removes the obligation while the runner still supplies identical change facts, so Python never decides the obligation.
 Jena agrees with pySHACL on the comparison run.
 
-**Purposes:** a candidate qualification refuses to run without a comparison for every module (exit 2); latest-active runs without a supplied comparison report change obligations as _unevaluated_ per module rather than inventing them; draft runs show findings but never qualify; a critical-fix run requires an approved scope reference, restricts results to changed/added subjects and survivors referring to deleted ones, and never qualifies — an untouched historic defect stays outside its results while a draft run still shows it.
+**Purposes:** a candidate qualification refuses to run without a comparison for every module (exit 2); latest-active runs without a supplied comparison report change obligations as *unevaluated* per module rather than inventing them; draft runs show findings but never qualify; a critical-fix run requires an approved scope reference, restricts results to changed/added subjects and survivors referring to deleted ones, and never qualifies — an untouched historic defect stays outside its results while a draft run still shows it.
 
 **Command:** for candidate/draft runs the comparison of a replaced module is its recorded active artifact, or the base commit's blob of the same path when `--diff-base` is given (an added file has no comparison); unreplaced modules compare with themselves.
 `--critical-fix-scope <reference>` supplies the approved scope.

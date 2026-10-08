@@ -16,7 +16,7 @@ The exact registry artifact has passed consumer qualification; final acceptance 
 Install Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, and stable npm 12.0.2 or a newer npm 12 patch/minor release. Setup accepts the caret range of the exact `packageManager` version in `package.json`; major upgrades and prereleases require a separate compatibility review. Use the latest compatible patch of the [supported LTS release](https://nodejs.org/en/about/previous-releases).
 The minimum reflects the qualified owlapi RC's Node 24.21.0 requirement and the MCP workspace's Node 24 requirement.
 `.node-version` selects the CI runtime; local setup accepts compatible LTS updates.
-The Python version in `.python-version` is also required.
+Stable Python at or above the minimum in `.python-version` is also required; CI provisions that exact version.
 An existing `.venv` is reused, or setup creates one using `python` on Windows and `python3` on macOS/Linux.
 The system interpreter must be available on `PATH` when creating `.venv`.
 
