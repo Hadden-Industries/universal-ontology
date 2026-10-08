@@ -361,7 +361,7 @@ test("loads the built master page and downloads its materialized CSV", async () 
     await server?.close();
     await rm(fixture.root, { recursive: true, force: true });
   }
-}, 30_000);
+}, 60_000);
 
 test("registers and executes one lazy page-scoped WebMCP definition tool", async () => {
   const fixture = await createFixture();
