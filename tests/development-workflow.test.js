@@ -162,8 +162,13 @@ test("Python-only work retains both platforms without installing Node dependenci
   expect(job.if).toBe("needs.scope.outputs.python_tests == 'true'");
   expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
+  const npmBootstrap =
+    'npm install --global --no-audit --no-fund npm@12.2.0\ntest "$(npm --version)" = "12.2.0"\n';
+  expect(runs).toContain(npmBootstrap);
   expect(
-    runs.some((run) => /npm (?:ci|install)|set-up:development/u.test(run)),
+    runs
+      .filter((run) => run !== npmBootstrap)
+      .some((run) => /npm (?:ci|install)|set-up:development/u.test(run)),
   ).toBe(false);
   const setup = job.steps.find(
     (step) => step.name === "Set up only the locked Python environment",
@@ -240,6 +245,7 @@ test("every route checks the full Markdown corpus on Windows and Linux", () => {
   expect(job.if).toBeUndefined();
   expect(job.steps.map((step) => step.run).filter(Boolean)).toEqual([
     "node scripts/evaluatePullRequestChecks.js --verify",
+    'npm install --global --no-audit --no-fund npm@12.2.0\ntest "$(npm --version)" = "12.2.0"\n',
     "npm run install:markdown",
     "npm run check:markdown",
   ]);

@@ -17,7 +17,7 @@ test("locks the approved standalone import-closure policy", async () => {
       sourceRepository: "https://github.com/Hadden-Industries/owlapi",
       registry: "https://registry.npmjs.org/",
       exactVersion: "0.1.0-rc.1",
-      dependencySpecifier: "npm:@hadden-industries/owlapi@0.1.0-rc.1",
+      dependencySpecifier: "npm:@hadden-industries/owlapi@>=0.1.0-rc.1",
       dependencySection: "devDependencies",
       qualificationPrerequisite:
         "upstream-capabilities-and-public-registry-verification",

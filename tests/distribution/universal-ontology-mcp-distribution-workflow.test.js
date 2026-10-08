@@ -35,7 +35,7 @@ const ACTIVE_ACTION_NAMES = Object.freeze([
   "actions/upload-artifact",
 ]);
 const EXACT_NPM_BOOTSTRAP =
-  'npm install --global --no-audit --no-fund npm@12.0.2\ntest "$(npm --version)" = "12.0.2"\n';
+  'npm install --global --no-audit --no-fund npm@12.2.0\ntest "$(npm --version)" = "12.2.0"\n';
 
 // The archive matrix places shell steps on macOS runners, whose BSD userland
 // supplies these commands with short flags only. A GNU long option survives
@@ -196,7 +196,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
           "package.json",
           {
             version: scenario.rootVersion,
-            packageManager: `npm@${scenario.npmVersion ?? "12.0.2"}`,
+            packageManager: `npm@${scenario.npmVersion ?? "12.2.0"}`,
           },
         ],
         [
@@ -207,7 +207,7 @@ describe("Universal Ontology MCP development distribution workflow", () => {
         [
           "scripts/distribution/universalOntologyMcpReleaseInputs.json",
           {
-            selectedNpmVersion: "12.0.2",
+            selectedNpmVersion: "12.2.0",
             nodeRuntime: {
               targets: [
                 {

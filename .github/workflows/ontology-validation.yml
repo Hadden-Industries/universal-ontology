@@ -124,6 +124,12 @@ jobs:
           python -m venv .venv
           .venv/bin/python -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt
           .venv/bin/python -m pip check
+      - name: Select package manager
+        if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
       - name: Generated policy is current
         if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
         run: |

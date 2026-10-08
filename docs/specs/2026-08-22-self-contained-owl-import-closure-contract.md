@@ -151,14 +151,16 @@ The materialization workflow is private application behavior owned by `universal
 
 Consumer implementation and candidate fitness testing may start in the isolated prepublication stage below, before public-registry verification and formal upstream capability completion.
 Incomplete capability or parity evidence remains an explicit qualification gap; source code or passing general CI **MUST NOT** be treated as complete capability acceptance.
-The dependency **MUST** be declared exactly as `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"` in `devDependencies` and pinned with its registry resolution and integrity in the lockfile.
+The dependency **MUST** be declared as `"owlapi": "npm:@hadden-industries/owlapi@>=0.1.0-rc.1"` in `devDependencies` and pinned to the selected exact qualified artifact with its registry resolution and integrity in the lockfile.
 `@hadden-industries/owlapi` is the registry identity; `owlapi` is the approved native npm dependency name used by this consumer's imports.
 The installed `node_modules/owlapi/package.json` **MUST** identify `@hadden-industries/owlapi` at the selected exact version.
 The alias applies to this dependency declaration; it does not rewrite another package's dependencies or peer requirements.
 For the maintained dependency and registry acceptance, only this exact native registry alias is permitted: relative source-tree paths, `file:`, `link:`, workspace aliases, Git URLs, copied source, other package aliases, resolver aliases, and unpublished tarballs are non-conforming.
 The sole prepublication exception permits installing the verified retained scoped RC tarball as `owlapi` in a disposable consumer environment outside the maintained checkout, without ancestor dependency or source-checkout fallback.
 That temporary installation **MUST NOT** become a committed dependency, modify the maintained manifest or lockfile, or replace production ontology outputs.
-Ranges, floating dist-tags, and source-checkout fallback **MUST NOT** substitute for the exact registry artifact.
+The manifest range, floating dist-tags, and source-checkout fallback **MUST NOT** substitute for qualification of the exact registry artifact.
+A later version satisfying the manifest range still requires explicit adoption and requalification before production use.
+Retained artifact-verification records preserve the exact specifier used when that artifact was fetched; they are not rewritten to match the maintained manifest range.
 
 Qualification has two stages followed by production acceptance for the same selected artifact:
 
@@ -439,7 +441,7 @@ The migration is complete only when all of the following are true:
 
 - prepublication UO fitness evidence and subsequent independent registry verification are retained, with byte equality to the qualified tarball and the necessary registry-backed consumer checks recorded;
 - the machine-readable policy and relevant capability matrix entries are green;
-- exact public-registry `@hadden-industries/owlapi@0.1.0-rc.1` is declared through `"owlapi": "npm:@hadden-industries/owlapi@0.1.0-rc.1"`, with matching installed metadata and lockfile integrity, and all consumer imports use only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`;
+- exact public-registry `@hadden-industries/owlapi@0.1.0-rc.1` is locked through `"owlapi": "npm:@hadden-industries/owlapi@>=0.1.0-rc.1"`, with matching installed metadata and lockfile integrity, and all consumer imports use only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`;
 - UO production acceptance is recorded for that exact artifact; its RC version is permitted and no `0.1.0` prerequisite remains;
 - the upstream Public API Surface Registry, capability matrix, package exports, canonical source bindings, and installed-package evidence agree for every consumed symbol;
 - every new `owlapi` public surface has a Java OWLAPI counterpart and parity test;

@@ -90,7 +90,12 @@ beforeEach(() => {
   mkdirSync(repositoryRoot);
   writeFileSync(
     join(repositoryRoot, "package.json"),
-    JSON.stringify({ packageManager: "npm@12.0.2" }),
+    JSON.stringify({
+      packageManager: "npm@12.2.0",
+      devEngines: {
+        packageManager: { name: "npm", version: ">=12.2.0", onFail: "error" },
+      },
+    }),
   );
   writeFileSync(join(repositoryRoot, "package-lock.json"), "{}");
   writeFileSync(join(repositoryRoot, ".node-version"), "24.20.0\n");
@@ -122,6 +127,16 @@ beforeEach(() => {
     semverDirectory,
     { recursive: true },
   );
+  // Exercise npm's own devEngines validator rather than a mock of the policy.
+  cpSync(
+    dirname(
+      createRequire(process.env.npm_execpath).resolve(
+        "npm-install-checks/package.json",
+      ),
+    ),
+    join(temporaryDirectoryPath, "node_modules", "npm-install-checks"),
+    { recursive: true },
+  );
   jest.replaceProperty(process, "env", {
     ...process.env,
     npm_execpath: npmCliPath,
@@ -139,7 +154,7 @@ beforeEach(() => {
         commandArguments[0] === npmCliPath
       ) {
         return createCommandResult(
-          commandArguments[1] === "--version" ? "12.0.2\n" : "",
+          commandArguments[1] === "--version" ? "12.2.0\n" : "",
         );
       }
       if (executablePath === "aws") {
@@ -339,15 +354,25 @@ test("rejects a Current release before any installation", () => {
   expect(spawnSyncMock).not.toHaveBeenCalled();
 });
 
-test.each(["12.0.3", "12.1.0"])("accepts compatible npm %s", (version) => {
-  spawnSyncMock.mockReturnValueOnce(createCommandResult(`${version}\n`));
-  setUpDevelopmentEnvironment({ repositoryRoot });
-  expect(consoleLogSpy).toHaveBeenCalledWith(
-    "Development dependencies are installed.",
-  );
-});
+test.each(["12.2.0", "12.2.1", "12.3.0", "13.0.0"])(
+  "accepts stable npm %s at or above the declared minimum",
+  (version) => {
+    spawnSyncMock.mockReturnValueOnce(createCommandResult(`${version}\n`));
+    setUpDevelopmentEnvironment({ repositoryRoot });
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      "Development dependencies are installed.",
+    );
+  },
+);
 
-test.each(["11.0.0", "12.0.1", "13.0.0", "12.1.0-beta.1", "invalid"])(
+test.each([
+  "11.0.0",
+  "12.1.0",
+  "12.2.0-beta.1",
+  "12.3.0-beta.1",
+  "13.0.0-beta.1",
+  "invalid",
+])(
   "rejects incompatible or unstable npm %s before installing packages",
   (version) => {
     spawnSyncMock.mockReturnValueOnce(createCommandResult(`${version}\n`));
