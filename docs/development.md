@@ -36,6 +36,12 @@ Repository-owned package manifests declare registry and workspace dependencies a
 Registry minimums track the highest published stable release when updated; workspace minimums use the accepted local package version.
 A dependency without a stable release uses its explicitly accepted prerelease.
 Local `file:` sources, including the vendored Braces repair and retained Markdown tooling archives, preserve their source identities.
+OwlAPI is an owner-approved exception to registry ranges: `devDependencies.owlapi` uses the full Git commit `e15320d6438b27c5aaa7aa9302b6919749873ec9` from `Hadden-Industries/owlapi`.
+Root `.npmrc` sets `allow-git=root`, admitting this direct dependency while rejecting transitive Git dependencies under npm 12; setup and CI continue disabling lifecycle scripts.
+The PR selector treats `.npmrc` as a manifest-dependent input, and the release verifier pins its exact contents alongside the approved package manifest and selector.
+Use `npm ci --include=dev --ignore-scripts` when changing between registry and Git sources with the same package version: an incremental install can retain the old bytes.
+The package boundary tests check the exact manifest/lock source, API registry and all installed package bytes against the independently qualified producer archive.
+The retained registry verification documents describe the historical rc.1 publication; they do not qualify this Git source or assert a new npm release.
 The policy allows every newer stable version, then qualifies each refreshed lockfile before adoption.
 Routine setup and CI use the exact lockfile graph; a range permits resolution but does not establish compatibility, including for future major upgrades.
 Refresh qualification covers the affected runtime, build and distribution contracts, including libraries bundled from development dependencies.
@@ -142,7 +148,31 @@ Historical receipts do not qualify a later publication.
 The website build also discovers every valid dated ontology at or after `20260714` under the three ontology source roots.
 Roots declaring imports get freshly materialized `-full`, `-full.jsonld` and `-full.csv` outputs, using checked-in release mappings and local catalogs with network acquisition disabled.
 Roots without imports get no full counterparts.
+The pinned OwlAPI renders these closures as readable RDF/XML by default: semantic prefixes, four-space indentation, typed OWL elements, banners, nested expressions and safe collections.
+Unclassified resources and cases requiring explicit graph representation can still use `rdf:Description`.
+The consumer continues calling public `OWLOntologyManager.saveOntology`; there is no UO formatter or Java runtime dependency.
+It preserves authored RDF/XML root prefix preferences through `RDFXMLDocumentFormat.copyPrefixesFrom`, including explicit unused prefixes, rather than combining imported documents' prefix maps.
+The generated file passes strict offline structural verification before atomic replacement; JSON-LD and CSV retain their existing graph and projection checks.
+No Java OWLAPI generator footer is added, and authored comments or whitespace are not reconstructed.
 The same path is available through `npm run generate:full-ontologies`; maintained full copies at or after the cutoff are rejected.
+
+For a future nondefault presentation policy, configure the output manager in `scripts/materializeImportClosure.js` immediately after creating it and before `writeVerifiedOntology`:
+
+```js
+import { OWLOntologyWriterConfiguration } from "owlapi/model";
+
+outputManager.setOntologyWriterConfiguration(
+  new OWLOntologyWriterConfiguration()
+    .withIndentSize(2)
+    .withBannersEnabled(false),
+);
+```
+
+That public, Java-shaped configuration controls the existing renderer and atomic verification path.
+Current generation intentionally uses its defaults; a one-class fixture demonstrates identical bytes for explicit defaults and successful verified publication with two-space, banner-free output through `writeVerifiedOntology`.
+`withIndenting(boolean)` and `withLabelsAsBanner(boolean)` are also available; all four settings affect RDF/XML only, and arbitrary format parameters remain unsupported.
+Changing the presentation policy requires an accepted change and a fresh build receipt.
+
 Generation invalidates the previous `full-ontology-build.json` receipt before work starts and seals a new one only after all output bytes are verified.
 Both normal and forced publication invoke `node scripts/verifyFullOntologyBuild.js --repository . --output dist` without regenerating anything.
 The upload wrapper copies the complete built tree into an isolated candidate, verifies its identity and qualification, and passes that candidate to the existing upload helper.

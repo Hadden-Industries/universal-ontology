@@ -10,7 +10,7 @@ import {
 import { OWLOntologyLoaderConfiguration } from "owlapi/model";
 import { materializeImportClosure } from "./materializeImportClosure.js";
 import {
-  collectQualificationIdentity,
+  collectHistoricalRcQualificationIdentity,
   findOwlapiPackageRoot,
 } from "./ontology/qualificationIdentity.js";
 
@@ -41,8 +41,12 @@ function describe(error) {
   };
 }
 
-/** Exercise both formats on every discovered import-declaring root without touching maintained distributions. */
-export async function qualifyImportClosure({
+/**
+ * Historical prepublication observer for the retained 2 October rc.1 snapshot.
+ * Its frozen identity requirements deliberately exclude the maintained Git pin.
+ * Current consumer acceptance uses check:qualification and the full-build verifier.
+ */
+export async function qualifyHistoricalRcImportClosure({
   sourceRoot,
   outputRoot,
   candidateDirectory,
@@ -60,7 +64,7 @@ export async function qualifyImportClosure({
     );
   await mkdir(outputRoot, { recursive: true });
   const directory = await mkdtemp(join(outputRoot, "qualification-"));
-  const identity = await collectQualificationIdentity({
+  const identity = await collectHistoricalRcQualificationIdentity({
     sourceRoot,
     candidateDirectory,
     upstreamEvidencePath,
@@ -173,7 +177,7 @@ if (
     throw new Error(
       "Required: --source-root PATH --output-root PATH --candidate-directory PATH --upstream-evidence PATH",
     );
-  const report = await qualifyImportClosure({
+  const report = await qualifyHistoricalRcImportClosure({
     sourceRoot: values["source-root"],
     outputRoot: values["output-root"],
     candidateDirectory: values["candidate-directory"],

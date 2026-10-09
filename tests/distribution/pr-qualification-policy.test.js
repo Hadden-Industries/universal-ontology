@@ -49,6 +49,7 @@ const files = [
   "scripts/setUpDevelopmentEnvironment.js",
   ".markdown-quality-execution.json",
   "package.json",
+  ".npmrc",
   "tests/markdown-quality.test.js",
   "tooling/markdown/archives/hadden-industries-markdown-quality-1.0.3.tgz",
   "tooling/markdown/archives/hadden-industries-markdown-quality-win32-x64-1.0.3.tgz",
@@ -169,7 +170,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
 });
 test("reviewed graph accepts every entry point and control input", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedFileCount: 32,
+    verifiedFileCount: 33,
   });
 });
 
@@ -224,7 +225,8 @@ test.each(files)("rejects a semantic modification to %s", async (changed) => {
           const value = JSON.parse(text);
           value.additionalProperties = true;
           bytes = Buffer.from(JSON.stringify(value));
-        } else
+        } else if (file === ".npmrc") bytes = Buffer.from("allow-git=all\n");
+        else
           bytes = Buffer.concat([
             bytes,
             Buffer.from("\n// unreviewed control change\n"),

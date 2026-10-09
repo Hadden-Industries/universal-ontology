@@ -666,6 +666,12 @@ describe("native Git PR check selection", () => {
     expectSelection(["development"], { scopes: ["development"] });
   });
 
+  test("npm configuration selects the manifest-dependent checks", () => {
+    write(".npmrc", "allow-git=root\n");
+    commit([".npmrc"]);
+    expectSelection(SCOPES);
+  });
+
   test("a lock-only change selects the Agent Skills lock check alone", () => {
     write("skills-lock.json");
     commit(["skills-lock.json"]);

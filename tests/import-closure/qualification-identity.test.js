@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
 import {
-  collectQualificationIdentity,
+  collectHistoricalRcQualificationIdentity,
   findOwlapiPackageRoot,
 } from "../../scripts/ontology/qualificationIdentity.js";
 const directories = [];
@@ -17,7 +17,7 @@ test("locates the installed scoped package through its public model entry", asyn
   expect(await findOwlapiPackageRoot()).toMatch(/owlapi$/u);
 });
 test.each(["tarball", "lockfile", "upstream"])(
-  "rejects inconsistent %s identity",
+  "rejects inconsistent historical rc.1 %s identity",
   async (fault) => {
     const root = await mkdtemp(join(tmpdir(), "uo-identity-test-"));
     directories.push(root);
@@ -66,7 +66,7 @@ test.each(["tarball", "lockfile", "upstream"])(
     );
     await writeFile(join(root, "upstream.json"), "{}");
     await expect(
-      collectQualificationIdentity({
+      collectHistoricalRcQualificationIdentity({
         sourceRoot: root,
         candidateDirectory: root,
         consumerRoot: root,

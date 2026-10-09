@@ -1,30 +1,30 @@
 # Self-contained OWL import closures
 
 The JavaScript materializer replaces the Python import merger.
-It uses the exact registry-published dependency qualified against all four distributions in both supported formats, with strict offline reload and independent Java OWLAPI comparisons.
+Current generation uses the owner-approved exact OwlAPI Git source for readable RDF/XML, retaining strict offline reload and the existing closure contract.
 Repository-wide verification and independent review remain separate from these consumer checks.
-The [registry artifact record](import-closure/registry-artifact-verification.json) captures identity, signature, provenance and signed-tag checks.
-The [registry consumer record](import-closure/registry-consumer-qualification.json) binds the eight real cases, input digests, Java comparisons and focused tests to their executed source observation.
+The historical [registry artifact record](import-closure/registry-artifact-verification.json) captures the original rc.1 identity, signature, provenance and signed-tag checks.
+The historical [registry consumer record](import-closure/registry-consumer-qualification.json) binds the eight real cases, input digests, Java comparisons and focused tests to that executed source observation.
+Neither record qualifies the newer Git source or asserts a new npm publication.
 HISEW retains the final candidate's full verification receipt and completion decision separately; these qualification observations do not claim deployment.
 
 ## Qualification and dependency boundary
 
-The maintained development dependency is `"owlapi": "npm:@hadden-industries/owlapi@>=0.1.0-rc.1"`.
-The manifest uses the repository's floating minimum policy; the lockfile and installed package remain bound to the independently qualified `0.1.0-rc.1` artifact.
-The retained registry record describes the exact artifact fetched during qualification, so its original exact specifier remains unchanged.
+The maintained development dependency is `"owlapi": "git+https://github.com/Hadden-Industries/owlapi.git#e15320d6438b27c5aaa7aa9302b6919749873ec9"`.
+For RDF/XML output, the materializer copies the authored root's prefix preferences through `RDFXMLDocumentFormat.copyPrefixesFrom` before saving.
+Imported documents' unused prefixes do not replace the root's choices; Functional Syntax output retains its existing format selection.
+This is an owner-approved exception to registry ranges; the full commit and installed package bytes identify the implementation, whose manifest version remains `0.1.0-rc.1`.
+The lockfile must resolve that exact Git source; package-boundary tests verify installed metadata, public API-registry identity and the complete payload against the independently qualified producer archive.
+Root `.npmrc` admits direct Git dependencies under npm 12 while setup and CI retain disabled lifecycle scripts.
 Application code imports only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`.
-The lockfile must identify the accepted public registry artifact and integrity.
-An identity-verified retained tarball may be tested in the separately approved external consumer; it must not become a maintained dependency.
+Run `npm run check:qualification` for current consumer acceptance: it includes exact package identity, all eight real-source closure cases, atomic/failure regressions, wider repository checks and fresh generated assets.
+Then `node scripts/verifyFullOntologyBuild.js --repository . --output dist` verifies the current output receipt without regeneration.
+Keep qualification records outside ontology outputs; a new commit or different package bytes require explicit adoption and requalification.
 
-Before registry acceptance, verify the retained candidate manifest, closed inventory, package identity, source identity, API registry, and tarball digest.
-After publication, independently fetch the exact package through the native alias with a fresh cache and verify integrity, signature, provenance, and byte equality with the qualified candidate.
-Keep these records outside ontology outputs.
-An accepted release candidate may be used for production without waiting for a stable version; a later package version or different candidate bytes require explicit adoption and requalification.
-
-`scripts/qualifyImportClosure.js` discovers all import-declaring roots dated `20260714` or later and exercises them in Functional Syntax and RDF/XML, writing to an external output root.
-Its report records document bytes and identities but does not itself establish registry acceptance or run the independent Java comparison.
-Combine it with focused consumer tests and pinned Java evidence, keeping each result's actual scope explicit.
-The retained-candidate identity collector intentionally remains a prepublication observer; it is not a registry attestation verifier.
+`scripts/qualifyHistoricalRcImportClosure.js` and `collectHistoricalRcQualificationIdentity` retain the earlier snapshot-specific prepublication observer for historical reproduction in its separately qualified disposable environment.
+They are not current qualification entry points and intentionally cannot qualify the maintained Git dependency.
+Their original candidate, source, API-registry and archive identities remain fixed; historical evidence is preserved.
+The current supported replacement is the maintained qualification and generated-output verification commands above.
 
 ## Commands
 
