@@ -14,6 +14,8 @@ import { parse as parseYaml } from "yaml";
 import {
   CI_CONTROL_SUITES,
   createNativeNodeCoverage,
+  nodeCheckArguments,
+  encodeNodeQualificationProof,
 } from "../scripts/runPullRequestNodeChecks.js";
 import {
   CORE_CHECK_SCOPE_NAMES,
@@ -23,8 +25,7 @@ import {
   createPrQualificationRecord,
   assertPrQualificationRecord,
   eligiblePrQualificationPlan,
-  PR_QUALIFICATION_JOB_NAMES,
-  PR_QUALIFICATION_SUCCESS_JOB_NAMES,
+  prQualificationJobConclusions,
   PR_WORKFLOW,
 } from "../scripts/prQualification.js";
 import {
@@ -75,7 +76,7 @@ test("writer is confined to the existing successful PR gate and immutable pinned
     (step) => step.name === "Retain selected PR qualification",
   );
   expect(upload.uses).toBe(
-    "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+    "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
   );
   expect(upload.if).toBe(
     "${{ success() && !cancelled() && steps.record.outputs.recorded == 'true' }}",
@@ -136,7 +137,7 @@ beforeAll(() => {
   nativeReport = JSON.parse(readFileSync(reportPath, "utf8"));
 });
 afterAll(() => rmSync(directory, { recursive: true, force: true }));
-function fixture() {
+function fixture(selected = ["ci_control"]) {
   const repository = {
     id: 168553222,
     full_name: "Hadden-Industries/universal-ontology",
@@ -148,7 +149,7 @@ function fixture() {
     workflow: hash("e"),
   };
   const scopes = Object.fromEntries(
-    CORE_CHECK_SCOPE_NAMES.map((name) => [name, name === "ci_control"]),
+    CORE_CHECK_SCOPE_NAMES.map((name) => [name, selected.includes(name)]),
   );
   const plan = {
     schemaVersion: 5,
@@ -200,10 +201,11 @@ function fixture() {
     ].map((name) => [
       name,
       {
-        result: ["select", "node", "development"].includes(name)
-          ? "success"
-          : "skipped",
-        outputs: ["node", "development"].includes(name)
+        result:
+          name === "select" || plan.requiredJobs.includes(name)
+            ? "success"
+            : "skipped",
+        outputs: plan.requiredJobs.includes(name)
           ? { "verified-revision": snapshot.commit }
           : {},
       },
@@ -221,21 +223,17 @@ function fixture() {
     conclusion: null,
     run_started_at: "2026-10-06T19:55:00Z",
   };
+  const expectedJobs = prQualificationJobConclusions(plan);
   const jobs = {
-    total_count: PR_QUALIFICATION_JOB_NAMES.length,
-    jobs: PR_QUALIFICATION_JOB_NAMES.map((name, index) => ({
+    total_count: Object.keys(expectedJobs).length,
+    jobs: Object.keys(expectedJobs).map((name, index) => ({
       id: 1000 + index,
       name,
       run_id: 100,
       run_attempt: name === "PR validation" ? 2 : 1,
       head_sha: hash("b"),
       status: name === "PR validation" ? "in_progress" : "completed",
-      conclusion:
-        name === "PR validation"
-          ? null
-          : PR_QUALIFICATION_SUCCESS_JOB_NAMES.includes(name)
-            ? "success"
-            : "skipped",
+      conclusion: name === "PR validation" ? null : expectedJobs[name],
     })),
   };
   const nativeNode = createNativeNodeCoverage(
@@ -247,6 +245,7 @@ function fixture() {
       runId: 100,
       runAttempt: 1,
       environment: { ...context.environment },
+      arguments: nodeCheckArguments(plan),
     },
   );
   return { context, needs, nativeNode, run, jobs, now };
@@ -254,7 +253,7 @@ function fixture() {
 test("retains original native assertions and exact producing attempts after partial rerun", () => {
   const input = fixture(),
     record = createPrQualificationRecord(input);
-  expect(record.coverage).toBe("SELECTED_CI_CONTROL");
+  expect(record.coverage).toBe("SELECTED_NODE");
   expect(record.proof).toBe("DIRECT_EXECUTION");
   expect(record.nativeNode.assertionCount).toBe(2 * CI_CONTROL_SUITES.length);
   expect(record.nativeNode.runAttempt).toBe(1);
@@ -264,6 +263,93 @@ test("retains original native assertions and exact producing attempts after part
     "native parameterized fixture",
   ]);
   expect(assertPrQualificationRecord(record)).toBe(record);
+});
+
+test("ordinary source plans can retain Node proof while their website and development consumers remain selected", () => {
+  const { context } = fixture();
+  context.plan.scopes.ci_control = false;
+  context.plan.scopes.product_tests = true;
+  context.plan.scopes.website_build = true;
+  context.plan.requiredJobs = ["development", "node", "website"];
+  expect(eligiblePrQualificationPlan(context.plan)).toBe(true);
+  context.plan = fixture(
+    CORE_CHECK_SCOPE_NAMES.filter(
+      (name) => !["mcp_artifacts", "mcp_release_qualification"].includes(name),
+    ),
+  ).context.plan;
+  context.plan.mode = "full";
+  context.plan.comparisonBase = null;
+  expect(eligiblePrQualificationPlan(context.plan)).toBe(false);
+});
+
+test("retains complete native Node coverage for a source plan with every non-package consumer selected", () => {
+  const input = fixture(
+    CORE_CHECK_SCOPE_NAMES.filter(
+      (name) => !["mcp_artifacts", "mcp_release_qualification"].includes(name),
+    ),
+  );
+  expect(input.context.plan.requiredJobs).toEqual([
+    "development",
+    "ontology",
+    "node",
+    "website",
+    "distribution",
+  ]);
+  // Observed native matrix names from the broad PR/main graph, independent of
+  // the selection helper: selected matrices expand; skipped ones remain literal.
+  expect(input.jobs.total_count).toBe(29);
+  expect(
+    input.jobs.jobs
+      .filter((job) => job.conclusion === "skipped")
+      .map((job) => job.name)
+      .sort(),
+  ).toEqual([
+    "development / Python style",
+    "distribution / Assemble verified development candidate",
+    "distribution / Build development archive for ${{ matrix.targetName }}",
+    "distribution / Verify local development container",
+  ]);
+  const record = createPrQualificationRecord(input);
+  expect(record.coverage).toBe("SELECTED_NODE");
+  expect(record.nativeNode.discoveredSuites).toEqual(
+    [...CI_CONTROL_SUITES].sort(),
+  );
+  expect(
+    record.jobs.some(
+      (job) =>
+        job.name === "ontology / Latest-active qualification (windows-2025)",
+    ),
+  ).toBe(true);
+  for (const name of ["website", "ontology", "distribution", "development"]) {
+    const broken = JSON.parse(JSON.stringify(input));
+    broken.needs[name].outputs["verified-revision"] = hash("f");
+    expect(() => createPrQualificationRecord(broken)).toThrow(/complete/);
+  }
+  record.nativeNode.suites.pop();
+  record.nativeNode.suiteCount--;
+  expect(() => assertPrQualificationRecord(record)).toThrow(/inventory/);
+});
+
+test.each([
+  "arguments",
+  "discovery",
+  "duplicate-suite",
+  "outside-checkout",
+  "foreign-family",
+])("broader Node proof rejects %s", (scenario) => {
+  const record = createPrQualificationRecord(
+    fixture(["product_tests", "website_build"]),
+  );
+  if (scenario === "arguments")
+    record.nativeNode.arguments = ["--runTestsByPath", CI_CONTROL_SUITES[0]];
+  if (scenario === "discovery") record.nativeNode.discoveredSuites.pop();
+  if (scenario === "duplicate-suite")
+    record.nativeNode.discoveredSuites[0] =
+      record.nativeNode.discoveredSuites[1];
+  if (scenario === "outside-checkout")
+    record.nativeNode.discoveredSuites[0] = "../foreign.test.js";
+  if (scenario === "foreign-family") record.nativeNode.families = ["frontend"];
+  expect(() => assertPrQualificationRecord(record)).toThrow();
 });
 test.each([
   "fork",
@@ -333,7 +419,7 @@ test.each([
   if (caseName === "coverage-suite")
     input.nativeNode.suites[0].path = "tests/foreign.test.js";
   if (caseName === "coverage-empty") input.nativeNode.suites[0].assertions = [];
-  if (caseName === "coverage-version") input.nativeNode.schemaVersion = 2;
+  if (caseName === "coverage-version") input.nativeNode.schemaVersion = 1;
   if (caseName === "reused-coverage") input.nativeNode.proof = "REUSED";
   if (caseName === "unknown-host") input.context.environment.image = "unknown";
   if (caseName === "missing-producing-environment")
@@ -376,7 +462,7 @@ test("unsupported plans retain fresh behavior without metadata lookup or a file"
   let requests = 0;
   const input = fixture();
   input.context.plan.scopes.ci_control = false;
-  input.context.plan.scopes.product_tests = true;
+  input.context.plan.requiredJobs = ["development"];
   expect(eligiblePrQualificationPlan(input.context.plan)).toBe(false);
   expect(
     await recordPrQualification({
@@ -560,7 +646,7 @@ test("native producer binds a real Git merge and retains one closed private reco
         GH_TOKEN: "fixture-token",
         PR_CHECK_PLAN: JSON.stringify(input.context.plan),
         PR_CHECK_RESULTS: JSON.stringify(input.needs),
-        PR_NATIVE_NODE_COVERAGE: JSON.stringify(input.nativeNode),
+        PR_NATIVE_NODE_COVERAGE: encodeNodeQualificationProof(input.nativeNode),
       },
       fetchImpl: async (url) => {
         lookups++;

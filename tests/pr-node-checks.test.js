@@ -1,4 +1,6 @@
 import { execFileSync } from "node:child_process";
+import { randomBytes } from "node:crypto";
+import { gzipSync } from "node:zlib";
 import {
   mkdtempSync,
   writeFileSync,
@@ -15,6 +17,8 @@ import {
   validateNodeResults,
   createNativeNodeCoverage,
   CI_CONTROL_SUITES,
+  encodeNodeQualificationProof,
+  decodeNodeQualificationProof,
 } from "../scripts/runPullRequestNodeChecks.js";
 import {
   CORE_CHECK_SCOPE_NAMES,
@@ -35,6 +39,59 @@ function plan(selected = ["ci_control"]) {
     requiredJobs: requiredJobsForScopes(scopes),
   };
 }
+
+test("large native and main proofs survive both environment handoffs", () => {
+  const native = {
+    assertions: Array.from(
+      { length: 200 },
+      (_, i) => `${i}:${"passed label ".repeat(62)}`,
+    ),
+  };
+  expect(Buffer.byteLength(JSON.stringify(native))).toBeGreaterThan(128 * 1024);
+  const nativeWire = encodeNodeQualificationProof(native);
+  expect(decodeNodeQualificationProof(nativeWire)).toEqual(native);
+  const main = { native, original: { runId: 100 } };
+  const mainWire = encodeNodeQualificationProof(main, 400 * 1024);
+  expect(decodeNodeQualificationProof(mainWire, 400 * 1024)).toEqual(main);
+  for (const wire of [nativeWire, mainWire]) {
+    expect(
+      Buffer.byteLength(
+        JSON.stringify({ node: { outputs: { qualification: wire } } }),
+      ),
+    ).toBeLessThan(128 * 1024);
+  }
+});
+
+test("oversized decoded or incompressible proofs cannot be retained", () => {
+  expect(
+    encodeNodeQualificationProof({ data: "x".repeat(256 * 1024) }),
+  ).toBeNull();
+  expect(
+    encodeNodeQualificationProof({ data: "x".repeat(400 * 1024) }, 400 * 1024),
+  ).toBeNull();
+  expect(
+    encodeNodeQualificationProof({
+      data: randomBytes(70000).toString("base64"),
+    }),
+  ).toBeNull();
+  const bomb = `gzip-base64:${gzipSync(
+    Buffer.alloc(256 * 1024 + 1, 32),
+  ).toString("base64")}`;
+  expect(() => decodeNodeQualificationProof(bomb)).toThrow();
+});
+
+test.each([
+  undefined,
+  "{}",
+  "gzip-base64:",
+  "gzip-base64:AA==\n",
+  `gzip-base64:${"A".repeat(64 * 1024)}`,
+  "gzip-base64:AA==",
+  `gzip-base64:${gzipSync(Buffer.from([255])).toString("base64")}`,
+  `gzip-base64:${gzipSync(Buffer.from("invalid JSON")).toString("base64")}`,
+])("malformed proof transport is rejected: %s", (wire) => {
+  expect(() => decodeNodeQualificationProof(wire)).toThrow();
+});
 
 test("native discovery exactly matches the closed control inventory", () => {
   expect(discoverNodeSuites(plan())).toEqual([...CI_CONTROL_SUITES].sort());
@@ -136,8 +193,9 @@ describe("real native Jest assertion accounting", () => {
     };
     const coverage = createNativeNodeCoverage(report, expected, identity);
     expect(coverage.environment).toEqual(identity.environment);
+    expect(coverage.discoveredSuites).toEqual(["native.test.cjs"]);
     expect(coverage).toMatchObject({
-      schemaVersion: 1,
+      schemaVersion: 2,
       proof: "DIRECT_EXECUTION",
       revision: identity.revision,
       runId: 100,

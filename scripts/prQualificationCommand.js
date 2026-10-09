@@ -13,6 +13,7 @@ import {
 } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { decodeNodeQualificationProof } from "./runPullRequestNodeChecks.js";
 import {
   PR_WORKFLOW,
   eligiblePrQualificationPlan,
@@ -150,7 +151,7 @@ export async function recordPrQualification({
       emit(
         env,
         { recorded: "false" },
-        "Fresh qualification completed; this plan has no reusable record in the initial producer.",
+        "Fresh qualification completed; this plan has no reusable Node record.",
       );
       return null;
     }
@@ -208,7 +209,7 @@ export async function recordPrQualification({
     const record = createPrQualificationRecord({
       context,
       needs: JSON.parse(env.PR_CHECK_RESULTS || "null"),
-      nativeNode: JSON.parse(env.PR_NATIVE_NODE_COVERAGE || "null"),
+      nativeNode: decodeNodeQualificationProof(env.PR_NATIVE_NODE_COVERAGE),
       run,
       jobs,
       now,
@@ -228,7 +229,7 @@ export async function recordPrQualification({
     emit(
       env,
       { recorded: "true" },
-      "Retained selected MCP-control qualification with original native assertion and job identities. Main still qualifies fresh.",
+      "Retained selected Node qualification with original native discovery, assertion and job identities. Eligible main integrations may reuse only this Node proof.",
     );
     return record;
   } catch (error) {

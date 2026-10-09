@@ -257,19 +257,23 @@ Reviewed test-only edits can select the complete build, import-closure, query/pr
 Full qualification retains complete discovery and tooling ownership.
 No production website build is needed solely for an isolated reviewed test-file edit; fixture builds within its selected family still execute.
 
-The initial PR qualification writer retains selected MCP-control execution only after the existing gate and native job/output identities agree.
-It records exact tested merge/tree/parents, host and locked tool inputs, native suite/assertion labels/counts, and each producing job attempt.
-Forks, other selected plans and unavailable evidence retain fresh behavior without a reusable record.
+The PR qualification writer retains selected Node execution only after the existing gate and every selected consumer's native job/output identities agree.
+It records exact tested merge/tree/parents, host and locked tool inputs, native discovery and selection, suite/assertion labels/counts, and each producing job attempt.
+Forks, unsupported plans and unavailable evidence retain fresh behavior without a reusable record.
 Receipts expire after three days.
-Ordinary main qualification may reuse only this directly executed MCP-control proof after an exact, same-repository two-parent integration.
+Ordinary main qualification may reuse this directly executed Node proof for control, reviewed test-family and broader source plans after an exact, same-repository two-parent integration.
 The selector authenticates the latest successful original PR run and every producing job attempt, the tested and landed Git tree/parents/workflow, the current supported environment, and the native artifact ID, digest, expiry and bounded ZIP bytes.
 It rereads the source run and artifact after checking jobs; a newer failed or pending run, rerun, mismatch, missing evidence or exhausted budget selects fresh work.
-Only the selected Node consumer may be omitted; the stable full completion gate verifies the source record and current checkout, and rejects unexpected, failed or cancelled consumers.
+Only the selected Node consumer may be omitted; every other selected consumer, including the website build, still runs fresh.
+The stable full completion gate verifies the source record and current checkout, requires each fresh consumer's completion at the landed revision, and rejects unexpected, failed, cancelled or skipped work.
 The reused result remains original PR evidence and is never reissued as fresh execution.
-Schedules, manual runs, reusable publication callers, broader input scopes, package opt-in, squash/rebase/direct or multi-commit pushes remain fresh.
+Schedules, manual runs, reusable publication callers, package opt-in, squash/rebase/direct or multiple-integration pushes remain fresh.
 The manual package qualification caller grants read-only Actions permission because reusable workflows cannot elevate their caller token; its selector still chooses fresh work.
 Set the independent Actions variable `UO_PR_QUALIFICATION_REUSE_DISABLED` to literal `true` to force fresh work; this implementation does not write that repository setting.
 Admission permits at most 32 bounded JSON reads and one exact-ID native archive operation within 60 seconds; each operation has a ten-second ceiling.
-The native Git snapshot has a 30-second total budget and 1 MiB per-call bound; JSON API responses are limited to 2 MiB, the ZIP to 128 KiB, the sole regular `qualification.json` member to 512 KiB and the job output to 400 KiB.
+The native Git snapshot has a 30-second total budget and 1 MiB per-call bound; JSON API responses are limited to 2 MiB, the ZIP to 128 KiB, the sole regular `qualification.json` member to 512 KiB and the decoded admission output to 400 KiB.
+Native coverage retention is limited to 256 KiB decoded.
+Both Node proof handoffs use gzip/base64 capped at 64 KiB, keeping nested job outputs below the runner's per-environment-string limit.
+Proofs exceeding either bound fall back to fresh Node execution; decoding also enforces the original size limit.
 The existing GitHub CLI transports authenticated archive bytes, and the Ubuntu runner's native Info-ZIP 6.00 inspects and reads the single member without extracting files.
 Unavailable native tooling retains fresh work; no npm provisioning is added to the selector.

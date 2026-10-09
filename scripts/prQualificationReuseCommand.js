@@ -26,6 +26,10 @@ import {
   assertMainReuseCompletion,
 } from "./prQualificationReuse.js";
 import { runCheckEvaluation } from "./evaluatePullRequestChecks.js";
+import {
+  encodeNodeQualificationProof,
+  decodeNodeQualificationProof,
+} from "./runPullRequestNodeChecks.js";
 function readJson(path) {
   const stat = lstatSync(path);
   if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 512 * 1024)
@@ -282,15 +286,15 @@ export async function selectMainQualificationReuse({
       record,
       read,
     });
-    const serialized = JSON.stringify(qualification);
-    if (Date.now() >= deadline || Buffer.byteLength(serialized) > 400 * 1024)
+    const serialized = encodeNodeQualificationProof(qualification, 400 * 1024);
+    if (Date.now() >= deadline || serialized === null)
       throw Error(
         "Original admission output exceeded its deadline or native output bound.",
       );
     emit(
       env,
       { reuse: "true", qualification: serialized },
-      `Reuse original selected MCP-control assertions from PR run${record.runId}/attempt${record.nativeNode.runAttempt}; no new execution is claimed. Unsupported routes remain fresh.`,
+      `Reuse original selected Node assertions from PR run ${record.runId}/attempt ${record.nativeNode.runAttempt}; no new execution is claimed. Every other selected consumer remains fresh.`,
     );
     return qualification;
   } catch (error) {
@@ -319,9 +323,11 @@ export function completeMainQualification(
   }
   const context = contextFromEnvironment(env, root, Date.now() + 30000);
   const text = needs.select.outputs.qualification;
-  if (typeof text !== "string" || Buffer.byteLength(text) > 400 * 1024)
-    throw Error("Original source qualification output is absent or oversized.");
-  const revision = assertMainReuseCompletion(context, JSON.parse(text), needs);
+  const revision = assertMainReuseCompletion(
+    context,
+    decodeNodeQualificationProof(text, 400 * 1024),
+    needs,
+  );
   if (env.GITHUB_OUTPUT)
     appendFileSync(env.GITHUB_OUTPUT, `verified-revision=${revision}\n`);
   if (env.GITHUB_STEP_SUMMARY)

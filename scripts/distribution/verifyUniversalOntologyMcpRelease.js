@@ -88,21 +88,21 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "d5f4bbb30e7b1dd0d153f6b81347931313c6fbc7a43572af100924d9ed892898";
+  "f545b24e66b49520815380d3ba85382dc42ee743072f1119d2243c4c69aa9af6";
 
 // Explicit reviewed execution graph; values are refreshed only with coordinated
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/pr-validation.yml":
-    "881fca6272ebb4ca88f3fc7a3c4c55260dae1b0d350c644a7e793d5ca7e30649",
+    "c6a554a4aa9fa2da93609725cceef71d2dfb4d68b23d59f8ab48e435c413a423",
   ".github/workflows/full-qualification.yml":
-    "7b9fcf32d5f6efc17be1f41eae375b5fcdaa71ccf9e1531440588b4b7519f7cf",
+    "fd144ec570697ea367be1af593adf40bf8a3ba5391dc57ef85bc57dd28512d32",
   ".github/workflows/development-checks.yml":
-    "162e1c4f1c4d0694eb670dc80bafbbf979985886a6e8b7df56fd83a98f69fa31",
+    "da830776f762b2fd9c5ec606e0596cfd0ccc8bc4b64a89d7acf5b9538ea31366",
   ".github/workflows/ontology-validation.yml":
-    "387ca921d8f9884f27de13e38eee804c8c87b7ceb7b97ecc7d406be2f98cc3a7",
+    "41a88d0baaef0199561dfedcc2a024c1be34831bff9646de558c725462333dce",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
-    "d5f4bbb30e7b1dd0d153f6b81347931313c6fbc7a43572af100924d9ed892898",
+    "f545b24e66b49520815380d3ba85382dc42ee743072f1119d2243c4c69aa9af6",
   "scripts/selectPullRequestChecks.js":
     "67c51d59f58e94fe935e8a0d05002b8efb0e229159648325cb28e3714fc7d382",
   "scripts/evaluatePullRequestChecks.js":
@@ -114,19 +114,19 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/generatePullRequestCheckPlanValidator.js":
     "2f41ef656395f39d1a364ca8d66e872cf75cca5e80cad7948526b4f33ae0554b",
   ".github/workflows/manual-mcp-packages.yml":
-    "c6cf42b815a475ddf496c52eb1fd356c83c20ca7519144261cc3cf394859d857",
+    "9f376c2812674dae1c2cabbc3ce7e7d1c6902dd51b04af861d1458ea3cc5c106",
   "scripts/distribution/prepareManualMcpRelease.js":
     "f601d23f0f2c62b830f1f8b509a90439618ce1295c5ba9d908b8b42b7ae9080a",
   "scripts/runPullRequestNodeChecks.js":
-    "ffacb5032df73d6e853f61e4d072d33bcf67e2465cf88fedef8515e65881f5e6",
+    "5ed31e59b3cf55290559982145aa393b80e236835ac148364e44557b367a37fc",
   "scripts/prQualification.js":
-    "65123e827f99a7b26805abae9a54575c370f0bd77e1b9f36ffe33af2e2b919f8",
+    "63b6cc8d5ac25cccb3ce8f64d7c5cd2d95c756a60a5bf5327387d59f96331ae7",
   "scripts/prQualificationReuse.js":
-    "fadfeaeffc9d780950d4d4c118a03dea5dcd7641a899e5ab29a964c086d86c3d",
+    "1ef3f435430070de19d3b159b4f8b6cf14652b540f846322adf97eda1ad712ab",
   "scripts/prQualificationReuseCommand.js":
-    "69db0f86f461d850b92f88a6f3e9d149e42da0c07b4dedd43f513c6035dbe16d",
+    "25a086e7f4ebca9455de2dab71d6d0ed789e4f0b9c59a6225dc3cfae3161e655",
   "scripts/prQualificationCommand.js":
-    "f7c00852ec2baede4d780a12cf29e8cb292c4cfb63dd45b196f1d5a889f31046",
+    "bffae785304465e058b31209ebd6eb157a535bba4a4a219d93861d7c97fbc1c5",
   "scripts/pullRequestNodeFamilies.js":
     "d9e667461bde95dbe4c972423fff831366f4b29428605a291c2d09c42fb0a56f",
   "scripts/runTestsInParallel.py":
