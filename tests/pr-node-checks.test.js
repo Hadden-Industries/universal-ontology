@@ -89,7 +89,7 @@ test.each([
   "gzip-base64:AA==",
   `gzip-base64:${gzipSync(Buffer.from([255])).toString("base64")}`,
   `gzip-base64:${gzipSync(Buffer.from("invalid JSON")).toString("base64")}`,
-])("malformed proof transport is rejected: %s", (wire) => {
+])("malformed proof transport is rejected: case %#", (wire) => {
   expect(() => decodeNodeQualificationProof(wire)).toThrow();
 });
 
