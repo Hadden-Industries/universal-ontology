@@ -7,8 +7,7 @@ import {
   assertPrQualificationRecord,
   eligiblePrQualificationPlan,
   PR_WORKFLOW,
-  PR_QUALIFICATION_JOB_NAMES,
-  PR_QUALIFICATION_SUCCESS_JOB_NAMES,
+  prQualificationJobConclusions,
 } from "./prQualification.js";
 import { assertCheckPlan } from "./selectPullRequestChecks.js";
 export const FULL_WORKFLOW = ".github/workflows/full-qualification.yml";
@@ -269,12 +268,13 @@ export async function verifyOriginalPrQualification({
     `/actions/runs/${run.id}/jobs?filter=latest&per_page=100`,
   );
   const jobs = completePage(observed, "jobs");
+  const expectedJobs = prQualificationJobConclusions(record.plan);
   fact(
-    jobs.length === PR_QUALIFICATION_JOB_NAMES.length &&
+    jobs.length === Object.keys(expectedJobs).length &&
       new Set(jobs.map((j) => j.id)).size === jobs.length &&
       isDeepStrictEqual(
         jobs.map((j) => j.name).sort(),
-        [...PR_QUALIFICATION_JOB_NAMES].sort(),
+        Object.keys(expectedJobs).sort(),
       ) &&
       jobs.every((job) => {
         const original = record.jobs.find((j) => j.name === job.name);
@@ -285,10 +285,7 @@ export async function verifyOriginalPrQualification({
           job.run_attempt === original.runAttempt &&
           job.run_attempt <= run.run_attempt &&
           job.status === "completed" &&
-          job.conclusion ===
-            (PR_QUALIFICATION_SUCCESS_JOB_NAMES.includes(job.name)
-              ? "success"
-              : "skipped")
+          job.conclusion === expectedJobs[job.name]
         );
       }),
     "Latest native original job or producing-attempt inventory disagrees.",
@@ -382,11 +379,15 @@ export function assertMainReuseCompletion(context, qualification, needs) {
     needs &&
       isDeepStrictEqual(Object.keys(needs).sort(), [...names].sort()) &&
       needs.select.result === "success" &&
-      needs.development.result === "success" &&
-      needs.development.outputs?.["verified-revision"] === context.sha &&
+      needs.node.result === "skipped" &&
       names
-        .filter((n) => !["select", "development"].includes(n))
-        .every((n) => needs[n].result === "skipped"),
+        .filter((n) => !["select", "node"].includes(n))
+        .every((n) =>
+          context.plan.requiredJobs.includes(n)
+            ? needs[n].result === "success" &&
+              needs[n].outputs?.["verified-revision"] === context.sha
+            : needs[n].result === "skipped",
+        ),
     "Reused completion has unexpected, failed or cancelled consumers.",
   );
   return context.sha;

@@ -13,6 +13,7 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, join, relative, resolve, isAbsolute } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { gzipSync, gunzipSync } from "node:zlib";
 import { assertCheckPlan } from "./selectPullRequestChecks.js";
 import { verifyPlanRevision } from "./evaluatePullRequestChecks.js";
 import {
@@ -21,6 +22,31 @@ import {
 } from "./pullRequestNodeFamilies.js";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
+
+/** Keep both proof handoffs below the runner's per-environment-string limit.
+ * Decoded admission limits remain independent of compressibility. */
+export function encodeNodeQualificationProof(proof, maximumBytes = 256 * 1024) {
+  const bytes = Buffer.from(JSON.stringify(proof));
+  if (bytes.length > maximumBytes) return null;
+  const encoded = "gzip-base64:" + gzipSync(bytes).toString("base64");
+  return encoded.length <= 64 * 1024 ? encoded : null;
+}
+
+/** Decode only canonical bounded transport; malformed proofs cannot authorize reuse. */
+export function decodeNodeQualificationProof(text, maximumBytes = 256 * 1024) {
+  if (
+    typeof text !== "string" ||
+    text.length > 64 * 1024 ||
+    !text.startsWith("gzip-base64:")
+  )
+    throw Error("Absent or oversized Node qualification transport.");
+  const encoded = text.slice("gzip-base64:".length);
+  const compressed = Buffer.from(encoded, "base64");
+  if (!encoded || compressed.toString("base64") !== encoded)
+    throw Error("Invalid Node qualification base64.");
+  const bytes = gunzipSync(compressed, { maxOutputLength: maximumBytes });
+  return JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
+}
 export const CI_CONTROL_SUITES = Object.freeze([
   "tests/pr-check-scopes.test.js",
   "tests/pr-check-results.test.js",
@@ -193,7 +219,15 @@ export function validateNodeResults(report, expected, { root = ROOT } = {}) {
 export function createNativeNodeCoverage(
   report,
   expected,
-  { root = ROOT, revision, runId, runAttempt, environment } = {},
+  {
+    root = ROOT,
+    revision,
+    runId,
+    runAttempt,
+    environment,
+    arguments: args = ["--runTestsByPath", ...expected],
+    families = null,
+  } = {},
 ) {
   const counts = validateNodeResults(report, expected, { root });
   if (
@@ -205,12 +239,15 @@ export function createNativeNodeCoverage(
   )
     throw Error("Native coverage identity is incomplete.");
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     proof: "DIRECT_EXECUTION",
     revision,
     runId,
     runAttempt,
     environment,
+    arguments: args,
+    families,
+    discoveredSuites: [...expected].sort(),
     ...counts,
     suites: report.testResults
       .map((suite) => ({
@@ -282,7 +319,11 @@ export function runNodeChecks(plan, { root = ROOT, env = process.env } = {}) {
         ...coverage,
       }),
     );
-    if (env.GITHUB_OUTPUT && args[0] === "--runTestsByPath" && !families) {
+    if (
+      env.GITHUB_OUTPUT &&
+      plan.mode === "changed" &&
+      plan.packageMode === "disabled"
+    ) {
       // Capture the runtime that executed the assertions, including retained attempts.
       const npmVersion = spawnSync(process.execPath, [npmCli, "--version"], {
         env,
@@ -310,11 +351,20 @@ export function runNodeChecks(plan, { root = ROOT, env = process.env } = {}) {
           language: env.LANG || "",
           externalInputs: "NO_LIVE_EXTERNAL_SOURCE_OBLIGATIONS",
         },
+        arguments: args,
+        families,
       });
-      const serialized = JSON.stringify(native);
-      if (Buffer.byteLength(serialized) > 256 * 1024)
-        throw Error("Native retained coverage exceeds its bound.");
-      appendFileSync(env.GITHUB_OUTPUT, "native-coverage=" + serialized + "\n");
+      const serialized = encodeNodeQualificationProof(native);
+      // Retention is optional: large successful suites must still pass fresh CI.
+      if (serialized !== null)
+        appendFileSync(
+          env.GITHUB_OUTPUT,
+          "native-coverage=" + serialized + "\n",
+        );
+      else
+        console.log(
+          "Node checks passed; retained coverage exceeds transport limits, so main will run fresh.",
+        );
     }
     // Remove only this process's two spent temporary resources after validation.
     rmSync(reportPath);

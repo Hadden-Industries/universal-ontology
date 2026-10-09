@@ -154,17 +154,17 @@
     {
       "actionName": "actions/setup-node",
       "versionTag": "v7",
-      "commitSha": "820762786026740c76f36085b0efc47a31fe5020"
+      "commitSha": "949feb2413d6458794dcd2491c4babbbce0c15c1"
     },
     {
       "actionName": "actions/upload-artifact",
       "versionTag": "v7",
-      "commitSha": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
+      "commitSha": "cf430e030ddbb5b0abf93d22962f4752f3646cd9"
     },
     {
       "actionName": "actions/download-artifact",
       "versionTag": "v8",
-      "commitSha": "3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c"
+      "commitSha": "9000827ccba6bdab643e8b6fd33ac0654aef8333"
     },
     {
       "actionName": "actions/attest",

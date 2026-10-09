@@ -19,7 +19,7 @@ import {
   CORE_CHECK_SCOPE_NAMES,
   requiredJobsForScopes,
 } from "../../scripts/selectPullRequestChecks.js";
-import { PR_QUALIFICATION_JOB_NAMES } from "../../scripts/prQualification.js";
+import { prQualificationJobConclusions } from "../../scripts/prQualification.js";
 const files = [
   ".github/workflows/pr-validation.yml",
   ".github/workflows/full-qualification.yml",
@@ -185,7 +185,19 @@ test("skipped development-control identity comes from a static workflow name", (
     ),
   );
   expect(workflow.jobs.checks.name).toBe("Development controls");
-  expect(PR_QUALIFICATION_JOB_NAMES).toContain(
+  const scopes = Object.fromEntries(
+    CORE_CHECK_SCOPE_NAMES.map((name) => [name, name === "ci_control"]),
+  );
+  const jobs = prQualificationJobConclusions({
+    schemaVersion: 5,
+    packageMode: "disabled",
+    mode: "changed",
+    revision: "a".repeat(40),
+    comparisonBase: "b".repeat(40),
+    scopes,
+    requiredJobs: ["development", "node"],
+  });
+  expect(Object.keys(jobs)).toContain(
     `development / ${workflow.jobs.checks.name}`,
   );
   expect(workflow.jobs.checks.name).not.toContain("${{");

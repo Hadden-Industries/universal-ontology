@@ -14,15 +14,18 @@ import yazl from "yazl";
 import {
   CI_CONTROL_SUITES,
   createNativeNodeCoverage,
+  nodeCheckArguments,
+  encodeNodeQualificationProof,
+  decodeNodeQualificationProof,
 } from "../scripts/runPullRequestNodeChecks.js";
 import {
   CORE_CHECK_SCOPE_NAMES,
   requiredJobsForScopes,
 } from "../scripts/selectPullRequestChecks.js";
+import { suitesForNodeFamilies } from "../scripts/pullRequestNodeFamilies.js";
 import {
   createPrQualificationRecord,
-  PR_QUALIFICATION_JOB_NAMES,
-  PR_QUALIFICATION_SUCCESS_JOB_NAMES,
+  prQualificationJobConclusions,
 } from "../scripts/prQualification.js";
 import {
   selectOriginalPrQualification,
@@ -36,7 +39,7 @@ import {
 const hash = (c) => c.repeat(40),
   time = Date.parse("2026-10-06T20:00:00Z"),
   clone = (v) => JSON.parse(JSON.stringify(v));
-let nativeRoot, report;
+let nativeRoot, report, familyReport;
 beforeAll(() => {
   nativeRoot = mkdtempSync(join(tmpdir(), "uo-original-proof-native-"));
   for (const path of CI_CONTROL_SUITES) {
@@ -68,9 +71,40 @@ beforeAll(() => {
     { encoding: "utf8", windowsHide: true, timeout: 60000, maxBuffer: 1048576 },
   );
   report = JSON.parse(readFileSync(output, "utf8"));
+  const paths = suitesForNodeFamilies(["frontend"]);
+  for (const path of paths) {
+    const destination = join(nativeRoot, path);
+    mkdirSync(dirname(destination), { recursive: true });
+    writeFileSync(
+      destination,
+      "test('native frontend obligation',()=>expect(2+2).toBe(4));\n",
+    );
+  }
+  execFileSync(
+    process.execPath,
+    [
+      fileURLToPath(
+        new URL("../node_modules/jest/bin/jest.js", import.meta.url),
+      ),
+      "--config",
+      JSON.stringify({
+        rootDir: nativeRoot,
+        testEnvironment: "node",
+        transform: {},
+        testMatch: ["**/*.test.js"],
+      }),
+      "--runTestsByPath",
+      ...paths.map((path) => join(nativeRoot, path)),
+      "--runInBand",
+      "--json",
+      `--outputFile=${output}`,
+    ],
+    { encoding: "utf8", windowsHide: true, timeout: 60000, maxBuffer: 1048576 },
+  );
+  familyReport = JSON.parse(readFileSync(output, "utf8"));
 });
 afterAll(() => rmSync(nativeRoot, { recursive: true, force: true }));
-function fixture() {
+function fixture(selected = ["ci_control"], families = null) {
   const repository = {
     id: 168553222,
     full_name: "Hadden-Industries/universal-ontology",
@@ -95,7 +129,7 @@ function fixture() {
     externalInputs: "NO_LIVE_EXTERNAL_SOURCE_OBLIGATIONS",
   };
   const scopes = Object.fromEntries(
-    CORE_CHECK_SCOPE_NAMES.map((name) => [name, name === "ci_control"]),
+    CORE_CHECK_SCOPE_NAMES.map((name) => [name, selected.includes(name)]),
   );
   const plan = {
     schemaVersion: 5,
@@ -124,10 +158,11 @@ function fixture() {
     ].map((name) => [
       name,
       {
-        result: ["select", "node", "development"].includes(name)
-          ? "success"
-          : "skipped",
-        outputs: ["node", "development"].includes(name)
+        result:
+          name === "select" || plan.requiredJobs.includes(name)
+            ? "success"
+            : "skipped",
+        outputs: plan.requiredJobs.includes(name)
           ? { "verified-revision": snapshot.commit }
           : {},
       },
@@ -146,18 +181,17 @@ function fixture() {
     created_at: "2026-10-06T19:50:00Z",
     run_started_at: "2026-10-06T19:55:00Z",
   };
+  const expectedJobs = prQualificationJobConclusions(plan);
   const jobs = {
-    total_count: PR_QUALIFICATION_JOB_NAMES.length,
-    jobs: PR_QUALIFICATION_JOB_NAMES.map((name, index) => ({
+    total_count: Object.keys(expectedJobs).length,
+    jobs: Object.keys(expectedJobs).map((name, index) => ({
       id: 1000 + index,
       name,
       run_id: 100,
       run_attempt: name === "PR validation" ? 2 : 1,
       head_sha: hash("b"),
       status: "completed",
-      conclusion: PR_QUALIFICATION_SUCCESS_JOB_NAMES.includes(name)
-        ? "success"
-        : "skipped",
+      conclusion: expectedJobs[name],
     })),
   };
   const original = {
@@ -174,14 +208,16 @@ function fixture() {
     environment,
   };
   const nativeNode = createNativeNodeCoverage(
-    report,
-    [...CI_CONTROL_SUITES].sort(),
+    families ? familyReport : report,
+    families ? suitesForNodeFamilies(families) : [...CI_CONTROL_SUITES].sort(),
     {
       root: nativeRoot,
       revision: snapshot.commit,
       runId: 100,
       runAttempt: 1,
       environment: { ...environment },
+      arguments: nodeCheckArguments(plan, { families }),
+      families,
     },
   );
   const record = createPrQualificationRecord({
@@ -370,6 +406,88 @@ test("admits only the original directly executed assertions after equivalent nor
   expect(() =>
     assertMainReuseCompletion(data.context, accepted, needs),
   ).toThrow();
+});
+
+test("a broader source merge reuses only Node and requires all other selected consumers at the landed revision", async () => {
+  const data = fixture(
+    CORE_CHECK_SCOPE_NAMES.filter(
+      (name) => !["mcp_artifacts", "mcp_release_qualification"].includes(name),
+    ),
+  );
+  expect(data.context.plan.requiredJobs).toEqual([
+    "development",
+    "ontology",
+    "node",
+    "website",
+    "distribution",
+  ]);
+  const wire = encodeNodeQualificationProof(await admit(data), 400 * 1024);
+  const accepted = decodeNodeQualificationProof(wire, 400 * 1024);
+  const needs = Object.fromEntries(
+    [
+      "select",
+      "development",
+      "ontology",
+      "node",
+      "website",
+      "distribution",
+    ].map((name) => [
+      name,
+      {
+        result: name === "node" ? "skipped" : "success",
+        outputs:
+          name === "select" || name === "node"
+            ? {}
+            : { "verified-revision": hash("f") },
+      },
+    ]),
+  );
+  expect(assertMainReuseCompletion(data.context, accepted, needs)).toBe(
+    hash("f"),
+  );
+  for (const consumer of [
+    "development",
+    "ontology",
+    "website",
+    "distribution",
+  ]) {
+    for (const result of ["failure", "cancelled", "skipped"]) {
+      const broken = clone(needs);
+      broken[consumer].result = result;
+      expect(() =>
+        assertMainReuseCompletion(data.context, accepted, broken),
+      ).toThrow(/consumers/);
+    }
+    for (const revision of [undefined, hash("c")]) {
+      const broken = clone(needs);
+      broken[consumer].outputs["verified-revision"] = revision;
+      expect(() =>
+        assertMainReuseCompletion(data.context, accepted, broken),
+      ).toThrow(/consumers/);
+    }
+  }
+  data.jobs.jobs.find(
+    (job) =>
+      job.name === "ontology / Latest-active qualification (windows-2025)",
+  ).conclusion = "failure";
+  await expect(admit(data)).rejects.toThrow(/inventory/);
+});
+
+test("reviewed test-family proof retains exactly its native discovered family and original attempts", async () => {
+  const data = fixture(["product_tests"], ["frontend"]);
+  const accepted = await admit(data);
+  expect(accepted.record.nativeNode.discoveredSuites).toEqual([
+    "tests/webmcp/displayed-ontology-entity-definition-tool.test.js",
+    "tests/webmcp/displayed-ontology-release-context.test.js",
+    "tests/webmcp/ontology-entity-definition-resolver.test.js",
+    "tests/webmcp/ontology-entity-definition-result-schemas.test.js",
+  ]);
+  expect(accepted.record.nativeNode.assertionCount).toBe(4);
+  data.record.nativeNode.suites.pop();
+  data.record.nativeNode.discoveredSuites.pop();
+  data.record.nativeNode.suiteCount--;
+  data.record.nativeNode.assertionCount--;
+  await expect(admit(data)).rejects.toThrow(/selected suite inventory/);
 });
 test.each([
   "manual",

@@ -1,41 +1,85 @@
 /** Copyright (c) 2026 Hadden Industries Ltd. SPDX-License-Identifier: MIT.
  * UO adapter of OwlAPI original-PR identity concepts, with owner-approved MIT reuse
- * at 4f6adbd3a925ad2e0ccfc98550f216642957f870. This initial producer never omits work.
+ * at 4f6adbd3a925ad2e0ccfc98550f216642957f870. The producer always executes fresh.
  */
 import { isDeepStrictEqual } from "node:util";
 import { assertCheckPlan } from "./selectPullRequestChecks.js";
-import { evaluatePullRequestChecks } from "./evaluatePullRequestChecks.js";
-import { CI_CONTROL_SUITES } from "./runPullRequestNodeChecks.js";
+import {
+  consumerJobs,
+  evaluatePullRequestChecks,
+} from "./evaluatePullRequestChecks.js";
+import { nodeCheckArguments } from "./runPullRequestNodeChecks.js";
 export const PR_WORKFLOW = ".github/workflows/pr-validation.yml";
-export const PR_QUALIFICATION_JOB_NAMES = Object.freeze([
-  "select",
-  "node",
-  "development / Select relevant checks",
-  "development / Markdown documents (ubuntu-24.04)",
-  "development / Markdown documents (windows-2025)",
-  "development / Python style",
-  "development / Python-only tests (${{ matrix.os }})",
-  "development / Node-backed Python tests (${{ matrix.os }})",
-  "development / Agent Skills lock",
-  "development / Style toolchain (${{ matrix.os }})",
-  "development / Development controls",
-  "development / Verify internal completion",
-  "ontology",
-  "website",
-  "distribution",
-  "PR validation",
-]);
-export const PR_QUALIFICATION_SUCCESS_JOB_NAMES = Object.freeze([
-  "select",
-  "node",
-  "PR validation",
-  "development / Select relevant checks",
-  "development / Markdown documents (ubuntu-24.04)",
-  "development / Markdown documents (windows-2025)",
-  "development / Verify internal completion",
-]);
-export const PR_QUALIFICATION_POLICY =
-  "uo-selected-ci-control-fresh-markdown-v2";
+export const PR_QUALIFICATION_POLICY = "uo-selected-node-fresh-consumers-v3";
+
+/** Native job names expand matrices only when their consumer job is selected.
+ * Reuse the consumer-owned selection rules; bind this name map through the
+ * reviewed workflow graph, so a renamed or additional job requires fresh proof.
+ */
+export function prQualificationJobConclusions(plan) {
+  assertCheckPlan(plan);
+  const conclusions = {
+    select: "success",
+    node: "success",
+    "PR validation": "success",
+  };
+  const definitions = {
+    development: [
+      ["scope", "Select relevant checks"],
+      ["documentation", "Markdown documents (${{ matrix.os }})", true],
+      ["python-style", "Python style"],
+      ["python-tests", "Python-only tests (${{ matrix.os }})", true],
+      [
+        "python-node-tests",
+        "Node-backed Python tests (${{ matrix.os }})",
+        true,
+      ],
+      ["agent-skills-lock", "Agent Skills lock"],
+      ["style-tooling", "Style toolchain (${{ matrix.os }})", true],
+      ["checks", "Development controls", true],
+    ],
+    ontology: [
+      ["validate-ontologies", "OWL Differential Analysis"],
+      ["policy-qa", "Editing policy QA"],
+      ["qualify", "Latest-active qualification (${{ matrix.os }})", true],
+    ],
+    distribution: [
+      ["scope", "Select relevant checks"],
+      ["validate", "Validate development distribution sources"],
+      ["archive", "Build development archive for ${{ matrix.targetName }}"],
+      ["container", "Verify local development container"],
+      ["assemble", "Assemble verified development candidate"],
+    ],
+  };
+  for (const [consumer, definitionsForConsumer] of Object.entries(
+    definitions,
+  )) {
+    if (!plan.requiredJobs.includes(consumer)) {
+      conclusions[consumer] = "skipped";
+      continue;
+    }
+    const selected = consumerJobs(plan, consumer);
+    for (const [id, name, matrix] of definitionsForConsumer) {
+      const names =
+        selected[id] && matrix
+          ? ["ubuntu-24.04", "windows-2025"].map((os) =>
+              name.includes("${{ matrix.os }}")
+                ? name.replace("${{ matrix.os }}", os)
+                : `${name} (${os})`,
+            )
+          : [name];
+      for (const expanded of names)
+        conclusions[`${consumer} / ${expanded}`] = selected[id]
+          ? "success"
+          : "skipped";
+    }
+    conclusions[`${consumer} / Verify internal completion`] = "success";
+  }
+  conclusions.website = plan.requiredJobs.includes("website")
+    ? "success"
+    : "skipped";
+  return conclusions;
+}
 const sha = (value) =>
   typeof value === "string" && /^[a-f0-9]{40}$/.test(value);
 const id = (value) => Number.isSafeInteger(value) && value > 0;
@@ -52,14 +96,16 @@ export const eligiblePrQualificationPlan = (plan) => {
   return (
     plan.mode === "changed" &&
     plan.packageMode === "disabled" &&
-    plan.scopes.ci_control &&
-    isDeepStrictEqual(plan.requiredJobs, ["development", "node"]) &&
-    Object.entries(plan.scopes).every(
-      ([scope, selected]) => scope === "ci_control" || !selected,
-    )
+    plan.requiredJobs.includes("node") &&
+    !plan.scopes.mcp_artifacts &&
+    !plan.scopes.mcp_release_qualification
   );
 };
-export function assertNativeControlCoverage(coverage, identity) {
+/** The authenticated producer compares native discovery with every completed
+ * assertion. Retain both inventories and exact selection, rather than treating
+ * a count or a successful job alone as complete Node proof.
+ */
+export function assertNativeNodeCoverage(coverage, identity, plan) {
   fact(
     closed(coverage, [
       "schemaVersion",
@@ -68,11 +114,14 @@ export function assertNativeControlCoverage(coverage, identity) {
       "runId",
       "runAttempt",
       "environment",
+      "arguments",
+      "families",
+      "discoveredSuites",
       "suiteCount",
       "assertionCount",
       "suites",
     ]) &&
-      coverage.schemaVersion === 1 &&
+      coverage.schemaVersion === 2 &&
       coverage.proof === "DIRECT_EXECUTION" &&
       coverage.revision === identity.revision &&
       coverage.runId === identity.runId &&
@@ -82,14 +131,45 @@ export function assertNativeControlCoverage(coverage, identity) {
   );
   fact(
     Array.isArray(coverage.suites) &&
-      coverage.suiteCount === CI_CONTROL_SUITES.length &&
-      coverage.suites.length === CI_CONTROL_SUITES.length &&
+      Number.isSafeInteger(coverage.suiteCount) &&
+      coverage.suiteCount > 0 &&
+      coverage.suiteCount <= 1000 &&
+      coverage.suites.length === coverage.suiteCount &&
+      Array.isArray(coverage.discoveredSuites) &&
+      new Set(coverage.discoveredSuites).size === coverage.suiteCount &&
+      coverage.discoveredSuites.length === coverage.suiteCount &&
+      coverage.discoveredSuites.every(
+        (path) =>
+          typeof path === "string" &&
+          path.length > 0 &&
+          path.length <= 4096 &&
+          !path.startsWith("/") &&
+          !path.includes("\\") &&
+          !path.includes(":") &&
+          path
+            .split("/")
+            .every((part) => part && part !== "." && part !== ".."),
+      ) &&
       isDeepStrictEqual(
         coverage.suites.map((suite) => suite.path).sort(),
-        [...CI_CONTROL_SUITES].sort(),
+        [...coverage.discoveredSuites].sort(),
       ),
-    "Native control suite inventory is incomplete.",
+    "Native discovered suite inventory is incomplete.",
   );
+  const args = nodeCheckArguments(plan, { families: coverage.families });
+  fact(
+    isDeepStrictEqual(coverage.arguments, args),
+    "Native Node selection disagrees with the plan.",
+  );
+  if (args[0] === "--runTestsByPath")
+    fact(
+      isDeepStrictEqual(
+        [...coverage.discoveredSuites].sort(),
+        args.slice(1).sort(),
+      ),
+      "Native selected suite inventory is incomplete.",
+    );
+  else fact(coverage.families === null, "Unexpected native family selection.");
   fact(
     Buffer.byteLength(JSON.stringify(coverage)) <= 256 * 1024,
     "Native retained coverage exceeds 256KiB.",
@@ -137,10 +217,10 @@ export function assertPrQualificationRecord(record) {
       "nativeNode",
       "jobs",
     ]) &&
-      record.schemaVersion === 1 &&
+      record.schemaVersion === 2 &&
       record.role === "PR" &&
       record.proof === "DIRECT_EXECUTION" &&
-      record.coverage === "SELECTED_CI_CONTROL" &&
+      record.coverage === "SELECTED_NODE" &&
       record.policy === PR_QUALIFICATION_POLICY,
     "Unsupported or reused qualification record.",
   );
@@ -195,12 +275,13 @@ export function assertPrQualificationRecord(record) {
       environment.externalInputs === "NO_LIVE_EXTERNAL_SOURCE_OBLIGATIONS",
     "Unsupported qualification environment.",
   );
+  const expectedJobs = prQualificationJobConclusions(record.plan);
   fact(
     Array.isArray(record.jobs) &&
-      record.jobs.length === PR_QUALIFICATION_JOB_NAMES.length &&
+      record.jobs.length === Object.keys(expectedJobs).length &&
       isDeepStrictEqual(
         record.jobs.map((job) => job.name).sort(),
-        [...PR_QUALIFICATION_JOB_NAMES].sort(),
+        Object.keys(expectedJobs).sort(),
       ) &&
       new Set(record.jobs.map((job) => job.id)).size === record.jobs.length &&
       record.jobs.every(
@@ -223,11 +304,15 @@ export function assertPrQualificationRecord(record) {
     gate.runAttempt === record.runAttempt,
     "Record producer attempt disagrees.",
   );
-  assertNativeControlCoverage(record.nativeNode, {
-    revision: record.snapshot.commit,
-    runId: record.runId,
-    runAttempt: node.runAttempt,
-  });
+  assertNativeNodeCoverage(
+    record.nativeNode,
+    {
+      revision: record.snapshot.commit,
+      runId: record.runId,
+      runAttempt: node.runAttempt,
+    },
+    record.plan,
+  );
   fact(
     Buffer.byteLength(JSON.stringify(record)) <= 512 * 1024,
     "Qualification record exceeds 512KiB.",
@@ -259,7 +344,7 @@ export function createPrQualificationRecord({
   );
   fact(
     eligiblePrQualificationPlan(context.plan),
-    "This selected plan is not covered by the initial producer.",
+    "This selected plan requires fresh Node qualification.",
   );
   fact(
     evaluatePullRequestChecks(
@@ -268,8 +353,10 @@ export function createPrQualificationRecord({
         Object.entries(needs).map(([name, value]) => [name, value.result]),
       ),
     ).ok &&
-      needs.node?.outputs?.["verified-revision"] === snapshot.commit &&
-      needs.development?.outputs?.["verified-revision"] === snapshot.commit,
+      context.plan.requiredJobs.every(
+        (name) =>
+          needs[name]?.outputs?.["verified-revision"] === snapshot.commit,
+      ),
     "Selected qualification did not complete.",
   );
   fact(
@@ -287,9 +374,10 @@ export function createPrQualificationRecord({
       Date.parse(run.run_started_at) <= now,
     "Native producer workflow identity disagrees.",
   );
+  const expectedJobs = prQualificationJobConclusions(context.plan);
   fact(
-    jobs?.total_count === PR_QUALIFICATION_JOB_NAMES.length &&
-      jobs.jobs?.length === PR_QUALIFICATION_JOB_NAMES.length &&
+    jobs?.total_count === Object.keys(expectedJobs).length &&
+      jobs.jobs?.length === Object.keys(expectedJobs).length &&
       jobs.jobs.every(
         (job) =>
           job.run_id === context.runId &&
@@ -301,18 +389,15 @@ export function createPrQualificationRecord({
               ["in_progress", "completed"].includes(job.status) &&
               (job.status !== "completed" || job.conclusion === "success")
             : job.status === "completed" &&
-              job.conclusion ===
-                (PR_QUALIFICATION_SUCCESS_JOB_NAMES.includes(job.name)
-                  ? "success"
-                  : "skipped")),
+              job.conclusion === expectedJobs[job.name]),
       ),
     "Native producer jobs are incomplete.",
   );
   return assertPrQualificationRecord({
-    schemaVersion: 1,
+    schemaVersion: 2,
     role: "PR",
     proof: "DIRECT_EXECUTION",
-    coverage: "SELECTED_CI_CONTROL",
+    coverage: "SELECTED_NODE",
     policy: PR_QUALIFICATION_POLICY,
     repository: context.repository,
     repositoryId: context.repositoryId,
