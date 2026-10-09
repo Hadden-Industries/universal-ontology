@@ -108,9 +108,15 @@ test.each(targets)(
       expectedManager.applyChange(
         new AddOntologyAnnotation(expected, annotation),
       );
+    const serializedText = await readFile(outputPath, "utf8");
+    expect(serializedText).toMatch(/^ {4}<owl:Ontology /mu);
+    expect(serializedText).toMatch(/^ {4}<owl:Class /mu);
+    expect(serializedText).toContain("xmlns:rdfs=");
+    expect(serializedText).toMatch(/<rdfs:(?:label|comment)(?:\s|>)/u);
+    expect(serializedText).not.toContain("<owl:imports");
     const actual = await verifyStandaloneOntology({
       expectedOntology: expected,
-      serializedText: await readFile(outputPath, "utf8"),
+      serializedText,
       format: OWLDocumentFormats.RDF_XML,
     });
     expect(actual.getOntologyID().equals(root.getOntologyID())).toBe(true);

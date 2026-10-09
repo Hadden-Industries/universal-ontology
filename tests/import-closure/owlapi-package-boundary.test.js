@@ -9,10 +9,11 @@ import { OWLManager } from "owlapi/apibinding";
 import {
   AddOntologyAnnotation,
   OWLOntologyLoaderConfiguration,
+  OWLOntologyWriterConfiguration,
   SetOntologyID,
 } from "owlapi/model";
 import { StringDocumentSource, StringDocumentTarget } from "owlapi/io";
-import { OWLDocumentFormats } from "owlapi/formats";
+import { OWLDocumentFormats, RDFXMLDocumentFormat } from "owlapi/formats";
 import {
   OWLOntologyImportsClosureSetProvider,
   OWLOntologyMerger,
@@ -24,7 +25,10 @@ const json = async (path) =>
 const allowed = ["apibinding", "model", "io", "formats", "util"].map(
   (name) => `owlapi/${name}`,
 );
-const specifier = "npm:@hadden-industries/owlapi@>=0.1.0-rc.1";
+const specifier =
+  "git+https://github.com/Hadden-Industries/owlapi.git#e15320d6438b27c5aaa7aa9302b6919749873ec9";
+const gitIntegrity =
+  "sha512-zd0yKAVQXjd0Fk99KJMNmA5Ggg0A8FnSDBTZVTazqT7hKn6/dduy6b5/noTHJ574DO3DPbSGLe59Jdv5AC3ieg==";
 // The retained verification record describes the exact artifact fetched then.
 const artifactSpecifier = "npm:@hadden-industries/owlapi@0.1.0-rc.1";
 const integrity =
@@ -40,14 +44,18 @@ function assertIdentity({ manifest, lock, installed }) {
     assert.equal(metadata.name, "@hadden-industries/owlapi");
     assert.equal(metadata.version, "0.1.0-rc.1");
   }
-  assert.equal(entry.resolved, tarball);
-  assert.equal(entry.integrity, integrity);
+  assert.equal(entry.resolved, specifier);
+  assert.equal(entry.integrity, gitIntegrity);
   assert.ok(!entry.link);
 }
 
-test("uses the released Java-compatible package boundary", () => {
+test("uses the pinned Java-compatible package boundary", () => {
   const manager = OWLManager.createOWLOntologyManager();
   expect(typeof manager.saveOntology).toBe("function");
+  expect(manager.getOntologyWriterConfiguration()).toBeInstanceOf(
+    OWLOntologyWriterConfiguration,
+  );
+  expect(typeof manager.setOntologyWriterConfiguration).toBe("function");
   for (const value of [
     AddOntologyAnnotation,
     OWLOntologyLoaderConfiguration,
@@ -56,6 +64,7 @@ test("uses the released Java-compatible package boundary", () => {
     StringDocumentTarget,
     OWLOntologyImportsClosureSetProvider,
     OWLOntologyMerger,
+    RDFXMLDocumentFormat,
   ])
     expect(typeof value).toBe("function");
   expect(OWLDocumentFormats.RDF_XML).toBeDefined();
@@ -70,7 +79,7 @@ async function installedIdentity() {
   };
 }
 
-test("locks the floating native alias to the independently verified public artifact", async () => {
+test("locks the installed package to the accepted Git source", async () => {
   assertIdentity(await installedIdentity());
   const packageRoot = join(root, "node_modules/owlapi");
   expect((await lstat(packageRoot)).isSymbolicLink()).toBe(false);
@@ -83,11 +92,35 @@ test("locks the floating native alias to the independently verified public artif
     join(packageRoot, "docs/compatibility/java-api-surface.json"),
   );
   expect(createHash("sha256").update(bytes).digest("hex")).toBe(
-    "cf367d97cea09eb9fe99b6f0e68f8ddb8ded8555259a4cc956b16bb19218ba6a",
+    "a4d41d1b00634883a46b94e4bd043ae67fd3ee9f33425b7787e5b62dd060ab73",
   );
 });
 
+test("installed Git package bytes match the independently qualified producer archive", async () => {
+  const packageRoot = join(root, "node_modules/owlapi");
+  // Derived from all 113 files in the qualified producer archive with SHA-256
+  // 58e8cc897f5ed6054a6cd94eb69aff426ad5cff4dd1d69ac9f51ae794e25c286.
+  // npm skips Git tarball integrity checks, so lock metadata alone is insufficient.
+  const paths = await sources(packageRoot, true);
+  const inventory = await Promise.all(
+    paths.map(async (path) => [
+      relative(packageRoot, path).replaceAll("\\", "/"),
+      createHash("sha256")
+        .update(await readFile(path))
+        .digest("hex"),
+    ]),
+  );
+  inventory.sort(([left], [right]) =>
+    left < right ? -1 : left > right ? 1 : 0,
+  );
+  expect(inventory).toHaveLength(113);
+  expect(
+    createHash("sha256").update(JSON.stringify(inventory)).digest("hex"),
+  ).toBe("e3133e6a70a3eb6cb611cf9ea4ea82e4ae154d4a948eae122a34782c960c4850");
+});
+
 test.each([
+  "git+https://github.com/Hadden-Industries/owlapi.git#e6f50bcfa1519b048bc66d37f7961c29b03a0971",
   "0.1.0-rc.1",
   "npm:@hadden-industries/owlapi@0.1.0-rc.1",
   "npm:@other/owlapi@0.1.0-rc.1",
@@ -98,6 +131,10 @@ test.each([
   "npm:@hadden-industries/owlapi@^0.1.0",
   "file:../owlapi",
   "link:../owlapi",
+  "git+https://github.com/Hadden-Industries/owlapi.git",
+  "git+https://github.com/Hadden-Industries/owlapi.git#main",
+  "git+https://github.com/Hadden-Industries/owlapi.git#e6f50bc",
+  "git+https://github.com/Hadden-Industries/owlapi.git#59131be0c1dc3a634e8433b06d2949051c051c0a",
 ])("rejects dependency substitution %s", async (replacement) => {
   const value = await installedIdentity();
   value.manifest.devDependencies.owlapi = replacement;
@@ -176,12 +213,17 @@ function checkImports(source, registry) {
   );
 }
 
-async function sources(directory) {
+async function sources(directory, allFiles = false) {
   const result = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const path = join(directory, entry.name);
-    if (entry.isDirectory()) result.push(...(await sources(path)));
-    else if (/\.[cm]?js$/u.test(path)) result.push(path);
+    if (allFiles)
+      assert.ok(
+        entry.isDirectory() || entry.isFile(),
+        `Unsupported package entry: ${path}`,
+      );
+    if (entry.isDirectory()) result.push(...(await sources(path, allFiles)));
+    else if (allFiles || /\.[cm]?js$/u.test(path)) result.push(path);
   }
   return result;
 }

@@ -43,8 +43,8 @@ export async function findOwlapiPackageRoot() {
   }
 }
 
-/** Bind observed installed bytes and Git state to retained candidate evidence; never assert registry acceptance. */
-export async function collectQualificationIdentity({
+/** Bind only the historical 2 October rc.1 prepublication snapshot, never the maintained Git dependency. */
+export async function collectHistoricalRcQualificationIdentity({
   sourceRoot,
   candidateDirectory,
   upstreamEvidencePath,

@@ -88,7 +88,7 @@
     "html-validate": ">=11.16.2",
     "jest": ">=30.5.2",
     "jsonld": ">=9.0.0",
-    "owlapi": "npm:@hadden-industries/owlapi@>=0.1.0-rc.1",
+    "owlapi": "git+https://github.com/Hadden-Industries/owlapi.git#e15320d6438b27c5aaa7aa9302b6919749873ec9",
     "oxigraph": ">=0.5.11",
     "playwright": ">=1.64.0",
     "prettier": ">=3.9.9",

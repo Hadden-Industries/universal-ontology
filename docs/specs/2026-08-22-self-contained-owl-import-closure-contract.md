@@ -8,6 +8,16 @@
 
 **Machine-readable policy:** `docs/import-closure/contract.v1.json`
 
+**8 October 2026 Git-source consumer amendment:** This amendment takes precedence over the registry-only dependency, qualification-stage and production-prerequisite clauses in Sections 6, 12 and 13 for the current adoption.
+The selected dependency is `git+https://github.com/Hadden-Industries/owlapi.git#e15320d6438b27c5aaa7aa9302b6919749873ec9`, declared as `devDependencies.owlapi` and bound to that exact source and package payload by the lockfile and installed-package qualification.
+The package name remains `@hadden-industries/owlapi`; the unchanged `0.1.0-rc.1` manifest version alone does not identify this implementation.
+Only this owner-approved full Git commit is permitted; local checkouts, copied source, unpinned Git references and other dependency substitutions remain non-conforming under `docs/import-closure/contract.v1.json`.
+Exact Git-source/package verification and complete current UO consumer acceptance replace public-registry installation, signature and provenance verification as prerequisites for this adoption.
+The prior rc.1 registry and prepublication records remain immutable historical evidence; they neither qualify this Git source nor assert a new npm publication.
+The previous snapshot-specific prepublication runner is retained under an explicitly historical name; current consumer qualification uses `npm run check:qualification` and the generated-output verifier documented in `docs/development.md`.
+All closure semantics, strict offline verification before atomic publication, and public Java-compatible API ownership requirements remain unchanged.
+The registry selection and sequencing text below records the earlier approved migration stage and is subordinate to this amendment for the selected Git source.
+
 **Selected library release:** exact public-registry package `@hadden-industries/owlapi@0.1.0-rc.1` from `https://github.com/Hadden-Industries/owlapi`, installed through the native npm dependency alias `owlapi`.
 
 **Scoped-publication and RC-production amendment:** The selected first public RC includes the approved Phase 21/22 lifecycle work, preserving the capability scope of the 28 September 2026 sequencing amendment.
@@ -220,15 +230,15 @@ input OWLOntologyManager
 
 The consumer imports the permitted capability slice from these exact public specifiers:
 
-| Public specifier    | Required binding or operation                                                  | Java OWLAPI authority                                  | Required semantics                                                                                                    |
-| ------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| `owlapi/apibinding` | `OWLManager.createOWLOntologyManager`                                          | `org.semanticweb.owlapi.apibinding.OWLManager`         | Creates independent input, output, and verification managers.                                                         |
-| `owlapi/model`      | `OWLOntologyManager.importsClosure` and `getImportsClosure`                    | Same Java manager methods                              | Cycle-safe closure including the managed root; defensive set result.                                                  |
-| `owlapi/model`      | `addAxiom(s)`, `applyChange(s)`, and `saveOntology`                            | `HasAddAxioms` and the same Java manager methods       | Applies managed changes atomically and stores through exact format/target selection.                                  |
-| `owlapi/model`      | `SetOntologyID`, `AddOntologyAnnotation`, and `OWLOntologyLoaderConfiguration` | Same Java model classes                                | Restores the complete root identity, adds only root annotations, and fixes strict loading policy.                     |
-| `owlapi/io`         | `StringDocumentSource`, `StringDocumentTarget`, and typed I/O/storage failures | Corresponding `org.semanticweb.owlapi.io` classes      | Carries complete document text and captures stored UTF-8 text without granting ambient filesystem authority.          |
-| `owlapi/formats`    | Functional Syntax and RDF/XML document-format identities                       | Corresponding `org.semanticweb.owlapi.formats` classes | Selects one exact registered storage behavior with no fallback.                                                       |
-| `owlapi/util`       | `OWLOntologyImportsClosureSetProvider` and `OWLOntologyMerger`                 | Corresponding `org.semanticweb.owlapi.util` classes    | Supplies the root closure and copies every direct axiom without copying ontology annotations or imports declarations. |
+| Public specifier    | Required binding or operation                                                  | Java OWLAPI authority                                  | Required semantics                                                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `owlapi/apibinding` | `OWLManager.createOWLOntologyManager`                                          | `org.semanticweb.owlapi.apibinding.OWLManager`         | Creates independent input, output, and verification managers.                                                                      |
+| `owlapi/model`      | `OWLOntologyManager.importsClosure` and `getImportsClosure`                    | Same Java manager methods                              | Cycle-safe closure including the managed root; defensive set result.                                                               |
+| `owlapi/model`      | `addAxiom(s)`, `applyChange(s)`, and `saveOntology`                            | `HasAddAxioms` and the same Java manager methods       | Applies managed changes atomically and stores through exact format/target selection.                                               |
+| `owlapi/model`      | `SetOntologyID`, `AddOntologyAnnotation`, and `OWLOntologyLoaderConfiguration` | Same Java model classes                                | Restores the complete root identity, adds only root annotations, and fixes strict loading policy.                                  |
+| `owlapi/io`         | `StringDocumentSource`, `StringDocumentTarget`, and typed I/O/storage failures | Corresponding `org.semanticweb.owlapi.io` classes      | Carries complete document text and captures stored UTF-8 text without granting ambient filesystem authority.                       |
+| `owlapi/formats`    | Functional Syntax identity; RDFXMLDocumentFormat and copyPrefixesFrom          | Corresponding `org.semanticweb.owlapi.formats` classes | Select one exact registered storage behavior with no fallback; copy authored root prefix preferences to the RDF/XML output format. |
+| `owlapi/util`       | `OWLOntologyImportsClosureSetProvider` and `OWLOntologyMerger`                 | Corresponding `org.semanticweb.owlapi.util` classes    | Supplies the root closure and copies every direct axiom without copying ontology annotations or imports declarations.              |
 
 Functional Syntax and RDF/XML storage are required **behaviors through `OWLOntologyManager.saveOntology`**, not requirements to construct or import `FunctionalSyntaxStorer` or `RDFXMLStorer` directly.
 Their Java classes remain the behavioral authorities for the two storage engines.

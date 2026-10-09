@@ -38,9 +38,11 @@ test("normal asset generation includes the closure trio and skips an import-free
     expect(assets.has(`${paths[0]}-full`)).toBe(true);
     expect(assets.has(`${paths[0]}-full.jsonld`)).toBe(true);
     expect(assets.has(`${paths[0]}-full.csv`)).toBe(true);
-    expect(assets.get(`${paths[0]}-full`).toString()).toContain(
-      `${paths[1]}#Class`,
-    );
+    const full = assets.get(`${paths[0]}-full`).toString();
+    for (const path of paths)
+      expect(full).toContain(`<owl:Class rdf:about="${base}${path}#Class"`);
+    expect(full).toMatch(/^ {4}<owl:Class /mu);
+    expect(full).not.toContain("<owl:imports");
     for (const suffix of ["-full", "-full.jsonld", "-full.csv"])
       expect(assets.has(`${paths[1]}${suffix}`)).toBe(false);
   } finally {

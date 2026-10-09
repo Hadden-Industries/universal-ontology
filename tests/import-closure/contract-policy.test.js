@@ -15,12 +15,13 @@ test("locks the approved standalone import-closure policy", async () => {
       packageName: "@hadden-industries/owlapi",
       dependencyName: "owlapi",
       sourceRepository: "https://github.com/Hadden-Industries/owlapi",
-      registry: "https://registry.npmjs.org/",
+      sourceCommit: "e15320d6438b27c5aaa7aa9302b6919749873ec9",
       exactVersion: "0.1.0-rc.1",
-      dependencySpecifier: "npm:@hadden-industries/owlapi@>=0.1.0-rc.1",
+      dependencySpecifier:
+        "git+https://github.com/Hadden-Industries/owlapi.git#e15320d6438b27c5aaa7aa9302b6919749873ec9",
       dependencySection: "devDependencies",
       qualificationPrerequisite:
-        "upstream-capabilities-and-public-registry-verification",
+        "upstream-capabilities-and-exact-git-source-package-verification",
       productionPrerequisite: "exact-artifact-and-complete-consumer-acceptance",
       releaseCandidateProductionUse:
         "allowed-after-exact-artifact-and-consumer-acceptance",
@@ -39,7 +40,7 @@ test("locks the approved standalone import-closure policy", async () => {
       storageAccess: "OWLOntologyManager.saveOntology",
       concreteStorerConstructors: "not-required",
       unregisteredOrInternalImports: "forbid",
-      localSourceTreeOrNonRegistryDependency: "forbid",
+      localSourceTreeOrUnpinnedDependency: "forbid",
     },
     axiomPolicy: "union-direct-axioms-of-complete-imports-closure",
     rootOntologyID: "preserve",

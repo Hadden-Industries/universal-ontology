@@ -104,7 +104,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
     "d5f4bbb30e7b1dd0d153f6b81347931313c6fbc7a43572af100924d9ed892898",
   "scripts/selectPullRequestChecks.js":
-    "f7dda2d42af03bb349954cb4f5a44770ef6acd13725d9e3ca4c707219a54fc1e",
+    "67c51d59f58e94fe935e8a0d05002b8efb0e229159648325cb28e3714fc7d382",
   "scripts/evaluatePullRequestChecks.js":
     "2a0790abf6aac5580a4073e2fa1e0f67f0e704e5bfb99cfc9cdb088ed3a99a0b",
   "scripts/pullRequestCheckPlan.schema.json":
@@ -148,7 +148,8 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".markdown-quality-execution.json":
     "314ef284e247a38ecf5ac2d4d7883c64e1f1ce037a6eba2c7bd0ea1814028b39",
   "package.json":
-    "9df1cb46b830e411dca572cc43ee7cbc2b9e3eb8c625e34e9dc8506d71bccbeb",
+    "d2e33f948a4d5e117eca7cdb245990df215ace59775e8c3f7889f541f242a0fb",
+  ".npmrc": "2e4f507d9f669af940f509b6d717a64e009d45f1ce5012e3f3e69729fb0bbccd",
   "tests/markdown-quality.test.js":
     "6d98214ca56141494abce31c9361f9230a10b98fb377f720e9ddd97343306ab1",
   "tooling/markdown/archives/hadden-industries-markdown-quality-1.0.3.tgz":
@@ -166,7 +167,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
 export async function verifyPullRequestPolicyGraph({
   root = REPOSITORY_ROOT_PATH,
 } = {}) {
-  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 32)
+  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 33)
     throw new Error("PR policy allowlist is incomplete.");
   for (const [path, expected] of Object.entries(REVIEWED_PR_POLICY_FILES)) {
     const bytes = await readBoundedRegularFile(join(root, path));

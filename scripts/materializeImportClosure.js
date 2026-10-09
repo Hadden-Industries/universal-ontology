@@ -3,7 +3,7 @@ import { pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
 import { OWLManager } from "owlapi/apibinding";
 import { OWLOntologyLoaderConfiguration } from "owlapi/model";
-import { OWLDocumentFormats } from "owlapi/formats";
+import { OWLDocumentFormats, RDFXMLDocumentFormat } from "owlapi/formats";
 import {
   OasisXmlCatalogIRIMapper,
   findCatalog,
@@ -108,13 +108,21 @@ export async function materializeImportClosure({
     outputManager,
     rootOntology,
   });
+  let outputFormat = OWLDocumentFormats.FUNCTIONAL;
+  try {
+    if (format === "rdfxml") {
+      outputFormat = new RDFXMLDocumentFormat();
+      const rootFormat = inputManager.getOntologyFormat(rootOntology);
+      if (rootFormat instanceof RDFXMLDocumentFormat)
+        outputFormat.copyPrefixesFrom(rootFormat);
+    }
+  } catch (cause) {
+    throw failure("serialization", cause);
+  }
   await writeVerifiedOntology({
     ontology,
     manager: outputManager,
-    format:
-      format === "rdfxml"
-        ? OWLDocumentFormats.RDF_XML
-        : OWLDocumentFormats.FUNCTIONAL,
+    format: outputFormat,
     outputPath,
   });
 }

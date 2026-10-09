@@ -126,6 +126,7 @@ const COMMON_INPUTS = [
   "tests/pr-check-scopes.test.js",
   ".node-version",
   "package.json",
+  ".npmrc",
   "package-lock.json",
 ];
 // Python ontology jobs do not consume the Node package manifests. Track their
