@@ -6,6 +6,8 @@ const WORKFLOW_URL = new URL(
   import.meta.url,
 );
 const SELECTOR_COMMAND = "node scripts/evaluatePullRequestChecks.js --scopes";
+const PYTHON_PROVISIONING_ACTION =
+  "astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884";
 const ONTOLOGY_RUNNER_COMMAND =
   "node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v";
 const PYTHON_SETUP_TOOL_COMMAND =
@@ -16,6 +18,54 @@ const JAVASCRIPT_DEVELOPMENT_COMMAND =
 function readWorkflow() {
   return parseYaml(readFileSync(WORKFLOW_URL, "utf8"));
 }
+
+test.each([
+  [
+    "development-checks.yml",
+    [
+      "python-style",
+      "python-tests",
+      "python-node-tests",
+      "agent-skills-lock",
+      "style-tooling",
+      "checks",
+    ],
+  ],
+  ["ontology-validation.yml", ["validate-ontologies", "policy-qa", "qualify"]],
+])(
+  "%s provisions repository-selected Python in an isolated uv environment",
+  (fileName, jobNames) => {
+    const workflow = parseYaml(
+      readFileSync(
+        new URL(`../.github/workflows/${fileName}`, import.meta.url),
+        "utf8",
+      ),
+    );
+    for (const jobName of jobNames) {
+      const steps = workflow.jobs[jobName].steps;
+      const provisioning = steps.filter(
+        ({ uses }) => uses === PYTHON_PROVISIONING_ACTION,
+      );
+      expect(provisioning).toHaveLength(1);
+      // Without a version override, uv resolves the root .python-version.
+      expect(provisioning[0].with).toEqual({
+        version: "0.13.0",
+        "activate-environment": true,
+        "venv-path": "${{ runner.temp }}/python",
+        "no-project": true,
+        "enable-cache": false,
+      });
+      expect(
+        steps.some(({ uses }) => uses?.startsWith("actions/setup-python@")),
+      ).toBe(false);
+      if (jobName === "validate-ontologies") {
+        expect(provisioning[0].if).toBe(
+          "steps.ontology_jobs.outputs.ontology_validation == 'true'",
+        );
+      }
+    }
+  },
+);
 
 test.each([
   [
@@ -174,7 +224,7 @@ test("Python-only work retains both platforms without installing Node dependenci
     (step) => step.name === "Set up only the locked Python environment",
   );
   expect(setup.run).toContain(
-    "--require-hashes --only-binary=:all: -r requirements.lock.txt",
+    "--require-hashes --only-binary=:all: --no-binary=pyyaml -r requirements.lock.txt",
   );
   expect(setup.run).toContain('"$python_executable" -m pip check');
   expect(setup.run).toContain(".venv/Scripts/python.exe");
@@ -211,7 +261,7 @@ test("a lock change validates the committed Agent Skills lock without the develo
     "python -B -m unittest tests.test_set_up_agent_skills.CommittedSkillsLockTests -v",
   ]);
   expect(
-    job.steps.some(({ uses }) => uses?.startsWith("actions/setup-python@")),
+    job.steps.some(({ uses }) => uses === PYTHON_PROVISIONING_ACTION),
   ).toBe(true);
 });
 
@@ -221,7 +271,7 @@ test("toolchain changes retain a Windows and Ubuntu owner for formatter regressi
   expect(job.if).toBe("needs.scope.outputs.style_tooling == 'true'");
   expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
   expect(
-    job.steps.some(({ uses }) => uses?.startsWith("actions/setup-python@")),
+    job.steps.some(({ uses }) => uses === PYTHON_PROVISIONING_ACTION),
   ).toBe(true);
   expect(
     job.steps.some(({ uses }) => uses?.startsWith("actions/setup-node@")),
@@ -252,6 +302,9 @@ test("every route checks the full Markdown corpus on Windows and Linux", () => {
   expect(
     job.steps.some((step) => step.uses?.startsWith("actions/setup-python@")),
   ).toBe(false);
+  expect(
+    job.steps.some(({ uses }) => uses === PYTHON_PROVISIONING_ACTION),
+  ).toBe(false);
 });
 
 test("Windows and Ubuntu checks exercise the complete development setup before the retained tests", () => {
@@ -278,7 +331,7 @@ test("Windows and Ubuntu checks exercise the complete development setup before t
   for (const prefix of [
     "actions/checkout@",
     "actions/setup-node@",
-    "actions/setup-python@",
+    "astral-sh/setup-uv@",
   ]) {
     expect(before.some(({ uses }) => uses?.startsWith(prefix))).toBe(true);
   }

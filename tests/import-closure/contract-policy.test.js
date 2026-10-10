@@ -12,16 +12,11 @@ test("locks the approved standalone import-closure policy", async () => {
   expect(contract).toEqual({
     schemaVersion: 1,
     owlapiBoundary: {
-      packageName: "@hadden-industries/owlapi",
+      dependencyManifest: "package.json",
       dependencyName: "owlapi",
-      sourceRepository: "https://github.com/Hadden-Industries/owlapi",
-      sourceCommit: "e15320d6438b27c5aaa7aa9302b6919749873ec9",
-      exactVersion: "0.1.0-rc.1",
-      dependencySpecifier:
-        "git+https://github.com/Hadden-Industries/owlapi.git#e15320d6438b27c5aaa7aa9302b6919749873ec9",
       dependencySection: "devDependencies",
       qualificationPrerequisite:
-        "upstream-capabilities-and-exact-git-source-package-verification",
+        "upstream-capabilities-and-exact-selected-source-package-verification",
       productionPrerequisite: "exact-artifact-and-complete-consumer-acceptance",
       releaseCandidateProductionUse:
         "allowed-after-exact-artifact-and-consumer-acceptance",

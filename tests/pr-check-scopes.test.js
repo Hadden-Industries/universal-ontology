@@ -103,7 +103,7 @@ test("the stable ontology check selects files before installing its dependencies
   expect(job.steps[scopeIndex].run).toContain("args=(--all-current)");
   expect(job.steps[installationIndex]).toMatchObject({
     if: "steps.scope.outputs.validation_required == 'true'",
-    run: '.venv/bin/python -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt',
+    run: '.venv/bin/python -m pip install --require-hashes "--only-binary=:all:" --no-binary=pyyaml -r requirements.lock.txt',
   });
   expect(
     job.steps.find(({ name }) => name === "Test ontology validation runner"),

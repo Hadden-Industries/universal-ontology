@@ -24,13 +24,24 @@ async function files(root, prefix = "") {
   return result.sort((a, b) => a.path.localeCompare(b.path));
 }
 
-/** Locate package metadata without assuming the exported entry point's directory layout. */
+/** Locate the lock-selected package through its public entry, validating its name and version. */
 export async function findOwlapiPackageRoot() {
+  const lockfile = await json(
+    new URL("../../package-lock.json", import.meta.url),
+  );
+  const locked = lockfile.value.packages?.["node_modules/owlapi"];
+  // npm omits name when the package name equals its installation directory.
+  const packageName = locked?.name ?? "owlapi";
+  if (typeof packageName !== "string" || typeof locked?.version !== "string")
+    throw new Error("Missing locked owlapi package identity");
   let directory = dirname(fileURLToPath(import.meta.resolve("owlapi/model")));
   for (;;) {
     try {
       const metadata = await json(join(directory, "package.json"));
-      if (metadata.value.name !== "@hadden-industries/owlapi")
+      if (
+        metadata.value.name !== packageName ||
+        metadata.value.version !== locked.version
+      )
         throw new Error("Unexpected owlapi package identity");
       return directory;
     } catch (error) {

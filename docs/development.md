@@ -9,7 +9,9 @@ Requirements: Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x
 `package.json` declares `devEngines.packageManager.version` as `>=12.2.0` with `onFail: "error"`; npm enforces this native contract before install, clean install and script execution, and development setup uses npm's bundled validator.
 Later stable npm majors satisfy the range; prereleases do not.
 The exact `packageManager` reference remains `npm@12.2.0`, and CI and release builds explicitly select and verify that version for reproducibility.
-CI provisions the exact Python version in that file; development setup accepts newer stable versions and preserves the existing `.venv`.
+CI provisions the exact Python version in that file through SHA-pinned `astral-sh/setup-uv` with uv 0.13.0 and caching disabled.
+The action activates an isolated environment under the runner's temporary directory; subsequent setup creates the repository `.venv` and installs the hash-locked requirements through pip.
+Development setup accepts newer stable versions and preserves the existing `.venv`.
 The README's [development setup](../README.md#development-setup) section explains the version selection.
 
 ```sh
@@ -22,7 +24,7 @@ npm run configure:git-hooks
 - checks the Node.js, npm and Python versions;
 - runs `npm ci --include=dev --ignore-scripts` from `package-lock.json`;
 - acquires the separate integrity-pinned Markdown tooling graph with anonymous registry settings and lifecycle scripts disabled;
-- creates `.venv` if it does not exist (an unusable existing `.venv` stops setup so you can repair it), then installs `requirements.lock.txt` with `--require-hashes --only-binary=:all:` and refuses a `.venv` whose installed distributions differ from that lock;
+- creates `.venv` if it does not exist (an unusable existing `.venv` stops setup so you can repair it), then installs `requirements.lock.txt` with `--require-hashes --only-binary=:all: --no-binary=pyyaml` and refuses a `.venv` whose installed distributions differ from that lock;
 - runs `pip check`;
 - warns if the AWS CLI is missing (only deployment needs it).
 
@@ -30,18 +32,26 @@ It installs nothing globally and configures no agent, workflow, hook trust, MCP 
 `requirements.txt` holds the ontology runtime dependencies and `requirements-dev.txt` the development tools; `requirements.lock.txt` is their resolved, hash-pinned closure.
 Development requirements declare minimum versions without upper bounds.
 Routine setup and CI install the exact locked versions rather than resolving those ranges again.
+PyYAML 6.0.3 has no CPython 3.15 wheel, so setup and full-lock CI installs build only PyYAML from its hash-pinned source archive; all other locked requirements remain binary-only.
+Pip's isolated source build may acquire additional build-time dependencies.
+PyYAML works without its optional LibYAML extension; source-build compatibility must be verified on each CI platform.
 
 Node.js dependencies are locked via `package-lock.json`.
 Repository-owned package manifests declare registry and workspace dependencies and development dependencies using `>=` minimum version ranges, including the version inside npm aliases and the vendored Braces package's `fill-range` dependency.
 Registry minimums track the highest published stable release when updated; workspace minimums use the accepted local package version.
 A dependency without a stable release uses its explicitly accepted prerelease.
 Local `file:` sources, including the vendored Braces repair and retained Markdown tooling archives, preserve their source identities.
-OwlAPI is an owner-approved exception to registry ranges: `devDependencies.owlapi` uses the full Git commit `e15320d6438b27c5aaa7aa9302b6919749873ec9` from `Hadden-Industries/owlapi`.
+OwlAPI is an owner-approved exception to registry ranges: `devDependencies.owlapi` in the root `package.json` is its sole editable source/version selector.
+Use either `git+https://github.com/OWNER/REPOSITORY.git#FULL_40_CHARACTER_COMMIT` or `npm:PACKAGE_NAME@EXACT_VERSION`, including an exact prerelease when selected.
+The local dependency name and all consumer imports stay `owlapi` and `owlapi/...` for either form.
+The import-closure policy references this manifest entry; package names, versions, sources and integrity values in `package-lock.json` are generated observations, not independent settings.
 Root `.npmrc` sets `allow-git=root`, admitting this direct dependency while rejecting transitive Git dependencies under npm 12; setup and CI continue disabling lifecycle scripts.
 The PR selector treats `.npmrc` as a manifest-dependent input, and the release verifier pins its exact contents alongside the approved package manifest and selector.
 Use `npm ci --include=dev --ignore-scripts` when changing between registry and Git sources with the same package version: an incremental install can retain the old bytes.
-The package boundary tests check the exact manifest/lock source, API registry and all installed package bytes against the independently qualified producer archive.
-The retained registry verification documents describe the historical rc.1 publication; they do not qualify this Git source or assert a new npm release.
+After an approved selector edit, regenerate the npm lockfile, then clean-install it with the command above and requalify the consumer.
+The package boundary tests check the exact manifest/lock source and public API bindings, and compare all installed package files with the original archive retained in npm's cache by the lockfile integrity.
+A missing or inconsistent cached archive fails verification; installed files never supply their own expected hashes.
+The retained registry verification documents describe the historical rc.1 publication; they do not qualify a different selected source or assert a new npm release.
 The policy allows every newer stable version, then qualifies each refreshed lockfile before adoption.
 Routine setup and CI use the exact lockfile graph; a range permits resolution but does not establish compatibility, including for future major upgrades.
 Refresh qualification covers the affected runtime, build and distribution contracts, including libraries bundled from development dependencies.

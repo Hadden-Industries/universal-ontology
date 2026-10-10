@@ -269,6 +269,7 @@ export function setUpDevelopmentEnvironment({
       "install",
       "--require-hashes",
       "--only-binary=:all:",
+      "--no-binary=pyyaml",
       "-r",
       pythonLockPath,
     ],

@@ -1,7 +1,18 @@
 import { expect, test } from "@jest/globals";
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFile, readdir, lstat, realpath } from "node:fs/promises";
+import {
+  readFile,
+  readdir,
+  lstat,
+  realpath,
+  mkdtemp,
+  rm,
+  writeFile,
+} from "node:fs/promises";
+import { createRequire } from "node:module";
+import { tmpdir } from "node:os";
 import { join, relative, isAbsolute } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Linter } from "eslint";
@@ -25,10 +36,10 @@ const json = async (path) =>
 const allowed = ["apibinding", "model", "io", "formats", "util"].map(
   (name) => `owlapi/${name}`,
 );
-const specifier =
-  "git+https://github.com/Hadden-Industries/owlapi.git#e15320d6438b27c5aaa7aa9302b6919749873ec9";
-const gitIntegrity =
-  "sha512-zd0yKAVQXjd0Fk99KJMNmA5Ggg0A8FnSDBTZVTazqT7hKn6/dduy6b5/noTHJ574DO3DPbSGLe59Jdv5AC3ieg==";
+// Reuse npm's own selector parser and cache reader through the npm entry point.
+const npmRequire = createRequire(process.env.npm_execpath);
+const { resolve: parsePackageSpecifier } = npmRequire("npm-package-arg");
+const semver = npmRequire("semver");
 // The retained verification record describes the exact artifact fetched then.
 const artifactSpecifier = "npm:@hadden-industries/owlapi@0.1.0-rc.1";
 const integrity =
@@ -37,16 +48,47 @@ const tarball =
   "https://registry.npmjs.org/@hadden-industries/owlapi/-/owlapi-0.1.0-rc.1.tgz";
 
 function assertIdentity({ manifest, lock, installed }) {
-  assert.equal(manifest.devDependencies.owlapi, specifier);
+  const specifier = manifest.devDependencies.owlapi;
+  assert.equal(typeof specifier, "string");
+  const selected = parsePackageSpecifier("owlapi", specifier, root);
+  const isExactAlias =
+    selected.type === "alias" && selected.subSpec.type === "version";
+  const isExactGit =
+    selected.type === "git" && /^[a-f0-9]{40}$/u.test(selected.gitCommittish);
+  assert.ok(
+    isExactAlias || isExactGit,
+    "Select an exact npm alias or full Git SHA",
+  );
   assert.equal(lock.packages[""].devDependencies.owlapi, specifier);
   const entry = lock.packages["node_modules/owlapi"];
-  for (const metadata of [entry, installed]) {
-    assert.equal(metadata.name, "@hadden-industries/owlapi");
-    assert.equal(metadata.version, "0.1.0-rc.1");
+  // npm infers the name from this installation path when it equals "owlapi".
+  const packageName = entry.name ?? "owlapi";
+  assert.equal(typeof packageName, "string");
+  assert.equal(packageName, installed.name);
+  assert.equal(entry.version, installed.version);
+  assert.ok(semver.valid(entry.version), "Invalid installed package version");
+  if (isExactAlias) {
+    assert.equal(packageName, selected.subSpec.name);
+    assert.equal(entry.version, semver.valid(selected.subSpec.fetchSpec));
+    assert.match(entry.resolved, /^https:\/\//u);
+  } else {
+    const resolved = parsePackageSpecifier("owlapi", entry.resolved, root);
+    assert.equal(resolved.type, "git");
+    assert.equal(resolved.gitCommittish, selected.gitCommittish);
+    // npm canonicalizes hosted Git shorthand in the generated lockfile.
+    assert.equal(
+      resolved.hosted?.https() ?? resolved.fetchSpec,
+      selected.hosted?.https() ?? selected.fetchSpec,
+    );
   }
-  assert.equal(entry.resolved, specifier);
-  assert.equal(entry.integrity, gitIntegrity);
+  assert.match(entry.integrity, /^sha512-[A-Za-z0-9+/]{86}==$/u);
   assert.ok(!entry.link);
+  assert.deepEqual(
+    Object.keys(lock.packages).filter((path) =>
+      path.endsWith("node_modules/owlapi"),
+    ),
+    ["node_modules/owlapi"],
+  );
 }
 
 test("uses the pinned Java-compatible package boundary", () => {
@@ -79,7 +121,70 @@ async function installedIdentity() {
   };
 }
 
-test("locks the installed package to the accepted Git source", async () => {
+function identityFixture(selected, name, version) {
+  const metadata = { name, version };
+  return {
+    manifest: { devDependencies: { owlapi: selected } },
+    lock: {
+      packages: {
+        "": { devDependencies: { owlapi: selected } },
+        "node_modules/owlapi": {
+          // npm omits the name when it equals the local installation name.
+          ...(name === "owlapi" ? { version } : metadata),
+          resolved: selected.startsWith("npm:")
+            ? "https://registry.npmjs.org/example.tgz"
+            : selected,
+          integrity: `sha512-${Buffer.alloc(64, 1).toString("base64")}`,
+        },
+      },
+    },
+    installed: metadata,
+  };
+}
+
+test.each([
+  [
+    `git+https://github.com/example/owlapi.git#${"a".repeat(40)}`,
+    "@example/owlapi",
+    "1.2.3",
+  ],
+  ["npm:@example/renamed-owlapi@1.2.3", "@example/renamed-owlapi", "1.2.3"],
+  ["npm:owlapi-next@2.0.0-rc.1", "owlapi-next", "2.0.0-rc.1"],
+  ["npm:owlapi@1.2.3", "owlapi", "1.2.3"],
+  [
+    `git+https://github.com/example/owlapi.git#${"b".repeat(40)}`,
+    "owlapi",
+    "1.2.3",
+  ],
+])(
+  "validates the manifest-selected exact coordinate %s",
+  (selected, name, version) => {
+    assertIdentity(identityFixture(selected, name, version));
+  },
+);
+
+test.each([
+  "1.2.3",
+  "npm:@example/owlapi@^1.2.3",
+  "npm:@example/owlapi@>=1.2.3",
+  "npm:@example/owlapi@next",
+  "npm:@example/owlapi@latest",
+  "git+https://github.com/example/owlapi.git#main",
+  "git+https://github.com/example/owlapi.git",
+  "git+https://github.com/example/owlapi.git#v1.2.3",
+  "git+https://github.com/example/owlapi.git#abcdef0",
+  "file:../owlapi",
+  "link:../owlapi",
+])(
+  "rejects a nonexact selector even with consistent metadata: %s",
+  (selected) => {
+    expect(() =>
+      assertIdentity(identityFixture(selected, "@example/owlapi", "1.2.3")),
+    ).toThrow();
+  },
+);
+
+test("locks the installed package to the manifest-selected exact source", async () => {
   assertIdentity(await installedIdentity());
   const packageRoot = join(root, "node_modules/owlapi");
   expect((await lstat(packageRoot)).isSymbolicLink()).toBe(false);
@@ -88,59 +193,92 @@ test("locks the installed package to the accepted Git source", async () => {
     const child = relative(await realpath(packageRoot), path);
     expect(isAbsolute(child) || child.startsWith("..")).toBe(false);
   }
-  const bytes = await readFile(
-    join(packageRoot, "docs/compatibility/java-api-surface.json"),
-  );
-  expect(createHash("sha256").update(bytes).digest("hex")).toBe(
-    "a4d41d1b00634883a46b94e4bd043ae67fd3ee9f33425b7787e5b62dd060ab73",
-  );
 });
 
-test("installed Git package bytes match the independently qualified producer archive", async () => {
-  const packageRoot = join(root, "node_modules/owlapi");
-  // Derived from all 113 files in the qualified producer archive with SHA-256
-  // 58e8cc897f5ed6054a6cd94eb69aff426ad5cff4dd1d69ac9f51ae794e25c286.
-  // npm skips Git tarball integrity checks, so lock metadata alone is insufficient.
-  const paths = await sources(packageRoot, true);
+test("installed package bytes match the lock-bound cached archive", async () => {
+  const identity = await installedIdentity();
+  assertIdentity(identity);
+  const locked = identity.lock.packages["node_modules/owlapi"];
+  const directory = await mkdtemp(join(tmpdir(), "uo-owlapi-payload-"));
+  try {
+    // npm may skip Git tarball integrity checks. Compare the installed payload
+    // with the original cached archive, independently of the installed files.
+    const cache = execFileSync(
+      process.execPath,
+      [process.env.npm_execpath, "config", "get", "cache"],
+      { cwd: root, encoding: "utf8", windowsHide: true },
+    ).trim();
+    const bytes = await npmRequire("cacache").get.byDigest(
+      join(cache, "_cacache"),
+      locked.integrity,
+    );
+    assert.equal(
+      `sha512-${createHash("sha512").update(bytes).digest("base64")}`,
+      locked.integrity,
+    );
+    const archive = join(directory, "owlapi.tgz");
+    await writeFile(archive, bytes);
+    execFileSync("tar", ["-xzf", archive, "-C", directory], {
+      windowsHide: true,
+    });
+    assert.deepEqual(
+      await packageInventory(join(root, "node_modules/owlapi")),
+      await packageInventory(join(directory, "package")),
+    );
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+}, 30000);
+
+async function packageInventory(packageRoot) {
   const inventory = await Promise.all(
-    paths.map(async (path) => [
+    (await sources(packageRoot, true)).map(async (path) => [
       relative(packageRoot, path).replaceAll("\\", "/"),
       createHash("sha256")
         .update(await readFile(path))
         .digest("hex"),
     ]),
   );
-  inventory.sort(([left], [right]) =>
+  return inventory.sort(([left], [right]) =>
     left < right ? -1 : left > right ? 1 : 0,
   );
-  expect(inventory).toHaveLength(113);
-  expect(
-    createHash("sha256").update(JSON.stringify(inventory)).digest("hex"),
-  ).toBe("e3133e6a70a3eb6cb611cf9ea4ea82e4ae154d4a948eae122a34782c960c4850");
-});
+}
 
 test.each([
-  "git+https://github.com/Hadden-Industries/owlapi.git#e6f50bcfa1519b048bc66d37f7961c29b03a0971",
-  "0.1.0-rc.1",
-  "npm:@hadden-industries/owlapi@0.1.0-rc.1",
-  "npm:@other/owlapi@0.1.0-rc.1",
-  "npm:@hadden-industries/owlapi@0.1.0-rc.2",
-  "npm:@hadden-industries/owlapi@>=0.1.0-rc.2",
-  "npm:@hadden-industries/owlapi@next",
-  "npm:@hadden-industries/owlapi@latest",
-  "npm:@hadden-industries/owlapi@^0.1.0",
-  "file:../owlapi",
-  "link:../owlapi",
-  "git+https://github.com/Hadden-Industries/owlapi.git",
-  "git+https://github.com/Hadden-Industries/owlapi.git#main",
-  "git+https://github.com/Hadden-Industries/owlapi.git#e6f50bc",
-  "git+https://github.com/Hadden-Industries/owlapi.git#59131be0c1dc3a634e8433b06d2949051c051c0a",
-])("rejects dependency substitution %s", async (replacement) => {
-  const value = await installedIdentity();
-  value.manifest.devDependencies.owlapi = replacement;
-  value.lock.packages[""].devDependencies.owlapi = replacement;
-  expect(() => assertIdentity(value)).toThrow();
-});
+  ["installed", "manifest"],
+  ["installed", "manifest-and-lock-root"],
+  ["npm-alias", "manifest"],
+  ["npm-alias", "manifest-and-lock-root"],
+  ["npm-zero-version", "manifest-and-lock-root"],
+  ["npm-prefixed-zero-version", "manifest-and-lock-root"],
+])(
+  "rejects a changed exact selection without refreshing the resolved package: %s, %s",
+  async (fixture, scope) => {
+    const version = fixture.includes("zero-version") ? "0.0.0" : "1.2.3";
+    const selectedVersion =
+      fixture === "npm-prefixed-zero-version" ? `v${version}` : version;
+    const value =
+      fixture === "installed"
+        ? await installedIdentity()
+        : identityFixture(
+            `npm:@example/owlapi@${selectedVersion}`,
+            "@example/owlapi",
+            version,
+          );
+    assertIdentity(value);
+    const specifier = value.manifest.devDependencies.owlapi;
+    const selected = parsePackageSpecifier("owlapi", specifier, root);
+    const replacement =
+      selected.type === "alias"
+        ? `npm:${selected.subSpec.name}@${semver.valid(selected.subSpec.fetchSpec) === "0.0.0" ? "0.0.1" : "0.0.0"}`
+        : `${specifier.slice(0, specifier.lastIndexOf("#"))}#${selected.gitCommittish === "a".repeat(40) ? "b".repeat(40) : "a".repeat(40)}`;
+    assert.notEqual(replacement, specifier);
+    value.manifest.devDependencies.owlapi = replacement;
+    if (scope === "manifest-and-lock-root")
+      value.lock.packages[""].devDependencies.owlapi = replacement;
+    expect(() => assertIdentity(value)).toThrow();
+  },
+);
 
 test.each(["integrity", "resolved", "name", "version", "link"])(
   "rejects altered installed/locked %s",
@@ -152,7 +290,7 @@ test.each(["integrity", "resolved", "name", "version", "link"])(
   },
 );
 
-function checkImports(source, registry) {
+function checkImports(source, registry, packageName) {
   const check = (node, specifierNode, bindings = []) => {
     const value = specifierNode?.value;
     if (typeof value !== "string" || !/owlapi/iu.test(value)) return;
@@ -165,8 +303,7 @@ function checkImports(source, registry) {
       );
       const entry = registry.bindings.find(
         (item) =>
-          item.publicSpecifier ===
-            value.replace(/^owlapi/u, "@hadden-industries/owlapi") &&
+          item.publicSpecifier === value.replace(/^owlapi/u, packageName) &&
           item.jsExport === binding.imported.name,
       );
       assert.ok(entry, `Unregistered binding ${binding.imported.name}`);
@@ -216,6 +353,8 @@ function checkImports(source, registry) {
 async function sources(directory, allFiles = false) {
   const result = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
+    // npm locks nested installed dependencies separately from this payload.
+    if (entry.name === "node_modules") continue;
     const path = join(directory, entry.name);
     if (allFiles)
       assert.ok(
@@ -229,6 +368,7 @@ async function sources(directory, allFiles = false) {
 }
 
 test("all consumer imports use complete, public registry bindings", async () => {
+  const { name } = await json("node_modules/owlapi/package.json");
   const registry = await json(
     "node_modules/owlapi/docs/compatibility/java-api-surface.json",
   );
@@ -236,7 +376,7 @@ test("all consumer imports use complete, public registry bindings", async () => 
     ...(await sources(join(root, "scripts"))),
     ...(await sources(join(root, "tests/import-closure"))),
   ]) {
-    checkImports(await readFile(path, "utf8"), registry);
+    checkImports(await readFile(path, "utf8"), registry, name);
   }
 });
 

@@ -98,9 +98,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/full-qualification.yml":
     "fd144ec570697ea367be1af593adf40bf8a3ba5391dc57ef85bc57dd28512d32",
   ".github/workflows/development-checks.yml":
-    "da830776f762b2fd9c5ec606e0596cfd0ccc8bc4b64a89d7acf5b9538ea31366",
+    "ee4ca9b833f649cf701903adbc1cf81d0078a4fbb4fea529e10277eebbecf96f",
   ".github/workflows/ontology-validation.yml":
-    "41a88d0baaef0199561dfedcc2a024c1be34831bff9646de558c725462333dce",
+    "a9c709b97f69c67f635dee1c5ba73fd7a526b7108e26d3b0f1e8fcda8b2483a9",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
     "f545b24e66b49520815380d3ba85382dc42ee743072f1119d2243c4c69aa9af6",
   "scripts/selectPullRequestChecks.js":
@@ -144,7 +144,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/render_editing_policy.py":
     "847fab54942db93e19b74b4aacae9d734f8c6cb60762f1108fb58bd3277ce844",
   "scripts/setUpDevelopmentEnvironment.js":
-    "4436e627870cb06e2d41254f0aeb63bdd3629ce21f59d979805e3c96cd08990d",
+    "2ed34d055e2cc9433aa56a5f5375f71cf72d1dc5e4492d563885dee08ea68a02",
   ".markdown-quality-execution.json":
     "314ef284e247a38ecf5ac2d4d7883c64e1f1ce037a6eba2c7bd0ea1814028b39",
   "package.json":

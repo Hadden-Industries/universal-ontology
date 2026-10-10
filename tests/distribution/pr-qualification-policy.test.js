@@ -174,6 +174,30 @@ test("reviewed graph accepts every entry point and control input", async () => {
   });
 });
 
+test.each([
+  [".github/workflows/development-checks.yml", 1],
+  [".github/workflows/ontology-validation.yml", 3],
+])("%s permits source builds only for PyYAML", (file, fullInstallCount) => {
+  const workflow = parse(
+    readFileSync(new URL(`../../${file}`, import.meta.url), "utf8"),
+  );
+  const installs = Object.values(workflow.jobs)
+    .flatMap((job) => job.steps ?? [])
+    .flatMap((step) => (step.run ?? "").split("\n"))
+    .filter((line) => /\bpip install\b/u.test(line));
+  const fullInstalls = installs.filter((line) =>
+    line.includes("-r requirements.lock.txt"),
+  );
+  expect(fullInstalls).toHaveLength(fullInstallCount);
+  for (const line of installs) {
+    expect(line).toContain("--require-hashes");
+    expect(line).toContain("--only-binary=:all:");
+    expect(line.match(/--no-binary=\S+/gu) ?? []).toEqual(
+      fullInstalls.includes(line) ? ["--no-binary=pyyaml"] : [],
+    );
+  }
+});
+
 test("skipped development-control identity comes from a static workflow name", () => {
   const workflow = parse(
     readFileSync(

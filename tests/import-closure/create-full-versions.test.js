@@ -10,6 +10,7 @@ import {
 import { tmpdir } from "node:os";
 import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
+import { jest } from "@jest/globals";
 import { createFullVersions } from "../../scripts/createFullVersions.js";
 import {
   verifyFullOntologyBuild,
@@ -18,6 +19,9 @@ import {
   createLocalMapper,
   discoverFullOntologyCandidates,
 } from "../../scripts/build/fullOntologyAssets.js";
+
+// Repeated filesystem and ontology builds need headroom under parallel worker load.
+jest.setTimeout(30_000);
 
 const base = "https://haddenindustries.com/ontology/";
 const rootPath = "universal/core/20260714";
