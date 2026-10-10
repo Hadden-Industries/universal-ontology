@@ -1,20 +1,23 @@
 # Self-contained OWL import closures
 
 The JavaScript materializer replaces the Python import merger.
-Current generation uses the owner-approved exact OwlAPI Git source for readable RDF/XML, retaining strict offline reload and the existing closure contract.
+Current generation uses the manifest-selected exact OwlAPI source for readable RDF/XML, retaining strict offline reload and the existing closure contract.
 Repository-wide verification and independent review remain separate from these consumer checks.
 The historical [registry artifact record](import-closure/registry-artifact-verification.json) captures the original rc.1 identity, signature, provenance and signed-tag checks.
 The historical [registry consumer record](import-closure/registry-consumer-qualification.json) binds the eight real cases, input digests, Java comparisons and focused tests to that executed source observation.
-Neither record qualifies the newer Git source or asserts a new npm publication.
+Neither record qualifies a different selected source or asserts a new npm publication.
 HISEW retains the final candidate's full verification receipt and completion decision separately; these qualification observations do not claim deployment.
 
 ## Qualification and dependency boundary
 
-The maintained development dependency is `"owlapi": "git+https://github.com/Hadden-Industries/owlapi.git#e15320d6438b27c5aaa7aa9302b6919749873ec9"`.
+The sole editable dependency selector is `devDependencies.owlapi` in the root `package.json`.
+It accepts a Git URL with a full 40-character commit or an npm alias `npm:PACKAGE_NAME@EXACT_VERSION`; tags, ranges, local checkouts and unpinned sources are rejected.
+The machine-readable policy references that manifest entry, and the lockfile records its resolved source, package metadata and archive integrity.
 For RDF/XML output, the materializer copies the authored root's prefix preferences through `RDFXMLDocumentFormat.copyPrefixesFrom` before saving.
 Imported documents' unused prefixes do not replace the root's choices; Functional Syntax output retains its existing format selection.
-This is an owner-approved exception to registry ranges; the full commit and installed package bytes identify the implementation, whose manifest version remains `0.1.0-rc.1`.
-The lockfile must resolve that exact Git source; package-boundary tests verify installed metadata, public API-registry identity and the complete payload against the independently qualified producer archive.
+This is an owner-approved exception to registry ranges; the selected exact coordinate and installed package bytes identify the implementation.
+The lockfile must match the selected source; package-boundary tests verify installed metadata, public API-registry bindings and the complete payload against the original archive in npm's integrity-addressed cache.
+Missing cache content or a source, metadata, integrity or payload mismatch fails verification without falling back to installed bytes.
 Root `.npmrc` admits direct Git dependencies under npm 12 while setup and CI retain disabled lifecycle scripts.
 Application code imports only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`.
 Run `npm run check:qualification` for current consumer acceptance: it includes exact package identity, all eight real-source closure cases, atomic/failure regressions, wider repository checks and fresh generated assets.
@@ -22,7 +25,7 @@ Then `node scripts/verifyFullOntologyBuild.js --repository . --output dist` veri
 Keep qualification records outside ontology outputs; a new commit or different package bytes require explicit adoption and requalification.
 
 `scripts/qualifyHistoricalRcImportClosure.js` and `collectHistoricalRcQualificationIdentity` retain the earlier snapshot-specific prepublication observer for historical reproduction in its separately qualified disposable environment.
-They are not current qualification entry points and intentionally cannot qualify the maintained Git dependency.
+They are not current qualification entry points and intentionally cannot qualify a different maintained dependency.
 Their original candidate, source, API-registry and archive identities remain fixed; historical evidence is preserved.
 The current supported replacement is the maintained qualification and generated-output verification commands above.
 

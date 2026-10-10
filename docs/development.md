@@ -36,12 +36,17 @@ Repository-owned package manifests declare registry and workspace dependencies a
 Registry minimums track the highest published stable release when updated; workspace minimums use the accepted local package version.
 A dependency without a stable release uses its explicitly accepted prerelease.
 Local `file:` sources, including the vendored Braces repair and retained Markdown tooling archives, preserve their source identities.
-OwlAPI is an owner-approved exception to registry ranges: `devDependencies.owlapi` uses the full Git commit `e15320d6438b27c5aaa7aa9302b6919749873ec9` from `Hadden-Industries/owlapi`.
+OwlAPI is an owner-approved exception to registry ranges: `devDependencies.owlapi` in the root `package.json` is its sole editable source/version selector.
+Use either `git+https://github.com/OWNER/REPOSITORY.git#FULL_40_CHARACTER_COMMIT` or `npm:PACKAGE_NAME@EXACT_VERSION`, including an exact prerelease when selected.
+The local dependency name and all consumer imports stay `owlapi` and `owlapi/...` for either form.
+The import-closure policy references this manifest entry; package names, versions, sources and integrity values in `package-lock.json` are generated observations, not independent settings.
 Root `.npmrc` sets `allow-git=root`, admitting this direct dependency while rejecting transitive Git dependencies under npm 12; setup and CI continue disabling lifecycle scripts.
 The PR selector treats `.npmrc` as a manifest-dependent input, and the release verifier pins its exact contents alongside the approved package manifest and selector.
 Use `npm ci --include=dev --ignore-scripts` when changing between registry and Git sources with the same package version: an incremental install can retain the old bytes.
-The package boundary tests check the exact manifest/lock source, API registry and all installed package bytes against the independently qualified producer archive.
-The retained registry verification documents describe the historical rc.1 publication; they do not qualify this Git source or assert a new npm release.
+After an approved selector edit, regenerate the npm lockfile, then clean-install it with the command above and requalify the consumer.
+The package boundary tests check the exact manifest/lock source and public API bindings, and compare all installed package files with the original archive retained in npm's cache by the lockfile integrity.
+A missing or inconsistent cached archive fails verification; installed files never supply their own expected hashes.
+The retained registry verification documents describe the historical rc.1 publication; they do not qualify a different selected source or assert a new npm release.
 The policy allows every newer stable version, then qualifies each refreshed lockfile before adoption.
 Routine setup and CI use the exact lockfile graph; a range permits resolution but does not establish compatibility, including for future major upgrades.
 Refresh qualification covers the affected runtime, build and distribution contracts, including libraries bundled from development dependencies.

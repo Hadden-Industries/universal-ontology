@@ -8,6 +8,16 @@
 
 **Machine-readable policy:** `docs/import-closure/contract.v1.json`
 
+**10 October 2026 single-selector amendment:** The root `package.json` entry `devDependencies.owlapi` is the sole editable source/version selection for the maintained dependency.
+It accepts either a Git URL pinned to a full 40-character commit or an npm alias specifying a package name and exact version, including an exact prerelease.
+The machine-readable policy references that manifest entry; the generated lockfile binds the resolved source, package metadata and archive integrity.
+Consumer imports retain the local name `owlapi` for either selection.
+Package-boundary checks validate the manifest, lockfile and installed metadata and compare the complete installed package payload with the original integrity-bound archive in npm's cache.
+Unavailable or mismatched archive evidence fails verification; the installed payload never defines its own expected hashes.
+Every selected source still requires upstream capability and complete current consumer acceptance.
+This amendment supersedes the fixed dependency coordinates and source restrictions in the earlier amendments below; their identities and retained qualification records remain historical evidence.
+All closure semantics and public Java-compatible API ownership requirements remain unchanged.
+
 **8 October 2026 Git-source consumer amendment:** This amendment takes precedence over the registry-only dependency, qualification-stage and production-prerequisite clauses in Sections 6, 12 and 13 for the current adoption.
 The selected dependency is `git+https://github.com/Hadden-Industries/owlapi.git#e15320d6438b27c5aaa7aa9302b6919749873ec9`, declared as `devDependencies.owlapi` and bound to that exact source and package payload by the lockfile and installed-package qualification.
 The package name remains `@hadden-industries/owlapi`; the unchanged `0.1.0-rc.1` manifest version alone does not identify this implementation.
