@@ -16,6 +16,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import set_up_agent_skills as setup
 
 
+class PythonVersionTests(unittest.TestCase):
+    def test_rejects_python_below_repository_minimum(self):
+        with patch.object(setup.sys, "version_info", (3, 14, 8)):
+            with self.assertRaisesRegex(setup.SetupError, "Python 3.15"):
+                setup.require_python_version()
+
+    def test_accepts_python_at_or_above_repository_minimum(self):
+        for version in ((3, 15, 0), (3, 15, 1), (3, 16, 0)):
+            with self.subTest(version=version):
+                with patch.object(setup.sys, "version_info", version):
+                    setup.require_python_version()
+
+
 class SkillSourceReferenceTests(unittest.TestCase):
     """The declared source and optional reference are preserved for Skills CLI."""
 

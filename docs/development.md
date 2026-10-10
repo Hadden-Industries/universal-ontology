@@ -22,7 +22,7 @@ npm run configure:git-hooks
 - checks the Node.js, npm and Python versions;
 - runs `npm ci --include=dev --ignore-scripts` from `package-lock.json`;
 - acquires the separate integrity-pinned Markdown tooling graph with anonymous registry settings and lifecycle scripts disabled;
-- creates `.venv` if it does not exist (an unusable existing `.venv` stops setup so you can repair it), then installs `requirements.lock.txt` with `--require-hashes --only-binary=:all:` and refuses a `.venv` whose installed distributions differ from that lock;
+- creates `.venv` if it does not exist (an unusable existing `.venv` stops setup so you can repair it), then installs `requirements.lock.txt` with `--require-hashes --only-binary=:all: --no-binary=pyyaml` and refuses a `.venv` whose installed distributions differ from that lock;
 - runs `pip check`;
 - warns if the AWS CLI is missing (only deployment needs it).
 
@@ -30,6 +30,9 @@ It installs nothing globally and configures no agent, workflow, hook trust, MCP 
 `requirements.txt` holds the ontology runtime dependencies and `requirements-dev.txt` the development tools; `requirements.lock.txt` is their resolved, hash-pinned closure.
 Development requirements declare minimum versions without upper bounds.
 Routine setup and CI install the exact locked versions rather than resolving those ranges again.
+PyYAML 6.0.3 has no CPython 3.15 wheel, so setup and full-lock CI installs build only PyYAML from its hash-pinned source archive; all other locked requirements remain binary-only.
+Pip's isolated source build may acquire additional build-time dependencies.
+PyYAML works without its optional LibYAML extension; source-build compatibility must be verified on each CI platform.
 
 Node.js dependencies are locked via `package-lock.json`.
 Repository-owned package manifests declare registry and workspace dependencies and development dependencies using `>=` minimum version ranges, including the version inside npm aliases and the vendored Braces package's `fill-range` dependency.

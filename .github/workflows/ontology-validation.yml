@@ -67,7 +67,7 @@ jobs:
           .venv/bin/python -B scripts/validate_ontologies.py "${args[@]}" --plan >> "$GITHUB_OUTPUT"
       - name: Install the hash-locked Python environment
         if: steps.scope.outputs.validation_required == 'true'
-        run: .venv/bin/python -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt
+        run: .venv/bin/python -m pip install --require-hashes "--only-binary=:all:" --no-binary=pyyaml -r requirements.lock.txt
       - name: Test ontology validation runner
         if: steps.scope.outputs.validator_changed == 'true' && !fromJSON(inputs.plan).scopes.python_tests && !fromJSON(inputs.plan).scopes.development
         run: .venv/bin/python -B -m unittest discover -s tests -p test_validate_ontologies.py -v
@@ -122,7 +122,7 @@ jobs:
       - name: Install the hash-locked Python environment
         run: |
           python -m venv .venv
-          .venv/bin/python -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt
+          .venv/bin/python -m pip install --require-hashes "--only-binary=:all:" --no-binary=pyyaml -r requirements.lock.txt
           .venv/bin/python -m pip check
       - name: Select package manager
         if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
@@ -208,7 +208,7 @@ jobs:
           set -euo pipefail
           python -m venv .venv
           if [ -x .venv/bin/python ]; then py=.venv/bin/python; else py=.venv/Scripts/python.exe; fi
-          "$py" -m pip install --require-hashes "--only-binary=:all:" -r requirements.lock.txt
+          "$py" -m pip install --require-hashes "--only-binary=:all:" --no-binary=pyyaml -r requirements.lock.txt
           "$py" -m pip check
           echo "PY=$py" >> "$GITHUB_ENV"
       - name: Record runtime identities

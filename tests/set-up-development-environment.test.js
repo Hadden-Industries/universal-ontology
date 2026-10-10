@@ -99,7 +99,7 @@ beforeEach(() => {
   );
   writeFileSync(join(repositoryRoot, "package-lock.json"), "{}");
   writeFileSync(join(repositoryRoot, ".node-version"), "24.20.0\n");
-  writeFileSync(join(repositoryRoot, ".python-version"), "3.14.8\n");
+  writeFileSync(join(repositoryRoot, ".python-version"), "3.15.0\n");
   writeFileSync(
     join(repositoryRoot, "requirements-dev.txt"),
     "PyYAML==6.0.3\n",
@@ -161,10 +161,10 @@ beforeEach(() => {
         return createCommandResult("aws-cli/2.30.0\n");
       }
       if (commandArguments[0] === "--version") {
-        return createCommandResult("Python 3.14.8\n");
+        return createCommandResult("Python 3.15.0\n");
       }
       if (commandArguments[2] === "--version") {
-        return createCommandResult("pip 26.2.1 from bootstrap (python 3.14)\n");
+        return createCommandResult("pip 26.2.1 from bootstrap (python 3.15)\n");
       }
       if (commandArguments[2] === "list") {
         return createCommandResult(JSON.stringify(INSTALLED_DISTRIBUTIONS));
@@ -243,6 +243,7 @@ test.each([
           "install",
           "--require-hashes",
           "--only-binary=:all:",
+          "--no-binary=pyyaml",
           "-r",
           join(repositoryRoot, "requirements.lock.txt"),
         ],
@@ -385,7 +386,7 @@ test.each([
   },
 );
 
-test.each(["3.14.8", "3.14.9", "3.15.0", "4.0.0"])(
+test.each(["3.15.0", "3.15.1", "3.16.0", "4.0.0"])(
   "accepts stable Python %s at or above the selected minimum",
   (version) => {
     const successfulCommand = spawnSyncMock.getMockImplementation();
@@ -404,8 +405,8 @@ test.each(["3.14.8", "3.14.9", "3.15.0", "4.0.0"])(
 test.each([
   ["missing", { ...createCommandResult("", null), error: new Error("ENOENT") }],
   ["too old", createCommandResult("Python 3.10.0\n")],
-  ["older patch than selected", createCommandResult("Python 3.14.7\n")],
-  ["older minor", createCommandResult("Python 3.13.20\n")],
+  ["previous minimum", createCommandResult("Python 3.14.8\n")],
+  ["older minor with newer patch", createCommandResult("Python 3.14.99\n")],
   ["prerelease", createCommandResult("Python 3.15.0rc1\n")],
   ["malformed version", createCommandResult("Python invalid\n")],
 ])(
@@ -498,7 +499,7 @@ test("installs dependencies without configuring a workflow, skills, MCP servers,
   const pythonExecutable = getPythonVirtualEnvironmentExecutablePath();
   expect(commands.filter((command) => /\bpip\b/u.test(command))).toEqual([
     `${pythonExecutable} -m pip --version`,
-    `${pythonExecutable} -m pip install --require-hashes --only-binary=:all: -r ${join(repositoryRoot, "requirements.lock.txt")}`,
+    `${pythonExecutable} -m pip install --require-hashes --only-binary=:all: --no-binary=pyyaml -r ${join(repositoryRoot, "requirements.lock.txt")}`,
     `${pythonExecutable} -m pip list --format=json`,
     `${pythonExecutable} -m pip check`,
   ]);

@@ -174,7 +174,7 @@ test("Python-only work retains both platforms without installing Node dependenci
     (step) => step.name === "Set up only the locked Python environment",
   );
   expect(setup.run).toContain(
-    "--require-hashes --only-binary=:all: -r requirements.lock.txt",
+    "--require-hashes --only-binary=:all: --no-binary=pyyaml -r requirements.lock.txt",
   );
   expect(setup.run).toContain('"$python_executable" -m pip check');
   expect(setup.run).toContain(".venv/Scripts/python.exe");

@@ -148,7 +148,7 @@ jobs:
           else
             python_executable=.venv/bin/python
           fi
-          "$python_executable" -m pip install --require-hashes --only-binary=:all: -r requirements.lock.txt
+          "$python_executable" -m pip install --require-hashes --only-binary=:all: --no-binary=pyyaml -r requirements.lock.txt
           "$python_executable" -m pip check
       - name: Select package manager
         shell: bash
