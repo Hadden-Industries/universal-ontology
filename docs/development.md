@@ -9,7 +9,9 @@ Requirements: Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x
 `package.json` declares `devEngines.packageManager.version` as `>=12.2.0` with `onFail: "error"`; npm enforces this native contract before install, clean install and script execution, and development setup uses npm's bundled validator.
 Later stable npm majors satisfy the range; prereleases do not.
 The exact `packageManager` reference remains `npm@12.2.0`, and CI and release builds explicitly select and verify that version for reproducibility.
-CI provisions the exact Python version in that file; development setup accepts newer stable versions and preserves the existing `.venv`.
+CI provisions the exact Python version in that file through SHA-pinned `astral-sh/setup-uv` with uv 0.13.0 and caching disabled.
+The action activates an isolated environment under the runner's temporary directory; subsequent setup creates the repository `.venv` and installs the hash-locked requirements through pip.
+Development setup accepts newer stable versions and preserves the existing `.venv`.
 The README's [development setup](../README.md#development-setup) section explains the version selection.
 
 ```sh

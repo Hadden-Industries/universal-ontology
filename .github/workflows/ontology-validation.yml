@@ -45,9 +45,13 @@ jobs:
         run: node scripts/evaluatePullRequestChecks.js --scopes
       - name: Provision Python Runtime
         if: steps.ontology_jobs.outputs.ontology_validation == 'true'
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
-          python-version-file: .python-version
+          version: "0.13.0"
+          activate-environment: true
+          venv-path: ${{ runner.temp }}/python
+          no-project: true
+          enable-cache: false
       - name: Create isolated Python environment
         if: steps.ontology_jobs.outputs.ontology_validation == 'true'
         run: python -m venv .venv
@@ -114,11 +118,13 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
-          python-version-file: .python-version
-          cache: pip
-          cache-dependency-path: requirements.lock.txt
+          version: "0.13.0"
+          activate-environment: true
+          venv-path: ${{ runner.temp }}/python
+          no-project: true
+          enable-cache: false
       - name: Install the hash-locked Python environment
         run: |
           python -m venv .venv
@@ -166,11 +172,13 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
-          python-version-file: .python-version
-          cache: pip
-          cache-dependency-path: requirements.lock.txt
+          version: "0.13.0"
+          activate-environment: true
+          venv-path: ${{ runner.temp }}/python
+          no-project: true
+          enable-cache: false
       - name: Provision the qualified Temurin JDK
         id: java
         uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1

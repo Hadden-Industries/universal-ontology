@@ -98,9 +98,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/full-qualification.yml":
     "fd144ec570697ea367be1af593adf40bf8a3ba5391dc57ef85bc57dd28512d32",
   ".github/workflows/development-checks.yml":
-    "b438751170c684a1d17a1b11e9a153ff5224741583f8905f68602c7be42a4214",
+    "ee4ca9b833f649cf701903adbc1cf81d0078a4fbb4fea529e10277eebbecf96f",
   ".github/workflows/ontology-validation.yml":
-    "a2849e48f98c089332350f8ac85ac51406f5156cb653822d734a28549fd612bd",
+    "a9c709b97f69c67f635dee1c5ba73fd7a526b7108e26d3b0f1e8fcda8b2483a9",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
     "f545b24e66b49520815380d3ba85382dc42ee743072f1119d2243c4c69aa9af6",
   "scripts/selectPullRequestChecks.js":
