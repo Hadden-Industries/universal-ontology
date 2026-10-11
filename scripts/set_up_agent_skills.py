@@ -121,9 +121,23 @@ def lf_git_environment() -> dict[str, str]:
 
 
 def require_python_version() -> None:
-    if sys.version_info < (3, 15):
+    target = (
+        (Path(__file__).resolve().parents[1] / ".python-version")
+        .read_text(encoding="utf-8")
+        .strip()
+    )
+    parts = target.split(".")
+    if len(parts) != 3 or not all(part.isdecimal() for part in parts):
         raise SetupError(
-            "Python 3.15 or newer is required; use the selected latest stable patch in .python-version. "
+            ".python-version must contain a stable major.minor.patch version"
+        )
+    minimum = tuple(int(part) for part in parts)
+    if (
+        tuple(sys.version_info[:3]) < minimum
+        or getattr(sys.version_info, "releaselevel", "final") != "final"
+    ):
+        raise SetupError(
+            f"Stable Python {target} or newer is required; see .python-version. "
             f"Running: {sys.version.split()[0]}"
         )
 

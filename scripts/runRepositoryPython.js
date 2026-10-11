@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { syncPythonProjections } from "./pythonTarget.js";
 
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -10,6 +11,7 @@ export function runRepositoryPython(
   args,
   { root = repositoryRoot, platform = process.platform } = {},
 ) {
+  if (args.includes("ruff")) syncPythonProjections({ root });
   const executable = join(
     root,
     ".venv",
