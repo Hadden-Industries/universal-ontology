@@ -17,15 +17,39 @@ import set_up_agent_skills as setup
 
 
 class PythonVersionTests(unittest.TestCase):
+    target = tuple(
+        int(part)
+        for part in (Path(__file__).resolve().parents[1] / ".python-version")
+        .read_text(encoding="utf-8")
+        .strip()
+        .split(".")
+    )
+
     def test_rejects_python_below_repository_minimum(self):
-        with patch.object(setup.sys, "version_info", (3, 14, 8)):
-            with self.assertRaisesRegex(setup.SetupError, "Python 3.15"):
+        below = (self.target[0], self.target[1] - 1, 99)
+        with patch.object(setup.sys, "version_info", below):
+            with self.assertRaisesRegex(setup.SetupError, "Stable Python"):
                 setup.require_python_version()
 
     def test_accepts_python_at_or_above_repository_minimum(self):
-        for version in ((3, 15, 0), (3, 15, 1), (3, 16, 0)):
+        for version in (self.target, (*self.target[:2], self.target[2] + 1)):
             with self.subTest(version=version):
                 with patch.object(setup.sys, "version_info", version):
+                    setup.require_python_version()
+
+    def test_changed_repository_pin_is_consumed_and_prereleases_are_rejected(self):
+        class Prerelease(tuple):
+            releaselevel = "candidate"
+
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory)
+            (repo / ".python-version").write_text("3.16.2\n", encoding="utf-8")
+            with patch.object(setup, "__file__", str(repo / "scripts" / "setup.py")):
+                for version in ((3, 16, 1), Prerelease((3, 16, 2))):
+                    with patch.object(setup.sys, "version_info", version):
+                        with self.assertRaises(setup.SetupError):
+                            setup.require_python_version()
+                with patch.object(setup.sys, "version_info", (3, 16, 2)):
                     setup.require_python_version()
 
 
