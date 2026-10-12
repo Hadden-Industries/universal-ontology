@@ -21,7 +21,7 @@ permissions: {}
 
 jobs:
   qualify:
-    uses: Hadden-Industries/markdown-quality/.github/workflows/markdown-quality.yml@2a8f162cd98a8548d8fa7b065cd6fe1828efcab7
+    uses: Hadden-Industries/markdown-quality/.github/workflows/markdown-quality.yml@482126f52802e1479c00caf1c9fdf9ad7d856aa9
     permissions:
       contents: read
     with:
