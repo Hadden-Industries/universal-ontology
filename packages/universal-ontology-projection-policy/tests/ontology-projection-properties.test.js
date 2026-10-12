@@ -1,4 +1,38 @@
 import * as projectionProperties from "../src/ontologyProjectionProperties.js";
+import { readFileSync } from "node:fs";
+import Ajv2020 from "ajv/dist/2020.js";
+
+test("published field history satisfies its local schema without mutation or remote resolution", () => {
+  const schema = JSON.parse(
+    readFileSync(
+      new URL("../data/field-property-history.v1.schema.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  const history = JSON.parse(
+    readFileSync(
+      new URL("../data/field-property-history.v1.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  const before = JSON.stringify(history);
+  const ajv = new Ajv2020({
+    strict: true,
+    allErrors: true,
+    coerceTypes: false,
+    useDefaults: false,
+    removeAdditional: false,
+  });
+  const validate = ajv.compile(schema);
+  expect(validate(history)).toBe(true);
+  expect(JSON.stringify(history)).toBe(before);
+  const invalid = structuredClone(history);
+  invalid.defaultPropertyIris.definition = "relative-property";
+  expect(validate(invalid)).toBe(false);
+  expect(() =>
+    ajv.compile({ $ref: "https://example.invalid/unavailable-schema" }),
+  ).toThrow();
+});
 
 const FIELD_NAMES = ["preferredLabel", "definition", "creator"];
 

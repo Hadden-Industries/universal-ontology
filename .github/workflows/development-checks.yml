@@ -73,6 +73,37 @@ jobs:
         run: npm run check:markdown
     permissions:
       contents: read
+  json-quality:
+    timeout-minutes: 15
+    needs: scope
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025]
+    runs-on: ${{ matrix.os }}
+    name: JSON quality (${{ matrix.os }})
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: Verify plan and checkout identity
+        run: node scripts/evaluatePullRequestChecks.js --verify
+      - name: Select package manager
+        shell: bash
+        run: |
+          npm install --global --no-audit --no-fund npm@12.2.0
+          test "$(npm --version)" = "12.2.0"
+      - name: Install the locked native JSON tools without lifecycle scripts
+        run: npm ci --include=dev --ignore-scripts
+      - name: Check the complete classified JSON corpus
+        run: npm run check:json
   python-style:
     timeout-minutes: 10
     name: Python style
@@ -283,7 +314,7 @@ jobs:
       - name: Check Python style and formatter regressions
         run: npm run lint:python && npm run format:python:check
       - name: Check minimal documentation installation inputs
-        run: npm test -- --runInBand --runTestsByPath tests/python-style-tools.test.js tests/markdown-quality.test.js
+        run: npm test -- --runInBand --runTestsByPath tests/python-style-tools.test.js tests/markdown-quality.test.js tests/json-quality.test.js
     permissions:
       contents: read
     defaults:
@@ -345,6 +376,7 @@ jobs:
     needs:
       - scope
       - documentation
+      - json-quality
       - python-style
       - python-tests
       - python-node-tests

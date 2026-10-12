@@ -1,0 +1,444 @@
+/** Exercise native JSON decisions and repository selection without mocking the tools. */
+import { execFileSync, spawnSync } from "node:child_process";
+import {
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  mkdtempSync,
+  rmSync,
+  symlinkSync,
+  lstatSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import { tokenize } from "@humanwhocodes/momoa";
+import * as prettier from "prettier";
+import { checkJsonInventory } from "../scripts/checkJsonInventory.js";
+
+const root = fileURLToPath(new URL("../", import.meta.url));
+const eslint = fileURLToPath(
+  new URL("../node_modules/eslint/bin/eslint.js", import.meta.url),
+);
+
+function lint(text, name = "package.json") {
+  return spawnSync(
+    process.execPath,
+    [eslint, "--stdin", "--stdin-filename", name, "--format", "json"],
+    {
+      cwd: root,
+      input: text,
+      encoding: "utf8",
+      windowsHide: true,
+    },
+  );
+}
+
+test("native strict JSON rejects duplicate keys before any formatting", () => {
+  const result = lint('{"name":"first","name":"second"}');
+  expect(result.status).toBe(1);
+  expect(
+    JSON.parse(result.stdout)[0].messages.map((message) => message.ruleId),
+  ).toContain("json/no-duplicate-keys");
+});
+
+test.each(['{"a":1,"\\u0061":2}', '{"nested":{"x":0,"x":1}}'])(
+  "decoded and nested duplicates fail: %s",
+  (text) => {
+    const result = lint(text);
+    expect(result.status).toBe(1);
+    expect(
+      JSON.parse(result.stdout)[0].messages.some(
+        (message) => message.ruleId === "json/no-duplicate-keys",
+      ),
+    ).toBe(true);
+  },
+);
+
+test.each([
+  '{/* comment */"x":1}',
+  '{"x":1,}',
+  "{'x':1}",
+  "{x:1}",
+  "{} false",
+  "NaN",
+  "01",
+])("strict dialect rejects %s", (text) => {
+  const result = lint(text);
+  expect(result.status).toBe(1);
+  expect(JSON.parse(result.stdout)[0].fatalErrorCount).toBeGreaterThan(0);
+});
+
+test.each([
+  "9007199254740992",
+  "-9007199254740992",
+  "1e400",
+  "1e-400",
+  "5e-324",
+  '"\\ud800"',
+  '"\\udfff"',
+])("native interoperability rejects %s", (text) => {
+  const result = lint(text);
+  expect(result.status).toBe(1);
+  expect(
+    JSON.parse(result.stdout)[0].messages.some(
+      (message) => message.ruleId === "json/no-unsafe-values",
+    ),
+  ).toBe(true);
+});
+
+test.each([
+  "9007199254740991",
+  "-9007199254740991",
+  "-0",
+  "1e+03",
+  "0.123456789012345678901",
+  "2.2250738585072014e-308",
+  '"\\ud83d\\ude00"',
+  "null",
+  "false",
+  '""',
+  "[]",
+  "{}",
+  '{"":0}',
+])("valid scalar, empty value and qualified number passes: %s", (text) => {
+  expect(lint(text).status).toBe(0);
+});
+
+test("NFC is enforced only for control keys, without normalizing values or data keys", () => {
+  expect(lint('{"e\\u0301":1}').status).toBe(1);
+  expect(lint('{"key":"e\\u0301"}').status).toBe(0);
+  expect(
+    lint(
+      '{"e\\u0301":1}',
+      "packages/universal-ontology-projection-policy/data/field-property-history.v1.json",
+    ).status,
+  ).toBe(0);
+});
+
+/** Tokens preserve member/array order, decoded string values and exact numeric lexemes. */
+function meaning(text) {
+  return tokenize(text).map((token) => {
+    const raw = text.slice(token.loc.start.offset, token.loc.end.offset);
+    return [token.type, token.type === "String" ? JSON.parse(raw) : raw];
+  });
+}
+
+test("native stringify presentation preserves order, escapes, negative zero and decimal lexemes", async () => {
+  const text =
+    '{"2":2,"1":1,"b":[-0,1e+03,1.0,0.123456789012345678901],"a":"\\u0061","e\\u0301":"e\\u0301"}';
+  const options = await prettier.resolveConfig(join(root, "package.json"));
+  const output = await prettier.format(text, options);
+  expect(meaning(output)).toEqual(meaning(text));
+  expect(output).toBe(
+    '{\n  "2": 2,\n  "1": 1,\n  "b": [\n    -0,\n    1e+03,\n    1.0,\n    0.123456789012345678901\n  ],\n  "a": "\\u0061",\n  "e\\u0301": "e\\u0301"\n}\n',
+  );
+  expect(await prettier.format(output, options)).toBe(output);
+});
+
+const dataPath =
+  "packages/universal-ontology-projection-policy/data/field-property-history.v1.json";
+const producerPath = "policy/authorities/iana-media-types.provenance.json";
+const retainedPath = "docs/import-closure/registry-artifact-verification.json";
+
+test("aggregate formatting routes reach the sole JSON writer once and node routes exclude JSON", () => {
+  const { scripts } = JSON.parse(
+    readFileSync(join(root, "package.json"), "utf8"),
+  );
+  const expand = (name) =>
+    scripts[name].replace(/npm run ([a-z:-]+)/gu, (_match, child) =>
+      expand(child),
+    );
+  for (const name of ["format", "fix:all", "fix:code-style"]) {
+    const command = expand(name);
+    expect(command.match(/prettier --write "\*\*\/\*\.json"/gu)).toHaveLength(
+      1,
+    );
+    expect(command).not.toMatch(/eslint [^&]*\.json[^&]*--fix/u);
+  }
+  for (const name of ["format:node", "format:node:check"])
+    expect(scripts[name]).not.toContain("json");
+  expect(expand("check:qualification")).toContain(
+    'eslint "**/*.json" --max-warnings 0',
+  );
+});
+
+/** Disposable Git checkout uses the production configs, scripts and installed native binaries. */
+function fixture() {
+  const directory = mkdtempSync(join(tmpdir(), "uo-json-quality-"));
+  const put = (path, text) => {
+    mkdirSync(dirname(join(directory, path)), { recursive: true });
+    writeFileSync(join(directory, path), text);
+  };
+  execFileSync("git", ["init", "--quiet", directory]);
+  symlinkSync(
+    join(root, "node_modules"),
+    join(directory, "node_modules"),
+    "junction",
+  );
+  put(".gitignore", "node_modules/\nignored/\n");
+  for (const path of [
+    "eslint.config.js",
+    ".prettierignore",
+    ".prettierrc.json",
+    "scripts/checkJsonInventory.js",
+    "scripts/checkJsonFormats.js",
+  ])
+    put(path, readFileSync(join(root, path)));
+  const manifest = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+  put(
+    "package.json",
+    `${JSON.stringify(
+      {
+        name: "json-fixture",
+        version: "1.0.0",
+        type: "module",
+        scripts: manifest.scripts,
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  put(dataPath, '{"b":[-0,1e+03],"a":"e\\u0301"}');
+  put(producerPath, '{\n  "b": 2,\n  "a": 1\n}\n');
+  put(retainedPath, '{\n  "retained": true\n}\n');
+  const policy = JSON.parse(
+    readFileSync(join(root, ".json-quality.json"), "utf8"),
+  );
+  policy.files = policy.files.filter((file) =>
+    [
+      ".json-quality.json",
+      ".prettierrc.json",
+      "package.json",
+      dataPath,
+      producerPath,
+      retainedPath,
+    ].includes(file.path),
+  );
+  put(".json-quality.json", `${JSON.stringify(policy, null, 2)}\n`);
+  execFileSync("git", ["-C", directory, "add", "."]);
+  return { directory, put, policy };
+}
+
+test("inventory covers tracked hidden JSON and protects producer and retained bytes", async () => {
+  const { directory } = fixture();
+  try {
+    expect(await checkJsonInventory({ root: directory })).toEqual({
+      tracked: 6,
+      linted: 6,
+      formatted: 4,
+      preserved: 2,
+    });
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("native formatting preserves every protected file in a complete corpus copy", () => {
+  const { directory, put } = fixture();
+  try {
+    const policy = JSON.parse(
+      readFileSync(join(root, ".json-quality.json"), "utf8"),
+    );
+    for (const file of policy.files)
+      put(file.path, readFileSync(join(root, file.path)));
+    put(dataPath, '{"b":[-0,1e+03,1.0],"a":"\\u0061"}');
+    const protectedFiles = policy.files.filter((file) => !file.format);
+    expect(protectedFiles).toHaveLength(66);
+    const before = protectedFiles.map((file) =>
+      readFileSync(join(directory, file.path)),
+    );
+    const authoredBefore = readFileSync(join(directory, dataPath), "utf8");
+    execFileSync("git", ["-C", directory, "add", "."]);
+    const result = spawnSync(
+      process.execPath,
+      [process.env.npm_execpath, "run", "format:json"],
+      {
+        cwd: directory,
+        encoding: "utf8",
+        windowsHide: true,
+        timeout: 30000,
+        maxBuffer: 2 * 1024 * 1024,
+      },
+    );
+    expect(result.status).toBe(0);
+    for (const [index, file] of protectedFiles.entries())
+      expect(readFileSync(join(directory, file.path))).toEqual(before[index]);
+    const authoredAfter = readFileSync(join(directory, dataPath), "utf8");
+    expect(authoredAfter).not.toBe(authoredBefore);
+    expect(meaning(authoredAfter)).toEqual(meaning(authoredBefore));
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+}, 60000);
+
+test.each([
+  "unknown",
+  "untracked",
+  "stale",
+  "duplicate",
+  "conflict",
+  "ignored-tracked",
+  "dialect",
+  "outside",
+  "native-selection",
+  "native-rule",
+  "missing",
+  "empty",
+  "case-collision",
+  "invalid-utf8",
+])("inventory fails closed for %s", async (scenario) => {
+  const { directory, put, policy } = fixture();
+  try {
+    if (scenario === "unknown" || scenario === "untracked")
+      put("new.json", "{}");
+    if (scenario === "unknown")
+      execFileSync("git", ["-C", directory, "add", "new.json"]);
+    if (scenario === "stale")
+      policy.files.push({ ...policy.files[0], path: "absent.json" });
+    if (scenario === "duplicate") policy.files.push(policy.files[0]);
+    if (scenario === "conflict")
+      policy.files.find((file) => file.path === retainedPath).format = true;
+    if (scenario === "ignored-tracked") {
+      put("ignored/data.json", "{}");
+      execFileSync("git", ["-C", directory, "add", "-f", "ignored/data.json"]);
+    }
+    if (scenario === "dialect") {
+      put("new.jsonc", "{}");
+      execFileSync("git", ["-C", directory, "add", "new.jsonc"]);
+    }
+    if (scenario === "outside")
+      policy.files.push({ ...policy.files[0], path: "../outside.json" });
+    if (scenario === "native-selection")
+      put(
+        ".prettierignore",
+        `${readFileSync(
+          join(directory, ".prettierignore"),
+          "utf8",
+        )}\n!/${retainedPath}\n`,
+      );
+    if (scenario === "native-rule")
+      put(
+        "eslint.config.js",
+        readFileSync(join(directory, "eslint.config.js"), "utf8").replace(
+          '"json/no-duplicate-keys": "error"',
+          '"json/no-duplicate-keys": "off"',
+        ),
+      );
+    if (scenario === "missing") rmSync(join(directory, dataPath));
+    if (scenario === "invalid-utf8") put(dataPath, Buffer.from([34, 255, 34]));
+    if (scenario === "empty")
+      execFileSync("git", ["-C", directory, "rm", "--cached", "-r", "."]);
+    if (scenario === "case-collision")
+      execFileSync("git", [
+        "-C",
+        directory,
+        "update-index",
+        "--add",
+        "--cacheinfo",
+        `100644,${execFileSync("git", ["-C", directory, "rev-parse", ":package.json"], { encoding: "utf8" }).trim()},PACKAGE.JSON`,
+      ]);
+    put(".json-quality.json", JSON.stringify(policy));
+    await expect(checkJsonInventory({ root: directory })).rejects.toThrow();
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("symlinked JSON ancestor is refused before formatting", async () => {
+  const { directory } = fixture();
+  const target = mkdtempSync(join(tmpdir(), "uo-json-symlink-target-"));
+  try {
+    writeFileSync(join(target, "field-property-history.v1.json"), "{}");
+    rmSync(join(directory, dirname(dataPath)), { recursive: true });
+    symlinkSync(target, join(directory, dirname(dataPath)), "junction");
+    expect(lstatSync(join(directory, dirname(dataPath))).isSymbolicLink()).toBe(
+      true,
+    );
+    await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
+      /Nonregular/,
+    );
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+    rmSync(target, { recursive: true, force: true });
+  }
+});
+
+test.each([
+  ['{"retained":true,"retained":false}', "lint:json", 1],
+  ["{/* invalid retained input */}", "lint:json", 1],
+  ['{"retained":true}', "format:json:check", 1],
+  ['{\r\n  "retained": true\r\n}', "check:json", 0],
+])(
+  "retained JSON receives full read-only validation: %s",
+  (text, command, status) => {
+    const { directory, put, policy } = fixture();
+    try {
+      // Qualify the same producer body contract used by the retained Oxigraph notice.
+      policy.files.find((file) => file.path === retainedPath).formatContract =
+        "producer-json-body";
+      put(".json-quality.json", `${JSON.stringify(policy, null, 2)}\n`);
+      put(
+        dataPath,
+        '{\n  "b": [\n    -0,\n    1e+03\n  ],\n  "a": "e\\u0301"\n}\n',
+      );
+      put(retainedPath, text);
+      const before = readFileSync(join(directory, retainedPath));
+      const result = spawnSync(
+        process.execPath,
+        [process.env.npm_execpath, "run", command],
+        {
+          cwd: directory,
+          encoding: "utf8",
+          windowsHide: true,
+          timeout: 30000,
+        },
+      );
+      expect(result.status).toBe(status);
+      expect(readFileSync(join(directory, retainedPath))).toEqual(before);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  60000,
+);
+
+test.each([false, true])(
+  "supported native fix is scoped, idempotent and preflights the whole corpus (invalid=%s)",
+  (invalid) => {
+    const { directory, put } = fixture();
+    try {
+      if (invalid) put(dataPath, '{"a":1,"a":2}');
+      const before = [dataPath, producerPath, retainedPath].map((path) =>
+        readFileSync(join(directory, path)),
+      );
+      const run = () =>
+        spawnSync(
+          process.execPath,
+          [process.env.npm_execpath, "run", "format:json"],
+          {
+            cwd: directory,
+            encoding: "utf8",
+            windowsHide: true,
+            timeout: 30000,
+          },
+        );
+      const result = run();
+      expect(result.status).toBe(invalid ? 1 : 0);
+      expect(readFileSync(join(directory, producerPath))).toEqual(before[1]);
+      expect(readFileSync(join(directory, retainedPath))).toEqual(before[2]);
+      const after = readFileSync(join(directory, dataPath));
+      if (invalid) expect(after).toEqual(before[0]);
+      else {
+        expect(meaning(after.toString())).toEqual(
+          meaning(before[0].toString()),
+        );
+        expect(run().status).toBe(0);
+        expect(readFileSync(join(directory, dataPath))).toEqual(after);
+      }
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  60000,
+);

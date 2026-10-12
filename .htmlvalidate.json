@@ -5,6 +5,11 @@
     "html-validate:prettier"
   ],
   "rules": {
-    "require-sri": ["error", { "target": "crossorigin" }]
+    "require-sri": [
+      "error",
+      {
+        "target": "crossorigin"
+      }
+    ]
   }
 }

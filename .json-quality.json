@@ -1,0 +1,1016 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": ".htmlvalidate.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": ".json-quality.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "scripts/checkJsonInventory.js native schema and policy checks",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": ".markdown-quality-execution.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": ".markdown-quality.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": ".mcp.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": ".prettierrc.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": ".stylelintrc.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/import-closure/contract.v1.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/import-closure/registry-artifact-verification.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/import-closure/registry-consumer-qualification.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp0-worktree-preservation/recovery-recipe-check.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp1-verification-evidence/text-boundary-research-checks.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp1-verification-evidence/verification-run-schema-checks.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp1-verification-evidence/verification-run.schema.proposed.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp2-independent-execution/original-delivery-manifest.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp2-independent-execution/publication-mechanism-probe.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp3-resource-disposition/artifact-checks.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp3-resource-disposition/examples/eligible-assessment.input.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp3-resource-disposition/examples/held.input.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp3-resource-disposition/examples/held.stored.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp3-resource-disposition/examples/operator-blocked.input.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp3-resource-disposition/examples/preserved-pending-review.input.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp3-resource-disposition/examples/removed-confirmation.input.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp3-resource-disposition/examples/removed-confirmation.stored.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp3-resource-disposition/examples/retained-for-consumer.input.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp3-resource-disposition/resource-disposition.schema.proposed.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp4-command-dispatch/artifact-checks-verified.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp4-command-dispatch/diagnostic-cases.proposed.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp4-command-dispatch/preparation-history/artifact-checks-final.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp4-command-dispatch/preparation-history/artifact-checks.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp4-command-dispatch/sources.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp4-command-dispatch/test-catalogue.proposed.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp5-security-inventory/artifact-checks.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp5-security-inventory/git-oracle-check.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp5-security-inventory/original-delivery-manifest.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp5-security-inventory/verification-catalogue.proposed.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp6-trusted-baselines/artifact-checks.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp6-trusted-baselines/baseline-boundary-check.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp6-trusted-baselines/original-delivery-manifest.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp6-trusted-baselines/planning-checks/artifact-check-initial-failure.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp6-trusted-baselines/remote-observations.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp6-trusted-baselines/verification-catalogue.proposed.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp7-proportionate-execution/deliverable-checks.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp7-proportionate-execution/original-delivery-manifest.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp7-proportionate-execution/verification-catalogue.proposed.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp8-selective-adoption/deliverable-checks.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp8-selective-adoption/input-identities.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp8-selective-adoption/original-delivery-manifest.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp8-selective-adoption/research-observations.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/plans/sdlc-improvements/wp8-selective-adoption/verification-catalogue.proposed.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/reviews/editing-policy-design/verification/clause-inventory.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/reviews/editing-policy-design/verification/local-preview-report.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/reviews/editing-policy-design/verification/preservation-report.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/sdlc/archive/PACKAGE_STATUS.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/sdlc/archive/SOURCE_PACKAGE.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/sdlc/baselines/issue-25/v1.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/sdlc/baselines/issue-25/v2.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/sdlc/baselines/issue-32/v1.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/sdlc/baselines/issue-33/v1.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/sdlc/baselines/issue-36/v1.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/sdlc/baselines/issue-40/v1.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "docs/sdlc/baselines/issue-42/v1.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "package-lock.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "package.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "packages/universal-ontology-mcp-server/package.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "packages/universal-ontology-mcp-server/third-party/oxigraph/component-notices.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "producer-json-body"
+    },
+    {
+      "path": "packages/universal-ontology-projection-policy/data/field-property-history.v1.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "packages/universal-ontology-projection-policy/tests",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "packages/universal-ontology-projection-policy/data/field-property-history.v1.schema.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "packages/universal-ontology-projection-policy/tests",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "packages/universal-ontology-projection-policy/package.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "packages/universal-ontology-query/package.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "policy/authorities/eu-file-type.provenance.json",
+      "class": "producer",
+      "owner": "Ontology authority producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "tests.test_policy_authorities",
+      "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "policy/authorities/iana-media-types.provenance.json",
+      "class": "producer",
+      "owner": "Ontology authority producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "tests.test_policy_authorities",
+      "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "policy/authorities/loc-iso639-1.provenance.json",
+      "class": "producer",
+      "owner": "Ontology authority producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "tests.test_policy_authorities",
+      "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "scripts/distribution/universalOntologyMcpReleaseInputs.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "tests/distribution/universal-ontology-mcp-platform-archive.test.js",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "scripts/pullRequestCheckPlan.schema.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "tests/pr-check-plan-schema.test.js",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "server.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "tests/distribution/mcp-registry-server-metadata.test.js",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "skills-lock.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/distribution/mcp-registry-server-schema-2025-12-11.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/authorities/derived/eu-file-type.provenance.json",
+      "class": "producer",
+      "owner": "Ontology authority producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "tests.test_policy_authorities",
+      "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/authorities/derived/iana-media-types.provenance.json",
+      "class": "producer",
+      "owner": "Ontology authority producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "tests.test_policy_authorities",
+      "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/authorities/derived/loc-iso639-1.provenance.json",
+      "class": "producer",
+      "owner": "Ontology authority producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "tests.test_policy_authorities",
+      "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/axiom/axiom.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/complete/complete.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/dcat/dcat.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/entity-created/created.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/entity-metadata/metadata.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/labels/labels.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/naming/naming-iso.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/naming/naming.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-impossible-info-date.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-leap-day-valid.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-malformed-info.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-mismatched-iri.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-missing-version-iri.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-modified-datetime.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-modified-mismatch.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-modified-offset.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-non-leap-day.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-two-version-infos.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-valid-modified-z.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-valid-no-modified-trailing-slash.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tests/fixtures/ontology-policy/ontology-header/header-valid.expected.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "data",
+      "format": true,
+      "validation": "test:ontology-policy",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tooling/markdown/package-lock.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "tooling/markdown/package.json",
+      "class": "authored",
+      "owner": "UO maintainers",
+      "lintProfile": "control",
+      "format": true,
+      "validation": "Native JSON checks and designated configuration consumer",
+      "formatContract": "prettier-json"
+    },
+    {
+      "path": "vendor/braces/package.json",
+      "class": "preserved",
+      "owner": "Retained artifact or upstream producer",
+      "lintProfile": "data",
+      "format": false,
+      "validation": "Designated historical, package or third-party consumer",
+      "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
+      "formatContract": "prettier-json"
+    }
+  ]
+}

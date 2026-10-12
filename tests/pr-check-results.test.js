@@ -62,6 +62,53 @@ test("development completion requires the separately selected Node-backed Python
   expect(consumerJobs(plan, "development")["python-node-tests"]).toBe(true);
 });
 
+test.each(["success", "failure", "cancelled", "skipped", "missing"])(
+  "every development route requires fresh JSON completion: %s",
+  (conclusion) => {
+    const { plan } = fixture();
+    plan.scopes = Object.fromEntries(
+      CORE_CHECK_SCOPE_NAMES.map((name) => [name, false]),
+    );
+    plan.requiredJobs = requiredJobsForScopes(plan.scopes);
+    plan.revision = execFileSync("git", ["rev-parse", "HEAD"], {
+      encoding: "utf8",
+    }).trim();
+    const needs = Object.fromEntries(
+      Object.entries(consumerJobs(plan, "development")).map(
+        ([name, required]) => [
+          name,
+          { result: required ? "success" : "skipped" },
+        ],
+      ),
+    );
+    expect(consumerJobs(plan, "development")["json-quality"]).toBe(true);
+    if (conclusion === "missing") delete needs["json-quality"];
+    else needs["json-quality"].result = conclusion;
+    const directory = mkdtempSync(join(tmpdir(), "uo-json-completion-"));
+    try {
+      const output = join(directory, "output");
+      const result = spawnSync(
+        process.execPath,
+        ["scripts/evaluatePullRequestChecks.js", "--consumer", "development"],
+        {
+          encoding: "utf8",
+          env: {
+            ...process.env,
+            PR_CHECK_PLAN: JSON.stringify(plan),
+            PR_CHECK_RESULTS: JSON.stringify(needs),
+            GITHUB_SHA: plan.revision,
+            GITHUB_OUTPUT: output,
+          },
+        },
+      );
+      expect(result.status).toBe(conclusion === "success" ? 0 : 1);
+      expect(existsSync(output)).toBe(conclusion === "success");
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+);
+
 test.each(["valid", "missing-id", "digest-newline", "skipped-archive"])(
   "distribution completion publishes candidate outputs only for %s",
   (scenario) => {

@@ -1,6 +1,17 @@
 {
   "overrides": [
     {
+      "files": "*.json",
+      "options": {
+        "parser": "json-stringify",
+        "tabWidth": 2,
+        "useTabs": false,
+        "endOfLine": "lf",
+        "printWidth": 80,
+        "trailingComma": "none"
+      }
+    },
+    {
       "files": "*.md",
       "options": {
         "proseWrap": "preserve",

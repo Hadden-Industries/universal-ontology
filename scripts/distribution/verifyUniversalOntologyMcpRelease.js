@@ -93,20 +93,36 @@ const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
 // Explicit reviewed execution graph; values are refreshed only with coordinated
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
+  "scripts/checkJsonFormats.js":
+    "45905bb71ed1fb1bdfa22378e18b284695c97a679e6cc6d43e913498e7d3bcc6",
+  ".json-quality.json":
+    "efded77fa3799d1d9c597f708c265b7055ed246623bb2618ba7afb215b820ab0",
+  "eslint.config.js":
+    "90b41c74b775678322c2db32c122f21019ea14fa1303dc01d8d9944d2fb0792d",
+  ".prettierrc.json":
+    "53a48d666b434349ae537828f88378f7bd8cd2558a521ca8df8576ad2e9ce0ba",
+  ".prettierignore":
+    "07b15938421a39769a3009e63cd4bc45c3eabc2ad6266a229796d9adecad3301",
+  "scripts/checkJsonInventory.js":
+    "172e91b7cf023b19528396057a6b3546d5ba2704269f7428c90460f116e0c9b4",
+  "tests/json-quality.test.js":
+    "029f13350b327fa56b22dd4184f9aceac27ec4fad40deea1bb7cf6358bd08570",
+  "package-lock.json":
+    "752680439f64915302d40ca4fa85d4f40f026e78e13ce9632dca94da967c8400",
   ".github/workflows/pr-validation.yml":
     "c6a554a4aa9fa2da93609725cceef71d2dfb4d68b23d59f8ab48e435c413a423",
   ".github/workflows/full-qualification.yml":
     "fd144ec570697ea367be1af593adf40bf8a3ba5391dc57ef85bc57dd28512d32",
   ".github/workflows/development-checks.yml":
-    "ee4ca9b833f649cf701903adbc1cf81d0078a4fbb4fea529e10277eebbecf96f",
+    "93e072e1582cb8f819976111e83c77d56b0e2893e3d1d1e12448f05d4bf2e2e1",
   ".github/workflows/ontology-validation.yml":
     "a9c709b97f69c67f635dee1c5ba73fd7a526b7108e26d3b0f1e8fcda8b2483a9",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
     "f545b24e66b49520815380d3ba85382dc42ee743072f1119d2243c4c69aa9af6",
   "scripts/selectPullRequestChecks.js":
-    "67c51d59f58e94fe935e8a0d05002b8efb0e229159648325cb28e3714fc7d382",
+    "4df32e56fafe982cc5c686d635a35b35d8a61f0871dac1a785bdabdff4aedd6b",
   "scripts/evaluatePullRequestChecks.js":
-    "2a0790abf6aac5580a4073e2fa1e0f67f0e704e5bfb99cfc9cdb088ed3a99a0b",
+    "8d50e388098bca92c0d79e8d68865bcb13ae5539d54b71320caa0816385608ec",
   "scripts/pullRequestCheckPlan.schema.json":
     "19e3917230870c30c1891b4aadccf78769ac8f9ae2d3a6ff4888e9bc2885ab00",
   "scripts/pullRequestCheckPlanValidator.js":
@@ -118,9 +134,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/distribution/prepareManualMcpRelease.js":
     "f601d23f0f2c62b830f1f8b509a90439618ce1295c5ba9d908b8b42b7ae9080a",
   "scripts/runPullRequestNodeChecks.js":
-    "5ed31e59b3cf55290559982145aa393b80e236835ac148364e44557b367a37fc",
+    "e11b591c8a2471da7b6decb86558b84b528170f5b3b3506468cb1a816f09b174",
   "scripts/prQualification.js":
-    "63b6cc8d5ac25cccb3ce8f64d7c5cd2d95c756a60a5bf5327387d59f96331ae7",
+    "7e1245ac725088a38c2946d27bdc119c05fa61129c3eb295182bcae8819111dd",
   "scripts/prQualificationReuse.js":
     "1ef3f435430070de19d3b159b4f8b6cf14652b540f846322adf97eda1ad712ab",
   "scripts/prQualificationReuseCommand.js":
@@ -148,7 +164,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".markdown-quality-execution.json":
     "314ef284e247a38ecf5ac2d4d7883c64e1f1ce037a6eba2c7bd0ea1814028b39",
   "package.json":
-    "d2e33f948a4d5e117eca7cdb245990df215ace59775e8c3f7889f541f242a0fb",
+    "e3de024f42a336bceb73ee2b8ef0b6b21b7ad31d72241cd6bbac6551ff4ce03b",
   ".npmrc": "2e4f507d9f669af940f509b6d717a64e009d45f1ce5012e3f3e69729fb0bbccd",
   "tests/markdown-quality.test.js":
     "6d98214ca56141494abce31c9361f9230a10b98fb377f720e9ddd97343306ab1",
@@ -167,7 +183,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
 export async function verifyPullRequestPolicyGraph({
   root = REPOSITORY_ROOT_PATH,
 } = {}) {
-  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 33)
+  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 41)
     throw new Error("PR policy allowlist is incomplete.");
   for (const [path, expected] of Object.entries(REVIEWED_PR_POLICY_FILES)) {
     const bytes = await readBoundedRegularFile(join(root, path));

@@ -13,12 +13,16 @@
       "registryType": "npm",
       "identifier": "universal-ontology-mcp-server",
       "version": "1.0.0",
-      "transport": { "type": "stdio" }
+      "transport": {
+        "type": "stdio"
+      }
     },
     {
       "registryType": "oci",
       "identifier": "ghcr.io/hadden-industries/universal-ontology-mcp-server:1.0.0",
-      "transport": { "type": "stdio" }
+      "transport": {
+        "type": "stdio"
+      }
     }
   ]
 }

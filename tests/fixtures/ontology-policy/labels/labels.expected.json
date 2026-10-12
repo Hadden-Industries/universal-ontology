@@ -1,6 +1,15 @@
 {
   "oracle": "Wiki W09-W16 with DEC-004, DEC-006, DEC-014, DEC-022, DEC-023, DEC-024 and the legacy P03 sixteen-predicate language requirement. Authored before the shapes were written.",
-  "rules": ["EP-LABEL", "EP-PREFLABEL-LANGUAGE", "EP-PREFLABEL-IRI", "EP-PREFLABEL-LABEL", "EP-DEFINITION", "EP-DESCRIPTIVE-LANGUAGE", "EP-DESCRIPTION-LANGUAGE", "EP-OPTIONAL-ANNOTATIONS"],
+  "rules": [
+    "EP-LABEL",
+    "EP-PREFLABEL-LANGUAGE",
+    "EP-PREFLABEL-IRI",
+    "EP-PREFLABEL-LABEL",
+    "EP-DEFINITION",
+    "EP-DESCRIPTIVE-LANGUAGE",
+    "EP-DESCRIPTION-LANGUAGE",
+    "EP-OPTIONAL-ANNOTATIONS"
+  ],
   "targeted_focus_nodes": [
     "https://example.org/fixtures/entity/Bank",
     "https://example.org/fixtures/entity/OtherBank",
@@ -37,39 +46,215 @@
     "https://example.org/fixtures/entity/SharedAcronymB"
   ],
   "results": [
-    {"requirement_id": "EP-LABEL", "focus_node": "https://example.org/fixtures/entity/NoLabel", "severity": "Violation", "minimum_components": ["sh:MinCountConstraintComponent"]},
-    {"requirement_id": "EP-PREFLABEL-LABEL", "focus_node": "https://example.org/fixtures/entity/NoLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-LABEL", "focus_node": "https://example.org/fixtures/entity/UntaggedLabel", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent"]},
-    {"requirement_id": "EP-DESCRIPTIVE-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-PREFLABEL-LABEL", "focus_node": "https://example.org/fixtures/entity/UntaggedLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-
-    {"requirement_id": "EP-PREFLABEL-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/RomanianOnly", "severity": "Violation", "minimum_components": ["sh:QualifiedMinCountConstraintComponent"]},
-    {"requirement_id": "EP-PREFLABEL-IRI", "focus_node": "https://example.org/fixtures/entity/RomanianOnly", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-PREFLABEL-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/TwoEnglishPrefLabels", "severity": "Violation", "minimum_components": ["sh:UniqueLangConstraintComponent"]},
-    {"requirement_id": "EP-PREFLABEL-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent", "sh:QualifiedMinCountConstraintComponent"]},
-    {"requirement_id": "EP-PREFLABEL-IRI", "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-LABEL", "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent"]},
-    {"requirement_id": "EP-DESCRIPTIVE-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-
-    {"requirement_id": "EP-PREFLABEL-IRI", "focus_node": "https://example.org/fixtures/entity/Mismatch", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-PREFLABEL-IRI", "focus_node": "https://example.org/fixtures/entity/OnlyFrenchMatches", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-
-    {"requirement_id": "EP-PREFLABEL-LABEL", "focus_node": "https://example.org/fixtures/entity/PrefLabelNotLabel", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-PREFLABEL-LABEL", "focus_node": "https://example.org/fixtures/entity/PrefLabelCaseDiffers", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-
-    {"requirement_id": "EP-DEFINITION", "focus_node": "https://example.org/fixtures/entity/ClassWithoutDefinition", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-DEFINITION", "focus_node": "https://example.org/fixtures/entity/IndividualWithoutDefinition", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-DEFINITION", "focus_node": "https://example.org/fixtures/entity/UntaggedDefinition", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent"]},
-    {"requirement_id": "EP-DESCRIPTIVE-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedDefinition", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-DEFINITION", "focus_node": "https://example.org/fixtures/entity/TwoEnglishDefinitions", "severity": "Violation", "minimum_components": ["sh:UniqueLangConstraintComponent"]},
-    {"requirement_id": "EP-DEFINITION", "focus_node": "https://example.org/fixtures/entity/propertyWithBadDefinition", "severity": "Violation", "minimum_components": ["sh:UniqueLangConstraintComponent"]},
-
-    {"requirement_id": "EP-DESCRIPTIVE-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedEditorialNote", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-
-    {"requirement_id": "EP-DESCRIPTION-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/TwoEnglishDescriptions", "severity": "Violation", "minimum_components": ["sh:UniqueLangConstraintComponent"]},
-
-    {"requirement_id": "EP-OPTIONAL-ANNOTATIONS", "focus_node": "https://example.org/fixtures/entity/UntaggedAcronym", "severity": "Violation", "minimum_components": ["sh:DatatypeConstraintComponent"]},
-    {"requirement_id": "EP-DESCRIPTIVE-LANGUAGE", "focus_node": "https://example.org/fixtures/entity/UntaggedAcronym", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]}
+    {
+      "requirement_id": "EP-LABEL",
+      "focus_node": "https://example.org/fixtures/entity/NoLabel",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:MinCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-LABEL",
+      "focus_node": "https://example.org/fixtures/entity/NoLabel",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-LABEL",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedLabel",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:DatatypeConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DESCRIPTIVE-LANGUAGE",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedLabel",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-LABEL",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedLabel",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-LANGUAGE",
+      "focus_node": "https://example.org/fixtures/entity/RomanianOnly",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:QualifiedMinCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-IRI",
+      "focus_node": "https://example.org/fixtures/entity/RomanianOnly",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-LANGUAGE",
+      "focus_node": "https://example.org/fixtures/entity/TwoEnglishPrefLabels",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:UniqueLangConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-LANGUAGE",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:DatatypeConstraintComponent",
+        "sh:QualifiedMinCountConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-IRI",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-LABEL",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:DatatypeConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DESCRIPTIVE-LANGUAGE",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedPrefLabel",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-IRI",
+      "focus_node": "https://example.org/fixtures/entity/Mismatch",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-IRI",
+      "focus_node": "https://example.org/fixtures/entity/OnlyFrenchMatches",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-LABEL",
+      "focus_node": "https://example.org/fixtures/entity/PrefLabelNotLabel",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PREFLABEL-LABEL",
+      "focus_node": "https://example.org/fixtures/entity/PrefLabelCaseDiffers",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DEFINITION",
+      "focus_node": "https://example.org/fixtures/entity/ClassWithoutDefinition",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DEFINITION",
+      "focus_node": "https://example.org/fixtures/entity/IndividualWithoutDefinition",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DEFINITION",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedDefinition",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:DatatypeConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DESCRIPTIVE-LANGUAGE",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedDefinition",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DEFINITION",
+      "focus_node": "https://example.org/fixtures/entity/TwoEnglishDefinitions",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:UniqueLangConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DEFINITION",
+      "focus_node": "https://example.org/fixtures/entity/propertyWithBadDefinition",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:UniqueLangConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DESCRIPTIVE-LANGUAGE",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedEditorialNote",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DESCRIPTION-LANGUAGE",
+      "focus_node": "https://example.org/fixtures/entity/TwoEnglishDescriptions",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:UniqueLangConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-OPTIONAL-ANNOTATIONS",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedAcronym",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:DatatypeConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-DESCRIPTIVE-LANGUAGE",
+      "focus_node": "https://example.org/fixtures/entity/UntaggedAcronym",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    }
   ],
   "notes": [
     "Bank and OtherBank share \"Bank\"@en as a label: allowed (DEC-006).",

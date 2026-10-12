@@ -76,7 +76,7 @@ export function requiredJobsForScopes(scopes) {
       scopes[scope] === true ? jobs : [],
     ),
   );
-  // Every functional route owns a fresh full-corpus Markdown matrix.
+  // Every functional route owns fresh full-corpus Markdown and JSON matrices.
   selected.add("development");
   return CORE_CHECK_CONSUMER_IDS.filter((id) => selected.has(id));
 }
@@ -168,6 +168,11 @@ export const CHECK_INPUTS = {
     ".gitignore",
     ".prettierignore",
     ".prettierrc.json",
+    ".json-quality.json",
+    "eslint.config.js",
+    "scripts/checkJsonInventory.js",
+    "scripts/checkJsonFormats.js",
+    "tests/json-quality.test.js",
     ".markdown-quality.json",
     ".markdown-quality-execution.json",
     "tooling/markdown",

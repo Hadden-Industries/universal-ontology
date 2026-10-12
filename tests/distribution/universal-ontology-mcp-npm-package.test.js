@@ -6,6 +6,9 @@ import { tmpdir } from "node:os";
 import { join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
+import { ESLint } from "eslint";
+import json from "@eslint/json";
+import * as prettier from "prettier";
 
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
@@ -617,6 +620,61 @@ describe("public Universal Ontology MCP npm package", () => {
           left.localeCompare(right),
         ),
       );
+      // Inspect actual rebuilt/packed target bytes, including producer-owned notices.
+      const jsonLinter = new ESLint({
+        overrideConfigFile: true,
+        overrideConfig: [
+          {
+            files: ["**/*.json"],
+            plugins: { json },
+            language: "json/json",
+            rules: {
+              "json/no-duplicate-keys": "error",
+              "json/no-unsafe-values": "error",
+            },
+          },
+        ],
+      });
+      const jsonPaths = (
+        await listRelativeFilePaths(installedPackageDirectoryPath)
+      ).filter((path) => path.endsWith(".json"));
+      expect(jsonPaths).toEqual([
+        "package.json",
+        "third-party/oxigraph/component-notices.json",
+      ]);
+      const documents = [
+        ...(await Promise.all(
+          jsonPaths.map(async (path) => ({
+            path,
+            bytes: await nodeFileSystem.readFile(
+              join(installedPackageDirectoryPath, path),
+            ),
+          })),
+        )),
+        {
+          path: "application-bundle-metadata.json",
+          bytes: await nodeFileSystem.readFile(APPLICATION_BUNDLE_METADATA_URL),
+        },
+      ];
+      for (const { path, bytes } of documents) {
+        let text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+        const [result] = await jsonLinter.lintText(text, { filePath: path });
+        expect(result.errorCount).toBe(0);
+        expect(result.warningCount).toBe(0);
+        if (path === "third-party/oxigraph/component-notices.json") {
+          // Packaging must retain the supplied notice exactly; validate its body contract.
+          expect(bytes).toEqual(
+            await nodeFileSystem.readFile(
+              new URL(path, PUBLIC_PACKAGE_DIRECTORY_URL),
+            ),
+          );
+          text = `${text.replaceAll("\r\n", "\n").trimEnd()}\n`;
+        }
+        const options = await prettier.resolveConfig(
+          fileURLToPath(PUBLIC_PACKAGE_JSON_URL),
+        );
+        expect(await prettier.check(text, options)).toBe(true);
+      }
       const installedNotices = await nodeFileSystem.readFile(
         join(installedPackageDirectoryPath, "THIRD_PARTY_NOTICES.md"),
         "utf8",

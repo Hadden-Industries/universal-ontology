@@ -16,10 +16,17 @@
       "const": 5
     },
     "packageMode": {
-      "enum": ["disabled", "ci", "manual"]
+      "enum": [
+        "disabled",
+        "ci",
+        "manual"
+      ]
     },
     "mode": {
-      "enum": ["changed", "full"]
+      "enum": [
+        "changed",
+        "full"
+      ]
     },
     "revision": {
       "type": "string",
@@ -124,7 +131,13 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["development", "ontology", "node", "website", "distribution"]
+        "enum": [
+          "development",
+          "ontology",
+          "node",
+          "website",
+          "distribution"
+        ]
       }
     }
   },

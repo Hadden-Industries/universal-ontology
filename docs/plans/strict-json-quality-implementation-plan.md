@@ -14,6 +14,22 @@ That request authorizes the plan's dependency, configuration, formatting, commit
 It requires consolidated broad reviews and narrowly scoped follow-up reviews using available local agents.
 Deployment and release remain separate decisions.
 
+### Accepted coverage amendment, 13 October 2026
+
+The owner subsequently required that no tracked JSON be excluded from quality checks and selected **full validation with producer-defined formatting** for historical, third-party and package JSON.
+This amendment supersedes the original lint exclusions and formatting-check selection below; write protections remain in force.
+All 105 tracked JSON files (including the new policy) receive strict syntax, duplicate-key, unsafe-value and read-only presentation checks.
+Thirty-nine authored files use native Prettier writes; the remaining 66 files receive full validation without generic mutation.
+Each policy record declares a formatting contract in addition to write eligibility.
+The retained Oxigraph notice uses native Prettier validation of its JSON body while permitting its producer's absent final newline and checkout LF/CRLF envelope.
+All other current tracked JSON uses the standard native Prettier presentation contract.
+`scripts/checkJsonFormats.js` supplies only this read-only native API adaptation; it adds no parser, serializer, CLI orchestrator or writer.
+`format:json:check` checks all policy records; `check:json:producers` preflights protected presentation before the authored writer runs.
+Package qualification rebuilds the MCP source bundle and packed target and checks every packaged JSON file plus its generated build metadata for syntax, interoperability and producer-defined formatting.
+The notice must remain byte-identical to its source.
+Existing provenance, schema, query serialization and RDF graph checks continue to qualify their owning producers.
+Configuration approval includes the all-file ESLint selection, per-record formatting contracts, revised command composition and CI/release graph binding of the additional checker.
+
 The supplied research response is `C:\Users\maksy\Downloads\2026-10-10-json-quality-tooling-research-brief-response.md`, SHA-256 `21685e111558685bec2f03aa44dfcbe219b3822b4953e48bb72658a17a381dbb`.
 Its portfolio recommendation and adversarial cases inform this plan.
 Its embedded citation tokens are not portable references, and its behavioral matrix is explicitly unmeasured.
@@ -124,9 +140,9 @@ Its contract:
    Catch accidental exclusions and broader write selection before mutation.
 5. Print relative paths and reasons; do not echo MCP/environment values or whole document contents.
 
-ESLint consumes the declared lint paths and exclusions through its native flat configuration.
+ESLint consumes every declared JSON path through its native flat configuration.
 Scope JavaScript recommended rules and language options to JavaScript so they cannot execute on JSON ASTs.
-Keep protected JSON out of generic lint; six producer records receive only strict syntax plus duplicate/unsafe checks, without stylistic mutation.
+Protected JSON receives strict syntax plus duplicate/unsafe checks without stylistic mutation.
 
 Prettier retains [its existing configuration](../../.prettierrc.json) with a JSON-only override.
 [Its ignore file](../../.prettierignore) denies all JSON by default and re-includes only accepted exact format paths.
@@ -377,9 +393,9 @@ tests/fixtures/ontology-policy/authorities/derived/loc-iso639-1.provenance.json
 ### Preserved inputs: 60
 
 These include npm/skills locks, historical verification/proposal evidence, vendored schema/package content and third-party notices.
-Their designated consumers may validate them; generic lint/format does not rewrite or reinterpret them.
+Their designated consumers validate semantics; generic lint and read-only presentation checks cover them without rewriting their bytes.
 Draft-looking historical filenames are not authority to refresh them.
-A future intentionally invalid JSON fixture must enter an explicit preserved fixture class with an owner and rejection-test purpose, rather than excluding all tests.
+A future intentionally invalid fixture must use a non-JSON extension and an explicit rejection-test purpose; it cannot bypass the all-JSON validation contract.
 
 ```text
 docs/import-closure/registry-artifact-verification.json

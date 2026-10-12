@@ -297,7 +297,7 @@ test("retains complete native Node coverage for a source plan with every non-pac
   ]);
   // Observed native matrix names from the broad PR/main graph, independent of
   // the selection helper: selected matrices expand; skipped ones remain literal.
-  expect(input.jobs.total_count).toBe(29);
+  expect(input.jobs.total_count).toBe(31);
   expect(
     input.jobs.jobs
       .filter((job) => job.conclusion === "skipped")

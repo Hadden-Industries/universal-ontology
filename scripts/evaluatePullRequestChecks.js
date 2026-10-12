@@ -54,6 +54,7 @@ export function consumerJobs(plan, consumer) {
     development: {
       scope: true,
       documentation: true,
+      "json-quality": true,
       "python-style": s.python_style && !s.style_tooling,
       "python-tests": s.python_tests,
       "python-node-tests": s.python_setup_tests,
