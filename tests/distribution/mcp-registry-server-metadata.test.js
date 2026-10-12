@@ -32,6 +32,7 @@ describe("MCP Registry server metadata", () => {
       publicPackage,
       dockerfileText,
       schemaNoticeText,
+      jsonPolicy,
     ] = await Promise.all([
       readJsonDocument(SERVER_DOCUMENT_URL),
       readJsonDocument(REGISTRY_SCHEMA_URL),
@@ -51,6 +52,7 @@ describe("MCP Registry server metadata", () => {
         "utf8",
       ),
       nodeFileSystem.readFile(REGISTRY_SCHEMA_NOTICE_URL, "utf8"),
+      readJsonDocument(new URL(".json-quality.json", REPOSITORY_ROOT_URL)),
     ]);
     const ajv = new Ajv2020({
       allErrors: true,
@@ -118,7 +120,21 @@ describe("MCP Registry server metadata", () => {
     expect(rootPackage.scripts["format:check"]).toContain(
       "npm run format:node:check",
     );
-    expect(rootPackage.scripts["format:node"]).toContain('"server.json"');
-    expect(rootPackage.scripts["format:node:check"]).toContain('"server.json"');
+    expect(rootPackage.scripts.format).toContain("npm run format:json");
+    expect(rootPackage.scripts["format:check"]).toContain(
+      "npm run format:json:check",
+    );
+    expect(rootPackage.scripts["format:node"]).not.toContain("server.json");
+    expect(rootPackage.scripts["format:node:check"]).not.toContain(
+      "server.json",
+    );
+    expect(
+      jsonPolicy.files.find(({ path }) => path === "server.json"),
+    ).toMatchObject({
+      class: "authored",
+      lintProfile: "control",
+      format: true,
+      formatContract: "prettier-json",
+    });
   });
 });

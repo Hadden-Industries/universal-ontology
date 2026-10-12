@@ -234,7 +234,7 @@ test("loads the built master page and downloads its materialized CSV", async () 
       access(join(fixture.outputDirectory, "OwlToUmlXmiConverter.js")),
     ).resolves.toBeUndefined();
     server = await startServer(fixture.outputDirectory);
-    // These are the authored policy bytes at the accepted pre-move revision,
+    // These are the accepted authored policy bytes after JSON conformance,
     // independent of the package resolver and Vite copy implementation.
     for (const [name, expectedSha256] of [
       [
@@ -243,7 +243,7 @@ test("loads the built master page and downloads its materialized CSV", async () 
       ],
       [
         "field-property-history.v1.schema.json",
-        "4f0359c0eb58e2d901bf96c28cc44e0323a5600fab2bda8c2017a52a6e4eb82a",
+        "dd8a05a6af332226f3220bf2beb9690883c6e29133dbc6d169a099839031bf06",
       ],
     ]) {
       const response = await fetch(
