@@ -13,6 +13,7 @@ import {
 } from "universal-ontology-query/artifacts";
 import { createInMemoryOntologyReleaseArtifact } from "../fixtures/ontology-query/createInMemoryOntologyQueryFixture.js";
 import { createOntologyQueryArtifactHttpFixture } from "../fixtures/ontology-query/createOntologyQueryArtifactHttpFixture.js";
+import { reverseObjectMembers } from "../fixtures/json/reverseObjectMembers.js";
 
 const EXPECTED_RELEASE = Object.freeze({
   ontologyArtifactFamilyId: "universal/core",
@@ -133,6 +134,37 @@ describe("public Universal Ontology MCP artifact-origin smoke", () => {
     expect(() =>
       assertExpectedPublicPersonResolutionResult({ structuredContent }),
     ).not.toThrow();
+    const reordered = reverseObjectMembers(structuredContent);
+    expect(JSON.stringify(reordered)).not.toBe(
+      JSON.stringify(structuredContent),
+    );
+    expect(() =>
+      assertExpectedPublicPersonResolutionResult({
+        structuredContent: reordered,
+      }),
+    ).not.toThrow();
+    for (const mutate of [
+      (release) => {
+        delete release.sourceArtifactSha256;
+      },
+      (release) => {
+        release.unexpected = true;
+      },
+      (release) => {
+        release.sourceArtifactSha256 = "f".repeat(64);
+      },
+    ]) {
+      const changed = structuredClone(reordered);
+      mutate(
+        changed.ontologyEntities[0].selectedPreferredLabel
+          .resolvedOntologyRelease,
+      );
+      expect(() =>
+        assertExpectedPublicPersonResolutionResult({
+          structuredContent: changed,
+        }),
+      ).toThrow(/provenance/u);
+    }
   });
 
   test("rejects a plausible Person response with substituted provenance", () => {

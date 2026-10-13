@@ -1,6 +1,7 @@
 import * as projectionProperties from "../src/ontologyProjectionProperties.js";
 import { readFileSync } from "node:fs";
 import Ajv2020 from "ajv/dist/2020.js";
+import { reverseObjectMembers } from "../../../tests/fixtures/json/reverseObjectMembers.js";
 
 test("published field history satisfies its local schema without mutation or remote resolution", () => {
   const schema = JSON.parse(
@@ -35,6 +36,35 @@ test("published field history satisfies its local schema without mutation or rem
 });
 
 const FIELD_NAMES = ["preferredLabel", "definition", "creator"];
+
+test("legacy interpretation identity ignores object order and retains all validated values", () => {
+  const declaration = validDeclaration();
+  const interpretation = {
+    pathPrefix: "/example/series/",
+    throughVersion: "20260101",
+    observedPropertyIri: "https://example.com/property/references",
+    valueIriPrefix: "urn:example:standard",
+    interpretedAsPropertyIri: "https://example.com/property/source",
+  };
+  declaration.legacySourceInterpretations = [
+    interpretation,
+    reverseObjectMembers(interpretation),
+  ];
+  expect(() =>
+    projectionProperties.createOntologyProjectionPropertyResolver(declaration),
+  ).toThrow(/duplicates/u);
+  for (const field of Object.keys(interpretation)) {
+    if (field === "pathPrefix") continue; // Its value is bound to the declared series.
+    const distinct = structuredClone(declaration);
+    distinct.legacySourceInterpretations[1][field] =
+      field === "throughVersion"
+        ? "20260102"
+        : `${interpretation[field]}-distinct`;
+    expect(() =>
+      projectionProperties.createOntologyProjectionPropertyResolver(distinct),
+    ).not.toThrow();
+  }
+});
 
 function completeFields(fieldHistory) {
   return Object.fromEntries(FIELD_NAMES.map((name) => [name, fieldHistory]));

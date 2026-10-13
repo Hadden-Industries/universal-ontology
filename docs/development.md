@@ -181,6 +181,9 @@ Generated ontology/query/distribution products using native `JSON.stringify(...,
 The retained npm SPDX report permits its original CRLF envelope; the retained Jest report requires compact native JSON plus final LF.
 These are presentation contracts, not lint exemptions.
 Schema, graph and digest checks remain owned by the producer/consumer.
+Consumer comparisons of Registry/OCI metadata, public-smoke provenance, full-build receipt records and cursor criteria ignore object-member insertion order while retaining array order and exact member/value checks.
+Duplicate legacy interpretation identity uses the validated fields in a stable tuple, so reordering object members cannot conceal a duplicate.
+Canonical semantic digest formats, opaque cursor integrity bindings, exact-byte artifact hashes and producer presentation remain their own contracts; formatting does not sort JSON to compensate for consumer comparison errors.
 All JSON npm commands enter [one native-tool adapter](../scripts/runJsonQuality.js), which reconciles inventory once before its selected operation.
 [Shared contracts](../scripts/jsonQuality.js) supply the policy reader, native ESLint rules and producer-presentation check to repository checks and rebuilt-package qualification.
 The inventory checker compares effective ESLint configuration and resolved Prettier options with these authorities to detect drift.

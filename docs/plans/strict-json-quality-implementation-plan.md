@@ -14,6 +14,23 @@ That request authorizes the plan's dependency, configuration, formatting, commit
 It requires consolidated broad reviews and narrowly scoped follow-up reviews using available local agents.
 Deployment and release remain separate decisions.
 
+### Semantic object-member ordering continuation, 13 October 2026
+
+The owner explicitly requested this correctness fix through HISEW in open PR 143 after a read-only probe confirmed that permuting `server.json` object members caused a false Registry mismatch.
+Continue the same accepted R2 execution and source-PR delivery, preserving prior evidence for its actual candidate and qualifying the changed final candidate once.
+JSON object-member order must not determine semantic equality or duplicate interpretation identity; array order, actual values, member presence and byte-integrity bindings remain significant.
+
+| Slice   | Requirement and acceptance                                                                                                                       | Proof                                                                                                                                                                  | Delivery and recovery                                                                                                                              |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ORDER-1 | Registry/OCI metadata, public-smoke provenance, build receipts and caller-supplied cursor criteria accept equivalent object-member permutations. | Consumer-boundary permutation tests, including nested mappings; changed values, extra/missing members, array reordering and unchanged-byte-hash failures still reject. | Reuse native Node deep comparison; retain existing error routes, canonical digest algorithms, opaque cursor format and exact-byte artifact checks. |
+| ORDER-2 | Reordered duplicate legacy interpretations cannot bypass duplicate validation.                                                                   | Independent same-value/reordered-member duplicate vectors and distinct-value acceptance.                                                                               | Use a stable tuple of the validated interpretation fields without introducing Node dependencies into the portable projection package.              |
+| ORDER-3 | Document the consumer guarantees and retain complete release-policy and JSON controls.                                                           | Focused affected suites, consolidated narrow local follow-up reviews, signed commit, required final qualification and naturally triggered hosted CI.                   | Update PR 143; preserve truthful failure evidence. No configuration settings, dependency, schema-version or digest migration changes.              |
+
+Native reuse is preferred to a second generic canonical serializer: the existing canonical policy hash remains its serialization authority, while native deep comparison owns Node semantic equality.
+The query artifact serializer remains schema-specific; generic metadata must not be routed through its query-kind admission contract.
+Do not normalize exact-byte hashes, ordered structural tuples, producer presentation or opaque cursor-integrity payloads to hide changed content.
+Replan if a confirmed case needs a wire/digest migration, new policy setting or broader data rewrite; those effects are outside this approved correctness continuation.
+
 ### Meaningful keys and interoperability follow-up, 13 October 2026
 
 The owner requested meaningful-key checks, complete interoperability checks and correction of stale development documentation.

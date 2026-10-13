@@ -2,6 +2,7 @@ import * as nodeFileSystem from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { isDeepStrictEqual } from "node:util";
 
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
@@ -33,9 +34,7 @@ const EXPECTED_RESOLVED_RELEASE = Object.freeze({
 });
 
 function requireExactResolvedRelease(actualRelease, semanticLocation) {
-  if (
-    JSON.stringify(actualRelease) !== JSON.stringify(EXPECTED_RESOLVED_RELEASE)
-  ) {
+  if (!isDeepStrictEqual(actualRelease, EXPECTED_RESOLVED_RELEASE)) {
     throw new Error(
       `Public Person smoke failed: ${semanticLocation} provenance disagrees.`,
     );

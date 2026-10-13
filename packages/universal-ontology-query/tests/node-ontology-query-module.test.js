@@ -6,6 +6,7 @@ import { createOntologyQueryArtifacts } from "../../../scripts/build/createOntol
 import { createFileSystemOntologyQueryArtifactRepository } from "../src/fileSystemOntologyQueryArtifactRepository.js";
 import { createNodeOntologyQueryModule } from "../src/node.js";
 import { generateOntologyQueryIndexes } from "../../../scripts/generateOntologyQueryIndexes.js";
+import { reverseObjectMembers } from "../../../tests/fixtures/json/reverseObjectMembers.js";
 
 test("retains a working snapshot across regeneration and a new reader process boundary", async () => {
   const root = await mkdtemp(join(tmpdir(), "uo-working-snapshot-"));
@@ -163,7 +164,7 @@ test("pins a filesystem snapshot and rejects mixing it with fresh graph selectio
       definitionSourceStatus: "no_recorded_source",
       ontologyReleaseSelection: {
         selectionKind: "latest_stable_releases",
-        ontologyArtifactFamilyIds: ["universal/core"],
+        ontologyArtifactFamilyIds: ["universal/core", "universal/unused"],
       },
       graphSelection: "source_graph",
       maximumResultCount: 1,
@@ -174,10 +175,10 @@ test("pins a filesystem snapshot and rejects mixing it with fresh graph selectio
     const next = await query.searchOntologyEntities({
       cursor: page.nextCursor,
       definitionSourceStatus: "no_recorded_source",
-      ontologyReleaseSelection: {
+      ontologyReleaseSelection: reverseObjectMembers({
         selectionKind: "latest_stable_releases",
-        ontologyArtifactFamilyIds: ["universal/core"],
-      },
+        ontologyArtifactFamilyIds: ["universal/core", "universal/unused"],
+      }),
       graphSelection: "source_graph",
       maximumResultCount: 1,
     });
@@ -185,6 +186,23 @@ test("pins a filesystem snapshot and rejects mixing it with fresh graph selectio
     expect(next.matches[0].ontologyEntity.entityIri).not.toBe(
       page.matches[0].ontologyEntity.entityIri,
     );
+    for (const selection of [
+      {
+        selectionKind: "latest_stable_releases",
+        ontologyArtifactFamilyIds: ["universal/unused", "universal/core"],
+      },
+      {
+        selectionKind: "latest_stable_releases",
+        ontologyArtifactFamilyIds: ["universal/core"],
+      },
+    ])
+      await expect(
+        query.searchOntologyEntities({
+          cursor: page.nextCursor,
+          ontologyReleaseSelection: selection,
+          maximumResultCount: 1,
+        }),
+      ).rejects.toThrow(/criteria changed/u);
     await expect(
       query.searchOntologyEntities({
         cursor: page.nextCursor,

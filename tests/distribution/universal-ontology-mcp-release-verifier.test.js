@@ -17,6 +17,7 @@ import {
   verifyUniversalOntologyMcpDistributionWorkflow,
   verifyUniversalOntologyMcpRelease,
 } from "../../scripts/distribution/verifyUniversalOntologyMcpRelease.js";
+import { reverseObjectMembers } from "../fixtures/json/reverseObjectMembers.js";
 
 const SOFTWARE_VERSION = "1.0.0";
 const RELEASE_TAG = `universal-ontology-mcp-server-v${SOFTWARE_VERSION}`;
@@ -407,6 +408,155 @@ describe("Universal Ontology MCP release verifier", () => {
     );
     return distributionWorkflowPath;
   }
+
+  async function rewriteMetadata(
+    candidatePath,
+    fileName,
+    transform,
+    updateIntegrity = true,
+  ) {
+    const path = join(candidatePath, fileName);
+    const before = await nodeFileSystem.readFile(path, "utf8");
+    const text = `${JSON.stringify(transform(JSON.parse(before)), null, 2)}\n`;
+    expect(text).not.toBe(before);
+    await nodeFileSystem.writeFile(path, text);
+    if (!updateIntegrity) return;
+    // These are test-owned release artifacts: changed bytes need new SPDX and
+    // checksum bindings even when their JSON data is semantically unchanged.
+    const sbomPath = join(
+      candidatePath,
+      `${RELEASE_BASE_NAME}-release.spdx.json`,
+    );
+    const sbom = JSON.parse(await nodeFileSystem.readFile(sbomPath, "utf8"));
+    const asset = sbom.packages.find(({ name }) => name === fileName);
+    expect(asset).toBeDefined();
+    asset.checksums.find(
+      ({ algorithm }) => algorithm === "SHA256",
+    ).checksumValue = calculateSha256(Buffer.from(text));
+    await nodeFileSystem.writeFile(
+      sbomPath,
+      `${JSON.stringify(sbom, null, 2)}\n`,
+    );
+    await updateChecksumManifest(candidatePath);
+  }
+
+  test.each(["server.json", `${RELEASE_BASE_NAME}-oci-metadata.json`])(
+    "accepts equivalent object-member permutations in %s",
+    async (fileName) => {
+      const candidatePath = await cloneBaseCandidate(`reordered-${fileName}`);
+      await rewriteMetadata(candidatePath, fileName, reverseObjectMembers);
+      await expect(
+        verifyUniversalOntologyMcpRelease({
+          releaseDirectoryPath: candidatePath,
+          tag: RELEASE_TAG,
+          applicationBundleMetadataPath: baseBundleMetadataPath,
+        }),
+      ).resolves.toMatchObject({ verifiedAssetCount: 12 });
+    },
+  );
+
+  test.each([
+    [
+      "Registry changed value",
+      "server.json",
+      (value) => {
+        value.description += " changed";
+      },
+      /Registry document/u,
+    ],
+    [
+      "Registry missing member",
+      "server.json",
+      (value) => {
+        delete value.description;
+      },
+      /Registry document/u,
+    ],
+    [
+      "Registry extra member",
+      "server.json",
+      (value) => {
+        value.unexpected = true;
+      },
+      /Registry document/u,
+    ],
+    [
+      "Registry reordered array",
+      "server.json",
+      (value) => {
+        value.packages.reverse();
+      },
+      /Registry document/u,
+    ],
+    [
+      "OCI changed nested value",
+      `${RELEASE_BASE_NAME}-oci-metadata.json`,
+      (value) => {
+        value.labels["org.opencontainers.image.title"] += " changed";
+      },
+      /OCI release metadata/u,
+    ],
+    [
+      "OCI missing member",
+      `${RELEASE_BASE_NAME}-oci-metadata.json`,
+      (value) => {
+        delete value.user;
+      },
+      /OCI release metadata/u,
+    ],
+    [
+      "OCI extra member",
+      `${RELEASE_BASE_NAME}-oci-metadata.json`,
+      (value) => {
+        value.unexpected = true;
+      },
+      /OCI release metadata/u,
+    ],
+    [
+      "OCI reordered array",
+      `${RELEASE_BASE_NAME}-oci-metadata.json`,
+      (value) => {
+        value.platforms.reverse();
+      },
+      /OCI release metadata/u,
+    ],
+  ])(
+    "rejects %s after mapping reordering",
+    async (name, fileName, mutate, expected) => {
+      const candidatePath = await cloneBaseCandidate(name.replaceAll(" ", "-"));
+      await rewriteMetadata(candidatePath, fileName, (original) => {
+        const reordered = reverseObjectMembers(original);
+        mutate(reordered);
+        return reordered;
+      });
+      await expect(
+        verifyUniversalOntologyMcpRelease({
+          releaseDirectoryPath: candidatePath,
+          tag: RELEASE_TAG,
+          applicationBundleMetadataPath: baseBundleMetadataPath,
+        }),
+      ).rejects.toThrow(expected);
+    },
+  );
+
+  test("semantic metadata equivalence never waives exact-byte integrity", async () => {
+    const candidatePath = await cloneBaseCandidate(
+      "reordered-stale-byte-bindings",
+    );
+    await rewriteMetadata(
+      candidatePath,
+      "server.json",
+      reverseObjectMembers,
+      false,
+    );
+    await expect(
+      verifyUniversalOntologyMcpRelease({
+        releaseDirectoryPath: candidatePath,
+        tag: RELEASE_TAG,
+        applicationBundleMetadataPath: baseBundleMetadataPath,
+      }),
+    ).rejects.toThrow(/SHA-256|checksum/iu);
+  });
 
   function insertValidateJobStep(workflowText, stepLines) {
     return workflowText.replace(

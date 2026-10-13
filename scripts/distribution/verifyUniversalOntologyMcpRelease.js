@@ -3,6 +3,7 @@ import { createReadStream } from "node:fs";
 import * as nodeFileSystem from "node:fs/promises";
 import { join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { isDeepStrictEqual } from "node:util";
 
 import * as tar from "tar";
 import yauzl from "yauzl";
@@ -798,10 +799,7 @@ function requireVersionAuthorities({
       "Release package and Registry ownership authorities disagree.",
     );
   }
-  if (
-    JSON.stringify(releaseServerDocument) !==
-    JSON.stringify(repositoryServerDocument)
-  ) {
+  if (!isDeepStrictEqual(releaseServerDocument, repositoryServerDocument)) {
     throw new Error(
       "Release Registry document differs from repository metadata.",
     );
@@ -832,7 +830,7 @@ function requireOciMetadata({
       "io.modelcontextprotocol.server.name": repositoryServerDocument.name,
     },
   };
-  if (JSON.stringify(ociMetadata) !== JSON.stringify(expectedMetadata)) {
+  if (!isDeepStrictEqual(ociMetadata, expectedMetadata)) {
     throw new Error(
       "OCI release metadata does not match the exact image contract.",
     );

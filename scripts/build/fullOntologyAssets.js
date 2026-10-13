@@ -21,6 +21,7 @@ import {
   sep,
 } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { isDeepStrictEqual } from "node:util";
 import { IRI, OWLOntologyLoaderConfiguration } from "owlapi/model";
 import { OWLManager } from "owlapi/apibinding";
 import { OntologyDocumentLoader } from "../ontology/ontologyDocumentLoader.js";
@@ -442,8 +443,10 @@ export async function createFullOntologyAssets(options) {
 async function assertBuildInputs(ctx, receipt) {
   const current = await discoverFullOntologyCandidates(ctx);
   if (
-    JSON.stringify(candidateEvidence(current.candidates)) !==
-    JSON.stringify(receipt.candidates)
+    !isDeepStrictEqual(
+      candidateEvidence(current.candidates),
+      receipt.candidates,
+    )
   )
     throw new Error("Full ontology candidate inventory changed; rebuild");
   for (const source of current.sources) {
@@ -492,10 +495,7 @@ async function assertBuildInputs(ctx, receipt) {
       throw new Error(
         `Missing or changed full ontology dependency binding: ${path}`,
       );
-  if (
-    JSON.stringify(await producerEvidence()) !==
-    JSON.stringify(receipt.producer)
-  )
+  if (!isDeepStrictEqual(await producerEvidence(), receipt.producer))
     throw new Error("Full ontology producer changed; rebuild");
   for (const [path, sha256] of Object.entries(receipt.inputs)) {
     const file = await containedPath(

@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { Buffer } from "node:buffer";
+import { isDeepStrictEqual } from "node:util";
 import {
   resolveApplicableOntologyProjectionPropertyIris,
   resolveLegacySourceInterpretations,
@@ -319,7 +320,7 @@ export function createNodeOntologyQueryModule(options) {
       const expected = selectionFields.includes(name)
         ? originalSelection?.[name]
         : criteria[name];
-      if (JSON.stringify(value) !== JSON.stringify(expected))
+      if (!isDeepStrictEqual(value, expected))
         throw new OntologyQueryError("QUERY_INDEX_DIGEST_MISMATCH", {
           message: "Search criteria changed after the cursor was issued.",
         });
