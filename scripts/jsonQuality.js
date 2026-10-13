@@ -27,7 +27,7 @@ export function isStrictJsonPath(path) {
     path.endsWith(`.${extension}`),
   );
 }
-const DATA_RULES = Object.freeze({
+const BASE_RULES = Object.freeze({
   "json/no-duplicate-keys": "error",
   "json/no-unsafe-values": "error",
   "uo-json/interoperability": "error",
@@ -223,13 +223,23 @@ function meaningfulKeyRules(allowEmptyKeys) {
   };
 }
 
-export function jsonRules(lintProfile, normalization = "NFC", allowEmptyKeys) {
-  if (lintProfile !== "control" && lintProfile !== "data")
-    throw new Error(`Unknown JSON lint profile: ${lintProfile}`);
+export function jsonRules(options = {}) {
+  if (
+    !options ||
+    typeof options !== "object" ||
+    Array.isArray(options) ||
+    Object.keys(options).some(
+      (key) => !["normalization", "allowEmptyKeys"].includes(key),
+    )
+  )
+    throw new TypeError(
+      "Expected JSON rule options: normalization and allowEmptyKeys.",
+    );
+  const { normalization = "NFC", allowEmptyKeys } = options;
   if (!["NFC", "preserve"].includes(normalization))
     throw new Error(`Unknown JSON normalization contract: ${normalization}`);
   return {
-    ...DATA_RULES,
+    ...BASE_RULES,
     ...meaningfulKeyRules(allowEmptyKeys),
     "uo-json/normalized-strings": ["error", normalization],
   };
@@ -246,7 +256,7 @@ export function jsonLintConfig(files) {
         noInlineConfig: true,
         reportUnusedDisableDirectives: "error",
       },
-      rules: jsonRules("data"),
+      rules: jsonRules(),
     },
     ...(files.some((file) => file.normalization === "preserve")
       ? [
@@ -277,14 +287,8 @@ const validatePolicy = new Ajv({ strict: true, allErrors: true }).compile({
     defaults: {
       type: "object",
       additionalProperties: false,
-      required: [
-        "lintProfile",
-        "formatContract",
-        "allowFormatWrites",
-        "normalization",
-      ],
+      required: ["formatContract", "allowFormatWrites", "normalization"],
       properties: {
-        lintProfile: { const: "data" },
         formatContract: { const: "prettier-json" },
         allowFormatWrites: { const: true },
         normalization: { const: "NFC" },
@@ -308,7 +312,6 @@ const validatePolicy = new Ajv({ strict: true, allErrors: true }).compile({
           owner: { type: "string", pattern: "\\S" },
           reason: { type: "string", pattern: "\\S" },
           exclude: { const: true },
-          lintProfile: { enum: ["control", "data"] },
           allowFormatWrites: { const: false },
           normalization: { const: "preserve" },
           allowEmptyKeys: EMPTY_KEY_POINTERS,
@@ -327,18 +330,29 @@ const validatePolicy = new Ajv({ strict: true, allErrors: true }).compile({
 });
 
 export function decodeJsonBytes(bytes) {
-  return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  const text = new TextDecoder("utf-8", {
+    fatal: true,
+    ignoreBOM: true,
+  }).decode(bytes);
+  if (text.startsWith("\uFEFF"))
+    throw new Error(
+      "Unexpected leading UTF-8 BOM; fix the owning source or producer.",
+    );
+  return text;
 }
 
 /** Bootstrap independently of repository configuration before parsing policy. */
 export async function readJsonPolicy(root = JSON_ROOT) {
-  const text = decodeJsonBytes(readFileSync(join(root, ".json-quality.json")));
+  let text;
+  try {
+    text = decodeJsonBytes(readFileSync(join(root, ".json-quality.json")));
+  } catch (error) {
+    throw new Error(`.json-quality.json: ${error.message}`, { cause: error });
+  }
   const linter = new ESLint({
     cwd: root,
     overrideConfigFile: true,
-    overrideConfig: jsonLintConfig([
-      { path: ".json-quality.json", lintProfile: "control" },
-    ]),
+    overrideConfig: jsonLintConfig([{ path: ".json-quality.json" }]),
   });
   const [result] = await linter.lintText(text, {
     filePath: ".json-quality.json",
@@ -385,7 +399,6 @@ export function jsonContract(path, policy, { tracked = false } = {}) {
       continue;
     contract.exceptions.push({ owner: rule.owner, reason: rule.reason });
     for (const key of [
-      "lintProfile",
       "formatContract",
       "allowFormatWrites",
       "exclude",
@@ -435,7 +448,6 @@ export async function normalizeJsonSource(
     overrideConfig: jsonLintConfig([
       {
         path: "source.json",
-        lintProfile: "data",
         normalization: "preserve",
         allowEmptyKeys,
       },

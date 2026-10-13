@@ -156,7 +156,11 @@ export async function inspectJsonInventory({
   for (const file of files) {
     const { path } = file;
     const absolute = join(root, path);
-    decodeJsonBytes(readFileSync(absolute));
+    try {
+      decodeJsonBytes(readFileSync(absolute));
+    } catch (error) {
+      throw new Error(`${path}: ${error.message}`, { cause: error });
+    }
     const config = await linter.calculateConfigForFile(absolute);
     if (
       !config ||
@@ -165,7 +169,10 @@ export async function inspectJsonInventory({
     )
       throw new Error(`Wrong native JSON language or inline controls: ${path}`);
     for (const [rule, setting] of Object.entries(
-      jsonRules(file.lintProfile, file.normalization, file.allowEmptyKeys),
+      jsonRules({
+        normalization: file.normalization,
+        allowEmptyKeys: file.allowEmptyKeys,
+      }),
     )) {
       if (setting === "off") {
         if (config.rules[rule]?.[0] !== 0)

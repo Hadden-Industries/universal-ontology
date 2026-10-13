@@ -99,11 +99,11 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "tests/lint/no-json-stringify-identity.test.js":
     "b4e9d015764e3f8ea971c28a6129e20efd66e24931f318d1165ebf8c376f605c",
   "scripts/jsonQuality.js":
-    "aa8433874c134e9eb87b3f8e656ef09f8f50c813b0458ff034a7cd5b422fdbc8",
+    "ebaad6c6e1fe2575f5f3d3a03b7dd5cb90e17f655c33eb5130d388924e3b5957",
   "scripts/runJsonQuality.js":
     "d582d5fb1f38555727ee11a11fe1e1274622f2440a166a428c6d0842fdce2ecb",
   ".json-quality.json":
-    "2ff77ad78b0a84899d485e308542eeb2d3db6dca2a558460c3b7c4b8ab916184",
+    "1c811a18347498fa9f1d7efa7bba3a7b44f88bbb183b8d1054ca229175d0f467",
   "eslint.config.js":
     "991facecb43bf77b30de0cbcb89a9ac75a0ff913880f58cb7cd49b460b9b29d0",
   ".prettierrc.json":
@@ -111,11 +111,11 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".prettierignore":
     "f00a878b2c36a1d2e22d2fc1d010f924214ee5a2ad8375e96c7d145b1e04d154",
   "scripts/checkJsonInventory.js":
-    "178963c11282e0479a0a6edfaac10cd6d178b213eb44768ae2a2031f3c6e0d9f",
+    "084afdde09a309d654a0cb8f85b7f052781751cc5e0723ae2e0a415bfee4dde8",
   "tests/json-quality.test.js":
-    "85bfb78cff9c84ace1e4b8ec9c650a69f68efa41340260b06700781f3a9eb5fa",
+    "6d968fbd4b675276b7eaafbe14e9a7842bce6685c47ee6a83b9d03b3a4be3b1d",
   "package-lock.json":
-    "752680439f64915302d40ca4fa85d4f40f026e78e13ce9632dca94da967c8400",
+    "b8046cf09e2e72a7e3b4cedc401484278a2453128905c454c1a90631e4f1b084",
   ".github/workflows/pr-validation.yml":
     "c6a554a4aa9fa2da93609725cceef71d2dfb4d68b23d59f8ab48e435c413a423",
   ".github/workflows/full-qualification.yml":
@@ -171,7 +171,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".markdown-quality-execution.json":
     "314ef284e247a38ecf5ac2d4d7883c64e1f1ce037a6eba2c7bd0ea1814028b39",
   "package.json":
-    "c877404a670b32e13d3678a2c9d690e74c4a14d1e75d89bfe81e377f2b764737",
+    "83f01ff9e09ffd5dfa1b2663be7884772c9363beab9a6bb683e763968ac0c754",
   ".npmrc": "2e4f507d9f669af940f509b6d717a64e009d45f1ce5012e3f3e69729fb0bbccd",
   "tests/markdown-quality.test.js":
     "6d98214ca56141494abce31c9361f9230a10b98fb377f720e9ddd97343306ab1",

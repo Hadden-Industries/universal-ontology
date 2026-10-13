@@ -119,6 +119,7 @@ They pass their mode to the same `format:node:files` selection, so its glob list
 [The JSON policy](../.json-quality.json) schema v4 records defaults and sparse exceptions rather than an admission allowlist.
 Ordinary `.json`, `.jsonld` and `.sarif` files need no policy entry or staging: create, check, fix and stage the final bytes.
 Defaults require strict syntax, native interoperability lint, NFC for every decoded key and string value, and standard presentation.
+There is one shared lint contract; the obsolete `lintProfile` field is rejected in defaults and exceptions.
 Exceptions specify their owner and reason for external boundaries, write protection or producer-defined presentation.
 The existing 66 tracked producer/retained files remain protected; new files within their protected families inherit that protection.
 Git ignore rules never suppress checking.
@@ -132,6 +133,13 @@ Suffix discovery does not detect extensionless or embedded JSON, which needs an 
 The mandatory Linux/Windows JSON jobs run `build:verify` before `check:json -- --require-generated`; absent generated JSON-LD or the query catalog fails the final gate.
 The read-only command checks existing files; it does not build or fix anything itself.
 Package qualification also rebuilds the source bundle and validates actual packed target bytes through the shared contracts.
+The shared byte boundary rejects malformed UTF-8 and a leading UTF-8 byte order mark (BOM) before parsing or presentation checks.
+Failures identify the repository-relative file; protected/generated files and normalization-preservation exceptions retain this requirement.
+U+FEFF inside a valid JSON string remains data and is preserved under the existing key, NFC and presentation rules.
+Repair a failing artifact through its owning source or producer; checks never remove a BOM automatically.
+
+The token-based preservation oracle directly declares Apache-2.0 `@humanwhocodes/momoa` as a development dependency.
+Its selected version remains 3.3.13; the declaration does not change public runtime dependencies or replace the independent oracle with production quality logic.
 
 The locked native tools are Prettier 3.9.10 and ESLint 10.12.0 with official `@eslint/json` 2.1.1.
 Strict JSON rejects comments, trailing commas, unquoted keys and non-JSON numeric forms.

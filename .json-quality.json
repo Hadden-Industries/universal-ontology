@@ -1,7 +1,6 @@
 {
   "schemaVersion": 4,
   "defaults": {
-    "lintProfile": "data",
     "formatContract": "prettier-json",
     "allowFormatWrites": true,
     "normalization": "NFC"

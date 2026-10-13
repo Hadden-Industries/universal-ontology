@@ -679,6 +679,15 @@ describe("public Universal Ontology MCP npm package", () => {
       });
       for (const { path, bytes, contract } of documents) {
         const text = decodeJsonBytes(bytes);
+        const withBom = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), bytes]);
+        expect(() => decodeJsonBytes(withBom)).toThrow(/leading UTF-8 BOM/u);
+        await expect(
+          checkJsonPresentation(
+            withBom,
+            contract.formatContract,
+            formatOptions,
+          ),
+        ).rejects.toThrow(/leading UTF-8 BOM/u);
         const [result] = await jsonLinter.lintText(text, { filePath: path });
         expect(result.errorCount).toBe(0);
         expect(result.warningCount).toBe(0);

@@ -82,6 +82,7 @@
   "devDependencies": {
     "@eslint/js": ">=10.0.1",
     "@eslint/json": ">=2.1.1",
+    "@humanwhocodes/momoa": ">=3.3.13",
     "@jest/globals": ">=30.5.2",
     "@modelcontextprotocol/client": ">=2.3.1",
     "@rdfjs/serializer-jsonld-ext": ">=4.0.2",

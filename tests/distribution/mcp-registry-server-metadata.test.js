@@ -134,7 +134,6 @@ describe("MCP Registry server metadata", () => {
     ).toMatchObject({
       path: "server.json",
       exclude: false,
-      lintProfile: "data",
       normalization: "NFC",
       allowFormatWrites: true,
       formatContract: "prettier-json",

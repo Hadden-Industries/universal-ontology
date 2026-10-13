@@ -27,6 +27,8 @@ import {
   JSON_SUFFIX,
   STRICT_JSON_GLOBS,
   readJsonPolicy,
+  decodeJsonBytes,
+  jsonRules,
 } from "../scripts/jsonQuality.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -35,6 +37,82 @@ const NATIVE_TOOL_TIMEOUT_MS = 30000;
 const eslint = fileURLToPath(
   new URL("../node_modules/eslint/bin/eslint.js", import.meta.url),
 );
+
+test.each(
+  [
+    [0xef, 0xbb, 0xbf],
+    [0xef, 0xbb, 0xbf, 123, 125, 10],
+    [0xef, 0xbb, 0xbf, 0xef, 0xbb, 0xbf, 123, 125],
+  ].map((bytes) => [bytes]),
+)("byte admission rejects a leading UTF-8 BOM: %j", (bytes) => {
+  expect(() => decodeJsonBytes(Buffer.from(bytes))).toThrow(
+    /leading UTF-8 BOM/u,
+  );
+});
+
+test.each([[0xff], [0xc0, 0xaf], [0xe2, 0x82]].map((bytes) => [bytes]))(
+  "byte admission retains fatal UTF-8 validation: %j",
+  (bytes) => expect(() => decodeJsonBytes(Buffer.from(bytes))).toThrow(),
+);
+
+test("byte admission respects input views and preserves interior U+FEFF", () => {
+  const bytes = Uint8Array.from([0xef, 0xbb, 0xbf, 123, 125, 10]);
+  expect(decodeJsonBytes(bytes.subarray(3))).toBe("{}\n");
+  expect(() => decodeJsonBytes(bytes.buffer)).toThrow(/leading UTF-8 BOM/u);
+  const text = '{"a\uFEFFb":"\uFEFF"}\n';
+  expect(decodeJsonBytes(Buffer.from(text))).toBe(text);
+});
+
+test.each([
+  "prettier-json",
+  "producer-json-body",
+  "producer-json-indent",
+  "producer-json-indent-body",
+  "producer-json-compact",
+])(
+  "%s cannot hide a BOM through its presentation envelope",
+  async (contract) => {
+    const options = await jsonFormatOptions();
+    const body = Buffer.from("{}\n");
+    expect(await checkJsonPresentation(body, contract, options)).toBe(true);
+    await expect(
+      checkJsonPresentation(
+        Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), body]),
+        contract,
+        options,
+      ),
+    ).rejects.toThrow(/leading UTF-8 BOM/u);
+  },
+);
+
+test("shared rule options retain meaningful exceptions and reject obsolete inputs", () => {
+  expect(jsonRules()["uo-json/normalized-strings"]).toEqual(["error", "NFC"]);
+  expect(
+    jsonRules({ normalization: "preserve", allowEmptyKeys: ["/packages/"] }),
+  ).toMatchObject({
+    "uo-json/normalized-strings": ["error", "preserve"],
+    "json/no-empty-keys": "off",
+    "uo-json/meaningful-keys": ["error", ["/packages/"]],
+  });
+  for (const options of ["data", null, [], { lintProfile: "data" }])
+    expect(() => jsonRules(options)).toThrow(/JSON rule options/u);
+});
+
+test("interior U+FEFF survives lint, normalization and presentation", async () => {
+  const text = '{\n  "a\uFEFFb": "\uFEFF"\n}\n';
+  expect(await qualityMessages(text)).toEqual([]);
+  expect(await normalizeJsonSource(text)).toBe(text);
+  expect(
+    await checkJsonPresentation(
+      Buffer.from(text),
+      "prettier-json",
+      await jsonFormatOptions(),
+    ),
+  ).toBe(true);
+  await expect(normalizeJsonSource("\uFEFF{}\n")).rejects.toThrow(
+    /invalid JSON source/u,
+  );
+});
 
 test.each([
   ["new/data.json", true, true],
@@ -578,6 +656,106 @@ function fixture() {
   execFileSync("git", ["-C", directory, "add", "."]);
   return { directory, put, policy };
 }
+
+test.each(["defaults", "exceptions"])(
+  "obsolete lintProfile in %s is rejected by the closed v4 policy",
+  async (location) => {
+    const { directory, put, policy } = fixture();
+    try {
+      if (location === "defaults") policy.defaults.lintProfile = "data";
+      else
+        policy.exceptions.push({
+          paths: ["new.json"],
+          lintProfile: "control",
+          owner: "test",
+          reason: "Obsolete setting",
+        });
+      put(".json-quality.json", JSON.stringify(policy));
+      await expect(readJsonPolicy(directory)).rejects.toThrow(
+        /Invalid JSON policy structure/u,
+      );
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+);
+
+test.each([
+  ".json-quality.json",
+  dataPath,
+  "new.json",
+  "ignored/generated.json",
+  "dist/generated.jsonld",
+])(
+  "BOM rejection identifies %s and preserves its bytes",
+  async (path) => {
+    const { directory, put } = fixture();
+    try {
+      const original =
+        path === ".json-quality.json"
+          ? readFileSync(join(directory, path))
+          : Buffer.from("{}\n");
+      const bytes = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), original]);
+      put(path, bytes);
+      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
+        `${path}: Unexpected leading UTF-8 BOM`,
+      );
+      expect(readFileSync(join(directory, path))).toEqual(bytes);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
+
+test.each([
+  "check:json:inventory",
+  "lint:json",
+  "format:json:check",
+  "check:json",
+  "check:json:producers",
+  "format:json",
+  "normalize:json",
+])(
+  "BOM in a preserved producer blocks %s before any writes",
+  (command) => {
+    const { directory, put, policy } = fixture();
+    try {
+      const path = "dist/generated.jsonld";
+      policy.exceptions.push({
+        paths: [path],
+        normalization: "preserve",
+        allowFormatWrites: false,
+        owner: "test",
+        reason: "Retain producer string identity",
+      });
+      put(".json-quality.json", JSON.stringify(policy));
+      const bytes = Buffer.concat([
+        Buffer.from([0xef, 0xbb, 0xbf]),
+        Buffer.from("{}\n"),
+      ]);
+      put(path, bytes);
+      put("new.json", '{"value":"e\\u0301"}');
+      const sourceBefore = readFileSync(join(directory, "new.json"));
+      const authoredBefore = readFileSync(join(directory, dataPath));
+      const result = runCommand(
+        directory,
+        command,
+        command === "normalize:json" ? ["new.json"] : [],
+      );
+      expect(result.status).toBe(1);
+      expect(result.stdout + result.stderr).toContain(
+        `${path}: Unexpected leading UTF-8 BOM`,
+      );
+      expect(readFileSync(join(directory, path))).toEqual(bytes);
+      expect(readFileSync(join(directory, "new.json"))).toEqual(sourceBefore);
+      expect(readFileSync(join(directory, dataPath))).toEqual(authoredBefore);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
 
 test.each([
   ["new/authored.json", '{" bad":"e\\u0301"}', "format:json"],
