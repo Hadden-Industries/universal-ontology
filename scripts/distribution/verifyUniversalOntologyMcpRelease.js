@@ -99,7 +99,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "tests/lint/no-json-stringify-identity.test.js":
     "b4e9d015764e3f8ea971c28a6129e20efd66e24931f318d1165ebf8c376f605c",
   "scripts/jsonQuality.js":
-    "963b28cea5249e8ba362ae2709fa45e306f1910b37fe127e146fd1c9f86c321a",
+    "aa8433874c134e9eb87b3f8e656ef09f8f50c813b0458ff034a7cd5b422fdbc8",
   "scripts/runJsonQuality.js":
     "d582d5fb1f38555727ee11a11fe1e1274622f2440a166a428c6d0842fdce2ecb",
   ".json-quality.json":
@@ -111,9 +111,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".prettierignore":
     "f00a878b2c36a1d2e22d2fc1d010f924214ee5a2ad8375e96c7d145b1e04d154",
   "scripts/checkJsonInventory.js":
-    "f3e87be3c89b9eaec84d4b8c546172fb3921c958315093355c53b91e38b266da",
+    "178963c11282e0479a0a6edfaac10cd6d178b213eb44768ae2a2031f3c6e0d9f",
   "tests/json-quality.test.js":
-    "e93ce0b25a2c6cb291c53eb66c5beda7f330043049fe320c9982b8afab4c4a5e",
+    "85bfb78cff9c84ace1e4b8ec9c650a69f68efa41340260b06700781f3a9eb5fa",
   "package-lock.json":
     "752680439f64915302d40ca4fa85d4f40f026e78e13ce9632dca94da967c8400",
   ".github/workflows/pr-validation.yml":

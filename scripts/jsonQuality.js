@@ -12,9 +12,21 @@ import Ajv from "ajv";
 import * as prettier from "prettier";
 
 export const JSON_ROOT = fileURLToPath(new URL("../", import.meta.url));
-export const JSON_SUFFIX =
-  /\.(?:json|jsonc|json5|jsonld|jsonl|ndjson|sarif)$/iu;
-export const STRICT_JSON_GLOBS = ["**/*.json", "**/*.jsonld", "**/*.sarif"];
+const STRICT_JSON_EXTENSIONS = Object.freeze(["json", "jsonld", "sarif"]);
+export const JSON_SUFFIX = new RegExp(
+  `\\.(?:${[...STRICT_JSON_EXTENSIONS, "jsonc", "json5", "jsonl", "ndjson"].join("|")})$`,
+  "iu",
+);
+export const STRICT_JSON_GLOBS = STRICT_JSON_EXTENSIONS.map(
+  (extension) => `**/*.${extension}`,
+);
+
+/** Discovery also detects unsupported dialects; qualification stays strict. */
+export function isStrictJsonPath(path) {
+  return STRICT_JSON_EXTENSIONS.some((extension) =>
+    path.endsWith(`.${extension}`),
+  );
+}
 const DATA_RULES = Object.freeze({
   "json/no-duplicate-keys": "error",
   "json/no-unsafe-values": "error",

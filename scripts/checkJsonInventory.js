@@ -11,6 +11,7 @@ import * as prettier from "prettier";
 import {
   JSON_ROOT,
   JSON_SUFFIX,
+  isStrictJsonPath,
   readJsonPolicy,
   jsonRules,
   jsonFormatOptions,
@@ -126,7 +127,7 @@ export async function inspectJsonInventory({
   }
   walk(root);
   const files = [...paths].sort().map((path) => {
-    if (!/\.(?:json|jsonld|sarif)$/u.test(path))
+    if (!isStrictJsonPath(path))
       throw new Error(`Unqualified JSON dialect: ${path}`);
     assertRegularFile(root, path, tracked.get(path));
     const file = jsonContract(path, policy, { tracked: tracked.has(path) });

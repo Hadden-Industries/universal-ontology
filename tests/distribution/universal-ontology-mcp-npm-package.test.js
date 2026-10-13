@@ -651,11 +651,23 @@ describe("public Universal Ontology MCP npm package", () => {
         )),
         {
           path: "application-bundle-metadata.json",
-          contract: { ...policy.defaults },
+          contract: jsonContract(
+            relative(
+              REPOSITORY_ROOT_PATH,
+              fileURLToPath(APPLICATION_BUNDLE_METADATA_URL),
+            )
+              .split(sep)
+              .join("/"),
+            policy,
+          ),
           bytes: await nodeFileSystem.readFile(APPLICATION_BUNDLE_METADATA_URL),
         },
       ];
       for (const { contract } of documents) expect(contract).toBeDefined();
+      expect(documents.at(-1).contract).toMatchObject({
+        formatContract: "producer-json-indent",
+        allowFormatWrites: false,
+      });
       const jsonLinter = new ESLint({
         overrideConfigFile: true,
         overrideConfig: jsonLintConfig(

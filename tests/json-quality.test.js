@@ -23,6 +23,10 @@ import {
   jsonContract,
   jsonLintConfig,
   normalizeJsonSource,
+  isStrictJsonPath,
+  JSON_SUFFIX,
+  STRICT_JSON_GLOBS,
+  readJsonPolicy,
 } from "../scripts/jsonQuality.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -31,6 +35,46 @@ const NATIVE_TOOL_TIMEOUT_MS = 30000;
 const eslint = fileURLToPath(
   new URL("../node_modules/eslint/bin/eslint.js", import.meta.url),
 );
+
+test.each([
+  ["new/data.json", true, true],
+  ["dist/ontology.jsonld", true, true],
+  ["reports/result.sarif", true, true],
+  [".json", true, true],
+  ["new/data.jsonc", true, false],
+  ["new/data.json5", true, false],
+  ["new/data.jsonl", true, false],
+  ["new/data.ndjson", true, false],
+  ["new/data.JSON", true, false],
+  ["new/data.json.txt", false, false],
+])(
+  "JSON discovery and strict qualification agree for %s",
+  (path, discovered, strict) => {
+    expect(JSON_SUFFIX.test(path)).toBe(discovered);
+    expect(isStrictJsonPath(path)).toBe(strict);
+  },
+);
+
+test("native lint and formatting select the supported strict extensions", () => {
+  expect(STRICT_JSON_GLOBS).toEqual(["**/*.json", "**/*.jsonld", "**/*.sarif"]);
+});
+
+test("bundle metadata inherits its producer presentation instead of policy defaults", async () => {
+  const policy = await readJsonPolicy();
+  const contract = jsonContract(
+    "dist/release-work/universal-ontology-mcp-application-bundle.json",
+    policy,
+  );
+  expect(contract.formatContract).toBe("producer-json-indent");
+  const options = await jsonFormatOptions();
+  const bytes = Buffer.from('{\n  "probe": -0\n}\n');
+  expect(
+    await checkJsonPresentation(bytes, policy.defaults.formatContract, options),
+  ).toBe(true);
+  expect(
+    await checkJsonPresentation(bytes, contract.formatContract, options),
+  ).toBe(false);
+});
 
 function lint(text, name = "package.json") {
   return spawnSync(
