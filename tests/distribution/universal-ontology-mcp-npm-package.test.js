@@ -9,6 +9,7 @@ import { promisify } from "node:util";
 import { ESLint } from "eslint";
 import {
   jsonLintConfig,
+  jsonContract,
   readJsonPolicy,
   jsonFormatOptions,
   decodeJsonBytes,
@@ -639,9 +640,9 @@ describe("public Universal Ontology MCP npm package", () => {
         ...(await Promise.all(
           jsonPaths.map(async (path) => ({
             path,
-            contract: policy.files.find(
-              (file) =>
-                file.path === `packages/universal-ontology-mcp-server/${path}`,
+            contract: jsonContract(
+              `packages/universal-ontology-mcp-server/${path}`,
+              policy,
             ),
             bytes: await nodeFileSystem.readFile(
               join(installedPackageDirectoryPath, path),

@@ -1,10 +1,14 @@
 import js from "@eslint/js";
 import globals from "globals";
 import eslintConfigPrettier from "eslint-config-prettier";
-import { jsonLintConfig, readJsonPolicy } from "./scripts/jsonQuality.js";
+import {
+  jsonLintConfig,
+  jsonPolicyLintFiles,
+  readJsonPolicy,
+} from "./scripts/jsonQuality.js";
 
-// One exact-path policy owns JSON selection; the inventory gate checks native effective configuration.
-const jsonFiles = (await readJsonPolicy()).files;
+// Ordinary JSON is included by default; policy records only deviations.
+const jsonFiles = jsonPolicyLintFiles(await readJsonPolicy());
 
 const strictRules = {
   "no-var": "error",

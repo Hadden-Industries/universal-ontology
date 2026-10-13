@@ -6,11 +6,11 @@ import { join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import * as prettier from "prettier";
 import { inspectJsonInventory } from "./checkJsonInventory.js";
-import { checkJsonPresentation } from "./jsonQuality.js";
+import { checkJsonPresentation, STRICT_JSON_GLOBS } from "./jsonQuality.js";
 
-async function lint({ root, policy, linter }) {
+async function lint({ root, files, linter }) {
   const results = await linter.lintFiles(
-    policy.files.map((file) => join(root, file.path)),
+    files.map((file) => join(root, file.path)),
   );
   const formatter = await linter.loadFormatter("stylish");
   process.stdout.write(formatter.format(results));
@@ -22,10 +22,10 @@ async function lint({ root, policy, linter }) {
 }
 
 async function presentation(
-  { root, policy, formatOptions },
+  { root, files, formatOptions },
   producersOnly = false,
 ) {
-  const selected = policy.files.filter(
+  const selected = files.filter(
     (file) => !producersOnly || !file.allowFormatWrites,
   );
   const failures = [];
@@ -51,19 +51,20 @@ async function presentation(
  * is derived from the same policy as the exact argument list, never maintained.
  */
 async function format(context) {
-  const { root, policy } = context;
-  const writable = policy.files.filter((file) => file.allowFormatWrites);
+  const { root, files } = context;
+  const writable = files.filter((file) => file.allowFormatWrites);
+  if (!writable.length) return;
   // Native ignore patterns are relative to the ignore file's directory.
   const ignorePath = join(root, `.json-quality-write-${randomUUID()}.ignore`);
   let created = false;
   try {
     writeFileSync(
       ignorePath,
-      `**/*.json\n${writable.map((file) => `!/${file.path}`).join("\n")}\n`,
+      `${STRICT_JSON_GLOBS.join("\n")}\n${writable.map((file) => `!/${file.path}`).join("\n")}\n`,
       { flag: "wx" },
     );
     created = true;
-    for (const file of policy.files) {
+    for (const file of files) {
       const info = await prettier.getFileInfo(join(root, file.path), {
         ignorePath,
       });
@@ -108,10 +109,15 @@ export async function runJsonQuality(operation, options) {
       "Expected inventory, lint, check-format, check, format or producers.",
     );
   const context = await inspectJsonInventory(options);
-  const { tracked, linted, formatted, preserved } = context.counts;
+  const { discovered, tracked, linted, formatted, preserved } = context.counts;
   process.stdout.write(
-    `JSON inventory: ${tracked} classified; ${linted} linted; ${formatted} writable; ${preserved} protected.\n`,
+    `JSON inventory: ${discovered} discovered (${tracked} tracked); ${linted} linted; ${formatted} writable; ${preserved} protected.\n`,
   );
+  if (operation === "inventory")
+    for (const boundary of context.boundaries)
+      process.stdout.write(
+        `External JSON boundary: ${boundary.path}: ${boundary.exceptions.map((rule) => rule.reason).join("; ")}\n`,
+      );
   if (["lint", "check", "format"].includes(operation)) await lint(context);
   if (["check-format", "check", "producers", "format"].includes(operation))
     await presentation(
@@ -132,9 +138,17 @@ if (
   import.meta.url === pathToFileURL(process.argv[1]).href
 ) {
   try {
-    if (process.argv.length !== 3)
-      throw new Error("Expected one JSON quality operation.");
-    await runJsonQuality(process.argv[2]);
+    if (
+      process.argv.length < 3 ||
+      process.argv.length > 4 ||
+      (process.argv[3] && process.argv[3] !== "--require-generated")
+    )
+      throw new Error(
+        "Expected a JSON quality operation and optional --require-generated.",
+      );
+    await runJsonQuality(process.argv[2], {
+      requireGenerated: process.argv[3] === "--require-generated",
+    });
   } catch (error) {
     process.stderr.write(`${error.message}\n`);
     process.exitCode = 1;

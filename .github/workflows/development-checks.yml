@@ -102,8 +102,10 @@ jobs:
           test "$(npm --version)" = "12.2.0"
       - name: Install the locked native JSON tools without lifecycle scripts
         run: npm ci --include=dev --ignore-scripts
-      - name: Check the complete classified JSON corpus
-        run: npm run check:json
+      - name: Build generated ontology and query products without source fixes
+        run: npm run build:verify
+      - name: Check source and generated JSON against default and producer contracts
+        run: npm run check:json -- --require-generated
   python-style:
     timeout-minutes: 10
     name: Python style

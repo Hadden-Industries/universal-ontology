@@ -3,6 +3,7 @@
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { posix } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ESLint } from "eslint";
 import json from "@eslint/json";
@@ -12,6 +13,7 @@ import * as prettier from "prettier";
 export const JSON_ROOT = fileURLToPath(new URL("../", import.meta.url));
 export const JSON_SUFFIX =
   /\.(?:json|jsonc|json5|jsonld|jsonl|ndjson|sarif)$/iu;
+export const STRICT_JSON_GLOBS = ["**/*.json", "**/*.jsonld", "**/*.sarif"];
 const DATA_RULES = Object.freeze({
   "json/no-duplicate-keys": "error",
   "json/no-unsafe-values": "error",
@@ -59,33 +61,47 @@ export function jsonLintConfig(files) {
 const validatePolicy = new Ajv({ strict: true, allErrors: true }).compile({
   type: "object",
   additionalProperties: false,
-  required: ["schemaVersion", "files"],
+  required: ["schemaVersion", "defaults", "exceptions"],
   properties: {
-    schemaVersion: { const: 2 },
-    files: {
+    schemaVersion: { const: 3 },
+    defaults: {
+      type: "object",
+      additionalProperties: false,
+      required: ["lintProfile", "formatContract", "allowFormatWrites"],
+      properties: {
+        lintProfile: { const: "data" },
+        formatContract: { const: "prettier-json" },
+        allowFormatWrites: { const: true },
+      },
+    },
+    exceptions: {
       type: "array",
-      minItems: 1,
+      uniqueItems: true,
       items: {
         type: "object",
         additionalProperties: false,
-        required: [
-          "path",
-          "class",
-          "owner",
-          "lintProfile",
-          "allowFormatWrites",
-          "formatContract",
-          "validation",
-        ],
+        required: ["paths", "owner", "reason"],
+        minProperties: 4,
         properties: {
-          path: { type: "string", minLength: 1 },
-          class: { enum: ["authored", "producer", "preserved"] },
+          paths: {
+            type: "array",
+            minItems: 1,
+            uniqueItems: true,
+            items: { type: "string", minLength: 1 },
+          },
           owner: { type: "string", pattern: "\\S" },
+          reason: { type: "string", pattern: "\\S" },
+          exclude: { const: true },
           lintProfile: { enum: ["control", "data"] },
-          allowFormatWrites: { type: "boolean" },
-          formatContract: { enum: ["prettier-json", "producer-json-body"] },
-          validation: { type: "string", pattern: "\\S" },
-          preserveReason: { type: "string", pattern: "\\S" },
+          allowFormatWrites: { const: false },
+          formatContract: {
+            enum: [
+              "producer-json-body",
+              "producer-json-indent",
+              "producer-json-indent-body",
+              "producer-json-compact",
+            ],
+          },
         },
       },
     },
@@ -116,7 +132,67 @@ export async function readJsonPolicy(root = JSON_ROOT) {
     throw new Error(
       `Invalid JSON policy structure: ${JSON.stringify(validatePolicy.errors)}`,
     );
+  for (const rule of policy.exceptions) {
+    for (const pattern of rule.paths)
+      if (
+        pattern.startsWith("/") ||
+        pattern.includes("\\") ||
+        pattern.includes(":") ||
+        pattern
+          .split("/")
+          .some((part) => part === ".." || part === "." || !part)
+      )
+        throw new Error(`Unsafe JSON exception pattern: ${pattern}`);
+    if (
+      rule.exclude &&
+      Object.keys(rule).some(
+        (key) => !["paths", "owner", "reason", "exclude"].includes(key),
+      )
+    )
+      throw new Error("An external boundary cannot also redefine JSON checks.");
+  }
   return policy;
+}
+
+/** Sparse exceptions amend mandatory defaults; contradictory overlaps fail closed. */
+export function jsonContract(path, policy, { tracked = false } = {}) {
+  const contract = { path, ...policy.defaults, exclude: false, exceptions: [] };
+  const explicit = new Map();
+  for (const rule of policy.exceptions) {
+    if (!rule.paths.some((pattern) => posix.matchesGlob(path, pattern)))
+      continue;
+    contract.exceptions.push({ owner: rule.owner, reason: rule.reason });
+    for (const key of [
+      "lintProfile",
+      "formatContract",
+      "allowFormatWrites",
+      "exclude",
+    ]) {
+      if (rule[key] === undefined) continue;
+      if (explicit.has(key) && explicit.get(key) !== rule[key])
+        throw new Error(`Conflicting JSON exceptions: ${path}: ${key}`);
+      explicit.set(key, rule[key]);
+      contract[key] = rule[key];
+    }
+  }
+  // Installed-tree boundaries never conceal a repository-owned tracked file.
+  if (tracked && contract.exclude) {
+    contract.exclude = false;
+    contract.allowFormatWrites = false;
+  }
+  return contract;
+}
+
+/** Native ESLint discovers ordinary JSON without an admission allowlist. */
+export function jsonPolicyLintFiles(policy) {
+  return [
+    ...STRICT_JSON_GLOBS.map((path) => ({ path, lintProfile: "data" })),
+    ...policy.exceptions
+      .filter((rule) => rule.lintProfile)
+      .flatMap((rule) =>
+        rule.paths.map((path) => ({ path, lintProfile: rule.lintProfile })),
+      ),
+  ];
 }
 
 /** The root native configuration is the sole presentation-options authority. */
@@ -138,6 +214,23 @@ export async function checkJsonPresentation(bytes, formatContract, options) {
   if (formatContract === "producer-json-body") {
     text = text.replaceAll("\r\n", "\n");
     if (!text.endsWith("\n")) text += "\n";
+  } else if (
+    [
+      "producer-json-indent",
+      "producer-json-indent-body",
+      "producer-json-compact",
+    ].includes(formatContract)
+  ) {
+    // Existing producers use the platform serializer; validate its exact bytes.
+    const pretty = formatContract !== "producer-json-compact";
+    if (formatContract === "producer-json-indent-body") {
+      text = text.replaceAll("\r\n", "\n");
+      if (!text.endsWith("\n")) text += "\n";
+    }
+    return (
+      text ===
+      JSON.stringify(JSON.parse(text), null, pretty ? 2 : undefined) + "\n"
+    );
   } else if (formatContract !== "prettier-json")
     throw new Error(`Unknown JSON formatting contract: ${formatContract}`);
   return prettier.check(text, options);

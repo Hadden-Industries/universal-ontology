@@ -94,21 +94,21 @@ const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/jsonQuality.js":
-    "3206f1b3d9a95cccbc732e6c4994d103d8481f95f1d70460b1ee89a80792a3b1",
+    "24f07b1f34ac37280676cbd81524b9f0001cdd9f09dcb1a94112dada69bf259d",
   "scripts/runJsonQuality.js":
-    "12141ec7d4e848857fb97e6b7fdce23225cdd7aa5d6184a6179eb5115bebabb6",
+    "87a22f091568e58a4023780b6df8210a472f02d98e629f7f4076f8dbcdff1d00",
   ".json-quality.json":
-    "9fe8237eaa30ed975697f5c26d3f1476daf0d5269331f7f8d98395cbb10dd08a",
+    "9a2612444782036fcaafdbdd5e237c965868a0e8e1a977226b570446a2d6625b",
   "eslint.config.js":
-    "d9507fbd608a2f19b567eb290ba36e60781338b761f8e918dea14d9a91a804a6",
+    "8468c8fb7e9b439d74c98c2865a160cebb883bd1a595411078bf2098f8dc1f8b",
   ".prettierrc.json":
-    "53a48d666b434349ae537828f88378f7bd8cd2558a521ca8df8576ad2e9ce0ba",
+    "064cfc1b8cb2f3fdff9c1cb7937e0b8bdd223566c99c2dc40d97702c5bbeed75",
   ".prettierignore":
     "f00a878b2c36a1d2e22d2fc1d010f924214ee5a2ad8375e96c7d145b1e04d154",
   "scripts/checkJsonInventory.js":
-    "f46901293f17270a54343ebd9c97675d218511fe32b706abdb26ebb1e1ebc698",
+    "b4e98a93d6d6642ad5b6a799d4916cf5ce86d06c7b203525e2ad4b47c36f4859",
   "tests/json-quality.test.js":
-    "78d0d92491e806f6e961b248d88706dcf159b6443f13807f32aea9ed60b5d384",
+    "09242fa51be8ef1e932dd782d9637fb0d9910498414c84959760fcc1beaf5551",
   "package-lock.json":
     "752680439f64915302d40ca4fa85d4f40f026e78e13ce9632dca94da967c8400",
   ".github/workflows/pr-validation.yml":
@@ -116,7 +116,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/full-qualification.yml":
     "fd144ec570697ea367be1af593adf40bf8a3ba5391dc57ef85bc57dd28512d32",
   ".github/workflows/development-checks.yml":
-    "93e072e1582cb8f819976111e83c77d56b0e2893e3d1d1e12448f05d4bf2e2e1",
+    "656f2060f39cbfe51cb658821aeb1754b5b9b7f22b427db292682148e48052c1",
   ".github/workflows/ontology-validation.yml":
     "a9c709b97f69c67f635dee1c5ba73fd7a526b7108e26d3b0f1e8fcda8b2483a9",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":

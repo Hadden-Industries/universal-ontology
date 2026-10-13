@@ -19,6 +19,7 @@ import { checkJsonInventory } from "../scripts/checkJsonInventory.js";
 import {
   checkJsonPresentation,
   jsonFormatOptions,
+  jsonContract,
 } from "../scripts/jsonQuality.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -262,16 +263,6 @@ function fixture() {
   const policy = JSON.parse(
     readFileSync(join(root, ".json-quality.json"), "utf8"),
   );
-  policy.files = policy.files.filter((file) =>
-    [
-      ".json-quality.json",
-      ".prettierrc.json",
-      "package.json",
-      dataPath,
-      producerPath,
-      retainedPath,
-    ].includes(file.path),
-  );
   put(".json-quality.json", `${JSON.stringify(policy, null, 2)}\n`);
   execFileSync("git", ["-C", directory, "add", "."]);
   return { directory, put, policy };
@@ -283,6 +274,7 @@ test(
     const { directory } = fixture();
     try {
       expect(await checkJsonInventory({ root: directory })).toEqual({
+        discovered: 6,
         tracked: 6,
         linted: 6,
         formatted: 4,
@@ -295,18 +287,12 @@ test(
   NATIVE_TOOL_TIMEOUT_MS,
 );
 
-test("one policy entry admits a new authored path while direct Prettier remains blocked", () => {
-  const { directory, put, policy } = fixture();
+test("new untracked JSON is checked and formatted without a policy entry or staging", () => {
+  const { directory, put } = fixture();
   try {
     const path = "new/authored.json";
-    policy.files.push({
-      ...policy.files.find((file) => file.path === dataPath),
-      path,
-    });
-    put(".json-quality.json", `${JSON.stringify(policy, null, 2)}\n`);
     put(path, '{"new":[-0,1e+03]}');
     const ignoreBefore = readFileSync(join(directory, ".prettierignore"));
-    execFileSync("git", ["-C", directory, "add", "."]);
     const direct = spawnSync(
       process.execPath,
       [
@@ -344,18 +330,124 @@ test("one policy entry admits a new authored path while direct Prettier remains 
   }
 }, 60000);
 
+test.each(["untracked", "staged", "ignored", "ignored-tracked"])(
+  "ordinary %s JSON is automatically included without policy edits",
+  async (state) => {
+    const { directory, put } = fixture();
+    try {
+      const path = state.startsWith("ignored")
+        ? "ignored/new file é.json"
+        : "new file é.json";
+      put(path, '{"x":1,"x":2}');
+      if (state === "staged" || state === "ignored-tracked")
+        execFileSync("git", ["-C", directory, "add", "-f", "--", path]);
+      const inventory = await checkJsonInventory({ root: directory });
+      expect(inventory.discovered).toBe(7);
+      expect(inventory.formatted).toBe(state === "ignored" ? 4 : 5);
+      expect(runCommand(directory, "lint:json").status).toBe(1);
+      put(path, '{\n  "x": 1\n}\n');
+      expect(runCommand(directory, "lint:json").status).toBe(0);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  60000,
+);
+
+test.each([".sdlc/runtime/state.json", "nested/node_modules/owned.json"])(
+  "an external boundary never conceals tracked JSON: %s",
+  async (path) => {
+    const { directory, put } = fixture();
+    try {
+      put(path, '{"x":1,"x":2}');
+      expect((await checkJsonInventory({ root: directory })).discovered).toBe(
+        6,
+      );
+      execFileSync("git", ["-C", directory, "add", "-f", "--", path]);
+      const tracked = await checkJsonInventory({ root: directory });
+      expect(tracked.discovered).toBe(7);
+      expect(tracked.formatted).toBe(4);
+      expect(runCommand(directory, "lint:json").status).toBe(1);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  60000,
+);
+
+test("ignored generated JSON-LD is checked with its producer contract and cannot be rewritten", async () => {
+  const { directory, put } = fixture();
+  try {
+    put(".gitignore", "node_modules/\ndist/\n");
+    const path = "dist/generated.jsonld";
+    const generated = `${JSON.stringify({ "@graph": [{ "@id": "urn:test" }] }, null, 2)}\n`;
+    put(path, generated);
+    put("dist/query/v1/catalog.json", "{}\n");
+    expect(
+      (await checkJsonInventory({ root: directory, requireGenerated: true }))
+        .preserved,
+    ).toBe(4);
+    expect(runCommand(directory, "format:json").status).toBe(0);
+    expect(readFileSync(join(directory, path), "utf8")).toBe(generated);
+    const authoredBefore = readFileSync(join(directory, dataPath));
+    put(path, '{"@id":"first","@id":"second"}');
+    expect(runCommand(directory, "format:json").status).toBe(1);
+    expect(readFileSync(join(directory, dataPath))).toEqual(authoredBefore);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+}, 60000);
+
+test(
+  "the post-generation gate rejects an absent generated corpus",
+  async () => {
+    const { directory } = fixture();
+    try {
+      await expect(
+        checkJsonInventory({ root: directory, requireGenerated: true }),
+      ).rejects.toThrow(/generated JSON/);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
+
+test.each([
+  ["producer-json-indent", '{\n  "x": [\n    1,\n    2\n  ]\n}\n', true],
+  ["producer-json-indent", '{"x":[1,2]}\n', false],
+  ["producer-json-indent-body", '{\r\n  "x": true\r\n}\r\n', true],
+  ["producer-json-compact", '{"x":true}\n', true],
+  ["producer-json-compact", '{"x":true}', false],
+])(
+  "native producer serialization is checked exactly: %s",
+  async (contract, text, valid) => {
+    expect(
+      await checkJsonPresentation(
+        Buffer.from(text),
+        contract,
+        await jsonFormatOptions(),
+      ),
+    ).toBe(valid);
+  },
+);
+
 test("native formatting preserves every protected file in a complete corpus copy", () => {
   const { directory, put } = fixture();
   try {
     const policy = JSON.parse(
       readFileSync(join(root, ".json-quality.json"), "utf8"),
     );
-    for (const file of policy.files)
+    const files = execFileSync("git", ["-C", root, "ls-files", "-z"], {
+      encoding: "utf8",
+    })
+      .split("\0")
+      .filter((path) => path.endsWith(".json"))
+      .map((path) => jsonContract(path, policy, { tracked: true }));
+    for (const file of files)
       put(file.path, readFileSync(join(root, file.path)));
     put(dataPath, '{"b":[-0,1e+03,1.0],"a":"\\u0061"}');
-    const protectedFiles = policy.files.filter(
-      (file) => !file.allowFormatWrites,
-    );
+    const protectedFiles = files.filter((file) => !file.allowFormatWrites);
     expect(protectedFiles).toHaveLength(66);
     const before = protectedFiles.map((file) =>
       readFileSync(join(directory, file.path)),
@@ -375,18 +467,13 @@ test("native formatting preserves every protected file in a complete corpus copy
 }, 60000);
 
 test.each([
-  "unknown",
-  "untracked",
-  "stale",
   "duplicate",
   "conflict",
-  "ignored-tracked",
   "dialect",
   "outside",
   "native-selection",
   "native-rule",
   "missing",
-  "empty",
   "case-collision",
   "invalid-utf8",
 ])(
@@ -394,33 +481,26 @@ test.each([
   async (scenario) => {
     const { directory, put, policy } = fixture();
     try {
-      if (scenario === "unknown" || scenario === "untracked")
-        put("new.json", "{}");
-      if (scenario === "unknown")
-        execFileSync("git", ["-C", directory, "add", "new.json"]);
-      if (scenario === "stale")
-        policy.files.push({ ...policy.files[0], path: "absent.json" });
-      if (scenario === "duplicate") policy.files.push(policy.files[0]);
+      if (scenario === "duplicate")
+        policy.exceptions.push(policy.exceptions[0]);
       if (scenario === "conflict")
-        policy.files.find(
-          (file) => file.path === retainedPath,
-        ).allowFormatWrites = true;
-      if (scenario === "ignored-tracked") {
-        put("ignored/data.json", "{}");
-        execFileSync("git", [
-          "-C",
-          directory,
-          "add",
-          "-f",
-          "ignored/data.json",
-        ]);
-      }
+        policy.exceptions.push({
+          paths: ["package.json"],
+          lintProfile: "data",
+          owner: "test",
+          reason: "Conflicting control override",
+        });
       if (scenario === "dialect") {
         put("new.jsonc", "{}");
         execFileSync("git", ["-C", directory, "add", "new.jsonc"]);
       }
       if (scenario === "outside")
-        policy.files.push({ ...policy.files[0], path: "../outside.json" });
+        policy.exceptions.push({
+          paths: ["../outside.json"],
+          allowFormatWrites: false,
+          owner: "test",
+          reason: "Invalid outside path",
+        });
       if (scenario === "native-selection")
         put(
           ".prettierignore",
@@ -440,8 +520,6 @@ test.each([
       if (scenario === "missing") rmSync(join(directory, dataPath));
       if (scenario === "invalid-utf8")
         put(dataPath, Buffer.from([34, 255, 34]));
-      if (scenario === "empty")
-        execFileSync("git", ["-C", directory, "rm", "--cached", "-r", "."]);
       if (scenario === "case-collision")
         execFileSync("git", [
           "-C",
@@ -495,8 +573,12 @@ test.each([
     const { directory, put, policy } = fixture();
     try {
       // Qualify the same producer body contract used by the retained Oxigraph notice.
-      policy.files.find((file) => file.path === retainedPath).formatContract =
-        "producer-json-body";
+      policy.exceptions.push({
+        paths: [retainedPath],
+        formatContract: "producer-json-body",
+        owner: "test notice producer",
+        reason: "Qualified upstream byte envelope",
+      });
       put(".json-quality.json", `${JSON.stringify(policy, null, 2)}\n`);
       put(
         dataPath,

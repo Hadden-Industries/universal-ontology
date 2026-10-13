@@ -14,6 +14,19 @@ That request authorizes the plan's dependency, configuration, formatting, commit
 It requires consolidated broad reviews and narrowly scoped follow-up reviews using available local agents.
 Deployment and release remain separate decisions.
 
+### Accepted default-discovery amendment, 13 October 2026
+
+The owner explicitly approved replacing per-file admission with automatic JSON discovery, including generated and Git-ignored outputs, and an exceptions-only policy.
+The approved configuration scope is `.json-quality.json`, `eslint.config.js`, `.prettierrc.json` and `.github/workflows/development-checks.yml`.
+Reuse the accepted R2 route, native tools, producer contracts, signed source-PR delivery and consolidated local reviews.
+All ordinary tracked or untracked JSON is checked without staging or a policy edit.
+JSON-LD receives strict JSON checks plus its producer's presentation and existing graph verification.
+External installations and local runtime/tool state are explicit boundary exceptions; no Git ignore rule suppresses checking by itself, and boundaries never conceal tracked JSON.
+Existing producer, lock, upstream and historical write protections remain; ignored untracked outputs are never generic formatting targets.
+Check generated output after the website build on Linux and Windows and fail if the expected generated JSON/JSON-LD corpus is absent.
+Prove automatic admission, ignored output checking, protected-byte preservation, exception conflicts, tracked boundary overrides, native rule integrity and post-generation CI ordering.
+Repair producer failures at the source; preserve truthful diagnostics and retained evidence.
+
 ### Accepted DRY amendment, 13 October 2026
 
 The owner requested implementation of the follow-up simplification and a DRY review of the complete change set beginning at `f0ce0fe6ccbfb94a8cfd55da96d686eca8d05ecf`.

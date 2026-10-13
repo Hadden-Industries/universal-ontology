@@ -1,7 +1,11 @@
 {
   "overrides": [
     {
-      "files": "*.json",
+      "files": [
+        "*.json",
+        "*.jsonld",
+        "*.sarif"
+      ],
       "options": {
         "parser": "json-stringify",
         "tabWidth": 2,

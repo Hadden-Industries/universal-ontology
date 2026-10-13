@@ -108,7 +108,7 @@ Report failures, skips and checks you could not run as they are.
 
 ### JSON quality and safe fixing
 
-`npm run check:json` checks the complete classified JSON corpus read-only.
+`npm run check:json` automatically discovers and checks source and generated JSON read-only, including untracked and Git-ignored files.
 `npm run lint:json` checks inventory, strict JSON syntax, decoded duplicate keys and native interoperability rules with zero warnings.
 `npm run format:json:check` checks inventory and presentation.
 `npm run format:json` performs the full lint and producer-format preflight, Prettier's debug check, the permitted writes and a final read-only check.
@@ -116,18 +116,22 @@ Report failures, skips and checks you could not run as they are.
 `format:node` and `format:node:check` select non-JSON sources only.
 They pass their mode to the same `format:node:files` selection, so its glob list is maintained once.
 
-[The JSON policy](../.json-quality.json) is the exact-path authority for 105 files, all receiving strict syntax, interoperability and presentation validation.
-Thirty-nine authored files permit formatting; six producer-owned files and sixty retained files are protected from generic writes.
-The policy itself is included among the authored controls.
-Every record declares its owner, lint profile, formatting contract, write eligibility and designated validation consumer; protected records explain their preservation requirement.
-Policy schema v2 calls write eligibility `allowFormatWrites`; false still requires full lint and presentation validation.
-Adding or renaming JSON requires one explicitly reviewed policy classification before staging the new file and running the gate.
-There is no second writable-path list to maintain.
-The Git inventory includes hidden and ignored-but-tracked files and also detects nonignored untracked candidates.
-Unknown, stale, conflicting, missing, case-colliding and symlinked paths fail closed.
-JSONC, JSON5, JSON-LD, JSON Lines, NDJSON and SARIF extensions require classification too; a new dialect needs explicit qualification before native lint or writes are enabled.
-Ignored generated output and installed dependency graphs retain their producer's validation.
-Package qualification rebuilds the source bundle and validates JSON in the packed target against producer contracts; installed dependencies are validated through their own package graph and consumer checks.
+[The JSON policy](../.json-quality.json) schema v3 records defaults and sparse exceptions rather than an admission allowlist.
+Ordinary `.json`, `.jsonld` and `.sarif` files need no policy entry or staging: create, check, fix and stage the final bytes.
+Defaults require strict syntax, native interoperability lint and standard presentation; owned controls have a stronger NFC-key override.
+Exceptions specify their owner and reason for external boundaries, write protection or producer-defined presentation.
+The existing 66 tracked producer/retained files remain protected; new files within their protected families inherit that protection.
+Git ignore rules never suppress checking.
+Ignored untracked files are always read-only to the generic formatter.
+Installed dependencies (`**/node_modules/**`), `.venv`, installed agent skills/tools, Git administration and local workflow/tool state are explicit external boundaries.
+Boundary rules never conceal tracked JSON; discovery prunes external trees and independently includes every indexed JSON path.
+`npm run check:json:inventory` prints encountered external boundaries and their reasons.
+Missing tracked files, unmerged/case-colliding paths, unsafe links and conflicting exceptions fail closed.
+JSONC, JSON5, JSON Lines and NDJSON are detected but require separate dialect qualification; they cannot silently escape checking.
+Suffix discovery does not detect extensionless or embedded JSON, which needs an owning producer/consumer contract.
+The mandatory Linux/Windows JSON jobs run `build:verify` before `check:json -- --require-generated`; absent generated JSON-LD or the query catalog fails the final gate.
+The read-only command checks existing files; it does not build or fix anything itself.
+Package qualification also rebuilds the source bundle and validates actual packed target bytes through the shared contracts.
 
 The locked native tools are Prettier 3.9.10 and ESLint 10.12.0 with official `@eslint/json` 2.1.1.
 Strict JSON rejects comments, trailing commas, unquoted keys and non-JSON numeric forms.
@@ -139,12 +143,16 @@ No supported command automatically normalizes keys, changes values, sorts member
 Prettier's explicit `json-stringify` presentation uses two spaces, LF, double quotes, no trailing commas and one final newline while preserving member order and numeric lexemes.
 Read-only formatting uses the native Prettier API across every policy record, independently of its write eligibility.
 The retained Oxigraph notice uses `producer-json-body`: its existing LF/CRLF envelope and absent final newline are permitted, while native Prettier checks the entire JSON body.
-All other tracked files currently use the standard Prettier contract.
+Other tracked files currently use standard Prettier presentation.
+Generated ontology/query/distribution products using native `JSON.stringify(..., null, 2)` receive exact two-space, final-LF producer serialization checks.
+The retained npm SPDX report permits its original CRLF envelope; the retained Jest report requires compact native JSON plus final LF.
+These are presentation contracts, not lint exemptions.
+Schema, graph and digest checks remain owned by the producer/consumer.
 All JSON npm commands enter [one native-tool adapter](../scripts/runJsonQuality.js), which reconciles inventory once before its selected operation.
 [Shared contracts](../scripts/jsonQuality.js) supply the policy reader, native ESLint rules and producer-presentation check to repository checks and rebuilt-package qualification.
 The inventory checker compares effective ESLint configuration and resolved Prettier options with these authorities to detect drift.
 `.prettierignore` blocks all JSON from direct Prettier CLI writes; it does not select the read-only checks.
-The supported writer derives both its exact native argument list and temporary ignore selection from `allowFormatWrites`, verifies native selection, debug-checks, writes and removes its temporary selection in a `finally` block.
+The supported writer derives both its exact native argument list and temporary ignore selection from discovered files, exception rules and Git write eligibility; it verifies native selection, debug-checks, writes and removes its temporary selection in a `finally` block.
 The temporary ignore file resides in the repository root because native ignore patterns are relative to their file's directory.
 After writes, the adapter reconciles inventory again and reruns lint and presentation across the complete corpus.
 

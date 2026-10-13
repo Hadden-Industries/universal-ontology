@@ -219,7 +219,10 @@ test("JSON quality always checks the full corpus on both platforms before consum
   expect(
     runs.indexOf("node scripts/evaluatePullRequestChecks.js --verify"),
   ).toBeLessThan(runs.indexOf("npm ci --include=dev --ignore-scripts"));
-  expect(runs.at(-1)).toBe("npm run check:json");
+  expect(runs.indexOf("npm run build:verify")).toBeGreaterThan(
+    runs.indexOf("npm ci --include=dev --ignore-scripts"),
+  );
+  expect(runs.at(-1)).toBe("npm run check:json -- --require-generated");
   expect(workflow.jobs.complete.needs).toContain("json-quality");
 });
 
