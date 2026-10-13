@@ -1,0 +1,10 @@
+{
+  "name": "universal-ontology-json-tooling",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "devDependencies": {
+    "@hadden-industries/json-quality": "file:archives/hadden-industries-json-quality-0.1.0-dev.0-5c44155457c7a9cd61b1fba2a92fe8f3143bbcaf.tgz"
+  }
+}

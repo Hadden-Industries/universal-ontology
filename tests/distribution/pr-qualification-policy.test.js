@@ -44,7 +44,7 @@ const files = [
   "tooling/markdown/package.json",
   "tooling/markdown/package-lock.json",
   ".github/workflows/markdown-quality.yml",
-  "scripts/installMarkdownTools.mjs",
+  "scripts/installRepositoryQualityTools.mjs",
   "scripts/render_editing_policy.py",
   "scripts/setUpDevelopmentEnvironment.js",
   ".markdown-quality-execution.json",
@@ -56,15 +56,17 @@ const files = [
   "tooling/markdown/archives/hadden-industries-markdown-quality-linux-x64-1.0.3.tgz",
   ".json-quality.json",
   "eslint.config.js",
-  "scripts/eslint/noJsonStringifyIdentity.js",
   "tests/lint/no-json-stringify-identity.test.js",
   ".prettierrc.json",
   ".prettierignore",
-  "scripts/checkJsonInventory.js",
-  "scripts/jsonQuality.js",
-  "scripts/runJsonQuality.js",
   "tests/json-quality.test.js",
   "package-lock.json",
+  "scripts/runRepositoryJsonQuality.js",
+  "tooling/json/public-api.mjs",
+  "tooling/json/package.json",
+  "tooling/json/package-lock.json",
+  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-5c44155457c7a9cd61b1fba2a92fe8f3143bbcaf.tgz",
+  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-5c44155457c7a9cd61b1fba2a92fe8f3143bbcaf.tgz.provenance.json",
 ];
 
 test.each(files.slice(0, 5))(
@@ -181,7 +183,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
 });
 test("reviewed graph accepts every entry point and control input", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedFileCount: 44,
+    verifiedFileCount: 46,
   });
 });
 

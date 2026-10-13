@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "name": "@hadden-industries/json-quality",
+  "version": "0.1.0-dev.0",
+  "sourceCommit": "5c44155457c7a9cd61b1fba2a92fe8f3143bbcaf",
+  "sourceTree": "e1ec2df838bc701dec1d35096007aa2fa11c422e",
+  "sourceClean": true,
+  "archive": "hadden-industries-json-quality-0.1.0-dev.0-5c44155457c7a9cd61b1fba2a92fe8f3143bbcaf.tgz",
+  "sha256": "d15fa0b8393e910b63b8f5574ef6c8d9ce591061a1e9e85417db82586f60a637",
+  "integrity": "sha512-ZIWxmKpHGbFLs/DWqHsaYvz9zDj3X3aYiu9YKEEBSIEJWn5aGrnStd43tnvD0zxSdsJWZQRAKmMg0c59ujBAkw==",
+  "lockSha256": "a96e6a5e71bb62e190291f8870f4581b451c3a34ccdb8fab63b66f95ea3ae789",
+  "dependencies": {
+    "@eslint/json": "2.1.1",
+    "ajv": "8.20.0",
+    "eslint": "10.12.0",
+    "prettier": "3.9.10"
+  },
+  "files": [
+    {
+      "path": "LICENSE",
+      "size": 35184,
+      "mode": 420
+    },
+    {
+      "path": "README.md",
+      "size": 2697,
+      "mode": 420
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "size": 492,
+      "mode": 420
+    },
+    {
+      "path": "docs/consumer-guide.md",
+      "size": 5578,
+      "mode": 420
+    },
+    {
+      "path": "package.json",
+      "size": 1646,
+      "mode": 420
+    },
+    {
+      "path": "schemas/configuration.schema.json",
+      "size": 6131,
+      "mode": 420
+    },
+    {
+      "path": "schemas/result.schema.json",
+      "size": 6995,
+      "mode": 420
+    },
+    {
+      "path": "src/cli.js",
+      "size": 3944,
+      "mode": 420
+    },
+    {
+      "path": "src/documents.js",
+      "size": 4088,
+      "mode": 420
+    },
+    {
+      "path": "src/eslint/index.js",
+      "size": 281,
+      "mode": 420
+    },
+    {
+      "path": "src/eslint/noJsonStringifyIdentity.js",
+      "size": 19095,
+      "mode": 420
+    },
+    {
+      "path": "src/execution.js",
+      "size": 8412,
+      "mode": 420
+    },
+    {
+      "path": "src/index.js",
+      "size": 479,
+      "mode": 420
+    },
+    {
+      "path": "src/inventory.js",
+      "size": 5174,
+      "mode": 420
+    },
+    {
+      "path": "src/json-lines.js",
+      "size": 2522,
+      "mode": 420
+    },
+    {
+      "path": "src/limits.js",
+      "size": 1115,
+      "mode": 420
+    },
+    {
+      "path": "src/logical-documents.js",
+      "size": 3873,
+      "mode": 420
+    },
+    {
+      "path": "src/paths.js",
+      "size": 1430,
+      "mode": 420
+    },
+    {
+      "path": "src/quality.js",
+      "size": 17789,
+      "mode": 420
+    },
+    {
+      "path": "src/replacement.js",
+      "size": 2363,
+      "mode": 420
+    },
+    {
+      "path": "src/result.js",
+      "size": 4012,
+      "mode": 420
+    }
+  ]
+}

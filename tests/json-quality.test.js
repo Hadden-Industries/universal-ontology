@@ -14,503 +14,18 @@ import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tokenize } from "@humanwhocodes/momoa";
-import * as prettier from "prettier";
-import { ESLint } from "eslint";
-import { checkJsonInventory } from "../scripts/checkJsonInventory.js";
+import { createHash } from "node:crypto";
+import { checkJsonInventory } from "../tooling/json/public-api.mjs";
+import { runRepositoryJsonQuality } from "../scripts/runRepositoryJsonQuality.js";
 import {
   checkJsonPresentation,
   jsonFormatOptions,
   jsonContract,
-  jsonLintConfig,
-  normalizeJsonSource,
-  isStrictJsonPath,
-  JSON_SUFFIX,
-  STRICT_JSON_GLOBS,
   readJsonPolicy,
-  decodeJsonBytes,
-  jsonRules,
-} from "../scripts/jsonQuality.js";
-
+} from "../tooling/json/public-api.mjs";
 const root = fileURLToPath(new URL("../", import.meta.url));
 // Native config loading and disposable Git I/O need an explicit cold-run budget.
 const NATIVE_TOOL_TIMEOUT_MS = 30000;
-const eslint = fileURLToPath(
-  new URL("../node_modules/eslint/bin/eslint.js", import.meta.url),
-);
-
-test.each(
-  [
-    [0xef, 0xbb, 0xbf],
-    [0xef, 0xbb, 0xbf, 123, 125, 10],
-    [0xef, 0xbb, 0xbf, 0xef, 0xbb, 0xbf, 123, 125],
-  ].map((bytes) => [bytes]),
-)("byte admission rejects a leading UTF-8 BOM: %j", (bytes) => {
-  expect(() => decodeJsonBytes(Buffer.from(bytes))).toThrow(
-    /leading UTF-8 BOM/u,
-  );
-});
-
-test.each([[0xff], [0xc0, 0xaf], [0xe2, 0x82]].map((bytes) => [bytes]))(
-  "byte admission retains fatal UTF-8 validation: %j",
-  (bytes) => expect(() => decodeJsonBytes(Buffer.from(bytes))).toThrow(),
-);
-
-test("byte admission respects input views and preserves interior U+FEFF", () => {
-  const bytes = Uint8Array.from([0xef, 0xbb, 0xbf, 123, 125, 10]);
-  expect(decodeJsonBytes(bytes.subarray(3))).toBe("{}\n");
-  expect(() => decodeJsonBytes(bytes.buffer)).toThrow(/leading UTF-8 BOM/u);
-  const text = '{"a\uFEFFb":"\uFEFF"}\n';
-  expect(decodeJsonBytes(Buffer.from(text))).toBe(text);
-});
-
-test.each([
-  "prettier-json",
-  "producer-json-body",
-  "producer-json-indent",
-  "producer-json-indent-body",
-  "producer-json-compact",
-])(
-  "%s cannot hide a BOM through its presentation envelope",
-  async (contract) => {
-    const options = await jsonFormatOptions();
-    const body = Buffer.from("{}\n");
-    expect(await checkJsonPresentation(body, contract, options)).toBe(true);
-    await expect(
-      checkJsonPresentation(
-        Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), body]),
-        contract,
-        options,
-      ),
-    ).rejects.toThrow(/leading UTF-8 BOM/u);
-  },
-);
-
-test("shared rule options retain meaningful exceptions and reject obsolete inputs", () => {
-  expect(jsonRules()["uo-json/normalized-strings"]).toEqual(["error", "NFC"]);
-  expect(
-    jsonRules({ normalization: "preserve", allowEmptyKeys: ["/packages/"] }),
-  ).toMatchObject({
-    "uo-json/normalized-strings": ["error", "preserve"],
-    "json/no-empty-keys": "off",
-    "uo-json/meaningful-keys": ["error", ["/packages/"]],
-  });
-  for (const options of ["data", null, [], { lintProfile: "data" }])
-    expect(() => jsonRules(options)).toThrow(/JSON rule options/u);
-});
-
-test("interior U+FEFF survives lint, normalization and presentation", async () => {
-  const text = '{\n  "a\uFEFFb": "\uFEFF"\n}\n';
-  expect(await qualityMessages(text)).toEqual([]);
-  expect(await normalizeJsonSource(text)).toBe(text);
-  expect(
-    await checkJsonPresentation(
-      Buffer.from(text),
-      "prettier-json",
-      await jsonFormatOptions(),
-    ),
-  ).toBe(true);
-  await expect(normalizeJsonSource("\uFEFF{}\n")).rejects.toThrow(
-    /invalid JSON source/u,
-  );
-});
-
-test.each([
-  ["new/data.json", true, true],
-  ["dist/ontology.jsonld", true, true],
-  ["reports/result.sarif", true, true],
-  [".json", true, true],
-  ["new/data.jsonc", true, false],
-  ["new/data.json5", true, false],
-  ["new/data.jsonl", true, false],
-  ["new/data.ndjson", true, false],
-  ["new/data.JSON", true, false],
-  ["new/data.json.txt", false, false],
-])(
-  "JSON discovery and strict qualification agree for %s",
-  (path, discovered, strict) => {
-    expect(JSON_SUFFIX.test(path)).toBe(discovered);
-    expect(isStrictJsonPath(path)).toBe(strict);
-  },
-);
-
-test("native lint and formatting select the supported strict extensions", () => {
-  expect(STRICT_JSON_GLOBS).toEqual(["**/*.json", "**/*.jsonld", "**/*.sarif"]);
-});
-
-test("bundle metadata inherits its producer presentation instead of policy defaults", async () => {
-  const policy = await readJsonPolicy();
-  const contract = jsonContract(
-    "dist/release-work/universal-ontology-mcp-application-bundle.json",
-    policy,
-  );
-  expect(contract.formatContract).toBe("producer-json-indent");
-  const options = await jsonFormatOptions();
-  const bytes = Buffer.from('{\n  "probe": -0\n}\n');
-  expect(
-    await checkJsonPresentation(bytes, policy.defaults.formatContract, options),
-  ).toBe(true);
-  expect(
-    await checkJsonPresentation(bytes, contract.formatContract, options),
-  ).toBe(false);
-});
-
-function lint(text, name = "package.json") {
-  return spawnSync(
-    process.execPath,
-    [eslint, "--stdin", "--stdin-filename", name, "--format", "json"],
-    {
-      cwd: root,
-      input: text,
-      encoding: "utf8",
-      windowsHide: true,
-    },
-  );
-}
-
-test("native strict JSON rejects duplicate keys before any formatting", () => {
-  const result = lint('{"name":"first","name":"second"}');
-  expect(result.status).toBe(1);
-  expect(
-    JSON.parse(result.stdout)[0].messages.map((message) => message.ruleId),
-  ).toContain("json/no-duplicate-keys");
-});
-
-test.each(['{"a":1,"\\u0061":2}', '{"nested":{"x":0,"x":1}}'])(
-  "decoded and nested duplicates fail: %s",
-  (text) => {
-    const result = lint(text);
-    expect(result.status).toBe(1);
-    expect(
-      JSON.parse(result.stdout)[0].messages.some(
-        (message) => message.ruleId === "json/no-duplicate-keys",
-      ),
-    ).toBe(true);
-  },
-);
-
-test.each([
-  '{/* comment */"x":1}',
-  '{"x":1,}',
-  "{'x':1}",
-  "{x:1}",
-  "{} false",
-  "NaN",
-  "01",
-])("strict dialect rejects %s", (text) => {
-  const result = lint(text);
-  expect(result.status).toBe(1);
-  expect(JSON.parse(result.stdout)[0].fatalErrorCount).toBeGreaterThan(0);
-});
-
-test.each([
-  "9007199254740992",
-  "-9007199254740992",
-  "1e400",
-  "1e-400",
-  "5e-324",
-  '"\\ud800"',
-  '"\\udfff"',
-])("native interoperability rejects %s", (text) => {
-  const result = lint(text);
-  expect(result.status).toBe(1);
-  expect(
-    JSON.parse(result.stdout)[0].messages.some(
-      (message) => message.ruleId === "json/no-unsafe-values",
-    ),
-  ).toBe(true);
-});
-
-test.each([
-  "9007199254740991",
-  "-9007199254740991",
-  "-0",
-  "1e+03",
-  "0.123456789012345678901",
-  "2.2250738585072014e-308",
-  '"\\ud83d\\ude00"',
-  "null",
-  "false",
-  '""',
-  "[]",
-  "{}",
-])("valid scalar, empty value and qualified number passes: %s", (text) => {
-  expect(lint(text).status).toBe(0);
-});
-
-// The real native config is cached across lexical vectors; CLI tests below
-// separately prove repository discovery and writer refusal.
-const qualityLinter = new ESLint({ cwd: root });
-async function qualityMessages(text, path = "new/data.json") {
-  const [result] = await qualityLinter.lintText(text, { filePath: path });
-  return result.messages;
-}
-
-test.each([
-  '{"":0}',
-  '{" ":0}',
-  '{"\\t\\n":0}',
-  '{"\\u00a0":0}',
-  '{" key":0}',
-  '{"key ":0}',
-  '{"\\u00a0key":0}',
-  '[{"nested":{"key\\t":0}}]',
-])("meaningful keys reject decoded empty/edge whitespace: %s", async (text) => {
-  expect(await qualityMessages(text)).toEqual(
-    expect.arrayContaining([
-      expect.objectContaining({
-        ruleId: expect.stringMatching(/(?:no-empty-keys|meaningful-keys)$/u),
-      }),
-    ]),
-  );
-});
-
-test.each([
-  ['{"packages":{"":{}}}', "package-lock.json", true],
-  ['{"packages":{"\\u0000":{}}}', "package-lock.json", true],
-  ['{"packages":{"":{}}}', "nested/package-lock.json", true],
-  ['{"packages":{"":{}}}', "new/data.json", false],
-  ['{"packages":{"":{}}}', "new/package.json", false],
-  ['{"":0,"packages":{"":{}}}', "package-lock.json", false],
-  ['{"packages":{" ":{}}}', "package-lock.json", false],
-  ['{"packages":{"":{"":0}}}', "package-lock.json", false],
-  ['{"nested":{"packages":{"":{}}}}', "package-lock.json", false],
-  ['{"packages":[{"":{}}]}', "package-lock.json", false],
-  ['{"packages":{"":"e\\u0301"}}', "package-lock.json", false],
-  ['{"packages":{"":0,"":1}}', "package-lock.json", false],
-  ['{"packages":{"":{}," bad":0}}', "package-lock.json", false],
-])(
-  "lockfile exception is pointer-scoped: %s (%s)",
-  async (text, path, valid) => {
-    expect((await qualityMessages(text, path)).length === 0).toBe(valid);
-  },
-);
-
-test("pointer exceptions escape keys and retain array indices without weakening other rules", async () => {
-  const linter = new ESLint({
-    overrideConfigFile: true,
-    overrideConfig: jsonLintConfig([
-      {
-        path: "source.json",
-        allowEmptyKeys: ["/a~1b/~0/0/"],
-        normalization: "preserve",
-      },
-    ]),
-  });
-  const check = async (text) =>
-    (await linter.lintText(text, { filePath: "source.json" }))[0];
-  expect((await check('{"a/b":{"~":[{"":"e\\u0301"}]}}')).errorCount).toBe(0);
-  expect((await check('{"a/b":{"~":[{}, {"":0}]}}')).errorCount).toBe(1);
-  expect((await check('{"a/b":{"~":[{" ":0}]}}')).errorCount).toBe(1);
-  expect((await check('{"a/b":{"~":[{"":"\\uffff"}]}}')).errorCount).toBe(1);
-});
-
-test.each([
-  "9007199254740992.0",
-  "-9007199254740992.000",
-  "9007199254740993e0",
-  "9.007199254740992e15",
-  "90071992547409920e-1",
-  "9007199254740992.00000000000000000001e20",
-  "1e20",
-  "1.7976931348623157e308",
-])("exact integral values outside the safe range fail: %s", async (text) => {
-  expect(await qualityMessages(text)).toEqual(
-    expect.arrayContaining([
-      expect.objectContaining({
-        ruleId: "uo-json/interoperability",
-        messageId: "integer",
-      }),
-    ]),
-  );
-});
-
-test.each([
-  "9007199254740991.0",
-  "-9.007199254740991e15",
-  "90071992547409910e-1",
-  "0.1",
-  "9007199254740991.1",
-  "9007199254740992.1",
-  "9007199254740993e-1",
-  "0e999999999999999999999999",
-  "-0.000e-9999999999999999999999",
-  "1.00000000000000000000000000000001",
-  "1e+0000000000000000000000000",
-  '{"key with interior spaces":"  preserved value  ","empty":""}',
-])(
-  "valid spellings and ordinary fractional precision remain accepted: %s",
-  async (text) => {
-    expect(await qualityMessages(text)).toEqual([]);
-  },
-);
-
-test.each([
-  0xfdd0,
-  0xfdef,
-  ...Array.from(
-    { length: 34 },
-    (_, index) => Math.floor(index / 2) * 0x10000 + 0xfffe + (index % 2),
-  ),
-])(
-  "Unicode noncharacter U+%s fails directly and after escape decoding",
-  async (point) => {
-    const character = String.fromCodePoint(point);
-    const escaped =
-      [...character].length === 1 && point <= 0xffff
-        ? `\\u${point.toString(16).padStart(4, "0")}`
-        : `\\u${character.charCodeAt(0).toString(16)}\\u${character.charCodeAt(1).toString(16)}`;
-    for (const text of [
-      JSON.stringify(character),
-      `"${escaped}"`,
-      `{"${escaped}":0}`,
-      `[{"nested":"${escaped}"}]`,
-    ])
-      expect(await qualityMessages(text)).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            ruleId: "uo-json/interoperability",
-            messageId: "noncharacter",
-          }),
-        ]),
-      );
-  },
-);
-
-test("valid supplementary characters and boundaries remain accepted", async () => {
-  expect(
-    await qualityMessages(
-      JSON.stringify([
-        "😀",
-        "中文",
-        "العربية",
-        "\ufdcf",
-        "\ufdf0",
-        "\ufffd",
-        String.fromCodePoint(0x10fffd),
-      ]),
-    ),
-  ).toEqual([]);
-});
-
-test("numeric spellings agree with an independent BigInt boundary oracle", async () => {
-  for (const value of [
-    9007199254740989n,
-    9007199254740991n,
-    9007199254740992n,
-    9007199254740993n,
-    9007199254741000n,
-  ])
-    for (const signed of [value, -value])
-      for (const text of [`${signed}.000`, `${signed}00e-2`, `${signed}e+0`]) {
-        const messages = await qualityMessages(text);
-        expect(messages.some(({ messageId }) => messageId === "integer")).toBe(
-          signed > 9007199254740991n || signed < -9007199254740991n,
-        );
-      }
-});
-
-test("opinionated rules expose no automatic native fix", async () => {
-  const text = '{" bad":9007199254740992e0,"":"\\uffff"}';
-  const linter = new ESLint({ cwd: root, fix: true });
-  const [result] = await linter.lintText(text, { filePath: "new/data.json" });
-  expect(result.output).toBeUndefined();
-  expect(result.errorCount).toBe(4);
-});
-
-test("source/producer NFC preflight retains the complete quality contract", async () => {
-  await expect(
-    normalizeJsonSource('{"packages":{"":"e\\u0301"}}', {
-      allowEmptyKeys: ["/packages/"],
-    }),
-  ).resolves.toBe('{"packages":{"":"é"}}');
-  for (const text of [
-    '{" bad":"e\\u0301"}',
-    '{"":"e\\u0301"}',
-    '{"key":"\\uffff"}',
-    "9007199254740992e0",
-  ])
-    await expect(normalizeJsonSource(text)).rejects.toThrow(
-      /invalid or unsafe/u,
-    );
-});
-
-test.each([
-  ['{"e\\u0301":1}', "package.json"],
-  ['{"e\\u0301":1}', "new/data.json"],
-  ['{"key":"e\\u0301"}', "new/data.json"],
-  ['["é", {"nested":["e\\u0301"]}]', "new/data.json"],
-  ['"e\\u0301"', "new/data.json"],
-  ['{"key":"e\\u0301"}', "new/data.jsonld"],
-])("NFC applies to every decoded key and value: %s (%s)", (text, path) => {
-  const result = lint(text, path);
-  expect(result.status).toBe(1);
-  expect(
-    JSON.parse(result.stdout)[0].messages.some(
-      (message) => message.ruleId === "uo-json/normalized-strings",
-    ),
-  ).toBe(true);
-});
-
-test("native ESLint fix cannot mutate non-NFC JSON or collide its keys", () => {
-  const text = '{"e\\u0301":1,"é":2}';
-  const result = spawnSync(
-    process.execPath,
-    [
-      eslint,
-      "--stdin",
-      "--stdin-filename",
-      "new.json",
-      "--fix-dry-run",
-      "--format",
-      "json",
-    ],
-    { cwd: root, input: text, encoding: "utf8", windowsHide: true },
-  );
-  const [report] = JSON.parse(result.stdout);
-  expect(result.status).toBe(1);
-  expect(report.output).toBeUndefined();
-  expect(
-    report.messages.some((message) => message.messageId === "collision"),
-  ).toBe(true);
-});
-
-test("source/producer normalization preserves all non-string tokens and is idempotent", async () => {
-  const source =
-    '{"2":2,"1":1,"n":[-0,1e+03,1.0,0.123456789012345678901],"plain":"\\u0061","e\\u0301":"e\\u0301"}\r\n';
-  const output = await normalizeJsonSource(source);
-  expect(output).toBe(
-    '{"2":2,"1":1,"n":[-0,1e+03,1.0,0.123456789012345678901],"plain":"\\u0061","é":"é"}\r\n',
-  );
-  expect(await normalizeJsonSource(output)).toBe(output);
-});
-
-test.each([
-  '{"é":1,"e\\u0301":2}',
-  '{"nested":{"e\\u0301":1,"\\u00e9":2}}',
-  '[{"é":1,"e\\u0301":2}]',
-])("producer normalization refuses NFC key collisions: %s", async (text) => {
-  await expect(normalizeJsonSource(text)).rejects.toThrow(/duplicate keys/);
-});
-
-test.each([
-  '{"a":1,"\\u0061":2}',
-  '{"n":1e400}',
-  '{"x":"\\ud800"}',
-  '{"x":1,}',
-])(
-  "producer normalization refuses invalid or unsafe input: %s",
-  async (text) => {
-    await expect(normalizeJsonSource(text)).rejects.toThrow(
-      /invalid or unsafe/,
-    );
-  },
-);
-
-test("preserved producer identity cannot be normalized", async () => {
-  await expect(
-    normalizeJsonSource('"e\\u0301"', { normalization: "preserve" }),
-  ).rejects.toThrow(/Preserved/);
-});
 
 /** Tokens preserve member/array order, decoded string values and exact numeric lexemes. */
 function meaning(text) {
@@ -519,19 +34,6 @@ function meaning(text) {
     return [token.type, token.type === "String" ? JSON.parse(raw) : raw];
   });
 }
-
-test("native stringify presentation preserves order, escapes, negative zero and decimal lexemes", async () => {
-  const text =
-    '{"2":2,"1":1,"b":[-0,1e+03,1.0,0.123456789012345678901],"a":"\\u0061","e\\u0301":"e\\u0301"}';
-  const options = await prettier.resolveConfig(join(root, "package.json"));
-  const output = await prettier.format(text, options);
-  expect(meaning(output)).toEqual(meaning(text));
-  expect(output).toBe(
-    '{\n  "2": 2,\n  "1": 1,\n  "b": [\n    -0,\n    1e+03,\n    1.0,\n    0.123456789012345678901\n  ],\n  "a": "\\u0061",\n  "e\\u0301": "e\\u0301"\n}\n',
-  );
-  expect(await prettier.format(output, options)).toBe(output);
-});
-
 const dataPath =
   "packages/universal-ontology-projection-policy/data/field-property-history.v1.json";
 const producerPath = "policy/authorities/iana-media-types.provenance.json";
@@ -551,7 +53,6 @@ function runCommand(directory, command, args = []) {
     },
   );
 }
-
 test("the native JSON presentation contract remains explicit and strict", async () => {
   expect(await jsonFormatOptions()).toMatchObject({
     parser: "json-stringify",
@@ -562,7 +63,96 @@ test("the native JSON presentation contract remains explicit and strict", async 
     trailingComma: "none",
   });
 });
-
+test("the isolated archive, provenance and consumer lock identify the same producer", () => {
+  const manifest = JSON.parse(
+    readFileSync(join(root, "tooling/json/package.json"), "utf8"),
+  );
+  const dependency =
+    manifest.devDependencies["@hadden-industries/json-quality"];
+  expect(dependency).toMatch(
+    /^file:archives\/hadden-industries-json-quality-.*-[a-f0-9]{40}\.tgz$/u,
+  );
+  const archive = join(root, "tooling/json", dependency.slice(5));
+  const provenance = JSON.parse(
+    readFileSync(`${archive}.provenance.json`, "utf8"),
+  );
+  expect(createHash("sha256").update(readFileSync(archive)).digest("hex")).toBe(
+    provenance.sha256,
+  );
+  expect(dependency).toContain(provenance.sourceCommit);
+  expect(provenance.sourceClean).toBe(true);
+  const lock = JSON.parse(
+    readFileSync(join(root, "tooling/json/package-lock.json"), "utf8"),
+  );
+  expect(
+    lock.packages["node_modules/@hadden-industries/json-quality"].integrity,
+  ).toBe(provenance.integrity);
+});
+test.each([
+  dataPath,
+  "new.json",
+  "ignored/generated.json",
+  "dist/generated.jsonld",
+])(
+  "the installed document boundary rejects BOM bytes at %s without writing",
+  async (path) => {
+    const { directory, put } = fixture();
+    try {
+      const bytes = Buffer.concat([
+        Buffer.from([0xef, 0xbb, 0xbf]),
+        Buffer.from("{}\n"),
+      ]);
+      put(path, bytes);
+      const result = await runRepositoryJsonQuality("check", {
+        root: directory,
+      });
+      expect(result.status).toBe("failed");
+      expect(result.findings).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            path,
+            phase: "bytes",
+            messageId: "invalid-utf8-or-bom",
+          }),
+        ]),
+      );
+      expect(readFileSync(join(directory, path))).toEqual(bytes);
+      const inventory = await runRepositoryJsonQuality("inventory", {
+        root: directory,
+      });
+      expect(inventory.counts.checked).toBe(0);
+      expect(
+        inventory.documents.find((document) => document.path === path)
+          .syntaxValid,
+      ).toBeNull();
+    } finally {
+      rmSync(directory, {
+        recursive: true,
+      });
+    }
+  },
+);
+test("consumer tool configuration cannot weaken installed JSON checking", () => {
+  const { directory, put } = fixture();
+  try {
+    put(
+      "eslint.config.js",
+      'throw new Error("Consumer configuration must not execute");',
+    );
+    put(".prettierignore", "**\n");
+    put("new.json", '{"x":1,"x":2}');
+    const result = runCommand(directory, "lint:json");
+    expect(result.status).toBe(1);
+    expect(result.stdout).toContain("json/no-duplicate-keys");
+    expect(readFileSync(join(directory, "new.json"), "utf8")).toBe(
+      '{"x":1,"x":2}',
+    );
+  } finally {
+    rmSync(directory, {
+      recursive: true,
+    });
+  }
+});
 test.each([
   ['{\r\n  "x": true\r\n}', true],
   ['{\n  "x": true\n}', true],
@@ -581,7 +171,6 @@ test.each([
     ).toBe(valid);
   },
 );
-
 test("aggregate formatting routes reach the sole JSON writer once and node routes exclude JSON", () => {
   const { scripts } = JSON.parse(
     readFileSync(join(root, "package.json"), "utf8"),
@@ -593,18 +182,20 @@ test("aggregate formatting routes reach the sole JSON writer once and node route
   for (const name of ["format", "fix:all", "fix:code-style"]) {
     const command = expand(name);
     expect(
-      command.match(/node scripts\/runJsonQuality\.js format\b/gu),
+      command.match(/node scripts\/runRepositoryJsonQuality\.js format\b/gu),
     ).toHaveLength(1);
     expect(command).not.toMatch(/eslint [^&]*\.json[^&]*--fix/u);
   }
   for (const name of ["format:node", "format:node:check"])
-    expect(expand(name)).not.toContain("json");
+    expect(expand(name)).not.toMatch(
+      /\*\.(?:json|jsonld|sarif|jsonc|json5|jsonl|ndjson)\b/u,
+    );
   expect(scripts["format:node"]).toBe("npm run format:node:files -- --write");
   expect(scripts["format:node:check"]).toBe(
     "npm run format:node:files -- --check",
   );
   expect(expand("check:qualification")).toContain(
-    "node scripts/runJsonQuality.js check",
+    "node scripts/runRepositoryJsonQuality.js check",
   );
 });
 
@@ -612,7 +203,9 @@ test("aggregate formatting routes reach the sole JSON writer once and node route
 function fixture() {
   const directory = mkdtempSync(join(tmpdir(), "uo-json-quality-"));
   const put = (path, text) => {
-    mkdirSync(dirname(join(directory, path)), { recursive: true });
+    mkdirSync(dirname(join(directory, path)), {
+      recursive: true,
+    });
     writeFileSync(join(directory, path), text);
   };
   execFileSync("git", ["init", "--quiet", directory]);
@@ -626,12 +219,22 @@ function fixture() {
     "eslint.config.js",
     ".prettierignore",
     ".prettierrc.json",
-    "scripts/checkJsonInventory.js",
-    "scripts/jsonQuality.js",
-    "scripts/runJsonQuality.js",
-    "scripts/eslint/noJsonStringifyIdentity.js",
+    "tooling/json/public-api.mjs",
+    "scripts/runRepositoryJsonQuality.js",
   ])
     put(path, readFileSync(join(root, path)));
+  mkdirSync(join(directory, "tooling/json"), {
+    recursive: true,
+  });
+  put(
+    "tooling/json/package.json",
+    readFileSync(join(root, "tooling/json/package.json")),
+  );
+  symlinkSync(
+    join(root, "tooling/json/node_modules"),
+    join(directory, "tooling/json/node_modules"),
+    "junction",
+  );
   const manifest = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
   put(
     "package.json",
@@ -654,11 +257,14 @@ function fixture() {
   );
   put(".json-quality.json", `${JSON.stringify(policy, null, 2)}\n`);
   execFileSync("git", ["-C", directory, "add", "."]);
-  return { directory, put, policy };
+  return {
+    directory,
+    put,
+    policy,
+  };
 }
-
 test.each(["defaults", "exceptions"])(
-  "obsolete lintProfile in %s is rejected by the closed v4 policy",
+  "obsolete lintProfile in %s is rejected by the shared closed policy",
   async (location) => {
     const { directory, put, policy } = fixture();
     try {
@@ -675,88 +281,13 @@ test.each(["defaults", "exceptions"])(
         /Invalid JSON policy structure/u,
       );
     } finally {
-      rmSync(directory, { recursive: true, force: true });
-    }
-  },
-);
-
-test.each([
-  ".json-quality.json",
-  dataPath,
-  "new.json",
-  "ignored/generated.json",
-  "dist/generated.jsonld",
-])(
-  "BOM rejection identifies %s and preserves its bytes",
-  async (path) => {
-    const { directory, put } = fixture();
-    try {
-      const original =
-        path === ".json-quality.json"
-          ? readFileSync(join(directory, path))
-          : Buffer.from("{}\n");
-      const bytes = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), original]);
-      put(path, bytes);
-      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
-        `${path}: Unexpected leading UTF-8 BOM`,
-      );
-      expect(readFileSync(join(directory, path))).toEqual(bytes);
-    } finally {
-      rmSync(directory, { recursive: true, force: true });
-    }
-  },
-  NATIVE_TOOL_TIMEOUT_MS,
-);
-
-test.each([
-  "check:json:inventory",
-  "lint:json",
-  "format:json:check",
-  "check:json",
-  "check:json:producers",
-  "format:json",
-  "normalize:json",
-])(
-  "BOM in a preserved producer blocks %s before any writes",
-  (command) => {
-    const { directory, put, policy } = fixture();
-    try {
-      const path = "dist/generated.jsonld";
-      policy.exceptions.push({
-        paths: [path],
-        normalization: "preserve",
-        allowFormatWrites: false,
-        owner: "test",
-        reason: "Retain producer string identity",
+      rmSync(directory, {
+        recursive: true,
+        force: true,
       });
-      put(".json-quality.json", JSON.stringify(policy));
-      const bytes = Buffer.concat([
-        Buffer.from([0xef, 0xbb, 0xbf]),
-        Buffer.from("{}\n"),
-      ]);
-      put(path, bytes);
-      put("new.json", '{"value":"e\\u0301"}');
-      const sourceBefore = readFileSync(join(directory, "new.json"));
-      const authoredBefore = readFileSync(join(directory, dataPath));
-      const result = runCommand(
-        directory,
-        command,
-        command === "normalize:json" ? ["new.json"] : [],
-      );
-      expect(result.status).toBe(1);
-      expect(result.stdout + result.stderr).toContain(
-        `${path}: Unexpected leading UTF-8 BOM`,
-      );
-      expect(readFileSync(join(directory, path))).toEqual(bytes);
-      expect(readFileSync(join(directory, "new.json"))).toEqual(sourceBefore);
-      expect(readFileSync(join(directory, dataPath))).toEqual(authoredBefore);
-    } finally {
-      rmSync(directory, { recursive: true, force: true });
     }
   },
-  NATIVE_TOOL_TIMEOUT_MS,
 );
-
 test.each([
   ["new/authored.json", '{" bad":"e\\u0301"}', "format:json"],
   ["new/authored.json", '{" bad":"e\\u0301"}', "normalize:json"],
@@ -775,19 +306,21 @@ test.each([
         command,
         command === "normalize:json" ? [path] : [],
       );
-      expect(result.status).toBe(1);
+      expect(result.status).toBe(command === "normalize:json" ? 2 : 1);
       expect(result.stdout + result.stderr).toMatch(
         /meaningful-keys|no-empty-keys|interoperability|invalid or unsafe/u,
       );
       expect(readFileSync(join(directory, path), "utf8")).toBe(text);
       expect(readFileSync(join(directory, dataPath))).toEqual(sourceBefore);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   NATIVE_TOOL_TIMEOUT_MS,
 );
-
 test.each(["/packages", "/packages/~2/", "packages/", ""])(
   "policy rejects a nonliteral/nonempty-key pointer: %s",
   async (pointer) => {
@@ -795,16 +328,20 @@ test.each(["/packages", "/packages/~2/", "packages/", ""])(
     try {
       policy.exceptions[0].allowEmptyKeys = [pointer];
       put(".json-quality.json", JSON.stringify(policy));
-      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
-        /policy structure/u,
-      );
+      await expect(
+        checkJsonInventory({
+          root: directory,
+        }),
+      ).rejects.toThrow(/policy structure/u);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   NATIVE_TOOL_TIMEOUT_MS,
 );
-
 test(
   "conflicting empty-key exceptions fail closed while identical overlaps are accepted",
   async () => {
@@ -820,65 +357,50 @@ test(
       policy.exceptions.push(exception);
       put(".json-quality.json", JSON.stringify(policy));
       await expect(
-        checkJsonInventory({ root: directory }),
+        checkJsonInventory({
+          root: directory,
+        }),
       ).resolves.toBeDefined();
       exception.allowEmptyKeys = ["/elsewhere/"];
       put(".json-quality.json", JSON.stringify(policy));
-      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
-        /Conflicting JSON exceptions/u,
-      );
+      await expect(
+        checkJsonInventory({
+          root: directory,
+        }),
+      ).rejects.toThrow(/Conflicting JSON exceptions/u);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   NATIVE_TOOL_TIMEOUT_MS,
 );
-
-test.each([
-  "uo-json/meaningful-keys",
-  "uo-json/interoperability",
-  "json/no-empty-keys",
-])(
-  "effective-rule integrity detects weakened %s",
-  async (rule) => {
-    const { directory, put } = fixture();
-    try {
-      put(
-        "eslint.config.js",
-        readFileSync(join(directory, "eslint.config.js"), "utf8").replace(
-          "...jsonLintConfig(jsonFiles),",
-          `...jsonLintConfig(jsonFiles), { files: ["**/*.json"], rules: { "${rule}": "off" } },`,
-        ),
-      );
-      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
-        /Required JSON rule disabled/u,
-      );
-    } finally {
-      rmSync(directory, { recursive: true, force: true });
-    }
-  },
-  NATIVE_TOOL_TIMEOUT_MS,
-);
-
 test(
   "inventory covers tracked hidden JSON and protects producer and retained bytes",
   async () => {
     const { directory } = fixture();
     try {
-      expect(await checkJsonInventory({ root: directory })).toEqual({
-        discovered: 6,
-        tracked: 6,
-        linted: 6,
-        formatted: 4,
-        preserved: 2,
+      expect(
+        await checkJsonInventory({
+          root: directory,
+        }),
+      ).toEqual({
+        discovered: 7,
+        tracked: 7,
+        writable: 5,
+        protected: 2,
       });
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   NATIVE_TOOL_TIMEOUT_MS,
 );
-
 test("new untracked JSON is checked and formatted without a policy entry or staging", () => {
   const { directory, put } = fixture();
   try {
@@ -892,7 +414,11 @@ test("new untracked JSON is checked and formatted without a policy entry or stag
         "--write",
         path,
       ],
-      { cwd: directory, encoding: "utf8", windowsHide: true },
+      {
+        cwd: directory,
+        encoding: "utf8",
+        windowsHide: true,
+      },
     );
     expect(direct.status).toBe(0);
     expect(readFileSync(join(directory, path), "utf8")).toBe(
@@ -915,13 +441,14 @@ test("new untracked JSON is checked and formatted without a policy entry or stag
       ),
     ).toEqual([]);
     expect(check.status).toBe(0);
-    expect(check.stdout.match(/JSON inventory:/gu)).toHaveLength(1);
-    expect(check.stdout).toContain("7 files checked read-only");
+    expect(check.stdout).toContain("8 physical files");
   } finally {
-    rmSync(directory, { recursive: true, force: true });
+    rmSync(directory, {
+      recursive: true,
+      force: true,
+    });
   }
 }, 60000);
-
 test("explicit source normalization repairs untracked JSON and preserves protected bytes", () => {
   const { directory, put } = fixture();
   try {
@@ -938,12 +465,14 @@ test("explicit source normalization repairs untracked JSON and preserves protect
     );
     const second = runCommand(directory, "normalize:json", [path]);
     expect(second.status).toBe(0);
-    expect(second.stdout).toContain("0 changed");
+    expect(second.stdout).toContain("0 written");
   } finally {
-    rmSync(directory, { recursive: true, force: true });
+    rmSync(directory, {
+      recursive: true,
+      force: true,
+    });
   }
 }, 60000);
-
 test("a collision in the final selected source prevents every source write", () => {
   const { directory, put } = fixture();
   try {
@@ -954,14 +483,16 @@ test("a collision in the final selected source prevents every source write", () 
       "first.json",
       "last.json",
     ]);
-    expect(result.status).toBe(1);
+    expect(result.status).toBe(2);
     expect(result.stderr).toMatch(/duplicate keys/);
     expect(readFileSync(join(directory, "first.json"))).toEqual(before);
   } finally {
-    rmSync(directory, { recursive: true, force: true });
+    rmSync(directory, {
+      recursive: true,
+      force: true,
+    });
   }
 }, 60000);
-
 test.each(
   [
     [],
@@ -979,15 +510,17 @@ test.each(
       put("ignored/new.json", '{"x":"e\\u0301"}');
       const before = readFileSync(join(directory, "new.json"));
       const result = runCommand(directory, "normalize:json", paths);
-      expect(result.status).toBe(1);
+      expect(result.status).toBe(2);
       expect(readFileSync(join(directory, "new.json"))).toEqual(before);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   60000,
 );
-
 test.each(["format:json", "normalize:json"])(
   "unrelated protected NFC failure blocks %s before writes",
   (command) => {
@@ -1004,12 +537,14 @@ test.each(["format:json", "normalize:json"])(
       expect(result.status).toBe(1);
       expect(readFileSync(join(directory, "new.json"))).toEqual(before);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   60000,
 );
-
 test.each([
   ['{"e\u0301":"e\u0301"}', 0],
   ['{"x":1,"\\u0078":2}', 1],
@@ -1034,15 +569,17 @@ test.each([
       const before = readFileSync(join(directory, path));
       const check = runCommand(directory, "check:json");
       expect(check.status).toBe(status);
-      expect(runCommand(directory, "normalize:json", [path]).status).toBe(1);
+      expect(runCommand(directory, "normalize:json", [path]).status).toBe(2);
       expect(readFileSync(join(directory, path))).toEqual(before);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   60000,
 );
-
 test(
   "preservation exceptions cannot retain generic write permission",
   async () => {
@@ -1055,16 +592,20 @@ test(
         reason: "Exact identity",
       });
       put(".json-quality.json", `${JSON.stringify(policy, null, 2)}\n`);
-      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
-        /prohibit generic writes/,
-      );
+      await expect(
+        checkJsonInventory({
+          root: directory,
+        }),
+      ).rejects.toThrow(/prohibit generic writes/);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   NATIVE_TOOL_TIMEOUT_MS,
 );
-
 test.each(["untracked", "staged", "ignored", "ignored-tracked"])(
   "ordinary %s JSON is automatically included without policy edits",
   async (state) => {
@@ -1076,52 +617,79 @@ test.each(["untracked", "staged", "ignored", "ignored-tracked"])(
       put(path, '{"x":1,"x":2}');
       if (state === "staged" || state === "ignored-tracked")
         execFileSync("git", ["-C", directory, "add", "-f", "--", path]);
-      const inventory = await checkJsonInventory({ root: directory });
-      expect(inventory.discovered).toBe(7);
-      expect(inventory.formatted).toBe(state === "ignored" ? 4 : 5);
+      const inventory = await checkJsonInventory({
+        root: directory,
+      });
+      expect(inventory.discovered).toBe(8);
+      expect(inventory.writable).toBe(state === "ignored" ? 5 : 6);
       expect(runCommand(directory, "lint:json").status).toBe(1);
       put(path, '{\n  "x": 1\n}\n');
       expect(runCommand(directory, "lint:json").status).toBe(0);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   60000,
 );
-
 test.each([".sdlc/runtime/state.json", "nested/node_modules/owned.json"])(
   "an external boundary never conceals tracked JSON: %s",
   async (path) => {
     const { directory, put } = fixture();
     try {
       put(path, '{"x":1,"x":2}');
-      expect((await checkJsonInventory({ root: directory })).discovered).toBe(
-        6,
-      );
+      expect(
+        (
+          await checkJsonInventory({
+            root: directory,
+          })
+        ).discovered,
+      ).toBe(7);
       execFileSync("git", ["-C", directory, "add", "-f", "--", path]);
-      const tracked = await checkJsonInventory({ root: directory });
-      expect(tracked.discovered).toBe(7);
-      expect(tracked.formatted).toBe(4);
+      const tracked = await checkJsonInventory({
+        root: directory,
+      });
+      expect(tracked.discovered).toBe(8);
+      expect(tracked.writable).toBe(5);
       expect(runCommand(directory, "lint:json").status).toBe(1);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   60000,
 );
-
 test("ignored generated JSON-LD is checked with its producer contract and cannot be rewritten", async () => {
   const { directory, put } = fixture();
   try {
     put(".gitignore", "node_modules/\ndist/\n");
     const path = "dist/generated.jsonld";
     // json-identity-contract: bytes; owner: JSON write-protection tests; reason: Generic formatting must retain the exact generated product.
-    const generated = `${JSON.stringify({ "@graph": [{ "@id": "urn:test" }] }, null, 2)}\n`;
+    const generated = `${JSON.stringify(
+      {
+        "@graph": [
+          {
+            "@id": "urn:test",
+          },
+        ],
+      },
+      null,
+      2,
+    )}\n`;
     put(path, generated);
     put("dist/query/v1/catalog.json", "{}\n");
     expect(
-      (await checkJsonInventory({ root: directory, requireGenerated: true }))
-        .preserved,
+      (
+        await runRepositoryJsonQuality("inventory", {
+          root: directory,
+          requireGenerated: true,
+        })
+      ).documents.filter((document) => !document.contract.allowFormatWrites)
+        .length,
     ).toBe(4);
     expect(runCommand(directory, "format:json").status).toBe(0);
     expect(readFileSync(join(directory, path), "utf8")).toBe(generated);
@@ -1130,25 +698,32 @@ test("ignored generated JSON-LD is checked with its producer contract and cannot
     expect(runCommand(directory, "format:json").status).toBe(1);
     expect(readFileSync(join(directory, dataPath))).toEqual(authoredBefore);
   } finally {
-    rmSync(directory, { recursive: true, force: true });
+    rmSync(directory, {
+      recursive: true,
+      force: true,
+    });
   }
 }, 60000);
-
 test(
   "the post-generation gate rejects an absent generated corpus",
   async () => {
     const { directory } = fixture();
     try {
       await expect(
-        checkJsonInventory({ root: directory, requireGenerated: true }),
+        runRepositoryJsonQuality("inventory", {
+          root: directory,
+          requireGenerated: true,
+        }),
       ).rejects.toThrow(/generated JSON/);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   NATIVE_TOOL_TIMEOUT_MS,
 );
-
 test.each([
   ["producer-json-indent", '{\n  "x": [\n    1,\n    2\n  ]\n}\n', true],
   ["producer-json-indent", '{"x":[1,2]}\n', false],
@@ -1167,7 +742,6 @@ test.each([
     ).toBe(valid);
   },
 );
-
 test("native formatting preserves every protected file in a complete corpus copy", () => {
   const { directory, put } = fixture();
   try {
@@ -1179,12 +753,18 @@ test("native formatting preserves every protected file in a complete corpus copy
     })
       .split("\0")
       .filter((path) => path.endsWith(".json"))
-      .map((path) => jsonContract(path, policy, { tracked: true }));
+      .map((path) =>
+        jsonContract(path, policy, {
+          tracked: true,
+        }),
+      );
     for (const file of files)
       put(file.path, readFileSync(join(root, file.path)));
     put(dataPath, '{"b":[-0,1e+03,1.0],"a":"\\u0061"}');
     const protectedFiles = files.filter((file) => !file.allowFormatWrites);
-    expect(protectedFiles).toHaveLength(66);
+    expect(protectedFiles.map((file) => file.path)).toEqual(
+      expect.arrayContaining([producerPath, retainedPath, "package-lock.json"]),
+    );
     const before = protectedFiles.map((file) =>
       readFileSync(join(directory, file.path)),
     );
@@ -1198,20 +778,19 @@ test("native formatting preserves every protected file in a complete corpus copy
     expect(authoredAfter).not.toBe(authoredBefore);
     expect(meaning(authoredAfter)).toEqual(meaning(authoredBefore));
   } finally {
-    rmSync(directory, { recursive: true, force: true });
+    rmSync(directory, {
+      recursive: true,
+      force: true,
+    });
   }
 }, 60000);
-
 test.each([
   "duplicate",
   "conflict",
   "dialect",
   "outside",
-  "native-selection",
-  "native-rule",
   "missing",
   "case-collision",
-  "invalid-utf8",
 ])(
   "inventory fails closed for %s",
   async (scenario) => {
@@ -1245,25 +824,7 @@ test.each([
           owner: "test",
           reason: "Invalid outside path",
         });
-      if (scenario === "native-selection")
-        put(
-          ".prettierignore",
-          `${readFileSync(
-            join(directory, ".prettierignore"),
-            "utf8",
-          )}\n!/${retainedPath}\n`,
-        );
-      if (scenario === "native-rule")
-        put(
-          "eslint.config.js",
-          readFileSync(join(directory, "eslint.config.js"), "utf8").replace(
-            "...jsonLintConfig(jsonFiles),",
-            '...jsonLintConfig(jsonFiles), { files: ["**/*.json"], rules: { "json/no-duplicate-keys": "off" } },',
-          ),
-        );
       if (scenario === "missing") rmSync(join(directory, dataPath));
-      if (scenario === "invalid-utf8")
-        put(dataPath, Buffer.from([34, 255, 34]));
       if (scenario === "case-collision")
         execFileSync("git", [
           "-C",
@@ -1271,17 +832,29 @@ test.each([
           "update-index",
           "--add",
           "--cacheinfo",
-          `100644,${execFileSync("git", ["-C", directory, "rev-parse", ":package.json"], { encoding: "utf8" }).trim()},PACKAGE.JSON`,
+          `100644,${execFileSync(
+            "git",
+            ["-C", directory, "rev-parse", ":package.json"],
+            {
+              encoding: "utf8",
+            },
+          ).trim()},PACKAGE.JSON`,
         ]);
       put(".json-quality.json", JSON.stringify(policy));
-      await expect(checkJsonInventory({ root: directory })).rejects.toThrow();
+      await expect(
+        checkJsonInventory({
+          root: directory,
+        }),
+      ).rejects.toThrow();
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   NATIVE_TOOL_TIMEOUT_MS,
 );
-
 test(
   "symlinked JSON ancestor is refused before formatting",
   async () => {
@@ -1289,22 +862,31 @@ test(
     const target = mkdtempSync(join(tmpdir(), "uo-json-symlink-target-"));
     try {
       writeFileSync(join(target, "field-property-history.v1.json"), "{}");
-      rmSync(join(directory, dirname(dataPath)), { recursive: true });
+      rmSync(join(directory, dirname(dataPath)), {
+        recursive: true,
+      });
       symlinkSync(target, join(directory, dirname(dataPath)), "junction");
       expect(
         lstatSync(join(directory, dirname(dataPath))).isSymbolicLink(),
       ).toBe(true);
-      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
-        /Nonregular/,
-      );
+      await expect(
+        checkJsonInventory({
+          root: directory,
+        }),
+      ).rejects.toThrow(/Nonregular/);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
-      rmSync(target, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
+      rmSync(target, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   NATIVE_TOOL_TIMEOUT_MS,
 );
-
 test.each([
   ['{"retained":true,"retained":false}', "lint:json", 1],
   ["{/* invalid retained input */}", "lint:json", 1],
@@ -1331,12 +913,14 @@ test.each([
       expect(result.status).toBe(status);
       expect(readFileSync(join(directory, retainedPath))).toEqual(before);
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   60000,
 );
-
 test.each([false, true])(
   "supported native fix is scoped, idempotent and preflights the whole corpus (invalid=%s)",
   (invalid) => {
@@ -1361,7 +945,10 @@ test.each([false, true])(
         expect(readFileSync(join(directory, dataPath))).toEqual(after);
       }
     } finally {
-      rmSync(directory, { recursive: true, force: true });
+      rmSync(directory, {
+        recursive: true,
+        force: true,
+      });
     }
   },
   60000,

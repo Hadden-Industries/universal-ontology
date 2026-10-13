@@ -140,6 +140,7 @@ jobs:
         if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
         run: |
           npm run install:markdown
+          npm run install:json
           .venv/bin/python -B scripts/render_editing_policy.py --check
       - name: Policy, rendering, authority, change and publication-gate contracts
         if: (needs.validate-ontologies.outputs.ontology_policy_qa == 'true') && !fromJSON(inputs.plan).scopes.python_tests

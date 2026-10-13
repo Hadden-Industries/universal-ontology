@@ -2,7 +2,7 @@ import * as nodeFileSystem from "node:fs/promises";
 
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
-import { jsonContract } from "../../scripts/jsonQuality.js";
+import { jsonContract } from "../../tooling/json/public-api.mjs";
 
 const REPOSITORY_ROOT_URL = new URL("../../", import.meta.url);
 const SERVER_DOCUMENT_URL = new URL("server.json", REPOSITORY_ROOT_URL);

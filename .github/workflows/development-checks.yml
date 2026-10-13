@@ -102,6 +102,8 @@ jobs:
           test "$(npm --version)" = "12.2.0"
       - name: Install the locked native JSON tools without lifecycle scripts
         run: npm ci --include=dev --ignore-scripts
+      - name: Install the locked isolated JSON engine
+        run: npm run install:json
       - name: Build generated ontology and query products without source fixes
         run: npm run build:verify
       - name: Check source and generated JSON against default and producer contracts
@@ -196,6 +198,8 @@ jobs:
           test "$(npm --version)" = "12.2.0"
       - name: Install the isolated generated-document formatter
         run: npm run install:markdown
+      - name: Install the locked isolated JSON tooling
+        run: npm run install:json
       - name: Run the Python-only native family
         run: npm run test:python -- --family python-only
     permissions:

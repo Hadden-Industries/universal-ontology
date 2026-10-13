@@ -1,15 +1,7 @@
 import js from "@eslint/js";
 import globals from "globals";
 import eslintConfigPrettier from "eslint-config-prettier";
-import noJsonStringifyIdentity from "./scripts/eslint/noJsonStringifyIdentity.js";
-import {
-  jsonLintConfig,
-  jsonPolicyLintFiles,
-  readJsonPolicy,
-} from "./scripts/jsonQuality.js";
-
-// Ordinary JSON is included by default; policy records only deviations.
-const jsonFiles = jsonPolicyLintFiles(await readJsonPolicy());
+import { jsonQualityEslint } from "./tooling/json/public-api.mjs";
 
 const strictRules = {
   "no-var": "error",
@@ -51,12 +43,11 @@ export default [
   {
     files: ["**/*.{js,mjs,cjs}"],
     plugins: {
-      uo: { rules: { "no-json-stringify-identity": noJsonStringifyIdentity } },
+      "json-quality": jsonQualityEslint,
     },
-    rules: { "uo/no-json-stringify-identity": "error" },
+    rules: { "json-quality/no-json-stringify-identity": "error" },
     linterOptions: { reportUnusedDisableDirectives: "error" },
   },
-  ...jsonLintConfig(jsonFiles),
 
   // 1. Browser-compatible source: Browser globals only
   {

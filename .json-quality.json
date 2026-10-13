@@ -1,9 +1,12 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 1,
   "defaults": {
     "formatContract": "prettier-json",
     "allowFormatWrites": true,
     "normalization": "NFC"
+  },
+  "limits": {
+    "maxTotalBytes": 536870912
   },
   "exceptions": [
     {
@@ -45,6 +48,7 @@
         "policy/authorities/*.provenance.json",
         "tests/fixtures/ontology-policy/authorities/derived/*.provenance.json",
         "**/third-party/**",
+        "tooling/json/archives/**",
         "dist/**"
       ],
       "allowFormatWrites": false,
@@ -67,7 +71,8 @@
         "dist/release-work/universal-ontology-mcp-application-bundle.json",
         "dist/releases/**/*.spdx.json",
         "dist/release-work/pre-acceptance-releases-*/*.spdx.json",
-        "dist/**/*-oci-metadata.json"
+        "dist/**/*-oci-metadata.json",
+        "tooling/json/archives/*.provenance.json"
       ],
       "formatContract": "producer-json-indent",
       "owner": "UO ontology, query and distribution producers",

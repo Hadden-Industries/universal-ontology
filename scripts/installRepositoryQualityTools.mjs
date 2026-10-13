@@ -4,9 +4,13 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
+const kind = process.argv[2];
+if (!["markdown", "json"].includes(kind) || process.argv.length !== 3)
+  throw new Error("Expected markdown or json tool project.");
 const npm = process.env.npm_execpath;
-if (!npm) throw new Error("Run npm run install:markdown.");
-const scratch = mkdtempSync(join(tmpdir(), "uo-markdown-install-"));
+if (!npm)
+  throw new Error("Run npm run install:markdown or npm run install:json.");
+const scratch = mkdtempSync(join(tmpdir(), "uo-quality-install-"));
 try {
   const user = join(scratch, "user.npmrc"),
     global = join(scratch, "global.npmrc");
@@ -40,7 +44,7 @@ try {
       `--cache=${join(scratch, "cache")}`,
     ],
     {
-      cwd: fileURLToPath(new URL("../tooling/markdown/", import.meta.url)),
+      cwd: fileURLToPath(new URL(`../tooling/${kind}/`, import.meta.url)),
       env,
       stdio: "inherit",
       windowsHide: true,
@@ -48,7 +52,7 @@ try {
     },
   );
   if (result.error || result.signal || result.status === null)
-    throw new Error("Isolated Markdown acquisition did not complete.");
+    throw new Error("Isolated quality-tool acquisition did not complete.");
   process.exitCode = result.status;
 } finally {
   rmSync(scratch, {
