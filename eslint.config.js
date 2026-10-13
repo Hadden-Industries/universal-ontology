@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import globals from "globals";
 import eslintConfigPrettier from "eslint-config-prettier";
+import noJsonStringifyIdentity from "./scripts/eslint/noJsonStringifyIdentity.js";
 import {
   jsonLintConfig,
   jsonPolicyLintFiles,
@@ -47,6 +48,14 @@ const strictRules = {
 
 export default [
   { ...js.configs.recommended, files: ["**/*.{js,mjs,cjs}"] },
+  {
+    files: ["**/*.{js,mjs,cjs}"],
+    plugins: {
+      uo: { rules: { "no-json-stringify-identity": noJsonStringifyIdentity } },
+    },
+    rules: { "uo/no-json-stringify-identity": "error" },
+    linterOptions: { reportUnusedDisableDirectives: "error" },
+  },
   ...jsonLintConfig(jsonFiles),
 
   // 1. Browser-compatible source: Browser globals only

@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 /** Reconcile Git's complete JSON inventory and native tool configuration.
  * This gate never writes JSON. ESLint owns syntax/rules; consumers own semantics.
  */
@@ -173,7 +174,9 @@ export async function inspectJsonInventory({
         continue;
       }
       const expected = Array.isArray(setting) ? [2, ...setting.slice(1)] : [2];
-      if (JSON.stringify(config.rules[rule]) !== JSON.stringify(expected))
+      // Native configuration loading may cross JavaScript realms. Its JSON
+      // values are authoritative; realm-specific array/object prototypes are not.
+      if (!isDeepStrictEqual(config.rules[rule], expected, true))
         throw new Error(`Required JSON rule disabled: ${path}: ${rule}`);
     }
     const info = await prettier.getFileInfo(absolute, {
@@ -189,8 +192,7 @@ export async function inspectJsonInventory({
       !options ||
       Object.keys(options).length !== Object.keys(formatOptions).length ||
       Object.entries(formatOptions).some(
-        ([key, value]) =>
-          JSON.stringify(options[key]) !== JSON.stringify(value),
+        ([key, value]) => !isDeepStrictEqual(options[key], value, true),
       )
     )
       throw new Error(`Wrong JSON formatter options: ${path}`);

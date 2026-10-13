@@ -135,9 +135,11 @@ describe("public Universal Ontology MCP artifact-origin smoke", () => {
       assertExpectedPublicPersonResolutionResult({ structuredContent }),
     ).not.toThrow();
     const reordered = reverseObjectMembers(structuredContent);
-    expect(JSON.stringify(reordered)).not.toBe(
-      JSON.stringify(structuredContent),
-    );
+    // json-identity-contract: bytes; owner: Provenance permutation tests; reason: Prove the reordered fixture actually changes serialized bytes.
+    const reorderedText = JSON.stringify(reordered);
+    // json-identity-contract: bytes; owner: Provenance permutation tests; reason: Retain the original serialized fixture for the independent permutation oracle.
+    const originalText = JSON.stringify(structuredContent);
+    expect(reorderedText).not.toBe(originalText);
     expect(() =>
       assertExpectedPublicPersonResolutionResult({
         structuredContent: reordered,

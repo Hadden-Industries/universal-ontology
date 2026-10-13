@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 import { spawnSync } from "node:child_process";
 import { appendFileSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -87,10 +88,7 @@ export function assertCheckPlan(plan) {
     throw new Error(
       `Invalid check plan: ${JSON.stringify(validatePlan.errors)}`,
     );
-  if (
-    JSON.stringify(plan.requiredJobs) !==
-    JSON.stringify(requiredJobsForScopes(plan.scopes))
-  )
+  if (!isDeepStrictEqual(plan.requiredJobs, requiredJobsForScopes(plan.scopes)))
     throw new Error("Plan consumers disagree with scopes.");
   if (
     plan.scopes.ci_control &&

@@ -14,6 +14,32 @@ That request authorizes the plan's dependency, configuration, formatting, commit
 It requires consolidated broad reviews and narrowly scoped follow-up reviews using available local agents.
 Deployment and release remain separate decisions.
 
+### Accepted semantic-comparison lint guard, 13 October 2026
+
+The owner approved the exact ESLint rule, unused-disable severity and release-policy input changes in this task.
+Continue the R2 quality-control route into PR 143: a missed detection can admit the earlier correctness defect; an overbroad detection can block repository qualification.
+The owner remains the acceptance decision maker; source delivery, merge and release remain distinct.
+
+Reuse installed ESLint 10.12.0, also the current stable registry release at implementation, and its MIT-licensed native parser, scope analysis and rule-testing APIs.
+The official [custom-rule contract](https://eslint.org/docs/latest/extend/custom-rules) supports the required AST/scope inspection.
+Core syntax selectors cannot follow local aliases or distinguish serialization from identity uses; the residual custom rule owns only that bounded analysis and local exception validation.
+No dependency, lockfile, workflow, package-script, JSON-policy or schema-version change is authorized or required.
+
+| Slice   | Requirement and acceptance                                                                                                                                             | Proof                                                                                                                                                           | Delivery and recovery                                                                                                                                    |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GUARD-1 | Reject raw JSON serialization used in equality, recognized assertions and identity/deduplication; follow resolvable local bindings without confusing shadowed globals. | Native rule vectors for direct/aliased/computed calls, equality/assertion/collection sinks, shadowing, cycles, harmless serialization and deliberate contracts. | Add one local ESLint rule; no automatic fixes.                                                                                                           |
+| GUARD-2 | Enable the guard at error severity for ESLint-covered JS/MJS/CJS, reject stale disable directives, and bind rule/tests in the reviewed release-policy graph.           | Native effective-config/integration and policy mutation tests; corpus lint; existing JSON controls.                                                             | Existing lint and CI inherit the gate; reviewed input count becomes 44.                                                                                  |
+| GUARD-3 | Repair newly flagged semantic comparisons and record only narrow owner/reason exceptions for intentional byte, digest or ordered-tuple identities.                     | Affected consumer/permutation tests, consolidated local correctness/security/independent review, signed candidate full qualification and hosted CI.             | Update PR 143 and development guidance; retain failures and receipts externally. Forward-fix or separately authorized revert if qualification regresses. |
+
+The rule is the single authority for detection and exception syntax; ESLint owns parsing, binding resolution, diagnostics and pipeline failure.
+Exceptions attach to the particular serializer, identify contract/owner/reason, and are checked for malformed, ambiguous and unused declarations; no file exemptions are introduced.
+Ordinary producer/log/transport serialization remains allowed.
+The analyzer follows bounded lexical flows rather than proving arbitrary interprocedural, imported, reflective or dynamically mutated behavior.
+Existing consumer object-permutation tests remain the independent behavioral backstop; array positions, exact members/values, cursor formats and byte hashes remain significant.
+No data migration or installed runtime change is needed.
+Replan if an unavoidable finding requires a new dependency/configuration setting, a digest migration, blanket suppression, or an unresolved contract decision.
+Finish all source writers and consolidated review repairs before signed-HEAD full verification; reuse that receipt for HISEW handoff and wait for naturally triggered hosted checks.
+
 ### Semantic object-member ordering continuation, 13 October 2026
 
 The owner explicitly requested this correctness fix through HISEW in open PR 143 after a read-only probe confirmed that permuting `server.json` object members caused a false Registry mismatch.

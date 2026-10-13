@@ -507,6 +507,7 @@ function fixture() {
     "scripts/checkJsonInventory.js",
     "scripts/jsonQuality.js",
     "scripts/runJsonQuality.js",
+    "scripts/eslint/noJsonStringifyIdentity.js",
   ])
     put(path, readFileSync(join(root, path)));
   const manifest = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
@@ -892,6 +893,7 @@ test("ignored generated JSON-LD is checked with its producer contract and cannot
   try {
     put(".gitignore", "node_modules/\ndist/\n");
     const path = "dist/generated.jsonld";
+    // json-identity-contract: bytes; owner: JSON write-protection tests; reason: Generic formatting must retain the exact generated product.
     const generated = `${JSON.stringify({ "@graph": [{ "@id": "urn:test" }] }, null, 2)}\n`;
     put(path, generated);
     put("dist/query/v1/catalog.json", "{}\n");

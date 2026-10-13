@@ -73,6 +73,7 @@ const operators = [
 ];
 const iri = (value) => oxigraph.namedNode(value).toString();
 const key = (value) =>
+  // json-identity-contract: digest; owner: Ontology context v1 producer; reason: Existing assertion and connection IDs bind schema-built record and tuple bytes; preserve wire identities.
   createHash("sha256").update(JSON.stringify(value)).digest("hex");
 
 /** Explain shortest admitted named-resource chains. */

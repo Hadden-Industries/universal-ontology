@@ -393,6 +393,7 @@ export function createNodeOntologyQueryModule(options) {
       },
       signal,
     );
+    // json-identity-contract: bytes; owner: Opaque cursor v1 producer; reason: Retain the exact JSON envelope and base64url token wire identity with its existing integrity payload.
     const nextCursor = page.position
       ? Buffer.from(
           JSON.stringify({

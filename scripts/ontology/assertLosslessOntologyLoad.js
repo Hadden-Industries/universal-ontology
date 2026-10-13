@@ -35,6 +35,7 @@ export function assertLosslessOntologyLoad(result) {
           [...ontology.getAxioms()]
             .filter((axiom) => axiom.kind === "OWLDeclarationAxiom")
             .map((axiom) =>
+              // json-identity-contract: ordered-tuple; owner: Lossless ontology loader; reason: Two scalar strings identify an explicit IRI and entity kind.
               JSON.stringify([axiom.entity.iri.value, axiom.entity.kind]),
             ),
         );
@@ -46,6 +47,7 @@ export function assertLosslessOntologyLoad(result) {
             )
           )
             reject("Unqualified inferred entity role");
+          // json-identity-contract: ordered-tuple; owner: Lossless ontology loader; reason: Probe the same IRI and entity-kind scalar tuple.
           if (declarations.has(JSON.stringify([iri.value, entityType])))
             reject("Ontology contains a synthesized declaration axiom");
         }

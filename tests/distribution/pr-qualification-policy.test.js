@@ -56,6 +56,8 @@ const files = [
   "tooling/markdown/archives/hadden-industries-markdown-quality-linux-x64-1.0.3.tgz",
   ".json-quality.json",
   "eslint.config.js",
+  "scripts/eslint/noJsonStringifyIdentity.js",
+  "tests/lint/no-json-stringify-identity.test.js",
   ".prettierrc.json",
   ".prettierignore",
   "scripts/checkJsonInventory.js",
@@ -179,7 +181,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
 });
 test("reviewed graph accepts every entry point and control input", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedFileCount: 42,
+    verifiedFileCount: 44,
   });
 });
 

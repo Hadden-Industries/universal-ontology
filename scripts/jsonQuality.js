@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 /** Shared native JSON contracts. Selection belongs to .json-quality.json;
  * presentation options belong to .prettierrc.json. Consumers retain semantics.
  */
@@ -382,10 +383,7 @@ export function jsonContract(path, policy, { tracked = false } = {}) {
       if (rule[key] === undefined) continue;
       const value =
         key === "allowEmptyKeys" ? [...rule[key]].sort() : rule[key];
-      if (
-        explicit.has(key) &&
-        JSON.stringify(explicit.get(key)) !== JSON.stringify(value)
-      )
+      if (explicit.has(key) && !isDeepStrictEqual(explicit.get(key), value))
         throw new Error(`Conflicting JSON exceptions: ${path}: ${key}`);
       explicit.set(key, value);
       contract[key] = value;
@@ -485,10 +483,10 @@ export async function checkJsonPresentation(bytes, formatContract, options) {
       text = text.replaceAll("\r\n", "\n");
       if (!text.endsWith("\n")) text += "\n";
     }
-    return (
-      text ===
-      JSON.stringify(JSON.parse(text), null, pretty ? 2 : undefined) + "\n"
-    );
+    // json-identity-contract: bytes; owner: JSON producer presentation gate; reason: Validate the exact native serializer presentation including indentation and final LF.
+    const expected =
+      JSON.stringify(JSON.parse(text), null, pretty ? 2 : undefined) + "\n";
+    return text === expected;
   } else if (formatContract !== "prettier-json")
     throw new Error(`Unknown JSON formatting contract: ${formatContract}`);
   return prettier.check(text, options);

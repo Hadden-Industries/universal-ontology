@@ -417,6 +417,7 @@ describe("Universal Ontology MCP release verifier", () => {
   ) {
     const path = join(candidatePath, fileName);
     const before = await nodeFileSystem.readFile(path, "utf8");
+    // json-identity-contract: bytes; owner: Release integrity mutation tests; reason: Changed test artifact bytes require refreshed SPDX and checksum bindings.
     const text = `${JSON.stringify(transform(JSON.parse(before)), null, 2)}\n`;
     expect(text).not.toBe(before);
     await nodeFileSystem.writeFile(path, text);

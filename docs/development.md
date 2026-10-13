@@ -181,7 +181,7 @@ Generated ontology/query/distribution products using native `JSON.stringify(...,
 The retained npm SPDX report permits its original CRLF envelope; the retained Jest report requires compact native JSON plus final LF.
 These are presentation contracts, not lint exemptions.
 Schema, graph and digest checks remain owned by the producer/consumer.
-Consumer comparisons of Registry/OCI metadata, public-smoke provenance, full-build receipt records and cursor criteria ignore object-member insertion order while retaining array order and exact member/value checks.
+Consumer comparisons of Registry/OCI metadata, MCP application identity, archive-entry records, public-smoke provenance, full-build receipt records and cursor criteria ignore object-member insertion order while retaining array order and exact member/value checks.
 Duplicate legacy interpretation identity uses the validated fields in a stable tuple, so reordering object members cannot conceal a duplicate.
 Canonical semantic digest formats, opaque cursor integrity bindings, exact-byte artifact hashes and producer presentation remain their own contracts; formatting does not sort JSON to compensate for consumer comparison errors.
 All JSON npm commands enter [one native-tool adapter](../scripts/runJsonQuality.js), which reconciles inventory once before its selected operation.
@@ -202,6 +202,35 @@ After interruption, inspect which eligible files changed, compare the checkpoint
 Reverse only this task's edits if recovery is needed; do not reset or restore someone else's changes.
 Concurrent source writers and direct CLI overrides such as `--no-ignore`, `--ignore-path`, `--parser` or ESLint JSON `--fix` are outside the supported safe-fix contract.
 Regression tests exercise real native binaries in disposable Git checkouts, check byte preservation and idempotence, and reject invalid inputs before the first write.
+
+### Preventing order-sensitive JSON identities
+
+`npm run lint:js` enables `uo/no-json-stringify-identity` at error severity for the JavaScript inputs selected by ESLint.
+The same rule applies when ESLint is invoked on JS, MJS or CJS files; existing npm glob selection is unchanged.
+It rejects raw `JSON.stringify` results used in equality/inequality, `Object.is`, native Node equality assertions, Jest/Vitest equality matchers, known Set/Map keys, array membership, computed property keys and native hash inputs.
+Ordinary file, log and transport serialization remains allowed.
+Use structured comparisons for semantic data; native deep comparison preserves array order and exact fields/values while ignoring object-member order.
+The rule has no automatic fix because choosing a semantic comparison, canonical digest or byte contract requires knowing the consumer.
+
+The [local rule](../scripts/eslint/noJsonStringifyIdentity.js) uses native ESLint binding analysis for direct, computed-literal, destructured, assigned and bound aliases, and selected string/Buffer transformations.
+Tracking is conservative across assignments and bounded to 64 lexical analysis frames and 100,000 steps per file; exceeding either bound fails lint and asks for a simpler alias graph.
+It does not prove arbitrary imported/local helper behavior, reflective calls, dynamic property mutation or all collection-producing callbacks.
+Keep independent object-permutation and array/mutation regression tests at semantic consumer boundaries.
+
+Intentional representation identities need one local declaration immediately before the serializer or its containing statement:
+
+```js
+// json-identity-contract: ordered-tuple; owner: Projection policy; reason: Validated scalar fields define this tuple identity.
+const key = JSON.stringify([pathPrefix, throughVersion]);
+seen.add(key);
+```
+
+The only contract kinds are `bytes`, `digest` and `ordered-tuple`; both owner and reason are required.
+One declaration covers one serializer, never a whole file or several serializers on the same line.
+Malformed, ambiguous, misplaced and unused declarations fail lint.
+Existing producer-presentation checks, permutation byte oracles and versioned RDF identities retain explicit local contracts; no digest or cursor-format migration is introduced.
+Unused ESLint disable directives also fail at error severity.
+The release verifier binds the rule and its regression tests in the reviewed 44-input policy graph.
 
 ### Python and Markdown style
 

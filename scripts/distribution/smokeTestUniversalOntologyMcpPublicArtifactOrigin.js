@@ -227,13 +227,15 @@ export async function smokeTestUniversalOntologyMcpPublicArtifactOrigin({
     await client.connect(transport);
     const toolList = await client.listTools();
     if (
-      JSON.stringify(toolList.tools.map(({ name }) => name)) !==
-      JSON.stringify([
-        "search_entities",
-        "resolve_entity",
-        "get_entity_context",
-        "find_entity_connections",
-      ])
+      !isDeepStrictEqual(
+        toolList.tools.map(({ name }) => name),
+        [
+          "search_entities",
+          "resolve_entity",
+          "get_entity_context",
+          "find_entity_connections",
+        ],
+      )
     ) {
       throw new Error(
         "Public Person smoke failed: installed tool list disagrees.",

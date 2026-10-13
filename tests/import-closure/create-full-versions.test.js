@@ -99,7 +99,11 @@ test("build receipt mappings are order independent while producer values and can
       ".sdlc/runtime/policy-reports/full-ontology-build.json",
     );
     const reordered = reverseObjectMembers(receipt);
-    expect(JSON.stringify(reordered)).not.toBe(JSON.stringify(receipt));
+    // json-identity-contract: bytes; owner: Build receipt permutation tests; reason: Ensure the permutation changes its serialized representation.
+    const reorderedText = JSON.stringify(reordered);
+    // json-identity-contract: bytes; owner: Build receipt permutation tests; reason: Keep an independent original byte-representation oracle.
+    const originalText = JSON.stringify(receipt);
+    expect(reorderedText).not.toBe(originalText);
     await writeFile(receiptPath, JSON.stringify(reordered));
     await expect(verifyFullOntologyBuild(options)).resolves.toBeDefined();
     for (const [mutate, expected] of [

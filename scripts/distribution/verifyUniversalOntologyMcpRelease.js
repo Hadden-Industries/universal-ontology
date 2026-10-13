@@ -94,22 +94,26 @@ const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
 // Explicit reviewed execution graph; values are refreshed only with coordinated
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
+  "scripts/eslint/noJsonStringifyIdentity.js":
+    "64115ebc0c75f539c5775e79e235c4c439f0ffdd20eace12be1d9a658a0f8729",
+  "tests/lint/no-json-stringify-identity.test.js":
+    "b4e9d015764e3f8ea971c28a6129e20efd66e24931f318d1165ebf8c376f605c",
   "scripts/jsonQuality.js":
-    "bd5d25314e73edd7e9d1c81b4d6b05b4d988cb9f0a922af59a9156d1ed748569",
+    "963b28cea5249e8ba362ae2709fa45e306f1910b37fe127e146fd1c9f86c321a",
   "scripts/runJsonQuality.js":
-    "e19bd3a79c58809d4e962962d17fc263de649b850fcb97e99cbec5be48593630",
+    "d582d5fb1f38555727ee11a11fe1e1274622f2440a166a428c6d0842fdce2ecb",
   ".json-quality.json":
     "2ff77ad78b0a84899d485e308542eeb2d3db6dca2a558460c3b7c4b8ab916184",
   "eslint.config.js":
-    "8468c8fb7e9b439d74c98c2865a160cebb883bd1a595411078bf2098f8dc1f8b",
+    "991facecb43bf77b30de0cbcb89a9ac75a0ff913880f58cb7cd49b460b9b29d0",
   ".prettierrc.json":
     "064cfc1b8cb2f3fdff9c1cb7937e0b8bdd223566c99c2dc40d97702c5bbeed75",
   ".prettierignore":
     "f00a878b2c36a1d2e22d2fc1d010f924214ee5a2ad8375e96c7d145b1e04d154",
   "scripts/checkJsonInventory.js":
-    "20e26d306cf2e783d64e32234d16e84cace33decc19042e5e9116d46d90252ed",
+    "f3e87be3c89b9eaec84d4b8c546172fb3921c958315093355c53b91e38b266da",
   "tests/json-quality.test.js":
-    "4f974d7a1220df16775b1343c0df1c11aab79ab44be6567e0669393632732daf",
+    "e93ce0b25a2c6cb291c53eb66c5beda7f330043049fe320c9982b8afab4c4a5e",
   "package-lock.json":
     "752680439f64915302d40ca4fa85d4f40f026e78e13ce9632dca94da967c8400",
   ".github/workflows/pr-validation.yml":
@@ -123,9 +127,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml":
     "f545b24e66b49520815380d3ba85382dc42ee743072f1119d2243c4c69aa9af6",
   "scripts/selectPullRequestChecks.js":
-    "dc83d729b9c49417e424e7ced7ace517bca8b25060c0e2cf45479b31506d2ff4",
+    "76b6dbb9a811c0f6ca450fa6f989bc7231b03a2584f2c1ac00aab6f08ba30532",
   "scripts/evaluatePullRequestChecks.js":
-    "8d50e388098bca92c0d79e8d68865bcb13ae5539d54b71320caa0816385608ec",
+    "d4cdc80aacbba96b3265592baf59b0433729a1ffbcaa1d1465494fc982402d04",
   "scripts/pullRequestCheckPlan.schema.json":
     "19e3917230870c30c1891b4aadccf78769ac8f9ae2d3a6ff4888e9bc2885ab00",
   "scripts/pullRequestCheckPlanValidator.js":
@@ -135,9 +139,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/manual-mcp-packages.yml":
     "9f376c2812674dae1c2cabbc3ce7e7d1c6902dd51b04af861d1458ea3cc5c106",
   "scripts/distribution/prepareManualMcpRelease.js":
-    "f601d23f0f2c62b830f1f8b509a90439618ce1295c5ba9d908b8b42b7ae9080a",
+    "4cb9b065c06d2e1328e170089a874b02431fb0aa115683eec3a8b460fd5d7c9a",
   "scripts/runPullRequestNodeChecks.js":
-    "e11b591c8a2471da7b6decb86558b84b528170f5b3b3506468cb1a816f09b174",
+    "df8295dffd7ba72ed2cd8466c60fa9ad8121451e96cc5f58fb6448b7df627ec7",
   "scripts/prQualification.js":
     "7e1245ac725088a38c2946d27bdc119c05fa61129c3eb295182bcae8819111dd",
   "scripts/prQualificationReuse.js":
@@ -186,7 +190,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
 export async function verifyPullRequestPolicyGraph({
   root = REPOSITORY_ROOT_PATH,
 } = {}) {
-  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 42)
+  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 44)
     throw new Error("PR policy allowlist is incomplete.");
   for (const [path, expected] of Object.entries(REVIEWED_PR_POLICY_FILES)) {
     const bytes = await readBoundedRegularFile(join(root, path));
@@ -745,7 +749,7 @@ async function requireExactReleaseDirectoryManifest(
   }
   actualFileNames.sort(compareBinaryText);
 
-  if (JSON.stringify(actualFileNames) !== JSON.stringify(expectedFileNames)) {
+  if (!isDeepStrictEqual(actualFileNames, expectedFileNames)) {
     const expectedSet = new Set(expectedFileNames);
     const actualSet = new Set(actualFileNames);
     const missing = expectedFileNames.filter(
@@ -859,8 +863,8 @@ function parseChecksumManifest(checksumManifestText, expectedFileNames) {
   const sortedFileNames = [...actualFileNames].sort(compareBinaryText);
   if (
     new Set(actualFileNames).size !== actualFileNames.length ||
-    JSON.stringify(actualFileNames) !== JSON.stringify(sortedFileNames) ||
-    JSON.stringify(actualFileNames) !== JSON.stringify(expectedFileNames)
+    !isDeepStrictEqual(actualFileNames, sortedFileNames) ||
+    !isDeepStrictEqual(actualFileNames, expectedFileNames)
   ) {
     throw new Error(
       "SHA256SUMS must cover every non-manifest release asset exactly once in binary filename order.",
@@ -1031,9 +1035,7 @@ function requireExactArchiveManifest(actualEntryPaths, specificationMap) {
   const sortedExpectedPaths = [...specificationMap.keys()].sort(
     compareBinaryText,
   );
-  if (
-    JSON.stringify(sortedActualPaths) !== JSON.stringify(sortedExpectedPaths)
-  ) {
+  if (!isDeepStrictEqual(sortedActualPaths, sortedExpectedPaths)) {
     throw new Error(
       "Release archive content manifest differs from its target allowlist.",
     );
@@ -1415,7 +1417,7 @@ function requireExactSpdxPackageCoverage({
       createExpectedSbomPackageIdentity(name, versionInfo),
     )
     .sort(compareBinaryText);
-  if (JSON.stringify(actualIdentities) !== JSON.stringify(expectedIdentities)) {
+  if (!isDeepStrictEqual(actualIdentities, expectedIdentities)) {
     throw new Error(
       `${semanticName} has insufficient or unexpected SBOM coverage.`,
     );

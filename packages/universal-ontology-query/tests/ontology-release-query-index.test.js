@@ -399,9 +399,11 @@ describe("ontology release query-index projection", () => {
       quads.reverse(),
     );
 
-    expect(`${JSON.stringify(reversed, null, 2)}\n`).toBe(
-      `${JSON.stringify(forward, null, 2)}\n`,
-    );
+    // json-identity-contract: bytes; owner: Query index producer tests; reason: Quad permutations must emit identical serialized products.
+    const reversedText = `${JSON.stringify(reversed, null, 2)}\n`;
+    // json-identity-contract: bytes; owner: Query index producer tests; reason: This is the exact forward producer representation.
+    const forwardText = `${JSON.stringify(forward, null, 2)}\n`;
+    expect(reversedText).toBe(forwardText);
   });
 
   test("projects the corpus Person definition with exact release provenance", async () => {

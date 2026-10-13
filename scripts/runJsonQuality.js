@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 /** One policy-derived entry point for native JSON checks and safe formatting. */
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync, unlinkSync } from "node:fs";
@@ -75,7 +76,7 @@ async function normalize(context, sourcePaths) {
   await lint(context, replacements);
   await presentation(context, true);
   const fresh = await inspectJsonInventory({ root: context.root });
-  if (JSON.stringify(fresh.policy) !== JSON.stringify(context.policy))
+  if (!isDeepStrictEqual(fresh.policy, context.policy))
     throw new Error(
       "JSON policy changed during NFC preflight; no source writes permitted.",
     );

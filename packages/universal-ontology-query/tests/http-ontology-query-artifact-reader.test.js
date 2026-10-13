@@ -603,6 +603,7 @@ describe("HTTP ontology query-artifact reader loopback integration", () => {
 
   test("returns identical canonical bytes and digest for identity, Gzip, and Brotli", async () => {
     const canonicalBytes = Buffer.from(
+      // json-identity-contract: bytes; owner: HTTP artifact reader tests; reason: Compression encodings must return these exact payload bytes.
       `${JSON.stringify({ payload: "compressible".repeat(128) })}\n`,
       "utf8",
     );

@@ -516,8 +516,10 @@ async function assertOutputs(ctx, receipt) {
     )
     .sort(binarySort);
   if (
-    JSON.stringify(receipt.outputs.map((o) => o.path).sort(binarySort)) !==
-    JSON.stringify(required)
+    !isDeepStrictEqual(
+      receipt.outputs.map((o) => o.path).sort(binarySort),
+      required,
+    )
   )
     throw new Error("Incomplete or duplicate full ontology output inventory");
   for (const output of receipt.outputs) {

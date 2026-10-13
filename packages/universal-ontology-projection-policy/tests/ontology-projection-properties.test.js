@@ -16,6 +16,7 @@ test("published field history satisfies its local schema without mutation or rem
       "utf8",
     ),
   );
+  // json-identity-contract: bytes; owner: Projection schema tests; reason: Native validation must preserve the original serialized representation.
   const before = JSON.stringify(history);
   const ajv = new Ajv2020({
     strict: true,
@@ -26,6 +27,7 @@ test("published field history satisfies its local schema without mutation or rem
   });
   const validate = ajv.compile(schema);
   expect(validate(history)).toBe(true);
+  // json-identity-contract: bytes; owner: Projection schema tests; reason: Compare the exact post-validation representation with its snapshot.
   expect(JSON.stringify(history)).toBe(before);
   const invalid = structuredClone(history);
   invalid.defaultPropertyIris.definition = "relative-property";
