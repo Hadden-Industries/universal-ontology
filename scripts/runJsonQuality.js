@@ -6,18 +6,98 @@ import { join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import * as prettier from "prettier";
 import { inspectJsonInventory } from "./checkJsonInventory.js";
-import { checkJsonPresentation, STRICT_JSON_GLOBS } from "./jsonQuality.js";
+import {
+  checkJsonPresentation,
+  decodeJsonBytes,
+  normalizeJsonSource,
+  STRICT_JSON_GLOBS,
+} from "./jsonQuality.js";
 
-async function lint({ root, files, linter }) {
-  const results = await linter.lintFiles(
-    files.map((file) => join(root, file.path)),
-  );
+async function lint({ root, files, linter }, replacements = new Map()) {
+  const results = [];
+  if (replacements.size) {
+    // Prospective source bytes must pass the whole gate before the first write.
+    for (const { path } of files)
+      results.push(
+        ...(await linter.lintText(
+          replacements.get(path) ??
+            decodeJsonBytes(readFileSync(join(root, path))),
+          { filePath: join(root, path) },
+        )),
+      );
+  } else
+    results.push(
+      ...(await linter.lintFiles(files.map((file) => join(root, file.path)))),
+    );
   const formatter = await linter.loadFormatter("stylish");
   process.stdout.write(formatter.format(results));
   if (results.some((result) => result.errorCount || result.warningCount))
     throw new Error("JSON lint failed; no JSON fixes are permitted.");
   process.stdout.write(
     `JSON lint: ${results.length} files; zero errors or warnings.\n`,
+  );
+}
+
+/** Explicit authored-source repair. Producers use the same pure planner at their
+ * input boundary and retain their own semantic/digest/graph validation.
+ */
+async function normalize(context, sourcePaths) {
+  if (!Array.isArray(sourcePaths) || !sourcePaths.length)
+    throw new Error(
+      "NFC normalization requires explicit repository-relative source paths.",
+    );
+  if (new Set(sourcePaths).size !== sourcePaths.length)
+    throw new Error("Duplicate NFC source path.");
+  const selected = sourcePaths.map((path) => {
+    const file = context.files.find((candidate) => candidate.path === path);
+    if (!file?.allowFormatWrites || file.normalization !== "NFC")
+      throw new Error(
+        `Protected or undiscovered JSON source: ${path}; fix its owning source or producer.`,
+      );
+    return file;
+  });
+  const before = new Map();
+  const replacements = new Map();
+  for (const { path } of selected) {
+    const bytes = readFileSync(join(context.root, path));
+    decodeJsonBytes(bytes);
+    before.set(path, bytes);
+    try {
+      replacements.set(path, await normalizeJsonSource(bytes.toString("utf8")));
+    } catch (error) {
+      throw new Error(`${path}: ${error.message}`, { cause: error });
+    }
+  }
+  await lint(context, replacements);
+  await presentation(context, true);
+  const fresh = await inspectJsonInventory({ root: context.root });
+  if (JSON.stringify(fresh.policy) !== JSON.stringify(context.policy))
+    throw new Error(
+      "JSON policy changed during NFC preflight; no source writes permitted.",
+    );
+  for (const { path } of selected) {
+    const file = fresh.files.find((candidate) => candidate.path === path);
+    if (
+      !file?.allowFormatWrites ||
+      file.normalization !== "NFC" ||
+      !readFileSync(join(context.root, path)).equals(before.get(path))
+    )
+      throw new Error(`JSON source changed during NFC preflight: ${path}`);
+  }
+  let changed = 0;
+  for (const [path, text] of replacements) {
+    if (!readFileSync(join(context.root, path)).equals(before.get(path)))
+      throw new Error(
+        `JSON source changed before NFC write: ${path}; inspect any completed writes.`,
+      );
+    if (!Buffer.from(text).equals(before.get(path))) {
+      writeFileSync(join(context.root, path), text);
+      changed++;
+    }
+  }
+  await lint(await inspectJsonInventory({ root: context.root }));
+  process.stdout.write(
+    `JSON NFC source normalization: ${selected.length} selected; ${changed} changed.\n`,
   );
 }
 
@@ -103,16 +183,19 @@ export async function runJsonQuality(operation, options) {
       "check",
       "format",
       "producers",
+      "normalize",
     ].includes(operation)
   )
     throw new Error(
-      "Expected inventory, lint, check-format, check, format or producers.",
+      "Expected inventory, lint, check-format, check, format, producers or normalize.",
     );
   const context = await inspectJsonInventory(options);
   const { discovered, tracked, linted, formatted, preserved } = context.counts;
   process.stdout.write(
     `JSON inventory: ${discovered} discovered (${tracked} tracked); ${linted} linted; ${formatted} writable; ${preserved} protected.\n`,
   );
+  if (operation === "normalize")
+    return normalize(context, options?.sourcePaths);
   if (operation === "inventory")
     for (const boundary of context.boundaries)
       process.stdout.write(
@@ -138,16 +221,20 @@ if (
   import.meta.url === pathToFileURL(process.argv[1]).href
 ) {
   try {
+    const operation = process.argv[2];
     if (
-      process.argv.length < 3 ||
-      process.argv.length > 4 ||
-      (process.argv[3] && process.argv[3] !== "--require-generated")
+      operation !== "normalize" &&
+      (process.argv.length < 3 ||
+        process.argv.length > 4 ||
+        (process.argv[3] && process.argv[3] !== "--require-generated"))
     )
       throw new Error(
         "Expected a JSON quality operation and optional --require-generated.",
       );
-    await runJsonQuality(process.argv[2], {
+    await runJsonQuality(operation, {
       requireGenerated: process.argv[3] === "--require-generated",
+      sourcePaths:
+        operation === "normalize" ? process.argv.slice(3) : undefined,
     });
   } catch (error) {
     process.stderr.write(`${error.message}\n`);

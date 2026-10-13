@@ -20,6 +20,7 @@ import {
   checkJsonPresentation,
   jsonFormatOptions,
   jsonContract,
+  normalizeJsonSource,
 } from "../scripts/jsonQuality.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -113,15 +114,82 @@ test.each([
   expect(lint(text).status).toBe(0);
 });
 
-test("NFC is enforced only for control keys, without normalizing values or data keys", () => {
-  expect(lint('{"e\\u0301":1}').status).toBe(1);
-  expect(lint('{"key":"e\\u0301"}').status).toBe(0);
+test.each([
+  ['{"e\\u0301":1}', "package.json"],
+  ['{"e\\u0301":1}', "new/data.json"],
+  ['{"key":"e\\u0301"}', "new/data.json"],
+  ['["é", {"nested":["e\\u0301"]}]', "new/data.json"],
+  ['"e\\u0301"', "new/data.json"],
+  ['{"key":"e\\u0301"}', "new/data.jsonld"],
+])("NFC applies to every decoded key and value: %s (%s)", (text, path) => {
+  const result = lint(text, path);
+  expect(result.status).toBe(1);
   expect(
-    lint(
-      '{"e\\u0301":1}',
-      "packages/universal-ontology-projection-policy/data/field-property-history.v1.json",
-    ).status,
-  ).toBe(0);
+    JSON.parse(result.stdout)[0].messages.some(
+      (message) => message.ruleId === "uo-json/normalized-strings",
+    ),
+  ).toBe(true);
+});
+
+test("native ESLint fix cannot mutate non-NFC JSON or collide its keys", () => {
+  const text = '{"e\\u0301":1,"é":2}';
+  const result = spawnSync(
+    process.execPath,
+    [
+      eslint,
+      "--stdin",
+      "--stdin-filename",
+      "new.json",
+      "--fix-dry-run",
+      "--format",
+      "json",
+    ],
+    { cwd: root, input: text, encoding: "utf8", windowsHide: true },
+  );
+  const [report] = JSON.parse(result.stdout);
+  expect(result.status).toBe(1);
+  expect(report.output).toBeUndefined();
+  expect(
+    report.messages.some((message) => message.messageId === "collision"),
+  ).toBe(true);
+});
+
+test("source/producer normalization preserves all non-string tokens and is idempotent", async () => {
+  const source =
+    '{"2":2,"1":1,"n":[-0,1e+03,1.0,0.123456789012345678901],"plain":"\\u0061","e\\u0301":"e\\u0301"}\r\n';
+  const output = await normalizeJsonSource(source);
+  expect(output).toBe(
+    '{"2":2,"1":1,"n":[-0,1e+03,1.0,0.123456789012345678901],"plain":"\\u0061","é":"é"}\r\n',
+  );
+  expect(await normalizeJsonSource(output)).toBe(output);
+});
+
+test.each([
+  '{"é":1,"e\\u0301":2}',
+  '{"nested":{"e\\u0301":1,"\\u00e9":2}}',
+  '[{"é":1,"e\\u0301":2}]',
+])("producer normalization refuses NFC key collisions: %s", async (text) => {
+  await expect(normalizeJsonSource(text)).rejects.toThrow(/duplicate keys/);
+});
+
+test.each([
+  '{"a":1,"\\u0061":2}',
+  '{"n":1e400}',
+  '{"x":"\\ud800"}',
+  '{"x":1,}',
+])(
+  "producer normalization refuses invalid or unsafe input: %s",
+  async (text) => {
+    await expect(normalizeJsonSource(text)).rejects.toThrow(
+      /invalid or unsafe/,
+    );
+  },
+);
+
+test("preserved producer identity cannot be normalized", async () => {
+  await expect(
+    normalizeJsonSource('"e\\u0301"', { normalization: "preserve" }),
+  ).rejects.toThrow(/Preserved/);
 });
 
 /** Tokens preserve member/array order, decoded string values and exact numeric lexemes. */
@@ -150,10 +218,10 @@ const producerPath = "policy/authorities/iana-media-types.provenance.json";
 const retainedPath = "docs/import-closure/registry-artifact-verification.json";
 
 /** Exercise the public entry points in a real disposable Git checkout. */
-function runCommand(directory, command) {
+function runCommand(directory, command, args = []) {
   return spawnSync(
     process.execPath,
-    [process.env.npm_execpath, "run", command],
+    [process.env.npm_execpath, "run", command, "--", ...args],
     {
       cwd: directory,
       encoding: "utf8",
@@ -257,7 +325,7 @@ function fixture() {
       2,
     )}\n`,
   );
-  put(dataPath, '{"b":[-0,1e+03],"a":"e\\u0301"}');
+  put(dataPath, '{"b":[-0,1e+03],"a":"é"}');
   put(producerPath, '{\n  "b": 2,\n  "a": 1\n}\n');
   put(retainedPath, '{\n  "retained": true\n}\n');
   const policy = JSON.parse(
@@ -329,6 +397,149 @@ test("new untracked JSON is checked and formatted without a policy entry or stag
     rmSync(directory, { recursive: true, force: true });
   }
 }, 60000);
+
+test("explicit source normalization repairs untracked JSON and preserves protected bytes", () => {
+  const { directory, put } = fixture();
+  try {
+    const path = "new/source.json";
+    put(path, '{"e\\u0301":"e\\u0301","n":1e+03}');
+    const protectedBefore = readFileSync(join(directory, producerPath));
+    const first = runCommand(directory, "normalize:json", [path]);
+    if (first.status !== 0) throw new Error(first.stdout + first.stderr);
+    expect(readFileSync(join(directory, path), "utf8")).toBe(
+      '{"é":"é","n":1e+03}',
+    );
+    expect(readFileSync(join(directory, producerPath))).toEqual(
+      protectedBefore,
+    );
+    const second = runCommand(directory, "normalize:json", [path]);
+    expect(second.status).toBe(0);
+    expect(second.stdout).toContain("0 changed");
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+}, 60000);
+
+test("a collision in the final selected source prevents every source write", () => {
+  const { directory, put } = fixture();
+  try {
+    put("first.json", '{"x":"e\\u0301"}');
+    put("last.json", '{"e\\u0301":1,"é":2}');
+    const before = readFileSync(join(directory, "first.json"));
+    const result = runCommand(directory, "normalize:json", [
+      "first.json",
+      "last.json",
+    ]);
+    expect(result.status).toBe(1);
+    expect(result.stderr).toMatch(/duplicate keys/);
+    expect(readFileSync(join(directory, "first.json"))).toEqual(before);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+}, 60000);
+
+test.each(
+  [
+    [],
+    [producerPath],
+    ["ignored/new.json"],
+    ["missing.json"],
+    ["new.json", "new.json"],
+  ].map((paths) => [paths]),
+)(
+  "normalization refuses absent, protected or ambiguous source selection: %j",
+  (paths) => {
+    const { directory, put } = fixture();
+    try {
+      put("new.json", '{"x":"e\\u0301"}');
+      put("ignored/new.json", '{"x":"e\\u0301"}');
+      const before = readFileSync(join(directory, "new.json"));
+      const result = runCommand(directory, "normalize:json", paths);
+      expect(result.status).toBe(1);
+      expect(readFileSync(join(directory, "new.json"))).toEqual(before);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  60000,
+);
+
+test.each(["format:json", "normalize:json"])(
+  "unrelated protected NFC failure blocks %s before writes",
+  (command) => {
+    const { directory, put } = fixture();
+    try {
+      put("new.json", '{"x":"e\\u0301"}');
+      put(producerPath, '{\n  "x": "e\\u0301"\n}\n');
+      const before = readFileSync(join(directory, "new.json"));
+      const result = runCommand(
+        directory,
+        command,
+        command === "normalize:json" ? ["new.json"] : [],
+      );
+      expect(result.status).toBe(1);
+      expect(readFileSync(join(directory, "new.json"))).toEqual(before);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  60000,
+);
+
+test.each([
+  ['{"e\u0301":"e\u0301"}', 0],
+  ['{"x":1,"\\u0078":2}', 1],
+  ['{"x":1e400}', 1],
+])(
+  "explicit preservation permits exact strings while retaining native checks: %s",
+  (text, status) => {
+    const { directory, put, policy } = fixture();
+    try {
+      const path = "retained.json";
+      policy.exceptions.push({
+        paths: [path],
+        normalization: "preserve",
+        allowFormatWrites: false,
+        formatContract: "producer-json-compact",
+        owner: "test producer",
+        reason: "Exact externally defined string identity",
+      });
+      put(".json-quality.json", `${JSON.stringify(policy, null, 2)}\n`);
+      put(dataPath, '{\n  "b": [\n    -0,\n    1e+03\n  ],\n  "a": "é"\n}\n');
+      put(path, `${text}\n`);
+      const before = readFileSync(join(directory, path));
+      const check = runCommand(directory, "check:json");
+      expect(check.status).toBe(status);
+      expect(runCommand(directory, "normalize:json", [path]).status).toBe(1);
+      expect(readFileSync(join(directory, path))).toEqual(before);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  60000,
+);
+
+test(
+  "preservation exceptions cannot retain generic write permission",
+  async () => {
+    const { directory, put, policy } = fixture();
+    try {
+      policy.exceptions.push({
+        paths: ["retained.json"],
+        normalization: "preserve",
+        owner: "test",
+        reason: "Exact identity",
+      });
+      put(".json-quality.json", `${JSON.stringify(policy, null, 2)}\n`);
+      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
+        /prohibit generic writes/,
+      );
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
 
 test.each(["untracked", "staged", "ignored", "ignored-tracked"])(
   "ordinary %s JSON is automatically included without policy edits",
@@ -484,12 +695,20 @@ test.each([
       if (scenario === "duplicate")
         policy.exceptions.push(policy.exceptions[0]);
       if (scenario === "conflict")
-        policy.exceptions.push({
-          paths: ["package.json"],
-          lintProfile: "data",
-          owner: "test",
-          reason: "Conflicting control override",
-        });
+        policy.exceptions.push(
+          {
+            paths: ["package.json"],
+            formatContract: "producer-json-compact",
+            owner: "test",
+            reason: "Conflicting producer presentation override",
+          },
+          {
+            paths: ["package.json"],
+            formatContract: "producer-json-body",
+            owner: "test",
+            reason: "Second contradictory presentation override",
+          },
+        );
       if (scenario === "dialect") {
         put("new.jsonc", "{}");
         execFileSync("git", ["-C", directory, "add", "new.jsonc"]);
@@ -580,10 +799,7 @@ test.each([
         reason: "Qualified upstream byte envelope",
       });
       put(".json-quality.json", `${JSON.stringify(policy, null, 2)}\n`);
-      put(
-        dataPath,
-        '{\n  "b": [\n    -0,\n    1e+03\n  ],\n  "a": "e\\u0301"\n}\n',
-      );
+      put(dataPath, '{\n  "b": [\n    -0,\n    1e+03\n  ],\n  "a": "é"\n}\n');
       put(retainedPath, text);
       const before = readFileSync(join(directory, retainedPath));
       const result = runCommand(directory, command);

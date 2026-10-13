@@ -138,8 +138,33 @@ Strict JSON rejects comments, trailing commas, unquoted keys and non-JSON numeri
 Duplicate keys are compared after escape decoding.
 Unsafe-value checks reject integer literals outside the safe range, overflow, nonzero underflow, subnormal numbers and lone surrogates.
 This is the plugin's native interoperability policy; it does not guarantee arbitrary decimal precision or reject every exponent-form integer outside the safe range.
-NFC applies only to owned control keys, never ontology data keys or string values.
-No supported command automatically normalizes keys, changes values, sorts members or repairs schema/domain errors.
+NFC applies by default to every decoded JSON key and string value, including nested values, array/root strings, JSON-LD and generated products.
+The shared ESLint rule reports non-NFC strings and keys that would collide after NFC; it deliberately exposes no automatic ESLint fix.
+`normalization: "preserve"` is an explicit `.json-quality.json` exception requiring an owner, reason and `allowFormatWrites: false`; it preserves exact string identity while retaining strict syntax, duplicate-key, unsafe-value and presentation checks.
+Write protection alone never exempts a file from NFC validation.
+The former control-key override is redundant and has been removed.
+Formatting never normalizes keys or values, sorts members or repairs schema/domain errors.
+
+Use the explicit authored-source repair command with literal repository-relative paths:
+
+```sh
+npm run normalize:json -- path/to/source.json another/source.json
+npm run format:json
+npm run check:json
+```
+
+The normalizer requires at least one explicit discovered, writable source path.
+It preflights every selected input and the prospective full corpus before the first write, rejecting NFC key collisions, invalid/unsafe JSON, protected outputs, preservation exceptions, ignored untracked files and changed source bytes.
+Only string tokens needing NFC are replaced; member/array order, numeric lexemes, unchanged escapes and surrounding whitespace are preserved.
+Normalization is idempotent and does not perform NFKC, trimming or case conversion.
+Keep source writers quiescent; multi-file writes are not a transaction.
+After interruption, inspect completed writes and retained failure output before resuming.
+Fix protected/generated data in its owning source and regenerate it instead of applying this command to the output.
+
+An owning JSON producer can import the pure `normalizeJsonSource(text, contract)` operation from [shared contracts](../scripts/jsonQuality.js) at its source-input boundary.
+It uses the same native parser, interoperability preflight and collision analysis, returns normalized text without writing, and refuses a preservation contract.
+The producer must still validate its schema, graph, references and digests before publishing derived products; normalization can change exact string identity even when text looks identical.
+For JSON-LD, fix the owning RDF source and retain existing graph verification rather than silently normalizing serialized literals.
 Prettier's explicit `json-stringify` presentation uses two spaces, LF, double quotes, no trailing commas and one final newline while preserving member order and numeric lexemes.
 Read-only formatting uses the native Prettier API across every policy record, independently of its write eligibility.
 The retained Oxigraph notice uses `producer-json-body`: its existing LF/CRLF envelope and absent final newline are permitted, while native Prettier checks the entire JSON body.

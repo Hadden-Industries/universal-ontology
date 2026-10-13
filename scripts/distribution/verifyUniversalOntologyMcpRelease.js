@@ -94,11 +94,11 @@ const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/jsonQuality.js":
-    "24f07b1f34ac37280676cbd81524b9f0001cdd9f09dcb1a94112dada69bf259d",
+    "603aee902cd2c777297f7a8b697038487b6a585393f86c4618fba1050eb5e52f",
   "scripts/runJsonQuality.js":
-    "87a22f091568e58a4023780b6df8210a472f02d98e629f7f4076f8dbcdff1d00",
+    "717a3191c19df438dd79eca62e8a5c9075ee8a4e1cd3b423f03210a3279d3b75",
   ".json-quality.json":
-    "9a2612444782036fcaafdbdd5e237c965868a0e8e1a977226b570446a2d6625b",
+    "dd84b14b3a6786af19399e0f60b3f7f15e253f1ce9458ab46cda74d733105f75",
   "eslint.config.js":
     "8468c8fb7e9b439d74c98c2865a160cebb883bd1a595411078bf2098f8dc1f8b",
   ".prettierrc.json":
@@ -106,9 +106,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".prettierignore":
     "f00a878b2c36a1d2e22d2fc1d010f924214ee5a2ad8375e96c7d145b1e04d154",
   "scripts/checkJsonInventory.js":
-    "b4e98a93d6d6642ad5b6a799d4916cf5ce86d06c7b203525e2ad4b47c36f4859",
+    "f36013d914dcf366b8b056f6c03ebc7e0ad4b2c1d969df687dcdb4479b7d9894",
   "tests/json-quality.test.js":
-    "09242fa51be8ef1e932dd782d9637fb0d9910498414c84959760fcc1beaf5551",
+    "d3ab1068eec18c1aa6b5dc3f606268ba25249d319d0f542894f5600f2af4e038",
   "package-lock.json":
     "752680439f64915302d40ca4fa85d4f40f026e78e13ce9632dca94da967c8400",
   ".github/workflows/pr-validation.yml":
@@ -166,7 +166,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".markdown-quality-execution.json":
     "314ef284e247a38ecf5ac2d4d7883c64e1f1ce037a6eba2c7bd0ea1814028b39",
   "package.json":
-    "d304739fd3a7ef0af28ec68987c474fc6dfd40b3a7521a8382210d4984487245",
+    "c877404a670b32e13d3678a2c9d690e74c4a14d1e75d89bfe81e377f2b764737",
   ".npmrc": "2e4f507d9f669af940f509b6d717a64e009d45f1ce5012e3f3e69729fb0bbccd",
   "tests/markdown-quality.test.js":
     "6d98214ca56141494abce31c9361f9230a10b98fb377f720e9ddd97343306ab1",

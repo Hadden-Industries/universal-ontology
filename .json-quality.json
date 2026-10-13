@@ -1,9 +1,10 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "defaults": {
     "lintProfile": "data",
     "formatContract": "prettier-json",
-    "allowFormatWrites": true
+    "allowFormatWrites": true,
+    "normalization": "NFC"
   },
   "exceptions": [
     {
@@ -21,30 +22,6 @@
       "exclude": true,
       "owner": "Git, package managers and local workflow/tool installations",
       "reason": "External installation or machine-local runtime state; excluded explicitly rather than through Git ignore rules. Tracked JSON remains included."
-    },
-    {
-      "paths": [
-        ".htmlvalidate.json",
-        ".json-quality.json",
-        ".markdown-quality-execution.json",
-        ".markdown-quality.json",
-        ".mcp.json",
-        ".prettierrc.json",
-        ".stylelintrc.json",
-        "docs/import-closure/contract.v1.json",
-        "package.json",
-        "packages/universal-ontology-mcp-server/package.json",
-        "packages/universal-ontology-projection-policy/data/field-property-history.v1.schema.json",
-        "packages/universal-ontology-projection-policy/package.json",
-        "packages/universal-ontology-query/package.json",
-        "scripts/distribution/universalOntologyMcpReleaseInputs.json",
-        "scripts/pullRequestCheckPlan.schema.json",
-        "server.json",
-        "tooling/markdown/package.json"
-      ],
-      "lintProfile": "control",
-      "owner": "UO maintainers",
-      "reason": "Owned controls additionally require NFC-normalized keys."
     },
     {
       "paths": [

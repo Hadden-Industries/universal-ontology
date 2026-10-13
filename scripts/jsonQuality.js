@@ -17,17 +17,81 @@ export const STRICT_JSON_GLOBS = ["**/*.json", "**/*.jsonld", "**/*.sarif"];
 const DATA_RULES = Object.freeze({
   "json/no-duplicate-keys": "error",
   "json/no-unsafe-values": "error",
-});
-const CONTROL_RULES = Object.freeze({
-  "json/no-unnormalized-keys": ["error", { form: "NFC" }],
+  // Native key autofixes have no whole-object collision preflight.
+  "json/no-unnormalized-keys": "off",
 });
 
-export function jsonRules(lintProfile) {
+/** Analyze the native JSON AST once; lint and source/producer fixes share it. */
+function inspectNormalization(document) {
+  const changes = [];
+  const collisions = [];
+  const pending = [{ node: document.body, kind: "value" }];
+  while (pending.length) {
+    const { node, kind } = pending.pop();
+    if (node.type === "String") {
+      const normalized = node.value.normalize("NFC");
+      if (normalized !== node.value) changes.push({ node, kind, normalized });
+    } else if (node.type === "Object") {
+      const names = new Map();
+      for (const member of node.members) {
+        const normalized = member.name.value.normalize("NFC");
+        const prior = names.get(normalized);
+        if (prior && prior.value !== member.name.value)
+          collisions.push({ node: member.name });
+        names.set(normalized, member.name);
+        pending.push({ node: member.name, kind: "key" });
+        pending.push({ node: member.value, kind: "value" });
+      }
+    } else if (node.type === "Array") {
+      for (const element of node.elements)
+        pending.push({ node: element.value, kind: "value" });
+    }
+  }
+  return { changes, collisions };
+}
+
+const normalizationPlugin = {
+  rules: {
+    "normalized-strings": {
+      meta: {
+        type: "problem",
+        languages: ["json/json"],
+        schema: [{ enum: ["NFC", "preserve"] }],
+        messages: {
+          unnormalized:
+            "JSON {{kind}} is not NFC; fix its owning source or producer with collision preflight.",
+          collision:
+            "NFC would create duplicate keys in this object; resolve the owning source before normalization.",
+        },
+      },
+      create(context) {
+        if (context.options[0] === "preserve") return {};
+        return {
+          Document(document) {
+            const { changes, collisions } = inspectNormalization(document);
+            for (const { node, kind } of changes)
+              context.report({
+                node,
+                messageId: "unnormalized",
+                data: { kind },
+              });
+            for (const { node } of collisions)
+              context.report({ node, messageId: "collision" });
+          },
+        };
+      },
+    },
+  },
+};
+
+export function jsonRules(lintProfile, normalization = "NFC") {
   if (lintProfile !== "control" && lintProfile !== "data")
     throw new Error(`Unknown JSON lint profile: ${lintProfile}`);
+  if (!["NFC", "preserve"].includes(normalization))
+    throw new Error(`Unknown JSON normalization contract: ${normalization}`);
   return {
     ...DATA_RULES,
-    ...(lintProfile === "control" ? CONTROL_RULES : {}),
+    "uo-json/normalized-strings": ["error", normalization],
   };
 }
 
@@ -36,7 +100,7 @@ export function jsonLintConfig(files) {
   return [
     {
       files: files.map((file) => file.path),
-      plugins: { json },
+      plugins: { json, "uo-json": normalizationPlugin },
       language: "json/json",
       linterOptions: {
         noInlineConfig: true,
@@ -44,13 +108,13 @@ export function jsonLintConfig(files) {
       },
       rules: jsonRules("data"),
     },
-    ...(files.some((file) => file.lintProfile === "control")
+    ...(files.some((file) => file.normalization === "preserve")
       ? [
           {
             files: files
-              .filter((file) => file.lintProfile === "control")
+              .filter((file) => file.normalization === "preserve")
               .map((file) => file.path),
-            rules: CONTROL_RULES,
+            rules: jsonRules("data", "preserve"),
           },
         ]
       : []),
@@ -63,15 +127,21 @@ const validatePolicy = new Ajv({ strict: true, allErrors: true }).compile({
   additionalProperties: false,
   required: ["schemaVersion", "defaults", "exceptions"],
   properties: {
-    schemaVersion: { const: 3 },
+    schemaVersion: { const: 4 },
     defaults: {
       type: "object",
       additionalProperties: false,
-      required: ["lintProfile", "formatContract", "allowFormatWrites"],
+      required: [
+        "lintProfile",
+        "formatContract",
+        "allowFormatWrites",
+        "normalization",
+      ],
       properties: {
         lintProfile: { const: "data" },
         formatContract: { const: "prettier-json" },
         allowFormatWrites: { const: true },
+        normalization: { const: "NFC" },
       },
     },
     exceptions: {
@@ -94,6 +164,7 @@ const validatePolicy = new Ajv({ strict: true, allErrors: true }).compile({
           exclude: { const: true },
           lintProfile: { enum: ["control", "data"] },
           allowFormatWrites: { const: false },
+          normalization: { const: "preserve" },
           formatContract: {
             enum: [
               "producer-json-body",
@@ -133,6 +204,10 @@ export async function readJsonPolicy(root = JSON_ROOT) {
       `Invalid JSON policy structure: ${JSON.stringify(validatePolicy.errors)}`,
     );
   for (const rule of policy.exceptions) {
+    if (rule.normalization === "preserve" && rule.allowFormatWrites !== false)
+      throw new Error(
+        "A normalization preservation exception must prohibit generic writes.",
+      );
     for (const pattern of rule.paths)
       if (
         pattern.startsWith("/") ||
@@ -167,6 +242,7 @@ export function jsonContract(path, policy, { tracked = false } = {}) {
       "formatContract",
       "allowFormatWrites",
       "exclude",
+      "normalization",
     ]) {
       if (rule[key] === undefined) continue;
       if (explicit.has(key) && explicit.get(key) !== rule[key])
@@ -186,13 +262,50 @@ export function jsonContract(path, policy, { tracked = false } = {}) {
 /** Native ESLint discovers ordinary JSON without an admission allowlist. */
 export function jsonPolicyLintFiles(policy) {
   return [
-    ...STRICT_JSON_GLOBS.map((path) => ({ path, lintProfile: "data" })),
+    ...STRICT_JSON_GLOBS.map((path) => ({ path, ...policy.defaults })),
     ...policy.exceptions
-      .filter((rule) => rule.lintProfile)
+      .filter((rule) => rule.normalization)
       .flatMap((rule) =>
-        rule.paths.map((path) => ({ path, lintProfile: rule.lintProfile })),
+        rule.paths.map((path) => ({ path, ...policy.defaults, ...rule })),
       ),
   ];
+}
+
+/** Pure source/producer operation: never writes or reserializes non-string tokens.
+ * Callers own source selection, regeneration, semantic validation and publication.
+ */
+export async function normalizeJsonSource(
+  text,
+  { normalization = "NFC" } = {},
+) {
+  if (normalization !== "NFC")
+    throw new Error("Preserved JSON string identity cannot be normalized.");
+  const linter = new ESLint({
+    overrideConfigFile: true,
+    overrideConfig: jsonLintConfig([
+      { path: "source.json", lintProfile: "data", normalization: "preserve" },
+    ]),
+  });
+  const [result] = await linter.lintText(text, { filePath: "source.json" });
+  if (result.errorCount || result.warningCount)
+    throw new Error("Cannot normalize invalid or unsafe JSON source.");
+  const parsed = json.languages.json.parse({ body: text });
+  if (!parsed.ok) throw new Error("Cannot normalize invalid JSON source.");
+  const { changes, collisions } = inspectNormalization(parsed.ast);
+  if (collisions.length)
+    throw new Error(
+      "NFC would create duplicate keys; resolve the owning source first.",
+    );
+  const chunks = [];
+  let cursor = 0;
+  for (const { node, normalized } of changes.sort(
+    (left, right) => left.node.range[0] - right.node.range[0],
+  )) {
+    chunks.push(text.slice(cursor, node.range[0]), JSON.stringify(normalized));
+    cursor = node.range[1];
+  }
+  chunks.push(text.slice(cursor));
+  return chunks.join("");
 }
 
 /** The root native configuration is the sole presentation-options authority. */

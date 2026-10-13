@@ -162,16 +162,18 @@ export async function inspectJsonInventory({
       config.linterOptions.noInlineConfig !== true
     )
       throw new Error(`Wrong native JSON language or inline controls: ${path}`);
-    for (const [rule, setting] of Object.entries(jsonRules(file.lintProfile))) {
+    for (const [rule, setting] of Object.entries(
+      jsonRules(file.lintProfile, file.normalization),
+    )) {
+      if (setting === "off") {
+        if (config.rules[rule]?.[0] !== 0)
+          throw new Error(`Unsafe native JSON fixer enabled: ${path}: ${rule}`);
+        continue;
+      }
       const expected = Array.isArray(setting) ? [2, ...setting.slice(1)] : [2];
       if (JSON.stringify(config.rules[rule]) !== JSON.stringify(expected))
         throw new Error(`Required JSON rule disabled: ${path}: ${rule}`);
     }
-    if (
-      file.lintProfile === "data" &&
-      config.rules["json/no-unnormalized-keys"]?.[0] > 0
-    )
-      throw new Error(`Wrong JSON normalization scope: ${path}`);
     const info = await prettier.getFileInfo(absolute, {
       ignorePath: join(root, ".prettierignore"),
       resolveConfig: false,

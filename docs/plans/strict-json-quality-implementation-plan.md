@@ -14,6 +14,31 @@ That request authorizes the plan's dependency, configuration, formatting, commit
 It requires consolidated broad reviews and narrowly scoped follow-up reviews using available local agents.
 Deployment and release remain separate decisions.
 
+### NFC validation amendment, 13 October 2026
+
+The owner requested NFC validation for every decoded JSON key and string value by default, with explicit preservation exceptions and collision-safe fixes through the owning source or producer.
+This supersedes the earlier control-key-only NFC scope; formatting contracts and external discovery boundaries remain in force.
+The read-only audit at commit `13667544ce649aa694972e8256e08a8a10d9fdeb` found all 6,611,793 keys and 3,788,285 string values in 637 discovered files already NFC, so no current data migration is needed.
+The owner explicitly approved the exact configuration proposal: advance `.json-quality.json` with a mandatory NFC default and owner/reason preservation exceptions, remove its redundant control-key override, add `package.json`'s `normalize:json` entry point, update shared lint settings in `scripts/jsonQuality.js`, and refresh reviewed control digests in `scripts/distribution/verifyUniversalOntologyMcpRelease.js`.
+No dependency, lockfile, workflow, external boundary or formatter configuration change is proposed.
+
+Reuse the accepted R2 route because the explicit source fixer changes persistent string identity and can affect key lookups, RDF literals, digests and downstream contracts.
+The repository owner retains acceptance and integration authority; existing authorization covers consolidated local correctness, security and independent-verification reviews, signed commits, pushes and PR 143 updates.
+Use the installed native JSON parser and ESLint language, keeping one shared normalization analysis for lint, source fix planning and producer qualification.
+Native ESLint's key-normalization fixer does not provide the required whole-object collision contract; the supported NFC diagnostic must not expose an automatic ESLint fix.
+Preservation exceptions permit exact string identity but never waive JSON syntax, duplicate-key or interoperability checks; they also prohibit the generic NFC source writer.
+
+| Slice | Requirement and acceptance                                                                                                                                                          | Proof                                                                                                                                                                                     | Delivery and recovery                                                                                                                                                                                              |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| NFC-1 | Every discovered JSON key and string value is NFC unless its resolved contract explicitly preserves normalization. Diagnostics identify the file, location and owning repair route. | Real native lint checks for escaped/decomposed keys and nested/array/root strings; generated, untracked and ignored paths; preservation and policy conflicts; effective-config integrity. | Existing check entry points and Linux/Windows gates inherit the shared rule. Current corpus must stay byte-identical.                                                                                              |
+| NFC-2 | An explicitly requested source fix rejects normalized-key collisions, protected paths and unqualified input before the first write. Only decoded strings needing NFC are replaced.  | Composed/decomposed and escaped-key collision vectors, multi-file preflight, unchanged numeric lexemes/member order, preservation exceptions, source/producer validation and idempotence. | Fix authored writable inputs or call the shared pure normalization planner at the owning producer boundary; regenerate derived products. Preserve partial-write evidence and never claim a multi-file transaction. |
+| NFC-3 | Repository checks, packed MCP qualification and release-policy binding use the same resolved normalization contract.                                                                | Focused JSON/workflow/package/policy-rejection checks, consolidated reviews, final exact-commit qualification and post-build JSON checking, then naturally triggered hosted CI.           | Update PR 143; retain failed and passing evidence with owner, next actor and bounded reassessment. Merge/deployment/release remain separate.                                                                       |
+
+Canonical NFC alone is in scope: no NFKC, trimming, case conversion, member sorting or numeric reserialization.
+The producer interface returns normalized text without writing files; producer/consumer semantic, graph and digest validation remains mandatory before publication.
+Before any source write, preflight all selected inputs and compare their original bytes again; source writers must be quiescent.
+Unexpected source changes, an unresolvable preservation contract, parser divergence or a producer identity/graph change requires diagnosis and narrow replanning rather than weakening the gate.
+
 ### Accepted default-discovery amendment, 13 October 2026
 
 The owner explicitly approved replacing per-file admission with automatic JSON discovery, including generated and Git-ignored outputs, and an exceptions-only policy.

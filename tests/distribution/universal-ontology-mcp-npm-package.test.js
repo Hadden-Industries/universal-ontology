@@ -651,7 +651,7 @@ describe("public Universal Ontology MCP npm package", () => {
         )),
         {
           path: "application-bundle-metadata.json",
-          contract: { lintProfile: "data", formatContract: "prettier-json" },
+          contract: { ...policy.defaults },
           bytes: await nodeFileSystem.readFile(APPLICATION_BUNDLE_METADATA_URL),
         },
       ];
@@ -662,6 +662,7 @@ describe("public Universal Ontology MCP npm package", () => {
           documents.map(({ path, contract }) => ({
             path,
             lintProfile: contract.lintProfile,
+            normalization: contract.normalization,
           })),
         ),
       });
