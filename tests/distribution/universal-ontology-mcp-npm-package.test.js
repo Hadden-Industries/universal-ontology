@@ -7,8 +7,13 @@ import { join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { ESLint } from "eslint";
-import json from "@eslint/json";
-import * as prettier from "prettier";
+import {
+  jsonLintConfig,
+  readJsonPolicy,
+  jsonFormatOptions,
+  decodeJsonBytes,
+  checkJsonPresentation,
+} from "../../scripts/jsonQuality.js";
 
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
@@ -621,20 +626,8 @@ describe("public Universal Ontology MCP npm package", () => {
         ),
       );
       // Inspect actual rebuilt/packed target bytes, including producer-owned notices.
-      const jsonLinter = new ESLint({
-        overrideConfigFile: true,
-        overrideConfig: [
-          {
-            files: ["**/*.json"],
-            plugins: { json },
-            language: "json/json",
-            rules: {
-              "json/no-duplicate-keys": "error",
-              "json/no-unsafe-values": "error",
-            },
-          },
-        ],
-      });
+      const policy = await readJsonPolicy();
+      const formatOptions = await jsonFormatOptions();
       const jsonPaths = (
         await listRelativeFilePaths(installedPackageDirectoryPath)
       ).filter((path) => path.endsWith(".json"));
@@ -646,6 +639,10 @@ describe("public Universal Ontology MCP npm package", () => {
         ...(await Promise.all(
           jsonPaths.map(async (path) => ({
             path,
+            contract: policy.files.find(
+              (file) =>
+                file.path === `packages/universal-ontology-mcp-server/${path}`,
+            ),
             bytes: await nodeFileSystem.readFile(
               join(installedPackageDirectoryPath, path),
             ),
@@ -653,11 +650,22 @@ describe("public Universal Ontology MCP npm package", () => {
         )),
         {
           path: "application-bundle-metadata.json",
+          contract: { lintProfile: "data", formatContract: "prettier-json" },
           bytes: await nodeFileSystem.readFile(APPLICATION_BUNDLE_METADATA_URL),
         },
       ];
-      for (const { path, bytes } of documents) {
-        let text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+      for (const { contract } of documents) expect(contract).toBeDefined();
+      const jsonLinter = new ESLint({
+        overrideConfigFile: true,
+        overrideConfig: jsonLintConfig(
+          documents.map(({ path, contract }) => ({
+            path,
+            lintProfile: contract.lintProfile,
+          })),
+        ),
+      });
+      for (const { path, bytes, contract } of documents) {
+        const text = decodeJsonBytes(bytes);
         const [result] = await jsonLinter.lintText(text, { filePath: path });
         expect(result.errorCount).toBe(0);
         expect(result.warningCount).toBe(0);
@@ -668,12 +676,14 @@ describe("public Universal Ontology MCP npm package", () => {
               new URL(path, PUBLIC_PACKAGE_DIRECTORY_URL),
             ),
           );
-          text = `${text.replaceAll("\r\n", "\n").trimEnd()}\n`;
         }
-        const options = await prettier.resolveConfig(
-          fileURLToPath(PUBLIC_PACKAGE_JSON_URL),
-        );
-        expect(await prettier.check(text, options)).toBe(true);
+        expect(
+          await checkJsonPresentation(
+            bytes,
+            contract.formatContract,
+            formatOptions,
+          ),
+        ).toBe(true);
       }
       const installedNotices = await nodeFileSystem.readFile(
         join(installedPackageDirectoryPath, "THIRD_PARTY_NOTICES.md"),

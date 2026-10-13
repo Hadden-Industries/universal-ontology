@@ -14,7 +14,8 @@ __pycache__
 .agent-tools/
 .sdlc/
 
-# JSON writes are deny-by-default; check:json:inventory verifies exact policy parity.
+# Direct Prettier calls cannot write JSON. The supported format:json command
+# derives its exact native selection from .json-quality.json allowFormatWrites.
 **/*.json
 **/*.jsonc
 **/*.json5
@@ -22,42 +23,3 @@ __pycache__
 **/*.jsonl
 **/*.ndjson
 **/*.sarif
-!/.htmlvalidate.json
-!/.json-quality.json
-!/.markdown-quality-execution.json
-!/.markdown-quality.json
-!/.mcp.json
-!/.prettierrc.json
-!/.stylelintrc.json
-!/docs/import-closure/contract.v1.json
-!/package.json
-!/packages/universal-ontology-mcp-server/package.json
-!/packages/universal-ontology-projection-policy/data/field-property-history.v1.json
-!/packages/universal-ontology-projection-policy/data/field-property-history.v1.schema.json
-!/packages/universal-ontology-projection-policy/package.json
-!/packages/universal-ontology-query/package.json
-!/scripts/distribution/universalOntologyMcpReleaseInputs.json
-!/scripts/pullRequestCheckPlan.schema.json
-!/server.json
-!/tests/fixtures/ontology-policy/axiom/axiom.expected.json
-!/tests/fixtures/ontology-policy/complete/complete.expected.json
-!/tests/fixtures/ontology-policy/dcat/dcat.expected.json
-!/tests/fixtures/ontology-policy/entity-created/created.expected.json
-!/tests/fixtures/ontology-policy/entity-metadata/metadata.expected.json
-!/tests/fixtures/ontology-policy/labels/labels.expected.json
-!/tests/fixtures/ontology-policy/naming/naming-iso.expected.json
-!/tests/fixtures/ontology-policy/naming/naming.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-impossible-info-date.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-leap-day-valid.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-malformed-info.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-mismatched-iri.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-missing-version-iri.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-modified-datetime.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-modified-mismatch.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-modified-offset.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-non-leap-day.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-two-version-infos.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-valid-modified-z.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-valid-no-modified-trailing-slash.expected.json
-!/tests/fixtures/ontology-policy/ontology-header/header-valid.expected.json
-!/tooling/markdown/package.json

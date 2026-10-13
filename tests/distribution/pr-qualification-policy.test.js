@@ -59,7 +59,8 @@ const files = [
   ".prettierrc.json",
   ".prettierignore",
   "scripts/checkJsonInventory.js",
-  "scripts/checkJsonFormats.js",
+  "scripts/jsonQuality.js",
+  "scripts/runJsonQuality.js",
   "tests/json-quality.test.js",
   "package-lock.json",
 ];
@@ -178,7 +179,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
 });
 test("reviewed graph accepts every entry point and control input", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedFileCount: 41,
+    verifiedFileCount: 42,
   });
 });
 

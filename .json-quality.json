@@ -1,12 +1,12 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "files": [
     {
       "path": ".htmlvalidate.json",
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -15,7 +15,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "scripts/checkJsonInventory.js native schema and policy checks",
       "formatContract": "prettier-json"
     },
@@ -24,7 +24,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -33,7 +33,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -42,7 +42,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -51,7 +51,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -60,7 +60,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -69,7 +69,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -78,7 +78,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -88,7 +88,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -98,7 +98,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -108,7 +108,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -118,7 +118,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -128,7 +128,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -138,7 +138,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -148,7 +148,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -158,7 +158,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -168,7 +168,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -178,7 +178,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -188,7 +188,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -198,7 +198,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -208,7 +208,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -218,7 +218,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -228,7 +228,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -238,7 +238,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -248,7 +248,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -258,7 +258,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -268,7 +268,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -278,7 +278,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -288,7 +288,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -298,7 +298,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -308,7 +308,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -318,7 +318,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -328,7 +328,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -338,7 +338,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -348,7 +348,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -358,7 +358,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -368,7 +368,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -378,7 +378,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -388,7 +388,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -398,7 +398,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -408,7 +408,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -418,7 +418,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -428,7 +428,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -438,7 +438,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -448,7 +448,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -458,7 +458,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -468,7 +468,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -478,7 +478,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -488,7 +488,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -498,7 +498,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -508,7 +508,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -518,7 +518,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -528,7 +528,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -538,7 +538,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -548,7 +548,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -558,7 +558,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -568,7 +568,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -578,7 +578,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -588,7 +588,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -598,7 +598,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -608,7 +608,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -618,7 +618,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -628,7 +628,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -637,7 +637,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -646,7 +646,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "producer-json-body"
@@ -656,7 +656,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "packages/universal-ontology-projection-policy/tests",
       "formatContract": "prettier-json"
     },
@@ -665,7 +665,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "packages/universal-ontology-projection-policy/tests",
       "formatContract": "prettier-json"
     },
@@ -674,7 +674,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -683,7 +683,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -692,7 +692,7 @@
       "class": "producer",
       "owner": "Ontology authority producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "tests.test_policy_authorities",
       "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
       "formatContract": "prettier-json"
@@ -702,7 +702,7 @@
       "class": "producer",
       "owner": "Ontology authority producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "tests.test_policy_authorities",
       "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
       "formatContract": "prettier-json"
@@ -712,7 +712,7 @@
       "class": "producer",
       "owner": "Ontology authority producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "tests.test_policy_authorities",
       "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
       "formatContract": "prettier-json"
@@ -722,7 +722,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "tests/distribution/universal-ontology-mcp-platform-archive.test.js",
       "formatContract": "prettier-json"
     },
@@ -731,7 +731,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "tests/pr-check-plan-schema.test.js",
       "formatContract": "prettier-json"
     },
@@ -740,7 +740,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "tests/distribution/mcp-registry-server-metadata.test.js",
       "formatContract": "prettier-json"
     },
@@ -749,7 +749,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -759,7 +759,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -769,7 +769,7 @@
       "class": "producer",
       "owner": "Ontology authority producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "tests.test_policy_authorities",
       "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
       "formatContract": "prettier-json"
@@ -779,7 +779,7 @@
       "class": "producer",
       "owner": "Ontology authority producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "tests.test_policy_authorities",
       "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
       "formatContract": "prettier-json"
@@ -789,7 +789,7 @@
       "class": "producer",
       "owner": "Ontology authority producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "tests.test_policy_authorities",
       "preserveReason": "Producer owns serialization and digest; generic tools are read-only.",
       "formatContract": "prettier-json"
@@ -799,7 +799,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -808,7 +808,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -817,7 +817,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -826,7 +826,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -835,7 +835,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -844,7 +844,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -853,7 +853,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -862,7 +862,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -871,7 +871,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -880,7 +880,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -889,7 +889,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -898,7 +898,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -907,7 +907,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -916,7 +916,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -925,7 +925,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -934,7 +934,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -943,7 +943,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -952,7 +952,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -961,7 +961,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -970,7 +970,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -979,7 +979,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "data",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "test:ontology-policy",
       "formatContract": "prettier-json"
     },
@@ -988,7 +988,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"
@@ -998,7 +998,7 @@
       "class": "authored",
       "owner": "UO maintainers",
       "lintProfile": "control",
-      "format": true,
+      "allowFormatWrites": true,
       "validation": "Native JSON checks and designated configuration consumer",
       "formatContract": "prettier-json"
     },
@@ -1007,7 +1007,7 @@
       "class": "preserved",
       "owner": "Retained artifact or upstream producer",
       "lintProfile": "data",
-      "format": false,
+      "allowFormatWrites": false,
       "validation": "Designated historical, package or third-party consumer",
       "preserveReason": "Retained historical, lock or third-party bytes; generic tools validate read-only and must not rewrite.",
       "formatContract": "prettier-json"

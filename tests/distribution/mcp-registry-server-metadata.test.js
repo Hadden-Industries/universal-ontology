@@ -133,7 +133,7 @@ describe("MCP Registry server metadata", () => {
     ).toMatchObject({
       class: "authored",
       lintProfile: "control",
-      format: true,
+      allowFormatWrites: true,
       formatContract: "prettier-json",
     });
   });

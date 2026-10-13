@@ -1,13 +1,10 @@
 import js from "@eslint/js";
 import globals from "globals";
 import eslintConfigPrettier from "eslint-config-prettier";
-import json from "@eslint/json";
-import { readFileSync } from "node:fs";
+import { jsonLintConfig, readJsonPolicy } from "./scripts/jsonQuality.js";
 
 // One exact-path policy owns JSON selection; the inventory gate checks native effective configuration.
-const jsonFiles = JSON.parse(
-  readFileSync(new URL("./.json-quality.json", import.meta.url), "utf8"),
-).files;
+const jsonFiles = (await readJsonPolicy()).files;
 
 const strictRules = {
   "no-var": "error",
@@ -46,25 +43,7 @@ const strictRules = {
 
 export default [
   { ...js.configs.recommended, files: ["**/*.{js,mjs,cjs}"] },
-  {
-    files: jsonFiles.map((file) => file.path),
-    plugins: { json },
-    language: "json/json",
-    linterOptions: {
-      noInlineConfig: true,
-      reportUnusedDisableDirectives: "error",
-    },
-    rules: {
-      "json/no-duplicate-keys": "error",
-      "json/no-unsafe-values": "error",
-    },
-  },
-  {
-    files: jsonFiles
-      .filter((file) => file.lintProfile === "control")
-      .map((file) => file.path),
-    rules: { "json/no-unnormalized-keys": ["error", { form: "NFC" }] },
-  },
+  ...jsonLintConfig(jsonFiles),
 
   // 1. Browser-compatible source: Browser globals only
   {

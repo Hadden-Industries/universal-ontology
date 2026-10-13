@@ -114,12 +114,15 @@ Report failures, skips and checks you could not run as they are.
 `npm run format:json` performs the full lint and producer-format preflight, Prettier's debug check, the permitted writes and a final read-only check.
 `lint`, `format:check` and `check:qualification` include JSON quality; `format`, `fix:all` and `fix:code-style` reach the JSON writer exactly once.
 `format:node` and `format:node:check` select non-JSON sources only.
+They pass their mode to the same `format:node:files` selection, so its glob list is maintained once.
 
 [The JSON policy](../.json-quality.json) is the exact-path authority for 105 files, all receiving strict syntax, interoperability and presentation validation.
 Thirty-nine authored files permit formatting; six producer-owned files and sixty retained files are protected from generic writes.
 The policy itself is included among the authored controls.
 Every record declares its owner, lint profile, formatting contract, write eligibility and designated validation consumer; protected records explain their preservation requirement.
-Adding or renaming JSON requires an explicitly reviewed classification and matching native selection before staging the new file and running the gate.
+Policy schema v2 calls write eligibility `allowFormatWrites`; false still requires full lint and presentation validation.
+Adding or renaming JSON requires one explicitly reviewed policy classification before staging the new file and running the gate.
+There is no second writable-path list to maintain.
 The Git inventory includes hidden and ignored-but-tracked files and also detects nonignored untracked candidates.
 Unknown, stale, conflicting, missing, case-colliding and symlinked paths fail closed.
 JSONC, JSON5, JSON-LD, JSON Lines, NDJSON and SARIF extensions require classification too; a new dialect needs explicit qualification before native lint or writes are enabled.
@@ -137,7 +140,13 @@ Prettier's explicit `json-stringify` presentation uses two spaces, LF, double qu
 Read-only formatting uses the native Prettier API across every policy record, independently of its write eligibility.
 The retained Oxigraph notice uses `producer-json-body`: its existing LF/CRLF envelope and absent final newline are permitted, while native Prettier checks the entire JSON body.
 All other tracked files currently use the standard Prettier contract.
-The inventory checker compares the effective native ESLint configuration and Prettier ignore/options with the policy to detect selection drift.
+All JSON npm commands enter [one native-tool adapter](../scripts/runJsonQuality.js), which reconciles inventory once before its selected operation.
+[Shared contracts](../scripts/jsonQuality.js) supply the policy reader, native ESLint rules and producer-presentation check to repository checks and rebuilt-package qualification.
+The inventory checker compares effective ESLint configuration and resolved Prettier options with these authorities to detect drift.
+`.prettierignore` blocks all JSON from direct Prettier CLI writes; it does not select the read-only checks.
+The supported writer derives both its exact native argument list and temporary ignore selection from `allowFormatWrites`, verifies native selection, debug-checks, writes and removes its temporary selection in a `finally` block.
+The temporary ignore file resides in the repository root because native ignore patterns are relative to their file's directory.
+After writes, the adapter reconciles inventory again and reruns lint and presentation across the complete corpus.
 
 Consumer validators remain authoritative: the local MCP Registry schema, PR-plan standalone validator, release-input Ajv reader, projection-history schema/domain tests, provenance digests and JSON-LD graph equivalence checks.
 Schema tests use existing Ajv without coercion, defaults, property removal or remote reference resolution.
@@ -299,7 +308,7 @@ No trusted cache warmer is introduced before measurement.
 
 When editing the execution policy, update its schema and regenerate the standalone validator with `node scripts/generatePullRequestCheckPlanValidator.js --write`.
 Use `--check` to verify freshness without writing.
-The distribution verifier also checks an explicit forty-one-file policy manifest covering the entry points, reusable consumers, selection/evaluation inputs, native test runners, JSON policy/configuration/lock and manual candidate validator.
+The distribution verifier also checks an explicit forty-two-file policy manifest covering the entry points, reusable consumers, selection/evaluation inputs, native test runners, shared JSON contracts/adapter, JSON policy/configuration/lock and manual candidate validator.
 A semantic workflow or control-input change requires coordinated review, updated assertions, negative tests, and a deliberate digest update.
 
 `scripts/selectPullRequestChecks.js` decides which jobs apply from the changed paths.

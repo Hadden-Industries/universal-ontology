@@ -14,6 +14,19 @@ That request authorizes the plan's dependency, configuration, formatting, commit
 It requires consolidated broad reviews and narrowly scoped follow-up reviews using available local agents.
 Deployment and release remain separate decisions.
 
+### Accepted DRY amendment, 13 October 2026
+
+The owner requested implementation of the follow-up simplification and a DRY review of the complete change set beginning at `f0ce0fe6ccbfb94a8cfd55da96d686eca8d05ecf`.
+Keep the accepted R2 assurance, all-file checks, producer contracts and source-PR delivery scope.
+Rename policy `format` to `allowFormatWrites` and advance its schema version; checking presentation remains mandatory for every record.
+Remove the hand-maintained JSON allowlist from `.prettierignore`; direct Prettier CLI calls remain blocked from JSON writes.
+Use one policy-derived native-tool entry point for JSON inventory, lint, presentation and safe formatting, performing inventory once per check invocation.
+Share native lint configuration and producer-presentation adaptation with package qualification.
+Retain independent regression oracles and reviewed release-control digests rather than deriving expected results from the implementation being tested.
+The approved configuration changes are confined to `.json-quality.json` field/version migration, `.prettierignore` JSON write protection, `eslint.config.js` shared JSON configuration and `package.json` JSON entry points plus a shared non-JSON Prettier glob selection, together with selector/release binding of their new shared modules.
+No dependency, tracked-file classification, non-JSON formatter scope, ontology meaning or deployment change is proposed.
+After consolidation, perform the existing three local review lenses, focused native-tool/package/routing tests, full qualification and naturally triggered hosted CI; review subsequent repairs narrowly.
+
 ### Accepted coverage amendment, 13 October 2026
 
 The owner subsequently required that no tracked JSON be excluded from quality checks and selected **full validation with producer-defined formatting** for historical, third-party and package JSON.
