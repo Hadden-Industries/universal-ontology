@@ -1,7 +1,9 @@
 {
   "schemaVersion": 2,
   "preset": "authored-gfm@1",
-  "include": ["**/*.md"],
+  "include": [
+    "**/*.md"
+  ],
   "exclude": [
     ".agents/skills/**",
     ".claude/skills/**",
@@ -13,6 +15,12 @@
     "docs/policy/Editing-Policy.generated.md"
   ],
   "lint": {},
-  "links": { "localFiles": true, "rootRelative": "reject" },
-  "layout": { "endOfLine": "lf", "tabWidth": 2 }
+  "links": {
+    "localFiles": true,
+    "rootRelative": "reject"
+  },
+  "layout": {
+    "endOfLine": "lf",
+    "tabWidth": 2
+  }
 }

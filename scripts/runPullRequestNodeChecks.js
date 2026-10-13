@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 /** Native suite discovery and execution for the existing Node CI consumer. */
 import { execFileSync, spawnSync } from "node:child_process";
 import {
@@ -81,12 +82,13 @@ export function nodeCheckArguments(plan, { families = null } = {}) {
     )
   )
     return ["--runTestsByPath", ...suitesForNodeFamilies(families)];
-  // The isolated style-tooling job owns this suite. Ordinary product jobs do
+  // The isolated style-tooling job owns these suites. Ordinary product jobs do
   // not install the private Markdown graph, even when their scopes are mixed.
   const ignored = [
     "/node_modules/",
     "/.sdlc/runtime/",
     "/tests/markdown-quality.test.js$",
+    "/tests/json-quality.test.js$",
   ];
   if (plan.scopes.development)
     ignored.push(
@@ -155,10 +157,7 @@ export function discoverNodeSuites(plan, { root = ROOT } = {}) {
   const names = discovered.map((path) => suitePath(path, root)).sort();
   if (new Set(names).size !== names.length)
     throw new Error("Selected native suite inventory has duplicates.");
-  if (
-    args[0] === "--runTestsByPath" &&
-    JSON.stringify(names) !== JSON.stringify(inventory)
-  )
+  if (args[0] === "--runTestsByPath" && !isDeepStrictEqual(names, inventory))
     throw new Error("Selected control suite inventory is incomplete.");
   return names;
 }
@@ -182,9 +181,7 @@ export function validateNodeResults(report, expected, { root = ROOT } = {}) {
   )
     throw new Error("Native suite completion is incomplete or unsuccessful.");
   const names = report.testResults.map((suite) => suitePath(suite.name, root));
-  if (
-    JSON.stringify([...names].sort()) !== JSON.stringify([...expected].sort())
-  )
+  if (!isDeepStrictEqual([...names].sort(), [...expected].sort()))
     throw new Error("Native results disagree with discovered suite ownership.");
   let assertions = 0;
   for (const suite of report.testResults) {

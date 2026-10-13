@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { isDeepStrictEqual } from "node:util";
 import * as nodeFileSystem from "node:fs/promises";
 import { tmpdir } from "node:os";
 import process from "node:process";
@@ -281,10 +282,7 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
     });
     serverInfo = client.getServerVersion();
 
-    if (
-      JSON.stringify(serverInfo) !==
-      JSON.stringify(UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO)
-    ) {
+    if (!isDeepStrictEqual(serverInfo, UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO)) {
       throw new Error(
         `Universal Ontology MCP server identity mismatch. Expected ${JSON.stringify(UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO)}; received ${JSON.stringify(serverInfo)}.`,
       );
@@ -297,7 +295,7 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
     });
     toolNames = toolList.tools.map(({ name }) => name);
 
-    if (JSON.stringify(toolNames) !== JSON.stringify(EXPECTED_MCP_TOOL_NAMES)) {
+    if (!isDeepStrictEqual(toolNames, EXPECTED_MCP_TOOL_NAMES)) {
       throw new Error(
         `Universal Ontology MCP tool surface mismatch. Expected ${JSON.stringify(EXPECTED_MCP_TOOL_NAMES)}; received ${JSON.stringify(toolNames)}.`,
       );

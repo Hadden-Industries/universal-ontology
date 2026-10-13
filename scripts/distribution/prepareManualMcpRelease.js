@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 import { createHash } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { lstat, readFile, readdir } from "node:fs/promises";
@@ -63,8 +64,13 @@ export async function verifyManualMcpCandidate({
   const expected = [...fileNames, "SHA256SUMS"].sort(binaryOrder);
   if (
     !(await lstat(directory)).isDirectory() ||
-    JSON.stringify((await readdir(directory)).sort(binaryOrder)) !==
-      JSON.stringify(expected)
+    // Native fs results may cross JavaScript realms; file names and order,
+    // rather than the array prototype, define this inventory contract.
+    !isDeepStrictEqual(
+      (await readdir(directory)).sort(binaryOrder),
+      expected,
+      true,
+    )
   )
     throw new Error("Candidate file inventory disagrees.");
   for (const name of expected) {

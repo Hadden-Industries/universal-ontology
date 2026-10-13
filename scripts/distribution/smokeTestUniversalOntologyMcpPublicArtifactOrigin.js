@@ -2,6 +2,7 @@ import * as nodeFileSystem from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { isDeepStrictEqual } from "node:util";
 
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
@@ -33,9 +34,7 @@ const EXPECTED_RESOLVED_RELEASE = Object.freeze({
 });
 
 function requireExactResolvedRelease(actualRelease, semanticLocation) {
-  if (
-    JSON.stringify(actualRelease) !== JSON.stringify(EXPECTED_RESOLVED_RELEASE)
-  ) {
+  if (!isDeepStrictEqual(actualRelease, EXPECTED_RESOLVED_RELEASE)) {
     throw new Error(
       `Public Person smoke failed: ${semanticLocation} provenance disagrees.`,
     );
@@ -228,13 +227,15 @@ export async function smokeTestUniversalOntologyMcpPublicArtifactOrigin({
     await client.connect(transport);
     const toolList = await client.listTools();
     if (
-      JSON.stringify(toolList.tools.map(({ name }) => name)) !==
-      JSON.stringify([
-        "search_entities",
-        "resolve_entity",
-        "get_entity_context",
-        "find_entity_connections",
-      ])
+      !isDeepStrictEqual(
+        toolList.tools.map(({ name }) => name),
+        [
+          "search_entities",
+          "resolve_entity",
+          "get_entity_context",
+          "find_entity_connections",
+        ],
+      )
     ) {
       throw new Error(
         "Public Person smoke failed: installed tool list disagrees.",

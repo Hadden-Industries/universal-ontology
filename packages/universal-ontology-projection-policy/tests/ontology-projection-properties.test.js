@@ -1,6 +1,72 @@
 import * as projectionProperties from "../src/ontologyProjectionProperties.js";
+import { readFileSync } from "node:fs";
+import Ajv2020 from "ajv/dist/2020.js";
+import { reverseObjectMembers } from "../../../tests/fixtures/json/reverseObjectMembers.js";
+
+test("published field history satisfies its local schema without mutation or remote resolution", () => {
+  const schema = JSON.parse(
+    readFileSync(
+      new URL("../data/field-property-history.v1.schema.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  const history = JSON.parse(
+    readFileSync(
+      new URL("../data/field-property-history.v1.json", import.meta.url),
+      "utf8",
+    ),
+  );
+  // json-identity-contract: bytes; owner: Projection schema tests; reason: Native validation must preserve the original serialized representation.
+  const before = JSON.stringify(history);
+  const ajv = new Ajv2020({
+    strict: true,
+    allErrors: true,
+    coerceTypes: false,
+    useDefaults: false,
+    removeAdditional: false,
+  });
+  const validate = ajv.compile(schema);
+  expect(validate(history)).toBe(true);
+  // json-identity-contract: bytes; owner: Projection schema tests; reason: Compare the exact post-validation representation with its snapshot.
+  expect(JSON.stringify(history)).toBe(before);
+  const invalid = structuredClone(history);
+  invalid.defaultPropertyIris.definition = "relative-property";
+  expect(validate(invalid)).toBe(false);
+  expect(() =>
+    ajv.compile({ $ref: "https://example.invalid/unavailable-schema" }),
+  ).toThrow();
+});
 
 const FIELD_NAMES = ["preferredLabel", "definition", "creator"];
+
+test("legacy interpretation identity ignores object order and retains all validated values", () => {
+  const declaration = validDeclaration();
+  const interpretation = {
+    pathPrefix: "/example/series/",
+    throughVersion: "20260101",
+    observedPropertyIri: "https://example.com/property/references",
+    valueIriPrefix: "urn:example:standard",
+    interpretedAsPropertyIri: "https://example.com/property/source",
+  };
+  declaration.legacySourceInterpretations = [
+    interpretation,
+    reverseObjectMembers(interpretation),
+  ];
+  expect(() =>
+    projectionProperties.createOntologyProjectionPropertyResolver(declaration),
+  ).toThrow(/duplicates/u);
+  for (const field of Object.keys(interpretation)) {
+    if (field === "pathPrefix") continue; // Its value is bound to the declared series.
+    const distinct = structuredClone(declaration);
+    distinct.legacySourceInterpretations[1][field] =
+      field === "throughVersion"
+        ? "20260102"
+        : `${interpretation[field]}-distinct`;
+    expect(() =>
+      projectionProperties.createOntologyProjectionPropertyResolver(distinct),
+    ).not.toThrow();
+  }
+});
 
 function completeFields(fieldHistory) {
   return Object.fromEntries(FIELD_NAMES.map((name) => [name, fieldHistory]));

@@ -1,7 +1,14 @@
 {
   "oracle": "Wiki W03/W04 with DEC-002, DEC-003 and DEC-013 grammars: PascalCase classes; PascalCase individuals with an optional exact asserted-class prefix; camelCase properties with an optional PascalCase_ prefix in non-ISO modules. Authored before the shapes were written.",
-  "rules": ["EP-CLASS-NAME", "EP-INDIVIDUAL-NAME", "EP-PROPERTY-NAME", "EP-PROPERTY-NAME-ISO"],
-  "passing_rules": ["EP-PROPERTY-NAME-ISO"],
+  "rules": [
+    "EP-CLASS-NAME",
+    "EP-INDIVIDUAL-NAME",
+    "EP-PROPERTY-NAME",
+    "EP-PROPERTY-NAME-ISO"
+  ],
+  "passing_rules": [
+    "EP-PROPERTY-NAME-ISO"
+  ],
   "targeted_focus_nodes": [
     "https://example.org/fixtures/entity/RiskEvent",
     "https://example.org/fixtures/entity/Risk2Event",
@@ -26,20 +33,102 @@
     "https://example.org/fixtures/entity/has-part"
   ],
   "results": [
-    {"requirement_id": "EP-CLASS-NAME", "focus_node": "https://example.org/fixtures/entity/risk_event", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-CLASS-NAME", "focus_node": "https://example.org/fixtures/entity/riskEvent", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-CLASS-NAME", "focus_node": "https://example.org/fixtures/entity/Risk_Event", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-
-    {"requirement_id": "EP-INDIVIDUAL-NAME", "focus_node": "https://example.org/fixtures/entity/Size_Green", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-INDIVIDUAL-NAME", "focus_node": "https://example.org/fixtures/entity/Colour_", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-INDIVIDUAL-NAME", "focus_node": "https://example.org/fixtures/entity/Hue_Red", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-INDIVIDUAL-NAME", "focus_node": "https://example.org/fixtures/entity/Colour_red", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-INDIVIDUAL-NAME", "focus_node": "https://example.org/fixtures/entity/red", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-
-    {"requirement_id": "EP-PROPERTY-NAME", "focus_node": "https://example.org/fixtures/entity/thing_hasPart", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-PROPERTY-NAME", "focus_node": "https://example.org/fixtures/entity/HasPart", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-PROPERTY-NAME", "focus_node": "https://example.org/fixtures/entity/has_part", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]},
-    {"requirement_id": "EP-PROPERTY-NAME", "focus_node": "https://example.org/fixtures/entity/has-part", "severity": "Violation", "minimum_components": ["sh:SPARQLConstraintComponent"]}
+    {
+      "requirement_id": "EP-CLASS-NAME",
+      "focus_node": "https://example.org/fixtures/entity/risk_event",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-CLASS-NAME",
+      "focus_node": "https://example.org/fixtures/entity/riskEvent",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-CLASS-NAME",
+      "focus_node": "https://example.org/fixtures/entity/Risk_Event",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-INDIVIDUAL-NAME",
+      "focus_node": "https://example.org/fixtures/entity/Size_Green",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-INDIVIDUAL-NAME",
+      "focus_node": "https://example.org/fixtures/entity/Colour_",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-INDIVIDUAL-NAME",
+      "focus_node": "https://example.org/fixtures/entity/Hue_Red",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-INDIVIDUAL-NAME",
+      "focus_node": "https://example.org/fixtures/entity/Colour_red",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-INDIVIDUAL-NAME",
+      "focus_node": "https://example.org/fixtures/entity/red",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PROPERTY-NAME",
+      "focus_node": "https://example.org/fixtures/entity/thing_hasPart",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PROPERTY-NAME",
+      "focus_node": "https://example.org/fixtures/entity/HasPart",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PROPERTY-NAME",
+      "focus_node": "https://example.org/fixtures/entity/has_part",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    },
+    {
+      "requirement_id": "EP-PROPERTY-NAME",
+      "focus_node": "https://example.org/fixtures/entity/has-part",
+      "severity": "Violation",
+      "minimum_components": [
+        "sh:SPARQLConstraintComponent"
+      ]
+    }
   ],
   "notes": [
     "Colour_Blue is typed by two classes; the Colour prefix matches one of them and passes (DEC-003).",

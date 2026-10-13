@@ -118,9 +118,11 @@ test("mixed website/product plans exclude Markdown suites owned by isolated tool
   const args = nodeCheckArguments(selected, { families: ["build"] });
   const ignored = new RegExp(args[0].split("=")[1]);
   expect(ignored.test("/repo/tests/markdown-quality.test.js")).toBe(true);
+  expect(ignored.test("/repo/tests/json-quality.test.js")).toBe(true);
   expect(ignored.test("/repo/tests/build/ontology-assets.test.js")).toBe(false);
   const discovered = discoverNodeSuites(selected);
   expect(discovered).not.toContain("tests/markdown-quality.test.js");
+  expect(discovered).not.toContain("tests/json-quality.test.js");
   expect(discovered).toContain("tests/build/ontology-assets.test.js");
 });
 

@@ -192,7 +192,16 @@ function validateFieldPropertyHistoryDeclaration(declaration) {
         `${location}.interpretedAsPropertyIri`,
       );
 
-      const interpretationKey = JSON.stringify(interpretation);
+      // Identity follows the validated meaning, not caller member order.
+      // An ordered tuple also keeps this portable package free of Node helpers.
+      // json-identity-contract: ordered-tuple; owner: Projection policy; reason: Five validated string fields define the portable interpretation identity.
+      const interpretationKey = JSON.stringify([
+        interpretation.pathPrefix,
+        interpretation.throughVersion,
+        interpretation.observedPropertyIri,
+        interpretation.valueIriPrefix,
+        interpretation.interpretedAsPropertyIri,
+      ]);
 
       if (interpretationKeys.has(interpretationKey)) {
         throw new TypeError(

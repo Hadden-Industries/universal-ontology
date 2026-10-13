@@ -6,6 +6,15 @@ import { tmpdir } from "node:os";
 import { join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
+import { ESLint } from "eslint";
+import {
+  jsonLintConfig,
+  jsonContract,
+  readJsonPolicy,
+  jsonFormatOptions,
+  decodeJsonBytes,
+  checkJsonPresentation,
+} from "../../scripts/jsonQuality.js";
 
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
@@ -617,6 +626,87 @@ describe("public Universal Ontology MCP npm package", () => {
           left.localeCompare(right),
         ),
       );
+      // Inspect actual rebuilt/packed target bytes, including producer-owned notices.
+      const policy = await readJsonPolicy();
+      const formatOptions = await jsonFormatOptions();
+      const jsonPaths = (
+        await listRelativeFilePaths(installedPackageDirectoryPath)
+      ).filter((path) => path.endsWith(".json"));
+      expect(jsonPaths).toEqual([
+        "package.json",
+        "third-party/oxigraph/component-notices.json",
+      ]);
+      const documents = [
+        ...(await Promise.all(
+          jsonPaths.map(async (path) => ({
+            path,
+            contract: jsonContract(
+              `packages/universal-ontology-mcp-server/${path}`,
+              policy,
+            ),
+            bytes: await nodeFileSystem.readFile(
+              join(installedPackageDirectoryPath, path),
+            ),
+          })),
+        )),
+        {
+          path: "application-bundle-metadata.json",
+          contract: jsonContract(
+            relative(
+              REPOSITORY_ROOT_PATH,
+              fileURLToPath(APPLICATION_BUNDLE_METADATA_URL),
+            )
+              .split(sep)
+              .join("/"),
+            policy,
+          ),
+          bytes: await nodeFileSystem.readFile(APPLICATION_BUNDLE_METADATA_URL),
+        },
+      ];
+      for (const { contract } of documents) expect(contract).toBeDefined();
+      expect(documents.at(-1).contract).toMatchObject({
+        formatContract: "producer-json-indent",
+        allowFormatWrites: false,
+      });
+      const jsonLinter = new ESLint({
+        overrideConfigFile: true,
+        overrideConfig: jsonLintConfig(
+          documents.map(({ path, contract }) => ({
+            ...contract,
+            path,
+          })),
+        ),
+      });
+      for (const { path, bytes, contract } of documents) {
+        const text = decodeJsonBytes(bytes);
+        const withBom = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), bytes]);
+        expect(() => decodeJsonBytes(withBom)).toThrow(/leading UTF-8 BOM/u);
+        await expect(
+          checkJsonPresentation(
+            withBom,
+            contract.formatContract,
+            formatOptions,
+          ),
+        ).rejects.toThrow(/leading UTF-8 BOM/u);
+        const [result] = await jsonLinter.lintText(text, { filePath: path });
+        expect(result.errorCount).toBe(0);
+        expect(result.warningCount).toBe(0);
+        if (path === "third-party/oxigraph/component-notices.json") {
+          // Packaging must retain the supplied notice exactly; validate its body contract.
+          expect(bytes).toEqual(
+            await nodeFileSystem.readFile(
+              new URL(path, PUBLIC_PACKAGE_DIRECTORY_URL),
+            ),
+          );
+        }
+        expect(
+          await checkJsonPresentation(
+            bytes,
+            contract.formatContract,
+            formatOptions,
+          ),
+        ).toBe(true);
+      }
       const installedNotices = await nodeFileSystem.readFile(
         join(installedPackageDirectoryPath, "THIRD_PARTY_NOTICES.md"),
         "utf8",

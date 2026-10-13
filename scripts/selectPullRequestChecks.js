@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 import { spawnSync } from "node:child_process";
 import { appendFileSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -76,7 +77,7 @@ export function requiredJobsForScopes(scopes) {
       scopes[scope] === true ? jobs : [],
     ),
   );
-  // Every functional route owns a fresh full-corpus Markdown matrix.
+  // Every functional route owns fresh full-corpus Markdown and JSON matrices.
   selected.add("development");
   return CORE_CHECK_CONSUMER_IDS.filter((id) => selected.has(id));
 }
@@ -87,10 +88,7 @@ export function assertCheckPlan(plan) {
     throw new Error(
       `Invalid check plan: ${JSON.stringify(validatePlan.errors)}`,
     );
-  if (
-    JSON.stringify(plan.requiredJobs) !==
-    JSON.stringify(requiredJobsForScopes(plan.scopes))
-  )
+  if (!isDeepStrictEqual(plan.requiredJobs, requiredJobsForScopes(plan.scopes)))
     throw new Error("Plan consumers disagree with scopes.");
   if (
     plan.scopes.ci_control &&
@@ -168,6 +166,12 @@ export const CHECK_INPUTS = {
     ".gitignore",
     ".prettierignore",
     ".prettierrc.json",
+    ".json-quality.json",
+    "eslint.config.js",
+    "scripts/checkJsonInventory.js",
+    "scripts/jsonQuality.js",
+    "scripts/runJsonQuality.js",
+    "tests/json-quality.test.js",
     ".markdown-quality.json",
     ".markdown-quality-execution.json",
     "tooling/markdown",

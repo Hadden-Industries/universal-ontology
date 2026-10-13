@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 4,
+  "defaults": {
+    "formatContract": "prettier-json",
+    "allowFormatWrites": true,
+    "normalization": "NFC"
+  },
+  "exceptions": [
+    {
+      "paths": [
+        "**/package-lock.json"
+      ],
+      "allowEmptyKeys": [
+        "/packages/"
+      ],
+      "owner": "npm lockfile producer",
+      "reason": "npm identifies the root package with the empty key in packages; no other empty or whitespace-bearing key is exempt."
+    },
+    {
+      "paths": [
+        ".git/**",
+        "**/node_modules/**",
+        ".venv/**",
+        ".agent-tools/**",
+        ".agents/skills/**",
+        ".claude/skills/**",
+        ".sdlc/**",
+        ".agents/mcp_config.json",
+        ".claude/settings.local.json"
+      ],
+      "exclude": true,
+      "owner": "Git, package managers and local workflow/tool installations",
+      "reason": "External installation or machine-local runtime state; excluded explicitly rather than through Git ignore rules. Tracked JSON remains included."
+    },
+    {
+      "paths": [
+        "**/package-lock.json",
+        "skills-lock.json",
+        "docs/plans/sdlc-improvements/**",
+        "docs/reviews/editing-policy-design/verification/**",
+        "docs/sdlc/**",
+        "docs/import-closure/registry-*.json",
+        "vendor/**",
+        "tests/fixtures/distribution/mcp-registry-server-schema-*.json",
+        "policy/authorities/*.provenance.json",
+        "tests/fixtures/ontology-policy/authorities/derived/*.provenance.json",
+        "**/third-party/**",
+        "dist/**"
+      ],
+      "allowFormatWrites": false,
+      "owner": "Designated producer, package manager or retained-artifact owner",
+      "reason": "Producer serialization, digests and retained bytes must be repaired through the owner; all JSON checks remain mandatory."
+    },
+    {
+      "paths": [
+        "**/third-party/oxigraph/component-notices.json"
+      ],
+      "formatContract": "producer-json-body",
+      "owner": "Oxigraph upstream notice producer",
+      "reason": "Validate the complete formatted body while retaining the upstream line-ending and final-newline envelope."
+    },
+    {
+      "paths": [
+        "dist/**/*.jsonld",
+        "dist/query/**/*.json",
+        "dist/full-ontology-build.json",
+        "dist/release-work/universal-ontology-mcp-application-bundle.json",
+        "dist/releases/**/*.spdx.json",
+        "dist/release-work/pre-acceptance-releases-*/*.spdx.json",
+        "dist/**/*-oci-metadata.json"
+      ],
+      "formatContract": "producer-json-indent",
+      "owner": "UO ontology, query and distribution producers",
+      "reason": "Exact native JSON.stringify with two spaces and final LF is the qualified producer presentation; schema, graph and digest consumers remain authoritative."
+    },
+    {
+      "paths": [
+        "dist/release-work/jest-final-results.json"
+      ],
+      "formatContract": "producer-json-compact",
+      "owner": "Jest JSON reporter",
+      "reason": "The retained local report uses the native compact JSON serializer with a final LF; lint remains mandatory."
+    },
+    {
+      "paths": [
+        "dist/release-work/npm-workspace.spdx.json"
+      ],
+      "formatContract": "producer-json-indent-body",
+      "owner": "npm SPDX reporter",
+      "reason": "The native two-space JSON body is retained with its Windows CRLF envelope; lint remains mandatory."
+    }
+  ]
+}

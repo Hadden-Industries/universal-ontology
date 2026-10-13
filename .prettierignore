@@ -13,3 +13,13 @@ __pycache__
 .claude/skills/
 .agent-tools/
 .sdlc/
+
+# Direct Prettier calls cannot write JSON. The supported format:json command
+# derives its exact native selection from .json-quality.json allowFormatWrites.
+**/*.json
+**/*.jsonc
+**/*.json5
+**/*.jsonld
+**/*.jsonl
+**/*.ndjson
+**/*.sarif

@@ -93,7 +93,7 @@ Ordinary development and contribution do not need them.
 | JavaScript tests           | `npm test -- --runInBand`                                | Product, MCP workspace and development-tool suites.                                                              |
 | Python tests               | `npm run test:python`                                    | Ontology policy, publication gate and setup tools. Jena-related tests skip visibly without a JDK/Jena runtime.   |
 | Ontology policy tests only | `npm run test:ontology-policy`                           |                                                                                                                  |
-| Lint                       | `npm run lint`                                           | HTML, CSS, JavaScript, Python and Markdown prose.                                                                |
+| Lint                       | `npm run lint`                                           | HTML, CSS, JavaScript, Python, Markdown prose and classified JSON.                                               |
 | Formatting                 | `npm run format:check`                                   | `npm run format` rewrites files.                                                                                 |
 | Ontology validation        | `npm run validate:ontologies -- --purpose draft`         | Diagnostics on changed sources; `--staged` validates the staged bytes (what the pre-commit hook does).           |
 | Active-set qualification   | `npm run validate:ontologies -- --purpose latest-active` | Qualifies the active module set recorded in `policy/activation.ttl` and writes the publication receipt.          |
@@ -105,6 +105,140 @@ Ordinary development and contribution do not need them.
 `npm run test:python -- --granularity test` runs each Python test method in its own process instead of each module.
 Use the focused checks that match what you changed while working, and the wider suites before opening or updating a pull request.
 Report failures, skips and checks you could not run as they are.
+
+### JSON quality and safe fixing
+
+`npm run check:json` automatically discovers and checks source and generated JSON read-only, including untracked and Git-ignored files.
+`npm run lint:json` checks inventory, strict JSON syntax, decoded duplicate keys and native interoperability rules with zero warnings.
+`npm run format:json:check` checks inventory and presentation.
+`npm run format:json` performs the full lint and producer-format preflight, Prettier's debug check, the permitted writes and a final read-only check.
+`lint`, `format:check` and `check:qualification` include JSON quality; `format`, `fix:all` and `fix:code-style` reach the JSON writer exactly once.
+`format:node` and `format:node:check` select non-JSON sources only.
+They pass their mode to the same `format:node:files` selection, so its glob list is maintained once.
+
+[The JSON policy](../.json-quality.json) schema v4 records defaults and sparse exceptions rather than an admission allowlist.
+Ordinary `.json`, `.jsonld` and `.sarif` files need no policy entry or staging: create, check, fix and stage the final bytes.
+Defaults require strict syntax, native interoperability lint, NFC for every decoded key and string value, and standard presentation.
+There is one shared lint contract; the obsolete `lintProfile` field is rejected in defaults and exceptions.
+Exceptions specify their owner and reason for external boundaries, write protection or producer-defined presentation.
+The existing 66 tracked producer/retained files remain protected; new files within their protected families inherit that protection.
+Git ignore rules never suppress checking.
+Ignored untracked files are always read-only to the generic formatter.
+Installed dependencies (`**/node_modules/**`), `.venv`, installed agent skills/tools, Git administration and local workflow/tool state are explicit external boundaries.
+Boundary rules never conceal tracked JSON; discovery prunes external trees and independently includes every indexed JSON path.
+`npm run check:json:inventory` prints encountered external boundaries and their reasons.
+Missing tracked files, unmerged/case-colliding paths, unsafe links and conflicting exceptions fail closed.
+JSONC, JSON5, JSON Lines and NDJSON are detected but require separate dialect qualification; they cannot silently escape checking.
+Suffix discovery does not detect extensionless or embedded JSON, which needs an owning producer/consumer contract.
+The mandatory Linux/Windows JSON jobs run `build:verify` before `check:json -- --require-generated`; absent generated JSON-LD or the query catalog fails the final gate.
+The read-only command checks existing files; it does not build or fix anything itself.
+Package qualification also rebuilds the source bundle and validates actual packed target bytes through the shared contracts.
+The shared byte boundary rejects malformed UTF-8 and a leading UTF-8 byte order mark (BOM) before parsing or presentation checks.
+Failures identify the repository-relative file; protected/generated files and normalization-preservation exceptions retain this requirement.
+U+FEFF inside a valid JSON string remains data and is preserved under the existing key, NFC and presentation rules.
+Repair a failing artifact through its owning source or producer; checks never remove a BOM automatically.
+
+The token-based preservation oracle directly declares Apache-2.0 `@humanwhocodes/momoa` as a development dependency.
+Its selected version remains 3.3.13; the declaration does not change public runtime dependencies or replace the independent oracle with production quality logic.
+
+The locked native tools are Prettier 3.9.10 and ESLint 10.12.0 with official `@eslint/json` 2.1.1.
+Strict JSON rejects comments, trailing commas, unquoted keys and non-JSON numeric forms.
+Duplicate keys are compared after escape decoding.
+Unsafe-value checks reject integer literals outside the safe range, overflow, nonzero underflow, subnormal numbers and lone surrogates.
+Shared interoperability checks also reject Unicode noncharacters in every decoded key and string value, including escaped characters and supplementary planes.
+Every mathematically integral JSON number must lie within -9007199254740991 through 9007199254740991, including decimal/exponent spellings such as `9007199254740992.0` and `9.007199254740992e15`.
+The exact source lexeme determines whether a number is integral; binary64 rounding never supplies that decision.
+Ordinary fractions such as `0.1` remain valid; these checks do not guarantee arbitrary decimal precision.
+Keys must be nonempty, contain a non-whitespace character and have no leading/trailing whitespace after escape decoding.
+Interior spaces and empty/whitespace-bearing string values remain valid.
+The owner/reason `allowEmptyKeys` exception lists exact JSON Pointers ending in an empty segment; the only current exception is `/packages/` in `**/package-lock.json`, where npm identifies the root package.
+It permits only the literal empty key at that location; other empty keys, whitespace-only keys, duplicate keys, unsafe values and non-NFC data still fail.
+Shared checks apply independently of write protection and normalization preservation, and expose no automatic data fix.
+NFC applies by default to every decoded JSON key and string value, including nested values, array/root strings, JSON-LD and generated products.
+The shared ESLint rule reports non-NFC strings and keys that would collide after NFC; it deliberately exposes no automatic ESLint fix.
+`normalization: "preserve"` is an explicit `.json-quality.json` exception requiring an owner, reason and `allowFormatWrites: false`; it preserves exact string identity while retaining strict syntax, duplicate-key, unsafe-value and presentation checks.
+Write protection alone never exempts a file from NFC validation.
+The former control-key override is redundant and has been removed.
+Formatting never normalizes keys or values, sorts members or repairs schema/domain errors.
+
+Use the explicit authored-source repair command with literal repository-relative paths:
+
+```sh
+npm run normalize:json -- path/to/source.json another/source.json
+npm run format:json
+npm run check:json
+```
+
+The normalizer requires at least one explicit discovered, writable source path.
+It preflights every selected input and the prospective full corpus before the first write, rejecting NFC key collisions, invalid/unsafe JSON, protected outputs, preservation exceptions, ignored untracked files and changed source bytes.
+Only string tokens needing NFC are replaced; member/array order, numeric lexemes, unchanged escapes and surrounding whitespace are preserved.
+Normalization is idempotent and does not perform NFKC, trimming or case conversion.
+Keep source writers quiescent; multi-file writes are not a transaction.
+After interruption, inspect completed writes and retained failure output before resuming.
+Fix protected/generated data in its owning source and regenerate it instead of applying this command to the output.
+
+An owning JSON producer can import the pure `normalizeJsonSource(text, contract)` operation from [shared contracts](../scripts/jsonQuality.js) at its source-input boundary.
+It uses the same native parser, interoperability preflight and collision analysis, returns normalized text without writing, and refuses a preservation contract.
+The producer must still validate its schema, graph, references and digests before publishing derived products; normalization can change exact string identity even when text looks identical.
+For JSON-LD, fix the owning RDF source and retain existing graph verification rather than silently normalizing serialized literals.
+Prettier's explicit `json-stringify` presentation uses two spaces, LF, double quotes, no trailing commas and one final newline while preserving member order and numeric lexemes.
+Read-only formatting uses the native Prettier API across every policy record, independently of its write eligibility.
+The retained Oxigraph notice uses `producer-json-body`: its existing LF/CRLF envelope and absent final newline are permitted, while native Prettier checks the entire JSON body.
+Other tracked files currently use standard Prettier presentation.
+Generated ontology/query/distribution products using native `JSON.stringify(..., null, 2)` receive exact two-space, final-LF producer serialization checks.
+The retained npm SPDX report permits its original CRLF envelope; the retained Jest report requires compact native JSON plus final LF.
+These are presentation contracts, not lint exemptions.
+Schema, graph and digest checks remain owned by the producer/consumer.
+Consumer comparisons of Registry/OCI metadata, MCP application identity, archive-entry records, public-smoke provenance, full-build receipt records and cursor criteria ignore object-member insertion order while retaining array order and exact member/value checks.
+Duplicate legacy interpretation identity uses the validated fields in a stable tuple, so reordering object members cannot conceal a duplicate.
+Canonical semantic digest formats, opaque cursor integrity bindings, exact-byte artifact hashes and producer presentation remain their own contracts; formatting does not sort JSON to compensate for consumer comparison errors.
+All JSON npm commands enter [one native-tool adapter](../scripts/runJsonQuality.js), which reconciles inventory once before its selected operation.
+[Shared contracts](../scripts/jsonQuality.js) supply the policy reader, native ESLint rules and producer-presentation check to repository checks and rebuilt-package qualification.
+The inventory checker compares effective ESLint configuration and resolved Prettier options with these authorities to detect drift.
+`.prettierignore` blocks all JSON from direct Prettier CLI writes; it does not select the read-only checks.
+The supported writer derives both its exact native argument list and temporary ignore selection from discovered files, exception rules and Git write eligibility; it verifies native selection, debug-checks, writes and removes its temporary selection in a `finally` block.
+The temporary ignore file resides in the repository root because native ignore patterns are relative to their file's directory.
+After writes, the adapter reconciles inventory again and reruns lint and presentation across the complete corpus.
+
+Consumer validators remain authoritative: the local MCP Registry schema, PR-plan standalone validator, release-input Ajv reader, projection-history schema/domain tests, provenance digests and JSON-LD graph equivalence checks.
+Schema tests use existing Ajv without coercion, defaults, property removal or remote reference resolution.
+Fix a producer or authored source when its validation fails; do not rewrite protected output to conceal the failure.
+
+Prettier writes are not a transaction.
+Before a bulk fix, preserve the current task-owned candidate and hashes in an approved checkpoint or disposable copy, with any unrelated work retained separately.
+After interruption, inspect which eligible files changed, compare the checkpoint, rerun the full lint/debug preflight and complete formatting only when the candidate is understood.
+Reverse only this task's edits if recovery is needed; do not reset or restore someone else's changes.
+Concurrent source writers and direct CLI overrides such as `--no-ignore`, `--ignore-path`, `--parser` or ESLint JSON `--fix` are outside the supported safe-fix contract.
+Regression tests exercise real native binaries in disposable Git checkouts, check byte preservation and idempotence, and reject invalid inputs before the first write.
+
+### Preventing order-sensitive JSON identities
+
+`npm run lint:js` enables `uo/no-json-stringify-identity` at error severity for the JavaScript inputs selected by ESLint.
+The same rule applies when ESLint is invoked on JS, MJS or CJS files; existing npm glob selection is unchanged.
+It rejects raw `JSON.stringify` results used in equality/inequality, `Object.is`, native Node equality assertions, Jest/Vitest equality matchers, known Set/Map keys, array membership, computed property keys and native hash inputs.
+Ordinary file, log and transport serialization remains allowed.
+Use structured comparisons for semantic data; native deep comparison preserves array order and exact fields/values while ignoring object-member order.
+The rule has no automatic fix because choosing a semantic comparison, canonical digest or byte contract requires knowing the consumer.
+
+The [local rule](../scripts/eslint/noJsonStringifyIdentity.js) uses native ESLint binding analysis for direct, computed-literal, destructured, assigned and bound aliases, and selected string/Buffer transformations.
+Tracking is conservative across assignments and bounded to 64 lexical analysis frames and 100,000 steps per file; exceeding either bound fails lint and asks for a simpler alias graph.
+It does not prove arbitrary imported/local helper behavior, reflective calls, dynamic property mutation or all collection-producing callbacks.
+Keep independent object-permutation and array/mutation regression tests at semantic consumer boundaries.
+
+Intentional representation identities need one local declaration immediately before the serializer or its containing statement:
+
+```js
+// json-identity-contract: ordered-tuple; owner: Projection policy; reason: Validated scalar fields define this tuple identity.
+const key = JSON.stringify([pathPrefix, throughVersion]);
+seen.add(key);
+```
+
+The only contract kinds are `bytes`, `digest` and `ordered-tuple`; both owner and reason are required.
+One declaration covers one serializer, never a whole file or several serializers on the same line.
+Malformed, ambiguous, misplaced and unused declarations fail lint.
+Existing producer-presentation checks, permutation byte oracles and versioned RDF identities retain explicit local contracts; no digest or cursor-format migration is introduced.
+Unused ESLint disable directives also fail at error severity.
+The release verifier binds the rule and its regression tests in the reviewed 44-input policy graph.
 
 ### Python and Markdown style
 
@@ -199,8 +333,8 @@ CodeQL retains its separate PR-only cancellation policy and unique non-PR run/at
 Pull requests run, as applicable to the changed files:
 
 - [Ontology validation](../.github/workflows/ontology-validation.yml): the editing policy on the changed sources, policy/publication-gate tests, and the Linux/Windows two-engine qualification of the active set.
-- [Development checks](../.github/workflows/development-checks.yml): changed Markdown on Linux, Python style on Linux, Python tests on Linux and Windows when their inputs change, an offline validation of `skills-lock.json` on Linux when the lock or its tooling changes, and Linux/Windows matrices for affected style tools or development tools.
-  Development and toolchain verification use `npm run set-up:development`; documentation-only checks install just the locked formatters.
+- [Development checks](../.github/workflows/development-checks.yml): fresh full-corpus Markdown and JSON checks on Linux and Windows on every route, Python style on Linux, Python tests on Linux and Windows when their inputs change, an offline validation of `skills-lock.json` on Linux when the lock or its tooling changes, and Linux/Windows matrices for affected style tools or development tools.
+  Development and toolchain verification use `npm run set-up:development`; the JSON matrix installs the root locked Node graph with lifecycle scripts disabled, while the Markdown matrix installs its isolated locked tools.
   Python tests have two native owners: twelve Python-only modules use the hash-locked `.venv` without Node dependency installation; three modules covering Skills/MCP setup and website publication retain full development setup.
   Both owners keep Linux and Windows coverage.
   Changes wholly within the twelve known Python-only test files select the Python-only owner; source, mixed, runtime and shared-control changes retain Node-backed assurance.
@@ -255,7 +389,7 @@ No trusted cache warmer is introduced before measurement.
 
 When editing the execution policy, update its schema and regenerate the standalone validator with `node scripts/generatePullRequestCheckPlanValidator.js --write`.
 Use `--check` to verify freshness without writing.
-The distribution verifier also checks an explicit nineteen-file policy manifest covering the entry points, reusable consumers, selection/evaluation inputs, native test runners and manual candidate validator.
+The distribution verifier also checks an explicit forty-two-file policy manifest covering the entry points, reusable consumers, selection/evaluation inputs, native test runners, shared JSON contracts/adapter, JSON policy/configuration/lock and manual candidate validator.
 A semantic workflow or control-input change requires coordinated review, updated assertions, negative tests, and a deliberate digest update.
 
 `scripts/selectPullRequestChecks.js` decides which jobs apply from the changed paths.

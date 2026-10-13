@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 import * as nodeFileSystem from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { createReadStream, createWriteStream } from "node:fs";
@@ -1007,7 +1008,7 @@ async function verifyConstructedPlatformArchive({
     }),
   );
 
-  if (JSON.stringify(archiveEntries) !== JSON.stringify(expectedEntries)) {
+  if (!isDeepStrictEqual(archiveEntries, expectedEntries)) {
     throw new Error(
       "Constructed platform archive does not match the exact file, size, order, and mode manifest.",
     );

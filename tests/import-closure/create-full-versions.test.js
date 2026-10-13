@@ -12,6 +12,7 @@ import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { jest } from "@jest/globals";
 import { createFullVersions } from "../../scripts/createFullVersions.js";
+import { reverseObjectMembers } from "../fixtures/json/reverseObjectMembers.js";
 import {
   verifyFullOntologyBuild,
   beginFullOntologyBuild,
@@ -85,6 +86,52 @@ test("removing the last import invalidates the receipt and removes all owned sta
       "inventory changed",
     );
     expect((await createFullVersions(options)).outputs).toHaveLength(3);
+  }));
+
+test("build receipt mappings are order independent while producer values and candidate arrays remain exact", async () =>
+  fixture(async ({ options, repositoryDirectory, put }) => {
+    const otherRoot = "iso/another/20260714";
+    await put(otherRoot, xml(otherRoot, [depPath]));
+    const receipt = await createFullVersions(options);
+    expect(receipt.candidates).toHaveLength(2);
+    const receiptPath = join(
+      repositoryDirectory,
+      ".sdlc/runtime/policy-reports/full-ontology-build.json",
+    );
+    const reordered = reverseObjectMembers(receipt);
+    // json-identity-contract: bytes; owner: Build receipt permutation tests; reason: Ensure the permutation changes its serialized representation.
+    const reorderedText = JSON.stringify(reordered);
+    // json-identity-contract: bytes; owner: Build receipt permutation tests; reason: Keep an independent original byte-representation oracle.
+    const originalText = JSON.stringify(receipt);
+    expect(reorderedText).not.toBe(originalText);
+    await writeFile(receiptPath, JSON.stringify(reordered));
+    await expect(verifyFullOntologyBuild(options)).resolves.toBeDefined();
+    for (const [mutate, expected] of [
+      [(value) => value.candidates.reverse(), /inventory changed/u],
+      [
+        (value) => {
+          value.producer.unexpected = true;
+        },
+        /producer changed/u,
+      ],
+      [
+        (value) => {
+          delete value.producer[Object.keys(value.producer)[0]];
+        },
+        /producer changed/u,
+      ],
+      [
+        (value) => {
+          value.producer[Object.keys(value.producer)[0]] = "changed";
+        },
+        /producer changed/u,
+      ],
+    ]) {
+      const changed = structuredClone(reordered);
+      mutate(changed);
+      await writeFile(receiptPath, JSON.stringify(changed));
+      await expect(verifyFullOntologyBuild(options)).rejects.toThrow(expected);
+    }
   }));
 
 test("missing local imports stop generation and leave no usable receipt", async () =>

@@ -73,6 +73,7 @@ test.each([
     {
       scope: 5,
       documentation: 10,
+      "json-quality": 15,
       "python-style": 10,
       "python-tests": 30,
       "python-node-tests": 30,
@@ -170,6 +171,7 @@ test("development checks accept only a revision-bound reusable plan", () => {
   expect(Object.keys(workflow.jobs)).toEqual([
     "scope",
     "documentation",
+    "json-quality",
     "python-style",
     "python-tests",
     "python-node-tests",
@@ -204,6 +206,24 @@ test("unrelated PRs do not unconditionally launch the development matrix", () =>
   expect(workflow.jobs.checks.if).toBe(
     "needs.scope.outputs.development == 'true'",
   );
+});
+
+test("JSON quality always checks the full corpus on both platforms before consumer completion", () => {
+  const workflow = readWorkflow();
+  const job = workflow.jobs["json-quality"];
+  expect(job.if).toBeUndefined();
+  expect(job.needs).toBe("scope");
+  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
+  expect(job.permissions).toEqual({ contents: "read" });
+  const runs = job.steps.map((step) => step.run).filter(Boolean);
+  expect(
+    runs.indexOf("node scripts/evaluatePullRequestChecks.js --verify"),
+  ).toBeLessThan(runs.indexOf("npm ci --include=dev --ignore-scripts"));
+  expect(runs.indexOf("npm run build:verify")).toBeGreaterThan(
+    runs.indexOf("npm ci --include=dev --ignore-scripts"),
+  );
+  expect(runs.at(-1)).toBe("npm run check:json -- --require-generated");
+  expect(workflow.jobs.complete.needs).toContain("json-quality");
 });
 
 test("Python-only work retains both platforms without installing Node dependencies", () => {
@@ -281,7 +301,7 @@ test("toolchain changes retain a Windows and Ubuntu owner for formatter regressi
     runs.indexOf("npm run lint:python && npm run format:python:check"),
   );
   expect(runs).toContain(
-    "npm test -- --runInBand --runTestsByPath tests/python-style-tools.test.js tests/markdown-quality.test.js",
+    "npm test -- --runInBand --runTestsByPath tests/python-style-tools.test.js tests/markdown-quality.test.js tests/json-quality.test.js",
   );
 });
 

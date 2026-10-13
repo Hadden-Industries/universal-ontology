@@ -57,6 +57,7 @@ export async function ontologyStructuralFingerprint(ontology) {
   function finish(subject) {
     const outgoing = statements.get(subject);
     if (outgoing.some(([, object]) => object.startsWith("_:"))) return subject;
+    // json-identity-contract: ordered-tuple; owner: Ontology structural fingerprint producer; reason: Ground edges are two scalar RDF strings; deduplicate their ordered tuples before hashing.
     const content = [...new Set(outgoing.map((row) => JSON.stringify(row)))]
       .sort()
       .join("\n");

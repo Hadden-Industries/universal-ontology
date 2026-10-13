@@ -10,7 +10,7 @@ import {
 } from "./evaluatePullRequestChecks.js";
 import { nodeCheckArguments } from "./runPullRequestNodeChecks.js";
 export const PR_WORKFLOW = ".github/workflows/pr-validation.yml";
-export const PR_QUALIFICATION_POLICY = "uo-selected-node-fresh-consumers-v3";
+export const PR_QUALIFICATION_POLICY = "uo-selected-node-fresh-consumers-v4";
 
 /** Native job names expand matrices only when their consumer job is selected.
  * Reuse the consumer-owned selection rules; bind this name map through the
@@ -27,6 +27,7 @@ export function prQualificationJobConclusions(plan) {
     development: [
       ["scope", "Select relevant checks"],
       ["documentation", "Markdown documents (${{ matrix.os }})", true],
+      ["json-quality", "JSON quality (${{ matrix.os }})", true],
       ["python-style", "Python style"],
       ["python-tests", "Python-only tests (${{ matrix.os }})", true],
       [

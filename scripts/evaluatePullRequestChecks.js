@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 /** Fail-closed control-plane evaluation; deliberately needs no installed packages. */
 import { appendFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -21,8 +22,7 @@ export function evaluatePullRequestChecks(plan, results) {
     !results ||
     typeof results !== "object" ||
     Array.isArray(results) ||
-    JSON.stringify(Object.keys(results).sort()) !==
-      JSON.stringify([...ids].sort())
+    !isDeepStrictEqual(Object.keys(results).sort(), [...ids].sort())
   )
     return {
       ok: false,
@@ -54,6 +54,7 @@ export function consumerJobs(plan, consumer) {
     development: {
       scope: true,
       documentation: true,
+      "json-quality": true,
       "python-style": s.python_style && !s.style_tooling,
       "python-tests": s.python_tests,
       "python-node-tests": s.python_setup_tests,
@@ -106,8 +107,10 @@ export function runCheckEvaluation(
     const expected = consumerJobs(plan, consumer);
     if (
       !plan.requiredJobs.includes(consumer) ||
-      JSON.stringify(Object.keys(needs).sort()) !==
-        JSON.stringify(Object.keys(expected).sort()) ||
+      !isDeepStrictEqual(
+        Object.keys(needs).sort(),
+        Object.keys(expected).sort(),
+      ) ||
       Object.entries(expected).some(
         ([id, required]) =>
           needs[id]?.result !== "success" &&

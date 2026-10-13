@@ -134,6 +134,78 @@ describe("Universal Ontology MCP application-bundle verifier", () => {
     }
   });
 
+  test.each([
+    ["reordered", true],
+    ["changed-version", false],
+    ["missing-title", false],
+    ["reordered-tools", false],
+  ])(
+    "validates server metadata and ordered tools across native stdio: %s",
+    async (mode, accepted) => {
+      const directory = await nodeFileSystem.mkdtemp(
+        join(tmpdir(), "uo-mcp-member-order-"),
+      );
+      const wrapper = join(directory, "rewrite-stdio.mjs");
+      const observedPath = join(directory, "observed-server-info.json");
+      await nodeFileSystem.writeFile(
+        wrapper,
+        `
+import { writeFileSync } from "node:fs";
+const originalWrite = process.stdout.write.bind(process.stdout);
+process.stdout.write = (chunk, ...arguments_) => {
+  let rewritten = chunk;
+  try {
+    const message = JSON.parse(String(chunk));
+    const metadata = message.result?._meta;
+    const container = message.result?.serverInfo ? message.result : metadata;
+    const field = message.result?.serverInfo ? "serverInfo" : "io.modelcontextprotocol/serverInfo";
+    if (container?.[field]) {
+      const originalKeys = Object.keys(container[field]);
+      container[field] = Object.fromEntries(Object.entries(container[field]).reverse());
+      if (${JSON.stringify(mode)} === "changed-version") container[field].version = "99.0.0";
+      if (${JSON.stringify(mode)} === "missing-title") delete container[field].title;
+      writeFileSync(${JSON.stringify(observedPath)}, JSON.stringify({ originalKeys, sentKeys: Object.keys(container[field]) }));
+    }
+    if (${JSON.stringify(mode)} === "reordered-tools" && message.result?.tools) message.result.tools.reverse();
+    rewritten = JSON.stringify(message) + "\\n";
+  } catch { /* Preserve non-protocol output for the verifier's own rejection. */ }
+  return originalWrite(rewritten, ...arguments_);
+};
+await import(${JSON.stringify(pathToFileURL(APPLICATION_BUNDLE_PATH).href)});
+`,
+        "utf8",
+      );
+      try {
+        const { verifyUniversalOntologyMcpApplicationBundle } =
+          await importVerifier();
+        const result = verifyUniversalOntologyMcpApplicationBundle({
+          applicationBundlePath: wrapper,
+          ontologyQueryArtifactChannelName: "development",
+        });
+        if (accepted) {
+          const verified = await result;
+          const observed = JSON.parse(
+            await nodeFileSystem.readFile(observedPath, "utf8"),
+          );
+          expect(observed.originalKeys.length).toBeGreaterThan(1);
+          expect(observed.sentKeys).toEqual(
+            [...observed.originalKeys].reverse(),
+          );
+          expect(verified.serverInfo).toEqual({
+            name: "universal-ontology",
+            title: "Universal Ontology",
+            version: "1.0.0",
+          });
+        } else
+          await expect(result).rejects.toThrow(
+            /identity mismatch|tool surface mismatch/u,
+          );
+      } finally {
+        await nodeFileSystem.rm(directory, { recursive: true, force: true });
+      }
+    },
+  );
+
   test("supplies and removes a verifier-owned cache directory", async () => {
     const temporaryParentPath = await nodeFileSystem.mkdtemp(
       join(tmpdir(), "universal-ontology-mcp-verifier-cache-test-"),

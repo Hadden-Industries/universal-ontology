@@ -2,6 +2,7 @@ import * as nodeFileSystem from "node:fs/promises";
 
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
+import { jsonContract } from "../../scripts/jsonQuality.js";
 
 const REPOSITORY_ROOT_URL = new URL("../../", import.meta.url);
 const SERVER_DOCUMENT_URL = new URL("server.json", REPOSITORY_ROOT_URL);
@@ -32,6 +33,7 @@ describe("MCP Registry server metadata", () => {
       publicPackage,
       dockerfileText,
       schemaNoticeText,
+      jsonPolicy,
     ] = await Promise.all([
       readJsonDocument(SERVER_DOCUMENT_URL),
       readJsonDocument(REGISTRY_SCHEMA_URL),
@@ -51,6 +53,7 @@ describe("MCP Registry server metadata", () => {
         "utf8",
       ),
       nodeFileSystem.readFile(REGISTRY_SCHEMA_NOTICE_URL, "utf8"),
+      readJsonDocument(new URL(".json-quality.json", REPOSITORY_ROOT_URL)),
     ]);
     const ajv = new Ajv2020({
       allErrors: true,
@@ -118,7 +121,22 @@ describe("MCP Registry server metadata", () => {
     expect(rootPackage.scripts["format:check"]).toContain(
       "npm run format:node:check",
     );
-    expect(rootPackage.scripts["format:node"]).toContain('"server.json"');
-    expect(rootPackage.scripts["format:node:check"]).toContain('"server.json"');
+    expect(rootPackage.scripts.format).toContain("npm run format:json");
+    expect(rootPackage.scripts["format:check"]).toContain(
+      "npm run format:json:check",
+    );
+    expect(rootPackage.scripts["format:node"]).not.toContain("server.json");
+    expect(rootPackage.scripts["format:node:check"]).not.toContain(
+      "server.json",
+    );
+    expect(
+      jsonContract("server.json", jsonPolicy, { tracked: true }),
+    ).toMatchObject({
+      path: "server.json",
+      exclude: false,
+      normalization: "NFC",
+      allowFormatWrites: true,
+      formatContract: "prettier-json",
+    });
   });
 });
