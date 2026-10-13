@@ -108,7 +108,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/checkJsonInventory.js":
     "f46901293f17270a54343ebd9c97675d218511fe32b706abdb26ebb1e1ebc698",
   "tests/json-quality.test.js":
-    "4f4f1c6fd62503758794abc691ec44891368267984946b883a4ddd71dd82adf3",
+    "78d0d92491e806f6e961b248d88706dcf159b6443f13807f32aea9ed60b5d384",
   "package-lock.json":
     "752680439f64915302d40ca4fa85d4f40f026e78e13ce9632dca94da967c8400",
   ".github/workflows/pr-validation.yml":

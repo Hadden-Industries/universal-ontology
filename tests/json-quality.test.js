@@ -22,6 +22,8 @@ import {
 } from "../scripts/jsonQuality.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
+// Native config loading and disposable Git I/O need an explicit cold-run budget.
+const NATIVE_TOOL_TIMEOUT_MS = 30000;
 const eslint = fileURLToPath(
   new URL("../node_modules/eslint/bin/eslint.js", import.meta.url),
 );
@@ -155,7 +157,7 @@ function runCommand(directory, command) {
       cwd: directory,
       encoding: "utf8",
       windowsHide: true,
-      timeout: 30000,
+      timeout: NATIVE_TOOL_TIMEOUT_MS,
       maxBuffer: 2 * 1024 * 1024,
     },
   );
@@ -275,19 +277,23 @@ function fixture() {
   return { directory, put, policy };
 }
 
-test("inventory covers tracked hidden JSON and protects producer and retained bytes", async () => {
-  const { directory } = fixture();
-  try {
-    expect(await checkJsonInventory({ root: directory })).toEqual({
-      tracked: 6,
-      linted: 6,
-      formatted: 4,
-      preserved: 2,
-    });
-  } finally {
-    rmSync(directory, { recursive: true, force: true });
-  }
-});
+test(
+  "inventory covers tracked hidden JSON and protects producer and retained bytes",
+  async () => {
+    const { directory } = fixture();
+    try {
+      expect(await checkJsonInventory({ root: directory })).toEqual({
+        tracked: 6,
+        linted: 6,
+        formatted: 4,
+        preserved: 2,
+      });
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
 
 test("one policy entry admits a new authored path while direct Prettier remains blocked", () => {
   const { directory, put, policy } = fixture();
@@ -383,84 +389,99 @@ test.each([
   "empty",
   "case-collision",
   "invalid-utf8",
-])("inventory fails closed for %s", async (scenario) => {
-  const { directory, put, policy } = fixture();
-  try {
-    if (scenario === "unknown" || scenario === "untracked")
-      put("new.json", "{}");
-    if (scenario === "unknown")
-      execFileSync("git", ["-C", directory, "add", "new.json"]);
-    if (scenario === "stale")
-      policy.files.push({ ...policy.files[0], path: "absent.json" });
-    if (scenario === "duplicate") policy.files.push(policy.files[0]);
-    if (scenario === "conflict")
-      policy.files.find(
-        (file) => file.path === retainedPath,
-      ).allowFormatWrites = true;
-    if (scenario === "ignored-tracked") {
-      put("ignored/data.json", "{}");
-      execFileSync("git", ["-C", directory, "add", "-f", "ignored/data.json"]);
+])(
+  "inventory fails closed for %s",
+  async (scenario) => {
+    const { directory, put, policy } = fixture();
+    try {
+      if (scenario === "unknown" || scenario === "untracked")
+        put("new.json", "{}");
+      if (scenario === "unknown")
+        execFileSync("git", ["-C", directory, "add", "new.json"]);
+      if (scenario === "stale")
+        policy.files.push({ ...policy.files[0], path: "absent.json" });
+      if (scenario === "duplicate") policy.files.push(policy.files[0]);
+      if (scenario === "conflict")
+        policy.files.find(
+          (file) => file.path === retainedPath,
+        ).allowFormatWrites = true;
+      if (scenario === "ignored-tracked") {
+        put("ignored/data.json", "{}");
+        execFileSync("git", [
+          "-C",
+          directory,
+          "add",
+          "-f",
+          "ignored/data.json",
+        ]);
+      }
+      if (scenario === "dialect") {
+        put("new.jsonc", "{}");
+        execFileSync("git", ["-C", directory, "add", "new.jsonc"]);
+      }
+      if (scenario === "outside")
+        policy.files.push({ ...policy.files[0], path: "../outside.json" });
+      if (scenario === "native-selection")
+        put(
+          ".prettierignore",
+          `${readFileSync(
+            join(directory, ".prettierignore"),
+            "utf8",
+          )}\n!/${retainedPath}\n`,
+        );
+      if (scenario === "native-rule")
+        put(
+          "eslint.config.js",
+          readFileSync(join(directory, "eslint.config.js"), "utf8").replace(
+            "...jsonLintConfig(jsonFiles),",
+            '...jsonLintConfig(jsonFiles), { files: ["**/*.json"], rules: { "json/no-duplicate-keys": "off" } },',
+          ),
+        );
+      if (scenario === "missing") rmSync(join(directory, dataPath));
+      if (scenario === "invalid-utf8")
+        put(dataPath, Buffer.from([34, 255, 34]));
+      if (scenario === "empty")
+        execFileSync("git", ["-C", directory, "rm", "--cached", "-r", "."]);
+      if (scenario === "case-collision")
+        execFileSync("git", [
+          "-C",
+          directory,
+          "update-index",
+          "--add",
+          "--cacheinfo",
+          `100644,${execFileSync("git", ["-C", directory, "rev-parse", ":package.json"], { encoding: "utf8" }).trim()},PACKAGE.JSON`,
+        ]);
+      put(".json-quality.json", JSON.stringify(policy));
+      await expect(checkJsonInventory({ root: directory })).rejects.toThrow();
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
     }
-    if (scenario === "dialect") {
-      put("new.jsonc", "{}");
-      execFileSync("git", ["-C", directory, "add", "new.jsonc"]);
-    }
-    if (scenario === "outside")
-      policy.files.push({ ...policy.files[0], path: "../outside.json" });
-    if (scenario === "native-selection")
-      put(
-        ".prettierignore",
-        `${readFileSync(
-          join(directory, ".prettierignore"),
-          "utf8",
-        )}\n!/${retainedPath}\n`,
-      );
-    if (scenario === "native-rule")
-      put(
-        "eslint.config.js",
-        readFileSync(join(directory, "eslint.config.js"), "utf8").replace(
-          "...jsonLintConfig(jsonFiles),",
-          '...jsonLintConfig(jsonFiles), { files: ["**/*.json"], rules: { "json/no-duplicate-keys": "off" } },',
-        ),
-      );
-    if (scenario === "missing") rmSync(join(directory, dataPath));
-    if (scenario === "invalid-utf8") put(dataPath, Buffer.from([34, 255, 34]));
-    if (scenario === "empty")
-      execFileSync("git", ["-C", directory, "rm", "--cached", "-r", "."]);
-    if (scenario === "case-collision")
-      execFileSync("git", [
-        "-C",
-        directory,
-        "update-index",
-        "--add",
-        "--cacheinfo",
-        `100644,${execFileSync("git", ["-C", directory, "rev-parse", ":package.json"], { encoding: "utf8" }).trim()},PACKAGE.JSON`,
-      ]);
-    put(".json-quality.json", JSON.stringify(policy));
-    await expect(checkJsonInventory({ root: directory })).rejects.toThrow();
-  } finally {
-    rmSync(directory, { recursive: true, force: true });
-  }
-});
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
 
-test("symlinked JSON ancestor is refused before formatting", async () => {
-  const { directory } = fixture();
-  const target = mkdtempSync(join(tmpdir(), "uo-json-symlink-target-"));
-  try {
-    writeFileSync(join(target, "field-property-history.v1.json"), "{}");
-    rmSync(join(directory, dirname(dataPath)), { recursive: true });
-    symlinkSync(target, join(directory, dirname(dataPath)), "junction");
-    expect(lstatSync(join(directory, dirname(dataPath))).isSymbolicLink()).toBe(
-      true,
-    );
-    await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
-      /Nonregular/,
-    );
-  } finally {
-    rmSync(directory, { recursive: true, force: true });
-    rmSync(target, { recursive: true, force: true });
-  }
-});
+test(
+  "symlinked JSON ancestor is refused before formatting",
+  async () => {
+    const { directory } = fixture();
+    const target = mkdtempSync(join(tmpdir(), "uo-json-symlink-target-"));
+    try {
+      writeFileSync(join(target, "field-property-history.v1.json"), "{}");
+      rmSync(join(directory, dirname(dataPath)), { recursive: true });
+      symlinkSync(target, join(directory, dirname(dataPath)), "junction");
+      expect(
+        lstatSync(join(directory, dirname(dataPath))).isSymbolicLink(),
+      ).toBe(true);
+      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
+        /Nonregular/,
+      );
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+      rmSync(target, { recursive: true, force: true });
+    }
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
 
 test.each([
   ['{"retained":true,"retained":false}', "lint:json", 1],
