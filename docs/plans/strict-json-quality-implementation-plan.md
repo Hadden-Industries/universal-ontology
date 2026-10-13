@@ -14,6 +14,26 @@ That request authorizes the plan's dependency, configuration, formatting, commit
 It requires consolidated broad reviews and narrowly scoped follow-up reviews using available local agents.
 Deployment and release remain separate decisions.
 
+### Meaningful keys and interoperability follow-up, 13 October 2026
+
+The owner requested meaningful-key checks, complete interoperability checks and correction of stale development documentation.
+Retain the accepted R2 route, native tools, exception-only discovery, producer ownership and consolidated local review/delivery scope.
+The owner explicitly approved the shared rules, the owner/reason exception permitting only `/packages/` empty keys in `**/package-lock.json`, and refreshed reviewed control/test digests in the release verifier.
+The first-release policy remains schema v4 as requested: unpublished iterations within this PR do not require another version increment.
+
+| Slice | Requirement and acceptance | Proof | Delivery and recovery |
+| ----- | -------------------------- | ----- | --------------------- |
+| KEY-1 | Reject empty/whitespace-only and leading/trailing-whitespace keys; permit only an explicitly owned empty-key JSON Pointer. The proposed npm exception is `/packages/` in `**/package-lock.json`. | Native lint and real command checks cover decoded escapes, nested objects/arrays, pointer escaping, lockfile scope, conflicting exceptions and effective-config tampering. | All discovered and packed JSON inherits the same rules. No trimming or output rewrites; repair the owning source/producer. |
+| INT-1 | Reject Unicode noncharacters in decoded keys/string values and mathematically integral numbers outside the safe range regardless of decimal/exponent spelling. Preserve existing overflow, underflow, subnormal and surrogate checks. | Boundary and alternate-spelling vectors, supplementary-plane characters, nested/root values, normalization/format refusal and the current generated corpus. | No numeric conversion or arbitrary-decimal exactness promise. Retain source bytes and truthful failures. |
+| DOC-1 | Describe the actual policy version and all-string NFC default. | Review documentation against the resolved shared contracts. | Deliver with the implementation and refreshed reviewed control hashes. |
+
+Reuse native ESLint checks where their options support the contract; custom logic is limited to the missing whitespace/pointer, noncharacter and integer-lexeme checks.
+Keep policy resolution, repository effective-rule verification, producer/source preflight and packed-target qualification consistent; do not create a separate admission list.
+The read-only baseline audit of 637 files found only three intentional npm empty keys at `/packages/`, with no other key-whitespace, noncharacter or unsafe-integer candidates.
+Consolidate code/tests/docs, perform focused JSON and affected package/policy tests, then the existing local review lenses and one final route-required qualification after planned writers.
+Refresh reviewed release-control digests only after source review; preserve the existing 42-input policy graph.
+Unexpected producer failures, ambiguous numeric classification or broader exception requirements trigger narrow diagnosis and replanning, not weakening default coverage.
+
 ### NFC validation amendment, 13 October 2026
 
 The owner requested NFC validation for every decoded JSON key and string value by default, with explicit preservation exceptions and collision-safe fixes through the owning source or producer.

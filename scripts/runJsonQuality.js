@@ -58,12 +58,16 @@ async function normalize(context, sourcePaths) {
   });
   const before = new Map();
   const replacements = new Map();
-  for (const { path } of selected) {
+  for (const file of selected) {
+    const { path } = file;
     const bytes = readFileSync(join(context.root, path));
     decodeJsonBytes(bytes);
     before.set(path, bytes);
     try {
-      replacements.set(path, await normalizeJsonSource(bytes.toString("utf8")));
+      replacements.set(
+        path,
+        await normalizeJsonSource(bytes.toString("utf8"), file),
+      );
     } catch (error) {
       throw new Error(`${path}: ${error.message}`, { cause: error });
     }

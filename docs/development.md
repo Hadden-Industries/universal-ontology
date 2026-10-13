@@ -116,9 +116,9 @@ Report failures, skips and checks you could not run as they are.
 `format:node` and `format:node:check` select non-JSON sources only.
 They pass their mode to the same `format:node:files` selection, so its glob list is maintained once.
 
-[The JSON policy](../.json-quality.json) schema v3 records defaults and sparse exceptions rather than an admission allowlist.
+[The JSON policy](../.json-quality.json) schema v4 records defaults and sparse exceptions rather than an admission allowlist.
 Ordinary `.json`, `.jsonld` and `.sarif` files need no policy entry or staging: create, check, fix and stage the final bytes.
-Defaults require strict syntax, native interoperability lint and standard presentation; owned controls have a stronger NFC-key override.
+Defaults require strict syntax, native interoperability lint, NFC for every decoded key and string value, and standard presentation.
 Exceptions specify their owner and reason for external boundaries, write protection or producer-defined presentation.
 The existing 66 tracked producer/retained files remain protected; new files within their protected families inherit that protection.
 Git ignore rules never suppress checking.
@@ -137,7 +137,15 @@ The locked native tools are Prettier 3.9.10 and ESLint 10.12.0 with official `@e
 Strict JSON rejects comments, trailing commas, unquoted keys and non-JSON numeric forms.
 Duplicate keys are compared after escape decoding.
 Unsafe-value checks reject integer literals outside the safe range, overflow, nonzero underflow, subnormal numbers and lone surrogates.
-This is the plugin's native interoperability policy; it does not guarantee arbitrary decimal precision or reject every exponent-form integer outside the safe range.
+Shared interoperability checks also reject Unicode noncharacters in every decoded key and string value, including escaped characters and supplementary planes.
+Every mathematically integral JSON number must lie within -9007199254740991 through 9007199254740991, including decimal/exponent spellings such as `9007199254740992.0` and `9.007199254740992e15`.
+The exact source lexeme determines whether a number is integral; binary64 rounding never supplies that decision.
+Ordinary fractions such as `0.1` remain valid; these checks do not guarantee arbitrary decimal precision.
+Keys must be nonempty, contain a non-whitespace character and have no leading/trailing whitespace after escape decoding.
+Interior spaces and empty/whitespace-bearing string values remain valid.
+The owner/reason `allowEmptyKeys` exception lists exact JSON Pointers ending in an empty segment; the only current exception is `/packages/` in `**/package-lock.json`, where npm identifies the root package.
+It permits only the literal empty key at that location; other empty keys, whitespace-only keys, duplicate keys, unsafe values and non-NFC data still fail.
+Shared checks apply independently of write protection and normalization preservation, and expose no automatic data fix.
 NFC applies by default to every decoded JSON key and string value, including nested values, array/root strings, JSON-LD and generated products.
 The shared ESLint rule reports non-NFC strings and keys that would collide after NFC; it deliberately exposes no automatic ESLint fix.
 `normalization: "preserve"` is an explicit `.json-quality.json` exception requiring an owner, reason and `allowFormatWrites: false`; it preserves exact string identity while retaining strict syntax, duplicate-key, unsafe-value and presentation checks.

@@ -94,11 +94,11 @@ const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
 // source review and rejection tests, never learned from candidate artifacts.
 const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/jsonQuality.js":
-    "603aee902cd2c777297f7a8b697038487b6a585393f86c4618fba1050eb5e52f",
+    "bd5d25314e73edd7e9d1c81b4d6b05b4d988cb9f0a922af59a9156d1ed748569",
   "scripts/runJsonQuality.js":
-    "717a3191c19df438dd79eca62e8a5c9075ee8a4e1cd3b423f03210a3279d3b75",
+    "e19bd3a79c58809d4e962962d17fc263de649b850fcb97e99cbec5be48593630",
   ".json-quality.json":
-    "dd84b14b3a6786af19399e0f60b3f7f15e253f1ce9458ab46cda74d733105f75",
+    "2ff77ad78b0a84899d485e308542eeb2d3db6dca2a558460c3b7c4b8ab916184",
   "eslint.config.js":
     "8468c8fb7e9b439d74c98c2865a160cebb883bd1a595411078bf2098f8dc1f8b",
   ".prettierrc.json":
@@ -106,9 +106,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".prettierignore":
     "f00a878b2c36a1d2e22d2fc1d010f924214ee5a2ad8375e96c7d145b1e04d154",
   "scripts/checkJsonInventory.js":
-    "f36013d914dcf366b8b056f6c03ebc7e0ad4b2c1d969df687dcdb4479b7d9894",
+    "20e26d306cf2e783d64e32234d16e84cace33decc19042e5e9116d46d90252ed",
   "tests/json-quality.test.js":
-    "d3ab1068eec18c1aa6b5dc3f606268ba25249d319d0f542894f5600f2af4e038",
+    "4f974d7a1220df16775b1343c0df1c11aab79ab44be6567e0669393632732daf",
   "package-lock.json":
     "752680439f64915302d40ca4fa85d4f40f026e78e13ce9632dca94da967c8400",
   ".github/workflows/pr-validation.yml":

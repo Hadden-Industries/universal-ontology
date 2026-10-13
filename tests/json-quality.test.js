@@ -15,11 +15,13 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tokenize } from "@humanwhocodes/momoa";
 import * as prettier from "prettier";
+import { ESLint } from "eslint";
 import { checkJsonInventory } from "../scripts/checkJsonInventory.js";
 import {
   checkJsonPresentation,
   jsonFormatOptions,
   jsonContract,
+  jsonLintConfig,
   normalizeJsonSource,
 } from "../scripts/jsonQuality.js";
 
@@ -109,9 +111,205 @@ test.each([
   '""',
   "[]",
   "{}",
-  '{"":0}',
 ])("valid scalar, empty value and qualified number passes: %s", (text) => {
   expect(lint(text).status).toBe(0);
+});
+
+// The real native config is cached across lexical vectors; CLI tests below
+// separately prove repository discovery and writer refusal.
+const qualityLinter = new ESLint({ cwd: root });
+async function qualityMessages(text, path = "new/data.json") {
+  const [result] = await qualityLinter.lintText(text, { filePath: path });
+  return result.messages;
+}
+
+test.each([
+  '{"":0}',
+  '{" ":0}',
+  '{"\\t\\n":0}',
+  '{"\\u00a0":0}',
+  '{" key":0}',
+  '{"key ":0}',
+  '{"\\u00a0key":0}',
+  '[{"nested":{"key\\t":0}}]',
+])("meaningful keys reject decoded empty/edge whitespace: %s", async (text) => {
+  expect(await qualityMessages(text)).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        ruleId: expect.stringMatching(/(?:no-empty-keys|meaningful-keys)$/u),
+      }),
+    ]),
+  );
+});
+
+test.each([
+  ['{"packages":{"":{}}}', "package-lock.json", true],
+  ['{"packages":{"\\u0000":{}}}', "package-lock.json", true],
+  ['{"packages":{"":{}}}', "nested/package-lock.json", true],
+  ['{"packages":{"":{}}}', "new/data.json", false],
+  ['{"packages":{"":{}}}', "new/package.json", false],
+  ['{"":0,"packages":{"":{}}}', "package-lock.json", false],
+  ['{"packages":{" ":{}}}', "package-lock.json", false],
+  ['{"packages":{"":{"":0}}}', "package-lock.json", false],
+  ['{"nested":{"packages":{"":{}}}}', "package-lock.json", false],
+  ['{"packages":[{"":{}}]}', "package-lock.json", false],
+  ['{"packages":{"":"e\\u0301"}}', "package-lock.json", false],
+  ['{"packages":{"":0,"":1}}', "package-lock.json", false],
+  ['{"packages":{"":{}," bad":0}}', "package-lock.json", false],
+])(
+  "lockfile exception is pointer-scoped: %s (%s)",
+  async (text, path, valid) => {
+    expect((await qualityMessages(text, path)).length === 0).toBe(valid);
+  },
+);
+
+test("pointer exceptions escape keys and retain array indices without weakening other rules", async () => {
+  const linter = new ESLint({
+    overrideConfigFile: true,
+    overrideConfig: jsonLintConfig([
+      {
+        path: "source.json",
+        allowEmptyKeys: ["/a~1b/~0/0/"],
+        normalization: "preserve",
+      },
+    ]),
+  });
+  const check = async (text) =>
+    (await linter.lintText(text, { filePath: "source.json" }))[0];
+  expect((await check('{"a/b":{"~":[{"":"e\\u0301"}]}}')).errorCount).toBe(0);
+  expect((await check('{"a/b":{"~":[{}, {"":0}]}}')).errorCount).toBe(1);
+  expect((await check('{"a/b":{"~":[{" ":0}]}}')).errorCount).toBe(1);
+  expect((await check('{"a/b":{"~":[{"":"\\uffff"}]}}')).errorCount).toBe(1);
+});
+
+test.each([
+  "9007199254740992.0",
+  "-9007199254740992.000",
+  "9007199254740993e0",
+  "9.007199254740992e15",
+  "90071992547409920e-1",
+  "9007199254740992.00000000000000000001e20",
+  "1e20",
+  "1.7976931348623157e308",
+])("exact integral values outside the safe range fail: %s", async (text) => {
+  expect(await qualityMessages(text)).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        ruleId: "uo-json/interoperability",
+        messageId: "integer",
+      }),
+    ]),
+  );
+});
+
+test.each([
+  "9007199254740991.0",
+  "-9.007199254740991e15",
+  "90071992547409910e-1",
+  "0.1",
+  "9007199254740991.1",
+  "9007199254740992.1",
+  "9007199254740993e-1",
+  "0e999999999999999999999999",
+  "-0.000e-9999999999999999999999",
+  "1.00000000000000000000000000000001",
+  "1e+0000000000000000000000000",
+  '{"key with interior spaces":"  preserved value  ","empty":""}',
+])(
+  "valid spellings and ordinary fractional precision remain accepted: %s",
+  async (text) => {
+    expect(await qualityMessages(text)).toEqual([]);
+  },
+);
+
+test.each([
+  0xfdd0,
+  0xfdef,
+  ...Array.from(
+    { length: 34 },
+    (_, index) => Math.floor(index / 2) * 0x10000 + 0xfffe + (index % 2),
+  ),
+])(
+  "Unicode noncharacter U+%s fails directly and after escape decoding",
+  async (point) => {
+    const character = String.fromCodePoint(point);
+    const escaped =
+      [...character].length === 1 && point <= 0xffff
+        ? `\\u${point.toString(16).padStart(4, "0")}`
+        : `\\u${character.charCodeAt(0).toString(16)}\\u${character.charCodeAt(1).toString(16)}`;
+    for (const text of [
+      JSON.stringify(character),
+      `"${escaped}"`,
+      `{"${escaped}":0}`,
+      `[{"nested":"${escaped}"}]`,
+    ])
+      expect(await qualityMessages(text)).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            ruleId: "uo-json/interoperability",
+            messageId: "noncharacter",
+          }),
+        ]),
+      );
+  },
+);
+
+test("valid supplementary characters and boundaries remain accepted", async () => {
+  expect(
+    await qualityMessages(
+      JSON.stringify([
+        "😀",
+        "中文",
+        "العربية",
+        "\ufdcf",
+        "\ufdf0",
+        "\ufffd",
+        String.fromCodePoint(0x10fffd),
+      ]),
+    ),
+  ).toEqual([]);
+});
+
+test("numeric spellings agree with an independent BigInt boundary oracle", async () => {
+  for (const value of [
+    9007199254740989n,
+    9007199254740991n,
+    9007199254740992n,
+    9007199254740993n,
+    9007199254741000n,
+  ])
+    for (const signed of [value, -value])
+      for (const text of [`${signed}.000`, `${signed}00e-2`, `${signed}e+0`]) {
+        const messages = await qualityMessages(text);
+        expect(messages.some(({ messageId }) => messageId === "integer")).toBe(
+          signed > 9007199254740991n || signed < -9007199254740991n,
+        );
+      }
+});
+
+test("opinionated rules expose no automatic native fix", async () => {
+  const text = '{" bad":9007199254740992e0,"":"\\uffff"}';
+  const linter = new ESLint({ cwd: root, fix: true });
+  const [result] = await linter.lintText(text, { filePath: "new/data.json" });
+  expect(result.output).toBeUndefined();
+  expect(result.errorCount).toBe(4);
+});
+
+test("source/producer NFC preflight retains the complete quality contract", async () => {
+  await expect(
+    normalizeJsonSource('{"packages":{"":"e\\u0301"}}', {
+      allowEmptyKeys: ["/packages/"],
+    }),
+  ).resolves.toBe('{"packages":{"":"é"}}');
+  for (const text of [
+    '{" bad":"e\\u0301"}',
+    '{"":"e\\u0301"}',
+    '{"key":"\\uffff"}',
+    "9007199254740992e0",
+  ])
+    await expect(normalizeJsonSource(text)).rejects.toThrow(
+      /invalid or unsafe/u,
+    );
 });
 
 test.each([
@@ -335,6 +533,109 @@ function fixture() {
   execFileSync("git", ["-C", directory, "add", "."]);
   return { directory, put, policy };
 }
+
+test.each([
+  ["new/authored.json", '{" bad":"e\\u0301"}', "format:json"],
+  ["new/authored.json", '{" bad":"e\\u0301"}', "normalize:json"],
+  ["ignored/generated.json", '{"nested":[9007199254740992e0]}', "lint:json"],
+  ["dist/generated.jsonld", '{"nested":"\\uffff"}', "lint:json"],
+  [retainedPath, '{" ":true}', "lint:json"],
+])(
+  "default quality gates reject %s through %s without rewriting inputs",
+  (path, text, command) => {
+    const { directory, put } = fixture();
+    try {
+      put(path, text);
+      const sourceBefore = readFileSync(join(directory, dataPath));
+      const result = runCommand(
+        directory,
+        command,
+        command === "normalize:json" ? [path] : [],
+      );
+      expect(result.status).toBe(1);
+      expect(result.stdout + result.stderr).toMatch(
+        /meaningful-keys|no-empty-keys|interoperability|invalid or unsafe/u,
+      );
+      expect(readFileSync(join(directory, path), "utf8")).toBe(text);
+      expect(readFileSync(join(directory, dataPath))).toEqual(sourceBefore);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
+
+test.each(["/packages", "/packages/~2/", "packages/", ""])(
+  "policy rejects a nonliteral/nonempty-key pointer: %s",
+  async (pointer) => {
+    const { directory, put, policy } = fixture();
+    try {
+      policy.exceptions[0].allowEmptyKeys = [pointer];
+      put(".json-quality.json", JSON.stringify(policy));
+      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
+        /policy structure/u,
+      );
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
+
+test(
+  "conflicting empty-key exceptions fail closed while identical overlaps are accepted",
+  async () => {
+    const { directory, put, policy } = fixture();
+    try {
+      put("package-lock.json", '{"packages":{"":{}}}');
+      const exception = {
+        paths: ["package-lock.json"],
+        allowEmptyKeys: ["/packages/"],
+        owner: "test",
+        reason: "Identical intentional empty-key location",
+      };
+      policy.exceptions.push(exception);
+      put(".json-quality.json", JSON.stringify(policy));
+      await expect(
+        checkJsonInventory({ root: directory }),
+      ).resolves.toBeDefined();
+      exception.allowEmptyKeys = ["/elsewhere/"];
+      put(".json-quality.json", JSON.stringify(policy));
+      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
+        /Conflicting JSON exceptions/u,
+      );
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
+
+test.each([
+  "uo-json/meaningful-keys",
+  "uo-json/interoperability",
+  "json/no-empty-keys",
+])(
+  "effective-rule integrity detects weakened %s",
+  async (rule) => {
+    const { directory, put } = fixture();
+    try {
+      put(
+        "eslint.config.js",
+        readFileSync(join(directory, "eslint.config.js"), "utf8").replace(
+          "...jsonLintConfig(jsonFiles),",
+          `...jsonLintConfig(jsonFiles), { files: ["**/*.json"], rules: { "${rule}": "off" } },`,
+        ),
+      );
+      await expect(checkJsonInventory({ root: directory })).rejects.toThrow(
+        /Required JSON rule disabled/u,
+      );
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+  NATIVE_TOOL_TIMEOUT_MS,
+);
 
 test(
   "inventory covers tracked hidden JSON and protects producer and retained bytes",

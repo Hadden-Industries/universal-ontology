@@ -163,11 +163,13 @@ export async function inspectJsonInventory({
     )
       throw new Error(`Wrong native JSON language or inline controls: ${path}`);
     for (const [rule, setting] of Object.entries(
-      jsonRules(file.lintProfile, file.normalization),
+      jsonRules(file.lintProfile, file.normalization, file.allowEmptyKeys),
     )) {
       if (setting === "off") {
         if (config.rules[rule]?.[0] !== 0)
-          throw new Error(`Unsafe native JSON fixer enabled: ${path}: ${rule}`);
+          throw new Error(
+            `Required JSON rule must remain disabled: ${path}: ${rule}`,
+          );
         continue;
       }
       const expected = Array.isArray(setting) ? [2, ...setting.slice(1)] : [2];

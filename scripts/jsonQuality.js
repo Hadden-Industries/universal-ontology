@@ -17,9 +17,48 @@ export const STRICT_JSON_GLOBS = ["**/*.json", "**/*.jsonld", "**/*.sarif"];
 const DATA_RULES = Object.freeze({
   "json/no-duplicate-keys": "error",
   "json/no-unsafe-values": "error",
+  "uo-json/interoperability": "error",
   // Native key autofixes have no whole-object collision preflight.
   "json/no-unnormalized-keys": "off",
 });
+
+const EMPTY_KEY_POINTERS = {
+  type: "array",
+  minItems: 1,
+  uniqueItems: true,
+  items: { type: "string", pattern: "^(?:/(?:[^~/]|~[01])*)*/$" },
+};
+
+/** Compare the exact decimal integer, without binary64 rounding or exponent expansion. */
+function isUnsafeInteger(raw) {
+  const [, integer, fraction = "", exponent = "0"] = raw.match(
+    /^-?(\d+)(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/u,
+  );
+  let digits = (integer + fraction).replace(/^0+/u, "");
+  if (!digits) return false;
+  const significant = digits.replace(/0+$/u, "");
+  const scale =
+    BigInt(exponent) -
+    BigInt(fraction.length) +
+    BigInt(digits.length - significant.length);
+  digits = significant;
+  if (scale < 0n) return false;
+  const length = BigInt(digits.length) + scale;
+  if (length !== 16n) return length > 16n;
+  return digits.padEnd(16, "0") > "9007199254740991";
+}
+
+/** Resolve only exceptional empty keys; ordinary keys need no ancestor walk. */
+function memberPointer(sourceCode, member) {
+  const parts = [];
+  for (let node = member; node; node = sourceCode.getParent(node)) {
+    if (node.type === "Member")
+      parts.push(node.name.value.replaceAll("~", "~0").replaceAll("/", "~1"));
+    else if (node.type === "Element")
+      parts.push(String(sourceCode.getParent(node).elements.indexOf(node)));
+  }
+  return `/${parts.reverse().join("/")}`;
+}
 
 /** Analyze the native JSON AST once; lint and source/producer fixes share it. */
 function inspectNormalization(document) {
@@ -50,8 +89,86 @@ function inspectNormalization(document) {
   return { changes, collisions };
 }
 
-const normalizationPlugin = {
+const qualityPlugin = {
   rules: {
+    "meaningful-keys": {
+      meta: {
+        type: "problem",
+        languages: ["json/json"],
+        schema: [EMPTY_KEY_POINTERS],
+        messages: {
+          empty:
+            "Empty or whitespace-only JSON key; fix its owning source or producer.",
+          whitespace:
+            "JSON key has leading or trailing whitespace; fix its owning source or producer without automatic trimming.",
+        },
+      },
+      create(context) {
+        const allowed = new Set(context.options[0] ?? []);
+        return {
+          Member(node) {
+            const key = node.name.value;
+            if (!key.trim()) {
+              // Native no-empty-keys owns the default. With an exception, retain
+              // equivalent checking everywhere except its exact decoded pointer.
+              if (
+                allowed.size &&
+                (key !== "" ||
+                  !allowed.has(memberPointer(context.sourceCode, node)))
+              )
+                context.report({ node: node.name, messageId: "empty" });
+            } else if (key.trim() !== key)
+              context.report({ node: node.name, messageId: "whitespace" });
+          },
+        };
+      },
+    },
+    interoperability: {
+      meta: {
+        type: "problem",
+        languages: ["json/json"],
+        schema: [],
+        messages: {
+          noncharacter:
+            "Unicode noncharacter {{codePoint}} is not interoperable JSON; fix its owning source or producer.",
+          integer:
+            "The exact integer '{{value}}' is outside the safe integer range, regardless of decimal or exponent spelling.",
+        },
+      },
+      create(context) {
+        return {
+          String(node) {
+            const noncharacters = new Set();
+            for (const character of node.value) {
+              const point = character.codePointAt(0);
+              if (
+                (point >= 0xfdd0 && point <= 0xfdef) ||
+                point % 0x10000 >= 0xfffe
+              )
+                noncharacters.add(
+                  `U+${point.toString(16).toUpperCase().padStart(4, "0")}`,
+                );
+            }
+            for (const codePoint of noncharacters)
+              context.report({
+                node,
+                messageId: "noncharacter",
+                data: { codePoint },
+              });
+          },
+          Number(node) {
+            const raw = context.sourceCode.getText(node);
+            // The native rule already diagnoses unsafe plain integer literals.
+            if (/[.e]/iu.test(raw) && isUnsafeInteger(raw))
+              context.report({
+                node,
+                messageId: "integer",
+                data: { value: raw },
+              });
+          },
+        };
+      },
+    },
     "normalized-strings": {
       meta: {
         type: "problem",
@@ -84,13 +201,23 @@ const normalizationPlugin = {
   },
 };
 
-export function jsonRules(lintProfile, normalization = "NFC") {
+function meaningfulKeyRules(allowEmptyKeys) {
+  return {
+    "json/no-empty-keys": allowEmptyKeys?.length ? "off" : "error",
+    "uo-json/meaningful-keys": allowEmptyKeys?.length
+      ? ["error", [...allowEmptyKeys].sort()]
+      : "error",
+  };
+}
+
+export function jsonRules(lintProfile, normalization = "NFC", allowEmptyKeys) {
   if (lintProfile !== "control" && lintProfile !== "data")
     throw new Error(`Unknown JSON lint profile: ${lintProfile}`);
   if (!["NFC", "preserve"].includes(normalization))
     throw new Error(`Unknown JSON normalization contract: ${normalization}`);
   return {
     ...DATA_RULES,
+    ...meaningfulKeyRules(allowEmptyKeys),
     "uo-json/normalized-strings": ["error", normalization],
   };
 }
@@ -100,7 +227,7 @@ export function jsonLintConfig(files) {
   return [
     {
       files: files.map((file) => file.path),
-      plugins: { json, "uo-json": normalizationPlugin },
+      plugins: { json, "uo-json": qualityPlugin },
       language: "json/json",
       linterOptions: {
         noInlineConfig: true,
@@ -114,10 +241,16 @@ export function jsonLintConfig(files) {
             files: files
               .filter((file) => file.normalization === "preserve")
               .map((file) => file.path),
-            rules: jsonRules("data", "preserve"),
+            rules: { "uo-json/normalized-strings": ["error", "preserve"] },
           },
         ]
       : []),
+    ...files
+      .filter((file) => file.allowEmptyKeys?.length)
+      .map((file) => ({
+        files: [file.path],
+        rules: meaningfulKeyRules(file.allowEmptyKeys),
+      })),
   ];
 }
 
@@ -165,6 +298,7 @@ const validatePolicy = new Ajv({ strict: true, allErrors: true }).compile({
           lintProfile: { enum: ["control", "data"] },
           allowFormatWrites: { const: false },
           normalization: { const: "preserve" },
+          allowEmptyKeys: EMPTY_KEY_POINTERS,
           formatContract: {
             enum: [
               "producer-json-body",
@@ -243,12 +377,18 @@ export function jsonContract(path, policy, { tracked = false } = {}) {
       "allowFormatWrites",
       "exclude",
       "normalization",
+      "allowEmptyKeys",
     ]) {
       if (rule[key] === undefined) continue;
-      if (explicit.has(key) && explicit.get(key) !== rule[key])
+      const value =
+        key === "allowEmptyKeys" ? [...rule[key]].sort() : rule[key];
+      if (
+        explicit.has(key) &&
+        JSON.stringify(explicit.get(key)) !== JSON.stringify(value)
+      )
         throw new Error(`Conflicting JSON exceptions: ${path}: ${key}`);
-      explicit.set(key, rule[key]);
-      contract[key] = rule[key];
+      explicit.set(key, value);
+      contract[key] = value;
     }
   }
   // Installed-tree boundaries never conceal a repository-owned tracked file.
@@ -264,7 +404,7 @@ export function jsonPolicyLintFiles(policy) {
   return [
     ...STRICT_JSON_GLOBS.map((path) => ({ path, ...policy.defaults })),
     ...policy.exceptions
-      .filter((rule) => rule.normalization)
+      .filter((rule) => rule.normalization || rule.allowEmptyKeys)
       .flatMap((rule) =>
         rule.paths.map((path) => ({ path, ...policy.defaults, ...rule })),
       ),
@@ -276,14 +416,19 @@ export function jsonPolicyLintFiles(policy) {
  */
 export async function normalizeJsonSource(
   text,
-  { normalization = "NFC" } = {},
+  { normalization = "NFC", allowEmptyKeys } = {},
 ) {
   if (normalization !== "NFC")
     throw new Error("Preserved JSON string identity cannot be normalized.");
   const linter = new ESLint({
     overrideConfigFile: true,
     overrideConfig: jsonLintConfig([
-      { path: "source.json", lintProfile: "data", normalization: "preserve" },
+      {
+        path: "source.json",
+        lintProfile: "data",
+        normalization: "preserve",
+        allowEmptyKeys,
+      },
     ]),
   });
   const [result] = await linter.lintText(text, { filePath: "source.json" });

@@ -9,6 +9,16 @@
   "exceptions": [
     {
       "paths": [
+        "**/package-lock.json"
+      ],
+      "allowEmptyKeys": [
+        "/packages/"
+      ],
+      "owner": "npm lockfile producer",
+      "reason": "npm identifies the root package with the empty key in packages; no other empty or whitespace-bearing key is exempt."
+    },
+    {
+      "paths": [
         ".git/**",
         "**/node_modules/**",
         ".venv/**",

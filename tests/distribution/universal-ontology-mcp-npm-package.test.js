@@ -660,9 +660,8 @@ describe("public Universal Ontology MCP npm package", () => {
         overrideConfigFile: true,
         overrideConfig: jsonLintConfig(
           documents.map(({ path, contract }) => ({
+            ...contract,
             path,
-            lintProfile: contract.lintProfile,
-            normalization: contract.normalization,
           })),
         ),
       });
