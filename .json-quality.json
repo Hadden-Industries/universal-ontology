@@ -48,7 +48,6 @@
         "policy/authorities/*.provenance.json",
         "tests/fixtures/ontology-policy/authorities/derived/*.provenance.json",
         "**/third-party/**",
-        "tooling/json/archives/**",
         "dist/**"
       ],
       "allowFormatWrites": false,
@@ -71,8 +70,7 @@
         "dist/release-work/universal-ontology-mcp-application-bundle.json",
         "dist/releases/**/*.spdx.json",
         "dist/release-work/pre-acceptance-releases-*/*.spdx.json",
-        "dist/**/*-oci-metadata.json",
-        "tooling/json/archives/*.provenance.json"
+        "dist/**/*-oci-metadata.json"
       ],
       "formatContract": "producer-json-indent",
       "owner": "UO ontology, query and distribution producers",

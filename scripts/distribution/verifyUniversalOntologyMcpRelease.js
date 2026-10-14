@@ -97,7 +97,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "tests/lint/no-json-stringify-identity.test.js":
     "3c7734b5d7394fcc3dea456060da53ed3eb8f768d6cd8a0df8906b04c20d48f3",
   ".json-quality.json":
-    "9d2ce74ff398b4b5a0bb6d58e76bd72308039ebd908816a8fb8d4706cd7b3863",
+    "86aa810d7fc404845738ac6b8468103c765028b8f6afccbfc264b31bd4b44ab2",
   "eslint.config.js":
     "56bbd4968451f10bb1f45ef3b35b01935df9a8185069f2836c80108596cff002",
   ".prettierrc.json":
