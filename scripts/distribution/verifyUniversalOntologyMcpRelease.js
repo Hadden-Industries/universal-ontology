@@ -178,9 +178,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "tooling/json/public-api.mjs":
     "4c25848d1e3e320ee98636f0d2e584f3bfe3cae4753c6aad9a842ccf509d744a",
   "tooling/json/package.json":
-    "95cadef4520d289f09738ea3267bc8fa0984f1c82248a1c308a71287b48cfacc",
+    "8fc42413f3fae1cfbeac7b3157f876a8cdd3e21ac601f7e6819b5c6ad461b4fe",
   "tooling/json/package-lock.json":
-    "905403a96907eac53d3536af8b02d0b669036bc823df7b694bf67a53d8c6034e",
+    "9670375fb509da1a1412eb32113d50442cf7919bd7cb77f798ad3c37eaf800b4",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.
