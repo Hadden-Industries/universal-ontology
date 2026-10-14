@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "name": "@hadden-industries/json-quality",
   "version": "0.1.0-dev.0",
-  "sourceCommit": "4d6a083f47c6dfed0df43b2e1b1f2a16f167c8cb",
-  "sourceTree": "9210946a0af1b9c979cce5580cb0b2b3aaba12e5",
+  "sourceCommit": "fcc3984e5eb3eef6834fc63515a8b5eeff975f80",
+  "sourceTree": "16357df00d3f605194e8fa38ba51de4339a31d54",
   "sourceClean": true,
-  "archive": "hadden-industries-json-quality-0.1.0-dev.0-4d6a083f47c6dfed0df43b2e1b1f2a16f167c8cb.tgz",
-  "sha256": "fd65c78903c0e659c0c6e5e6df7b54ee8f60776c307df0440c6d511a8a603cdf",
-  "integrity": "sha512-v3wr4m63l9QyFzTtYIPzWVRCJGuTOrU2K+/fyyrvMGVDcB88kuDrCNtnGLaAw/85g7EEsotOapoLtvTpxLvNSg==",
+  "archive": "hadden-industries-json-quality-0.1.0-dev.0-fcc3984e5eb3eef6834fc63515a8b5eeff975f80.tgz",
+  "sha256": "bf392346454225005d7fff7decc3668d9602bf26a0da7c4438a4be818d513b87",
+  "integrity": "sha512-LpyPniW+FhjbmrTVgTDY3/PPTLJfwO635XH1iaTfhfz2ouXHh5bp2f1TSV9s77mS6F4gLsYdHgzVZe1jKVTU0A==",
   "lockSha256": "a96e6a5e71bb62e190291f8870f4581b451c3a34ccdb8fab63b66f95ea3ae789",
   "dependencies": {
     "@eslint/json": "2.1.1",
@@ -33,7 +33,7 @@
     },
     {
       "path": "docs/consumer-guide.md",
-      "size": 8217,
+      "size": 8384,
       "mode": 420
     },
     {
@@ -113,7 +113,7 @@
     },
     {
       "path": "src/quality.js",
-      "size": 22202,
+      "size": 22444,
       "mode": 420
     },
     {

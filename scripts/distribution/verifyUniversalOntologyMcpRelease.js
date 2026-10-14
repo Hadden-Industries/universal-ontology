@@ -178,13 +178,13 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "tooling/json/public-api.mjs":
     "33df22038ac112018e7445743fe06acd08b2e910111811ceeb090c68282fdbf7",
   "tooling/json/package.json":
-    "1a275fb7473a49a44e79f3f6e613f7ad69c085fd49584e51eb98468ed4f2a968",
+    "cec7e0355d8bf98c07bbf4958f005437156b170bc7b72f4b0ba1a5b1074e5a08",
   "tooling/json/package-lock.json":
-    "0436933ea176427653f05902921fffb95a2c658dea1e196050fe2959dd81501b",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-4d6a083f47c6dfed0df43b2e1b1f2a16f167c8cb.tgz":
-    "fd65c78903c0e659c0c6e5e6df7b54ee8f60776c307df0440c6d511a8a603cdf",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-4d6a083f47c6dfed0df43b2e1b1f2a16f167c8cb.tgz.provenance.json":
-    "fe43e0e1db6ba2499cc4471646825e2a723b2ed9dd1d2c390f07abcaac363001",
+    "a1fa4d7110226d49048a152b86cb82ff616eacbd90318d27c4af2450751430ab",
+  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-fcc3984e5eb3eef6834fc63515a8b5eeff975f80.tgz":
+    "bf392346454225005d7fff7decc3668d9602bf26a0da7c4438a4be818d513b87",
+  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-fcc3984e5eb3eef6834fc63515a8b5eeff975f80.tgz.provenance.json":
+    "4e1fcd530243d0e79a6409e08ae8227e201a451ea36bd9c6b1bfaf5d8d16d48e",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.

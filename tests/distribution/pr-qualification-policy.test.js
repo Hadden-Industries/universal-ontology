@@ -65,8 +65,8 @@ const files = [
   "tooling/json/public-api.mjs",
   "tooling/json/package.json",
   "tooling/json/package-lock.json",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-4d6a083f47c6dfed0df43b2e1b1f2a16f167c8cb.tgz",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-4d6a083f47c6dfed0df43b2e1b1f2a16f167c8cb.tgz.provenance.json",
+  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-fcc3984e5eb3eef6834fc63515a8b5eeff975f80.tgz",
+  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-fcc3984e5eb3eef6834fc63515a8b5eeff975f80.tgz.provenance.json",
 ];
 
 test.each(files.slice(0, 5))(
