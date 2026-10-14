@@ -88,6 +88,42 @@ test("the isolated archive, provenance and consumer lock identify the same produ
     lock.packages["node_modules/@hadden-industries/json-quality"].integrity,
   ).toBe(provenance.integrity);
 });
+test("repository commands inherit the shared machine result and capacity flags", () => {
+  const { directory } = fixture();
+  try {
+    expect(runCommand(directory, "format:json").status).toBe(0);
+    const result = runCommand(directory, "check:json", [
+      "--json",
+      "--max-files",
+      "100",
+    ]);
+    expect(result.status).toBe(0);
+    expect(
+      JSON.parse(
+        result.stdout.slice(result.stdout.indexOf('{"schemaVersion"')),
+      ),
+    ).toMatchObject({
+      status: "passed",
+      complete: true,
+      counts: { physical: 7 },
+    });
+    const insufficient = runCommand(directory, "check:json", [
+      "--json",
+      "--max-files",
+      "1",
+    ]);
+    expect(insufficient.status).toBe(2);
+    expect(
+      JSON.parse(
+        insufficient.stdout.slice(
+          insufficient.stdout.indexOf('{"schemaVersion"'),
+        ),
+      ),
+    ).toMatchObject({ status: "error", complete: false, counts: null });
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
 test.each([
   dataPath,
   "new.json",

@@ -114,7 +114,8 @@ The [public-export bridge](../tooling/json/public-api.mjs) refuses fallback to a
 The archive basename contains its source commit; retained provenance and the consumer lock bind SHA-256 and npm integrity.
 The engine supports Node 24.21.0 or newer within Node 24 and Node 26.11.1 or newer within Node 26; the repository reference runtime remains unchanged.
 
-Resource limits are overridable through policy `limits`, the library invocation's `limits`, and the installed CLI's individual `--max-*` flags.
+Resource limits are overridable through policy `limits`, the library invocation's `limits`, and the repository command adapter's shared CLI flags.
+For example, `npm run check:json -- --max-files 100000 --max-file-bytes 67108864 --json` raises capacity and returns the package's validated machine result.
 Explicit `limits: false` or CLI `--no-limits` bypasses package capacity limits while preserving quality rules and writer safeguards.
 UO declares 512 MiB total-byte capacity for its measured source/generated corpus; other package defaults remain active.
 Exit 1 means known quality findings; exit 2 means invalid arguments, refused normalization input or operational failure.
@@ -139,7 +140,7 @@ Ignored untracked files are always read-only to the generic formatter.
 Installed dependencies (`**/node_modules/**`), `.venv`, installed agent skills/tools, Git administration and local workflow/tool state are explicit external boundaries.
 Boundary rules never conceal tracked JSON; discovery prunes external trees and independently includes every indexed JSON path.
 `npm run check:json:inventory` reports scope without performing document analysis.
-The installed package CLI also reports resolved contracts and external-boundary reasons; inventory is never quality acceptance.
+The repository commands and installed package CLI share resolved-contract and external-boundary reporting; inventory is never quality acceptance.
 Missing tracked files, unmerged/case-colliding paths, unsafe links and conflicting exceptions fail closed.
 JSON Lines and NDJSON receive strict per-record validation and framing checks and remain producer-owned.
 JSONC and JSON5 are detected and refused.

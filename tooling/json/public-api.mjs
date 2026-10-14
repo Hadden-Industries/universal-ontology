@@ -20,6 +20,7 @@ function resolveExport(specifier) {
 const api = await import(resolveExport("@hadden-industries/json-quality"));
 export const {
   runJsonQuality,
+  runJsonQualityCli,
   inspectJsonInventory,
   checkJsonInventory,
   checkJsonDocument,

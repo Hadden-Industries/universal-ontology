@@ -105,7 +105,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".prettierignore":
     "f00a878b2c36a1d2e22d2fc1d010f924214ee5a2ad8375e96c7d145b1e04d154",
   "tests/json-quality.test.js":
-    "a00ee74b348891c4a7c2fc9359af2ec62b7860030bf16875a025f9a2ded0b23f",
+    "e76e589ebdb13fd5512751552fbeadebf5825557572cdc71d23dfe5482458f8c",
   "package-lock.json":
     "052810cd77edce48c7ef8e33d749e8bc00171bb97799b24fb0c293078f202cd6",
   ".github/workflows/pr-validation.yml":
@@ -174,17 +174,17 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "tooling/markdown/archives/hadden-industries-markdown-quality-linux-x64-1.0.3.tgz":
     "d2bd591497f6a0ed9e5ff6165ea3fd5d08645df5ad186ceb8f06a1f30759488f",
   "scripts/runRepositoryJsonQuality.js":
-    "adbaddb0a4b798e64f94ac3caadc84fd13e53840104b5fd728e976391ce7d8f3",
+    "c22497197cf3686aceece90c25376901e1179fd544896e15abc16e2603267fa4",
   "tooling/json/public-api.mjs":
-    "733dfdb53b51f9ce58bf038674b9d60e7a52fd6a57a0428c45c88e47c78e2f65",
+    "33df22038ac112018e7445743fe06acd08b2e910111811ceeb090c68282fdbf7",
   "tooling/json/package.json":
-    "9ec75e33cc86f3a68a831342104606868df2c61072abae0b8697ac524e62a574",
+    "b7298b035ad88f078fce46b2140e129cd56d274ffe5c43fa21d2b09ff5c1ac8c",
   "tooling/json/package-lock.json":
-    "077bf87642401dff3a3c72b1293968811714e53cc28c4f074598b5d9a80f4e5f",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-5c44155457c7a9cd61b1fba2a92fe8f3143bbcaf.tgz":
-    "d15fa0b8393e910b63b8f5574ef6c8d9ce591061a1e9e85417db82586f60a637",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-5c44155457c7a9cd61b1fba2a92fe8f3143bbcaf.tgz.provenance.json":
-    "9d4387f401a2ee66e9bbd30ff6fb788b9856a16a7e57fbd7279c817dd34322d1",
+    "30a0885bbc88af5c242f67a316ebdce6fe4c98859870de7508d39c41d279a205",
+  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-91dd8b351b5b8110e2285316185be6746a9a9fb9.tgz":
+    "6c9b73c60b49d757d16746800e9c6078cb87ad95908c1100b21aa7dcd1a56bb0",
+  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-91dd8b351b5b8110e2285316185be6746a9a9fb9.tgz.provenance.json":
+    "796cdc0f5918949dca50b1785eb21f1ede0cdcb517e3304a3fedb24d0805da5b",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.
