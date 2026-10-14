@@ -105,7 +105,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".prettierignore":
     "f00a878b2c36a1d2e22d2fc1d010f924214ee5a2ad8375e96c7d145b1e04d154",
   "tests/json-quality.test.js":
-    "e76e589ebdb13fd5512751552fbeadebf5825557572cdc71d23dfe5482458f8c",
+    "ed7a096e499689d73c6f34578fc59eceb5c74ef36f4c9c2f391f58b4ff742ff5",
   "package-lock.json":
     "052810cd77edce48c7ef8e33d749e8bc00171bb97799b24fb0c293078f202cd6",
   ".github/workflows/pr-validation.yml":
@@ -155,7 +155,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/markdown-quality.yml":
     "ed666c58975efb254e8137f2aadf9cabd7bafe7c710f83a847fbcd2e68cf1c39",
   "scripts/installRepositoryQualityTools.mjs":
-    "dc646ae0909e704069c30c63e96d0751b4b71679cd1c2bac06ee45270d8535f0",
+    "d740600f15a709d0f93662b0a901a31f50d40ba7a675a8066d3d710c47bc90fc",
   "scripts/render_editing_policy.py":
     "847fab54942db93e19b74b4aacae9d734f8c6cb60762f1108fb58bd3277ce844",
   "scripts/setUpDevelopmentEnvironment.js":
@@ -176,15 +176,11 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "scripts/runRepositoryJsonQuality.js":
     "c22497197cf3686aceece90c25376901e1179fd544896e15abc16e2603267fa4",
   "tooling/json/public-api.mjs":
-    "33df22038ac112018e7445743fe06acd08b2e910111811ceeb090c68282fdbf7",
+    "4c25848d1e3e320ee98636f0d2e584f3bfe3cae4753c6aad9a842ccf509d744a",
   "tooling/json/package.json":
-    "cec7e0355d8bf98c07bbf4958f005437156b170bc7b72f4b0ba1a5b1074e5a08",
+    "95cadef4520d289f09738ea3267bc8fa0984f1c82248a1c308a71287b48cfacc",
   "tooling/json/package-lock.json":
-    "a1fa4d7110226d49048a152b86cb82ff616eacbd90318d27c4af2450751430ab",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-fcc3984e5eb3eef6834fc63515a8b5eeff975f80.tgz":
-    "bf392346454225005d7fff7decc3668d9602bf26a0da7c4438a4be818d513b87",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-fcc3984e5eb3eef6834fc63515a8b5eeff975f80.tgz.provenance.json":
-    "4e1fcd530243d0e79a6409e08ae8227e201a451ea36bd9c6b1bfaf5d8d16d48e",
+    "905403a96907eac53d3536af8b02d0b669036bc823df7b694bf67a53d8c6034e",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.
@@ -194,7 +190,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
 export async function verifyPullRequestPolicyGraph({
   root = REPOSITORY_ROOT_PATH,
 } = {}) {
-  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 46)
+  if (Object.keys(REVIEWED_PR_POLICY_FILES).length !== 44)
     throw new Error("PR policy allowlist is incomplete.");
   for (const [path, expected] of Object.entries(REVIEWED_PR_POLICY_FILES)) {
     const bytes = await readBoundedRegularFile(join(root, path));

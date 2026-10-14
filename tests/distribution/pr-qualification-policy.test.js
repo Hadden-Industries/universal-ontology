@@ -65,8 +65,6 @@ const files = [
   "tooling/json/public-api.mjs",
   "tooling/json/package.json",
   "tooling/json/package-lock.json",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-fcc3984e5eb3eef6834fc63515a8b5eeff975f80.tgz",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-fcc3984e5eb3eef6834fc63515a8b5eeff975f80.tgz.provenance.json",
 ];
 
 test.each(files.slice(0, 5))(
@@ -183,7 +181,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
 });
 test("reviewed graph accepts every entry point and control input", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedFileCount: 46,
+    verifiedFileCount: 44,
   });
 });
 

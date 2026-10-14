@@ -108,10 +108,14 @@ Report failures, skips and checks you could not run as they are.
 
 ### JSON quality and safe fixing
 
-`npm run install:json` installs the isolated JSON tool project from its retained immutable archive and frozen lock, with lifecycle scripts disabled.
-It shares the acquisition procedure with Markdown tooling.
+`npm run install:json` installs the isolated JSON tool project from one exact npm version or full producer Git commit and its native frozen lock, with lifecycle scripts disabled.
+The only editable source selector is `devDependencies["@hadden-industries/json-quality"]` in `tooling/json/package.json`: use an exact version or `git+https://github.com/Hadden-Industries/json-quality.git#FULL_40_CHARACTER_COMMIT`.
+Native npm generates the lockfile; do not maintain a second commit/version/integrity selector.
+The shared package owns the generated acquisition bootstrap and installed-payload checks.
+Materialize the bootstrap through `jsonQualityAcquisitionBootstrap()` rather than editing consumer copies.
 The [public-export bridge](../tooling/json/public-api.mjs) refuses fallback to a root or sibling installation; checks install nothing.
-The archive basename contains its source commit; retained provenance and the consumer lock bind SHA-256 and npm integrity.
+Installation and consumer tests verify every installed engine file against npm's independently cached locked payload and reject bootstrap drift.
+Retain that native cache for later verification; acquisition and verification reuse the same cache resolver.
 The engine supports Node 24.21.0 or newer within Node 24 and Node 26.11.1 or newer within Node 26; the repository reference runtime remains unchanged.
 
 Resource limits are overridable through policy `limits`, the library invocation's `limits`, and the repository command adapter's shared CLI flags.
@@ -135,7 +139,7 @@ Defaults require strict syntax, native interoperability lint, NFC for every deco
 There is one shared lint contract; the obsolete `lintProfile` field is rejected in defaults and exceptions.
 Exceptions specify their owner and reason for external boundaries, write protection or producer-defined presentation.
 The shared engine also supports exact value-level NFC preservation: `preserveNfcValues` requires one protected file, decoded-string SHA-256 and UTF-8 length pins at exact JSON Pointers, and an owner/reason. JSONL additionally requires a uniquely matching record identity. Missing, changed or duplicated identities fail; every key and all other strings remain checked. UO does not currently need this exception.
-Producer/retained families and immutable JSON-tool archive provenance remain protected; new files within their protected families inherit that protection.
+Producer and retained families remain protected; new files within their protected families inherit that protection.
 Git ignore rules never suppress checking.
 Ignored untracked files are always read-only to the generic formatter.
 Installed dependencies (`**/node_modules/**`), `.venv`, installed agent skills/tools, Git administration and local workflow/tool state are explicit external boundaries.
@@ -254,7 +258,7 @@ One declaration covers one serializer, never a whole file or several serializers
 Malformed, ambiguous, misplaced and unused declarations fail lint.
 Existing producer-presentation checks, permutation byte oracles and versioned RDF identities retain explicit local contracts; no digest or cursor-format migration is introduced.
 Unused ESLint disable directives also fail at error severity.
-The release verifier binds the immutable engine archive/provenance, isolated manifest/lock, public-export bridge, UO adapter and consumer regression tests in the reviewed policy graph.
+The release verifier binds the sole engine selector, native isolated lock, generated acquisition bootstrap, public-export bridge, UO adapter and consumer regression tests in the reviewed policy graph.
 
 ### Python and Markdown style
 
@@ -405,7 +409,7 @@ No trusted cache warmer is introduced before measurement.
 
 When editing the execution policy, update its schema and regenerate the standalone validator with `node scripts/generatePullRequestCheckPlanValidator.js --write`.
 Use `--check` to verify freshness without writing.
-The distribution verifier also checks an explicit 46-file policy manifest covering entry points, reusable consumers, selection/evaluation inputs, native test runners, immutable JSON engine archive/provenance, isolated tool manifest/lock, public-export bridge, UO adapter, JSON policy and manual candidate validator.
+The distribution verifier also checks an explicit 44-file policy manifest covering entry points, reusable consumers, selection/evaluation inputs, native test runners, native JSON engine selector/lock, generated acquisition bootstrap, public-export bridge, UO adapter, JSON policy and manual candidate validator.
 A semantic workflow or control-input change requires coordinated review, updated assertions, negative tests, and a deliberate digest update.
 
 `scripts/selectPullRequestChecks.js` decides which jobs apply from the changed paths.

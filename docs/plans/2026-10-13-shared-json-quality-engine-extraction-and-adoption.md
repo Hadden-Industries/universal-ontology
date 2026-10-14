@@ -17,6 +17,39 @@ All `REQ`, `AC`, `QA`, `DEC`, `CFG`, and `SLICE` entries below are proposed acce
 
 ## Authority and proposed HISEW route
 
+### Accepted acquisition amendment, 14 October 2026
+
+The owner explicitly approved switching acquisition to the existing OwlAPI pattern and required DRY across the complete change.
+This amendment supersedes consumer archive requirements in DEC-003, DEC-004, CFG-UO-001, CFG-WV-001, the migration slices and their acquisition acceptance rows.
+Clean producer packing and transported CLI/library/plugin qualification remain required external evidence; registry publication, releases, merges and deployment remain separate decisions.
+
+Each consumer retains `tooling/json/package.json` and its native npm lock.
+The sole editable engine selector is `devDependencies["@hadden-industries/json-quality"]`, accepting an exact npm version, its equivalent same-package npm alias, or the full 40-character producer commit in `git+https://github.com/Hadden-Industries/json-quality.git#COMMIT`.
+Adopt an immutable Git commit while the package is unreleased.
+Reject floating versions, tags, branches, partial commits and sibling-directory links.
+Generate the lock through native npm rather than maintaining a second source coordinate or editing resolution/integrity manually.
+Both consumers must select the same qualified source; their locks retain their exact installed graphs.
+Consumer repositories no longer retain JSON-engine tarballs or separate provenance pins.
+
+The shared package owns source-coordinate admission, isolated-export assertions, cache resolution, installed-payload verification and the cold-install bootstrap.
+Reuse native npm's bundled package-argument parser, cache reader and tar parser, plus the existing shared path and resource-limit modules; add no dependency or alternate resolver.
+Verification reads the cached payload named by native lock integrity and compares every installed package file independently.
+It rejects unexpected, linked, duplicate or noncontained archive members and performs no acquisition, extraction or writes.
+Limits use the existing override contract and never waive byte identity.
+
+The bootstrap is producer-owned generated source returned by `jsonQualityAcquisitionBootstrap()`.
+Consumers materialize it verbatim in their existing acquisition entry point because a cold installer cannot import a package that is not installed yet.
+After frozen script-free installation, shared verification compares the generated bootstrap with its independently qualified installed source, permitting only checkout newline differences.
+This has one maintained implementation and explicit drift detection, rather than two separately maintained installers.
+Resolve native npm cache policy once and pass that same cache into anonymous acquisition and later verification.
+Root Git admission applies only to JSON acquisition; Markdown retains its current archive graph and disposable acquisition cache.
+Thin consumer bridges re-export public package contracts and call the shared isolation assertion; domain policies, generated outputs and corpus inventories remain consumer-owned.
+
+UO's reviewed policy graph removes the two obsolete JSON archive/provenance members, retains the manifest/lock/bootstrap/bridge/adapter/tests and has 44 inputs.
+Update affected mutation oracles and the development documentation before refreshing only changed native canonical digests.
+Existing CI continues through the maintained installation and test entry points.
+Qualify actual clean Git installation and installed-file/bootstrap checks in both consumers before the final frozen verification and delivery route.
+
 The repository owner, Maksym Shostak / Hadden Industries, is the decision, exception, adoption, and acceptance owner unless a particular responsibility is explicitly assigned elsewhere.
 The future coordinating implementation agent owns integration only after assignment.
 Producer owners named in repository policy own the correctness and regeneration of their outputs; the shared package does not take that authority.
@@ -818,7 +851,7 @@ Its proposed architecture is reviewable, but affected new-capability work must w
 | GATE-002: complete logical corpus and exception semantics | Read every inventory-declared logical JSON member through the existing reader; classify strict/expected-invalid/preserved representations; collect raw native findings with canonical identities and phase applicability. Compare against independent corpus intent/tests before proposing exact exceptions.                      | WebVOWL corpus owner and integration owner. Blocks final new exception schema and WebVOWL gate activation; does not require re-auditing unrelated repositories.                   |
 | GATE-003: supported reuse for new representations         | Small read-only experiments using Node framing plus native JSON analysis, existing storage APIs, and actual serializers; inspect supported APIs/terms and meaningful alternatives where a residual gap remains. Record why any custom framing/expectation/payload composition is necessary.                                       | Package design owner. Blocks custom JSONL/negative/opaque/presentation capability implementation until source-backed selection is complete.                                       |
 | GATE-004: exact immutable/presentation contracts          | Representative original bytes and supported producer results for compact-without-LF, schema output, retained Jackson/evidence, canonical examples, JSONL envelopes, and Vite products. Identify true byte-preservation cases and missing native qualification.                                                                    | Respective producer owners. Blocks those policy entries, generic rewrites, and consumer acceptance.                                                                               |
-| GATE-005: rights and source attribution                   | Owner selected AGPL-3.0-only and clarified first-party UO extraction, requiring source provenance without a UO third-party licence copy; inspect selected exact upstream dependency/transitive licence texts and terms, actual notices and distribution obligations. | Accountable repository/licence owner. Blocks affected adoption/distribution where material upstream clearance remains missing. |
+| GATE-005: rights and source attribution                   | Owner selected AGPL-3.0-only and clarified first-party UO extraction, requiring source provenance without a UO third-party licence copy; inspect selected exact upstream dependency/transitive licence texts and terms, actual notices and distribution obligations.                                                              | Accountable repository/licence owner. Blocks affected adoption/distribution where material upstream clearance remains missing.                                                    |
 | GATE-006: package identity and isolated consumer fit      | Check name availability; choose initial development version; pack a clean supported source; inspect membership/provenance; install outside siblings; resolve CLI/library/plugin through public exports and measure duplicate-root-tool impact.                                                                                    | Package/integration owner. Blocks frozen consumer archive selection and claims of installability.                                                                                 |
 | GATE-007: operational limits and profile sufficiency      | Bounded size/entry/record inventory and one representative full read-only assessment on Windows/Linux; record actual time/memory/output and overflow behavior. Propose exact finite limits/timeouts based on that result and owner capacity expectations.                                                                         | Package/consumer owners. Blocks claims of bounded platform support or acceptance of unmeasured timeout/profile changes.                                                           |
 | GATE-008: final configuration and exception approval      | Concrete diffs for the selected CFG rows, exact archive identities, complete exception entries, and exact CI/profile settings.                                                                                                                                                                                                    | Repository owner. Unresolved rows cannot be implemented by treating the table as blanket consent.                                                                                 |

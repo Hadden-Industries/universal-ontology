@@ -9,12 +9,13 @@ import {
   symlinkSync,
   lstatSync,
   readdirSync,
+  cpSync,
+  copyFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tokenize } from "@humanwhocodes/momoa";
-import { createHash } from "node:crypto";
 import { checkJsonInventory } from "../tooling/json/public-api.mjs";
 import { runRepositoryJsonQuality } from "../scripts/runRepositoryJsonQuality.js";
 import {
@@ -22,6 +23,7 @@ import {
   jsonFormatOptions,
   jsonContract,
   readJsonPolicy,
+  verifyJsonQualityInstallation,
 } from "../tooling/json/public-api.mjs";
 const root = fileURLToPath(new URL("../", import.meta.url));
 // Native config loading and disposable Git I/O need an explicit cold-run budget.
@@ -63,30 +65,12 @@ test("the native JSON presentation contract remains explicit and strict", async 
     trailingComma: "none",
   });
 });
-test("the isolated archive, provenance and consumer lock identify the same producer", () => {
-  const manifest = JSON.parse(
-    readFileSync(join(root, "tooling/json/package.json"), "utf8"),
-  );
-  const dependency =
-    manifest.devDependencies["@hadden-industries/json-quality"];
-  expect(dependency).toMatch(
-    /^file:archives\/hadden-industries-json-quality-.*-[a-f0-9]{40}\.tgz$/u,
-  );
-  const archive = join(root, "tooling/json", dependency.slice(5));
-  const provenance = JSON.parse(
-    readFileSync(`${archive}.provenance.json`, "utf8"),
-  );
-  expect(createHash("sha256").update(readFileSync(archive)).digest("hex")).toBe(
-    provenance.sha256,
-  );
-  expect(dependency).toContain(provenance.sourceCommit);
-  expect(provenance.sourceClean).toBe(true);
-  const lock = JSON.parse(
-    readFileSync(join(root, "tooling/json/package-lock.json"), "utf8"),
-  );
-  expect(
-    lock.packages["node_modules/@hadden-industries/json-quality"].integrity,
-  ).toBe(provenance.integrity);
+test("the native selector, lock, generated bootstrap and installed package agree", async () => {
+  const result = await verifyJsonQualityInstallation({
+    toolingRoot: join(root, "tooling/json"),
+    bootstrapPath: join(root, "scripts/installRepositoryQualityTools.mjs"),
+  });
+  expect(result.files).toBeGreaterThan(0);
 });
 test("repository commands inherit the shared machine result and capacity flags", () => {
   const { directory } = fixture();
@@ -266,11 +250,22 @@ function fixture() {
     "tooling/json/package.json",
     readFileSync(join(root, "tooling/json/package.json")),
   );
-  symlinkSync(
-    join(root, "tooling/json/node_modules"),
-    join(directory, "tooling/json/node_modules"),
-    "junction",
-  );
+  const installedTools = join(root, "tooling/json/node_modules");
+  const fixtureTools = join(directory, "tooling/json/node_modules");
+  mkdirSync(fixtureTools);
+  for (const entry of readdirSync(installedTools, { withFileTypes: true })) {
+    const source = join(installedTools, entry.name);
+    const target = join(fixtureTools, entry.name);
+    if (entry.name === "@hadden-industries") {
+      // The isolation guard needs an actual fixture-owned engine installation.
+      // Third-party dependencies remain borrowed native tools for these tests.
+      cpSync(source, target, { recursive: true, dereference: true });
+    } else if (entry.isDirectory()) {
+      symlinkSync(source, target, "junction");
+    } else {
+      copyFileSync(source, target);
+    }
+  }
   const manifest = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
   put(
     "package.json",
