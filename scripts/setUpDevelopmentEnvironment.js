@@ -236,6 +236,13 @@ export function setUpDevelopmentEnvironment({
     "install:markdown",
   ]);
 
+  console.log("Installing isolated JSON tooling from its separate lock...");
+  runRequiredCommand("JSON tool installation", process.execPath, [
+    npmCliPath,
+    "run",
+    "install:json",
+  ]);
+
   if (!pythonVirtualEnvironmentStats) {
     console.log(
       `Creating Python virtual environment: ${pythonVirtualEnvironmentPath}`,

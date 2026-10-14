@@ -1,9 +1,12 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 1,
   "defaults": {
     "formatContract": "prettier-json",
     "allowFormatWrites": true,
     "normalization": "NFC"
+  },
+  "limits": {
+    "maxTotalBytes": 536870912
   },
   "exceptions": [
     {

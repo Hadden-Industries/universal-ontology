@@ -108,27 +108,50 @@ Report failures, skips and checks you could not run as they are.
 
 ### JSON quality and safe fixing
 
+`npm run install:json` installs the isolated JSON tool project from one exact npm version or full producer Git commit and its native frozen lock, with lifecycle scripts disabled.
+The only editable source selector is `devDependencies["@hadden-industries/json-quality"]` in `tooling/json/package.json`: use an exact version or `git+https://github.com/Hadden-Industries/json-quality.git#FULL_40_CHARACTER_COMMIT`.
+Native npm generates the lockfile; do not maintain a second commit/version/integrity selector.
+The shared package owns the generated acquisition bootstrap and installed-payload checks.
+Materialize the bootstrap through `jsonQualityAcquisitionBootstrap()` rather than editing consumer copies.
+The [public-export bridge](../tooling/json/public-api.mjs) refuses fallback to a root or sibling installation; checks install nothing.
+Installation and consumer tests verify every installed engine file against npm's independently cached locked payload and reject bootstrap drift.
+Retain that native cache for later verification; acquisition and verification reuse the same cache resolver.
+The engine supports Node 24.21.0 or newer within Node 24 and Node 26.11.1 or newer within Node 26; the repository reference runtime remains unchanged.
+
+Resource limits are overridable through policy `limits`, the library invocation's `limits`, and the repository command adapter's shared CLI flags.
+For example, `npm run check:json -- --max-files 100000 --max-file-bytes 67108864 --json` raises capacity and returns the package's validated machine result.
+Explicit `limits: false` or CLI `--no-limits` bypasses package capacity limits while preserving quality rules and writer safeguards.
+UO declares 512 MiB total-byte capacity for its measured source/generated corpus; other package defaults remain active.
+Exit 1 means known quality findings; exit 2 means invalid arguments, refused normalization input or operational failure.
+
 `npm run check:json` automatically discovers and checks source and generated JSON read-only, including untracked and Git-ignored files.
 `npm run lint:json` checks inventory, strict JSON syntax, decoded duplicate keys and native interoperability rules with zero warnings.
 `npm run format:json:check` checks inventory and presentation.
-`npm run format:json` performs the full lint and producer-format preflight, Prettier's debug check, the permitted writes and a final read-only check.
+`npm run format:json` performs complete semantic and producer-presentation preflight, native Prettier preservation checking, and guarded writes of admitted source bytes.
 `lint`, `format:check` and `check:qualification` include JSON quality; `format`, `fix:all` and `fix:code-style` reach the JSON writer exactly once.
 `format:node` and `format:node:check` select non-JSON sources only.
 They pass their mode to the same `format:node:files` selection, so its glob list is maintained once.
 
-[The JSON policy](../.json-quality.json) schema v4 records defaults and sparse exceptions rather than an admission allowlist.
+[The JSON policy](../.json-quality.json) schema 1 records defaults and sparse exceptions rather than an admission allowlist.
+UO's former local schema 4 is migrated explicitly; the package rejects it rather than translating silently.
 Ordinary `.json`, `.jsonld` and `.sarif` files need no policy entry or staging: create, check, fix and stage the final bytes.
 Defaults require strict syntax, native interoperability lint, NFC for every decoded key and string value, and standard presentation.
 There is one shared lint contract; the obsolete `lintProfile` field is rejected in defaults and exceptions.
 Exceptions specify their owner and reason for external boundaries, write protection or producer-defined presentation.
-The existing 66 tracked producer/retained files remain protected; new files within their protected families inherit that protection.
+The shared engine also supports exact value-level NFC preservation: `preserveNfcValues` requires one protected file, decoded-string SHA-256 and UTF-8 length pins at exact JSON Pointers, and an owner/reason.
+JSONL additionally requires a uniquely matching record identity.
+Missing, changed or duplicated identities fail; every key and all other strings remain checked.
+UO does not currently need this exception.
+Producer and retained families remain protected; new files within their protected families inherit that protection.
 Git ignore rules never suppress checking.
 Ignored untracked files are always read-only to the generic formatter.
 Installed dependencies (`**/node_modules/**`), `.venv`, installed agent skills/tools, Git administration and local workflow/tool state are explicit external boundaries.
 Boundary rules never conceal tracked JSON; discovery prunes external trees and independently includes every indexed JSON path.
-`npm run check:json:inventory` prints encountered external boundaries and their reasons.
+`npm run check:json:inventory` reports scope without performing document analysis.
+The repository commands and installed package CLI share resolved-contract and external-boundary reporting; inventory is never quality acceptance.
 Missing tracked files, unmerged/case-colliding paths, unsafe links and conflicting exceptions fail closed.
-JSONC, JSON5, JSON Lines and NDJSON are detected but require separate dialect qualification; they cannot silently escape checking.
+JSON Lines and NDJSON receive strict per-record validation and framing checks and remain producer-owned.
+JSONC and JSON5 are detected and refused.
 Suffix discovery does not detect extensionless or embedded JSON, which needs an owning producer/consumer contract.
 The mandatory Linux/Windows JSON jobs run `build:verify` before `check:json -- --require-generated`; absent generated JSON-LD or the query catalog fails the final gate.
 The read-only command checks existing files; it does not build or fix anything itself.
@@ -141,7 +164,8 @@ Repair a failing artifact through its owning source or producer; checks never re
 The token-based preservation oracle directly declares Apache-2.0 `@humanwhocodes/momoa` as a development dependency.
 Its selected version remains 3.3.13; the declaration does not change public runtime dependencies or replace the independent oracle with production quality logic.
 
-The locked native tools are Prettier 3.9.10 and ESLint 10.12.0 with official `@eslint/json` 2.1.1.
+The isolated locked engine owns Prettier 3.9.10, ESLint 10.12.0, official `@eslint/json` 2.1.1 and Ajv 8.20.0.
+Consumer ESLint and Prettier configuration cannot weaken its JSON checks.
 Strict JSON rejects comments, trailing commas, unquoted keys and non-JSON numeric forms.
 Duplicate keys are compared after escape decoding.
 Unsafe-value checks reject integer literals outside the safe range, overflow, nonzero underflow, subnormal numbers and lone surrogates.
@@ -177,7 +201,7 @@ Keep source writers quiescent; multi-file writes are not a transaction.
 After interruption, inspect completed writes and retained failure output before resuming.
 Fix protected/generated data in its owning source and regenerate it instead of applying this command to the output.
 
-An owning JSON producer can import the pure `normalizeJsonSource(text, contract)` operation from [shared contracts](../scripts/jsonQuality.js) at its source-input boundary.
+An owning JSON producer can import the pure `normalizeJsonSource(text, contract)` operation through the [public-export bridge](../tooling/json/public-api.mjs) at its source-input boundary.
 It uses the same native parser, interoperability preflight and collision analysis, returns normalized text without writing, and refuses a preservation contract.
 The producer must still validate its schema, graph, references and digests before publishing derived products; normalization can change exact string identity even when text looks identical.
 For JSON-LD, fix the owning RDF source and retain existing graph verification rather than silently normalizing serialized literals.
@@ -192,13 +216,12 @@ Schema, graph and digest checks remain owned by the producer/consumer.
 Consumer comparisons of Registry/OCI metadata, MCP application identity, archive-entry records, public-smoke provenance, full-build receipt records and cursor criteria ignore object-member insertion order while retaining array order and exact member/value checks.
 Duplicate legacy interpretation identity uses the validated fields in a stable tuple, so reordering object members cannot conceal a duplicate.
 Canonical semantic digest formats, opaque cursor integrity bindings, exact-byte artifact hashes and producer presentation remain their own contracts; formatting does not sort JSON to compensate for consumer comparison errors.
-All JSON npm commands enter [one native-tool adapter](../scripts/runJsonQuality.js), which reconciles inventory once before its selected operation.
-[Shared contracts](../scripts/jsonQuality.js) supply the policy reader, native ESLint rules and producer-presentation check to repository checks and rebuilt-package qualification.
-The inventory checker compares effective ESLint configuration and resolved Prettier options with these authorities to detect drift.
+All JSON npm commands enter [one UO adapter](../scripts/runRepositoryJsonQuality.js), which supplies the repository root and required generated-output patterns to the installed engine.
+The [public-export bridge](../tooling/json/public-api.mjs) supplies the policy reader, document analysis and producer-presentation check to repository checks and rebuilt-package qualification.
+The engine constructs its own native lint and presentation settings and never executes repository JSON lint or formatter configuration.
 `.prettierignore` blocks all JSON from direct Prettier CLI writes; it does not select the read-only checks.
-The supported writer derives both its exact native argument list and temporary ignore selection from discovered files, exception rules and Git write eligibility; it verifies native selection, debug-checks, writes and removes its temporary selection in a `finally` block.
-The temporary ignore file resides in the repository root because native ignore patterns are relative to their file's directory.
-After writes, the adapter reconciles inventory again and reruns lint and presentation across the complete corpus.
+The supported writer analyzes the prospective corpus, debug-checks changed formatting with explicit package-owned options, and rechecks policy, inventory and every source preimage before writing.
+It individually replaces files while preserving permissions, reporting completed, failed and unprocessed paths after partial failure.
 
 Consumer validators remain authoritative: the local MCP Registry schema, PR-plan standalone validator, release-input Ajv reader, projection-history schema/domain tests, provenance digests and JSON-LD graph equivalence checks.
 Schema tests use existing Ajv without coercion, defaults, property removal or remote reference resolution.
@@ -213,14 +236,14 @@ Regression tests exercise real native binaries in disposable Git checkouts, chec
 
 ### Preventing order-sensitive JSON identities
 
-`npm run lint:js` enables `uo/no-json-stringify-identity` at error severity for the JavaScript inputs selected by ESLint.
+`npm run lint:js` enables `json-quality/no-json-stringify-identity` at error severity for the JavaScript inputs selected by ESLint.
 The same rule applies when ESLint is invoked on JS, MJS or CJS files; existing npm glob selection is unchanged.
 It rejects raw `JSON.stringify` results used in equality/inequality, `Object.is`, native Node equality assertions, Jest/Vitest equality matchers, known Set/Map keys, array membership, computed property keys and native hash inputs.
 Ordinary file, log and transport serialization remains allowed.
 Use structured comparisons for semantic data; native deep comparison preserves array order and exact fields/values while ignoring object-member order.
 The rule has no automatic fix because choosing a semantic comparison, canonical digest or byte contract requires knowing the consumer.
 
-The [local rule](../scripts/eslint/noJsonStringifyIdentity.js) uses native ESLint binding analysis for direct, computed-literal, destructured, assigned and bound aliases, and selected string/Buffer transformations.
+The [shared plugin](https://github.com/Hadden-Industries/json-quality) uses native ESLint binding analysis for direct, computed-literal, destructured, assigned and bound aliases, and selected string/Buffer transformations.
 Tracking is conservative across assignments and bounded to 64 lexical analysis frames and 100,000 steps per file; exceeding either bound fails lint and asks for a simpler alias graph.
 It does not prove arbitrary imported/local helper behavior, reflective calls, dynamic property mutation or all collection-producing callbacks.
 Keep independent object-permutation and array/mutation regression tests at semantic consumer boundaries.
@@ -238,7 +261,7 @@ One declaration covers one serializer, never a whole file or several serializers
 Malformed, ambiguous, misplaced and unused declarations fail lint.
 Existing producer-presentation checks, permutation byte oracles and versioned RDF identities retain explicit local contracts; no digest or cursor-format migration is introduced.
 Unused ESLint disable directives also fail at error severity.
-The release verifier binds the rule and its regression tests in the reviewed 44-input policy graph.
+The release verifier binds the sole engine selector, native isolated lock, generated acquisition bootstrap, public-export bridge, UO adapter and consumer regression tests in the reviewed policy graph.
 
 ### Python and Markdown style
 
@@ -389,7 +412,7 @@ No trusted cache warmer is introduced before measurement.
 
 When editing the execution policy, update its schema and regenerate the standalone validator with `node scripts/generatePullRequestCheckPlanValidator.js --write`.
 Use `--check` to verify freshness without writing.
-The distribution verifier also checks an explicit forty-two-file policy manifest covering the entry points, reusable consumers, selection/evaluation inputs, native test runners, shared JSON contracts/adapter, JSON policy/configuration/lock and manual candidate validator.
+The distribution verifier also checks an explicit 44-file policy manifest covering entry points, reusable consumers, selection/evaluation inputs, native test runners, native JSON engine selector/lock, generated acquisition bootstrap, public-export bridge, UO adapter, JSON policy and manual candidate validator.
 A semantic workflow or control-input change requires coordinated review, updated assertions, negative tests, and a deliberate digest update.
 
 `scripts/selectPullRequestChecks.js` decides which jobs apply from the changed paths.

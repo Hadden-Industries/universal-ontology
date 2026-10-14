@@ -6,15 +6,14 @@ import { tmpdir } from "node:os";
 import { join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
-import { ESLint } from "eslint";
 import {
-  jsonLintConfig,
+  checkJsonDocument,
   jsonContract,
   readJsonPolicy,
   jsonFormatOptions,
   decodeJsonBytes,
   checkJsonPresentation,
-} from "../../scripts/jsonQuality.js";
+} from "../../tooling/json/public-api.mjs";
 
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
@@ -627,7 +626,7 @@ describe("public Universal Ontology MCP npm package", () => {
         ),
       );
       // Inspect actual rebuilt/packed target bytes, including producer-owned notices.
-      const policy = await readJsonPolicy();
+      const policy = await readJsonPolicy(REPOSITORY_ROOT_PATH);
       const formatOptions = await jsonFormatOptions();
       const jsonPaths = (
         await listRelativeFilePaths(installedPackageDirectoryPath)
@@ -668,17 +667,8 @@ describe("public Universal Ontology MCP npm package", () => {
         formatContract: "producer-json-indent",
         allowFormatWrites: false,
       });
-      const jsonLinter = new ESLint({
-        overrideConfigFile: true,
-        overrideConfig: jsonLintConfig(
-          documents.map(({ path, contract }) => ({
-            ...contract,
-            path,
-          })),
-        ),
-      });
       for (const { path, bytes, contract } of documents) {
-        const text = decodeJsonBytes(bytes);
+        decodeJsonBytes(bytes);
         const withBom = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), bytes]);
         expect(() => decodeJsonBytes(withBom)).toThrow(/leading UTF-8 BOM/u);
         await expect(
@@ -688,9 +678,8 @@ describe("public Universal Ontology MCP npm package", () => {
             formatOptions,
           ),
         ).rejects.toThrow(/leading UTF-8 BOM/u);
-        const [result] = await jsonLinter.lintText(text, { filePath: path });
-        expect(result.errorCount).toBe(0);
-        expect(result.warningCount).toBe(0);
+        const result = await checkJsonDocument(bytes, { ...contract, path });
+        expect(result.findings).toEqual([]);
         if (path === "third-party/oxigraph/component-notices.json") {
           // Packaging must retain the supplied notice exactly; validate its body contract.
           expect(bytes).toEqual(

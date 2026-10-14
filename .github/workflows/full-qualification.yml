@@ -94,6 +94,7 @@ jobs:
           npm install --global --no-audit --no-fund npm@12.2.0
           test "$(npm --version)" = "12.2.0"
       - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run install:json
       - name: Static checks
         run: |-
           npm run lint:node
