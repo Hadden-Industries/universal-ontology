@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "name": "@hadden-industries/json-quality",
   "version": "0.1.0-dev.0",
-  "sourceCommit": "91dd8b351b5b8110e2285316185be6746a9a9fb9",
-  "sourceTree": "d0c841388ec48d775f604cea39a2590adf75dcb6",
+  "sourceCommit": "4d6a083f47c6dfed0df43b2e1b1f2a16f167c8cb",
+  "sourceTree": "9210946a0af1b9c979cce5580cb0b2b3aaba12e5",
   "sourceClean": true,
-  "archive": "hadden-industries-json-quality-0.1.0-dev.0-91dd8b351b5b8110e2285316185be6746a9a9fb9.tgz",
-  "sha256": "6c9b73c60b49d757d16746800e9c6078cb87ad95908c1100b21aa7dcd1a56bb0",
-  "integrity": "sha512-oHO5Dx5DcaApfH/3uU4VJksnbpgZHp3L2efWyXenY1gBGBABs7ZaWm1e7Uhtusx8YaHM68zc//L7Xbuw/1+uXQ==",
+  "archive": "hadden-industries-json-quality-0.1.0-dev.0-4d6a083f47c6dfed0df43b2e1b1f2a16f167c8cb.tgz",
+  "sha256": "fd65c78903c0e659c0c6e5e6df7b54ee8f60776c307df0440c6d511a8a603cdf",
+  "integrity": "sha512-v3wr4m63l9QyFzTtYIPzWVRCJGuTOrU2K+/fyyrvMGVDcB88kuDrCNtnGLaAw/85g7EEsotOapoLtvTpxLvNSg==",
   "lockSha256": "a96e6a5e71bb62e190291f8870f4581b451c3a34ccdb8fab63b66f95ea3ae789",
   "dependencies": {
     "@eslint/json": "2.1.1",
@@ -33,7 +33,7 @@
     },
     {
       "path": "docs/consumer-guide.md",
-      "size": 7161,
+      "size": 8217,
       "mode": 420
     },
     {
@@ -43,7 +43,7 @@
     },
     {
       "path": "schemas/configuration.schema.json",
-      "size": 7635,
+      "size": 8877,
       "mode": 420
     },
     {
@@ -53,12 +53,12 @@
     },
     {
       "path": "src/cli.js",
-      "size": 5305,
+      "size": 5455,
       "mode": 420
     },
     {
       "path": "src/documents.js",
-      "size": 4223,
+      "size": 4460,
       "mode": 420
     },
     {
@@ -88,7 +88,12 @@
     },
     {
       "path": "src/json-lines.js",
-      "size": 2840,
+      "size": 4108,
+      "mode": 420
+    },
+    {
+      "path": "src/json-pointers.js",
+      "size": 864,
       "mode": 420
     },
     {
@@ -98,7 +103,7 @@
     },
     {
       "path": "src/logical-documents.js",
-      "size": 4903,
+      "size": 4697,
       "mode": 420
     },
     {
@@ -108,7 +113,7 @@
     },
     {
       "path": "src/quality.js",
-      "size": 18316,
+      "size": 22202,
       "mode": 420
     },
     {

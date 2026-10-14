@@ -134,6 +134,7 @@ Ordinary `.json`, `.jsonld` and `.sarif` files need no policy entry or staging: 
 Defaults require strict syntax, native interoperability lint, NFC for every decoded key and string value, and standard presentation.
 There is one shared lint contract; the obsolete `lintProfile` field is rejected in defaults and exceptions.
 Exceptions specify their owner and reason for external boundaries, write protection or producer-defined presentation.
+The shared engine also supports exact value-level NFC preservation: `preserveNfcValues` requires one protected file, decoded-string SHA-256 and UTF-8 length pins at exact JSON Pointers, and an owner/reason. JSONL additionally requires a uniquely matching record identity. Missing, changed or duplicated identities fail; every key and all other strings remain checked. UO does not currently need this exception.
 Producer/retained families and immutable JSON-tool archive provenance remain protected; new files within their protected families inherit that protection.
 Git ignore rules never suppress checking.
 Ignored untracked files are always read-only to the generic formatter.

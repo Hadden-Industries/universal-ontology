@@ -155,7 +155,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/markdown-quality.yml":
     "ed666c58975efb254e8137f2aadf9cabd7bafe7c710f83a847fbcd2e68cf1c39",
   "scripts/installRepositoryQualityTools.mjs":
-    "179e05cf144c22fc1a40602d7dc0e3aa0bb428646b94a87c88eb52b8e143da17",
+    "dc646ae0909e704069c30c63e96d0751b4b71679cd1c2bac06ee45270d8535f0",
   "scripts/render_editing_policy.py":
     "847fab54942db93e19b74b4aacae9d734f8c6cb60762f1108fb58bd3277ce844",
   "scripts/setUpDevelopmentEnvironment.js":
@@ -178,13 +178,13 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "tooling/json/public-api.mjs":
     "33df22038ac112018e7445743fe06acd08b2e910111811ceeb090c68282fdbf7",
   "tooling/json/package.json":
-    "b7298b035ad88f078fce46b2140e129cd56d274ffe5c43fa21d2b09ff5c1ac8c",
+    "1a275fb7473a49a44e79f3f6e613f7ad69c085fd49584e51eb98468ed4f2a968",
   "tooling/json/package-lock.json":
-    "30a0885bbc88af5c242f67a316ebdce6fe4c98859870de7508d39c41d279a205",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-91dd8b351b5b8110e2285316185be6746a9a9fb9.tgz":
-    "6c9b73c60b49d757d16746800e9c6078cb87ad95908c1100b21aa7dcd1a56bb0",
-  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-91dd8b351b5b8110e2285316185be6746a9a9fb9.tgz.provenance.json":
-    "796cdc0f5918949dca50b1785eb21f1ede0cdcb517e3304a3fedb24d0805da5b",
+    "0436933ea176427653f05902921fffb95a2c658dea1e196050fe2959dd81501b",
+  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-4d6a083f47c6dfed0df43b2e1b1f2a16f167c8cb.tgz":
+    "fd65c78903c0e659c0c6e5e6df7b54ee8f60776c307df0440c6d511a8a603cdf",
+  "tooling/json/archives/hadden-industries-json-quality-0.1.0-dev.0-4d6a083f47c6dfed0df43b2e1b1f2a16f167c8cb.tgz.provenance.json":
+    "fe43e0e1db6ba2499cc4471646825e2a723b2ed9dd1d2c390f07abcaac363001",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.
