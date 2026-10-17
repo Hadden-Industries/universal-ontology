@@ -4,7 +4,7 @@ Locating and interrogating the Git working tree the setup scripts operate on.
 
 Each setup script derives the repository root from its own location rather than
 trusting the current working directory, so it behaves the same whether it is
-invoked as `py <scripts>\set_up_agent_skills.py` from the root or by absolute
+invoked as `py <scripts>\set_up_mcp_servers.py` from the root or by absolute
 path from somewhere else entirely.
 
 `<scripts>` throughout these modules means "the directory holding the setup

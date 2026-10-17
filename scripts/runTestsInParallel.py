@@ -38,13 +38,13 @@ PYTHON_ONLY_MODULES = frozenset(
         "test_ontology_policy_reports.py",
         "test_policy_authorities.py",
         "test_publication_gate.py",
+        "test_python_runtime.py",
         "test_run_tests_in_parallel.py",
         "test_validate_ontologies.py",
     )
 )
 NODE_BACKED_MODULES = frozenset(
     (
-        "test_set_up_agent_skills.py",
         "test_set_up_mcp_servers.py",
         "test_upload_to_s3.py",
     )

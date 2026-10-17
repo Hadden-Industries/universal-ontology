@@ -63,6 +63,7 @@ export const PYTHON_ONLY_TEST_INPUTS = Object.freeze([
   "tests/test_ontology_policy_reports.py",
   "tests/test_policy_authorities.py",
   "tests/test_publication_gate.py",
+  "tests/test_python_runtime.py",
   "tests/test_run_tests_in_parallel.py",
   "tests/test_validate_ontologies.py",
 ]);
@@ -229,6 +230,7 @@ export const CHECK_INPUTS = {
   ontology_entity_contracts: [
     ...ONTOLOGY_POLICY_INPUTS,
     "tests/test_publication_gate.py",
+    "tests/test_python_runtime.py",
   ],
   ontology_policy_qa: [
     ...ONTOLOGY_POLICY_INPUTS,
@@ -239,6 +241,7 @@ export const CHECK_INPUTS = {
     "docs/policy/Editing-Policy.generated.md",
     ":(glob)tests/test_*polic*.py",
     "tests/test_publication_gate.py",
+    "tests/test_python_runtime.py",
   ],
   ontology_qualification: [
     ...ONTOLOGY_POLICY_INPUTS,
@@ -297,10 +300,10 @@ export const CHECK_INPUTS = {
     ".github/workflows/development-checks.yml",
     ".python-version",
     "skills-lock.json",
-    "scripts/set_up_agent_skills.py",
+    "tools/repository-skills.pyz",
+    "repository-skills.json",
     "scripts/_commands.py",
     "scripts/_repository.py",
-    "tests/test_set_up_agent_skills.py",
   ],
   // Development tooling: setup, the Python launcher, optional skill/MCP setup,
   // Git hooks and this selector, plus the ontology runner they install.
@@ -318,14 +321,14 @@ export const CHECK_INPUTS = {
     "scripts/_commands.py",
     "scripts/_repository.py",
     "scripts/runRepositoryPython.js",
-    "scripts/set_up_agent_skills.py",
+    "tools/repository-skills.pyz",
+    "repository-skills.json",
     "scripts/set_up_mcp_servers.py",
     "scripts/setUpDevelopmentEnvironment.js",
     "tests/configure-git-hooks.test.js",
     "tests/development-workflow.test.js",
     "tests/set-up-development-environment.test.js",
     "tests/run-repository-python.test.js",
-    "tests/test_set_up_agent_skills.py",
     "tests/test_set_up_mcp_servers.py",
   ],
   product_tests: [

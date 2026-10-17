@@ -284,7 +284,7 @@ test("a lock change validates the committed Agent Skills lock without the develo
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
   expect(runs).toEqual([
     "node scripts/evaluatePullRequestChecks.js --verify",
-    "python -B -m unittest tests.test_set_up_agent_skills.CommittedSkillsLockTests -v",
+    "python -I -B tools/repository-skills.pyz check",
   ]);
   expect(
     job.steps.some(({ uses }) => uses === PYTHON_PROVISIONING_ACTION),

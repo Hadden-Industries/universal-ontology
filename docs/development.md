@@ -80,11 +80,12 @@ For a deliberate upgrade, add `--upgrade-package NAME`, review the lock diff, re
 These are explicit commands with their own effects.
 Ordinary development and contribution do not need them.
 
-| Command                                | Effect                                                                                                                                                                                                                                      |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm run set-up:agent-skills`          | Refresh the external Agent Skills declared in `skills-lock.json` into `.agents/skills` and `.claude/skills` using the pinned Skills CLI. A branch reference tracks its current tip; the CLI records the installed content hash in the lock. |
-| `npm run set-up:mcp-servers -- --help` | Show the MCP server installer's options before choosing its download/network actions. `--check` only verifies the checked-in host configuration documents.                                                                                  |
-| `npm run publish:website`              | Upload built site assets to S3. Requires the AWS CLI and separate authorization; refuses to publish without a current qualification receipt (see below).                                                                                    |
+| Command                                              | Effect                                                                                                                                                                                                                |
+| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run plan:skill-reconciliation`                  | Stage remote skills selected by `skills-lock.json` using `skills@latest` and additional agent/policy options from `repository-skills.json`; show the exact diff and plan ID. Optional pins remain in the native lock. |
+| `npm run apply:skill-reconciliation-plan -- PLAN_ID` | Apply that reviewed candidate without reacquisition. Preserve unrelated skills and native lock entries; recovery is available through the shared CLI.                                                                 |
+| `npm run set-up:mcp-servers -- --help`               | Show the MCP server installer's options before choosing its download/network actions. `--check` only verifies the checked-in host configuration documents.                                                            |
+| `npm run publish:website`                            | Upload built site assets to S3. Requires the AWS CLI and separate authorization; refuses to publish without a current qualification receipt (see below).                                                              |
 
 ## Verification commands
 

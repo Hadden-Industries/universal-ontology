@@ -28,6 +28,28 @@ class SetupError(RuntimeError):
     """Raised for a safe, user-actionable setup failure."""
 
 
+def require_python_version() -> None:
+    target = (
+        (Path(__file__).resolve().parents[1] / ".python-version")
+        .read_text(encoding="utf-8")
+        .strip()
+    )
+    parts = target.split(".")
+    if len(parts) != 3 or not all(part.isdecimal() for part in parts):
+        raise SetupError(
+            ".python-version must contain a stable major.minor.patch version"
+        )
+    minimum = tuple(int(part) for part in parts)
+    if (
+        tuple(sys.version_info[:3]) < minimum
+        or getattr(sys.version_info, "releaselevel", "final") != "final"
+    ):
+        raise SetupError(
+            f"Stable Python {target} or newer is required; see .python-version. "
+            f"Running: {sys.version.split()[0]}"
+        )
+
+
 def write_console_diagnostic(text: str, *, stream=None) -> str:
     """Flush readable diagnostics without losing glyphs to inherited error modes.
 
