@@ -72,6 +72,48 @@ test("the native selector, lock, generated bootstrap and installed package agree
   });
   expect(result.files).toBeGreaterThan(0);
 });
+
+test("repository JSON commands use canonical modifiers and the capacity bypass", () => {
+  const { directory, put } = fixture();
+  try {
+    put("selected.json", '{"value":1.00e+2}');
+    const original = readFileSync(join(directory, "selected.json"));
+    const invoked = runCommand(directory, "format:json:check", [
+      "--files",
+      '["selected.json"]',
+      "--no-capacity-limits",
+      "--json",
+    ]);
+    expect(invoked.status).toBe(1);
+    const result = JSON.parse(
+      invoked.stdout.slice(invoked.stdout.indexOf('{"schemaVersion"')),
+    );
+    expect(result).toMatchObject({
+      schemaVersion: 4,
+      operation: "format",
+      check: true,
+    });
+    expect(result.writes.changed).toEqual([]);
+    expect(readFileSync(join(directory, "selected.json"))).toEqual(original);
+    const protectedResult = runCommand(directory, "check:json:producers", [
+      "--json",
+    ]);
+    expect(protectedResult.status).toBe(0);
+    expect(
+      JSON.parse(
+        protectedResult.stdout.slice(
+          protectedResult.stdout.indexOf('{"schemaVersion"'),
+        ),
+      ),
+    ).toMatchObject({
+      schemaVersion: 4,
+      operation: "check",
+      scope: "protected",
+    });
+  } finally {
+    rmSync(directory, { recursive: true, force: true, maxRetries: 10 });
+  }
+});
 test("repository commands inherit the shared machine result and capacity flags", () => {
   const { directory } = fixture();
   try {

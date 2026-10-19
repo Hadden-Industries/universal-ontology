@@ -1,5 +1,10 @@
 # Shared JSON quality engine extraction and adoption plan
 
+Consumer interface amendment, 19 October 2026: current UO invocation and resource policy follow the [development guide](../development.md#json-quality-and-safe-fixing).
+Result schema 4 uses `format` with `check: true`, `check` with `scope: "protected"`, `files`, `formatJsonDocument` and `capacityLimits`, matching the canonical CLI modifiers.
+Earlier proposed operation names, result versions and dated source coordinates below remain historical design/evidence; they do not establish qualification of the current migration.
+The manifest remains the sole editable source selector, and this update runs only focused checks.
+
 Status: **Accepted for implementation on 14 October 2026; staged gates below remain binding.**
 Prepared 13 October 2026 for `Hadden-Industries/json-quality`, Universal Ontology (UO), and WebVOWL.
 

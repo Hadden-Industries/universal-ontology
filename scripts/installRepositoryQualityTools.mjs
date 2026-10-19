@@ -5,8 +5,89 @@ import { join, relative, isAbsolute, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { execFileSync, spawnSync } from "node:child_process";
 
+// BEGIN GENERATED RESOURCE DEFAULTS
+export const ACQUISITION_RESOURCE_DEFAULTS = Object.freeze({
+  maxFiles: 50000,
+  maxFileBytes: 33554432,
+  maxTotalBytes: 268435456,
+  maxLogicalDocuments: 100000,
+  maxRecords: 100000,
+  maxDiagnostics: 10000,
+  maxPolicyBytes: 1048576,
+  maxGitOutputBytes: 67108864,
+  maxToolOutputBytes: 67108864,
+  maxToolTimeMs: 120000,
+  maxGitTimeMs: 120000,
+  maxAcquisitionTimeMs: 1200000,
+  maxCacheLookupTimeMs: 60000,
+  maxCacheOutputBytes: 1048576,
+  maxRequestIdCharacters: 1024,
+  maxRequestBytes: 50331648,
+  maxRequestPathCharacters: 32768,
+});
+// END GENERATED RESOURCE DEFAULTS
+
+/** Only the explicitly scoped capacity environment contract is admitted. */
+export function capacityLimitsEnvironment() {
+  if (process.env.JSON_QUALITY_LIMITS !== undefined)
+    throw new TypeError(
+      "Use JSON_QUALITY_CAPACITY_LIMITS; JSON_QUALITY_LIMITS is not supported.",
+    );
+  return process.env.JSON_QUALITY_CAPACITY_LIMITS;
+}
+
+/** Native cleanup retry strategy is independently configurable, including zero retries. */
+export function acquisitionCleanupOptions(
+  overrides = JSON.parse(process.env.JSON_QUALITY_CLEANUP ?? "{}"),
+) {
+  if (
+    !overrides ||
+    typeof overrides !== "object" ||
+    Array.isArray(overrides) ||
+    Object.entries(overrides).some(
+      ([name, value]) =>
+        !["maxRetries", "retryDelay"].includes(name) ||
+        !Number.isSafeInteger(value) ||
+        value < 0,
+    )
+  )
+    throw new TypeError("Invalid acquisition cleanup retry options.");
+  return { maxRetries: 3, retryDelay: 100, ...overrides };
+}
+
+/** The cold bootstrap cannot import the not-yet-installed package/schema.
+ * Its defaults are a checked projection; native validation matches the closed
+ * positive-safe-integer resource object. Only capacity controls are accepted.
+ */
+export function acquisitionResourceLimits(
+  overrides = JSON.parse(capacityLimitsEnvironment() ?? "{}"),
+) {
+  if (overrides === true) return { ...ACQUISITION_RESOURCE_DEFAULTS };
+  if (overrides === false)
+    return Object.fromEntries(
+      Object.keys(ACQUISITION_RESOURCE_DEFAULTS).map((name) => [
+        name,
+        Infinity,
+      ]),
+    );
+  if (
+    !overrides ||
+    typeof overrides !== "object" ||
+    Array.isArray(overrides) ||
+    Object.entries(overrides).some(
+      ([name, value]) =>
+        !Object.hasOwn(ACQUISITION_RESOURCE_DEFAULTS, name) ||
+        !Number.isSafeInteger(value) ||
+        value < 1,
+    )
+  )
+    throw new TypeError("Invalid JSON resource-limit overrides.");
+  return { ...ACQUISITION_RESOURCE_DEFAULTS, ...overrides };
+}
+
 /** Resolve native cache policy once for acquisition and payload checking. */
-export function nativeQualityCachePath(toolingRoot, npmExecutable) {
+export function nativeQualityCachePath(toolingRoot, npmExecutable, overrides) {
+  const capacityLimits = acquisitionResourceLimits(overrides);
   return execFileSync(
     process.execPath,
     [npmExecutable, "config", "get", "cache"],
@@ -14,8 +95,10 @@ export function nativeQualityCachePath(toolingRoot, npmExecutable) {
       cwd: toolingRoot,
       encoding: "utf8",
       windowsHide: true,
-      timeout: 10000,
-      maxBuffer: 16384,
+      timeout: Number.isFinite(capacityLimits.maxCacheLookupTimeMs)
+        ? capacityLimits.maxCacheLookupTimeMs
+        : 0,
+      maxBuffer: capacityLimits.maxCacheOutputBytes,
     },
   ).trim();
 }
@@ -27,11 +110,16 @@ async function acquire() {
   const npm = process.env.npm_execpath;
   if (!npm)
     throw new Error("Run npm run install:markdown or npm run install:json.");
+  const overrides = JSON.parse(capacityLimitsEnvironment() ?? "{}");
+  const capacityLimits = acquisitionResourceLimits(overrides);
+  const cleanup = acquisitionCleanupOptions();
   const toolingRoot = fileURLToPath(
     new URL(`../tooling/${kind}/`, import.meta.url),
   );
   const jsonCache =
-    kind === "json" ? nativeQualityCachePath(toolingRoot, npm) : null;
+    kind === "json"
+      ? nativeQualityCachePath(toolingRoot, npm, overrides)
+      : null;
   const scratch = mkdtempSync(join(tmpdir(), "repository-quality-install-"));
   const cachePath = jsonCache ?? join(scratch, "cache");
   /** Remove only the task-owned real temporary acquisition workspace. */
@@ -50,8 +138,7 @@ async function acquire() {
     rmSync(target, {
       recursive: true,
       force: true,
-      maxRetries: 3,
-      retryDelay: 100,
+      ...cleanup,
     });
   }
   try {
@@ -92,7 +179,9 @@ async function acquire() {
         env,
         stdio: "inherit",
         windowsHide: true,
-        timeout: 300000,
+        timeout: Number.isFinite(capacityLimits.maxAcquisitionTimeMs)
+          ? capacityLimits.maxAcquisitionTimeMs
+          : 0,
       },
     );
     if (result.error || result.signal || result.status === null)
@@ -108,6 +197,7 @@ async function acquire() {
         ),
         cachePath,
         bootstrapPath: fileURLToPath(import.meta.url),
+        capacityLimits: overrides,
       });
     }
   } finally {

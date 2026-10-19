@@ -102,7 +102,7 @@ class NativeModuleFamiliesTest(unittest.TestCase):
         self.tests_dir = Path(temporary.name)
         self.modules = (
             "test_import_catalogs.py",
-            "test_set_up_agent_skills.py",
+            "test_set_up_mcp_servers.py",
             "test_new_unknown.py",
         )
         for name in self.modules:
@@ -123,7 +123,7 @@ class NativeModuleFamiliesTest(unittest.TestCase):
         self.assertEqual([unit[0] for unit in pure], ["test_import_catalogs"])
         self.assertEqual(
             {unit[0] for unit in backed},
-            {"test_set_up_agent_skills", "test_new_unknown"},
+            {"test_set_up_mcp_servers", "test_new_unknown"},
         )
         self.assertEqual(
             sorted(unit[0] for unit in all_units),
@@ -167,12 +167,11 @@ class NativeModuleFamiliesTest(unittest.TestCase):
             )
 
     def test_family_inventory_matches_reviewed_runtime_contract(self):
-        self.assertEqual(len(self.runner.PYTHON_ONLY_MODULES), 12)
+        self.assertEqual(len(self.runner.PYTHON_ONLY_MODULES), 13)
         self.assertEqual(
             self.runner.NODE_BACKED_MODULES,
             frozenset(
                 (
-                    "test_set_up_agent_skills.py",
                     "test_set_up_mcp_servers.py",
                     "test_upload_to_s3.py",
                 )
@@ -193,7 +192,7 @@ class NativeModuleFamiliesTest(unittest.TestCase):
         self.assertIn("FAILED", output.getvalue())
 
     def test_real_python_family_runs_without_node_or_npm(self):
-        (self.tests_dir / "test_set_up_agent_skills.py").write_text(
+        (self.tests_dir / "test_set_up_mcp_servers.py").write_text(
             "import unittest,shutil\nclass NodeObligation(unittest.TestCase):\n def test_requires_node(self): self.assertIsNotNone(shutil.which('node'))\n",
             encoding="utf-8",
         )

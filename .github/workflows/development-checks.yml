@@ -276,7 +276,7 @@ jobs:
           no-project: true
           enable-cache: false
       - name: Validate the committed Agent Skills lock
-        run: python -B -m unittest tests.test_set_up_agent_skills.CommittedSkillsLockTests -v
+        run: python -I -B tools/repository-skills.pyz check
     permissions:
       contents: read
     cache-mode: none

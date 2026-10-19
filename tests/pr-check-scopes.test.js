@@ -277,7 +277,6 @@ describe("native Git PR check selection", () => {
   );
 
   test.each([
-    "tests/test_set_up_agent_skills.py",
     "tests/test_set_up_mcp_servers.py",
     "tests/test_upload_to_s3.py",
     "tests/test_future_tool.py",
@@ -681,8 +680,8 @@ describe("native Git PR check selection", () => {
   });
 
   test.each([
-    ["scripts/set_up_agent_skills.py", ["development", "agent_skills_lock"]],
-    ["tests/test_set_up_agent_skills.py", ["development", "agent_skills_lock"]],
+    ["tools/repository-skills.pyz", ["development", "agent_skills_lock"]],
+    ["repository-skills.json", ["development", "agent_skills_lock"]],
     ["scripts/_repository.py", ["development", "agent_skills_lock"]],
     [".python-version", ["development", "agent_skills_lock"]],
     ["requirements.txt", ["development"]],
@@ -696,7 +695,7 @@ describe("native Git PR check selection", () => {
   });
 
   test("the lock with a tooling change selects both development checks", () => {
-    const paths = ["skills-lock.json", "scripts/set_up_agent_skills.py"];
+    const paths = ["skills-lock.json", "tools/repository-skills.pyz"];
     paths.forEach((path) => write(path));
     commit(paths);
     expectSelection(["development", "agent_skills_lock"], {
@@ -984,7 +983,8 @@ describe("native Git PR check selection", () => {
     [".codex/config.toml", []],
     [".github/PULL_REQUEST_TEMPLATE.md", []],
     ["scripts/set_up_mcp_servers.py", ["development"]],
-    ["scripts/set_up_agent_skills.py", ["development"]],
+    ["tools/repository-skills.pyz", ["development"]],
+    ["repository-skills.json", ["development"]],
     ["scripts/_repository.py", ["development"]],
     ["scripts/setUpDevelopmentEnvironment.js", ["development"]],
     [".githooks/pre-commit", ["development"]],

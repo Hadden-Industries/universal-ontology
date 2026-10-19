@@ -80,11 +80,12 @@ For a deliberate upgrade, add `--upgrade-package NAME`, review the lock diff, re
 These are explicit commands with their own effects.
 Ordinary development and contribution do not need them.
 
-| Command                                | Effect                                                                                                                                                                                                                                      |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm run set-up:agent-skills`          | Refresh the external Agent Skills declared in `skills-lock.json` into `.agents/skills` and `.claude/skills` using the pinned Skills CLI. A branch reference tracks its current tip; the CLI records the installed content hash in the lock. |
-| `npm run set-up:mcp-servers -- --help` | Show the MCP server installer's options before choosing its download/network actions. `--check` only verifies the checked-in host configuration documents.                                                                                  |
-| `npm run publish:website`              | Upload built site assets to S3. Requires the AWS CLI and separate authorization; refuses to publish without a current qualification receipt (see below).                                                                                    |
+| Command                                              | Effect                                                                                                                                                                                                                |
+| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run plan:skill-reconciliation`                  | Stage remote skills selected by `skills-lock.json` using `skills@latest` and additional agent/policy options from `repository-skills.json`; show the exact diff and plan ID. Optional pins remain in the native lock. |
+| `npm run apply:skill-reconciliation-plan -- PLAN_ID` | Apply that reviewed candidate without reacquisition. Preserve unrelated skills and native lock entries; recovery is available through the shared CLI.                                                                 |
+| `npm run set-up:mcp-servers -- --help`               | Show the MCP server installer's options before choosing its download/network actions. `--check` only verifies the checked-in host configuration documents.                                                            |
+| `npm run publish:website`                            | Upload built site assets to S3. Requires the AWS CLI and separate authorization; refuses to publish without a current qualification receipt (see below).                                                              |
 
 ## Verification commands
 
@@ -116,17 +117,26 @@ Materialize the bootstrap through `jsonQualityAcquisitionBootstrap()` rather tha
 The [public-export bridge](../tooling/json/public-api.mjs) refuses fallback to a root or sibling installation; checks install nothing.
 Installation and consumer tests verify every installed engine file against npm's independently cached locked payload and reject bootstrap drift.
 Retain that native cache for later verification; acquisition and verification reuse the same cache resolver.
-The engine supports Node 24.21.0 or newer within Node 24 and Node 26.11.1 or newer within Node 26; the repository reference runtime remains unchanged.
+The selected shared engine supports Node `^22.13.0 || ^24.0.0 || ^26.0.0`; repository development continues to use its existing reference runtime and tooling requirements.
 
-Resource limits are overridable through policy `limits`, the library invocation's `limits`, and the repository command adapter's shared CLI flags.
+Resource limits are overridable through policy `capacityLimits`, the library invocation's `capacityLimits`, and the repository command adapter's shared CLI flags.
 For example, `npm run check:json -- --max-files 100000 --max-file-bytes 67108864 --json` raises capacity and returns the package's validated machine result.
-Explicit `limits: false` or CLI `--no-limits` bypasses package capacity limits while preserving quality rules and writer safeguards.
+Explicit `capacityLimits: false` or CLI `--no-capacity-limits` bypasses every shared package capacity check while preserving quality rules and writer safeguards.
+Individual numeric capacity overrides cannot be combined with that bypass.
+The generated bootstrap accepts `JSON_QUALITY_CAPACITY_LIMITS` for acquisition and separate `JSON_QUALITY_CLEANUP` retry options; the retired `JSON_QUALITY_LIMITS` name is rejected.
 UO declares 512 MiB total-byte capacity for its measured source/generated corpus; other package defaults remain active.
 Exit 1 means known quality findings; exit 2 means invalid arguments, refused normalization input or operational failure.
 
 `npm run check:json` automatically discovers and checks source and generated JSON read-only, including untracked and Git-ignored files.
 `npm run lint:json` checks inventory, strict JSON syntax, decoded duplicate keys and native interoperability rules with zero warnings.
 `npm run format:json:check` checks inventory and presentation.
+It delegates to `format --check`, matching `runJsonQuality("format", { check: true })`.
+The existing `check:json:producers` npm script delegates to `check --scope protected`, matching `runJsonQuality("check", { scope: "protected" })`.
+Machine results use schema version 4 and retain the canonical verb plus its applicable `check` or `scope` modifier.
+Literal file selection follows `--`; JSON selection uses `--files '["path.json"]'`, corresponding to API `files` for every operation, including explicit nonempty normalization selection.
+Supplied-document formatting uses `format --request - --json` or `formatJsonDocument(request, options)`; adding `--check` or `check: true` retains the supplied bytes.
+The JSON API operations `check-format` / `check-protected`, API `sourcePaths`, JSON CLI `--files-json` / `--stdin-request` / `--no-limits`, and export `processJsonDocument` are retired without aliases.
+Markdown tooling retains its own CLI grammar.
 `npm run format:json` performs complete semantic and producer-presentation preflight, native Prettier preservation checking, and guarded writes of admitted source bytes.
 `lint`, `format:check` and `check:qualification` include JSON quality; `format`, `fix:all` and `fix:code-style` reach the JSON writer exactly once.
 `format:node` and `format:node:check` select non-JSON sources only.
