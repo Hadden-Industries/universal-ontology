@@ -5,6 +5,6 @@
   "license": "AGPL-3.0-only",
   "type": "module",
   "devDependencies": {
-    "@hadden-industries/json-quality": "git+https://github.com/Hadden-Industries/json-quality.git#98b60e6522ceed6b6fdfcd3153c8ceb76d027a81"
+    "@hadden-industries/json-quality": "git+https://github.com/Hadden-Industries/json-quality.git#6bae0cfb2f7bdb186f31246eb50ecfb8fdfb74df"
   }
 }

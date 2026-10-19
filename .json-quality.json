@@ -5,7 +5,7 @@
     "allowFormatWrites": true,
     "normalization": "NFC"
   },
-  "limits": {
+  "capacityLimits": {
     "maxTotalBytes": 536870912
   },
   "exceptions": [

@@ -97,7 +97,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "tests/lint/no-json-stringify-identity.test.js":
     "3c7734b5d7394fcc3dea456060da53ed3eb8f768d6cd8a0df8906b04c20d48f3",
   ".json-quality.json":
-    "86aa810d7fc404845738ac6b8468103c765028b8f6afccbfc264b31bd4b44ab2",
+    "cb58673c67bcc6a6ce50cb8929620b7e5e619d2c965ff4cb292f84144a43dc8b",
   "eslint.config.js":
     "56bbd4968451f10bb1f45ef3b35b01935df9a8185069f2836c80108596cff002",
   ".prettierrc.json":
@@ -105,7 +105,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".prettierignore":
     "f00a878b2c36a1d2e22d2fc1d010f924214ee5a2ad8375e96c7d145b1e04d154",
   "tests/json-quality.test.js":
-    "ed7a096e499689d73c6f34578fc59eceb5c74ef36f4c9c2f391f58b4ff742ff5",
+    "2772e75ffb3b235eaad1225a3994c93165c543b8ef31bb5f0f94b3ba295c8917",
   "package-lock.json":
     "56bc1cc3504f7c7c57a60a2ad72497d1ef9fc971ddea24219ce5352ee49a37f6",
   ".github/workflows/pr-validation.yml":
@@ -155,7 +155,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".github/workflows/markdown-quality.yml":
     "ed666c58975efb254e8137f2aadf9cabd7bafe7c710f83a847fbcd2e68cf1c39",
   "scripts/installRepositoryQualityTools.mjs":
-    "d740600f15a709d0f93662b0a901a31f50d40ba7a675a8066d3d710c47bc90fc",
+    "a4ccaeb48a5b1179c9af6d18ca5a543a7ee4801c21d348f43bf35624ff2a7a52",
   "scripts/render_editing_policy.py":
     "847fab54942db93e19b74b4aacae9d734f8c6cb60762f1108fb58bd3277ce844",
   "scripts/setUpDevelopmentEnvironment.js":
@@ -163,7 +163,7 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   ".markdown-quality-execution.json":
     "314ef284e247a38ecf5ac2d4d7883c64e1f1ce037a6eba2c7bd0ea1814028b39",
   "package.json":
-    "d97f165a8363a83402aedfc0b18cb4830475e12d921f5f1e02b7ed750c37a8ec",
+    "3f7e88bc08f316f7bf424104875176e3dc992389db1a91c6492bae5bc164e719",
   ".npmrc": "2e4f507d9f669af940f509b6d717a64e009d45f1ce5012e3f3e69729fb0bbccd",
   "tests/markdown-quality.test.js":
     "6d98214ca56141494abce31c9361f9230a10b98fb377f720e9ddd97343306ab1",
@@ -178,9 +178,9 @@ const REVIEWED_PR_POLICY_FILES = Object.freeze({
   "tooling/json/public-api.mjs":
     "4c25848d1e3e320ee98636f0d2e584f3bfe3cae4753c6aad9a842ccf509d744a",
   "tooling/json/package.json":
-    "8fc42413f3fae1cfbeac7b3157f876a8cdd3e21ac601f7e6819b5c6ad461b4fe",
+    "f62f049f0e79405b77038aa871ef50d42316cc23169ff695301092c851ee3263",
   "tooling/json/package-lock.json":
-    "9670375fb509da1a1412eb32113d50442cf7919bd7cb77f798ad3c37eaf800b4",
+    "0d871042eb1a53735796bbf8850508f8f8b0af08747588ab49ca40282a93655a",
 });
 
 /** Bind every entry point, local consumer, and control-plane input.
