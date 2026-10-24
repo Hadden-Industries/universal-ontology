@@ -72,14 +72,12 @@
     "format:markdown": "npm --prefix tooling/markdown run format --",
     "inspect:markdown": "npm --prefix tooling/markdown run inspect --",
     "qualify:markdown": "npm --prefix tooling/markdown run qualify --",
-    "check:json:inventory": "node scripts/runRepositoryJsonQuality.js inventory",
-    "lint:json": "node scripts/runRepositoryJsonQuality.js lint",
-    "format:json:check": "node scripts/runRepositoryJsonQuality.js format --check",
+    "format:json:check": "node scripts/runRepositoryJsonQuality.js check",
     "check:json": "node scripts/runRepositoryJsonQuality.js check",
     "format:json": "node scripts/runRepositoryJsonQuality.js format",
     "normalize:json": "node scripts/runRepositoryJsonQuality.js normalize",
-    "check:json:producers": "node scripts/runRepositoryJsonQuality.js check --scope protected",
-    "install:json": "node scripts/installRepositoryQualityTools.mjs json"
+    "install:json": "node scripts/installRepositoryQualityTools.mjs json",
+    "inspect:json": "node scripts/runRepositoryJsonQuality.js check --json"
   },
   "devDependencies": {
     "@eslint/js": ">=10.0.1",
