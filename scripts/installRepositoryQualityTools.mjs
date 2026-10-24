@@ -175,7 +175,7 @@ async function acquire() {
         "--registry=https://registry.npmjs.org/",
         `--userconfig=${user}`,
         `--globalconfig=${global}`,
-        ...(kind === "json" ? ["--allow-git=root"] : []),
+        ...(kind === "json" ? ["--allow-git=none"] : []),
         `--cache=${cachePath}`,
       ],
       {

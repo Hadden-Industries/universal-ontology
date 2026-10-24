@@ -109,8 +109,9 @@ Report failures, skips and checks you could not run as they are.
 
 ### JSON quality and safe fixing
 
-`npm run install:json` installs the isolated JSON tool project from one exact npm version or full producer Git commit and its native frozen lock, with lifecycle scripts disabled.
-The only editable source selector is `devDependencies["@hadden-industries/json-quality"]` in `tooling/json/package.json`: use an exact version or `git+https://github.com/Hadden-Industries/json-quality.git#FULL_40_CHARACTER_COMMIT`.
+`npm run install:json` installs the isolated JSON tool project from one exact npm registry version and its native frozen lock, with lifecycle scripts disabled.
+The only editable source selector is `devDependencies["@hadden-industries/json-quality"]` in `tooling/json/package.json`: use an exact published registry version.
+Native npm selects the matching optional platform package.
 Native npm generates the lockfile; do not maintain a second commit/version/integrity selector.
 The shared package owns the generated acquisition bootstrap and installed-payload checks.
 Materialize the bootstrap through `jsonQualityAcquisitionBootstrap()` rather than editing consumer copies.
