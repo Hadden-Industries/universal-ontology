@@ -56,6 +56,6 @@
     "esbuild": ">=0.28.2",
     "jest": ">=30.5.2",
     "universal-ontology-query": ">=1.0.0",
-    "zod": ">=4.6.5"
+    "zod": ">=4.6.7"
   }
 }

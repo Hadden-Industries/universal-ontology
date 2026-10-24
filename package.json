@@ -126,6 +126,6 @@
   "dependencies": {
     "universal-ontology-projection-policy": ">=1.0.0",
     "universal-ontology-query": ">=1.0.0",
-    "zod": ">=4.6.5"
+    "zod": ">=4.6.7"
   }
 }
