@@ -7,12 +7,9 @@ import { join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import {
-  checkJsonDocument,
+  openJsonSourceSession,
   jsonContract,
-  readJsonPolicy,
-  jsonFormatOptions,
-  decodeJsonBytes,
-  checkJsonPresentation,
+  admitJsonPolicy,
 } from "../../tooling/json/public-api.mjs";
 
 import { Client } from "@modelcontextprotocol/client";
@@ -30,6 +27,40 @@ import { createInMemoryOntologyReleaseArtifact } from "../fixtures/ontology-quer
 import { createOntologyQueryArtifactHttpFixture } from "../fixtures/ontology-query/createOntologyQueryArtifactHttpFixture.js";
 
 const execFileAsync = promisify(execFile);
+
+/** Check the actual finite package metadata with the installed source session.
+ * Policy attribution stays visible; this test does not rebuild a v1 result.
+ */
+async function assertPackedJson(bytes, selected, passed) {
+  expect(selected.exclude).toBe(false);
+  const { exclude, exceptions, allowFormatWrites, ...contract } = selected;
+  void exclude;
+  void allowFormatWrites;
+  if (contract.preserveNfcValues) {
+    contract.allowFormatWrites = false;
+    contract.owner = exceptions.at(-1).owner;
+    contract.reason = exceptions.at(-1).reason;
+  }
+  const session = await openJsonSourceSession();
+  try {
+    let terminal;
+    for await (const event of session.check(
+      {
+        async *open() {
+          yield bytes;
+        },
+      },
+      contract,
+    ))
+      if (event.type === "terminal") terminal = event;
+    expect(terminal).toMatchObject({
+      qualityPassed: passed,
+      contractSatisfied: passed,
+    });
+  } finally {
+    await session.close();
+  }
+}
 
 const ROOT_PACKAGE_JSON_URL = new URL("../../package.json", import.meta.url);
 const PUBLIC_PACKAGE_DIRECTORY_URL = new URL(
@@ -626,8 +657,14 @@ describe("public Universal Ontology MCP npm package", () => {
         ),
       );
       // Inspect actual rebuilt/packed target bytes, including producer-owned notices.
-      const policy = await readJsonPolicy(REPOSITORY_ROOT_PATH);
-      const formatOptions = await jsonFormatOptions();
+      const policy = admitJsonPolicy(
+        JSON.parse(
+          await nodeFileSystem.readFile(
+            join(REPOSITORY_ROOT_PATH, ".json-quality.json"),
+            "utf8",
+          ),
+        ),
+      );
       const jsonPaths = (
         await listRelativeFilePaths(installedPackageDirectoryPath)
       ).filter((path) => path.endsWith(".json"));
@@ -668,18 +705,9 @@ describe("public Universal Ontology MCP npm package", () => {
         allowFormatWrites: false,
       });
       for (const { path, bytes, contract } of documents) {
-        decodeJsonBytes(bytes);
         const withBom = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), bytes]);
-        expect(() => decodeJsonBytes(withBom)).toThrow(/leading UTF-8 BOM/u);
-        await expect(
-          checkJsonPresentation(
-            withBom,
-            contract.formatContract,
-            formatOptions,
-          ),
-        ).rejects.toThrow(/leading UTF-8 BOM/u);
-        const result = await checkJsonDocument(bytes, { ...contract, path });
-        expect(result.findings).toEqual([]);
+        await assertPackedJson(withBom, { ...contract, path }, false);
+        await assertPackedJson(bytes, { ...contract, path }, true);
         if (path === "third-party/oxigraph/component-notices.json") {
           // Packaging must retain the supplied notice exactly; validate its body contract.
           expect(bytes).toEqual(
@@ -688,13 +716,6 @@ describe("public Universal Ontology MCP npm package", () => {
             ),
           );
         }
-        expect(
-          await checkJsonPresentation(
-            bytes,
-            contract.formatContract,
-            formatOptions,
-          ),
-        ).toBe(true);
       }
       const installedNotices = await nodeFileSystem.readFile(
         join(installedPackageDirectoryPath, "THIRD_PARTY_NOTICES.md"),

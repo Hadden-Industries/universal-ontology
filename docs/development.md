@@ -120,30 +120,30 @@ Retain that native cache for later verification; acquisition and verification re
 The selected shared engine supports Node `^22.13.0 || ^24.0.0 || ^26.0.0`; repository development continues to use its existing reference runtime and tooling requirements.
 
 Resource limits are overridable through policy `capacityLimits`, the library invocation's `capacityLimits`, and the repository command adapter's shared CLI flags.
-For example, `npm run check:json -- --max-files 100000 --max-file-bytes 67108864 --json` raises capacity and returns the package's validated machine result.
-Explicit `capacityLimits: false` or CLI `--no-capacity-limits` bypasses every shared package capacity check while preserving quality rules and writer safeguards.
+For example, `npm run check:json -- --max-files 100000 --max-file-bytes 67108864 --json` raises admission capacity and streams validated cohort-2 NDJSON events.
+Explicit `capacityLimits: false` or CLI `--no-capacity-limits` bypasses admission ceilings while preserving finite memory, scratch, time, depth and concurrency controls, quality rules and writer safeguards.
 Individual numeric capacity overrides cannot be combined with that bypass.
 The generated bootstrap accepts `JSON_QUALITY_CAPACITY_LIMITS` for acquisition and separate `JSON_QUALITY_CLEANUP` retry options; the retired `JSON_QUALITY_LIMITS` name is rejected.
 UO declares 512 MiB total-byte capacity for its measured source/generated corpus; other package defaults remain active.
 Exit 1 means known quality findings; exit 2 means invalid arguments, refused normalization input or operational failure.
 
 `npm run check:json` automatically discovers and checks source and generated JSON read-only, including untracked and Git-ignored files.
-`npm run lint:json` checks inventory, strict JSON syntax, decoded duplicate keys and native interoperability rules with zero warnings.
-`npm run format:json:check` checks inventory and presentation.
-It delegates to `format --check`, matching `runJsonQuality("format", { check: true })`.
-The existing `check:json:producers` npm script delegates to `check --scope protected`, matching `runJsonQuality("check", { scope: "protected" })`.
-Machine results use schema version 4 and retain the canonical verb plus its applicable `check` or `scope` modifier.
-Literal file selection follows `--`; JSON selection uses `--files '["path.json"]'`, corresponding to API `files` for every operation, including explicit nonempty normalization selection.
-Supplied-document formatting uses `format --request - --json` or `formatJsonDocument(request, options)`; adding `--check` or `check: true` retains the supplied bytes.
-The JSON API operations `check-format` / `check-protected`, API `sourcePaths`, JSON CLI `--files-json` / `--stdin-request` / `--no-limits`, and export `processJsonDocument` are retired without aliases.
+`npm run format:json:check` runs the same complete read-only check, including protected producer presentation.
+`npm run inspect:json` streams that complete check as NDJSON.
+Only the final `execution-terminal` closes inventory, expected linkage, source observations and diagnostic delivery; individual source terminals do not establish overall success.
+The library adapter returns `openRepositoryJsonSession()`: consume `session.events()` and close the session in `finally`.
+Explicit write selection uses literal paths after `--`, such as `npm run normalize:json -- -- authored.json`.
+The source-session API consumes asynchronous raw byte streams and retains lossless references inside their live session.
+Finite pure producers use `formatJsonSource` or `formatJsonValue`; domain validators retain authority over materialized application values.
+Old inventory/lint verbs, protected scopes, `format --check`, supplied-document envelopes and aggregate result readers are removed without aliases.
 Markdown tooling retains its own CLI grammar.
 `npm run format:json` performs complete semantic and producer-presentation preflight, native Prettier preservation checking, and guarded writes of admitted source bytes.
 `lint`, `format:check` and `check:qualification` include JSON quality; `format`, `fix:all` and `fix:code-style` reach the JSON writer exactly once.
 `format:node` and `format:node:check` select non-JSON sources only.
 They pass their mode to the same `format:node:files` selection, so its glob list is maintained once.
 
-[The JSON policy](../.json-quality.json) schema 1 records defaults and sparse exceptions rather than an admission allowlist.
-UO's former local schema 4 is migrated explicitly; the package rejects it rather than translating silently.
+[The JSON policy](../.json-quality.json) schema 2 records defaults and sparse exceptions rather than an admission allowlist.
+Unsupported policy and event cohorts are refused explicitly.
 Ordinary `.json`, `.jsonld` and `.sarif` files need no policy entry or staging: create, check, fix and stage the final bytes.
 Defaults require strict syntax, native interoperability lint, NFC for every decoded key and string value, and standard presentation.
 There is one shared lint contract; the obsolete `lintProfile` field is rejected in defaults and exceptions.
@@ -157,8 +157,7 @@ Git ignore rules never suppress checking.
 Ignored untracked files are always read-only to the generic formatter.
 Installed dependencies (`**/node_modules/**`), `.venv`, installed agent skills/tools, Git administration and local workflow/tool state are explicit external boundaries.
 Boundary rules never conceal tracked JSON; discovery prunes external trees and independently includes every indexed JSON path.
-`npm run check:json:inventory` reports scope without performing document analysis.
-The repository commands and installed package CLI share resolved-contract and external-boundary reporting; inventory is never quality acceptance.
+The repository commands and installed package CLI share resolved-contract and external-boundary events; an inventory count alone is never quality acceptance.
 Missing tracked files, unmerged/case-colliding paths, unsafe links and conflicting exceptions fail closed.
 JSON Lines and NDJSON receive strict per-record validation and framing checks and remain producer-owned.
 JSONC and JSON5 are detected and refused.
@@ -174,7 +173,8 @@ Repair a failing artifact through its owning source or producer; checks never re
 The token-based preservation oracle directly declares Apache-2.0 `@humanwhocodes/momoa` as a development dependency.
 Its selected version remains 3.3.13; the declaration does not change public runtime dependencies or replace the independent oracle with production quality logic.
 
-The isolated locked engine owns Prettier 3.9.10, ESLint 10.12.0, official `@eslint/json` 2.1.1 and Ajv 8.20.0.
+The isolated engine owns Prettier 3.9.10, Ajv 8.20.0 and its pinned shared native parser, storage, Unicode and presentation core.
+ESLint retains JavaScript identity-rule ownership; it is not the JSON document parser.
 Consumer ESLint and Prettier configuration cannot weaken its JSON checks.
 Strict JSON rejects comments, trailing commas, unquoted keys and non-JSON numeric forms.
 Duplicate keys are compared after escape decoding.
@@ -189,8 +189,8 @@ The owner/reason `allowEmptyKeys` exception lists exact JSON Pointers ending in 
 It permits only the literal empty key at that location; other empty keys, whitespace-only keys, duplicate keys, unsafe values and non-NFC data still fail.
 Shared checks apply independently of write protection and normalization preservation, and expose no automatic data fix.
 NFC applies by default to every decoded JSON key and string value, including nested values, array/root strings, JSON-LD and generated products.
-The shared ESLint rule reports non-NFC strings and keys that would collide after NFC; it deliberately exposes no automatic ESLint fix.
-`normalization: "preserve"` is an explicit `.json-quality.json` exception requiring an owner, reason and `allowFormatWrites: false`; it preserves exact string identity while retaining strict syntax, duplicate-key, unsafe-value and presentation checks.
+The shared native checker reports non-NFC strings and keys that would collide after NFC; checking performs no repairs.
+Exact `preserveNfcValues` pins retain only independently identified decoded string values; keys and every unpinned string remain subject to NFC checks.
 Write protection alone never exempts a file from NFC validation.
 The former control-key override is redundant and has been removed.
 Formatting never normalizes keys or values, sorts members or repairs schema/domain errors.
@@ -198,7 +198,7 @@ Formatting never normalizes keys or values, sorts members or repairs schema/doma
 Use the explicit authored-source repair command with literal repository-relative paths:
 
 ```sh
-npm run normalize:json -- path/to/source.json another/source.json
+npm run normalize:json -- -- path/to/source.json another/source.json
 npm run format:json
 npm run check:json
 ```
@@ -216,7 +216,7 @@ It uses the same native parser, interoperability preflight and collision analysi
 The producer must still validate its schema, graph, references and digests before publishing derived products; normalization can change exact string identity even when text looks identical.
 For JSON-LD, fix the owning RDF source and retain existing graph verification rather than silently normalizing serialized literals.
 Prettier's explicit `json-stringify` presentation uses two spaces, LF, double quotes, no trailing commas and one final newline while preserving member order and numeric lexemes.
-Read-only formatting uses the native Prettier API across every policy record, independently of its write eligibility.
+Read-only presentation checking runs incrementally in the shared native core for every selected source, independently of its write eligibility.
 The retained Oxigraph notice uses `producer-json-body`: its existing LF/CRLF envelope and absent final newline are permitted, while native Prettier checks the entire JSON body.
 Other tracked files currently use standard Prettier presentation.
 Generated ontology/query/distribution products using native `JSON.stringify(..., null, 2)` receive exact two-space, final-LF producer serialization checks.
@@ -227,10 +227,11 @@ Consumer comparisons of Registry/OCI metadata, MCP application identity, archive
 Duplicate legacy interpretation identity uses the validated fields in a stable tuple, so reordering object members cannot conceal a duplicate.
 Canonical semantic digest formats, opaque cursor integrity bindings, exact-byte artifact hashes and producer presentation remain their own contracts; formatting does not sort JSON to compensate for consumer comparison errors.
 All JSON npm commands enter [one UO adapter](../scripts/runRepositoryJsonQuality.js), which supplies the repository root and required generated-output patterns to the installed engine.
-The [public-export bridge](../tooling/json/public-api.mjs) supplies the policy reader, document analysis and producer-presentation check to repository checks and rebuilt-package qualification.
+The [public-export bridge](../tooling/json/public-api.mjs) supplies scoped source and repository sessions to repository checks and rebuilt-package qualification.
 The engine constructs its own native lint and presentation settings and never executes repository JSON lint or formatter configuration.
 `.prettierignore` blocks all JSON from direct Prettier CLI writes; it does not select the read-only checks.
 The supported writer analyzes the prospective corpus, debug-checks changed formatting with explicit package-owned options, and rechecks policy, inventory and every source preimage before writing.
+Formatting and normalization have an explicit 2 MiB input/output capability and a finite change limit; these writer bounds do not limit incremental read-only checking.
 It individually replaces files while preserving permissions, reporting completed, failed and unprocessed paths after partial failure.
 
 Consumer validators remain authoritative: the local MCP Registry schema, PR-plan standalone validator, release-input Ajv reader, projection-history schema/domain tests, provenance digests and JSON-LD graph equivalence checks.

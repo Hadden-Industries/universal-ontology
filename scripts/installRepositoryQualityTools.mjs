@@ -95,10 +95,14 @@ export function nativeQualityCachePath(toolingRoot, npmExecutable, overrides) {
       cwd: toolingRoot,
       encoding: "utf8",
       windowsHide: true,
-      timeout: Number.isFinite(capacityLimits.maxCacheLookupTimeMs)
-        ? capacityLimits.maxCacheLookupTimeMs
-        : 0,
-      maxBuffer: capacityLimits.maxCacheOutputBytes,
+      timeout: Math.min(
+        capacityLimits.maxCacheLookupTimeMs,
+        ACQUISITION_RESOURCE_DEFAULTS.maxCacheLookupTimeMs,
+      ),
+      maxBuffer: Math.min(
+        capacityLimits.maxCacheOutputBytes,
+        ACQUISITION_RESOURCE_DEFAULTS.maxCacheOutputBytes,
+      ),
     },
   ).trim();
 }
@@ -179,9 +183,10 @@ async function acquire() {
         env,
         stdio: "inherit",
         windowsHide: true,
-        timeout: Number.isFinite(capacityLimits.maxAcquisitionTimeMs)
-          ? capacityLimits.maxAcquisitionTimeMs
-          : 0,
+        timeout: Math.min(
+          capacityLimits.maxAcquisitionTimeMs,
+          ACQUISITION_RESOURCE_DEFAULTS.maxAcquisitionTimeMs,
+        ),
       },
     );
     if (result.error || result.signal || result.status === null)

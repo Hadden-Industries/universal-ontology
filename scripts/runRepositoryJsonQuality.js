@@ -1,7 +1,7 @@
 /** UO owns its root and generated-output obligations; the installed engine owns quality. */
 import { fileURLToPath, pathToFileURL } from "node:url";
 import {
-  runJsonQuality,
+  openJsonRepositorySession,
   runJsonQualityCli,
 } from "../tooling/json/public-api.mjs";
 
@@ -11,11 +11,12 @@ const requiredGeneratedOutputs = [
   "dist/query/v1/catalog.json",
 ];
 
-export async function runRepositoryJsonQuality(
-  operation,
-  { root = repositoryRoot, requireGenerated = false, ...options } = {},
-) {
-  return runJsonQuality(operation, {
+export function openRepositoryJsonSession({
+  root = repositoryRoot,
+  requireGenerated = false,
+  ...options
+} = {}) {
+  return openJsonRepositorySession({
     ...options,
     root,
     requiredOutputs: requireGenerated ? requiredGeneratedOutputs : [],
