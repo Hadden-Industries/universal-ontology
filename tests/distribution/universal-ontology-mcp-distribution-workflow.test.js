@@ -1,11 +1,14 @@
 import * as nodeFileSystem from "node:fs/promises";
 import { execFileSync, spawnSync } from "node:child_process";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { parse as parseYaml } from "yaml";
+import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 
 import { readUniversalOntologyMcpReleaseInputs } from "../../scripts/distribution/buildUniversalOntologyMcpPlatformArchive.js";
+
+import { verifyUniversalOntologyMcpDistributionWorkflow } from "../../scripts/distribution/verifyUniversalOntologyMcpDistributionWorkflow.js";
 
 const WORKFLOW_URL = new URL(
   "../../.github/workflows/verify-universal-ontology-mcp-distribution.yml",
@@ -530,5 +533,600 @@ describe("Universal Ontology MCP development distribution workflow", () => {
     expect(concatenateWorkflowSemanticText(workflowWithSecurityComment)).toBe(
       concatenateWorkflowSemanticText(workflow),
     );
+  });
+});
+
+describe("distribution workflow concurrency policy", () => {
+  test("accepts the approved workflow without constructing release artifacts", async () => {
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).resolves.toEqual({ verifiedJobCount: 6 });
+  });
+
+  test.each([
+    ["unconditional non-PR cancellation", "cancel-in-progress", true],
+    [
+      "a shared non-PR group that replaces pending runs",
+      "group",
+      "universal-ontology-mcp-distribution-${{ github.ref }}",
+    ],
+    [
+      "a group shared by rerun attempts",
+      "group",
+      "universal-ontology-mcp-distribution-${{ github.event_name }}-${{ github.event.pull_request.number || github.run_id }}",
+    ],
+  ])("rejects %s", async (_caseName, setting, value) => {
+    // Workflow-only policy needs no package/SBOM fixture or installed npm graph.
+    const workflow = parseYaml(
+      await nodeFileSystem.readFile(WORKFLOW_URL, "utf8"),
+    );
+    expect(workflow.concurrency).toBeUndefined();
+    workflow.concurrency = {};
+    workflow.concurrency[setting] = value;
+    const fixturePath = await nodeFileSystem.mkdtemp(
+      join(tmpdir(), "uo-workflow-concurrency-"),
+    );
+    try {
+      const distributionWorkflowPath = join(fixturePath, "workflow.yml");
+      await nodeFileSystem.writeFile(
+        distributionWorkflowPath,
+        stringifyYaml(workflow),
+      );
+      await expect(
+        verifyUniversalOntologyMcpDistributionWorkflow({
+          distributionWorkflowPath,
+          releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+        }),
+      ).rejects.toThrow(/workflow.*(?:policy|manifest)/iu);
+    } finally {
+      await nodeFileSystem.rm(fixturePath, { recursive: true, force: true });
+    }
+  });
+});
+
+describe("MCP distribution executable-policy verification", () => {
+  let fixtureParentDirectoryPath;
+  beforeAll(async () => {
+    fixtureParentDirectoryPath = await nodeFileSystem.mkdtemp(
+      join(tmpdir(), "uo-mcp-workflow-policy-"),
+    );
+  });
+  afterAll(async () => {
+    await nodeFileSystem.rm(fixtureParentDirectoryPath, {
+      recursive: true,
+      force: true,
+    });
+  });
+
+  async function writeMutatedDistributionWorkflow(
+    caseName,
+    mutateWorkflowText,
+  ) {
+    const sourceWorkflowText = await nodeFileSystem.readFile(
+      WORKFLOW_URL,
+      "utf8",
+    );
+    const mutatedWorkflowText = mutateWorkflowText(sourceWorkflowText);
+    if (mutatedWorkflowText === sourceWorkflowText) {
+      throw new Error(`Workflow mutation did not apply for ${caseName}.`);
+    }
+
+    const distributionWorkflowPath = join(
+      fixtureParentDirectoryPath,
+      `${caseName}.yml`,
+    );
+    await nodeFileSystem.writeFile(
+      distributionWorkflowPath,
+      mutatedWorkflowText,
+    );
+    return distributionWorkflowPath;
+  }
+
+  function insertValidateJobStep(workflowText, stepLines) {
+    return workflowText.replace(
+      "        run: npm ci --ignore-scripts",
+      ["        run: npm ci --ignore-scripts", "", ...stepLines].join("\n"),
+    );
+  }
+
+  test("rejects any unapproved addition to the workflow step topology", async () => {
+    const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
+      "additional-benign-step",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Run an otherwise benign additional command",
+          "        run: node --version",
+        ]),
+    );
+
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        distributionWorkflowPath,
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).rejects.toThrow(/workflow.*(?:policy|manifest)/iu);
+  });
+
+  test("rejects any unapproved change to an approved run script", async () => {
+    const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
+      "modified-approved-run-script",
+      (workflowText) =>
+        workflowText.replace(
+          "        run: npm run build:mcp-package\n",
+          [
+            "        run: |",
+            "          npm run build:mcp-package",
+            "          node --version",
+            "",
+          ].join("\n"),
+        ),
+    );
+
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        distributionWorkflowPath,
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).rejects.toThrow(/workflow.*(?:policy|manifest)/iu);
+  });
+
+  test("accepts presentation-only workflow comments and mapping reordering", async () => {
+    const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
+      "presentation-only-workflow-changes",
+      (workflowText) => {
+        const parsedWorkflow = parseYaml(workflowText);
+
+        // Mapping order is not part of YAML's data model. Exercise mappings
+        // checked both as policy values and as explicit topology key sets.
+        parsedWorkflow.jobs = {
+          complete: parsedWorkflow.jobs.complete,
+          assemble: parsedWorkflow.jobs.assemble,
+          container: parsedWorkflow.jobs.container,
+          archive: parsedWorkflow.jobs.archive,
+          validate: parsedWorkflow.jobs.validate,
+          scope: parsedWorkflow.jobs.scope,
+        };
+        for (const jobName of ["archive", "assemble"]) {
+          const uploadStep = parsedWorkflow.jobs[jobName].steps.find(
+            ({ uses }) =>
+              typeof uses === "string" &&
+              uses.startsWith("actions/upload-artifact@"),
+          );
+          uploadStep.with = {
+            "retention-days": uploadStep.with["retention-days"],
+            path: uploadStep.with.path,
+            name: uploadStep.with.name,
+            "if-no-files-found": uploadStep.with["if-no-files-found"],
+          };
+        }
+
+        return [
+          "# Security note: never expose ${{ secrets }} from this workflow.",
+          stringifyYaml(parsedWorkflow),
+        ].join("\n");
+      },
+    );
+
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        distributionWorkflowPath,
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).resolves.toEqual({ verifiedJobCount: 6 });
+  });
+
+  test.each([
+    [
+      "a missing job timeout",
+      (workflow) => {
+        delete workflow.jobs.archive["timeout-minutes"];
+      },
+    ],
+    [
+      "an unapproved job timeout increase",
+      (workflow) => {
+        workflow.jobs.assemble["timeout-minutes"] = 360;
+      },
+    ],
+    [
+      "write permission in the scope job",
+      (workflow) => {
+        workflow.jobs.scope.permissions.contents = "write";
+      },
+    ],
+    [
+      "an archive job without the scope dependency",
+      (workflow) => {
+        workflow.jobs.archive.needs = ["validate"];
+      },
+    ],
+    [
+      "an unconditional archive job",
+      (workflow) => {
+        delete workflow.jobs.archive.if;
+      },
+    ],
+  ])("rejects %s", async (caseName, mutateWorkflow) => {
+    const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
+      caseName.replaceAll(" ", "-"),
+      (workflowText) => {
+        const workflow = parseYaml(workflowText);
+        mutateWorkflow(workflow);
+        return stringifyYaml(workflow);
+      },
+    );
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        distributionWorkflowPath,
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).rejects.toThrow(/workflow.*(?:policy|manifest)/iu);
+  });
+
+  test("rejects a distribution workflow whose action ref leaves the full-SHA allowlist", async () => {
+    const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
+      "tampered-action-reference",
+      (workflowText) =>
+        workflowText.replace(
+          "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "actions/checkout@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        ),
+    );
+
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        distributionWorkflowPath,
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).rejects.toThrow(/workflow|action/iu);
+  });
+
+  test("rejects a container job that no longer performs an MCP initialization smoke", async () => {
+    const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
+      "missing-container-mcp-initialization",
+      (workflowText) =>
+        workflowText.replace(
+          "await client.connect(transport)",
+          "await client.connect_disabled(transport)",
+        ),
+    );
+
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        distributionWorkflowPath,
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).rejects.toThrow(/workflow|container|MCP|initialization/iu);
+  });
+
+  test.each([
+    [
+      "a secret context hidden behind a neutral environment name",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Read a secret through a neutral environment name",
+          "        env:",
+          "          TOKEN: ${{ secrets.NPM_TOKEN }}",
+          "        run: node --version",
+        ]),
+    ],
+    [
+      "an indirectly referenced secret context",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Serialize the secret context",
+          "        env:",
+          "          TOKEN_MAP: ${{ toJSON(secrets) }}",
+          "        run: node --version",
+        ]),
+    ],
+    [
+      "option-bearing npm publication",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Publish through an option-bearing npm command",
+          "        run: npm --workspace universal-ontology-mcp-server publish --provenance=false",
+        ]),
+    ],
+    [
+      "folded option-bearing npm publication",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Publish through a folded npm command",
+          "        run: >-",
+          "          npm --workspace universal-ontology-mcp-server",
+          "          publish --provenance=false",
+        ]),
+    ],
+    [
+      "the shortest accepted npm publication abbreviation",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Publish through an npm abbreviation",
+          "        run: npm pu",
+        ]),
+    ],
+    [
+      "Docker's image-push command form",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Push an OCI image through the image command group",
+          "        run: docker image push example.invalid/universal-ontology-mcp-server:development",
+        ]),
+    ],
+    [
+      "Docker Buildx's push flag",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Push an OCI image through Docker Buildx",
+          "        run: docker buildx build --push --tag example.invalid/universal-ontology-mcp-server:development .",
+        ]),
+    ],
+    [
+      "Docker's top-level Buildx build alias",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Exercise a top-level Docker build alias",
+          "        run: docker build --push --tag example.invalid/universal-ontology-mcp-server:development .",
+        ]),
+    ],
+    [
+      "Docker's image-group Buildx build alias",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Exercise an image-group Docker build alias",
+          "        run: docker image build --output=type=registry,name=example.invalid/universal-ontology-mcp-server:development .",
+        ]),
+    ],
+    [
+      "Docker Buildx's abbreviated build command",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Exercise the abbreviated Buildx build command",
+          "        run: docker buildx b --cache-to=example.invalid/universal-ontology-mcp-cache:development .",
+        ]),
+    ],
+    [
+      "Docker Buildx's registry output",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Export an OCI image to a registry through Docker Buildx",
+          "        run: docker buildx build --output=type=registry,name=example.invalid/universal-ontology-mcp-server:development .",
+        ]),
+    ],
+    [
+      "Docker Buildx's quoted registry output type",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Export an OCI image through a quoted Docker Buildx output type",
+          '        run: docker buildx build --output type="registry",name=example.invalid/universal-ontology-mcp-server:development .',
+        ]),
+    ],
+    [
+      "Docker Buildx's attached short output option",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Exercise an attached Buildx output option",
+          "        run: docker buildx build -otype=registry,name=example.invalid/universal-ontology-mcp-server:development .",
+        ]),
+    ],
+    [
+      "Docker Buildx's combined quiet and output options",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Exercise combined Buildx short options",
+          "        run: docker buildx build -qotype=registry,name=example.invalid/universal-ontology-mcp-server:development .",
+        ]),
+    ],
+    [
+      "Docker Buildx's combined short options with a following output value",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Resolve a combined short option from its next argument",
+          "        run: docker buildx build -qo type=registry,name=example.invalid/universal-ontology-mcp-server:development .",
+        ]),
+    ],
+    [
+      "Docker Buildx's opaque output descriptor",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Resolve a Buildx output descriptor at execution time",
+          "        env:",
+          "          OUTPUT_DESCRIPTOR: type=registry,name=example.invalid/universal-ontology-mcp-server:development",
+          '        run: docker buildx build --output "$OUTPUT_DESCRIPTOR" .',
+        ]),
+    ],
+    [
+      "Docker Buildx's pushed image output",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Export and push an OCI image through Docker Buildx",
+          "        run: docker buildx build --output type=image,name=example.invalid/universal-ontology-mcp-server:development,push=true .",
+        ]),
+    ],
+    [
+      "Docker Buildx's remote registry cache export",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Export a Docker Buildx cache to a registry",
+          "        run: docker buildx build --cache-to=type=registry,ref=example.invalid/universal-ontology-mcp-cache:development .",
+        ]),
+    ],
+    [
+      "Docker Buildx's implicit registry cache export",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Export a Docker Buildx cache through the registry shorthand",
+          "        run: docker buildx build --cache-to=example.invalid/universal-ontology-mcp-cache:development .",
+        ]),
+    ],
+    [
+      "Docker Buildx's repeated effective cache exporter type",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Override a local cache exporter later in its descriptor",
+          "        run: docker buildx build --cache-to=type=local,type=registry,ref=example.invalid/universal-ontology-mcp-cache:development .",
+        ]),
+    ],
+    [
+      "Docker Buildx's opaque cache exporter descriptor",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Resolve a Buildx cache descriptor at execution time",
+          "        env:",
+          "          CACHE_DESCRIPTOR: type=registry,ref=example.invalid/universal-ontology-mcp-cache:development",
+          '        run: docker buildx build --cache-to "$CACHE_DESCRIPTOR" .',
+        ]),
+    ],
+    [
+      "Docker Buildx Bake's registry output override",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Export a Bake target to a registry",
+          "        run: docker buildx bake --set '*.output=type=registry'",
+        ]),
+    ],
+    [
+      "Docker Buildx Bake's pushed image output override",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Push a Bake target image",
+          "        run: docker buildx bake --set=*.output=type=image,push=true",
+        ]),
+    ],
+    [
+      "Docker Buildx Bake's registry cache override",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Export a Bake target cache to a registry",
+          "        run: docker buildx bake --set '*.cache-to=type=registry,ref=example.invalid/universal-ontology-mcp-cache:development'",
+        ]),
+    ],
+    [
+      "Docker's top-level Bake alias",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Exercise a top-level Docker Bake alias",
+          "        run: docker bake --set '*.output=type=registry'",
+        ]),
+    ],
+    [
+      "Docker Buildx's abbreviated Bake command",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Exercise the abbreviated Buildx Bake command",
+          "        run: docker buildx f --set '*.output=type=registry'",
+        ]),
+    ],
+    [
+      "Docker publication after a quoted semicolon",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Preserve a semicolon inside a Docker label",
+          '        run: docker buildx build --label "note=a;b" --push --tag example.invalid/universal-ontology-mcp-server:development .',
+        ]),
+    ],
+    [
+      "Docker publication after a quoted ampersand",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Preserve an ampersand inside a Docker label",
+          '        run: docker buildx build --label "note=a&b" --output=type=registry,name=example.invalid/universal-ontology-mcp-server:development .',
+        ]),
+    ],
+    [
+      "Docker publication after a quoted pipe",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Preserve a pipe inside a Docker label",
+          '        run: docker buildx build --label "note=a|b" --cache-to=type=registry,ref=example.invalid/universal-ontology-mcp-cache:development .',
+        ]),
+    ],
+    [
+      "Docker Bake after a quoted global-option separator",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Preserve a separator inside a Docker client path",
+          '        run: docker --config "client;config" buildx bake',
+        ]),
+    ],
+    [
+      "npm publication hidden behind a cmd.exe caret continuation",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Publish through a cmd.exe continuation",
+          "        shell: cmd",
+          "        run: |",
+          "          npm ^",
+          "            publish",
+        ]),
+    ],
+    [
+      "Docker publication whose executable is split by a cmd.exe caret continuation",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Split the Docker executable across a cmd.exe continuation",
+          "        shell: cmd",
+          "        run: |",
+          "          doc^",
+          "          ker buildx build --push example.invalid/universal-ontology-mcp-server:development .",
+        ]),
+    ],
+    [
+      "Docker publication whose push flag is split by a cmd.exe caret continuation",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Split a Buildx option across a cmd.exe continuation",
+          "        shell: cmd",
+          "        run: |",
+          "          docker buildx build --pu^",
+          "          sh example.invalid/universal-ontology-mcp-server:development .",
+        ]),
+    ],
+    [
+      "indexed access to the GitHub token context",
+      (workflowText) =>
+        insertValidateJobStep(workflowText, [
+          "      - name: Read the automatic token through index syntax",
+          "        env:",
+          "          TOKEN: ${{ github['token'] }}",
+          "        run: node --version",
+        ]),
+    ],
+  ])("rejects a workflow containing %s", async (caseName, mutateWorkflow) => {
+    const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
+      caseName.replaceAll(" ", "-"),
+      mutateWorkflow,
+    );
+
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        distributionWorkflowPath,
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).rejects.toThrow(/publication|remote-write/iu);
+  });
+
+  test.each([
+    [
+      "native archive upload path",
+      "path: dist/releases/universal-ontology-mcp-server-v${{ needs.validate.outputs.software-version }}-${{ matrix.targetName }}.${{ matrix.releaseArchiveFormat }}",
+    ],
+    ["assembled candidate upload path", "path: dist/releases/*"],
+  ])("rejects a narrowed %s", async (caseName, exactUploadPath) => {
+    const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
+      caseName.replaceAll(" ", "-"),
+      (workflowText) =>
+        workflowText.replace(exactUploadPath, "path: dist/releases/SHA256SUMS"),
+    );
+
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        distributionWorkflowPath,
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).rejects.toThrow(/workflow|upload|artifact/iu);
   });
 });

@@ -84,6 +84,10 @@ For an SDK update, first verify the current supported release and its complete t
 Propose exact manifest/lock changes under repository configuration approval. Trace a tool from registration through the query package, then run workspace protocol/socket and semantic tests, bundle/pack/fresh-install tests, and root regressions.
 The builder attributes inputs to their actual package installation, checks embedded component identities, and requires full published direct-component license text in notices.
 The release verifier consumes npm's development-dependency relationships separately from the application's embedded-component SBOM.
+`verifyUniversalOntologyMcpRelease.js` checks candidate files, checksums, package contents, versions and SBOM coverage against the release inputs.
+Repository CI policy is checked separately by `scripts/verifyPullRequestPolicyGraph.js`, through the existing CI control tests; it checks workflow permissions, reusable call targets and completion controls without freezing repository quality configuration, source files or lockfiles.
+`verifyUniversalOntologyMcpDistributionWorkflow.js` owns the MCP distribution workflow contract, including its reviewed semantic digest, exact action/toolchain selections and publication restrictions; the workflow tests exercise it without constructing release artifacts.
+Changes to JSON or Markdown policy still require their owning quality checks, but no longer require refreshing unrelated hashes in the MCP release verifier.
 Preserve retained rejection cases and ontology definition/provenance assertions when evaluating the update.
 
 This responsibility map supports maintainer review; it does not establish measured onboarding savings or release/host acceptance.
