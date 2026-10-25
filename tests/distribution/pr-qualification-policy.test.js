@@ -10,7 +10,7 @@ import { dirname, join } from "node:path";
 import { parse, stringify } from "yaml";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { verifyPullRequestPolicyGraph } from "../../scripts/distribution/verifyUniversalOntologyMcpRelease.js";
+import { verifyPullRequestPolicyGraph } from "../../scripts/verifyPullRequestPolicyGraph.js";
 import {
   discoverNodeSuites,
   CI_CONTROL_SUITES,
@@ -26,45 +26,8 @@ const files = [
   ".github/workflows/development-checks.yml",
   ".github/workflows/ontology-validation.yml",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
-  "scripts/selectPullRequestChecks.js",
-  "scripts/evaluatePullRequestChecks.js",
-  "scripts/pullRequestCheckPlan.schema.json",
-  "scripts/pullRequestCheckPlanValidator.js",
-  "scripts/generatePullRequestCheckPlanValidator.js",
   ".github/workflows/manual-mcp-packages.yml",
-  "scripts/distribution/prepareManualMcpRelease.js",
-  "scripts/runPullRequestNodeChecks.js",
-  "scripts/prQualification.js",
-  "scripts/prQualificationReuse.js",
-  "scripts/prQualificationReuseCommand.js",
-  "scripts/prQualificationCommand.js",
-  "scripts/pullRequestNodeFamilies.js",
-  "scripts/runTestsInParallel.py",
-  ".markdown-quality.json",
-  "tooling/markdown/package.json",
-  "tooling/markdown/package-lock.json",
   ".github/workflows/markdown-quality.yml",
-  "scripts/installRepositoryQualityTools.mjs",
-  "scripts/render_editing_policy.py",
-  "scripts/setUpDevelopmentEnvironment.js",
-  ".markdown-quality-execution.json",
-  "package.json",
-  ".npmrc",
-  "tests/markdown-quality.test.js",
-  "tooling/markdown/archives/hadden-industries-markdown-quality-1.0.3.tgz",
-  "tooling/markdown/archives/hadden-industries-markdown-quality-win32-x64-1.0.3.tgz",
-  "tooling/markdown/archives/hadden-industries-markdown-quality-linux-x64-1.0.3.tgz",
-  ".json-quality.json",
-  "eslint.config.js",
-  "tests/lint/no-json-stringify-identity.test.js",
-  ".prettierrc.json",
-  ".prettierignore",
-  "tests/json-quality.test.js",
-  "package-lock.json",
-  "scripts/runRepositoryJsonQuality.js",
-  "tooling/json/public-api.mjs",
-  "tooling/json/package.json",
-  "tooling/json/package-lock.json",
 ];
 
 test.each(files.slice(0, 5))(
@@ -179,10 +142,140 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
   for (const file of discovered)
     expect(owned.filter((candidate) => candidate === file)).toHaveLength(1);
 });
-test("reviewed graph accepts every entry point and control input", async () => {
+test("CI policy accepts the repository workflow graph", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedFileCount: 44,
+    verifiedWorkflowCount: 7,
   });
+});
+
+test("CI policy accepts an unrelated JSON quality exception", async () => {
+  const root = mkdtempSync(join(tmpdir(), "uo-pr-policy-independent-"));
+  try {
+    for (const file of files) {
+      mkdirSync(dirname(join(root, file)), { recursive: true });
+      writeFileSync(
+        join(root, file),
+        readFileSync(new URL(`../../${file}`, import.meta.url)),
+      );
+    }
+    const policyPath = join(root, ".json-quality.json");
+    const policy = JSON.parse(
+      readFileSync(
+        new URL("../../.json-quality.json", import.meta.url),
+        "utf8",
+      ),
+    );
+    policy.exceptions.push({
+      paths: ["docs/research/unrelated-producer.json"],
+      allowFormatWrites: false,
+      owner: "Research document producer",
+      reason:
+        "Retain producer presentation for an unrelated research document.",
+    });
+    writeFileSync(policyPath, `${JSON.stringify(policy)}\n`);
+    await expect(verifyPullRequestPolicyGraph({ root })).resolves.toBeDefined();
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test.each([
+  [
+    "default write permission",
+    "pr-validation.yml",
+    (workflow) => {
+      workflow.permissions = { contents: "write" };
+    },
+    /default permissions/u,
+  ],
+  [
+    "job write permission",
+    "development-checks.yml",
+    (workflow) => {
+      workflow.jobs.checks.permissions.contents = "write";
+    },
+    /permission contract/u,
+  ],
+  [
+    "inherited secrets",
+    "pr-validation.yml",
+    (workflow) => {
+      workflow.jobs.development.secrets = "inherit";
+    },
+    /weakens completion/u,
+  ],
+  [
+    "optional caller completion",
+    "pr-validation.yml",
+    (workflow) => {
+      workflow.jobs.development["continue-on-error"] = true;
+    },
+    /weakens completion/u,
+  ],
+  [
+    "optional step completion",
+    "development-checks.yml",
+    (workflow) => {
+      workflow.jobs.checks.steps[0]["continue-on-error"] = true;
+    },
+    /weakens completion/u,
+  ],
+  [
+    "an unknown local caller",
+    "pr-validation.yml",
+    (workflow) => {
+      workflow.jobs.development.uses = "./.github/workflows/unknown.yml";
+    },
+    /permitted workflow graph/u,
+  ],
+  [
+    "an unpinned external caller",
+    "markdown-quality.yml",
+    (workflow) => {
+      workflow.jobs.qualify.uses =
+        "Hadden-Industries/markdown-quality/.github/workflows/markdown-quality.yml@main";
+    },
+    /permitted workflow graph/u,
+  ],
+  [
+    "unsupported caller fields",
+    "pr-validation.yml",
+    (workflow) => {
+      workflow.jobs.development["runs-on"] = "ubuntu-latest";
+    },
+    /Unsupported reusable caller field/u,
+  ],
+  [
+    "consumer-owned concurrency",
+    "development-checks.yml",
+    (workflow) => {
+      workflow.concurrency = { group: "shared", "cancel-in-progress": true };
+    },
+    /owns concurrency/u,
+  ],
+  [
+    "additional draft privileges",
+    "manual-mcp-packages.yml",
+    (workflow) => {
+      workflow.jobs.draft.permissions.packages = "write";
+    },
+    /permission contract/u,
+  ],
+])("CI policy rejects %s", async (_name, fileName, mutate, error) => {
+  const root = mkdtempSync(join(tmpdir(), "uo-pr-policy-"));
+  try {
+    for (const file of files) {
+      const workflow = parse(
+        readFileSync(new URL(`../../${file}`, import.meta.url), "utf8"),
+      );
+      if (file === `.github/workflows/${fileName}`) mutate(workflow);
+      mkdirSync(dirname(join(root, file)), { recursive: true });
+      writeFileSync(join(root, file), stringify(workflow));
+    }
+    await expect(verifyPullRequestPolicyGraph({ root })).rejects.toThrow(error);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });
 
 test.each([
@@ -252,42 +345,6 @@ test("narrow native route owns exactly its eleven required control suites", () =
     requiredJobs: ["development", "node"],
   };
   expect(discoverNodeSuites(plan)).toEqual([...CI_CONTROL_SUITES].sort());
-});
-test.each(files)("rejects a semantic modification to %s", async (changed) => {
-  const root = mkdtempSync(join(tmpdir(), "uo-pr-policy-"));
-  try {
-    for (const file of files) {
-      let bytes = readFileSync(new URL(`../../${file}`, import.meta.url));
-      if (file === changed) {
-        if (file.endsWith(".tgz")) {
-          bytes = Buffer.from(bytes);
-          bytes[bytes.length - 1] = (bytes[bytes.length - 1] + 1) % 256;
-        } else if (file.endsWith(".yml")) {
-          const text = bytes.toString("utf8");
-          const value = parse(text);
-          value.permissions = { contents: "write" };
-          bytes = Buffer.from(stringify(value));
-        } else if (file.endsWith(".json")) {
-          const text = bytes.toString("utf8");
-          const value = JSON.parse(text);
-          value.additionalProperties = true;
-          bytes = Buffer.from(JSON.stringify(value));
-        } else if (file === ".npmrc") bytes = Buffer.from("allow-git=all\n");
-        else
-          bytes = Buffer.concat([
-            bytes,
-            Buffer.from("\n// unreviewed control change\n"),
-          ]);
-      }
-      mkdirSync(dirname(join(root, file)), { recursive: true });
-      writeFileSync(join(root, file), bytes);
-    }
-    await expect(verifyPullRequestPolicyGraph({ root })).rejects.toThrow(
-      /Unreviewed PR execution policy/u,
-    );
-  } finally {
-    rmSync(root, { recursive: true, force: true });
-  }
 });
 test("graph has one unconditional PR gate and closed consumer completion sets", () => {
   const entry = parse(

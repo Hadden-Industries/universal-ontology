@@ -46,7 +46,7 @@ Use either `git+https://github.com/OWNER/REPOSITORY.git#FULL_40_CHARACTER_COMMIT
 The local dependency name and all consumer imports stay `owlapi` and `owlapi/...` for either form.
 The import-closure policy references this manifest entry; package names, versions, sources and integrity values in `package-lock.json` are generated observations, not independent settings.
 Root `.npmrc` sets `allow-git=root`, admitting this direct dependency while rejecting transitive Git dependencies under npm 12; setup and CI continue disabling lifecycle scripts.
-The PR selector treats `.npmrc` as a manifest-dependent input, and the release verifier pins its exact contents alongside the approved package manifest and selector.
+The PR selector treats `.npmrc` as a manifest-dependent input; consumer tests verify the selected dependency source and installed payload.
 Use `npm ci --include=dev --ignore-scripts` when changing between registry and Git sources with the same package version: an incremental install can retain the old bytes.
 After an approved selector edit, regenerate the npm lockfile, then clean-install it with the command above and requalify the consumer.
 The package boundary tests check the exact manifest/lock source and public API bindings, and compare all installed package files with the original archive retained in npm's cache by the lockfile integrity.

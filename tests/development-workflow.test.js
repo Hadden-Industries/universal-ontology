@@ -228,7 +228,9 @@ test("JSON quality always checks the full corpus on both platforms before consum
   expect(runs.indexOf("npm run install:json")).toBeLessThan(
     runs.indexOf("npm run build:verify"),
   );
-  expect(runs.at(-1)).toBe("npm run check:json -- --require-generated");
+  expect(runs.at(-1)).toBe(
+    "npm run check:json -- --require-generated --max-check-time-ms 300000",
+  );
   expect(workflow.jobs.complete.needs).toContain("json-quality");
 });
 
