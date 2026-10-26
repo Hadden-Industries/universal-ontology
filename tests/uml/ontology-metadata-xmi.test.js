@@ -8,38 +8,41 @@ import { DOMParser, XMLSerializer } from "@xmldom/xmldom";
 import { UML_METADATA_CONTRACT as contract } from "../../scripts/uml/umlMetadataContract.js";
 import { loadMetadataWitness, witnessContext } from "./metadataWitness.js";
 
-test("retains exact metadata in a self-contained typed UML model", async () => {
-  const manager = OWLManager.createOWLOntologyManager({
-    behaviorProfileId: "normative-v1",
-  });
-  const factory = manager.getOWLDataFactory();
-  const ontology = manager.createOntology(
-    factory.getOWLOntologyID(IRI.create("urn:witness:ontology")),
-  );
-  manager.applyChange(
-    new AddOntologyAnnotation(
-      ontology,
-      factory.getOWLAnnotation(
-        factory.getRDFSLabel(),
-        factory.getOWLLiteral("e\u0301\r\n\t😀", "es"),
+test.each(["e\u0301\r\n\t😀", "\uFEFFe\u0301\r\n\t😀"])(
+  "retains exact metadata %p in a self-contained typed UML model",
+  async (lexical) => {
+    const manager = OWLManager.createOWLOntologyManager({
+      behaviorProfileId: "normative-v1",
+    });
+    const factory = manager.getOWLDataFactory();
+    const ontology = manager.createOntology(
+      factory.getOWLOntologyID(IRI.create("urn:witness:ontology")),
+    );
+    manager.applyChange(
+      new AddOntologyAnnotation(
+        ontology,
+        factory.getOWLAnnotation(
+          factory.getRDFSLabel(),
+          factory.getOWLLiteral(lexical, "es"),
+        ),
       ),
-    ),
-  );
-  const result = await exportOntologyUmlXmi({
-    ontology,
-    context: {
-      behaviorProfileId: manager.getBehaviorProfileId(),
-      owlapi: "npm:@hadden-industries/owlapi@0.1.0-rc.2",
-      pairedOwlSha256: "0".repeat(64),
-    },
-  });
-  expect(result.xmi).toContain('xmi:version="2.1"');
-  expect(result.recovery.literals).toEqual(
-    expect.arrayContaining([
-      expect.objectContaining({ lexical: "e\u0301\r\n\t😀", language: "es" }),
-    ]),
-  );
-});
+    );
+    const result = await exportOntologyUmlXmi({
+      ontology,
+      context: {
+        behaviorProfileId: manager.getBehaviorProfileId(),
+        owlapi: "npm:@hadden-industries/owlapi@0.1.0-rc.2",
+        pairedOwlSha256: "0".repeat(64),
+      },
+    });
+    expect(result.xmi).toContain('xmi:version="2.1"');
+    expect(result.recovery.literals).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ lexical, language: "es" }),
+      ]),
+    );
+  },
+);
 
 test("uses native UML 2.1 coordinates and owned metaclass imports", async () => {
   const result = await exportOntologyUmlXmi({
@@ -59,15 +62,20 @@ test("uses native UML 2.1 coordinates and owned metaclass imports", async () => 
   const all = [...doc.getElementsByTagName("*")];
   expect(all.some((element) => element.hasAttribute("URI"))).toBe(false);
   const profile = doc.getElementsByTagNameNS(contract.uml, "Profile")[0];
-  const imported = [...profile.getElementsByTagName("elementImport")].find(
-    (element) =>
-      element.getAttributeNS(contract.xmi, "id") ===
-      profile.getAttribute("metaclassReference"),
+  const imports = [...profile.getElementsByTagName("elementImport")];
+  expect(profile.getAttribute("metaclassReference").split(" ").sort()).toEqual(
+    imports.map((element) => element.getAttributeNS(contract.xmi, "id")).sort(),
   );
-  expect(imported).toBeDefined();
   expect(
-    imported.getElementsByTagName("importedElement")[0].getAttribute("href"),
-  ).toBe("http://schema.omg.org/spec/UML/2.1.1/uml.xml#InstanceSpecification");
+    imports
+      .map((element) =>
+        element.getElementsByTagName("importedElement")[0].getAttribute("href"),
+      )
+      .sort(),
+  ).toEqual([
+    `${contract.umlDocument}#Element`,
+    `${contract.umlDocument}#InstanceSpecification`,
+  ]);
   expect(await recoverOntologyMetadata(result.xmi)).toEqual(result.recovery);
 });
 
@@ -192,20 +200,26 @@ test.each([
   });
   const doc = new DOMParser().parseFromString(result.xmi, "application/xml");
   const all = [...doc.getElementsByTagName("*")];
-  const scalar = (value) =>
-    all.find(
-      (n) => n.getAttribute("value") === Buffer.from(value).toString("base64"),
-    );
-  if (mutation === "payload")
-    scalar("string:first").setAttribute(
-      "value",
-      Buffer.from("string:changed").toString("base64"),
-    );
-  if (mutation === "datatype")
-    scalar("string:urn:new-datatype").setAttribute(
-      "value",
-      Buffer.from("string:urn:other").toString("base64"),
-    );
+  const replaceScalar = (before, after) => {
+    for (const node of all) {
+      const attribute = [...node.attributes].find((a) => a.value === before);
+      if (attribute) {
+        node.setAttribute(attribute.name, after);
+        return;
+      }
+      if (
+        node.childNodes.length === 1 &&
+        node.firstChild.nodeType === 3 &&
+        node.textContent === before
+      ) {
+        node.textContent = after;
+        return;
+      }
+    }
+    throw new Error(`Missing mutation target: ${before}`);
+  };
+  if (mutation === "payload") replaceScalar("sfirst", "schanged");
+  if (mutation === "datatype") replaceScalar("surn:new-datatype", "surn:other");
   if (mutation === "attachment") {
     const axioms = result.recovery.records.filter(
       (r) => r.fields.kind?.[0]?.scalar === "OWLSubClassOfAxiom",
@@ -213,29 +227,27 @@ test.each([
     const annotationProperty = all
       .find(
         (n) =>
-          n.getAttribute("name") ===
-          "urn:universal-ontology:structural-verification:annotations",
+          n.localName === "ownedLiteral" &&
+          n.getAttribute("name") === "annotations",
       )
       .getAttributeNS(contract.xmi, "id");
-    const targets = axioms.map(
-      (r) =>
-        [
-          ...all.find((n) => n.getAttributeNS(contract.xmi, "id") === r.id)
-            .childNodes,
-        ].find(
-          (n) =>
-            n.nodeType === 1 &&
-            n.getAttribute("definingFeature") === annotationProperty,
-        ).firstChild,
+    const feature = `r${annotationProperty.slice(1)}`;
+    const targets = axioms.map((r) =>
+      all.find((n) => n.getAttributeNS(contract.xmi, "id") === r.id),
     );
-    const a = targets[0].getAttribute("instance");
-    targets[0].setAttribute("instance", targets[1].getAttribute("instance"));
-    targets[1].setAttribute("instance", a);
+    const a = targets[0].getAttribute(feature);
+    expect(a).toBeTruthy();
+    expect(targets[1].getAttribute(feature)).toBeTruthy();
+    targets[0].setAttribute(feature, targets[1].getAttribute(feature));
+    targets[1].setAttribute(feature, a);
   }
-  if (mutation === "reference")
-    all
-      .find((n) => n.hasAttribute("instance"))
-      .setAttribute("instance", "missing");
+  if (mutation === "reference") {
+    const application = doc.getElementsByTagNameNS(
+      contract.profile,
+      "SourceRecord",
+    )[0];
+    application.setAttribute("root", "missing");
+  }
   if (mutation === "duplicate-id")
     all
       .find(
@@ -244,10 +256,17 @@ test.each([
           n.getAttributeNS(contract.xmi, "id") !== "model",
       )
       .setAttributeNS(contract.xmi, "xmi:id", "model");
-  if (mutation === "version")
-    scalar("1").setAttribute("value", Buffer.from("2").toString("base64"));
-  if (mutation === "base64")
-    scalar("string:first").setAttribute("value", "Zh==");
+  if (mutation === "version") {
+    const slot = all.find(
+      (n) =>
+        n.getAttribute("definingFeature") === "ExportManifest_contractVersion",
+    );
+    slot.firstChild.setAttribute(
+      "value",
+      Buffer.from("999").toString("base64"),
+    );
+  }
+  if (mutation === "base64") replaceScalar("sfirst", "SZh==");
   await expect(
     recoverOntologyMetadata(new XMLSerializer().serializeToString(doc)),
   ).rejects.toThrow();
@@ -262,6 +281,114 @@ test("rejects entity acquisition and excessive XML nesting before DOM loading", 
   await expect(
     recoverOntologyMetadata("<x>".repeat(129) + "</x>".repeat(129)),
   ).rejects.toThrow(/limit/u);
+});
+
+test("recovers shared profile defaults, explicit overrides and complete implicit axiom membership", async () => {
+  const ontology = await loadMetadataWitness(`Ontology(<urn:shared>
+    ${Array.from(
+      { length: 24 },
+      (_, index) => `
+      Declaration(Class(<urn:C${index}>))
+      AnnotationAssertion(<urn:shared-note> <urn:C${index}> "${index === 23 ? "exception" : "common value"}"^^<urn:datatype${index}>)
+    `,
+    ).join("\n")}
+  )`);
+  const result = await exportOntologyUmlXmi({
+    ontology,
+    context: witnessContext,
+  });
+  const doc = new DOMParser().parseFromString(result.xmi, "application/xml");
+  const application = doc.getElementsByTagNameNS(
+    contract.profile,
+    "SourceRecord",
+  )[0];
+  expect(application.getAttribute("a")).toMatch(/^f/u);
+  expect([...application.childNodes].some((n) => n.localName === "d")).toBe(
+    true,
+  );
+  expect(result.recovery.counts.axioms).toBe(48);
+  expect(
+    result.recovery.literals.filter(
+      (value) => value.lexical === "common value",
+    ),
+  ).toHaveLength(23);
+  expect(
+    result.recovery.literals.filter((value) => value.lexical === "exception"),
+  ).toHaveLength(1);
+  expect(result.recovery.semanticModelSha256).toBe(
+    await ontologyStructuralFingerprint(ontology),
+  );
+  for (const mutation of [
+    "unknown-field",
+    "dangling-default",
+    "missing-default",
+    "dictionary-payload",
+    "projection-source",
+  ]) {
+    const changed = new DOMParser().parseFromString(
+      result.xmi,
+      "application/xml",
+    );
+    const source = changed.getElementsByTagNameNS(
+      contract.profile,
+      "SourceRecord",
+    )[0];
+    const values = [...source.childNodes].filter((n) => n.nodeType === 1);
+    if (mutation === "unknown-field")
+      values
+        .find(
+          (n) =>
+            n.hasAttributeNS(contract.xmi, "id") &&
+            !["v", "d"].includes(n.localName),
+        )
+        .setAttribute("unknown", "hidden");
+    if (mutation === "dangling-default")
+      values.find((n) => n.localName === "d").setAttribute("r", "missing");
+    if (mutation === "missing-default")
+      source.removeChild(values.find((n) => n.localName === "d"));
+    if (mutation === "dictionary-payload")
+      values.find((n) => n.localName === "v").setAttribute("p", "schanged");
+    if (mutation === "projection-source")
+      changed
+        .getElementsByTagNameNS(contract.profile, "Projection")[0]
+        .setAttribute("source", "missing");
+    await expect(
+      recoverOntologyMetadata(new XMLSerializer().serializeToString(changed)),
+    ).rejects.toThrow();
+  }
+});
+
+test("rejects shared-value expansion before ground hashing and canonicalization", async () => {
+  const ontology = await loadMetadataWitness(`Ontology(<urn:expansion>
+    ${Array.from(
+      { length: 80 },
+      (_, index) => `
+      AnnotationAssertion(<urn:note> <urn:C${index}> "shared"^^<urn:datatype${index}>)
+    `,
+    ).join("\n")}
+  )`);
+  const result = await exportOntologyUmlXmi({
+    ontology,
+    context: witnessContext,
+  });
+  const doc = new DOMParser().parseFromString(result.xmi, "application/xml");
+  const source = doc.getElementsByTagNameNS(
+    contract.profile,
+    "SourceRecord",
+  )[0];
+  const value = [...source.childNodes].find(
+    (n) =>
+      n.nodeType === 1 &&
+      n.localName === "v" &&
+      n.getAttribute("p") === "sshared",
+  );
+  expect(value).toBeDefined();
+  value.setAttribute("p", `s${"x".repeat(1024 * 1024)}`);
+  const xml = new XMLSerializer().serializeToString(doc);
+  expect(Buffer.byteLength(xml)).toBeLessThan(2 * 1024 * 1024);
+  await expect(recoverOntologyMetadata(xml)).rejects.toThrow(
+    "Expanded compact structure byte limit exceeded",
+  );
 });
 
 test("projects named classes and justified properties without inventing cardinality or Actor semantics", async () => {
@@ -295,7 +422,7 @@ test("projects named classes and justified properties without inventing cardinal
   ).toHaveLength(1);
   expect(
     [...domain.getElementsByTagName("lowerValue")].map((n) =>
-      n.getAttribute("value"),
+      n.hasAttribute("value") ? n.getAttribute("value") : "0",
     ),
   ).toEqual(["0", "0"]);
   expect(

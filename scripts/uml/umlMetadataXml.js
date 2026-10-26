@@ -10,11 +10,13 @@ const ECORE = "http://www.eclipse.org/emf/2002/Ecore";
 const UML_ECORE = "http://www.eclipse.org/uml2/2.0.0/UML";
 
 export const sha256 = (text) => createHash("sha256").update(text).digest("hex");
-export const stableId = (role, key) => `${role}_${sha256(key)}`;
-export const fieldId = (predicate) => stableId("field", predicate);
+export const stableId = (role, key) =>
+  `i${Buffer.from(sha256(`${role}\n${key}`), "hex")
+    .toString("base64url")
+    .slice(0, 16)}`;
 
 /** Build a native-validated profile and ordinary typed carriers, with local references. */
-export function createMetadataDocument(predicates) {
+export function createMetadataDocument() {
   const document = new DOMImplementation().createDocument(
     contract.xmi,
     "xmi:XMI",
@@ -66,37 +68,19 @@ export function createMetadataDocument(predicates) {
   for (const [name, fields] of Object.entries(UML_METADATA_TYPES)) {
     const classifier = element(types, "packagedElement", "Class", name, {
       name,
-      ...(name === "StructuralTerm" ? { isAbstract: "true" } : {}),
     });
-    if (["StructuralNode", "ScalarValue"].includes(name))
-      element(
-        classifier,
-        "generalization",
-        "Generalization",
-        `${name}_generalization`,
-        { general: "StructuralTerm" },
-      );
     for (const [field, type] of Object.entries(fields))
       property(classifier, `${name}_${field}`, field, type, 1);
-    if (name === "StructuralNode")
-      for (const predicate of [...predicates].sort())
-        property(
-          classifier,
-          fieldId(predicate),
-          predicate,
-          "StructuralTerm",
-          "*",
-        );
   }
   function property(parent, id, name, type, upper) {
     const node = element(parent, "ownedAttribute", "Property", id, {
       name,
       type,
     });
-    element(node, "lowerValue", "LiteralInteger", `${id}_lower`, {
+    element(node, "lowerValue", "LiteralInteger", null, {
       value: upper === "*" ? 0 : 1,
     });
-    element(node, "upperValue", "LiteralUnlimitedNatural", `${id}_upper`, {
+    element(node, "upperValue", "LiteralUnlimitedNatural", null, {
       value: upper,
     });
   }
@@ -230,17 +214,15 @@ export function createMetadataDocument(predicates) {
       classifier,
     });
   const slot = (owner, field, values, references = false) => {
-    const id = stableId(
-      "slot",
-      `${owner.getAttributeNS(contract.xmi, "id")}\n${field}`,
-    );
-    const node = element(owner, "slot", "Slot", id, { definingFeature: field });
-    values.forEach((value, index) =>
+    const node = element(owner, "slot", "Slot", null, {
+      definingFeature: field,
+    });
+    values.forEach((value) =>
       element(
         node,
         "value",
         references ? "InstanceValue" : "LiteralString",
-        `${id}_${index}`,
+        null,
         references ? { instance: value } : { value },
       ),
     );

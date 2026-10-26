@@ -1,7 +1,7 @@
-/** Version-one UO metadata carriers. Source data lives in ordinary UML slots. */
+/** Version-two UO metadata: typed profile values plus ordinary manifest slots. */
 export const UML_METADATA_CONTRACT = Object.freeze({
-  version: "1",
-  profile: "https://haddenindustries.com/ontology/uml-metadata/1",
+  version: "2",
+  profile: "https://haddenindustries.com/ontology/uml-metadata/2",
   uml: "http://schema.omg.org/spec/UML/2.1.1/uml.xml",
   umlDocument: "http://schema.omg.org/spec/UML/2.1.1/uml.xml",
   xmi: "http://schema.omg.org/spec/XMI/2.1",
@@ -16,21 +16,13 @@ export const UML_METADATA_CONTRACT = Object.freeze({
 
 /** Neutral carrier declarations; inverse code shares vocabulary, never traversal. */
 export const UML_METADATA_TYPES = Object.freeze({
-  StructuralTerm: {},
-  StructuralNode: { identity: "String" },
-  ScalarValue: { payload: "String" },
   ExportManifest: {
-    root: "StructuralNode",
+    root: "String",
     contractVersion: "String",
     semanticModelSha256: "String",
     pairedOwlSha256: "String",
     owlapi: "String",
     behaviorProfileId: "String",
     profileSha256: "String",
-  },
-  ProjectionCorrespondence: {
-    source: "StructuralNode",
-    umlElementId: "String",
-    rule: "String",
   },
 });

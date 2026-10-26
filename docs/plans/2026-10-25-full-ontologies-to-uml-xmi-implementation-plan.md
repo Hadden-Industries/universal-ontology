@@ -577,6 +577,16 @@ Do not resolve schedule pressure by reducing preservation to comments and retain
 
 ## Planning evidence and next decision
 
+### Accepted implementation amendment: lightweight interchange
+
+The implementation owner required each qualified full XMI to be at most the byte size of its paired full OWL.
+The initial slot-per-edge encoding failed that requirement at about 16–90 MB.
+Version two uses typed composite profile values, shared lexical values, explicit encoding defaults and deterministic local references while retaining the complete canonical structural graph and every metadata attachment.
+Readable UML retains one bounded preferred definition excerpt; the typed source retains every complete definition and language.
+The exact inverse, independent RDF source oracle, native UML/profile validation and independent ordinary UML reader remain required.
+Native corpus/current-output qualification enforces the size ceiling; fixed-overhead miniature witnesses establish semantics and conformance separately.
+This amendment reuses the accepted task and route and adds no deployment or publication authority.
+
 This document records source inspection, a read-only HISEW applicability check, current local/remote OwlAPI identity and bounded primary-source checks.
 It does not record implementation tests, native UML reader acceptance, software-license clearance, completed HISEW routing, deployment or a commit.
 The research response remains unchanged.

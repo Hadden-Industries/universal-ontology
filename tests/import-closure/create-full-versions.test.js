@@ -10,6 +10,9 @@ import {
 import { tmpdir } from "node:os";
 import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+import { fileURLToPath } from "node:url";
 import { jest } from "@jest/globals";
 import { createFullVersions } from "../../scripts/createFullVersions.js";
 import { reverseObjectMembers } from "../fixtures/json/reverseObjectMembers.js";
@@ -89,6 +92,37 @@ test("native qualification requires current output bindings before any acquisiti
     }),
   ).rejects.toThrow("verified current build outputs are mandatory");
 });
+
+test("the qualification worker rejects oversized paired XMI without losing the failed artifact", async () =>
+  fixture(async ({ options, outputDirectory }) => {
+    await createFullVersions(options);
+    const source = join(outputDirectory, `${rootPath}-full`);
+    const xmi = `${source}.xmi`;
+    const before = await readFile(xmi);
+    expect(before.length).toBeGreaterThan((await readFile(source)).length);
+    await expect(
+      promisify(execFile)(process.execPath, [
+        fileURLToPath(
+          new URL(
+            "../../scripts/uml/qualification/qualifyOntologyUmlXmi.js",
+            import.meta.url,
+          ),
+        ),
+        "--worker",
+        "--enforce-size-budget",
+        "--source",
+        source,
+        "--source-name",
+        `${rootPath}-full`,
+        "--existing-xmi",
+        xmi,
+      ]),
+    ).rejects.toMatchObject({
+      code: 1,
+      stderr: expect.stringContaining("XMI size budget exceeded"),
+    });
+    expect(await readFile(xmi)).toEqual(before);
+  }));
 
 test("batch discovers the inclusive cutoff and includes a pre-cutoff dependency, with all four verified formats", async () =>
   fixture(async ({ options, outputDirectory }) => {

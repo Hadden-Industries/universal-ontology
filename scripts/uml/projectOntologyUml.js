@@ -1,6 +1,6 @@
 import { resolveApplicableOntologyProjectionPropertyIris } from "universal-ontology-projection-policy";
 import { ONTOLOGY_STRUCTURE_NAMESPACE as vocabulary } from "../ontology/ontologyStructuralVocabulary.js";
-import { encodeScalar, stableId } from "./umlMetadataXml.js";
+import { stableId } from "./umlMetadataXml.js";
 
 /** Conservative asserted projection; all original structures remain in typed carriers. */
 export function projectOntologyUml({
@@ -10,7 +10,7 @@ export function projectOntologyUml({
   nodes,
   writer,
 }) {
-  const { element, projection, instance, slot } = writer;
+  const { element, projection } = writer;
   const axioms = [...ontology.getAxioms()];
   const path =
     context.ontologyPath ?? ontology.getOntologyID().ontologyIRI?.value ?? "";
@@ -72,13 +72,9 @@ export function projectOntologyUml({
     if (!packages.has(namespace))
       packages.set(
         namespace,
-        element(
-          projection,
-          "packagedElement",
-          "Package",
-          stableId("namespace", namespace),
-          { name: namespace },
-        ),
+        element(projection, "packagedElement", "Package", null, {
+          name: namespace,
+        }),
       );
     return packages.get(namespace);
   };
@@ -103,13 +99,7 @@ export function projectOntologyUml({
     const source = sources.get(`${entity.kind}:${entity.iri.value}`);
     if (!source)
       throw new Error("Projected source has no preservation identity");
-    const record = instance(
-      stableId("correspondence", id),
-      "ProjectionCorrespondence",
-    );
-    slot(record, "ProjectionCorrespondence_source", [source], true);
-    slot(record, "ProjectionCorrespondence_umlElementId", [encodeScalar(id)]);
-    slot(record, "ProjectionCorrespondence_rule", [encodeScalar(rule)]);
+    writer.correspondence(source, id, rule);
     projected.set(`${entity.kind}:${entity.iri.value}`, id);
   }
   const entitySort = (a, b) =>
@@ -131,26 +121,21 @@ export function projectOntologyUml({
       );
       target.set(entity.iri.value, { id, node });
       correspondence(entity, id, `asserted-${type.toLowerCase()}-v1`);
-      for (const [index, definition] of [
-        ...(definitions.get(entity.iri.value) ?? []),
-      ]
-        .sort((a, b) =>
-          a.lexicalForm < b.lexicalForm
-            ? -1
-            : a.lexicalForm > b.lexicalForm
-              ? 1
-              : 0,
-        )
-        .entries()) {
-        const comment = element(
-          node,
-          "ownedComment",
-          "Comment",
-          `${id}_definition_${index}`,
-        );
+      for (const definition of [...(definitions.get(entity.iri.value) ?? [])]
+        .sort((a, b) => {
+          const left = `${a.language === "en" ? "0" : "1"}:${a.language}:${a.lexicalForm}`;
+          const right = `${b.language === "en" ? "0" : "1"}:${b.language}:${b.lexicalForm}`;
+          return left < right ? -1 : left > right ? 1 : 0;
+        })
+        .slice(0, 1)) {
+        const comment = element(node, "ownedComment", null, null);
         const body = element(comment, "body");
         body.appendChild(
-          writer.document.createTextNode(definition.lexicalForm),
+          writer.document.createTextNode(
+            [...definition.lexicalForm].length > 80
+              ? [...definition.lexicalForm].slice(0, 80).join("") + "…"
+              : definition.lexicalForm,
+          ),
         );
       }
     }
@@ -192,7 +177,7 @@ export function projectOntologyUml({
     generalizations.add(id);
     if (!ancestors.has(sub.id)) ancestors.set(sub.id, new Set());
     ancestors.get(sub.id).add(sup.id);
-    element(sub.node, "generalization", "Generalization", id, {
+    element(sub.node, "generalization", null, null, {
       general: sup.id,
     });
   }
@@ -223,9 +208,9 @@ export function projectOntologyUml({
     );
   }
   function unconstrainedEnd(parent, tag, id, attributes) {
-    const end = element(parent, tag, "Property", id, attributes);
-    element(end, "lowerValue", "LiteralInteger", `${id}_lower`, { value: 0 });
-    element(end, "upperValue", "LiteralUnlimitedNatural", `${id}_upper`, {
+    const end = element(parent, tag, null, id, attributes);
+    element(end, "lowerValue", "LiteralInteger");
+    element(end, "upperValue", "LiteralUnlimitedNatural", null, {
       value: "*",
     });
   }
@@ -243,6 +228,8 @@ export function projectOntologyUml({
       range.kind === "OWLClass"
     ) {
       const id = stableId("association", iri);
+      const sourceEnd = stableId("source-end", iri);
+      const targetEnd = stableId("target-end", iri);
       const target = classes.get(range.iri.value);
       const association = element(
         owningPackage(iri),
@@ -251,16 +238,16 @@ export function projectOntologyUml({
         id,
         {
           name: displayName(record.property),
-          memberEnd: `${id}_source ${id}_target`,
-          navigableOwnedEnd: `${id}_target`,
+          memberEnd: `${sourceEnd} ${targetEnd}`,
+          navigableOwnedEnd: targetEnd,
         },
       );
-      unconstrainedEnd(association, "ownedEnd", `${id}_source`, {
+      unconstrainedEnd(association, "ownedEnd", sourceEnd, {
         name: "subject",
         type: source.id,
         association: id,
       });
-      unconstrainedEnd(association, "ownedEnd", `${id}_target`, {
+      unconstrainedEnd(association, "ownedEnd", targetEnd, {
         name: "value",
         type: target.id,
         association: id,

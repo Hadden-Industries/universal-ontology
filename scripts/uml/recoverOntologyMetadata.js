@@ -7,6 +7,7 @@ import {
   UML_METADATA_TYPES,
 } from "./umlMetadataContract.js";
 import { ONTOLOGY_STRUCTURE_NAMESPACE as vocabulary } from "../ontology/ontologyStructuralVocabulary.js";
+import { readCompactMetadataGraph } from "./readCompactMetadataGraph.js";
 
 const hash = (value) => createHash("sha256").update(value).digest("hex");
 const children = (node, name) =>
@@ -24,7 +25,9 @@ function decode(value) {
   const bytes = Buffer.from(value, "base64");
   if (bytes.toString("base64") !== value)
     throw new Error("Noncanonical preservation base64");
-  return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  return new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(
+    bytes,
+  );
 }
 
 /** Offline inverse of the declared UML carriers; never imports the source traversal. */
@@ -76,7 +79,9 @@ export async function recoverOntologyMetadata(bytes) {
         attribute.local === "href" &&
         ![
           `${contract.umlDocument}#InstanceSpecification`,
+          `${contract.umlDocument}#Element`,
           "http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification",
+          "http://www.eclipse.org/uml2/5.0.0/UML#//Element",
         ].includes(attribute.value)
       )
         throw new Error("External XMI reference is forbidden");
@@ -153,8 +158,7 @@ export async function recoverOntologyMetadata(bytes) {
     const classifier = carrier.getAttribute("classifier");
     if (
       typeOf(carrier) !== "uml:InstanceSpecification" ||
-      !expectedTypes.has(classifier) ||
-      classifier === "StructuralTerm"
+      !expectedTypes.has(classifier)
     )
       throw new Error("Unsupported preservation carrier");
     const fields = new Map();
@@ -191,10 +195,7 @@ export async function recoverOntologyMetadata(bytes) {
           `Missing or repeated required slot: ${classifier}.${name}`,
         );
     }
-    if (
-      classifier !== "StructuralNode" &&
-      fields.size !== Object.keys(UML_METADATA_TYPES[classifier]).length
-    )
+    if (fields.size !== Object.keys(UML_METADATA_TYPES[classifier]).length)
       throw new Error("Unsupported preservation slot");
     decoded.set(id, { id, classifier, fields });
   }
@@ -203,12 +204,6 @@ export async function recoverOntologyMetadata(bytes) {
     if (values?.length !== 1 || !Object.hasOwn(values[0], "text"))
       throw new Error(`Expected one scalar: ${name}`);
     return values[0].text;
-  };
-  const ref = (record, name) => {
-    const values = record.fields.get(name);
-    if (values?.length !== 1 || !values[0].reference)
-      throw new Error(`Expected one reference: ${name}`);
-    return values[0].reference;
   };
   const manifests = [...decoded.values()].filter(
     (r) => r.classifier === "ExportManifest",
@@ -225,6 +220,12 @@ export async function recoverOntologyMetadata(bytes) {
       text(manifest, "profileSha256")
   )
     throw new Error("Invalid paired artifact or preservation profile identity");
+  const compact = readCompactMetadataGraph({
+    document: doc,
+    decoded,
+    byId,
+    decode,
+  });
   const sourceNodes = [...decoded.values()].filter(
     (r) => r.classifier === "StructuralNode",
   );
@@ -254,20 +255,6 @@ export async function recoverOntologyMetadata(bytes) {
         value: "http://www.w3.org/2001/XMLSchema#string",
       },
     });
-  for (const correspondence of [...decoded.values()].filter(
-    (r) => r.classifier === "ProjectionCorrespondence",
-  )) {
-    if (
-      decoded.get(ref(correspondence, "source"))?.classifier !==
-      "StructuralNode"
-    )
-      throw new Error("Invalid projection source attachment");
-    const target = resolve(text(correspondence, "umlElementId"));
-    let owner = target.parentNode;
-    while (owner && owner !== resolve("projection")) owner = owner.parentNode;
-    if (!owner || !text(correspondence, "rule"))
-      throw new Error("Invalid projection correspondence target");
-  }
   const dataset = [];
   for (const node of sourceNodes) {
     for (const [predicate, values] of node.fields) {
@@ -296,7 +283,9 @@ export async function recoverOntologyMetadata(bytes) {
   const semanticModelSha256 = hash(canonicalStructure);
   if (semanticModelSha256 !== text(manifest, "semanticModelSha256"))
     throw new Error("Recovered metadata/attachment digest mismatch");
-  const rootId = ref(manifest, "root");
+  const rootId = compact.rootId;
+  if (text(manifest, "root") !== rootId)
+    throw new Error("Manifest/compact root binding mismatch");
   if (
     !terms.has(rootId) ||
     !sourceNodes
@@ -370,6 +359,7 @@ export async function recoverOntologyMetadata(bytes) {
           ),
         0,
       ),
+      projectionCorrespondences: compact.correspondences.length,
       xmlBytes: Buffer.byteLength(xml),
       maximumXmlDepth: maximumDepth,
     },

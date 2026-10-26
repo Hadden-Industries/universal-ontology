@@ -40,6 +40,7 @@ const options = {
   "source-name": { type: "string" },
   "expected-sha256": { type: "string" },
   "existing-xmi": { type: "string" },
+  "enforce-size-budget": { type: "boolean" },
 };
 
 async function run(executable, args, timeout = 180000) {
@@ -169,6 +170,10 @@ async function worker(values) {
     recovery = result.recovery;
     await writeFile(values.output, xmi, { flag: "wx" });
   }
+  if (values["enforce-size-budget"] && xmi.length > source.length)
+    throw new Error(
+      `XMI size budget exceeded: ${xmi.length} bytes exceeds paired OWL ${source.length} bytes`,
+    );
   const comparison = await compareOntologyMetadata({
     rdfXml: source,
     recovery,
@@ -182,6 +187,8 @@ async function worker(values) {
       xmi: values["existing-xmi"] ?? values.output,
       xmiSha256: digest(xmi),
       xmiBytes: xmi.length,
+      owlBytes: source.length,
+      xmiToOwlRatio: xmi.length / source.length,
       semanticModelSha256: recovery.semanticModelSha256,
       counts: recovery.counts,
       comparison,
@@ -259,6 +266,7 @@ export async function qualifyOntologyUmlXmi(
     try {
       const args = [
         "--worker",
+        "--enforce-size-budget",
         "--source",
         candidate.source,
         "--source-name",

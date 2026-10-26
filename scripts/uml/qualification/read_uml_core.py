@@ -126,7 +126,8 @@ def main():
     ):
         extension.getparent().remove(extension)
     # The declared core-reader claim excludes dynamic stereotype applications and
-    # their Ecore loading hints. Every authoritative source value remains in Model.
+    # their Ecore loading hints. Full source recovery is checked separately;
+    # this reader establishes only ordinary UML core interoperability.
     core = etree.Element("{" + namespaces["xmi"] + "}XMI", nsmap=tree.getroot().nsmap)
     core.set("{" + namespaces["xmi"] + "}version", "2.1")
     core.append(model)
@@ -134,10 +135,11 @@ def main():
     loaded = resources.get_resource(MemoryURI(str(args.xmi) + ".core.xmi", data))
     if len(loaded.contents) != 1 or loaded.contents[0].eClass.name != "Model":
         raise ValueError("Native core reader did not load the model")
+    instance_type = uml.getEClassifier("InstanceSpecification")
     instances = sum(
         1
         for item in loaded.contents[0].eAllContents()
-        if item.eClass.name == "InstanceSpecification"
+        if item.eClass is instance_type or instance_type in item.eClass.eAllSuperTypes()
     )
     print(
         json.dumps(
