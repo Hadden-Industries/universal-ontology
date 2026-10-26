@@ -119,6 +119,9 @@ function requireMatchingReleaseIdentity(index, input) {
  * Create the canonical, content-addressed query artifacts shared by the
  * filesystem publisher and the website build. This function deliberately
  * performs no writes, so both publishers expose byte-identical documents.
+ * Only the website build opts into display rendering to reuse captured quads;
+ * query-only consumers keep includeDisplayAssets at its default false value.
+ * Display outputs remain separate from the canonical query artifact map.
  *
  * @param {object} options
  * @param {ReadonlyArray<{sourcePath: string, outputPath: string}>} options.ontologySources
