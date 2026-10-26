@@ -17,6 +17,8 @@ import {
 } from "../src/universalOntologyMcpHttpHandlers.js";
 import { createFileSystemOntologyQueryArtifactRepository } from "universal-ontology-query/repositories/file-system";
 import { createNodeOntologyQueryModule as createOntologyQueryModule } from "universal-ontology-query/node";
+import { DEFAULT_MAXIMUM_IN_MEMORY_QUERY_INDEX_CACHE_BYTE_SIZE as DEFAULT_QUERY_CACHE_MAXIMUM_BYTES } from "universal-ontology-query/artifacts";
+import { UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_REVISION } from "../src/universalOntologyMcpMetadata.js";
 
 export const LOCAL_ONTOLOGY_MCP_BIND_ADDRESS = "127.0.0.1";
 export const LOCAL_ONTOLOGY_MCP_DEFAULT_PORT = 8000;
@@ -26,9 +28,10 @@ export const LOCAL_ONTOLOGY_MCP_MAXIMUM_CONCURRENT_REQUESTS = 8;
 export const LOCAL_ONTOLOGY_MCP_REQUESTS_PER_MINUTE = 120;
 export const LOCAL_ONTOLOGY_MCP_RATE_LIMIT_BURST = 30;
 export const LOCAL_ONTOLOGY_MCP_GRACEFUL_SHUTDOWN_DEADLINE_MILLISECONDS = 10_000;
-export const PRIMARY_MCP_PROTOCOL_VERSION = "2026-07-28";
 
-const DEFAULT_QUERY_CACHE_MAXIMUM_BYTES = 64 * 1024 * 1024;
+export const PRIMARY_MCP_PROTOCOL_VERSION =
+  UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_REVISION;
+
 const REJECTION_ERROR_CODE = -32000;
 const ROUTE_NOT_FOUND_ERROR_CODE = -32601;
 const repositoryRoot = resolve(

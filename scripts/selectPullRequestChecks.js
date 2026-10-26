@@ -137,6 +137,7 @@ const ONTOLOGY_POLICY_INPUTS = [
   "requirements.txt",
   "requirements.lock.txt",
   "scripts/validate_ontologies.py",
+  "scripts/ontology_run_purpose.py",
   "scripts/ontology_policy",
   "policy",
   "core",

@@ -12,10 +12,11 @@ import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
+from ontology_run_purpose import RunPurpose
 from rdflib import SH, Graph, Literal
 
 from .authorities import AUTHORITIES_DIRECTORY, load_authority_graph
-from .context import RunPurpose, build_validation_graph
+from .context import build_validation_graph
 from .policy import Policy
 from .reports import PolicyResult, extract_results
 from .snapshots import ModuleSource, lexical_literals

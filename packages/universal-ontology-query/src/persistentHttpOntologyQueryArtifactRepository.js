@@ -5,11 +5,7 @@ import {
   calculateSha256,
   verifyCanonicalArtifactReference,
 } from "./ontologyQueryArtifactCanonicalBytes.js";
-import {
-  MAX_ONTOLOGY_QUERY_CATALOG_BYTE_LENGTH,
-  MAX_ONTOLOGY_QUERY_CHANNEL_MANIFEST_BYTE_LENGTH,
-  MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH,
-} from "./ontologyQueryArtifactLimits.js";
+
 import {
   parseOntologyQueryCatalogBytes,
   parseOntologyQueryChannelManifestBytes,
@@ -19,15 +15,20 @@ import {
   parseOntologyQueryChannelManifestRelativePath,
   parseOntologyReleaseQueryIndexRelativePath,
 } from "./ontologyQueryArtifactRelativePath.js";
-import { OntologyQueryArtifactChannelNameSchema } from "./ontologyQueryChannelManifestSchemas.js";
+
 import {
   isOntologyQueryError,
   OntologyQueryError,
 } from "./ontologyQueryErrors.js";
 import { HttpOntologyQueryArtifactReadError } from "./httpOntologyQueryArtifactReader.js";
 import { OntologyQueryArtifactCacheInitializationError } from "./ontologyQueryArtifactCacheInitializationErrors.js";
-
-const SHA_256_HEXADECIMAL_PATTERN = /^[0-9a-f]{64}$/u;
+import {
+  MAX_ONTOLOGY_QUERY_CATALOG_BYTE_LENGTH,
+  MAX_ONTOLOGY_QUERY_CHANNEL_MANIFEST_BYTE_LENGTH,
+  MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH,
+} from "./ontologyQueryArtifactLimits.js";
+import { OntologyQueryArtifactChannelNameSchema } from "./ontologyQueryChannelManifestSchemas.js";
+import { SHA_256_HEXADECIMAL_PATTERN } from "./ontologyQueryDigest.js";
 
 function requirePort(value, methodNames, portName) {
   if (

@@ -23,6 +23,10 @@ import {
 const root = fileURLToPath(new URL("../", import.meta.url));
 const producer = "policy/authorities/iana-media-types.provenance.json";
 const retained = "docs/import-closure/registry-artifact-verification.json";
+// Native work owns its finite deadline; the outer harness also allows cleanup.
+const jsonRuntimeControls = JSON.parse(
+  readFileSync(join(root, ".json-quality.json"), "utf8"),
+).runtimeControls;
 
 async function checked(directory, options = {}) {
   const session = await openRepositoryJsonSession({
@@ -101,18 +105,23 @@ function command(directory, operation, args = []) {
   return { ...result, events, terminal: events.at(-1) };
 }
 
-test("the actual source census ends with complete cohort-2 evidence", async () => {
-  const events = await checked(root);
-  expect(events.at(-1)).toMatchObject({
-    type: "execution-terminal",
-    schemaVersion: 2,
-    inventoryComplete: true,
-    sourceObservationsComplete: true,
-    diagnosticsComplete: true,
-    qualityPassed: true,
-    contractSatisfied: true,
-  });
-});
+test(
+  "the actual source census ends with complete cohort-2 evidence",
+  async () => {
+    // A census consumes events, not retained values for later access or rewriting.
+    const events = await checked(root, { retainValues: false });
+    expect(events.at(-1)).toMatchObject({
+      type: "execution-terminal",
+      schemaVersion: 2,
+      inventoryComplete: true,
+      sourceObservationsComplete: true,
+      diagnosticsComplete: true,
+      qualityPassed: true,
+      contractSatisfied: true,
+    });
+  },
+  2 * jsonRuntimeControls.maxCheckTimeMs,
+);
 
 test("the exact native installation, lock and generated bootstrap agree", async () => {
   const result = await verifyJsonQualityInstallation({

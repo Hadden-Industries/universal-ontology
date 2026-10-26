@@ -6,6 +6,7 @@ import { isDeepStrictEqual } from "node:util";
 
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
+import { UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_REVISION as MCP_PROTOCOL_REVISION } from "../../packages/universal-ontology-mcp-server/src/universalOntologyMcpMetadata.js";
 
 const REPOSITORY_ROOT_PATH = fileURLToPath(new URL("../../", import.meta.url));
 const DEFAULT_SERVER_ENTRY_PATH = join(
@@ -15,7 +16,7 @@ const DEFAULT_SERVER_ENTRY_PATH = join(
   "dist",
   "universal-ontology-mcp-server.mjs",
 );
-const MCP_PROTOCOL_REVISION = "2026-07-28";
+
 const EXPECTED_PERSON_IRI =
   "https://haddenindustries.com/ontology/universal/core/Person";
 const EXPECTED_PERSON_DEFINITION =

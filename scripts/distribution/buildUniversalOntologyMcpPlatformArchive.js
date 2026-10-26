@@ -13,33 +13,21 @@ import yauzl from "yauzl";
 import yazl from "yazl";
 
 import { buildUniversalOntologyMcpApplicationBundle } from "../../packages/universal-ontology-mcp-server/scripts/buildUniversalOntologyMcpApplicationBundle.js";
+import {
+  PUBLIC_PACKAGE_JSON_PATH,
+  DEFAULT_RELEASE_DIRECTORY_PATH,
+  DEFAULT_RELEASE_WORK_PARENT_DIRECTORY_PATH,
+  DEFAULT_SOURCE_DATE_EPOCH_SECONDS,
+} from "./universalOntologyMcpReleaseLayout.js";
 
 const REPOSITORY_ROOT_PATH = fileURLToPath(new URL("../../", import.meta.url));
 const ROOT_PACKAGE_JSON_PATH = join(REPOSITORY_ROOT_PATH, "package.json");
-const PUBLIC_PACKAGE_DIRECTORY_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "packages",
-  "universal-ontology-mcp-server",
-);
-const PUBLIC_PACKAGE_JSON_PATH = join(
-  PUBLIC_PACKAGE_DIRECTORY_PATH,
-  "package.json",
-);
+
 const RELEASE_INPUTS_URL = new URL(
   "./universalOntologyMcpReleaseInputs.json",
   import.meta.url,
 );
-const DEFAULT_RELEASE_DIRECTORY_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "dist",
-  "releases",
-);
-const DEFAULT_RELEASE_WORK_PARENT_DIRECTORY_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "dist",
-  "release-work",
-);
-const DEFAULT_SOURCE_DATE_EPOCH_SECONDS = 315_532_800;
+
 const SEMANTIC_VERSION_PATTERN = "^[0-9]+\\.[0-9]+\\.[0-9]+$";
 const LOWERCASE_SHA256_PATTERN = "^[a-f0-9]{64}$";
 const FULL_GIT_COMMIT_SHA_PATTERN = "^[a-f0-9]{40}$";

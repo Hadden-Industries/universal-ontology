@@ -14,17 +14,18 @@ import {
   parseOntologyQueryChannelLastKnownGoodStateBytes,
   serializeCanonicalOntologyQueryChannelLastKnownGoodState,
 } from "./ontologyQueryPersistentCacheSchemas.js";
+import {
+  SHA_256_HEXADECIMAL_PATTERN,
+  SHA_256_FILE_NAME_PATTERN as ARTIFACT_FILE_NAME_PATTERN,
+} from "./ontologyQueryDigest.js";
+import { DEFAULT_MAXIMUM_PERSISTENT_QUERY_ARTIFACT_CACHE_BYTE_SIZE } from "./ontologyQueryArtifactLimits.js";
+import { ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES } from "./ontologyQueryChannelManifestSchemas.js";
 
-const SHA_256_HEXADECIMAL_PATTERN = /^[0-9a-f]{64}$/u;
 const SAFE_RANDOM_IDENTIFIER_PATTERN = /^[A-Za-z0-9-]{1,128}$/u;
-const DEFAULT_MAXIMUM_PERSISTENT_QUERY_ARTIFACT_CACHE_BYTE_SIZE = 536_870_912;
+
 const CHANNEL_STATE_FILE_NAME_PATTERN = /^state-(\d{16})\.json$/u;
 const ARTIFACT_DIGEST_DIRECTORY_NAME_PATTERN = /^[0-9a-f]{2}$/u;
-const ARTIFACT_FILE_NAME_PATTERN = /^([0-9a-f]{64})\.json$/u;
-const ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES = Object.freeze([
-  "stable",
-  "development",
-]);
+
 const LEASE_OWNER_FILE_NAME = "owner.json";
 const MAXIMUM_LEASE_OWNER_FILE_BYTE_LENGTH = 4_096;
 

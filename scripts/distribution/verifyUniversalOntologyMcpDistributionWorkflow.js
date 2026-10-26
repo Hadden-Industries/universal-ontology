@@ -54,7 +54,7 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "f545b24e66b49520815380d3ba85382dc42ee743072f1119d2243c4c69aa9af6";
+  "8b4dc0edd72916b562d103d6141116fc4d3b86b1bd39d9f437153d0efa8d55d7";
 
 function compareBinaryText(leftText, rightText) {
   return Buffer.compare(Buffer.from(leftText), Buffer.from(rightText));
@@ -195,7 +195,7 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
     ]),
   );
   const encounteredActionNames = new Set();
-  const exactNpmBootstrap = `npm install --global --no-audit --no-fund npm@${releaseInputs.selectedNpmVersion}\ntest "$(npm --version)" = "${releaseInputs.selectedNpmVersion}"\n`;
+  const exactNpmBootstrap = "node scripts/installRepositoryNpm.js";
   const artifactUploadStepCountsByJobName = {
     archive: 0,
     assemble: 0,

@@ -1,5 +1,6 @@
 import { Buffer } from "node:buffer";
 import process from "node:process";
+import { ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES } from "universal-ontology-query/artifacts";
 
 const MAXIMUM_OPERATIONAL_EVENT_LINE_BYTE_LENGTH = 2_048;
 const EVENT_NAME_PATTERN = /^[a-z][a-z0-9_]{0,95}$/u;
@@ -7,7 +8,8 @@ const LOWERCASE_TOKEN_PATTERN = /^[a-z][a-z0-9_]{0,63}$/u;
 const SAFE_ERROR_CODE_PATTERN = /^[A-Z][A-Z0-9_]{0,95}$/u;
 const CORRELATION_IDENTIFIER_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/u;
 const SEVERITY_VALUES = new Set(["info", "warning", "error"]);
-const CHANNEL_VALUES = new Set(["stable", "development"]);
+
+const CHANNEL_VALUES = new Set(ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES);
 
 /**
  * This literal never passes through the caller-provided serializer. It is the

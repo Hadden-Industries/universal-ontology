@@ -13,19 +13,16 @@ import {
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { build } from "esbuild";
+import {
+  PUBLIC_PACKAGE_DIRECTORY_PATH,
+  PUBLIC_PACKAGE_JSON_PATH,
+  APPLICATION_BUNDLE_METADATA_PATH,
+} from "./universalOntologyMcpPackageLayout.js";
 
 const REPOSITORY_ROOT_PATH = fileURLToPath(
   new URL("../../../", import.meta.url),
 );
-const PUBLIC_PACKAGE_DIRECTORY_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "packages",
-  "universal-ontology-mcp-server",
-);
-const PUBLIC_PACKAGE_JSON_PATH = join(
-  PUBLIC_PACKAGE_DIRECTORY_PATH,
-  "package.json",
-);
+
 const PUBLIC_PACKAGE_NOTICES_PATH = join(
   PUBLIC_PACKAGE_DIRECTORY_PATH,
   "THIRD_PARTY_NOTICES.md",
@@ -42,12 +39,7 @@ const APPLICATION_BUNDLE_PATH = join(
   REPOSITORY_ROOT_PATH,
   ...APPLICATION_BUNDLE_RELATIVE_PATH.split("/"),
 );
-const APPLICATION_BUNDLE_METADATA_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "dist",
-  "release-work",
-  "universal-ontology-mcp-application-bundle.json",
-);
+
 const APPLICATION_BUNDLE_CANDIDATE_DIRECTORY_NAME_PREFIX =
   ".universal-ontology-mcp-application-bundle-candidate-";
 const ALLOWED_REPOSITORY_INPUT_PREFIXES = Object.freeze([

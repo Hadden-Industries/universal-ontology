@@ -15,8 +15,9 @@ from ontology_policy.cli import (  # noqa: E402
     draft_passes,
     module_for_path,
 )
-from ontology_policy.context import ContextError, RunPurpose  # noqa: E402
+from ontology_policy.context import ContextError  # noqa: E402
 from ontology_policy.modules import load_owned_modules  # noqa: E402
+from ontology_run_purpose import RunPurpose  # noqa: E402
 
 COMMAND = [
     sys.executable,

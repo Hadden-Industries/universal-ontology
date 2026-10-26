@@ -4,6 +4,7 @@ import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { nodeTarget } from "./nodeTarget.js";
 
 const REPOSITORY_ROOT_PATH = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -92,13 +93,16 @@ export function setUpDevelopmentEnvironment({
     }
   }
 
-  // The MCP workspace requires Node 24+, and the qualified owlapi RC supports
-  // Node 24.21+ within the Node 24 line. Other majors need requalification.
-  // .node-version selects CI's runtime; it is not a local equality constraint.
-  const [nodeMajor, nodeMinor] = process.versions.node.split(".").map(Number);
-  if (!process.release.lts || nodeMajor !== 24 || nodeMinor < 21) {
+  const requireFromNpm = createRequire(npmCliPath);
+  const semver = requireFromNpm("semver");
+  const selectedNodeVersion = nodeTarget(repositoryRoot);
+  // Setup admits compatible LTS patches; qualification profiles keep exact identity.
+  if (
+    !process.release.lts ||
+    !semver.satisfies(process.versions.node, `^${selectedNodeVersion}`)
+  ) {
     throw new Error(
-      `Development setup requires an LTS build of Node.js 24.21.0 or a newer 24.x release; found ${process.versions.node}. Other major versions require dependency requalification.`,
+      `Development setup requires an LTS build of Node.js ${selectedNodeVersion} or a newer compatible release in the same major; found ${process.versions.node}. Other major versions require dependency requalification.`,
     );
   }
   const selectedPythonVersion = readFileSync(
@@ -150,8 +154,6 @@ export function setUpDevelopmentEnvironment({
   // npm's bundled validators work before npm ci installs dependencies. The exact
   // reproduction reference and the native developer-engine range serve distinct
   // purposes; setup must not impose a tighter implicit range than devEngines.
-  const requireFromNpm = createRequire(npmCliPath);
-  const semver = requireFromNpm("semver");
   const selectedNpmVersion = packageManager?.startsWith("npm@")
     ? packageManager.slice(4)
     : undefined;

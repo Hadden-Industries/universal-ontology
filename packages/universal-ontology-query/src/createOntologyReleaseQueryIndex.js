@@ -9,20 +9,25 @@ import {
   OntologyReleaseQueryIndexSchema,
   OntologyVersionTagSchema,
 } from "./ontologyQuerySchemas.js";
+import {
+  RDF_NAMESPACE_IRI,
+  RDFS_NAMESPACE_IRI,
+  OWL_NAMESPACE_IRI,
+  SKOS_NAMESPACE_IRI,
+  DCTERMS_NAMESPACE_IRI,
+  DC_ELEMENTS_NAMESPACE_IRI,
+} from "./ontologyRdfVocabulary.js";
 
-const RDF_TYPE_IRI = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
-const RDFS_DATATYPE_IRI = "http://www.w3.org/2000/01/rdf-schema#Datatype";
-const RDFS_SEE_ALSO_IRI = "http://www.w3.org/2000/01/rdf-schema#seeAlso";
-const RDFS_SUBCLASS_OF_IRI = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
-const OWL_NAMESPACE_IRI = "http://www.w3.org/2002/07/owl#";
+const RDF_TYPE_IRI = `${RDF_NAMESPACE_IRI}type`;
+const RDFS_DATATYPE_IRI = `${RDFS_NAMESPACE_IRI}Datatype`;
+const RDFS_SEE_ALSO_IRI = `${RDFS_NAMESPACE_IRI}seeAlso`;
+const RDFS_SUBCLASS_OF_IRI = `${RDFS_NAMESPACE_IRI}subClassOf`;
+
 const OWL_ONTOLOGY_IRI = `${OWL_NAMESPACE_IRI}Ontology`;
 const OWL_ANNOTATED_SOURCE_IRI = `${OWL_NAMESPACE_IRI}annotatedSource`;
 const OWL_ANNOTATED_PROPERTY_IRI = `${OWL_NAMESPACE_IRI}annotatedProperty`;
 const OWL_ANNOTATED_TARGET_IRI = `${OWL_NAMESPACE_IRI}annotatedTarget`;
 const OWL_VERSION_IRI = `${OWL_NAMESPACE_IRI}versionIRI`;
-const SKOS_NAMESPACE_IRI = "http://www.w3.org/2004/02/skos/core#";
-const DCTERMS_NAMESPACE_IRI = "http://purl.org/dc/terms/";
-const DC_ELEMENTS_NAMESPACE_IRI = "http://purl.org/dc/elements/1.1/";
 
 const ENTITY_KIND_BY_ASSERTED_TYPE_IRI = new Map([
   [`${OWL_NAMESPACE_IRI}Class`, "owl_class"],

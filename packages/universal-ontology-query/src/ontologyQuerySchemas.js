@@ -1,13 +1,19 @@
 import { freezeJsonValueDeeply } from "./jsonValueImmutability.js";
 import * as z from "zod";
 
-import { MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH } from "./ontologyQueryArtifactLimits.js";
 import {
   OntologySnapshotReferenceSchema,
   OntologyContextProjectionSchema,
   ContextDefinitionSchema,
   DefinitionSourceStatusSchema,
 } from "./ontologyContextSchemas.js";
+import { LowercaseSha256Schema } from "./ontologyQueryDigest.js";
+import { MAX_ONTOLOGY_RELEASE_QUERY_INDEX_BYTE_LENGTH } from "./ontologyQueryArtifactLimits.js";
+import {
+  RDF_NAMESPACE_IRI,
+  XSD_NAMESPACE_IRI,
+} from "./ontologyRdfVocabulary.js";
+
 export {
   OntologySnapshotReferenceSchema,
   DefinitionSourceStatusSchema,
@@ -15,10 +21,8 @@ export {
 
 const GREGORIAN_DATE_VERSION_PATTERN = /^(\d{4})(\d{2})(\d{2})$/u;
 
-export const RDF_LANG_STRING_DATATYPE_IRI =
-  "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString";
-export const XSD_STRING_DATATYPE_IRI =
-  "http://www.w3.org/2001/XMLSchema#string";
+export const RDF_LANG_STRING_DATATYPE_IRI = `${RDF_NAMESPACE_IRI}langString`;
+export const XSD_STRING_DATATYPE_IRI = `${XSD_NAMESPACE_IRI}string`;
 
 // RFC 5646 permits grandfathered tags in addition to the common language,
 // script, region, variant, extension, and private-use productions. Keeping
@@ -525,7 +529,7 @@ export const OntologyQueryCatalogReleaseSchema = z.strictObject({
   snapshotId: z.string().regex(/^urn:uo:snapshot:[0-9a-f]{64}$/u),
   dataset: z.strictObject({
     relativePath: z.string().regex(/^datasets\/[0-9a-f]{64}\.nq$/u),
-    sha256: z.string().regex(/^[0-9a-f]{64}$/u),
+    sha256: LowercaseSha256Schema,
     byteLength: z
       .number()
       .int()

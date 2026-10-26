@@ -6,9 +6,11 @@ identities, ownership, change kinds), executes the native engine and presents
 results. Nothing here decides whether a value is acceptable.
 """
 
+from ontology_run_purpose import RunPurpose
+
 from .modules import OwnedModule, load_owned_modules
 from .snapshots import ModuleSource, read_module_source
-from .validation import RunPurpose, ValidationOutcome, validate_sources
+from .validation import ValidationOutcome, validate_sources
 
 __all__ = [
     "ModuleSource",

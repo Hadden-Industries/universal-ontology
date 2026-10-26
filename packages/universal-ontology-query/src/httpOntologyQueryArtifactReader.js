@@ -3,14 +3,11 @@ import {
   parseContainedOntologyQueryArtifactRelativePath,
 } from "./ontologyQueryArtifactRelativePath.js";
 import { OntologyQueryChannelManifestHttpValidatorSchema } from "./ontologyQueryPersistentCacheSchemas.js";
+import { HTTP_LOOPBACK_HOSTNAME_VALUES } from "./ontologyQueryArtifactHttpOrigin.js";
 
 const ARTIFACT_BASE_URL_ERROR_MESSAGE =
   "ontologyQueryArtifactBaseUrl must be a slash-terminated HTTPS URL without credentials, search, or fragment.";
-const HTTP_LOOPBACK_HOSTNAME_VALUES = Object.freeze([
-  "localhost",
-  "127.0.0.1",
-  "[::1]",
-]);
+
 const HTTP_READ_ERROR_MESSAGES = Object.freeze({
   network: "The ontology query-artifact request failed.",
   timeout: "The ontology query-artifact request timed out.",

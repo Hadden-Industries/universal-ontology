@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 import pyshacl
+from ontology_run_purpose import RunPurpose
 from rdflib import Graph
 
 from .authorities import (
@@ -14,7 +15,7 @@ from .authorities import (
     authority_identities,
     load_authority_graph,
 )
-from .context import ContextError, RunPurpose, build_validation_graph
+from .context import ContextError, build_validation_graph
 from .modules import PolicyDefinitionError
 from .namespaces import UOP
 from .policy import Policy, load_policy

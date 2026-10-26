@@ -13,10 +13,13 @@ import {
 import { OntologyQueryCatalogSchema } from "universal-ontology-query/schemas";
 
 import { renderOntologyAssetsWithWorkers } from "./ontologyAssetWorkerPool.js";
+import {
+  PUBLIC_ONTOLOGY_ROOT_IRI,
+  DATED_ONTOLOGY_VERSION_PATTERN as STABLE_RELEASE_NAME_PATTERN,
+} from "./ontologyPublication.js";
 
-const PUBLIC_ONTOLOGY_ROOT = new URL("https://haddenindustries.com/ontology/");
+const PUBLIC_ONTOLOGY_ROOT = new URL(PUBLIC_ONTOLOGY_ROOT_IRI);
 const IMMUTABLE_RELEASE_NAME_PATTERN = /^(?:\d{8}|v[1-9][0-9]*)$/u;
-const STABLE_RELEASE_NAME_PATTERN = /^\d{8}$/u;
 
 /** Capture bounded source bytes before parsing, including growth during reads. */
 async function captureSource(sourcePath) {

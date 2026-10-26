@@ -11,6 +11,7 @@
     "dist/**",
     "docs/sdlc/*",
     "docs/reviews/*",
+    "docs/research/**",
     "vendor/*",
     "docs/policy/Editing-Policy.generated.md"
   ],

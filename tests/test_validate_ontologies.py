@@ -233,6 +233,7 @@ class OntologyValidationRunnerTests(unittest.TestCase):
             "policy/entity-policy.ttl",
             "policy/authorities/loc-iso639-1.members.ttl",
             "scripts/ontology_policy/validation.py",
+            "scripts/ontology_run_purpose.py",
         ):
             with self.subTest(path=path):
                 base = self.git("rev-parse", "HEAD")
