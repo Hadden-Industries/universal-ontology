@@ -12,13 +12,9 @@
 
 ### Local Workspace Commits & Pushing
 
-- For any request to draft a commit message or commit current workspace changes, you MUST load and follow the `committing-to-git` skill.
-  Unless specified otherwise, use the template for a per-file detailed commit message when drafting a commit message.
-
-- **Explicit User Authorization**:
-  - Creating a commit requires explicit user authorization.
-  - Pushing requires separate explicit user authorization.
-  - A request to push existing commits MUST NOT implicitly authorize staging or committing uncommitted workspace changes.
+- For commit-message drafts and commits, follow the `committing-to-git` skill; default to its per-file detailed template.
+- Commit task changes locally and choose messages without approval.
+- Pushing requires explicit user authorization.
 
 ### Working Tree Safety
 
