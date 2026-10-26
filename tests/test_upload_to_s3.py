@@ -279,7 +279,7 @@ class RealPublicationAdmissionTests(unittest.TestCase):
                 repository / "docs/import-closure/contract.v1.json",
                 root / "docs/import-closure/contract.v1.json",
             )
-            for name in ("package-lock.json", "requirements.lock.txt"):
+            for name in ("package.json", "package-lock.json", "requirements.lock.txt"):
                 shutil.copyfile(repository / name, root / name)
             base = "https://haddenindustries.com/ontology/"
             modules = publication.load_owned_modules()
