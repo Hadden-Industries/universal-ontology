@@ -1,7 +1,8 @@
 import * as z from "zod";
+import { LowercaseSha256Schema as digest } from "./ontologyQueryDigest.js";
 
 const iri = z.string().regex(/^[A-Za-z][A-Za-z0-9+.-]*:[^\s]+$/u);
-const digest = z.string().regex(/^[0-9a-f]{64}$/u);
+
 const snapshotId = z.string().regex(/^urn:uo:snapshot:[0-9a-f]{64}$/u);
 
 /** Exact immutable graph selection returned to the caller for follow-up calls. */

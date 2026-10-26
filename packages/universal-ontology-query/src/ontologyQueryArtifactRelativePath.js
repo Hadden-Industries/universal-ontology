@@ -9,12 +9,12 @@ import {
   OntologyVersionTagSchema,
 } from "./ontologyQuerySchemas.js";
 import { OntologyQueryArtifactChannelNameSchema } from "./ontologyQueryChannelManifestSchemas.js";
+import { SHA_256_FILE_NAME_PATTERN } from "./ontologyQueryDigest.js";
 
 export const ONTOLOGY_QUERY_ARTIFACT_RELATIVE_PATH_ERROR_MESSAGE =
   "The repository relative path must be a normalized contained POSIX path.";
 
 const CATALOG_RELATIVE_PATH_PATTERN = /^catalogs\/([0-9a-f]{64})\.json$/u;
-const SHA_256_FILE_NAME_PATTERN = /^([0-9a-f]{64})\.json$/u;
 
 /**
  * Return immutable POSIX path segments for a normalized contained reference.

@@ -182,7 +182,7 @@ function fixture(selected = ["ci_control"]) {
       architecture: "X64",
       image: "ubuntu24",
       imageVersion: "20261001.1",
-      node: "v24.21.0",
+      node: `v${readFileSync(new URL("../.node-version", import.meta.url), "utf8").trim()}`,
       npm: "12.0.0",
       nodeOptions: "",
       timezone: "",
@@ -263,6 +263,20 @@ test("retains original native assertions and exact producing attempts after part
     "native parameterized fixture",
   ]);
   expect(assertPrQualificationRecord(record)).toBe(record);
+});
+
+test("refuses a different Node patch even when producer and record agree", () => {
+  const record = createPrQualificationRecord(fixture());
+  const [major, minor, patch] = record.environment.node
+    .slice(1)
+    .split(".")
+    .map(Number);
+  const differentNode = `v${major}.${minor}.${patch + 1}`;
+  record.environment.node = differentNode;
+  record.nativeNode.environment.node = differentNode;
+  expect(() => assertPrQualificationRecord(record)).toThrow(
+    /Unsupported qualification environment/u,
+  );
 });
 
 test("ordinary source plans can retain Node proof while their website and development consumers remain selected", () => {

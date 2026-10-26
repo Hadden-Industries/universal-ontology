@@ -121,7 +121,7 @@ function fixture(selected = ["ci_control"], families = null) {
     architecture: "X64",
     image: "ubuntu24",
     imageVersion: "20261001.1",
-    node: "v24.21.0",
+    node: `v${readFileSync(new URL("../.node-version", import.meta.url), "utf8").trim()}`,
     npm: "12.2.0",
     nodeOptions: "",
     timezone: "",

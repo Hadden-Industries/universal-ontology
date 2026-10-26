@@ -17,6 +17,7 @@ from rdflib import SH, BNode, Graph, Literal
 
 from .namespaces import REPOSITORY_ROOT
 from .policy import Policy
+from .rendering import GENERATED_DOCUMENT_PATH
 
 _SEVERITY_NAMES = {SH.Violation: "Violation", SH.Warning: "Warning", SH.Info: "Info"}
 
@@ -106,7 +107,9 @@ def format_results(results: list[PolicyResult]) -> str:
 
 REPORT_DIRECTORY = REPOSITORY_ROOT / ".sdlc" / "runtime" / "policy-reports"
 RECEIPT_FILENAME = "qualification-receipt.json"
-GENERATED_POLICY_RELATIVE = "docs/policy/Editing-Policy.generated.md"
+GENERATED_POLICY_RELATIVE = GENERATED_DOCUMENT_PATH.relative_to(
+    REPOSITORY_ROOT
+).as_posix()
 
 
 def policy_anchor(

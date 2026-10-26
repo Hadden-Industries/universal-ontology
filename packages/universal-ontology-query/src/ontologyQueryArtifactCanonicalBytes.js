@@ -1,12 +1,13 @@
 import { OntologyQueryError } from "./ontologyQueryErrors.js";
-import { OntologyQueryChannelManifestSchema } from "./ontologyQueryChannelManifestSchemas.js";
+
 import {
   OntologyQueryCatalogSchema,
   OntologyReleaseQueryIndexSchema,
 } from "./ontologyQuerySchemas.js";
+import { OntologyQueryChannelManifestSchema } from "./ontologyQueryChannelManifestSchemas.js";
+import { SHA_256_HEXADECIMAL_PATTERN } from "./ontologyQueryDigest.js";
 
 const UTF_8_ENCODER = new TextEncoder();
-const SHA_256_HEXADECIMAL_PATTERN = /^[0-9a-f]{64}$/u;
 
 function rebuildRdfLiteralValue(value) {
   return {

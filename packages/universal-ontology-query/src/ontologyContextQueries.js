@@ -1,12 +1,15 @@
 import { createHash } from "node:crypto";
 import oxigraph from "oxigraph";
 import { OntologyQueryError } from "./ontologyQueryErrors.js";
+import {
+  RDF_NAMESPACE_IRI as RDF,
+  RDFS_NAMESPACE_IRI as RDFS,
+  OWL_NAMESPACE_IRI as OWL,
+  SKOS_NAMESPACE_IRI as SKOS,
+  DCTERMS_NAMESPACE_IRI,
+} from "./ontologyRdfVocabulary.js";
 
-const RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-const RDFS = "http://www.w3.org/2000/01/rdf-schema#";
-const OWL = "http://www.w3.org/2002/07/owl#";
-const SKOS = "http://www.w3.org/2004/02/skos/core#";
-const SOURCE = "http://purl.org/dc/terms/source";
+const SOURCE = `${DCTERMS_NAMESPACE_IRI}source`;
 const structuralPredicates = new Set(
   ["subClassOf", "domain", "range", "subPropertyOf"]
     .map((name) => RDFS + name)

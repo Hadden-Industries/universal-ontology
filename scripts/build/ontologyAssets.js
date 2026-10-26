@@ -5,8 +5,9 @@ import { createOntologyQueryArtifacts } from "./createOntologyQueryArtifacts.js"
 import { renderOntologyAssetsWithWorkers } from "./ontologyAssetWorkerPool.js";
 import { generateOntologyAliases } from "./ontologyAliases.js";
 import { createFullOntologyAssets } from "./fullOntologyAssets.js";
+import { PUBLIC_ONTOLOGY_ROOT_IRI } from "./ontologyPublication.js";
 
-const PUBLIC_ONTOLOGY_ROOT = new URL("https://haddenindustries.com/ontology/");
+const PUBLIC_ONTOLOGY_ROOT = new URL(PUBLIC_ONTOLOGY_ROOT_IRI);
 
 function buildFallbackBaseIri(outputPath) {
   return new URL(`${posix.dirname(outputPath)}/`, PUBLIC_ONTOLOGY_ROOT).href;

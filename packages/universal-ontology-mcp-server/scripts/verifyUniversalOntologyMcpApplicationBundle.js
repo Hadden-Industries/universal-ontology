@@ -11,24 +11,28 @@ import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import { formatMcpVerificationFailure } from "./formatMcpVerificationFailure.js";
 
+import { ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES } from "universal-ontology-query/artifacts";
 import {
+  GET_ENTITY_CONTEXT_TOOL_NAME,
+  FIND_ENTITY_CONNECTIONS_TOOL_NAME,
   RESOLVE_ENTITY_TOOL_NAME,
   SEARCH_ENTITIES_TOOL_NAME,
   UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO,
+  UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_REVISION as PINNED_MCP_PROTOCOL_VERSION,
 } from "../src/universalOntologyMcpMetadata.js";
 
 const REPOSITORY_ROOT_PATH = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
-const PINNED_MCP_PROTOCOL_VERSION = "2026-07-28";
+
 const MCP_OPERATION_TIMEOUT_MILLISECONDS = 30_000;
 const MCP_STDIO_MAXIMUM_MESSAGE_BYTES = 10 * 1024 * 1024;
 const CAPTURED_STANDARD_ERROR_MAXIMUM_BYTES = 65_536;
-const SUPPORTED_ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAMES = new Set([
-  "stable",
-  "development",
-]);
+
+const SUPPORTED_ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAMES = new Set(
+  ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES,
+);
 const SUPPORTED_ONTOLOGY_QUERY_ARTIFACT_SOURCE_KINDS = new Set([
   "file_system",
   "http",
@@ -38,8 +42,8 @@ const EXPECTED_READINESS_ENTITY_IRI =
 const EXPECTED_MCP_TOOL_NAMES = Object.freeze([
   SEARCH_ENTITIES_TOOL_NAME,
   RESOLVE_ENTITY_TOOL_NAME,
-  "get_entity_context",
-  "find_entity_connections",
+  GET_ENTITY_CONTEXT_TOOL_NAME,
+  FIND_ENTITY_CONNECTIONS_TOOL_NAME,
 ]);
 
 function validateOntologyQueryArtifactChannelName(

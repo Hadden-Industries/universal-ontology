@@ -1,13 +1,26 @@
-import { readFileSync } from "node:fs";
+import {
+  mkdtempSync,
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  rmSync,
+  realpathSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { basename, dirname, join } from "node:path";
 import { parse as parseYaml } from "yaml";
+import { installRepositoryNpm } from "../scripts/installRepositoryNpm.js";
+import {
+  repositoryNpmTarget,
+  syncNpmProjections,
+} from "../scripts/repositoryNpmTarget.js";
 
 const WORKFLOW_URL = new URL(
   "../.github/workflows/development-checks.yml",
   import.meta.url,
 );
 const SELECTOR_COMMAND = "node scripts/evaluatePullRequestChecks.js --scopes";
-const PYTHON_PROVISIONING_ACTION =
-  "astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884";
+const PYTHON_PROVISIONING_ACTION = "./.github/actions/setup-python";
 const ONTOLOGY_RUNNER_COMMAND =
   "node scripts/runRepositoryPython.js -m unittest tests.test_validate_ontologies -v";
 const PYTHON_SETUP_TOOL_COMMAND =
@@ -18,6 +31,147 @@ const JAVASCRIPT_DEVELOPMENT_COMMAND =
 function readWorkflow() {
   return parseYaml(readFileSync(WORKFLOW_URL, "utf8"));
 }
+
+test("shared Python setup keeps a pinned native provider and isolated repository selection", () => {
+  const action = parseYaml(
+    readFileSync(
+      new URL("../.github/actions/setup-python/action.yml", import.meta.url),
+      "utf8",
+    ),
+  );
+  expect(action.runs.using).toBe("composite");
+  expect(action.runs.steps).toHaveLength(1);
+  const step = action.runs.steps[0];
+  expect(step.uses).toMatch(/^astral-sh\/setup-uv@[0-9a-f]{40}$/u);
+  expect(step.with).toEqual({
+    version: expect.stringMatching(/^\d+\.\d+\.\d+$/u),
+    "activate-environment": true,
+    "venv-path": "${{ runner.temp }}/python",
+    "no-project": true,
+    "enable-cache": false,
+  });
+});
+
+/** Native fixture files keep selector tests independent of the repository's current version. */
+function removeNpmSelectorFixture(root, parent) {
+  if (dirname(root) !== parent || !basename(root).startsWith("uo-ci-settings-"))
+    throw new Error("Unexpected fixture cleanup target.");
+  rmSync(root, { recursive: true, force: true });
+}
+
+function withNpmSelector(packageManager, action) {
+  const parent = realpathSync(tmpdir());
+  const root = mkdtempSync(join(parent, "uo-ci-settings-"));
+  try {
+    writeFileSync(
+      join(root, "package.json"),
+      JSON.stringify({ packageManager }),
+    );
+    return action(root);
+  } finally {
+    removeNpmSelectorFixture(root, parent);
+  }
+}
+
+test.each(["linux", "darwin", "win32"])(
+  "%s installs and verifies the manifest-selected npm before continuing",
+  (platform) => {
+    withNpmSelector("npm@99.2.3", (root) => {
+      const calls = [];
+      installRepositoryNpm({
+        root,
+        platform,
+        run: (...args) => {
+          calls.push(args);
+          return { status: 0, stdout: "99.2.3\n" };
+        },
+      });
+      const executable = platform === "win32" ? "npm.cmd" : "npm";
+      expect(calls).toEqual([
+        [
+          executable,
+          ["install", "--global", "--no-audit", "--no-fund", "npm@99.2.3"],
+          {
+            cwd: root,
+            windowsHide: true,
+            shell: platform === "win32",
+            stdio: "inherit",
+          },
+        ],
+        [
+          executable,
+          ["--version"],
+          {
+            cwd: root,
+            windowsHide: true,
+            shell: platform === "win32",
+            encoding: "utf8",
+          },
+        ],
+      ]);
+    });
+  },
+);
+
+test.each([
+  undefined,
+  "pnpm@99.2.3",
+  "npm@latest",
+  "npm@99.2.3-beta.1",
+  "npm@99.2.3 & echo injected",
+  "npm@099.2.3",
+])("invalid npm selector %j cannot start installation", (selector) => {
+  withNpmSelector(selector, (root) => {
+    let invoked = false;
+    expect(() =>
+      installRepositoryNpm({
+        root,
+        run: () => {
+          invoked = true;
+        },
+      }),
+    ).toThrow("package.json.packageManager");
+    expect(invoked).toBe(false);
+  });
+});
+
+test.each([
+  [{ status: 17 }, /bootstrap failed/u],
+  [{ status: null, signal: "SIGTERM" }, /bootstrap failed/u],
+  [{ status: 0, stdout: "99.2.4\n" }, /differs from package.json/u],
+  [{ error: new Error("unavailable") }, /unavailable/u],
+])(
+  "npm bootstrap preserves failed or mismatched observations: %j",
+  (result, message) => {
+    withNpmSelector("npm@99.2.3", (root) => {
+      expect(() => installRepositoryNpm({ root, run: () => result })).toThrow(
+        message,
+      );
+    });
+  },
+);
+
+test("the release npm projection reports drift and changes only its declared field", () => {
+  expect(() => syncNpmProjections()).not.toThrow();
+  withNpmSelector("npm@99.2.3", (root) => {
+    const directory = join(root, "scripts/distribution");
+    mkdirSync(directory, { recursive: true });
+    const file = join(directory, "universalOntologyMcpReleaseInputs.json");
+    const original =
+      '{\r\n  "selectedNpmVersion": "1.2.3",\r\n  "sentinel": "unchanged"\r\n}\r\n';
+    writeFileSync(file, original);
+    expect(repositoryNpmTarget(root)).toBe("99.2.3");
+    expect(() => syncNpmProjections({ root })).toThrow(
+      "Stale release npm projection",
+    );
+    expect(readFileSync(file, "utf8")).toBe(original);
+    syncNpmProjections({ root, write: true });
+    expect(readFileSync(file, "utf8")).toBe(
+      original.replace('"1.2.3"', '"99.2.3"'),
+    );
+    expect(() => syncNpmProjections({ root })).not.toThrow();
+  });
+});
 
 test.each([
   [
@@ -47,14 +201,7 @@ test.each([
         ({ uses }) => uses === PYTHON_PROVISIONING_ACTION,
       );
       expect(provisioning).toHaveLength(1);
-      // Without a version override, uv resolves the root .python-version.
-      expect(provisioning[0].with).toEqual({
-        version: "0.13.0",
-        "activate-environment": true,
-        "venv-path": "${{ runner.temp }}/python",
-        "no-project": true,
-        "enable-cache": false,
-      });
+      expect(provisioning[0].with).toBeUndefined();
       expect(
         steps.some(({ uses }) => uses?.startsWith("actions/setup-python@")),
       ).toBe(false);
@@ -184,7 +331,9 @@ test("development checks accept only a revision-bound reusable plan", () => {
     for (const { uses } of job.steps) {
       if (uses) {
         // Immutable action references: an owner/repo@<40-hex-sha> pin.
-        expect(uses).toMatch(/^[\w.-]+\/[\w.-]+@[0-9a-f]{40}$/u);
+        if (uses !== PYTHON_PROVISIONING_ACTION) {
+          expect(uses).toMatch(/^[\w.-]+\/[\w.-]+@[0-9a-f]{40}$/u);
+        }
       }
     }
   }
@@ -228,8 +377,24 @@ test("JSON quality always checks the full corpus on both platforms before consum
   expect(runs.indexOf("npm run install:json")).toBeLessThan(
     runs.indexOf("npm run build:verify"),
   );
-  expect(runs.at(-1)).toBe(
-    "npm run check:json -- --require-generated --max-check-time-ms 300000",
+  expect(runs.at(-1)).toBe("npm run check:json:generated");
+  const manifest = JSON.parse(
+    readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+  );
+  const command = manifest.scripts["check:json:generated"];
+  expect(command).toMatch(/^npm run check:json -- /u);
+  const args = command.split(" ").slice(4);
+  expect(args).toContain("--require-generated");
+  expect(args).not.toContain("--max-check-time-ms");
+  const policy = JSON.parse(
+    readFileSync(new URL("../.json-quality.json", import.meta.url), "utf8"),
+  );
+  const budget = policy.runtimeControls.maxCheckTimeMs;
+  expect(Number.isSafeInteger(budget)).toBe(true);
+  expect(budget).toBeGreaterThan(0);
+  expect(budget).toBeLessThan(job["timeout-minutes"] * 60_000);
+  expect(manifest.scripts["check:qualification"].split(" && ").at(-1)).toBe(
+    runs.at(-1),
   );
   expect(workflow.jobs.complete.needs).toContain("json-quality");
 });
@@ -240,8 +405,7 @@ test("Python-only work retains both platforms without installing Node dependenci
   expect(job.if).toBe("needs.scope.outputs.python_tests == 'true'");
   expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
-  const npmBootstrap =
-    'npm install --global --no-audit --no-fund npm@12.2.0\ntest "$(npm --version)" = "12.2.0"\n';
+  const npmBootstrap = "node scripts/installRepositoryNpm.js";
   expect(runs).toContain(npmBootstrap);
   expect(
     runs
@@ -323,7 +487,7 @@ test("every route checks the full Markdown corpus on Windows and Linux", () => {
   expect(job.if).toBeUndefined();
   expect(job.steps.map((step) => step.run).filter(Boolean)).toEqual([
     "node scripts/evaluatePullRequestChecks.js --verify",
-    'npm install --global --no-audit --no-fund npm@12.2.0\ntest "$(npm --version)" = "12.2.0"\n',
+    "node scripts/installRepositoryNpm.js",
     "npm run install:markdown",
     "npm run check:markdown",
   ]);
@@ -359,13 +523,13 @@ test("Windows and Ubuntu checks exercise the complete development setup before t
   for (const prefix of [
     "actions/checkout@",
     "actions/setup-node@",
-    "astral-sh/setup-uv@",
+    PYTHON_PROVISIONING_ACTION,
   ]) {
     expect(before.some(({ uses }) => uses?.startsWith(prefix))).toBe(true);
   }
-  expect(before.some(({ run }) => run?.includes("npm install --global"))).toBe(
-    true,
-  );
+  expect(
+    before.some(({ run }) => run === "node scripts/installRepositoryNpm.js"),
+  ).toBe(true);
   for (const run of runs) {
     // Dependency installation belongs to the setup command, not ad hoc steps.
     expect(run).not.toMatch(/npm ci|python -m venv|pip install/u);

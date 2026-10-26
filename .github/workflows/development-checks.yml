@@ -63,9 +63,7 @@ jobs:
         run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Select package manager
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - name: Install only the locked documentation tools
         shell: bash
         run: npm run install:markdown
@@ -97,9 +95,7 @@ jobs:
         run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Select package manager
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - name: Install the locked native JSON tools without lifecycle scripts
         run: npm ci --include=dev --ignore-scripts
       - name: Install the locked isolated JSON engine
@@ -107,7 +103,7 @@ jobs:
       - name: Build generated ontology and query products without source fixes
         run: npm run build:verify
       - name: Check source and generated JSON against default and producer contracts
-        run: npm run check:json -- --require-generated --max-check-time-ms 300000
+        run: npm run check:json:generated
   python-style:
     timeout-minutes: 10
     name: Python style
@@ -125,13 +121,7 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
-        with:
-          version: "0.13.0"
-          activate-environment: true
-          venv-path: ${{ runner.temp }}/python
-          no-project: true
-          enable-cache: false
+      - uses: ./.github/actions/setup-python
       - name: Install only the hash-locked Python style tool
         run: |
           node scripts/preparePythonStyleTools.js --output "$RUNNER_TEMP/python-style-tools"
@@ -141,9 +131,7 @@ jobs:
           .venv/bin/python -c "from importlib.metadata import requires; assert not requires('ruff'), 'Ruff dependency closure needs review'"
       - name: Select package manager
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - name: Check Python sources
         run: npm run lint:python && npm run format:python:check
     permissions:
@@ -172,13 +160,7 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
-        with:
-          version: "0.13.0"
-          activate-environment: true
-          venv-path: ${{ runner.temp }}/python
-          no-project: true
-          enable-cache: false
+      - uses: ./.github/actions/setup-python
       - name: Set up only the locked Python environment
         shell: bash
         run: |
@@ -193,9 +175,7 @@ jobs:
           "$python_executable" -m pip check
       - name: Select package manager
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - name: Install the isolated generated-document formatter
         run: npm run install:markdown
       - name: Install the locked isolated JSON tooling
@@ -230,18 +210,10 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
-        with:
-          version: "0.13.0"
-          activate-environment: true
-          venv-path: ${{ runner.temp }}/python
-          no-project: true
-          enable-cache: false
+      - uses: ./.github/actions/setup-python
       - name: Select package manager
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - name: Set up the locked development environment
         run: npm run set-up:development
       - name: Run the Node-backed native family
@@ -268,13 +240,7 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
-        with:
-          version: "0.13.0"
-          activate-environment: true
-          venv-path: ${{ runner.temp }}/python
-          no-project: true
-          enable-cache: false
+      - uses: ./.github/actions/setup-python
       - name: Validate the committed Agent Skills lock
         run: python -I -B tools/repository-skills.pyz check
     permissions:
@@ -303,18 +269,10 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
-        with:
-          version: "0.13.0"
-          activate-environment: true
-          venv-path: ${{ runner.temp }}/python
-          no-project: true
-          enable-cache: false
+      - uses: ./.github/actions/setup-python
       - name: Select package manager
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - name: Set up the locked development environment
         run: npm run set-up:development
       - name: Check Python style and formatter regressions
@@ -349,18 +307,10 @@ jobs:
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
-      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
-        with:
-          version: "0.13.0"
-          activate-environment: true
-          venv-path: ${{ runner.temp }}/python
-          no-project: true
-          enable-cache: false
+      - uses: ./.github/actions/setup-python
       - name: Select package manager
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - name: Set up development from the clean checkout
         run: npm run set-up:development
       - name: Verify the installed ontology runner

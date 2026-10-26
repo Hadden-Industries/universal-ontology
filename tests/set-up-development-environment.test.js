@@ -98,7 +98,7 @@ beforeEach(() => {
     }),
   );
   writeFileSync(join(repositoryRoot, "package-lock.json"), "{}");
-  writeFileSync(join(repositoryRoot, ".node-version"), "24.20.0\n");
+  writeFileSync(join(repositoryRoot, ".node-version"), "24.21.0\n");
   writeFileSync(join(repositoryRoot, ".python-version"), "3.15.0\n");
   writeFileSync(
     join(repositoryRoot, "requirements-dev.txt"),
@@ -327,14 +327,39 @@ test("requires invocation through npm before changing the environment", () => {
   expect(spawnSyncMock).not.toHaveBeenCalled();
 });
 
-test.each(["24.21.0", "24.21.1", "24.22.0"])(
-  "accepts compatible LTS Node %s independently of the CI pin",
+test.each(["24.21.0", "24.21.1", "24.22.0", "24.22.1"])(
+  "accepts compatible LTS Node %s at or above the repository floor",
   (version) => {
     Object.defineProperty(process.versions, "node", { value: version });
     setUpDevelopmentEnvironment({ repositoryRoot });
     expect(consoleLogSpy).toHaveBeenCalledWith(
       "Development dependencies are installed.",
     );
+  },
+);
+
+test("a changed repository pin changes the Node floor before installation", () => {
+  writeFileSync(join(repositoryRoot, ".node-version"), "24.22.1\n");
+  Object.defineProperty(process.versions, "node", { value: "24.22.0" });
+  expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
+    /24\.22\.1/u,
+  );
+  expect(spawnSyncMock).not.toHaveBeenCalled();
+  Object.defineProperty(process.versions, "node", { value: "24.22.1" });
+  setUpDevelopmentEnvironment({ repositoryRoot });
+  expect(consoleLogSpy).toHaveBeenCalledWith(
+    "Development dependencies are installed.",
+  );
+});
+
+test.each(["24", "24.x", "v24.22.1", "24.22.1-rc.1", "024.22.1", "24.022.1"])(
+  "rejects a noncanonical Node pin %s before installation",
+  (pin) => {
+    writeFileSync(join(repositoryRoot, ".node-version"), `${pin}\n`);
+    expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
+      /\.node-version/u,
+    );
+    expect(spawnSyncMock).not.toHaveBeenCalled();
   },
 );
 

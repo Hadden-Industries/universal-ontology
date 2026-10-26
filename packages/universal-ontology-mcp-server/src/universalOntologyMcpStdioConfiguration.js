@@ -1,16 +1,15 @@
 import { homedir } from "node:os";
 import { posix, win32 } from "node:path";
 import process from "node:process";
+import {
+  DEFAULT_MAXIMUM_PERSISTENT_QUERY_ARTIFACT_CACHE_BYTE_SIZE,
+  HTTP_LOOPBACK_HOSTNAME_VALUES as LOOPBACK_HOSTNAME_VALUES,
+  ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES,
+} from "universal-ontology-query/artifacts";
 
 const DEFAULT_ONTOLOGY_QUERY_ARTIFACT_BASE_URL =
   "https://haddenindustries.com/ontology/query/v1/";
-const DEFAULT_MAXIMUM_PERSISTENT_QUERY_ARTIFACT_CACHE_BYTE_SIZE =
-  512 * 1024 * 1024;
-const LOOPBACK_HOSTNAME_VALUES = Object.freeze([
-  "localhost",
-  "127.0.0.1",
-  "[::1]",
-]);
+
 const VALUE_OPTION_DEFINITIONS = Object.freeze({
   "--query-artifact-source": {
     environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_SOURCE",
@@ -241,7 +240,7 @@ function requireUnpaddedValue(value, optionName) {
 function parseArtifactChannel(value) {
   requireUnpaddedValue(value, "--artifact-channel");
 
-  if (value !== "stable" && value !== "development") {
+  if (!ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES.includes(value)) {
     throwConfigurationError("--artifact-channel");
   }
 

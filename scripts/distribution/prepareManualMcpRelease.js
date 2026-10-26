@@ -5,10 +5,11 @@ import { lstat, readFile, readdir } from "node:fs/promises";
 import { spawn, spawnSync } from "node:child_process";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { MAXIMUM_RELEASE_ASSET_BYTE_SIZE as MAX_ASSET_BYTES } from "./universalOntologyMcpReleaseLayout.js";
 
 const SHA256 = /^[a-f0-9]{64}$/u;
 const VERSION = /^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$/u;
-const MAX_ASSET_BYTES = 268_435_456;
+
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const binaryOrder = (a, b) => Buffer.compare(Buffer.from(a), Buffer.from(b));
 

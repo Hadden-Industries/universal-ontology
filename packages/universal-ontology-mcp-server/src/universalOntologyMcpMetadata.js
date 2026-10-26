@@ -13,6 +13,9 @@ export const RESOLVE_ENTITY_TOOL_NAME = "resolve_entity";
 export const GET_ENTITY_CONTEXT_TOOL_NAME = "get_entity_context";
 export const FIND_ENTITY_CONNECTIONS_TOOL_NAME = "find_entity_connections";
 
+/** Current protocol revision used by the local host and live verification clients. */
+export const UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_REVISION = "2026-07-28";
+
 /** Immutable public identity advertised in every protocol era. */
 export const UNIVERSAL_ONTOLOGY_MCP_SERVER_INFO = Object.freeze({
   name: "universal-ontology",
