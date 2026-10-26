@@ -48,7 +48,9 @@ def main():
                         stream.write(data)
 
     allowed = {
-        os.path.normcase(str((model_root / name).resolve()))
+        os.path.normcase(str((model_root / name).resolve())): (
+            model_root / name
+        ).resolve()
         for name in ("UML.ecore", "Types.ecore")
     }
 
@@ -64,8 +66,12 @@ def main():
         def get_resource(self, uri, options=None, **kwargs):
             if not isinstance(uri, MemoryURI):
                 path = uri.plain if isinstance(uri, URI) else str(uri)
-                if os.path.normcase(str(Path(path).resolve())) not in allowed:
+                # Lexical lookup must precede filesystem access: resolving an
+                # unregistered Windows UNC path can already contact a server.
+                registered = allowed.get(os.path.normcase(os.path.normpath(path)))
+                if registered is None:
                     raise ValueError("Unregistered external core-reader resource")
+                uri = URI(str(registered))
             return super().get_resource(uri, options=options, **kwargs)
 
     resources = OfflineResources()

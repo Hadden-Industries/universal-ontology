@@ -122,8 +122,8 @@ The browser never recreates XMI from fetched OWL or falls back to the retired co
 
 Normal generation performs one bounded XML/inverse check on final XMI bytes.
 The existing OWL writer retains its independent strict readback; XMI adds no OWL reload.
-Native consumers and the independent corpus oracle run through `npm run qualify:uml-xmi -- --dependencies DIR --corpus-root DIR --output DIR`.
-Use `--existing-output-root dist` after a normal build to qualify its actual XMI artifacts too.
+Native consumers and the independent corpus oracle run through `npm run qualify:uml-xmi -- --dependencies DIR --corpus-root DIR --output DIR --existing-output-root dist` after a normal build.
+Current output bindings are mandatory: the existing publication verifier checks their receipt against current sources, imported dependencies, producer and quartet hashes before any native acquisition or execution.
 The corpus root must contain the eight exact paths/hashes in [corpus.v1.json](corpus.v1.json).
 Changed current outputs are separate cases, never relabelled historical fixtures.
 Reports retain missing/extra tuples, native errors/warnings, counts, elapsed time and RSS.

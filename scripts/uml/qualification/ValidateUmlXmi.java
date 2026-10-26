@@ -26,6 +26,14 @@ public class ValidateUmlXmi {
   private static int errors = 0;
   private static int warnings = 0;
 
+  /** String/path operations only: never probe an XML-selected path for admission. */
+  private static Path localPath(java.net.URI uri) {
+    if (!"file".equals(uri.getScheme()) || uri.getRawAuthority() != null ||
+        uri.getRawQuery() != null || uri.getRawFragment() != null) return null;
+    try { return Path.of(uri).normalize(); }
+    catch (IllegalArgumentException invalid) { return null; }
+  }
+
   private static void record(Diagnostic diagnostic) {
     if (diagnostic.getChildren().isEmpty()) {
       if (diagnostic.getSeverity() >= Diagnostic.ERROR) errors++;
@@ -46,14 +54,17 @@ public class ValidateUmlXmi {
     ExtensibleURIConverterImpl offline = new ExtensibleURIConverterImpl() {
       @Override public InputStream createInputStream(URI uri, Map<?,?> options) throws IOException {
         URI actual = normalize(uri);
-        boolean allowed = actual.isFile() && Path.of(java.net.URI.create(actual.toString())).toRealPath().equals(input);
+        URI approved = null;
+        if (actual.isFile() && input.equals(localPath(java.net.URI.create(actual.toString()))))
+          approved = URI.createFileURI(input.toString());
         if (actual.isArchive() && "jar".equals(actual.scheme())) {
           JarURLConnection archive = (JarURLConnection) java.net.URI.create(actual.toString()).toURL().openConnection();
-          if ("file".equals(archive.getJarFileURL().getProtocol()))
-            allowed = bundles.contains(Path.of(java.net.URI.create(archive.getJarFileURL().toExternalForm())).toRealPath());
+          Path bundle = localPath(java.net.URI.create(archive.getJarFileURL().toExternalForm()));
+          if (bundle != null && bundles.contains(bundle))
+            approved = URI.createURI("jar:" + bundle.toUri() + "!/" + archive.getEntryName());
         }
-        if (!allowed) throw new IOException("Unregistered native resource resolution is forbidden: " + actual);
-        return super.createInputStream(uri,options);
+        if (approved == null) throw new IOException("Unregistered native resource resolution is forbidden: " + actual);
+        return super.createInputStream(approved,options);
       }
     };
     offline.getURIMap().putAll(resources.getURIConverter().getURIMap());

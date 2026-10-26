@@ -121,6 +121,32 @@ test("is deterministic across repeated export, anonymous renaming and unordered 
   ).toBe(a.xmi);
 });
 
+test.each(["external-schema", "unqualified-schema", "nested-schema"])(
+  "rejects %s resolution declarations before native consumers",
+  async (mutation) => {
+    const result = await exportOntologyUmlXmi({
+      ontology: await loadMetadataWitness(),
+      context: witnessContext,
+    });
+    const doc = new DOMParser().parseFromString(result.xmi, "application/xml");
+    const xsi = "http://www.w3.org/2001/XMLSchema-instance";
+    const target =
+      mutation === "nested-schema"
+        ? doc.getElementsByTagNameNS(contract.uml, "Model")[0]
+        : doc.documentElement;
+    target.setAttributeNS(
+      xsi,
+      mutation === "unqualified-schema"
+        ? "xsi:noNamespaceSchemaLocation"
+        : "xsi:schemaLocation",
+      "urn:unregistered file://unregistered.invalid/share/model.ecore",
+    );
+    await expect(
+      recoverOntologyMetadata(new XMLSerializer().serializeToString(doc)),
+    ).rejects.toThrow("schema location");
+  },
+);
+
 test.each([
   "payload",
   "datatype",

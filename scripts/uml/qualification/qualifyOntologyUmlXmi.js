@@ -17,7 +17,7 @@ import { OWLOntologyLoaderConfiguration } from "owlapi/model";
 import dependencies from "../../../docs/uml/qualification-dependencies.v1.json" with { type: "json" };
 import corpus from "../../../docs/uml/corpus.v1.json" with { type: "json" };
 import { assertLosslessOntologyLoad } from "../../ontology/assertLosslessOntologyLoad.js";
-import { discoverFullOntologyCandidates } from "../../build/fullOntologyAssets.js";
+import { verifyFullOntologyBuild } from "../../build/fullOntologyAssets.js";
 import { exportOntologyUmlXmi } from "../exportOntologyUmlXmi.js";
 import { recoverOntologyMetadata } from "../recoverOntologyMetadata.js";
 import { compareOntologyMetadata } from "./compareOntologyMetadata.js";
@@ -192,11 +192,26 @@ async function worker(values) {
 }
 
 /** Qualify the eight frozen controls and any additional current build cohort. */
-async function qualify(values) {
-  if (!values.dependencies || !values["corpus-root"] || !values.output)
+export async function qualifyOntologyUmlXmi(
+  values,
+  { repositoryDirectory = repository } = {},
+) {
+  if (
+    !values.dependencies ||
+    !values["corpus-root"] ||
+    !values.output ||
+    !values["existing-output-root"]
+  )
     throw new Error(
-      "Require --dependencies DIR --corpus-root DIR --output DIR; --acquire explicitly permits pinned library downloads",
+      "Require --dependencies DIR --corpus-root DIR --output DIR --existing-output-root DIR; verified current build outputs are mandatory; --acquire explicitly permits pinned library downloads",
     );
+  // A dated path is not a current-input identity. Reuse the publication owner's
+  // authoritative source/producer/quartet verification before native qualification.
+  const outputRoot = resolve(values["existing-output-root"]);
+  const current = await verifyFullOntologyBuild({
+    repositoryDirectory,
+    outputDirectory: outputRoot,
+  });
   const dependencyDirectory = resolve(values.dependencies);
   await mkdir(dependencyDirectory, { recursive: true });
   if ((await lstat(dependencyDirectory)).isSymbolicLink())
@@ -217,38 +232,23 @@ async function qualify(values) {
     source: join(resolve(values["corpus-root"]), fixture.path),
     expectedSha256: fixture.sha256,
   }));
-  const current = await discoverFullOntologyCandidates({
-    repositoryDirectory: repository,
-  });
-  if (values["existing-output-root"]) {
-    const outputRoot = resolve(values["existing-output-root"]);
-    for (const candidate of current.candidates.filter(
-      (c) => c.imports.length,
-    )) {
-      const path = `${candidate.outputPath}-full`;
-      const source = join(outputRoot, path);
-      const sourceSha256 = digest(await readFile(source));
-      const controlling = cases.find(
-        (c) => c.path === path && c.expectedSha256 === sourceSha256,
-      );
-      if (controlling) controlling.existingXmi = `${source}.xmi`;
-      else
-        cases.push({
-          path,
-          source,
-          expectedSha256: sourceSha256,
-          existingXmi: `${source}.xmi`,
-          current: true,
-        });
-    }
-  } else if (
-    current.candidates
-      .filter((c) => c.imports.length)
-      .some((c) => !cases.some((f) => f.path === `${c.outputPath}-full`))
-  )
-    throw new Error(
-      "Current cohort exceeds the controls; provide --existing-output-root after the normal build",
+  for (const candidate of current.candidates.filter((c) => c.imports.length)) {
+    const path = `${candidate.outputPath}-full`;
+    const source = join(outputRoot, path);
+    const sourceSha256 = digest(await readFile(source));
+    const controlling = cases.find(
+      (c) => c.path === path && c.expectedSha256 === sourceSha256,
     );
+    if (controlling) controlling.existingXmi = `${source}.xmi`;
+    else
+      cases.push({
+        path,
+        source,
+        expectedSha256: sourceSha256,
+        existingXmi: `${source}.xmi`,
+        current: true,
+      });
+  }
   const classpath = dependencies.java
     .map((d) => join(dependencyDirectory, "jars", d.path))
     .join(delimiter);
@@ -339,7 +339,7 @@ if (
   try {
     const { values } = parseArgs({ options });
     if (values.worker) await worker(values);
-    else await qualify(values);
+    else await qualifyOntologyUmlXmi(values);
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;

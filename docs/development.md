@@ -470,7 +470,7 @@ Authored documentation selects only its content check; preserved documents do no
 Mixed changes retain every applicable consumer check.
 Unselected ontology work needs no Python provisioning; the aggregate independently verifies selection and every selected consumer's completion receipt.
 
-Reviewed test-only edits can select the complete build, import-closure, query/projection, frontend, MCP, distribution or utility family inside the existing Node consumer. The closed inventory contains 74 existing test files. Mixed known test families run their union. Source, fixture, dependency, new/unknown test, deletion, rename and shared-control changes retain the conservative route.
+Reviewed test-only edits can select the complete build, import-closure, query/projection, frontend, MCP, distribution or utility family inside the existing Node consumer. The closed inventory contains 73 existing test files. Mixed known test families run their union. Source, fixture, dependency, new/unknown test, deletion, rename and shared-control changes retain the conservative route.
 Full qualification retains complete discovery and tooling ownership.
 No production website build is needed solely for an isolated reviewed test-file edit; fixture builds within its selected family still execute.
 

@@ -50,6 +50,20 @@ export async function recoverOntologyMetadata(bytes) {
     for (const attribute of Object.values(tag.attributes)) {
       if (Buffer.byteLength(attribute.value) > contract.maxAttributeBytes)
         throw new Error("UML XML attribute limit exceeded");
+      if (
+        attribute.uri === "http://www.w3.org/2001/XMLSchema-instance" &&
+        ["schemaLocation", "noNamespaceSchemaLocation"].includes(
+          attribute.local,
+        )
+      ) {
+        const expected = `${contract.profile} #profileDefinition ${contract.uml} http://www.eclipse.org/uml2/5.0.0/UML`;
+        if (
+          attribute.local !== "schemaLocation" ||
+          depth !== 1 ||
+          attribute.value.trim().split(/\s+/u).join(" ") !== expected
+        )
+          throw new Error("Unregistered XMI schema location is forbidden");
+      }
       if (attribute.uri === contract.xmi && attribute.local === "id") {
         if (
           !/^[A-Za-z_][\w.-]*$/u.test(attribute.value) ||

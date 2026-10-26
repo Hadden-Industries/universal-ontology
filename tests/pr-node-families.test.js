@@ -1,5 +1,11 @@
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
+import {
+  existsSync,
+  mkdtempSync,
+  mkdirSync,
+  writeFileSync,
+  rmSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import {
@@ -83,7 +89,6 @@ const approvedInputs = [
   "tests/mcp/github-mcp-server-launcher.test.js",
   "tests/ontology-csv.test.js",
   "tests/ontology-view-model.test.js",
-  "tests/owl-to-uml-xmi-converter.test.js",
   "tests/rdf-xml-to-json-ld.test.js",
   "tests/webmcp/displayed-ontology-entity-definition-tool.test.js",
   "tests/webmcp/displayed-ontology-release-context.test.js",
@@ -92,7 +97,9 @@ const approvedInputs = [
 ];
 test("closed family union equals accepted independent native test inventory", () => {
   expect([...NODE_FAMILY_TEST_INPUTS].sort()).toEqual(approvedInputs);
-  expect(new Set(NODE_FAMILY_TEST_INPUTS).size).toBe(74);
+  expect(new Set(NODE_FAMILY_TEST_INPUTS).size).toBe(73);
+  for (const path of NODE_FAMILY_TEST_INPUTS)
+    expect(existsSync(new URL(`../${path}`, import.meta.url))).toBe(true);
 });
 test.each([
   "build",

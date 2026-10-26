@@ -21,6 +21,7 @@ import {
   discoverFullOntologyCandidates,
 } from "../../scripts/build/fullOntologyAssets.js";
 import { recoverOntologyMetadata } from "../../scripts/uml/recoverOntologyMetadata.js";
+import { qualifyOntologyUmlXmi } from "../../scripts/uml/qualification/qualifyOntologyUmlXmi.js";
 
 // Repeated filesystem and ontology builds need headroom under parallel worker load.
 jest.setTimeout(30_000);
@@ -48,6 +49,46 @@ async function fixture(action) {
     await rm(repositoryDirectory, { recursive: true, force: true });
   }
 }
+
+test.each([rootPath, depPath])(
+  "native qualification rejects stale current outputs after %s changes at the same dated path",
+  async (changedPath) =>
+    fixture(async ({ options, put, repositoryDirectory, outputDirectory }) => {
+      await createFullVersions(options);
+      await put(
+        changedPath,
+        xml(changedPath, changedPath === rootPath ? [depPath] : []).replace(
+          "#Class",
+          "#ChangedClass",
+        ),
+      );
+      const dependencies = join(repositoryDirectory, "not-acquired");
+      await expect(
+        qualifyOntologyUmlXmi(
+          {
+            dependencies,
+            "corpus-root": repositoryDirectory,
+            output: join(repositoryDirectory, "native-proof"),
+            "existing-output-root": outputDirectory,
+          },
+          { repositoryDirectory },
+        ),
+      ).rejects.toThrow(/changed|rebuild/u);
+      await expect(access(dependencies)).rejects.toMatchObject({
+        code: "ENOENT",
+      });
+    }),
+);
+
+test("native qualification requires current output bindings before any acquisition", async () => {
+  await expect(
+    qualifyOntologyUmlXmi({
+      dependencies: "unused",
+      "corpus-root": "unused",
+      output: "unused",
+    }),
+  ).rejects.toThrow("verified current build outputs are mandatory");
+});
 
 test("batch discovers the inclusive cutoff and includes a pre-cutoff dependency, with all four verified formats", async () =>
   fixture(async ({ options, outputDirectory }) => {
