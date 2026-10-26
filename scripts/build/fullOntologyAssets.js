@@ -222,6 +222,7 @@ function candidateEvidence(candidates) {
 async function producerEvidence() {
   const repository = fileURLToPath(new URL("../../", import.meta.url));
   const paths = [
+    "package.json",
     "package-lock.json",
     "docs/import-closure/contract.v1.json",
     "scripts/materializeImportClosure.js",
