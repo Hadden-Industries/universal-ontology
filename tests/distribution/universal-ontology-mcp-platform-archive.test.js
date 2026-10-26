@@ -295,20 +295,20 @@ describe("Universal Ontology MCP platform release inputs", () => {
 
     expect(releaseInputs).toMatchObject({
       releaseInputFormatVersion: 1,
-      selectedNpmVersion: "12.2.0",
+      selectedNpmVersion: "12.2.1",
       modelContextProtocol: {
         revision: "2026-07-28",
         registrySchemaVersion: "2025-12-11",
       },
       nodeRuntime: {
-        version: "24.20.0",
-        bundledNpmVersion: "11.19.0",
+        version: "24.22.1",
+        bundledNpmVersion: "11.19.1",
         compressedArchiveMaximumByteSize: 134_217_728,
       },
       mcpPublisher: {
-        version: "1.8.1",
+        version: "1.8.4",
         archiveSha256:
-          "a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc",
+          "5dc2fd415369c73551259f31cd33e2aacc9e0d1021e7f08fef1492d93b781628",
       },
     });
     expect(`npm@${releaseInputs.selectedNpmVersion}`).toBe(
@@ -740,23 +740,24 @@ describe("deterministic Universal Ontology MCP platform archive", () => {
     const sourceDateEpochSeconds = 1_700_000_000;
 
     try {
+      const releaseInputs = structuredClone(
+        await readUniversalOntologyMcpReleaseInputs(),
+      );
+      const runtimeTarget = releaseInputs.nodeRuntime.targets.find(
+        ({ targetName }) => targetName === "windows-x64",
+      );
       await createZipArchiveFixture(runtimeArchivePath, [
         {
-          path: WINDOWS_RUNTIME_TARGET_FIXTURE.upstreamRuntimeExecutablePath,
+          path: runtimeTarget.upstreamRuntimeExecutablePath,
           bytes: runtimeExecutableBytes,
           mode: 0o100755,
         },
         {
-          path: WINDOWS_RUNTIME_TARGET_FIXTURE.upstreamRuntimeLicensePath,
+          path: runtimeTarget.upstreamRuntimeLicensePath,
           bytes: nodeLicenseBytes,
         },
       ]);
-      const releaseInputs = JSON.parse(
-        JSON.stringify(await readUniversalOntologyMcpReleaseInputs()),
-      );
-      releaseInputs.nodeRuntime.targets.find(
-        ({ targetName }) => targetName === "windows-x64",
-      ).runtimeArchiveSha256 = calculateSha256(
+      runtimeTarget.runtimeArchiveSha256 = calculateSha256(
         await nodeFileSystem.readFile(runtimeArchivePath),
       );
       validateUniversalOntologyMcpReleaseInputs(releaseInputs);
@@ -826,7 +827,9 @@ describe("deterministic Universal Ontology MCP platform archive", () => {
       const archiveNoticesText = archiveEntries
         .get(`${archiveRootName}/THIRD_PARTY_NOTICES.md`)
         .bytes.toString("utf8");
-      expect(archiveNoticesText).toContain("## Node.js 24.20.0");
+      expect(archiveNoticesText).toContain(
+        `## Node.js ${releaseInputs.nodeRuntime.version}`,
+      );
       expect(archiveNoticesText).toContain(nodeLicenseBytes.toString("utf8"));
       for (const [entryPath, { bytes }] of archiveEntries) {
         const lowercaseEntryPath = entryPath.toLowerCase();
@@ -859,13 +862,13 @@ describe("deterministic Universal Ontology MCP platform archive", () => {
       "release-work",
     );
     const sourceDateEpochSeconds = 1_700_000_000;
-    const linuxTarget = {
-      upstreamArchiveFormat: "tar.gz",
-      upstreamRuntimeExecutablePath: "node-v24.20.0-linux-x64/bin/node",
-      upstreamRuntimeLicensePath: "node-v24.20.0-linux-x64/LICENSE",
-    };
-
     try {
+      const releaseInputs = structuredClone(
+        await readUniversalOntologyMcpReleaseInputs(),
+      );
+      const linuxTarget = releaseInputs.nodeRuntime.targets.find(
+        ({ targetName }) => targetName === "linux-x64",
+      );
       await createTarArchiveFixture(
         runtimeArchivePath,
         runtimeStagingDirectoryPath,
@@ -881,12 +884,7 @@ describe("deterministic Universal Ontology MCP platform archive", () => {
           },
         ],
       );
-      const releaseInputs = JSON.parse(
-        JSON.stringify(await readUniversalOntologyMcpReleaseInputs()),
-      );
-      releaseInputs.nodeRuntime.targets.find(
-        ({ targetName }) => targetName === "linux-x64",
-      ).runtimeArchiveSha256 = calculateSha256(
+      linuxTarget.runtimeArchiveSha256 = calculateSha256(
         await nodeFileSystem.readFile(runtimeArchivePath),
       );
 
@@ -961,23 +959,24 @@ describe("deterministic Universal Ontology MCP platform archive", () => {
     let personQueryFixture;
 
     try {
+      const releaseInputs = structuredClone(
+        await readUniversalOntologyMcpReleaseInputs(),
+      );
+      const runtimeTarget = releaseInputs.nodeRuntime.targets.find(
+        ({ targetName }) => targetName === "windows-x64",
+      );
       await createZipArchiveFixture(runtimeArchivePath, [
         {
-          path: WINDOWS_RUNTIME_TARGET_FIXTURE.upstreamRuntimeExecutablePath,
+          path: runtimeTarget.upstreamRuntimeExecutablePath,
           sourceFilePath: process.execPath,
           mode: 0o100755,
         },
         {
-          path: WINDOWS_RUNTIME_TARGET_FIXTURE.upstreamRuntimeLicensePath,
+          path: runtimeTarget.upstreamRuntimeLicensePath,
           bytes: Buffer.from("Node runtime acceptance license fixture"),
         },
       ]);
-      const releaseInputs = JSON.parse(
-        JSON.stringify(await readUniversalOntologyMcpReleaseInputs()),
-      );
-      releaseInputs.nodeRuntime.targets.find(
-        ({ targetName }) => targetName === "windows-x64",
-      ).runtimeArchiveSha256 = calculateSha256(
+      runtimeTarget.runtimeArchiveSha256 = calculateSha256(
         await nodeFileSystem.readFile(runtimeArchivePath),
       );
       const buildResult = await buildUniversalOntologyMcpPlatformArchive({

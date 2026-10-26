@@ -3,14 +3,14 @@
 The Universal Ontology MCP Server application bundle includes the following runtime components.
 The package's `LICENSE` applies only to the Universal Ontology MCP Server's own code; each component remains subject to its listed license.
 
-## @modelcontextprotocol/core 2.3.1
+## @modelcontextprotocol/core 2.4.0
 
 License: Apache-2.0
 
 Copyright (c) 2024-2025 Model Context Protocol a Series of LF Projects, LLC.
 Source: <https://github.com/modelcontextprotocol/typescript-sdk>
 
-## @modelcontextprotocol/server 2.3.1
+## @modelcontextprotocol/server 2.4.0
 
 License: Apache-2.0
 
@@ -38,7 +38,7 @@ License: MIT
 Copyright Evgeny Poberezkin.
 Source: <https://github.com/epoberezkin/fast-deep-equal>
 
-## fast-uri 3.1.0
+## fast-uri 3.1.8
 
 License: BSD-3-Clause
 
@@ -52,7 +52,7 @@ License: MIT
 Copyright Evgeny Poberezkin.
 Source: <https://github.com/epoberezkin/json-schema-traverse>
 
-## zod 4.6.5
+## zod 4.6.7
 
 License: MIT
 
@@ -62,7 +62,7 @@ Source: <https://github.com/colinhacks/zod>
 ## Complete published SDK terms
 
 The published metadata labels above are retained for component identity.
-Both SDK 2.3.1 packages ship the identical LICENSE below, including its licensing-transition statement.
+Both SDK 2.4.0 packages ship the identical LICENSE below, including its licensing-transition statement.
 The statement governs applicable contribution terms; the metadata label alone is not a complete rights determination.
 This bundle contains SDK code, not SDK documentation.
 No dependency implementation is patched by this build; esbuild bundles and tree-shakes the published code.
@@ -395,7 +395,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### fast-uri-3.1.0
+### fast-uri-3.1.8
 
 ```text
 Copyright (c) 2011-2021, Gary Court until https://github.com/garycourt/uri-js/commit/a1acf730b4bba3f1097c9f52e7d9d3aba8cdcaae
@@ -458,13 +458,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## oxigraph 0.5.11
+## oxigraph 0.5.13
 
 License: MIT OR Apache-2.0
 
 This distribution selects the MIT licence.
-The licence below is from Oxigraph tag v0.5.11, commit df37a5c98e2497135cdd4cfce01a049b78ca6740.
-The pinned npm package's WASM SHA-256 is be0b89d82fa81b91c23426af04e301f1ff276dce1fded8ca2bd2a13c371cc327.
+The licence below is from Oxigraph tag v0.5.13, commit 2837810c8993da671d496eabf7677d7573c5c522.
+The pinned npm package's WASM SHA-256 is fb50ae07d695b144047a2d97555ae7ae8eebc8688126a28dae05831185fbe4fa.
 Additional upstream licence texts and crate archive digests are shipped in third-party/oxigraph/component-notices.json.
 That inventory conservatively includes the tagged source lock's dependency closure and versions observed in the distributed WASM; it is not a claim that all those crates are linked.
 In particular, the published WASM identifies hashbrown 0.17.1, whose actual archive and MIT licence are included, rather than assuming the source lock's hashbrown 0.16.1 identifies the prebuilt binary.

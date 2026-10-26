@@ -13,9 +13,9 @@ The [communication privacy notice](PRIVACY.md) covers private reports and relate
 The [self-contained OWL import-closure guide](docs/import-closure-materialization.md) describes the JavaScript materializer, its preservation boundary, and the migration from the Python commands.
 The exact registry artifact has passed consumer qualification; final acceptance evidence is retained separately from the historical artifact-verification observation.
 
-Install Git 2.46 or later, the LTS Node.js version selected in [.node-version](.node-version) or a newer compatible release in the same major, and stable npm 12.2.0 or later.
-The native `devEngines.packageManager` range in `package.json` enforces `>=12.2.0`, including later stable majors, before installation and npm scripts; prereleases do not satisfy this range.
-The exact `packageManager` reference selects npm 12.2.0 for reproducible CI and release tooling.
+Install Git 2.46 or later, the LTS Node.js version selected in [.node-version](.node-version) or a newer compatible release in the same major, and stable npm 12.2.1 or later.
+The native `devEngines.packageManager` range in `package.json` enforces `>=12.2.1`, including later stable majors, before installation and npm scripts; prereleases do not satisfy this range.
+The exact `packageManager` reference selects npm 12.2.1 for reproducible CI and release tooling.
 Use the latest compatible patch of the [supported LTS release](https://nodejs.org/en/about/previous-releases).
 The selected LTS line satisfies the qualified OwlAPI and MCP workspace engine requirements.
 `.node-version` owns the CI runtime and local development minimum; setup accepts compatible LTS updates.

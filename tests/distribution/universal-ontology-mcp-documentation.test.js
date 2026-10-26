@@ -1,5 +1,8 @@
 import * as nodeFileSystem from "node:fs/promises";
 import { posix as posixPath } from "node:path";
+import { repositoryNpmTarget } from "../../scripts/repositoryNpmTarget.js";
+
+const SELECTED_NPM_COMMAND = `npx --yes npm@${repositoryNpmTarget()}`;
 
 const LOCAL_INSTALLATION_GUIDE_URL = new URL(
   "../../docs/mcp/local-installation.md",
@@ -121,15 +124,15 @@ describe("Universal Ontology MCP operator documentation", () => {
   test("documents every permitted unpublished installation form and its integrity boundary", () => {
     expect(localInstallationGuide).toMatch(/source checkout/iu);
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.2.0 run build:mcp-package",
+      `${SELECTED_NPM_COMMAND} run build:mcp-package`,
     );
     expect(localInstallationGuide).toMatch(/locally packed npm tarball/iu);
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.2.0 run pack:mcp-package",
+      `${SELECTED_NPM_COMMAND} run pack:mcp-package`,
     );
     expect(localInstallationGuide).toMatch(/locally built platform archive/iu);
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.2.0 run build:mcp-platform-archives",
+      `${SELECTED_NPM_COMMAND} run build:mcp-platform-archives`,
     );
     expect(localInstallationGuide).toMatch(/locally built OCI image/iu);
     expect(localInstallationGuide).toContain(
@@ -142,9 +145,11 @@ describe("Universal Ontology MCP operator documentation", () => {
     expect(localInstallationGuide).toMatch(
       /checksums detect corruption[\s\S]*do not authenticate the publisher/iu,
     );
-    expect(localInstallationGuide).toContain("npx --yes npm@12.2.0 --version");
     expect(localInstallationGuide).toContain(
-      "npx --yes npm@12.2.0 ci --ignore-scripts",
+      `${SELECTED_NPM_COMMAND} --version`,
+    );
+    expect(localInstallationGuide).toContain(
+      `${SELECTED_NPM_COMMAND} ci --ignore-scripts`,
     );
     expect(localInstallationGuide).not.toMatch(/^npm (?:ci|install|run)\b/mu);
   });

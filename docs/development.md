@@ -5,12 +5,12 @@ Nothing here is a prerequisite for opening a pull request; see [CONTRIBUTING.md]
 
 ## Setup
 
-Requirements: Git 2.46 or later, the LTS Node.js version selected in [`.node-version`](../.node-version) or a newer compatible release in the same major, stable npm 12.2.0 or later, stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
+Requirements: Git 2.46 or later, the LTS Node.js version selected in [`.node-version`](../.node-version) or a newer compatible release in the same major, stable npm 12.2.1 or later, stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
 CI, PR qualification and explicit Markdown execution profiles use the exact selected Node runtime; ordinary development setup accepts compatible LTS updates.
-`package.json` declares `devEngines.packageManager.version` as `>=12.2.0` with `onFail: "error"`; npm enforces this native contract before install, clean install and script execution, and development setup uses npm's bundled validator.
+`package.json` declares `devEngines.packageManager.version` as `>=12.2.1` with `onFail: "error"`; npm enforces this native contract before install, clean install and script execution, and development setup uses npm's bundled validator.
 Later stable npm majors satisfy the range; prereleases do not.
-The exact `packageManager` reference remains `npm@12.2.0`, and CI and release builds explicitly select and verify that version for reproducibility.
-CI provisions the exact Python version in that file through SHA-pinned `astral-sh/setup-uv` with uv 0.13.0 and caching disabled.
+The exact `packageManager` reference remains `npm@12.2.1`, and CI and release builds explicitly select and verify that version for reproducibility.
+CI provisions the exact Python version in that file through SHA-pinned `astral-sh/setup-uv` and the uv version selected by [the shared Python setup action](../.github/actions/setup-python/action.yml), with caching disabled.
 The action activates an isolated environment under the runner's temporary directory; subsequent setup creates the repository `.venv` and installs the hash-locked requirements through pip.
 Development setup accepts newer stable versions and preserves the existing `.venv`.
 The README's [development setup](../README.md#development-setup) section explains the version selection.

@@ -54,7 +54,7 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "8b4dc0edd72916b562d103d6141116fc4d3b86b1bd39d9f437153d0efa8d55d7";
+  "082eba64a4bea2605f8ccc6827238faa8b20da14dc2b64c04ef235f99b77a2ad";
 
 function compareBinaryText(leftText, rightText) {
   return Buffer.compare(Buffer.from(leftText), Buffer.from(rightText));
