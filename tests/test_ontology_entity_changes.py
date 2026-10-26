@@ -397,9 +397,9 @@ class ImportPinCoherenceTest(unittest.TestCase):
     def test_coherent_pins_pass_and_a_stale_or_newer_pin_is_a_context_error(self):
         from ontology_policy.context import (
             ContextError,
-            RunPurpose,
             build_validation_graph,
         )
+        from ontology_run_purpose import RunPurpose
 
         core = self.make(
             "core", "https://example.org/core/", "https://example.org/core/20260912"

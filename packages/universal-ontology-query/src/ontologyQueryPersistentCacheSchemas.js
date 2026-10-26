@@ -1,6 +1,5 @@
 import { freezeJsonValueDeeply } from "./jsonValueImmutability.js";
 import * as z from "zod";
-
 import {
   MAX_ONTOLOGY_QUERY_CATALOG_BYTE_LENGTH,
   MAX_ONTOLOGY_QUERY_CHANNEL_MANIFEST_BYTE_LENGTH,
@@ -9,10 +8,11 @@ import {
   OntologyQueryArtifactChannelNameSchema,
   OntologyQueryCatalogReferenceSchema,
 } from "./ontologyQueryChannelManifestSchemas.js";
+import { LowercaseSha256Schema } from "./ontologyQueryDigest.js";
 
 const UTF_8_DECODER = new TextDecoder("utf-8", { fatal: true });
 const UTF_8_ENCODER = new TextEncoder();
-const SHA_256_HEXADECIMAL_PATTERN = /^[0-9a-f]{64}$/u;
+
 const HTTP_ENTITY_TAG_PATTERN = /^(?:W\/)?"[\x21\x23-\x7e\x80-\xff]*"$/u;
 const IMF_FIXDATE_PATTERN =
   /^(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} GMT$/u;
@@ -28,8 +28,6 @@ function isValidImfFixdate(value) {
     new Date(milliseconds).toUTCString() === value
   );
 }
-
-const LowercaseSha256Schema = z.string().regex(SHA_256_HEXADECIMAL_PATTERN);
 
 export const OntologyQueryChannelManifestCacheReferenceSchema = z.strictObject({
   sha256: LowercaseSha256Schema,

@@ -1,12 +1,16 @@
 import { readFile } from "node:fs/promises";
 import { posix } from "node:path";
 import { parseRdfXmlToQuads } from "../rdfXmlToJsonLd.js";
+import {
+  PUBLIC_ONTOLOGY_ROOT_IRI,
+  DATED_ONTOLOGY_VERSION_PATTERN as DATED_VERSION,
+} from "./ontologyPublication.js";
 
-const DATED_VERSION = /^\d{8}$/u;
-const ISO_IEC_ED_4_PREFIX =
-  "https://haddenindustries.com/ontology/iso-iec/11179/-3/ed-4/";
-const INTERNAL_IMPORT =
-  /(<owl:imports\b[^>]*\brdf:resource\s*=\s*)(["'])(https:\/\/haddenindustries\.com\/ontology\/[^"']+)\2/gu;
+const ISO_IEC_ED_4_PREFIX = `${PUBLIC_ONTOLOGY_ROOT_IRI}iso-iec/11179/-3/ed-4/`;
+const INTERNAL_IMPORT = new RegExp(
+  `(<owl:imports\\b[^>]*\\brdf:resource\\s*=\\s*)(["'])(${RegExp.escape(PUBLIC_ONTOLOGY_ROOT_IRI)}[^"']+)\\2`,
+  "gu",
+);
 
 function replaceTerminalVersion(url, aliasName) {
   const withoutTrailingSlash = url.endsWith("/") ? url.slice(0, -1) : url;
@@ -18,7 +22,7 @@ async function createUnstableAlias(stableBytes, outputPath) {
   const quads = await parseRdfXmlToQuads({
     rdfXml: stableBytes,
     sourceName: outputPath,
-    fallbackBaseIri: `https://haddenindustries.com/ontology/${outputPath}`,
+    fallbackBaseIri: `${PUBLIC_ONTOLOGY_ROOT_IRI}${outputPath}`,
   });
   // Import-free releases have no dependency aliases to rewrite, including comments.
   if (

@@ -26,8 +26,8 @@ import {
   parseResolveOntologyEntityInput,
   parseSearchOntologyEntitiesInput,
 } from "./ontologyQuerySchemas.js";
+import { DEFAULT_MAXIMUM_IN_MEMORY_QUERY_INDEX_CACHE_BYTE_SIZE } from "./ontologyQueryArtifactLimits.js";
 
-const DEFAULT_MAXIMUM_IN_MEMORY_QUERY_INDEX_CACHE_BYTE_SIZE = 64 * 1024 * 1024;
 const NON_LITERAL_LANGUAGE_RANK = 1_000_000;
 const FALLBACK_LANGUAGE_RANK = 100_000;
 const MATCH_BASIS_ORDER = new Map(

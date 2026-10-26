@@ -4,14 +4,17 @@ import { join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { readUniversalOntologyMcpReleaseInputs } from "./buildUniversalOntologyMcpPlatformArchive.js";
+import {
+  PUBLIC_PACKAGE_JSON_PATH,
+  DEFAULT_RELEASE_DIRECTORY_PATH,
+  DEFAULT_APPLICATION_BUNDLE_METADATA_PATH,
+  DEFAULT_SOURCE_DATE_EPOCH_SECONDS,
+  MAXIMUM_RELEASE_ASSET_BYTE_SIZE,
+  SPDX_DOCUMENT_ID,
+} from "./universalOntologyMcpReleaseLayout.js";
 
 const REPOSITORY_ROOT_PATH = fileURLToPath(new URL("../../", import.meta.url));
-const PUBLIC_PACKAGE_JSON_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "packages",
-  "universal-ontology-mcp-server",
-  "package.json",
-);
+
 const SERVER_DOCUMENT_PATH = join(REPOSITORY_ROOT_PATH, "server.json");
 const DOCKERFILE_PATH = join(
   REPOSITORY_ROOT_PATH,
@@ -19,20 +22,7 @@ const DOCKERFILE_PATH = join(
   "universal-ontology-mcp-server",
   "Dockerfile",
 );
-const DEFAULT_RELEASE_DIRECTORY_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "dist",
-  "releases",
-);
-const DEFAULT_APPLICATION_BUNDLE_METADATA_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "dist",
-  "release-work",
-  "universal-ontology-mcp-application-bundle.json",
-);
-const DEFAULT_SOURCE_DATE_EPOCH_SECONDS = 315_532_800;
-const MAXIMUM_RELEASE_ASSET_BYTE_SIZE = 268_435_456;
-const SPDX_DOCUMENT_ID = "SPDXRef-DOCUMENT";
+
 const SPDX_CREATOR = "Tool: createUniversalOntologyMcpSpdxSbom.js-1.0.0";
 
 function calculateSha256(bytes) {

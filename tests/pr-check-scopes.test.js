@@ -843,6 +843,7 @@ describe("native Git PR check selection", () => {
     ["core/universal-core.owl", ontologyScopes],
     ["policy/authorities/example.ttl", ontologyScopes],
     ["scripts/ontology_policy/validation.py", ontologyScopes],
+    ["scripts/ontology_run_purpose.py", ontologyScopes],
     ["requirements.lock.txt", ontologyScopes],
     ["requirements.txt", ontologyScopes],
     [".python-version", ontologyScopes],

@@ -9,6 +9,14 @@ import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 import { readUniversalOntologyMcpReleaseInputs } from "../../scripts/distribution/buildUniversalOntologyMcpPlatformArchive.js";
 
 import { verifyUniversalOntologyMcpDistributionWorkflow } from "../../scripts/distribution/verifyUniversalOntologyMcpDistributionWorkflow.js";
+import { UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_REVISION } from "../../packages/universal-ontology-mcp-server/src/universalOntologyMcpMetadata.js";
+
+test("release protocol declaration conforms to the current MCP contract", async () => {
+  const inputs = await readUniversalOntologyMcpReleaseInputs();
+  expect(inputs.modelContextProtocol.revision).toBe(
+    UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_REVISION,
+  );
+});
 
 const WORKFLOW_URL = new URL(
   "../../.github/workflows/verify-universal-ontology-mcp-distribution.yml",
@@ -37,8 +45,7 @@ const ACTIVE_ACTION_NAMES = Object.freeze([
   "actions/setup-node",
   "actions/upload-artifact",
 ]);
-const EXACT_NPM_BOOTSTRAP =
-  'npm install --global --no-audit --no-fund npm@12.2.0\ntest "$(npm --version)" = "12.2.0"\n';
+const EXACT_NPM_BOOTSTRAP = "node scripts/installRepositoryNpm.js";
 
 // The archive matrix places shell steps on macOS runners, whose BSD userland
 // supplies these commands with short flags only. A GNU long option survives
@@ -405,7 +412,9 @@ describe("Universal Ontology MCP development distribution workflow", () => {
         expect(npmOperationIndices).toEqual([]);
         continue;
       }
-      expect(job.steps[setupNodeIndex].with?.["node-version"]).toBe("24.20.0");
+      expect(job.steps[setupNodeIndex].with?.["node-version"]).toBe(
+        releaseInputs.nodeRuntime.version,
+      );
       expect(bootstrapIndex).toBeGreaterThan(setupNodeIndex);
       expect(job.steps[bootstrapIndex]).toMatchObject({
         shell: "bash",

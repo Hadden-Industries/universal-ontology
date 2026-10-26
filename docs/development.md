@@ -5,11 +5,12 @@ Nothing here is a prerequisite for opening a pull request; see [CONTRIBUTING.md]
 
 ## Setup
 
-Requirements: Git 2.46 or later, an LTS build of Node.js 24.21.0 or a newer 24.x release, stable npm 12.2.0 or later, stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
-`package.json` declares `devEngines.packageManager.version` as `>=12.2.0` with `onFail: "error"`; npm enforces this native contract before install, clean install and script execution, and development setup uses npm's bundled validator.
+Requirements: Git 2.46 or later, the LTS Node.js version selected in [`.node-version`](../.node-version) or a newer compatible release in the same major, stable npm 12.2.1 or later, stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
+CI, PR qualification and explicit Markdown execution profiles use the exact selected Node runtime; ordinary development setup accepts compatible LTS updates.
+`package.json` declares `devEngines.packageManager.version` as `>=12.2.1` with `onFail: "error"`; npm enforces this native contract before install, clean install and script execution, and development setup uses npm's bundled validator.
 Later stable npm majors satisfy the range; prereleases do not.
-The exact `packageManager` reference remains `npm@12.2.0`, and CI and release builds explicitly select and verify that version for reproducibility.
-CI provisions the exact Python version in that file through SHA-pinned `astral-sh/setup-uv` with uv 0.13.0 and caching disabled.
+The exact `packageManager` reference remains `npm@12.2.1`, and CI and release builds explicitly select and verify that version for reproducibility.
+CI provisions the exact Python version in that file through SHA-pinned `astral-sh/setup-uv` and the uv version selected by [the shared Python setup action](../.github/actions/setup-python/action.yml), with caching disabled.
 The action activates an isolated environment under the runner's temporary directory; subsequent setup creates the repository `.venv` and installs the hash-locked requirements through pip.
 Development setup accepts newer stable versions and preserves the existing `.venv`.
 The README's [development setup](../README.md#development-setup) section explains the version selection.
@@ -107,7 +108,36 @@ Ordinary development and contribution do not need them.
 Use the focused checks that match what you changed while working, and the wider suites before opening or updating a pull request.
 Report failures, skips and checks you could not run as they are.
 
+### Shared declarations and derived settings
+
+Change the owning declaration rather than updating copied settings in consumers:
+
+| Shared knowledge                                                  | Owning declaration                                                                                                            | Consumers and drift control                                                                                                                                                                                                                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Node CI identity, development floor and qualification profile     | `.node-version`, read by `scripts/nodeTarget.js`                                                                              | Setup uses npm’s native SemVer validator for compatible LTS updates; PR proof and explicit Markdown execution profiles require the exact pin.                                                                                                                     |
+| Exact npm used by CI and release tooling                          | Root `package.json.packageManager`                                                                                            | `scripts/installRepositoryNpm.js` installs and verifies it before dependency setup. `scripts/repositoryNpmTarget.js --check` checks the release-input projection; `--write` updates only that field. The workflow tests exercise an alternate manifest selection. |
+| JSON check resources and generated-output obligation              | `.json-quality.json.runtimeControls` and root `package.json` script `check:json:generated`                                    | The native policy owns the shared finite time/scratch budgets. CI and qualification use the generated-output command; the corpus test derives its outer deadline from the policy.                                                                                 |
+| Hosted Python provider and isolated environment                   | `.github/actions/setup-python/action.yml`                                                                                     | Development and ontology workflows invoke this composite; each caller retains its own condition. `.python-version` still owns the interpreter selection.                                                                                                          |
+| Query identities, channels and cache defaults                     | Query package modules `ontologyQueryDigest.js`, `ontologyQueryChannelManifestSchemas.js` and `ontologyQueryArtifactLimits.js` | Query schemas, caches and MCP hosts share declarations while validating their own inputs. `ontologyQueryArtifactHttpOrigin.js` owns loopback hostname spellings without importing Node transports into browser exports.                                           |
+| Query RDF vocabulary                                              | Query package module `ontologyRdfVocabulary.js`                                                                               | Indexing, context queries and value schemas derive their IRIs from the same namespaces.                                                                                                                                                                           |
+| MCP build and release layout, reproducible epoch and asset bounds | Package build module `universalOntologyMcpPackageLayout.js` and `scripts/distribution/universalOntologyMcpReleaseLayout.js`   | Package paths remain available in standalone workspace snapshots. Release readers share output defaults, epoch and bounds; integrity and corruption checks remain independently exercised.                                                                        |
+| Repository ontology publication coordinates                       | `scripts/build/ontologyPublication.js`                                                                                        | Build producers share the public root and dated-version grammar. The reusable query package remains independent of deployment coordinates.                                                                                                                        |
+| Ontology validation purposes                                      | `scripts/ontology_run_purpose.py`                                                                                             | Runner and policy consumers share the enum and choices. Planning still works before installing SHACL dependencies. Generated-policy report links derive from the renderer's document path.                                                                        |
+
+Configuration changes, including regeneration, still require the approval described in `AGENTS.md`.
+Use `node scripts/repositoryNpmTarget.js --write` after an approved npm selector update, then run the affected workflow and distribution checks.
+This follows the existing `scripts/pythonTarget.js` projection pattern.
+
+Keep separate meanings separate: local tool eligibility and exact CI selection, deployment Node and bundled archive Node, source and decoded-artifact bounds, independent expected test vectors, immutable historical releases and generated lock observations are different contracts.
+GitHub checkout pins must remain literal before repository-local actions are available; separate workflow responsibilities retain their reviewed pins.
+The release-input action inventory governs MCP distribution, and does not govern unrelated CI jobs.
+The current MCP protocol revision is owned by `universalOntologyMcpMetadata.js`; release inputs retain a separately checked declaration as part of explicit release qualification.
+Reassess deliberate duplication when a shared requirement changes or a new consumer needs that same contract.
+
 ### JSON quality and safe fixing
+
+The repository selects finite check time and scratch capacity through `.json-quality.json.runtimeControls`.
+The generated corpus can require more temporary storage than the native default; all JSON commands share this policy while input admission and quality rules retain their separate controls.
 
 `npm run install:json` installs the isolated JSON tool project from one exact npm registry version and its native frozen lock, with lifecycle scripts disabled.
 The only editable source selector is `devDependencies["@hadden-industries/json-quality"]` in `tooling/json/package.json`: use an exact published registry version.

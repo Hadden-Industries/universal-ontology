@@ -32,9 +32,10 @@ import { materializeImportClosure } from "../materializeImportClosure.js";
 import { OasisXmlCatalogIRIMapper } from "../ontology/oasisXmlCatalogIRIMapper.js";
 import { renderOntologyAssetsWithWorkers } from "./ontologyAssetWorkerPool.js";
 import { inventorySourceTree, resolveOutputPath } from "./sourceInventory.js";
+import { PUBLIC_ONTOLOGY_ROOT_IRI as PUBLIC_ROOT } from "./ontologyPublication.js";
 
 export const FULL_ONTOLOGY_CUTOFF = "20260714";
-const PUBLIC_ROOT = "https://haddenindustries.com/ontology/";
+
 const RDF_TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 const OWL = "http://www.w3.org/2002/07/owl#";
 const SUFFIXES = ["-full", "-full.jsonld", "-full.csv"];

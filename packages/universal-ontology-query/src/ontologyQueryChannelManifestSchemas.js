@@ -1,6 +1,6 @@
 import * as z from "zod";
-
 import { MAX_ONTOLOGY_QUERY_CATALOG_BYTE_LENGTH } from "./ontologyQueryArtifactLimits.js";
+import { LowercaseSha256Schema } from "./ontologyQueryDigest.js";
 
 export const ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES = Object.freeze([
   "stable",
@@ -10,8 +10,6 @@ export const ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES = Object.freeze([
 export const OntologyQueryArtifactChannelNameSchema = z.enum(
   ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAME_VALUES,
 );
-
-const LowercaseSha256Schema = z.string().regex(/^[0-9a-f]{64}$/u);
 
 /**
  * An immutable catalog reference binds its normalized path, digest, and exact

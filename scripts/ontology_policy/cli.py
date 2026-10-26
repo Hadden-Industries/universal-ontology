@@ -17,15 +17,15 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+from ontology_run_purpose import RunPurpose
+
 from .authorities import AUTHORITIES_DIRECTORY, AuthorityError
-from .context import ContextError, RunPurpose
+from .context import ContextError
 from .modules import OwnedModule, PolicyDefinitionError, load_owned_modules
 from .policy import load_policy
 from .reports import REPORT_DIRECTORY, format_results, github_annotation, write_report
 from .snapshots import InputError, ModuleSource, read_module_source
 from .validation import STATUS_ERROR, ValidationOutcome, validate_sources
-
-PURPOSE_CHOICES = tuple(purpose.value for purpose in RunPurpose)
 
 
 def module_for_path(modules: tuple[OwnedModule, ...], path: str) -> OwnedModule | None:

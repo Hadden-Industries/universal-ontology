@@ -5,6 +5,8 @@ import { basename, dirname, join, resolve } from "node:path";
 import process from "node:process";
 import { parse as parseYaml } from "yaml";
 
+const NPM_BOOTSTRAP_COMMAND = "node scripts/installRepositoryNpm.js";
+
 test.each([
   "development-checks.yml",
   "pr-validation.yml",
@@ -30,11 +32,8 @@ test.each([
           expect(step.with.cache).toBeUndefined();
         }
         const run = step.run ?? "";
-        if (run.includes("npm install --global")) {
+        if (run === NPM_BOOTSTRAP_COMMAND) {
           expect(step.shell).toBe("bash");
-          expect(run).toBe(
-            'npm install --global --no-audit --no-fund npm@12.2.0\ntest "$(npm --version)" = "12.2.0"\n',
-          );
           // A conditional bootstrap must cover each subsequent npm consumer.
           selected = step.if ?? true;
         } else if (/\bnpm\s/u.test(run)) {
@@ -73,15 +72,15 @@ test.each([
       ),
     );
     const steps = workflow.jobs[jobName].steps;
-    const bootstrapIndex = steps.findIndex((step) =>
-      step.run?.includes("npm install --global"),
+    const bootstrapIndex = steps.findIndex(
+      (step) => step.run === NPM_BOOTSTRAP_COMMAND,
     );
     const observationIndex = steps.findIndex((step) => step.run === command);
     expect(bootstrapIndex).toBeGreaterThanOrEqual(0);
     expect(observationIndex).toBeGreaterThan(bootstrapIndex);
     expect(steps[bootstrapIndex].run).toBe(
-      workflow.jobs.node.steps.find((step) =>
-        step.run?.includes("npm install --global"),
+      workflow.jobs.node.steps.find(
+        (step) => step.run === NPM_BOOTSTRAP_COMMAND,
       ).run,
     );
     expect(steps[bootstrapIndex].if ?? true).toBe(

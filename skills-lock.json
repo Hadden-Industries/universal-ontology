@@ -9,11 +9,11 @@
       "computedHash": "6fe4300eb947d9d8bcde0b36ac375c8b739c30b95bc18ba5cbea2ded19fa2af3"
     },
     "apple-design": {
-      "source": "emilkowalski/skills",
+      "source": "dickwu/apple-design-skill",
       "ref": "main",
       "sourceType": "github",
-      "skillPath": "skills/apple-design/SKILL.md",
-      "computedHash": "0190417d092a0df447b000154e39733ea6d97efad6d3bec8a6ce3845aeb88914"
+      "skillPath": "SKILL.md",
+      "computedHash": "59bd78ead9b336f6cf823587589fc86727cbe0acec8c7c4a6b1d9e39578fd486"
     },
     "brooks-audit": {
       "source": "hyhmrright/brooks-lint",

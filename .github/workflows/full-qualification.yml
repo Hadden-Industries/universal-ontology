@@ -50,9 +50,7 @@ jobs:
           package-manager-cache: false
       - name: Select package manager
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - id: select
         env:
           MCP_PACKAGE_CI_ENABLED: ${{ vars.MCP_PACKAGE_CI_ENABLED }}
@@ -90,9 +88,7 @@ jobs:
         run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Select package manager
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm run install:json
       - name: Static checks
@@ -130,9 +126,7 @@ jobs:
         run: node scripts/evaluatePullRequestChecks.js --verify
       - name: Select package manager
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm run build:verify
       - id: complete
@@ -200,9 +194,7 @@ jobs:
       - name: Select package manager
         if: ${{ success() && !cancelled() }}
         shell: bash
-        run: |
-          npm install --global --no-audit --no-fund npm@12.2.0
-          test "$(npm --version)" = "12.2.0"
+        run: node scripts/installRepositoryNpm.js
       - id: complete
         if: ${{ success() && !cancelled() }}
         run: node scripts/prQualificationReuseCommand.js gate

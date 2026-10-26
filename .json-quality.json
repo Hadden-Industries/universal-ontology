@@ -8,6 +8,10 @@
   "capacityLimits": {
     "maxTotalBytes": 536870912
   },
+  "runtimeControls": {
+    "maxCheckTimeMs": 300000,
+    "maxTemporaryBytes": 4294967296
+  },
   "exceptions": [
     {
       "paths": [

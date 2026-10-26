@@ -19,9 +19,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 # The SHACL package (rdflib, pySHACL) is imported only when validation actually
 # runs, so pre-install planning (--plan) keeps working in a bare interpreter.
-PURPOSE_CHOICES = ("latest-active", "candidate", "draft", "critical-fix")
+from ontology_run_purpose import PURPOSE_CHOICES, RunPurpose
+
 DEFAULT_PURPOSE = (
-    "draft"  # diagnostic: reports every violation, never qualifies activation
+    RunPurpose.DRAFT.value  # diagnostic: reports every violation, never qualifies activation
 )
 
 # Centralized target ontology pattern
@@ -55,6 +56,7 @@ CURRENT_ONTOLOGY_PATHS = (
 VALIDATOR_INPUT_PATHS = frozenset(
     (
         "scripts/validate_ontologies.py",
+        "scripts/ontology_run_purpose.py",
         "tests/test_validate_ontologies.py",
         "requirements.txt",
         "requirements.lock.txt",
@@ -318,7 +320,6 @@ def main() -> None:
         sys.exit(0)
 
     from ontology_policy.cli import SelectedSource, run_policy_validation
-    from ontology_policy.context import RunPurpose
 
     # The policy validates exact bytes: staged blobs for --staged, the requested
     # head commit for --diff-head, otherwise the working tree.

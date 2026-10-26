@@ -6,8 +6,7 @@ that uses that namespace is rejected as impersonation before any rule runs.
 
 from __future__ import annotations
 
-from enum import Enum
-
+from ontology_run_purpose import RunPurpose
 from rdflib import OWL, RDF, Graph, Literal, URIRef
 
 from .namespaces import UOC, UOP
@@ -19,27 +18,6 @@ ENTITY_KINDS = (
     OWL.ObjectProperty,
     OWL.DatatypeProperty,
 )
-
-
-class RunPurpose(Enum):
-    LATEST_ACTIVE = "latest-active"
-    CANDIDATE = "candidate"
-    DRAFT = "draft"
-    CRITICAL_FIX = "critical-fix"
-
-    @property
-    def iri(self) -> URIRef:
-        return {
-            RunPurpose.LATEST_ACTIVE: UOC.LatestActiveQualification,
-            RunPurpose.CANDIDATE: UOC.CandidateQualification,
-            RunPurpose.DRAFT: UOC.DraftDiagnostics,
-            RunPurpose.CRITICAL_FIX: UOC.CriticalHistoricalFix,
-        }[self]
-
-    @property
-    def qualifies(self) -> bool:
-        """Only complete latest-active/candidate runs can produce a qualification result."""
-        return self in (RunPurpose.LATEST_ACTIVE, RunPurpose.CANDIDATE)
 
 
 class ContextError(Exception):

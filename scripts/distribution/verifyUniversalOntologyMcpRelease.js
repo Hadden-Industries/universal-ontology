@@ -9,37 +9,29 @@ import * as tar from "tar";
 import yauzl from "yauzl";
 
 import { readUniversalOntologyMcpReleaseInputs } from "./buildUniversalOntologyMcpPlatformArchive.js";
+import {
+  PUBLIC_PACKAGE_JSON_PATH,
+  DEFAULT_RELEASE_DIRECTORY_PATH,
+  DEFAULT_APPLICATION_BUNDLE_METADATA_PATH,
+  MAXIMUM_RELEASE_ASSET_BYTE_SIZE,
+  SPDX_DOCUMENT_ID,
+} from "./universalOntologyMcpReleaseLayout.js";
 
 const REPOSITORY_ROOT_PATH = fileURLToPath(new URL("../../", import.meta.url));
 const ROOT_PACKAGE_JSON_PATH = join(REPOSITORY_ROOT_PATH, "package.json");
-const PUBLIC_PACKAGE_JSON_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "packages",
-  "universal-ontology-mcp-server",
-  "package.json",
-);
+
 const REPOSITORY_SERVER_DOCUMENT_PATH = join(
   REPOSITORY_ROOT_PATH,
   "server.json",
 );
-const DEFAULT_RELEASE_DIRECTORY_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "dist",
-  "releases",
-);
-const DEFAULT_APPLICATION_BUNDLE_METADATA_PATH = join(
-  REPOSITORY_ROOT_PATH,
-  "dist",
-  "release-work",
-  "universal-ontology-mcp-application-bundle.json",
-);
+
 const RELEASE_TAG_PATTERN =
   /^universal-ontology-mcp-server-v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$/u;
 const SHA256_PATTERN = /^[a-f0-9]{64}$/u;
-const MAXIMUM_RELEASE_ASSET_BYTE_SIZE = 268_435_456;
+
 const MAXIMUM_METADATA_BYTE_SIZE = 16_777_216;
 const STREAM_SCAN_TAIL_CHARACTER_COUNT = 512;
-const SPDX_DOCUMENT_ID = "SPDXRef-DOCUMENT";
+
 const FORBIDDEN_ARCHIVE_CONTENT_MARKERS = Object.freeze([
   "A natural or legal person recognised by law.",
   "-----BEGIN PRIVATE KEY-----",
