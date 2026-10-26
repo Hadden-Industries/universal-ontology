@@ -412,7 +412,9 @@ describe("Universal Ontology MCP development distribution workflow", () => {
         expect(npmOperationIndices).toEqual([]);
         continue;
       }
-      expect(job.steps[setupNodeIndex].with?.["node-version"]).toBe("24.20.0");
+      expect(job.steps[setupNodeIndex].with?.["node-version"]).toBe(
+        releaseInputs.nodeRuntime.version,
+      );
       expect(bootstrapIndex).toBeGreaterThan(setupNodeIndex);
       expect(job.steps[bootstrapIndex]).toMatchObject({
         shell: "bash",

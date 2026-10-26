@@ -67,7 +67,7 @@ jobs:
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.20.0
+          node-version: 24.22.1
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
@@ -169,7 +169,7 @@ jobs:
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.20.0
+          node-version: 24.22.1
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
@@ -192,7 +192,7 @@ jobs:
           tar --extract --gzip --file "${archive_path}" --directory "${extraction_path}"
           runtime_path="${extraction_path}/${archive_root}/runtime/bin/node"
           application_path="${extraction_path}/${archive_root}/app/universal-ontology-mcp-server.mjs"
-          test "$("${runtime_path}" --version)" = "v24.20.0"
+          test "$("${runtime_path}" --version)" = "v24.22.1"
           "${runtime_path}" "${application_path}" --version
           "${runtime_path}" "${application_path}" --help | grep --fixed-strings "universal-ontology-mcp-server [options]"
       - name: Smoke-test the extracted Windows runtime and application
@@ -206,7 +206,7 @@ jobs:
           Expand-Archive -LiteralPath $archivePath -DestinationPath $extractionPath
           $runtimePath = Join-Path $extractionPath "$archiveRoot/runtime/node.exe"
           $applicationPath = Join-Path $extractionPath "$archiveRoot/app/universal-ontology-mcp-server.mjs"
-          if ((& $runtimePath --version) -ne "v24.20.0") {
+          if ((& $runtimePath --version) -ne "v24.22.1") {
             throw "The packaged Node runtime version disagrees."
           }
           if ((& $runtimePath $applicationPath --version) -ne "${{ needs.validate.outputs.software-version }}") {
@@ -242,7 +242,7 @@ jobs:
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.20.0
+          node-version: 24.22.1
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
@@ -356,7 +356,7 @@ jobs:
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.20.0
+          node-version: 24.22.1
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify

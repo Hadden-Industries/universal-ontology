@@ -83,9 +83,9 @@ const PREBUNDLED_SERVER_COMPONENTS = Object.freeze([
   }),
   Object.freeze({
     name: "fast-uri",
-    version: "3.1.0",
+    version: "3.1.8",
     license: "BSD-3-Clause",
-    packageStoreEntryName: "fast-uri@3.1.0",
+    packageStoreEntryName: "fast-uri@3.1.8",
   }),
   Object.freeze({
     name: "json-schema-traverse",
@@ -709,10 +709,10 @@ export async function buildUniversalOntologyMcpApplicationBundle() {
     );
     if (
       calculateSha256(wasmBytes) !==
-      "be0b89d82fa81b91c23426af04e301f1ff276dce1fded8ca2bd2a13c371cc327"
+      "fb50ae07d695b144047a2d97555ae7ae8eebc8688126a28dae05831185fbe4fa"
     )
       throw new Error(
-        "Oxigraph WASM differs from the qualified 0.5.11 artifact.",
+        "Oxigraph WASM differs from the qualified 0.5.13 artifact.",
       );
     await nodeFileSystem.writeFile(
       join(candidateDirectoryPath, "node_bg.wasm"),

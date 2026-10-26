@@ -117,21 +117,21 @@ const EXPECTED_PACKAGING_DEV_DEPENDENCIES = Object.freeze({
 const EXPECTED_BUNDLED_COMPONENTS = Object.freeze([
   {
     name: "@modelcontextprotocol/core",
-    version: "2.3.1",
+    version: "2.4.0",
     license: "Apache-2.0",
   },
   {
     name: "@modelcontextprotocol/server",
-    version: "2.3.1",
+    version: "2.4.0",
     license: "Apache-2.0",
   },
   { name: "ajv", version: "8.18.0", license: "MIT" },
   { name: "ajv-formats", version: "3.0.1", license: "MIT" },
   { name: "fast-deep-equal", version: "3.1.3", license: "MIT" },
-  { name: "fast-uri", version: "3.1.0", license: "BSD-3-Clause" },
+  { name: "fast-uri", version: "3.1.8", license: "BSD-3-Clause" },
   { name: "json-schema-traverse", version: "1.0.0", license: "MIT" },
-  { name: "oxigraph", version: "0.5.11", license: "MIT OR Apache-2.0" },
-  { name: "zod", version: "4.6.5", license: "MIT" },
+  { name: "oxigraph", version: "0.5.13", license: "MIT OR Apache-2.0" },
+  { name: "zod", version: "4.6.7", license: "MIT" },
 ]);
 
 async function readJsonDocument(fileUrl) {
@@ -253,7 +253,7 @@ describe("public Universal Ontology MCP npm package", () => {
 
     expect(rootPackage).toMatchObject({
       private: true,
-      packageManager: "npm@12.2.0",
+      packageManager: "npm@12.2.1",
       workspaces: [
         "packages/universal-ontology-mcp-server",
         "packages/universal-ontology-query",
@@ -344,10 +344,10 @@ describe("public Universal Ontology MCP npm package", () => {
   test("retains repository distribution tooling and delegates application commands to the MCP owner", async () => {
     const rootPackage = await readJsonDocument(ROOT_PACKAGE_JSON_URL);
 
-    expect(rootPackage.packageManager).toBe("npm@12.2.0");
+    expect(rootPackage.packageManager).toBe("npm@12.2.1");
     expect(rootPackage.devEngines.packageManager).toEqual({
       name: "npm",
-      version: ">=12.2.0",
+      version: ">=12.2.1",
       onFail: "error",
     });
     expect(rootPackage.workspaces).toEqual([
@@ -450,7 +450,7 @@ describe("public Universal Ontology MCP npm package", () => {
       "A natural or legal person recognised by law.",
       '"mcp:package:build"',
       '"build:mcp-package"',
-      '"packageManager":"npm@12.2.0"',
+      '"packageManager":"npm@12.2.1"',
       "sourceMappingURL=",
     ]) {
       expect(bundleText).not.toContain(forbiddenContent);

@@ -44,7 +44,7 @@ export async function verifyPullRequestPolicyGraph({
           (path === ".github/workflows/markdown-quality.yml" &&
             id === "qualify" &&
             job.uses ===
-              "Hadden-Industries/markdown-quality/.github/workflows/markdown-quality.yml@2a8f162cd98a8548d8fa7b065cd6fe1828efcab7")
+              "Hadden-Industries/markdown-quality/.github/workflows/markdown-quality.yml@7e24e6f806d9d532c1425f76c52fdd0923af985a")
         )
       ) {
         throw new Error(

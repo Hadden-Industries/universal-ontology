@@ -11,4 +11,4 @@ PyYAML>=6.0.3
 pip-tools>=7.6.2
 
 # Python linting and formatting; Markdown uses the separate Node/native graph.
-ruff>=0.17.0
+ruff>=0.17.2
