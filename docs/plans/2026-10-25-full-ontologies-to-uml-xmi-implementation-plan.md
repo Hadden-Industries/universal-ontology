@@ -1,7 +1,45 @@
 # Full ontology to UML XMI implementation plan
 
 Date: 25 October 2026.
-Status: **draft for design and implementation review; no implementation baseline or release approval**.
+Status: **accepted for local implementation on 26 October 2026; conformance gates remain mandatory; no release or deployment approval**.
+
+## Implementation checkpoint: 26 October 2026
+
+The owner's implementation request accepts this plan's scope, recommended R2 route and defaults, local signed commits and configuration changes required by this plan.
+Work stays on local `main`; no pushes, installation of desktop tools, deployment or live activation is authorized.
+The original planning observations below remain historical.
+
+The clean implementation baseline is `8eb21a102e751c290603fbf703578e20cf4a6c5b`, independently matched to remote `main`.
+The preceding JavaScript-performance work has released this worktree.
+Its unrelated retained evidence is outside this change.
+This document already existed in commit `fbeb64affde12cae6dd551a244ed7f185043859f`; this checkpoint records implementation acceptance before source changes.
+
+Current UO already selects registry alias `npm:@hadden-industries/owlapi@0.1.0-rc.2`.
+Both npm's current package and the installed package identify rc.2; upstream `main` remains `36e28374447d94d9734960aaed6d3ab4be52ca17`.
+Reuse that exact existing selector and package-boundary qualification rather than changing it back to Git.
+No dependency change is presently needed.
+
+Software selection reuses OwlAPI's public structural model, the existing collapse/fingerprint/build receipt, `@xmldom/xmldom` 0.9.12 (MIT), `@rubensworks/saxes` 6.0.1 (ISC) and `rdf-canonize` 5.0.0 (BSD-3-Clause); current registry metadata agrees with these selections.
+These supply OWL, XML and RDF canonicalization, but do not implement the UO inverse metadata contract.
+ODM is a design reference, with no copied profile assets.
+The residual custom work is that versioned contract, conservative projection and integration with UO's existing artifact lifecycle.
+
+Qualification candidates are [Eclipse UML2 5.6.1](https://download.eclipse.org/modeling/mdt/uml2/builds/release/5.6.1/) (EPL-2.0) and the independently implemented [PyEcore 0.15.2](https://pypi.org/project/pyecore/0.15.2/) (BSD-3-Clause).
+Exact qualification libraries are acquired into isolated task storage, without changing the repository Python environment or installing a desktop application.
+Their actual coordinate/profile support, full license texts, dependency identities and native diagnostics must be checked before general exporter work depends on them.
+An independent metamodel loader is not by itself a second complete UML semantic validator.
+The first witness must distinguish these claims and may change the proposed template; no hand-written subset validator may substitute for native conformance.
+
+The user owns scope and acceptance; the implementation maintainer authors the witness and independent golden cases.
+Final external review covers mapping correctness, recovery independence, parser/input trust boundaries and build/download integration.
+Use one consolidated final review and narrow repair follow-ups; allow Claude 30 minutes per run with Opus 5.5 at Max after 18:31 Europe/Bucharest, or `agy` Flash 3.8 at High before then.
+Run the full qualification only after external findings are resolved.
+Focused meaningful checks remain available during development.
+
+Reuse the existing task and native journals.
+Keep actual failed evidence, signing and exact-scope lint/format checks; omit duplicate evidence wrappers and helper-witnessed reruns.
+Defer disposable scratch cleanup until the undertaking ends.
+Later slices remain conditional on SLICE-001's actual native conformance, recovery, rights and operational gates.
 
 ## Purpose and controlling scope
 
