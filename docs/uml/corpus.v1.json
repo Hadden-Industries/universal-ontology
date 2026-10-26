@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "fixtures": [
+    {
+      "path": "iso-iec/11179/-3/ed-4/20260714-full",
+      "bytes": 584060,
+      "events": 4991,
+      "sha256": "65a73096249059c73e93b9415457722cc4c13a2a6dfb300f6043e8aa3a500031"
+    },
+    {
+      "path": "iso-iec/11179/-3/ed-4/20260912-full",
+      "bytes": 627790,
+      "events": 5399,
+      "sha256": "0d0a7dac0e54ce494b9ede61f2863272091e28c94b9e432cb56e1c8cc9b235ad"
+    },
+    {
+      "path": "universal/core/20260714-full",
+      "bytes": 2215568,
+      "events": 18854,
+      "sha256": "c6e7f127215112d6d3b7512b5ca269ce922c6e4bdbaf10740d1724b595525c10"
+    },
+    {
+      "path": "universal/core/20260912-full",
+      "bytes": 2298206,
+      "events": 19647,
+      "sha256": "85214ddc93194fccf5c0fc4bbbc8f34ab54e54f4abb352f0543411fd56b1c3f6"
+    },
+    {
+      "path": "universal/extended/20260714-full",
+      "bytes": 2922934,
+      "events": 24997,
+      "sha256": "0113f03b1bb1bba17a341fb41e22f66fa7768bb0ac2e0bac5d2ff89b4ba429fe"
+    },
+    {
+      "path": "universal/extended/20260912-full",
+      "bytes": 3023054,
+      "events": 25996,
+      "sha256": "d7eb7980436600ab50c8a5df35401a4a345fe4362d111f2d8e6f90217505b077"
+    },
+    {
+      "path": "universal/reference-data/20260714-full",
+      "bytes": 1691585,
+      "events": 14263,
+      "sha256": "48788c00c7339b170404f4d75e4cf17c2ca0ccf151bc63da942a8d16b559b269"
+    },
+    {
+      "path": "universal/reference-data/20260912-full",
+      "bytes": 1762394,
+      "events": 14926,
+      "sha256": "8497e7e05bdccbb8a5f5cb2e90e44d2a24042501f8d5f7170aefaecc4e28a5eb"
+    }
+  ]
+}

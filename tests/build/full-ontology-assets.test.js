@@ -10,7 +10,7 @@ function ontology(path, imports = []) {
   <owl:Class rdf:about="${base}${path}#Class"/></rdf:RDF>`;
 }
 
-test("normal asset generation includes the closure trio and skips an import-free dated root", async () => {
+test("normal asset generation includes the closure quartet and skips an import-free dated root", async () => {
   const repositoryDirectory = await mkdtemp(join(tmpdir(), "uo-full-assets-"));
   const sourceDirectory = join(repositoryDirectory, "src");
   const outputDirectory = join(repositoryDirectory, "dist");
@@ -38,12 +38,13 @@ test("normal asset generation includes the closure trio and skips an import-free
     expect(assets.has(`${paths[0]}-full`)).toBe(true);
     expect(assets.has(`${paths[0]}-full.jsonld`)).toBe(true);
     expect(assets.has(`${paths[0]}-full.csv`)).toBe(true);
+    expect(assets.has(`${paths[0]}-full.xmi`)).toBe(true);
     const full = assets.get(`${paths[0]}-full`).toString();
     for (const path of paths)
       expect(full).toContain(`<owl:Class rdf:about="${base}${path}#Class"`);
     expect(full).toMatch(/^ {4}<owl:Class /mu);
     expect(full).not.toContain("<owl:imports");
-    for (const suffix of ["-full", "-full.jsonld", "-full.csv"])
+    for (const suffix of ["-full", "-full.jsonld", "-full.csv", "-full.xmi"])
       expect(assets.has(`${paths[1]}${suffix}`)).toBe(false);
   } finally {
     await rm(repositoryDirectory, { recursive: true, force: true });

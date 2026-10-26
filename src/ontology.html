@@ -111,7 +111,9 @@
               class="dropdown-button"
               id="export-xmi"
               type="button"
-              title="Export .xmi"
+              title="No full-ontology XMI is available for this page"
+              aria-describedby="xmi-export-description xmi-export-status"
+              disabled
             >
               <svg
                 class="export-icon"
@@ -126,13 +128,17 @@
                   ><abbr title="Extensible Markup Language">XML</abbr> Metadata
                   Interchange</span
                 >
-                <span class="export-desc"
-                  ><abbr title="Unified Modeling Language">UML</abbr> 2.1 model
-                  payload</span
+                <span class="export-desc" id="xmi-export-description"
+                  >Unavailable for this page</span
                 >
               </span>
               <span class="export-badge">.xmi</span>
             </button>
+            <span
+              class="export-desc"
+              id="xmi-export-status"
+              role="status"
+            ></span>
           </div>
         </div>
       </div>

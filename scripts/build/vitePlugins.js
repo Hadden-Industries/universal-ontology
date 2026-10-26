@@ -4,6 +4,7 @@ import { posix } from "node:path";
 
 import { resolveOutputPath } from "./sourceInventory.js";
 import { createOntologyBuildAssets } from "./ontologyAssets.js";
+import { createOntologyXmiDownloadBindings } from "./ontologyXmiDownloads.js";
 import {
   beginFullOntologyBuild,
   completeFullOntologyBuild,
@@ -148,6 +149,23 @@ export function ontologyAssetsPlugin({ ontologySources, fullOntologyContext }) {
   }
   return {
     name: "universal-ontology-generated-assets",
+    transformIndexHtml: {
+      order: "post",
+      handler() {
+        // The master page serves multiple ontology routes. Embed explicit build
+        // associations rather than inferring artifact availability from a URL.
+        return [
+          {
+            tag: "script",
+            attrs: { id: "ontology-xmi-exports", type: "application/json" },
+            children: JSON.stringify(
+              createOntologyXmiDownloadBindings(receipt),
+            ).replaceAll("<", "\\u003c"),
+            injectTo: "head",
+          },
+        ];
+      },
+    },
     async buildStart() {
       writesCompleted = false;
       try {

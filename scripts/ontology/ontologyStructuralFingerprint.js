@@ -1,7 +1,8 @@
 import { createHash } from "node:crypto";
 import rdfCanonize from "rdf-canonize";
+import { ONTOLOGY_STRUCTURE_NAMESPACE } from "./ontologyStructuralVocabulary.js";
 
-const VOCABULARY = "urn:universal-ontology:structural-verification:";
+const VOCABULARY = ONTOLOGY_STRUCTURE_NAMESPACE;
 // An explicit taxonomy admission list makes a newly added package kind fail closed.
 const KINDS = new Set(
   `IRI OWLLiteral OWLAnonymousIndividual OWLAnnotation OWLImportsDeclaration OWLOntologyID
@@ -39,12 +40,24 @@ function literal(value) {
     .join("")}"`;
 }
 
-/** Hash complete OWL structure modulo anonymous-individual renaming, never source labels. */
-export async function ontologyStructuralFingerprint(ontology) {
+/** Canonical complete OWL abstract syntax; limits are optional for existing callers. */
+export async function canonicalOntologyStructure(
+  ontology,
+  {
+    maxNodes = Infinity,
+    maxDepth = Infinity,
+    maxBytes = Infinity,
+    signal,
+  } = {},
+) {
   const statements = new Map();
   const individuals = new Map();
   let counter = 0;
-  const node = () => `_:n${counter++}`;
+  const node = () => {
+    if (counter >= maxNodes)
+      throw new Error("Ontology structure node limit exceeded");
+    return `_:n${counter++}`;
+  };
   const edge = (subject, field, object) => {
     if (!statements.has(subject)) statements.set(subject, []);
     statements
@@ -66,7 +79,9 @@ export async function ontologyStructuralFingerprint(ontology) {
     statements.set(stable, outgoing);
     return stable;
   }
-  function encode(value) {
+  function encode(value, depth = 0) {
+    if (depth > maxDepth)
+      throw new Error("Ontology structure depth limit exceeded");
     if (value === undefined) return literal("undefined");
     if (value === null || typeof value !== "object")
       return literal(`${typeof value}:${String(value)}`);
@@ -110,10 +125,10 @@ export async function ontologyStructuralFingerprint(ontology) {
           edge(
             collection,
             ordered ? `index:${index++}` : "member",
-            encode(member),
+            encode(member, depth + 1),
           );
         edge(subject, field, finish(collection));
-      } else edge(subject, field, encode(item));
+      } else edge(subject, field, encode(item, depth + 1));
     }
     return finish(subject);
   }
@@ -130,6 +145,11 @@ export async function ontologyStructuralFingerprint(ontology) {
       ([predicate, object]) => `${subject} ${predicate} ${object} .`,
     ),
   );
+  if (
+    quads.reduce((bytes, row) => bytes + Buffer.byteLength(row) + 1, 0) >
+    maxBytes
+  )
+    throw new Error("Ontology structure byte limit exceeded");
   // The library's whole-document N-Quads parser scans all prior quads for
   // duplicates. Our encoder emits one deterministic spelling per term, so
   // deduplicate those rows once and use its public parser on each single quad.
@@ -139,6 +159,14 @@ export async function ontologyStructuralFingerprint(ontology) {
   );
   const canonical = await rdfCanonize.canonize(dataset, {
     algorithm: "RDFC-1.0",
+    ...(signal ? { signal } : {}),
   });
-  return createHash("sha256").update(canonical, "utf8").digest("hex");
+  return canonical;
+}
+
+/** Hash complete OWL structure modulo anonymous-individual renaming, never source labels. */
+export async function ontologyStructuralFingerprint(ontology) {
+  return createHash("sha256")
+    .update(await canonicalOntologyStructure(ontology), "utf8")
+    .digest("hex");
 }

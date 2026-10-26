@@ -355,7 +355,7 @@ Python source edits retain their existing independent checks; style-tool/configu
 Historical receipts do not qualify a later publication.
 
 The website build also discovers every valid dated ontology at or after `20260714` under the three ontology source roots.
-Roots declaring imports get freshly materialized `-full`, `-full.jsonld` and `-full.csv` outputs, using checked-in release mappings and local catalogs with network acquisition disabled.
+Roots declaring imports get freshly materialized `-full`, `-full.jsonld`, `-full.csv` and `-full.xmi` outputs, using checked-in release mappings and local catalogs with network acquisition disabled.
 Roots without imports get no full counterparts.
 The pinned OwlAPI renders these closures as readable RDF/XML by default: semantic prefixes, four-space indentation, typed OWL elements, banners, nested expressions and safe collections.
 Unclassified resources and cases requiring explicit graph representation can still use `rdf:Description`.
@@ -365,7 +365,7 @@ The generated file passes strict offline structural verification before atomic r
 No Java OWLAPI generator footer is added, and authored comments or whitespace are not reconstructed.
 The same path is available through `npm run generate:full-ontologies`; maintained full copies at or after the cutoff are rejected.
 
-For a future nondefault presentation policy, configure the output manager in `scripts/materializeImportClosure.js` immediately after creating it and before `writeVerifiedOntology`:
+For a future nondefault presentation policy, configure the output manager in `scripts/ontology/loadCollapsedOntology.js` immediately after creating it and before `writeVerifiedOntology`:
 
 ```js
 import { OWLOntologyWriterConfiguration } from "owlapi/model";
@@ -381,6 +381,14 @@ That public, Java-shaped configuration controls the existing renderer and atomic
 Current generation intentionally uses its defaults; a one-class fixture demonstrates identical bytes for explicit defaults and successful verified publication with two-space, banner-free output through `writeVerifiedOntology`.
 `withIndenting(boolean)` and `withLabelsAsBanner(boolean)` are also available; all four settings affect RDF/XML only, and arbitrary format parameters remain unsupported.
 Changing the presentation policy requires an accepted change and a fresh build receipt.
+
+The schema-2 build receipt binds each XMI to its exact verified OWL bytes and the same collapsed in-memory model.
+The exporter explicitly selects the `normative-v1` OwlAPI behavior profile.
+The sole OwlAPI selector now points to an immutable upstream Git commit; the lock records its transitive payload.
+Generated pages offer the full XMI through explicit receipt-backed associations.
+See the [UML/XMI metadata contract](uml/README.md) for carriers, inverse recovery, projection, bounds, rights notes and native qualification.
+`npm run qualify:uml-xmi -- --dependencies DIR --corpus-root DIR --output DIR --existing-output-root dist` checks the eight frozen controls plus changed current outputs with two native reader implementations.
+Add `--acquire` only to download the declared qualification libraries; it does not install into the repository Python environment.
 
 Generation invalidates the previous `full-ontology-build.json` receipt before work starts and seals a new one only after all output bytes are verified.
 Both normal and forced publication invoke `node scripts/verifyFullOntologyBuild.js --repository . --output dist` without regenerating anything.

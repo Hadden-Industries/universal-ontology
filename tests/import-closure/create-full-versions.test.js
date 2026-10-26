@@ -20,6 +20,7 @@ import {
   createLocalMapper,
   discoverFullOntologyCandidates,
 } from "../../scripts/build/fullOntologyAssets.js";
+import { recoverOntologyMetadata } from "../../scripts/uml/recoverOntologyMetadata.js";
 
 // Repeated filesystem and ontology builds need headroom under parallel worker load.
 jest.setTimeout(30_000);
@@ -48,23 +49,83 @@ async function fixture(action) {
   }
 }
 
-test("batch discovers the inclusive cutoff and includes a pre-cutoff dependency, with all three verified formats", async () =>
+test("batch discovers the inclusive cutoff and includes a pre-cutoff dependency, with all four verified formats", async () =>
   fixture(async ({ options, outputDirectory }) => {
     const receipt = await createFullVersions(options);
     expect(receipt.outputs.map((o) => o.path)).toEqual([
       `${rootPath}-full`,
       `${rootPath}-full.jsonld`,
       `${rootPath}-full.csv`,
+      `${rootPath}-full.xmi`,
     ]);
     expect(
       await readFile(join(outputDirectory, `${rootPath}-full`), "utf8"),
     ).toContain(`${depPath}#Class`);
     await expect(verifyFullOntologyBuild(options)).resolves.toMatchObject({
-      schemaVersion: 1,
+      schemaVersion: 2,
     });
+    const recovered = await recoverOntologyMetadata(
+      await readFile(join(outputDirectory, `${rootPath}-full.xmi`)),
+    );
+    expect(recovered.manifest.pairedOwlSha256).toBe(
+      createHash("sha256")
+        .update(await readFile(join(outputDirectory, `${rootPath}-full`)))
+        .digest("hex"),
+    );
+    expect(receipt.umlMetadata.representations[0].semanticModelSha256).toBe(
+      recovered.semanticModelSha256,
+    );
     await expect(
       access(join(outputDirectory, `${depPath}-full`)),
     ).rejects.toMatchObject({ code: "ENOENT" });
+  }));
+
+test("schema-1 evidence supplies cleanup ownership but never current build admission", async () =>
+  fixture(async ({ options, put, outputDirectory, repositoryDirectory }) => {
+    const prior = await createFullVersions(options);
+    prior.schemaVersion = 1;
+    prior.outputs = prior.outputs.filter((o) => !o.path.endsWith(".xmi"));
+    delete prior.umlMetadata;
+    delete prior.validation.umlMetadataRecovery;
+    await rm(join(outputDirectory, `${rootPath}-full.xmi`));
+    await writeFile(
+      join(
+        repositoryDirectory,
+        ".sdlc/runtime/policy-reports/full-ontology-build.json",
+      ),
+      JSON.stringify(prior),
+    );
+    await expect(verifyFullOntologyBuild(options)).rejects.toThrow(
+      "Unsupported",
+    );
+    await put(rootPath, xml(rootPath));
+    const current = await createFullVersions(options);
+    expect(current.schemaVersion).toBe(2);
+    expect(current.outputs).toEqual([]);
+    await expect(
+      access(join(outputDirectory, `${rootPath}-full`)),
+    ).rejects.toMatchObject({ code: "ENOENT" });
+  }));
+
+test("XMI output tampering and mismatched paired hashes reject publication", async () =>
+  fixture(async ({ options, outputDirectory, repositoryDirectory }) => {
+    const receipt = await createFullVersions(options);
+    receipt.umlMetadata.representations[0].pairedOwlSha256 = "0".repeat(64);
+    await writeFile(
+      join(
+        repositoryDirectory,
+        ".sdlc/runtime/policy-reports/full-ontology-build.json",
+      ),
+      JSON.stringify(receipt),
+    );
+    await expect(verifyFullOntologyBuild(options)).rejects.toThrow(
+      "representation bindings",
+    );
+    await createFullVersions(options);
+    await writeFile(join(outputDirectory, `${rootPath}-full.xmi`), "changed");
+    await expect(verifyFullOntologyBuild(options)).rejects.toThrow(
+      "output changed",
+    );
   }));
 
 test("removing the last import invalidates the receipt and removes all owned stale counterparts", async () =>
@@ -76,7 +137,7 @@ test("removing the last import invalidates the receipt and removes all owned sta
     );
     const receipt = await createFullVersions(options);
     expect(receipt.outputs).toEqual([]);
-    for (const suffix of ["-full", "-full.jsonld", "-full.csv"])
+    for (const suffix of ["-full", "-full.jsonld", "-full.csv", "-full.xmi"])
       await expect(
         access(join(outputDirectory, `${rootPath}${suffix}`)),
       ).rejects.toMatchObject({ code: "ENOENT" });
@@ -85,7 +146,7 @@ test("removing the last import invalidates the receipt and removes all owned sta
     await expect(verifyFullOntologyBuild(options)).rejects.toThrow(
       "inventory changed",
     );
-    expect((await createFullVersions(options)).outputs).toHaveLength(3);
+    expect((await createFullVersions(options)).outputs).toHaveLength(4);
   }));
 
 test("build receipt mappings are order independent while producer values and candidate arrays remain exact", async () =>
@@ -193,7 +254,7 @@ test("new families and skipped-source edits cannot hide behind an older receipt"
     await expect(verifyFullOntologyBuild(options)).rejects.toThrow(
       "inventory changed",
     );
-    expect((await createFullVersions(options)).outputs).toHaveLength(6);
+    expect((await createFullVersions(options)).outputs).toHaveLength(8);
   }));
 
 test("invalid dates and malformed ontology inputs fail instead of becoming no-import skips", async () =>
@@ -212,7 +273,7 @@ test("alternate namespace prefixes still select imports, while malformed XML can
         .replaceAll("owl:", "o:")
         .replace("xmlns:owl=", "xmlns:o="),
     );
-    expect((await createFullVersions(options)).outputs).toHaveLength(3);
+    expect((await createFullVersions(options)).outputs).toHaveLength(4);
     await put(rootPath, "<broken>");
     await expect(createFullVersions(options)).rejects.toThrow();
     await expect(verifyFullOntologyBuild(options)).rejects.toThrow();
