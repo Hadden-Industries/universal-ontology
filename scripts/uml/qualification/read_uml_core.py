@@ -106,7 +106,7 @@ def main():
     ] = str(types_path)
     uml = resources.get_resource(URI(str(model_root / "UML.ecore"))).contents[0]
     resources.metamodel_registry[uml.nsURI] = uml
-    resources.metamodel_registry["http://schema.omg.org/spec/UML/2.1.1/uml.xml"] = uml
+    resources.metamodel_registry["http://schema.omg.org/spec/UML/2.1.1"] = uml
     tree = etree.parse(
         str(args.xmi),
         etree.XMLParser(resolve_entities=False, no_network=True, load_dtd=False),
@@ -115,7 +115,7 @@ def main():
         raise ValueError("DOCTYPE is forbidden")
     namespaces = {
         "xmi": "http://schema.omg.org/spec/XMI/2.1",
-        "uml": "http://schema.omg.org/spec/UML/2.1.1/uml.xml",
+        "uml": "http://schema.omg.org/spec/UML/2.1.1",
     }
     models = tree.xpath("/xmi:XMI/uml:Model", namespaces=namespaces)
     if len(models) != 1:

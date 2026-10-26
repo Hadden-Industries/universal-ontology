@@ -41,6 +41,36 @@ test("retains exact metadata in a self-contained typed UML model", async () => {
   );
 });
 
+test("uses native UML 2.1 coordinates and owned metaclass imports", async () => {
+  const result = await exportOntologyUmlXmi({
+    ontology: await loadMetadataWitness(),
+    context: witnessContext,
+  });
+  const doc = new DOMParser().parseFromString(result.xmi, "application/xml");
+  expect(doc.documentElement.lookupNamespaceURI("uml")).toBe(
+    "http://schema.omg.org/spec/UML/2.1.1",
+  );
+  expect(
+    doc.documentElement.getAttributeNS(
+      "http://www.w3.org/2001/XMLSchema-instance",
+      "schemaLocation",
+    ),
+  ).toBe(`${contract.profile} #profileDefinition`);
+  const all = [...doc.getElementsByTagName("*")];
+  expect(all.some((element) => element.hasAttribute("URI"))).toBe(false);
+  const profile = doc.getElementsByTagNameNS(contract.uml, "Profile")[0];
+  const imported = [...profile.getElementsByTagName("elementImport")].find(
+    (element) =>
+      element.getAttributeNS(contract.xmi, "id") ===
+      profile.getAttribute("metaclassReference"),
+  );
+  expect(imported).toBeDefined();
+  expect(
+    imported.getElementsByTagName("importedElement")[0].getAttribute("href"),
+  ).toBe("http://schema.omg.org/spec/UML/2.1.1/uml.xml#InstanceSpecification");
+  expect(await recoverOntologyMetadata(result.xmi)).toEqual(result.recovery);
+});
+
 test("recovers unknown predicates, distinct literal kinds and complete nested attachments", async () => {
   const ontology = await loadMetadataWitness();
   const before = await ontologyStructuralFingerprint(ontology);

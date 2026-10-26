@@ -56,7 +56,7 @@ export async function recoverOntologyMetadata(bytes) {
           attribute.local,
         )
       ) {
-        const expected = `${contract.profile} #profileDefinition ${contract.uml} http://www.eclipse.org/uml2/5.0.0/UML`;
+        const expected = `${contract.profile} #profileDefinition`;
         if (
           attribute.local !== "schemaLocation" ||
           depth !== 1 ||
@@ -75,7 +75,7 @@ export async function recoverOntologyMetadata(bytes) {
       if (
         attribute.local === "href" &&
         ![
-          `${contract.uml}#InstanceSpecification`,
+          `${contract.umlDocument}#InstanceSpecification`,
           "http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification",
         ].includes(attribute.value)
       )
@@ -115,7 +115,7 @@ export async function recoverOntologyMetadata(bytes) {
   if (
     model.namespaceURI !== contract.uml ||
     profile.namespaceURI !== contract.uml ||
-    profile.getAttribute("URI") !== contract.profile
+    resolve("profileDefinition").getAttribute("nsURI") !== contract.profile
   )
     throw new Error("Unsupported UML/profile coordinate");
   for (const node of all) {

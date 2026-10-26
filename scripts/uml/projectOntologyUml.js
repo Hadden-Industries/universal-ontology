@@ -77,7 +77,7 @@ export function projectOntologyUml({
           "packagedElement",
           "Package",
           stableId("namespace", namespace),
-          { name: namespace, URI: namespace },
+          { name: namespace },
         ),
       );
     return packages.get(namespace);

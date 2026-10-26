@@ -33,7 +33,7 @@ export function createMetadataDocument(predicates) {
   root.setAttributeNS(
     "http://www.w3.org/2001/XMLSchema-instance",
     "xsi:schemaLocation",
-    `${contract.profile} #profileDefinition ${contract.uml} http://www.eclipse.org/uml2/5.0.0/UML`,
+    `${contract.profile} #profileDefinition`,
   );
   const element = (parent, tag, type, id, attributes = {}) => {
     const namespace = tag.startsWith("uml:")
@@ -137,7 +137,6 @@ export function createMetadataDocument(predicates) {
   );
   const profile = element(root, "uml:Profile", null, "profile", {
     name: "OntologyMetadata",
-    URI: contract.profile,
     metaclassReference: "metaclassImport",
   });
   const extensionData = element(profile, "xmi:Extension", null, null, {
@@ -191,7 +190,7 @@ export function createMetadataDocument(predicates) {
     "metaclassImport",
   );
   element(metaclassImport, "importedElement", "Class", null, {
-    href: `${contract.uml}#InstanceSpecification`,
+    href: `${contract.umlDocument}#InstanceSpecification`,
   });
   const stereotype = element(
     profile,
@@ -208,7 +207,7 @@ export function createMetadataDocument(predicates) {
     { name: "base_InstanceSpecification", association: "sourceExtension" },
   );
   element(base, "type", "Class", null, {
-    href: `${contract.uml}#InstanceSpecification`,
+    href: `${contract.umlDocument}#InstanceSpecification`,
   });
   const extension = element(
     profile,

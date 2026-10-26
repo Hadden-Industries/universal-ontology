@@ -7,7 +7,8 @@ Source annotations are authoritative typed UML data; readable names and comments
 ## Coordinates and standards
 
 The semantic baseline is [UML 2.1.2](https://www.omg.org/spec/UML/2.1.2/About-UML), serialized as [XMI 2.1](https://www.omg.org/spec/XMI/2.1).
-The declared UML namespace is `http://schema.omg.org/spec/UML/2.1.1/uml.xml`, used by the UML 2.1 resource family.
+The declared UML namespace is `http://schema.omg.org/spec/UML/2.1.1`.
+The distinct metamodel document URI is `http://schema.omg.org/spec/UML/2.1.1/uml.xml`, used for metaclass references.
 The XMI namespace is `http://schema.omg.org/spec/XMI/2.1`.
 The version-one preservation profile URI is `https://haddenindustries.com/ontology/uml-metadata/1`.
 
@@ -15,7 +16,9 @@ The profile and its complete definition are embedded alongside the Model in one 
 Its SourceRecord stereotype extends InstanceSpecification and identifies the root and export manifest.
 All source data resides in ordinary InstanceSpecification/Slot/InstanceValue/LiteralString carriers.
 The Ecore definition under xmi:Extension is a native dynamic-profile loading hint; it contains no source payload.
-Static schema locations bind the older UML namespace to Eclipse's installed metamodel.
+Eclipse's native XMI 2.1 bindings resolve those standard UML coordinates locally.
+The sole schema location selects the embedded profile definition; it does not alias the UML namespace to a newer metamodel.
+The profile URI is recorded in that definition, and namespace packages use ordinary names without later-version Package URI attributes.
 Recovery requires no network retrieval.
 
 Eclipse UML2 5.6.1's native XMI212 resource loads the older serialization and validates the result using its maintained UML metamodel, including the profile, applications, containment, typing and references.
