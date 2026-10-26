@@ -1,4 +1,8 @@
 import { McpServer } from "@modelcontextprotocol/server";
+import {
+  createApplicationToolResult,
+  fitApplicationResult,
+} from "./ontologyToolResultFitting.js";
 
 import {
   isOntologyQueryError,
@@ -23,10 +27,7 @@ import {
   EntityContextToolOutputSchema,
   EntityConnectionsToolOutputSchema,
 } from "./universalOntologyToolSchemas.js";
-import {
-  ONTOLOGY_AUTHORED_CONTENT_WARNING,
-  renderOntologyToolResultAsText,
-} from "./renderOntologyToolResultAsText.js";
+import { ONTOLOGY_AUTHORED_CONTENT_WARNING } from "./renderOntologyToolResultAsText.js";
 
 function reportWithoutBreakingToolSafety(reportUnhandledToolError, error) {
   try {
@@ -55,19 +56,6 @@ function toStructuredFailure(error) {
   });
 }
 
-function createApplicationToolResult(structuredContent, isError = false) {
-  return {
-    content: [
-      {
-        type: "text",
-        text: renderOntologyToolResultAsText(structuredContent),
-      },
-    ],
-    structuredContent,
-    ...(isError ? { isError: true } : {}),
-  };
-}
-
 function createInternalFailureResult() {
   const structuredContent = toStructuredFailure(
     new OntologyQueryError("INTERNAL_QUERY_FAILURE"),
@@ -89,93 +77,6 @@ function createInternalFailureResult() {
       isError: true,
     };
   }
-}
-
-function fitApplicationResult(structuredContent, maximumResultBytes) {
-  let result = createApplicationToolResult(structuredContent);
-  while (
-    Buffer.byteLength(JSON.stringify(result), "utf8") > maximumResultBytes
-  ) {
-    const projection = structuredContent.context;
-    const detailedExpression = projection?.expressions.find(
-      (expression) => expression.statements.length > 0,
-    );
-    if (detailedExpression) {
-      detailedExpression.statements = [];
-      detailedExpression.diagnostics.push(
-        "raw_structure_omitted_for_byte_limit",
-      );
-      if (
-        !projection.completeness.truncationReasons.includes(
-          "expression_detail_byte_limit",
-        )
-      )
-        projection.completeness.truncationReasons.push(
-          "expression_detail_byte_limit",
-        );
-      result = createApplicationToolResult(structuredContent);
-      continue;
-    }
-    const peripheralDetail = projection?.nodes.findLast(
-      (node) =>
-        node.entityIri !== projection.entityIri &&
-        (node.definitions.length ||
-          node.notes.length ||
-          node.entitySources.length),
-    );
-    if (peripheralDetail) {
-      peripheralDetail.definitions = [];
-      peripheralDetail.notes = [];
-      peripheralDetail.entitySources = [];
-      peripheralDetail.detailsOmitted = true;
-      if (
-        !projection.completeness.truncationReasons.includes(
-          "neighbour_detail_byte_limit",
-        )
-      )
-        projection.completeness.truncationReasons.push(
-          "neighbour_detail_byte_limit",
-        );
-      result = createApplicationToolResult(structuredContent);
-      continue;
-    }
-    if (!projection || projection.nodes.length <= 1)
-      throw new OntologyQueryError("RESULT_SIZE_EXCEEDED");
-    const removed = projection.nodes.pop();
-    projection.connections = projection.connections.filter(
-      (connection) =>
-        connection.sourceIri !== removed.entityIri &&
-        connection.targetIri !== removed.entityIri,
-    );
-    const retainedExpressions = new Set(
-      projection.connections.map((connection) => connection.expressionRef),
-    );
-    projection.expressions = projection.expressions.filter((expression) =>
-      retainedExpressions.has(expression.expressionRef),
-    );
-    const completeness = projection.completeness;
-    if (!completeness.truncationReasons.includes("byte_limit"))
-      completeness.truncationReasons.push("byte_limit");
-    completeness.completedExpansionDepth = 0;
-    completeness.returnedNodeCount = projection.nodes.length;
-    completeness.returnedConnectionCount = projection.connections.length;
-    if (completeness.frontierHints.length < 10)
-      completeness.frontierHints.push(removed.entityIri);
-    if (structuredContent.paths) {
-      const retainedConnections = new Set(
-        projection.connections.map((connection) => connection.connectionRef),
-      );
-      structuredContent.paths = structuredContent.paths.filter((path) =>
-        path.every((connection) =>
-          retainedConnections.has(connection.connectionRef),
-        ),
-      );
-      structuredContent.status = "search_incomplete";
-      structuredContent.shortestPathsEstablished = false;
-    }
-    result = createApplicationToolResult(structuredContent);
-  }
-  return result;
 }
 
 async function executeOntologyToolSafely({

@@ -5,7 +5,7 @@
  */
 export function freezeJsonValueDeeply(value) {
   if (value && typeof value === "object" && !Object.isFrozen(value)) {
-    for (const child of Object.values(value)) {
+    for (const child of Array.isArray(value) ? value : Object.values(value)) {
       freezeJsonValueDeeply(child);
     }
 

@@ -122,6 +122,12 @@ function objectAssertionKey(assertion) {
 }
 
 function sortAndDeduplicate(values, createKey) {
+  if (values.length === 0) return [];
+  if (values.length === 1) {
+    // Preserve key validation/effects and the existing fresh-container contract.
+    createKey(values[0]);
+    return [values[0]];
+  }
   const uniqueValuesByKey = new Map();
 
   for (const value of values) {

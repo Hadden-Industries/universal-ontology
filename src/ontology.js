@@ -5,6 +5,7 @@
  * and data export utilities (CSV, JSON-LD, XMI).
  */
 import { createOntologyViewModel } from "./ontologyViewModel.js";
+import { sortOntologyRows } from "./ontologyTableSort.js";
 
 /**
  * Wraps a value in an HTML anchor tag if it represents a valid URL or URN.
@@ -358,32 +359,6 @@ export class OntologyUIController {
   }
 
   /**
-   * Extracts comparable text value for sorting table rows.
-   * @private
-   * @param {Object} row - JSON-LD entity node.
-   * @param {string} column - Sort column key.
-   * @returns {string} Comparable lowercase string value.
-   */
-  #getSortValue(row, column) {
-    const values = {
-      objectType: row.entityType,
-      uuid: row.uuid,
-      uri: row.uri,
-      preferredLabel: row.preferredLabel,
-      definition: row.definition,
-      sources: row.sources.join(""),
-      references: row.references.join(""),
-      creator: row.creator,
-      createdAt: row.createdAt,
-      modifiedAt: row.modifiedAt,
-      subClassOf: row.superclasses.join(""),
-      classOfNamedIndividual: row.classOfNamedIndividual,
-    };
-
-    return String(values[column] ?? "").toLowerCase();
-  }
-
-  /**
    * Reorders data and updates active header indicators.
    * @private
    * @param {string} column - Sort column name.
@@ -409,14 +384,7 @@ export class OntologyUIController {
       }
     });
 
-    this.#extractedData.sort((a, b) => {
-      const valA = this.#getSortValue(a, column);
-      const valB = this.#getSortValue(b, column);
-
-      if (valA < valB) return this.#currentSortAsc ? -1 : 1;
-      if (valA > valB) return this.#currentSortAsc ? 1 : -1;
-      return 0;
-    });
+    sortOntologyRows(this.#extractedData, column, this.#currentSortAsc);
 
     this.#renderTable();
   }

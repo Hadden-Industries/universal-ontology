@@ -221,6 +221,52 @@ describe("canonical ontology query-artifact bytes", () => {
 });
 
 describe("ontology query-artifact parsing", () => {
+  test.each(["native", "portable", "partial-buffer"])(
+    "admits exact byte-view bounds through the %s comparison path",
+    (runtime) => {
+      const nativeBuffer = globalThis.Buffer;
+      const document = createReleaseIndexDocument();
+      const bytes = serializeCanonicalOntologyQueryJsonDocument(document);
+      const storage = new Uint8Array(bytes.byteLength + 8).fill(0xff);
+      storage.set(bytes, 4);
+      const views = [
+        bytes.slice().buffer,
+        nativeBuffer.from(storage.buffer, 4, bytes.byteLength),
+        storage.subarray(4, 4 + bytes.byteLength),
+        new DataView(storage.buffer, 4, bytes.byteLength),
+      ];
+      if (bytes.byteLength % 2 === 0)
+        views.push(new Uint16Array(storage.buffer, 4, bytes.byteLength / 2));
+      try {
+        if (runtime === "portable") globalThis.Buffer = undefined;
+        if (runtime === "partial-buffer")
+          globalThis.Buffer = {
+            from() {
+              throw new Error("Incomplete Buffer API used");
+            },
+          };
+        for (const view of views) {
+          expect(parseOntologyReleaseQueryIndexBytes(view)).toEqual(document);
+        }
+        expect(() => parseOntologyReleaseQueryIndexBytes(storage)).toThrow();
+        for (const index of [
+          0,
+          Math.floor(bytes.byteLength / 2),
+          bytes.byteLength - 1,
+        ]) {
+          const corrupt = bytes.slice();
+          corrupt[index] = 0xff;
+          expect(() => parseOntologyReleaseQueryIndexBytes(corrupt)).toThrow();
+        }
+        expect(() =>
+          parseOntologyReleaseQueryIndexBytes(new ArrayBuffer(0)),
+        ).toThrow();
+      } finally {
+        globalThis.Buffer = nativeBuffer;
+      }
+    },
+  );
+
   test("rejects malformed UTF-8 and invalid JSON before schema validation", () => {
     expectUnsupportedArtifact(
       () => parseOntologyQueryCatalogBytes(Uint8Array.from([0xc3, 0x28])),

@@ -124,6 +124,7 @@ function requireMatchingReleaseIdentity(index, input) {
  * @param {ReadonlyArray<{sourcePath: string, outputPath: string}>} options.ontologySources
  * @param {number} [options.workerCount]
  * @param {boolean} [options.latestUniversalOnly=false]
+ * @param {boolean} [options.includeDisplayAssets=false] Render display assets from the same captured source bytes.
  * @returns {Promise<{
  *   catalog: Readonly<object>,
  *   catalogContent: Buffer,
@@ -139,6 +140,7 @@ export async function createOntologyQueryArtifacts({
   sourceCatalog,
   repositoryRoot,
   ownershipInventory,
+  includeDisplayAssets = false,
 }) {
   const eligibleSources = ontologySources.filter(isEligibleImmutableRelease);
   const selectedSources = latestUniversalOnly
@@ -183,7 +185,9 @@ export async function createOntologyQueryArtifacts({
   const renderedIndexes = await renderOntologyAssetsWithWorkers({
     inputs,
     workerCount,
-    requestedAssetKinds: ["query_index"],
+    requestedAssetKinds: includeDisplayAssets
+      ? ["query_index", "json_ld", "csv"]
+      : ["query_index"],
   });
   const capturedByPath = new Map(
     inputs.map((input) => [resolve(input.sourcePath), input]),
@@ -409,12 +413,31 @@ export async function createOntologyQueryArtifacts({
   artifactContentsByRelativePath.set(catalogRelativePath, catalogContent);
   artifactContentsByRelativePath.set("catalog.json", catalogContent);
 
+  // These display assets were rendered from the same bounded captured bytes as
+  // the admitted query artifacts. Keep their ownership separate from query URLs.
+  const displayAssetContentsByRelativePath = new Map();
+  if (includeDisplayAssets) {
+    for (const rendered of renderedIndexes) {
+      if (rendered.jsonLdContent !== undefined)
+        displayAssetContentsByRelativePath.set(
+          `${rendered.outputPath}.jsonld`,
+          rendered.jsonLdContent,
+        );
+      if (rendered.csvContent !== undefined)
+        displayAssetContentsByRelativePath.set(
+          `${rendered.outputPath}.csv`,
+          rendered.csvContent,
+        );
+    }
+  }
+
   return {
     catalog,
     catalogContent,
     catalogSha256,
     catalogRelativePath,
     artifactContentsByRelativePath,
+    displayAssetContentsByRelativePath,
     async assertSourcesUnchanged() {
       await sourceCatalog?.assertUnchanged?.();
       await ownershipInventory?.assertUnchanged?.();

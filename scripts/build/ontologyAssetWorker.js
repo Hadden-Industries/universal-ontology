@@ -57,29 +57,6 @@ parentPort.on("message", async ({ taskId, input }) => {
     const response = { taskId };
     const transferList = [];
 
-    if (requestedAssetKinds.has("json_ld") || requestedAssetKinds.has("csv")) {
-      const renderedJsonLd = await renderRdfQuadsAsJsonLd({
-        quads,
-        sourceName: input.outputPath,
-      });
-
-      if (requestedAssetKinds.has("json_ld")) {
-        response.jsonLdContent = createTransferableBuffer(
-          renderedJsonLd.content,
-        );
-        transferList.push(response.jsonLdContent);
-      }
-
-      if (requestedAssetKinds.has("csv")) {
-        const renderedCsv = renderOntologyCsvFromJsonLd(
-          renderedJsonLd.jsonLdDocument,
-          { ontologyPath: input.outputPath },
-        );
-        response.csvContent = createTransferableBuffer(renderedCsv.content);
-        transferList.push(response.csvContent);
-      }
-    }
-
     if (requestedAssetKinds.has("query_index")) {
       const dataset = Buffer.from(
         await rdfCanonize.canonize([...quads], {
@@ -117,6 +94,35 @@ parentPort.on("message", async ({ taskId, input }) => {
       );
       response.queryIndexContent = createTransferableBuffer(queryIndexBytes);
       transferList.push(response.queryIndexContent);
+      if (
+        requestedAssetKinds.has("json_ld") ||
+        requestedAssetKinds.has("csv")
+      ) {
+        // Keep the existing deadline on source parsing and query production;
+        // unrelated display verification must not consume that query budget.
+        parentPort.postMessage({ taskId, kind: "query-index-complete" });
+      }
+    }
+
+    if (requestedAssetKinds.has("json_ld") || requestedAssetKinds.has("csv")) {
+      const renderedJsonLd = await renderRdfQuadsAsJsonLd({
+        quads,
+        sourceName: input.outputPath,
+      });
+      if (requestedAssetKinds.has("json_ld")) {
+        response.jsonLdContent = createTransferableBuffer(
+          renderedJsonLd.content,
+        );
+        transferList.push(response.jsonLdContent);
+      }
+      if (requestedAssetKinds.has("csv")) {
+        const renderedCsv = renderOntologyCsvFromJsonLd(
+          renderedJsonLd.jsonLdDocument,
+          { ontologyPath: input.outputPath },
+        );
+        response.csvContent = createTransferableBuffer(renderedCsv.content);
+        transferList.push(response.csvContent);
+      }
     }
 
     parentPort.postMessage(response, transferList);
