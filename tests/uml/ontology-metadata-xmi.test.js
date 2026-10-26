@@ -48,7 +48,7 @@ test("uses native UML 2.1 coordinates and owned metaclass imports", async () => 
   });
   const doc = new DOMParser().parseFromString(result.xmi, "application/xml");
   expect(doc.documentElement.lookupNamespaceURI("uml")).toBe(
-    "http://schema.omg.org/spec/UML/2.1.1",
+    "http://schema.omg.org/spec/UML/2.1.1/uml.xml",
   );
   expect(
     doc.documentElement.getAttributeNS(

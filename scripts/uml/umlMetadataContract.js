@@ -2,7 +2,7 @@
 export const UML_METADATA_CONTRACT = Object.freeze({
   version: "1",
   profile: "https://haddenindustries.com/ontology/uml-metadata/1",
-  uml: "http://schema.omg.org/spec/UML/2.1.1",
+  uml: "http://schema.omg.org/spec/UML/2.1.1/uml.xml",
   umlDocument: "http://schema.omg.org/spec/UML/2.1.1/uml.xml",
   xmi: "http://schema.omg.org/spec/XMI/2.1",
   maxXmlBytes: 256 * 1024 * 1024,

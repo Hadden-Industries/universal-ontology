@@ -51,6 +51,10 @@ public class ValidateUmlXmi {
       if (path.toString().endsWith(".jar")) bundles.add(path);
     }
     ResourceSet resources = UMLResourcesUtil.init(new ResourceSetImpl());
+    // OMG's normative CMOF nsURI includes /uml.xml; Eclipse's convenience
+    // namespace omits it. Register the normative URI explicitly, locally.
+    resources.getPackageRegistry().put("http://schema.omg.org/spec/UML/2.1.1/uml.xml",
+        org.eclipse.uml2.uml.UMLPackage.eINSTANCE);
     ExtensibleURIConverterImpl offline = new ExtensibleURIConverterImpl() {
       @Override public InputStream createInputStream(URI uri, Map<?,?> options) throws IOException {
         URI actual = normalize(uri);
