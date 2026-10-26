@@ -280,6 +280,7 @@ export class OntologyUIController {
         exportXmiBtn.disabled = true;
         exportXmiBtn.classList.add("exporting");
         exportXmiBtn.setAttribute("aria-busy", "true");
+        if (status) status.textContent = "Checking availability…";
         try {
           // A HEAD check reports unavailable artifacts without fetching a large
           // XMI into browser memory before its normal materialized download.

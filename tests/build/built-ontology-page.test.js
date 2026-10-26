@@ -482,6 +482,17 @@ test("loads the built master page and downloads its materialized CSV and full XM
         ? route.fulfill({ status: 404, body: "" })
         : route.continue(),
     );
+    await unavailable.evaluate(() => {
+      const status = document.getElementById("xmi-export-status");
+      window.xmiStatusHistory = [];
+      new MutationObserver(() =>
+        window.xmiStatusHistory.push(status.textContent),
+      ).observe(status, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+    });
     await unavailable.locator("#export-toggle").click();
     await unavailable.locator("#export-xmi").click();
     await unavailable.waitForFunction(
@@ -493,6 +504,16 @@ test("loads the built master page and downloads its materialized CSV and full XM
     expect(
       await unavailable.locator("#xmi-export-status").getAttribute("role"),
     ).toBe("status");
+    await unavailable.locator("#export-xmi").click();
+    await unavailable.waitForFunction(
+      () => window.xmiStatusHistory.length === 4,
+    );
+    expect(await unavailable.evaluate(() => window.xmiStatusHistory)).toEqual([
+      "Checking availability…",
+      "Download failed. Try again.",
+      "Checking availability…",
+      "Download failed. Try again.",
+    ]);
     await unavailable.close();
   } finally {
     await browser?.close();

@@ -44,6 +44,7 @@ const OWL = "http://www.w3.org/2002/07/owl#";
 const LEGACY_SUFFIXES = ["-full", "-full.jsonld", "-full.csv"];
 const SUFFIXES = [...LEGACY_SUFFIXES, "-full.xmi"];
 const offlineConfiguration = new OWLOntologyLoaderConfiguration({
+  behaviorProfileId: "normative-v1",
   parsingMode: "strict",
   remoteImports: false,
   remoteJsonLdContexts: false,
@@ -171,7 +172,9 @@ export async function discoverFullOntologyCandidates(options) {
       throw new Error(`Invalid root import declaration: ${source.outputPath}`);
     if (name >= FULL_ONTOLOGY_CUTOFF && importQuads.length === 0) {
       const loader = new OntologyDocumentLoader();
-      const manager = OWLManager.createOWLOntologyManager();
+      const manager = OWLManager.createOWLOntologyManager({
+        behaviorProfileId: "normative-v1",
+      });
       const parsed = await manager.loadOntologyGraphFromOntologyDocument(
         await loader.loadRootDocument(source.sourcePath, {
           config: offlineConfiguration,
@@ -503,6 +506,7 @@ async function assertBuildInputs(ctx, receipt) {
       onDocument: (doc) => documents.push(doc),
     });
     const manager = OWLManager.createOWLOntologyManager({
+      behaviorProfileId: "normative-v1",
       documentLoader: loader,
       iriMappers: [mapper],
     });

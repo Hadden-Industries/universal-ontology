@@ -214,6 +214,65 @@ export function projectOntologyUml({
       value: "*",
     });
   }
+  const attributesByOwner = new Map();
+  for (const record of propertyAxioms.values()) {
+    const domain = [...record.domains.values()][0];
+    const range = [...record.ranges.values()][0];
+    if (
+      record.property.kind !== "OWLDataProperty" ||
+      record.domains.size !== 1 ||
+      record.ranges.size !== 1 ||
+      domain.kind !== "OWLClass" ||
+      range.kind !== "OWLDatatype"
+    )
+      continue;
+    const owner = classes.get(domain.iri.value).id;
+    if (!attributesByOwner.has(owner)) attributesByOwner.set(owner, []);
+    attributesByOwner.get(owner).push(record.property);
+  }
+  const qualifiedAttributes = new Set();
+  const attributeScopes = [];
+  for (const { id } of classes.values()) {
+    const pending = [id];
+    const visited = new Set();
+    const members = new Map();
+    while (pending.length) {
+      const owner = pending.pop();
+      if (visited.has(owner)) continue;
+      visited.add(owner);
+      pending.push(...(ancestors.get(owner) ?? []));
+      for (const property of attributesByOwner.get(owner) ?? []) {
+        members.set(property.iri.value, property);
+      }
+    }
+    if (members.size > 1) attributeScopes.push([...members.values()]);
+  }
+  const attributeName = (property) =>
+    qualifiedAttributes.has(property.iri.value)
+      ? `${property.kind}: ${property.iri.value}`
+      : displayName(property);
+  // A source label may itself equal a generated name. Recheck final names until
+  // every collision uses the injective role/IRI spelling, including inheritance.
+  let changed;
+  do {
+    const additions = new Set();
+    for (const scope of attributeScopes) {
+      const names = new Map();
+      for (const property of scope) {
+        const candidate = attributeName(property);
+        if (!names.has(candidate)) names.set(candidate, []);
+        names.get(candidate).push(property.iri.value);
+      }
+      for (const iris of names.values())
+        if (iris.length > 1)
+          for (const iri of iris)
+            if (!qualifiedAttributes.has(iri)) {
+              additions.add(iri);
+            }
+    }
+    for (const iri of additions) qualifiedAttributes.add(iri);
+    changed = additions.size > 0;
+  } while (changed);
   let properties = 0;
   for (const [iri, record] of [...propertyAxioms].sort(([a], [b]) =>
     a < b ? -1 : a > b ? 1 : 0,
@@ -260,7 +319,7 @@ export function projectOntologyUml({
     ) {
       const id = stableId("attribute", iri);
       unconstrainedEnd(source.node, "ownedAttribute", id, {
-        name: displayName(record.property),
+        name: attributeName(record.property),
         type: datatypes.get(range.iri.value).id,
       });
       correspondence(record.property, id, "single-asserted-domain-datatype-v1");

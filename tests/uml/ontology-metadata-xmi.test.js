@@ -494,3 +494,81 @@ test("retains qualified restrictions, ordered property chains and punned identit
     ),
   ).toBe(true);
 });
+
+test("recovers deep supported expressions independently of XML node order", async () => {
+  const manager = OWLManager.createOWLOntologyManager({
+    behaviorProfileId: "normative-v1",
+  });
+  const f = manager.getOWLDataFactory();
+  const ontology = manager.createOntology(
+    f.getOWLOntologyID(IRI.create("urn:deep")),
+  );
+  let expression = f.getOWLClass(IRI.create("urn:leaf"));
+  for (let index = 0; index < 90; index++)
+    expression = f.getOWLObjectIntersectionOf([
+      f.getOWLClass(IRI.create(`urn:side${index}`)),
+      expression,
+    ]);
+  manager.addAxiom(
+    ontology,
+    f.getOWLSubClassOfAxiom(
+      f.getOWLClass(IRI.create("urn:subject")),
+      expression,
+    ),
+  );
+  const result = await exportOntologyUmlXmi({
+    ontology,
+    context: witnessContext,
+  });
+  const axiom = result.recovery.records.find(
+    (r) => r.fields.kind?.[0]?.scalar === "OWLSubClassOfAxiom",
+  );
+  const outer = axiom.fields.superClass[0].reference;
+  const doc = new DOMParser().parseFromString(result.xmi, "application/xml");
+  const application = doc.getElementsByTagNameNS(
+    contract.profile,
+    "SourceRecord",
+  )[0];
+  const node = [...application.childNodes].find(
+    (n) => n.nodeType === 1 && n.getAttributeNS(contract.xmi, "id") === outer,
+  );
+  application.insertBefore(node, application.firstChild);
+  expect(
+    (await recoverOntologyMetadata(new XMLSerializer().serializeToString(doc)))
+      .semanticModelSha256,
+  ).toBe(result.recovery.semanticModelSha256);
+});
+
+test("disambiguates data-property members in their owning and inheriting UML classes", async () => {
+  const ontology = await loadMetadataWitness(`Ontology(<urn:member-names>
+    Declaration(Class(<urn:Base>)) Declaration(Class(<urn:Child>))
+    SubClassOf(<urn:Child> <urn:Base>)
+    DataPropertyDomain(<urn:a#name> <urn:Base>)
+    DataPropertyRange(<urn:a#name> <http://www.w3.org/2001/XMLSchema#string>)
+    DataPropertyDomain(<urn:b#name> <urn:Base>)
+    DataPropertyRange(<urn:b#name> <http://www.w3.org/2001/XMLSchema#string>)
+    DataPropertyDomain(<urn:c#name> <urn:Child>)
+    DataPropertyRange(<urn:c#name> <http://www.w3.org/2001/XMLSchema#string>)
+    DataPropertyDomain(<urn:d#other> <urn:Base>)
+    DataPropertyRange(<urn:d#other> <http://www.w3.org/2001/XMLSchema#string>)
+    AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#prefLabel> <urn:d#other> "name [OWLDataProperty: urn:a#name]")
+    DataPropertyDomain(<urn:e#other> <urn:Base>)
+    DataPropertyRange(<urn:e#other> <http://www.w3.org/2001/XMLSchema#string>)
+    AnnotationAssertion(<http://www.w3.org/2004/02/skos/core#prefLabel> <urn:e#other> "OWLDataProperty: urn:a#name")
+  )`);
+  const result = await exportOntologyUmlXmi({
+    ontology,
+    context: witnessContext,
+  });
+  const doc = new DOMParser().parseFromString(result.xmi, "application/xml");
+  const attributes = [...doc.getElementsByTagName("ownedAttribute")].filter(
+    (n) =>
+      n.parentNode.getAttributeNS(contract.xmi, "type") === "uml:Class" &&
+      n.parentNode.getAttribute("name") !== "ExportManifest",
+  );
+  expect(attributes).toHaveLength(5);
+  const names = attributes.map((n) => n.getAttribute("name"));
+  expect(new Set(names).size).toBe(5);
+  for (const iri of ["urn:a#name", "urn:b#name", "urn:c#name"])
+    expect(names.some((name) => name.includes(iri))).toBe(true);
+});

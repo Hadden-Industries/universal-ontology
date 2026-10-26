@@ -10,6 +10,7 @@ import { collapseImportsClosure } from "./collapseImportsClosure.js";
 import { assertLosslessOntologyLoad } from "./assertLosslessOntologyLoad.js";
 
 const generationConfiguration = new OWLOntologyLoaderConfiguration({
+  behaviorProfileId: "normative-v1",
   parsingMode: "strict",
   loadAnnotationAxioms: true,
   remoteImports: true,

@@ -350,40 +350,89 @@ export function readCompactMetadataGraph({ document, decoded, byId, decode }) {
         if (!decoded.has(value.reference) && !nodes.has(value.reference))
           throw new Error("Dangling compact structural reference");
   const identities = new Map();
+  const depths = new Map();
   const active = new Set();
-  function identity(id, depth = 0) {
-    if (identities.has(id)) return identities.get(id);
-    const node = nodes.get(id);
-    if (!node || depth > contract.maxDepth || active.has(id))
-      throw new Error("Invalid grounded structural identity");
-    if (id.startsWith("n")) return `BlankNode:${id}`;
-    active.add(id);
-    const edges = [];
-    for (const [predicate, values] of node.fields)
-      for (const value of values) {
-        const target = decoded.get(value.reference);
-        let object;
-        if (target?.classifier === "ScalarValue")
-          object = scalarLiteral(value.reference);
-        else {
-          const child = identity(value.reference, depth + 1);
-          if (!child.startsWith("NamedNode:"))
-            throw new Error(
-              "A grounded node cannot reference anonymous structure",
-            );
-          object = `<${child.slice(10)}>`;
-        }
-        edges.push(JSON.stringify([`<${predicate}>`, object]));
+  // Post-order traversal avoids call-stack limits and hash-dependent memoization.
+  // Collection helpers and the synthetic Ontology root add no encode depth.
+  for (const source of nodes.values()) {
+    const pending = [{ id: source.id, expanded: false }];
+    while (pending.length) {
+      const frame = pending.at(-1);
+      if (identities.has(frame.id)) {
+        pending.pop();
+        continue;
       }
-    const result = `NamedNode:${vocabulary}structure:${hash([...new Set(edges)].sort().join("\n"))}`;
-    active.delete(id);
-    identities.set(id, result);
-    return result;
+      const node = nodes.get(frame.id);
+      if (!node) throw new Error("Invalid grounded structural identity");
+      if (!frame.expanded) {
+        if (active.has(frame.id))
+          throw new Error("Cyclic compact structural graph");
+        active.add(frame.id);
+        frame.expanded = true;
+        const dependencies = new Set(
+          [...node.fields.values()]
+            .flat()
+            .filter(
+              (value) =>
+                decoded.get(value.reference)?.classifier !== "ScalarValue",
+            )
+            .map((value) => value.reference),
+        );
+        for (const id of dependencies) {
+          if (active.has(id))
+            throw new Error("Cyclic compact structural graph");
+          if (!identities.has(id)) pending.push({ id, expanded: false });
+        }
+        continue;
+      }
+      let depth = 0;
+      const edges = [];
+      for (const [predicate, values] of node.fields)
+        for (const value of values) {
+          const isScalar =
+            decoded.get(value.reference)?.classifier === "ScalarValue";
+          const child = isScalar ? null : nodes.get(value.reference);
+          const cost =
+            node.kind === "Ontology" ||
+            predicate === `${vocabulary}kind` ||
+            (node.kind === "Collection" &&
+              predicate === `${vocabulary}collection`) ||
+            child?.kind === "Collection"
+              ? 0
+              : 1;
+          depth = Math.max(
+            depth,
+            cost + (isScalar ? 0 : depths.get(value.reference)),
+          );
+          if (depth > contract.maxDepth)
+            throw new Error("Compact structure depth limit exceeded");
+          if (frame.id.startsWith("n")) continue;
+          let object;
+          if (isScalar) object = scalarLiteral(value.reference);
+          else {
+            const identity = identities.get(value.reference);
+            if (!identity?.startsWith("NamedNode:"))
+              throw new Error(
+                "A grounded node cannot reference anonymous structure",
+              );
+            object = `<${identity.slice(10)}>`;
+          }
+          edges.push(JSON.stringify([`<${predicate}>`, object]));
+        }
+      depths.set(frame.id, depth);
+      identities.set(
+        frame.id,
+        frame.id.startsWith("n")
+          ? `BlankNode:${frame.id}`
+          : `NamedNode:${vocabulary}structure:${hash([...new Set(edges)].sort().join("\n"))}`,
+      );
+      active.delete(frame.id);
+      pending.pop();
+    }
   }
   for (const node of nodes.values()) {
-    const identityValue = identity(node.id);
     node.classifier = "StructuralNode";
-    node.fields.set("identity", [{ text: identityValue }]);
+    node.fields.set("identity", [{ text: identities.get(node.id) }]);
     decoded.set(node.id, node);
   }
   const correspondences = [];
