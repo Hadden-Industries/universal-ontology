@@ -223,7 +223,13 @@ function buildRuntimeReleaseIndex(queryIndex) {
       assertionPropertyIri,
       literalValue,
       normalizedValue,
-      normalizedTokens: tokenizeNormalizedValue(normalizedValue),
+      ...(candidateKind === "lexical_definition"
+        ? {
+            normalizedTokenSet: new Set(
+              tokenizeNormalizedValue(normalizedValue),
+            ),
+          }
+        : {}),
     });
   }
 
@@ -274,7 +280,6 @@ function buildRuntimeReleaseIndex(queryIndex) {
           assertionPropertyIri: assertion.assertionPropertyIri,
           iri,
           normalizedValue: normalizeLexicalSearchValue(iri),
-          normalizedTokens: [],
         });
         addUuidEntityIri(iri, description.entityIri);
       }
@@ -287,7 +292,6 @@ function buildRuntimeReleaseIndex(queryIndex) {
       assertionPropertyIri: null,
       iri: description.entityIri,
       normalizedValue: normalizeLexicalSearchValue(iriLocalName),
-      normalizedTokens: [],
     });
   }
 
@@ -377,11 +381,9 @@ function evaluateSearchCandidate(candidate, normalizedQuery, queryTokens) {
         return "lexical_definition_exact";
       }
 
-      const candidateTokenSet = new Set(candidate.normalizedTokens);
-
       if (
         queryTokens.length > 0 &&
-        queryTokens.every((token) => candidateTokenSet.has(token))
+        queryTokens.every((token) => candidate.normalizedTokenSet.has(token))
       ) {
         return "lexical_definition_token_coverage";
       }
@@ -889,7 +891,11 @@ export function createOntologyQueryModule({
                   ),
             )
             .map((entityIri) => ({ candidate: { entityIri } }));
-      const matches = rankedCandidates.map((evaluatedCandidate, index) => ({
+      const totalCandidateCount = rankedCandidates.length;
+      const projectedCandidates = searchContext
+        ? rankedCandidates
+        : rankedCandidates.slice(0, parsedInput.maximumResultCount);
+      const matches = projectedCandidates.map((evaluatedCandidate, index) => ({
         ...(queryText
           ? {
               lexicalMatch: {
@@ -976,19 +982,20 @@ export function createOntologyQueryModule({
             ({ queryIndex }) => queryIndex.resolvedOntologyRelease,
           ),
           returnedEntityCount: Math.min(
-            matches.length,
+            totalCandidateCount,
             parsedInput.maximumResultCount,
           ),
           returnedDefinitionAssertionCount: 0,
-          resultSetTruncated: matches.length > parsedInput.maximumResultCount,
+          resultSetTruncated:
+            totalCandidateCount > parsedInput.maximumResultCount,
           nextCursor: null,
           truncationReasons: [
             "source_evidence_unavailable",
-            ...(matches.length > parsedInput.maximumResultCount
+            ...(totalCandidateCount > parsedInput.maximumResultCount
               ? ["page_limit"]
               : []),
           ],
-          matches: matches.slice(0, parsedInput.maximumResultCount),
+          matches,
         };
       }
       const result = OntologyEntitySearchSuccessSchema.parse(searchResult);

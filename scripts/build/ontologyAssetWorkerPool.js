@@ -208,6 +208,18 @@ export async function renderOntologyAssetsWithWorkers({
           return;
         }
 
+        if (
+          message.kind === "query-index-complete" &&
+          requestedAssetKinds.includes("query_index") &&
+          requestedAssetKinds.some(
+            (kind) => kind === "json_ld" || kind === "csv",
+          )
+        ) {
+          clearTimeout(state.deadline);
+          state.deadline = undefined;
+          return;
+        }
+
         const task = state.task;
         clearTimeout(state.deadline);
         state.task = undefined;

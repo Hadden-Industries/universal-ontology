@@ -29,6 +29,27 @@ function haveIdenticalBytes(left, right) {
     return false;
   }
 
+  const BufferClass = globalThis.Buffer;
+  if (
+    typeof BufferClass?.from === "function" &&
+    typeof BufferClass?.prototype?.equals === "function" &&
+    typeof BufferClass?.isBuffer === "function"
+  ) {
+    const leftBuffer = BufferClass.from(
+      leftView.buffer,
+      leftView.byteOffset,
+      leftView.byteLength,
+    );
+    const rightBuffer = BufferClass.from(
+      rightView.buffer,
+      rightView.byteOffset,
+      rightView.byteLength,
+    );
+    if (BufferClass.isBuffer(leftBuffer) && BufferClass.isBuffer(rightBuffer)) {
+      return leftBuffer.equals(rightBuffer);
+    }
+  }
+
   for (let index = 0; index < leftView.byteLength; index += 1) {
     if (leftView[index] !== rightView[index]) {
       return false;

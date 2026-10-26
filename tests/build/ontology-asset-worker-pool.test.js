@@ -16,6 +16,7 @@ function fixtureInput({
   errorMessage,
   control,
   resultFromHistory = false,
+  queryPhaseComplete = false,
 }) {
   return {
     outputPath,
@@ -26,6 +27,7 @@ function fixtureInput({
         result,
         errorMessage,
         resultFromHistory,
+        queryPhaseComplete,
       }),
       "utf8",
     ),
@@ -156,6 +158,68 @@ test("the production worker projects query-index bytes from the same parsed quad
       versionTag: "20260830",
     },
   });
+});
+
+test("query completion does not publish an unfinished combined display result", async () => {
+  const control = new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT * 3);
+  const [result] = await renderOntologyAssetsWithWorkers({
+    inputs: [
+      fixtureInput({
+        outputPath: "combined",
+        size: 1,
+        delayMilliseconds: 50,
+        queryPhaseComplete: true,
+        control,
+      }),
+    ],
+    workerCount: 1,
+    workerUrl,
+    requestedAssetKinds: ["query_index", "json_ld", "csv"],
+  });
+  expect(new Int32Array(control)[0]).toBe(0);
+  expect(result.jsonLdContent.toString()).toBe("combined");
+  expect(result.queryIndexContent.toString()).toBe("query:combined");
+});
+
+test("combined source rendering preserves each independently requested artifact byte", async () => {
+  const content = await readFile(
+    new URL(
+      "../fixtures/ontology-query/minimal-ontology-release",
+      import.meta.url,
+    ),
+  );
+  const inputs = [
+    {
+      outputPath: "universal/test/20260830",
+      content,
+      size: content.byteLength,
+      fallbackBaseIRI: "https://example.com/ontology/test/",
+      ontologyArtifactFamilyId: "universal/test",
+      versionTag: "20260830",
+      sourceArtifactUrl: "https://example.com/ontology/test/20260830",
+    },
+  ];
+  const [display] = await renderOntologyAssetsWithWorkers({
+    inputs,
+    workerCount: 1,
+    requestedAssetKinds: ["json_ld", "csv"],
+  });
+  const [query] = await renderOntologyAssetsWithWorkers({
+    inputs,
+    workerCount: 1,
+    requestedAssetKinds: ["query_index"],
+  });
+  const [combined] = await renderOntologyAssetsWithWorkers({
+    inputs,
+    workerCount: 1,
+    requestedAssetKinds: ["query_index", "json_ld", "csv"],
+  });
+  expect(combined.jsonLdContent).toEqual(display.jsonLdContent);
+  expect(combined.csvContent).toEqual(display.csvContent);
+  expect(combined.queryIndexContent).toEqual(query.queryIndexContent);
+  expect(combined.datasetContent).toEqual(query.datasetContent);
+  expect(combined.declaredImports).toEqual(query.declaredImports);
+  expect(combined.datasetQuadCount).toBe(query.datasetQuadCount);
 });
 
 test("uses deterministic size-balanced worker queues", async () => {

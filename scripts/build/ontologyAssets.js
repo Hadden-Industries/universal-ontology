@@ -20,13 +20,34 @@ export async function createOntologyBuildAssets({
 }) {
   const aliases = await generateOntologyAliases({ ontologySources });
   const assets = new Map(aliases);
+  const {
+    artifactContentsByRelativePath,
+    displayAssetContentsByRelativePath,
+    assertSourcesUnchanged,
+  } = await createOntologyQueryArtifacts({
+    ontologySources,
+    workerCount,
+    includeDisplayAssets: true,
+  });
+  for (const [outputPath, content] of displayAssetContentsByRelativePath) {
+    if (assets.has(outputPath))
+      throw new Error(`Ontology build asset path collision: "${outputPath}".`);
+    assets.set(outputPath, content);
+  }
   const currentInputs = await Promise.all(
-    ontologySources.map(async (source) => ({
-      outputPath: source.outputPath,
-      sourcePath: source.sourcePath,
-      size: (await stat(source.sourcePath)).size,
-      fallbackBaseIRI: buildFallbackBaseIri(source.outputPath),
-    })),
+    ontologySources
+      .filter(
+        (source) =>
+          !displayAssetContentsByRelativePath.has(
+            `${source.outputPath}.jsonld`,
+          ),
+      )
+      .map(async (source) => ({
+        outputPath: source.outputPath,
+        sourcePath: source.sourcePath,
+        size: (await stat(source.sourcePath)).size,
+        fallbackBaseIRI: buildFallbackBaseIri(source.outputPath),
+      })),
   );
 
   for (const [outputPath, content] of aliases) {
@@ -51,9 +72,6 @@ export async function createOntologyBuildAssets({
     assets.set(`${outputPath}.jsonld`, jsonLdContent);
     assets.set(`${outputPath}.csv`, csvContent);
   }
-
-  const { artifactContentsByRelativePath, assertSourcesUnchanged } =
-    await createOntologyQueryArtifacts({ ontologySources, workerCount });
 
   for (const [relativePath, content] of artifactContentsByRelativePath) {
     const outputPath = `query/v1/${relativePath}`;

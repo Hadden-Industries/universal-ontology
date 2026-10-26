@@ -34,6 +34,9 @@ parentPort.on("message", async ({ taskId, input }) => {
   recordPeak(input.control);
 
   try {
+    if (fixture.queryPhaseComplete) {
+      parentPort.postMessage({ taskId, kind: "query-index-complete" });
+    }
     await delay(fixture.delayMilliseconds);
 
     if (fixture.errorMessage) {

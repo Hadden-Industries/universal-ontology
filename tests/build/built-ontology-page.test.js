@@ -93,6 +93,7 @@ async function createFixture() {
   for (const relativePath of [
     "ontology.html",
     "ontology.js",
+    "ontologyTableSort.js",
     "ontology.css",
     "ontologyViewModel.js",
     "OwlToUmlXmiConverter.js",
@@ -355,6 +356,71 @@ test("loads the built master page and downloads its materialized CSV", async () 
           responseUrl.includes("/query/v1/"),
       ),
     ).toBe(false);
+    expect(failures).toEqual([]);
+
+    const ontologyBase =
+      "https://haddenindustries.com/ontology/universal/core/";
+    const displayedDocument = [
+      {
+        "@id": ontologyBase,
+        "@type": ["http://www.w3.org/2002/07/owl#Ontology"],
+      },
+      ...["Zulu", "Alpha", "alpha"].map((label, index) => ({
+        "@id": `${ontologyBase}Sort${index}`,
+        "@type": ["http://www.w3.org/2002/07/owl#Class"],
+        "http://www.w3.org/2004/02/skos/core#prefLabel": [
+          { "@value": label, "@language": "en" },
+        ],
+        "http://www.w3.org/2004/02/skos/core#definition": [
+          { "@value": ["Third", "First", "Second"][index], "@language": "en" },
+        ],
+        "http://purl.org/dc/terms/source": [
+          { "@id": `urn:source:${2 - index}` },
+        ],
+        "http://www.w3.org/2000/01/rdf-schema#seeAlso": [
+          { "@id": `urn:reference:${index}` },
+        ],
+      })),
+    ];
+    await page.route("**/ontology/universal/core/20260714.jsonld", (route) =>
+      route.fulfill({
+        contentType: "application/ld+json",
+        body: JSON.stringify(displayedDocument),
+      }),
+    );
+    // The fixed-width table needs a wide viewport to expose its final column.
+    await page.setViewportSize({ width: 2400, height: 1000 });
+    await page.reload({ waitUntil: "networkidle" });
+    await page.waitForFunction(
+      () => document.querySelectorAll("#table-body tr").length === 3,
+    );
+    const readRows = () =>
+      page
+        .locator("#table-body tr")
+        .evaluateAll((rows) =>
+          rows.map((row) =>
+            [...row.cells].map((cell) => cell.textContent.trim()),
+          ),
+        );
+    let precedingRows = await readRows();
+    const headers = page.locator("th[data-sort]");
+    expect(await headers.count()).toBe(12);
+    for (let column = 0; column < 12; column++) {
+      for (const ascending of [true, false]) {
+        const expected = [...precedingRows].sort((left, right) => {
+          const a = left[column].toLowerCase();
+          const b = right[column].toLowerCase();
+          return (a < b ? -1 : a > b ? 1 : 0) * (ascending ? 1 : -1);
+        });
+        await headers.nth(column).click();
+        const actual = await readRows();
+        expect(actual).toEqual(expected);
+        expect(
+          await headers.nth(column).locator(".sort-icon.active").textContent(),
+        ).toBe(ascending ? "▲" : "▼");
+        precedingRows = actual;
+      }
+    }
     expect(failures).toEqual([]);
   } finally {
     await browser?.close();

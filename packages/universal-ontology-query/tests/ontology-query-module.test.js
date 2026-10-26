@@ -33,6 +33,79 @@ beforeAll(async () => {
 });
 
 describe("ontology query module", () => {
+  test("limits portable projection while preserving complete counts and ranks", async () => {
+    const artifact = await createReleaseArtifact({
+      ontologyArtifactFamilyId: "universal/core",
+      versionTag: "20260830",
+      transformIndex(index) {
+        const template = index.ontologyEntityDescriptions.find(
+          (description) =>
+            description.preferredLabelAssertions.length &&
+            description.lexicalDefinitionAssertions.length,
+        );
+        index.ontologyEntityDescriptions = Array.from(
+          { length: 25 },
+          (_, ordinal) => {
+            const description = structuredClone(template);
+            description.entityIri = `https://example.com/ontology/test/Entity${String(ordinal).padStart(2, "0")}`;
+            description.preferredLabelAssertions[0].literalValue.lexicalForm = `Entity ${String(ordinal).padStart(2, "0")}`;
+            description.lexicalDefinitionAssertions[0].literalValue.lexicalForm =
+              "A natural, legal person with a repeated natural token.";
+            return description;
+          },
+        );
+        return index;
+      },
+    });
+    const { ontologyQueryArtifactRepository } =
+      createInMemoryOntologyQueryArtifactRepositoryFixture([artifact]);
+    const query = createOntologyQueryModule({
+      ontologyQueryArtifactRepository,
+    });
+    const ontologyReleaseSelection = {
+      selectionKind: "latest_stable_releases",
+      ontologyArtifactFamilyIds: ["universal/core"],
+    };
+    for (const filter of [
+      { queryText: "Entity" },
+      { queryText: "legal natural natural" },
+      { entityKinds: ["owl_class"] },
+    ]) {
+      const full = await query.searchOntologyEntities({
+        ...filter,
+        ontologyReleaseSelection,
+        maximumResultCount: 20,
+      });
+      const limited = await query.searchOntologyEntities({
+        ...filter,
+        ontologyReleaseSelection,
+        maximumResultCount: 5,
+      });
+      expect(full.returnedEntityCount).toBe(20);
+      expect(full.resultSetTruncated).toBe(true);
+      expect(full.truncationReasons).toEqual([
+        "source_evidence_unavailable",
+        "page_limit",
+      ]);
+      expect(limited).toEqual({
+        ...full,
+        returnedEntityCount: 5,
+        matches: full.matches.slice(0, 5),
+      });
+      if (filter.queryText)
+        expect(
+          limited.matches.map((match) => match.lexicalMatch.matchRank),
+        ).toEqual([1, 2, 3, 4, 5]);
+    }
+    const single = await query.searchOntologyEntities({
+      queryText: "Entity 00",
+      ontologyReleaseSelection,
+    });
+    expect(single.returnedEntityCount).toBe(1);
+    expect(single.resultSetTruncated).toBe(false);
+    expect(single.truncationReasons).toEqual(["source_evidence_unavailable"]);
+  });
+
   test("searches default releases and returns the exact selected lexical definition", async () => {
     const { ontologyQueryArtifactRepository } =
       createInMemoryOntologyQueryArtifactRepositoryFixture(
