@@ -253,6 +253,12 @@ describe("native Git PR check selection", () => {
     expect(corePlan().requiredJobs).toEqual(["development", "node"]);
     expect(corePlan().scopes.product_tests).toBe(true);
   });
+  test("new native UML tests retain the conservative route", () => {
+    const path = "tests/uml/ontology-metadata-xmi.test.js";
+    write(path);
+    commit([path]);
+    expect(corePlan().requiredJobs).toEqual(CORE_CHECK_CONSUMER_IDS);
+  });
   test("mixed native test and source retains production work", () => {
     const paths = [
       "packages/universal-ontology-query/tests/ontology-query-module.test.js",
@@ -262,6 +268,18 @@ describe("native Git PR check selection", () => {
     commit(paths);
     expect(corePlan().scopes.website_build).toBe(true);
   });
+  test.each([
+    "scripts/uml/exportOntologyUmlXmi.js",
+    "docs/uml/mapping-register.v1.json",
+  ])(
+    "UML producer and contract input %s retain product and website checks",
+    (path) => {
+      write(path);
+      commit([path]);
+      expect(corePlan().scopes.product_tests).toBe(true);
+      expect(corePlan().scopes.website_build).toBe(true);
+    },
+  );
   test.each(PYTHON_ONLY_TEST_INPUTS)(
     "isolated Python-only test %s retains lean setup",
     (path) => {

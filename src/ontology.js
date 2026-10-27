@@ -63,41 +63,6 @@ function downloadMaterializedAsset(url) {
 }
 
 /**
- * Fetches and parses an OWL XML document from a given URL and returns it as a DOM Document.
- * @async
- * @param {string} url - The URL of the XML file to load.
- * @returns {Promise<Document>} The parsed ontology XML DOM document.
- */
-async function fetchOntologyAsXml(url) {
-  const response = await fetch(url);
-  if (!response.ok)
-    throw new Error(`HTTP fetch error! Status: ${response.status}`);
-
-  const contentType = response.headers.get("content-type") || "";
-  // Allow various XML/RDF content types
-  if (
-    !contentType.includes("application/rdf+xml") &&
-    !contentType.includes("application/xml") &&
-    !contentType.includes("text/xml") &&
-    !url.endsWith(".owl") &&
-    !url.endsWith(".xml")
-  ) {
-    console.warn(
-      `Unusual Content-Type (${contentType}), attempting XML parse anyway.`,
-    );
-  }
-
-  const xmlText = await response.text();
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-
-  if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
-    throw new Error("Failed to parse response as XML document");
-  }
-  return xmlDoc;
-}
-
-/**
  * Fetches and parses a JSON-LD ontology document.
  * @async
  * @param {string} url - The URL of the JSON-LD file to load.
@@ -123,51 +88,6 @@ async function fetchOntologyAsJsonLd(url) {
   }
 }
 
-async function initializeOwlToUmlXmiConverter(xmlString) {
-  try {
-    // Await the import and destructure the named export directly
-    const { OwlToUmlXmiConverter } = await import("./OwlToUmlXmiConverter.js");
-
-    const converter = new OwlToUmlXmiConverter(xmlString);
-    return converter;
-  } catch (error) {
-    console.error("Module loading failed:", error);
-  }
-}
-
-/**
- * Transforms the OWL XML document and triggers a download of the resulting UML XMI file.
- * @param {Document} xmlDoc - The parsed OWL XML DOM document.
- * @param {string} [filename="Ontology.xmi"] - The name of the file to save.
- */
-async function exportXMI(xmlDoc, filename = "Ontology.xmi") {
-  if (!xmlDoc) return;
-
-  const serializerXML = new XMLSerializer();
-  const xmlText = serializerXML.serializeToString(xmlDoc);
-
-  // Wait for the module to load and the instance to be created
-  const converter = await initializeOwlToUmlXmiConverter(xmlText);
-
-  const resultXmiText = converter.convert();
-  if (!resultXmiText) {
-    throw new Error("JS transformation returned null text");
-  }
-
-  const blob = new Blob([resultXmiText], {
-    type: "application/xml;charset=utf-8;",
-  });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
-
 /**
  * Encapsulated UI Controller class managing table rendering, dropdown actions, sorting, and export logic.
  */
@@ -176,28 +96,17 @@ export class OntologyUIController {
   #currentSortCol = null;
   #currentSortAsc = true;
   #hiddenColumns = new Set();
-  #fetchedXmlDoc = null;
   #jsonLdDoc = null;
   #csvUrl = null;
   #jsonLdUrl = null;
+  #xmiUrl = null;
   #sourceUrl = null;
-  #fileName = "Ontology";
   #colStyleElement = null;
   #webMcpRegistrationController = null;
 
   constructor() {
     this.#colStyleElement = document.createElement("style");
     document.head.appendChild(this.#colStyleElement);
-  }
-
-  /**
-   * Lazily fetches and caches the source RDF/XML document.
-   * @returns {Promise<Document>} The parsed RDF/XML document.
-   */
-  async #getXmlDocument() {
-    this.#fetchedXmlDoc ??= await fetchOntologyAsXml(this.#sourceUrl);
-
-    return this.#fetchedXmlDoc;
   }
 
   /**
@@ -328,18 +237,65 @@ export class OntologyUIController {
 
     const exportXmiBtn = document.getElementById("export-xmi");
     if (exportXmiBtn) {
+      const status = document.getElementById("xmi-export-status");
+      const description = document.getElementById("xmi-export-description");
+      try {
+        const declarations = JSON.parse(
+          document.getElementById("ontology-xmi-exports")?.textContent ??
+            "null",
+        );
+        const pagePath = new URL(window.location.href).pathname.replace(
+          /\.html$/u,
+          "",
+        );
+        const binding =
+          declarations?.schemaVersion === 1 &&
+          Array.isArray(declarations.exports)
+            ? declarations.exports.find(
+                (item) =>
+                  item.scope === "full" &&
+                  [item.source, item.full].includes(pagePath),
+              )
+            : null;
+        if (binding) {
+          const target = new URL(binding.href, window.location.href);
+          if (
+            target.origin === window.location.origin &&
+            target.pathname.endsWith("-full.xmi")
+          )
+            this.#xmiUrl = target.href;
+        }
+      } catch (error) {
+        console.error("Invalid XMI download declaration:", error);
+      }
+      exportXmiBtn.disabled = !this.#xmiUrl;
+      if (this.#xmiUrl) {
+        exportXmiBtn.title = "Download full-ontology UML XMI";
+        if (description)
+          description.textContent = "Full ontology, including imports";
+      }
       exportXmiBtn.addEventListener("click", async (e) => {
         e.stopPropagation();
+        if (!this.#xmiUrl) return;
         exportXmiBtn.disabled = true;
         exportXmiBtn.classList.add("exporting");
+        exportXmiBtn.setAttribute("aria-busy", "true");
+        if (status) status.textContent = "Checking availability…";
         try {
-          const xmlDoc = await this.#getXmlDocument();
-          await exportXMI(xmlDoc, `${this.#fileName}.xmi`);
+          // A HEAD check reports unavailable artifacts without fetching a large
+          // XMI into browser memory before its normal materialized download.
+          const response = await fetch(this.#xmiUrl, { method: "HEAD" });
+          if (!response.ok)
+            throw new Error(`XMI download unavailable (${response.status})`);
+          if (status) status.textContent = "";
+          downloadMaterializedAsset(this.#xmiUrl);
         } catch (error) {
           console.error("XMI Export failed:", error);
+          if (status) status.textContent = "Download failed. Try again.";
         } finally {
           exportXmiBtn.classList.remove("exporting");
-          exportXmiBtn.disabled = false;
+          exportXmiBtn.removeAttribute("aria-busy");
+          exportXmiBtn.disabled = !this.#xmiUrl;
         }
       });
     }
@@ -562,11 +518,6 @@ export class OntologyUIController {
 
       if (viewModel.ontology.ontologyTitle) {
         document.title = viewModel.ontology.ontologyTitle;
-        this.#fileName = viewModel.ontology.ontologyTitle;
-
-        if (viewModel.ontology.modifiedAt) {
-          this.#fileName += ` [${viewModel.ontology.modifiedAt}]`;
-        }
       }
 
       this.#renderTable();

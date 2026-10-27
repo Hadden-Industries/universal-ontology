@@ -16,6 +16,7 @@ import { dirname, extname, join } from "node:path";
 import { promisify } from "node:util";
 
 import { chromium } from "playwright";
+import { recoverOntologyMetadata } from "../../scripts/uml/recoverOntologyMetadata.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -58,6 +59,7 @@ const CONTENT_TYPES = new Map([
   [".js", "text/javascript; charset=utf-8"],
   [".json", "application/json; charset=utf-8"],
   [".jsonld", "application/ld+json; charset=utf-8"],
+  [".xmi", "application/xml; charset=utf-8"],
 ]);
 
 async function put(root, relativePath, content) {
@@ -96,7 +98,6 @@ async function createFixture() {
     "ontologyTableSort.js",
     "ontology.css",
     "ontologyViewModel.js",
-    "OwlToUmlXmiConverter.js",
     "webmcp/createOntologyEntityDefinitionResolver.js",
     "webmcp/ontologyEntityDefinitionResultSchemas.js",
     "webmcp/registerDisplayedOntologyEntityDefinitionTool.js",
@@ -224,7 +225,7 @@ async function createObservedPage(browser) {
   return { page, consoleFailures, pageErrors, failedRequestUrls };
 }
 
-test("loads the built master page and downloads its materialized CSV", async () => {
+test("loads the built master page and downloads its materialized CSV and full XMI", async () => {
   const fixture = await createFixture();
   let browser;
   let server;
@@ -233,7 +234,7 @@ test("loads the built master page and downloads its materialized CSV", async () 
     await runViteBuild(fixture);
     await expect(
       access(join(fixture.outputDirectory, "OwlToUmlXmiConverter.js")),
-    ).resolves.toBeUndefined();
+    ).rejects.toMatchObject({ code: "ENOENT" });
     server = await startServer(fixture.outputDirectory);
     // These are the accepted authored policy bytes after JSON conformance,
     // independent of the package resolver and Vite copy implementation.
@@ -264,6 +265,7 @@ test("loads the built master page and downloads its materialized CSV", async () 
     const page = await browser.newPage();
     const failures = [];
     const responses = [];
+    const downloadAborts = [];
 
     await page.route("https://fonts.googleapis.com/**", async (route) => {
       await route.fulfill({ contentType: "text/css", body: "" });
@@ -277,9 +279,16 @@ test("loads the built master page and downloads its materialized CSV", async () 
     page.on("pageerror", (error) =>
       failures.push(`pageerror: ${error.message}`),
     );
-    page.on("requestfailed", (request) =>
-      failures.push(`request failed: ${request.url()}`),
-    );
+    page.on("requestfailed", (request) => {
+      // Chrome transfers native downloads out of the page request channel.
+      // Retain that observation separately and require completed download proof.
+      if (request.failure()?.errorText === "net::ERR_ABORTED")
+        downloadAborts.push(request.url());
+      else
+        failures.push(
+          `request failed: ${request.url()} (${request.failure()?.errorText})`,
+        );
+    });
     page.on("response", (response) => {
       responses.push(response.url());
       if (response.status() >= 400) {
@@ -330,12 +339,31 @@ test("loads the built master page and downloads its materialized CSV", async () 
     ).toBe("https://example.com/reference");
 
     const xmiDownloadPromise = page.waitForEvent("download");
-    await page.locator("#export-toggle").click();
-    await page.locator("#export-xmi").click();
+    await page.locator("#export-toggle").focus();
+    await page.locator("#export-toggle").press("Enter");
+    await page.locator("#export-xmi").focus();
+    await page.locator("#export-xmi").press("Enter");
     const xmiDownload = await xmiDownloadPromise;
 
-    expect(xmiDownload.suggestedFilename()).toBe(
-      "Hadden Industries Universal Core Ontology [2026-07-14].xmi",
+    expect(xmiDownload.suggestedFilename()).toBe("20260714-full.xmi");
+    expect(xmiDownload.url()).toBe(
+      `${server.origin}/ontology/universal/core/20260714-full.xmi`,
+    );
+    const recoveredXmi = await recoverOntologyMetadata(
+      await readFile(await xmiDownload.path()),
+    );
+    expect(await xmiDownload.failure()).toBeNull();
+    expect(recoveredXmi.manifest.pairedOwlSha256).toBe(
+      createHash("sha256")
+        .update(
+          await readFile(
+            join(fixture.outputDirectory, "universal/core/20260714-full"),
+          ),
+        )
+        .digest("hex"),
+    );
+    expect(responses.some((url) => url.includes("OwlToUmlXmiConverter"))).toBe(
+      false,
     );
 
     const downloadPromise = page.waitForEvent("download");
@@ -348,6 +376,12 @@ test("loads the built master page and downloads its materialized CSV", async () 
     );
     expect(download.suggestedFilename()).toBe("20260714.csv");
     expect(await readFile(await download.path(), "utf8")).toBe(EXPECTED_CSV);
+    expect(await download.failure()).toBeNull();
+    expect(
+      downloadAborts.every((url) =>
+        [xmiDownload.url(), download.url()].includes(url),
+      ),
+    ).toBe(true);
     expect(responses).not.toContain(`${server.origin}/ontology/ontologyCsv.js`);
     expect(
       responses.some(
@@ -422,6 +456,65 @@ test("loads the built master page and downloads its materialized CSV", async () 
       }
     }
     expect(failures).toEqual([]);
+    const unavailable = await browser.newPage();
+    await unavailable.route("https://fonts.googleapis.com/**", (route) =>
+      route.fulfill({ contentType: "text/css", body: "" }),
+    );
+    await unavailable.goto(
+      `${server.origin}/ontology/iso/example/20260714.html`,
+      { waitUntil: "networkidle" },
+    );
+    expect(await unavailable.locator("#export-xmi").isDisabled()).toBe(true);
+    expect(
+      await unavailable.locator("#xmi-export-description").textContent(),
+    ).toBe("Unavailable for this page");
+    expect(await unavailable.locator("#export-csv").isDisabled()).toBe(false);
+    await unavailable.goto(
+      `${server.origin}/ontology/universal/core/20260714-full.html`,
+      { waitUntil: "networkidle" },
+    );
+    expect(await unavailable.locator("#export-xmi").isEnabled()).toBe(true);
+    expect(
+      await unavailable.locator("#xmi-export-description").textContent(),
+    ).toContain("Full ontology");
+    await unavailable.route("**/20260714-full.xmi", (route) =>
+      route.request().method() === "HEAD"
+        ? route.fulfill({ status: 404, body: "" })
+        : route.continue(),
+    );
+    await unavailable.evaluate(() => {
+      const status = document.getElementById("xmi-export-status");
+      window.xmiStatusHistory = [];
+      new MutationObserver(() =>
+        window.xmiStatusHistory.push(status.textContent),
+      ).observe(status, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+    });
+    await unavailable.locator("#export-toggle").click();
+    await unavailable.locator("#export-xmi").click();
+    await unavailable.waitForFunction(
+      () =>
+        document.getElementById("xmi-export-status")?.textContent ===
+        "Download failed. Try again.",
+    );
+    expect(await unavailable.locator("#export-xmi").isEnabled()).toBe(true);
+    expect(
+      await unavailable.locator("#xmi-export-status").getAttribute("role"),
+    ).toBe("status");
+    await unavailable.locator("#export-xmi").click();
+    await unavailable.waitForFunction(
+      () => window.xmiStatusHistory.length === 4,
+    );
+    expect(await unavailable.evaluate(() => window.xmiStatusHistory)).toEqual([
+      "Checking availability…",
+      "Download failed. Try again.",
+      "Checking availability…",
+      "Download failed. Try again.",
+    ]);
+    await unavailable.close();
   } finally {
     await browser?.close();
     await server?.close();

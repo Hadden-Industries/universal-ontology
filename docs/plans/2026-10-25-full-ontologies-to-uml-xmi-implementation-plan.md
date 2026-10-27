@@ -1,7 +1,45 @@
 # Full ontology to UML XMI implementation plan
 
 Date: 25 October 2026.
-Status: **draft for design and implementation review; no implementation baseline or release approval**.
+Status: **accepted for local implementation on 26 October 2026; conformance gates remain mandatory; no release or deployment approval**.
+
+## Implementation checkpoint: 26 October 2026
+
+The owner's implementation request accepts this plan's scope, recommended R2 route and defaults, local signed commits and configuration changes required by this plan.
+Work stays on local `main`; no pushes, installation of desktop tools, deployment or live activation is authorized.
+The original planning observations below remain historical.
+
+The clean implementation baseline is `8eb21a102e751c290603fbf703578e20cf4a6c5b`, independently matched to remote `main`.
+The preceding JavaScript-performance work has released this worktree.
+Its unrelated retained evidence is outside this change.
+This document already existed in commit `fbeb64affde12cae6dd551a244ed7f185043859f`; this checkpoint records implementation acceptance before source changes.
+
+At the first checkpoint UO selected registry alias `npm:@hadden-industries/owlapi@0.1.0-rc.2`.
+The owner subsequently selected the latest upstream commit rather than the npm artifact, including access to its additional public functionality as needed.
+Fresh remote inspection identifies `36e28374447d94d9734960aaed6d3ab4be52ca17`; select `git+https://github.com/Hadden-Industries/owlapi.git#36e28374447d94d9734960aaed6d3ab4be52ca17` in the root manifest, regenerate the lock and clean-install with lifecycle scripts disabled.
+Qualify that exact package payload and public boundary before relying on it; additional public subpaths still need a demonstrated consumer and the existing boundary controls.
+
+Software selection reuses OwlAPI's public structural model, the existing collapse/fingerprint/build receipt, `@xmldom/xmldom` 0.9.12 (MIT), `@rubensworks/saxes` 6.0.1 (ISC) and `rdf-canonize` 5.0.0 (BSD-3-Clause); current registry metadata agrees with these selections.
+These supply OWL, XML and RDF canonicalization, but do not implement the UO inverse metadata contract.
+ODM is a design reference, with no copied profile assets.
+The residual custom work is that versioned contract, conservative projection and integration with UO's existing artifact lifecycle.
+
+Qualification candidates are [Eclipse UML2 5.6.1](https://download.eclipse.org/modeling/mdt/uml2/builds/release/5.6.1/) (EPL-2.0) and the independently implemented [PyEcore 0.15.2](https://pypi.org/project/pyecore/0.15.2/) (BSD-3-Clause).
+Exact qualification libraries are acquired into isolated task storage, without changing the repository Python environment or installing a desktop application.
+Their actual coordinate/profile support, full license texts, dependency identities and native diagnostics must be checked before general exporter work depends on them.
+An independent metamodel loader is not by itself a second complete UML semantic validator.
+The first witness must distinguish these claims and may change the proposed template; no hand-written subset validator may substitute for native conformance.
+
+The user owns scope and acceptance; the implementation maintainer authors the witness and independent golden cases.
+Final external review covers mapping correctness, recovery independence, parser/input trust boundaries and build/download integration.
+Use one consolidated final review and narrow repair follow-ups; allow Claude 30 minutes per run with Opus 5.5 at Max after 18:31 Europe/Bucharest, or `agy` Flash 3.8 at High before then.
+Run the full qualification only after external findings are resolved.
+Focused meaningful checks remain available during development.
+
+Reuse the existing task and native journals.
+Keep actual failed evidence, signing and exact-scope lint/format checks; omit duplicate evidence wrappers and helper-witnessed reruns.
+Defer disposable scratch cleanup until the undertaking ends.
+Later slices remain conditional on SLICE-001's actual native conformance, recovery, rights and operational gates.
 
 ## Purpose and controlling scope
 
@@ -105,16 +143,16 @@ Use the existing UO owner, implementation maintainer, designated mapping reviewe
 
 ### Current implementation seams
 
-| Current authority                                                                                                                                                 | Observed behavior                                                                                                                                                         | Planned use                                                                                                                                                       |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Materializer](../../scripts/materializeImportClosure.js)                                                                                                         | Loads the graph, assesses complete reconstruction, collapses it and calls the verified writer; returns no generation model                                                | Extract a cohesive internal load-and-collapse operation returning the owning manager, collapsed ontology and output format. Keep the existing CLI's OWL behavior. |
-| [Collapse operation](../../scripts/ontology/collapseImportsClosure.js)                                                                                            | Root ID/root annotations, no imports, structural axiom union, postcondition checks                                                                                        | Sole authority for what the generated full model contains                                                                                                         |
-| [Atomic OWL writer](../../scripts/ontology/atomicOntologyWriter.js) and [verifier](../../scripts/ontology/verifyStandaloneOntology.js)                            | Serialize, write/flush temporary bytes, read those bytes, fresh strict offline load, ID/import/fingerprint checks, then rename                                            | Retain unchanged guarantees; do not feed the verifier's reload into the XMI projection                                                                            |
-| [Full asset builder](../../scripts/build/fullOntologyAssets.js)                                                                                                   | Discovers dated candidates; only import-declaring candidates receive `-full`; creates local captured mapper, temporary OWL output, JSON-LD/CSV assets, hashes and receipt | Add qualified `-full.xmi` to the same selected roots and asset map; include new producer/contract identities                                                      |
-| [Build integration](../../scripts/build/ontologyAssets.js), [Vite lifecycle](../../scripts/build/vitePlugins.js), [full CLI](../../scripts/createFullVersions.js) | Shared asset generation, lock, output checks, receipt sealing after output verification                                                                                   | One implementation path for website and full-generation CLI                                                                                                       |
-| [Structural fingerprint](../../scripts/ontology/ontologyStructuralFingerprint.js)                                                                                 | Complete OWL structural digest modulo anonymous-individual renaming, using `rdf-canonize`                                                                                 | Reuse for semantic model identity and nonmutation evidence; do not assume this digest already supplies per-node canonical IDs                                     |
-| [Projection policy](../../packages/universal-ontology-projection-policy/src/ontologyProjectionProperties.js)                                                      | Current and applicable historical annotation-property resolution                                                                                                          | Reuse for display selection only; preservation traverses all source metadata independently                                                                        |
-| [Browser export](../../src/ontology.js) and [DOM converter](../../src/OwlToUmlXmiConverter.js)                                                                    | Fetch XML and transform DOM shapes on click                                                                                                                               | Replace the supported published export path with a generated artifact download after qualification                                                                |
+| Current authority                                                                                                                                                                                      | Observed behavior                                                                                                                                                         | Planned use                                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Materializer](../../scripts/materializeImportClosure.js)                                                                                                                                              | Loads the graph, assesses complete reconstruction, collapses it and calls the verified writer; returns no generation model                                                | Extract a cohesive internal load-and-collapse operation returning the owning manager, collapsed ontology and output format. Keep the existing CLI's OWL behavior. |
+| [Collapse operation](../../scripts/ontology/collapseImportsClosure.js)                                                                                                                                 | Root ID/root annotations, no imports, structural axiom union, postcondition checks                                                                                        | Sole authority for what the generated full model contains                                                                                                         |
+| [Atomic OWL writer](../../scripts/ontology/atomicOntologyWriter.js) and [verifier](../../scripts/ontology/verifyStandaloneOntology.js)                                                                 | Serialize, write/flush temporary bytes, read those bytes, fresh strict offline load, ID/import/fingerprint checks, then rename                                            | Retain unchanged guarantees; do not feed the verifier's reload into the XMI projection                                                                            |
+| [Full asset builder](../../scripts/build/fullOntologyAssets.js)                                                                                                                                        | Discovers dated candidates; only import-declaring candidates receive `-full`; creates local captured mapper, temporary OWL output, JSON-LD/CSV assets, hashes and receipt | Add qualified `-full.xmi` to the same selected roots and asset map; include new producer/contract identities                                                      |
+| [Build integration](../../scripts/build/ontologyAssets.js), [Vite lifecycle](../../scripts/build/vitePlugins.js), [full CLI](../../scripts/createFullVersions.js)                                      | Shared asset generation, lock, output checks, receipt sealing after output verification                                                                                   | One implementation path for website and full-generation CLI                                                                                                       |
+| [Structural fingerprint](../../scripts/ontology/ontologyStructuralFingerprint.js)                                                                                                                      | Complete OWL structural digest modulo anonymous-individual renaming, using `rdf-canonize`                                                                                 | Reuse for semantic model identity and nonmutation evidence; do not assume this digest already supplies per-node canonical IDs                                     |
+| [Projection policy](../../packages/universal-ontology-projection-policy/src/ontologyProjectionProperties.js)                                                                                           | Current and applicable historical annotation-property resolution                                                                                                          | Reuse for display selection only; preservation traverses all source metadata independently                                                                        |
+| [Browser export](../../src/ontology.js) and [retired DOM converter](https://github.com/Hadden-Industries/universal-ontology/blob/8eb21a102e751c290603fbf703578e20cf4a6c5b/src/OwlToUmlXmiConverter.js) | Fetch XML and transform DOM shapes on click                                                                                                                               | Replace the supported published export path with a generated artifact download after qualification                                                                |
 
 ```mermaid
 flowchart TD
@@ -538,6 +576,16 @@ Replan if the intended outcome changes to full logical OWL equivalence, source-b
 Do not resolve schedule pressure by reducing preservation to comments and retaining the word “lossless.”
 
 ## Planning evidence and next decision
+
+### Accepted implementation amendment: lightweight interchange
+
+The implementation owner required each qualified full XMI to be at most the byte size of its paired full OWL.
+The initial slot-per-edge encoding failed that requirement at about 16–90 MB.
+Version two uses typed composite profile values, shared lexical values, explicit encoding defaults and deterministic local references while retaining the complete canonical structural graph and every metadata attachment.
+Readable UML retains one bounded preferred definition excerpt; the typed source retains every complete definition and language.
+The exact inverse, independent RDF source oracle, native UML/profile validation and independent ordinary UML reader remain required.
+Native corpus/current-output qualification enforces the size ceiling; fixed-overhead miniature witnesses establish semantics and conformance separately.
+This amendment reuses the accepted task and route and adds no deployment or publication authority.
 
 This document records source inspection, a read-only HISEW applicability check, current local/remote OwlAPI identity and bounded primary-source checks.
 It does not record implementation tests, native UML reader acceptance, software-license clearance, completed HISEW routing, deployment or a commit.

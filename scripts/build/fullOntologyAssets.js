@@ -28,7 +28,10 @@ import { OntologyDocumentLoader } from "../ontology/ontologyDocumentLoader.js";
 import { assertLosslessOntologyLoad } from "../ontology/assertLosslessOntologyLoad.js";
 import { findOwlapiPackageRoot } from "../ontology/qualificationIdentity.js";
 import { parseRdfXmlToQuads } from "../rdfXmlToJsonLd.js";
-import { materializeImportClosure } from "../materializeImportClosure.js";
+import { loadCollapsedOntology } from "../ontology/loadCollapsedOntology.js";
+import { writeVerifiedOntology } from "../ontology/atomicOntologyWriter.js";
+import { exportOntologyUmlXmi } from "../uml/exportOntologyUmlXmi.js";
+import { UML_METADATA_CONTRACT } from "../uml/umlMetadataContract.js";
 import { OasisXmlCatalogIRIMapper } from "../ontology/oasisXmlCatalogIRIMapper.js";
 import { renderOntologyAssetsWithWorkers } from "./ontologyAssetWorkerPool.js";
 import { inventorySourceTree, resolveOutputPath } from "./sourceInventory.js";
@@ -38,8 +41,10 @@ export const FULL_ONTOLOGY_CUTOFF = "20260714";
 
 const RDF_TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 const OWL = "http://www.w3.org/2002/07/owl#";
-const SUFFIXES = ["-full", "-full.jsonld", "-full.csv"];
+const LEGACY_SUFFIXES = ["-full", "-full.jsonld", "-full.csv"];
+const SUFFIXES = [...LEGACY_SUFFIXES, "-full.xmi"];
 const offlineConfiguration = new OWLOntologyLoaderConfiguration({
+  behaviorProfileId: "normative-v1",
   parsingMode: "strict",
   remoteImports: false,
   remoteJsonLdContexts: false,
@@ -167,7 +172,9 @@ export async function discoverFullOntologyCandidates(options) {
       throw new Error(`Invalid root import declaration: ${source.outputPath}`);
     if (name >= FULL_ONTOLOGY_CUTOFF && importQuads.length === 0) {
       const loader = new OntologyDocumentLoader();
-      const manager = OWLManager.createOWLOntologyManager();
+      const manager = OWLManager.createOWLOntologyManager({
+        behaviorProfileId: "normative-v1",
+      });
       const parsed = await manager.loadOntologyGraphFromOntologyDocument(
         await loader.loadRootDocument(source.sourcePath, {
           config: offlineConfiguration,
@@ -218,6 +225,7 @@ function candidateEvidence(candidates) {
 async function producerEvidence() {
   const repository = fileURLToPath(new URL("../../", import.meta.url));
   const paths = [
+    "package.json",
     "package-lock.json",
     "docs/import-closure/contract.v1.json",
     "scripts/materializeImportClosure.js",
@@ -228,7 +236,7 @@ async function producerEvidence() {
     "src/ontologyCsv.js",
     "src/ontologyViewModel.js",
   ];
-  for (const folder of ["scripts/build", "scripts/ontology"]) {
+  for (const folder of ["scripts/build", "scripts/ontology", "scripts/uml"]) {
     for (const name of await readdir(resolve(repository, folder)))
       if (name.endsWith(".js")) paths.push(`${folder}/${name}`);
   }
@@ -379,19 +387,23 @@ export async function createFullOntologyAssets(options) {
     resolve(tmpdir(), "uo-full-materialization-"),
   );
   const assets = new Map();
+  const umlMetadata = [];
+  const dependency = JSON.parse(
+    await readFile(new URL("../../package.json", import.meta.url), "utf8"),
+  ).devDependencies.owlapi;
   try {
     for (const source of candidates.filter((s) => s.imports.length)) {
       const outputPath = `${source.outputPath}-full`;
       const temporary = resolveOutputPath(workspace, outputPath);
       await mkdir(dirname(temporary), { recursive: true });
       const observations = [];
-      await materializeImportClosure({
+      const model = await loadCollapsedOntology({
         inputPath: source.sourcePath,
-        outputPath: temporary,
         loaderConfiguration: offlineConfiguration,
         iriMapper: mapper,
         onDocument: (document) => observations.push(document),
       });
+      await writeVerifiedOntology({ ...model, outputPath: temporary });
       for (const document of observations) {
         const path = fileURLToPath(document.resolved);
         await captureInput(ctx, path, inputs);
@@ -403,6 +415,22 @@ export async function createFullOntologyAssets(options) {
       }
       const content = await readFile(temporary);
       assets.set(outputPath, content);
+      const exported = await exportOntologyUmlXmi({
+        ontology: model.ontology,
+        context: {
+          pairedOwlSha256: digest(content),
+          owlapi: dependency,
+          ontologyPath: source.outputPath,
+          behaviorProfileId: model.manager.getBehaviorProfileId(),
+        },
+      });
+      umlMetadata.push({
+        path: `${outputPath}.xmi`,
+        pairedOwlSha256: digest(content),
+        semanticModelSha256: exported.recovery.semanticModelSha256,
+        profileSha256: exported.recovery.manifest.profileSha256,
+        ...exported.diagnostics,
+      });
       const [rendered] = await renderOntologyAssetsWithWorkers({
         inputs: [
           {
@@ -416,16 +444,22 @@ export async function createFullOntologyAssets(options) {
       });
       assets.set(`${outputPath}.jsonld`, rendered.jsonLdContent);
       assets.set(`${outputPath}.csv`, rendered.csvContent);
+      assets.set(`${outputPath}.xmi`, Buffer.from(exported.xmi, "utf8"));
     }
   } finally {
     await rm(workspace, { recursive: true, force: true });
   }
   const receipt = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     cutoff: FULL_ONTOLOGY_CUTOFF,
     candidates: candidateEvidence(candidates),
     inputs,
     producer: await producerEvidence(),
+    umlMetadata: {
+      contractVersion: UML_METADATA_CONTRACT.version,
+      profile: UML_METADATA_CONTRACT.profile,
+      representations: umlMetadata,
+    },
     outputs: [...assets].map(([path, bytes]) => ({
       path,
       size: bytes.length,
@@ -435,6 +469,7 @@ export async function createFullOntologyAssets(options) {
       offlineClosure: true,
       jsonLdGraphEquivalent: true,
       csvProjection: true,
+      umlMetadataRecovery: true,
     },
   };
   await assertBuildInputs(ctx, receipt);
@@ -471,6 +506,7 @@ async function assertBuildInputs(ctx, receipt) {
       onDocument: (doc) => documents.push(doc),
     });
     const manager = OWLManager.createOWLOntologyManager({
+      behaviorProfileId: "normative-v1",
       documentLoader: loader,
       iriMappers: [mapper],
     });
@@ -562,7 +598,7 @@ export async function verifyFullOntologyBuild(options) {
     ),
   );
   if (
-    receipt.schemaVersion !== 1 ||
+    receipt.schemaVersion !== 2 ||
     receipt.cutoff !== FULL_ONTOLOGY_CUTOFF ||
     !Array.isArray(receipt.candidates) ||
     !Array.isArray(receipt.outputs) ||
@@ -570,9 +606,31 @@ export async function verifyFullOntologyBuild(options) {
     !receipt.producer ||
     !receipt.validation?.offlineClosure ||
     !receipt.validation?.jsonLdGraphEquivalent ||
-    !receipt.validation?.csvProjection
+    !receipt.validation?.csvProjection ||
+    !receipt.validation?.umlMetadataRecovery ||
+    receipt.umlMetadata?.contractVersion !== UML_METADATA_CONTRACT.version ||
+    receipt.umlMetadata?.profile !== UML_METADATA_CONTRACT.profile ||
+    !Array.isArray(receipt.umlMetadata?.representations)
   )
     throw new Error("Unsupported or incomplete full ontology build receipt");
+  const xmiOutputs = receipt.outputs.filter((o) =>
+    o.path.endsWith("-full.xmi"),
+  );
+  const representations = receipt.umlMetadata.representations;
+  if (
+    representations.length !== xmiOutputs.length ||
+    new Set(representations.map((r) => r.path)).size !==
+      representations.length ||
+    representations.some(
+      (r) =>
+        !xmiOutputs.some((o) => o.path === r.path) ||
+        !/^[a-f0-9]{64}$/u.test(r.semanticModelSha256) ||
+        !/^[a-f0-9]{64}$/u.test(r.profileSha256) ||
+        receipt.outputs.find((o) => o.path === r.path.slice(0, -4))?.sha256 !==
+          r.pairedOwlSha256,
+    )
+  )
+    throw new Error("Invalid UML metadata representation bindings");
   await assertBuildInputs(ctx, receipt);
   await assertOutputs(ctx, receipt);
   return receipt;
@@ -601,10 +659,14 @@ export async function beginFullOntologyBuild(options) {
       const allowed = new Set(
         candidates
           ?.filter((c) => c.imports?.length)
-          .flatMap((c) => SUFFIXES.map((s) => `${c.outputPath}${s}`)),
+          .flatMap((c) =>
+            (previous.schemaVersion === 1 ? LEGACY_SUFFIXES : SUFFIXES).map(
+              (s) => `${c.outputPath}${s}`,
+            ),
+          ),
       );
       if (
-        previous.schemaVersion !== 1 ||
+        ![1, 2].includes(previous.schemaVersion) ||
         previous.cutoff !== FULL_ONTOLOGY_CUTOFF ||
         !Array.isArray(candidates) ||
         !Array.isArray(previous.outputs) ||

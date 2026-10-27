@@ -279,7 +279,7 @@ class RealPublicationAdmissionTests(unittest.TestCase):
                 repository / "docs/import-closure/contract.v1.json",
                 root / "docs/import-closure/contract.v1.json",
             )
-            for name in ("package-lock.json", "requirements.lock.txt"):
+            for name in ("package.json", "package-lock.json", "requirements.lock.txt"):
                 shutil.copyfile(repository / name, root / name)
             base = "https://haddenindustries.com/ontology/"
             modules = publication.load_owned_modules()
@@ -351,6 +351,8 @@ class RealPublicationAdmissionTests(unittest.TestCase):
             )
             full = root / "dist/universal/core/20260912-full.jsonld"
             original = full.read_bytes()
+            manifest = root / "package.json"
+            original_manifest = manifest.read_bytes()
             forbidden = root / "dist/iso/31073/ed-1/20260912-full"
             with (
                 mock.patch.object(upload_to_s3, "SCRIPT_DIRECTORY", root / "scripts"),
@@ -368,12 +370,21 @@ class RealPublicationAdmissionTests(unittest.TestCase):
                         self.assertNotEqual(Path(observed["candidate"]), root / "dist")
                         self.assertEqual("force" in observed["args"], force)
                         observation.unlink()
-                    for fault in ("corrupt", "forbidden"):
+                    for fault in ("corrupt", "forbidden", "selector"):
                         with self.subTest(force=force, case=fault):
                             if fault == "corrupt":
                                 full.write_bytes(b"corrupt")
-                            else:
+                            elif fault == "forbidden":
                                 forbidden.write_bytes(b"unknown stale output")
+                            else:
+                                changed_manifest = json.loads(original_manifest)
+                                changed_manifest["devDependencies"]["owlapi"] = (
+                                    "git+https://github.com/Hadden-Industries/owlapi.git#"
+                                    + "0" * 40
+                                )
+                                manifest.write_text(
+                                    json.dumps(changed_manifest), encoding="utf-8"
+                                )
                             try:
                                 with self.assertRaises(SystemExit) as stop:
                                     upload_to_s3.main(arguments)
@@ -382,5 +393,7 @@ class RealPublicationAdmissionTests(unittest.TestCase):
                             finally:
                                 if fault == "corrupt":
                                     full.write_bytes(original)
-                                else:
+                                elif fault == "forbidden":
                                     forbidden.unlink()
+                                else:
+                                    manifest.write_bytes(original_manifest)

@@ -80,7 +80,7 @@ async function createWebsiteFixture() {
     `// REMOVE_FROM_PRODUCTION_JS
 const descriptiveFixtureVariableName = "loaded";
 document.querySelector("#app").dataset.state = descriptiveFixtureVariableName;
-window.loadConverter = () => import("./OwlToUmlXmiConverter.js");
+window.loadDeferredFeature = () => import("./DeferredFixtureFeature.js");
 `,
   );
   await put(
@@ -94,8 +94,8 @@ window.loadConverter = () => import("./OwlToUmlXmiConverter.js");
   );
   await put(
     sourceDirectory,
-    "OwlToUmlXmiConverter.js",
-    "export class OwlToUmlXmiConverter {}\n",
+    "DeferredFixtureFeature.js",
+    "export class DeferredFixtureFeature {}\n",
   );
   await put(
     sourceDirectory,
@@ -215,7 +215,7 @@ test("builds multi-page website and ontology assets with stable public paths", a
       "ontology.html",
       "ontology.js",
       "ontology.css",
-      "OwlToUmlXmiConverter.js",
+      "DeferredFixtureFeature.js",
       "nested/about.html",
       "nested/about.js",
       "external/kept.rdf",

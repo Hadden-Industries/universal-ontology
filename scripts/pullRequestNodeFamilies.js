@@ -87,7 +87,6 @@ export const NODE_TEST_FAMILIES = Object.freeze({
     "tests/json-ld-to-csv.test.js",
     "tests/ontology-csv.test.js",
     "tests/ontology-view-model.test.js",
-    "tests/owl-to-uml-xmi-converter.test.js",
     "tests/rdf-xml-to-json-ld.test.js",
     "tests/mcp/github-mcp-server-launcher.test.js",
   ]),

@@ -334,6 +334,7 @@ export const CHECK_INPUTS = {
   ],
   product_tests: [
     ...COMMON_INPUTS,
+    "docs/uml",
     "tooling/json",
     ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
     ":(glob)src/**/*.js",
@@ -384,6 +385,8 @@ export const CHECK_INPUTS = {
     "scripts/materializeImportClosure.js",
     "scripts/verifyFullOntologyBuild.js",
     "scripts/ontology",
+    "scripts/uml",
+    "docs/uml",
     "scripts/ontology_policy/publication.py",
     "scripts/upload_to_s3.py",
     "scripts/rdfXmlToJsonLd.js",
