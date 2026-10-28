@@ -445,6 +445,17 @@ test("a broader source merge reuses only Node and requires all other selected co
   expect(assertMainReuseCompletion(data.context, accepted, needs)).toBe(
     hash("f"),
   );
+  // A failed-job retry inherits the successful selector's original outputs.
+  // Keep both the selector and native assertion producing attempts unchanged.
+  const originalProof = clone(accepted);
+  const retryContext = {
+    ...data.context,
+    runAttempt: data.context.runAttempt + 1,
+  };
+  expect(assertMainReuseCompletion(retryContext, accepted, needs)).toBe(
+    hash("f"),
+  );
+  expect(accepted).toEqual(originalProof);
   for (const consumer of [
     "development",
     "ontology",
@@ -578,6 +589,15 @@ test.each([
   "cancelled-markdown",
   "stale-markdown",
   "foreign-main",
+  "foreign-main-revision",
+  "extra-main-field",
+  "future-producer-attempt",
+  "zero-producer-attempt",
+  "negative-producer-attempt",
+  "fractional-producer-attempt",
+  "string-producer-attempt",
+  "missing-producer-attempt",
+  "null-producer-attempt",
   "foreign-artifact",
   "reissued-proof",
   "changed-checkout",
@@ -614,6 +634,19 @@ test.each([
   if (scenario === "stale-markdown")
     needs.development.outputs["verified-revision"] = hash("0");
   if (scenario === "foreign-main") accepted.main.runId++;
+  if (scenario === "foreign-main-revision") accepted.main.revision = hash("c");
+  if (scenario === "extra-main-field") accepted.main.extra = true;
+  const invalidProducerAttempts = {
+    "future-producer-attempt": data.context.runAttempt + 1,
+    "zero-producer-attempt": 0,
+    "negative-producer-attempt": -1,
+    "fractional-producer-attempt": 1.5,
+    "string-producer-attempt": "1",
+    "missing-producer-attempt": undefined,
+    "null-producer-attempt": null,
+  };
+  if (Object.hasOwn(invalidProducerAttempts, scenario))
+    accepted.main.runAttempt = invalidProducerAttempts[scenario];
   if (scenario === "foreign-artifact") accepted.artifact.extra = true;
   if (scenario === "reissued-proof")
     accepted.record.proof = "ORIGINAL_PR_REUSE";

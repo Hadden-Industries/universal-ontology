@@ -336,6 +336,7 @@ export async function verifyOriginalPrQualification({
 export function assertMainReuseCompletion(context, qualification, needs) {
   assertOrdinaryMainContext(context);
   assertCheckPlan(context.plan);
+  const selectedMain = qualification?.main;
   fact(
     qualification?.schemaVersion === 1 &&
       qualification.proof === "ORIGINAL_PR_REUSE" &&
@@ -343,11 +344,16 @@ export function assertMainReuseCompletion(context, qualification, needs) {
         Object.keys(qualification).sort(),
         ["schemaVersion", "proof", "main", "artifact", "record"].sort(),
       ) &&
-      isDeepStrictEqual(qualification.main, {
-        runId: context.runId,
-        runAttempt: context.runAttempt,
-        revision: context.sha,
-      }) &&
+      isDeepStrictEqual(
+        Object.keys(selectedMain ?? {}).sort(),
+        ["runId", "runAttempt", "revision"].sort(),
+      ) &&
+      selectedMain.runId === context.runId &&
+      selectedMain.revision === context.sha &&
+      // Failed-job retries inherit trusted selector outputs from the producing
+      // attempt. Retain that ownership; reject invalid or future attempts.
+      id(selectedMain.runAttempt) &&
+      selectedMain.runAttempt <= context.runAttempt &&
       id(qualification.artifact?.id) &&
       /^sha256:[a-f0-9]{64}$/u.test(qualification.artifact.digest ?? "") &&
       isDeepStrictEqual(
