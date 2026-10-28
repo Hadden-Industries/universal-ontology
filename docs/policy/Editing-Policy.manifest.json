@@ -3,7 +3,7 @@
   "generator": "scripts/render_editing_policy.py",
   "policyIdentity": "sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb",
   "inputDigestAlgorithm": "sha256",
-  "inputDigest": "sha256:940783d8514f78b1ce6da2ec4aea2eaeb1041aae8ba4d2bc919d254ad5ce1687",
+  "inputDigest": "sha256:c39c6998c6d1a8026038fcf7dce5bc8461ee9f9b0b07d431744b399824f22868",
   "inputs": {
     ".json-quality.json": "feea413a0bbee87e665957be0766bacf259d39810213d367a09cc87401c3a879",
     ".markdown-quality-execution.json": "94ff41911ce6dc7e5693158fd99703802201b63f7d7fcdf9fca896a9df10b39a",
@@ -66,7 +66,7 @@
     "scripts/ontology_policy/reports.py": "10c8f3bba724d97fa8d73fa8eceb6b0a88ad26738511f985570290868564f06b",
     "scripts/ontology_policy/snapshots.py": "3c8985ce0e032c77844e65e02ab6aeb44b2d7003a04fa4e75f349db5078931f9",
     "scripts/ontology_policy/validation.py": "bd4e3bd1955573dd47cf411b201bec9b3e61629308e8d41a2586ab4d46ba3cea",
-    "scripts/renderEditingPolicyDiagrams.mjs": "31ceb6b1d6df53aa4c91d3731204aa22455180c85d7041380f66573662297e00",
+    "scripts/renderEditingPolicyDiagrams.mjs": "02304d734e302768b9e6a21e44376f62bd113e1e33795f4023a4b966bfcb5b06",
     "scripts/render_editing_policy.py": "d15f0abad12fa79b3399198c6db7a52ab6d65d54b364a70ec41b0d4bcfeafab4",
     "scripts/verifyEditingPolicyAccessibility.mjs": "283c0925de07083ec686c5496af8aff0069857a254b9ce48ee127fde964fe920",
     "tooling/markdown/package-lock.json": "62a2dceb491ab982d4614b695f12bd7075f05889d6db2321addf457227ff8869"

@@ -64,7 +64,9 @@ await selection.close();
 const browser = await puppeteer.launch({
   executablePath,
   headless: true,
-  args: sandboxArgs,
+  // The Linux headless shell defaults to full font hinting, including glyph
+  // bounds. Disable it for geometric label measurement with the pinned font.
+  args: [...sandboxArgs, "--font-render-hinting=none"],
 });
 const outputs = {};
 try {
