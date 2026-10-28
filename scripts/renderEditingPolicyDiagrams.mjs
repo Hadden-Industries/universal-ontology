@@ -5,6 +5,7 @@
 import { renderMermaid } from "@mermaid-js/mermaid-cli";
 import puppeteer from "puppeteer";
 import { chromium } from "playwright";
+import { initWasm, Resvg } from "@resvg/resvg-wasm";
 import { readFileSync } from "node:fs";
 
 const request = JSON.parse(readFileSync(0, "utf8"));
@@ -20,13 +21,14 @@ if (
   throw new Error(
     "The reviewed font licence differs from the installed font payload.",
   );
+const fontBytes = readFileSync(
+  new URL(
+    "../docs/editing-policy/source/fonts/open-sans-latin-400-normal.woff2",
+    import.meta.url,
+  ),
+);
 if (
-  !readFileSync(
-    new URL(
-      "../docs/editing-policy/source/fonts/open-sans-latin-400-normal.woff2",
-      import.meta.url,
-    ),
-  ).equals(
+  !fontBytes.equals(
     readFileSync(
       new URL(
         "../node_modules/@fontsource/open-sans/files/open-sans-latin-400-normal.woff2",
@@ -41,6 +43,9 @@ if (
 const fontFamily = "UO Editing Policy Open Sans";
 if (!Array.isArray(request.diagrams) || request.diagrams.length !== 7)
   throw new Error("Exactly seven validated diagram definitions are required.");
+await initWasm(
+  readFileSync(new URL(import.meta.resolve("@resvg/resvg-wasm/index_bg.wasm"))),
+);
 // Playwright selects its headless-shell executable for headless launches.
 // executablePath() names the separate full browser, which need not be usable.
 // Resolve the actual installed selection through the public launch-server API.
@@ -72,54 +77,68 @@ try {
       throw new Error("Invalid diagram definition.");
     for (const theme of ["light", "dark"]) {
       const dark = theme === "dark";
-      for (const format of ["svg", "png"]) {
-        const { data } = await renderMermaid(
-          browser,
-          diagram.definition,
-          format,
+      const { data } = await renderMermaid(browser, diagram.definition, "svg", {
+        svgId: `editing-policy-${diagram.id}-${theme}`,
+        backgroundColor: dark ? "#171b20" : "#ffffff",
+        viewport: { width: 1200, height: 1200, deviceScaleFactor: 1 },
+        fontEmbed: true,
+        // Upstream adds its normal/italic stylesheets concurrently. A unique
+        // single-face family avoids their non-deterministic embedding order.
+        customFontCSS: [
           {
-            svgId: `editing-policy-${diagram.id}-${theme}`,
-            backgroundColor: dark ? "#171b20" : "#ffffff",
-            viewport: { width: 1200, height: 1200, deviceScaleFactor: 1 },
-            fontEmbed: true,
-            // Upstream adds its normal/italic stylesheets concurrently. A unique
-            // single-face family avoids their non-deterministic embedding order.
-            customFontCSS: [
-              {
-                cssUrl: new URL(
-                  "../docs/editing-policy/source/fonts/open-sans.css",
-                  import.meta.url,
-                ),
-                allowParentDirectoryLevel: 0,
-              },
-            ],
-            mermaidConfig: {
-              securityLevel: "strict",
-              htmlLabels: false,
-              deterministicIds: true,
-              deterministicIDSeed: diagram.id,
-              theme: "base",
-              fontFamily,
-              themeVariables: {
-                fontFamily,
-                fontSize: "18px",
-                primaryColor: dark ? "#252d36" : "#f1f3f5",
-                primaryTextColor: dark ? "#f5f7fa" : "#17202a",
-                primaryBorderColor: dark ? "#b8c3d0" : "#485563",
-                lineColor: dark ? "#b8c3d0" : "#485563",
-                secondaryColor: dark ? "#252d36" : "#f1f3f5",
-                tertiaryColor: dark ? "#252d36" : "#f1f3f5",
-                edgeLabelBackground: dark ? "#171b20" : "#ffffff",
-              },
-              flowchart: {
-                useMaxWidth: true,
-                curve: "linear",
-              },
-            },
+            cssUrl: new URL(
+              "../docs/editing-policy/source/fonts/open-sans.css",
+              import.meta.url,
+            ),
+            allowParentDirectoryLevel: 0,
           },
-        );
-        outputs[`${diagram.id}-${theme}.${format}`] =
-          Buffer.from(data).toString("base64");
+        ],
+        mermaidConfig: {
+          securityLevel: "strict",
+          htmlLabels: false,
+          deterministicIds: true,
+          deterministicIDSeed: diagram.id,
+          theme: "base",
+          fontFamily,
+          // Measure glyph outlines rather than platform-specific hinted bounds.
+          // Edge-label backgrounds otherwise change the graph layout by OS.
+          themeCSS: "text { text-rendering: geometricPrecision; }",
+          themeVariables: {
+            fontFamily,
+            fontSize: "18px",
+            primaryColor: dark ? "#252d36" : "#f1f3f5",
+            primaryTextColor: dark ? "#f5f7fa" : "#17202a",
+            primaryBorderColor: dark ? "#b8c3d0" : "#485563",
+            lineColor: dark ? "#b8c3d0" : "#485563",
+            secondaryColor: dark ? "#252d36" : "#f1f3f5",
+            tertiaryColor: dark ? "#252d36" : "#f1f3f5",
+            edgeLabelBackground: dark ? "#171b20" : "#ffffff",
+          },
+          flowchart: {
+            useMaxWidth: true,
+            curve: "linear",
+          },
+        },
+      });
+      outputs[`${diagram.id}-${theme}.svg`] =
+        Buffer.from(data).toString("base64");
+      // Rasterize the exact accessible SVG with one portable engine and the
+      // reviewed font. Browser screenshots depend on host OS font rendering.
+      const rasterizer = new Resvg(data, {
+        background: dark ? "#171b20" : "#ffffff",
+        font: { fontBuffers: [fontBytes], defaultFontFamily: "Open Sans" },
+      });
+      try {
+        const image = rasterizer.render();
+        try {
+          outputs[`${diagram.id}-${theme}.png`] = Buffer.from(
+            image.asPng(),
+          ).toString("base64");
+        } finally {
+          image.free();
+        }
+      } finally {
+        rasterizer.free();
       }
     }
   }
@@ -139,6 +158,15 @@ try {
       readFileSync(
         new URL(
           "../node_modules/@fontsource/open-sans/package.json",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    ).version,
+    rasterizerVersion: JSON.parse(
+      readFileSync(
+        new URL(
+          "../node_modules/@resvg/resvg-wasm/package.json",
           import.meta.url,
         ),
         "utf8",

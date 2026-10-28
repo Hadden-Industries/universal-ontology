@@ -29,7 +29,10 @@ Generation writes the page, sidebar fragment, model, preservation report, manife
 `--output FILE` retains the original single-page interface; `--output-dir DIRECTORY` renders or checks the complete bundle elsewhere.
 Formatting, dependency installation and browser acquisition are separate operations.
 
-The locked Mermaid CLI 12.0.0 (MIT) renders SVG and PNG with the existing Playwright Chromium headless shell and embedded Open Sans 5.3.0 fonts (SIL OFL 1.1).
+The locked Mermaid CLI 12.0.0 (MIT) renders accessible SVG with the existing Playwright Chromium headless shell and embedded Open Sans 5.3.0 fonts (SIL OFL 1.1).
+SVG text uses geometric precision so edge-label measurements do not depend on platform font hinting.
+The locked resvg WebAssembly 2.6.2 (MPL-2.0) converts those exact SVGs to PNG with the same pinned font, without system fonts or browser screenshots.
+SVGs retain selectable text and embedded fonts; alt text and complete text equivalents accompany every diagram.
 Marked 18.1.2 (MIT) supplies GFM parsing, and Axe Playwright 4.14.0 (MPL-2.0) checks the local preview.
 Versions are minimum declarations with exact npm-lock selections, following repository policy.
 The Mermaid Node API is not covered by upstream semantic versioning; the lock and deterministic rendering tests protect its use.
@@ -37,7 +40,7 @@ No package or browser is downloaded by a generation or verification command.
 For a separately authorised browser installation, use `npm run install:editing-policy-browser`.
 CI provisions that locked browser in the existing consumers.
 
-Native reuse and API references: [Mermaid CLI](https://github.com/mermaid-js/mermaid-cli#use-nodejs-api), [Marked](https://marked.js.org/using_pro), [Axe Playwright](https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright), and [SHACL](https://www.w3.org/TR/shacl/).
+Native reuse and API references: [Mermaid CLI](https://github.com/mermaid-js/mermaid-cli#use-nodejs-api), [resvg WebAssembly](https://github.com/thx/resvg-js/blob/main/wasm/index.d.ts), [Marked](https://marked.js.org/using_pro), [Axe Playwright](https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright), and [SHACL](https://www.w3.org/TR/shacl/).
 Open Sans licence text accompanies generated assets.
 The pinned authority snapshots used by policy fixtures remain independent of diagram tooling.
 

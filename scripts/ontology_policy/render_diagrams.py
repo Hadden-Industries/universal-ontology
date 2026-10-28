@@ -200,7 +200,13 @@ def render_diagram_assets(model: DocumentationModel) -> dict[str, bytes]:
     if (
         not isinstance(toolchain, dict)
         or set(toolchain)
-        != {"nodeVersion", "browserVersion", "mermaidCliVersion", "fontVersion"}
+        != {
+            "nodeVersion",
+            "browserVersion",
+            "mermaidCliVersion",
+            "fontVersion",
+            "rasterizerVersion",
+        }
         or not all(isinstance(value, str) and value for value in toolchain.values())
     ):
         raise ValueError("Diagram renderer did not identify its actual toolchain")

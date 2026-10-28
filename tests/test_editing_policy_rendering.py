@@ -8,6 +8,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+from defusedxml import ElementTree
+
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPOSITORY_ROOT / "scripts"))
 
@@ -184,6 +186,16 @@ class RendererCommandTest(unittest.TestCase):
             self.assertEqual(
                 len(list((first / "assets/editing-policy").glob("*.png"))), 14
             )
+            for name, raw in a.items():
+                if name.endswith(".svg"):
+                    with self.subTest(accessible_svg=name):
+                        document = ElementTree.fromstring(raw)
+                        labels = document.findall(".//{http://www.w3.org/2000/svg}text")
+                        self.assertGreaterEqual(len(labels), 2)
+                        self.assertTrue(
+                            all("".join(label.itertext()).strip() for label in labels)
+                        )
+                        self.assertIn(b"data:font/woff2;base64,", raw)
             asset = first / "assets/editing-policy/entity-anatomy-light.svg"
             asset.write_bytes(b"changed asset")
             result = run_renderer("--check", "--output-dir", str(first))
