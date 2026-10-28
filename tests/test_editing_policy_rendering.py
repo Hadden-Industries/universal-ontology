@@ -196,7 +196,38 @@ class RendererCommandTest(unittest.TestCase):
     def test_check_mode_passes_for_the_committed_document_and_writes_nothing(self):
         before = GENERATED_DOCUMENT_PATH.read_bytes()
         completed = run_renderer("--check")
-        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+        details = completed.stdout + completed.stderr
+        if completed.returncode == 1:
+            # Keep a platform mismatch actionable without dumping embedded fonts
+            # or changing any committed output. Only the failed case rerenders.
+            from ontology_policy.documentation_outputs import documentation_outputs
+
+            policy = load_policy()
+            expected = documentation_outputs(
+                policy, format_generated_document(render_editing_policy(policy))
+            )
+            for name in sorted(expected):
+                if not name.endswith("-light.svg"):
+                    continue
+                path = GENERATED_DOCUMENT_PATH.parent / name
+                if path.is_symlink() or path.is_junction() or not path.is_file():
+                    details += f"\n{name}: missing or non-regular asset\n"
+                    continue
+                actual = path.read_bytes()
+                generated = expected[name]
+                if actual == generated:
+                    continue
+                offset = next(
+                    (i for i, (a, b) in enumerate(zip(actual, generated)) if a != b),
+                    min(len(actual), len(generated)),
+                )
+                start = max(0, offset - 60)
+                details += (
+                    f"\n{name}, first differing byte {offset}:"
+                    f"\ncommitted: {actual[start : offset + 100]!r}"
+                    f"\ngenerated: {generated[start : offset + 100]!r}\n"
+                )
+        self.assertEqual(completed.returncode, 0, details)
         self.assertEqual(GENERATED_DOCUMENT_PATH.read_bytes(), before)
 
     def test_check_mode_fails_for_a_hand_edited_document(self):
