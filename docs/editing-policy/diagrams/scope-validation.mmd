@@ -6,7 +6,7 @@ flowchart TD
     subject --> dataset["Dataset namespace or explicit Dataset type"]
     subject --> distribution["Distribution namespace or explicit Distribution type"]
     entity --> excluded{"Dataset or distribution namespace?"}
-    excluded -->|No| ordinary["Ordinary entity targets apply"]
-    excluded -->|Yes| specialist["Ordinary entity targets exclude these namespaces"]
+    excluded --> ordinary["Other entity namespace: ordinary entity targets apply"]
+    excluded --> specialist["Dataset or distribution namespace: ordinary entity targets exclude these namespaces"]
     subject --> language["Descriptive-language target still covers all owned subjects"]
     overlap["Selectors can overlap; these branches are not disjoint sets"] --- subject

@@ -1,7 +1,7 @@
 flowchart TD
     search["Search active ontologies and synonyms"] --> exists{"Same meaning exists?"}
-    exists -->|Yes| reuse["Reuse the existing concept"]
-    exists -->|No| broader["Choose an appropriate broader concept"]
+    exists --> reuse["Same meaning exists: reuse the existing concept"]
+    exists --> broader["No same meaning: choose an appropriate broader concept"]
     broader --> kind["Choose ordinary entity or specialist profile"]
     kind --> edit["Prepare meaning, names, identity and attribution"]
     edit --> check["Run applicable executable checks"]

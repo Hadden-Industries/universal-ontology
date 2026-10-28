@@ -64,9 +64,7 @@ await selection.close();
 const browser = await puppeteer.launch({
   executablePath,
   headless: true,
-  // The Linux headless shell defaults to full font hinting, including glyph
-  // bounds. Disable it for geometric label measurement with the pinned font.
-  args: [...sandboxArgs, "--font-render-hinting=none"],
+  args: sandboxArgs,
 });
 const outputs = {};
 try {
@@ -103,7 +101,7 @@ try {
           theme: "base",
           fontFamily,
           // Measure glyph outlines rather than platform-specific hinted bounds.
-          // Edge-label backgrounds otherwise change the graph layout by OS.
+          // Diagram conditions live in nodes; edge-label ink bounds vary by OS.
           themeCSS: "text { text-rendering: geometricPrecision; }",
           themeVariables: {
             fontFamily,

@@ -1,8 +1,8 @@
 flowchart TD
-    comparison{"Comparison snapshot available?"} -->|No| unevaluated["Change obligation unevaluated; supplied values still checked"]
-    comparison -->|Yes| changed{"Existing entity content changed?"}
-    changed -->|Yes| required["Valid modification value required"]
-    changed -->|No| optional["No comparison-based requirement for a value"]
+    comparison{"Comparison snapshot available?"} --> unevaluated["No snapshot: change obligation unevaluated; supplied values still checked"]
+    comparison --> changed{"Snapshot available: existing entity content changed?"}
+    changed --> required["Changed existing entity: valid modification value required"]
+    changed --> optional["New or unchanged entity: no comparison-based requirement for a value"]
     required --> retained["An unchanged valid timestamp is accepted"]
     optional --> constrained["Any supplied value remains constrained"]
     new["Newly added entity"] --> optional

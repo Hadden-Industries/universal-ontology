@@ -30,7 +30,7 @@ Generation writes the page, sidebar fragment, model, preservation report, manife
 Formatting, dependency installation and browser acquisition are separate operations.
 
 The locked Mermaid CLI 12.0.0 (MIT) renders accessible SVG with the existing Playwright Chromium headless shell and embedded Open Sans 5.3.0 fonts (SIL OFL 1.1).
-SVG text uses geometric precision so edge-label measurements do not depend on platform font hinting.
+SVG text uses geometric precision, and branch conditions are explicit in node text to avoid platform-dependent edge-label bounds.
 The locked resvg WebAssembly 2.6.2 (MPL-2.0) converts those exact SVGs to PNG with the same pinned font, without system fonts or browser screenshots.
 SVGs retain selectable text and embedded fonts; alt text and complete text equivalents accompany every diagram.
 Marked 18.1.2 (MIT) supplies GFM parsing, and Axe Playwright 4.14.0 (MPL-2.0) checks the local preview.
