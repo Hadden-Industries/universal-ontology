@@ -167,11 +167,12 @@ class NativeModuleFamiliesTest(unittest.TestCase):
             )
 
     def test_family_inventory_matches_reviewed_runtime_contract(self):
-        self.assertEqual(len(self.runner.PYTHON_ONLY_MODULES), 13)
+        self.assertEqual(len(self.runner.PYTHON_ONLY_MODULES), 14)
         self.assertEqual(
             self.runner.NODE_BACKED_MODULES,
             frozenset(
                 (
+                    "test_editing_policy_rendering.py",
                     "test_set_up_mcp_servers.py",
                     "test_upload_to_s3.py",
                 )

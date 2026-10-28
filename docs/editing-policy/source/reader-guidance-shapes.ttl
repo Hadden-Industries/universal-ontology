@@ -1,0 +1,13 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix doc: <urn:universal-ontology:docs:editing-policy:> .
+
+doc:ContributorSummaryShape a sh:NodeShape ;
+    sh:targetClass doc:ContributorSummary ;
+    sh:targetNode doc:meaning, doc:change-kind, doc:ordinary-entity, doc:modification, doc:datasets, doc:review ;
+    sh:class doc:ContributorSummary ;
+    sh:property [ sh:path doc:title ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path doc:summary ; sh:minCount 1 ; sh:maxCount 1 ; sh:languageIn ( "en-GB" ) ] ;
+    sh:property [ sh:path doc:referencesRequirement ; sh:minCount 1 ; sh:datatype xsd:string ; sh:pattern "^EP-[A-Z0-9-]+$" ] ;
+    sh:property [ sh:path doc:nonNormative ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+    sh:property [ sh:path doc:order ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] .

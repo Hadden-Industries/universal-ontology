@@ -100,6 +100,7 @@ Ordinary development and contribution do not need them.
 | Ontology validation        | `npm run validate:ontologies -- --purpose draft`         | Diagnostics on changed sources; `--staged` validates the staged bytes (what the pre-commit hook does).           |
 | Active-set qualification   | `npm run validate:ontologies -- --purpose latest-active` | Qualifies the active module set recorded in `policy/activation.ttl` and writes the publication receipt.          |
 | Generated editing policy   | `npm run check:editing-policy`                           | Fails when `docs/policy/Editing-Policy.generated.md` is stale; `npm run generate:editing-policy` regenerates it. |
+| Policy accessibility       | `npm run check:editing-policy:accessibility`             | Local GFM, links, eight viewport/theme cases, keyboard disclosures and Axe; live Wiki acceptance is separate.    |
 | Website build              | `npm run build:verify`                                   | Preserves tracked inputs and writes ignored `dist/` output. `npm run build` also runs Vite directly.             |
 | JSON-LD generation         | `npm run generate:json-ld`                               |                                                                                                                  |
 | MCP package                | `npm run build:mcp-package`                              | See [docs/mcp/local-development.md](mcp/local-development.md).                                                   |
@@ -330,6 +331,12 @@ Strict whitespace and heading rules remain enabled.
 Generated policy is processed through the public logical-document operation at the canonical output path against the actual repository root, without scratch files or checkout writes.
 Its configured exclusion preserves raw graph-rendered bytes; freshness still rejects a changed graph or hand-edited document.
 Regenerate with `npm run generate:editing-policy`.
+Generation now checks the complete model, preservation report, sidebar, manifest and seven light/dark SVG/PNG diagram families.
+It uses the locked root Mermaid tooling and the existing Playwright Chromium headless shell without downloading packages or browsers.
+Browser installation is a separate explicit operation: `npm run install:editing-policy-browser`.
+Rendering CLI tests belong to the Node-backed Python family; pure extraction and local Wiki preparation tests remain in the Python-only family.
+The generated sidebar is also excluded from authored Markdown formatting because its links target Wiki page names.
+See the [documentation authoring guide](editing-policy/README.md) for source ownership and release acceptance limits.
 
 Root npm commands invoke installed public bins in the isolated tooling project.
 The generator resolves the public bin declaration; the package owns bounded invocation, validation, selection, staging and native observation.
@@ -408,9 +415,9 @@ Pull requests run, as applicable to the changed files:
 - [Ontology validation](../.github/workflows/ontology-validation.yml): the editing policy on the changed sources, policy/publication-gate tests, and the Linux/Windows two-engine qualification of the active set.
 - [Development checks](../.github/workflows/development-checks.yml): fresh full-corpus Markdown and JSON checks on Linux and Windows on every route, Python style on Linux, Python tests on Linux and Windows when their inputs change, an offline validation of `skills-lock.json` on Linux when the lock or its tooling changes, and Linux/Windows matrices for affected style tools or development tools.
   Development and toolchain verification use `npm run set-up:development`; the JSON matrix installs the root locked Node graph with lifecycle scripts disabled, while the Markdown matrix installs its isolated locked tools.
-  Python tests have two native owners: twelve Python-only modules use the hash-locked `.venv` without Node dependency installation; three modules covering Skills/MCP setup and website publication retain full development setup.
+  Python tests have two native owners: fourteen Python-only modules use the hash-locked `.venv` without Node dependency installation; three modules covering policy rendering, MCP setup and website publication retain full development setup.
   Both owners keep Linux and Windows coverage.
-  Changes wholly within the twelve known Python-only test files select the Python-only owner; source, mixed, runtime and shared-control changes retain Node-backed assurance.
+  Changes wholly within the fourteen known Python-only test files select the Python-only owner; source, mixed, runtime and shared-control changes retain Node-backed assurance.
   Newly discovered modules belong to the Node-backed family until reviewed.
   `npm run test:python` still runs every module; `-- --family python-only` and `-- --family node-backed` select the two inventories.
 - [MCP distribution](../.github/workflows/verify-universal-ontology-mcp-distribution.yml): affected application bundle and documentation checks; product tests and website builds have distinct jobs in the caller.

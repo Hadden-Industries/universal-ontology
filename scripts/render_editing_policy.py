@@ -16,6 +16,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from ontology_policy.documentation_outputs import compare_outputs, documentation_outputs  # noqa: E402
 from ontology_policy.modules import PolicyDefinitionError  # noqa: E402
 from ontology_policy.namespaces import POLICY_DIRECTORY  # noqa: E402
 from ontology_policy.policy import load_policy  # noqa: E402
@@ -113,8 +114,13 @@ def main(argv=None) -> int:
     parser.add_argument(
         "--output",
         type=Path,
-        default=GENERATED_DOCUMENT_PATH,
+        default=None,
         help="Generated document path",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        help="Write/check the complete publication bundle in this directory",
     )
     parser.add_argument(
         "--policy-directory",
@@ -123,9 +129,13 @@ def main(argv=None) -> int:
         help="Directory holding the policy .ttl files",
     )
     args = parser.parse_args(argv)
+    if args.output is not None and args.output_dir is not None:
+        parser.error("--output and --output-dir are mutually exclusive")
     try:
-        rendered = format_generated_document(
-            render_editing_policy(load_policy(args.policy_directory))
+        policy = load_policy(args.policy_directory)
+        rendered = format_generated_document(render_editing_policy(policy))
+        outputs = documentation_outputs(
+            policy, rendered, include_assets=args.output is None
         )
     except (
         PolicyDefinitionError,
@@ -137,18 +147,36 @@ def main(argv=None) -> int:
         print(f"POLICY_DEFINITION_ERROR: {error}", file=sys.stderr)
         return 2
     if args.check:
-        current = args.output.read_bytes() if args.output.is_file() else None
-        if current == rendered:
-            print(f"{args.output} is current.")
+        stale = (
+            (
+                [str(args.output)]
+                if not args.output.is_file() or args.output.read_bytes() != rendered
+                else []
+            )
+            if args.output is not None
+            else compare_outputs(
+                args.output_dir or GENERATED_DOCUMENT_PATH.parent, outputs
+            )
+        )
+        if not stale:
+            print("Editing Policy output is current.")
             return 0
         print(
-            f"{args.output} is stale or missing; regenerate it from the policy sources.",
+            f"Editing Policy outputs are stale or missing: {', '.join(stale)}; regenerate from the policy sources.",
             file=sys.stderr,
         )
         return 1
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_bytes(rendered)
-    print(f"Wrote {args.output} ({len(rendered)} bytes).")
+    if args.output is not None:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_bytes(rendered)
+        print(f"Wrote {args.output} ({len(rendered)} bytes).")
+    else:
+        directory = args.output_dir or GENERATED_DOCUMENT_PATH.parent
+        for relative, raw in outputs.items():
+            path = directory / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(raw)
+        print(f"Wrote {len(outputs)} Editing Policy outputs.")
     return 0
 
 

@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "diagrams": [
+    {
+      "id": "policy-journey",
+      "source": "docs/editing-policy/diagrams/policy-journey.mmd",
+      "textEquivalent": "docs/editing-policy/diagrams/policy-journey.md",
+      "alt": "Search before creating a concept; reuse and human judgement remain separate from executable checks.",
+      "requirementIds": [
+        "EP-HUMAN-CONCEPT-REUSE"
+      ],
+      "reviewedRuleFingerprints": {
+        "EP-HUMAN-CONCEPT-REUSE": "sha256:f13258b7125a80ec9046b943740c179880b58df404637d59e92d2a29b3ee116a"
+      },
+      "lightSvg": "docs/policy/assets/editing-policy/policy-journey-light.svg",
+      "lightPng": "docs/policy/assets/editing-policy/policy-journey-light.png",
+      "darkSvg": "docs/policy/assets/editing-policy/policy-journey-dark.svg",
+      "darkPng": "docs/policy/assets/editing-policy/policy-journey-dark.png"
+    },
+    {
+      "id": "entity-anatomy",
+      "source": "docs/editing-policy/diagrams/entity-anatomy.mmd",
+      "textEquivalent": "docs/editing-policy/diagrams/entity-anatomy.md",
+      "alt": "Ordinary entity metadata separates meaning, names, identity, creation and change obligations.",
+      "requirementIds": [
+        "EP-ENTITY-UUID",
+        "EP-ENTITY-CREATOR",
+        "EP-ENTITY-CREATED",
+        "EP-DEFINITION",
+        "EP-PREFLABEL-LANGUAGE",
+        "EP-PREFLABEL-LABEL"
+      ],
+      "reviewedRuleFingerprints": {
+        "EP-ENTITY-UUID": "sha256:cbd74434cd0ee3a1f2458e65884c2167d02aea542e28a5bbaa8f83e36bd4436e",
+        "EP-ENTITY-CREATOR": "sha256:121d1a12e49cc070a08e831d084649c2ede65f6fc75a9b25e6a74d1bd1e95e49",
+        "EP-ENTITY-CREATED": "sha256:907d26eb2a0bba5d01c378bb4e973e087a2ff445889b917c2469324c8cf51057",
+        "EP-DEFINITION": "sha256:17c201f386746986489f27d0d4d430760af7ff16653b4defee4103d860151152",
+        "EP-PREFLABEL-LANGUAGE": "sha256:9c5c63c6376133130c90ba9218b21039403329e8bca6fa1b75a72f6838be5148",
+        "EP-PREFLABEL-LABEL": "sha256:fe961f6fd6ffd877457a483e987d0043c0058c3b7ddeba0edf51249de39316ca"
+      },
+      "lightSvg": "docs/policy/assets/editing-policy/entity-anatomy-light.svg",
+      "lightPng": "docs/policy/assets/editing-policy/entity-anatomy-light.png",
+      "darkSvg": "docs/policy/assets/editing-policy/entity-anatomy-dark.svg",
+      "darkPng": "docs/policy/assets/editing-policy/entity-anatomy-dark.png"
+    },
+    {
+      "id": "dataset-access-guide",
+      "source": "docs/editing-policy/diagrams/dataset-access-guide.mmd",
+      "textEquivalent": "docs/editing-policy/diagrams/dataset-access-guide.md",
+      "alt": "A Dataset may link to Distributions; access routes and optional media types follow the local profile.",
+      "requirementIds": [
+        "EP-DATASET-DISTRIBUTION",
+        "EP-DATASET-LANDING",
+        "EP-DISTRIBUTION-REQUIRED",
+        "EP-DISTRIBUTION-DOWNLOAD",
+        "EP-DISTRIBUTION-MEDIA"
+      ],
+      "reviewedRuleFingerprints": {
+        "EP-DATASET-DISTRIBUTION": "sha256:99be94100b925e0c369b857ec9c395338435ed7b35fb3b5d1a4447d1cf3f14d8",
+        "EP-DATASET-LANDING": "sha256:fab89aff8ccbf2e164f003c3ca1b46f28d37689cc9e700f8f3f6610fcfff22d6",
+        "EP-DISTRIBUTION-REQUIRED": "sha256:04dc548647595ae152a0e796548168c32090cda50f6c9b41cfbd49226ed42d1e",
+        "EP-DISTRIBUTION-DOWNLOAD": "sha256:80fe97b84f27c13d7fb0204cb3a30c97b1a673c941e55d73577ee0e1db3048c7",
+        "EP-DISTRIBUTION-MEDIA": "sha256:4f486cfb0de509c94720c0cca4fbceff720d74eac56a77704a9e215930acb2b6"
+      },
+      "lightSvg": "docs/policy/assets/editing-policy/dataset-access-guide-light.svg",
+      "lightPng": "docs/policy/assets/editing-policy/dataset-access-guide-light.png",
+      "darkSvg": "docs/policy/assets/editing-policy/dataset-access-guide-dark.svg",
+      "darkPng": "docs/policy/assets/editing-policy/dataset-access-guide-dark.png"
+    },
+    {
+      "id": "scope-validation",
+      "source": "docs/editing-policy/diagrams/scope-validation.mmd",
+      "textEquivalent": "docs/editing-policy/diagrams/scope-validation.md",
+      "alt": "Trusted ownership feeds overlapping targets; dedicated DCAT namespaces are excluded from ordinary entity targets.",
+      "requirementIds": [
+        "EP-ENTITY-UUID",
+        "EP-DATASET-TYPE-IRI",
+        "EP-DISTRIBUTION-REQUIRED",
+        "EP-DESCRIPTIVE-LANGUAGE"
+      ],
+      "reviewedRuleFingerprints": {
+        "EP-ENTITY-UUID": "sha256:cbd74434cd0ee3a1f2458e65884c2167d02aea542e28a5bbaa8f83e36bd4436e",
+        "EP-DATASET-TYPE-IRI": "sha256:4574f387daf14c8cebbee672fd9f9de99ddbb13a0205143dadfe67e7c6914481",
+        "EP-DISTRIBUTION-REQUIRED": "sha256:04dc548647595ae152a0e796548168c32090cda50f6c9b41cfbd49226ed42d1e",
+        "EP-DESCRIPTIVE-LANGUAGE": "sha256:07f01bcfac284f31435541a9b26bc9ff740629f0f8b378ba064c5f9663299125"
+      },
+      "lightSvg": "docs/policy/assets/editing-policy/scope-validation-light.svg",
+      "lightPng": "docs/policy/assets/editing-policy/scope-validation-light.png",
+      "darkSvg": "docs/policy/assets/editing-policy/scope-validation-dark.svg",
+      "darkPng": "docs/policy/assets/editing-policy/scope-validation-dark.png"
+    },
+    {
+      "id": "label-correspondence",
+      "source": "docs/editing-policy/diagrams/label-correspondence.mmd",
+      "textEquivalent": "docs/editing-policy/diagrams/label-correspondence.md",
+      "alt": "Exact preferred-label to ordinary-label correspondence is separate from normalised local-name matching.",
+      "requirementIds": [
+        "EP-PREFLABEL-LANGUAGE",
+        "EP-PREFLABEL-LABEL",
+        "EP-PREFLABEL-IRI"
+      ],
+      "reviewedRuleFingerprints": {
+        "EP-PREFLABEL-LANGUAGE": "sha256:9c5c63c6376133130c90ba9218b21039403329e8bca6fa1b75a72f6838be5148",
+        "EP-PREFLABEL-LABEL": "sha256:fe961f6fd6ffd877457a483e987d0043c0058c3b7ddeba0edf51249de39316ca",
+        "EP-PREFLABEL-IRI": "sha256:f648f2b8266b997718cf8eddd20dec52265856097197cf7f0d7d95d4d413e476"
+      },
+      "lightSvg": "docs/policy/assets/editing-policy/label-correspondence-light.svg",
+      "lightPng": "docs/policy/assets/editing-policy/label-correspondence-light.png",
+      "darkSvg": "docs/policy/assets/editing-policy/label-correspondence-dark.svg",
+      "darkPng": "docs/policy/assets/editing-policy/label-correspondence-dark.png"
+    },
+    {
+      "id": "modification-obligation",
+      "source": "docs/editing-policy/diagrams/modification-obligation.mmd",
+      "textEquivalent": "docs/editing-policy/diagrams/modification-obligation.md",
+      "alt": "Changed existing entities need a valid modification value; absent comparison context leaves the obligation unevaluated.",
+      "requirementIds": [
+        "EP-MODIFIED"
+      ],
+      "reviewedRuleFingerprints": {
+        "EP-MODIFIED": "sha256:b900620c3bd3314f6c3a33ed2bd001c9994c8d1e2d455abb063dedd00da2f457"
+      },
+      "lightSvg": "docs/policy/assets/editing-policy/modification-obligation-light.svg",
+      "lightPng": "docs/policy/assets/editing-policy/modification-obligation-light.png",
+      "darkSvg": "docs/policy/assets/editing-policy/modification-obligation-dark.svg",
+      "darkPng": "docs/policy/assets/editing-policy/modification-obligation-dark.png"
+    },
+    {
+      "id": "dcat-profile-constraints",
+      "source": "docs/editing-policy/diagrams/dcat-profile-constraints.mmd",
+      "textEquivalent": "docs/editing-policy/diagrams/dcat-profile-constraints.md",
+      "alt": "The local DCAT profile separates required metadata from optional constrained vocabulary values.",
+      "requirementIds": [
+        "EP-DATASET-REQUIRED",
+        "EP-DATASET-ACCESS-RIGHTS",
+        "EP-DISTRIBUTION-REQUIRED",
+        "EP-DISTRIBUTION-MEDIA",
+        "EP-DISTRIBUTION-FORMAT-EU",
+        "EP-DISTRIBUTION-LANGUAGE",
+        "EP-DISTRIBUTION-LICENCE",
+        "EP-DISTRIBUTION-RIGHTS"
+      ],
+      "reviewedRuleFingerprints": {
+        "EP-DATASET-REQUIRED": "sha256:bbd66945a3eaa7de88c7de11ecfa3d4f9affb293f83bb2f1f3b5c09ef97ec082",
+        "EP-DATASET-ACCESS-RIGHTS": "sha256:301b1de0e9119803db29188d8be3873b1d61e7822de6885c886d780328000807",
+        "EP-DISTRIBUTION-REQUIRED": "sha256:04dc548647595ae152a0e796548168c32090cda50f6c9b41cfbd49226ed42d1e",
+        "EP-DISTRIBUTION-MEDIA": "sha256:4f486cfb0de509c94720c0cca4fbceff720d74eac56a77704a9e215930acb2b6",
+        "EP-DISTRIBUTION-FORMAT-EU": "sha256:dc4989226b2eb56b6b8ce8a361f4e4421323f769ac581e8a3453033aac3cb06c",
+        "EP-DISTRIBUTION-LANGUAGE": "sha256:9d758b2d90af193302cc264c0e31264e1b590d7102df2005012fe59d1a54e22b",
+        "EP-DISTRIBUTION-LICENCE": "sha256:969480894bf31a08c28dea2ab170068c69c69e7f006a99c65189081d90dd71c0",
+        "EP-DISTRIBUTION-RIGHTS": "sha256:7015ab2afde3107e188b2e3b4b4cb316adbae6a1f65bcf07adf1d2e3b2c633b3"
+      },
+      "lightSvg": "docs/policy/assets/editing-policy/dcat-profile-constraints-light.svg",
+      "lightPng": "docs/policy/assets/editing-policy/dcat-profile-constraints-light.png",
+      "darkSvg": "docs/policy/assets/editing-policy/dcat-profile-constraints-dark.svg",
+      "darkPng": "docs/policy/assets/editing-policy/dcat-profile-constraints-dark.png"
+    }
+  ]
+}

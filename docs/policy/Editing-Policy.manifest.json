@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "generator": "scripts/render_editing_policy.py",
+  "policyIdentity": "sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb",
+  "inputDigestAlgorithm": "sha256",
+  "inputDigest": "sha256:78647d1fb2b2a95de109acff3bf4a7a208dd7bfb1ae2777fc2a352d4eba3a5ae",
+  "inputs": {
+    ".json-quality.json": "feea413a0bbee87e665957be0766bacf259d39810213d367a09cc87401c3a879",
+    ".markdown-quality-execution.json": "94ff41911ce6dc7e5693158fd99703802201b63f7d7fcdf9fca896a9df10b39a",
+    ".markdown-quality.json": "e0fbb17dab8c9736273882fc134c93e0c2311012e0eed84c23b0c2ede52ae194",
+    "docs/editing-policy/README.md": "6eb6cda4df6eae24d2d4c4940072a24e2716410a9cef96e04e016d5a6dabcc61",
+    "docs/editing-policy/diagrams/dataset-access-guide.md": "881afe5af00f772a78648661dff53a01f73c5d6e10d7b68aa06c233911c91c2a",
+    "docs/editing-policy/diagrams/dataset-access-guide.mmd": "fafce4a36133a0f413c0cdfe333fc78ec1e677a5c775496b74ad05925ac8919d",
+    "docs/editing-policy/diagrams/dcat-profile-constraints.md": "11166babffe09ebadfd56f486ee65bf7f4129e173ef1c59ee46ca34dfacbb1b2",
+    "docs/editing-policy/diagrams/dcat-profile-constraints.mmd": "90abb040356c29ff422e7f1f1a488a34bf1a7f8ce6c4ff825c41cab376269867",
+    "docs/editing-policy/diagrams/entity-anatomy.md": "72d58600afea93dea111aba5bf6f3f944708910539a713f15089db6aa090ad0c",
+    "docs/editing-policy/diagrams/entity-anatomy.mmd": "a89dc1c731318991cf36b0a6fdbc7710dce51e1f97dc2184b5701e76712c5e56",
+    "docs/editing-policy/diagrams/label-correspondence.md": "ac41a9a7461df3327f576ad9548012b39c4998032d1940bf4fd90fc97a83c7e0",
+    "docs/editing-policy/diagrams/label-correspondence.mmd": "174e75cef5ed826e5504b1bcd7097ffffef8a6eb41403578b6f892f319886110",
+    "docs/editing-policy/diagrams/modification-obligation.md": "43ff46f3b48ed44621781c503acdc3660726bb1457f60784aa9c761b3e4c9f9d",
+    "docs/editing-policy/diagrams/modification-obligation.mmd": "2d8acb85df66839acf4996f211aaf3725b4e0b72c2bde5d92a2f2090dd6e2182",
+    "docs/editing-policy/diagrams/policy-journey.md": "af43cb131b9ecbc0da36f34a459dd51fb733b2d1b3cdca2324185d69144197fe",
+    "docs/editing-policy/diagrams/policy-journey.mmd": "dfcd405e86f68d7237453187490253669c5988732ca6e0614aac1af53fbe3736",
+    "docs/editing-policy/diagrams/scope-validation.md": "378a973913352be2a01549f8ef4abc32baeacd27ba51633ebdfc3650407327a5",
+    "docs/editing-policy/diagrams/scope-validation.mmd": "444e2f4b7b4538a215e9e25dbde295a4775cf516ec6213fc6ff5a704be6ec36a",
+    "docs/editing-policy/fixtures/golden/dcat.ttl": "33cc24869da29fa8f184bc6dc73980b41a7bd12a482ed682453ababb54a5efd3",
+    "docs/editing-policy/source/baseline-policy-docs.json": "c9a1e8b3b95769b3d9784fbd62496f7b1e4d483cd67fce61649732450d848514",
+    "docs/editing-policy/source/diagram-views.json": "3682a43ce066a7f7e8b7baceb6ae53458c5de6087846755f323bc47a111050e4",
+    "docs/editing-policy/source/fonts/LICENSE.txt": "9e7f12fafee50a9b4f7b3004c0fa58990805620d9debb0daf7f75de0d3ad5548",
+    "docs/editing-policy/source/fonts/open-sans-latin-400-normal.woff2": "0e44026ad31376af1b56593cd4acb4f353f8e8789c51759e18f64578e4ef296a",
+    "docs/editing-policy/source/fonts/open-sans.css": "4a712adc7936094122a054342e6834f69656a9cb4c896e7eb2e17a5a6a95bd42",
+    "docs/editing-policy/source/guidance-reviews.json": "297d9e35dfeca82af54ae58b0d8693a7990bb376f945dd981acf66c273bfb35f",
+    "docs/editing-policy/source/reader-guidance-shapes.ttl": "6b8bc4c7e04f2ab9afd80fedf89e1f4cac07ca6d6fc643355944ea5712306cd0",
+    "docs/editing-policy/source/reader-guidance.ttl": "dc4ee0d112ef5357a6e95389d3eb56222097a548fb9ed47b7c6a3adfed37ba3f",
+    "docs/editing-policy/usability/acceptance-results.md": "6839d21d51e7561a749a4453744ccaf6e2301db538174907c20890b6665d5959",
+    "docs/editing-policy/usability/test-script.md": "2574e1d5b98b5c22427704e5cbbad2f80fe7d5ce211dd96d39b11b058a940b50",
+    "package-lock.json": "309d7b36ca0cd9eac2abc3eafed5dce0172a352c1584c21972a1f408103acc46",
+    "policy/axiom-policy.ttl": "c0102868259018f56ba9ec8a16deb7b89d955c473a1f5731cdb0e85dac0ed2e6",
+    "policy/dataset-distribution-policy.ttl": "d614d689bebe06fac83624d7fb4ff17337450d42d52c3a095ab3b7212dd510c8",
+    "policy/editing-policy.ttl": "f10fa8e68a14ec8de4a47171a9d8bf423f51cf42bfa1a50721becedfd2e43941",
+    "policy/entity-policy.ttl": "4effb2930b863b6d2ea71ddac66a7fa3f1a6e5548ad51865b0d88b2741aa7cdb",
+    "policy/ontology-policy.ttl": "35dd354db3b4897b3646f056bcb00bcb56c32a1530611965b43bdca382f93ea0",
+    "policy/policy-metadata-shapes.ttl": "f0c84f6e09c6f0b1684e7cf507302bf7499a897189121302e9a854886b098372",
+    "policy/validation-context-shapes.ttl": "594ff44df9914adaaac7b93476d4fad6cdc830acd271091ed804b55e98c7acdb",
+    "requirements.lock.txt": "9726423b3adb03b2609f2d3c443fa0cd2219af46fdcad1eedf4fc3c697c46cdc",
+    "scripts/editingPolicyGfm.js": "603533d6c5db0a2694465f7be45e7c98376b86b61b8ff12ad92fa8b941dcf5f1",
+    "scripts/ontology_policy/__init__.py": "0179aa618f17a5d45d8b0d9c52c834e23edd968220701bbe9d6f959c99a40a29",
+    "scripts/ontology_policy/authorities.py": "a80b8f33fcede43280610eceeca5da55b1a83071ae9d49cbcf52fe0d8706609a",
+    "scripts/ontology_policy/changes.py": "ddf8f36e95a330eea479ec96a37b083ece3da21911ef9c13afa07512d6739d8f",
+    "scripts/ontology_policy/check_documentation.py": "aeead31cd3d70657122b210406428de0795e33a10085f3d4d53708c1f0120862",
+    "scripts/ontology_policy/cli.py": "8d859e3328db2510a31c9c4cadb1c9d335c93d208c94fee9e69b349edd0fd6cd",
+    "scripts/ontology_policy/context.py": "3a6238e21bec77fc3687d0accad4b4f3dbda0103c7cf0abd791ff405e43f7661",
+    "scripts/ontology_policy/coverage.py": "042182f71274dc9921f7d18efff4252bc5cdc4e2f3d38391dbd2f9a6eec209c9",
+    "scripts/ontology_policy/documentation_extract.py": "b5db81af9420b4af18ed9e070a43ff11658f3879b46dadc0d4b209b6baf3a8d3",
+    "scripts/ontology_policy/documentation_model.py": "dcb2d1e809f33a69aefad702992e11952dbe1caf80ffc577c1e34714d945f139",
+    "scripts/ontology_policy/documentation_outputs.py": "694656b79447afb668dfa11ba87b0040e5526aeea7233adfa0c419127dca2a4f",
+    "scripts/ontology_policy/jena.py": "66c6a8ae47d918ccb61d73e8cd45935f569ced6be599a500eedc273c995afb65",
+    "scripts/ontology_policy/modules.py": "747cc1bf931b0828fb4ff3dd6445eab2b67ff5821522b6dcd19cab106efa0d90",
+    "scripts/ontology_policy/namespaces.py": "683465b24cffe0942ce7ddb772509114efe4f41120cffa350f43500bb24bf3d3",
+    "scripts/ontology_policy/policy.py": "d72d5554838e1bbe1921ebc16a62dfeeb4a67d310841b39cc3ac811e1a6a7d22",
+    "scripts/ontology_policy/publication.py": "712d4c175684d9173826a4bf9664fe2e161a53deef3a83020b31e8ebc465483b",
+    "scripts/ontology_policy/publish_wiki.py": "d37bec2d958c1cf30e07063149d16cfce5d7df37f739e8429a22394ac75ab319",
+    "scripts/ontology_policy/reader_guidance.py": "36e8aebb109101b14510739a384c736689d35773beb26bbb80c6c58df2f59e5d",
+    "scripts/ontology_policy/render_diagrams.py": "36f02202297b6026c6736b3fd86f49fc6117200d0b6e42d258c3256f042631d4",
+    "scripts/ontology_policy/rendering.py": "bc8b9648f72a31beec9b8227c11da25e87f82840c7ccb677b5c1bb73301e3f37",
+    "scripts/ontology_policy/reports.py": "10c8f3bba724d97fa8d73fa8eceb6b0a88ad26738511f985570290868564f06b",
+    "scripts/ontology_policy/snapshots.py": "3c8985ce0e032c77844e65e02ab6aeb44b2d7003a04fa4e75f349db5078931f9",
+    "scripts/ontology_policy/validation.py": "bd4e3bd1955573dd47cf411b201bec9b3e61629308e8d41a2586ab4d46ba3cea",
+    "scripts/renderEditingPolicyDiagrams.mjs": "c498b613f42d64a5999b2731338b2737fa90cfa6fdd37ab2223583fafb609e5e",
+    "scripts/render_editing_policy.py": "d15f0abad12fa79b3399198c6db7a52ab6d65d54b364a70ec41b0d4bcfeafab4",
+    "scripts/verifyEditingPolicyAccessibility.mjs": "283c0925de07083ec686c5496af8aff0069857a254b9ce48ee127fde964fe920",
+    "tooling/markdown/package-lock.json": "62a2dceb491ab982d4614b695f12bd7075f05889d6db2321addf457227ff8869"
+  },
+  "outputs": {
+    "Editing-Policy.generated.md": {
+      "sha256": "c8070deca2883276c831921b18702877261b454846931cf95eedb7d49f1a79b2",
+      "bytes": 303642
+    },
+    "Editing-Policy.model.json": {
+      "sha256": "41d7029af2e95d33633e57de1e1bb00e2453f15af7a5c0beed4716c224c5ccfb",
+      "bytes": 716495
+    },
+    "Editing-Policy.preservation.json": {
+      "sha256": "f407e42c691b8d1bdc9b6d9100fb59d72da8e1c48567713d9005e3923b34de81",
+      "bytes": 635
+    },
+    "Editing-Policy.sidebar.md": {
+      "sha256": "2bb6a7499a0dc0d7fb37bf08df17ccfaa2498e73947078238fbc7134e30a7b8e",
+      "bytes": 150
+    },
+    "Editing-Policy.toolchain.json": {
+      "sha256": "75f0e0589821840a5184607290bb58a2b0d9f2b9851587d1a78b87aa7367d576",
+      "bytes": 174
+    },
+    "assets/editing-policy/OpenSans-LICENSE.txt": {
+      "sha256": "9e7f12fafee50a9b4f7b3004c0fa58990805620d9debb0daf7f75de0d3ad5548",
+      "bytes": 4508
+    },
+    "assets/editing-policy/dataset-access-guide-dark.png": {
+      "sha256": "8216c57fef11be17c0fe4f39373faf8bc1ad1e21d8bad60f2c6ba12a49606689",
+      "bytes": 39332
+    },
+    "assets/editing-policy/dataset-access-guide-dark.svg": {
+      "sha256": "6145087485728259fb915666ee00fee31e96f0c8c41a7f8b070add5cec746933",
+      "bytes": 53976
+    },
+    "assets/editing-policy/dataset-access-guide-light.png": {
+      "sha256": "ef4c10125b3d7ff23ead7a0d271bcac3718e897c9b820fb3c8bcbf364a1f01b1",
+      "bytes": 39774
+    },
+    "assets/editing-policy/dataset-access-guide-light.svg": {
+      "sha256": "0c9a17b7b519edde7ac2eff1368d7d911230e6cf9d08bc2707a6e21d58fa98a1",
+      "bytes": 54043
+    },
+    "assets/editing-policy/dcat-profile-constraints-dark.png": {
+      "sha256": "b977574fdbd8a844e088c3931a4861f7ae7c134540ca665a29ce630a78f3faae",
+      "bytes": 57760
+    },
+    "assets/editing-policy/dcat-profile-constraints-dark.svg": {
+      "sha256": "7a03ea498a1d08a286e181077a13bdcc34a5f5d54b723d416cc242ec44a730ff",
+      "bytes": 60301
+    },
+    "assets/editing-policy/dcat-profile-constraints-light.png": {
+      "sha256": "8cac89d0596c7228c21da01bd37f175d4415a5d5b3efc928ada0670768731c35",
+      "bytes": 58260
+    },
+    "assets/editing-policy/dcat-profile-constraints-light.svg": {
+      "sha256": "06bd85983b915d009b3540abbc313a7242cfb7b6dfef12d53a461b468d00073d",
+      "bytes": 60377
+    },
+    "assets/editing-policy/entity-anatomy-dark.png": {
+      "sha256": "9affb284d4c4cc8d5f9afdf641fff43e6d1bfb7ee236ce138a5932eea1bcb121",
+      "bytes": 50368
+    },
+    "assets/editing-policy/entity-anatomy-dark.svg": {
+      "sha256": "344b2e5bb71776b1858a9448cce5dd33c37541db813babd6121e2390063dc6b1",
+      "bytes": 55168
+    },
+    "assets/editing-policy/entity-anatomy-light.png": {
+      "sha256": "293f1915ebd2ded2dd455738b5f17178b247843cc63e8b1de857dde79ad7bda6",
+      "bytes": 50849
+    },
+    "assets/editing-policy/entity-anatomy-light.svg": {
+      "sha256": "2817736f29da94378c9f31d2b7cb548bbb6f3de9dd9062f7db1739118131693b",
+      "bytes": 55232
+    },
+    "assets/editing-policy/label-correspondence-dark.png": {
+      "sha256": "89c45a50444d0d873136ce62325881b6190648e3180c721ff72305729e6987d1",
+      "bytes": 37072
+    },
+    "assets/editing-policy/label-correspondence-dark.svg": {
+      "sha256": "4a8146b96285d35e709a680b5eaaaa972c5848236ca3e05751adf22565efe880",
+      "bytes": 52413
+    },
+    "assets/editing-policy/label-correspondence-light.png": {
+      "sha256": "73a817b0b1260e9ff8cd90f06e4ec8cb0cede2e9b7955527e41124f970b09e5c",
+      "bytes": 37448
+    },
+    "assets/editing-policy/label-correspondence-light.svg": {
+      "sha256": "1c7668b21783b932e3ea657c2672239948bcca65d8c6ec05f3db4d3c1f40229c",
+      "bytes": 52475
+    },
+    "assets/editing-policy/modification-obligation-dark.png": {
+      "sha256": "44e144efa9309f0e743683bc8ace35c85b489d1e3d5771088abdda116dc20bbc",
+      "bytes": 69285
+    },
+    "assets/editing-policy/modification-obligation-dark.svg": {
+      "sha256": "c87dd5529b47b1cf646a2c0fb2d4efedc985de1ff770059d752620ed528dda32",
+      "bytes": 59429
+    },
+    "assets/editing-policy/modification-obligation-light.png": {
+      "sha256": "8ea11a154e7b80f0814c26a0ee193c76295e0cbb9aab408a8a5b0307037ffb8f",
+      "bytes": 69267
+    },
+    "assets/editing-policy/modification-obligation-light.svg": {
+      "sha256": "f43a276234cee05658f75a41f927784e383441bf22891442ff7575e992eb0159",
+      "bytes": 59502
+    },
+    "assets/editing-policy/policy-journey-dark.png": {
+      "sha256": "b31a9f2e4538e29c4529b535153656d032c1947b6328adf3a7cc05db6c308fbd",
+      "bytes": 60364
+    },
+    "assets/editing-policy/policy-journey-dark.svg": {
+      "sha256": "2f8aa31322c5aa27838429f65064ab364892fff9a581fac19369a6a6a8d695ae",
+      "bytes": 57758
+    },
+    "assets/editing-policy/policy-journey-light.png": {
+      "sha256": "ca77ef81d99256ca67ee6f43bd2e8eefbae071d4b4d98748f9d6b8d32fb04880",
+      "bytes": 60724
+    },
+    "assets/editing-policy/policy-journey-light.svg": {
+      "sha256": "14c1e6ddcb4297665d2b872f6f5e51e3ee823169835d950066ade976c4128348",
+      "bytes": 57833
+    },
+    "assets/editing-policy/scope-validation-dark.png": {
+      "sha256": "7dabeffea8b15349580462e5621c7880ed3be87870b451586eacb6778a052935",
+      "bytes": 85137
+    },
+    "assets/editing-policy/scope-validation-dark.svg": {
+      "sha256": "9f42af9807631ade929feeb5e445bf2a988d20abb3c17195ce51c809895b5202",
+      "bytes": 66478
+    },
+    "assets/editing-policy/scope-validation-light.png": {
+      "sha256": "15bf4bb87bfc9307b1d3f84c0e5c4c971c1d0f33de472953a618fd0d0165f5e1",
+      "bytes": 85468
+    },
+    "assets/editing-policy/scope-validation-light.svg": {
+      "sha256": "67ee6c0cbf300bc994e6a70166b6f7630c7dd234c911b733a2f107ceb0c3449f",
+      "bytes": 66562
+    }
+  },
+  "ruleFingerprints": {
+    "EP-AXIOM-POSITION": "sha256:5ad4e69054ccf9d122b421a65ee885d634abde7136644703226cb4afd6e97356",
+    "EP-CLASS-NAME": "sha256:b83ad33bfae7fd995c1d48a496a93e28c53ee8f9ea067d26d48633bdc8160928",
+    "EP-CONTRIBUTOR": "sha256:7b2e734358eeb03989d4b4e2335a5db0b25cc94d3a93481ed5619281e40ed160",
+    "EP-DATASET-ACCESS-RIGHTS": "sha256:301b1de0e9119803db29188d8be3873b1d61e7822de6885c886d780328000807",
+    "EP-DATASET-ACCESS-RIGHTS-IRI": "sha256:1f6d69fecdafe5dfec15acd3c30519a15ae3d2740000312ef7026813ba2820a6",
+    "EP-DATASET-DISTRIBUTION": "sha256:99be94100b925e0c369b857ec9c395338435ed7b35fb3b5d1a4447d1cf3f14d8",
+    "EP-DATASET-LANDING": "sha256:fab89aff8ccbf2e164f003c3ca1b46f28d37689cc9e700f8f3f6610fcfff22d6",
+    "EP-DATASET-REQUIRED": "sha256:bbd66945a3eaa7de88c7de11ecfa3d4f9affb293f83bb2f1f3b5c09ef97ec082",
+    "EP-DATASET-TYPE-IRI": "sha256:4574f387daf14c8cebbee672fd9f9de99ddbb13a0205143dadfe67e7c6914481",
+    "EP-DEFINITION": "sha256:17c201f386746986489f27d0d4d430760af7ff16653b4defee4103d860151152",
+    "EP-DESCRIPTION-LANGUAGE": "sha256:f91084604929f46e7ac9966e41811e98616bc4ad15ea8f856ac048538f714fc0",
+    "EP-DESCRIPTIVE-LANGUAGE": "sha256:07f01bcfac284f31435541a9b26bc9ff740629f0f8b378ba064c5f9663299125",
+    "EP-DISTRIBUTION-DOWNLOAD": "sha256:80fe97b84f27c13d7fb0204cb3a30c97b1a673c941e55d73577ee0e1db3048c7",
+    "EP-DISTRIBUTION-FORMAT": "sha256:cbf35e8203e36a795ecc51fbfc3a3f5a60da69ca1059c805bb3db8c916939bd4",
+    "EP-DISTRIBUTION-FORMAT-EU": "sha256:dc4989226b2eb56b6b8ce8a361f4e4421323f769ac581e8a3453033aac3cb06c",
+    "EP-DISTRIBUTION-LANGUAGE": "sha256:9d758b2d90af193302cc264c0e31264e1b590d7102df2005012fe59d1a54e22b",
+    "EP-DISTRIBUTION-LICENCE": "sha256:969480894bf31a08c28dea2ab170068c69c69e7f006a99c65189081d90dd71c0",
+    "EP-DISTRIBUTION-MEDIA": "sha256:4f486cfb0de509c94720c0cca4fbceff720d74eac56a77704a9e215930acb2b6",
+    "EP-DISTRIBUTION-REQUIRED": "sha256:04dc548647595ae152a0e796548168c32090cda50f6c9b41cfbd49226ed42d1e",
+    "EP-DISTRIBUTION-RIGHTS": "sha256:7015ab2afde3107e188b2e3b4b4cb316adbae6a1f65bcf07adf1d2e3b2c633b3",
+    "EP-ENTITY-CREATED": "sha256:907d26eb2a0bba5d01c378bb4e973e087a2ff445889b917c2469324c8cf51057",
+    "EP-ENTITY-CREATOR": "sha256:121d1a12e49cc070a08e831d084649c2ede65f6fc75a9b25e6a74d1bd1e95e49",
+    "EP-ENTITY-UUID": "sha256:cbd74434cd0ee3a1f2458e65884c2167d02aea542e28a5bbaa8f83e36bd4436e",
+    "EP-HUMAN-CONCEPT-REUSE": "sha256:f13258b7125a80ec9046b943740c179880b58df404637d59e92d2a29b3ee116a",
+    "EP-IDENTIFIER-UNIQUE": "sha256:a232ca78f43c469d9970f497dde21b72e79878100c20bee2af111cfb5988e00d",
+    "EP-INDIVIDUAL-NAME": "sha256:2494274a57543352e873bb6c2a05b69271dd5a45c25e33f35f584b1f7f0a7711",
+    "EP-LABEL": "sha256:809227788cb89a8319884db84755bd3b2184f6dc02157996de5de541c961b0cd",
+    "EP-MODIFIED": "sha256:b900620c3bd3314f6c3a33ed2bd001c9994c8d1e2d455abb063dedd00da2f457",
+    "EP-ONT-VERSION": "sha256:c5428f7573db56b5bfe6b1a4db412c8abd4672690daceaa5980258cbaf263fe1",
+    "EP-OPTIONAL-ANNOTATIONS": "sha256:567194edcfb3502e98a14ab1f795b1ed72c7aa3240716a3e1570102690ba6ec9",
+    "EP-PREFLABEL-IRI": "sha256:f648f2b8266b997718cf8eddd20dec52265856097197cf7f0d7d95d4d413e476",
+    "EP-PREFLABEL-LABEL": "sha256:fe961f6fd6ffd877457a483e987d0043c0058c3b7ddeba0edf51249de39316ca",
+    "EP-PREFLABEL-LANGUAGE": "sha256:9c5c63c6376133130c90ba9218b21039403329e8bca6fa1b75a72f6838be5148",
+    "EP-PROPERTY-NAME": "sha256:d09aec849a231e8a6e14c5344b1f7afc0e4ee65234a21e7be0baae355ab1416a",
+    "EP-PROPERTY-NAME-ISO": "sha256:3906905b4a663dd4a5423daa6e80847e90300e478c354af08afead5ae2c350e9"
+  }
+}
