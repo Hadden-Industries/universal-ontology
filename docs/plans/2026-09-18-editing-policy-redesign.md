@@ -1,6 +1,8 @@
 # Implementation Plan: Editing Policy Documentation Redesign
 
-**Plan date:** 2026-09-19\
+**Original plan date:** 2026-09-19\
+**Refreshed:** 2026-10-28\
+**Status:** Revised draft; implementation and release acceptance remain pending\
 **Repository:** `Hadden-Industries/universal-ontology`\
 **Plan location:** `docs/plans/2026-09-18-editing-policy-redesign.md`\
 **Canonical policy:** `policy/*.ttl`, with `policy/editing-policy.ttl` as the editing-policy root\
@@ -8,6 +10,144 @@
 **Existing generation commands:** `npm run generate:editing-policy` and `npm run check:editing-policy`\
 **Publication target:** GitHub Wiki, with the reviewable generated artefact retained in the main repository\
 **Documentation language:** en-GB, except where canonical policy literals, examples, identifiers or quoted source material must remain byte-for-byte or semantically unchanged
+
+## Current baseline and delivery contract
+
+This refresh is authorised planning work (R0): update this document, verify its contents and commit it locally.
+It does not accept the implementation risk route, change repository configuration or authorise publication.
+The purpose remains to help contributors take the next correct action while technical readers can inspect every policy obligation and its provenance.
+The detailed design and acceptance requirements below remain the scope; executable examples and proposed paths are design illustrations until implemented and qualified.
+
+**Inspected baseline**
+
+The repository baseline is `e34ced0935e2ac384a679476e186d68817a29021`, observed on local and remote `main` on 28 October 2026.
+The redesign is unimplemented at that revision.
+The personal workflow is active and reports HISEW `0.1.0.dev29`, with focused, affected and full verification profiles and no active execution in this checkout.
+That observation establishes applicability, not implementation acceptance or proof that the profiles cover this future change.
+The installed planning procedure and engineering principles were read for this refresh; their identifiers below describe the observed method, which must be rechecked when implementation starts.
+
+| Area                          | Current evidence and consequence for implementation                                                                                                                                                                                                                                                                                                                                                                                      |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Policy identity and inventory | The current generated page and retained September preservation report identify `sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb`. The current page and retained clause inventory have the same 35 requirement IDs. The old plan's invented inventory is replaced below with those actual IDs.                                                                                                                    |
+| Policy loading                | `scripts/ontology_policy/policy.py` owns `load_policy`, metadata validation, identity and `Policy.requirement_for_shape`. `namespaces.py` owns `RULE_FILENAMES` and the `uop:` namespace. Reuse these; `activation.ttl` selects owned ontology documents and versions, not the list of policy rule files.                                                                                                                                |
+| Renderer                      | `scripts/render_editing_policy.py` is the CLI; `scripts/ontology_policy/rendering.py` owns rendering. Extend these entry points instead of creating a competing package renderer. Preserve the CLI's read-only `--check`, `--output`, `--policy-directory` and failure contract.                                                                                                                                                         |
+| Existing tests                | `tests/test_editing_policy_rendering.py` already checks IDs, preserved facts, human obligations, escaping, deterministic bytes, stale output and definition errors. `tests/test_ontology_policy*.py`, `tests/test_policy_authorities.py` and `tests/fixtures/ontology-policy/` supply existing policy fixtures and report contracts. Extend their coverage; first inventory gaps.                                                        |
+| Markdown quality              | The renderer calls the installed Markdown Quality public logical-document operation at the canonical output path. `.markdown-quality.json` explicitly excludes the generated page and review archive from authored formatting. Preserve that byte contract and request/result correlation. Exclusion does not prove structural GFM or accessibility correctness. New generated outputs need an explicit policy decision before adoption. |
+| JSON quality                  | `.json-quality.json` and the shared JSON Quality package own JSON presentation and read-only checks, including generated and ignored files. Domain schemas still own documentation-model, fixture and publication-manifest meaning. Retained review JSON is protected producer evidence; do not reformat it.                                                                                                                             |
+| Runtime and dependencies      | `.node-version`, `.python-version`, `.java-version`, root `package.json` and the existing locks own runtime selection. Python runs through `scripts/runRepositoryPython.js` and `.venv`; tests use `unittest`. The plan introduces no `.nvmrc`, alternate Python lock or pytest requirement. Reuse the shared setup actions and disabled install lifecycle scripts.                                                                      |
+| Functional CI                 | `.github/workflows/pr-validation.yml` and `full-qualification.yml` own PR/main orchestration; reusable development and ontology consumers own checks. `scripts/selectPullRequestChecks.js` selects them. Add coverage through these owners and their completion gates; do not reinstate independent path-filtered PR/main workflows.                                                                                                     |
+| Broader product               | Full-ontology generation, UML/XMI, query/MCP artefacts and publication receipts now exist. Wiki documentation needs its own evidence; it must neither replace nor claim the website's ontology/build qualification receipts. `policy/activation.ttl` includes the October 5 source-digest correction; largest dated filenames are not an activation rule.                                                                                |
+| Evidence reuse                | PR-to-main reuse is limited to the existing admitted Node proof and exact integration/environment rules. It does not qualify new documentation, Markdown, diagram, accessibility or Wiki work. Keep required fresh evidence at the actual final revision.                                                                                                                                                                                |
+
+Repository authority for these observations: [development guide](../development.md), [policy README](../policy/README.md), [renderer CLI](../../scripts/render_editing_policy.py), [policy loader](../../scripts/ontology_policy/policy.py), [rendering tests](../../tests/test_editing_policy_rendering.py), [CI selector](../../scripts/selectPullRequestChecks.js) and [retained preservation report](../reviews/editing-policy-design/verification/preservation-report.json).
+Counts in explanatory development prose can lag the executable test-family inventories; use the selector and runner as the execution authorities.
+
+**Risk, decisions and prerequisites**
+
+Proposed implementation route: R2, because the change presents normative requirements, adds source-to-output integrity checks and eventually writes to a separate Wiki repository.
+Max is the acceptance decision owner; appoint the integration owner, policy reviewer and publication observer before implementation.
+Reuse any existing accepted dossier and risk decision when recovered and still applicable; none was established by this refresh.
+The following IDs index this draft's existing requirements and do not imply acceptance.
+Before R2 implementation, reconcile them with any accepted IDs, accept the requirements/quality scenarios/decisions and protect the baseline through the current HISEW procedure.
+
+| Requirement / acceptance | Observable obligation                                                                                                                                                                                        | Quality scenario / decision                                                                                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| REQ-001 / AC-001         | Every current canonical rule, obligation, constraint, context dependency, example and provenance item survives extraction and rendering; deliberate omissions and severity changes fail preservation checks. | QA-001: mutate one material field or remove one rule and require failure. DEC-001: canonical policy remains sole normative authority.                                          |
+| REQ-002 / AC-002         | Contributor summaries are visibly non-normative, resolve to real rules and become stale when a linked rule fingerprint changes.                                                                              | QA-002: changed rule and unresolved reference fail; guidance cannot alter validation results. DEC-002: separate documentation graph.                                           |
+| REQ-003 / AC-003         | Technical dimensions, stable anchors, seven diagram families and complete text equivalents satisfy the detailed accessibility and usability criteria below.                                                  | QA-003: keyboard, 320 CSS px, light/dark and actual Wiki rendering checks; retain manual findings. DEC-003: static assets remain the preferred design, pending tool selection. |
+| REQ-004 / AC-004         | Same frozen inputs produce identical complete outputs offline; `--check` changes no tracked input and rejects drift, missing assets and invalid metadata.                                                    | QA-004: independent output directories, changed parser blank-node labels and isolated failure injection. DEC-004: reuse native loader, validators and quality tools.           |
+| REQ-005 / AC-005         | Fixtures prove rule identity, severity, target participation, context state and absence of unexpected results through the production policy path.                                                            | QA-005: positive, negative, non-applicable and unavailable-context cases; required engine parity cannot be replaced by a skip. DEC-005: independent expected outcomes.         |
+| REQ-006 / AC-006         | CI selects every new input family and rejects missing/failed/skipped mandatory completion at the tested revision.                                                                                            | QA-006: selector and gate negative controls for guidance, diagrams, manifests, tests and shared controls. DEC-006: extend current functional CI ownership.                     |
+| REQ-007 / AC-007         | Authorised Wiki publication admits exact verified bytes, preserves unrelated pages/sidebar content, handles concurrency and supports bounded replay and recovery.                                            | QA-007: disposable Wiki clone with sentinels, interrupted run, stale digest and concurrent remote update. DEC-007: source-led correction and manifest-owned publication.       |
+
+The detailed acceptance checklist remains binding to this draft; these rows provide traceability rather than reduce its obligations.
+No configuration edit is approved by accepting prose in this plan.
+Present exact file/setting diffs, behavioural impact and the smallest change under `AGENTS.md` before implementing configuration, CI, dependencies, test policy, repository policy, secrets or environment settings.
+Do not change canonical policy semantics under this redesign.
+
+**Reuse and architectural boundaries**
+
+Apply the observed HISEW rules PRP-01, NAM-01, REU-01, DRY-01, VER-01, LIC-01, VAL-01, NSH-01, SEC-01 and CLEAN-01 proportionately.
+Names must describe actual responsibility; the existing plan filename remains its durable proposal identity, while the refresh date records this revision.
+No shim exception is established by this plan.
+
+| Shared rule / boundary                                       | Owner and consumers                                                                  | Strategy and drift control                                                                                                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Policy membership, requirement identity and result ownership | Existing policy loader/resolver; validator, documentation and fixtures               | Shared production loading and ownership resolution. Preserve independently authored expected outcomes; do not generate expectations from the extractor under test. |
+| Policy meaning and reader explanation                        | Canonical graphs versus separate human-reviewed guidance                             | Generated projection with rule fingerprints; documentation graph cannot enter production validation. An independent reviewer owns summary fidelity.                |
+| Presentation and schema checks                               | Shared Markdown/JSON tools plus domain-specific preservation/manifest validators     | Use supported public APIs and native schemas. Custom checks cover only residual policy-specific constraints, anchors and publication ownership.                    |
+| Runtime, CI selection and proof                              | Existing runtime declarations, setup actions, selector and consumer completion gates | Extend the current consumers together; keep release publication separate from read-only qualification.                                                             |
+| Historical evidence and current acceptance                   | Immutable September archive versus current source/fixture assertions                 | Retain original bytes and qualified limitations. History is evidence, never a second editable policy or proof of current execution.                                |
+
+The September design is useful prior research, but does not establish current package selection or rights clearance.
+Before adopting Mermaid tooling, a GFM renderer, Axe/browser integration, image conversion or Wiki publication dependencies, refresh the source-backed reuse assessment in this plan.
+Compare repository facilities, maintained packages and platform capabilities against offline determinism, supported APIs, Windows/Linux execution, accessibility, licence/terms and operational cost.
+Record current stable/applicable LTS identities, exact locks and actual rights clearance; use existing Playwright where suitable.
+Do not install tools or select a custom parser/publisher merely because an integration is absent.
+The unresolved custom gap is policy-specific lossless extraction, traceability and managed Wiki projection, subject to that assessment.
+
+**Verification and lifecycle contract**
+
+The observed HISEW profiles invoke `test:unit` (focused), `test:consumer` (affected) and `check:qualification` (full).
+The focused command covers query/projection unit tests and does not validate this document.
+Use scoped Markdown and source-consistency checks as additional evidence; a passing registered profile alone cannot establish documentation coverage.
+Before implementation, obtain an exact profile-change approval if additional mandatory controls cannot be expressed through the existing approved route.
+
+- Recheck HISEW applicability, ownership, accepted scope and actual commands when implementation starts.
+  Reuse the existing task and session authority; an unrelated continuation is not authority for this work.
+- Use focused proofs while implementing each slice, affected regression checks at seams and the route-selected full relevant profile on the final candidate.
+  Inspect lifecycle side effects and the current profile commands first; the observed profile ordering is unverified for undeclared commands.
+- Existing entry points are `npm run test:policy-rendering`, `npm run test:ontology-policy`, `npm run test:python`, `npm run check:editing-policy`, `npm run check:markdown`, `npm run check:json`, and the applicable lint/format/build controls in the development guide.
+  The full repository command is `npm run check:qualification`; it does not itself replace explicit generated-policy, active-set or engine-parity obligations.
+- `npm run build:verify` uses direct Vite and avoids the ordinary build's auto-fix lifecycle.
+  It still generates build outputs; schedule writers before freezing evidence.
+  Do not run installation or formatting during a frozen verification/scan.
+- Keep Windows/Linux coverage and the existing conservative unknown-test routing.
+  Reassess a test's family if it gains browser, diagram or other runtime dependencies; do not assume nested test files are discovered by current `unittest` execution.
+- R2 requires independent verification and applicable specialist review.
+  Resolve the actual current reviewer/security/commit capabilities and reuse persisted choices; discovery, prior demonstration or a skill listing is not review evidence or permission to delegate/scan.
+- Freeze candidate identity, tool inputs and review scope before final evidence.
+  Resolve commit timing before expensive checks; reuse admitted equal-content evidence only where the native route allows it.
+  Required unavailable checks remain gaps.
+- The policy owner supplies semantic expectations and review decisions.
+  Real production loading, parsing, validation, rendering and filesystem boundaries must run; mocks are limited to genuine external services/transport or explicit fault injection, never substitutes for the expected policy outcome.
+- Resource ownership covers temporary render directories, browser output, clones and retained failure reports.
+  Keep active consumers and failure evidence; use native inventory/retention controls when governed resources require them, and stop deletion on ownership or manifest failure.
+- Record implementation, verification, review, merge, Wiki publication, live acceptance and cleanup separately.
+  HISEW closure supplies no missing product or release evidence.
+
+**Vertical delivery slices**
+
+| Slice     | Traceability                                        | Demonstrable increment and proof                                                                                                                                                                                                                            | Release / cleanup implication                                                                                                            |
+| --------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| SLICE-001 | REQ/AC-001,004,005; QA-001,004,005; DEC-001,004,005 | Freeze current and September evidence, then carry one real rule from `load_policy` through extraction, technical rendering and production-path fixture results. Prove preservation failures with deliberate mutations and retain all other existing output. | Local candidate only; keep baseline and failed counterexamples, remove spent render scratch.                                             |
+| SLICE-002 | REQ/AC-001,004,005; QA-001,004,005; DEC-001,004,005 | Extend the demonstrated path to every current rule and context family, complete the technical reference and stable anchors, and prove coverage, independent expected results and two-run determinism.                                                       | Technical candidate is reviewable; no contributor or public release claim until full acceptance.                                         |
+| SLICE-003 | REQ/AC-002,003; QA-002,003; DEC-002,003             | One complete contributor task with summaries, real-rule links, one diagram family and text equivalent; prove stale-summary detection, graph isolation and keyboard/narrow-width behaviour.                                                                  | Domain/content review checkpoint; retain review findings and exact preview identity.                                                     |
+| SLICE-004 | REQ/AC-002,003,004; QA-002,003,004; DEC-002,003,004 | Complete contributor tasks and all seven diagram families; exercise all required visual variants and the specified participant tasks. Record incomplete human acceptance explicitly.                                                                        | Complete content candidate; preview artefacts retained only for named consumers.                                                         |
+| SLICE-005 | REQ/AC-004,006; QA-004,006; DEC-004,006             | After exact configuration approval, integrate the proven commands into existing CI, including selector/gate failure trials, generated-output ownership and fresh final checks.                                                                              | Repository delivery can proceed through its authorised route; CI success alone does not publish the Wiki.                                |
+| SLICE-006 | REQ/AC-003,007; QA-003,007; DEC-003,007             | Prove publisher ownership/replay/concurrency on a disposable repository, then separately authorise preview publication, live smoke tests and promotion of the same verified bytes.                                                                          | Observer records source/input/output and Wiki commit identities, acceptance and recovery; remove only approved managed preview material. |
+
+Dependencies are SLICE-001 → SLICE-002 → SLICE-003 → SLICE-004; CI design and publisher experiments may be prepared once their input contracts are stable, with final integration after content qualification.
+Authorised independent work may use separate owned checkouts, frozen contracts and an identified integration owner; this plan grants no agent delegation.
+Do not schedule parallel writes to the same checkout or shared generator contracts.
+Verify the combined candidate after integration rather than treating isolated slice results as combined proof.
+
+**Unknowns, release and reassessment**
+
+The cheapest discriminating experiments are a real-rule extraction round trip, an unsupported-characteristic mutation, one reproducible light/dark diagram with text equivalent, one GFM/anchor rendering trial, and a disposable Wiki publication with unrelated-file sentinels and a competing update.
+Material gaps before implementation acceptance are the current reuse/rights assessment, named reviewers and integration owner, exact configuration proposals, coverage comparison against existing tests, and publisher credential/environment design.
+Participant availability and actual GitHub rendering remain release acceptance dependencies.
+
+Observe source/output coverage, stale guidance, input/output digests, missing or failed checks, runtime/resource consumption, publication no-op versus changed files and concurrent-update refusals.
+Record these in bounded native reports without credentials or workstation-specific paths in publication artefacts.
+No new telemetry service is required.
+
+Abort publication on missing evidence, semantic loss, unreviewed guidance, inaccessible essential content, digest drift, credential failure or ownership/concurrency conflict.
+Before activation, retain the existing Wiki revision if the candidate is unqualified.
+After activation, prefer a verified source-led forward fix; restoring an earlier publication is permitted only when its policy meaning remains current and the exact recovery is authorised.
+Preserve remote changes and evidence; never force-push or delete unrelated Wiki material.
+Rebaseline if canonical policy changes, a different renderer/dependency/trust boundary is selected, a compatibility bridge is proposed, the publication model changes, acceptance cannot be met, or integration drift invalidates proof.
+Reassess whether the added pipeline's maintenance and qualification cost still serves contributor comprehension and lossless technical access.
 
 ## Executive summary and evidence
 
@@ -171,7 +311,10 @@ These are hard implementation invariants:
 
 **Repository layout**
 
-Use existing discovered paths where they exist; introduce new locations only for concerns that do not currently have a suitable home.
+The tree below predicts responsibilities, not approved file creation or configuration changes.
+Reuse the current renderer CLI, `rendering.py`, `tests/test_editing_policy_rendering.py`, existing policy tests/fixtures and CI consumers first.
+A proposed nested test layout must prove native discovery and family ownership before adoption.
+Introduce new locations only for concerns without an existing suitable home.
 
 ```text
 universal-ontology/
@@ -246,7 +389,7 @@ universal-ontology/
 │       ├── namespaces.py                     # existing module inventory/configuration
 │       ├── documentation_model.py            # new
 │       ├── documentation_extract.py          # new
-│       ├── render_editing_policy.py           # new/refactored current generator
+│       ├── rendering.py                     # existing renderer; extend
 │       ├── render_diagrams.py                 # new
 │       ├── check_documentation.py             # new
 │       ├── test_policy_fixtures.py            # new
@@ -264,8 +407,7 @@ universal-ontology/
 │       └── test_validation_fixtures.py
 │
 └── .github/
-    └── workflows/
-        └── editing-policy-docs.yml
+    └── workflows/                            # extend existing consumers after approval
 ```
 
 Do **not** relocate the canonical policy merely to make the paths resemble the documentation paths.
@@ -273,17 +415,27 @@ Repository inspection has established that `policy/` and `scripts/ontology_polic
 
 **Migration baseline**
 
-Create `docs/editing-policy/source/baseline-policy-docs.json` from the supplied September snapshot and verification material:
+Create `docs/editing-policy/source/baseline-policy-docs.json` from the retained September snapshot and verification material, with a separately identified current-source inventory.
+The historical report explicitly did not execute the policy/validator or test live GitHub Wiki rendering.
+Its 35/77/224 counts are snapshot preservation evidence, not proof of semantic coverage or current acceptance.
+The earlier plan referenced a nonexistent `baseline-metrics.json`; use the actual preservation report and clause inventory instead.
+The proposed manifest below records their existing values; implementation must verify the snapshot digest and derive current IDs from `Policy.requirement_ids()`.
+The retained report claims source SHA-256 `b9acd317e03c32b73e1f0abfeb7f65e2572c3e8a52c89a978671705e3392c1a0`, while both retained snapshot files hash to `2cb32bcb3165e01ce125a59e3791e5356cc78d429d8a178a927a4114f3605cf3`.
+The latter also matches the snapshot committed in the original design commit `f343e63`; line-ending normalisation does not explain the difference.
+SLICE-001 must reconcile that provenance gap and rerun preservation against identified bytes before accepting the historical counts as verified for the implementation baseline.
+Preserve the original report; do not silently repair its digest or claim its earlier pass qualifies the current snapshot.
 
 ```json
 {
   "schemaVersion": 1,
   "baselineDate": "2026-09-12",
-  "source": "Editing-Policy [2026-09-12].md",
+  "source": "docs/reviews/editing-policy-design/Editing-Policy [2026-09-12].md",
+  "sourceSha256": "2cb32bcb3165e01ce125a59e3791e5356cc78d429d8a178a927a4114f3605cf3",
+  "historicalReportSourceSha256": "b9acd317e03c32b73e1f0abfeb7f65e2572c3e8a52c89a978671705e3392c1a0",
+  "preservationStatus": "requires-reconciliation-and-current-run",
   "verificationEvidence": [
-    "editing-policy-design/verification/baseline-metrics.json",
-    "editing-policy-design/verification/clause-inventory.json",
-    "editing-policy-design/verification/preservation-report.json"
+    "docs/reviews/editing-policy-design/verification/clause-inventory.json",
+    "docs/reviews/editing-policy-design/verification/preservation-report.json"
   ],
   "counts": {
     "technicalClauses": 35,
@@ -291,41 +443,41 @@ Create `docs/editing-policy/source/baseline-policy-docs.json` from the supplied 
     "nonTitleSourceBlocks": 224
   },
   "ruleIds": [
-    "EP-HEADER-ONTOLOGY-IRI",
-    "EP-HEADER-VERSION-IRI",
-    "EP-HEADER-COMPATIBILITY",
-    "EP-HEADER-VERSION-INFO",
-    "EP-NAMING-PASCAL",
-    "EP-NAMING-CAMEL",
-    "EP-LABEL-PREF",
-    "EP-LABEL-REGIONAL",
-    "EP-LABEL-RDFS",
+    "EP-ONT-VERSION",
+    "EP-ENTITY-UUID",
+    "EP-IDENTIFIER-UNIQUE",
+    "EP-ENTITY-CREATOR",
+    "EP-ENTITY-CREATED",
+    "EP-MODIFIED",
+    "EP-CONTRIBUTOR",
+    "EP-CLASS-NAME",
+    "EP-INDIVIDUAL-NAME",
+    "EP-PROPERTY-NAME",
+    "EP-PROPERTY-NAME-ISO",
+    "EP-LABEL",
+    "EP-PREFLABEL-LANGUAGE",
+    "EP-PREFLABEL-IRI",
+    "EP-PREFLABEL-LABEL",
     "EP-DEFINITION",
-    "EP-IDENTIFIER",
-    "EP-DESCRIPTION",
-    "EP-PROVENANCE-CREATED",
-    "EP-PROVENANCE-MODIFIED",
-    "EP-SOURCE",
-    "EP-EXTERNAL-CROSSREF",
-    "EP-SEE-ALSO",
-    "EP-DEFINED-BY",
-    "EP-DATASET-TYPE",
-    "EP-DATASET-TITLE",
-    "EP-DATASET-DESCRIPTION",
-    "EP-DATASET-LANGUAGES",
+    "EP-DESCRIPTIVE-LANGUAGE",
+    "EP-DESCRIPTION-LANGUAGE",
+    "EP-OPTIONAL-ANNOTATIONS",
+    "EP-AXIOM-POSITION",
+    "EP-DATASET-TYPE-IRI",
+    "EP-DATASET-REQUIRED",
     "EP-DATASET-DISTRIBUTION",
-    "EP-DISTRIBUTION-TYPE",
-    "EP-DISTRIBUTION-FORMAT",
+    "EP-DATASET-LANDING",
+    "EP-DATASET-ACCESS-RIGHTS",
+    "EP-DATASET-ACCESS-RIGHTS-IRI",
+    "EP-DISTRIBUTION-REQUIRED",
+    "EP-DISTRIBUTION-DOWNLOAD",
     "EP-DISTRIBUTION-MEDIA",
-    "EP-DISTRIBUTION-PAGE",
-    "EP-DISTRIBUTION-ACCESS-URL",
-    "EP-DISTRIBUTION-DOWNLOAD-URL",
-    "EP-DISTRIBUTION-DATA-SERVICE",
-    "EP-DISTRIBUTION-ACCESS-SERVICE",
-    "EP-DISTRIBUTION-ACCESS-FIELDS",
-    "EP-AXIOM-CREATOR",
-    "EP-AXIOM-CREATED",
-    "EP-AXIOM-SOURCE"
+    "EP-DISTRIBUTION-FORMAT",
+    "EP-DISTRIBUTION-FORMAT-EU",
+    "EP-DISTRIBUTION-LANGUAGE",
+    "EP-DISTRIBUTION-LICENCE",
+    "EP-DISTRIBUTION-RIGHTS",
+    "EP-HUMAN-CONCEPT-REUSE"
   ]
 }
 ```
@@ -417,9 +569,9 @@ Where a summary synthesises several clauses:
 An ordinary entity normally needs an identifier, creator information and a creation timestamp. Different rules govern modifications and specialist dataset/distribution resources.
 
 Technical requirements:
-[EP-IDENTIFIER](#ep-identifier) ·
-[EP-PROVENANCE-CREATED](#ep-provenance-created) ·
-[EP-PROVENANCE-MODIFIED](#ep-provenance-modified)
+[EP-ENTITY-UUID](#ep-entity-uuid) ·
+[EP-ENTITY-CREATED](#ep-entity-created) ·
+[EP-MODIFIED](#ep-modified)
 ```
 
 The renderer, not the author, adds the standard “Contributor summary — non-normative” label and constructs the links.
@@ -535,7 +687,7 @@ Representative schema:
     "policyIri": "canonical IRI from RDF",
     "title": "Universal Ontology Editing Policy",
     "inputDigest": "sha256:...",
-    "activeModules": [
+    "policyRuleFiles": [
       "policy/editing-policy.ttl",
       "policy/entity-policy.ttl",
       "policy/ontology-policy.ttl",
@@ -546,7 +698,7 @@ Representative schema:
   "groups": [],
   "rules": [
     {
-      "id": "EP-LABEL-PREF",
+      "id": "EP-PREFLABEL-LANGUAGE",
       "title": "Preferred label required",
       "group": "Labels and definitions",
       "order": 0,
@@ -668,43 +820,43 @@ Run it in a separate validation invocation.
 
 The renderer must produce exactly one stable technical-reference section for each active baseline requirement unless an explicit policy change changes the active set.
 
-| Rule ID                          | Technical-reference group |
-| -------------------------------- | ------------------------- |
-| `EP-HEADER-ONTOLOGY-IRI`         | Ontology header           |
-| `EP-HEADER-VERSION-IRI`          | Ontology header           |
-| `EP-HEADER-COMPATIBILITY`        | Ontology header           |
-| `EP-HEADER-VERSION-INFO`         | Ontology header           |
-| `EP-NAMING-PASCAL`               | Naming                    |
-| `EP-NAMING-CAMEL`                | Naming                    |
-| `EP-LABEL-PREF`                  | Labels and definitions    |
-| `EP-LABEL-REGIONAL`              | Labels and definitions    |
-| `EP-LABEL-RDFS`                  | Labels and definitions    |
-| `EP-DEFINITION`                  | Labels and definitions    |
-| `EP-IDENTIFIER`                  | Descriptive metadata      |
-| `EP-DESCRIPTION`                 | Descriptive metadata      |
-| `EP-PROVENANCE-CREATED`          | Provenance                |
-| `EP-PROVENANCE-MODIFIED`         | Provenance                |
-| `EP-SOURCE`                      | Provenance                |
-| `EP-EXTERNAL-CROSSREF`           | Provenance                |
-| `EP-SEE-ALSO`                    | Provenance                |
-| `EP-DEFINED-BY`                  | Provenance                |
-| `EP-DATASET-TYPE`                | Dataset and distribution  |
-| `EP-DATASET-TITLE`               | Dataset and distribution  |
-| `EP-DATASET-DESCRIPTION`         | Dataset and distribution  |
-| `EP-DATASET-LANGUAGES`           | Dataset and distribution  |
-| `EP-DATASET-DISTRIBUTION`        | Dataset and distribution  |
-| `EP-DISTRIBUTION-TYPE`           | Dataset and distribution  |
-| `EP-DISTRIBUTION-FORMAT`         | Dataset and distribution  |
-| `EP-DISTRIBUTION-MEDIA`          | Dataset and distribution  |
-| `EP-DISTRIBUTION-PAGE`           | Dataset and distribution  |
-| `EP-DISTRIBUTION-ACCESS-URL`     | Dataset and distribution  |
-| `EP-DISTRIBUTION-DOWNLOAD-URL`   | Dataset and distribution  |
-| `EP-DISTRIBUTION-DATA-SERVICE`   | Dataset and distribution  |
-| `EP-DISTRIBUTION-ACCESS-SERVICE` | Dataset and distribution  |
-| `EP-DISTRIBUTION-ACCESS-FIELDS`  | Dataset and distribution  |
-| `EP-AXIOM-CREATOR`               | Axiom annotations         |
-| `EP-AXIOM-CREATED`               | Axiom annotations         |
-| `EP-AXIOM-SOURCE`                | Axiom annotations         |
+| Rule ID                        | Technical-reference group                |
+| ------------------------------ | ---------------------------------------- |
+| `EP-ONT-VERSION`               | Ontology header                          |
+| `EP-ENTITY-UUID`               | Entity metadata                          |
+| `EP-IDENTIFIER-UNIQUE`         | Entity metadata                          |
+| `EP-ENTITY-CREATOR`            | Entity metadata                          |
+| `EP-ENTITY-CREATED`            | Entity metadata                          |
+| `EP-MODIFIED`                  | Entity metadata                          |
+| `EP-CONTRIBUTOR`               | Entity metadata                          |
+| `EP-CLASS-NAME`                | Naming                                   |
+| `EP-INDIVIDUAL-NAME`           | Naming                                   |
+| `EP-PROPERTY-NAME`             | Naming                                   |
+| `EP-PROPERTY-NAME-ISO`         | Naming                                   |
+| `EP-LABEL`                     | Labels, definitions and descriptive text |
+| `EP-PREFLABEL-LANGUAGE`        | Labels, definitions and descriptive text |
+| `EP-PREFLABEL-IRI`             | Labels, definitions and descriptive text |
+| `EP-PREFLABEL-LABEL`           | Labels, definitions and descriptive text |
+| `EP-DEFINITION`                | Labels, definitions and descriptive text |
+| `EP-DESCRIPTIVE-LANGUAGE`      | Labels, definitions and descriptive text |
+| `EP-DESCRIPTION-LANGUAGE`      | Labels, definitions and descriptive text |
+| `EP-OPTIONAL-ANNOTATIONS`      | Optional annotations                     |
+| `EP-AXIOM-POSITION`            | Axiom annotations                        |
+| `EP-DATASET-TYPE-IRI`          | Datasets                                 |
+| `EP-DATASET-REQUIRED`          | Datasets                                 |
+| `EP-DATASET-DISTRIBUTION`      | Datasets                                 |
+| `EP-DATASET-LANDING`           | Datasets                                 |
+| `EP-DATASET-ACCESS-RIGHTS`     | Datasets                                 |
+| `EP-DATASET-ACCESS-RIGHTS-IRI` | Datasets                                 |
+| `EP-DISTRIBUTION-REQUIRED`     | Distributions                            |
+| `EP-DISTRIBUTION-DOWNLOAD`     | Distributions                            |
+| `EP-DISTRIBUTION-MEDIA`        | Distributions                            |
+| `EP-DISTRIBUTION-FORMAT`       | Distributions                            |
+| `EP-DISTRIBUTION-FORMAT-EU`    | Distributions                            |
+| `EP-DISTRIBUTION-LANGUAGE`     | Distributions                            |
+| `EP-DISTRIBUTION-LICENCE`      | Distributions                            |
+| `EP-DISTRIBUTION-RIGHTS`       | Distributions                            |
+| `EP-HUMAN-CONCEPT-REUSE`       | Human review                             |
 
 Do not treat the 77 previously generated executable-constraint bullets as a complete semantic inventory.
 A requirement can contain material in its description, target, logical expression or context dependency that is not repeated in the bullet projection.
@@ -730,10 +882,10 @@ If an old example is misleading, first preserve it as the baseline, then resolve
   "schemaVersion": 1,
   "examples": [
     {
-      "id": "example-ep-label-pref-001",
-      "requirementIds": ["EP-LABEL-PREF"],
+      "id": "example-ep-preflabel-language-001",
+      "requirementIds": ["EP-PREFLABEL-LANGUAGE"],
       "class": "preserved-technical",
-      "source": "preserved/example-ep-label-pref-001.ttl",
+      "source": "preserved/example-ep-preflabel-language-001.ttl",
       "expectedConformance": true,
       "nonNormative": false
     },
@@ -755,8 +907,8 @@ If an old example is misleading, first preserve it as the baseline, then resolve
 
 ```mermaid
 flowchart TD
-    A["Canonical policy graphs<br/>policy/*.ttl"] --> E["Load active policy modules"]
-    B["Activation/configuration<br/>activation.ttl + policy-config.ttl"] --> E
+    A["Canonical rule files<br/>RULE_FILENAMES"] --> E["Existing load_policy"]
+    B["Activation and context<br/>existing validator loaders"] --> O
     C["Reviewed reader guidance<br/>docs/editing-policy/source/*.ttl"] --> F["Validate documentation metadata"]
     D["Examples + diagram definitions"] --> F
 
@@ -786,7 +938,7 @@ flowchart TD
 
 The generator must execute these stages in this order:
 
-1. Resolve the active policy module set using the repository's existing activation/configuration logic rather than maintaining a second file list in the documentation generator.
+1. Load policy rule files through `load_policy` and its `RULE_FILENAMES` authority; use the existing module/context loader separately when fixture validation needs activated ontology documents.
 2. Load the canonical policy graphs.
 3. Validate policy metadata using the existing policy metadata shapes.
 4. Load the separate reader-guidance graph.
@@ -837,7 +989,7 @@ Example manifest:
 ```json
 {
   "schemaVersion": 1,
-  "generator": "scripts.ontology_policy.render_editing_policy",
+  "generator": "scripts/render_editing_policy.py",
   "inputs": [
     "policy/editing-policy.ttl",
     "policy/entity-policy.ttl",
@@ -868,7 +1020,7 @@ Responsibilities:
 
 - load active RDF graphs;
 - identify primary documentation-bearing rule resources;
-- extract `pd:requirementId` and other policy metadata;
+- extract `uop:requirementId` and other policy metadata;
 - preserve canonical literal values and provenance;
 - identify executable SHACL characteristics;
 - identify human/procedural clauses;
@@ -887,7 +1039,7 @@ Responsibilities:
 - attach examples, provenance, diagrams and contributor summaries by stable ID;
 - make it impossible for renderer layout code to invent policy content.
 
-`scripts/ontology_policy/render_editing_policy.py`
+`scripts/ontology_policy/rendering.py`
 
 Responsibilities:
 
@@ -919,35 +1071,16 @@ npm run generate:editing-policy
 npm run check:editing-policy
 ```
 
-Add these granular commands:
+Existing focused controls also include `npm run test:policy-rendering` and `npm run test:ontology-policy`.
+Keep their `.venv` wrapper and native `unittest` discovery; extend coverage before adding commands.
 
-```bash
-npm run render:editing-policy:diagrams
-npm run test:editing-policy
-npm run test:editing-policy:fixtures
-npm run test:editing-policy:a11y
-npm run preview:editing-policy
-```
-
-Representative `package.json` scripts:
-
-```json
-{
-  "scripts": {
-    "generate:editing-policy": "python -m scripts.ontology_policy.render_editing_policy",
-    "check:editing-policy": "python -m scripts.ontology_policy.render_editing_policy --check",
-    "render:editing-policy:diagrams": "python -m scripts.ontology_policy.render_diagrams",
-    "test:editing-policy:fixtures": "python -m scripts.ontology_policy.test_policy_fixtures",
-    "test:editing-policy:a11y": "node scripts/editing-policy-a11y.mjs",
-    "test:editing-policy": "pytest -q tests/policy_documentation && npm run test:editing-policy:fixtures && npm run test:editing-policy:a11y",
-    "preview:editing-policy": "python -m scripts.ontology_policy.render_preview"
-  }
-}
-```
-
-Retain `package-lock.json` and a Python dependency lock used by CI.
-Do not use unpinned `npx <package>@latest` commands in the actual build.
-Installation-time dependency updates are separate reviewed changes.
+After reuse research and exact package/lock approval, proposed additional operations are diagram rendering, fixture-manifest execution, preview rendering and authored-content accessibility checks.
+Choose final names from their implemented responsibility; every Python entry point uses `node scripts/runRepositoryPython.js`.
+These operations do not exist yet.
+Do not add pytest or a second Python dependency lock merely to follow the original pseudocode.
+Use existing root and isolated tooling authorities and supported public APIs.
+New generated JSON/Markdown contracts require an explicit policy decision.
+Installation and browser acquisition remain separate authorised actions; no floating downloads during qualification.
 
 **Technical preservation algorithm**
 
@@ -1065,7 +1198,7 @@ DCAT vocabulary semantics are defined by https://www.w3.org/TR/vocab-dcat-2/
 | Option                             | Strengths                                                                                                         | Weaknesses                                                                                                                            | Decision                                                                           |
 | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | Live Mermaid only in Wiki          | Text source is diffable; GitHub renders it natively                                                               | GitHub's deployed Mermaid version can lag upstream; rendering can change independently; fine-grained accessibility control is limited | Use for the implementation-plan pipeline diagram and simple low-risk diagrams only |
-| Mermaid source → committed SVG/PNG | Diffable semantic source plus deterministic reviewed assets; predictable appearance; explicit light/dark variants | Adds build step                                                                                                                       | **Preferred production strategy**                                                  |
+| Mermaid source → committed SVG/PNG | Diffable semantic source plus deterministic reviewed assets; predictable appearance; explicit light/dark variants | Adds build step                                                                                                                       | **Preferred design; current tool adoption pending**                                |
 | Hand-authored SVG/Figma/draw.io    | Highest bespoke visual polish                                                                                     | Harder to review semantically; easy for diagram and policy to drift                                                                   | Use only for an exceptional diagram that Mermaid cannot express clearly            |
 | Graphviz → SVG/PNG                 | Deterministic and strong for complex graphs                                                                       | Adds a second diagram language/toolchain                                                                                              | Do not introduce unless Mermaid proves inadequate                                  |
 
@@ -1074,23 +1207,11 @@ Because the host's Mermaid implementation can differ from the latest upstream Me
 
 Store Mermaid sources in `docs/editing-policy/diagrams/*.mmd`.
 
-Pin `@mermaid-js/mermaid-cli` through `package-lock.json`.
+Treat `@mermaid-js/mermaid-cli` as the September candidate, pending current reuse/version/rights research.
+If selected, use approved dependency authorities and native locks, with browser/font identities and Windows/Linux reproducibility evidence.
 
-Render both themes:
-
-```bash
-npm ci
-
-npx --no-install mmdc \
-  -i docs/editing-policy/diagrams/entity-anatomy.mmd \
-  -o docs/policy/assets/editing-policy/entity-anatomy-light.svg \
-  -t neutral
-
-npx --no-install mmdc \
-  -i docs/editing-policy/diagrams/entity-anatomy.mmd \
-  -o docs/policy/assets/editing-policy/entity-anatomy-dark.svg \
-  -t dark
-```
+After the adoption decision, implement bounded light/dark rendering from the same semantic source.
+Keep installation separate from rendering, use supported native interfaces and deterministic fonts/layout, and avoid a second browser stack where existing integration is suitable.
 
 Generate PNG fallback assets from the same source/rendered SVG in a deterministic conversion step:
 
@@ -1121,10 +1242,10 @@ Do not use screenshots as the source of diagrams.
       "alt": "An ordinary ontology entity is described through identity, meaning, provenance and optional references, with exact requirements depending on entity type.",
       "textEquivalent": "docs/editing-policy/diagrams/entity-anatomy.md",
       "requirementIds": [
-        "EP-IDENTIFIER",
-        "EP-LABEL-PREF",
+        "EP-ENTITY-UUID",
+        "EP-PREFLABEL-LANGUAGE",
         "EP-DEFINITION",
-        "EP-PROVENANCE-CREATED"
+        "EP-ENTITY-CREATED"
       ]
     }
   ]
@@ -1219,7 +1340,8 @@ It should instead state that the **authored Editing Policy content is designed a
 
 **Policy coverage tests**
 
-`tests/policy_documentation/test_policy_coverage.py` must assert:
+Extend the existing `unittest` rendering/policy suites with the following acceptance assertions.
+This pseudocode describes outcomes; it does not select pytest or an undiscovered nested test directory.
 
 ```python
 def test_every_active_ep_rule_has_exactly_one_technical_section(model):
@@ -1314,13 +1436,13 @@ docs/editing-policy/fixtures/
 │   ├── distribution.ttl
 │   └── axiom-annotation.ttl
 ├── mutations/
-│   ├── ep-label-pref-missing.json
+│   ├── ep-preflabel-language-missing.json
 │   ├── ep-definition-missing.json
 │   ├── ep-identifier-invalid-uuid.json
 │   ├── ep-distribution-media-invalid.json
 │   └── ...
 └── expected/
-    ├── ep-label-pref-missing.json
+    ├── ep-preflabel-language-missing.json
     ├── ep-definition-missing.json
     └── ...
 ```
@@ -1329,7 +1451,7 @@ Representative mutation:
 
 ```json
 {
-  "id": "ep-label-pref-missing",
+  "id": "ep-preflabel-language-missing",
   "base": "../golden/ordinary-entity.ttl",
   "operations": [
     {
@@ -1349,12 +1471,12 @@ Expected result:
 
 ```json
 {
-  "case": "ep-label-pref-missing",
+  "case": "ep-preflabel-language-missing",
   "conforms": false,
   "focusNode": "urn:test:owned:ExampleClass",
   "requiredResults": [
     {
-      "requirementId": "EP-LABEL-PREF",
+      "requirementId": "EP-PREFLABEL-LANGUAGE",
       "severity": "http://www.w3.org/ns/shacl#Violation"
     }
   ],
@@ -1370,7 +1492,7 @@ For human-only obligations, the fixture coverage entry is different:
 
 ```json
 {
-  "requirementId": "EP-SOME-HUMAN-REVIEW-RULE",
+  "requirementId": "EP-HUMAN-CONCEPT-REUSE",
   "assessment": "human",
   "automatedNegativeFixture": null,
   "requiredHumanTest": "docs/editing-policy/usability/human-review-checks.md#..."
@@ -1386,10 +1508,10 @@ A human-only requirement must not be given a fake SHACL negative fixture merely 
   "schemaVersion": 1,
   "coverage": [
     {
-      "requirementId": "EP-LABEL-PREF",
+      "requirementId": "EP-PREFLABEL-LANGUAGE",
       "assessment": "executable",
       "positive": ["golden/ordinary-entity.ttl"],
-      "negative": ["ep-label-pref-missing"],
+      "negative": ["ep-preflabel-language-missing"],
       "severityAsserted": true
     },
     {
@@ -1407,57 +1529,25 @@ CI fails when an executable constraint has no fixture coverage record.
 
 **Validation-result mapping**
 
-SHACL validation reports identify `sh:sourceShape` and `sh:resultSeverity`.
-Resolve the result back to a requirement ID through the documentation-bearing shape or its owning node shape.
+Use `Policy.requirement_for_shape` in `scripts/ontology_policy/policy.py` and the production report path in `reports.py` to resolve `sh:sourceShape` and preserve `sh:resultSeverity`.
+The resolver handles direct `uop:requirementId`, owning `sh:property` and separate shapes linked by `uop:partOf`.
+The canonical namespace is `https://haddenindustries.com/ontology/policy#`.
+The old plan's namespace and two-branch query did not represent this contract.
 
-Representative diagnostic SPARQL:
-
-```sparql
-PREFIX sh: <http://www.w3.org/ns/shacl#>
-PREFIX pd: <https://data.haddenindustries.com/core/policy/policy-definition/>
-
-SELECT
-  ?result
-  ?focusNode
-  ?resultPath
-  ?severity
-  ?requirementId
-  ?message
-WHERE {
-  ?result
-      a sh:ValidationResult ;
-      sh:focusNode ?focusNode ;
-      sh:sourceShape ?sourceShape ;
-      sh:resultSeverity ?severity .
-
-  OPTIONAL { ?result sh:resultPath ?resultPath }
-  OPTIONAL { ?result sh:resultMessage ?message }
-
-  {
-    ?sourceShape pd:requirementId ?requirementId .
-  }
-  UNION
-  {
-    ?ownerShape
-        sh:property ?sourceShape ;
-        pd:requirementId ?requirementId .
-  }
-}
-ORDER BY ?requirementId ?focusNode ?resultPath
-```
-
-If the repository's canonical policy model uses a different ownership relation for a particular SPARQL/property shape, centralise that resolution in one tested resolver rather than teaching every fixture its own joining logic.
+Test all three ownership paths, unknown ownership, severity, focus/path identity, unavailable context and unexpected results.
+Keep expected IDs/severities in independently reviewed fixtures.
+Do not duplicate ownership resolution in a documentation-only query.
 
 **Requirement-ID integrity SPARQL**
 
 Use a build-time query as an additional sanity check:
 
 ```sparql
-PREFIX pd: <https://data.haddenindustries.com/core/policy/policy-definition/>
+PREFIX uop: <https://haddenindustries.com/ontology/policy#>
 
 SELECT ?requirementId (COUNT(DISTINCT ?resource) AS ?count)
 WHERE {
-  ?resource pd:requirementId ?requirementId .
+  ?resource uop:requirementId ?requirementId .
   FILTER(STRSTARTS(STR(?requirementId), "EP-"))
 }
 GROUP BY ?requirementId
@@ -1469,26 +1559,10 @@ If the canonical model intentionally permits more than one RDF resource to share
 
 **Validation command**
 
-CI should invoke the same validation code path as production, not a documentation-only approximation:
-
-```bash
-python -m scripts.ontology_policy.test_policy_fixtures \
-  --manifest docs/editing-policy/fixtures/manifest.json \
-  --policy-root policy/editing-policy.ttl \
-  --activation policy/activation.ttl
-```
-
-A raw `pyshacl` invocation is useful for diagnostics, but the authoritative test runner must assemble exactly the same active modules, external authority snapshots and validation context as the real policy runner.
-
-Diagnostic example:
-
-```bash
-pyshacl \
-  --shacl build/editing-policy/active-policy.ttl \
-  --data build/editing-policy/fixture.ttl \
-  --format turtle \
-  --output build/editing-policy/report.ttl
-```
+Use `npm run test:ontology-policy` and the production loader, validation context, pinned authorities and reporting path.
+Extend existing `unittest` modules for manifest-driven positive, negative and context cases.
+If a fixture CLI is justified, route it through `scripts/runRepositoryPython.js` and obtain exact package-script approval first.
+Raw pySHACL diagnostics cannot replace production-path or required second-engine evidence.
 
 **Example validation**
 
@@ -1525,7 +1599,7 @@ Parse the generated Markdown and assert:
 - no duplicate generated heading causes GitHub slug suffixes such as `-1`;
 - no contributor link uses the human-readable title as the stable identifier.
 
-External HTTP links should be checked in a **scheduled** workflow as well as during release qualification.
+Check external HTTP links during authorised release qualification; periodic checking is a proposed owner-approved extension of existing scheduled qualification.
 A transient W3C/GitHub/IANA outage should not unnecessarily block an unrelated policy pull request.
 Internal links remain blocking on every PR.
 
@@ -1548,31 +1622,14 @@ The test should reject:
 
 **Determinism check**
 
-CI generates twice into separate directories:
+Extend the existing deterministic-output and no-write tests in `tests/test_editing_policy_rendering.py` to the complete output manifest.
+Use two owned temporary directories, frozen inputs/tool identities, and compare relative path sets and every output byte.
+Vary parser blank-node allocation and traversal order without changing semantics.
+The existing CLI supports `--output` for one Markdown file; a multi-output interface is proposed, not an existing `--output-dir` command.
 
-```bash
-rm -rf build/run-a build/run-b
-
-python -m scripts.ontology_policy.render_editing_policy \
-  --output-dir build/run-a
-
-python -m scripts.ontology_policy.render_editing_policy \
-  --output-dir build/run-b
-
-diff -ru build/run-a build/run-b
-```
-
-Then verify committed output:
-
-```bash
-npm run generate:editing-policy
-
-git diff --exit-code -- \
-  docs/policy/Editing-Policy.generated.md \
-  docs/policy/Editing-Policy.sidebar.md \
-  docs/policy/Editing-Policy.manifest.json \
-  docs/policy/assets/editing-policy/
-```
+Run `npm run check:editing-policy` without regenerating tracked output first.
+Verification must not repair the candidate before freshness is assessed.
+Retain useful failure evidence and remove scratch after its consumers finish.
 
 **Local accessibility test**
 
@@ -1628,174 +1685,36 @@ Manual diagram review must additionally verify:
 - text is legible at normal desktop display;
 - mobile readers can obtain all meaning from adjacent prose/text equivalent even when the graphic scales down.
 
-**GitHub Actions workflow**
+**GitHub Actions integration**
 
-Add `.github/workflows/editing-policy-docs.yml`:
+Extend the existing functional graph after exact configuration approval; do not add the old proposed standalone `editing-policy-docs.yml` with duplicate PR/main triggers.
 
-```yaml
-name: Editing policy documentation
+- `pr-validation.yml` owns the functional PR entry point and aggregate gate.
+- `full-qualification.yml` owns main, scheduled and explicit full qualification.
+- `development-checks.yml` owns fresh Markdown/JSON, Python and tooling controls.
+- `ontology-validation.yml` owns generated-policy checks, policy coverage and required active-set/engine qualification.
+- `scripts/selectPullRequestChecks.js` and its native schema/tests own affected selection and completion identity.
 
-on:
-  pull_request:
-    paths:
-      - "policy/**"
-      - "docs/editing-policy/**"
-      - "docs/policy/**"
-      - "scripts/ontology_policy/**"
-      - "tests/policy_documentation/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/editing-policy-docs.yml"
+Current `ontology_policy_qa` inputs include the renderer, generated policy, Markdown controls and policy tests.
+Add the new guidance, diagram, example and manifest contracts through the smallest selector/consumer extension.
+Prove coverage for additions, deletions, renames, unknown tests, mixed changes and shared controls; reject missing or unexpectedly skipped completion.
+Update generated validators or governed distribution digests only where their actual owner contract changes, with approval.
 
-  push:
-    branches:
-      - main
-    paths:
-      - "policy/**"
-      - "docs/editing-policy/**"
-      - "docs/policy/**"
-      - "scripts/ontology_policy/**"
-      - "tests/policy_documentation/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/editing-policy-docs.yml"
+Reuse `.node-version`, root `packageManager`, `.python-version`, `.java-version`, shared setup actions and native locks.
+Retain SHA-pinned Actions and the existing lifecycle-disabled installation paths.
+Do not introduce `.nvmrc`, Python 3.12 setup or `requirements-docs.lock`.
+Browser/diagram acquisition needs reviewed identities, supported platforms and finite resources.
+Keep Windows/Linux checks and reassess Python test-family ownership when dependencies change.
 
-  workflow_dispatch:
+Require each consumer's native completion identity at the tested revision.
+New documentation, determinism, accessibility and publication proofs run fresh; Node proof reuse does not cover them.
+Preserve PR-only cancellation and non-cancelling full qualification; do not interrupt a Wiki writer with blanket cancellation.
 
-permissions:
-  contents: read
-
-concurrency:
-  group: editing-policy-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  verify:
-    name: Generate and verify editing-policy documentation
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-
-      - name: Install Python documentation dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install --require-hashes \
-            -r scripts/ontology_policy/requirements-docs.lock
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ".nvmrc"
-          cache: npm
-
-      - name: Install Node dependencies
-        run: npm ci
-
-      - name: Install Chromium for accessibility tests
-        run: npx --no-install playwright install --with-deps chromium
-
-      - name: Generate editing-policy documentation
-        run: npm run generate:editing-policy
-
-      - name: Verify generated files are current
-        run: npm run check:editing-policy
-
-      - name: Verify deterministic generation
-        run: |
-          rm -rf build/determinism-a build/determinism-b
-
-          python -m scripts.ontology_policy.render_editing_policy \
-            --output-dir build/determinism-a
-
-          python -m scripts.ontology_policy.render_editing_policy \
-            --output-dir build/determinism-b
-
-          diff -ru build/determinism-a build/determinism-b
-
-      - name: Run policy documentation tests
-        run: pytest -q tests/policy_documentation
-
-      - name: Run SHACL fixture tests
-        run: npm run test:editing-policy:fixtures
-
-      - name: Render local preview
-        run: npm run preview:editing-policy
-
-      - name: Run authored-content accessibility tests
-        run: npm run test:editing-policy:a11y
-
-      - name: Ensure generated tree is committed
-        run: |
-          git diff --exit-code -- \
-            docs/policy/Editing-Policy.generated.md \
-            docs/policy/Editing-Policy.sidebar.md \
-            docs/policy/Editing-Policy.manifest.json \
-            docs/policy/assets/editing-policy/
-
-      - name: Upload verification evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: editing-policy-verification
-          path: |
-            build/editing-policy/
-            build/preview/
-            docs/policy/Editing-Policy.generated.md
-            docs/policy/Editing-Policy.manifest.json
-          if-no-files-found: error
-
-  publish-wiki:
-    name: Publish verified editing policy to Wiki
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs:
-      - verify
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    environment: wiki-production
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-
-      - name: Install Wiki publication dependencies
-        run: |
-          python -m pip install --require-hashes \
-            -r scripts/ontology_policy/requirements-docs.lock
-
-      - name: Publish only managed Wiki files
-        env:
-          WIKI_PUSH_TOKEN: ${{ secrets.WIKI_PUSH_TOKEN }}
-        run: |
-          python -m scripts.ontology_policy.publish_wiki \
-            --repository Hadden-Industries/universal-ontology \
-            --source docs/policy/Editing-Policy.generated.md \
-            --sidebar-fragment docs/policy/Editing-Policy.sidebar.md \
-            --assets docs/policy/assets/editing-policy \
-            --manifest docs/policy/Editing-Policy.manifest.json
-```
-
-Before merging this workflow, inspect the repository's existing runtime/version files.
-If `.nvmrc` is not present, add one as a separately reviewed dependency-runtime decision rather than silently embedding two Node versions in different workflows.
-
-For supply-chain hardening, repository policy should ultimately pin actions to reviewed immutable commit SHAs and let dependency automation propose SHA updates.
-GitHub's security guidance explains that full-length commit SHA pinning is the immutable option for actions: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions
+The Wiki publisher is a separately authorised deployment boundary.
+Prepare its exact workflow/environment/permission/secret proposal after disposable-repository proofs.
+Admit the exact successful main qualification and generated manifest, then publish those bytes without rebuilding or substituting a newer revision.
+Begin with explicit release approval; automatic publication requires a later owner decision after live acceptance.
+A new reusable documentation consumer or dedicated deployment workflow needs a demonstrated ownership/resource reason within this graph.
 
 **Wiki publication model**
 
@@ -1853,9 +1772,9 @@ Everything outside those markers remains untouched.
 
 `publish_wiki.py` must:
 
-1. clone the Wiki repository into a temporary directory using `WIKI_PUSH_TOKEN`;
+1. clone the Wiki repository into an owned temporary directory using the approved credential, without embedding it in recorded URLs or logs;
 2. read the prior publication manifest;
-3. remove only files owned by the prior Editing Policy publication;
+3. validate prior manifest paths, file types and ownership, then remove only stale files whose current identity still matches that manifest; refuse traversal, symlink escape or externally modified managed files;
 4. copy current generated files;
 5. update only the marked sidebar block;
 6. write the new publication manifest;
@@ -1865,12 +1784,14 @@ Everything outside those markers remains untouched.
 10. fail rather than force-push if the remote changed concurrently.
 
 The Wiki write credential is an operational prerequisite that cannot be inferred from source files.
-It must be a least-privilege credential with proven write access to the repository Wiki, stored as a GitHub Actions secret and restricted by the `wiki-production` environment.
-Wiki publishing runs only on trusted `main` pushes, never on pull requests from forks.
+Prepare the smallest supported credential/environment design and prove Wiki write access only under explicit authority.
+`WIKI_PUSH_TOKEN` and `wiki-production` are proposed identifiers, not confirmed configured resources.
+Wiki publishing admits only explicitly authorised trusted main candidates; PR validation receives no write credential.
 
 **External-link health**
 
-Add a scheduled workflow weekly for:
+If periodic link checks are approved, prefer a bounded job in existing scheduled qualification rather than creating another schedule implicitly.
+Check:
 
 - W3C specifications;
 - GitHub Docs;
@@ -1889,144 +1810,24 @@ A broken historical source link is provenance information to investigate, not pe
 
 **Implementation sequence**
 
-Use gated increments so that usability work can never outrun preservation.
+Use SLICE-001 through SLICE-006 above.
+They replace horizontal model/renderer/guide/diagram/test batches.
+Preservation and production-path proof accompany every demonstrable increment; account for all current rules before accepting contributor simplification.
 
-**Baseline and freeze**
+Inspect the checkout, existing environment, policy identities and retained evidence first.
+Run read-only `npm run check:editing-policy` where prerequisites exist; record failures without repairing the baseline by regeneration.
+Installation needs its own authority.
+Capture current IDs, source modules, prose, constraints, provenance, examples, severities, human obligations and prototype identities.
+Compare September evidence with current policy and explain every difference.
 
-Actions:
-
-```bash
-npm ci
-npm run generate:editing-policy
-npm run check:editing-policy
-```
-
-Capture:
-
-- current active `EP-*` IDs;
-- source module for each rule;
-- existing generated paragraphs;
-- executable-constraint items;
-- provenance;
-- examples;
-- rule severities;
-- human-review statements;
-- current diagrams/prototypes from the supplied design archive.
-
-Produce:
-
-```text
-docs/editing-policy/source/baseline-policy-docs.json
-build/editing-policy/baseline-preservation-report.json
-```
-
-Exit gate:
-
-```text
-35 supplied-baseline EP-* IDs accounted for
-77 supplied-baseline executable-constraint bullets accounted for
-224 supplied-baseline source blocks accounted for
-all baseline examples inventoried
-all baseline provenance items inventoried
-```
-
-Do not start contributor simplification until this inventory is machine-checkable.
-
-**Lossless technical model**
-
-Implement extraction and intermediate JSON first.
-
-Exit gate:
-
-```text
-Every active source rule appears exactly once
-No active source characteristic is classified as "unrepresented"
-Every technical example is represented
-Every provenance item is represented
-Two runs produce identical JSON
-```
-
-**Technical renderer**
-
-Render the complete technical reference before implementing the contributor route.
-
-Exit gate:
-
-```text
-All EP-* anchors resolve
-No technical block omitted
-Exact technical wording preserved where source provides wording
-Applicability/exceptions visible
-Executable constraints visible
-Human-review obligations visible
-Provenance preserved
-```
-
-This ordering is deliberate: the simplified route should be built on top of a proven complete representation rather than becoming the basis from which completeness is inferred.
-
-**Contributor guide**
-
-Add reviewed summaries mapped to stable IDs.
-
-Mandatory contributor tasks:
-
-```text
-Find out whether a concept already exists
-Determine what kind of resource is being changed
-Understand minimum descriptive information
-Understand labels/definitions
-Understand creation provenance
-Understand modification provenance
-Understand dataset versus distribution
-Understand access URL/download URL/service distinctions
-Recognise when human judgement is still required
-Reach the full technical requirement in one link
-```
-
-Exit gate:
-
-```text
-100% of contributor summary units labelled non-normative
-100% have at least one active EP-* reference
-0 unresolved links
-0 contributor-only policy requirements
-```
-
-**Diagrams**
-
-Port the supplied diagram concepts to reproducible sources and generated assets.
-
-Exit gate:
-
-```text
-7/7 diagram families represented
-7/7 have light SVG
-7/7 have dark SVG
-7/7 have light PNG
-7/7 have dark PNG
-7/7 have alt text
-7/7 have complete text equivalents
-0 colour-only semantic distinctions
-```
-
-**Fixtures and CI**
-
-Build golden fixtures and controlled mutations.
-
-Exit gate:
-
-```text
-Every executable rule/constraint family mapped to fixture coverage
-Every negative fixture asserts EP-* identity
-Every negative fixture asserts severity
-Every positive fixture proves target participation rather than vacuous pass
-Conditional/context-dependent cases represented
-Human-only requirements explicitly marked as human rather than fake-automated
-```
+The baseline manifest and preservation report belong to implementation.
+Account for historical 35/77/224 counts while independently proving current source-to-output coverage.
+Retain manifests and useful failures; release only spent task-owned scratch.
+This planning refresh establishes no implementation or acceptance result.
 
 **Initial publication**
 
-For the first release:
+For the first release, obtain explicit authority for preview writes, promotion, sidebar updates and managed preview cleanup:
 
 1. Merge generated source-controlled artefacts.
 2. Publish an unlinked `Editing-Policy-Preview` Wiki page using the exact intended renderer/publisher.
@@ -2077,7 +1878,7 @@ Did provenance change?
 CI prints an impact report, for example:
 
 ```text
-EP-PROVENANCE-MODIFIED changed
+EP-MODIFIED changed
 
 Affected generated technical section:
   yes
@@ -2090,11 +1891,11 @@ Diagrams requiring review:
   modification-obligation
 
 Fixtures requiring review:
-  ep-provenance-modified-changed
-  ep-provenance-modified-no-comparison-context
+  ep-modified-changed
+  ep-modified-no-comparison-context
 
 Examples requiring review:
-  example-ep-provenance-modified-001
+  example-ep-modified-001
 ```
 
 A contributor-summary reviewer then updates the stored rule fingerprint after confirming the summary remains faithful.
@@ -2110,7 +1911,8 @@ A contributor-summary reviewer then updates the stored rule fingerprint after co
 - **Domain contributor representative:** tests whether a subject-matter expert without SHACL expertise can complete contributor tasks.
 - **Technical consumer representative:** tests whether implementers can find exact constraints, exceptions and lineage without ambiguity.
 
-Map these roles to actual GitHub teams/users in `CODEOWNERS`; do not invent personal usernames in the implementation plan.
+Record actual role owners at acceptance.
+A `CODEOWNERS` change is a proposed enforcement option requiring exact repository-policy approval; do not invent teams or usernames.
 
 Recommended ownership boundaries:
 
@@ -2122,7 +1924,7 @@ Recommended ownership boundaries:
 /docs/editing-policy/fixtures/**                SHACL owner
 /scripts/ontology_policy/**                     tooling + SHACL owner
 /tests/policy_documentation/**                  tooling + SHACL/docs owners
-/.github/workflows/editing-policy-docs.yml      DevOps + tooling owner
+/.github/workflows/                            existing CI owners; exact changed consumers only
 /docs/policy/Editing-Policy.generated.md         generated; review diff, never hand edit
 ```
 
@@ -2183,7 +1985,7 @@ If Wiki publication fails after main is merged:
 If a bad Wiki publication succeeds:
 
 1. identify the main-repository commit/input digest;
-2. revert or correct the source/generator in the main repository;
+2. correct the source/generator in the main repository; restore earlier content only if it remains semantically current and the exact recovery is authorised;
 3. regenerate and pass all tests;
 4. republish;
 5. use Wiki Git history for forensic comparison, not as the correction source.
@@ -2192,27 +1994,14 @@ If the generator loses information, block publication even if the resulting Mark
 
 ## Delivery plan, resourcing and acceptance
 
-**Concrete implementation work packages**
+**Resourcing and checkpoints**
 
-| Work package                                                                                    | Deliverables                                                                        | Primary skills                             |        Person-days |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------ | -----------------: |
-| Baseline/inventory                                                                              | migration manifest, clause/source/example/provenance inventory, source fingerprints | RDF/SHACL, Python                          |                  2 |
-| Documentation model                                                                             | extractor, typed IR, reader-guidance vocabulary/shapes                              | RDF, SHACL, Python architecture            |                  4 |
-| Lossless technical renderer                                                                     | technical section templates, anchors, provenance, preservation checks               | Python, GFM, policy expertise              |                  6 |
-| Contributor guide                                                                               | task IA, reviewed summaries, cross-reference model                                  | content design, ontology domain knowledge  |                  4 |
-| Technical UX refinements                                                                        | strength/presence/assessment/evaluation presentation, glossary/navigation           | UX/documentation, ontology                 |                  3 |
-| Diagram system                                                                                  | seven Mermaid sources, text equivalents, light/dark SVG/PNG pipeline                | information design, Mermaid, accessibility |                  5 |
-| SHACL fixture suite                                                                             | golden graphs, mutation harness, expected results, severity/rule assertions         | SHACL, RDF, Python/SPARQL                  |                  6 |
-| Accessibility                                                                                   | WCAG review, Axe integration, responsive tests, diagram review                      | accessibility, frontend testing            |                  3 |
-| CI/Wiki publication                                                                             | workflow, managed-file publisher, manifest, credentials integration                 | GitHub Actions, Python, Git                |                  4 |
-| Usability test and remediation                                                                  | contributor/technical task script, findings, fixes                                  | UX research, documentation                 |                  4 |
-| Governance/release                                                                              | CODEOWNERS mapping, change classification, runbook, first Wiki publication          | technical governance, DevOps               |                  2 |
-| **Core total**                                                                                  |                                                                                     |                                            |             **43** |
-| Contingency for legacy-generator integration, Wiki-rendering differences and fixture edge cases |                                                                                     |                                            |              **9** |
-| **Planning envelope**                                                                           |                                                                                     |                                            | **52 person-days** |
+The original 43-day core / 52-person-day envelope is historical context, not a current estimate.
+Re-estimate after SLICE-001 establishes gaps in existing generator/tests, reuse research and publication integration.
+Record per-slice effort and waiting dependencies, including domain review, participants, independent verification and Wiki access.
 
-These are engineering effort estimates, not elapsed-time promises.
-Several streams can run concurrently after the lossless content model is stable.
+One integration owner maintains the combined candidate and evidence boundary.
+Assign actual people or authorised tools at acceptance; listed roles do not authorise spawning agents or contacting reviewers.
 
 **Skills required**
 
@@ -2254,10 +2043,10 @@ C8  Identify something the validator cannot decide without human judgement.
 Technical tasks:
 
 ```text
-T1  Find EP-LABEL-RDFS from a direct anchor.
+T1  Find EP-PREFLABEL-LABEL from a direct anchor.
 T2  Explain local-name/label normalisation versus exact label correspondence.
 T3  Identify every executable constraint for EP-DISTRIBUTION-MEDIA.
-T4  Find the canonical source/provenance of EP-PROVENANCE-MODIFIED.
+T4  Find the canonical source/provenance of EP-MODIFIED.
 T5  Explain what happens when required comparison context is unavailable.
 T6  Determine the severity of a chosen failing rule.
 T7  Identify which scope selectors can overlap.
@@ -2276,9 +2065,10 @@ Usability release gate:
 
 The percentage is an operational acceptance threshold, not a claim of statistical population confidence.
 
-**Machine-verifiable acceptance criteria**
+**Acceptance criteria and evidence**
 
 The redesign is complete only when all of these are true.
+Manual accessibility, participant and live Wiki criteria require observed human/browser evidence; machine checks alone cannot satisfy them.
 
 **Authority and preservation**
 
@@ -2367,7 +2157,9 @@ The redesign is complete only when all of these are true.
 - [ ] No generated file contains `/mnt/data/` or another workstation-specific path.
 - [ ] Wiki publication manages only its declared files.
 - [ ] Existing unrelated Wiki sidebar content survives publication unchanged.
-- [ ] Wiki production deploy occurs only after CI succeeds on `main`.
+- [ ] Wiki production deploy has release authority and admits successful qualification at the exact main revision with matching input/output digests.
+- [ ] Every new input family selects required CI consumers; the aggregate rejects missing, failed or unexpected skipped work.
+- [ ] Recovery, concurrent-update refusal, managed-file ownership and unrelated-file preservation pass disposable-repository trials.
 - [ ] Wiki publication can be rerun idempotently.
 - [ ] The generated main-repository artefact and published Wiki policy have the same documentation-model/input digest.
 
