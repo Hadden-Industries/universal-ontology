@@ -49,8 +49,18 @@ const selection = await chromium.launchServer({
   timeout: 30000,
 });
 const executablePath = selection.process().spawnfile;
+// On Linux, retain the sandbox policy of the successful Playwright launch.
+// Ubuntu's AppArmor can reject Puppeteer's different default namespace setup.
+const sandboxArgs =
+  process.platform === "linux"
+    ? selection.process().spawnargs.filter((arg) => arg === "--no-sandbox")
+    : [];
 await selection.close();
-const browser = await puppeteer.launch({ executablePath, headless: true });
+const browser = await puppeteer.launch({
+  executablePath,
+  headless: true,
+  args: sandboxArgs,
+});
 const outputs = {};
 try {
   for (const diagram of request.diagrams) {
