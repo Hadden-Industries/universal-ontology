@@ -13,7 +13,8 @@
     "docs/reviews/*",
     "docs/research/**",
     "vendor/*",
-    "docs/policy/Editing-Policy.generated.md"
+    "docs/policy/Editing-Policy.generated.md",
+    "docs/policy/Editing-Policy.sidebar.md"
   ],
   "lint": {},
   "links": {

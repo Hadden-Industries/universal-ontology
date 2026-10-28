@@ -1,0 +1,31 @@
+@prefix doc: <urn:universal-ontology:docs:editing-policy:> .
+
+doc:meaning a doc:ContributorSummary ;
+    doc:title "Start with the meaning" ; doc:order 10 ; doc:nonNormative true ;
+    doc:referencesRequirement "EP-HUMAN-CONCEPT-REUSE" ;
+    doc:summary "Before creating a Class, named individual or property, search the latest active ontologies for the same meaning, including synonyms and alternative spellings. Reuse an existing concept; if an appropriate broader concept exists, add the new concept beneath it. Record the search and judgement for human review. Automated conformance cannot establish conceptual adequacy."@en-GB .
+
+doc:change-kind a doc:ContributorSummary ;
+    doc:title "Choose the kind of change" ; doc:order 20 ; doc:nonNormative true ;
+    doc:referencesRequirement "EP-ONT-VERSION", "EP-DATASET-TYPE-IRI", "EP-AXIOM-POSITION", "EP-ENTITY-UUID" ;
+    doc:summary "Identify whether you are adding an ordinary entity, changing an existing one, describing a dataset or distribution, editing an ontology header, or annotating an axiom. These scopes can overlap. Dataset and distribution profiles have their own rules; do not apply the ordinary-entity checklist indiscriminately."@en-GB .
+
+doc:ordinary-entity a doc:ContributorSummary ;
+    doc:title "Add or describe an ordinary ontology entity" ; doc:order 30 ; doc:nonNormative true ;
+    doc:referencesRequirement "EP-ENTITY-UUID", "EP-IDENTIFIER-UNIQUE", "EP-ENTITY-CREATOR", "EP-ENTITY-CREATED", "EP-DEFINITION", "EP-LABEL", "EP-PREFLABEL-LANGUAGE", "EP-PREFLABEL-LABEL", "EP-PREFLABEL-IRI" ;
+    doc:summary "An ordinary owned entity needs a UUID identifier, creator attribution and a creation timestamp. Literal enumeration identifiers have an exception to IRI identifier uniqueness. Classes and named individuals need definitions; properties may omit them, while supplied definitions remain constrained. Supply an English preferred label, including an allowed regional English tag, and an identical ordinary label for every preferred label. Exact label correspondence and local-name normalisation are separate checks. ORCID format checks do not establish checksum, registration or identity."@en-GB .
+
+doc:modification a doc:ContributorSummary ;
+    doc:title "Change an existing entity" ; doc:order 40 ; doc:nonNormative true ;
+    doc:referencesRequirement "EP-MODIFIED", "EP-CONTRIBUTOR" ;
+    doc:summary "An existing entity changed relative to the comparison snapshot needs a valid modification value. An unchanged valid value is accepted, and a new entity needs no modification value. Without the comparison snapshot, the change obligation is unevaluated; unevaluated does not mean passed. Contributor values are optional in the graph and constrained when supplied. A different editor has a human obligation to add contributor attribution, which is never inferred from Git identity."@en-GB .
+
+doc:datasets a doc:ContributorSummary ;
+    doc:title "Describe datasets and distributions" ; doc:order 50 ; doc:nonNormative true ;
+    doc:referencesRequirement "EP-DATASET-TYPE-IRI", "EP-DATASET-REQUIRED", "EP-DATASET-DISTRIBUTION", "EP-DATASET-LANDING", "EP-DISTRIBUTION-REQUIRED", "EP-DISTRIBUTION-DOWNLOAD", "EP-DISTRIBUTION-MEDIA" ;
+    doc:summary "A Dataset describes the collection; a Distribution describes an available representation. Follow this repository's local DCAT profile for required metadata and access routes. A distribution does not have to state a media type. If it does, its value must satisfy the pinned media-type vocabulary. Optional presence does not mean unconstrained content. Use dcat:downloadURL with its exact capitalisation."@en-GB .
+
+doc:review a doc:ContributorSummary ;
+    doc:title "Review before proposing the change" ; doc:order 60 ; doc:nonNormative true ;
+    doc:referencesRequirement "EP-HUMAN-CONCEPT-REUSE", "EP-DEFINITION", "EP-OPTIONAL-ANNOTATIONS", "EP-PROPERTY-NAME-ISO", "EP-DISTRIBUTION-RIGHTS" ;
+    doc:summary "Check the exact technical requirements and run the repository's relevant validation commands. Review warnings as recommendations. Record conceptual reuse, definition adequacy and applicable source or contributor judgements. Passing executable checks establishes only the machine-checkable constraints tested in the available context; human review remains necessary."@en-GB .

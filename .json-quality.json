@@ -45,6 +45,7 @@
         "skills-lock.json",
         "docs/plans/sdlc-improvements/**",
         "docs/reviews/editing-policy-design/verification/**",
+        "docs/policy/Editing-Policy.*.json",
         "docs/sdlc/**",
         "docs/import-closure/registry-*.json",
         "vendor/**",
@@ -74,7 +75,8 @@
         "dist/release-work/universal-ontology-mcp-application-bundle.json",
         "dist/releases/**/*.spdx.json",
         "dist/release-work/pre-acceptance-releases-*/*.spdx.json",
-        "dist/**/*-oci-metadata.json"
+        "dist/**/*-oci-metadata.json",
+        "docs/policy/Editing-Policy.*.json"
       ],
       "formatContract": "producer-json-indent",
       "owner": "UO ontology, query and distribution producers",

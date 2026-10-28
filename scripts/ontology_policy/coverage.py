@@ -19,9 +19,7 @@ from .namespaces import REPOSITORY_ROOT, UOP
 from .policy import Policy
 
 FIXTURE_ROOT = REPOSITORY_ROOT / "tests" / "fixtures" / "ontology-policy"
-_HEADING = re.compile(
-    r"^### (EP-[A-Z0-9-]+) — .*\((MUST|SHOULD|MAY)(, human review)?\)$", re.M
-)
+_HEADING = re.compile(r"^### (EP-[A-Z0-9-]+)$", re.M)
 
 
 @dataclass(frozen=True)
@@ -74,10 +72,21 @@ def reconcile_coverage(
     executable = frozenset(
         ids[node] for node in ids if (node, RDF.type, SH.NodeShape) in policy.rules
     )
-    documented = {
-        match.group(1): bool(match.group(3))
-        for match in _HEADING.finditer(rendered_markdown)
-    }
+    matches = list(_HEADING.finditer(rendered_markdown))
+    documented = {}
+    duplicates = set()
+    for index, match in enumerate(matches):
+        rule = match.group(1)
+        if rule in documented:
+            duplicates.add(rule)
+        end = (
+            matches[index + 1].start()
+            if index + 1 < len(matches)
+            else len(rendered_markdown)
+        )
+        documented[rule] = (
+            "**Assessment:** human review" in rendered_markdown[match.end() : end]
+        )
     documented_human = frozenset(
         rule for rule, is_human in documented.items() if is_human
     )
@@ -91,7 +100,7 @@ def reconcile_coverage(
     negative = frozenset(rule for rule, kinds in claims.items() if "negative" in kinds)
     if override_negative is not None:
         negative = frozenset(override_negative)
-    problems = []
+    problems = [f"documentation duplicates rule {rule}" for rule in sorted(duplicates)]
     for rule in sorted(set(claims) - set(ids.values())):
         problems.append(f"fixture claims unknown rule {rule}")
     for rule, kinds in sorted(claims.items()):

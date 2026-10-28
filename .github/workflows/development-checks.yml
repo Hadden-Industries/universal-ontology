@@ -216,6 +216,8 @@ jobs:
         run: node scripts/installRepositoryNpm.js
       - name: Set up the locked development environment
         run: npm run set-up:development
+      - name: Provision the locked documentation browser
+        run: npm run install:editing-policy-browser
       - name: Run the Node-backed native family
         run: npm run test:python -- --family node-backed
     permissions:

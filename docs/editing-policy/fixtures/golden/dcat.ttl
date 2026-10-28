@@ -1,0 +1,17 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://haddenindustries.com/ontology/dataset/905770f1-45ca-4738-8eb6-a2e84935c74c>
+    a owl:NamedIndividual, dcat:Dataset ;
+    dcat:theme <https://example.org/themes/test> ;
+    dcterms:title "Fixture dataset"@en ;
+    dcterms:description "A collection used to test the local profile"@en ;
+    rdfs:label "Fixture dataset"@en ;
+    dcat:distribution <https://haddenindustries.com/ontology/distribution/9f1c0a52-3b7e-4d21-8a6f-2c4e5b7d9a10> .
+
+<https://haddenindustries.com/ontology/distribution/9f1c0a52-3b7e-4d21-8a6f-2c4e5b7d9a10>
+    a owl:NamedIndividual, dcat:Distribution ;
+    dcat:accessURL <https://example.org/download> ;
+    rdfs:label "Fixture representation"@en .

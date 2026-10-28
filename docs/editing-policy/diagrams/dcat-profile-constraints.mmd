@@ -1,0 +1,9 @@
+flowchart TD
+    profile["Repository local DCAT profile"] --> dataset["Dataset metadata and distribution links"]
+    profile --> distribution["Distribution metadata and access URL"]
+    dataset --> rights["Supplied access-rights values: local IRI and vocabulary rules"]
+    distribution --> media["Optional media type: pinned IANA membership"]
+    distribution --> format["Optional format: IRI; EU vocabulary recommendation"]
+    distribution --> language["Optional language: local vocabulary constraints"]
+    distribution --> licence["Optional licence: IRI; no SPDX membership requirement"]
+    distribution --> distributionrights["Optional rights: IRI recommendation"]

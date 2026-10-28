@@ -1,0 +1,14 @@
+{
+  "activeRules": 35,
+  "renderedRules": 35,
+  "missingRules": [],
+  "duplicateRules": [],
+  "unexpectedRules": [],
+  "sourceBlocksExpected": 224,
+  "sourceBlocksPreserved": 224,
+  "missingSourceBlocks": [],
+  "executableCharacteristicsUnrepresented": [],
+  "historicalReportSourceSha256": "b9acd317e03c32b73e1f0abfeb7f65e2572c3e8a52c89a978671705e3392c1a0",
+  "checkedSnapshotSha256": "2cb32bcb3165e01ce125a59e3791e5356cc78d429d8a178a927a4114f3605cf3",
+  "historicalDigestReconciliation": "Original reported digest has no identified matching bytes; preservation rerun against retained snapshot. Original report retained unchanged."
+}

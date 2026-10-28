@@ -1,0 +1,12 @@
+flowchart TD
+    owned["Trusted ownership context"] --> subject["Every owned subject"]
+    subject --> entity["Class, named individual or property"]
+    subject --> ontology["Ontology header"]
+    subject --> axiom["Axiom annotation"]
+    subject --> dataset["Dataset namespace or explicit Dataset type"]
+    subject --> distribution["Distribution namespace or explicit Distribution type"]
+    entity --> excluded{"Dataset or distribution namespace?"}
+    excluded -->|No| ordinary["Ordinary entity targets apply"]
+    excluded -->|Yes| specialist["Ordinary entity targets exclude these namespaces"]
+    subject --> language["Descriptive-language target still covers all owned subjects"]
+    overlap["Selectors can overlap; these branches are not disjoint sets"] --- subject

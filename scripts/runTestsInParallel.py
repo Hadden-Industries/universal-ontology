@@ -28,7 +28,8 @@ REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
 # until their runtime dependencies have been assessed explicitly.
 PYTHON_ONLY_MODULES = frozenset(
     (
-        "test_editing_policy_rendering.py",
+        "test_editing_policy_documentation.py",
+        "test_editing_policy_publication.py",
         "test_import_catalogs.py",
         "test_ontology_entity_changes.py",
         "test_ontology_policy.py",
@@ -45,6 +46,7 @@ PYTHON_ONLY_MODULES = frozenset(
 )
 NODE_BACKED_MODULES = frozenset(
     (
+        "test_editing_policy_rendering.py",
         "test_set_up_mcp_servers.py",
         "test_upload_to_s3.py",
     )

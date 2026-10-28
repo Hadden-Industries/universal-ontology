@@ -13,4 +13,5 @@ The rules that ontology changes must satisfy are owned by the SHACL graphs in [`
 | Migration evidence                           | [migration-evidence.md](migration-evidence.md) — the record of the SHACL policy cutover; historical, not a second policy                                                                    |
 
 Commands are listed in the [development guide](../development.md#verification-commands).
+The [documentation authoring guide](../editing-policy/README.md) describes contributor guidance, rule fingerprints, diagrams, preservation, local accessibility checks and the separate Wiki publication boundary.
 Conformance to the shapes is necessary, not sufficient: source interpretation, intended compatibility and definitions are reviewed by people.

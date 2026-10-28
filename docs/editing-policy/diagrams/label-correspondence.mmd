@@ -1,0 +1,5 @@
+flowchart TD
+    preferred["Each preferred label"] --> exact["Identical ordinary label: same lexical value and language tag"]
+    english["English preferred label, including allowed regional English tags"] --> normalise["Local-name correspondence uses its own normalisation rule"]
+    exact --- separate["Exact label correspondence and local-name normalisation are separate checks"]
+    normalise --- separate
