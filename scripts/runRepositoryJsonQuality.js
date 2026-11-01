@@ -3,7 +3,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import {
   openJsonRepositorySession,
   runJsonQualityCli,
-} from "../tooling/json/public-api.mjs";
+} from "@hadden-industries/json-quality";
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 const requiredGeneratedOutputs = [

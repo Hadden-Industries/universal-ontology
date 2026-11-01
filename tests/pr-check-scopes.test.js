@@ -755,8 +755,6 @@ describe("native Git PR check selection", () => {
     [".json-quality.json", ["style_tooling"]],
     ["eslint.config.js", ["style_tooling"]],
     ["scripts/runRepositoryJsonQuality.js", ["style_tooling"]],
-    ["tooling/json/public-api.mjs", ["style_tooling"]],
-    ["tooling/json/archives/new-candidate.tgz", ["style_tooling"]],
     ["tests/json-quality.test.js", ["style_tooling"]],
     ["requirements.lock.txt", ["style_tooling"]],
     ["docs/reviews/external.md", ["documentation"]],

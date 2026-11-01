@@ -1,5 +1,5 @@
 import { ESLint } from "eslint";
-import { jsonQualityEslint } from "../../tooling/json/public-api.mjs";
+import jsonQualityEslint from "@hadden-industries/json-quality/eslint";
 const ruleId = "json-quality/no-json-stringify-identity";
 const rule = jsonQualityEslint.rules["no-json-stringify-identity"];
 

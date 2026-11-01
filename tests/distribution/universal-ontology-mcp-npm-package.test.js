@@ -10,7 +10,7 @@ import {
   openJsonSourceSession,
   jsonContract,
   admitJsonPolicy,
-} from "../../tooling/json/public-api.mjs";
+} from "@hadden-industries/json-quality";
 
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";

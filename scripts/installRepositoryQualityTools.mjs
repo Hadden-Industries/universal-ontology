@@ -3,7 +3,7 @@ import { mkdtempSync, writeFileSync, rmSync, realpathSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, relative, isAbsolute, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { execFileSync, spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 
 // BEGIN GENERATED RESOURCE DEFAULTS
 export const ACQUISITION_RESOURCE_DEFAULTS = Object.freeze({
@@ -85,47 +85,20 @@ export function acquisitionResourceLimits(
   return { ...ACQUISITION_RESOURCE_DEFAULTS, ...overrides };
 }
 
-/** Resolve native cache policy once for acquisition and payload checking. */
-export function nativeQualityCachePath(toolingRoot, npmExecutable, overrides) {
-  const capacityLimits = acquisitionResourceLimits(overrides);
-  return execFileSync(
-    process.execPath,
-    [npmExecutable, "config", "get", "cache"],
-    {
-      cwd: toolingRoot,
-      encoding: "utf8",
-      windowsHide: true,
-      timeout: Math.min(
-        capacityLimits.maxCacheLookupTimeMs,
-        ACQUISITION_RESOURCE_DEFAULTS.maxCacheLookupTimeMs,
-      ),
-      maxBuffer: Math.min(
-        capacityLimits.maxCacheOutputBytes,
-        ACQUISITION_RESOURCE_DEFAULTS.maxCacheOutputBytes,
-      ),
-    },
-  ).trim();
-}
-
 async function acquire() {
   const kind = process.argv[2];
-  if (!["markdown", "json"].includes(kind) || process.argv.length !== 3)
-    throw new Error("Expected markdown or json tool project.");
+  if (!["markdown"].includes(kind) || process.argv.length !== 3)
+    throw new Error("Expected markdown tool project.");
   const npm = process.env.npm_execpath;
-  if (!npm)
-    throw new Error("Run npm run install:markdown or npm run install:json.");
+  if (!npm) throw new Error("Run npm run install:markdown.");
   const overrides = JSON.parse(capacityLimitsEnvironment() ?? "{}");
   const capacityLimits = acquisitionResourceLimits(overrides);
   const cleanup = acquisitionCleanupOptions();
   const toolingRoot = fileURLToPath(
     new URL(`../tooling/${kind}/`, import.meta.url),
   );
-  const jsonCache =
-    kind === "json"
-      ? nativeQualityCachePath(toolingRoot, npm, overrides)
-      : null;
   const scratch = mkdtempSync(join(tmpdir(), "repository-quality-install-"));
-  const cachePath = jsonCache ?? join(scratch, "cache");
+  const cachePath = join(scratch, "cache");
   /** Remove only the task-owned real temporary acquisition workspace. */
   function removeAcquisitionWorkspace(path) {
     const target = realpathSync(path);
@@ -175,7 +148,6 @@ async function acquire() {
         "--registry=https://registry.npmjs.org/",
         `--userconfig=${user}`,
         `--globalconfig=${global}`,
-        ...(kind === "json" ? ["--allow-git=none"] : []),
         `--cache=${cachePath}`,
       ],
       {
@@ -192,19 +164,6 @@ async function acquire() {
     if (result.error || result.signal || result.status === null)
       throw new Error("Isolated quality-tool acquisition did not complete.");
     process.exitCode = result.status;
-    if (kind === "json" && result.status === 0) {
-      const { verifyJsonQualityInstallation } = await import(
-        new URL("../tooling/json/public-api.mjs", import.meta.url)
-      );
-      await verifyJsonQualityInstallation({
-        toolingRoot: fileURLToPath(
-          new URL("../tooling/json/", import.meta.url),
-        ),
-        cachePath,
-        bootstrapPath: fileURLToPath(import.meta.url),
-        capacityLimits: overrides,
-      });
-    }
   } finally {
     removeAcquisitionWorkspace(scratch);
   }

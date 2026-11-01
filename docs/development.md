@@ -140,22 +140,15 @@ Reassess deliberate duplication when a shared requirement changes or a new consu
 The repository selects finite check time and scratch capacity through `.json-quality.json.runtimeControls`.
 The generated corpus can require more temporary storage than the native default; all JSON commands share this policy while input admission and quality rules retain their separate controls.
 
-`npm run install:json` installs the isolated JSON tool project from one exact npm registry version and its native frozen lock, with lifecycle scripts disabled.
-The only editable source selector is `devDependencies["@hadden-industries/json-quality"]` in `tooling/json/package.json`: use an exact published registry version.
-Native npm selects the matching optional platform package.
-Native npm generates the lockfile; do not maintain a second commit/version/integrity selector.
-The shared package owns the generated acquisition bootstrap and installed-payload checks.
-Materialize the bootstrap through `jsonQualityAcquisitionBootstrap()` rather than editing consumer copies.
-The [public-export bridge](../tooling/json/public-api.mjs) refuses fallback to a root or sibling installation; checks install nothing.
-Installation and consumer tests verify every installed engine file against npm's independently cached locked payload and reject bootstrap drift.
-Retain that native cache for later verification; acquisition and verification reuse the same cache resolver.
+Root `package.json` declares `@hadden-industries/json-quality` as an ordinary `>=1.0.0-rc.2` devDependency.
+Root `npm ci --include=dev --ignore-scripts` installs it and its matching optional platform package using the root npm lockfile.
+Consumers import its public API and ESLint plugin directly; npm owns dependency resolution and package integrity alongside the other development dependencies.
 The selected shared engine supports Node `^22.13.0 || ^24.0.0 || ^26.0.0`; repository development continues to use its existing reference runtime and tooling requirements.
 
 Resource limits are overridable through policy `capacityLimits`, the library invocation's `capacityLimits`, and the repository command adapter's shared CLI flags.
-For example, `npm run check:json -- --max-files 100000 --max-file-bytes 67108864 --json` raises admission capacity and streams validated cohort-2 NDJSON events.
+For example, `npm run check:json -- --max-files 100000 --max-file-bytes 67108864 --json` raises admission capacity and streams validated cohort-3 NDJSON events.
 Explicit `capacityLimits: false` or CLI `--no-capacity-limits` bypasses admission ceilings while preserving finite memory, scratch, time, depth and concurrency controls, quality rules and writer safeguards.
 Individual numeric capacity overrides cannot be combined with that bypass.
-The generated bootstrap accepts `JSON_QUALITY_CAPACITY_LIMITS` for acquisition and separate `JSON_QUALITY_CLEANUP` retry options; the retired `JSON_QUALITY_LIMITS` name is rejected.
 UO declares 512 MiB total-byte capacity for its measured source/generated corpus; other package defaults remain active.
 Exit 1 means known quality findings; exit 2 means invalid arguments, refused normalization input or operational failure.
 
@@ -243,7 +236,7 @@ Keep source writers quiescent; multi-file writes are not a transaction.
 After interruption, inspect completed writes and retained failure output before resuming.
 Fix protected/generated data in its owning source and regenerate it instead of applying this command to the output.
 
-An owning JSON producer can import the pure `normalizeJsonSource(text, contract)` operation through the [public-export bridge](../tooling/json/public-api.mjs) at its source-input boundary.
+An owning JSON producer can import the pure `normalizeJsonSource(text, contract)` operation directly from `@hadden-industries/json-quality` at its source-input boundary.
 It uses the same native parser, interoperability preflight and collision analysis, returns normalized text without writing, and refuses a preservation contract.
 The producer must still validate its schema, graph, references and digests before publishing derived products; normalization can change exact string identity even when text looks identical.
 For JSON-LD, fix the owning RDF source and retain existing graph verification rather than silently normalizing serialized literals.
@@ -259,7 +252,7 @@ Consumer comparisons of Registry/OCI metadata, MCP application identity, archive
 Duplicate legacy interpretation identity uses the validated fields in a stable tuple, so reordering object members cannot conceal a duplicate.
 Canonical semantic digest formats, opaque cursor integrity bindings, exact-byte artifact hashes and producer presentation remain their own contracts; formatting does not sort JSON to compensate for consumer comparison errors.
 All JSON npm commands enter [one UO adapter](../scripts/runRepositoryJsonQuality.js), which supplies the repository root and required generated-output patterns to the installed engine.
-The [public-export bridge](../tooling/json/public-api.mjs) supplies scoped source and repository sessions to repository checks and rebuilt-package qualification.
+The `@hadden-industries/json-quality` public API supplies scoped source and repository sessions to repository checks and rebuilt-package qualification.
 The engine constructs its own native lint and presentation settings and never executes repository JSON lint or formatter configuration.
 `.prettierignore` blocks all JSON from direct Prettier CLI writes; it does not select the read-only checks.
 The supported writer analyzes the prospective corpus, debug-checks changed formatting with explicit package-owned options, and rechecks policy, inventory and every source preimage before writing.
@@ -304,7 +297,7 @@ One declaration covers one serializer, never a whole file or several serializers
 Malformed, ambiguous, misplaced and unused declarations fail lint.
 Existing producer-presentation checks, permutation byte oracles and versioned RDF identities retain explicit local contracts; no digest or cursor-format migration is introduced.
 Unused ESLint disable directives also fail at error severity.
-The release verifier binds the sole engine selector, native isolated lock, generated acquisition bootstrap, public-export bridge, UO adapter and consumer regression tests in the reviewed policy graph.
+The release verifier binds the root dependency manifest and lockfile, UO adapter and consumer regression tests in the reviewed policy graph.
 
 ### Python and Markdown style
 
@@ -469,7 +462,7 @@ No trusted cache warmer is introduced before measurement.
 
 When editing the execution policy, update its schema and regenerate the standalone validator with `node scripts/generatePullRequestCheckPlanValidator.js --write`.
 Use `--check` to verify freshness without writing.
-The distribution verifier also checks an explicit 44-file policy manifest covering entry points, reusable consumers, selection/evaluation inputs, native test runners, native JSON engine selector/lock, generated acquisition bootstrap, public-export bridge, UO adapter, JSON policy and manual candidate validator.
+The distribution verifier also checks an explicit policy manifest covering entry points, reusable consumers, selection/evaluation inputs, native test runners, the root dependency manifest and lockfile, UO adapter, JSON policy and manual candidate validator.
 A semantic workflow or control-input change requires coordinated review, updated assertions, negative tests, and a deliberate digest update.
 
 `scripts/selectPullRequestChecks.js` decides which jobs apply from the changed paths.

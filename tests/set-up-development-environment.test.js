@@ -230,7 +230,6 @@ test.each([
         [npmCliPath, "ci", "--include=dev", "--ignore-scripts"],
       ],
       [process.execPath, [npmCliPath, "run", "install:markdown"]],
-      [process.execPath, [npmCliPath, "run", "install:json"]],
       [
         systemPythonExecutableName,
         ["-m", "venv", join(repositoryRoot, ".venv")],
@@ -516,7 +515,7 @@ test("installs dependencies without configuring a workflow, skills, MCP servers,
   const commands = spawnSyncMock.mock.calls.map(([executable, args]) =>
     [executable, ...args].join(" "),
   );
-  expect(commands).toHaveLength(11);
+  expect(commands).toHaveLength(10);
   for (const command of commands) {
     expect(command).not.toMatch(
       /sdlc|skill|mcp|plugin|hooksPath|upload_to_s3|deploy|\.py(?:\s|$)/iu,

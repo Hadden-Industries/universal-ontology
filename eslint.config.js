@@ -1,7 +1,7 @@
 import js from "@eslint/js";
 import globals from "globals";
 import eslintConfigPrettier from "eslint-config-prettier";
-import { jsonQualityEslint } from "./tooling/json/public-api.mjs";
+import jsonQualityEslint from "@hadden-industries/json-quality/eslint";
 
 const strictRules = {
   "no-var": "error",

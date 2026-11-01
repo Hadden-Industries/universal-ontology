@@ -1,4 +1,4 @@
-/** Consumer-specific cohort-2 responsibilities over the real isolated engine.
+/** Consumer-specific cohort-2 responsibilities over the root-installed engine.
  * Shared grammar/NFC/number/resource conformance stays with JSON Quality's
  * independent core corpus; this suite proves UO discovery, effects and delivery.
  */
@@ -7,7 +7,7 @@ import {
   writeFileSync,
   mkdirSync,
   mkdtempSync,
-  cpSync,
+  symlinkSync,
   rmSync,
 } from "node:fs";
 import { execFileSync, spawnSync } from "node:child_process";
@@ -15,10 +15,7 @@ import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { openRepositoryJsonSession } from "../scripts/runRepositoryJsonQuality.js";
-import {
-  validateJsonQualityEvent,
-  verifyJsonQualityInstallation,
-} from "../tooling/json/public-api.mjs";
+import { validateJsonQualityEvent } from "@hadden-industries/json-quality";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const producer = "policy/authorities/iana-media-types.provenance.json";
@@ -54,14 +51,16 @@ function fixture() {
   execFileSync("git", ["init", "--quiet", directory], { windowsHide: true });
   for (const path of [
     ".json-quality.json",
-    "tooling/json/public-api.mjs",
     "scripts/runRepositoryJsonQuality.js",
   ])
     put(path, readFileSync(join(root, path)));
-  cpSync(
-    join(root, "tooling/json/node_modules"),
-    join(directory, "tooling/json/node_modules"),
-    { recursive: true, dereference: true },
+  mkdirSync(join(directory, "node_modules/@hadden-industries"), {
+    recursive: true,
+  });
+  symlinkSync(
+    join(root, "node_modules/@hadden-industries/json-quality"),
+    join(directory, "node_modules/@hadden-industries/json-quality"),
+    "junction",
   );
   put(".gitignore", "node_modules/\nignored/\n");
   put(
@@ -106,13 +105,13 @@ function command(directory, operation, args = []) {
 }
 
 test(
-  "the actual source census ends with complete cohort-2 evidence",
+  "the actual source census ends with complete cohort-3 evidence",
   async () => {
     // A census consumes events, not retained values for later access or rewriting.
     const events = await checked(root, { retainValues: false });
     expect(events.at(-1)).toMatchObject({
       type: "execution-terminal",
-      schemaVersion: 2,
+      schemaVersion: 3,
       inventoryComplete: true,
       sourceObservationsComplete: true,
       diagnosticsComplete: true,
@@ -122,14 +121,6 @@ test(
   },
   2 * jsonRuntimeControls.maxCheckTimeMs,
 );
-
-test("the exact native installation, lock and generated bootstrap agree", async () => {
-  const result = await verifyJsonQualityInstallation({
-    toolingRoot: join(root, "tooling/json"),
-    bootstrapPath: join(root, "scripts/installRepositoryQualityTools.mjs"),
-  });
-  expect(result.files).toBeGreaterThan(0);
-});
 
 test("required generated products remain an additive obligation", async () => {
   const f = fixture();

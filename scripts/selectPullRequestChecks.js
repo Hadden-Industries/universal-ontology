@@ -172,7 +172,6 @@ export const CHECK_INPUTS = {
     ".json-quality.json",
     "eslint.config.js",
     "scripts/runRepositoryJsonQuality.js",
-    "tooling/json",
     "tests/json-quality.test.js",
     ".markdown-quality.json",
     ".markdown-quality-execution.json",
@@ -344,7 +343,6 @@ export const CHECK_INPUTS = {
   product_tests: [
     ...COMMON_INPUTS,
     "docs/uml",
-    "tooling/json",
     ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
     ":(glob)src/**/*.js",
     ":(glob)src/**/*.css",

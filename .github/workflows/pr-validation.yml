@@ -65,7 +65,6 @@ jobs:
         shell: bash
         run: node scripts/installRepositoryNpm.js
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: npm run install:json
       - name: Static checks
         run: |-
           npm run lint:node
