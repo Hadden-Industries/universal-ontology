@@ -102,7 +102,11 @@ export function nodeCheckArguments(plan, { families = null } = {}) {
 function suitePath(path, root) {
   if (typeof path !== "string" || !isAbsolute(path))
     throw new Error("Native suite identity is not an absolute path.");
-  const name = relative(root, path).replaceAll("\\", "/");
+  let name = relative(root, path).replaceAll("\\", "/");
+  // Jest reports canonical long paths; a Windows 8.3 short root such as RUNNER~1
+  // relates to them only through its native spelling.
+  if (name.startsWith("../") && existsSync(root))
+    name = relative(realpathSync.native(root), path).replaceAll("\\", "/");
   if (!name || name === ".." || name.startsWith("../") || isAbsolute(name))
     throw new Error("Native suite identity leaves the checkout.");
   return name;

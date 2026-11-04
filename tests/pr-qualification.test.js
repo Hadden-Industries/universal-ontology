@@ -100,7 +100,10 @@ test("writer is confined to the existing successful PR gate and immutable pinned
 });
 let directory, nativeReport;
 beforeAll(() => {
-  directory = mkdtempSync(join(tmpdir(), "uo-pr-record-native-"));
+  // Native Jest matches files against canonical long paths, not 8.3 spellings.
+  directory = realpathSync.native(
+    mkdtempSync(join(tmpdir(), "uo-pr-record-native-")),
+  );
   for (const path of CI_CONTROL_SUITES) {
     const file = join(directory, path);
     mkdirSync(dirname(file), { recursive: true });

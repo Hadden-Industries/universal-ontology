@@ -1,10 +1,13 @@
-import { mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
+import { mkdtemp, mkdir, realpath, writeFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { readOntologySourceCatalog } from "../../scripts/build/readOntologySourceCatalog.js";
 
 test("resolves exact catalog names through inherited XML bases without remote acquisition", async () => {
-  const root = await mkdtemp(join(tmpdir(), "uo-source-catalog-"));
+  // The catalog reports canonical paths, so the expectation must not be an 8.3 spelling.
+  const root = await realpath(
+    await mkdtemp(join(tmpdir(), "uo-source-catalog-")),
+  );
   try {
     await mkdir(join(root, "sources"));
     await writeFile(

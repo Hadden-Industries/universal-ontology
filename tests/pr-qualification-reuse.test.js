@@ -4,6 +4,7 @@ import {
   mkdirSync,
   writeFileSync,
   readFileSync,
+  realpathSync,
   rmSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -41,7 +42,10 @@ const hash = (c) => c.repeat(40),
   clone = (v) => JSON.parse(JSON.stringify(v));
 let nativeRoot, report, familyReport;
 beforeAll(() => {
-  nativeRoot = mkdtempSync(join(tmpdir(), "uo-original-proof-native-"));
+  // Native Jest matches files against canonical long paths, not 8.3 spellings.
+  nativeRoot = realpathSync.native(
+    mkdtempSync(join(tmpdir(), "uo-original-proof-native-")),
+  );
   for (const path of CI_CONTROL_SUITES) {
     const destination = join(nativeRoot, path);
     mkdirSync(dirname(destination), { recursive: true });

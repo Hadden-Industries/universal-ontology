@@ -5,6 +5,7 @@ import {
   mkdtempSync,
   writeFileSync,
   readFileSync,
+  realpathSync,
   rmSync,
   rmdirSync,
 } from "node:fs";
@@ -130,7 +131,10 @@ describe("real native Jest assertion accounting", () => {
   let directory;
   let report;
   beforeAll(() => {
-    directory = mkdtempSync(join(tmpdir(), "uo-native-accounting-"));
+    // Native Jest matches files against canonical long paths, not 8.3 spellings.
+    directory = realpathSync.native(
+      mkdtempSync(join(tmpdir(), "uo-native-accounting-")),
+    );
     const testPath = join(directory, "native.test.cjs");
     const reportPath = join(directory, "results.json");
     writeFileSync(
