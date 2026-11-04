@@ -10,7 +10,7 @@ It also retains stateless legacy compatibility for hosts that have not yet negot
 
 Prerequisites:
 
-- Node.js 24.
+- The Node.js version selected in [`.node-version`](../../.node-version).
 - npm, using the lockfile in this repository.
 - A local checkout containing the extensionless RDF/XML ontology release artifacts under `src/`.
 

@@ -54,7 +54,7 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
 // workflow is executable supply-chain policy: update this digest only after a
 // deliberate review of every trigger, capability, job, action, and run script.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "082eba64a4bea2605f8ccc6827238faa8b20da14dc2b64c04ef235f99b77a2ad";
+  "89f11d011ba69c4e657aabd824f274409064870b6812e71a1ea376b2ad011c84";
 
 function compareBinaryText(leftText, rightText) {
   return Buffer.compare(Buffer.from(leftText), Buffer.from(rightText));
@@ -233,26 +233,21 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
         `Distribution workflow job ${jobName} omits Node.js setup.`,
       );
     }
+    requireExactJsonValue(
+      job.steps[setupNodeIndex].with,
+      {
+        "node-version-file": ".node-version",
+        "package-manager-cache": false,
+      },
+      `${jobName} Node.js version-file selection`,
+    );
     if (jobName === "scope" || jobName === "complete") {
-      requireExactJsonValue(
-        job.steps[setupNodeIndex].with,
-        {
-          "node-version-file": ".node-version",
-          "package-manager-cache": false,
-        },
-        `${jobName} Node.js version-file selection`,
-      );
       if (npmBootstrapIndex !== -1) {
         throw new Error(
           "Distribution control jobs must run without installing npm.",
         );
       }
     } else if (
-      serializeCanonicalJsonValue(job.steps[setupNodeIndex].with) !==
-        serializeCanonicalJsonValue({
-          "node-version": releaseInputs.nodeRuntime.version,
-          "package-manager-cache": false,
-        }) ||
       npmBootstrapIndex <= setupNodeIndex ||
       job.steps[npmBootstrapIndex].run !== exactNpmBootstrap
     ) {

@@ -141,6 +141,7 @@ export async function recordPrQualification({
   root = process.cwd(),
   fetchImpl = fetch,
   now = Date.now(),
+  nodeVersion = process.version,
 } = {}) {
   try {
     const plan = JSON.parse(env.PR_CHECK_PLAN || "null");
@@ -189,7 +190,7 @@ export async function recordPrQualification({
         architecture: env.RUNNER_ARCH,
         image: env.ImageOS,
         imageVersion: env.ImageVersion,
-        node: process.version,
+        node: nodeVersion,
         npm: npm.stdout.trim(),
         nodeOptions: env.NODE_OPTIONS || "",
         timezone: env.TZ || "",

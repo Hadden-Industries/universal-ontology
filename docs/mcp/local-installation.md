@@ -42,7 +42,7 @@ HTTPS authenticates the configured origin under the operator's CA trust policy.
 - Python 3.11 or later in the checkout's `.venv` when using the repository-local installation command below.
   The script itself uses only the standard library and the repository's shared command/repository helpers.
 - Node.js 24 or later for the source-checkout and local npm-tarball forms.
-  The self-contained archives carry the pinned Node.js 24.22.1 runtime.
+  The self-contained archives carry the pinned Node.js 26.13.0 runtime.
 - npm using the repository lockfile.
   Every command below explicitly selects and checks npm 12.2.1; the `packageManager` field alone does not switch npm.
 - An MCP host that can launch a local `stdio` command.

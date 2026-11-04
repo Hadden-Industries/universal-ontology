@@ -151,7 +151,7 @@ export const UNIVERSAL_ONTOLOGY_MCP_RELEASE_INPUT_SCHEMA = Object.freeze({
         runtimeExecutableMaximumByteSize: {
           type: "integer",
           minimum: 1,
-          maximum: 134_217_728,
+          maximum: 167_772_160,
         },
         licenseMaximumByteSize: {
           type: "integer",

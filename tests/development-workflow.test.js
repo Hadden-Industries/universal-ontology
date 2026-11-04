@@ -14,6 +14,10 @@ import {
   repositoryNpmTarget,
   syncNpmProjections,
 } from "../scripts/repositoryNpmTarget.js";
+import {
+  fetchNodeRelease,
+  syncNodeProjections,
+} from "../scripts/repositoryNodeProjections.js";
 
 const WORKFLOW_URL = new URL(
   "../.github/workflows/development-checks.yml",
@@ -171,6 +175,130 @@ test("the release npm projection reports drift and changes only its declared fie
     );
     expect(() => syncNpmProjections({ root })).not.toThrow();
   });
+});
+
+const NODE_PROJECTION_RELEASE = {
+  npmVersion: "88.0.0",
+  archiveSha256: { "node-v99.1.2-win-x64.zip": "b".repeat(64) },
+  imageDigest: "d".repeat(64),
+};
+
+/** One target is enough: each target's fields use the same projection. */
+function writeNodeProjectionFixture(root) {
+  const files = {
+    ".node-version": "99.1.2\n",
+    "scripts/distribution/universalOntologyMcpReleaseInputs.json": `{
+  "nodeRuntime": {
+    "version": "1.2.3",
+    "bundledNpmVersion": "4.5.6",
+    "sentinel": "unchanged",
+    "targets": [
+      {
+        "runtimeArchiveUrl": "https://nodejs.org/dist/v1.2.3/node-v1.2.3-win-x64.zip",
+        "runtimeArchiveSha256": "${"a".repeat(64)}",
+        "upstreamRuntimeExecutablePath": "node-v1.2.3-win-x64/node.exe",
+        "upstreamRuntimeLicensePath": "node-v1.2.3-win-x64/LICENSE"
+      }
+    ]
+  },
+  "ociBaseImage": {
+    "reference": "node:1.2.3-bookworm-slim@sha256:${"c".repeat(64)}",
+    "indexSha256": "${"c".repeat(64)}"
+  }
+}
+`,
+    "packages/universal-ontology-mcp-server/Dockerfile": `# Sentinel 1.2.3
+FROM node:1.2.3-bookworm-slim@sha256:${"c".repeat(64)}
+`,
+    "docs/mcp/local-installation.md":
+      "Sentinel 1.2.3.\n  The self-contained archives carry the pinned Node.js 1.2.3 runtime.\n",
+  };
+  for (const [path, text] of Object.entries(files)) {
+    mkdirSync(dirname(join(root, path)), { recursive: true });
+    writeFileSync(join(root, path), text);
+  }
+  return files;
+}
+
+test("the Node projections report drift and change only their declared fields", () => {
+  expect(() => syncNodeProjections()).not.toThrow();
+  withNpmSelector("npm@77.0.0", (root) => {
+    const files = writeNodeProjectionFixture(root);
+    const read = (path) => readFileSync(join(root, path), "utf8");
+    const inputs =
+      "scripts/distribution/universalOntologyMcpReleaseInputs.json";
+    const dockerfile = "packages/universal-ontology-mcp-server/Dockerfile";
+    const guide = "docs/mcp/local-installation.md";
+
+    expect(() => syncNodeProjections({ root })).toThrow(
+      "Stale Node projection",
+    );
+    expect(() =>
+      syncNodeProjections({
+        root,
+        release: { ...NODE_PROJECTION_RELEASE, archiveSha256: {} },
+      }),
+    ).toThrow("Node.js 99.1.2 has no node-v99.1.2-win-x64.zip.");
+    expect(read(inputs)).toBe(files[inputs]);
+    expect(read(dockerfile)).toBe(files[dockerfile]);
+
+    syncNodeProjections({ root, release: NODE_PROJECTION_RELEASE });
+    expect(read(inputs)).toBe(
+      files[inputs]
+        .replaceAll("1.2.3", "99.1.2")
+        .replace("4.5.6", "88.0.0")
+        .replace("a".repeat(64), "b".repeat(64))
+        .replaceAll("c".repeat(64), "d".repeat(64)),
+    );
+    expect(read(dockerfile)).toBe(
+      files[dockerfile]
+        .replace("node:1.2.3", "node:99.1.2")
+        .replace("c".repeat(64), "d".repeat(64)),
+    );
+    expect(read(guide)).toBe(
+      files[guide].replace("Node.js 1.2.3", "Node.js 99.1.2"),
+    );
+    expect(() => syncNodeProjections({ root })).not.toThrow();
+  });
+});
+
+test("Node release facts come from the selected upstream release", async () => {
+  const root = mkdtempSync(join(realpathSync(tmpdir()), "uo-node-release-"));
+  const requests = [];
+  const responses = {
+    "https://nodejs.org/dist/index.json": Response.json([
+      { version: "v99.1.1", npm: "1.0.0" },
+      { version: "v99.1.2", npm: "88.0.0" },
+    ]),
+    "https://nodejs.org/dist/v99.1.2/SHASUMS256.txt": new Response(
+      `${"b".repeat(64)}  node-v99.1.2-win-x64.zip\n`,
+    ),
+    "https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/node:pull":
+      Response.json({ token: "fixture" }),
+    "https://registry-1.docker.io/v2/library/node/manifests/99.1.2-bookworm-slim":
+      new Response(null, {
+        headers: { "docker-content-digest": `sha256:${"d".repeat(64)}` },
+      }),
+  };
+  try {
+    writeNodeProjectionFixture(root);
+    await expect(
+      fetchNodeRelease({
+        root,
+        fetchUrl: async (url, options) => {
+          requests.push({ url, options });
+          return responses[url] ?? new Response(null, { status: 404 });
+        },
+      }),
+    ).resolves.toEqual(NODE_PROJECTION_RELEASE);
+    expect(requests.at(-1).options).toMatchObject({
+      method: "HEAD",
+      headers: { Authorization: "Bearer fixture" },
+    });
+    expect(requests.at(-1).options.headers.Accept).toContain("image.index");
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });
 
 test.each([

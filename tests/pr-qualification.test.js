@@ -617,7 +617,9 @@ test("native producer binds a real Git merge and retains one closed private reco
     input.needs.node.outputs["verified-revision"] = snapshot.commit;
     input.needs.development.outputs["verified-revision"] = snapshot.commit;
     input.nativeNode.revision = snapshot.commit;
-    input.nativeNode.environment.node = process.version;
+    // The record admits only the pinned Node, whichever Node runs this test.
+    const nodeVersion = input.context.environment.node;
+    input.nativeNode.environment.node = nodeVersion;
     input.nativeNode.environment.npm = execFileSync(
       process.execPath,
       [
@@ -644,6 +646,7 @@ test("native producer binds a real Git merge and retains one closed private reco
     const retained = await recordPrQualification({
       root,
       now,
+      nodeVersion,
       env: {
         GITHUB_EVENT_NAME: "pull_request",
         GITHUB_REF: "refs/pull/123/merge",

@@ -67,7 +67,7 @@ jobs:
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.22.1
+          node-version-file: .node-version
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
@@ -169,7 +169,7 @@ jobs:
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.22.1
+          node-version-file: .node-version
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
@@ -242,7 +242,7 @@ jobs:
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.22.1
+          node-version-file: .node-version
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify
@@ -356,7 +356,7 @@ jobs:
       - name: Set up exact Node.js runtime
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.22.1
+          node-version-file: .node-version
           package-manager-cache: false
       - name: Verify plan and checkout identity
         run: node scripts/evaluatePullRequestChecks.js --verify

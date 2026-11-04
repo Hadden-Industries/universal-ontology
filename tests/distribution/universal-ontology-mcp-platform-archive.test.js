@@ -18,6 +18,7 @@ import {
   readUniversalOntologyMcpReleaseInputs,
   validateUniversalOntologyMcpReleaseInputs,
 } from "../../scripts/distribution/buildUniversalOntologyMcpPlatformArchive.js";
+import { nodeTarget } from "../../scripts/nodeTarget.js";
 import {
   calculateSha256 as calculateOntologyArtifactSha256,
   serializeCanonicalOntologyQueryJsonDocument,
@@ -301,8 +302,8 @@ describe("Universal Ontology MCP platform release inputs", () => {
         registrySchemaVersion: "2025-12-11",
       },
       nodeRuntime: {
-        version: "24.22.1",
-        bundledNpmVersion: "11.19.1",
+        version: nodeTarget(),
+        bundledNpmVersion: expect.stringMatching(/^\d+\.\d+\.\d+$/u),
         compressedArchiveMaximumByteSize: 134_217_728,
       },
       mcpPublisher: {

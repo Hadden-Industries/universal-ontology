@@ -403,18 +403,15 @@ describe("Universal Ontology MCP development distribution workflow", () => {
         .map(({ index }) => index);
 
       expect(setupNodeIndex).toBeGreaterThanOrEqual(0);
+      expect(job.steps[setupNodeIndex].with).toEqual({
+        "node-version-file": ".node-version",
+        "package-manager-cache": false,
+      });
       if (jobName === "scope" || jobName === "complete") {
-        expect(job.steps[setupNodeIndex].with).toEqual({
-          "node-version-file": ".node-version",
-          "package-manager-cache": false,
-        });
         expect(bootstrapIndex).toBe(-1);
         expect(npmOperationIndices).toEqual([]);
         continue;
       }
-      expect(job.steps[setupNodeIndex].with?.["node-version"]).toBe(
-        releaseInputs.nodeRuntime.version,
-      );
       expect(bootstrapIndex).toBeGreaterThan(setupNodeIndex);
       expect(job.steps[bootstrapIndex]).toMatchObject({
         shell: "bash",

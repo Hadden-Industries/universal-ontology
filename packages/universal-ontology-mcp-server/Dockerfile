@@ -1,6 +1,6 @@
 # The release manifest pins this multi-platform index. Never replace it with a
 # floating tag: amd64 and arm64 release images must resolve from one identity.
-FROM node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205
+FROM node:26.13.0-bookworm-slim@sha256:bc0a2afd3b74ce12222fc8bab99271e66257f021078f5f4a5d687a77d280c1d9
 
 LABEL org.opencontainers.image.title="Universal Ontology MCP Server" \
       org.opencontainers.image.licenses="MIT" \

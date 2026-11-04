@@ -3,9 +3,9 @@
   "generator": "scripts/render_editing_policy.py",
   "policyIdentity": "sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb",
   "inputDigestAlgorithm": "sha256",
-  "inputDigest": "sha256:78647d1fb2b2a95de109acff3bf4a7a208dd7bfb1ae2777fc2a352d4eba3a5ae",
+  "inputDigest": "sha256:bcb6d8dc83abb4289e3c8f0c0a47e2081cb8ab3ccce3f536adb3e4bfb76cb5c4",
   "inputs": {
-    ".json-quality.json": "feea413a0bbee87e665957be0766bacf259d39810213d367a09cc87401c3a879",
+    ".json-quality.json": "2bb1bcc80fee1087fb1f85160acc506c46e2144a034ef1fb937c17932a16599b",
     ".markdown-quality-execution.json": "94ff41911ce6dc7e5693158fd99703802201b63f7d7fcdf9fca896a9df10b39a",
     ".markdown-quality.json": "e0fbb17dab8c9736273882fc134c93e0c2311012e0eed84c23b0c2ede52ae194",
     "docs/editing-policy/README.md": "6eb6cda4df6eae24d2d4c4940072a24e2716410a9cef96e04e016d5a6dabcc61",
@@ -34,7 +34,7 @@
     "docs/editing-policy/source/reader-guidance.ttl": "dc4ee0d112ef5357a6e95389d3eb56222097a548fb9ed47b7c6a3adfed37ba3f",
     "docs/editing-policy/usability/acceptance-results.md": "6839d21d51e7561a749a4453744ccaf6e2301db538174907c20890b6665d5959",
     "docs/editing-policy/usability/test-script.md": "2574e1d5b98b5c22427704e5cbbad2f80fe7d5ce211dd96d39b11b058a940b50",
-    "package-lock.json": "309d7b36ca0cd9eac2abc3eafed5dce0172a352c1584c21972a1f408103acc46",
+    "package-lock.json": "6fef2696d5d3276c43bf1a6c17659c3b00472c97355e9d727384c17eeac4576c",
     "policy/axiom-policy.ttl": "c0102868259018f56ba9ec8a16deb7b89d955c473a1f5731cdb0e85dac0ed2e6",
     "policy/dataset-distribution-policy.ttl": "d614d689bebe06fac83624d7fb4ff17337450d42d52c3a095ab3b7212dd510c8",
     "policy/editing-policy.ttl": "f10fa8e68a14ec8de4a47171a9d8bf423f51cf42bfa1a50721becedfd2e43941",
@@ -89,7 +89,7 @@
       "bytes": 150
     },
     "Editing-Policy.toolchain.json": {
-      "sha256": "75f0e0589821840a5184607290bb58a2b0d9f2b9851587d1a78b87aa7367d576",
+      "sha256": "8f40b332e475e872a2172c47cd21897ae1e6c67433926afd24f4e499e51fdd78",
       "bytes": 174
     },
     "assets/editing-policy/OpenSans-LICENSE.txt": {
