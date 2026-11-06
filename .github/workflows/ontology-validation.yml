@@ -126,8 +126,8 @@ jobs:
         if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
         run: |
           npm ci --include=dev --ignore-scripts
-          npm run install:editing-policy-browser
           .venv/bin/python -B scripts/render_editing_policy.py --check
+          npm run install:editing-policy-browser
           npm run check:editing-policy:accessibility
       - name: Policy, rendering, authority, change and publication-gate contracts
         if: (needs.validate-ontologies.outputs.ontology_policy_qa == 'true') && !fromJSON(inputs.plan).scopes.python_tests

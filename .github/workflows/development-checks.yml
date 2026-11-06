@@ -131,7 +131,7 @@ jobs:
         shell: bash
         run: node scripts/installRepositoryNpm.js
       - name: Check Python sources
-        run: npm run lint:python && npm run format:python:check
+        run: npm run format:python:check && npm run lint:python
     permissions:
       contents: read
     cache-mode: none
@@ -272,7 +272,7 @@ jobs:
       - name: Set up the locked development environment
         run: npm run set-up:development
       - name: Check Python style and formatter regressions
-        run: npm run lint:python && npm run format:python:check
+        run: npm run format:python:check && npm run lint:python
       - name: Check minimal documentation installation inputs
         run: npm test -- --runInBand --runTestsByPath tests/python-style-tools.test.js tests/markdown-quality.test.js tests/json-quality.test.js
     permissions:

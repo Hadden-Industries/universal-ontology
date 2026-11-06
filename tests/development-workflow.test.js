@@ -592,7 +592,7 @@ test("toolchain changes retain a Windows and Ubuntu owner for formatter regressi
   ).toBe(true);
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
   expect(runs.indexOf("npm run set-up:development")).toBeLessThan(
-    runs.indexOf("npm run lint:python && npm run format:python:check"),
+    runs.indexOf("npm run format:python:check && npm run lint:python"),
   );
   expect(runs).toContain(
     "npm test -- --runInBand --runTestsByPath tests/python-style-tools.test.js tests/markdown-quality.test.js tests/json-quality.test.js",

@@ -92,8 +92,8 @@ jobs:
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Static checks
         run: |-
-          npm run lint:node
           npm run format:node:check
+          npm run lint:node
       - run: node scripts/runPullRequestNodeChecks.js
       - id: complete
         run: echo "verified-revision=$GITHUB_SHA" >> "$GITHUB_OUTPUT"

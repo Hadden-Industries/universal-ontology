@@ -107,6 +107,10 @@ Ordinary development and contribution do not need them.
 
 `npm run test:python -- --granularity test` runs each Python test method in its own process instead of each module.
 Use the focused checks that match what you changed while working, and the wider suites before opening or updating a pull request.
+`check:qualification` runs code formatting before lint and checks the skill lock and generated editing policy before the wider test suites.
+CI checks formatting before lint; generated JSON qualification still follows the build that produces it.
+Policy rendering is checked before downloading its browser.
+This fail-fast order preserves all checks and producer prerequisites; reuse a passing result only while its relevant inputs and environment remain unchanged.
 Report failures, skips and checks you could not run as they are.
 
 ### Shared declarations and derived settings
