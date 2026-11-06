@@ -113,7 +113,7 @@ test("full Node ownership preserves actual development exclusions", () => {
   ).toThrow(/mixed/u);
 });
 
-test("mixed website/product plans exclude Markdown suites owned by isolated tooling", () => {
+test("mixed website/product plans exclude Markdown suites owned by style tooling", () => {
   const selected = plan(["product_tests", "website_build"]);
   expect(selected.scopes.style_tooling).toBe(false);
   const args = nodeCheckArguments(selected, { families: ["build"] });

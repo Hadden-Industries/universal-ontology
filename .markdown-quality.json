@@ -1,28 +1,21 @@
 {
-  "schemaVersion": 2,
-  "preset": "authored-gfm@1",
-  "include": [
-    "**/*.md"
-  ],
+  "schemaVersion": 3,
   "exclude": [
     ".agents/skills/**",
     ".claude/skills/**",
     ".agent-tools/**",
     "dist/**",
-    "docs/sdlc/*",
-    "docs/reviews/*",
+    "docs/sdlc/**",
+    "docs/reviews/**",
     "docs/research/**",
-    "vendor/*",
+    "docs/plans/**",
+    "docs/policy/migration-evidence.md",
+    "docs/specs/2026-09-09-shacl-policy-source-of-truth-dossier.md",
+    "docs/specs/2026-09-09-shacl-policy-source-of-truth-issue-body.md",
+    "**/vendor/**",
+    "**/.cache/**",
+    "**/coverage/**",
     "docs/policy/Editing-Policy.generated.md",
     "docs/policy/Editing-Policy.sidebar.md"
-  ],
-  "lint": {},
-  "links": {
-    "localFiles": true,
-    "rootRelative": "reject"
-  },
-  "layout": {
-    "endOfLine": "lf",
-    "tabWidth": 2
-  }
+  ]
 }

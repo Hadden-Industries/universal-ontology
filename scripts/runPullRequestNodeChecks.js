@@ -82,8 +82,7 @@ export function nodeCheckArguments(plan, { families = null } = {}) {
     )
   )
     return ["--runTestsByPath", ...suitesForNodeFamilies(families)];
-  // The isolated style-tooling job owns these suites. Ordinary product jobs do
-  // not install the private Markdown graph, even when their scopes are mixed.
+  // The style-tooling job owns these suites, including mixed-scope plans.
   const ignored = [
     "/node_modules/",
     "/.sdlc/runtime/",

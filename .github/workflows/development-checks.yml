@@ -64,9 +64,9 @@ jobs:
       - name: Select package manager
         shell: bash
         run: node scripts/installRepositoryNpm.js
-      - name: Install only the locked documentation tools
+      - name: Install locked root development tools
         shell: bash
-        run: npm run install:markdown
+        run: npm ci --include=dev --ignore-scripts
       - name: Check every repository Markdown document
         run: npm run check:markdown
     permissions:
@@ -174,8 +174,6 @@ jobs:
       - name: Select package manager
         shell: bash
         run: node scripts/installRepositoryNpm.js
-      - name: Install the isolated generated-document formatter
-        run: npm run install:markdown
       - name: Run the Python-only native family
         run: npm run test:python -- --family python-only
     permissions:

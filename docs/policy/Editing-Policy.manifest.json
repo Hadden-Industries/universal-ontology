@@ -3,11 +3,11 @@
   "generator": "scripts/render_editing_policy.py",
   "policyIdentity": "sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb",
   "inputDigestAlgorithm": "sha256",
-  "inputDigest": "sha256:bcb6d8dc83abb4289e3c8f0c0a47e2081cb8ab3ccce3f536adb3e4bfb76cb5c4",
+  "inputDigest": "sha256:b74aa2306a3bd350b020e7165fc68b72892e6267bf11545df11ddb9397b4e216",
   "inputs": {
     ".json-quality.json": "2bb1bcc80fee1087fb1f85160acc506c46e2144a034ef1fb937c17932a16599b",
-    ".markdown-quality-execution.json": "94ff41911ce6dc7e5693158fd99703802201b63f7d7fcdf9fca896a9df10b39a",
-    ".markdown-quality.json": "e0fbb17dab8c9736273882fc134c93e0c2311012e0eed84c23b0c2ede52ae194",
+    ".markdown-quality-execution.json": "73c8b085746b01d2c76915f734027aa100eba637230734737c284ae00829d86f",
+    ".markdown-quality.json": "8788df97fde14f017593404b63baaafcc5d1f2589569dfcd771e8100bd229e8a",
     "docs/editing-policy/README.md": "6eb6cda4df6eae24d2d4c4940072a24e2716410a9cef96e04e016d5a6dabcc61",
     "docs/editing-policy/diagrams/dataset-access-guide.md": "881afe5af00f772a78648661dff53a01f73c5d6e10d7b68aa06c233911c91c2a",
     "docs/editing-policy/diagrams/dataset-access-guide.mmd": "fafce4a36133a0f413c0cdfe333fc78ec1e677a5c775496b74ad05925ac8919d",
@@ -34,7 +34,7 @@
     "docs/editing-policy/source/reader-guidance.ttl": "dc4ee0d112ef5357a6e95389d3eb56222097a548fb9ed47b7c6a3adfed37ba3f",
     "docs/editing-policy/usability/acceptance-results.md": "6839d21d51e7561a749a4453744ccaf6e2301db538174907c20890b6665d5959",
     "docs/editing-policy/usability/test-script.md": "2574e1d5b98b5c22427704e5cbbad2f80fe7d5ce211dd96d39b11b058a940b50",
-    "package-lock.json": "6fef2696d5d3276c43bf1a6c17659c3b00472c97355e9d727384c17eeac4576c",
+    "package-lock.json": "b1933edad95062067afc7516b12e5405363fe2480b24f6d9655774b4ed20ed6b",
     "policy/axiom-policy.ttl": "c0102868259018f56ba9ec8a16deb7b89d955c473a1f5731cdb0e85dac0ed2e6",
     "policy/dataset-distribution-policy.ttl": "d614d689bebe06fac83624d7fb4ff17337450d42d52c3a095ab3b7212dd510c8",
     "policy/editing-policy.ttl": "f10fa8e68a14ec8de4a47171a9d8bf423f51cf42bfa1a50721becedfd2e43941",
@@ -44,6 +44,7 @@
     "policy/validation-context-shapes.ttl": "594ff44df9914adaaac7b93476d4fad6cdc830acd271091ed804b55e98c7acdb",
     "requirements.lock.txt": "9726423b3adb03b2609f2d3c443fa0cd2219af46fdcad1eedf4fc3c697c46cdc",
     "scripts/editingPolicyGfm.js": "603533d6c5db0a2694465f7be45e7c98376b86b61b8ff12ad92fa8b941dcf5f1",
+    "scripts/formatEditingPolicyMarkdown.mjs": "bb1df7a4a50583d0418515bbf9cae3be34355623ac8733dc9957c21d37fe1629",
     "scripts/ontology_policy/__init__.py": "0179aa618f17a5d45d8b0d9c52c834e23edd968220701bbe9d6f959c99a40a29",
     "scripts/ontology_policy/authorities.py": "a80b8f33fcede43280610eceeca5da55b1a83071ae9d49cbcf52fe0d8706609a",
     "scripts/ontology_policy/changes.py": "ddf8f36e95a330eea479ec96a37b083ece3da21911ef9c13afa07512d6739d8f",
@@ -53,7 +54,7 @@
     "scripts/ontology_policy/coverage.py": "042182f71274dc9921f7d18efff4252bc5cdc4e2f3d38391dbd2f9a6eec209c9",
     "scripts/ontology_policy/documentation_extract.py": "b5db81af9420b4af18ed9e070a43ff11658f3879b46dadc0d4b209b6baf3a8d3",
     "scripts/ontology_policy/documentation_model.py": "dcb2d1e809f33a69aefad702992e11952dbe1caf80ffc577c1e34714d945f139",
-    "scripts/ontology_policy/documentation_outputs.py": "694656b79447afb668dfa11ba87b0040e5526aeea7233adfa0c419127dca2a4f",
+    "scripts/ontology_policy/documentation_outputs.py": "c78d9597b403a35421376cae8e30e2415956d0909d12e099b50664313d20f8ac",
     "scripts/ontology_policy/jena.py": "66c6a8ae47d918ccb61d73e8cd45935f569ced6be599a500eedc273c995afb65",
     "scripts/ontology_policy/modules.py": "747cc1bf931b0828fb4ff3dd6445eab2b67ff5821522b6dcd19cab106efa0d90",
     "scripts/ontology_policy/namespaces.py": "683465b24cffe0942ce7ddb772509114efe4f41120cffa350f43500bb24bf3d3",
@@ -67,9 +68,8 @@
     "scripts/ontology_policy/snapshots.py": "3c8985ce0e032c77844e65e02ab6aeb44b2d7003a04fa4e75f349db5078931f9",
     "scripts/ontology_policy/validation.py": "bd4e3bd1955573dd47cf411b201bec9b3e61629308e8d41a2586ab4d46ba3cea",
     "scripts/renderEditingPolicyDiagrams.mjs": "c498b613f42d64a5999b2731338b2737fa90cfa6fdd37ab2223583fafb609e5e",
-    "scripts/render_editing_policy.py": "d15f0abad12fa79b3399198c6db7a52ab6d65d54b364a70ec41b0d4bcfeafab4",
-    "scripts/verifyEditingPolicyAccessibility.mjs": "283c0925de07083ec686c5496af8aff0069857a254b9ce48ee127fde964fe920",
-    "tooling/markdown/package-lock.json": "62a2dceb491ab982d4614b695f12bd7075f05889d6db2321addf457227ff8869"
+    "scripts/render_editing_policy.py": "c237f03f4d4d4d3c1eabebf152a04c2a3bfd8a9b41d93ee4fc5f6d2881b5d688",
+    "scripts/verifyEditingPolicyAccessibility.mjs": "283c0925de07083ec686c5496af8aff0069857a254b9ce48ee127fde964fe920"
   },
   "outputs": {
     "Editing-Policy.generated.md": {

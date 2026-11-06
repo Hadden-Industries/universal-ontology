@@ -29,29 +29,9 @@ from ontology_policy.rendering import (  # noqa: E402
 def format_generated_document(rendered: str) -> bytes:
     """Apply the canonical output path's Markdown policy before freshness comparison."""
     root = Path(__file__).resolve().parent.parent
-    package_root = (
-        root / "tooling/markdown/node_modules/@hadden-industries/markdown-quality"
-    )
-    metadata_path = package_root / "package.json"
     node = shutil.which("node")
-    if node is None or not metadata_path.is_file():
-        raise RuntimeError(
-            "Run npm run install:markdown before policy generation/checking"
-        )
-    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-    bins = metadata.get("bin") if isinstance(metadata, dict) else None
-    bin_path = bins.get("markdown-quality") if isinstance(bins, dict) else None
-    if (
-        not isinstance(metadata, dict)
-        or metadata.get("name") != "@hadden-industries/markdown-quality"
-        or not isinstance(bin_path, str)
-    ):
-        raise RuntimeError("Installed Markdown package has no supported public bin")
-    cli = (package_root / bin_path).resolve()
-    if not cli.is_relative_to(package_root.resolve()) or not cli.is_file():
-        raise RuntimeError(
-            "Installed Markdown public bin is missing or outside its package"
-        )
+    if node is None:
+        raise RuntimeError("Node.js and the root npm installation are required")
     # The package owns bounds, policy selection, analysis and result validation.
     # This caller owns only request correlation and graph-derived freshness.
     logical_path = GENERATED_DOCUMENT_PATH.relative_to(root).as_posix()
@@ -59,13 +39,7 @@ def format_generated_document(rendered: str) -> bytes:
     result = subprocess.run(
         [
             node,
-            str(cli),
-            "document",
-            "--root",
-            str(root),
-            "--execution-profile",
-            str(root / ".markdown-quality-execution.json"),
-            "--json",
+            str(root / "scripts/formatEditingPolicyMarkdown.mjs"),
         ],
         input=json.dumps(
             {
@@ -80,6 +54,7 @@ def format_generated_document(rendered: str) -> bytes:
         text=True,
         encoding="utf-8",
         check=False,
+        timeout=30,
     )
     report = json.loads(result.stdout)
     document = report.get("document") if isinstance(report, dict) else None
@@ -88,7 +63,9 @@ def format_generated_document(rendered: str) -> bytes:
         or not isinstance(report, dict)
         or report.get("exitCode") != 0
         or report.get("operation") != "format"
-        or report.get("written") != []
+        or report.get("schemaVersion") != 5
+        or report.get("operationStatus") != "completed"
+        or report.get("writtenPaths") != []
         or report.get("errors") != []
         or not isinstance(document, dict)
         or document.get("path") != logical_path

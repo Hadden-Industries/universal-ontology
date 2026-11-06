@@ -27,7 +27,6 @@ const files = [
   ".github/workflows/ontology-validation.yml",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
   ".github/workflows/manual-mcp-packages.yml",
-  ".github/workflows/markdown-quality.yml",
 ];
 
 test.each(files.slice(0, 5))(
@@ -144,7 +143,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
 });
 test("CI policy accepts the repository workflow graph", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedWorkflowCount: 7,
+    verifiedWorkflowCount: 6,
   });
 });
 
@@ -230,9 +229,9 @@ test.each([
   ],
   [
     "an unpinned external caller",
-    "markdown-quality.yml",
+    "pr-validation.yml",
     (workflow) => {
-      workflow.jobs.qualify.uses =
+      workflow.jobs.development.uses =
         "Hadden-Industries/markdown-quality/.github/workflows/markdown-quality.yml@main";
     },
     /permitted workflow graph/u,

@@ -50,7 +50,7 @@ def input_inventory(policy: Policy) -> dict[str, str]:
         "scripts/render_editing_policy.py",
         ".markdown-quality.json",
         ".markdown-quality-execution.json",
-        "tooling/markdown/package-lock.json",
+        "scripts/formatEditingPolicyMarkdown.mjs",
         "requirements.lock.txt",
         "package-lock.json",
         "scripts/renderEditingPolicyDiagrams.mjs",

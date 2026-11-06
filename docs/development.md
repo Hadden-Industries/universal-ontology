@@ -306,17 +306,18 @@ The release verifier binds the root dependency manifest and lockfile, UO adapter
 `npm run lint:python:fix` applies Ruff's safe fixes; `npm run format:python` formats Python.
 Ruff retains its configured Python scope and runtime.
 
-`npm run install:markdown` installs the isolated development-only graph in `tooling/markdown` from the retained core/native archives and frozen lock, with anonymous registry access for the remaining dependencies, empty npm configuration files and no lifecycle scripts.
+`npm ci --include=dev --ignore-scripts` installs Markdown Quality with the root development graph and matching optional native package from the frozen root lock.
 `npm run check:markdown` invokes the maintained native capability in full-selection mode without writing or installing anything.
-`npm run format:markdown` formats the same complete corpus; preservation guards reject changes to parsed meaning or literals.
+`npm run format:markdown` explicitly writes the same complete corpus; preservation guards reject changes to parsed meaning or literals.
+Preview a selected file without writing with `npm exec -- markdown-quality format --dry-run --root . -- README.md`.
 Both support `-- --json` for the capability's canonical result schema.
 Exit 0 means no blockers, 1 means blocking findings or formatting drift, and 2 means an operational failure; advisory findings remain visible on success.
 Consumers must check process and report identity together.
 Changed-path shortcuts are rejected because deleting a non-Markdown link target can break an unchanged document.
 
-The policy is `"include": ["**/*.md"]` with no ignore inputs.
+The default selection is `**/*.md` with no ignore-file authority.
 Markdown policy is declared in `.markdown-quality.json`; scripts must not maintain competing exclusion lists.
-The owner-approved exclusions include `docs/sdlc/*`, `docs/reviews/*`, `vendor/*` and the specific `docs/policy/Editing-Policy.generated.md` file, alongside installed skill/tool and build-output paths.
+The owner-approved exclusions preserve historical SDLC, reviews, research and plans, vendor content and generated Editing Policy pages, alongside installed skill/tool and build-output paths.
 The shared package reconciles full selection with the Git inventory and records each tracked document as selected or policy-excluded.
 `npm run inspect:markdown -- --json` exposes those decisions and exclusion reasons.
 Selected unsafe or missing content fails explicitly; excluded content remains unchanged.
@@ -332,20 +333,18 @@ Rendering CLI tests belong to the Node-backed Python family; pure extraction and
 The generated sidebar is also excluded from authored Markdown formatting because its links target Wiki page names.
 See the [documentation authoring guide](editing-policy/README.md) for source ownership and release acceptance limits.
 
-Root npm commands invoke installed public bins in the isolated tooling project.
-The generator resolves the public bin declaration; the package owns bounded invocation, validation, selection, staging and native observation.
-`.markdown-quality-execution.json` is the sole consumer qualification profile: it references the runtime declarations and archive/lock identities, and carries finite operational bounds without Markdown content policy.
-The retained archive tuple is paired with producer source `2a8f162cd98a8548d8fa7b065cd6fe1828efcab7`; its manifest version alone does not identify this development implementation.
+Root npm commands invoke the installed public bin using explicit repository roots.
+The generator calls a small Node adapter using public `processLogicalDocument` and `validateQualityResult`; Python owns graph freshness and publication writes.
+The adapter independently requires result schema 5, successful operation, unchanged request/path identity and no checkout writes.
+`.markdown-quality-execution.json` retains the ordinary 30-second execution ceiling; package defaults supply other finite bounds.
 
 Every functional PR/main route runs a fresh full-corpus check on Windows and Ubuntu, even for a target-only change.
 Independent UO consumer assertions remain in Jest; generic transport and trust probes are owned by the producer.
 Documentation does not select unrelated product or ontology work.
 The existing selected Node assertion reuse remains authenticated and bounded; it never reuses Markdown checking, and the main gate still requires fresh Markdown completion at the exact main revision.
-The separate trusted dispatch workflow calls the SHA-pinned producer workflow, takes an explicit reviewed `trusted_sha`, and treats the candidate exclusively as data.
-Its six-run resource windows and provider identities are retained as qualification evidence, separate from ordinary CI.
+Ordinary checks and generated-output admission do not create trusted qualification receipts.
 
 `npm run check:qualification` includes full Markdown through lint before wider product verification.
-`npm run qualify:markdown -- --help` describes the separate exact-commit resource qualification; it requires committed inputs and the selected Python runtime.
 The application's workspaces and shipped dependency graph do not include the AGPL Markdown tooling.
 Python source edits retain their existing independent checks; style-tool/configuration changes retain the platform regression matrix.
 

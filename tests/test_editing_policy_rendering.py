@@ -59,7 +59,9 @@ class CanonicalFormatterFailureTest(unittest.TestCase):
                             {
                                 "exitCode": 0,
                                 "operation": "format",
-                                "written": [],
+                                "schemaVersion": 5,
+                                "operationStatus": "completed",
+                                "writtenPaths": [],
                                 "errors": [],
                                 "document": request,
                             }

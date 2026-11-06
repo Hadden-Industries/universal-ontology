@@ -610,7 +610,7 @@ test("every route checks the full Markdown corpus on Windows and Linux", () => {
   expect(job.steps.map((step) => step.run).filter(Boolean)).toEqual([
     "node scripts/evaluatePullRequestChecks.js --verify",
     "node scripts/installRepositoryNpm.js",
-    "npm run install:markdown",
+    "npm ci --include=dev --ignore-scripts",
     "npm run check:markdown",
   ]);
   expect(

@@ -125,7 +125,6 @@ jobs:
       - name: Generated policy is current
         if: needs.validate-ontologies.outputs.ontology_policy_qa == 'true'
         run: |
-          npm run install:markdown
           npm ci --include=dev --ignore-scripts
           npm run install:editing-policy-browser
           .venv/bin/python -B scripts/render_editing_policy.py --check

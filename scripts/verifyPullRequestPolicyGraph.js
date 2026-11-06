@@ -12,7 +12,6 @@ const POLICY_WORKFLOW_PATHS = Object.freeze([
   ".github/workflows/ontology-validation.yml",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
   ".github/workflows/manual-mcp-packages.yml",
-  ".github/workflows/markdown-quality.yml",
 ]);
 
 /**
@@ -39,12 +38,8 @@ export async function verifyPullRequestPolicyGraph({
       if (
         job.uses &&
         !(
-          (job.uses.startsWith("./.github/workflows/") &&
-            POLICY_WORKFLOW_PATHS.includes(job.uses.slice(2))) ||
-          (path === ".github/workflows/markdown-quality.yml" &&
-            id === "qualify" &&
-            job.uses ===
-              "Hadden-Industries/markdown-quality/.github/workflows/markdown-quality.yml@7e24e6f806d9d532c1425f76c52fdd0923af985a")
+          job.uses.startsWith("./.github/workflows/") &&
+          POLICY_WORKFLOW_PATHS.includes(job.uses.slice(2))
         )
       ) {
         throw new Error(
