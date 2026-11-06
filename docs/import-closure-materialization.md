@@ -1,13 +1,43 @@
 # Self-contained OWL import closures
 
-The JavaScript materializer replaces the Python import merger.
-Current generation uses the manifest-selected exact OwlAPI source for readable RDF/XML, retaining strict offline reload and the existing closure contract.
-Repository-wide verification and independent review remain separate from these consumer checks.
-The historical [registry artifact record](import-closure/registry-artifact-verification.json) captures the original rc.1 identity, signature, provenance and signed-tag checks.
+Use the JavaScript materializer to produce a self-contained ontology from a root and its locally resolved imports.
+Choose the one-root command to generate a specific output, or the batch command to build the repository's full ontologies.
 
-The historical [registry consumer record](import-closure/registry-consumer-qualification.json) binds the eight real cases, input digests, Java comparisons and focused tests to that executed source observation.
-Neither record qualifies a different selected source or asserts a new npm publication.
-HISEW retains the final candidate's full verification receipt and completion decision separately; these qualification observations do not claim deployment.
+## Commands
+
+| To generate                      | Run                                                                                       |
+| -------------------------------- | ----------------------------------------------------------------------------------------- |
+| One import closure as RDF/XML    | `node scripts/materializeImportClosure.js INPUT OUTPUT --catalog CATALOG --format rdfxml` |
+| All eligible repository closures | `npm run generate:full-ontologies`                                                        |
+
+The one-root command accepts `--format rdfxml` or `--format functional`.
+RDF/XML is the default.
+There is no automatic fallback: an unrepresentable literal or non-injective RDF/XML mapping fails, and the operator must explicitly choose Functional Syntax if appropriate.
+Changing the output syntax does not rewrite authored format annotations.
+
+### Migrating from the Python tools
+
+The one-root command replaces `python scripts/merge_owl_imports.py INPUT OUTPUT --catalog CATALOG`.
+The batch command replaces `python scripts/create_full_versions.py`.
+
+### Which releases produce full ontologies?
+
+The batch and ordinary website build share source-driven discovery and local-only materialization.
+Every ordinary extensionless release with a valid date at or after `20260714` is considered, including future dates and newly added families.
+
+A parsed root with imports gets all three fresh representations; a root without imports gets none of the three full counterparts.
+The current corpus has eight importing roots across ISO/IEC 11179-3, reference data, core and extended, at dates `20260714` and `20260912`; ISO 31073 `20260912` has no imports and is skipped.
+
+This observation is not an allowlist.
+Release mappings come from checked-in source identities, combined with existing local catalogs; conflicting mappings, missing local imports, malformed sources and linked paths fail.
+Ordinary distributions, existing alias rewriting, earlier releases and query artifact admission retain their contracts.
+
+The batch stops at the first failure and leaves no usable build receipt.
+The ignored `full-ontology-build.json` product receipt binds candidate selection, source and catalog inputs, producer and installed OWLAPI bytes, and all required output hashes.
+
+Read-only publication admission recomputes selection, checks required outputs and forbids full counterparts for no-import roots.
+Normal and forced uploads use the same gate and an isolated snapshot of the entire built tree.
+There is no compatibility wrapper; Git history is the recovery path for the removed Python implementation.
 
 ## Qualification and dependency boundary
 
@@ -34,36 +64,13 @@ They are not current qualification entry points and intentionally cannot qualify
 Their original candidate, source, API-registry and archive identities remain fixed; historical evidence is preserved.
 The current supported replacement is the maintained qualification and generated-output verification commands above.
 
-## Commands
+### Historical qualification records
 
-The following table records the completed command migration.
+The historical [registry artifact record](import-closure/registry-artifact-verification.json) captures the original rc.1 identity, signature, provenance and signed-tag checks.
 
-| Removed command                                                      | Required command                                                                          |
-| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `python scripts/merge_owl_imports.py INPUT OUTPUT --catalog CATALOG` | `node scripts/materializeImportClosure.js INPUT OUTPUT --catalog CATALOG --format rdfxml` |
-| `python scripts/create_full_versions.py`                             | `npm run generate:full-ontologies`                                                        |
-
-The batch and ordinary website build share source-driven discovery and local-only materialization.
-Every ordinary extensionless release with a valid date at or after `20260714` is considered, including future dates and newly added families.
-
-A parsed root with imports gets all three fresh representations; a root without imports gets none of the three full counterparts.
-The current corpus has eight importing roots across ISO/IEC 11179-3, reference data, core and extended, at dates `20260714` and `20260912`; ISO 31073 `20260912` has no imports and is skipped.
-
-This observation is not an allowlist.
-Release mappings come from checked-in source identities, combined with existing local catalogs; conflicting mappings, missing local imports, malformed sources and linked paths fail.
-Ordinary distributions, existing alias rewriting, earlier releases and query artifact admission retain their contracts.
-
-The batch stops at the first failure and leaves no usable build receipt.
-The ignored `full-ontology-build.json` product receipt binds candidate selection, source and catalog inputs, producer and installed OWLAPI bytes, and all required output hashes.
-
-Read-only publication admission recomputes selection, checks required outputs and forbids full counterparts for no-import roots.
-Normal and forced uploads use the same gate and an isolated snapshot of the entire built tree.
-There is no compatibility wrapper; Git history is the recovery path for the removed Python implementation.
-
-The one-root command accepts `--format rdfxml` or `--format functional`.
-RDF/XML is the default.
-There is no automatic fallback: an unrepresentable literal or non-injective RDF/XML mapping fails, and the operator must explicitly choose Functional Syntax if appropriate.
-Changing the output syntax does not rewrite authored format annotations.
+The historical [registry consumer record](import-closure/registry-consumer-qualification.json) binds the eight real cases, input digests, Java comparisons and focused tests to that executed source observation.
+Neither record qualifies a different selected source or asserts a new npm publication.
+HISEW retains the final candidate's full verification receipt and completion decision separately; these qualification observations do not claim deployment.
 
 ## Preserved information and input policy
 

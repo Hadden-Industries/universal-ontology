@@ -3,8 +3,13 @@
 The Universal Ontology MCP server is a page-independent, read-only `stdio` server.
 An MCP host launches it as a child process; the server opens no inbound port and performs ontology search, ranking, resolution, and result rendering on the user's computer.
 
-For a contributor checkout, follow [Install both repository-local MCP servers](#install-both-repository-local-mcp-servers).
-For another host, choose a software source below, then [configure the host](#configure-an-mcp-host) and [verify the Person definition](#verify-the-person-definition).
+Choose an installation route for the software you have:
+
+- **Contributor checkout:** [Install both repository-local MCP servers](#install-both-repository-local-mcp-servers) to use the generated ontology data in that checkout.
+- **Another MCP host:** [Build from source](#build-and-run-from-a-source-checkout), use a [locally packed npm tarball](#install-a-locally-packed-npm-tarball), or run a [local OCI image](#build-and-run-a-local-oci-image).
+- **Development artifact:** [Build a self-contained platform archive](#build-a-self-contained-platform-archive) or use an [authenticated GitHub Actions artifact](#use-a-short-lived-github-actions-artifact).
+
+After selecting the software, [configure the host](#configure-an-mcp-host) and [verify the Person definition](#verify-the-person-definition).
 
 > **Development-only distribution:** the software built from this repository is not a release.
 > There is no public npm package, no public GHCR image, no MCP Registry record, no GitHub Release, no immutable software artifact, and no publisher signature or attestation.

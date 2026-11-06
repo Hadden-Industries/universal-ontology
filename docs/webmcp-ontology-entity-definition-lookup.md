@@ -1,13 +1,26 @@
 # WebMCP ontology entity definition lookup
 
-This guide describes the current website behavior.
-The implementation and its runtime-validated result schemas remain the authoritative contract.
+Use an agent in the open ontology tab to look up one entity's authored definition.
+The answer identifies the release displayed in that tab. Start with the `Person` example below, or check the [accepted references](#accepted-references) for IRI and UUID lookups.
 
-WebMCP is still experimental.
-As checked on 30 August 2026, the current [WebMCP Draft Community Group Report](https://webmachinelearning.github.io/webmcp/) is dated 26 August 2026, is not a W3C Standard, and remains subject to change.
+The implementation and its runtime-validated result schemas define the tool contract.
 
-The project's [official implementation-status page](https://github.com/webmachinelearning/webmcp/blob/main/implementation-status.md) reports support in ChatGPT Desktop, experimental support in Brave, a Chrome 149 origin trial, and an Edge 150 origin trial.
-Treat those entries as starting points rather than a promise that every browser, channel, agent, or deployment has the same API enabled.
+## Example
+
+1. Open the [stable Core ontology HTML page](https://haddenindustries.com/ontology/universal/core/latest.html) in a supported WebMCP client.
+2. Ask: “What is the definition of `Person` in the ontology open in this tab?”
+3. The agent should call `get_ontology_entity_definition` with this object:
+
+   ```json
+   {
+     "entityReference": "Person"
+   }
+   ```
+
+4. A successful response has `status: "resolved"`, `matchedBy: "preferred_label"`, the exact Core `Person` entity IRI, its authored lexical definition, and a `displayedOntologyRelease` object naming the immutable release actually used.
+
+The page-scoped wording matters.
+The tool does not silently change ontology, release, or tab to answer a broader question.
 
 ## What it does
 
@@ -36,23 +49,6 @@ Agent-initiated cancellation remains native cancellation rather than being conve
 The feature is progressive enhancement.
 It does not add a visible lookup form or alter the table, filters, sorting, columns, or exports.
 Query artifacts are not downloaded during ordinary page rendering; the first tool execution loads them lazily, and later executions in the same page reuse validated cached data.
-
-## Example
-
-1. Open the [stable Core ontology HTML page](https://haddenindustries.com/ontology/universal/core/latest.html) in a supported WebMCP client.
-2. Ask: “What is the definition of `Person` in the ontology open in this tab?”
-3. The agent should call `get_ontology_entity_definition` with this object:
-
-   ```json
-   {
-     "entityReference": "Person"
-   }
-   ```
-
-4. A successful response has `status: "resolved"`, `matchedBy: "preferred_label"`, the exact Core `Person` entity IRI, its authored lexical definition, and a `displayedOntologyRelease` object naming the immutable release actually used.
-
-The page-scoped wording matters.
-The tool does not silently change ontology, release, or tab to answer a broader question.
 
 ## What “latest” means
 
@@ -135,6 +131,12 @@ An entity can carry more than one asserted kind, for example through OWL punning
 Coverage is based on the release query index, not on the smaller set of kinds the current HTML table happens to render.
 
 ## Availability
+
+WebMCP is still experimental.
+As checked on 30 August 2026, the current [WebMCP Draft Community Group Report](https://webmachinelearning.github.io/webmcp/) is dated 26 August 2026, is not a W3C Standard, and remains subject to change.
+
+The project's [official implementation-status page](https://github.com/webmachinelearning/webmcp/blob/main/implementation-status.md) reports support in ChatGPT Desktop, experimental support in Brave, a Chrome 149 origin trial, and an Edge 150 origin trial.
+Treat those entries as starting points rather than a promise that every browser, channel, agent, or deployment has the same API enabled.
 
 The tool requires all of the following:
 

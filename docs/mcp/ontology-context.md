@@ -1,19 +1,28 @@
 # Bounded ontology context and definition review
 
-Local filesystem MCP exposes asserted RDF context through a private Oxigraph 0.5.11 worker.
-Clients cannot submit SPARQL, filesystem paths, or remote import URLs.
-The browser package entry remains free of Node and WASM imports.
+Use the local MCP server to [inspect a known entity](#ask-for-known-entity-context-directly) or [choose definitions for review](#select-definitions-for-review).
+Reuse the returned `snapshotRef` when comparing answers so that each request uses the same ontology data.
 
 ## Select and retain a snapshot
 
-Select one root with `ontologyReleaseSelection`, then choose `graphSelection`: `source_graph`, `catalogued_imports` (default), or `selected_graphs` with explicit `selectedSnapshotIds`.
+Select one root with `ontologyReleaseSelection`.
+Then set `graphSelection` to match the question you want to answer.
+
+| Context to examine                            | `graphSelection`                                      |
+| --------------------------------------------- | ----------------------------------------------------- |
+| Only the selected source graph                | `source_graph`                                        |
+| The source and its locally catalogued imports | `catalogued_imports` (default)                        |
+| A specific set of graphs                      | `selected_graphs` with explicit `selectedSnapshotIds` |
+
 At most 16 graphs are admitted; two versions of the same ontology are rejected.
 Import resolution uses the captured local catalog only.
 Unavailable imports are reported as coverage gaps, never fetched from the network.
 
-`latest_stable_releases` selects dated releases; `active_publications` selects the existing activation-policy publication.
-A saved authoring file is a separate `working` snapshot.
-These selections are not interchangeable.
+For a dated release use `latest_stable_releases`.
+To follow the activation policy use `active_publications`.
+To review a saved authoring file, use its separate `working` snapshot.
+
+### Keep follow-up requests on the same data
 
 Every context/search result carries `snapshotRef`.
 Reuse that entire value for follow-up requests instead of making a fresh selection.
@@ -104,6 +113,10 @@ The catalog accepts contained local RDF/XML and Turtle imports. It rejects remot
 Immutable objects are written before the catalog is replaced.
 
 ## Bounds and interpretation
+
+Local filesystem MCP exposes asserted RDF context through a private Oxigraph 0.5.11 worker.
+Clients cannot submit SPARQL, filesystem paths, or remote import URLs.
+The browser package entry remains free of Node and WASM imports.
 
 | Resource                                      | Default or fixed bound | Maximum requested |
 | --------------------------------------------- | ---------------------- | ----------------- |
