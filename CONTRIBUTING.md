@@ -39,6 +39,7 @@ Preserve the attribution and restrictions described in the [README](README.md) a
 
 [docs/development.md](docs/development.md) describes setup, what each command does, the optional integrations, and the verification commands.
 Local tooling is optional: if you cannot run a check, say so in the pull request and ask for help.
+
 Maintainers can run checks for you, and GitHub runs the applicable ones on every pull request.
 The project still needs enough evidence before accepting a change; it does not need that evidence to come from your machine.
 

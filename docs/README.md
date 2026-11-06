@@ -1,6 +1,13 @@
 # Documentation
 
-Find documents by their purpose, then by the initiative or component they describe.
+To explore definitions, start with the [online Core ontology](https://haddenindustries.com/ontology/universal/core/latest.html) or [browse its OWL source](../core/universal-core.owl).
+To edit it, read the [human-readable editing policy](policy/Editing-Policy.generated.md).
+
+- [Look up the definition of an entity on an ontology page](webmcp-ontology-entity-definition-lookup.md).
+- [Install the local MCP server](mcp/local-installation.md) to search from a configured host.
+- [Build self-contained OWL import closures](import-closure-materialization.md) and check that they reload offline.
+
+## Project guides and records
 
 | Location                                    | What it contains                                                                              |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------- |

@@ -467,6 +467,7 @@ The licence below is from Oxigraph tag v0.5.13, commit 2837810c8993da671d496eabf
 The pinned npm package's WASM SHA-256 is fb50ae07d695b144047a2d97555ae7ae8eebc8688126a28dae05831185fbe4fa.
 Additional upstream licence texts and crate archive digests are shipped in third-party/oxigraph/component-notices.json.
 That inventory conservatively includes the tagged source lock's dependency closure and versions observed in the distributed WASM; it is not a claim that all those crates are linked.
+
 In particular, the published WASM identifies hashbrown 0.17.1, whose actual archive and MIT licence are included, rather than assuming the source lock's hashbrown 0.16.1 identifies the prebuilt binary.
 
 ```text

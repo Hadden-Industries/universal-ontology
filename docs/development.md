@@ -8,9 +8,11 @@ Nothing here is a prerequisite for opening a pull request; see [CONTRIBUTING.md]
 Requirements: Git 2.46 or later, the LTS Node.js version selected in [`.node-version`](../.node-version) or a newer compatible release in the same major, stable npm 12.2.1 or later, stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
 CI and PR qualification use the exact selected Node runtime; ordinary development setup accepts compatible LTS updates.
 `package.json` declares `devEngines.packageManager.version` as `>=12.2.1` with `onFail: "error"`; npm enforces this native contract before install, clean install and script execution, and development setup uses npm's bundled validator.
+
 Later stable npm majors satisfy the range; prereleases do not.
 The exact `packageManager` reference remains `npm@12.2.1`, and CI and release builds explicitly select and verify that version for reproducibility.
 CI provisions the exact Python version in that file through SHA-pinned `astral-sh/setup-uv` and the uv version selected by [the shared Python setup action](../.github/actions/setup-python/action.yml), with caching disabled.
+
 The action activates an isolated environment under the runner's temporary directory; subsequent setup creates the repository `.venv` and installs the hash-locked requirements through pip.
 Development setup accepts newer stable versions and preserves the existing `.venv`.
 The README's [development setup](../README.md#development-setup) section explains the version selection.
@@ -33,6 +35,7 @@ It installs nothing globally and configures no agent, workflow, hook trust, MCP 
 `requirements.txt` holds the ontology runtime dependencies and `requirements-dev.txt` the development tools; `requirements.lock.txt` is their resolved, hash-pinned closure.
 Development requirements declare minimum versions without upper bounds.
 Routine setup and CI install the exact locked versions rather than resolving those ranges again.
+
 PyYAML 6.0.3 has no CPython 3.15 wheel, so setup and full-lock CI installs build only PyYAML from its hash-pinned source archive; all other locked requirements remain binary-only.
 Pip's isolated source build may acquire additional build-time dependencies.
 PyYAML works without its optional LibYAML extension; source-build compatibility must be verified on each CI platform.
@@ -40,21 +43,28 @@ PyYAML works without its optional LibYAML extension; source-build compatibility 
 Node.js dependencies are locked via `package-lock.json`.
 Repository-owned package manifests declare registry and workspace dependencies and development dependencies using `>=` minimum version ranges, including the version inside npm aliases and the vendored Braces package's `fill-range` dependency.
 Registry minimums track the highest published stable release when updated; workspace minimums use the accepted local package version.
+
 A dependency without a stable release uses its explicitly accepted prerelease.
 Local `file:` sources, including the vendored Braces repair, preserve their source identities.
 OwlAPI is an owner-approved exception to registry ranges: `devDependencies.owlapi` in the root `package.json` is its sole editable source/version selector.
+
 Use either `git+https://github.com/OWNER/REPOSITORY.git#FULL_40_CHARACTER_COMMIT` or `npm:PACKAGE_NAME@EXACT_VERSION`, including an exact prerelease when selected.
 The local dependency name and all consumer imports stay `owlapi` and `owlapi/...` for either form.
 The import-closure policy references this manifest entry; package names, versions, sources and integrity values in `package-lock.json` are generated observations, not independent settings.
+
 Root `.npmrc` sets `allow-git=root`, admitting this direct dependency while rejecting transitive Git dependencies under npm 12; setup and CI continue disabling lifecycle scripts.
 The PR selector treats `.npmrc` as a manifest-dependent input; consumer tests verify the selected dependency source and installed payload.
+
 Use `npm ci --include=dev --ignore-scripts` when changing between registry and Git sources with the same package version: an incremental install can retain the old bytes.
 After an approved selector edit, regenerate the npm lockfile, then clean-install it with the command above and requalify the consumer.
+
 The package boundary tests check the exact manifest/lock source and public API bindings, and compare all installed package files with the original archive retained in npm's cache by the lockfile integrity.
 A missing or inconsistent cached archive fails verification; installed files never supply their own expected hashes.
+
 The retained registry verification documents describe the historical rc.1 publication; they do not qualify a different selected source or assert a new npm release.
 The policy allows every newer stable version, then qualifies each refreshed lockfile before adoption.
 Routine setup and CI use the exact lockfile graph; a range permits resolution but does not establish compatibility, including for future major upgrades.
+
 Refresh qualification covers the affected runtime, build and distribution contracts, including libraries bundled from development dependencies.
 Distribution qualification retains exact bundled component and artifact checks and requires the public MCP package to declare no separately installed runtime dependencies.
 
@@ -136,6 +146,7 @@ This follows the existing `scripts/pythonTarget.js` projection pattern.
 
 Keep separate meanings separate: local tool eligibility and exact CI selection, deployment Node and bundled archive Node, source and decoded-artifact bounds, independent expected test vectors, immutable historical releases and generated lock observations are different contracts.
 GitHub checkout pins must remain literal before repository-local actions are available; separate workflow responsibilities retain their reviewed pins.
+
 The release-input action inventory governs MCP distribution, and does not govern unrelated CI jobs.
 The current MCP protocol revision is owned by `universalOntologyMcpMetadata.js`; release inputs retain a separately checked declaration as part of explicit release qualification.
 Reassess deliberate duplication when a shared requirement changes or a new consumer needs that same contract.
@@ -160,13 +171,16 @@ Exit 1 means known quality findings; exit 2 means invalid arguments, refused nor
 `npm run check:json` automatically discovers and checks source and generated JSON read-only, including untracked and Git-ignored files.
 `npm run format:json:check` runs the same complete read-only check, including protected producer presentation.
 `npm run inspect:json` streams that complete check as NDJSON.
+
 Only the final `execution-terminal` closes inventory, expected linkage, source observations and diagnostic delivery; individual source terminals do not establish overall success.
 The library adapter returns `openRepositoryJsonSession()`: consume `session.events()` and close the session in `finally`.
 Explicit write selection uses literal paths after `--`, such as `npm run normalize:json -- -- authored.json`.
 The source-session API consumes asynchronous raw byte streams and retains lossless references inside their live session.
+
 Finite pure producers use `formatJsonSource` or `formatJsonValue`; domain validators retain authority over materialized application values.
 Old inventory/lint verbs, protected scopes, `format --check`, supplied-document envelopes and aggregate result readers are removed without aliases.
 Markdown tooling retains its own CLI grammar.
+
 `npm run format:json` performs complete semantic and producer-presentation preflight, native Prettier preservation checking, and guarded writes of admitted source bytes.
 `lint`, `format:check` and `check:qualification` include JSON quality; `format`, `fix:all` and `fix:code-style` reach the JSON writer exactly once.
 `format:node` and `format:node:check` select non-JSON sources only.
@@ -175,27 +189,34 @@ They pass their mode to the same `format:node:files` selection, so its glob list
 [The JSON policy](../.json-quality.json) schema 2 records defaults and sparse exceptions rather than an admission allowlist.
 Unsupported policy and event cohorts are refused explicitly.
 Ordinary `.json`, `.jsonld` and `.sarif` files need no policy entry or staging: create, check, fix and stage the final bytes.
+
 Defaults require strict syntax, native interoperability lint, NFC for every decoded key and string value, and standard presentation.
 There is one shared lint contract; the obsolete `lintProfile` field is rejected in defaults and exceptions.
 Exceptions specify their owner and reason for external boundaries, write protection or producer-defined presentation.
+
 The shared engine also supports exact value-level NFC preservation: `preserveNfcValues` requires one protected file, decoded-string SHA-256 and UTF-8 length pins at exact JSON Pointers, and an owner/reason.
 JSONL additionally requires a uniquely matching record identity.
 Missing, changed or duplicated identities fail; every key and all other strings remain checked.
 UO does not currently need this exception.
+
 Producer and retained families remain protected; new files within their protected families inherit that protection.
 Git ignore rules never suppress checking.
 Ignored untracked files are always read-only to the generic formatter.
 Installed dependencies (`**/node_modules/**`), `.venv`, installed agent skills/tools, Git administration and local workflow/tool state are explicit external boundaries.
+
 Boundary rules never conceal tracked JSON; discovery prunes external trees and independently includes every indexed JSON path.
 The repository commands and installed package CLI share resolved-contract and external-boundary events; an inventory count alone is never quality acceptance.
 Missing tracked files, unmerged/case-colliding paths, unsafe links and conflicting exceptions fail closed.
+
 JSON Lines and NDJSON receive strict per-record validation and framing checks and remain producer-owned.
 JSONC and JSON5 are detected and refused.
 Suffix discovery does not detect extensionless or embedded JSON, which needs an owning producer/consumer contract.
 The mandatory Linux/Windows JSON jobs run `build:verify` before `check:json -- --require-generated`; absent generated JSON-LD or the query catalog fails the final gate.
+
 The read-only command checks existing files; it does not build or fix anything itself.
 Package qualification also rebuilds the source bundle and validates actual packed target bytes through the shared contracts.
 The shared byte boundary rejects malformed UTF-8 and a leading UTF-8 byte order mark (BOM) before parsing or presentation checks.
+
 Failures identify the repository-relative file; protected/generated files and normalization-preservation exceptions retain this requirement.
 U+FEFF inside a valid JSON string remains data and is preserved under the existing key, NFC and presentation rules.
 Repair a failing artifact through its owning source or producer; checks never remove a BOM automatically.
@@ -206,20 +227,26 @@ Its selected version remains 3.3.13; the declaration does not change public runt
 The isolated engine owns Prettier 3.9.10, Ajv 8.20.0 and its pinned shared native parser, storage, Unicode and presentation core.
 ESLint retains JavaScript identity-rule ownership; it is not the JSON document parser.
 Consumer ESLint and Prettier configuration cannot weaken its JSON checks.
+
 Strict JSON rejects comments, trailing commas, unquoted keys and non-JSON numeric forms.
 Duplicate keys are compared after escape decoding.
 Unsafe-value checks reject integer literals outside the safe range, overflow, nonzero underflow, subnormal numbers and lone surrogates.
 Shared interoperability checks also reject Unicode noncharacters in every decoded key and string value, including escaped characters and supplementary planes.
+
 Every mathematically integral JSON number must lie within -9007199254740991 through 9007199254740991, including decimal/exponent spellings such as `9007199254740992.0` and `9.007199254740992e15`.
 The exact source lexeme determines whether a number is integral; binary64 rounding never supplies that decision.
 Ordinary fractions such as `0.1` remain valid; these checks do not guarantee arbitrary decimal precision.
+
 Keys must be nonempty, contain a non-whitespace character and have no leading/trailing whitespace after escape decoding.
 Interior spaces and empty/whitespace-bearing string values remain valid.
+
 The owner/reason `allowEmptyKeys` exception lists exact JSON Pointers ending in an empty segment; the only current exception is `/packages/` in `**/package-lock.json`, where npm identifies the root package.
 It permits only the literal empty key at that location; other empty keys, whitespace-only keys, duplicate keys, unsafe values and non-NFC data still fail.
 Shared checks apply independently of write protection and normalization preservation, and expose no automatic data fix.
+
 NFC applies by default to every decoded JSON key and string value, including nested values, array/root strings, JSON-LD and generated products.
 The shared native checker reports non-NFC strings and keys that would collide after NFC; checking performs no repairs.
+
 Exact `preserveNfcValues` pins retain only independently identified decoded string values; keys and every unpinned string remain subject to NFC checks.
 Write protection alone never exempts a file from NFC validation.
 The former control-key override is redundant and has been removed.
@@ -235,32 +262,41 @@ npm run check:json
 
 The normalizer requires at least one explicit discovered, writable source path.
 It preflights every selected input and the prospective full corpus before the first write, rejecting NFC key collisions, invalid/unsafe JSON, protected outputs, preservation exceptions, ignored untracked files and changed source bytes.
+
 Only string tokens needing NFC are replaced; member/array order, numeric lexemes, unchanged escapes and surrounding whitespace are preserved.
 Normalization is idempotent and does not perform NFKC, trimming or case conversion.
+
 Keep source writers quiescent; multi-file writes are not a transaction.
 After interruption, inspect completed writes and retained failure output before resuming.
 Fix protected/generated data in its owning source and regenerate it instead of applying this command to the output.
 
 An owning JSON producer can import the pure `normalizeJsonSource(text, contract)` operation directly from `@hadden-industries/json-quality` at its source-input boundary.
 It uses the same native parser, interoperability preflight and collision analysis, returns normalized text without writing, and refuses a preservation contract.
+
 The producer must still validate its schema, graph, references and digests before publishing derived products; normalization can change exact string identity even when text looks identical.
 For JSON-LD, fix the owning RDF source and retain existing graph verification rather than silently normalizing serialized literals.
+
 Prettier's explicit `json-stringify` presentation uses two spaces, LF, double quotes, no trailing commas and one final newline while preserving member order and numeric lexemes.
 Read-only presentation checking runs incrementally in the shared native core for every selected source, independently of its write eligibility.
 The retained Oxigraph notice uses `producer-json-body`: its existing LF/CRLF envelope and absent final newline are permitted, while native Prettier checks the entire JSON body.
+
 Other tracked files currently use standard Prettier presentation.
 Generated ontology/query/distribution products using native `JSON.stringify(..., null, 2)` receive exact two-space, final-LF producer serialization checks.
 The retained npm SPDX report permits its original CRLF envelope; the retained Jest report requires compact native JSON plus final LF.
+
 These are presentation contracts, not lint exemptions.
 Schema, graph and digest checks remain owned by the producer/consumer.
 Consumer comparisons of Registry/OCI metadata, MCP application identity, archive-entry records, public-smoke provenance, full-build receipt records and cursor criteria ignore object-member insertion order while retaining array order and exact member/value checks.
+
 Duplicate legacy interpretation identity uses the validated fields in a stable tuple, so reordering object members cannot conceal a duplicate.
 Canonical semantic digest formats, opaque cursor integrity bindings, exact-byte artifact hashes and producer presentation remain their own contracts; formatting does not sort JSON to compensate for consumer comparison errors.
+
 All JSON npm commands enter [one UO adapter](../scripts/runRepositoryJsonQuality.js), which supplies the repository root and required generated-output patterns to the installed engine.
 The `@hadden-industries/json-quality` public API supplies scoped source and repository sessions to repository checks and rebuilt-package qualification.
 The engine constructs its own native lint and presentation settings and never executes repository JSON lint or formatter configuration.
 `.prettierignore` blocks all JSON from direct Prettier CLI writes; it does not select the read-only checks.
 The supported writer analyzes the prospective corpus, debug-checks changed formatting with explicit package-owned options, and rechecks policy, inventory and every source preimage before writing.
+
 Formatting and normalization have an explicit 2 MiB input/output capability and a finite change limit; these writer bounds do not limit incremental read-only checking.
 It individually replaces files while preserving permissions, reporting completed, failed and unprocessed paths after partial failure.
 
@@ -270,8 +306,10 @@ Fix a producer or authored source when its validation fails; do not rewrite prot
 
 Prettier writes are not a transaction.
 Before a bulk fix, preserve the current task-owned candidate and hashes in an approved checkpoint or disposable copy, with any unrelated work retained separately.
+
 After interruption, inspect which eligible files changed, compare the checkpoint, rerun the full lint/debug preflight and complete formatting only when the candidate is understood.
 Reverse only this task's edits if recovery is needed; do not reset or restore someone else's changes.
+
 Concurrent source writers and direct CLI overrides such as `--no-ignore`, `--ignore-path`, `--parser` or ESLint JSON `--fix` are outside the supported safe-fix contract.
 Regression tests exercise real native binaries in disposable Git checkouts, check byte preservation and idempotence, and reject invalid inputs before the first write.
 
@@ -280,11 +318,13 @@ Regression tests exercise real native binaries in disposable Git checkouts, chec
 `npm run lint:js` enables `json-quality/no-json-stringify-identity` at error severity for the JavaScript inputs selected by ESLint.
 The same rule applies when ESLint is invoked on JS, MJS or CJS files; existing npm glob selection is unchanged.
 It rejects raw `JSON.stringify` results used in equality/inequality, `Object.is`, native Node equality assertions, Jest/Vitest equality matchers, known Set/Map keys, array membership, computed property keys and native hash inputs.
+
 Ordinary file, log and transport serialization remains allowed.
 Use structured comparisons for semantic data; native deep comparison preserves array order and exact fields/values while ignoring object-member order.
 The rule has no automatic fix because choosing a semantic comparison, canonical digest or byte contract requires knowing the consumer.
 
 The [shared plugin](https://github.com/Hadden-Industries/json-quality) uses native ESLint binding analysis for direct, computed-literal, destructured, assigned and bound aliases, and selected string/Buffer transformations.
+
 Tracking is conservative across assignments and bounded to 64 lexical analysis frames and 100,000 steps per file; exceeding either bound fails lint and asks for a simpler alias graph.
 It does not prove arbitrary imported/local helper behavior, reflective calls, dynamic property mutation or all collection-producing callbacks.
 Keep independent object-permutation and array/mutation regression tests at semantic consumer boundaries.
@@ -300,6 +340,7 @@ seen.add(key);
 The only contract kinds are `bytes`, `digest` and `ordered-tuple`; both owner and reason are required.
 One declaration covers one serializer, never a whole file or several serializers on the same line.
 Malformed, ambiguous, misplaced and unused declarations fail lint.
+
 Existing producer-presentation checks, permutation byte oracles and versioned RDF identities retain explicit local contracts; no digest or cursor-format migration is introduced.
 Unused ESLint disable directives also fail at error severity.
 The release verifier binds the root dependency manifest and lockfile, UO adapter and consumer regression tests in the reviewed policy graph.
@@ -315,6 +356,7 @@ Ruff retains its configured Python scope and runtime.
 `npm run format:markdown` explicitly writes the same complete corpus; preservation guards reject changes to parsed meaning or literals.
 Preview a selected file without writing with `npm exec -- markdown-quality format --dry-run --root . -- README.md`.
 Both support `-- --json` for the capability's canonical result schema.
+
 Exit 0 means no blockers, 1 means blocking findings or formatting drift, and 2 means an operational failure; advisory findings remain visible on success.
 Consumers must check process and report identity together.
 Changed-path shortcuts are rejected because deleting a non-Markdown link target can break an unchanged document.
@@ -323,16 +365,20 @@ The default selection is `**/*.md` with no ignore-file authority.
 Markdown policy is declared in `.markdown-quality.json`; scripts must not maintain competing exclusion lists.
 The owner-approved exclusions preserve historical SDLC, reviews, research and plans, vendor content and generated Editing Policy pages, alongside installed skill/tool and build-output paths.
 The shared package reconciles full selection with the Git inventory and records each tracked document as selected or policy-excluded.
+
 `npm run inspect:markdown -- --json` exposes those decisions and exclusion reasons.
 Selected unsafe or missing content fails explicitly; excluded content remains unchanged.
 Repair missing physical-file links against real files or pinned historical sources; source annotations that are plain prose must be escaped as plain prose.
+
 Strict whitespace and heading rules remain enabled.
 Generated policy is processed through the public logical-document operation at the canonical output path against the actual repository root, without scratch files or checkout writes.
 Its configured exclusion preserves raw graph-rendered bytes; freshness still rejects a changed graph or hand-edited document.
+
 Regenerate with `npm run generate:editing-policy`.
 Generation now checks the complete model, preservation report, sidebar, manifest and seven light/dark SVG/PNG diagram families.
 It uses the locked root Mermaid tooling and the existing Playwright Chromium headless shell without downloading packages or browsers.
 Browser installation is a separate explicit operation: `npm run install:editing-policy-browser`.
+
 Rendering CLI tests belong to the Node-backed Python family; pure extraction and local Wiki preparation tests remain in the Python-only family.
 The generated sidebar is also excluded from authored Markdown formatting because its links target Wiki page names.
 See the [documentation authoring guide](editing-policy/README.md) for source ownership and release acceptance limits.
@@ -361,12 +407,15 @@ Historical receipts do not qualify a later publication.
 
 The website build also discovers every valid dated ontology at or after `20260714` under the three ontology source roots.
 Roots declaring imports get freshly materialized `-full`, `-full.jsonld`, `-full.csv` and `-full.xmi` outputs, using checked-in release mappings and local catalogs with network acquisition disabled.
+
 Roots without imports get no full counterparts.
 The pinned OwlAPI renders these closures as readable RDF/XML by default: semantic prefixes, four-space indentation, typed OWL elements, banners, nested expressions and safe collections.
 Unclassified resources and cases requiring explicit graph representation can still use `rdf:Description`.
+
 The consumer continues calling public `OWLOntologyManager.saveOntology`; there is no UO formatter or Java runtime dependency.
 It preserves authored RDF/XML root prefix preferences through `RDFXMLDocumentFormat.copyPrefixesFrom`, including explicit unused prefixes, rather than combining imported documents' prefix maps.
 The generated file passes strict offline structural verification before atomic replacement; JSON-LD and CSV retain their existing graph and projection checks.
+
 No Java OWLAPI generator footer is added, and authored comments or whitespace are not reconstructed.
 The same path is available through `npm run generate:full-ontologies`; maintained full copies at or after the cutoff are rejected.
 
@@ -384,20 +433,24 @@ outputManager.setOntologyWriterConfiguration(
 
 That public, Java-shaped configuration controls the existing renderer and atomic verification path.
 Current generation intentionally uses its defaults; a one-class fixture demonstrates identical bytes for explicit defaults and successful verified publication with two-space, banner-free output through `writeVerifiedOntology`.
+
 `withIndenting(boolean)` and `withLabelsAsBanner(boolean)` are also available; all four settings affect RDF/XML only, and arbitrary format parameters remain unsupported.
 Changing the presentation policy requires an accepted change and a fresh build receipt.
 
 The schema-2 build receipt binds each XMI to its exact verified OWL bytes and the same collapsed in-memory model.
 The exporter explicitly selects the `normative-v1` OwlAPI behavior profile.
 The sole OwlAPI selector now points to an immutable upstream Git commit; the lock records its transitive payload.
+
 Generated pages offer the full XMI through explicit receipt-backed associations.
 See the [UML/XMI metadata contract](uml/README.md) for carriers, inverse recovery, projection, bounds, rights notes and native qualification.
+
 `npm run qualify:uml-xmi -- --dependencies DIR --corpus-root DIR --output DIR --existing-output-root dist` checks the eight frozen controls plus changed current outputs with two native reader implementations.
 Add `--acquire` only to download the declared qualification libraries; it does not install into the repository Python environment.
 
 Generation invalidates the previous `full-ontology-build.json` receipt before work starts and seals a new one only after all output bytes are verified.
 Both normal and forced publication invoke `node scripts/verifyFullOntologyBuild.js --repository . --output dist` without regenerating anything.
 The upload wrapper copies the complete built tree into an isolated candidate, verifies its identity and qualification, and passes that candidate to the existing upload helper.
+
 Successful candidates are removed; failed candidates remain under the ignored policy-report directory for diagnosis.
 Rebuild when inputs, producer bytes, installed OWLAPI, candidate selection or outputs change.
 Unknown stale full files are preserved and cause refusal; only matching prior receipt-owned stale files are removed automatically.
@@ -424,12 +477,15 @@ Pull requests run, as applicable to the changed files:
 
 The [PR validation workflow](../.github/workflows/pr-validation.yml) is the sole functional PR entry point and calls the three reusable consumers above.
 Its single selector emits a versioned plan for the tested merge revision; every consumer checks that revision before executing product code.
+
 The final `PR validation` job rejects failed, cancelled, missing, or unexpectedly skipped work and requires a matching completion output from each selected consumer.
 Reusable consumers also check their internal jobs before publishing that output.
 CodeQL remains separate and is not included in this functional gate.
+
 When automatic package CI is disabled, a change wholly within the six reviewed MCP release-control inputs selects eleven native control suites in the existing Node consumer.
 This selected coverage does not claim full product qualification.
 Mixed or shared-control changes retain conservative coverage; explicit package CI retains its artifact obligations.
+
 The `main` ruleset requires `PR validation` from the GitHub Actions app and requires PRs to be up to date with `main`.
 The obsolete `OWL Differential Analysis` required context and duplicate workflow triggers have been removed after live failure trials.
 CodeQL is not a required status in that ruleset; fork PR analysis remains limited by its same-repository condition.
@@ -437,25 +493,31 @@ CodeQL is not a required status in that ruleset; fork PR analysis remains limite
 [Full qualification](../.github/workflows/full-qualification.yml) uses affected checks on pushes to `main`, comparing the exact push revision with its `before` commit.
 An unavailable push comparison conservatively selects every source scope.
 Manual dispatch and Wednesdays at 04:17 UTC select every source scope; package work remains disabled unless explicitly enabled.
+
 Repository maintainers own failures and should use their GitHub Actions notification subscriptions to receive failure notifications.
 Maintainers must inspect the most recent successful full run before relying on it, and dispatch an authorized full run at the exact intended release revision when necessary.
+
 Schedules can be delayed or disabled after repository inactivity; re-enable a disabled workflow through its Actions page, then obtain an exact-revision successful run.
 The original consumer filenames accept only `workflow_call`; no compatibility workflows or temporary consumers remain.
 
 The graph gives each Jest suite one Linux owner when all scopes are selected; bootstrap and formatter qualification retain Windows coverage.
 Python unit tests own the full suite when selected, while generated-policy checks, active-set qualification, and Jena parity remain distinct.
+
 Set the repository Actions variable `MCP_PACKAGE_CI_ENABLED` to the literal `true` to restore automatic package qualification.
 Unset, empty or `false` disables it; other values fail selection visibly.
 When enabled, package, runtime, platform and packaged README inputs select all five native archives, the container smoke check and complete npm/checksum/SBOM candidate assembly.
+
 Scheduled and ordinary manual full runs also include that complete matrix when enabled.
 This option never enables Release publication.
 Application bundles are still built through the standalone paths: no measured artifact-transfer benefit has yet justified reuse.
 
 Use [Manual MCP packages](../.github/workflows/manual-mcp-packages.yml) on `main` to qualify its exact dispatch commit, independently of the automatic option.
 The default `create_draft_release=false` runs every source check and the complete package matrix, then validates the disposable candidate without creating a Release.
+
 Selecting `create_draft_release=true` adds provenance attestations and attaches those exact verified files to a draft GitHub Release.
 The isolated draft job has publication permissions; builders do not.
 Existing tags or releases cause refusal rather than replacement, and a partially created draft requires deliberate operator recovery.
+
 Public publication requires manually publishing that draft in GitHub Releases.
 There is no automatic npm, GHCR or MCP Registry publication.
 See the [installation guide](mcp/local-installation.md#manual-package-qualification-and-release) for package contents and where downloads live.
@@ -476,26 +538,34 @@ Mixed changes retain every applicable consumer check.
 Unselected ontology work needs no Python provisioning; the aggregate independently verifies selection and every selected consumer's completion receipt.
 
 Reviewed test-only edits can select the complete build, import-closure, query/projection, frontend, MCP, distribution or utility family inside the existing Node consumer. The closed inventory contains 73 existing test files. Mixed known test families run their union. Source, fixture, dependency, new/unknown test, deletion, rename and shared-control changes retain the conservative route.
+
 Full qualification retains complete discovery and tooling ownership.
 No production website build is needed solely for an isolated reviewed test-file edit; fixture builds within its selected family still execute.
 
 The PR qualification writer retains selected Node execution only after the existing gate and every selected consumer's native job/output identities agree.
 It records exact tested merge/tree/parents, host and locked tool inputs, native discovery and selection, suite/assertion labels/counts, and each producing job attempt.
 Forks, unsupported plans and unavailable evidence retain fresh behavior without a reusable record.
+
 Receipts expire after three days.
 Ordinary main qualification may reuse this directly executed Node proof for control, reviewed test-family and broader source plans after an exact, same-repository two-parent integration.
+
 The selector authenticates the latest successful original PR run and every producing job attempt, the tested and landed Git tree/parents/workflow, the current supported environment, and the native artifact ID, digest, expiry and bounded ZIP bytes.
 It rereads the source run and artifact after checking jobs; a newer failed or pending run, rerun, mismatch, missing evidence or exhausted budget selects fresh work.
+
 Only the selected Node consumer may be omitted; every other selected consumer, including the website build, still runs fresh.
 The stable full completion gate verifies the source record and current checkout, requires each fresh consumer's completion at the landed revision, and rejects unexpected, failed, cancelled or skipped work.
 The reused result remains original PR evidence and is never reissued as fresh execution.
+
 Schedules, manual runs, reusable publication callers, package opt-in, squash/rebase/direct or multiple-integration pushes remain fresh.
 The manual package qualification caller grants read-only Actions permission because reusable workflows cannot elevate their caller token; its selector still chooses fresh work.
 Set the independent Actions variable `UO_PR_QUALIFICATION_REUSE_DISABLED` to literal `true` to force fresh work; this implementation does not write that repository setting.
+
 Admission permits at most 32 bounded JSON reads and one exact-ID native archive operation within 60 seconds; each operation has a ten-second ceiling.
 The native Git snapshot has a 30-second total budget and 1 MiB per-call bound; JSON API responses are limited to 2 MiB, the ZIP to 128 KiB, the sole regular `qualification.json` member to 512 KiB and the decoded admission output to 400 KiB.
+
 Native coverage retention is limited to 256 KiB decoded.
 Both Node proof handoffs use gzip/base64 capped at 64 KiB, keeping nested job outputs below the runner's per-environment-string limit.
+
 Proofs exceeding either bound fall back to fresh Node execution; decoding also enforces the original size limit.
 The existing GitHub CLI transports authenticated archive bytes, and the Ubuntu runner's native Info-ZIP 6.00 inspects and reads the single member without extracting files.
 Unavailable native tooling retains fresh work; no npm provisioning is added to the selector.

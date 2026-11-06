@@ -52,6 +52,7 @@ Reporters should omit that material unless it is strictly necessary.
 
 Secure receipt does not create a blanket entitlement to use such information.
 Before substantively using special-category or criminal-offence data, HADDEN INDUSTRIES LTD will document the applicable Article 6 basis and the additional Article 9, Article 10, or UK Data Protection Act 2018 condition required for the specific purpose.
+
 Article 9(2)(f) may apply where processing is genuinely necessary for the establishment, exercise, or defence of legal claims.
 Other conditions are assessed case by case rather than presumed.
 If no applicable condition exists, the project will minimize, securely delete, or—where appropriate—refer the material without using it to determine the project report.

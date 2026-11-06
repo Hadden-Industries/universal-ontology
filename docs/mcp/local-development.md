@@ -76,16 +76,20 @@ npm run serve --workspace universal-ontology-mcp-server
 Root `serve:mcp-development` composes the same listener; root `serve:mcp-development:refresh` additionally generates artifacts, honoring `UNIVERSAL_ONTOLOGY_QUERY_ROOT`.
 The workspace listener does not own RDF/XML generation or accept `--refresh-index`.
 Root `npm test -- --runInBand` includes workspace suites and distribution/website consumers.
+
 A packed installation contains nine files: the executable, context worker, WASM runtime, four package documents, and two Oxigraph notice files, with no installed query workspace or SDK dependency.
 The MCP workspace manifest declares direct build, test, and query workspace tooling as `devDependencies`.
 Distribution qualification validates this dependency boundary (verifying that no runtime dependencies are shipped and only approved development tools exist) rather than asserting exact development-only patch versions.
 
 For an SDK update, first verify the current supported release and its complete terms, including the existing embedded `fast-uri` restriction in the [adoption record](../sdlc/adoption.md#mcp-sdk-embedded-fast-uri).
 Propose exact manifest/lock changes under repository configuration approval. Trace a tool from registration through the query package, then run workspace protocol/socket and semantic tests, bundle/pack/fresh-install tests, and root regressions.
+
 The builder attributes inputs to their actual package installation, checks embedded component identities, and requires full published direct-component license text in notices.
 The release verifier consumes npm's development-dependency relationships separately from the application's embedded-component SBOM.
 `verifyUniversalOntologyMcpRelease.js` checks candidate files, checksums, package contents, versions and SBOM coverage against the release inputs.
+
 Repository CI policy is checked separately by `scripts/verifyPullRequestPolicyGraph.js`, through the existing CI control tests; it checks workflow permissions, reusable call targets and completion controls without freezing repository quality configuration, source files or lockfiles.
+
 `verifyUniversalOntologyMcpDistributionWorkflow.js` owns the MCP distribution workflow contract, including its reviewed semantic digest, exact action/toolchain selections and publication restrictions; the workflow tests exercise it without constructing release artifacts.
 Changes to JSON or Markdown policy still require their owning quality checks, but no longer require refreshing unrelated hashes in the MCP release verifier.
 Preserve retained rejection cases and ontology definition/provenance assertions when evaluating the update.
@@ -95,6 +99,7 @@ This responsibility map supports maintainer review; it does not establish measur
 The Node listener bounds original POST bytes before passing its parsed value to the SDK's Node adapter and `createUniversalOntologyMcpHttpProtocolHandler`.
 Unsupported methods are rejected with connection closure before body conversion.
 `createUniversalOntologyMcpFetchHandler` owns the separate standalone Fetch byte limit and never treats caller-supplied `parsedBody` as the original request.
+
 Mounting a Fetch endpoint still requires deployment-specific Host/Origin and admission guards. The SDK owns modern/legacy classification and representation handling; clients must advertise both supported response media types.
 Legacy traffic retains its native Accept rejection, while modern responses do not impose that same local 406 rule.
 
@@ -243,6 +248,7 @@ Ambiguity and absence are normal successful query outcomes, not permission to se
 - `full` returns each entity's `selectedPreferredLabel`, `selectedLexicalDefinition`, and every `sourceArtifactDescriptions` entry: all asserted labels, definitions, scope notes, identifiers, creators, source IRIs, and superclass IRIs, each selected assertion carrying the complete `resolvedOntologyRelease` provenance record.
 
 A summary is a projection of the same selection, never a different selection: the label and definition are the ones a `full` call would select, and the ranking, counts, and match values are identical.
+
 The default answers a definition question or narrows candidates at the lowest context cost; request `full` for the one entity whose assertions, scope notes, or per-assertion provenance are actually needed.
 The plain-text rendering is the same for both levels.
 
@@ -408,6 +414,7 @@ Production authorization is a separate adapter concern.
 
 Application request and lifecycle events are emitted to stderr as one JSON object per event with timestamp, severity, event name, correlation identifier, monotonic duration, outcome, and a safe error code.
 Query text, definitions, labels, entity IRIs, UUIDs, source IRIs, stack traces, and local paths are not logged by default.
+
 The pinned MCP SDK may additionally print one informational startup warning explaining that JSON response mode drops mid-call notifications; this server exposes neither subscriptions nor mid-call notifications, so the selected behavior is intentional.
 
 ## Semantic limits
@@ -469,6 +476,7 @@ The custom ingress readers remain responsible for stream cancellation and connec
 
 The accepted distribution design makes a locally launched `stdio` process the page-independent server topology.
 Query execution needs no hosted MCP compute: the local process retrieves independently changing ontology artifacts from the configured origin, then verifies, caches, searches, and resolves them locally.
+
 Development software remains in a trusted checkout, local build output, or a short-lived GitHub Actions artifact; it is not published to a package, image, Registry, release, or cloud namespace.
 
 See the accepted [distributable local MCP server design](../specs/2026-08-31-distributable-local-universal-ontology-mcp-server-design.md) and its [implementation plan](../plans/2026-08-31-distributable-local-universal-ontology-mcp-server.md) for the normative boundaries.
@@ -476,6 +484,7 @@ The separate [local installation guide](local-installation.md) covers installed 
 
 Hosted compute is an optional future adapter for clients that cannot launch a local process, not the chosen production requirement.
 A later, separately approved design may add an authenticated HTTP transport while reusing the query module and semantic tool contracts.
+
 It must not weaken this runner's fixed loopback boundary or silently rename `search_entities` and `resolve_entity`.
 The current work makes no AWS stack, AgentCore, Gateway, ECR, Cognito, S3, CloudFront, or other remote deployment change.
 

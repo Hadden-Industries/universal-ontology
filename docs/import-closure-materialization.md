@@ -4,6 +4,7 @@ The JavaScript materializer replaces the Python import merger.
 Current generation uses the manifest-selected exact OwlAPI source for readable RDF/XML, retaining strict offline reload and the existing closure contract.
 Repository-wide verification and independent review remain separate from these consumer checks.
 The historical [registry artifact record](import-closure/registry-artifact-verification.json) captures the original rc.1 identity, signature, provenance and signed-tag checks.
+
 The historical [registry consumer record](import-closure/registry-consumer-qualification.json) binds the eight real cases, input digests, Java comparisons and focused tests to that executed source observation.
 Neither record qualifies a different selected source or asserts a new npm publication.
 HISEW retains the final candidate's full verification receipt and completion decision separately; these qualification observations do not claim deployment.
@@ -13,13 +14,17 @@ HISEW retains the final candidate's full verification receipt and completion dec
 The sole editable dependency selector is `devDependencies.owlapi` in the root `package.json`.
 It accepts a Git URL with a full 40-character commit or an npm alias `npm:PACKAGE_NAME@EXACT_VERSION`; tags, ranges, local checkouts and unpinned sources are rejected.
 The machine-readable policy references that manifest entry, and the lockfile records its resolved source, package metadata and archive integrity.
+
 For RDF/XML output, the materializer copies the authored root's prefix preferences through `RDFXMLDocumentFormat.copyPrefixesFrom` before saving.
 Imported documents' unused prefixes do not replace the root's choices; Functional Syntax output retains its existing format selection.
+
 This is an owner-approved exception to registry ranges; the selected exact coordinate and installed package bytes identify the implementation.
 The lockfile must match the selected source; package-boundary tests verify installed metadata, public API-registry bindings and the complete payload against the original archive in npm's integrity-addressed cache.
 Missing cache content or a source, metadata, integrity or payload mismatch fails verification without falling back to installed bytes.
+
 Root `.npmrc` admits direct Git dependencies under npm 12 while setup and CI retain disabled lifecycle scripts.
 Application code imports only `owlapi/apibinding`, `owlapi/model`, `owlapi/io`, `owlapi/formats`, and `owlapi/util`.
+
 Run `npm run check:qualification` for current consumer acceptance: it includes exact package identity, all eight real-source closure cases, atomic/failure regressions, wider repository checks and fresh generated assets.
 Then `node scripts/verifyFullOntologyBuild.js --repository . --output dist` verifies the current output receipt without regeneration.
 Keep qualification records outside ontology outputs; a new commit or different package bytes require explicit adoption and requalification.
@@ -40,13 +45,17 @@ The following table records the completed command migration.
 
 The batch and ordinary website build share source-driven discovery and local-only materialization.
 Every ordinary extensionless release with a valid date at or after `20260714` is considered, including future dates and newly added families.
+
 A parsed root with imports gets all three fresh representations; a root without imports gets none of the three full counterparts.
 The current corpus has eight importing roots across ISO/IEC 11179-3, reference data, core and extended, at dates `20260714` and `20260912`; ISO 31073 `20260912` has no imports and is skipped.
+
 This observation is not an allowlist.
 Release mappings come from checked-in source identities, combined with existing local catalogs; conflicting mappings, missing local imports, malformed sources and linked paths fail.
 Ordinary distributions, existing alias rewriting, earlier releases and query artifact admission retain their contracts.
+
 The batch stops at the first failure and leaves no usable build receipt.
 The ignored `full-ontology-build.json` product receipt binds candidate selection, source and catalog inputs, producer and installed OWLAPI bytes, and all required output hashes.
+
 Read-only publication admission recomputes selection, checks required outputs and forbids full counterparts for no-import roots.
 Normal and forced uploads use the same gate and an isolated snapshot of the entire built tree.
 There is no compatibility wrapper; Git history is the recovery path for the removed Python implementation.
@@ -77,6 +86,7 @@ All other invariants remain in force.
 Catalog resolution follows the accepted OASIS URI rules, including exact mappings, rewrites, delegates, next catalogs, and XML bases.
 Unreadable mapped documents fall through to the authored import IRI after bounded attempts; successfully read malformed content is fatal.
 An authored HTTP IRI is attempted before HTTPS promotion.
+
 Transport retries, redirects, response size, and attempt duration are bounded.
 The general one-root CLI may use the network when loading the source; verifying the standalone output cannot.
 The website and batch production paths disable network acquisition for both phases.
@@ -87,6 +97,7 @@ CLI exit codes are 2 for usage, 3 for root loading, 4 for imports, 5 for seriali
 
 The writer serializes to a unique sibling temporary file, flushes it, and reloads those exact bytes in a fresh manager with a rejecting external loader.
 It checks root identity, root annotations, the complete structural fingerprint, no imports, and a closure containing only the output ontology.
+
 Only verified bytes replace the destination atomically.
 On failure the previous destination remains unchanged and the temporary file is cleaned up.
 

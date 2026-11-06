@@ -1,30 +1,18 @@
 # Universal Ontology
 
-**Set of concepts and categories, applicable to almost all domains, that shows their properties and the relations between them**
+Universal Ontology describes concepts, their properties and the relationships between them across domains.
 
-## Community and reporting
+- [Browse the Core ontology online](https://haddenindustries.com/ontology/universal/core/latest.html) or [inspect its OWL source](core/universal-core.owl).
+- [Look up a definition on an open ontology page](#agent-definition-lookup-with-webmcp), or [search from a local MCP host](#page-independent-access-with-a-local-mcp-server) with the browser closed.
+- [Set up a contributor checkout](#development-setup) or [find a guide by task](docs/README.md).
 
-See [Contributing](CONTRIBUTING.md) for the contribution and review process and the [Code of Conduct](CODE_OF_CONDUCT.md) for community expectations.
-Report vulnerabilities through the private [security reporting process](SECURITY.md).
-The [communication privacy notice](PRIVACY.md) covers private reports and related governance correspondence.
+## Development setup
 
-### Development setup
+Use Git 2.46 or later, the LTS Node.js version in [.node-version](.node-version), stable npm 12.2.1 or later, and stable Python meeting [.python-version](.python-version).
+Use the exact selected Node.js runtime for CI and pull request qualification.
+The [development guide](docs/development.md#setup) explains compatible local versions, CI pins and virtual environment setup.
 
-The [self-contained OWL import-closure guide](docs/import-closure-materialization.md) describes the JavaScript materializer, its preservation boundary, and the migration from the Python commands.
-The exact registry artifact has passed consumer qualification; final acceptance evidence is retained separately from the historical artifact-verification observation.
-
-Install Git 2.46 or later, the LTS Node.js version selected in [.node-version](.node-version) or a newer compatible release in the same major, and stable npm 12.2.1 or later.
-The native `devEngines.packageManager` range in `package.json` enforces `>=12.2.1`, including later stable majors, before installation and npm scripts; prereleases do not satisfy this range.
-The exact `packageManager` reference selects npm 12.2.1 for reproducible CI and release tooling.
-Use the latest compatible patch of the [supported LTS release](https://nodejs.org/en/about/previous-releases).
-The selected LTS line satisfies the qualified OwlAPI and MCP workspace engine requirements.
-`.node-version` owns the CI runtime and local development minimum; setup accepts compatible LTS updates.
-Execution profiles used for qualification and generated Markdown formatting require the exact selected runtime, so run those checks with the pinned version.
-Stable Python at or above the minimum in `.python-version` is also required; CI provisions that exact version.
-An existing `.venv` is reused, or setup creates one using `python` on Windows and `python3` on macOS/Linux.
-The system interpreter must be available on `PATH` when creating `.venv`.
-
-From the repository root, run:
+From the repository root, install the locked dependencies and configure the staged-ontology checks.
 
 ```sh
 npm run set-up:development
@@ -33,6 +21,7 @@ npm run configure:git-hooks
 
 The development setup command installs npm dependencies with `npm ci --include=dev --ignore-scripts`, which replaces `node_modules` using the existing lockfile without dependency lifecycle scripts.
 It records the bootstrap pip version, installs the hash-locked `requirements.lock.txt` (the reviewed resolution of `requirements.txt` and `requirements-dev.txt`) inside `.venv` with `--require-hashes --only-binary=:all:`, refuses a `.venv` whose installed distributions differ from that lock, and runs `pip check`.
+
 It configures no agent, workflow, hook trust, MCP server or skill.
 An unusable existing `.venv` causes setup to stop so it can be repaired manually.
 AWS CLI is checked and produces a warning if unavailable; it is needed for S3 uploads, and setup does not install it.
@@ -46,20 +35,67 @@ Once enabled locally, the pre-commit hook runs the SHACL editing policy on the e
 A missing interpreter blocks the commit with setup instructions; every policy violation also blocks the commit.
 The hook uses `.venv/Scripts/python.exe` on Windows or `.venv/bin/python` on macOS/Linux.
 
+### Check an ontology edit
+
+Use the [editing policy guide](docs/policy/README.md) to find the SHACL rule for a proposed change.
+
 The policy itself lives in `policy/*.ttl` (SHACL is the source of truth) and its human-readable projection is generated into [docs/policy/Editing-Policy.generated.md](docs/policy/Editing-Policy.generated.md) (`npm run generate:editing-policy`; `npm run check:editing-policy` fails when it is stale).
 `policy/activation.ttl` records the active module set; `npm run validate:ontologies -- --purpose latest-active` qualifies it and writes the receipt that the publication gate in `scripts/upload_to_s3.py` requires.
 
 On GitHub, [the ontology validation workflow](.github/workflows/ontology-validation.yml) runs on pushes and pull requests.
 It provisions Python and dependencies on the runner, then calls the same `scripts/validate_ontologies.py` with `--diff-base` and `--diff-head` to select the commit range and `--purpose draft` for the diagnostics; a separate job qualifies the latest active set on Linux and Windows with Apache Jena as the second engine.
+
 It does not invoke the local pre-commit hook or require its `.venv`.
 Pushing commits to GitHub does not itself run the pre-commit hook.
 
-### Development guide
+## Development guide
+
+The [self-contained OWL import-closure guide](docs/import-closure-materialization.md) describes the JavaScript materializer, its preservation boundary, and the migration from the Python commands.
+The exact registry artifact has passed consumer qualification; final acceptance evidence is retained separately from the historical artifact-verification observation.
 
 [docs/development.md](docs/development.md) covers setup effects, optional integrations (external Agent Skills, MCP servers), verification commands and what continuous integration runs.
 After setup, `npm run lint` and `npm run format:check` cover frontend code, Python and authored Markdown.
+
 Use `npm run check:style` for the focused Python/Markdown checks or `npm run fix:all` to apply style fixes.
 The repository previously embedded its own software-development-lifecycle tooling; its records are indexed in [docs/sdlc/README.md](docs/sdlc/README.md) and are historical.
+
+## Agent definition lookup with WebMCP
+
+Supported WebMCP clients can retrieve the authored, versioned definition of an exact named ontology entity from the ontology HTML page open in the current tab.
+See [WebMCP ontology entity definition lookup](docs/webmcp-ontology-entity-definition-lookup.md).
+
+## Page-independent access with a local MCP server
+
+The distributable Universal Ontology MCP server exposes the read-only `search_entities` and `resolve_entity` tools over `stdio`.
+An MCP host launches the process locally, so definition lookup remains available with every website and browser page closed.
+
+Software search and resolution run locally.
+The server can read ontology catalogs and indexes either directly from a generated filesystem tree or from a configured HTTP artifact origin with a verified local cache.
+
+The server is currently development-only: no public package, image, Registry record, or GitHub Release is an installation source.
+See the [local MCP installation and operation guide](docs/mcp/local-installation.md) for trusted-checkout, local package/archive/container, and short-lived GitHub Actions-artifact use.
+
+For a repository-local contributor installation, the hardened `scripts/set_up_mcp_servers.py` command builds and verifies the Universal Ontology `stdio` bundle, installs the checksum-verified official GitHub MCP Server beside it, and transactionally updates the supported project-scoped host documents.
+By default it regenerates `dist/query/v1`, configures the server to read that filesystem tree, and proves the staged server with a real `Person` query before activation.
+
+HTTP artifacts remain an explicit setup option; their rapidly changing data is not bundled into the installed software.
+The exact commands for switching sources, generated paths, authentication behavior, read-only drift check, and rollback guarantees are documented under [Install both repository-local MCP servers](docs/mcp/local-installation.md#install-both-repository-local-mcp-servers).
+
+WebMCP and the installed server are complementary.
+WebMCP is page-scoped and inherits the lifecycle of an open supporting page; the installed MCP process is page-independent and available to any configured local host.
+
+## Repository-only MCP development
+
+Contributors testing the Streamable HTTP adapter and repository-generated query artifacts can instead use the fixed loopback development server.
+It is a separate development topology documented in the [local MCP development guide](docs/mcp/local-development.md); it is not the installed `stdio` server and must not be exposed beyond loopback.
+
+## Community and reporting
+
+See [Contributing](CONTRIBUTING.md) for the contribution and review process and the [Code of Conduct](CODE_OF_CONDUCT.md) for community expectations.
+Report vulnerabilities through the private [security reporting process](SECURITY.md).
+The [communication privacy notice](PRIVACY.md) covers private reports and related governance correspondence.
+
+## Vocabulary attribution
 
 Portions of this software or document may use, include material copied from, or derive from the following standard vocabularies and ontologies:
 
@@ -82,31 +118,3 @@ Portions of this software or document may use, include material copied from, or 
   - [SKOS Simple Knowledge Organization System](https://www.w3.org/TR/skos-reference/)
   - [Time Ontology in OWL](https://www.w3.org/TR/owl-time/) (including Gregorian calendar definitions)
   - [W3C XML Schema Definition Language (XSD) 1.1](https://www.w3.org/TR/xmlschema11-1/)
-
-### Agent definition lookup with WebMCP
-
-Supported WebMCP clients can retrieve the authored, versioned definition of an exact named ontology entity from the ontology HTML page open in the current tab.
-See [WebMCP ontology entity definition lookup](docs/webmcp-ontology-entity-definition-lookup.md).
-
-### Page-independent access with a local MCP server
-
-The distributable Universal Ontology MCP server exposes the read-only `search_entities` and `resolve_entity` tools over `stdio`.
-An MCP host launches the process locally, so definition lookup remains available with every website and browser page closed.
-Software search and resolution run locally.
-The server can read ontology catalogs and indexes either directly from a generated filesystem tree or from a configured HTTP artifact origin with a verified local cache.
-
-The server is currently development-only: no public package, image, Registry record, or GitHub Release is an installation source.
-See the [local MCP installation and operation guide](docs/mcp/local-installation.md) for trusted-checkout, local package/archive/container, and short-lived GitHub Actions-artifact use.
-
-For a repository-local contributor installation, the hardened `scripts/set_up_mcp_servers.py` command builds and verifies the Universal Ontology `stdio` bundle, installs the checksum-verified official GitHub MCP Server beside it, and transactionally updates the supported project-scoped host documents.
-By default it regenerates `dist/query/v1`, configures the server to read that filesystem tree, and proves the staged server with a real `Person` query before activation.
-HTTP artifacts remain an explicit setup option; their rapidly changing data is not bundled into the installed software.
-The exact commands for switching sources, generated paths, authentication behavior, read-only drift check, and rollback guarantees are documented under [Install both repository-local MCP servers](docs/mcp/local-installation.md#install-both-repository-local-mcp-servers).
-
-WebMCP and the installed server are complementary.
-WebMCP is page-scoped and inherits the lifecycle of an open supporting page; the installed MCP process is page-independent and available to any configured local host.
-
-### Repository-only MCP development
-
-Contributors testing the Streamable HTTP adapter and repository-generated query artifacts can instead use the fixed loopback development server.
-It is a separate development topology documented in the [local MCP development guide](docs/mcp/local-development.md); it is not the installed `stdio` server and must not be exposed beyond loopback.

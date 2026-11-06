@@ -5,6 +5,7 @@ The implementation and its runtime-validated result schemas remain the authorita
 
 WebMCP is still experimental.
 As checked on 30 August 2026, the current [WebMCP Draft Community Group Report](https://webmachinelearning.github.io/webmcp/) is dated 26 August 2026, is not a W3C Standard, and remains subject to change.
+
 The project's [official implementation-status page](https://github.com/webmachinelearning/webmcp/blob/main/implementation-status.md) reports support in ChatGPT Desktop, experimental support in Brave, a Chrome 149 origin trial, and an Edge 150 origin trial.
 Treat those entries as starting points rather than a promise that every browser, channel, agent, or deployment has the same API enabled.
 
@@ -74,6 +75,7 @@ For example, a response from a `latest` page can contain conceptually distinct v
 
 Every lookup is pinned to the authored immutable release loaded by that page, not to whichever release the query catalog happens to mark as stable when the tool runs.
 Consequently, a cached older `latest` page continues to report and query its loaded older release accurately.
+
 On a dated page, `documentVersionAlias` is `null`, and the dated document segment must agree with the authored version IRI before a tool is registered.
 
 If a page cannot establish its authored ontology IRI, immutable version IRI, repository artifact family, and valid version tag, it keeps its normal human interface but does not expose the tool.
@@ -183,6 +185,7 @@ It does not call, proxy through, or require the loopback MCP server.
 
 The browser enforces decoded response ceilings of 1 MiB for the catalog and 8 MiB for one release index.
 Input is bounded at 512 Unicode code points.
+
 Ambiguity candidates, UUID URNs, and source IRIs return at most five values each, alongside exact total counts and truncation flags.
 The selected authored definition itself is preserved in full: silently truncating it could change its meaning.
 A definition can therefore exceed a client implementation's advisory output budget.
@@ -260,6 +263,7 @@ console.log(result);
 
 The Community Group Report dated 26 August 2026 is the target API contract.
 Chrome's imperative-API guide, last updated 20 August 2026 when this guide was checked, still shows a JSON string for the `executeTool()` input.
+
 That is a documented implementation-guidance lag: this site intentionally does not stringify both shapes, branch on browser identity, or install a compatibility shim.
 If a client rejects the object form, check that client's exact WebMCP version and current instructions.
 

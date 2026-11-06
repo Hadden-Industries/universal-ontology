@@ -4,6 +4,8 @@ Canonical policy meaning belongs to [`policy/`](../../policy/).
 The [generated page](../policy/Editing-Policy.generated.md) offers a contributor guide and a complete technical reference with stable `EP-*` anchors.
 Edit source inputs here or the renderer; never edit generated output.
 
+## Author and review an explanation
+
 `source/reader-guidance.ttl` is a separate documentation graph.
 Its SHACL contract requires non-normative summaries and active requirement references.
 `source/guidance-reviews.json` records the exact linked rule fingerprints checked when the explanations were authored.
@@ -15,6 +17,8 @@ The generated model contains the entire canonical graph as well as per-rule proj
 Anonymous numeric references are local to each projection; they are not stable public identifiers.
 Property presence is recorded separately from normative strength and assessment.
 Constraint-local presence does not override another conditional obligation.
+
+## Regenerate and verify the guide
 
 ```sh
 npm run generate:editing-policy
@@ -31,11 +35,14 @@ Formatting, dependency installation and browser acquisition are separate operati
 
 The locked Mermaid CLI 12.0.0 (MIT) renders accessible SVG with the existing Playwright Chromium headless shell and embedded Open Sans 5.3.0 fonts (SIL OFL 1.1).
 SVG text uses geometric precision, and branch conditions are explicit in node text to avoid platform-dependent edge-label bounds.
+
 The locked resvg WebAssembly 2.6.2 (MPL-2.0) converts those exact SVGs to PNG with the same pinned font, without system fonts or browser screenshots.
 SVGs retain selectable text and embedded fonts; alt text and complete text equivalents accompany every diagram.
+
 Marked 18.1.2 (MIT) supplies GFM parsing, and Axe Playwright 4.14.0 (MPL-2.0) checks the local preview.
 Versions are minimum declarations with exact npm-lock selections, following repository policy.
 The Mermaid Node API is not covered by upstream semantic versioning; the lock and deterministic rendering tests protect its use.
+
 No package or browser is downloaded by a generation or verification command.
 For a separately authorised browser installation, use `npm run install:editing-policy-browser`.
 CI provisions that locked browser in the existing consumers.
@@ -50,9 +57,11 @@ The new preservation report checks the identified retained bytes, including all 
 
 `ontology_policy.publish_wiki.prepare_publication` prepares only manifest-owned files and a bounded sidebar fragment in an owned disposable Wiki checkout.
 It refuses unowned collisions, path/link escape, changed managed files and ambiguous navigation markers, and journals interrupted writes for replay.
+
 The caller must authenticate exact successful main qualification and verify the generated manifest before supplying bytes.
 `prepare_verified_publication` admits the externally qualified manifest digest and checks every declared source/output before writing.
 `assert_wiki_base` refuses changed local or remote Wiki revisions; the eventual push must still use ordinary non-forcing Git semantics.
+
 Adopting an existing legacy page requires exact prior file digests and a separately accepted ownership decision.
 Deployment credentials, remote concurrency checks, signed Wiki commits and pushing belong to the separately authorised release orchestrator.
 No live Wiki publication is enabled by this implementation.

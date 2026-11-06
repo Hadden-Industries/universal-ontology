@@ -83,6 +83,7 @@ To hand one definition to a reviewer, pass its `definitionAssertionRef`, entity 
 Definition evidence matches the complete RDF assertion: subject, predicate, literal spelling, language, and datatype.
 Exact `owl:Axiom` annotations may come from another selected graph.
 An entity-level citation is reported separately and does not establish citation of the definition assertion.
+
 Sources may be IRIs, literals, or bounded structured blank nodes.
 Incomplete source descriptions are explicit.
 Source quality is always unassessed; recorded citation presence is not authority assessment.
@@ -137,6 +138,7 @@ That minimum does not imply existence.
 
 The defining-concepts handoff has two distinct review triggers.
 For an uncited definition, retain its exact assertion and snapshot, then review its wording and seek external authority separately.
+
 For a recorded-source definition such as Activity, audit the exact source association and compare wording with the cited authority before deciding quality.
 These transport checks establish the handoff and local structural evidence; they do not claim external authority validation or a metered model trial.
 No ontology definition was rewritten.
@@ -147,6 +149,7 @@ Entity source assertions remain separate from these counts.
 
 A representative six-graph context measured 473 ms cold and 48–57 ms warm in the query facade.
 Actual stdio startup measured 152 ms; its first context call took 586 ms and three warm calls took 51–60 ms.
+
 The combined MCP result was 29,203 bytes with explicit expression/neighbour-detail omissions.
 Peak observed process RSS during three inventories and context calls was 375,066,624 bytes.
 These are local observations, not percentile guarantees or cross-platform qualification.

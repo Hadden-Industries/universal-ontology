@@ -3,6 +3,9 @@
 The Universal Ontology MCP server is a page-independent, read-only `stdio` server.
 An MCP host launches it as a child process; the server opens no inbound port and performs ontology search, ranking, resolution, and result rendering on the user's computer.
 
+For a contributor checkout, follow [Install both repository-local MCP servers](#install-both-repository-local-mcp-servers).
+For another host, choose a software source below, then [configure the host](#configure-an-mcp-host) and [verify the Person definition](#verify-the-person-definition).
+
 > **Development-only distribution:** the software built from this repository is not a release.
 > There is no public npm package, no public GHCR image, no MCP Registry record, no GitHub Release, no immutable software artifact, and no publisher signature or attestation.
 > Reserved package, image, Registry, and release coordinates are future compatibility contracts, not install sources.
@@ -28,6 +31,7 @@ It composes exactly one query-artifact repository selected at process launch:
 
 Query text, entity identifiers, labels, definitions, and tool results remain local in both modes and are not sent to the artifact origin.
 In HTTP mode, request paths and timing can still reveal the selected channel and retrieved artifact, so an operator-controlled proxy remains part of the privacy boundary.
+
 The standalone executable defaults to `http` and `stable`, because a distributed installation cannot assume a checkout-local artifact tree.
 The repository setup command explicitly defaults its generated host entries to `file-system` and `dist/query/v1`.
 
@@ -86,28 +90,35 @@ The command installs two distinct local programs:
 
 Before changing active files, setup verifies the staged GitHub executable with `--version` and connects to the staged Universal Ontology bundle with the official MCP v2 client pinned to protocol version `2026-07-28`.
 That protocol probe requires the exact `universal-ontology` server identity and the four documented tools.
+
 It then calls `search_entities` for `Person` in the latest stable `universal/core` release and requires the expected Universal Ontology entity IRI before activation.
 Filesystem verification reads the newly generated `dist/query/v1` tree.
 HTTP verification uses the selected remote source and a unique operating-system-temporary `--cache-directory`, then closes the MCP process and removes that cache.
+
 Verification therefore tests the actual selected data path without depending on or mutating the developer's persistent HTTP runtime cache.
 If the authoritative verifier exits non-zero, setup reports its bounded, control-character-sanitized stderr diagnostic instead of replacing it with a generic subprocess failure.
 
 Only after both staged programs pass does the command publish the per-file atomic replacements as one rollback-capable transaction.
 Rendering retains the byte-exact presence and contents of every host document.
 Activation checks those optimistic-concurrency preconditions before preparing replacements and again immediately before the first live replacement, then rechecks each host document at its own replacement boundary.
+
 For an existing host document, the operating system atomically retains the exact file displaced by publication: Windows uses `ReplaceFileW` with a backup path, Linux uses `renameat2(RENAME_EXCHANGE)`, and macOS uses `renamex_np(RENAME_SWAP)`.
+
 Setup compares that displaced file with the render-time bytes before committing the wider transaction.
 For a host document that was absent when rendered, a same-directory hard link publishes the staged regular file only if the destination name is still absent.
+
 If a user or host edited or created a document while setup was downloading, building, or activating earlier files, setup restores or preserves those exact bytes, rolls back its preceding replacements, and asks you to rerun against the current document.
 An unsupported native exchange or no-clobber filesystem operation fails closed.
 
 For an existing generated program or installation record, setup first creates and synchronizes a sibling activation backup without moving the live path.
 It then performs one replace-over-destination operation, so an observer never sees a missing path between backup and replacement.
 Existing host documents instead use the native displaced-file operation above, which also keeps the destination continuously present.
+
 An ordinary later failure atomically restores every preceding program, installation record, and host document from the applicable copy or displaced file.
 If the operating system also prevents rollback, setup retains the exact recovery file and reports its path instead of deleting the only remaining copy.
 
 Before rollback restores or removes an already replaced destination, setup recomputes the live regular file's byte length, SHA-256 digest, and complete file-permission bits and compares them with the replacement state it published.
+
 If another process changed, removed, or replaced that destination with a non-regular filesystem object, rollback preserves the concurrent state instead of overwriting it.
 Any preceding synchronized backup or atomically displaced file is retained as an exact recovery copy, and setup reports both the conflicted destination and recovery path.
 
@@ -141,11 +152,13 @@ The installation command then manages these portable, project-scoped host entrie
 
 The root `.agent-tools/` ignore rule is anchored to this checkout, so it does not hide a same-named directory nested in a package.
 Same-directory staged and activation-backup files for all three host documents have narrowly scoped ignore rules as well.
+
 Those artifacts can contain a complete machine-local `.agents/mcp_config.json`, including preserved credentials; a crash or a reported rollback failure therefore cannot make such a copy eligible for an accidental `git add -A`.
 Setup creates each randomized transaction file empty, requires Git to ignore that exact repository-contained path, and only then writes or copies potentially sensitive host-configuration bytes into it.
 
 Each launch entry runs a small Node bootstrap that asks Git for the checkout's top-level directory, changes the child process to that directory, and imports the exact repository-relative server entry point.
 Moving the checkout therefore does not embed an old absolute path, and starting an MCP host from a nested repository directory does not reinterpret the paths beneath that directory.
+
 Git remains a runtime prerequisite for these repository-local entries.
 The Universal Ontology entry explicitly selects the filesystem repository at `dist/query/v1` by default.
 The query data remains outside `.agent-tools` and is not bundled into the installed application.
@@ -311,12 +324,14 @@ docker run --rm --interactive --read-only --cap-drop=ALL --security-opt=no-new-p
 `--interactive` preserves stdin for MCP frames.
 The named volume is the only expected writable path; the root filesystem is read-only, Linux capabilities are dropped, and privilege escalation is disabled.
 There is deliberately no port mapping because the process uses `stdio`.
+
 HTTP-mode queries require outbound HTTPS access to the data origin, so do not add `--network=none` in that mode.
 A filesystem source requires a separately mounted read-only artifact tree and matching source/root arguments.
 The verification workflow uses an isolated network for its data-free software checks; its deterministic query checks supply their own test artifacts.
 
 An MCP host can use `docker` as the command and the complete sequence from `run` through the local image name as its arguments.
 Keep `--rm` so a stopped host does not leave containers, and keep the named volume if warm/offline behavior is desired.
+
 To update, rebuild under a commit-specific local tag, smoke it, then change the host argument.
 Remove unused images with `docker image rm` and remove the cache, only if desired, with `docker volume rm universal-ontology-mcp-cache` after every referencing container has stopped.
 
@@ -324,6 +339,7 @@ Remove unused images with `docker image rm` and remove the cache, only if desire
 
 The manually dispatched package workflow retains a complete candidate as a GitHub Actions artifact for three days.
 Automatic package qualification is disabled by default; it can be restored through the option described below.
+
 It is authenticated repository output, not a GitHub Release and not an immutable release artifact.
 Identify an accepted workflow run and its exact SHA-256-suffixed candidate artifact, then download it while signed in with repository read access:
 
@@ -392,6 +408,7 @@ if ($selectedPayloadRecords.Count -ne 1) {
 The artifact-name comparison binds the downloaded manifest to the selected GitHub Actions artifact, while the per-subject checks bind the selected payload to that manifest.
 These checksums detect corruption and substitution, but they do not authenticate the publisher.
 No publisher signature or attestation accompanies a development candidate.
+
 Preserve the workflow run identity, source commit, artifact name, and verified checksum manifest in local test records.
 Because Actions retention is three days, do not depend on it as a rollback store; retain a trusted source commit or locally verified candidate.
 
@@ -412,8 +429,10 @@ The packages contain server software, with ontology data supplied separately:
 To prepare durable release downloads, explicitly select `create_draft_release` when dispatching the workflow.
 Only after qualification and independent candidate validation succeed does it attest the candidate and create a draft with tag `universal-ontology-mcp-server-v<qualified version>`.
 It verifies the exact uploaded ZIP digest, source revision, version, file inventory and per-file checksums before attaching the same package bytes.
+
 Inspect the draft assets, source commit, SBOMs and GitHub provenance attestations, then manually publish the draft from the repository's **Releases** page.
 Published Release assets are durable downloads, distinct from expiring Actions artifacts.
+
 This pipeline change does not itself create a release; the development status above remains applicable until a maintainer publishes one.
 Existing tags or releases are never overwritten; inspect any partial draft after a failed attempt before choosing recovery.
 
@@ -632,6 +651,7 @@ The cache is a private integrity boundary:
 
 To clear the cache safely, stop every MCP host using it, confirm the exact absolute cache root, remove only that versioned root, and restart.
 Never delete cache files while the server is running.
+
 Online corrupt bytes are quarantined and refetched by exact digest; if repeated integrity failures persist, stop the host, preserve diagnostics, clear the exact root, and investigate the origin or proxy before retrying.
 Offline corruption correctly remains a safe failure.
 
@@ -659,6 +679,7 @@ Query text, ontology-authored strings, source IRIs, response bodies, local paths
 
 Portable graceful shutdown is stdin EOF: the host closes the child's stdin and the server aborts lifecycle work, closes the stdio server once, and allows up to ten seconds for closure.
 On POSIX, `SIGINT` and `SIGTERM` use the same path.
+
 Windows registers `SIGINT`; Windows process signaling does not guarantee a portable `SIGTERM`, so hosts should close stdin rather than depend on that signal.
 There is no proprietary MCP shutdown message.
 Do not send an invented request after closing the protocol session.

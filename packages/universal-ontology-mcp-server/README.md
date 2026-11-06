@@ -18,6 +18,7 @@ For trusted-checkout builds, locally packed npm tarballs, self-contained platfor
 
 Downloadable package qualification is manual by default through **Actions → Manual MCP packages** on `main`.
 The default run qualifies five runtime-inclusive native archives, the Node-required npm tarball and supporting checksums/SBOMs, with a three-day Actions download.
+
 An explicit option attaches the same verified bytes and provenance to a draft GitHub Release; public publication remains manual.
 The repository variable `MCP_PACKAGE_CI_ENABLED=true` restores automatic package checks later without enabling publication.
 No package is released merely by enabling this pipeline.
@@ -28,6 +29,7 @@ For repository-only Streamable HTTP development at loopback, use the separate [l
 
 The executable, adjacent worker, and Oxigraph WASM asset contain the MCP and ontology-query implementation but no ontology datasets.
 Local filesystem mode supports bounded context, paths, and exact citation filtering; remote-artifact mode supports lexical search and resolution.
+
 See the [context guide](https://github.com/Hadden-Industries/universal-ontology/blob/main/docs/mcp/ontology-context.md) for snapshot selection and limits.
 It retrieves only selected channel/catalog/index artifacts from the configured HTTPS origin, verifies content-addressed bytes, and retains them in a private operating-system cache.
 User query text and tool results are processed locally and are not sent to that artifact origin.
