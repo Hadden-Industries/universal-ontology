@@ -6,7 +6,7 @@ Nothing here is a prerequisite for opening a pull request; see [CONTRIBUTING.md]
 ## Setup
 
 Requirements: Git 2.46 or later, the LTS Node.js version selected in [`.node-version`](../.node-version) or a newer compatible release in the same major, stable npm 12.2.1 or later, stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
-CI, PR qualification and explicit Markdown execution profiles use the exact selected Node runtime; ordinary development setup accepts compatible LTS updates.
+CI and PR qualification use the exact selected Node runtime; ordinary development setup accepts compatible LTS updates.
 `package.json` declares `devEngines.packageManager.version` as `>=12.2.1` with `onFail: "error"`; npm enforces this native contract before install, clean install and script execution, and development setup uses npm's bundled validator.
 Later stable npm majors satisfy the range; prereleases do not.
 The exact `packageManager` reference remains `npm@12.2.1`, and CI and release builds explicitly select and verify that version for reproducibility.
@@ -41,7 +41,7 @@ Node.js dependencies are locked via `package-lock.json`.
 Repository-owned package manifests declare registry and workspace dependencies and development dependencies using `>=` minimum version ranges, including the version inside npm aliases and the vendored Braces package's `fill-range` dependency.
 Registry minimums track the highest published stable release when updated; workspace minimums use the accepted local package version.
 A dependency without a stable release uses its explicitly accepted prerelease.
-Local `file:` sources, including the vendored Braces repair and retained Markdown tooling archives, preserve their source identities.
+Local `file:` sources, including the vendored Braces repair, preserve their source identities.
 OwlAPI is an owner-approved exception to registry ranges: `devDependencies.owlapi` in the root `package.json` is its sole editable source/version selector.
 Use either `git+https://github.com/OWNER/REPOSITORY.git#FULL_40_CHARACTER_COMMIT` or `npm:PACKAGE_NAME@EXACT_VERSION`, including an exact prerelease when selected.
 The local dependency name and all consumer imports stay `owlapi` and `owlapi/...` for either form.
@@ -339,7 +339,8 @@ The adapter independently requires result schema 5, successful operation, unchan
 `.markdown-quality-execution.json` retains the ordinary 30-second execution ceiling; package defaults supply other finite bounds.
 
 Every functional PR/main route runs a fresh full-corpus check on Windows and Ubuntu, even for a target-only change.
-Independent UO consumer assertions remain in Jest; generic transport and trust probes are owned by the producer.
+Three UO consumer checks remain in Jest and exercise the root npm commands for maintained selection, independently expected historical exclusions, literal preservation, read-only checking and native exit propagation.
+Generic transport and trust probes are owned by the producer.
 Documentation does not select unrelated product or ontology work.
 The existing selected Node assertion reuse remains authenticated and bounded; it never reuses Markdown checking, and the main gate still requires fresh Markdown completion at the exact main revision.
 Ordinary checks and generated-output admission do not create trusted qualification receipts.

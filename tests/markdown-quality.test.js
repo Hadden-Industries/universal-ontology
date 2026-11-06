@@ -1,221 +1,143 @@
-import { execFileSync, spawnSync } from "node:child_process";
+// Consumer checks exercise repository-owned behavior through root npm commands.
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import {
-  readFileSync,
-  writeFileSync,
+  copyFileSync,
+  existsSync,
   mkdirSync,
   mkdtempSync,
+  readFileSync,
   rmSync,
+  symlinkSync,
+  writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-const root = fileURLToPath(new URL("../", import.meta.url));
-const sdkUrl = import.meta.resolve("@hadden-industries/markdown-quality");
-const packageRoot = fileURLToPath(new URL("../", sdkUrl));
-const { validateQualityResult } = await import(sdkUrl);
-const metadata = JSON.parse(
-  readFileSync(join(packageRoot, "package.json"), "utf8"),
-);
-const cli = resolve(packageRoot, metadata.bin["markdown-quality"]);
-function validate(report) {
-  expect(report.schemaVersion).toBe(5);
-  validateQualityResult(report);
-  return report;
+
+const repository = fileURLToPath(new URL("../", import.meta.url));
+const npmCli = process.env.npm_execpath;
+assert.ok(npmCli, "Run these consumer checks through npm.");
+const scripts = JSON.parse(
+  readFileSync(join(repository, "package.json"), "utf8"),
+).scripts;
+const roots = [];
+afterEach(() => {
+  for (const root of roots.splice(0)) {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+function npm(args, root = repository) {
+  const child = spawnSync(process.execPath, [npmCli, "--silent", ...args], {
+    cwd: root,
+    encoding: "utf8",
+    timeout: 60000,
+    maxBuffer: 8 * 1024 * 1024,
+    windowsHide: true,
+  });
+  assert.ifError(child.error);
+  assert.equal(child.signal, null, child.stderr);
+  return child;
 }
 function fixture() {
-  const directory = mkdtempSync(join(tmpdir(), "uo-markdown-contract-"));
-  execFileSync("git", ["init", "--quiet", directory]);
-  writeFileSync(
-    join(directory, ".markdown-quality.json"),
-    readFileSync(join(root, ".markdown-quality.json")),
-  );
-  writeFileSync(
-    join(directory, "README.md"),
-    "# Corpus\n\n[Data](target.txt).\n",
-  );
-  writeFileSync(join(directory, "target.txt"), "A linked target.\n");
-  execFileSync("git", [
-    "-C",
-    directory,
-    "add",
+  const root = mkdtempSync(join(tmpdir(), "universal-ontology-markdown-"));
+  roots.push(root);
+  for (const path of [
     ".markdown-quality.json",
-    "README.md",
-    "target.txt",
-  ]);
-  return directory;
-}
-test("native full check is read-only and catches a target-only deletion", () => {
-  const directory = fixture();
-  try {
-    const before = readFileSync(join(directory, "README.md"));
-    const check = () =>
-      spawnSync(
-        process.execPath,
-        [cli, "check", "--root", directory, "--json"],
-        { encoding: "utf8" },
-      );
-    const clean = check();
-    expect(clean.status).toBe(0);
-    expect(validate(JSON.parse(clean.stdout)).selection.files).toEqual([
-      "README.md",
-    ]);
-    rmSync(join(directory, "target.txt"));
-    const missing = check(),
-      report = validate(JSON.parse(missing.stdout));
-    expect(missing.status).toBe(1);
-    expect(
-      report.diagnostics.some(
-        (d) => d.source === "links" && d.rule === "local-target",
-      ),
-    ).toBe(true);
-    expect(readFileSync(join(directory, "README.md"))).toEqual(before);
-    expect(report.writtenPaths).toEqual([]);
-  } finally {
-    rmSync(directory, { recursive: true });
-  }
-});
-test("real native operation failure preserves exit 2 and its result schema", () => {
-  const directory = fixture();
-  try {
-    writeFileSync(join(directory, "README.md"), Buffer.from([255]));
-    const result = spawnSync(
-      process.execPath,
-      [cli, "check", "--root", directory, "--json"],
-      { encoding: "utf8" },
-    );
-    const report = validate(JSON.parse(result.stdout));
-    expect(result.status).toBe(2);
-    expect(report.exitCode).toBe(2);
-    expect(report.errors.map((e) => e.code)).toContain("INVALID_UTF8");
-    expect(report.writtenPaths).toEqual([]);
-  } finally {
-    rmSync(directory, { recursive: true });
-  }
-});
-test("full inventory explains policy-excluded review bytes without changing them", () => {
-  const directory = fixture();
-  try {
-    mkdirSync(join(directory, "docs/reviews/nested"), { recursive: true });
-    const excluded = "docs/reviews/nested/private.md";
-    const bytes = Buffer.from([255, 13, 10, 128]);
-    writeFileSync(join(directory, excluded), bytes);
-    execFileSync("git", ["-C", directory, "add", excluded]);
-    const result = spawnSync(
-      process.execPath,
-      [
-        cli,
-        "check",
-        "--root",
-        directory,
-        "--reconcile-inventory",
-        "git",
-        "--json",
-      ],
-      { encoding: "utf8" },
-    );
-    expect(result.status).toBe(0);
-    const report = validate(JSON.parse(result.stdout));
-    expect(report.selection.files).toEqual(["README.md"]);
-    expect(
-      report.selection.reconciliationDecisions.map(({ path }) => path).sort(),
-    ).toEqual(["README.md", excluded].sort());
-    expect(report.selection.omissions).toContainEqual({
-      path: excluded,
-      pattern: "docs/reviews/**",
-      matchedPath: excluded,
-      reason: "excluded",
-    });
-    expect(readFileSync(join(directory, excluded))).toEqual(bytes);
-    expect(report.writtenPaths).toEqual([]);
-  } finally {
-    rmSync(directory, { recursive: true });
-  }
-});
-test("canonical command rejects changed-path shortcuts", () => {
-  const result = spawnSync(
-    process.execPath,
-    [cli, "check", "--base", "HEAD", "--json"],
-    { encoding: "utf8" },
-  );
-  expect(result.status).toBe(2);
-  const report = validate(JSON.parse(result.stdout));
-  expect(report.errors).toContainEqual({
-    code: "CLI_INPUT",
-    message: expect.stringContaining("--base"),
-  });
-  expect(report.writtenPaths).toEqual([]);
-});
-
-test("installed repair modes preserve previews and converge to the predicted bytes", () => {
-  const directory = fixture();
-  try {
-    const path = join(directory, "README.md");
-    const before = Buffer.from("#   Corpus\r\n");
-    const after = Buffer.from("# Corpus\n");
-    writeFileSync(path, before);
-    const format = (flags) => {
-      const child = spawnSync(
-        process.execPath,
-        [cli, "format", "--root", directory, "--json", ...flags],
-        { encoding: "utf8" },
-      );
-      expect(child.error).toBeUndefined();
-      expect(child.stderr).toBe("");
-      return {
-        status: child.status,
-        report: validate(JSON.parse(child.stdout)),
-      };
-    };
-    for (const flags of [[], ["--write", "--dry-run"]]) {
-      expect(format(flags).status).toBe(2);
-      expect(readFileSync(path)).toEqual(before);
+    ".markdown-quality-execution.json",
+  ]) {
+    if (existsSync(join(repository, path))) {
+      copyFileSync(join(repository, path), join(root, path));
     }
-    const preview = format(["--dry-run"]);
-    expect(preview.status).toBe(0);
-    expect(preview.report.operationStatus).toBe("previewed");
-    expect(preview.report.writtenPaths).toEqual([]);
-    expect(readFileSync(path)).toEqual(before);
-    const written = format(["--write"]);
-    expect(written.status).toBe(0);
-    expect(written.report.documentResults[0].candidate).toEqual(
-      preview.report.documentResults[0].candidate,
+  }
+  writeFileSync(
+    join(root, "package.json"),
+    JSON.stringify({
+      private: true,
+      scripts: {
+        "check:markdown": scripts["check:markdown"],
+        "format:markdown": scripts["format:markdown"],
+      },
+    }),
+  );
+  symlinkSync(
+    join(repository, "node_modules"),
+    join(root, "node_modules"),
+    process.platform === "win32" ? "junction" : "dir",
+  );
+  return root;
+}
+test("root commands select maintained documents and independently exclude preserved records", () => {
+  const git = spawnSync("git", ["ls-files", "-z", "--", "*.md"], {
+    cwd: repository,
+    encoding: "utf8",
+    windowsHide: true,
+  });
+  assert.ifError(git.error);
+  assert.equal(git.status, 0, git.stderr);
+  const tracked = git.stdout.split("\0").filter(Boolean);
+  const preserved = tracked.filter((path) =>
+    /^docs\/(?:plans|reviews|research|sdlc)\//u.test(path),
+  );
+  assert.ok(
+    preserved.length > 0,
+    "The ownership assertion needs real preserved records.",
+  );
+  const child = npm(["run", "inspect:markdown"]);
+  assert.equal(child.status, 0, child.stderr);
+  const selection = JSON.parse(child.stdout).selection;
+  for (const path of ["README.md", "AGENTS.md", "docs/development.md"]) {
+    assert.ok(selection.files.includes(path), path);
+  }
+  for (const path of preserved) {
+    assert.ok(!selection.files.includes(path), path);
+    assert.ok(
+      selection.omissions.some(
+        (item) => item.path === path && item.reason === "excluded",
+      ),
+      path,
     );
-    expect(written.report.writtenPaths).toEqual(["README.md"]);
-    expect(readFileSync(path)).toEqual(after);
-    expect(format(["--write"]).report.writtenPaths).toEqual([]);
-  } finally {
-    expect(dirname(directory)).toBe(resolve(tmpdir()));
-    rmSync(directory, { recursive: true });
   }
 });
-
-test("external npm prefix inspection retains this repository and literal scope", () => {
-  const directory = fixture();
-  try {
-    expect(process.env.npm_execpath).toBeDefined();
-    const child = spawnSync(
-      process.execPath,
-      [
-        process.env.npm_execpath,
-        "--prefix",
-        root,
-        "run",
-        "--silent",
-        "inspect:markdown",
-        "--",
-        "--",
-        "README.md",
-      ],
-      { cwd: directory, encoding: "utf8", timeout: 60000 },
-    );
-    expect(child.error).toBeUndefined();
-    expect(child.status).toBe(0);
-    const report = validate(JSON.parse(child.stdout));
-    expect(resolve(report.root)).toBe(resolve(root));
-    expect(report.selection.files).toEqual(["README.md"]);
-    expect(report.selection.reconciliationDecisions).toEqual([]);
-    expect(report.writtenPaths).toEqual([]);
-  } finally {
-    rmSync(directory, { recursive: true });
+test("root check and format preserve domain literals and excluded historical bytes", () => {
+  const root = fixture();
+  const path = join(root, "README.md");
+  mkdirSync(dirname(path), { recursive: true });
+  const original = Buffer.from(
+    '#   Guide\n\n```turtle\n<urn:example:Policy> <urn:example:label> "literal  bytes" .  \n```\n',
+  );
+  const expected =
+    '# Guide\n\n```turtle\n<urn:example:Policy> <urn:example:label> "literal  bytes" .  \n```\n';
+  const retained = join(root, "docs/plans/retained.md");
+  mkdirSync(dirname(retained), { recursive: true });
+  const historical = Buffer.from("#   Retained historical record\n");
+  writeFileSync(retained, historical);
+  writeFileSync(path, original);
+  const check = npm(["run", "check:markdown"], root);
+  assert.equal(check.status, 1, check.stderr);
+  assert.deepEqual(readFileSync(path), original);
+  assert.deepEqual(readFileSync(retained), historical);
+  const format = npm(["run", "format:markdown"], root);
+  assert.equal(format.status, 0, format.stderr);
+  assert.equal(readFileSync(path, "utf8"), expected);
+  assert.deepEqual(readFileSync(retained), historical);
+  const clean = npm(["run", "check:markdown"], root);
+  assert.equal(clean.status, 0, clean.stderr);
+});
+test("root check propagates native success, quality failure and configuration failure without writes", () => {
+  const root = fixture();
+  const path = join(root, "README.md");
+  for (const [content, expected] of [
+    ["# Guide\n\nA clear sentence.\n", 0],
+    ["# Guide\n\n[Missing target](absent.md).\n", 1],
+    ["# Guide\n", 2],
+  ]) {
+    writeFileSync(path, content);
+    if (expected === 2) {
+      writeFileSync(join(root, ".markdown-quality.json"), "{invalid");
+    }
+    const child = npm(["run", "check:markdown"], root);
+    assert.equal(child.status, expected, child.stderr);
+    assert.equal(readFileSync(path, "utf8"), content);
   }
 });
