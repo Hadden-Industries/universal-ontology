@@ -27,13 +27,6 @@
       "skillPath": "skills/brooks-review/SKILL.md",
       "computedHash": "8d4d85b2bed944a416ee701d2cf77a4621f5e1f3436573b2556a44904ec752ca"
     },
-    "browser-testing-with-devtools": {
-      "source": "addyosmani/agent-skills",
-      "ref": "main",
-      "sourceType": "github",
-      "skillPath": "skills/browser-testing-with-devtools/SKILL.md",
-      "computedHash": "4d2eceecc4549d78faa293a28c6a662d0c060dffbfa1b8805ee7572fffea1d9a"
-    },
     "codebase-design": {
       "source": "mattpocock/skills",
       "ref": "main",
