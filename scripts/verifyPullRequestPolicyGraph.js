@@ -8,6 +8,8 @@ const REPOSITORY_ROOT_PATH = fileURLToPath(new URL("../", import.meta.url));
 const POLICY_WORKFLOW_PATHS = Object.freeze([
   ".github/workflows/pr-validation.yml",
   ".github/workflows/full-qualification.yml",
+  ".github/workflows/main-ci.yml",
+  ".github/workflows/repository-checks.yml",
   ".github/workflows/development-checks.yml",
   ".github/workflows/ontology-validation.yml",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
@@ -67,8 +69,13 @@ export async function verifyPullRequestPolicyGraph({
             ? { contents: "read", actions: "read" }
             : (path === ".github/workflows/pr-validation.yml" &&
                   id === "gate") ||
-                (path === ".github/workflows/full-qualification.yml" &&
-                  id === "select")
+                (path === ".github/workflows/repository-checks.yml" &&
+                  id === "select") ||
+                ([
+                  ".github/workflows/main-ci.yml",
+                  ".github/workflows/full-qualification.yml",
+                ].includes(path) &&
+                  id === "checks")
               ? { contents: "read", actions: "read" }
               : { contents: "read" };
       if (!isDeepStrictEqual(job.permissions, expectedPermissions)) {

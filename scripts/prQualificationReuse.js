@@ -10,7 +10,11 @@ import {
   prQualificationJobConclusions,
 } from "./prQualification.js";
 import { assertCheckPlan } from "./selectPullRequestChecks.js";
-export const FULL_WORKFLOW = ".github/workflows/full-qualification.yml";
+import { meetsNodeTarget, nodeTarget } from "./nodeTarget.js";
+import { nodeCheckArguments } from "./runPullRequestNodeChecks.js";
+export const MAIN_CI_WORKFLOW = ".github/workflows/main-ci.yml";
+export const FULL_QUALIFICATION_WORKFLOW =
+  ".github/workflows/full-qualification.yml";
 const sha = (value) =>
   typeof value === "string" && /^[a-f0-9]{40}$/u.test(value);
 const id = (value) => Number.isSafeInteger(value) && value > 0;
@@ -23,53 +27,97 @@ const sameRepository = (observed, context) =>
 const artifactName = (run) =>
   `uo-pr-qualification-${run.id}-${run.run_attempt}`;
 
-/** Admit only a single ordinary merge into this top-level workflow. */
-export function assertOrdinaryMainContext(context) {
+export function qualificationReuseWorkflow(context) {
+  const { repository, eventName, ref, workflowRef, disabled } = context;
+  if (
+    disabled ||
+    repository !== "Hadden-Industries/universal-ontology" ||
+    ref !== "refs/heads/main"
+  )
+    return null;
+  const workflow =
+    eventName === "push"
+      ? MAIN_CI_WORKFLOW
+      : ["schedule", "workflow_dispatch"].includes(eventName)
+        ? FULL_QUALIFICATION_WORKFLOW
+        : null;
+  return workflow && workflowRef === `${repository}/${workflow}@${ref}`
+    ? workflow
+    : null;
+}
+
+/** Admit only the exact main-branch merge in an eligible top-level workflow. */
+function assertReuseContext(context) {
   const { event, snapshot } = context;
+  const workflow = qualificationReuseWorkflow(context);
+  assertCheckPlan(context.plan);
   fact(
-    context.repository === "Hadden-Industries/universal-ontology" &&
+    workflow !== null &&
       context.repositoryId === 168553222 &&
-      context.eventName === "push" &&
-      context.ref === "refs/heads/main" &&
-      context.workflowRef ===
-        `${context.repository}/${FULL_WORKFLOW}@refs/heads/main` &&
       context.disabled === false &&
       id(context.runId) &&
       id(context.runAttempt) &&
-      event.ref === context.ref &&
-      event.after === context.sha &&
-      event.deleted === false &&
-      event.created === false &&
-      event.forced === false &&
-      sameRepository(event.repository, context) &&
-      event.repository.default_branch === "main" &&
       snapshot.commit === context.sha &&
       sha(snapshot.commit) &&
       sha(snapshot.tree) &&
       sha(snapshot.workflow) &&
       snapshot.parents.length === 2 &&
       snapshot.parents.every(sha) &&
-      snapshot.parents[0] === event.before &&
-      eligiblePrQualificationPlan(context.plan) &&
       context.plan.revision === context.sha &&
-      context.plan.comparisonBase === event.before,
+      (workflow === MAIN_CI_WORKFLOW
+        ? event.ref === context.ref &&
+          event.after === context.sha &&
+          event.deleted === false &&
+          event.created === false &&
+          event.forced === false &&
+          sameRepository(event.repository, context) &&
+          event.repository.default_branch === "main" &&
+          snapshot.parents[0] === event.before &&
+          eligiblePrQualificationPlan(context.plan) &&
+          context.plan.comparisonBase === event.before
+        : context.plan.mode === "full" &&
+          context.plan.packageMode === "disabled" &&
+          context.plan.requiredJobs.includes("node")),
     "This event, caller, package policy or integration requires fresh selected work.",
   );
-  return context;
+  return workflow;
 }
-function assertMainRun(run, context) {
+function assertCurrentRun(run, context, workflow) {
   fact(
     run?.id === context.runId &&
       run.run_attempt === context.runAttempt &&
-      run.event === "push" &&
-      run.path === FULL_WORKFLOW &&
+      run.event === context.eventName &&
+      run.path === workflow &&
       run.head_branch === "main" &&
       run.head_sha === context.sha &&
       sameRepository(run.repository, context) &&
       sameRepository(run.head_repository, context) &&
       ["in_progress", "completed"].includes(run.status) &&
       (run.status !== "completed" || run.conclusion === "success"),
-    "Current native main workflow identity disagrees.",
+    "Current native workflow identity disagrees.",
+  );
+}
+
+function matchesProofInputs(record, context, workflow) {
+  const { plan, snapshot } = context;
+  if (
+    record.snapshot.tree !== snapshot.tree ||
+    record.snapshot.workflow !== snapshot.workflow ||
+    !isDeepStrictEqual(record.snapshot.parents, snapshot.parents) ||
+    record.plan.comparisonBase !== snapshot.parents[0] ||
+    record.plan.packageMode !== plan.packageMode
+  )
+    return false;
+  // Full qualification runs the complete Node selection. Its plan has no
+  // diff base, and its other scopes are enforced through fresh consumers.
+  if (workflow === FULL_QUALIFICATION_WORKFLOW)
+    return (
+      record.environment.node === `v${nodeTarget()}` &&
+      isDeepStrictEqual(record.nativeNode.arguments, nodeCheckArguments(plan))
+    );
+  return (
+    isDeepStrictEqual(record.plan.scopes, plan.scopes) &&
+    isDeepStrictEqual(record.plan.requiredJobs, plan.requiredJobs)
   );
 }
 function assertSourceRun(run, context, pr, now) {
@@ -132,8 +180,12 @@ export async function selectOriginalPrQualification({
   read,
   now = Date.now,
 }) {
-  assertOrdinaryMainContext(context);
-  assertMainRun(await read(`/actions/runs/${context.runId}`), context);
+  const workflow = assertReuseContext(context);
+  assertCurrentRun(
+    await read(`/actions/runs/${context.runId}`),
+    context,
+    workflow,
+  );
   const landed = await read(`/git/commits/${context.sha}`);
   fact(
     landed.sha === context.sha &&
@@ -157,6 +209,7 @@ export async function selectOriginalPrQualification({
       pr.base?.ref === "main" &&
       pr.base.sha === context.snapshot.parents[0] &&
       pr.head?.sha === context.snapshot.parents[1] &&
+      (workflow === MAIN_CI_WORKFLOW || pr.merge_commit_sha === context.sha) &&
       sameRepository(pr.base.repo, context) &&
       sameRepository(pr.head.repo, context),
   );
@@ -193,7 +246,7 @@ export async function verifyOriginalPrQualification({
   read,
   now = Date.now,
 }) {
-  assertOrdinaryMainContext(context);
+  const workflow = assertReuseContext(context);
   assertPrQualificationRecord(record);
   const { pr, artifact } = selection;
   const run = await read(`/actions/runs/${selection.run.id}`);
@@ -218,14 +271,15 @@ export async function verifyOriginalPrQualification({
       record.pullRequest === pr.number &&
       Date.parse(record.recordedAt) >= Date.parse(run.run_started_at) &&
       Date.parse(record.recordedAt) <= now() &&
-      isDeepStrictEqual(record.environment, context.environment) &&
-      record.snapshot.tree === context.snapshot.tree &&
-      record.snapshot.workflow === context.snapshot.workflow &&
-      isDeepStrictEqual(record.snapshot.parents, context.snapshot.parents) &&
-      record.plan.comparisonBase === context.plan.comparisonBase &&
-      record.plan.packageMode === context.plan.packageMode &&
-      isDeepStrictEqual(record.plan.scopes, context.plan.scopes) &&
-      isDeepStrictEqual(record.plan.requiredJobs, context.plan.requiredJobs),
+      meetsNodeTarget(context.environment?.node) &&
+      isDeepStrictEqual(
+        // Only routine Main CI can accept a different supported Node version.
+        workflow === MAIN_CI_WORKFLOW
+          ? { ...record.environment, node: context.environment.node }
+          : record.environment,
+        context.environment,
+      ) &&
+      matchesProofInputs(record, context, workflow),
     "Original direct proof does not establish these exact current inputs.",
   );
   const tested = await read(`/git/commits/${record.snapshot.commit}`);
@@ -316,7 +370,11 @@ export async function verifyOriginalPrQualification({
     latest.id === run.id && latest.run_attempt === run.run_attempt,
     "A newer original source appeared during readback.",
   );
-  assertMainRun(await read(`/actions/runs/${context.runId}`), context);
+  assertCurrentRun(
+    await read(`/actions/runs/${context.runId}`),
+    context,
+    workflow,
+  );
   return {
     schemaVersion: 1,
     proof: "ORIGINAL_PR_REUSE",
@@ -333,9 +391,12 @@ export async function verifyOriginalPrQualification({
 /** The completion gate checks the source proof and current checkout independently
  * before accepting only the selected Node omission. It does not claim new execution.
  */
-export function assertMainReuseCompletion(context, qualification, needs) {
-  assertOrdinaryMainContext(context);
-  assertCheckPlan(context.plan);
+export function assertQualificationReuseCompletion(
+  context,
+  qualification,
+  needs,
+) {
+  const workflow = assertReuseContext(context);
   const selectedMain = qualification?.main;
   fact(
     qualification?.schemaVersion === 1 &&
@@ -364,13 +425,7 @@ export function assertMainReuseCompletion(context, qualification, needs) {
   );
   const record = assertPrQualificationRecord(qualification.record);
   fact(
-    record.snapshot.tree === context.snapshot.tree &&
-      record.snapshot.workflow === context.snapshot.workflow &&
-      isDeepStrictEqual(record.snapshot.parents, context.snapshot.parents) &&
-      record.plan.comparisonBase === context.plan.comparisonBase &&
-      record.plan.packageMode === context.plan.packageMode &&
-      isDeepStrictEqual(record.plan.scopes, context.plan.scopes) &&
-      isDeepStrictEqual(record.plan.requiredJobs, context.plan.requiredJobs),
+    matchesProofInputs(record, context, workflow),
     "Source proof does not match the exact current checkout and selected contract.",
   );
   const names = [

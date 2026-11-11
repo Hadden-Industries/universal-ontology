@@ -31,11 +31,13 @@ import {
 import {
   selectOriginalPrQualification,
   verifyOriginalPrQualification,
-  assertMainReuseCompletion,
+  assertQualificationReuseCompletion,
+  MAIN_CI_WORKFLOW,
+  FULL_QUALIFICATION_WORKFLOW,
 } from "../scripts/prQualificationReuse.js";
 import {
   readOriginalQualificationArchive,
-  selectMainQualificationReuse,
+  selectQualificationReuse,
 } from "../scripts/prQualificationReuseCommand.js";
 const hash = (c) => c.repeat(40),
   time = Date.parse("2026-10-06T20:00:00Z"),
@@ -236,8 +238,7 @@ function fixture(selected = ["ci_control"], families = null) {
     ...original,
     eventName: "push",
     ref: "refs/heads/main",
-    workflowRef:
-      "Hadden-Industries/universal-ontology/.github/workflows/full-qualification.yml@refs/heads/main",
+    workflowRef: `Hadden-Industries/universal-ontology/${MAIN_CI_WORKFLOW}@refs/heads/main`,
     sha: hash("f"),
     runId: 200,
     runAttempt: 1,
@@ -272,7 +273,7 @@ function fixture(selected = ["ci_control"], families = null) {
     id: 200,
     run_attempt: 1,
     event: "push",
-    path: ".github/workflows/full-qualification.yml",
+    path: MAIN_CI_WORKFLOW,
     head_sha: hash("f"),
     head_branch: "main",
     repository,
@@ -376,48 +377,158 @@ async function admit(data) {
     now,
   });
 }
-test("admits only the original directly executed assertions after equivalent normal integration", async () => {
-  const data = fixture(),
-    accepted = await admit(data);
-  expect(accepted.proof).toBe("ORIGINAL_PR_REUSE");
-  expect(accepted.record.proof).toBe("DIRECT_EXECUTION");
-  expect(accepted.record.nativeNode.runAttempt).toBe(1);
-  expect(accepted.record.runAttempt).toBe(2);
-  expect(data.calls).toHaveLength(16);
-  const needs = Object.fromEntries(
-    [
-      "select",
-      "node",
-      "development",
-      "ontology",
-      "website",
-      "distribution",
-    ].map((name) => [
+
+const fullSourceScopes = CORE_CHECK_SCOPE_NAMES.filter(
+  (name) => !["mcp_artifacts", "mcp_release_qualification"].includes(name),
+);
+
+function forFullQualification(data, eventName = "schedule") {
+  const { context, mainRun, pr } = data;
+  context.eventName = eventName;
+  context.workflowRef = `${context.repository}/${FULL_QUALIFICATION_WORKFLOW}@${context.ref}`;
+  context.event = {};
+  const scopes = Object.fromEntries(
+    CORE_CHECK_SCOPE_NAMES.map((name) => [
       name,
-      {
-        result: ["select", "development"].includes(name)
-          ? "success"
-          : "skipped",
-        outputs:
-          name === "development" ? { "verified-revision": hash("f") } : {},
-      },
+      fullSourceScopes.includes(name),
     ]),
   );
-  expect(assertMainReuseCompletion(data.context, accepted, needs)).toBe(
-    hash("f"),
+  context.plan = {
+    ...context.plan,
+    mode: "full",
+    comparisonBase: null,
+    scopes,
+    requiredJobs: requiredJobsForScopes(scopes),
+  };
+  mainRun.event = eventName;
+  mainRun.path = FULL_QUALIFICATION_WORKFLOW;
+  pr.merge_commit_sha = context.sha;
+  return data;
+}
+
+test.each(["schedule", "workflow_dispatch"])(
+  "full qualification reuses the matching pinned Node proof on %s",
+  async (eventName) => {
+    const data = forFullQualification(
+      fixture(fullSourceScopes.filter((scope) => scope !== "mcp_docs")),
+      eventName,
+    );
+    const accepted = await admit(data);
+    expect(accepted.record.plan.scopes.mcp_docs).toBe(false);
+    expect(data.context.plan.scopes.mcp_docs).toBe(true);
+    expect(accepted.record.nativeNode.arguments).toEqual(
+      nodeCheckArguments(data.context.plan),
+    );
+    const needs = Object.fromEntries(
+      ["select", ...data.context.plan.requiredJobs].map((name) => [
+        name,
+        {
+          result: name === "node" ? "skipped" : "success",
+          outputs: { "verified-revision": data.context.sha },
+        },
+      ]),
+    );
+    expect(
+      assertQualificationReuseCompletion(data.context, accepted, needs),
+    ).toBe(data.context.sha);
+    needs.ontology.result = "skipped";
+    expect(() =>
+      assertQualificationReuseCompletion(data.context, accepted, needs),
+    ).toThrow(/unexpected, failed or cancelled consumers/u);
+  },
+);
+
+test.each([
+  "narrow Node coverage",
+  "different Node version",
+  "matching Node version above the pin",
+  "different runner image",
+  "wrong merged PR revision",
+  "wrong native workflow",
+  "package qualification",
+])("full qualification requires fresh work for %s", async (scenario) => {
+  const data = forFullQualification(
+    scenario === "narrow Node coverage" ? fixture() : fixture(fullSourceScopes),
   );
-  needs.node.result = "cancelled";
-  expect(() =>
-    assertMainReuseCompletion(data.context, accepted, needs),
-  ).toThrow();
+  if (
+    scenario === "different Node version" ||
+    scenario === "matching Node version above the pin"
+  ) {
+    const [major] = data.record.environment.node.slice(1).split(".");
+    const node = `v${Number(major) + 1}.0.0`;
+    data.record.environment.node = node;
+    data.record.nativeNode.environment.node = node;
+    if (scenario === "matching Node version above the pin")
+      data.context.environment = { ...data.context.environment, node };
+  }
+  if (scenario === "different runner image")
+    data.context.environment.imageVersion = "20261002.1";
+  if (scenario === "wrong merged PR revision")
+    data.pr.merge_commit_sha = hash("0");
+  if (scenario === "wrong native workflow")
+    data.mainRun.path = MAIN_CI_WORKFLOW;
+  if (scenario === "package qualification") {
+    data.context.plan.packageMode = "ci";
+    data.context.plan.scopes.mcp_artifacts = true;
+  }
+  await expect(admit(data)).rejects.toThrow();
 });
 
+test.each([false, true])(
+  "admits original direct assertions after equivalent integration with a newer PR Node version: %s",
+  async (newerNode) => {
+    const data = fixture();
+    if (newerNode) {
+      const [major] = data.record.environment.node
+        .slice(1)
+        .split(".")
+        .map(Number);
+      const node = `v${major + 1}.0.0`;
+      data.record.environment = { ...data.record.environment, node };
+      data.record.nativeNode.environment = {
+        ...data.record.nativeNode.environment,
+        node,
+      };
+      expect(data.context.environment.node).not.toBe(node);
+    }
+    const accepted = await admit(data);
+    expect(accepted.proof).toBe("ORIGINAL_PR_REUSE");
+    expect(accepted.record.proof).toBe("DIRECT_EXECUTION");
+    expect(accepted.record.nativeNode.runAttempt).toBe(1);
+    expect(accepted.record.environment.node).toBe(data.record.environment.node);
+    expect(accepted.record.runAttempt).toBe(2);
+    expect(data.calls).toHaveLength(16);
+    const needs = Object.fromEntries(
+      [
+        "select",
+        "node",
+        "development",
+        "ontology",
+        "website",
+        "distribution",
+      ].map((name) => [
+        name,
+        {
+          result: ["select", "development"].includes(name)
+            ? "success"
+            : "skipped",
+          outputs:
+            name === "development" ? { "verified-revision": hash("f") } : {},
+        },
+      ]),
+    );
+    expect(
+      assertQualificationReuseCompletion(data.context, accepted, needs),
+    ).toBe(hash("f"));
+    needs.node.result = "cancelled";
+    expect(() =>
+      assertQualificationReuseCompletion(data.context, accepted, needs),
+    ).toThrow();
+  },
+);
+
 test("a broader source merge reuses only Node and requires all other selected consumers at the landed revision", async () => {
-  const data = fixture(
-    CORE_CHECK_SCOPE_NAMES.filter(
-      (name) => !["mcp_artifacts", "mcp_release_qualification"].includes(name),
-    ),
-  );
+  const data = fixture(fullSourceScopes);
   expect(data.context.plan.requiredJobs).toEqual([
     "development",
     "ontology",
@@ -446,9 +557,9 @@ test("a broader source merge reuses only Node and requires all other selected co
       },
     ]),
   );
-  expect(assertMainReuseCompletion(data.context, accepted, needs)).toBe(
-    hash("f"),
-  );
+  expect(
+    assertQualificationReuseCompletion(data.context, accepted, needs),
+  ).toBe(hash("f"));
   // A failed-job retry inherits the successful selector's original outputs.
   // Keep both the selector and native assertion producing attempts unchanged.
   const originalProof = clone(accepted);
@@ -456,9 +567,9 @@ test("a broader source merge reuses only Node and requires all other selected co
     ...data.context,
     runAttempt: data.context.runAttempt + 1,
   };
-  expect(assertMainReuseCompletion(retryContext, accepted, needs)).toBe(
-    hash("f"),
-  );
+  expect(
+    assertQualificationReuseCompletion(retryContext, accepted, needs),
+  ).toBe(hash("f"));
   expect(accepted).toEqual(originalProof);
   for (const consumer of [
     "development",
@@ -470,14 +581,14 @@ test("a broader source merge reuses only Node and requires all other selected co
       const broken = clone(needs);
       broken[consumer].result = result;
       expect(() =>
-        assertMainReuseCompletion(data.context, accepted, broken),
+        assertQualificationReuseCompletion(data.context, accepted, broken),
       ).toThrow(/consumers/);
     }
     for (const revision of [undefined, hash("c")]) {
       const broken = clone(needs);
       broken[consumer].outputs["verified-revision"] = revision;
       expect(() =>
-        assertMainReuseCompletion(data.context, accepted, broken),
+        assertQualificationReuseCompletion(data.context, accepted, broken),
       ).toThrow(/consumers/);
     }
   }
@@ -508,6 +619,7 @@ test.each([
   "manual",
   "schedule",
   "publication-caller",
+  "full-qualification-caller",
   "disabled",
   "direct",
   "squash",
@@ -518,6 +630,7 @@ test.each([
   "record-reused",
   "record-tree",
   "record-environment",
+  "record-below-node-minimum",
   "native-tree",
   "producing-attempt",
   "job-failure",
@@ -540,6 +653,9 @@ test.each([
   if (scenario === "publication-caller")
     data.context.workflowRef =
       "Hadden-Industries/universal-ontology/.github/workflows/manual-mcp-packages.yml@refs/heads/main";
+  if (scenario === "full-qualification-caller")
+    data.context.workflowRef =
+      "Hadden-Industries/universal-ontology/.github/workflows/full-qualification.yml@refs/heads/main";
   if (scenario === "disabled") data.context.disabled = true;
   if (["direct", "squash"].includes(scenario))
     data.context.snapshot.parents = [hash("a")];
@@ -560,6 +676,18 @@ test.each([
       ...data.context.environment,
       imageVersion: "20261002.1",
     };
+  if (scenario === "record-below-node-minimum") {
+    const [major] = data.record.environment.node
+      .slice(1)
+      .split(".")
+      .map(Number);
+    const node = `v${major - 1}.0.0`;
+    data.record.environment = { ...data.record.environment, node };
+    data.record.nativeNode.environment = {
+      ...data.record.nativeNode.environment,
+      node,
+    };
+  }
   if (scenario === "native-tree") data.foreignTree = true;
   if (scenario === "producing-attempt")
     data.jobs.jobs.find((j) => j.name === "node").run_attempt = 2;
@@ -657,7 +785,7 @@ test.each([
   if (scenario === "changed-checkout") data.context.snapshot.tree = hash("0");
   if (scenario === "disabled-gate") data.context.disabled = true;
   expect(() =>
-    assertMainReuseCompletion(data.context, accepted, needs),
+    assertQualificationReuseCompletion(data.context, accepted, needs),
   ).toThrow();
 });
 
@@ -734,7 +862,7 @@ test.each([
 test("unsupported selector callers emit fresh without any API or archive operation", async () => {
   let calls = 0;
   expect(
-    await selectMainQualificationReuse({
+    await selectQualificationReuse({
       env: { GITHUB_EVENT_NAME: "schedule" },
       fetchImpl: async () => {
         calls++;

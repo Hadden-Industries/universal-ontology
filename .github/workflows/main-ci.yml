@@ -1,0 +1,15 @@
+name: Main CI
+on:
+  push:
+    branches: [main]
+permissions: {}
+cache-mode: read
+jobs:
+  checks:
+    uses: ./.github/workflows/repository-checks.yml
+    with:
+      routine_main_ci: true
+    permissions:
+      contents: read
+      actions: read
+    cache-mode: read

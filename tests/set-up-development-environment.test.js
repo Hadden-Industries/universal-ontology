@@ -25,7 +25,6 @@ const nodeVersionDescriptor = Object.getOwnPropertyDescriptor(
   process.versions,
   "node",
 );
-const ltsDescriptor = Object.getOwnPropertyDescriptor(process.release, "lts");
 
 function createCommandResult(stdout = "", status = 0) {
   return {
@@ -98,24 +97,26 @@ beforeEach(() => {
     }),
   );
   writeFileSync(join(repositoryRoot, "package-lock.json"), "{}");
-  writeFileSync(join(repositoryRoot, ".node-version"), "24.21.0\n");
+  writeFileSync(join(repositoryRoot, ".node-version"), "26.13.0\n");
   writeFileSync(join(repositoryRoot, ".python-version"), "3.15.0\n");
   writeFileSync(
     join(repositoryRoot, "requirements-dev.txt"),
     "PyYAML==6.0.3\n",
   );
   Object.defineProperty(process.versions, "node", { value: "24.21.0" });
-  Object.defineProperty(process.release, "lts", {
-    value: "Krypton",
-    configurable: true,
-  });
   writeFileSync(
     join(repositoryRoot, "requirements.txt"),
     "defusedxml>=0.7.1\n",
   );
   writeFileSync(join(repositoryRoot, "requirements.lock.txt"), LOCK_TEXT);
-  npmCliPath = join(temporaryDirectoryPath, "npm cli.cjs");
+  const npmBin = join(temporaryDirectoryPath, "bin");
+  mkdirSync(npmBin);
+  npmCliPath = join(npmBin, "npm cli.cjs");
   writeFileSync(npmCliPath, "");
+  writeFileSync(
+    join(temporaryDirectoryPath, "package.json"),
+    JSON.stringify({ engines: { node: "^22.22.2 || ^24.15.0 || >=26.0.0" } }),
+  );
   // Model npm's bundled semver using the installed real validator.
   const semverDirectory = join(
     temporaryDirectoryPath,
@@ -180,11 +181,6 @@ afterEach(() => {
   jest.restoreAllMocks();
   Object.defineProperty(process, "platform", platformDescriptor);
   Object.defineProperty(process.versions, "node", nodeVersionDescriptor);
-  if (ltsDescriptor) {
-    Object.defineProperty(process.release, "lts", ltsDescriptor);
-  } else {
-    delete process.release.lts;
-  }
   const cleanupPath = resolve(temporaryDirectoryPath);
   if (
     dirname(cleanupPath) !== resolve(tmpdir()) ||
@@ -227,7 +223,13 @@ test.each([
       [systemPythonExecutableName, ["--version"]],
       [
         process.execPath,
-        [npmCliPath, "ci", "--include=dev", "--ignore-scripts"],
+        [
+          npmCliPath,
+          "ci",
+          "--include=dev",
+          "--ignore-scripts",
+          "--engine-strict",
+        ],
       ],
       [
         systemPythonExecutableName,
@@ -307,7 +309,6 @@ test.each([
   "requirements.txt",
   "requirements-dev.txt",
   "requirements.lock.txt",
-  ".node-version",
   ".python-version",
 ])("rejects a missing %s before starting subprocesses", (filename) => {
   rmSync(join(repositoryRoot, filename));
@@ -325,8 +326,8 @@ test("requires invocation through npm before changing the environment", () => {
   expect(spawnSyncMock).not.toHaveBeenCalled();
 });
 
-test.each(["24.21.0", "24.21.1", "24.22.0", "24.22.1"])(
-  "accepts compatible LTS Node %s at or above the repository floor",
+test.each(["24.15.0", "24.22.2", "26.13.0"])(
+  "accepts npm-compatible Node %s independently of the CI pin",
   (version) => {
     Object.defineProperty(process.versions, "node", { value: version });
     setUpDevelopmentEnvironment({ repositoryRoot });
@@ -336,33 +337,8 @@ test.each(["24.21.0", "24.21.1", "24.22.0", "24.22.1"])(
   },
 );
 
-test("a changed repository pin changes the Node floor before installation", () => {
-  writeFileSync(join(repositoryRoot, ".node-version"), "24.22.1\n");
-  Object.defineProperty(process.versions, "node", { value: "24.22.0" });
-  expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
-    /24\.22\.1/u,
-  );
-  expect(spawnSyncMock).not.toHaveBeenCalled();
-  Object.defineProperty(process.versions, "node", { value: "24.22.1" });
-  setUpDevelopmentEnvironment({ repositoryRoot });
-  expect(consoleLogSpy).toHaveBeenCalledWith(
-    "Development dependencies are installed.",
-  );
-});
-
-test.each(["24", "24.x", "v24.22.1", "24.22.1-rc.1", "024.22.1", "24.022.1"])(
-  "rejects a noncanonical Node pin %s before installation",
-  (pin) => {
-    writeFileSync(join(repositoryRoot, ".node-version"), `${pin}\n`);
-    expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
-      /\.node-version/u,
-    );
-    expect(spawnSyncMock).not.toHaveBeenCalled();
-  },
-);
-
-test.each(["22.23.3", "24.15.0", "24.20.1", "26.8.2"])(
-  "rejects unsupported Node %s",
+test.each(["22.22.1", "24.14.0", "25.9.0", "26.13.0-rc.1"])(
+  "rejects Node %s when the installed npm does not support it",
   (version) => {
     Object.defineProperty(process.versions, "node", { value: version });
     expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(
@@ -371,13 +347,6 @@ test.each(["22.23.3", "24.15.0", "24.20.1", "26.8.2"])(
     expect(spawnSyncMock).not.toHaveBeenCalled();
   },
 );
-
-test("rejects a Current release before any installation", () => {
-  Object.defineProperty(process.versions, "node", { value: "26.8.2" });
-  delete process.release.lts;
-  expect(() => setUpDevelopmentEnvironment({ repositoryRoot })).toThrow(/LTS/);
-  expect(spawnSyncMock).not.toHaveBeenCalled();
-});
 
 test.each(["12.2.0", "12.2.1", "12.3.0", "13.0.0"])(
   "accepts stable npm %s at or above the declared minimum",

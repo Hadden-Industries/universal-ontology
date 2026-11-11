@@ -3,6 +3,7 @@ import { parse } from "yaml";
 
 const MANUAL = ".github/workflows/manual-mcp-packages.yml";
 const FULL = ".github/workflows/full-qualification.yml";
+const CHECKS = ".github/workflows/repository-checks.yml";
 const DEVELOPMENT = ".github/workflows/development-checks.yml";
 const CAPABILITIES = {
   none: [],
@@ -68,8 +69,9 @@ test("qualify-only read budget admits unchanged full and nested read jobs", () =
   const manual = graph.get(MANUAL);
   manual.jobs.qualify["cache-mode"] = "read";
   expect(graph.get(FULL)["cache-mode"]).toBe("read");
-  expect(graph.get(FULL).jobs.development["cache-mode"]).toBe("read");
-  expect(graph.get(FULL).jobs.ontology["cache-mode"]).toBe("read");
+  expect(graph.get(FULL).jobs.checks["cache-mode"]).toBe("read");
+  expect(graph.get(CHECKS).jobs.development["cache-mode"]).toBe("read");
+  expect(graph.get(CHECKS).jobs.ontology["cache-mode"]).toBe("read");
   expect(cacheBudgetViolations(graph)).toEqual([]);
   expect(manual["cache-mode"]).toBe("none");
   for (const id of ["validate", "draft", "complete"])
@@ -87,7 +89,7 @@ test("a none calling budget rejects the callee and transitive read request", () 
   expect(violations).toEqual(
     expect.arrayContaining([
       expect.stringContaining(`${FULL}/workflow requests read`),
-      expect.stringContaining(`${FULL}/development requests read`),
+      expect.stringContaining(`${CHECKS}/development requests read`),
       expect.stringContaining(`${DEVELOPMENT}/workflow requests read`),
     ]),
   );

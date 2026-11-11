@@ -222,7 +222,7 @@ describe("native Git PR check selection", () => {
     return git(["rev-parse", "HEAD"]);
   }
 
-  function corePlan(overrides = {}) {
+  function corePlan(overrides = {}, options) {
     const eventPath = join(root, "core-event.json");
     writeFileSync(
       eventPath,
@@ -236,8 +236,20 @@ describe("native Git PR check selection", () => {
         ...overrides,
       },
       root,
+      options,
     );
   }
+
+  test("explicit full qualification selects every source scope on a main push", () => {
+    write("docs/example.md");
+    commit(["docs/example.md"]);
+    const event = { GITHUB_EVENT_NAME: "push", GITHUB_REF: "refs/heads/main" };
+    expect(corePlan(event).mode).toBe("changed");
+    const full = corePlan(event, { forceFull: true });
+    expect(full.mode).toBe("full");
+    expect(full.comparisonBase).toBeNull();
+    expect(full.requiredJobs).toEqual(CORE_CHECK_CONSUMER_IDS);
+  });
 
   test.each([
     "tests/build/built-ontology-page.test.js",

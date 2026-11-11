@@ -1,7 +1,5 @@
 name: Full qualification
 on:
-  push:
-    branches: [main]
   workflow_dispatch: null
   workflow_call:
     inputs:
@@ -10,193 +8,25 @@ on:
         default: false
     outputs:
       verified-revision:
-        value: ${{ jobs.gate.outputs.verified-revision }}
+        value: ${{ jobs.checks.outputs.verified-revision }}
       software-version:
-        value: ${{ jobs.distribution.outputs.software-version }}
+        value: ${{ jobs.checks.outputs.software-version }}
       candidate-sha256:
-        value: ${{ jobs.distribution.outputs.candidate-sha256 }}
+        value: ${{ jobs.checks.outputs.candidate-sha256 }}
       artifact-id:
-        value: ${{ jobs.distribution.outputs.artifact-id }}
+        value: ${{ jobs.checks.outputs.artifact-id }}
       artifact-digest:
-        value: ${{ jobs.distribution.outputs.artifact-digest }}
+        value: ${{ jobs.checks.outputs.artifact-digest }}
   schedule:
     - cron: 17 4 * * 3
 permissions: {}
-defaults:
-  run:
-    shell: bash
 cache-mode: read
 jobs:
-  select:
+  checks:
+    uses: ./.github/workflows/repository-checks.yml
+    with:
+      include_mcp_packages: ${{ inputs.include_mcp_packages || false }}
     permissions:
       contents: read
       actions: read
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    cache-mode: none
-    outputs:
-      plan: ${{ steps.select.outputs.plan }}
-      reuse: ${{ steps.reuse.outputs.reuse }}
-      qualification: ${{ steps.reuse.outputs.qualification }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-          ref: ${{ github.sha }}
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version-file: .node-version
-          package-manager-cache: false
-      - name: Select package manager
-        shell: bash
-        run: node scripts/installRepositoryNpm.js
-      - id: select
-        env:
-          MCP_PACKAGE_CI_ENABLED: ${{ vars.MCP_PACKAGE_CI_ENABLED }}
-          MCP_INCLUDE_PACKAGES: ${{ inputs.include_mcp_packages || false }}
-        run: node scripts/selectPullRequestChecks.js --plan
-      - id: reuse
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR_CHECK_PLAN: ${{ steps.select.outputs.plan }}
-          UO_PR_QUALIFICATION_REUSE_DISABLED: ${{ vars.UO_PR_QUALIFICATION_REUSE_DISABLED }}
-        run: node scripts/prQualificationReuseCommand.js select
-  node:
-    permissions:
-      contents: read
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    cache-mode: none
-    needs: select
-    if: ${{ !cancelled() && needs.select.result == 'success' && needs.select.outputs.reuse != 'true' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'node') }}
-    env:
-      PR_CHECK_PLAN: ${{ needs.select.outputs.plan }}
-    outputs:
-      verified-revision: ${{ steps.complete.outputs.verified-revision }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-          ref: ${{ github.sha }}
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version-file: .node-version
-          package-manager-cache: false
-      - name: Verify plan and checkout identity
-        run: node scripts/evaluatePullRequestChecks.js --verify
-      - name: Select package manager
-        shell: bash
-        run: node scripts/installRepositoryNpm.js
-      - run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Static checks
-        run: |-
-          npm run format:node:check
-          npm run lint:node
-      - run: node scripts/runPullRequestNodeChecks.js
-      - id: complete
-        run: echo "verified-revision=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
-  website:
-    permissions:
-      contents: read
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    cache-mode: none
-    needs:
-      - select
-      - node
-    if: ${{ !cancelled() && needs.select.result == 'success' && (needs.node.result == 'success' || (needs.node.result == 'skipped' && needs.select.outputs.reuse == 'true')) && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'website') }}
-    env:
-      PR_CHECK_PLAN: ${{ needs.select.outputs.plan }}
-    outputs:
-      verified-revision: ${{ steps.complete.outputs.verified-revision }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-          ref: ${{ github.sha }}
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version-file: .node-version
-          package-manager-cache: false
-      - name: Verify plan and checkout identity
-        run: node scripts/evaluatePullRequestChecks.js --verify
-      - name: Select package manager
-        shell: bash
-        run: node scripts/installRepositoryNpm.js
-      - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: npm run build:verify
-      - id: complete
-        run: echo "verified-revision=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
-  development:
-    needs: select
-    if: ${{ !cancelled() && needs.select.result == 'success' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'development') }}
-    uses: ./.github/workflows/development-checks.yml
-    with:
-      plan: ${{ needs.select.outputs.plan }}
-    permissions:
-      contents: read
     cache-mode: read
-  ontology:
-    needs: select
-    if: ${{ !cancelled() && needs.select.result == 'success' && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'ontology') }}
-    uses: ./.github/workflows/ontology-validation.yml
-    with:
-      plan: ${{ needs.select.outputs.plan }}
-    permissions:
-      contents: read
-    cache-mode: read
-  distribution:
-    needs:
-      - select
-      - node
-    if: ${{ !cancelled() && needs.select.result == 'success' && (needs.node.result == 'success' || needs.node.result == 'skipped') && contains(fromJSON(needs.select.outputs.plan).requiredJobs, 'distribution') }}
-    uses: ./.github/workflows/verify-universal-ontology-mcp-distribution.yml
-    with:
-      plan: ${{ needs.select.outputs.plan }}
-    permissions:
-      contents: read
-    cache-mode: none
-  gate:
-    permissions:
-      contents: read
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    cache-mode: none
-    name: Full qualification
-    outputs:
-      verified-revision: ${{ steps.complete.outputs.verified-revision }}
-    needs:
-      - select
-      - development
-      - ontology
-      - node
-      - website
-      - distribution
-    if: ${{ always() }}
-    env:
-      PR_CHECK_PLAN: ${{ needs.select.outputs.plan }}
-      PR_CHECK_RESULTS: ${{ toJSON(needs) }}
-      UO_PR_QUALIFICATION_REUSE_DISABLED: ${{ vars.UO_PR_QUALIFICATION_REUSE_DISABLED }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-          ref: ${{ github.sha }}
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version-file: .node-version
-          package-manager-cache: false
-      - name: Select package manager
-        if: ${{ success() && !cancelled() }}
-        shell: bash
-        run: node scripts/installRepositoryNpm.js
-      - id: complete
-        if: ${{ success() && !cancelled() }}
-        run: node scripts/prQualificationReuseCommand.js gate
-      - name: Reject workflow cancellation
-        if: ${{ cancelled() }}
-        run: exit 1

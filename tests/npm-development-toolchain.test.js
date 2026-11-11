@@ -10,7 +10,7 @@ const NPM_BOOTSTRAP_COMMAND = "node scripts/installRepositoryNpm.js";
 test.each([
   "development-checks.yml",
   "pr-validation.yml",
-  "full-qualification.yml",
+  "repository-checks.yml",
   "ontology-validation.yml",
   "verify-universal-ontology-mcp-distribution.yml",
 ])(
@@ -53,12 +53,12 @@ test.each([
     "node scripts/prQualificationCommand.js record",
   ],
   [
-    "full-qualification.yml",
+    "repository-checks.yml",
     "select",
     "node scripts/prQualificationReuseCommand.js select",
   ],
   [
-    "full-qualification.yml",
+    "repository-checks.yml",
     "gate",
     "node scripts/prQualificationReuseCommand.js gate",
   ],

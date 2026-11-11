@@ -8,8 +8,9 @@ Universal Ontology describes concepts, their properties and the relationships be
 
 ## Development setup
 
-Use Git 2.46 or later, the LTS Node.js version in [.node-version](.node-version), stable npm 12.2.1 or later, and stable Python meeting [.python-version](.python-version).
-Use the exact selected Node.js runtime for CI and pull request qualification.
+Use Git 2.46 or later, stable Node.js compatible with npm and the locked dependencies, stable npm meeting `devEngines.packageManager` in [the root manifest](package.json), and stable Python meeting [.python-version](.python-version).
+PR validation, routine main CI and full qualification share the exact Node reference in [`.node-version`](.node-version) and the manifest's exact npm `packageManager`.
+Local development checks tool compatibility independently of the CI reference; the MCP workspace retains its own Node minimum.
 The [development guide](docs/development.md#setup) explains compatible local versions, CI pins and virtual environment setup.
 
 From the repository root, install the locked dependencies and configure the staged-ontology checks.
@@ -55,6 +56,7 @@ The exact registry artifact has passed consumer qualification; final acceptance 
 
 [docs/development.md](docs/development.md) covers setup effects, optional integrations (external Agent Skills, MCP servers), verification commands and what continuous integration runs.
 After setup, `npm run lint` and `npm run format:check` cover frontend code, Python and authored Markdown.
+The [CI guide](docs/development.md#continuous-integration) explains the separate main and full-qualification workflows and when they can reuse authenticated PR Node results.
 
 Use `npm run check:style` for the focused Python/Markdown checks or `npm run fix:all` to apply style fixes.
 The repository previously embedded its own software-development-lifecycle tooling; its records are indexed in [docs/sdlc/README.md](docs/sdlc/README.md) and are historical.

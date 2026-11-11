@@ -9,7 +9,7 @@ import {
   evaluatePullRequestChecks,
 } from "./evaluatePullRequestChecks.js";
 import { nodeCheckArguments } from "./runPullRequestNodeChecks.js";
-import { nodeTarget } from "./nodeTarget.js";
+import { meetsNodeTarget } from "./nodeTarget.js";
 export const PR_WORKFLOW = ".github/workflows/pr-validation.yml";
 export const PR_QUALIFICATION_POLICY = "uo-selected-node-fresh-consumers-v4";
 
@@ -269,7 +269,7 @@ export function assertPrQualificationRecord(record) {
       environment.architecture === "X64" &&
       environment.image === "ubuntu24" &&
       /^\d{8}\.\d+(?:\.\d+)?$/.test(environment.imageVersion ?? "") &&
-      environment.node === `v${nodeTarget()}` &&
+      meetsNodeTarget(environment.node) &&
       /^\d+\.\d+\.\d+$/.test(environment.npm ?? "") &&
       environment.nodeOptions === "" &&
       typeof environment.timezone === "string" &&

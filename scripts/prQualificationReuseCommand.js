@@ -21,9 +21,10 @@ import {
   createRepositoryReader,
 } from "./prQualificationCommand.js";
 import {
+  qualificationReuseWorkflow,
   selectOriginalPrQualification,
   verifyOriginalPrQualification,
-  assertMainReuseCompletion,
+  assertQualificationReuseCompletion,
 } from "./prQualificationReuse.js";
 import { runCheckEvaluation } from "./evaluatePullRequestChecks.js";
 import {
@@ -78,6 +79,15 @@ function nativeVersion(env, deadline) {
     externalInputs: "NO_LIVE_EXTERNAL_SOURCE_OBLIGATIONS",
   };
 }
+function workflowIdentity(env) {
+  return {
+    eventName: env.GITHUB_EVENT_NAME,
+    ref: env.GITHUB_REF,
+    repository: env.GITHUB_REPOSITORY,
+    workflowRef: env.GITHUB_WORKFLOW_REF,
+    disabled: env.UO_PR_QUALIFICATION_REUSE_DISABLED === "true",
+  };
+}
 function contextFromEnvironment(
   env,
   root,
@@ -91,15 +101,11 @@ function contextFromEnvironment(
   )
     throw Error("Invalid independent reuse disablement.");
   return {
-    eventName: env.GITHUB_EVENT_NAME,
-    ref: env.GITHUB_REF,
+    ...workflowIdentity(env),
     sha: env.GITHUB_SHA,
-    repository: env.GITHUB_REPOSITORY,
     repositoryId: Number(env.GITHUB_REPOSITORY_ID),
-    workflowRef: env.GITHUB_WORKFLOW_REF,
     runId: Number(env.GITHUB_RUN_ID),
     runAttempt: Number(env.GITHUB_RUN_ATTEMPT),
-    disabled: env.UO_PR_QUALIFICATION_REUSE_DISABLED === "true",
     event: readJson(env.GITHUB_EVENT_PATH),
     snapshot: readGitSnapshot(root, {
       deadline: Math.min(deadline, Date.now() + 30000),
@@ -239,7 +245,7 @@ export function readOriginalQualificationArchive({
 }
 
 /** Optional lookup never masks a selected execution failure: it precedes jobs. */
-export async function selectMainQualificationReuse({
+export async function selectQualificationReuse({
   env = process.env,
   root = process.cwd(),
   fetchImpl = fetch,
@@ -248,13 +254,7 @@ export async function selectMainQualificationReuse({
   const deadline = Date.now() + 60000;
   try {
     // Publication/reusable callers and other events never contact the service.
-    if (
-      env.GITHUB_EVENT_NAME !== "push" ||
-      env.GITHUB_REF !== "refs/heads/main" ||
-      env.GITHUB_WORKFLOW_REF !==
-        `${env.GITHUB_REPOSITORY}/.github/workflows/full-qualification.yml@refs/heads/main` ||
-      env.UO_PR_QUALIFICATION_REUSE_DISABLED === "true"
-    )
+    if (!qualificationReuseWorkflow(workflowIdentity(env)))
       throw Error("This caller or event requires fresh selected work.");
     const context = contextFromEnvironment(env, root, deadline, {
       observeEnvironment: true,
@@ -294,7 +294,7 @@ export async function selectMainQualificationReuse({
     emit(
       env,
       { reuse: "true", qualification: serialized },
-      `Reuse original selected Node assertions from PR run ${record.runId}/attempt ${record.nativeNode.runAttempt}; no new execution is claimed. Every other selected consumer remains fresh.`,
+      `Reused selected Node assertions from PR run ${record.runId}, attempt ${record.nativeNode.runAttempt}, on Node ${record.environment.node}. Other selected checks run fresh.`,
     );
     return qualification;
   } catch (error) {
@@ -311,19 +311,17 @@ export async function selectMainQualificationReuse({
 }
 
 /** Stable completion gate admits only the original-proof Node omission. */
-export function completeMainQualification(
-  env = process.env,
-  root = process.cwd(),
-) {
+export function completeQualification(env = process.env, root = process.cwd()) {
   const needs = JSON.parse(env.PR_CHECK_RESULTS || "null");
   const reuse = needs?.select?.outputs?.reuse;
   if (reuse !== "true") {
-    if (reuse !== "false") throw Error("Main selection output is missing.");
+    if (reuse !== "false")
+      throw Error("Qualification selection output is missing.");
     return runCheckEvaluation(env, []);
   }
   const context = contextFromEnvironment(env, root, Date.now() + 30000);
   const text = needs.select.outputs.qualification;
-  const revision = assertMainReuseCompletion(
+  const revision = assertQualificationReuseCompletion(
     context,
     decodeNodeQualificationProof(text, 400 * 1024),
     needs,
@@ -346,6 +344,6 @@ if (
     !["select", "gate"].includes(process.argv[2])
   )
     throw Error("Expected select or gate mode.");
-  if (process.argv[2] === "select") await selectMainQualificationReuse();
-  else completeMainQualification();
+  if (process.argv[2] === "select") await selectQualificationReuse();
+  else completeQualification();
 }

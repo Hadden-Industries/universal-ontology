@@ -600,7 +600,11 @@ export function runFromGitHubEnvironment(
  * manual packages require a main dispatch. Missing push bases widen source coverage,
  * while unavailable PR bases and unsupported events fail closed.
  */
-export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
+export function createCheckPlan(
+  env = process.env,
+  root = REPOSITORY_ROOT,
+  { forceFull = false } = {},
+) {
   const revision = env.GITHUB_SHA;
   const head = git(root, ["rev-parse", "HEAD"]);
   if (
@@ -637,6 +641,7 @@ export function createCheckPlan(env = process.env, root = REPOSITORY_ROOT) {
     !(env.GITHUB_EVENT_NAME === "push" && env.GITHUB_REF === "refs/heads/main")
   )
     throw new Error("Unsupported core check event.");
+  full ||= forceFull;
   const event = full
     ? {}
     : JSON.parse(readFileSync(env.GITHUB_EVENT_PATH, "utf8"));
@@ -764,11 +769,14 @@ if (
         scope: { type: "string", multiple: true },
         "codeql-matrix": { type: "boolean" },
         plan: { type: "boolean" },
+        "full-plan": { type: "boolean" },
       },
       allowPositionals: false,
     });
-    if (values.plan) {
-      const plan = createCheckPlan();
+    if (values.plan || values["full-plan"]) {
+      const plan = createCheckPlan(process.env, REPOSITORY_ROOT, {
+        forceFull: values["full-plan"],
+      });
       if (!process.env.GITHUB_OUTPUT)
         throw new Error("GITHUB_OUTPUT is required.");
       appendFileSync(

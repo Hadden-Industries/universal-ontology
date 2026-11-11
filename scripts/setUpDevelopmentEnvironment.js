@@ -4,7 +4,6 @@ import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { nodeTarget } from "./nodeTarget.js";
 
 const REPOSITORY_ROOT_PATH = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -82,7 +81,6 @@ export function setUpDevelopmentEnvironment({
     "requirements.txt",
     "requirements-dev.txt",
     PYTHON_LOCK_FILENAME,
-    ".node-version",
     ".python-version",
   ]) {
     const filePath = join(repositoryRoot, filename);
@@ -95,14 +93,13 @@ export function setUpDevelopmentEnvironment({
 
   const requireFromNpm = createRequire(npmCliPath);
   const semver = requireFromNpm("semver");
-  const selectedNodeVersion = nodeTarget(repositoryRoot);
-  // Setup admits compatible LTS patches; qualification profiles keep exact identity.
-  if (
-    !process.release.lts ||
-    !semver.satisfies(process.versions.node, `^${selectedNodeVersion}`)
-  ) {
+  const npmNodeRange = requireFromNpm("../package.json").engines?.node;
+  if (!semver.validRange(npmNodeRange)) {
+    throw new Error("The installed npm must declare its supported Node range.");
+  }
+  if (!semver.satisfies(process.versions.node, npmNodeRange)) {
     throw new Error(
-      `Development setup requires an LTS build of Node.js ${selectedNodeVersion} or a newer compatible release in the same major; found ${process.versions.node}. Other major versions require dependency requalification.`,
+      `The installed npm requires Node.js ${npmNodeRange}; found ${process.versions.node}.`,
     );
   }
   const selectedPythonVersion = readFileSync(
@@ -230,6 +227,7 @@ export function setUpDevelopmentEnvironment({
     "ci",
     "--include=dev",
     "--ignore-scripts",
+    "--engine-strict",
   ]);
 
   if (!pythonVirtualEnvironmentStats) {

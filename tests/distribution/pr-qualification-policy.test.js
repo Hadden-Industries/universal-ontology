@@ -20,12 +20,17 @@ import {
   requiredJobsForScopes,
 } from "../../scripts/selectPullRequestChecks.js";
 import { prQualificationJobConclusions } from "../../scripts/prQualification.js";
+const mainCI = ".github/workflows/main-ci.yml";
+const fullQualification = ".github/workflows/full-qualification.yml";
+const repositoryChecks = ".github/workflows/repository-checks.yml";
 const files = [
   ".github/workflows/pr-validation.yml",
-  ".github/workflows/full-qualification.yml",
+  repositoryChecks,
   ".github/workflows/development-checks.yml",
   ".github/workflows/ontology-validation.yml",
   ".github/workflows/verify-universal-ontology-mcp-distribution.yml",
+  mainCI,
+  fullQualification,
   ".github/workflows/manual-mcp-packages.yml",
 ];
 
@@ -52,7 +57,7 @@ test.each(files.slice(0, 5))(
       (step) => step.if === "${{ cancelled() }}" && step.run === "exit 1",
     );
     const evaluateIndex = completion.steps.findIndex((step) =>
-      file === ".github/workflows/full-qualification.yml"
+      file === repositoryChecks
         ? step.run === "node scripts/prQualificationReuseCommand.js gate"
         : step.run?.startsWith("node scripts/evaluatePullRequestChecks.js"),
     );
@@ -143,7 +148,7 @@ test("full plan assigns each discovered Jest suite exactly one Linux test owner"
 });
 test("CI policy accepts the repository workflow graph", async () => {
   await expect(verifyPullRequestPolicyGraph()).resolves.toEqual({
-    verifiedWorkflowCount: 6,
+    verifiedWorkflowCount: files.length,
   });
 });
 
@@ -385,48 +390,63 @@ test("graph has one unconditional PR gate and closed consumer completion sets", 
       ).toBe(true);
     }
   }
-  const full = parse(
-    readFileSync(
-      new URL(
-        "../../.github/workflows/full-qualification.yml",
-        import.meta.url,
-      ),
-      "utf8",
-    ),
-  );
+  const workflows = actualPolicyWorkflows();
+  const full = workflows[fullQualification];
+  const main = workflows[mainCI];
+  const checks = workflows[repositoryChecks];
   expect(full.on.schedule).toEqual([{ cron: "17 4 * * 3" }]);
   expect(full.concurrency).toBeUndefined();
-  expect(full.on.push).toEqual({ branches: ["main"] });
   expect(Object.keys(full.on).sort()).toEqual([
-    "push",
     "schedule",
     "workflow_call",
     "workflow_dispatch",
   ]);
+  expect(main.on).toEqual({ push: { branches: ["main"] } });
+  expect(Object.keys(checks.on)).toEqual(["workflow_call"]);
+  expect(main.jobs.checks.uses).toBe(`./${repositoryChecks}`);
+  expect(full.jobs.checks.uses).toBe(`./${repositoryChecks}`);
+  expect(main.jobs.checks.with).toEqual({ routine_main_ci: true });
+  expect(full.jobs.checks.with).toEqual({
+    include_mcp_packages: "${{ inputs.include_mcp_packages || false }}",
+  });
+  expect(checks.on.workflow_call.inputs.routine_main_ci).toMatchObject({
+    type: "boolean",
+    default: false,
+  });
+  expect(Object.keys(full.on.workflow_call.outputs)).toEqual(
+    Object.keys(checks.on.workflow_call.outputs),
+  );
+  for (const [key, output] of Object.entries(full.on.workflow_call.outputs))
+    expect(output.value).toBe(`\${{ jobs.checks.outputs.${key} }}`);
   expect(entry.on).toEqual({
     pull_request: { types: ["opened", "synchronize", "reopened"] },
   });
   expect(entry.name).toBe("PR validation");
   for (const consumer of ["development", "ontology", "distribution"])
-    expect(full.jobs[consumer].uses).toBe(entry.jobs[consumer].uses);
+    expect(checks.jobs[consumer].uses).toBe(entry.jobs[consumer].uses);
 });
 
-test("ordinary main admission has a bounded read-only selector and stable closed gate", () => {
-  const full = parse(
-    readFileSync(
-      new URL(
-        "../../.github/workflows/full-qualification.yml",
-        import.meta.url,
-      ),
-      "utf8",
-    ),
-  );
-  expect(full.jobs.select.permissions).toEqual({
+test("main and full qualification share a bounded read-only selector and closed gate", () => {
+  const workflows = actualPolicyWorkflows();
+  const checks = workflows[repositoryChecks];
+  expect(checks.jobs.select.permissions).toEqual({
     contents: "read",
     actions: "read",
   });
-  expect(full.jobs.gate.permissions).toEqual({ contents: "read" });
-  const reuse = full.jobs.select.steps.find((step) => step.id === "reuse");
+  expect(checks.jobs.gate.permissions).toEqual({ contents: "read" });
+  const selector = checks.jobs.select;
+  const reuse = selector.steps.find((step) => step.id === "reuse");
+  expect(reuse.if).toBeUndefined();
+  expect(selector.steps.find((step) => step.id === "select").run).toBe(
+    "node scripts/selectPullRequestChecks.js ${{ inputs.routine_main_ci && '--plan' || '--full-plan' }}",
+  );
+  for (const name of ["select", "node", "website", "gate"]) {
+    const setup = checks.jobs[name].steps.find(({ uses }) =>
+      uses?.startsWith("actions/setup-node@"),
+    );
+    expect(setup.with["node-version-file"]).toBe(".node-version");
+    expect(setup.with["node-version"]).toBeUndefined();
+  }
   expect(reuse.run).toBe("node scripts/prQualificationReuseCommand.js select");
   expect(reuse.env).toEqual({
     GH_TOKEN: "${{ github.token }}",
@@ -434,22 +454,32 @@ test("ordinary main admission has a bounded read-only selector and stable closed
     UO_PR_QUALIFICATION_REUSE_DISABLED:
       "${{ vars.UO_PR_QUALIFICATION_REUSE_DISABLED }}",
   });
-  expect(full.jobs.select.outputs.reuse).toBe(
-    "${{ steps.reuse.outputs.reuse }}",
+  expect(selector.outputs.reuse).toBe(
+    "${{ steps.reuse.outputs.reuse || 'false' }}",
   );
-  expect(full.jobs.select.outputs.qualification).toBe(
+  expect(selector.outputs.qualification).toBe(
     "${{ steps.reuse.outputs.qualification }}",
   );
-  expect(full.jobs.node.if).toContain("needs.select.outputs.reuse != 'true'");
-  for (const [id, job] of Object.entries(full.jobs))
+  expect(checks.jobs.node.if).toContain("needs.select.outputs.reuse != 'true'");
+  const pr = workflows[files[0]];
+  expect(checks.defaults).toEqual(pr.defaults);
+  expect(checks.jobs.node).toEqual({
+    ...pr.jobs.node,
+    if: checks.jobs.node.if,
+    outputs: checks.jobs.node.outputs,
+    steps: pr.jobs.node.steps.map((step) =>
+      step.id === "node-tests" ? { run: step.run } : step,
+    ),
+  });
+  for (const [id, job] of Object.entries(checks.jobs))
     if (id !== "select") expect(job.permissions).toEqual({ contents: "read" });
-  expect(full.jobs.gate.if).toBe("${{ always() }}");
-  expect([...full.jobs.gate.needs].sort()).toEqual(
-    Object.keys(full.jobs)
+  expect(checks.jobs.gate.if).toBe("${{ always() }}");
+  expect([...checks.jobs.gate.needs].sort()).toEqual(
+    Object.keys(checks.jobs)
       .filter((id) => id !== "gate")
       .sort(),
   );
-  expect(full.jobs.gate.env.UO_PR_QUALIFICATION_REUSE_DISABLED).toBe(
+  expect(checks.jobs.gate.env.UO_PR_QUALIFICATION_REUSE_DISABLED).toBe(
     "${{ vars.UO_PR_QUALIFICATION_REUSE_DISABLED }}",
   );
 });
@@ -503,9 +533,7 @@ test.each(["caller-actions", "caller-contents", "callee-write"])(
     if (scenario === "caller-actions") caller.permissions.actions = "none";
     if (scenario === "caller-contents") caller.permissions.contents = "none";
     if (scenario === "callee-write")
-      workflows[
-        ".github/workflows/full-qualification.yml"
-      ].jobs.node.permissions.contents = "write";
+      workflows[repositoryChecks].jobs.node.permissions.contents = "write";
     expect(reusablePermissionFailures(workflows).length).toBeGreaterThan(0);
   },
 );

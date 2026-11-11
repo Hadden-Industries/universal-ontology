@@ -10,14 +10,17 @@ It also retains stateless legacy compatibility for hosts that have not yet negot
 
 Prerequisites:
 
-- The Node.js version selected in [`.node-version`](../../.node-version).
-- npm, using the lockfile in this repository.
+- A stable Node.js release admitted by [the MCP workspace](../../packages/universal-ontology-mcp-server/package.json), the installed npm and the locked dependencies.
+- Stable npm meeting `devEngines.packageManager` in [the root manifest](../../package.json), using this repository's lockfile.
 - A local checkout containing the extensionless RDF/XML ontology release artifacts under `src/`.
+
+Use the repository [development setup](../development.md#setup) when preparing a complete contributor environment.
+For CI reproduction, use the exact Node reference in [`.node-version`](../../.node-version) and the root manifest's exact npm selector; they are independent of local compatibility minimums.
 
 From the repository root, install the pinned dependencies, generate the query artifacts, and start the server:
 
 ```powershell
-npm ci
+npm ci --include=dev --ignore-scripts --engine-strict
 npm run generate:ontology-indexes
 npm run serve:mcp-development
 ```

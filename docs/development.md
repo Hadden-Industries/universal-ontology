@@ -5,13 +5,15 @@ Nothing here is a prerequisite for opening a pull request; see [CONTRIBUTING.md]
 
 ## Setup
 
-Requirements: Git 2.46 or later, the LTS Node.js version selected in [`.node-version`](../.node-version) or a newer compatible release in the same major, stable npm 12.2.1 or later, stable Python at or above the minimum in `.python-version`, and optionally a JDK matching `.java-version` for the second-engine ontology checks.
-CI and PR qualification use the exact selected Node runtime; ordinary development setup accepts compatible LTS updates.
-`package.json` declares `devEngines.packageManager.version` as `>=12.2.1` with `onFail: "error"`; npm enforces this native contract before install, clean install and script execution, and development setup uses npm's bundled validator.
+Use Git 2.46 or later, stable Node.js compatible with your npm version and the locked dependencies, stable npm meeting the minimum in [the root manifest](../package.json), and stable Python at or above the minimum in `.python-version`.
+For the optional second-engine ontology checks, use a JDK matching `.java-version`.
+PR validation, Main CI and full qualification use the exact Node reference from [`.node-version`](../.node-version).
+The `devEngines.packageManager` declaration makes npm enforce the local minimum before install, clean install and script execution.
+Development setup uses npm's bundled validator.
 
 Later stable npm majors satisfy the range; prereleases do not.
-The exact `packageManager` reference remains `npm@12.2.1`, and CI and release builds explicitly select and verify that version for reproducibility.
-CI provisions the exact Python version in that file through SHA-pinned `astral-sh/setup-uv` and the uv version selected by [the shared Python setup action](../.github/actions/setup-python/action.yml), with caching disabled.
+CI and release builds explicitly select and verify the exact `packageManager` version in [the root manifest](../package.json).
+CI provisions the exact Python version in [`.python-version`](../.python-version) through SHA-pinned `astral-sh/setup-uv` and the uv version selected by [the shared Python setup action](../.github/actions/setup-python/action.yml), with caching disabled.
 
 The action activates an isolated environment under the runner's temporary directory; subsequent setup creates the repository `.venv` and installs the hash-locked requirements through pip.
 Development setup accepts newer stable versions and preserves the existing `.venv`.
@@ -24,9 +26,8 @@ npm run configure:git-hooks
 
 `set-up:development`:
 
-- checks the Node.js, npm and Python versions;
-- runs `npm ci --include=dev --ignore-scripts` from `package-lock.json`;
-- acquires the separate integrity-pinned Markdown tooling graph with anonymous registry settings and lifecycle scripts disabled;
+- checks Node.js against the installed npm's supported range, applies the manifest's native npm minimum, and checks Python;
+- runs `npm ci --include=dev --ignore-scripts --engine-strict` from `package-lock.json` so npm enforces the installed dependencies' Node requirements;
 - creates `.venv` if it does not exist (an unusable existing `.venv` stops setup so you can repair it), then installs `requirements.lock.txt` with `--require-hashes --only-binary=:all: --no-binary=pyyaml` and refuses a `.venv` whose installed distributions differ from that lock;
 - runs `pip check`;
 - warns if the AWS CLI is missing (only deployment needs it).
@@ -129,7 +130,7 @@ Change the owning declaration rather than updating copied settings in consumers:
 
 | Shared knowledge                                                  | Owning declaration                                                                                                            | Consumers and drift control                                                                                                                                                                                                                                       |
 | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Node CI identity, development floor and qualification profile     | `.node-version`, read by `scripts/nodeTarget.js`                                                                              | Setup uses npm’s native SemVer validator for compatible LTS updates; PR proof and explicit Markdown execution profiles require the exact pin.                                                                                                                     |
+| Node CI identity and qualification profile                        | `.node-version`, read by `scripts/nodeTarget.js`                                                                              | Full qualification uses the exact pin for both fresh execution and reused Node proof. Explicit Markdown execution profiles also use the exact pin.                                                                                                                |
 | Node runtime shipped in MCP archives and the container            | `.node-version`, projected by `scripts/repositoryNodeProjections.js`                                                          | `--check` compares the release inputs, Dockerfile and installation guide offline; `--write` also refreshes upstream digests from nodejs.org and Docker Hub.                                                                                                       |
 | Exact npm used by CI and release tooling                          | Root `package.json.packageManager`                                                                                            | `scripts/installRepositoryNpm.js` installs and verifies it before dependency setup. `scripts/repositoryNpmTarget.js --check` checks the release-input projection; `--write` updates only that field. The workflow tests exercise an alternate manifest selection. |
 | JSON check resources and generated-output obligation              | `.json-quality.json.runtimeControls` and root `package.json` script `check:json:generated`                                    | The native policy owns the shared finite time/scratch budgets. CI and qualification use the generated-output command; the corpus test derives its outer deadline from the policy.                                                                                 |
@@ -457,15 +458,28 @@ Unknown stale full files are preserved and cause refusal; only matching prior re
 
 ## Continuous integration
 
+| Workflow                                                          | When it runs                                                 | Node evidence                                                                                                                                      |
+| ----------------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [PR validation](../.github/workflows/pr-validation.yml)           | Pull requests, with checks selected from the changed inputs. | Runs selected Node suites on the exact repository reference and records their actual environment.                                                  |
+| [Main CI](../.github/workflows/main-ci.yml)                       | Pushes to `main`.                                            | May reuse authenticated PR Node results after the source, selected tests and other recorded inputs pass the reuse checks.                          |
+| [Full qualification](../.github/workflows/full-qualification.yml) | Scheduled, manual and reusable release calls.                | Scheduled/manual runs on `main` may reuse a matching full Node selection at the exact pinned runtime; package and release qualification run fresh. |
+
+All three use the same authored Node/npm reference selections described under [Setup](#setup).
+Main CI preserves the Node version actually recorded in accepted PR proof; its wider admission rule can accept a newer qualifying runtime without relabelling that evidence as a run on the pin.
+Full qualification requires an exact Node match.
+Missing, incomplete or mismatched evidence causes fresh Node execution.
+Website, ontology, development and distribution checks keep their own fresh execution requirements.
+
 PR validation cancels superseded runs of the same pull request; unrelated pull requests remain separate.
-Full qualification has no concurrency group, so later main, scheduled, or manual runs cannot replace its pending or running work.
+Main CI and Full qualification run independently.
+Full qualification retains each scheduled or manual run through completion.
 CodeQL retains its separate PR-only cancellation policy and unique non-PR run/attempt groups.
 
 Pull requests run, as applicable to the changed files:
 
 - [Ontology validation](../.github/workflows/ontology-validation.yml): the editing policy on the changed sources, policy/publication-gate tests, and the Linux/Windows two-engine qualification of the active set.
 - [Development checks](../.github/workflows/development-checks.yml): fresh full-corpus Markdown and JSON checks on Linux and Windows on every route, Python style on Linux, Python tests on Linux and Windows when their inputs change, an offline validation of `skills-lock.json` on Linux when the lock or its tooling changes, and Linux/Windows matrices for affected style tools or development tools.
-  Development and toolchain verification use `npm run set-up:development`; the JSON matrix installs the root locked Node graph with lifecycle scripts disabled, while the Markdown matrix installs its isolated locked tools.
+  Development and toolchain verification use `npm run set-up:development`; JSON and Markdown consumers install the root locked Node graph with lifecycle scripts disabled.
   Python tests have two native owners: fourteen Python-only modules use the hash-locked `.venv` without Node dependency installation; three modules covering policy rendering, MCP setup and website publication retain full development setup.
   Both owners keep Linux and Windows coverage.
   Changes wholly within the fourteen known Python-only test files select the Python-only owner; source, mixed, runtime and shared-control changes retain Node-backed assurance.
@@ -490,9 +504,10 @@ The `main` ruleset requires `PR validation` from the GitHub Actions app and requ
 The obsolete `OWL Differential Analysis` required context and duplicate workflow triggers have been removed after live failure trials.
 CodeQL is not a required status in that ruleset; fork PR analysis remains limited by its same-repository condition.
 
-[Full qualification](../.github/workflows/full-qualification.yml) uses affected checks on pushes to `main`, comparing the exact push revision with its `before` commit.
+[Main CI](../.github/workflows/main-ci.yml) uses affected checks on pushes to `main`, comparing the exact push revision with its `before` commit.
 An unavailable push comparison conservatively selects every source scope.
-Manual dispatch and Wednesdays at 04:17 UTC select every source scope; package work remains disabled unless explicitly enabled.
+[Full qualification](../.github/workflows/full-qualification.yml) selects every source scope on manual dispatch, on Wednesdays at 04:17 UTC and when invoked by a reusable-workflow caller.
+Package work requires explicit enablement.
 
 Repository maintainers own failures and should use their GitHub Actions notification subscriptions to receive failure notifications.
 Maintainers must inspect the most recent successful full run before relying on it, and dispatch an authorized full run at the exact intended release revision when necessary.
@@ -547,17 +562,20 @@ It records exact tested merge/tree/parents, host and locked tool inputs, native 
 Forks, unsupported plans and unavailable evidence retain fresh behavior without a reusable record.
 
 Receipts expire after three days.
-Ordinary main qualification may reuse this directly executed Node proof for control, reviewed test-family and broader source plans after an exact, same-repository two-parent integration.
+Main CI may reuse this directly executed Node proof for control, reviewed test-family and broader source plans after an exact, same-repository two-parent integration.
+Both Node versions must meet the repository minimum.
+Main CI retains the original Node version in the proof and compares the other environment fields exactly.
 
 The selector authenticates the latest successful original PR run and every producing job attempt, the tested and landed Git tree/parents/workflow, the current supported environment, and the native artifact ID, digest, expiry and bounded ZIP bytes.
 It rereads the source run and artifact after checking jobs; a newer failed or pending run, rerun, mismatch, missing evidence or exhausted budget selects fresh work.
 
 Only the selected Node consumer may be omitted; every other selected consumer, including the website build, still runs fresh.
-The stable full completion gate verifies the source record and current checkout, requires each fresh consumer's completion at the landed revision, and rejects unexpected, failed, cancelled or skipped work.
-The reused result remains original PR evidence and is never reissued as fresh execution.
+The shared gate verifies the source record and current checkout, requires each fresh consumer's completion at the landed revision, and rejects unexpected, failed, cancelled or skipped work.
+The reuse result reports the original PR run, attempt and Node version.
 
-Schedules, manual runs, reusable publication callers, package opt-in, squash/rebase/direct or multiple-integration pushes remain fresh.
-The manual package qualification caller grants read-only Actions permission because reusable workflows cannot elevate their caller token; its selector still chooses fresh work.
+Scheduled and manual Full qualification on `main` may reuse the original PR Node proof for its exact merge commit.
+The proof must match the full Node test selection, the pinned Node version and the rest of the recorded environment.
+Package and release qualification, squash merges, rebases and direct pushes require fresh checks, as do pushes with multiple integrations.
 Set the independent Actions variable `UO_PR_QUALIFICATION_REUSE_DISABLED` to literal `true` to force fresh work; this implementation does not write that repository setting.
 
 Admission permits at most 32 bounded JSON reads and one exact-ID native archive operation within 60 seconds; each operation has a ten-second ceiling.

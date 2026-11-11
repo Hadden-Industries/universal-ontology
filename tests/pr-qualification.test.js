@@ -52,6 +52,13 @@ test("writer is confined to the existing successful PR gate and immutable pinned
   expect(workflow.jobs.node.outputs["native-coverage"]).toBe(
     "${{ steps.node-tests.outputs.native-coverage }}",
   );
+  for (const name of ["select", "node", "website", "gate"]) {
+    const step = workflow.jobs[name].steps.find(({ uses }) =>
+      uses?.startsWith("actions/setup-node@"),
+    );
+    expect(step.with["node-version-file"]).toBe(".node-version");
+    expect(step.with["node-version"]).toBeUndefined();
+  }
   expect(
     workflow.jobs.node.steps.find((step) => step.id === "node-tests").run,
   ).toBe("node scripts/runPullRequestNodeChecks.js");
@@ -268,18 +275,37 @@ test("retains original native assertions and exact producing attempts after part
   expect(assertPrQualificationRecord(record)).toBe(record);
 });
 
-test("refuses a different Node patch even when producer and record agree", () => {
-  const record = createPrQualificationRecord(fixture());
-  const [major, minor, patch] = record.environment.node
+test.each([
+  [
+    "newer patch",
+    (major, minor, patch) => `v${major}.${minor}.${patch + 1}`,
+    true,
+  ],
+  ["newer major", (major) => `v${major + 1}.0.0`, true],
+  ["older major", (major) => `v${major - 1}.99.99`, false],
+  [
+    "prerelease",
+    (major, minor, patch) => `v${major}.${minor}.${patch + 1}-rc.1`,
+    false,
+  ],
+  ["invalid version", () => "v026.13.0", false],
+])("validates %s against the Node reference", (_label, version, eligible) => {
+  const input = fixture();
+  const components = input.context.environment.node
     .slice(1)
     .split(".")
     .map(Number);
-  const differentNode = `v${major}.${minor}.${patch + 1}`;
-  record.environment.node = differentNode;
-  record.nativeNode.environment.node = differentNode;
-  expect(() => assertPrQualificationRecord(record)).toThrow(
-    /Unsupported qualification environment/u,
-  );
+  const node = version(...components);
+  input.context.environment.node = node;
+  input.nativeNode.environment.node = node;
+  if (eligible) {
+    const record = createPrQualificationRecord(input);
+    expect(record.environment.node).toBe(node);
+  } else {
+    expect(() => createPrQualificationRecord(input)).toThrow(
+      /Unsupported qualification environment/u,
+    );
+  }
 });
 
 test("ordinary source plans can retain Node proof while their website and development consumers remain selected", () => {
@@ -394,6 +420,7 @@ test.each([
   "node-options",
   "missing-producing-environment",
   "changed-producing-image",
+  "changed-producing-node",
   "changed-producing-npm",
   "changed-producing-language",
 ])("rejects producer mutation %s", (caseName) => {
@@ -443,6 +470,13 @@ test.each([
     delete input.nativeNode.environment;
   if (caseName === "changed-producing-image")
     input.nativeNode.environment.imageVersion = "20261002.1";
+  if (caseName === "changed-producing-node") {
+    const [major] = input.context.environment.node
+      .slice(1)
+      .split(".")
+      .map(Number);
+    input.nativeNode.environment.node = `v${major + 1}.0.0`;
+  }
   if (caseName === "changed-producing-npm")
     input.nativeNode.environment.npm = "12.0.1";
   if (caseName === "changed-producing-language")
@@ -617,7 +651,7 @@ test("native producer binds a real Git merge and retains one closed private reco
     input.needs.node.outputs["verified-revision"] = snapshot.commit;
     input.needs.development.outputs["verified-revision"] = snapshot.commit;
     input.nativeNode.revision = snapshot.commit;
-    // The record admits only the pinned Node, whichever Node runs this test.
+    // Supply the same observed Node version for the fixture and proof writer.
     const nodeVersion = input.context.environment.node;
     input.nativeNode.environment.node = nodeVersion;
     input.nativeNode.environment.npm = execFileSync(
