@@ -21,7 +21,7 @@ jobs:
   scope:
     timeout-minutes: 5
     name: Select relevant checks
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     outputs:
@@ -51,7 +51,7 @@ jobs:
     needs: scope
     if: needs.scope.outputs.product_tests == 'true' || needs.scope.outputs.mcp_application == 'true' || needs.scope.outputs.mcp_artifacts == 'true' || needs.scope.outputs.website_build == 'true' || needs.scope.outputs.mcp_docs == 'true'
     name: Validate development distribution sources
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     outputs:
@@ -178,6 +178,26 @@ jobs:
         run: node scripts/installRepositoryNpm.js
       - name: Install the exact locked dependency graph
         run: npm ci --ignore-scripts
+      - name: Verify the Linux archive runner
+        if: startsWith(matrix.targetName, 'linux-')
+        shell: bash
+        env:
+          ARCHIVE_TARGET: ${{ matrix.targetName }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from "node:fs";
+          import { ubuntu } from "./scripts/repositoryRunnerPolicy.js";
+          const { ARCHIVE_TARGET, RUNNER_OS, RUNNER_ARCH, ImageOS, ImageVersion } = process.env;
+          const architecture = { "linux-x64": "X64", "linux-arm64": "ARM64" }[ARCHIVE_TARGET];
+          const osRelease = readFileSync("/etc/os-release", "utf8");
+          const release = /^VERSION_ID="?([0-9]+\.[0-9]+)"?$/mu.exec(osRelease)?.[1];
+          if (!architecture || RUNNER_OS !== "Linux" || RUNNER_ARCH !== architecture ||
+              !/^ID=(?:ubuntu|"ubuntu")$/mu.test(osRelease) || release !== ubuntu.release ||
+              !ImageOS || !/^\d{8}\.\d+(?:\.\d+)?$/u.test(ImageVersion ?? "")) {
+            throw new Error("Linux archive runner disagrees with its target and Ubuntu policy.");
+          }
+          console.log(JSON.stringify({ target: ARCHIVE_TARGET, architecture, release, image: ImageOS, version: ImageVersion }));
+          NODE
       - name: Build the native self-contained archive
         run: npm run build:mcp-platform-archives -- --target=${{ matrix.targetName }}
       - name: Smoke-test the extracted Unix runtime and application
@@ -192,7 +212,8 @@ jobs:
           tar --extract --gzip --file "${archive_path}" --directory "${extraction_path}"
           runtime_path="${extraction_path}/${archive_root}/runtime/bin/node"
           application_path="${extraction_path}/${archive_root}/app/universal-ontology-mcp-server.mjs"
-          test "$("${runtime_path}" --version)" = "v24.22.1"
+          expected_runtime_version="$(node -p "require('./scripts/distribution/universalOntologyMcpReleaseInputs.json').nodeRuntime.version")"
+          test "$("${runtime_path}" --version)" = "v${expected_runtime_version}"
           "${runtime_path}" "${application_path}" --version
           "${runtime_path}" "${application_path}" --help | grep --fixed-strings "universal-ontology-mcp-server [options]"
       - name: Smoke-test the extracted Windows runtime and application
@@ -206,7 +227,8 @@ jobs:
           Expand-Archive -LiteralPath $archivePath -DestinationPath $extractionPath
           $runtimePath = Join-Path $extractionPath "$archiveRoot/runtime/node.exe"
           $applicationPath = Join-Path $extractionPath "$archiveRoot/app/universal-ontology-mcp-server.mjs"
-          if ((& $runtimePath --version) -ne "v24.22.1") {
+          $expectedRuntimeVersion = & node -p "require('./scripts/distribution/universalOntologyMcpReleaseInputs.json').nodeRuntime.version"
+          if ((& $runtimePath --version) -ne "v$expectedRuntimeVersion") {
             throw "The packaged Node runtime version disagrees."
           }
           if ((& $runtimePath $applicationPath --version) -ne "${{ needs.validate.outputs.software-version }}") {
@@ -230,7 +252,7 @@ jobs:
       - scope
       - validate
     if: needs.scope.outputs.mcp_artifacts == 'true'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     steps:
@@ -337,7 +359,7 @@ jobs:
       - container
       - validate
     if: needs.scope.outputs.mcp_artifacts == 'true'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     outputs:
@@ -418,7 +440,7 @@ jobs:
       - archive
       - container
       - assemble
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       contents: read

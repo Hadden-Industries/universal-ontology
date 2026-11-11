@@ -1,4 +1,5 @@
 import {
+  cpSync,
   mkdtempSync,
   readFileSync,
   writeFileSync,
@@ -9,6 +10,8 @@ import {
 import { tmpdir } from "node:os";
 import { basename, dirname, join } from "node:path";
 import { parse as parseYaml } from "yaml";
+import { syncRunnerProjections } from "../scripts/repositoryRunner.js";
+import { ubuntu } from "../scripts/repositoryRunnerPolicy.js";
 import { installRepositoryNpm } from "../scripts/installRepositoryNpm.js";
 import {
   repositoryNpmTarget,
@@ -31,6 +34,57 @@ const PYTHON_SETUP_TOOL_COMMAND =
   'node scripts/runRepositoryPython.js -m unittest discover -s tests -p "test_set_up_*.py"';
 const JAVASCRIPT_DEVELOPMENT_COMMAND =
   "npm test -- --runInBand tests/configure-git-hooks.test.js tests/set-up-development-environment.test.js tests/run-repository-python.test.js tests/development-workflow.test.js tests/pr-check-scopes.test.js";
+
+test("checks Ubuntu drift and regenerates workflows and release targets together", () => {
+  expect(() => syncRunnerProjections()).not.toThrow();
+  const root = mkdtempSync(join(realpathSync(tmpdir()), "uo-runner-policy-"));
+  try {
+    const github = join(root, ".github");
+    const releaseInputs =
+      "scripts/distribution/universalOntologyMcpReleaseInputs.json";
+    mkdirSync(github);
+    cpSync(".github/workflows", join(github, "workflows"), { recursive: true });
+    mkdirSync(join(root, dirname(releaseInputs)), { recursive: true });
+    cpSync(releaseInputs, join(root, releaseInputs));
+    writeFileSync(join(github, "runner-policy.json"), '{"ubuntu":"28.04"}\n');
+    const workflow = join(github, "workflows", "codeql.yml");
+    const source = readFileSync(workflow, "utf8");
+    for (const label of ["ubuntu-slim", "ubuntu-latest-4-cores"]) {
+      writeFileSync(
+        workflow,
+        source.replace(
+          /^jobs:\r?\n/mu,
+          `jobs:\n  unmanaged:\n    runs-on: ${label}\n`,
+        ),
+      );
+      expect(() => syncRunnerProjections({ root })).toThrow(
+        "Unmanaged Ubuntu selector",
+      );
+    }
+    writeFileSync(workflow, source);
+    expect(() => syncRunnerProjections({ root })).toThrow(
+      "Stale Ubuntu projections",
+    );
+    expect(readFileSync(workflow, "utf8")).toBe(source);
+    syncRunnerProjections({ root, write: true });
+    expect(readFileSync(workflow, "utf8")).toBe(
+      source.replaceAll(ubuntu.runner, "ubuntu-28.04"),
+    );
+    const { nodeRuntime } = JSON.parse(
+      readFileSync(join(root, releaseInputs), "utf8"),
+    );
+    expect(nodeRuntime.targets.map(({ runnerLabel }) => runnerLabel)).toEqual([
+      "ubuntu-28.04",
+      "ubuntu-28.04-arm",
+      "macos-15-intel",
+      "macos-15",
+      "windows-2025",
+    ]);
+    expect(() => syncRunnerProjections({ root })).not.toThrow();
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
 
 function readWorkflow() {
   return parseYaml(readFileSync(WORKFLOW_URL, "utf8"));
@@ -490,7 +544,7 @@ test("JSON quality always checks the full corpus on both platforms before consum
   const job = workflow.jobs["json-quality"];
   expect(job.if).toBeUndefined();
   expect(job.needs).toBe("scope");
-  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
+  expect(job.strategy.matrix.os).toEqual([ubuntu.runner, "windows-2025"]);
   expect(job.permissions).toEqual({ contents: "read" });
   const runs = job.steps.map((step) => step.run).filter(Boolean);
   expect(
@@ -525,7 +579,7 @@ test("Python-only work retains both platforms without installing Node dependenci
   const job = readWorkflow().jobs["python-tests"];
   expect(job.needs).toBe("scope");
   expect(job.if).toBe("needs.scope.outputs.python_tests == 'true'");
-  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
+  expect(job.strategy.matrix.os).toEqual([ubuntu.runner, "windows-2025"]);
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
   const npmBootstrap = "node scripts/installRepositoryNpm.js";
   expect(runs).toContain(npmBootstrap);
@@ -551,7 +605,7 @@ test("Node-backed Python work retains full setup and both platforms", () => {
   const job = workflow.jobs["python-node-tests"];
   expect(job.needs).toBe("scope");
   expect(job.if).toBe("needs.scope.outputs.python_setup_tests == 'true'");
-  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
+  expect(job.strategy.matrix.os).toEqual([ubuntu.runner, "windows-2025"]);
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
   expect(runs.indexOf("npm run set-up:development")).toBeGreaterThan(
     runs.indexOf("node scripts/evaluatePullRequestChecks.js --verify"),
@@ -567,7 +621,7 @@ test("a lock change validates the committed Agent Skills lock without the develo
   const job = readWorkflow().jobs["agent-skills-lock"];
   expect(job.needs).toBe("scope");
   expect(job.if).toBe("needs.scope.outputs.agent_skills_lock == 'true'");
-  expect(job["runs-on"]).toBe("ubuntu-24.04");
+  expect(job["runs-on"]).toBe(ubuntu.runner);
   expect(job.strategy).toBeUndefined();
   const runs = job.steps.map(({ run }) => run).filter(Boolean);
   expect(runs).toEqual([
@@ -583,7 +637,7 @@ test("toolchain changes retain a Windows and Ubuntu owner for formatter regressi
   const job = readWorkflow().jobs["style-tooling"];
   expect(job.needs).toBe("scope");
   expect(job.if).toBe("needs.scope.outputs.style_tooling == 'true'");
-  expect(job.strategy.matrix.os).toEqual(["ubuntu-24.04", "windows-2025"]);
+  expect(job.strategy.matrix.os).toEqual([ubuntu.runner, "windows-2025"]);
   expect(
     job.steps.some(({ uses }) => uses === PYTHON_PROVISIONING_ACTION),
   ).toBe(true);
@@ -604,7 +658,7 @@ test("every route checks the full Markdown corpus on Windows and Linux", () => {
   expect(job["runs-on"]).toBe("${{ matrix.os }}");
   expect(job.strategy).toEqual({
     "fail-fast": false,
-    matrix: { os: ["ubuntu-24.04", "windows-2025"] },
+    matrix: { os: [ubuntu.runner, "windows-2025"] },
   });
   expect(job.if).toBeUndefined();
   expect(job.steps.map((step) => step.run).filter(Boolean)).toEqual([
@@ -625,7 +679,7 @@ test("Windows and Ubuntu checks exercise the complete development setup before t
   const job = readWorkflow().jobs.checks;
   expect(job.strategy).toEqual({
     "fail-fast": false,
-    matrix: { os: ["ubuntu-24.04", "windows-2025"] },
+    matrix: { os: [ubuntu.runner, "windows-2025"] },
   });
   expect(job["runs-on"]).toBe("${{ matrix.os }}");
   const runs = job.steps.map(({ run }) => run).filter(Boolean);

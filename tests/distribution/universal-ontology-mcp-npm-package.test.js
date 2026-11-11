@@ -23,6 +23,7 @@ import {
   OntologyEntityResolutionSuccessSchema,
   OntologyEntitySearchSuccessSchema,
 } from "universal-ontology-query/schemas";
+import { repositoryNpmTarget } from "../../scripts/repositoryNpmTarget.js";
 import { createInMemoryOntologyReleaseArtifact } from "../fixtures/ontology-query/createInMemoryOntologyQueryFixture.js";
 import { createOntologyQueryArtifactHttpFixture } from "../fixtures/ontology-query/createOntologyQueryArtifactHttpFixture.js";
 
@@ -253,7 +254,7 @@ describe("public Universal Ontology MCP npm package", () => {
 
     expect(rootPackage).toMatchObject({
       private: true,
-      packageManager: "npm@12.2.1",
+      packageManager: expect.stringMatching(/^npm@\d+\.\d+\.\d+$/u),
       workspaces: [
         "packages/universal-ontology-mcp-server",
         "packages/universal-ontology-query",
@@ -344,7 +345,7 @@ describe("public Universal Ontology MCP npm package", () => {
   test("retains repository distribution tooling and delegates application commands to the MCP owner", async () => {
     const rootPackage = await readJsonDocument(ROOT_PACKAGE_JSON_URL);
 
-    expect(rootPackage.packageManager).toBe("npm@12.2.1");
+    expect(rootPackage.packageManager).toBe(`npm@${repositoryNpmTarget()}`);
     expect(rootPackage.devEngines.packageManager).toEqual({
       name: "npm",
       version: ">=12.2.1",
@@ -450,7 +451,7 @@ describe("public Universal Ontology MCP npm package", () => {
       "A natural or legal person recognised by law.",
       '"mcp:package:build"',
       '"build:mcp-package"',
-      '"packageManager":"npm@12.2.1"',
+      `"packageManager":"npm@${repositoryNpmTarget()}"`,
       "sourceMappingURL=",
     ]) {
       expect(bundleText).not.toContain(forbiddenContent);

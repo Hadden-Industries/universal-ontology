@@ -1,3 +1,4 @@
+import { ubuntu } from "../scripts/repositoryRunnerPolicy.js";
 import { execFileSync, spawnSync } from "node:child_process";
 import {
   mkdtempSync,
@@ -125,7 +126,7 @@ function fixture(selected = ["ci_control"], families = null) {
   const environment = {
     os: "Linux",
     architecture: "X64",
-    image: "ubuntu24",
+    image: ubuntu.image,
     imageVersion: "20261001.1",
     node: `v${readFileSync(new URL("../.node-version", import.meta.url), "utf8").trim()}`,
     npm: "12.2.0",
@@ -193,6 +194,10 @@ function fixture(selected = ["ci_control"], families = null) {
     jobs: Object.keys(expectedJobs).map((name, index) => ({
       id: 1000 + index,
       name,
+      labels:
+        name === "node" || name.endsWith(` (${ubuntu.runner})`)
+          ? [ubuntu.runner]
+          : [],
       run_id: 100,
       run_attempt: name === "PR validation" ? 2 : 1,
       head_sha: hash("b"),
@@ -634,6 +639,7 @@ test.each([
   "native-tree",
   "producing-attempt",
   "job-failure",
+  "wrong-provider-runner",
   "extra-job",
   "artifact-expired",
   "artifact-identity",
@@ -693,6 +699,8 @@ test.each([
     data.jobs.jobs.find((j) => j.name === "node").run_attempt = 2;
   if (scenario === "job-failure")
     data.jobs.jobs.find((j) => j.name === "node").conclusion = "failure";
+  if (scenario === "wrong-provider-runner")
+    data.jobs.jobs.find((job) => job.name === "node").labels = ["ubuntu-24.04"];
   if (scenario === "extra-job") {
     data.jobs.jobs.push({ ...data.jobs.jobs[0], id: 999, name: "foreign" });
     data.jobs.total_count++;

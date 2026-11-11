@@ -1,3 +1,4 @@
+import { ubuntu } from "../scripts/repositoryRunnerPolicy.js";
 import { execFileSync } from "node:child_process";
 import {
   mkdtempSync,
@@ -190,7 +191,7 @@ function fixture(selected = ["ci_control"]) {
     environment: {
       os: "Linux",
       architecture: "X64",
-      image: "ubuntu24",
+      image: ubuntu.image,
       imageVersion: "20261001.1",
       node: `v${readFileSync(new URL("../.node-version", import.meta.url), "utf8").trim()}`,
       npm: "12.0.0",
@@ -239,6 +240,10 @@ function fixture(selected = ["ci_control"]) {
     jobs: Object.keys(expectedJobs).map((name, index) => ({
       id: 1000 + index,
       name,
+      labels:
+        name === "node" || name.endsWith(` (${ubuntu.runner})`)
+          ? [ubuntu.runner]
+          : [],
       run_id: 100,
       run_attempt: name === "PR validation" ? 2 : 1,
       head_sha: hash("b"),
@@ -417,6 +422,8 @@ test.each([
   "coverage-version",
   "reused-coverage",
   "unknown-host",
+  "wrong-provider-runner",
+  "previous-ubuntu",
   "node-options",
   "missing-producing-environment",
   "changed-producing-image",
@@ -466,6 +473,14 @@ test.each([
   if (caseName === "coverage-version") input.nativeNode.schemaVersion = 1;
   if (caseName === "reused-coverage") input.nativeNode.proof = "REUSED";
   if (caseName === "unknown-host") input.context.environment.image = "unknown";
+  if (caseName === "wrong-provider-runner")
+    input.jobs.jobs.find((job) => job.name === "node").labels = [
+      ubuntu.armRunner,
+    ];
+  if (caseName === "previous-ubuntu") {
+    input.context.environment.image = "ubuntu24";
+    input.nativeNode.environment.image = "ubuntu24";
+  }
   if (caseName === "missing-producing-environment")
     delete input.nativeNode.environment;
   if (caseName === "changed-producing-image")
@@ -694,7 +709,7 @@ test("native producer binds a real Git merge and retains one closed private reco
         RUNNER_TEMP: root,
         RUNNER_OS: "Linux",
         RUNNER_ARCH: "X64",
-        ImageOS: "ubuntu24",
+        ImageOS: ubuntu.image,
         ImageVersion: "20261001.1",
         LANG: "C.UTF-8",
         GH_TOKEN: "fixture-token",

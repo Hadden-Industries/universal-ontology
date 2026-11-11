@@ -655,6 +655,23 @@ describe("MCP distribution executable-policy verification", () => {
     ).rejects.toThrow(/workflow.*(?:policy|manifest)/iu);
   });
 
+  test("rejects an old Ubuntu runner before applying the semantic digest", async () => {
+    const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
+      "old-ubuntu-runner",
+      (source) => {
+        const workflow = parseYaml(source);
+        workflow.jobs.validate["runs-on"] = "ubuntu-24.04";
+        return stringifyYaml(workflow);
+      },
+    );
+    await expect(
+      verifyUniversalOntologyMcpDistributionWorkflow({
+        distributionWorkflowPath,
+        releaseInputs: await readUniversalOntologyMcpReleaseInputs(),
+      }),
+    ).rejects.toThrow(/validate Ubuntu runner/u);
+  });
+
   test("rejects any unapproved change to an approved run script", async () => {
     const distributionWorkflowPath = await writeMutatedDistributionWorkflow(
       "modified-approved-run-script",

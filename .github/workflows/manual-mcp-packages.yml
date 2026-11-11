@@ -24,7 +24,7 @@ jobs:
   validate:
     needs: qualify
     if: ${{ !cancelled() && needs.qualify.result == 'success' }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     permissions:
       contents: read
@@ -60,7 +60,7 @@ jobs:
       - qualify
       - validate
     if: ${{ !cancelled() && github.ref == 'refs/heads/main' && inputs.create_draft_release && needs.qualify.result == 'success' && needs.validate.result == 'success' }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     permissions:
       contents: write
@@ -101,7 +101,7 @@ jobs:
       - qualify
       - validate
       - draft
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       contents: read

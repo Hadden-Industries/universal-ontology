@@ -30,7 +30,7 @@ jobs:
     permissions:
       contents: read
       actions: read
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     cache-mode: none
     outputs:
@@ -64,7 +64,7 @@ jobs:
   node:
     permissions:
       contents: read
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
     cache-mode: none
     needs: select
@@ -99,7 +99,7 @@ jobs:
   website:
     permissions:
       contents: read
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
     cache-mode: none
     needs:
@@ -161,7 +161,7 @@ jobs:
   gate:
     permissions:
       contents: read
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     cache-mode: none
     name: ${{ inputs.routine_main_ci && 'Main CI' || 'Full qualification' }}

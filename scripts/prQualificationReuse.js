@@ -6,6 +6,7 @@ import { isDeepStrictEqual } from "node:util";
 import {
   assertPrQualificationRecord,
   eligiblePrQualificationPlan,
+  hasExpectedUbuntuJobLabel,
   PR_WORKFLOW,
   prQualificationJobConclusions,
 } from "./prQualification.js";
@@ -339,7 +340,8 @@ export async function verifyOriginalPrQualification({
           job.run_attempt === original.runAttempt &&
           job.run_attempt <= run.run_attempt &&
           job.status === "completed" &&
-          job.conclusion === expectedJobs[job.name]
+          job.conclusion === expectedJobs[job.name] &&
+          hasExpectedUbuntuJobLabel(job)
         );
       }),
     "Latest native original job or producing-attempt inventory disagrees.",

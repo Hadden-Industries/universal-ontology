@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { readWorkflowDocument } from "../readWorkflowDocument.js";
+import { ubuntu } from "../repositoryRunnerPolicy.js";
 
 const REPOSITORY_ROOT_PATH = fileURLToPath(new URL("../../", import.meta.url));
 const DEFAULT_DISTRIBUTION_WORKFLOW_PATH = join(
@@ -49,12 +50,12 @@ const EXPECTED_ARTIFACT_UPLOAD_INPUTS_BY_JOB_NAME = Object.freeze({
   }),
 });
 // This is the SHA-256 digest of the canonical JSON representation of the
-// parsed workflow. Object-key order and YAML comments are intentionally
-// excluded, while array order and every semantic value remain covered. The
-// workflow is executable supply-chain policy: update this digest only after a
-// deliberate review of every trigger, capability, job, action, and run script.
+// parsed workflow after checking the policy-owned Ubuntu selectors. Mapping
+// order and comments are excluded. The validated runner values use a fixed
+// placeholder so the digest continues to cover every other semantic field.
+// Update this digest only after reviewing the workflow's executable policy.
 const EXPECTED_DISTRIBUTION_WORKFLOW_POLICY_MANIFEST_SHA256 =
-  "89f11d011ba69c4e657aabd824f274409064870b6812e71a1ea376b2ad011c84";
+  "39b6a103c5d48763271f4e3f682ab3db7a2edab3aa7f897a5363399044978458";
 
 function compareBinaryText(leftText, rightText) {
   return Buffer.compare(Buffer.from(leftText), Buffer.from(rightText));
@@ -114,8 +115,22 @@ export async function verifyUniversalOntologyMcpDistributionWorkflow({
   releaseInputs,
 }) {
   const workflow = await readWorkflowDocument(distributionWorkflowPath);
+  const digestJobs = Object.fromEntries(
+    Object.entries(workflow.jobs).map(([name, job]) => {
+      if (name === "archive") return [name, job];
+      requireExactJsonValue(
+        job?.["runs-on"],
+        ubuntu.runner,
+        `${name} Ubuntu runner`,
+      );
+      return [name, { ...job, "runs-on": "ubuntu-policy" }];
+    }),
+  );
   const workflowPolicyManifestSha256 = calculateSha256(
-    Buffer.from(serializeCanonicalJsonValue(workflow), "utf8"),
+    Buffer.from(
+      serializeCanonicalJsonValue({ ...workflow, jobs: digestJobs }),
+      "utf8",
+    ),
   );
   if (
     workflowPolicyManifestSha256 !==

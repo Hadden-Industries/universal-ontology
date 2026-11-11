@@ -10,6 +10,7 @@ import {
 } from "./evaluatePullRequestChecks.js";
 import { nodeCheckArguments } from "./runPullRequestNodeChecks.js";
 import { meetsNodeTarget } from "./nodeTarget.js";
+import { ubuntu } from "./repositoryRunnerPolicy.js";
 export const PR_WORKFLOW = ".github/workflows/pr-validation.yml";
 export const PR_QUALIFICATION_POLICY = "uo-selected-node-fresh-consumers-v4";
 
@@ -64,7 +65,7 @@ export function prQualificationJobConclusions(plan) {
     for (const [id, name, matrix] of definitionsForConsumer) {
       const names =
         selected[id] && matrix
-          ? ["ubuntu-24.04", "windows-2025"].map((os) =>
+          ? [ubuntu.runner, "windows-2025"].map((os) =>
               name.includes("${{ matrix.os }}")
                 ? name.replace("${{ matrix.os }}", os)
                 : `${name} (${os})`,
@@ -199,6 +200,20 @@ export function assertNativeNodeCoverage(coverage, identity, plan) {
   );
   return coverage;
 }
+/** GitHub's job inventory supplies scheduling labels for the reusable Node proof. */
+export function hasExpectedUbuntuJobLabel(job) {
+  const ubuntuJob =
+    job.name === "node" || job.name.endsWith(` (${ubuntu.runner})`);
+  return (
+    !ubuntuJob ||
+    job.conclusion !== "success" ||
+    isDeepStrictEqual(
+      job.labels?.filter((label) => label.startsWith("ubuntu-")),
+      [ubuntu.runner],
+    )
+  );
+}
+
 export function assertPrQualificationRecord(record) {
   fact(
     closed(record, [
@@ -267,7 +282,7 @@ export function assertPrQualificationRecord(record) {
     ]) &&
       environment.os === "Linux" &&
       environment.architecture === "X64" &&
-      environment.image === "ubuntu24" &&
+      environment.image === ubuntu.image &&
       /^\d{8}\.\d+(?:\.\d+)?$/.test(environment.imageVersion ?? "") &&
       meetsNodeTarget(environment.node) &&
       /^\d+\.\d+\.\d+$/.test(environment.npm ?? "") &&
@@ -386,6 +401,7 @@ export function createPrQualificationRecord({
           job.head_sha === pr.head.sha &&
           id(job.run_attempt) &&
           job.run_attempt <= context.runAttempt &&
+          hasExpectedUbuntuJobLabel(job) &&
           (job.name === "PR validation"
             ? job.run_attempt === context.runAttempt &&
               ["in_progress", "completed"].includes(job.status) &&

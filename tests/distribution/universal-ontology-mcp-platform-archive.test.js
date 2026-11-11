@@ -19,6 +19,7 @@ import {
   validateUniversalOntologyMcpReleaseInputs,
 } from "../../scripts/distribution/buildUniversalOntologyMcpPlatformArchive.js";
 import { nodeTarget } from "../../scripts/nodeTarget.js";
+import { ubuntu } from "../../scripts/repositoryRunnerPolicy.js";
 import {
   calculateSha256 as calculateOntologyArtifactSha256,
   serializeCanonicalOntologyQueryJsonDocument,
@@ -37,13 +38,13 @@ const RELEASE_INPUTS_URL = new URL(
 const EXPECTED_TARGET_MATRIX = Object.freeze([
   {
     targetName: "linux-x64",
-    runnerLabel: "ubuntu-24.04",
+    runnerLabel: ubuntu.runner,
     packagedRuntimeExecutablePath: "runtime/bin/node",
     releaseArchiveFormat: "tar.gz",
   },
   {
     targetName: "linux-arm64",
-    runnerLabel: "ubuntu-24.04-arm",
+    runnerLabel: ubuntu.armRunner,
     packagedRuntimeExecutablePath: "runtime/bin/node",
     releaseArchiveFormat: "tar.gz",
   },
@@ -296,7 +297,6 @@ describe("Universal Ontology MCP platform release inputs", () => {
 
     expect(releaseInputs).toMatchObject({
       releaseInputFormatVersion: 1,
-      selectedNpmVersion: "12.2.1",
       modelContextProtocol: {
         revision: "2026-07-28",
         registrySchemaVersion: "2025-12-11",

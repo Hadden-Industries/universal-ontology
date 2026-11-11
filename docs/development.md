@@ -145,6 +145,10 @@ Configuration changes, including regeneration, still require the approval descri
 Use `node scripts/repositoryNpmTarget.js --write` after an approved npm selector update, then run the affected workflow and distribution checks.
 This follows the existing `scripts/pythonTarget.js` projection pattern.
 
+The `ubuntu` release in [the runner policy](../.github/runner-policy.json) selects the GitHub-hosted Ubuntu jobs and the Linux x64 and ARM64 archive lanes.
+After changing it, run `node scripts/repositoryRunner.js --write` to regenerate the workflow and release input labels.
+`node scripts/repositoryRunner.js --check` detects drift, and PR qualification uses the same policy to check the observed image family and job labels.
+
 Keep separate meanings separate: local tool eligibility and exact CI selection, deployment Node and bundled archive Node, source and decoded-artifact bounds, independent expected test vectors, immutable historical releases and generated lock observations are different contracts.
 GitHub checkout pins must remain literal before repository-local actions are available; separate workflow responsibilities retain their reviewed pins.
 

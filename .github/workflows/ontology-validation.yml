@@ -19,7 +19,7 @@ jobs:
   validate-ontologies:
     timeout-minutes: 20
     name: OWL Differential Analysis
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       ontology_policy_qa: ${{ steps.ontology_jobs.outputs.ontology_policy_qa }}
       ontology_entity_contracts: ${{ steps.ontology_jobs.outputs.ontology_entity_contracts }}
@@ -100,7 +100,7 @@ jobs:
     name: Editing policy QA
     needs: validate-ontologies
     if: ${{ !cancelled() && (needs.validate-ontologies.outputs.ontology_policy_qa == 'true' || needs.validate-ontologies.outputs.ontology_entity_contracts == 'true') }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -146,7 +146,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-24.04
+          - ubuntu-26.04
           - windows-2025
     runs-on: ${{ matrix.os }}
     steps:
@@ -232,7 +232,7 @@ jobs:
       - validate-ontologies
       - policy-qa
       - qualify
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       contents: read
