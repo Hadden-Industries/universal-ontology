@@ -143,7 +143,7 @@ try {
     }
   }
   const toolchain = {
-    nodeVersion: process.version,
+    nodeVersion: (process.versions?.node || process.version).replace(/^v/u, ""),
     browserVersion: await browser.version(),
     mermaidCliVersion: JSON.parse(
       readFileSync(

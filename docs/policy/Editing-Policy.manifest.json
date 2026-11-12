@@ -3,7 +3,7 @@
   "generator": "scripts/render_editing_policy.py",
   "policyIdentity": "sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb",
   "inputDigestAlgorithm": "sha256",
-  "inputDigest": "sha256:a2131b91affad26aa4aecc63ca428e9678c30396e2f9acbcc9a8c8cf12fcf80f",
+  "inputDigest": "sha256:fed8b2c680b358c56bd92c51c0f61dbb24b21ab045824f7aa5ccd67b356c1714",
   "inputs": {
     ".json-quality.json": "2bb1bcc80fee1087fb1f85160acc506c46e2144a034ef1fb937c17932a16599b",
     ".markdown-quality-execution.json": "73c8b085746b01d2c76915f734027aa100eba637230734737c284ae00829d86f",
@@ -62,12 +62,12 @@
     "scripts/ontology_policy/publication.py": "712d4c175684d9173826a4bf9664fe2e161a53deef3a83020b31e8ebc465483b",
     "scripts/ontology_policy/publish_wiki.py": "d37bec2d958c1cf30e07063149d16cfce5d7df37f739e8429a22394ac75ab319",
     "scripts/ontology_policy/reader_guidance.py": "36e8aebb109101b14510739a384c736689d35773beb26bbb80c6c58df2f59e5d",
-    "scripts/ontology_policy/render_diagrams.py": "36f02202297b6026c6736b3fd86f49fc6117200d0b6e42d258c3256f042631d4",
+    "scripts/ontology_policy/render_diagrams.py": "7a6f6c3cec2ca4ebb203cde3b9634d900d2bddbd569e713cb95a9b9336f87651",
     "scripts/ontology_policy/rendering.py": "bc8b9648f72a31beec9b8227c11da25e87f82840c7ccb677b5c1bb73301e3f37",
     "scripts/ontology_policy/reports.py": "10c8f3bba724d97fa8d73fa8eceb6b0a88ad26738511f985570290868564f06b",
     "scripts/ontology_policy/snapshots.py": "3c8985ce0e032c77844e65e02ab6aeb44b2d7003a04fa4e75f349db5078931f9",
     "scripts/ontology_policy/validation.py": "bd4e3bd1955573dd47cf411b201bec9b3e61629308e8d41a2586ab4d46ba3cea",
-    "scripts/renderEditingPolicyDiagrams.mjs": "c498b613f42d64a5999b2731338b2737fa90cfa6fdd37ab2223583fafb609e5e",
+    "scripts/renderEditingPolicyDiagrams.mjs": "6804477964bbe10b29894b9d46d88bcc21342b4ad2dda59046f913797f66b758",
     "scripts/render_editing_policy.py": "c237f03f4d4d4d3c1eabebf152a04c2a3bfd8a9b41d93ee4fc5f6d2881b5d688",
     "scripts/verifyEditingPolicyAccessibility.mjs": "283c0925de07083ec686c5496af8aff0069857a254b9ce48ee127fde964fe920"
   },
@@ -89,8 +89,8 @@
       "bytes": 150
     },
     "Editing-Policy.toolchain.json": {
-      "sha256": "8f40b332e475e872a2172c47cd21897ae1e6c67433926afd24f4e499e51fdd78",
-      "bytes": 174
+      "sha256": "5a7064308f405bd5484de48735703af080b6c5724ef9fbbcaf965e06875260f2",
+      "bytes": 173
     },
     "assets/editing-policy/OpenSans-LICENSE.txt": {
       "sha256": "9e7f12fafee50a9b4f7b3004c0fa58990805620d9debb0daf7f75de0d3ad5548",

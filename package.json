@@ -84,7 +84,7 @@
     "@axe-core/playwright": ">=4.14.0",
     "@eslint/js": ">=10.0.1",
     "@hadden-industries/json-quality": ">=1.0.0-rc.2",
-    "@hadden-industries/markdown-quality": ">=3.0.0",
+    "@hadden-industries/markdown-quality": ">=3.0.1",
     "@humanwhocodes/momoa": ">=3.3.13",
     "@jest/globals": ">=30.5.2",
     "@mermaid-js/mermaid-cli": ">=12.0.0",

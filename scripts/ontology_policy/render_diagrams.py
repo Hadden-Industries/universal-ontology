@@ -210,6 +210,8 @@ def render_diagram_assets(model: DocumentationModel) -> dict[str, bytes]:
         or not all(isinstance(value, str) and value for value in toolchain.values())
     ):
         raise ValueError("Diagram renderer did not identify its actual toolchain")
+    if toolchain["nodeVersion"].startswith("v"):
+        toolchain["nodeVersion"] = toolchain["nodeVersion"].removeprefix("v")
     outputs["Editing-Policy.toolchain.json"] = (
         json.dumps(toolchain, ensure_ascii=False, indent=2) + "\n"
     ).encode("utf-8")
