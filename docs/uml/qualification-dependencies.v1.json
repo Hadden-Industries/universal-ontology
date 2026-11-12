@@ -90,10 +90,10 @@
       "name": "ordered-set"
     },
     {
-      "path": "restrictedpython-8.5-py3-none-any.whl",
-      "url": "https://files.pythonhosted.org/packages/58/57/16ce3c721f5a33317e4110575d5c9976c0c45f7fd96ca2e0adeab06e6026/restrictedpython-8.5-py3-none-any.whl",
-      "sha256": "6c70e0a3af13e830d37225788cdc8ab5804a8df4b500c135086eaef34b5c01e0",
-      "version": "8.5",
+      "path": "restrictedpython-9.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/a0/8e/32713049b76dcacccb267f3fdf92edcce4681721e05c212ae6d6732b3e92/restrictedpython-9.0-py3-none-any.whl",
+      "sha256": "77df98181cf8f20810038b492ca4760b12712c9aa572f6fb5b8f2b02cfd5fc7e",
+      "version": "9.0",
       "name": "restrictedpython"
     },
     {

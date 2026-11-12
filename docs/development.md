@@ -46,14 +46,16 @@ Repository-owned package manifests declare registry and workspace dependencies a
 Registry minimums track the highest published stable release when updated; workspace minimums use the accepted local package version.
 
 A dependency without a stable release uses its explicitly accepted prerelease.
-Local `file:` sources, including the vendored Braces repair, preserve their source identities.
+Local `file:` sources, including the vendored Braces and deepmerge repairs, preserve their source identities.
+The private [deepmerge backport](../vendor/deepmerge/README.md) protects Jest configuration merging without installation scripts.
+Its regression suite checks Jest's installed resolution, both input-copy loops and ordinary merge behavior.
 OwlAPI is an owner-approved exception to registry ranges: `devDependencies.owlapi` in the root `package.json` is its sole editable source/version selector.
 
 Use either `git+https://github.com/OWNER/REPOSITORY.git#FULL_40_CHARACTER_COMMIT` or `npm:PACKAGE_NAME@EXACT_VERSION`, including an exact prerelease when selected.
 The local dependency name and all consumer imports stay `owlapi` and `owlapi/...` for either form.
 The import-closure policy references this manifest entry; package names, versions, sources and integrity values in `package-lock.json` are generated observations, not independent settings.
 
-Root `.npmrc` sets `allow-git=root`, admitting this direct dependency while rejecting transitive Git dependencies under npm 12; setup and CI continue disabling lifecycle scripts.
+Root `.npmrc` sets `allow-git=root`, admitting direct Git dependencies when that selector form is used while rejecting transitive Git dependencies under npm 12; setup and CI continue disabling lifecycle scripts.
 The PR selector treats `.npmrc` as a manifest-dependent input; consumer tests verify the selected dependency source and installed payload.
 
 Use `npm ci --include=dev --ignore-scripts` when changing between registry and Git sources with the same package version: an incremental install can retain the old bytes.

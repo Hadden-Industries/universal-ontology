@@ -1,0 +1,8 @@
+{
+  "name": "@hadden-industries/universal-ontology-deepmerge",
+  "version": "4.3.1-uo.1",
+  "private": true,
+  "main": "index.cjs",
+  "types": "index.d.ts",
+  "license": "MIT"
+}

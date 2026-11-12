@@ -7,7 +7,6 @@ import { describe, expect, test } from "@jest/globals";
 const require = createRequire(import.meta.url);
 const repositoryDirectory = fileURLToPath(new URL("../", import.meta.url));
 const braces = require("braces");
-const fastGlob = require("fast-glob");
 const chokidar = require("chokidar");
 const depthMessage = "AST nesting depth exceeds the maximum of 100";
 
@@ -75,21 +74,13 @@ describe("private braces depth-guard dependency", () => {
     expect(braces.compile(quoted)).toBe(literal);
   });
 
-  test("fast-glob retains file alternatives and rejects a deep glob", async () => {
-    const files = await fastGlob("src/**/*.{css,html}", {
-      cwd: repositoryDirectory,
-    });
-    expect(files.some((file) => file.endsWith(".css"))).toBe(true);
-    expect(files.some((file) => file.endsWith(".html"))).toBe(true);
-    const deep = `${"{".repeat(4000)}x${"}".repeat(4000)}`;
-    await expect(
-      fastGlob(`nonexistent/${deep}/*.css`, { cwd: repositoryDirectory }),
-    ).rejects.toThrow(depthMessage);
-  });
-
   test("chokidar bounds both watch globs and directory-entry expansion", async () => {
     const watcher = new chokidar.FSWatcher({ persistent: false });
     try {
+      const files = watcher._getWatchHelpers("src/**/*.{css,html}");
+      expect(files.globFilter("src/style.css")).toBe(true);
+      expect(files.globFilter("src/index.html")).toBe(true);
+      expect(files.globFilter("src/app.js")).toBe(false);
       const helper = watcher._getWatchHelpers("dir/{a,b}/file.txt");
       expect(helper.dirParts).toEqual([["a"], ["b"]]);
       const deep = `${"{".repeat(4000)}x${"}".repeat(4000)}`;
