@@ -20,12 +20,13 @@ export async function readOntologyOwnershipInventory(repositoryRoot) {
       : ["bin", "python"]),
   );
   const script =
-    "import json; from scripts.ontology_policy.modules import load_owned_modules; print(json.dumps([{'ontologyIri': str(m.ontology_iri), 'ownedNamespaces': list(m.owned_namespaces), 'workingPath': m.working_path, 'activeArtifactPath': m.active_artifact_path, 'activeContentDigest': m.active_content_digest} for m in load_owned_modules()]))";
+    "import json; from ontology_policy.modules import load_owned_modules; print(json.dumps([{'ontologyIri': str(m.ontology_iri), 'ownedNamespaces': list(m.owned_namespaces), 'workingPath': m.working_path, 'activeArtifactPath': m.active_artifact_path, 'activeContentDigest': m.active_content_digest} for m in load_owned_modules()]))";
   const { stdout } = await promisify(execFile)(
     python,
     ["-B", "-X", "utf8", "-c", script],
     {
-      cwd: repositoryRoot,
+      // Match the import root used by the repository's Python script entry points.
+      cwd: join(repositoryRoot, "scripts"),
       windowsHide: true,
       timeout: 30000,
       maxBuffer: 65536,
