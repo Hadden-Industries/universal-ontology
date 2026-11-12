@@ -8,8 +8,8 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import {
   openJsonSourceSession,
-  jsonContract,
-  admitJsonPolicy,
+  resolveJsonSourceContract,
+  resolveJsonQualityPolicy,
 } from "@hadden-industries/json-quality";
 
 import { Client } from "@modelcontextprotocol/client";
@@ -33,12 +33,17 @@ const execFileAsync = promisify(execFile);
  * Policy attribution stays visible; this test does not rebuild a v1 result.
  */
 async function assertPackedJson(bytes, selected, passed) {
-  expect(selected.exclude).toBe(false);
-  const { exclude, exceptions, allowFormatWrites, ...contract } = selected;
-  void exclude;
-  void allowFormatWrites;
-  if (contract.preserveNfcValues) {
-    contract.allowFormatWrites = false;
+  // Repository selection metadata is outside the closed source-session contract.
+  const {
+    excludeUntrackedSources,
+    exceptions,
+    allowSourceRewrites,
+    ...contract
+  } = selected;
+  expect(excludeUntrackedSources).toBe(false);
+  void allowSourceRewrites;
+  if (contract.nfcExemptStringValues) {
+    contract.allowSourceRewrites = false;
     contract.owner = exceptions.at(-1).owner;
     contract.reason = exceptions.at(-1).reason;
   }
@@ -658,7 +663,7 @@ describe("public Universal Ontology MCP npm package", () => {
         ),
       );
       // Inspect actual rebuilt/packed target bytes, including producer-owned notices.
-      const policy = admitJsonPolicy(
+      const policy = resolveJsonQualityPolicy(
         JSON.parse(
           await nodeFileSystem.readFile(
             join(REPOSITORY_ROOT_PATH, ".json-quality.json"),
@@ -677,7 +682,7 @@ describe("public Universal Ontology MCP npm package", () => {
         ...(await Promise.all(
           jsonPaths.map(async (path) => ({
             path,
-            contract: jsonContract(
+            contract: resolveJsonSourceContract(
               `packages/universal-ontology-mcp-server/${path}`,
               policy,
             ),
@@ -688,7 +693,7 @@ describe("public Universal Ontology MCP npm package", () => {
         )),
         {
           path: "application-bundle-metadata.json",
-          contract: jsonContract(
+          contract: resolveJsonSourceContract(
             relative(
               REPOSITORY_ROOT_PATH,
               fileURLToPath(APPLICATION_BUNDLE_METADATA_URL),
@@ -703,7 +708,7 @@ describe("public Universal Ontology MCP npm package", () => {
       for (const { contract } of documents) expect(contract).toBeDefined();
       expect(documents.at(-1).contract).toMatchObject({
         formatContract: "producer-json-indent",
-        allowFormatWrites: false,
+        allowSourceRewrites: false,
       });
       for (const { path, bytes, contract } of documents) {
         const withBom = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), bytes]);

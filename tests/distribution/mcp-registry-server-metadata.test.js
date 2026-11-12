@@ -2,7 +2,10 @@ import * as nodeFileSystem from "node:fs/promises";
 
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
-import { jsonContract } from "@hadden-industries/json-quality";
+import {
+  resolveJsonSourceContract,
+  resolveJsonQualityPolicy,
+} from "@hadden-industries/json-quality";
 
 const REPOSITORY_ROOT_URL = new URL("../../", import.meta.url);
 const SERVER_DOCUMENT_URL = new URL("server.json", REPOSITORY_ROOT_URL);
@@ -130,12 +133,18 @@ describe("MCP Registry server metadata", () => {
       "server.json",
     );
     expect(
-      jsonContract("server.json", jsonPolicy, { tracked: true }),
+      resolveJsonSourceContract(
+        "server.json",
+        resolveJsonQualityPolicy(jsonPolicy),
+        {
+          tracked: true,
+        },
+      ),
     ).toMatchObject({
       path: "server.json",
-      exclude: false,
+      excludeUntrackedSources: false,
       normalization: "NFC",
-      allowFormatWrites: true,
+      allowSourceRewrites: true,
       formatContract: "prettier-json",
     });
   });

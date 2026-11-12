@@ -49,11 +49,9 @@ describe("filesystem ontology query-artifact repository", () => {
     try {
       await writeFile(join(temporaryRoot, "catalog.json"), "catalog", "utf8");
       await writeFile(join(outsideRoot, "outside.json"), "outside", "utf8");
-      await symlink(
-        join(outsideRoot, "outside.json"),
-        join(temporaryRoot, "linked.json"),
-        "file",
-      );
+      // Directory junctions exercise the same component guard on Windows
+      // without requiring permission to create privileged file symlinks.
+      await symlink(outsideRoot, join(temporaryRoot, "linked"), "junction");
       const ontologyQueryArtifactRepository =
         createFileSystemOntologyQueryArtifactRepository({
           queryRoot: temporaryRoot,
@@ -70,7 +68,7 @@ describe("filesystem ontology query-artifact repository", () => {
         "C:\\query\\v1\\catalog.json",
         "\\\\server\\share\\catalog.json",
         join(temporaryRoot, "catalog.json"),
-        "linked.json",
+        "linked/outside.json",
       ]) {
         await expect(
           ontologyQueryArtifactRepository.readOntologyReleaseQueryIndex({

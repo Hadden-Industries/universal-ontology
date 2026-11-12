@@ -1,12 +1,6 @@
 {
-  "schemaVersion": 3,
-  "defaults": {
-    "formatContract": "prettier-json",
-    "allowFormatWrites": true,
-    "normalization": "NFC"
-  },
   "capacityLimits": {
-    "maxTotalBytes": 536870912
+    "maxTotalSourceBytes": 536870912
   },
   "runtimeControls": {
     "maxCheckTimeMs": 300000,
@@ -15,18 +9,6 @@
   "exceptions": [
     {
       "paths": [
-        "**/package-lock.json"
-      ],
-      "allowEmptyKeys": [
-        "/packages/"
-      ],
-      "owner": "npm lockfile producer",
-      "reason": "npm identifies the root package with the empty key in packages; no other empty or whitespace-bearing key is exempt."
-    },
-    {
-      "paths": [
-        ".git/**",
-        "**/node_modules/**",
         ".venv/**",
         ".agent-tools/**",
         ".agents/skills/**",
@@ -35,13 +17,12 @@
         ".agents/mcp_config.json",
         ".claude/settings.local.json"
       ],
-      "exclude": true,
-      "owner": "Git, package managers and local workflow/tool installations",
-      "reason": "External installation or machine-local runtime state; excluded explicitly rather than through Git ignore rules. Tracked JSON remains included."
+      "excludeUntrackedSources": true,
+      "owner": "Local workflow/tool installations",
+      "reason": "External installation or machine-local runtime state beyond the built-in Git and npm boundaries; tracked JSON remains included."
     },
     {
       "paths": [
-        "**/package-lock.json",
         "skills-lock.json",
         "docs/plans/sdlc-improvements/**",
         "docs/reviews/editing-policy-design/verification/**",
@@ -55,7 +36,7 @@
         "**/third-party/**",
         "dist/**"
       ],
-      "allowFormatWrites": false,
+      "allowSourceRewrites": false,
       "owner": "Designated producer, package manager or retained-artifact owner",
       "reason": "Producer serialization, digests and retained bytes must be repaired through the owner; all JSON checks remain mandatory."
     },

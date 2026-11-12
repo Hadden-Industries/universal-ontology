@@ -15,7 +15,7 @@ __pycache__
 .sdlc/
 
 # Direct Prettier calls cannot write JSON. The supported format:json command
-# derives its exact native selection from .json-quality.json allowFormatWrites.
+# derives its exact native selection from .json-quality.json allowSourceRewrites.
 **/*.json
 **/*.jsonc
 **/*.json5

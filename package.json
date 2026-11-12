@@ -76,16 +76,15 @@
     "format:json:check": "node scripts/runRepositoryJsonQuality.js check",
     "check:json": "node scripts/runRepositoryJsonQuality.js check",
     "check:json:generated": "npm run check:json -- --require-generated",
-    "format:json": "node scripts/runRepositoryJsonQuality.js format",
-    "normalize:json": "node scripts/runRepositoryJsonQuality.js normalize",
-    "inspect:json": "node scripts/runRepositoryJsonQuality.js check --json"
+    "format:json": "node scripts/runRepositoryJsonQuality.js format --write",
+    "normalize:json": "node scripts/runRepositoryJsonQuality.js normalize --write",
+    "inspect:json": "node scripts/runRepositoryJsonQuality.js check --ndjson"
   },
   "devDependencies": {
     "@axe-core/playwright": ">=4.14.0",
     "@eslint/js": ">=10.0.1",
-    "@hadden-industries/json-quality": ">=1.0.0-rc.2",
+    "@hadden-industries/json-quality": ">=1.0.0",
     "@hadden-industries/markdown-quality": ">=3.0.1",
-    "@humanwhocodes/momoa": ">=3.3.13",
     "@jest/globals": ">=30.5.2",
     "@mermaid-js/mermaid-cli": ">=12.0.0",
     "@modelcontextprotocol/client": ">=2.4.0",

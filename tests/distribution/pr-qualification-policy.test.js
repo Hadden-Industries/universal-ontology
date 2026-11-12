@@ -171,7 +171,7 @@ test("CI policy accepts an unrelated JSON quality exception", async () => {
     );
     policy.exceptions.push({
       paths: ["docs/research/unrelated-producer.json"],
-      allowFormatWrites: false,
+      allowSourceRewrites: false,
       owner: "Research document producer",
       reason:
         "Retain producer presentation for an unrelated research document.",
