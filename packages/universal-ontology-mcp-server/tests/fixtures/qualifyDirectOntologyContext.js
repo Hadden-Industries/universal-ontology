@@ -79,8 +79,8 @@ try {
       overlapRssKiB,
     });
   }
-  console.log(
-    JSON.stringify({
+  process.stdout.write(
+    `${JSON.stringify({
       sha256: createHash("sha256").update(bytes).digest("hex"),
       parsingMode,
       format,
@@ -95,7 +95,7 @@ try {
       warmP95Milliseconds: durations.slice(1).sort((a, b) => a - b)[94],
       peakRssKiB: process.resourceUsage().maxRSS,
       refreshes,
-    }),
+    })}\n`,
   );
 } finally {
   await client.close();

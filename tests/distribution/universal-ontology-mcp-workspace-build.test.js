@@ -213,10 +213,10 @@ test("attributes a nested SDK installation and executable version to the MCP wor
     await expect(runBuilder()).rejects.toMatchObject({
       stderr: expect.stringContaining("worker URL expressions"),
     });
-    const synthetic = "ghp_" + "X".repeat(36);
+    const synthetic = `ghp_${"X".repeat(36)}`;
     await nodeFileSystem.writeFile(
       worker,
-      original + "\nconsole.info(" + JSON.stringify(synthetic) + ");\n",
+      `${original}\nconsole.info(${JSON.stringify(synthetic)});\n`,
     );
     await expect(runBuilder()).rejects.toMatchObject({
       stderr: expect.stringContaining("forbidden GitHub token"),

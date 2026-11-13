@@ -1,3 +1,4 @@
+import { Buffer } from "node:buffer";
 import { lstat, open, realpath } from "node:fs/promises";
 import { constants } from "node:fs";
 import { extname, relative, parse, dirname } from "node:path";
@@ -35,6 +36,7 @@ async function readSource(path, root, byteLimit = maxBytes) {
   if (!before.isFile() || !before.ino) throw denied();
   const fd = await open(
     path,
+    // eslint-disable-next-line no-bitwise -- Node accepts a POSIX open flag bitmask.
     constants.O_RDONLY |
       (constants.O_NOFOLLOW ?? 0) |
       (constants.O_NONBLOCK ?? 0),

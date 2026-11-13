@@ -31,7 +31,7 @@ test("the source stdio process opens a supplied file and follows a search hit", 
     await client.connect(
       new StdioClientTransport({
         command: process.execPath,
-        args: [entry, "--ontology-file=" + source],
+        args: [entry, `--ontology-file=${source}`],
         stderr: "pipe",
       }),
     );
@@ -99,7 +99,7 @@ test("RDF/XML can be browsed from an unrelated working directory after rejected 
     await client.connect(
       new StdioClientTransport({
         command: process.execPath,
-        args: [entry, "--ontology-file=" + source, "--ontology-root=" + root],
+        args: [entry, `--ontology-file=${source}`, `--ontology-root=${root}`],
         cwd: temp,
         stderr: "pipe",
       }),

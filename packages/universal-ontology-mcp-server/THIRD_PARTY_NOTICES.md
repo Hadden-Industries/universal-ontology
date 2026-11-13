@@ -504,7 +504,7 @@ License: MIT
 
 LICENSE
 
-````text
+```text
 MIT License
 
 Copyright (c) 2023 Hyperjump Software, LLC
@@ -526,7 +526,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-````
+```
 
 ## @rdfjs/data-model 2.1.2
 
@@ -534,7 +534,7 @@ License: MIT
 
 LICENSE.md
 
-````text
+```text
 MIT License
 
 Copyright (c) 2024 Thomas Bergwinkl
@@ -556,7 +556,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-````
+```
 
 ## @rdfjs/dataset 2.0.3
 
@@ -564,7 +564,7 @@ License: MIT
 
 LICENSE.md
 
-````text
+```text
 MIT License
 
 Copyright (c) 2024 Thomas Bergwinkl
@@ -586,15 +586,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-````
+```
 
 ## @rubensworks/saxes 6.0.1
 
 License: ISC
 
-Upstream LICENSE from the published revision, https://raw.githubusercontent.com/rubensworks/saxes/0f36739ccb43a87c50408e1e713382cda09e0b05/LICENSE
+Upstream LICENSE from the published revision: <https://raw.githubusercontent.com/rubensworks/saxes/0f36739ccb43a87c50408e1e713382cda09e0b05/LICENSE>
 
-````text
+```text
 The ISC License
 
 Copyright (c) Contributors
@@ -659,7 +659,7 @@ MIT License, as follows:
     LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
     OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
     WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-````
+```
 
 ## @xmldom/xmldom 0.9.12
 
@@ -667,7 +667,7 @@ License: MIT
 
 LICENSE
 
-````text
+```text
 Copyright 2019 - present Christopher J. Brody and other contributors, as listed in: https://github.com/xmldom/xmldom/graphs/contributors
 Copyright 2012 - 2017 @jindw <jindw@xidea.org> and other contributors, as listed in: https://github.com/jindw/xmldom/graphs/contributors
 
@@ -676,7 +676,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-````
+```
 
 ## abort-controller 3.0.0
 
@@ -684,7 +684,7 @@ License: MIT
 
 LICENSE
 
-````text
+```text
 MIT License
 
 Copyright (c) 2017 Toru Nagashima
@@ -706,7 +706,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-````
+```
 
 ## bcp-47 2.1.2
 
@@ -714,7 +714,7 @@ License: MIT
 
 license
 
-````text
+```text
 (The MIT License)
 
 Copyright (c) Titus Wormer <tituswormer@gmail.com>
@@ -737,7 +737,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-````
+```
 
 ## event-target-shim 5.0.1
 
@@ -745,7 +745,7 @@ License: MIT
 
 LICENSE
 
-````text
+```text
 The MIT License (MIT)
 
 Copyright (c) 2015 Toru Nagashima
@@ -767,7 +767,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-````
+```
 
 ## is-alphabetical 2.0.1
 
@@ -775,7 +775,7 @@ License: MIT
 
 license
 
-````text
+```text
 (The MIT License)
 
 Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
@@ -798,7 +798,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-````
+```
 
 ## is-alphanumerical 2.0.1
 
@@ -806,7 +806,7 @@ License: MIT
 
 license
 
-````text
+```text
 (The MIT License)
 
 Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
@@ -829,7 +829,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-````
+```
 
 ## is-decimal 2.0.1
 
@@ -837,7 +837,7 @@ License: MIT
 
 license
 
-````text
+```text
 (The MIT License)
 
 Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
@@ -860,7 +860,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-````
+```
 
 ## n3 2.13.12
 
@@ -868,7 +868,7 @@ License: MIT
 
 LICENSE.md
 
-````text
+```text
 # License
 The MIT License (MIT)
 Copyright ©2012–present N3.js contributors
@@ -878,17 +878,18 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-````
+```
 
 ## @hadden-industries/owlapi 0.1.0-rc.3
 
 License: AGPL-3.0-only
 
-The developer of OwlAPI grants permission to use this package within the Universal Ontology MCP Server. OwlAPI retains its AGPL-3.0-only licence.
+The developer of OwlAPI grants permission to use this package within the Universal Ontology MCP Server.
+OwlAPI retains its AGPL-3.0-only licence.
 
 LICENSE
 
-````text
+```text
 GNU AFFERO GENERAL PUBLIC LICENSE
 Version 3, 19 November 2007
 
@@ -1124,11 +1125,11 @@ Also add information on how to contact you by electronic and paper mail.
 If your software can interact with users remotely through a computer network, you should also make sure that it provides a way for users to get its source.  For example, if your program is a web application, its interface could display a "Source" link that leads users to an archive of the code.  There are many ways you could offer source, and different solutions will be better for different programs; see section 13 for the specific requirements.
 
 You should also get your employer (if you work as a programmer) or school, if any, to sign a "copyright disclaimer" for the program, if necessary. For more information on this, and how to apply and follow the GNU AGPL, see <http://www.gnu.org/licenses/>.
-````
+```
 
 NOTICE
 
-````text
+```text
 owlapi
 
 Originally authored by Maksym Shostak
@@ -1170,11 +1171,11 @@ internal/parsing/jsonld/provider/licenses/. The jsonld source change exposes
 the context-count control; the versioned build manifest records its complete
 two-file patch, original input digests, bundled components and output identity.
 Neither this NOTICE nor the package licence replaces those upstream terms.
-````
+```
 
 LICENSES/Apache-2.0.txt
 
-````text
+```text
 
                                  Apache License
                            Version 2.0, January 2004
@@ -1377,7 +1378,7 @@ LICENSES/Apache-2.0.txt
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-````
+```
 
 ## process 0.11.10
 
@@ -1385,7 +1386,7 @@ License: MIT
 
 LICENSE
 
-````text
+```text
 (The MIT License)
 
 Copyright (c) 2013 Roman Shtylman <shtylman@gmail.com>
@@ -1408,7 +1409,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-````
+```
 
 ## rdf-data-factory 2.1.0
 
@@ -1416,7 +1417,7 @@ License: MIT
 
 LICENSE.txt
 
-````text
+```text
 The MIT License (MIT)
 
 Copyright © 2020 - now Ruben Taelman
@@ -1438,7 +1439,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-````
+```
 
 ## rdfxml-streaming-parser 3.3.0
 
@@ -1446,7 +1447,7 @@ License: MIT
 
 LICENSE.txt
 
-````text
+```text
 The MIT License (MIT)
 
 Copyright © 2018 Ruben Taelman
@@ -1468,7 +1469,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-````
+```
 
 ## readable-stream 4.8.0
 
@@ -1476,7 +1477,7 @@ License: MIT
 
 LICENSE
 
-````text
+```text
 Node.js is licensed for use as follows:
 
 """
@@ -1524,7 +1525,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE.
 """
-````
+```
 
 ## relative-to-absolute-iri 1.0.8
 
@@ -1532,7 +1533,7 @@ License: MIT
 
 LICENSE.txt
 
-````text
+```text
 The MIT License (MIT)
 
 Copyright © 2018 Ruben Taelman
@@ -1554,7 +1555,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-````
+```
 
 ## safe-buffer 5.2.1
 
@@ -1562,7 +1563,7 @@ License: MIT
 
 LICENSE
 
-````text
+```text
 The MIT License (MIT)
 
 Copyright (c) Feross Aboukhadijeh
@@ -1584,7 +1585,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-````
+```
 
 ## string_decoder 1.3.0
 
@@ -1592,7 +1593,7 @@ License: MIT
 
 LICENSE
 
-````text
+```text
 Node.js is licensed for use as follows:
 
 """
@@ -1640,7 +1641,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE.
 """
-````
+```
 
 ## validate-iri 1.0.1
 
@@ -1648,7 +1649,7 @@ License: MIT
 
 LICENSE.txt
 
-````text
+```text
 The MIT License (MIT)
 
 Copyright © 2021 - now Comunica Association
@@ -1670,7 +1671,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-````
+```
 
 ## xmlchars 2.2.0
 
@@ -1678,7 +1679,7 @@ License: MIT
 
 LICENSE
 
-````text
+```text
 Copyright Louis-Dominique Dubeau and contributors to xmlchars
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -1697,7 +1698,7 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-````
+```
 
 ## canonicalize 2.1.0
 
@@ -1705,7 +1706,7 @@ License: Apache-2.0
 
 licenses/canonicalize-2.1.0-LICENSE
 
-````text
+```text
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -1907,7 +1908,7 @@ licenses/canonicalize-2.1.0-LICENSE
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-````
+```
 
 ## jsonld 9.0.0
 
@@ -1915,7 +1916,7 @@ License: BSD-3-Clause
 
 licenses/jsonld-9.0.0-LICENSE
 
-````text
+```text
 You may use the jsonld.js project under the terms of the BSD License. 
 
 You are free to use this project in commercial projects as long as the 
@@ -1956,7 +1957,7 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-````
+```
 
 ## lru-cache 6.0.0
 
@@ -1964,7 +1965,7 @@ License: ISC
 
 licenses/lru-cache-6.0.0-LICENSE
 
-````text
+```text
 The ISC License
 
 Copyright (c) Isaac Z. Schlueter and Contributors
@@ -1980,7 +1981,7 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
 IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-````
+```
 
 ## yallist 4.0.0
 
@@ -1988,7 +1989,7 @@ License: ISC
 
 licenses/yallist-4.0.0-LICENSE
 
-````text
+```text
 The ISC License
 
 Copyright (c) Isaac Z. Schlueter and Contributors
@@ -2004,7 +2005,7 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
 IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-````
+```
 
 ## rdf-canonize 5.0.0
 
@@ -2012,7 +2013,7 @@ License: BSD-3-Clause
 
 licenses/rdf-canonize-5.0.0-LICENSE
 
-````text
+```text
 New BSD License (3-clause)
 Copyright (c) 2016-2021, Digital Bazaar, Inc.
 All rights reserved.
@@ -2038,7 +2039,7 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-````
+```
 
 ## rolldown 1.2.13
 
@@ -2046,7 +2047,7 @@ License: MIT
 
 licenses/rolldown-1.2.13-LICENSE
 
-````text
+```text
 MIT License
 
 Copyright (c) 2024-present VoidZero Inc. & Contributors
@@ -2072,7 +2073,7 @@ SOFTWARE.
 end of terms and conditions
 
 The licenses of externally maintained libraries from which parts of the Software is derived are listed [here](https://github.com/rolldown/rolldown/blob/main/THIRD-PARTY-LICENSE).
-````
+```
 
 ## setimmediate 1.0.5
 
@@ -2080,7 +2081,7 @@ License: MIT
 
 licenses/setimmediate-1.0.5-LICENSE.txt
 
-````text
+```text
 Copyright (c) 2012 Barnesandnoble.com, llc, Donavon West, and Domenic Denicola
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -2101,4 +2102,4 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-````
+```

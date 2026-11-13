@@ -9,14 +9,14 @@ const vocabulary = "https://example.org/vocabulary/";
 
 test("different local bindings retain distinct, immutable closure handles", async () => {
   const workspace = createOntologyDocumentWorkspace();
+  let attempts = 0;
   const observer = createServer((_request, response) => {
     attempts++;
     response.end();
   });
-  let attempts = 0;
   await new Promise((ready) => observer.listen(0, "127.0.0.1", ready));
-  const origin = "http://127.0.0.1:" + observer.address().port;
-  const aliases = [origin + "/first", origin + "/second"];
+  const origin = `http://127.0.0.1:${observer.address().port}`;
+  const aliases = [`${origin}/first`, `${origin}/second`];
   const input = {
     format: "turtle",
     documentIRI: "urn:root",
@@ -85,7 +85,7 @@ test("both rejected opens retain the previous context and its snapshot handle", 
       rootSnapshotId: snapshotId,
       entityIdentifier: {
         identifierKind: "entity_iri",
-        identifierValue: vocabulary + "Record",
+        identifierValue: `${vocabulary}Record`,
       },
       depth: 0,
     };
@@ -207,7 +207,7 @@ test.each(["compatible", "preserve"])(
         arguments: {
           entityIdentifier: {
             identifierKind: "entity_iri",
-            identifierValue: vocabulary + "Record",
+            identifierValue: `${vocabulary}Record`,
           },
           depth: 0,
         },
@@ -228,8 +228,8 @@ test.each(["compatible", "preserve"])(
           ])
           .sort(),
       ).toEqual([
-        ["1", vocabulary + "citationA"],
-        ["2", vocabulary + "citationB"],
+        ["1", `${vocabulary}citationA`],
+        ["2", `${vocabulary}citationB`],
       ]);
     } finally {
       await client.close();

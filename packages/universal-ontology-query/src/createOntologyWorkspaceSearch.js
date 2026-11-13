@@ -84,7 +84,8 @@ export function createOntologyWorkspaceSearch(getView, defaultId) {
       const nextOffsets = [...offsets];
       const matches = candidates.slice(0, limit).map(({ hit, i }) => {
         nextOffsets[i]++;
-        const { rank, ...publicHit } = hit;
+        const publicHit = { ...hit };
+        delete publicHit.rank;
         return publicHit;
       });
       const total = results.reduce((v, r) => v + r.total, 0);

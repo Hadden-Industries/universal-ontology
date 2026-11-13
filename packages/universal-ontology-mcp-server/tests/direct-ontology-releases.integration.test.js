@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { parseUniversalOntologyMcpStdioConfiguration } from "../src/universalOntologyMcpStdioConfiguration.js";
 const base = "https://haddenindustries.com/ontology/universal/core/";
 const source = (relative) =>
-  fileURLToPath(new URL("../../../" + relative, import.meta.url));
+  fileURLToPath(new URL(`../../../${relative}`, import.meta.url));
 
 test("authored release identity supplies historical mappings even under an unrelated filename", async () => {
   const root = await mkdtemp(join(tmpdir(), "uo-release-"));
@@ -39,14 +39,14 @@ test("authored release identity supplies historical mappings even under an unrel
       ).context.nodes[0];
     };
     expect(
-      (await lookup(base + "Address")).definitions.map((d) => d.term.value),
+      (await lookup(`${base}Address`)).definitions.map((d) => d.term.value),
     ).toContain("Particulars of a place");
     expect(
       (await w.request("search", { queryText: "Particulars of a place" }))
         .matches[0].entityHandle.iri,
-    ).toBe(base + "Address");
+    ).toBe(`${base}Address`);
     expect(
-      (await lookup(base + "Address")).designations.some(
+      (await lookup(`${base}Address`)).designations.some(
         (d) =>
           d.predicateIri === "http://purl.org/dc/terms/title" &&
           d.role === "preferred",
@@ -76,10 +76,11 @@ test("operator-bound OWL-Time imports preserve the accepted view when the strict
     const config = parseUniversalOntologyMcpStdioConfiguration({
       environment: {},
       commandLineArguments: [
-        "--ontology-file=" + file,
+        `--ontology-file=${file}`,
         "--ontology-format=turtle",
-        "--ontology-imports=" +
-          JSON.stringify({ [importIri]: source("src/external/time.rdf") }),
+        `--ontology-imports=${JSON.stringify({
+          [importIri]: source("src/external/time.rdf"),
+        })}`,
       ],
     });
     w = await createFileOntologyWorkspace(config.ontologyQueryArtifactSource);
@@ -88,7 +89,7 @@ test("operator-bound OWL-Time imports preserve the accepted view when the strict
       w.openDocument({ path: file, parsingMode: "preserve" }),
     ).rejects.toMatchObject({ errorCode: "ONTOLOGY_DOCUMENT_REFUSED" });
     expect(w.list()).toEqual(before);
-    const iri = importIri + "#TemporalEntity";
+    const iri = `${importIri}#TemporalEntity`;
     expect(
       (await w.request("resolve", { name: iri })).matches[0].entityHandle.iri,
     ).toBe(iri);
@@ -112,12 +113,12 @@ test("a missing bound import is a coverage gap only when declared, and impossibl
   let ws;
   try {
     const root = "<urn:root> a <http://www.w3.org/2002/07/owl#Ontology>";
-    await writeFile(file, root + " .");
+    await writeFile(file, `${root} .`);
     ws = await createFileOntologyWorkspace({ file, bindings });
     const first = ws.list().ontologies[0].ontologyId;
     await writeFile(
       file,
-      root + "; <http://www.w3.org/2002/07/owl#imports> <urn:lost> .",
+      `${root}; <http://www.w3.org/2002/07/owl#imports> <urn:lost> .`,
     );
     const info = await ws.openDocument({ path: file });
     const card = await ws.request("context", {
@@ -139,7 +140,7 @@ test("a missing bound import is a coverage gap only when declared, and impossibl
     expect(
       documentProjectionPolicy({
         ontologyIRI: { value: base },
-        versionIRI: { value: base + "20190231" },
+        versionIRI: { value: `${base}20190231` },
       }).interpretation,
     ).toBe("unverified_release_metadata");
   } finally {
@@ -194,25 +195,17 @@ test.each([
       shared = "urn:shared",
       owl = "http://www.w3.org/2002/07/owl#";
     const bindings = ["a", "b"].map((v) => ({
-      iri: "urn:" + v,
-      path: join(temp, v + ".ttl"),
+      iri: `urn:${v}`,
+      path: join(temp, `${v}.ttl`),
     }));
     let ws;
     try {
       for (const item of bindings)
         await writeFile(
           item.path,
-          "<" +
-            shared +
-            "> a <" +
-            owl +
-            "Ontology>; <" +
-            owl +
-            "versionIRI> <" +
-            item.iri +
-            "> .",
+          `<${shared}> a <${owl}Ontology>; <${owl}versionIRI> <${item.iri}> .`,
         );
-      await writeFile(file, "<urn:root> a <" + owl + "Ontology> .");
+      await writeFile(file, `<urn:root> a <${owl}Ontology> .`);
       ws = await createFileOntologyWorkspace({
         file,
         bindings: [...bindings, { iri: shared, path: bindings[1].path }],
@@ -221,17 +214,9 @@ test.each([
       const accepted = ws.list();
       await writeFile(
         file,
-        "<urn:root> a <" +
-          owl +
-          "Ontology>; <" +
-          owl +
-          "imports> <urn:" +
-          first +
-          ">, <" +
-          shared +
-          ">, <urn:" +
-          second +
-          "> .",
+        `<urn:root> a <${owl}Ontology>; <${owl}imports> <urn:${first}>, <${
+          shared
+        }>, <urn:${second}> .`,
       );
       await expect(ws.openDocument({ path: file })).rejects.toMatchObject({
         errorCode: "ONTOLOGY_DOCUMENT_REFUSED",

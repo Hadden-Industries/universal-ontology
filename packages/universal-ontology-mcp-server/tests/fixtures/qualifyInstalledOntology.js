@@ -37,9 +37,9 @@ async function qualify() {
       command: process.execPath,
       args: [
         resolve(bin),
-        "--ontology-file=" + resolve(file),
-        "--ontology-mode=" + parsingMode,
-        ...(scratch ? ["--ontology-root=" + scratch] : []),
+        `--ontology-file=${resolve(file)}`,
+        `--ontology-mode=${parsingMode}`,
+        ...(scratch ? [`--ontology-root=${scratch}`] : []),
       ],
       stderr: "pipe",
     });
@@ -48,7 +48,7 @@ async function qualify() {
       const result = await client.callTool({ name, arguments: args });
       if (result.isError)
         throw new Error(
-          name + " failed " + result.structuredContent?.error?.errorCode,
+          `${name} failed ${result.structuredContent?.error?.errorCode}`,
         );
       return result.structuredContent;
     }
@@ -75,12 +75,13 @@ async function qualify() {
       parsingMode,
       digest,
     ];
+    // json-identity-contract: ordered-tuple; owner: Installed snapshot qualification; reason: Reproduce the specified file URL, syntax, mode and raw digest tuple.
+    const snapshotBytes = JSON.stringify(snapshotMaterial);
     assert.equal(
       card.snapshotRef.rootSnapshotId,
-      "urn:uo:snapshot:" +
-        createHash("sha256")
-          .update(JSON.stringify(snapshotMaterial))
-          .digest("hex"),
+      `urn:uo:snapshot:${createHash("sha256")
+        .update(snapshotBytes)
+        .digest("hex")}`,
     );
     const firstContextMs = Math.ceil(performance.now() - firstContextStart);
     const node = card.context.nodes.find(
@@ -124,8 +125,8 @@ async function qualify() {
     await call("close_ontology", { ontologyId: entityHandle.ontologyId });
     if ((await call("list_ontologies")).ontologies.length)
       throw new Error("Closed view still listed");
-    console.log(
-      JSON.stringify({
+    process.stdout.write(
+      `${JSON.stringify({
         sha256: digest,
         mode: ontologies[0].parsingMode,
         classes: ontologies[0].classCount,
@@ -139,7 +140,7 @@ async function qualify() {
         lifecycle,
         fourTools: true,
         closed: true,
-      }),
+      })}\n`,
     );
   } finally {
     try {
@@ -170,7 +171,7 @@ async function peakWorkingSetMiB(pid) {
           "-NoProfile",
           "-NonInteractive",
           "-Command",
-          "(Get-Process -Id " + pid + ").PeakWorkingSet64",
+          `(Get-Process -Id ${pid}).PeakWorkingSet64`,
         ],
         { encoding: "utf8", windowsHide: true },
       ),
@@ -180,7 +181,7 @@ async function peakWorkingSetMiB(pid) {
     return Math.ceil(bytes / 1048576);
   }
   if (process.platform === "linux") {
-    const status = await readFile("/proc/" + pid + "/status", "utf8");
+    const status = await readFile(`/proc/${pid}/status`, "utf8");
     const high = status.match(/^VmHWM:\s+(\d+) kB$/mu);
     if (high) return Math.ceil(Number(high[1]) / 1024);
   }
@@ -191,13 +192,13 @@ async function exerciseLifecycle(scratch, client, call, original, queryText) {
   const path = join(scratch, "reference.ttl"),
     iri = "urn:qualification:term";
   const text = (version) =>
-    "@prefix owl: <http://www.w3.org/2002/07/owl#> . @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . <urn:qualification> a owl:Ontology . <" +
-    iri +
-    "> a owl:Class; rdfs:label " +
-    JSON.stringify(queryText) +
-    '@en; <http://www.w3.org/2004/02/skos/core#definition> "Revision ' +
-    version +
-    '" .';
+    `@prefix owl: <http://www.w3.org/2002/07/owl#> . @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . <urn:qualification> a owl:Ontology . <${
+      iri
+    }> a owl:Class; rdfs:label ${JSON.stringify(
+      queryText,
+    )}@en; <http://www.w3.org/2004/02/skos/core#definition> "Revision ${
+      version
+    }" .`;
   async function openAfterCleanup(path, parsingMode) {
     const end = performance.now() + 3000;
     for (;;) {
@@ -247,13 +248,10 @@ async function exerciseLifecycle(scratch, client, call, original, queryText) {
   for (let generation = 1; generation <= 3; generation++) {
     await writeFile(path, text(generation));
     const opened = await call("open_ontology", { path });
-    await checkDefinition(versionHandle(opened), "Revision " + generation);
+    await checkDefinition(versionHandle(opened), `Revision ${generation}`);
     if (prior) {
       assert.notEqual(prior.ontologyId, opened.ontologyId);
-      await checkDefinition(
-        versionHandle(prior),
-        "Revision " + (generation - 1),
-      );
+      await checkDefinition(versionHandle(prior), `Revision ${generation - 1}`);
       await call("close_ontology", { ontologyId: prior.ontologyId });
     }
     const single = await call("search_entities", {
@@ -274,8 +272,8 @@ async function exerciseLifecycle(scratch, client, call, original, queryText) {
       const thirdFile = join(scratch, "third.ttl");
       await writeFile(thirdFile, text(99));
       const third = await call("open_ontology", { path: thirdFile });
-      let hits = [...page.matches],
-        cursor = page.nextCursor;
+      const hits = [...page.matches];
+      let cursor = page.nextCursor;
       while (cursor) {
         const next = await call("search_entities", {
           cursor,
@@ -303,7 +301,7 @@ async function exerciseLifecycle(scratch, client, call, original, queryText) {
       refused.structuredContent?.error?.errorCode !==
       "ONTOLOGY_DOCUMENT_REFUSED"
     )
-      throw new Error("Expected a parser refusal in " + parsingMode);
+      throw new Error(`Expected a parser refusal in ${parsingMode}`);
     const old = await call("resolve_entity", {
       ontologyId: original.ontologyId,
       name: original.iri,

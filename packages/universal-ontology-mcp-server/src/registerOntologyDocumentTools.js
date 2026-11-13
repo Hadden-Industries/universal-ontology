@@ -52,7 +52,7 @@ export function registerOntologyDocumentTools(server, workspace, lifecycle) {
                 text:
                   name === "get_entity_context"
                     ? text
-                    : ONTOLOGY_AUTHORED_CONTENT_WARNING + "\n" + text,
+                    : `${ONTOLOGY_AUTHORED_CONTENT_WARNING}\n${text}`,
               },
             ],
             structuredContent: result,
@@ -151,7 +151,7 @@ export function registerOntologyDocumentTools(server, workspace, lifecycle) {
       ),
     (input, signal) => workspace.request("search", input, signal),
     (r) =>
-      r.matches.map((m) => m.label + " (" + m.source + ")").join("\n") ||
+      r.matches.map((m) => `${m.label} (${m.source})`).join("\n") ||
       "No matching terms.",
   );
   register(
@@ -160,7 +160,7 @@ export function registerOntologyDocumentTools(server, workspace, lifecycle) {
     { ...lexical, name: iri },
     (input, signal) => workspace.request("resolve", input, signal),
     (r) =>
-      r.matches.map((m) => m.label + " " + m.entityHandle.iri).join("\n") ||
+      r.matches.map((m) => `${m.label} ${m.entityHandle.iri}`).join("\n") ||
       "No matching term.",
   );
   register(
@@ -186,13 +186,13 @@ export function registerOntologyDocumentTools(server, workspace, lifecycle) {
       ),
     (r) =>
       r.resourceHandle
-        ? ONTOLOGY_AUTHORED_CONTENT_WARNING +
-          "\n" +
-          (r.resolved
-            ? r.statements
-                .map((row) => row.predicateIri + " " + row.object.value)
-                .join("\n")
-            : "No description in this source.")
+        ? `${ONTOLOGY_AUTHORED_CONTENT_WARNING}\n${
+            r.resolved
+              ? r.statements
+                  .map((row) => `${row.predicateIri} ${row.object.value}`)
+                  .join("\n")
+              : "No description in this source."
+          }`
         : renderOntologyToolResultAsText(r),
   );
   register(
@@ -210,6 +210,6 @@ export function registerOntologyDocumentTools(server, workspace, lifecycle) {
         throw new OntologyQueryError("QUERY_INDEX_DIGEST_MISMATCH");
       return workspace.request("connections", input, signal);
     },
-    (r) => r.status + " (" + r.paths.length + " paths)",
+    (r) => `${r.status} (${r.paths.length} paths)`,
   );
 }

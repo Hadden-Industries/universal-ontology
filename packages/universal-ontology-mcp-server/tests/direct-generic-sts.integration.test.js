@@ -142,7 +142,7 @@ test("the default MCP context budget fits the community term card", async () => 
     await client.connect(
       new StdioClientTransport({
         command: process.execPath,
-        args: [entry, "--ontology-file=" + file],
+        args: [entry, `--ontology-file=${file}`],
         stderr: "pipe",
       }),
     );

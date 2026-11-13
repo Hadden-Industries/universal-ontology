@@ -163,14 +163,14 @@ const fieldNames = new Map(
   }),
 );
 function wording(term) {
-  return term.value + (term.language ? " [" + term.language + "]" : "");
+  return term.value + (term.language ? ` [${term.language}]` : "");
 }
 function renderAuthoredField(lines, label, term, occurrences, description) {
-  lines.push(label + ": " + wording(term));
+  lines.push(`${label}: ${wording(term)}`);
   function describe(resource) {
     for (const s of resource?.statements ?? []) {
       const field = fieldNames.get(s.predicateIri);
-      if (field) lines.push("    " + field + ": " + wording(s.object));
+      if (field) lines.push(`    ${field}: ${wording(s.object)}`);
     }
     if (resource?.resolved === false)
       lines.push("    No description in this source.");
@@ -180,11 +180,9 @@ function renderAuthoredField(lines, label, term, occurrences, description) {
   describe(description);
   for (const occurrence of occurrences ?? []) {
     lines.push(
-      "  Occurrence " +
-        occurrence.resource.value +
-        " (graph " +
-        occurrence.annotationGraph +
-        ")",
+      `  Occurrence ${occurrence.resource.value} (graph ${
+        occurrence.annotationGraph
+      })`,
     );
     for (const a of occurrence.annotations) {
       const name =
@@ -192,28 +190,38 @@ function renderAuthoredField(lines, label, term, occurrences, description) {
         a.predicateIri === "http://www.w3.org/2004/02/skos/core#note"
           ? "Source modification"
           : (fieldNames.get(a.predicateIri) ?? a.predicateIri);
-      lines.push("  " + name + ": " + wording(a.object));
+      lines.push(`  ${name}: ${wording(a.object)}`);
       describe(a.description);
     }
   }
 }
+function designationKey(term) {
+  // A fixed tuple makes designation equality independent of object property order.
+  return JSON.stringify([
+    term.termType,
+    term.value,
+    term.language,
+    term.datatype,
+  ]);
+}
+
 function renderDocumentNode(lines, node) {
-  lines.push("Term: " + node.entityIri);
+  lines.push(`Term: ${node.entityIri}`);
   const specific = new Set(
     node.designations
       .filter((d) => d.role !== "label")
-      .map((d) => JSON.stringify(d.object)),
+      .map((d) => designationKey(d.object)),
   );
   for (const d of node.designations) {
     if (
       d.role === "label" &&
-      specific.has(JSON.stringify(d.object)) &&
+      specific.has(designationKey(d.object)) &&
       !d.occurrences.length
     )
       continue;
     renderAuthoredField(
       lines,
-      d.role === "label" ? "Label" : d.role + " designation",
+      d.role === "label" ? "Label" : `${d.role} designation`,
       d.object,
       d.occurrences,
     );
@@ -239,7 +247,7 @@ function renderDocumentNode(lines, node) {
     entries.sort((a, b) => (a.pos ?? Infinity) - (b.pos ?? Infinity));
     for (const { f, o, pos } of entries) {
       const label =
-        labelOf(f) + (pos === null ? " (position unspecified)" : " " + pos);
+        labelOf(f) + (pos === null ? " (position unspecified)" : ` ${pos}`);
       renderAuthoredField(lines, label, termOf(f), o ? [o] : []);
     }
   }

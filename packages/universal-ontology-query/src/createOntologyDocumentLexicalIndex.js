@@ -25,15 +25,16 @@ export function createOntologyDocumentLexicalIndex(
     entries = new Map(),
     candidates = [];
   const properties = new Map([
-    [SKOS + "prefLabel", "preferred_label"],
-    [RDFS + "label", "preferred_label"],
-    [SKOS + "altLabel", "alternative_label"],
-    [SKOS + "hiddenLabel", "alternative_label"],
-    [SKOS + "definition", "lexical_definition"],
-    [DCT + "identifier", "identifier_literal"],
+    [`${SKOS}prefLabel`, "preferred_label"],
+    [`${RDFS}label`, "preferred_label"],
+    [`${SKOS}altLabel`, "alternative_label"],
+    [`${SKOS}hiddenLabel`, "alternative_label"],
+    [`${SKOS}definition`, "lexical_definition"],
+    [`${DCT}identifier`, "identifier_literal"],
   ]);
   const remembered = new Set();
   function add(iri, kind, value, predicate, lang = "") {
+    // json-identity-contract: ordered-tuple; owner: Document lexical index; reason: Entity, kind, value, predicate and language distinguish lexical candidates.
     const identity = JSON.stringify([iri, kind, value, predicate, lang]);
     if (remembered.has(identity)) return;
     remembered.add(identity);

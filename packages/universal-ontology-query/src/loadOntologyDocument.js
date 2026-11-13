@@ -39,9 +39,9 @@ function capture(source, parsingMode) {
       cause,
     });
   }
-  const snapshotId =
-    "urn:uo:snapshot:" +
-    sha256(JSON.stringify([documentIRI, format, parsingMode, sha256(bytes)]));
+  const snapshotId = `urn:uo:snapshot:${sha256(
+    JSON.stringify([documentIRI, format, parsingMode, sha256(bytes)]),
+  )}`;
   return {
     documentIRI,
     format,
@@ -276,7 +276,7 @@ export async function loadOntologyDocument({
       const graph = oxigraph.namedNode(doc.snapshotId);
       const scope = (t) =>
         t.termType === "BlankNode"
-          ? oxigraph.blankNode("b" + doc.snapshotId.slice(-64) + "_" + t.value)
+          ? oxigraph.blankNode(`b${doc.snapshotId.slice(-64)}_${t.value}`)
           : t;
       for (const q of oxigraph.parse([doc.text], {
         format: mediaTypes.get(doc.format),

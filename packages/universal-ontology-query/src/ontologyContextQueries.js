@@ -399,10 +399,10 @@ export function queryOntologyContext(store, input) {
                 (q) =>
                   q.object.termType === "Literal" &&
                   ([
-                    SKOS + "prefLabel",
-                    SKOS + "altLabel",
-                    SKOS + "hiddenLabel",
-                    RDFS + "label",
+                    `${SKOS}prefLabel`,
+                    `${SKOS}altLabel`,
+                    `${SKOS}hiddenLabel`,
+                    `${RDFS}label`,
                   ].includes(q.predicate.value) ||
                     input.projectionPolicies?.[
                       q.graph.value
@@ -411,11 +411,11 @@ export function queryOntologyContext(store, input) {
               .map((q) => ({
                 ...assertion(q),
                 role:
-                  q.predicate.value === SKOS + "hiddenLabel"
+                  q.predicate.value === `${SKOS}hiddenLabel`
                     ? "hidden"
-                    : q.predicate.value === SKOS + "altLabel"
+                    : q.predicate.value === `${SKOS}altLabel`
                       ? "alternative"
-                      : q.predicate.value === RDFS + "label"
+                      : q.predicate.value === `${RDFS}label`
                         ? "label"
                         : "preferred",
                 occurrences: assertionOccurrences(q),
@@ -423,7 +423,7 @@ export function queryOntologyContext(store, input) {
             references: quads
               .filter(
                 (q) =>
-                  q.predicate.value === DCTERMS_NAMESPACE_IRI + "references",
+                  q.predicate.value === `${DCTERMS_NAMESPACE_IRI}references`,
               )
               .map((q) => ({
                 ...describedAssertion(q),
@@ -432,31 +432,31 @@ export function queryOntologyContext(store, input) {
             identifiers: quads
               .filter(
                 (q) =>
-                  q.predicate.value === DCTERMS_NAMESPACE_IRI + "identifier",
+                  q.predicate.value === `${DCTERMS_NAMESPACE_IRI}identifier`,
               )
               .map(assertion),
             membership: quads
-              .filter((q) => q.predicate.value === RDFS + "isDefinedBy")
+              .filter((q) => q.predicate.value === `${RDFS}isDefinedBy`)
               .map(assertion),
             annotations: quads
               .filter(
                 (q) =>
                   ![
-                    RDF + "type",
-                    RDFS + "isDefinedBy",
-                    RDFS + "label",
+                    `${RDF}type`,
+                    `${RDFS}isDefinedBy`,
+                    `${RDFS}label`,
                     SOURCE,
-                    DCTERMS_NAMESPACE_IRI + "identifier",
-                    DCTERMS_NAMESPACE_IRI + "references",
-                    SKOS + "prefLabel",
-                    SKOS + "altLabel",
-                    SKOS + "hiddenLabel",
-                    SKOS + "definition",
-                    SKOS + "note",
-                    SKOS + "example",
-                    SKOS + "scopeNote",
-                    SKOS + "editorialNote",
-                    RDFS + "comment",
+                    `${DCTERMS_NAMESPACE_IRI}identifier`,
+                    `${DCTERMS_NAMESPACE_IRI}references`,
+                    `${SKOS}prefLabel`,
+                    `${SKOS}altLabel`,
+                    `${SKOS}hiddenLabel`,
+                    `${SKOS}definition`,
+                    `${SKOS}note`,
+                    `${SKOS}example`,
+                    `${SKOS}scopeNote`,
+                    `${SKOS}editorialNote`,
+                    `${RDFS}comment`,
                   ].includes(q.predicate.value) &&
                   !structuralPredicates.has(q.predicate.value),
               )
@@ -497,7 +497,7 @@ export function queryOntologyContext(store, input) {
   function describedAssertion(quad) {
     const value = assertion(quad);
     if (
-      [SOURCE, DCTERMS_NAMESPACE_IRI + "references"].includes(
+      [SOURCE, `${DCTERMS_NAMESPACE_IRI}references`].includes(
         quad.predicate.value,
       ) &&
       quad.object.termType !== "Literal"
@@ -512,12 +512,12 @@ export function queryOntologyContext(store, input) {
     const blankTarget = quad.object.termType === "BlankNode";
     const rows = select(`SELECT ?g ?axiom ?p ?o ?target WHERE {
       GRAPH ?g {
-        ?axiom ${iri(RDF + "type")} ${iri(OWL + "Axiom")};
-          ${iri(OWL + "annotatedSource")} ${quad.subject.toString()};
-          ${iri(OWL + "annotatedProperty")} ${quad.predicate.toString()};
-          ${iri(OWL + "annotatedTarget")} ${blankTarget ? "?target" : quad.object.toString()} .
+        ?axiom ${iri(`${RDF}type`)} ${iri(`${OWL}Axiom`)};
+          ${iri(`${OWL}annotatedSource`)} ${quad.subject.toString()};
+          ${iri(`${OWL}annotatedProperty`)} ${quad.predicate.toString()};
+          ${iri(`${OWL}annotatedTarget`)} ${blankTarget ? "?target" : quad.object.toString()} .
         OPTIONAL { ?axiom ?p ?o .
-          FILTER (?p NOT IN (${[RDF + "type", OWL + "annotatedSource", OWL + "annotatedProperty", OWL + "annotatedTarget"].map(iri).join(", ")}))
+          FILTER (?p NOT IN (${[`${RDF}type`, `${OWL}annotatedSource`, `${OWL}annotatedProperty`, `${OWL}annotatedTarget`].map(iri).join(", ")}))
         }
       }
     } ORDER BY ?g ?axiom ?p ?o`);
@@ -531,6 +531,7 @@ export function queryOntologyContext(store, input) {
         continue;
       const axiom = row.get("axiom");
       const graph = row.get("g");
+      // json-identity-contract: ordered-tuple; owner: Ontology context; reason: The graph and RDF term jointly identify this axiom occurrence.
       const id = JSON.stringify([graph.value, axiom.toString()]);
       if (!resources.has(id))
         resources.set(id, {

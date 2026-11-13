@@ -1,3 +1,4 @@
+import { platform } from "node:process";
 import { freezeJsonValueDeeply } from "./jsonValueImmutability.js";
 import { randomBytes } from "node:crypto";
 import { createWaiterAwareSharedOperation } from "./createWaiterAwareSharedOperation.js";
@@ -8,7 +9,7 @@ import { OntologyQueryError } from "./ontologyQueryErrors.js";
 const denied = () => new OntologyQueryError("ONTOLOGY_SOURCE_DENIED");
 const inside = (base, path) => {
   const rel = relative(base, path);
-  return rel !== ".." && !rel.startsWith(".." + sep) && !isAbsolute(rel);
+  return rel !== ".." && !rel.startsWith(`..${sep}`) && !isAbsolute(rel);
 };
 function startViewWorker(onStop) {
   const worker = new Worker(
@@ -108,11 +109,11 @@ export async function createFileOntologyWorkspace({
     createWaiterCancellationError: () =>
       new OntologyQueryError("QUERY_CANCELLED"),
   });
-  const pager = createOntologyWorkspaceSearch(get, () => current);
   let current,
     loading = false,
     closed = false,
     candidate;
+  const pager = createOntologyWorkspaceSearch(get, () => current);
   function get(id = current) {
     const v = views.get(id);
     if (!v)
@@ -129,7 +130,7 @@ export async function createFileOntologyWorkspace({
     const actual = resolve(path);
     if (
       (actual !== selected && !(base && inside(base, actual))) ||
-      (process.platform === "win32" &&
+      (platform === "win32" &&
         (/^[\\\\][\\\\][?.]/u.test(actual) ||
           actual.slice(parse(actual).root.length).includes(":")))
     )
@@ -213,6 +214,7 @@ export async function createFileOntologyWorkspace({
     };
     // Only join a capture that has not started. Once the worker can see
     // filesystem bytes a later refresh must perform its own observation.
+    // json-identity-contract: ordered-tuple; owner: Document workspace; reason: Path, mode and optional syntax select a pending capture.
     const key = JSON.stringify([
       resolve(input.path),
       request.parsingMode,

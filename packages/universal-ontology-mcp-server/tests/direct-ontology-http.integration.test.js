@@ -20,14 +20,14 @@ test("two HTTP agents share admitted views and cannot widen the operator's sourc
   ]);
   const server = await runLocalOntologyMcpServer({
     environment: {},
-    arguments: ["--ontology-file=" + source],
+    arguments: [`--ontology-file=${source}`],
     configuration: { port: 0 },
   });
   const url = new URL(
-    "http://127.0.0.1:" + server.httpServer.address().port + "/mcp",
+    `http://127.0.0.1:${server.httpServer.address().port}/mcp`,
   );
   const clients = [1, 2].map(
-    (n) => new Client({ name: "local-http-agent-" + n, version: "1" }),
+    (n) => new Client({ name: `local-http-agent-${n}`, version: "1" }),
   );
   try {
     for (const c of clients)
@@ -80,7 +80,7 @@ test("stdio and loopback HTTP return equivalent search pages, cards, citations a
   );
   const root = dirname(file);
   const secondFile = join(root, "definition-occurrences.ttl");
-  const args = ["--ontology-file=" + file, "--ontology-root=" + root];
+  const args = [`--ontology-file=${file}`, `--ontology-root=${root}`];
   const entry = fileURLToPath(
     new URL(
       "../scripts/runUniversalOntologyMcpStdioServer.js",
@@ -97,7 +97,7 @@ test("stdio and loopback HTTP return equivalent search pages, cards, citations a
     configuration: { port: 0 },
   });
   const clients = [0, 1].map(
-    (n) => new Client({ name: "transport-parity-" + n, version: "1" }),
+    (n) => new Client({ name: `transport-parity-${n}`, version: "1" }),
   );
   try {
     await clients[0].connect(
@@ -109,9 +109,7 @@ test("stdio and loopback HTTP return equivalent search pages, cards, citations a
     );
     await clients[1].connect(
       new StreamableHTTPClientTransport(
-        new URL(
-          "http://127.0.0.1:" + server.httpServer.address().port + "/mcp",
-        ),
+        new URL(`http://127.0.0.1:${server.httpServer.address().port}/mcp`),
       ),
     );
     async function journey(client) {

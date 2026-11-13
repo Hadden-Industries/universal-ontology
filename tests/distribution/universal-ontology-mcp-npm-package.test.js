@@ -726,7 +726,7 @@ describe("public Universal Ontology MCP npm package", () => {
           await direct.connect(
             new StdioClientTransport({
               command: process.execPath,
-              args: [installedBundlePath, "--ontology-file=" + filename],
+              args: [installedBundlePath, `--ontology-file=${filename}`],
               cwd: installationDirectoryPath,
               stderr: "pipe",
             }),

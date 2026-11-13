@@ -443,9 +443,7 @@ async function assertNoticesCoverBundledComponents(
       const section = normalizedNotices
         .split("## @rubensworks/saxes 6.0.1\n")[1]
         ?.split("\n## ")[0];
-      const text = section
-        ?.split("\u0060\u0060\u0060\u0060text\n")[1]
-        ?.split("\n\u0060\u0060\u0060\u0060")[0];
+      const text = section?.match(/^(`{3,})text\n([\s\S]*?)\n\1$/mu)?.[2];
       if (
         !text ||
         createHash("sha256").update(text).digest("hex") !==
@@ -511,7 +509,7 @@ function assertQualifiedWorker(workerText) {
     .sort();
   if (
     calculateSha256(expressions.join("\n")) !==
-    "1caaa0ede047cccb8abad4530192f5ad5a24014e37d6649450b5cbe0d78d72eb"
+    "3233b7808252d952bd0dcf80603865db20bc20700ddd538bf5f4d03812b269ea"
   )
     throw new Error(
       "Parser worker URL expressions differ from the qualified inventory.",
@@ -535,7 +533,7 @@ function assertQualifiedWorker(workerText) {
       '/** @param {import("../model/owlDocumentFormat.js").OWLDocumentFormat} format */',
       "",
     )
-    .replaceAll(/^      import\(stream\) \{$/gmu, "")
+    .replaceAll(/^ {6}import\(stream\) \{$/gmu, "")
     .replace("return this.filtered.import(stream);", "");
   if (/\beval\s*\(|\bnew\s+Function\s*\(|\bimport\s*\(/u.test(remaining))
     throw new Error(
