@@ -393,7 +393,7 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
           ...EXPECTED_MCP_TOOL_NAMES,
         ]
       : EXPECTED_MCP_TOOL_NAMES;
-    if (!isDeepStrictEqual([...toolNames].sort(), [...expectedTools].sort())) {
+    if (!isDeepStrictEqual(toolNames, expectedTools)) {
       throw new Error(
         `Universal Ontology MCP tool surface mismatch. Expected ${JSON.stringify(expectedTools)}; received ${JSON.stringify(toolNames)}.`,
       );

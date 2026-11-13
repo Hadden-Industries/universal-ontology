@@ -309,7 +309,7 @@ describe("Universal Ontology MCP release verifier", () => {
       { cwd: new URL("../../", import.meta.url), maxBuffer: 8 * 1024 * 1024 },
     );
     nativeNpmSbom = JSON.parse(stdout);
-  });
+  }, 30_000);
 
   afterAll(async () => {
     await nodeFileSystem.rm(fixtureParentDirectoryPath, {
