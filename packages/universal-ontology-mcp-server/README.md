@@ -8,7 +8,8 @@ It runs as a local `stdio` process, opens no inbound port, and offers four brows
 - `get_entity_context`
 - `find_entity_connections`
 
-Direct RDF/XML and Turtle sessions additionally expose `open_ontology`, `list_ontologies` and `close_ontology`. Start the executable with `--ontology-file=<path>` to index a document in memory.
+Direct RDF/XML and Turtle sessions additionally expose `open_ontology`, `list_ontologies` and `close_ontology`.
+Start the executable with `--ontology-file=<path>` to index a document in memory.
 
 ## Development status
 

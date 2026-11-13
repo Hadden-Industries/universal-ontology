@@ -24,7 +24,9 @@ npm ci --include=dev --ignore-scripts --engine-strict
 npm run serve:mcp-development
 ```
 
-The server loads the current ontology before opening the TCP listener. Supply `--ontology-file=<path>` and optionally `--ontology-root=<directory>` after `npm run serve:mcp-development --` to browse other sources. Every agent using this loopback listener shares the same operator workspace.
+The server loads the current ontology before opening the TCP listener.
+Supply `--ontology-file=<path>` and optionally `--ontology-root=<directory>` after `npm run serve:mcp-development --` to browse other sources.
+Every agent using this loopback listener shares the same operator workspace.
 A successful startup emits a structured `mcp_server_listening` event with address `127.0.0.1`, port `8000`, and MCP path `/mcp`.
 
 In another PowerShell terminal, verify readiness:
@@ -180,7 +182,9 @@ It does not watch the filesystem.
 Stop and restart it after regeneration.
 If the representation changes incompatibly, introduce a new format version and query-root directory instead of silently reinterpreting format version `1`.
 
-Repository-local stdio setup opens the current core ontology file directly. Select filesystem artifact mode explicitly to generate and use `dist/query/v1`. The [local installation guide](local-installation.md#select-a-local-source-or-switch-back-to-direct-browsing) gives the commands for switching sources.
+Repository-local stdio setup opens the current core ontology file directly.
+Select filesystem artifact mode explicitly to generate and use `dist/query/v1`.
+The [local installation guide](local-installation.md#select-a-local-source-or-switch-back-to-direct-browsing) gives the commands for switching sources.
 
 ## Local runner configuration
 
@@ -206,7 +210,11 @@ A production runner is a separate entry point with a different security model; d
 
 ## Browse the current core document
 
-Call `list_ontologies` and search for `Person` with `{"queryText":"Person"}`. Use the returned `entityHandle` with `get_entity_context` to read the term card, and `resolve_entity` for an exact name. `find_entity_connections` accepts two entity handles from the same view. When the operator supplies a root, use `open_ontology` for an additional file, search with `ontologyIds`, and pass the returned `nextCursor` as `cursor` to continue. Use `close_ontology` to release a view.
+Call `list_ontologies` and search for `Person` with `{"queryText":"Person"}`.
+Use the returned `entityHandle` with `get_entity_context` to read the term card, and `resolve_entity` for an exact name.
+`find_entity_connections` accepts two entity handles from the same view.
+When the operator supplies a root, use `open_ontology` for an additional file, search with `ontologyIds`, and pass the returned `nextCursor` as `cursor` to continue.
+Use `close_ontology` to release a view.
 
 ## Explicit artifact-mode tool contracts
 
@@ -368,7 +376,8 @@ enabled_tools = [
 ```
 
 `default_tools_approval_mode = "writes"` is deliberate.
-Browsing tools are read-only. Opening and closing views change the shared workspace.
+Browsing tools are read-only.
+Opening and closing views change the shared workspace.
 Restart or reload the relevant Codex host after a manual configuration change, then confirm that the seven tools above are visible under the loopback entry.
 Remove the entry when HTTP-adapter testing is complete; it is not an installed-server configuration.
 

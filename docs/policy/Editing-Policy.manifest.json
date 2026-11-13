@@ -3,7 +3,7 @@
   "generator": "scripts/render_editing_policy.py",
   "policyIdentity": "sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb",
   "inputDigestAlgorithm": "sha256",
-  "inputDigest": "sha256:dbcc9d5969763a78c47168fe752ffcb604fce28d81d3db084f85247f05058484",
+  "inputDigest": "sha256:1aad35ec6bded23cb453e0ecb7403a5560c6a8017e090bcdc9490a80cd539aac",
   "inputs": {
     ".json-quality.json": "26e90228af5996980a60b277a05900bcc412b5ef885550578d0ac7561508be90",
     ".markdown-quality-execution.json": "73c8b085746b01d2c76915f734027aa100eba637230734737c284ae00829d86f",
@@ -34,7 +34,7 @@
     "docs/editing-policy/source/reader-guidance.ttl": "dc4ee0d112ef5357a6e95389d3eb56222097a548fb9ed47b7c6a3adfed37ba3f",
     "docs/editing-policy/usability/acceptance-results.md": "6839d21d51e7561a749a4453744ccaf6e2301db538174907c20890b6665d5959",
     "docs/editing-policy/usability/test-script.md": "2574e1d5b98b5c22427704e5cbbad2f80fe7d5ce211dd96d39b11b058a940b50",
-    "package-lock.json": "5810013664344ad012dec4e02886f6be9ceb5c6ffcb8ea454e356b216469dd37",
+    "package-lock.json": "d18b7b9f0dd36d300e006ee43ffe4b35b673c1cf2dde2ad9f648654192a8062f",
     "policy/axiom-policy.ttl": "c0102868259018f56ba9ec8a16deb7b89d955c473a1f5731cdb0e85dac0ed2e6",
     "policy/dataset-distribution-policy.ttl": "d614d689bebe06fac83624d7fb4ff17337450d42d52c3a095ab3b7212dd510c8",
     "policy/editing-policy.ttl": "f10fa8e68a14ec8de4a47171a9d8bf423f51cf42bfa1a50721becedfd2e43941",

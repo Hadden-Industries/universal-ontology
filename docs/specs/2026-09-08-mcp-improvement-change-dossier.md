@@ -122,7 +122,7 @@ A verified in-scope semantic naming mismatch must be corrected or the implementa
 
 ## 4. Risk route and authority
 
-### Risk class:
+### Risk class
 
 R0 for acceptance recording and baseline/configuration preparation: no executable, configuration, public contract or persistent-data change.
 The originating task supplies its intent.
@@ -131,45 +131,45 @@ That follows the local router's explicit triggers, not document length.
 Isolated explanatory edits may be R0; bounded preservation tests or internal work with understood unchanged contracts may be R1.
 Route each independently accepted increment on its real impact, without splitting work to evade an R2 boundary.
 
-### Decision owner:
+### Decision owner
 
 Max, as repository/product owner. Scope is confirmed in DEC-001, purpose/benefits and maintainer profile in DEC-007, and the supported native workspace development direction in DEC-003.
 SRC-015 accepts the concrete interfaces, preservation criteria and R2 slice strategy.
 Additional product obligations require a new scope decision.
 Apply existing SDLC rules directly instead of presenting them as optional product preferences.
 
-### Reasoning:
+### Reasoning
 
 SRC-002 shows protocol and deployment boundaries implicated by the suggestions; SRC-003 makes stdio an installed-consumer contract.
 Weakening rejection before parsing, breaking an installed entry or changing cancellation could affect users.
 These are credible conditional failure modes, not discovered defects.
 
-### Potential blast radius:
+### Potential blast radius
 
 Local MCP users, loopback HTTP clients, the shared ontology query module, website consumers of that module, and package/bundle/release consumers if ownership moves.
 No accepted task here affects hosted tenants or production cloud infrastructure.
 
-### Reversibility:
+### Reversibility
 
 The draft is easily reversible.
 Product rollback needs evidence for the selected files, packaged artifact and consumer contracts.
 Do not assume source-file reversal can undo a published contract or cache/schema migration.
 No migration is currently proposed or justified.
 
-### Principal unknowns:
+### Principal unknowns
 
 Actual preservation evidence for supported consumers; native composition at Node and Fetch ingress; package/bundle/browser integration and recovery behavior; and the observed maintainer outcome.
 Applicable conventions and ownership design are settled.
 Sections 5 and 8 preserve the capability findings and remaining proof gaps.
 
-### Required artifacts:
+### Required artifacts
 
 This dossier, accepted plan, prepared normative Issue body and exact configuration proposal have distinct acceptance/implementation consumers. R0/R1 work may use an accepted task/ordinary PR brief.
 R2 implementation requires an actually accepted Issue revision captured and merged as a protected prior baseline.
 The accepted thin plan coordinates the material cross-consumer changes.
 Reuse SRC-003 without fabricating a historical baseline under the new method.
 
-### Required specialist lenses:
+### Required specialist lenses
 
 Ordinary review for R1.
 For R2, independent verification plus test-oracle scrutiny where the new evidence is consequential.
@@ -178,14 +178,14 @@ A native Codex Security workflow owns any authorized security scan.
 This draft does not itself require additional reviewers or a scan.
 The explicitly requested grilling skill uses bounded fact-finders; their findings are evidence inputs, not design acceptance or independent implementation assurance.
 
-### Required verification:
+### Required verification
 
 For the current R0 draft: source/claim/traceability review, diff/cleanup inspection and the configured focused profile.
 EVD-001 informs discovery only.
 Future R1 uses affected checks; R2 uses the configured full profile plus relevant independent product and consumer evidence.
 Passing the profile does not accept the semantics.
 
-### Required human approvals:
+### Required human approvals
 
 SRC-015 accepts the detailed design/preservation criteria and R2 slice strategy.
 Reuse that approval within its recorded scope.
@@ -194,13 +194,13 @@ Apply them within the accepted slices after the baseline merge gate; additional 
 Commit, push, GitHub writes, installation/trust, live scan, publication and deployment retain their distinct authority.
 A generic plan acceptance grants no new shim exception.
 
-### Maximum sensible autonomy:
+### Maximum sensible autonomy
 
 Inspect, run existing bounded checks and record the authorized configuration approval, Issue publication and baseline capture.
 Do not claim a merged baseline or begin R2 product implementation before its gate.
 Later work uses the authority and ceilings of its accepted route and exact decisions.
 
-### Next lifecycle step:
+### Next lifecycle step
 
 SRC-016's authorized Issue publication and native baseline capture are complete.
 The exact approved body is in Issue #25 and usable snapshot v2.
