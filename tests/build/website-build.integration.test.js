@@ -13,7 +13,11 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { promisify } from "node:util";
 
+import { jest } from "@jest/globals";
 import { FileSystemConfigLoader, HtmlValidate } from "html-validate";
+
+// Each case launches one or two complete Vite builds in fresh Node processes.
+jest.setTimeout(30_000);
 
 const execFileAsync = promisify(execFile);
 

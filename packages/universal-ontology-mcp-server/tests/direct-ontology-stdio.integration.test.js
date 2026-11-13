@@ -8,6 +8,7 @@ import {
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
 import { createFileOntologyWorkspace } from "universal-ontology-query/node";
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
@@ -183,7 +184,17 @@ test("cancelling active work evicts its worker and permits reopening", async () 
     controller.abort();
     await expect(read).rejects.toMatchObject({ errorCode: "QUERY_CANCELLED" });
     expect(workspace.list().ontologies).toHaveLength(0);
-    await workspace.openDocument({ path: file });
+    // Cancellation evicts the view immediately. Capacity returns on worker exit.
+    const deadline = AbortSignal.timeout(5000);
+    for (;;) {
+      try {
+        await workspace.openDocument({ path: file });
+        break;
+      } catch (error) {
+        if (error.errorCode !== "QUERY_QUEUE_FULL") throw error;
+        await delay(20, undefined, { signal: deadline });
+      }
+    }
     expect(
       (await workspace.request("search", { queryText: "record" })).matches[0]
         .label,
