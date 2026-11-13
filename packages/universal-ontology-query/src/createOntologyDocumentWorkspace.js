@@ -66,6 +66,9 @@ export function createOntologyDocumentWorkspace() {
         pending -= 1;
       }
     },
+    getResource(handle) {
+      return getView(handle).getResource(handle);
+    },
     getOntologyEntityContext(input) {
       return getView(input).getContext(input);
     },

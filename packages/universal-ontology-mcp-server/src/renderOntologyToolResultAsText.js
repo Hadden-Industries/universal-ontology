@@ -144,6 +144,134 @@ function renderContextDefinition(definition) {
   ].join("\n");
 }
 
+const fieldNames = new Map(
+  Object.entries({
+    "http://purl.org/dc/terms/bibliographicCitation": "Citation",
+    "http://purl.org/dc/terms/identifier": "Identifier",
+    "http://purl.org/dc/terms/type": "Designation type",
+    "http://purl.org/dc/terms/description": "Description",
+    "http://purl.org/dc/terms/references": "Reference",
+    "http://purl.org/dc/terms/source": "Source",
+    "http://www.w3.org/2004/02/skos/core#note": "Note",
+    "http://www.w3.org/2004/02/skos/core#scopeNote": "Note to entry",
+    "http://www.w3.org/2004/02/skos/core#example": "Example",
+    "http://www.w3.org/2008/05/skos-xl#literalForm": "Designation",
+    "http://www.w3.org/2000/01/rdf-schema#label": "Wording",
+    "http://www.w3.org/2002/07/owl#deprecated": "Deprecated",
+    "https://schema.org/position": "Position",
+    "http://schema.org/position": "Position",
+  }),
+);
+function wording(term) {
+  return term.value + (term.language ? " [" + term.language + "]" : "");
+}
+function renderAuthoredField(lines, label, term, occurrences, description) {
+  lines.push(label + ": " + wording(term));
+  function describe(resource) {
+    for (const s of resource?.statements ?? []) {
+      const field = fieldNames.get(s.predicateIri);
+      if (field) lines.push("    " + field + ": " + wording(s.object));
+    }
+    if (resource?.resolved === false)
+      lines.push("    No description in this source.");
+    if (resource?.complete === false)
+      lines.push("    Resource description incomplete.");
+  }
+  describe(description);
+  for (const occurrence of occurrences ?? []) {
+    lines.push(
+      "  Occurrence " +
+        occurrence.resource.value +
+        " (graph " +
+        occurrence.annotationGraph +
+        ")",
+    );
+    for (const a of occurrence.annotations) {
+      const name =
+        label === "Entry source" &&
+        a.predicateIri === "http://www.w3.org/2004/02/skos/core#note"
+          ? "Source modification"
+          : (fieldNames.get(a.predicateIri) ?? a.predicateIri);
+      lines.push("  " + name + ": " + wording(a.object));
+      describe(a.description);
+    }
+  }
+}
+function renderDocumentNode(lines, node) {
+  lines.push("Term: " + node.entityIri);
+  const specific = new Set(
+    node.designations
+      .filter((d) => d.role !== "label")
+      .map((d) => JSON.stringify(d.object)),
+  );
+  for (const d of node.designations) {
+    if (
+      d.role === "label" &&
+      specific.has(JSON.stringify(d.object)) &&
+      !d.occurrences.length
+    )
+      continue;
+    renderAuthoredField(
+      lines,
+      d.role === "label" ? "Label" : d.role + " designation",
+      d.object,
+      d.occurrences,
+    );
+  }
+  for (const id of node.identifiers)
+    renderAuthoredField(lines, "Entry identifier", id.object);
+  for (const m of node.membership)
+    renderAuthoredField(lines, "Defined by", m.object);
+  for (const a of node.annotations)
+    renderAuthoredField(lines, a.predicateIri, a.object, a.occurrences);
+  function renderOrdered(fields, labelOf, termOf) {
+    const entries = fields.flatMap((f) =>
+      (f.occurrences?.length ? f.occurrences : [null]).map((o) => {
+        const positions =
+          o?.annotations.filter(
+            (a) => fieldNames.get(a.predicateIri) === "Position",
+          ) ?? [];
+        const text = positions.length === 1 ? positions[0].object.value : "";
+        const pos = /^[0-9]{1,15}$/.test(text) ? Number(text) : null;
+        return { f, o, pos };
+      }),
+    );
+    entries.sort((a, b) => (a.pos ?? Infinity) - (b.pos ?? Infinity));
+    for (const { f, o, pos } of entries) {
+      const label =
+        labelOf(f) + (pos === null ? " (position unspecified)" : " " + pos);
+      renderAuthoredField(lines, label, termOf(f), o ? [o] : []);
+    }
+  }
+  renderOrdered(
+    node.definitions,
+    () => "Definition",
+    (d) => d.term,
+  );
+  for (const predicate of new Set(node.notes.map((n) => n.predicateIri)))
+    renderOrdered(
+      node.notes.filter((n) => n.predicateIri === predicate),
+      () => fieldNames.get(predicate) ?? "Note",
+      (n) => n.object,
+    );
+  for (const s of node.entitySources)
+    renderAuthoredField(
+      lines,
+      "Entry source",
+      s.object,
+      s.occurrences,
+      s.sourceDescription,
+    );
+  for (const r of node.references)
+    renderAuthoredField(
+      lines,
+      "Reference",
+      r.object,
+      r.occurrences,
+      r.description,
+    );
+}
+
 function renderContextSuccess(result) {
   const lines = [
     ONTOLOGY_AUTHORED_CONTENT_WARNING,
@@ -159,6 +287,10 @@ function renderContextSuccess(result) {
       lines.push(
         `Description details omitted for ${node.entityIri}; retrieve that entity with this snapshotRef.`,
       );
+    if (node.designations) {
+      renderDocumentNode(lines, node);
+      continue;
+    }
     lines.push(
       `Entity: ${node.entityIri}; description available: ${node.descriptionAvailable}`,
       ...node.labels.map((label) => `Label: ${renderTerm(label.object)}`),

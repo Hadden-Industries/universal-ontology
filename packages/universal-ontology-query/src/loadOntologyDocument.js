@@ -5,6 +5,7 @@ import { StringDocumentSource } from "owlapi/io";
 import { OWLOntologyLoaderConfiguration } from "owlapi/model";
 import oxigraph from "oxigraph";
 import {
+  serializeOntologyAssertion,
   queryOntologyContext,
   findOntologyConnections,
 } from "./ontologyContextQueries.js";
@@ -208,20 +209,67 @@ export async function loadOntologyDocument({
   );
   const store = new oxigraph.Store();
   try {
+    // Blank node labels are scoped to the input document. Keep at most one
+    // result page plus its overflow marker per blank subject during ingestion.
+    const blankStatements = new Map();
     for (const { doc } of documents) {
-      store.load(doc.text, {
+      const graph = oxigraph.namedNode(doc.snapshotId);
+      const scope = (t) =>
+        t.termType === "BlankNode"
+          ? oxigraph.blankNode("b" + doc.snapshotId.slice(-64) + "_" + t.value)
+          : t;
+      for (const q of oxigraph.parse([doc.text], {
         format: mediaTypes.get(doc.format),
         base_iri: doc.documentIRI,
-        to_graph_name: oxigraph.namedNode(doc.snapshotId),
-      });
-      if (store.size > 200000)
-        throw new OntologyQueryError("DATASET_LIMIT_EXCEEDED");
+      })) {
+        const quad = oxigraph.quad(
+          scope(q.subject),
+          q.predicate,
+          scope(q.object),
+          graph,
+        );
+        if (quad.subject.termType === "BlankNode") {
+          const rows = blankStatements.get(quad.subject.value) ?? [];
+          if (
+            rows.length < 33 &&
+            !rows.some((existing) => existing.equals(quad))
+          )
+            rows.push(quad);
+          blankStatements.set(quad.subject.value, rows);
+        }
+        store.add(quad);
+        if (store.size > 200000)
+          throw new OntologyQueryError("DATASET_LIMIT_EXCEEDED");
+      }
     }
+    function resourceRows(subject, graph, limit) {
+      if (subject.termType === "BlankNode")
+        return (blankStatements.get(subject.value) ?? [])
+          .filter((q) => q.graph.equals(graph))
+          .slice(0, limit);
+      const rows = store.query(
+        `SELECT ?p ?o WHERE { GRAPH ${graph.toString()} { ${subject.toString()} ?p ?o } } LIMIT ${limit}`,
+      );
+      return rows.map((row) =>
+        oxigraph.quad(subject, row.get("p"), row.get("o"), graph),
+      );
+    }
+    const knownTerms = new Set(
+      loaded.documents.flatMap(({ ontology }) =>
+        [...ontology.getClassesInSignature()].map((c) => c.iri.value),
+      ),
+    );
     signal?.throwIfAborted();
     const lexical = createOntologyDocumentLexicalIndex(
       store,
       loaded.documents.flatMap(({ ontology }) => [...ontology.getSignature()]),
     );
+    const documentContext = {
+      viewId: selectionSha256,
+      resourceRows,
+      knownTerms,
+      includeOccurrences: true,
+    };
     const authored = loaded.ontology.getOntologyID();
     const titlePredicate = oxigraph.namedNode("http://purl.org/dc/terms/title");
     const title =
@@ -250,8 +298,28 @@ export async function loadOntologyDocument({
         if (closed) throw new OntologyQueryError("QUERY_CANCELLED");
         return findOntologyConnections(store, {
           ...input,
-          includeOccurrences: true,
+          ...documentContext,
         });
+      },
+      getResource({ sourceGraph, termType, value, ontologyId }) {
+        if (
+          closed ||
+          ontologyId !== selectionSha256 ||
+          !snapshotIds.includes(sourceGraph)
+        )
+          throw new OntologyQueryError("UNKNOWN_ONTOLOGY_RELEASE");
+        const subject =
+          termType === "NamedNode"
+            ? oxigraph.namedNode(value)
+            : oxigraph.blankNode(value);
+        const graph = oxigraph.namedNode(sourceGraph);
+        const rows = resourceRows(subject, graph, 33);
+        return {
+          resourceHandle: { ontologyId, sourceGraph, termType, value },
+          resolved: rows.length > 0,
+          complete: rows.length <= 32,
+          statements: rows.slice(0, 32).map(serializeOntologyAssertion),
+        };
       },
       getContext(input) {
         if (closed) throw new OntologyQueryError("QUERY_CANCELLED");
@@ -262,7 +330,7 @@ export async function loadOntologyDocument({
         const context = queryOntologyContext(store, {
           ...input,
           entityIri,
-          includeOccurrences: true,
+          ...documentContext,
         });
         const definitions = context.nodes.find(
           (node) => node.entityIri === entityIri,
@@ -291,6 +359,8 @@ export async function loadOntologyDocument({
       close() {
         if (!closed) {
           closed = true;
+          blankStatements.clear();
+          knownTerms.clear();
           store.free();
         }
       },

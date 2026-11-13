@@ -39,6 +39,9 @@ if (workerData?.documentView) {
         case "resolve":
           value = { matches: workspace.resolve(input) };
           break;
+        case "resource":
+          value = workspace.getResource(input.resourceHandle);
+          break;
         case "context":
           value = workspace.getOntologyEntityContext({
             ...input,

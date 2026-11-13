@@ -1,0 +1,40 @@
+@prefix ex: <urn:community:> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix schema: <https://schema.org/> .
+ex:glossary a owl:Ontology ; dct:title "Community glossary"@en .
+ex:Topic a owl:Class ; rdfs:isDefinedBy ex:glossary ; dct:identifier "G.1" ;
+  skos:prefLabel "record"@en, "notice"@fr ; rdfs:label "record"@en ;
+  skos:altLabel "entry"@en ; skos:hiddenLabel "old wording"@en ;
+  skos:definition "A written account."@en ; skos:note "Context only"@en ;
+  skos:example "Ledger"@en ; skos:scopeNote "Use for entries."@en ;
+  dct:source _:citation, ex:other ; ex:extension "Keep this field"@en .
+ex:Another a owl:Class ; skos:prefLabel "record"@en .
+_:citation dct:bibliographicCitation "Community handbook, 4"@en .
+[] a owl:Axiom ; owl:annotatedSource ex:Topic ; owl:annotatedProperty dct:source ;
+   owl:annotatedTarget _:citation ; skos:note "Local wording added"@en .
+_:designation a xl:Label ; xl:literalForm "old wording"@en ;
+  dct:identifier "G.1/designation/2" ; dct:type "variant" .
+[] a owl:Axiom ; owl:annotatedSource ex:Topic ; owl:annotatedProperty skos:hiddenLabel ;
+   owl:annotatedTarget "old wording"@en ; owl:deprecated true ; dct:references _:designation .
+[] a owl:Axiom ; owl:annotatedSource ex:Topic ; owl:annotatedProperty skos:definition ;
+   owl:annotatedTarget "A written account."@en ; schema:position 2 ; dct:identifier "G.1/definition/2" ; dct:references ex:figure .
+ex:figure rdfs:label "Ledger"@en ; dct:description "Two columns"@en ; dct:identifier "fig-2" .
+[] a owl:Axiom ; owl:annotatedSource ex:Topic ; owl:annotatedProperty skos:example ;
+   owl:annotatedTarget "Ledger"@en ; schema:position 3 ; dct:references ex:Another, ex:unresolved .
+dct:source a owl:AnnotationProperty . dct:identifier a owl:AnnotationProperty .
+dct:references a owl:AnnotationProperty . dct:bibliographicCitation a owl:AnnotationProperty .
+skos:prefLabel a owl:AnnotationProperty . skos:altLabel a owl:AnnotationProperty .
+skos:hiddenLabel a owl:AnnotationProperty . skos:definition a owl:AnnotationProperty .
+skos:note a owl:AnnotationProperty . skos:scopeNote a owl:AnnotationProperty .
+skos:example a owl:AnnotationProperty . schema:position a owl:AnnotationProperty .
+
+ex:Topic skos:definition "Zebra"@en, "Alpha"@en, "Unnumbered"@en ; dct:references ex:Another .
+[] a owl:Axiom ; owl:annotatedSource ex:Topic ; owl:annotatedProperty skos:definition ; owl:annotatedTarget "Zebra"@en ; schema:position 1 .
+[] a owl:Axiom ; owl:annotatedSource ex:Topic ; owl:annotatedProperty skos:definition ; owl:annotatedTarget "Alpha"@en ; schema:position 5 .
+[] a owl:Axiom ; owl:annotatedSource ex:Topic ; owl:annotatedProperty skos:definition ; owl:annotatedTarget "Alpha"@en ; schema:position 5 ; dct:identifier "duplicate" .
+[] a owl:Axiom ; owl:annotatedSource ex:Topic ; owl:annotatedProperty ex:extension ; owl:annotatedTarget "Keep this field"@en ; dct:identifier "extension evidence" .
+[] a owl:Axiom ; owl:annotatedSource ex:Topic ; owl:annotatedProperty dct:references ; owl:annotatedTarget ex:Another ; dct:identifier "reference evidence" .

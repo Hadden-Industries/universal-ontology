@@ -228,7 +228,11 @@ export function queryOntologyContext(store, input) {
   }
 
   function describeSource(node, graph) {
-    if (node.termType !== "BlankNode") return undefined;
+    if (
+      node.termType !== "BlankNode" &&
+      !(input.includeOccurrences && node.termType === "NamedNode")
+    )
+      return undefined;
     const statements = [];
     const pending = [node];
     const seen = new Set();
@@ -244,9 +248,15 @@ export function queryOntologyContext(store, input) {
         complete = false;
         break;
       }
-      const matches = store.match(current, null, null, graph);
       const remaining = Math.min(32 - statements.length, 10000 - candidates);
-      if (!matches.length || matches.length > remaining) complete = false;
+      const matches = input.resourceRows
+        ? input.resourceRows(current, graph, remaining + 1)
+        : store.match(current, null, null, graph);
+      if (
+        (!matches.length && current.termType === "BlankNode") ||
+        matches.length > remaining
+      )
+        complete = false;
       const admitted = matches.slice(0, remaining);
       candidates += admitted.length;
       for (const quad of admitted) {
@@ -254,7 +264,25 @@ export function queryOntologyContext(store, input) {
         if (quad.object.termType === "BlankNode") pending.push(quad.object);
       }
     }
-    return { statements, complete };
+    return {
+      statements,
+      complete,
+      ...(input.viewId
+        ? {
+            resourceHandle: {
+              ontologyId: input.viewId,
+              sourceGraph: graph.value,
+              termType: node.termType,
+              value: node.value,
+            },
+            resolved: statements.length > 0,
+            ...(node.termType === "NamedNode" &&
+            input.knownTerms?.has(node.value)
+              ? { entityHandle: { ontologyId: input.viewId, iri: node.value } }
+              : {}),
+          }
+        : {}),
+    };
   }
 
   function sourceEvidence(entityIri, predicateIri, literal) {
@@ -267,7 +295,8 @@ export function queryOntologyContext(store, input) {
     return rows.map((row) => ({
       term: term(row.get("source")),
       annotationGraph: row.get("g").value,
-      ...(row.get("source").termType === "BlankNode"
+      ...(row.get("source").termType === "BlankNode" ||
+      (input.includeOccurrences && row.get("source").termType === "NamedNode")
         ? { description: describeSource(row.get("source"), row.get("g")) }
         : {}),
     }));
@@ -293,7 +322,11 @@ export function queryOntologyContext(store, input) {
       )
       .map((quad) => ({
         ...assertion(quad),
-        ...(quad.object.termType === "BlankNode"
+        ...(input.includeOccurrences
+          ? { occurrences: assertionOccurrences(quad) }
+          : {}),
+        ...(quad.object.termType === "BlankNode" ||
+        (input.includeOccurrences && quad.object.termType === "NamedNode")
           ? { sourceDescription: describeSource(quad.object, quad.graph) }
           : {}),
       }));
@@ -313,7 +346,7 @@ export function queryOntologyContext(store, input) {
           quad.object,
         );
         const occurrences = input.includeOccurrences
-          ? definitionOccurrences(quad)
+          ? assertionOccurrences(quad)
           : undefined;
         const incomplete =
           reasons.has("candidate_limit") ||
@@ -356,6 +389,77 @@ export function queryOntologyContext(store, input) {
             object.termType === "Literal",
         )
         .map(assertion),
+      ...(input.includeOccurrences
+        ? {
+            designations: quads
+              .filter(
+                (q) =>
+                  q.object.termType === "Literal" &&
+                  [
+                    SKOS + "prefLabel",
+                    SKOS + "altLabel",
+                    SKOS + "hiddenLabel",
+                    RDFS + "label",
+                  ].includes(q.predicate.value),
+              )
+              .map((q) => ({
+                ...assertion(q),
+                role:
+                  q.predicate.value === SKOS + "hiddenLabel"
+                    ? "hidden"
+                    : q.predicate.value === SKOS + "altLabel"
+                      ? "alternative"
+                      : q.predicate.value === RDFS + "label"
+                        ? "label"
+                        : "preferred",
+                occurrences: assertionOccurrences(q),
+              })),
+            references: quads
+              .filter(
+                (q) =>
+                  q.predicate.value === DCTERMS_NAMESPACE_IRI + "references",
+              )
+              .map((q) => ({
+                ...describedAssertion(q),
+                occurrences: assertionOccurrences(q),
+              })),
+            identifiers: quads
+              .filter(
+                (q) =>
+                  q.predicate.value === DCTERMS_NAMESPACE_IRI + "identifier",
+              )
+              .map(assertion),
+            membership: quads
+              .filter((q) => q.predicate.value === RDFS + "isDefinedBy")
+              .map(assertion),
+            annotations: quads
+              .filter(
+                (q) =>
+                  ![
+                    RDF + "type",
+                    RDFS + "isDefinedBy",
+                    RDFS + "label",
+                    SOURCE,
+                    DCTERMS_NAMESPACE_IRI + "identifier",
+                    DCTERMS_NAMESPACE_IRI + "references",
+                    SKOS + "prefLabel",
+                    SKOS + "altLabel",
+                    SKOS + "hiddenLabel",
+                    SKOS + "definition",
+                    SKOS + "note",
+                    SKOS + "example",
+                    SKOS + "scopeNote",
+                    SKOS + "editorialNote",
+                    RDFS + "comment",
+                  ].includes(q.predicate.value) &&
+                  !structuralPredicates.has(q.predicate.value),
+              )
+              .map((q) => ({
+                ...assertion(q),
+                occurrences: assertionOccurrences(q),
+              })),
+          }
+        : {}),
       definitions,
       notes: quads
         .filter(
@@ -371,6 +475,9 @@ export function queryOntologyContext(store, input) {
         .map((quad) => ({
           ...assertion(quad),
           sources: sourceEvidence(entityIri, quad.predicate.value, quad.object),
+          ...(input.includeOccurrences
+            ? { occurrences: assertionOccurrences(quad) }
+            : {}),
         })),
       entitySources,
     };
@@ -381,13 +488,28 @@ export function queryOntologyContext(store, input) {
   // The axiom resource identifies an occurrence. Joining annotations using
   // only (subject, predicate, literal) mixes positions and citations when two
   // authored occurrences share the same wording.
-  function definitionOccurrences(quad) {
-    const rows = select(`SELECT ?g ?axiom ?p ?o WHERE {
+  function describedAssertion(quad) {
+    const value = assertion(quad);
+    if (
+      [SOURCE, DCTERMS_NAMESPACE_IRI + "references"].includes(
+        quad.predicate.value,
+      ) &&
+      quad.object.termType !== "Literal"
+    ) {
+      value.description = describeSource(quad.object, quad.graph);
+    }
+    return value;
+  }
+  function assertionOccurrences(quad) {
+    // A blank label in SPARQL is a variable, so identify a blank target
+    // by its store term and compare it after applying the candidate limit.
+    const blankTarget = quad.object.termType === "BlankNode";
+    const rows = select(`SELECT ?g ?axiom ?p ?o ?target WHERE {
       GRAPH ?g {
         ?axiom ${iri(RDF + "type")} ${iri(OWL + "Axiom")};
           ${iri(OWL + "annotatedSource")} ${quad.subject.toString()};
           ${iri(OWL + "annotatedProperty")} ${quad.predicate.toString()};
-          ${iri(OWL + "annotatedTarget")} ${quad.object.toString()} .
+          ${iri(OWL + "annotatedTarget")} ${blankTarget ? "?target" : quad.object.toString()} .
         OPTIONAL { ?axiom ?p ?o .
           FILTER (?p NOT IN (${[RDF + "type", OWL + "annotatedSource", OWL + "annotatedProperty", OWL + "annotatedTarget"].map(iri).join(", ")}))
         }
@@ -395,6 +517,12 @@ export function queryOntologyContext(store, input) {
     } ORDER BY ?g ?axiom ?p ?o`);
     const resources = new Map();
     for (const row of rows) {
+      if (
+        blankTarget &&
+        (row.get("g").value !== quad.graph.value ||
+          !row.get("target").equals(quad.object))
+      )
+        continue;
       const axiom = row.get("axiom");
       const graph = row.get("g");
       const id = JSON.stringify([graph.value, axiom.toString()]);
@@ -408,7 +536,9 @@ export function queryOntologyContext(store, input) {
         resources
           .get(id)
           .annotations.push(
-            assertion(oxigraph.quad(axiom, row.get("p"), row.get("o"), graph)),
+            describedAssertion(
+              oxigraph.quad(axiom, row.get("p"), row.get("o"), graph),
+            ),
           );
     }
     return [...resources.values()];
@@ -762,3 +892,5 @@ export function queryOntologyContext(store, input) {
     },
   };
 }
+
+export { assertion as serializeOntologyAssertion };

@@ -38,13 +38,34 @@ const assertionShape = {
   object: ContextRdfTermSchema,
   sourceGraph: iri,
 };
+export const OntologyResourceHandleSchema = z.strictObject({
+  ontologyId: digest,
+  sourceGraph: snapshotId,
+  termType: z.enum(["NamedNode", "BlankNode"]),
+  value: z.string().min(1).max(8192),
+});
 const sourceDescription = z.strictObject({
+  resourceHandle: OntologyResourceHandleSchema.optional(),
+  resolved: z.boolean().optional(),
+  entityHandle: z.strictObject({ ontologyId: digest, iri }).optional(),
   statements: z.array(z.strictObject(assertionShape)).max(32),
   complete: z.boolean(),
 });
+const describedAssertion = z.strictObject({
+  ...assertionShape,
+  description: sourceDescription.optional(),
+});
+const occurrenceList = z.array(
+  z.strictObject({
+    resource: ContextRdfTermSchema,
+    annotationGraph: iri,
+    annotations: z.array(describedAssertion),
+  }),
+);
 export const ContextAssertionSchema = z.strictObject({
   ...assertionShape,
   sourceDescription: sourceDescription.optional(),
+  occurrences: occurrenceList.optional(),
 });
 const sourceEvidence = z.strictObject({
   term: ContextRdfTermSchema,
@@ -64,15 +85,7 @@ export const ContextDefinitionSchema = z.strictObject({
   definitionGraph: iri,
   sourceStatus: DefinitionSourceStatusSchema,
   definitionSources: z.array(sourceEvidence),
-  occurrences: z
-    .array(
-      z.strictObject({
-        resource: ContextRdfTermSchema,
-        annotationGraph: iri,
-        annotations: z.array(ContextAssertionSchema),
-      }),
-    )
-    .optional(),
+  occurrences: occurrenceList.optional(),
   entitySources: z.array(ContextAssertionSchema),
   sourceQuality: z.literal("not_evaluated"),
 });
@@ -82,9 +95,28 @@ export const ContextNodeSchema = z.strictObject({
   descriptionAvailable: z.boolean(),
   kinds: z.array(ContextRdfTermSchema),
   labels: z.array(ContextAssertionSchema),
+  designations: z
+    .array(
+      ContextAssertionSchema.extend({
+        role: z.enum(["preferred", "alternative", "hidden", "label"]),
+      }),
+    )
+    .optional(),
+  references: z
+    .array(
+      describedAssertion.extend({ occurrences: occurrenceList.optional() }),
+    )
+    .optional(),
+  identifiers: z.array(ContextAssertionSchema).optional(),
+  membership: z.array(ContextAssertionSchema).optional(),
+  annotations: z.array(ContextAssertionSchema).optional(),
   definitions: z.array(ContextDefinitionSchema),
   notes: z.array(
-    z.strictObject({ ...assertionShape, sources: z.array(sourceEvidence) }),
+    z.strictObject({
+      ...assertionShape,
+      sources: z.array(sourceEvidence),
+      occurrences: occurrenceList.optional(),
+    }),
   ),
   entitySources: z.array(ContextAssertionSchema),
 });

@@ -15,6 +15,7 @@ import {
 } from "./ontologyRdfVocabulary.js";
 
 export {
+  OntologyResourceHandleSchema,
   OntologySnapshotReferenceSchema,
   DefinitionSourceStatusSchema,
 } from "./ontologyContextSchemas.js";

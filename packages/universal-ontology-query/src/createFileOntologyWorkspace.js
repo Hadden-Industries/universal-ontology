@@ -177,7 +177,11 @@ export async function createFileOntologyWorkspace({
       return { closed: true };
     },
     async request(method, input, signal) {
-      const v = get(input.entityHandle?.ontologyId ?? input.ontologyId);
+      const v = get(
+        input.entityHandle?.ontologyId ??
+          input.resourceHandle?.ontologyId ??
+          input.ontologyId,
+      );
       return v.worker.run(method, input, signal);
     },
     async close() {

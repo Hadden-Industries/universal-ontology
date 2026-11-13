@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { OntologyResourceHandleSchema } from "universal-ontology-query/schemas";
 import {
   isOntologyQueryError,
   OntologyQueryError,
@@ -30,7 +31,8 @@ export function registerOntologyDocumentTools(server, workspace, lifecycle) {
       name,
       {
         description,
-        inputSchema: z.strictObject(fields),
+        inputSchema:
+          fields instanceof z.ZodType ? fields : z.strictObject(fields),
         annotations: {
           readOnlyHint: !["open_ontology", "close_ontology"].includes(name),
           openWorldHint: false,
@@ -134,9 +136,34 @@ export function registerOntologyDocumentTools(server, workspace, lifecycle) {
   register(
     "get_entity_context",
     "Read the definition, authored citations and related terms for an entity handle.",
-    { entityHandle: handle, ...bound, maximumResultBytes: budget },
-    (input, signal) => workspace.request("context", input, signal),
-    renderOntologyToolResultAsText,
+    z
+      .strictObject({
+        entityHandle: handle.optional(),
+        resourceHandle: OntologyResourceHandleSchema.optional(),
+        ...bound,
+        maximumResultBytes: budget.default(65536),
+      })
+      .refine(
+        (input) =>
+          Boolean(input.entityHandle) !== Boolean(input.resourceHandle),
+        "Supply exactly one entity or resource handle.",
+      ),
+    (input, signal) =>
+      workspace.request(
+        input.resourceHandle ? "resource" : "context",
+        input,
+        signal,
+      ),
+    (r) =>
+      r.resourceHandle
+        ? ONTOLOGY_AUTHORED_CONTENT_WARNING +
+          "\n" +
+          (r.resolved
+            ? r.statements
+                .map((row) => row.predicateIri + " " + row.object.value)
+                .join("\n")
+            : "No description in this source.")
+        : renderOntologyToolResultAsText(r),
   );
   register(
     "find_entity_connections",
