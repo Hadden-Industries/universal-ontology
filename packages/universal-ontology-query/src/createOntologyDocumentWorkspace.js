@@ -53,6 +53,7 @@ export function createOntologyDocumentWorkspace() {
           snapshotRef: view.snapshotRef,
           parsingMode: view.parsingMode,
           classCount: view.classCount,
+          interpretation: view.interpretation,
           title: view.title.slice(0, 160),
           versionIri:
             view.versionIri && view.versionIri.length <= 512

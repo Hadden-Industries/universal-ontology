@@ -11,6 +11,15 @@ const DEFAULT_ONTOLOGY_QUERY_ARTIFACT_BASE_URL =
   "https://haddenindustries.com/ontology/query/v1/";
 
 const VALUE_OPTION_DEFINITIONS = Object.freeze({
+  "--ontology-format": {
+    environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_FORMAT",
+  },
+  "--ontology-imports": {
+    environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_IMPORTS",
+  },
+  "--ontology-import-policy": {
+    environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_IMPORT_POLICY",
+  },
   "--ontology-file": {
     environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_FILE",
   },
@@ -52,6 +61,9 @@ Usage:
   universal-ontology-mcp-server [options]
 
 Options:
+  --ontology-format <rdfxml|turtle>    Override the startup file syntax.
+  --ontology-imports <json>    Bind import IRIs to explicit local paths.
+  --ontology-import-policy <partial|complete>    Require all imports or report gaps.
   --ontology-file <path>    Open this local ontology at startup.
   --ontology-root <path>    Permit the agent to open files inside this directory.
   --ontology-mode <compatible|preserve>    OWL mapping for new opens (default: compatible).
@@ -429,7 +441,13 @@ export function parseUniversalOntologyMcpStdioConfiguration({
   const sourceFile = configured("--ontology-file"),
     sourceRoot = configured("--ontology-root"),
     sourceMode = configured("--ontology-mode");
+  const sourceFormat = configured("--ontology-format"),
+    importMap = configured("--ontology-imports"),
+    importPolicy = configured("--ontology-import-policy");
   if (
+    sourceFormat !== undefined ||
+    importMap !== undefined ||
+    importPolicy !== undefined ||
     sourceFile !== undefined ||
     sourceRoot !== undefined ||
     sourceMode !== undefined
@@ -453,10 +471,45 @@ export function parseUniversalOntologyMcpStdioConfiguration({
       requireUnpaddedValue(value, name);
       return path.resolve(workingDirectoryPath, value);
     }
+    if (
+      sourceFormat !== undefined &&
+      !["rdfxml", "turtle"].includes(sourceFormat)
+    )
+      throwConfigurationError("--ontology-format");
+    if (
+      importPolicy !== undefined &&
+      !["partial", "complete"].includes(importPolicy)
+    )
+      throwConfigurationError("--ontology-import-policy");
+    let bindings = [];
+    if (importMap !== undefined) {
+      try {
+        const map = JSON.parse(importMap);
+        if (
+          !map ||
+          Array.isArray(map) ||
+          typeof map !== "object" ||
+          Object.keys(map).length > 15
+        )
+          throw new TypeError();
+        bindings = Object.entries(map).map(([iri, value]) => {
+          if (!URL.canParse(iri) || typeof value !== "string" || !value)
+            throw new TypeError();
+          return { iri, path: sourceValue(value, "--ontology-imports") };
+        });
+      } catch {
+        throwConfigurationError("--ontology-imports");
+      }
+    }
     return Object.freeze({
       operationMode,
       ontologyQueryArtifactSource: Object.freeze({
         kind: "ontology_document",
+        ...(sourceFormat ? { format: sourceFormat } : {}),
+        ...(importMap ? { bindings } : {}),
+        ...(importPolicy
+          ? { requireComplete: importPolicy === "complete" }
+          : {}),
         file: sourceValue(sourceFile, "--ontology-file"),
         root: sourceValue(sourceRoot, "--ontology-root"),
         parsingMode: sourceMode ?? "compatible",

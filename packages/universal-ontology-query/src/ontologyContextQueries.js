@@ -384,8 +384,11 @@ export function queryOntologyContext(store, input) {
         .map(({ object }) => term(object)),
       labels: quads
         .filter(
-          ({ predicate, object }) =>
-            [`${SKOS}prefLabel`, `${RDFS}label`].includes(predicate.value) &&
+          ({ predicate, object, graph }) =>
+            ([`${SKOS}prefLabel`, `${RDFS}label`].includes(predicate.value) ||
+              input.projectionPolicies?.[
+                graph.value
+              ]?.labelPredicates?.includes(predicate.value)) &&
             object.termType === "Literal",
         )
         .map(assertion),
@@ -395,12 +398,15 @@ export function queryOntologyContext(store, input) {
               .filter(
                 (q) =>
                   q.object.termType === "Literal" &&
-                  [
+                  ([
                     SKOS + "prefLabel",
                     SKOS + "altLabel",
                     SKOS + "hiddenLabel",
                     RDFS + "label",
-                  ].includes(q.predicate.value),
+                  ].includes(q.predicate.value) ||
+                    input.projectionPolicies?.[
+                      q.graph.value
+                    ]?.labelPredicates?.includes(q.predicate.value)),
               )
               .map((q) => ({
                 ...assertion(q),

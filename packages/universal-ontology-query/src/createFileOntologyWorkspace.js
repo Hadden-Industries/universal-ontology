@@ -87,6 +87,9 @@ export async function createFileOntologyWorkspace({
   file,
   root,
   parsingMode = "compatible",
+  bindings = [],
+  requireComplete = false,
+  format: initialFormat,
   signal,
 }) {
   const selected = file && resolve(file),
@@ -105,7 +108,10 @@ export async function createFileOntologyWorkspace({
       });
     return v;
   }
-  async function openDocument({ path, parsingMode: mode }, options = {}) {
+  async function openDocument(
+    { path, parsingMode: mode, format },
+    options = {},
+  ) {
     if (closed) throw new OntologyQueryError("QUERY_CANCELLED");
     const actual = resolve(path);
     if (
@@ -140,6 +146,9 @@ export async function createFileOntologyWorkspace({
           path: actual,
           root: actual === selected ? undefined : base,
           parsingMode: mode ?? parsingMode,
+          bindings,
+          requireComplete,
+          format: format ?? (actual === selected ? initialFormat : undefined),
         },
         options.signal,
       );
@@ -160,12 +169,24 @@ export async function createFileOntologyWorkspace({
     openDocument,
     list: () => ({
       ontologies: [...views.values()].map(
-        ({ info: { ontologyId, title, parsingMode, format, classCount } }) => ({
+        ({
+          info: {
+            ontologyId,
+            title,
+            parsingMode,
+            format,
+            classCount,
+            versionIri,
+            interpretation,
+          },
+        }) => ({
           ontologyId,
           title,
           parsingMode,
           format,
           classCount,
+          versionIri,
+          interpretation,
         }),
       ),
     }),

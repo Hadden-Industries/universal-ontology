@@ -28,9 +28,9 @@ async function inspectSource(path, root) {
   if (!matched) throw denied();
   return lstat(path, { bigint: true });
 }
-async function readSource(path, root) {
+async function readSource(path, root, byteLimit = maxBytes) {
   const before = await inspectSource(path, root);
-  if (before.size > BigInt(maxBytes))
+  if (before.size > BigInt(byteLimit))
     throw new OntologyQueryError("DATASET_LIMIT_EXCEEDED");
   if (!before.isFile() || !before.ino) throw denied();
   const fd = await open(
@@ -72,16 +72,44 @@ async function readSource(path, root) {
   }
 }
 
-export async function captureOntologyFile({ path, root, parsingMode }) {
-  try {
-    const bytes = await readSource(path, root);
-    const format = extname(path).toLowerCase() === ".ttl" ? "turtle" : "rdfxml";
+export async function captureOntologyFile({
+  path,
+  root,
+  parsingMode,
+  format,
+  bindings = [],
+  requireComplete = false,
+}) {
+  let remaining = maxBytes;
+  async function capture(path, authority, hint) {
+    const bytes = await readSource(path, authority, remaining);
+    remaining -= bytes.length;
     return {
       bytes,
       documentIRI: pathToFileURL(path).href,
-      format,
-      parsingMode,
+      format:
+        hint ?? (extname(path).toLowerCase() === ".ttl" ? "turtle" : "rdfxml"),
     };
+  }
+  try {
+    if (bindings.length > 15)
+      throw new OntologyQueryError("DATASET_LIMIT_EXCEEDED");
+    const source = await capture(path, root, format);
+    const imports = bindings.map(({ iri, path: local, format: hint }) => ({
+      importIRI: iri,
+      documentIRI: pathToFileURL(local).href,
+      async read() {
+        try {
+          return await capture(local, undefined, hint);
+        } catch (error) {
+          if (["ENOENT", "ENOTDIR", "EACCES", "EPERM"].includes(error.code))
+            return undefined;
+          if (error instanceof OntologyQueryError) throw error;
+          throw new OntologyQueryError("ONTOLOGY_SOURCE_UNAVAILABLE");
+        }
+      },
+    }));
+    return { ...source, parsingMode, imports, requireComplete };
   } catch (error) {
     if (error instanceof OntologyQueryError) throw error;
     throw new OntologyQueryError("ONTOLOGY_SOURCE_UNAVAILABLE");

@@ -360,6 +360,13 @@ export const OntologyEntityContextSuccessSchema = z.strictObject({
   importCoverage: z.array(
     z.strictObject({
       snapshotId: z.string(),
+      interpretation: z
+        .enum([
+          "unverified_release_metadata",
+          "standard_annotations",
+          "uo_field_property_history_v1",
+        ])
+        .optional(),
       unresolved: z.array(
         z.strictObject({ importIri: AbsoluteIriSchema, reason: z.string() }),
       ),

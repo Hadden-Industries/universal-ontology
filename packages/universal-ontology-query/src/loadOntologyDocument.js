@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { isDeepStrictEqual } from "node:util";
+import { documentProjectionPolicy } from "./ontologyDocumentProjectionPolicy.js";
 import { OWLManager } from "owlapi/apibinding";
 import { StringDocumentSource } from "owlapi/io";
 import { OWLOntologyLoaderConfiguration } from "owlapi/model";
@@ -61,23 +62,24 @@ function failureReason(error) {
     : "OWL_PARSE_FAILURE";
 }
 
-function loadGraph(root, byImport, parsingMode, signal, requireComplete) {
-  const byDocument = new Map(
-    [...byImport.values()].map((doc) => [doc.documentIRI, doc]),
-  );
-  // Mapping provides only already captured documents. An import declaration
-  // cannot acquire a local file or a network resource.
+function loadGraph(
+  root,
+  byImport,
+  readImport,
+  parsingMode,
+  signal,
+  requireComplete,
+) {
   const manager = OWLManager.createOWLOntologyManager({
     behaviorProfileId: "normative-v1",
     iriMappers: [
       { getDocumentIRI: (iri) => byImport.get(iri.value)?.documentIRI },
     ],
     documentLoader: {
-      load(iri, context) {
-        const admitted = byImport.get(context.importIRI.value);
-        return admitted === byDocument.get(iri.value)
-          ? admitted?.source
-          : undefined;
+      async load(iri, context) {
+        const binding = byImport.get(context.importIRI.value);
+        if (binding?.documentIRI !== iri.value) return undefined;
+        return (await readImport(binding))?.source;
       },
     },
   });
@@ -129,7 +131,7 @@ export async function loadOntologyDocument({
   if (
     imports.length > 15 ||
     imports.reduce(
-      (total, entry) => total + entry.bytes.byteLength,
+      (total, entry) => total + (entry.bytes?.byteLength ?? 0),
       bytes.byteLength,
     ) > maxBytes
   )
@@ -139,23 +141,41 @@ export async function loadOntologyDocument({
   const byImport = new Map();
   const captured = new Map([[documentIRI, root]]);
   for (const entry of imports) {
-    if (byImport.has(entry.importIRI) || captured.has(entry.documentIRI))
-      throw new TypeError("Conflicting ontology import binding.");
-    const doc = capture(entry, parsingMode);
-    byImport.set(entry.importIRI, doc);
-    captured.set(entry.documentIRI, doc);
+    if (byImport.has(entry.importIRI))
+      throw new TypeError("Conflicting import binding.");
+    byImport.set(entry.importIRI, entry);
+  }
+  const used = new Map();
+  let admissionError;
+  async function readImport(binding) {
+    let doc = captured.get(binding.documentIRI);
+    if (!doc) {
+      try {
+        const material = binding.read ? await binding.read() : binding;
+        if (!material) return undefined;
+        doc = capture(material, parsingMode);
+        captured.set(binding.documentIRI, doc);
+      } catch (e) {
+        admissionError = e;
+        throw e;
+      }
+    }
+    used.set(binding.importIRI, doc.snapshotId);
+    return doc;
   }
   let loaded;
   try {
     loaded = await loadGraph(
       root,
       byImport,
+      readImport,
       parsingMode,
       signal,
       requireComplete,
     );
   } catch (cause) {
     signal?.throwIfAborted();
+    if (admissionError) throw admissionError;
     const diagnostic = failureReason(cause);
     // A deferred OWL reconstruction error need not name the failing document.
     // Do not attribute such an error to a particular import without evidence.
@@ -165,11 +185,46 @@ export async function loadOntologyDocument({
       cause,
     });
   }
-  const documents = loaded.documents.map(({ context }) => {
+  // OwlAPI may reuse a previously loaded ontology by its authored ontology or
+  // version IRI before consulting the operator's mapper. Require each bound
+  // declaration to agree with the document actually admitted for that IRI.
+  const identityPaths = new Map();
+  for (const { context, ontology } of loaded.documents) {
+    const { ontologyIRI, versionIRI } = ontology.getOntologyID();
+    for (const identity of [ontologyIRI, versionIRI]) {
+      if (!identity) continue;
+      const paths = identityPaths.get(identity.value) ?? new Set();
+      paths.add(context.documentIRI.value);
+      identityPaths.set(identity.value, paths);
+    }
+  }
+  for (const { ontology, context } of loaded.documents) {
+    for (const declaration of ontology.getImportsDeclarations()) {
+      const identity = declaration.iri.value;
+      const binding = byImport.get(identity);
+      if (!binding) continue;
+      const actual = identityPaths.get(identity);
+      if (actual && (actual.size !== 1 || !actual.has(binding.documentIRI)))
+        throw new OntologyQueryError("ONTOLOGY_DOCUMENT_REFUSED", {
+          message:
+            "A loaded ontology identity conflicts with the explicit local import binding.",
+        });
+      const missing = context.diagnostics.some(
+        (d) => d.importIRI?.value === identity,
+      );
+      if (!missing && !captured.has(binding.documentIRI))
+        throw new OntologyQueryError("ONTOLOGY_DOCUMENT_REFUSED", {
+          message:
+            "An explicit import binding was not used for its declared ontology.",
+        });
+    }
+  }
+  const documents = loaded.documents.map(({ context, ontology }) => {
     const doc = captured.get(context.documentIRI.value);
     if (!doc) throw new Error("Parser returned an unadmitted document.");
     return {
       doc,
+      policy: documentProjectionPolicy(ontology.getOntologyID()),
       unresolved: context.diagnostics
         .filter((d) => d.importIRI)
         .map((d) => ({ importIri: d.importIRI.value, reason: d.code })),
@@ -187,11 +242,13 @@ export async function loadOntologyDocument({
   const selectionSha256 = sha256(
     JSON.stringify([
       snapshotIds,
+      documents
+        .map(({ doc, policy }) => [doc.snapshotId, policy.interpretation])
+        .sort((a, b) => a[0].localeCompare(b[0])),
       graphSelection,
       requireComplete,
-      [...byImport.keys()]
-        .sort()
-        .map((iri) => [iri, byImport.get(iri).snapshotId]),
+      [...used].sort(([a], [b]) => a.localeCompare(b)),
+      documents.map(({ doc, unresolved }) => [doc.snapshotId, unresolved]),
     ]),
   );
   const snapshotRef = Object.freeze({
@@ -202,8 +259,9 @@ export async function loadOntologyDocument({
     graphSelection,
   });
   const importCoverage = freezeJsonValueDeeply(
-    documents.map(({ doc, unresolved }) => ({
+    documents.map(({ doc, unresolved, policy }) => ({
       snapshotId: doc.snapshotId,
+      interpretation: policy.interpretation,
       unresolved,
     })),
   );
@@ -260,11 +318,16 @@ export async function loadOntologyDocument({
       ),
     );
     signal?.throwIfAborted();
+    const projectionPolicies = Object.fromEntries(
+      documents.map(({ doc, policy }) => [doc.snapshotId, policy]),
+    );
     const lexical = createOntologyDocumentLexicalIndex(
       store,
       loaded.documents.flatMap(({ ontology }) => [...ontology.getSignature()]),
+      projectionPolicies,
     );
     const documentContext = {
+      projectionPolicies,
       viewId: selectionSha256,
       resourceRows,
       knownTerms,
@@ -289,6 +352,7 @@ export async function loadOntologyDocument({
       selectionSha256,
       graphSelection,
       parsingMode,
+      interpretation: projectionPolicies[root.snapshotId].interpretation,
       title: title || authored.ontologyIRI?.value || "Ontology document",
       versionIri: authored.versionIRI?.value ?? null,
       format,

@@ -91,7 +91,11 @@ export function registerOntologyDocumentTools(server, workspace, lifecycle) {
   register(
     "open_ontology",
     "Open or refresh an authorized local ontology file. A failed open leaves existing handles usable.",
-    { path: z.string().min(1).max(32768), parsingMode: mode.optional() },
+    {
+      path: z.string().min(1).max(32768),
+      parsingMode: mode.optional(),
+      format: z.enum(["turtle", "rdfxml"]).optional(),
+    },
     (input, signal) => workspace.openDocument(input, { signal }),
   );
   register(
