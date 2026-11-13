@@ -242,8 +242,8 @@ class HostConfigurationRenderingTests(unittest.TestCase):
             expected_ontology_entry["args"][-3:],
             [
                 ".agent-tools/bin/universal-ontology-mcp-server.mjs",
-                "--query-artifact-source=file-system",
-                "--query-artifact-root-directory=dist/query/v1",
+                "--ontology-file=src/universal/core/20260912",
+                "--ontology-root=src/universal",
             ],
         )
 
@@ -277,6 +277,9 @@ class HostConfigurationRenderingTests(unittest.TestCase):
                     "resolve_entity",
                     "get_entity_context",
                     "find_entity_connections",
+                    "open_ontology",
+                    "list_ontologies",
+                    "close_ontology",
                 ],
                 "default_tools_approval_mode": "writes",
             },
@@ -328,8 +331,8 @@ class HostConfigurationRenderingTests(unittest.TestCase):
                     / "universal-ontology-mcp-server.mjs",
                     configured_servers["universal_ontology"],
                     [
-                        "--query-artifact-source=file-system",
-                        "--query-artifact-root-directory=dist/query/v1",
+                        "--ontology-file=src/universal/core/20260912",
+                        "--ontology-root=src/universal",
                     ],
                 ),
             )
@@ -456,6 +459,39 @@ class HostConfigurationRenderingTests(unittest.TestCase):
             codex_document["sandbox_workspace_write"],
             {"network_access": True},
         )
+
+    def test_ontology_only_preserves_custom_github_entries_in_all_hosts(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            root = Path(scratch)
+            custom = {"command": "private-github-wrapper"}
+            for relative in (".mcp.json", ".agents/mcp_config.json"):
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(
+                    json.dumps({"mcpServers": {"github": custom}}), encoding="utf-8"
+                )
+            codex = root / ".codex/config.toml"
+            codex.parent.mkdir()
+            codex.write_text(
+                '[mcp_servers.github]\ncommand = "private-github-wrapper"\n',
+                encoding="utf-8",
+            )
+            for document in set_up_mcp_servers.render_mcp_host_configuration_documents(
+                root, ontology_only=True
+            ):
+                if document.destination_path == codex:
+                    entries = tomllib.loads(document.rendered_contents)["mcp_servers"]
+                else:
+                    entries = json.loads(document.rendered_contents)["mcpServers"]
+                self.assertEqual(entries["github"], custom)
+                self.assertIn("universal_ontology", entries)
+                document.destination_path.write_bytes(
+                    document.rendered_contents.encode("utf-8")
+                )
+            checked = set_up_mcp_servers.check_mcp_host_configuration_documents(
+                root, ontology_only=True
+            )
+            self.assertEqual(set(checked), {root / ".mcp.json", codex})
 
     def test_unmanaged_codex_conflict_prevents_every_file_write(self):
         write_documents = require_setup_callable(
@@ -2217,6 +2253,9 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 / "packages/universal-ontology-mcp-server/third-party/oxigraph"
             )
             vendor_path.mkdir(parents=True)
+            (vendor_path.parents[1] / "THIRD_PARTY_NOTICES.md").write_text(
+                "fixture notices", encoding="utf-8"
+            )
             for name in ("LICENSE-MIT", "component-notices.json"):
                 (vendor_path / name).write_text("fixture", encoding="utf-8")
             built_bundle = mock.Mock(
@@ -2311,6 +2350,9 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 / "packages/universal-ontology-mcp-server/third-party/oxigraph"
             )
             vendor_path.mkdir(parents=True)
+            (vendor_path.parents[1] / "THIRD_PARTY_NOTICES.md").write_text(
+                "fixture notices", encoding="utf-8"
+            )
             for name in ("LICENSE-MIT", "component-notices.json"):
                 (vendor_path / name).write_text("fixture", encoding="utf-8")
             built_bundle = mock.Mock(
@@ -2388,7 +2430,7 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 0,
                 json.dumps(
                     {
-                        "ontologyQueryArtifactSourceKind": "file_system",
+                        "ontologyQueryArtifactSourceKind": "ontology_document",
                         "queryReadiness": {
                             "matchedEntityIri": (
                                 "https://haddenindustries.com/ontology/"
@@ -2402,6 +2444,9 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                             "version": "1.0.0",
                         },
                         "toolNames": [
+                            "open_ontology",
+                            "list_ontologies",
+                            "close_ontology",
                             "search_entities",
                             "resolve_entity",
                             "get_entity_context",
@@ -2441,6 +2486,9 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
         self.assertEqual(
             verification["toolNames"],
             [
+                "open_ontology",
+                "list_ontologies",
+                "close_ontology",
                 "search_entities",
                 "resolve_entity",
                 "get_entity_context",
@@ -2457,11 +2505,8 @@ class UniversalOntologyMcpInstallationTests(unittest.TestCase):
                 / "verifyUniversalOntologyMcpApplicationBundle.js",
                 "--application-bundle",
                 staged_program_path,
-                "--query-artifact-source=file-system",
-                (
-                    "--query-artifact-root-directory="
-                    f"{(repository_root / 'dist' / 'query' / 'v1').as_posix()}"
-                ),
+                "--ontology-file=src/universal/core/20260912",
+                "--ontology-root=src/universal",
                 "--verify-query-readiness",
             ],
             cwd=repository_root,
@@ -3044,7 +3089,7 @@ class RepositoryLocalMcpSetupTransactionTests(unittest.TestCase):
                 ):
                     set_up_servers(repository_root)
 
-            generate_query_artifacts.assert_called_once_with(repository_root)
+            generate_query_artifacts.assert_not_called()
             activate.assert_not_called()
             self.assertEqual(
                 original_configuration_path.read_text(encoding="utf-8"),
@@ -3218,14 +3263,14 @@ class SetupArgumentParsingTests(unittest.TestCase):
             "https://example.cloudfront.net/ontology/query/v1/",
         )
 
-    def test_defaults_repository_setup_to_the_filesystem_query_artifact_source(
+    def test_defaults_repository_setup_to_direct_ontology_documents(
         self,
     ):
         arguments = set_up_mcp_servers.parse_args([])
 
         self.assertEqual(
             arguments.universal_ontology_query_artifact_source,
-            "file-system",
+            "ontology-document",
         )
 
 

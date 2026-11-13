@@ -116,7 +116,7 @@ UNIVERSAL_ONTOLOGY_MCP_LAUNCH_COMMAND = "node"
 UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH = (
     Path(".agent-tools") / "bin" / "universal-ontology-mcp-server.mjs"
 )
-UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND = "file-system"
+UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND = "ontology-document"
 UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_ROOT_DIRECTORY = Path("dist") / "query" / "v1"
 UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_CHANNEL_NAME = "development"
 UNIVERSAL_ONTOLOGY_MCP_STARTUP_TIMEOUT_SECONDS = 15
@@ -126,6 +126,11 @@ UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES = [
     "resolve_entity",
     "get_entity_context",
     "find_entity_connections",
+]
+UNIVERSAL_ONTOLOGY_MCP_DOCUMENT_TOOL_NAMES = [
+    "open_ontology",
+    "list_ontologies",
+    "close_ontology",
 ]
 CAPTURED_MCP_VERIFIER_DIAGNOSTIC_MAXIMUM_CHARACTER_COUNT = 4_096
 
@@ -224,7 +229,7 @@ class StagedMcpServerInstallation:
 class RepositoryLocalMcpSetupResult:
     """Verified programs and paths published by one successful setup run."""
 
-    github_mcp_server_version: str
+    github_mcp_server_version: str | None
     universal_ontology_mcp_verification: dict[str, object]
     activated_paths: tuple[Path, ...]
 
@@ -1127,6 +1132,17 @@ def universal_ontology_mcp_query_artifact_arguments(
 ) -> list[str]:
     """Return server arguments selecting exactly one artifact repository."""
 
+    if query_artifact_source_kind == "ontology-document":
+        if (
+            query_artifact_channel_name is not None
+            or query_artifact_base_url is not None
+        ):
+            raise ValueError("A direct ontology cannot select HTTP artifacts.")
+        return [
+            "--ontology-file=src/universal/core/20260912",
+            "--ontology-root=src/universal",
+        ]
+
     if query_artifact_source_kind == "file-system":
         if (
             query_artifact_channel_name is not None
@@ -1203,7 +1219,14 @@ def universal_ontology_mcp_host_configuration_entry(
             {
                 "startup_timeout_sec": (UNIVERSAL_ONTOLOGY_MCP_STARTUP_TIMEOUT_SECONDS),
                 "tool_timeout_sec": UNIVERSAL_ONTOLOGY_MCP_TOOL_TIMEOUT_SECONDS,
-                "enabled_tools": list(UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES),
+                "enabled_tools": [
+                    *UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES,
+                    *(
+                        UNIVERSAL_ONTOLOGY_MCP_DOCUMENT_TOOL_NAMES
+                        if query_artifact_source_kind == "ontology-document"
+                        else []
+                    ),
+                ],
                 "default_tools_approval_mode": "writes",
             }
         )
@@ -1232,6 +1255,7 @@ def _render_mcp_host_configuration_documents(
     repo: Path,
     json_host_configurations: Iterable[tuple[Path, str]],
     *,
+    ontology_only: bool = False,
     query_artifact_source_kind: str = (
         UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
     ),
@@ -1259,11 +1283,15 @@ def _render_mcp_host_configuration_documents(
         existing, observed_destination_bytes = (
             _read_optional_utf8_host_configuration_document(path)
         )
-        contents = merge_json_mcp_host_configuration(
-            existing,
-            GITHUB_MCP_HOST_CONFIGURATION_NAME,
-            github_mcp_host_configuration_entry(),
-            remove_names=(LEGACY_GITHUB_MCP_HOST_CONFIGURATION_NAME,),
+        contents = (
+            existing
+            if ontology_only
+            else merge_json_mcp_host_configuration(
+                existing,
+                GITHUB_MCP_HOST_CONFIGURATION_NAME,
+                github_mcp_host_configuration_entry(),
+                remove_names=(LEGACY_GITHUB_MCP_HOST_CONFIGURATION_NAME,),
+            )
         )
         contents = merge_json_mcp_host_configuration(
             contents,
@@ -1288,14 +1316,15 @@ def _render_mcp_host_configuration_documents(
         _read_optional_utf8_host_configuration_document(codex_path)
     )
     codex_existing = codex_existing or ""
-    codex_existing = remove_codex_mcp_server_table(
-        codex_existing,
-        LEGACY_GITHUB_MCP_HOST_CONFIGURATION_NAME,
-    )
-    _require_legacy_codex_mcp_server_is_absent_after_source_migration(
-        codex_existing,
-        LEGACY_GITHUB_MCP_HOST_CONFIGURATION_NAME,
-    )
+    if not ontology_only:
+        codex_existing = remove_codex_mcp_server_table(
+            codex_existing,
+            LEGACY_GITHUB_MCP_HOST_CONFIGURATION_NAME,
+        )
+        _require_legacy_codex_mcp_server_is_absent_after_source_migration(
+            codex_existing,
+            LEGACY_GITHUB_MCP_HOST_CONFIGURATION_NAME,
+        )
     codex_existing = remove_codex_mcp_server_table(
         codex_existing,
         LEGACY_UNIVERSAL_ONTOLOGY_MCP_HOST_CONFIGURATION_NAME,
@@ -1304,10 +1333,14 @@ def _render_mcp_host_configuration_documents(
         codex_existing,
         LEGACY_UNIVERSAL_ONTOLOGY_MCP_HOST_CONFIGURATION_NAME,
     )
-    codex_contents = merge_codex_mcp_host_configuration(
-        codex_existing,
-        GITHUB_MCP_HOST_CONFIGURATION_NAME,
-        github_mcp_host_configuration_entry(),
+    codex_contents = (
+        codex_existing
+        if ontology_only
+        else merge_codex_mcp_host_configuration(
+            codex_existing,
+            GITHUB_MCP_HOST_CONFIGURATION_NAME,
+            github_mcp_host_configuration_entry(),
+        )
     )
     codex_contents = merge_codex_mcp_host_configuration(
         codex_contents,
@@ -1332,6 +1365,7 @@ def _render_mcp_host_configuration_documents(
 def render_mcp_host_configuration_documents(
     repo: Path,
     *,
+    ontology_only: bool = False,
     query_artifact_source_kind: str = (
         UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
     ),
@@ -1342,6 +1376,7 @@ def render_mcp_host_configuration_documents(
     return _render_mcp_host_configuration_documents(
         repo,
         JSON_MCP_HOST_CONFIGURATION_DOCUMENTS,
+        ontology_only=ontology_only,
         query_artifact_source_kind=query_artifact_source_kind,
         query_artifact_channel_name=query_artifact_channel_name,
         query_artifact_base_url=query_artifact_base_url,
@@ -2216,6 +2251,7 @@ def write_mcp_host_configuration_documents(repo: Path) -> list[Path]:
 def check_mcp_host_configuration_documents(
     repo: Path,
     *,
+    ontology_only: bool = False,
     query_artifact_source_kind: str = (
         UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
     ),
@@ -2229,6 +2265,7 @@ def check_mcp_host_configuration_documents(
     rendered = _render_mcp_host_configuration_documents(
         repo,
         CHECKED_IN_JSON_MCP_HOST_CONFIGURATION_DOCUMENTS,
+        ontology_only=ontology_only,
         query_artifact_source_kind=query_artifact_source_kind,
         query_artifact_channel_name=query_artifact_channel_name,
         query_artifact_base_url=query_artifact_base_url,
@@ -2737,6 +2774,18 @@ def stage_universal_ontology_mcp_server_installation(
             )
         )
 
+    notices = repo / "packages/universal-ontology-mcp-server/THIRD_PARTY_NOTICES.md"
+    staged_notices = staging_directory / notices.name
+    shutil.copy2(notices, staged_notices)
+    additional_files.append(
+        (
+            staged_notices,
+            repo
+            / UNIVERSAL_ONTOLOGY_MCP_INSTALLED_APPLICATION_BUNDLE_PATH.parent
+            / notices.name,
+        )
+    )
+
     # The canonical bundle is atomically replaceable so other verifiers never
     # observe it missing. A replacement between validation and this copy is
     # therefore legitimate, but it is not the snapshot this installation record
@@ -2888,7 +2937,11 @@ def verify_staged_universal_ontology_mcp_server_installation(
     _package_name, package_version = read_universal_ontology_mcp_package_identity(repo)
     expected = {
         "ontologyQueryArtifactSourceKind": (
-            "file_system" if query_artifact_source_kind == "file-system" else "http"
+            {
+                "file-system": "file_system",
+                "http": "http",
+                "ontology-document": "ontology_document",
+            }[query_artifact_source_kind]
         ),
         "queryReadiness": {
             "matchedEntityIri": (
@@ -2901,7 +2954,14 @@ def verify_staged_universal_ontology_mcp_server_installation(
             "title": UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_SERVER_TITLE,
             "version": package_version,
         },
-        "toolNames": list(UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES),
+        "toolNames": [
+            *(
+                UNIVERSAL_ONTOLOGY_MCP_DOCUMENT_TOOL_NAMES
+                if query_artifact_source_kind == "ontology-document"
+                else []
+            ),
+            *UNIVERSAL_ONTOLOGY_MCP_ENABLED_TOOL_NAMES,
+        ],
     }
     if query_artifact_source_kind == "http":
         expected["ontologyQueryArtifactChannelName"] = (
@@ -3037,6 +3097,7 @@ def verify_staged_github_mcp_server_installation(
 def set_up_repository_local_mcp_servers(
     repo: Path,
     *,
+    ontology_only: bool = False,
     query_artifact_source_kind: str = (
         UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND
     ),
@@ -3055,6 +3116,7 @@ def set_up_repository_local_mcp_servers(
         # before downloads or builds so a conflict cannot waste toolchain work.
         rendered_documents = render_mcp_host_configuration_documents(
             repo,
+            **({"ontology_only": True} if ontology_only else {}),
             query_artifact_source_kind=query_artifact_source_kind,
             query_artifact_channel_name=query_artifact_channel_name,
             query_artifact_base_url=query_artifact_base_url,
@@ -3062,9 +3124,10 @@ def set_up_repository_local_mcp_servers(
 
         with tempfile.TemporaryDirectory(prefix="repository-setup-") as scratch:
             staging_directory = Path(scratch)
-            github_installation = stage_github_mcp_server_installation(
-                repo,
-                staging_directory,
+            github_installation = (
+                None
+                if ontology_only
+                else stage_github_mcp_server_installation(repo, staging_directory)
             )
             ontology_installation = stage_universal_ontology_mcp_server_installation(
                 repo,
@@ -3072,9 +3135,10 @@ def set_up_repository_local_mcp_servers(
             )
             if query_artifact_source_kind == "file-system":
                 generate_repository_local_ontology_query_artifacts(repo)
-            github_version = verify_staged_github_mcp_server_installation(
-                repo,
-                github_installation,
+            github_version = (
+                verify_staged_github_mcp_server_installation(repo, github_installation)
+                if github_installation
+                else None
             )
             ontology_verification = (
                 verify_staged_universal_ontology_mcp_server_installation(
@@ -3088,7 +3152,11 @@ def set_up_repository_local_mcp_servers(
             activated_paths = (
                 activate_staged_mcp_server_installations_and_host_configurations(
                     repo,
-                    [github_installation, ontology_installation],
+                    [
+                        item
+                        for item in (github_installation, ontology_installation)
+                        if item is not None
+                    ],
                     rendered_documents,
                 )
             )
@@ -3108,6 +3176,11 @@ def parse_args(arguments: Sequence[str] | None = None) -> argparse.Namespace:
         )
     )
     parser.add_argument(
+        "--ontology-only",
+        action="store_true",
+        help="Stage and verify only the Universal Ontology server and its host settings.",
+    )
+    parser.add_argument(
         "--check",
         action="store_true",
         help=(
@@ -3117,11 +3190,11 @@ def parse_args(arguments: Sequence[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--universal-ontology-query-artifact-source",
-        choices=("file-system", "http"),
+        choices=("ontology-document", "file-system", "http"),
         default=UNIVERSAL_ONTOLOGY_MCP_DEFAULT_QUERY_ARTIFACT_SOURCE_KIND,
         help=(
-            "Select repository filesystem artifacts (the default) or the "
-            "HTTP artifact repository for the Universal Ontology server."
+            "Open the local core ontology by default, or explicitly select a "
+            "filesystem or HTTP query-artifact source."
         ),
     )
     parser.add_argument(
@@ -3140,7 +3213,7 @@ def parse_args(arguments: Sequence[str] | None = None) -> argparse.Namespace:
         ),
     )
     parsed_arguments = parser.parse_args(arguments)
-    if parsed_arguments.universal_ontology_query_artifact_source == "file-system" and (
+    if parsed_arguments.universal_ontology_query_artifact_source != "http" and (
         parsed_arguments.universal_ontology_query_artifact_channel is not None
         or parsed_arguments.universal_ontology_query_artifact_base_url is not None
     ):
@@ -3162,6 +3235,9 @@ def main(arguments: Sequence[str] | None = None) -> int:
         if arguments_namespace.check:
             checked_paths = check_mcp_host_configuration_documents(
                 repo,
+                **(
+                    {"ontology_only": True} if arguments_namespace.ontology_only else {}
+                ),
                 query_artifact_source_kind=(
                     arguments_namespace.universal_ontology_query_artifact_source
                 ),
@@ -3181,6 +3257,7 @@ def main(arguments: Sequence[str] | None = None) -> int:
 
         setup_result = set_up_repository_local_mcp_servers(
             repo,
+            **({"ontology_only": True} if arguments_namespace.ontology_only else {}),
             query_artifact_source_kind=(
                 arguments_namespace.universal_ontology_query_artifact_source
             ),
@@ -3192,20 +3269,21 @@ def main(arguments: Sequence[str] | None = None) -> int:
             ),
         )
 
-        print(f"\n  GitHub: {setup_result.github_mcp_server_version}")
+        if setup_result.github_mcp_server_version is not None:
+            print(f"\n  GitHub: {setup_result.github_mcp_server_version}")
 
-        if GITHUB_MCP_TOKEN_VARIABLE in os.environ:
-            # Never print the credential value. The variable name is enough to
-            # explain why the GitHub server will not begin browser-based OAuth.
-            print(
-                f"  GitHub authentication: {GITHUB_MCP_TOKEN_VARIABLE} is set "
-                "and takes precedence over browser-based OAuth."
-            )
-        else:
-            print(
-                "  GitHub authentication: browser-based OAuth begins when the "
-                "GitHub MCP Server first needs authorization."
-            )
+            if GITHUB_MCP_TOKEN_VARIABLE in os.environ:
+                # Never print the credential value. The variable name is enough to
+                # explain why the GitHub server will not begin browser-based OAuth.
+                print(
+                    f"  GitHub authentication: {GITHUB_MCP_TOKEN_VARIABLE} is set "
+                    "and takes precedence over browser-based OAuth."
+                )
+            else:
+                print(
+                    "  GitHub authentication: browser-based OAuth begins when the "
+                    "GitHub MCP Server first needs authorization."
+                )
 
         ontology_verification = setup_result.universal_ontology_mcp_verification
         print("  Universal Ontology: " + ", ".join(ontology_verification["toolNames"]))

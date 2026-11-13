@@ -5,7 +5,7 @@ An MCP host launches it as a child process; the server opens no inbound port and
 
 Choose an installation route for the software you have:
 
-- **Contributor checkout:** [Install both repository-local MCP servers](#install-both-repository-local-mcp-servers) to use the generated ontology data in that checkout.
+- **Contributor checkout:** [Install both repository-local MCP servers](#install-both-repository-local-mcp-servers) to browse the ontology source files in that checkout.
 - **Another MCP host:** [Build from source](#build-and-run-from-a-source-checkout), use a [locally packed npm tarball](#install-a-locally-packed-npm-tarball), or run a [local OCI image](#build-and-run-a-local-oci-image).
 - **Development artifact:** [Build a self-contained platform archive](#build-a-self-contained-platform-archive) or use an [authenticated GitHub Actions artifact](#use-a-short-lived-github-actions-artifact).
 
@@ -18,8 +18,22 @@ After selecting the software, [configure the host](#configure-an-mcp-host) and [
 
 > **Current data-origin status:** the public stable artifact origin is not yet established.
 > The server software can be built and configured now, but an uncached query using its default base URL will fail closed with an HTTP `404`.
-> Repository-local setup is usable now because it defaults to the generated filesystem artifacts under `dist/query/v1`; it does not contact that public origin.
+> Repository-local setup opens the current core RDF/XML document directly. The parser and browse indexes run locally.
 > HTTP mode remains available for development against an explicitly selected channel or base URL.
+
+## Browse a local ontology
+
+Repository setup opens `src/universal/core/20260912` and permits additional files under `src/universal`. To update the UO server while GitHub MCP sessions are running, use `npm run set-up:mcp-servers -- --ontology-only`. Restart the consuming host after changing its launch settings.
+
+For a different source, pass the file explicitly when starting a server. Quote a path containing spaces as one argument. A UNC share is supported under the same file-identity and directory rules as a local disk.
+
+```powershell
+node .agent-tools/bin/universal-ontology-mcp-server.mjs "--ontology-file=C:\\Standards\\Project vocabulary.rdf" "--ontology-root=C:\\Standards"
+```
+
+Call `list_ontologies` to see the open views. Search with `search_entities` and a `queryText`, then pass a hit’s `entityHandle` to `get_entity_context`. Exact identifiers and designations use `resolve_entity` with `name`. Term and field citations have their own `resourceHandle`; pass it to the same context tool to read the source. Use `find_entity_connections` with two entity handles from one view to inspect asserted relationships. `close_ontology` releases a view.
+
+RDF/XML and Turtle are supported. An extensionless file defaults to RDF/XML. Use `--ontology-format=turtle` for an extensionless Turtle source. A tool caller can supply `format` on open. To compare OwlAPI mapping modes, call `open_ontology` with the authorized path and `parsingMode` set to `preserve` or `compatible`. A refused load returns a diagnostic and leaves ready views available. Explicit import bindings use `--ontology-imports` with a JSON object mapping IRIs to local filenames. `--ontology-import-policy=complete` requires the closure to load. Partial mode names unresolved imports on term cards. The parser never fetches imports or remote references.
 
 ## What crosses the network
 
@@ -27,7 +41,7 @@ The local executable has the same operating-system authority as the MCP host tha
 Install only code and candidate artifacts obtained through a trusted repository identity, and review host configuration before enabling the server.
 
 The executable contains the query engine but no ontology catalog or index.
-It composes exactly one query-artifact repository selected at process launch:
+Direct mode captures operator-authorized files at launch or on open. Explicit artifact modes remain available:
 
 - `file-system` reads a generated `catalog.json` and its content-addressed release indexes from an operator-selected local root.
   It performs no ontology artifact network request.
@@ -38,7 +52,7 @@ Query text, entity identifiers, labels, definitions, and tool results remain loc
 In HTTP mode, request paths and timing can still reveal the selected channel and retrieved artifact, so an operator-controlled proxy remains part of the privacy boundary.
 
 The standalone executable defaults to `http` and `stable`, because a distributed installation cannot assume a checkout-local artifact tree.
-The repository setup command explicitly defaults its generated host entries to `file-system` and `dist/query/v1`.
+Repository setup explicitly supplies the current core document and an authorized local root.
 
 Channel manifests are unsigned publisher selections.
 Each manifest selects a catalog by byte length and SHA-256, and each catalog selects release indexes by the same properties.
@@ -88,16 +102,16 @@ The command installs two distinct local programs:
 
 - `github` is the official GitHub MCP Server executable for the current operating system and architecture.
   The latest GitHub release is resolved on every run; its selected archive is bounded, checked against the release's single SHA-256 manifest, and constrained to one regular executable member.
-- `universal_ontology` is this checkout's canonical single-file MCP application bundle.
-  The command selects the npm version declared by `packageManager`, runs `npm ci --ignore-scripts`, builds the bundle, and—under the default filesystem source—runs the existing authoritative `npm run generate:ontology-indexes` generator.
+- `universal_ontology` is this checkout's canonical MCP application, parser worker and WASM runtime.
+  The command selects the npm version declared by `packageManager`, runs `npm ci --ignore-scripts`, builds the bundle, and stages the runtime assets and third-party notices. Explicit filesystem-artifact mode also invokes the index generator.
   Setup checks the bundle's byte length, SHA-256 digest, package identity, and package version against generated build metadata.
   It then requires the copied staging file's byte length and SHA-256 digest to match that validated snapshot before writing the installation record, so a concurrent canonical-bundle replacement cannot make the record describe different bytes.
 
 Before changing active files, setup verifies the staged GitHub executable with `--version` and connects to the staged Universal Ontology bundle with the official MCP v2 client pinned to protocol version `2026-07-28`.
-That protocol probe requires the exact `universal-ontology` server identity and the four documented tools.
+That protocol probe requires the exact `universal-ontology` server identity and the documented tools for the selected mode.
 
-It then calls `search_entities` for `Person` in the latest stable `universal/core` release and requires the expected Universal Ontology entity IRI before activation.
-Filesystem verification reads the newly generated `dist/query/v1` tree.
+For the direct core, the verifier searches for Person, resolves its exact IRI, reads the term card and runs a bounded connection query before activation.
+Explicit filesystem-artifact verification reads the generated `dist/query/v1` tree.
 HTTP verification uses the selected remote source and a unique operating-system-temporary `--cache-directory`, then closes the MCP process and removes that cache.
 
 Verification therefore tests the actual selected data path without depending on or mutating the developer's persistent HTTP runtime cache.
@@ -165,23 +179,23 @@ Each launch entry runs a small Node bootstrap that asks Git for the checkout's t
 Moving the checkout therefore does not embed an old absolute path, and starting an MCP host from a nested repository directory does not reinterpret the paths beneath that directory.
 
 Git remains a runtime prerequisite for these repository-local entries.
-The Universal Ontology entry explicitly selects the filesystem repository at `dist/query/v1` by default.
-The query data remains outside `.agent-tools` and is not bundled into the installed application.
-The setup command regenerates it before it verifies and activates the server.
+The Universal Ontology entry selects the local core source. Ontology data stays outside `.agent-tools`. Setup verifies the staged runtime against the source before activation.
 
 The GitHub configuration writes no credential.
 When `GITHUB_PERSONAL_ACCESS_TOKEN` is absent, the GitHub MCP Server can begin its browser-based OAuth flow when authorization is first required.
 If that variable is already present, its value takes precedence; setup reports only the variable name and never prints or persists the token.
 
-### Select the repository-local query-artifact source
+### Select a local source or switch back to direct browsing
 
-The no-argument setup command is equivalent to selecting the filesystem source:
+Run `npm run set-up:mcp-servers -- --ontology-only` to select direct browsing or restore it after trying an artifact source. It loads the current core ontology file on startup.
+
+For an existing consumer of pre-generated filesystem artifacts, select that mode explicitly.
 
 ```powershell
 .\.venv\Scripts\python.exe .\scripts\set_up_mcp_servers.py --universal-ontology-query-artifact-source=file-system
 ```
 
-It runs `npm run generate:ontology-indexes`, verifies a real query against `dist/query/v1`, and renders these application arguments into all three supported host documents:
+This explicit filesystem mode runs `npm run generate:ontology-indexes`, verifies a real query against `dist/query/v1`, and renders these application arguments into all three supported host documents:
 
 ```text
 --query-artifact-source=file-system
@@ -691,8 +705,7 @@ Do not send an invented request after closing the protocol session.
 
 ## Verify the `Person` definition
 
-The default repository-local setup performs this acceptance query through the official MCP client before it activates any generated program or host document.
-After restarting the host, repeat it through the agent to prove host discovery and launch as well as server behavior.
+Before activation the default repository-local setup searches the core document for `Person`, resolves the hit, reads its term card, and checks its zero-hop connection. After restarting the host, search with `{"queryText":"Person"}` and pass the returned `entityHandle` to `get_entity_context`. The following HTTP checks exercise the separate artifact-source contract.
 Do not treat a successful build, `--help`, or `--version` check as equivalent query evidence.
 
 Default-origin **HTTP** host acceptance remains deferred until a complete stable artifact origin is established.
@@ -784,7 +797,7 @@ The capabilities are complementary:
   A supporting browser exposes the ontology page currently open in that page's lifecycle.
 - This installed MCP server is page-independent.
   Its local process can serve any configured MCP host while all browser pages are closed.
-- [Loopback HTTP development](local-development.md) runs from repository- generated data at `127.0.0.1` for protocol and implementation development; it is not the installed `stdio` topology.
+- [Loopback HTTP development](local-development.md) opens the repository core source at `127.0.0.1` for protocol and implementation development; it is not the installed `stdio` topology.
 
 Hosted MCP compute is not required for local `stdio` queries.
 A separately authorized hosted adapter may be useful later for clients that cannot launch a local process, but it is not part of this development installation.

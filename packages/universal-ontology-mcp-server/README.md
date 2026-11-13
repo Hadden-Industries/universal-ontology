@@ -1,12 +1,14 @@
 # Universal Ontology MCP Server
 
 The Universal Ontology MCP Server gives Model Context Protocol (MCP) hosts read-only, page-independent access to authored entity labels, lexical definitions, identifiers, and immutable ontology-release provenance.
-It runs as a local `stdio` process, opens no inbound port, and exposes four tools:
+It runs as a local `stdio` process, opens no inbound port, and offers four browsing tools:
 
 - `search_entities`
 - `resolve_entity`
 - `get_entity_context`
 - `find_entity_connections`
+
+Direct RDF/XML and Turtle sessions additionally expose `open_ontology`, `list_ontologies` and `close_ontology`. Start the executable with `--ontology-file=<path>` to index a document in memory.
 
 ## Development status
 

@@ -35,6 +35,7 @@ const SUPPORTED_ONTOLOGY_QUERY_ARTIFACT_CHANNEL_NAMES = new Set(
 );
 const SUPPORTED_ONTOLOGY_QUERY_ARTIFACT_SOURCE_KINDS = new Set([
   "file_system",
+  "ontology_document",
   "http",
 ]);
 const EXPECTED_READINESS_ENTITY_IRI =
@@ -68,9 +69,7 @@ function validateOntologyQueryArtifactSourceKind(
       ontologyQueryArtifactSourceKind,
     )
   ) {
-    throw new TypeError(
-      'ontologyQueryArtifactSourceKind must be "file_system" or "http".',
-    );
+    throw new TypeError("Unknown ontology verification source.");
   }
 }
 
@@ -111,6 +110,54 @@ function assertOntologyQueryReadiness(result) {
     matchedEntityIri: matchingEntity.entityIri,
     outcome: "success",
   });
+}
+
+async function verifyDirectCoreReadiness(client) {
+  async function call(name, args) {
+    const result = await client.callTool(
+      { name, arguments: args },
+      { timeout: MCP_OPERATION_TIMEOUT_MILLISECONDS },
+    );
+    if (result.isError || !result.structuredContent)
+      throw new Error("Direct ontology readiness failed at " + name);
+    return result.structuredContent;
+  }
+  const search = await call("search_entities", {
+    queryText: "Person",
+    maximumResultCount: 10,
+  });
+  const hit = search.matches.find(
+    (m) => m.entityHandle.iri === EXPECTED_READINESS_ENTITY_IRI,
+  );
+  if (!hit)
+    throw new Error("The configured core ontology did not return Person.");
+  const { entityHandle } = hit;
+  const exact = await call("resolve_entity", {
+    ontologyId: entityHandle.ontologyId,
+    name: entityHandle.iri,
+  });
+  const card = await call("get_entity_context", {
+    entityHandle,
+    depth: 0,
+    maximumResultBytes: 131072,
+  });
+  const connections = await call("find_entity_connections", {
+    entityHandle,
+    targetEntityHandle: entityHandle,
+    depth: 0,
+    maximumResultBytes: 131072,
+  });
+  if (
+    !exact.matches.some((m) =>
+      isDeepStrictEqual(m.entityHandle, entityHandle),
+    ) ||
+    card.context.entityIri !== entityHandle.iri ||
+    connections.context.entityIri !== entityHandle.iri ||
+    connections.status !== "paths_found" ||
+    !connections.paths.some((path) => Array.isArray(path) && path.length === 0)
+  )
+    throw new Error("Direct ontology follow-up identity mismatch.");
+  return { matchedEntityIri: entityHandle.iri, outcome: "success" };
 }
 
 async function requireApplicationBundleFile(applicationBundlePath) {
@@ -205,16 +252,47 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
   applicationBundlePath,
   ontologyQueryArtifactSourceKind = "http",
   ontologyQueryArtifactRootDirectoryPath,
-  ontologyQueryArtifactChannelName = "development",
+  ontologyQueryArtifactChannelName,
   ontologyQueryArtifactBaseUrl,
+  ontologyFile,
+  ontologyRoot,
   verifyOntologyQueryReadiness = false,
 } = {}) {
   validateOntologyQueryArtifactSourceKind(ontologyQueryArtifactSourceKind);
+  if (
+    ontologyQueryArtifactSourceKind !== "ontology_document" &&
+    (ontologyFile !== undefined || ontologyRoot !== undefined)
+  )
+    throw new TypeError(
+      "Direct file and root options require a direct ontology source.",
+    );
+  if (
+    ontologyQueryArtifactSourceKind === "ontology_document" &&
+    (ontologyQueryArtifactChannelName !== undefined ||
+      ontologyQueryArtifactRootDirectoryPath !== undefined ||
+      ontologyQueryArtifactBaseUrl !== undefined)
+  )
+    throw new TypeError("Direct verification cannot use an artifact source.");
   if (typeof verifyOntologyQueryReadiness !== "boolean") {
     throw new TypeError("verifyOntologyQueryReadiness must be a boolean.");
   }
   if (ontologyQueryArtifactSourceKind === "http") {
+    ontologyQueryArtifactChannelName ??= "development";
     validateOntologyQueryArtifactChannelName(ontologyQueryArtifactChannelName);
+  } else if (ontologyQueryArtifactSourceKind === "ontology_document") {
+    if (
+      ontologyRoot !== undefined &&
+      (typeof ontologyRoot !== "string" ||
+        !ontologyRoot.trim() ||
+        ontologyRoot.trim() !== ontologyRoot)
+    )
+      throw new TypeError("Supply a nonempty ontology root.");
+    if (
+      typeof ontologyFile !== "string" ||
+      !ontologyFile.trim() ||
+      ontologyFile.trim() !== ontologyFile
+    )
+      throw new TypeError("A direct ontology file is required.");
   } else if (
     typeof ontologyQueryArtifactRootDirectoryPath !== "string" ||
     ontologyQueryArtifactRootDirectoryPath.length === 0
@@ -242,20 +320,27 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
 
   try {
     const ontologyQueryArtifactArguments =
-      ontologyQueryArtifactSourceKind === "file_system"
+      ontologyQueryArtifactSourceKind === "ontology_document"
         ? [
-            "--query-artifact-source=file-system",
-            `--query-artifact-root-directory=${resolve(ontologyQueryArtifactRootDirectoryPath)}`,
+            "--ontology-file=" + resolve(ontologyFile),
+            ...(ontologyRoot
+              ? ["--ontology-root=" + resolve(ontologyRoot)]
+              : []),
           ]
-        : [
-            "--query-artifact-source=http",
-            `--artifact-channel=${ontologyQueryArtifactChannelName}`,
-            ...(ontologyQueryArtifactBaseUrl === undefined
-              ? []
-              : [`--artifact-base-url=${ontologyQueryArtifactBaseUrl}`]),
-            "--cache-directory",
-            verifierOwnedOntologyQueryArtifactCacheDirectoryPath,
-          ];
+        : ontologyQueryArtifactSourceKind === "file_system"
+          ? [
+              "--query-artifact-source=file-system",
+              `--query-artifact-root-directory=${resolve(ontologyQueryArtifactRootDirectoryPath)}`,
+            ]
+          : [
+              "--query-artifact-source=http",
+              `--artifact-channel=${ontologyQueryArtifactChannelName}`,
+              ...(ontologyQueryArtifactBaseUrl === undefined
+                ? []
+                : [`--artifact-base-url=${ontologyQueryArtifactBaseUrl}`]),
+              "--cache-directory",
+              verifierOwnedOntologyQueryArtifactCacheDirectoryPath,
+            ];
     const transport = new StdioClientTransport({
       command: process.execPath,
       args: [resolvedApplicationBundlePath, ...ontologyQueryArtifactArguments],
@@ -299,13 +384,24 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
     });
     toolNames = toolList.tools.map(({ name }) => name);
 
-    if (!isDeepStrictEqual(toolNames, EXPECTED_MCP_TOOL_NAMES)) {
+    const direct = ontologyQueryArtifactSourceKind === "ontology_document";
+    const expectedTools = direct
+      ? [
+          "open_ontology",
+          "list_ontologies",
+          "close_ontology",
+          ...EXPECTED_MCP_TOOL_NAMES,
+        ]
+      : EXPECTED_MCP_TOOL_NAMES;
+    if (!isDeepStrictEqual([...toolNames].sort(), [...expectedTools].sort())) {
       throw new Error(
-        `Universal Ontology MCP tool surface mismatch. Expected ${JSON.stringify(EXPECTED_MCP_TOOL_NAMES)}; received ${JSON.stringify(toolNames)}.`,
+        `Universal Ontology MCP tool surface mismatch. Expected ${JSON.stringify(expectedTools)}; received ${JSON.stringify(toolNames)}.`,
       );
     }
 
-    if (verifyOntologyQueryReadiness) {
+    if (verifyOntologyQueryReadiness && direct) {
+      queryReadiness = await verifyDirectCoreReadiness(client);
+    } else if (verifyOntologyQueryReadiness) {
       const result = await client.callTool(
         {
           name: SEARCH_ENTITIES_TOOL_NAME,
@@ -361,12 +457,27 @@ export async function verifyUniversalOntologyMcpApplicationBundle({
 }
 
 function parseCommandLineArguments(commandLineArguments) {
-  let applicationBundlePath;
+  let applicationBundlePath, ontologyFile, ontologyRoot;
   let ontologyQueryArtifactSourceKind = "http";
   let ontologyQueryArtifactRootDirectoryPath;
-  let ontologyQueryArtifactChannelName = "development";
+  let ontologyQueryArtifactChannelName;
   let ontologyQueryArtifactBaseUrl;
   let verifyOntologyQueryReadiness = false;
+  const documentOptions = commandLineArguments.some((value) =>
+    /^--ontology-(?:file|root)=/u.test(value),
+  );
+  const artifactOptions = commandLineArguments.some((value) =>
+    /^--(?:query-artifact-|artifact-)/u.test(value),
+  );
+  if (
+    (documentOptions && artifactOptions) ||
+    commandLineArguments.filter(
+      (value) =>
+        value.startsWith("--ontology-file=") ||
+        value.startsWith("--query-artifact-source="),
+    ).length > 1
+  )
+    throw new TypeError("Choose one ontology source for verification.");
 
   for (let index = 0; index < commandLineArguments.length; index += 1) {
     const argument = commandLineArguments[index];
@@ -390,6 +501,11 @@ function parseCommandLineArguments(commandLineArguments) {
       ontologyQueryArtifactBaseUrl = argument.slice(
         "--artifact-base-url=".length,
       );
+    } else if (argument.startsWith("--ontology-file=")) {
+      ontologyFile = argument.slice("--ontology-file=".length);
+      ontologyQueryArtifactSourceKind = "ontology_document";
+    } else if (argument.startsWith("--ontology-root=")) {
+      ontologyRoot = argument.slice("--ontology-root=".length);
     } else if (argument === "--verify-query-readiness") {
       verifyOntologyQueryReadiness = true;
     } else {
@@ -397,8 +513,20 @@ function parseCommandLineArguments(commandLineArguments) {
     }
   }
 
+  if (
+    documentOptions &&
+    (!ontologyFile ||
+      commandLineArguments.filter((value) =>
+        value.startsWith("--ontology-root="),
+      ).length > 1)
+  )
+    throw new TypeError(
+      "Direct verification requires one ontology file and at most one root.",
+    );
   return {
     applicationBundlePath,
+    ontologyFile,
+    ontologyRoot,
     ontologyQueryArtifactSourceKind,
     ontologyQueryArtifactRootDirectoryPath,
     ontologyQueryArtifactChannelName,

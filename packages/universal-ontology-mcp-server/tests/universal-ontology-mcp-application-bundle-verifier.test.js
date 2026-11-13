@@ -311,3 +311,42 @@ if (
     ).rejects.toThrow(/stable.*development/iu);
   });
 });
+
+test.each([
+  [
+    { ontologyQueryArtifactSourceKind: "http", ontologyFile: "source.rdf" },
+    /direct ontology source/i,
+  ],
+  [
+    {
+      ontologyQueryArtifactSourceKind: "ontology_document",
+      ontologyRoot: "sources",
+    },
+    /ontology file/i,
+  ],
+  [
+    {
+      ontologyQueryArtifactSourceKind: "ontology_document",
+      ontologyFile: "source.rdf",
+      ontologyRoot: "",
+    },
+    /ontology root/i,
+  ],
+  [
+    {
+      ontologyQueryArtifactSourceKind: "ontology_document",
+      ontologyFile: "source.rdf",
+      ontologyQueryArtifactChannelName: "stable",
+    },
+    /artifact source/i,
+  ],
+])(
+  "rejects inconsistent direct verification settings before starting the executable",
+  async (options, message) => {
+    const { verifyUniversalOntologyMcpApplicationBundle } =
+      await importVerifier();
+    await expect(
+      verifyUniversalOntologyMcpApplicationBundle(options),
+    ).rejects.toThrow(message);
+  },
+);
