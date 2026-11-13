@@ -5,6 +5,16 @@
  */
 
 const ONTOLOGY_QUERY_ERROR_DEFINITIONS = Object.freeze({
+  ONTOLOGY_SOURCE_UNAVAILABLE: {
+    retryable: true,
+    defaultMessage:
+      "The authorized source could not be read. Check its availability and reopen the file.",
+  },
+  ONTOLOGY_SOURCE_DENIED: {
+    retryable: false,
+    defaultMessage:
+      "This source is unavailable or outside the configured files and roots.",
+  },
   ONTOLOGY_DOCUMENT_REFUSED: {
     retryable: false,
     defaultMessage:

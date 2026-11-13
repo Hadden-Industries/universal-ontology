@@ -3,7 +3,10 @@ import { homedir } from "node:os";
 import process from "node:process";
 
 import { createOntologyQueryModule } from "universal-ontology-query";
-import { createNodeOntologyQueryModule } from "universal-ontology-query/node";
+import {
+  createNodeOntologyQueryModule,
+  createFileOntologyWorkspace,
+} from "universal-ontology-query/node";
 import { createFileSystemOntologyQueryArtifactRepository } from "universal-ontology-query/repositories/file-system";
 import {
   createHttpOntologyQueryArtifactReader,
@@ -200,6 +203,12 @@ export async function runUniversalOntologyMcpStdioServer({
     serverLifecycleSignal.throwIfAborted();
     const ontologyQueryArtifactSource =
       configuration.ontologyQueryArtifactSource;
+    if (ontologyQueryArtifactSource.kind === "ontology_document") {
+      return createFileOntologyWorkspace({
+        ...ontologyQueryArtifactSource,
+        signal: serverLifecycleSignal,
+      });
+    }
 
     if (ontologyQueryArtifactSource.kind === "file_system") {
       const ontologyQueryArtifactRepository =

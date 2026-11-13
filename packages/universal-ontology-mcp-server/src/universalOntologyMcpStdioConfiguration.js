@@ -11,6 +11,15 @@ const DEFAULT_ONTOLOGY_QUERY_ARTIFACT_BASE_URL =
   "https://haddenindustries.com/ontology/query/v1/";
 
 const VALUE_OPTION_DEFINITIONS = Object.freeze({
+  "--ontology-file": {
+    environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_FILE",
+  },
+  "--ontology-root": {
+    environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_ROOT",
+  },
+  "--ontology-mode": {
+    environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_MODE",
+  },
   "--query-artifact-source": {
     environmentVariableName: "UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_SOURCE",
   },
@@ -43,6 +52,9 @@ Usage:
   universal-ontology-mcp-server [options]
 
 Options:
+  --ontology-file <path>    Open this local ontology at startup.
+  --ontology-root <path>    Permit the agent to open files inside this directory.
+  --ontology-mode <compatible|preserve>    OWL mapping for new opens (default: compatible).
   --query-artifact-source <file-system|http>
       Environment: UNIVERSAL_ONTOLOGY_MCP_QUERY_ARTIFACT_SOURCE
       Standalone default: http
@@ -408,6 +420,49 @@ export function parseUniversalOntologyMcpStdioConfiguration({
     operationMode === "serve_stdio" ? environment : {};
   const effectiveValuesByOptionName =
     operationMode === "serve_stdio" ? valuesByOptionName : new Map();
+  const configured = (optionName) =>
+    readConfiguredValue({
+      optionName,
+      valuesByOptionName: effectiveValuesByOptionName,
+      environment: effectiveEnvironment,
+    });
+  const sourceFile = configured("--ontology-file"),
+    sourceRoot = configured("--ontology-root"),
+    sourceMode = configured("--ontology-mode");
+  if (
+    sourceFile !== undefined ||
+    sourceRoot !== undefined ||
+    sourceMode !== undefined
+  ) {
+    if (!sourceFile && !sourceRoot) throwConfigurationError("--ontology-file");
+    rejectConfiguredOptions({
+      optionNames: Object.keys(VALUE_OPTION_DEFINITIONS).filter(
+        (n) => !n.startsWith("--ontology-"),
+      ),
+      valuesByOptionName: effectiveValuesByOptionName,
+      environment: effectiveEnvironment,
+    });
+    if (
+      sourceMode !== undefined &&
+      !["preserve", "compatible"].includes(sourceMode)
+    )
+      throwConfigurationError("--ontology-mode");
+    const path = selectPlatformPathImplementation(platform);
+    function sourceValue(value, name) {
+      if (value === undefined) return undefined;
+      requireUnpaddedValue(value, name);
+      return path.resolve(workingDirectoryPath, value);
+    }
+    return Object.freeze({
+      operationMode,
+      ontologyQueryArtifactSource: Object.freeze({
+        kind: "ontology_document",
+        file: sourceValue(sourceFile, "--ontology-file"),
+        root: sourceValue(sourceRoot, "--ontology-root"),
+        parsingMode: sourceMode ?? "compatible",
+      }),
+    });
+  }
   const ontologyQueryArtifactSourceKind = parseQueryArtifactSourceKind(
     readConfiguredValue({
       optionName: "--query-artifact-source",

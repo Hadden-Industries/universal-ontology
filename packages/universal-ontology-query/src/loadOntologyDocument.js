@@ -4,7 +4,11 @@ import { OWLManager } from "owlapi/apibinding";
 import { StringDocumentSource } from "owlapi/io";
 import { OWLOntologyLoaderConfiguration } from "owlapi/model";
 import oxigraph from "oxigraph";
-import { queryOntologyContext } from "./ontologyContextQueries.js";
+import {
+  queryOntologyContext,
+  findOntologyConnections,
+} from "./ontologyContextQueries.js";
+import { createOntologyDocumentLexicalIndex } from "./createOntologyDocumentLexicalIndex.js";
 import { OntologyQueryError } from "./ontologyQueryErrors.js";
 import { freezeJsonValueDeeply } from "./jsonValueImmutability.js";
 
@@ -214,6 +218,22 @@ export async function loadOntologyDocument({
         throw new OntologyQueryError("DATASET_LIMIT_EXCEEDED");
     }
     signal?.throwIfAborted();
+    const lexical = createOntologyDocumentLexicalIndex(
+      store,
+      loaded.documents.flatMap(({ ontology }) => [...ontology.getSignature()]),
+    );
+    const authored = loaded.ontology.getOntologyID();
+    const titlePredicate = oxigraph.namedNode("http://purl.org/dc/terms/title");
+    const title =
+      authored.ontologyIRI &&
+      store
+        .match(
+          oxigraph.namedNode(authored.ontologyIRI.value),
+          titlePredicate,
+          null,
+          oxigraph.namedNode(root.snapshotId),
+        )
+        .find((q) => q.object.termType === "Literal")?.object.value;
     let closed = false;
     return {
       snapshotId: root.snapshotId,
@@ -221,7 +241,18 @@ export async function loadOntologyDocument({
       selectionSha256,
       graphSelection,
       parsingMode,
+      title: title || authored.ontologyIRI?.value || "Ontology document",
+      versionIri: authored.versionIRI?.value ?? null,
+      format,
+      lexical,
       classCount: loaded.ontology.getClassesInSignature().size,
+      findConnections(input) {
+        if (closed) throw new OntologyQueryError("QUERY_CANCELLED");
+        return findOntologyConnections(store, {
+          ...input,
+          includeOccurrences: true,
+        });
+      },
       getContext(input) {
         if (closed) throw new OntologyQueryError("QUERY_CANCELLED");
         validateSelection(input, snapshotRef);
