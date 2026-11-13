@@ -1,7 +1,7 @@
 # Local Universal Ontology MCP server
 
 The local Universal Ontology MCP server gives MCP-capable hosts read-only, page-independent access to authored ontology labels, identifiers, lexical definitions, exact definition citations, and bounded structural context.
-It runs directly from generated repository artifacts at `http://127.0.0.1:8000/mcp`; no website, browser tab, frontend development server, AWS resource, or Google Cloud resource is involved.
+It opens the current repository core ontology at `http://127.0.0.1:8000/mcp`; no website, browser tab, frontend development server, AWS resource, or Google Cloud resource is involved.
 
 The implementation's primary protocol revision is MCP `2026-07-28`.
 It also retains stateless legacy compatibility for hosts that have not yet negotiated that revision.
@@ -17,15 +17,14 @@ Prerequisites:
 Use the repository [development setup](../development.md#setup) when preparing a complete contributor environment.
 For CI reproduction, use the exact Node reference in [`.node-version`](../../.node-version) and the root manifest's exact npm selector; they are independent of local compatibility minimums.
 
-From the repository root, install the pinned dependencies, generate the query artifacts, and start the server:
+From the repository root, install the pinned dependencies and start the server:
 
 ```powershell
 npm ci --include=dev --ignore-scripts --engine-strict
-npm run generate:ontology-indexes
 npm run serve:mcp-development
 ```
 
-The server validates and loads the generated catalog before it opens the TCP listener.
+The server loads the current ontology before opening the TCP listener. Supply `--ontology-file=<path>` and optionally `--ontology-root=<directory>` after `npm run serve:mcp-development --` to browse other sources. Every agent using this loopback listener shares the same operator workspace.
 A successful startup emits a structured `mcp_server_listening` event with address `127.0.0.1`, port `8000`, and MCP path `/mcp`.
 
 In another PowerShell terminal, verify readiness:
@@ -181,9 +180,7 @@ It does not watch the filesystem.
 Stop and restart it after regeneration.
 If the representation changes incompatibly, introduce a new format version and query-root directory instead of silently reinterpreting format version `1`.
 
-The repository-local `stdio` installation uses this same `dist/query/v1` tree by default, but it does **not** require the loopback development server.
-Running `scripts/set_up_mcp_servers.py` invokes the authoritative `generate:ontology-indexes` generator, installs the application bundle, and configures the MCP host to let that bundle open the filesystem artifacts directly.
-See the [local installation guide](local-installation.md#select-the-repository-local-query-artifact-source) for the explicit HTTP alternative.
+Repository-local stdio setup opens the current core ontology file directly. Select filesystem artifact mode explicitly to generate and use `dist/query/v1`. The [local installation guide](local-installation.md#select-a-local-source-or-switch-back-to-direct-browsing) gives the commands for switching sources.
 
 ## Local runner configuration
 
@@ -207,7 +204,13 @@ There is deliberately no bind-address variable.
 The local runner always binds the IPv4 loopback address `127.0.0.1`.
 A production runner is a separate entry point with a different security model; do not repurpose this runner for a LAN, container ingress, tunnel, or public endpoint.
 
-## Public tool contracts
+## Browse the current core document
+
+Call `list_ontologies` and search for `Person` with `{"queryText":"Person"}`. Use the returned `entityHandle` with `get_entity_context` to read the term card, and `resolve_entity` for an exact name. `find_entity_connections` accepts two entity handles from the same view. When the operator supplies a root, use `open_ontology` for an additional file, search with `ontologyIds`, and pass the returned `nextCursor` as `cursor` to continue. Use `close_ontology` to release a view.
+
+## Explicit artifact-mode tool contracts
+
+The release selectors and artifact result shapes in this section and the following Person example apply when starting `npm run serve:mcp-development -- --refresh-index` or supplying `UNIVERSAL_ONTOLOGY_QUERY_ROOT`.
 
 The catalog exposes four read-only tools: `search_entities`, `resolve_entity`, `get_entity_context`, and `find_entity_connections`.
 Local filesystem mode supports all four.
@@ -356,12 +359,17 @@ default_tools_approval_mode = "writes"
 enabled_tools = [
   "search_entities",
   "resolve_entity",
+  "get_entity_context",
+  "find_entity_connections",
+  "open_ontology",
+  "list_ontologies",
+  "close_ontology",
 ]
 ```
 
 `default_tools_approval_mode = "writes"` is deliberate.
-These two annotated read-only tools can run without a write prompt, while any future write-capable tool would require approval.
-Restart or reload the relevant Codex host after a manual configuration change, then confirm that the four tools above are visible under the loopback entry.
+Browsing tools are read-only. Opening and closing views change the shared workspace.
+Restart or reload the relevant Codex host after a manual configuration change, then confirm that the seven tools above are visible under the loopback entry.
 Remove the entry when HTTP-adapter testing is complete; it is not an installed-server configuration.
 
 ## Inspect the server with MCP Inspector
@@ -373,19 +381,19 @@ To open MCP Inspector's UI:
 npx --yes @modelcontextprotocol/inspector@2.4.0 --server-url http://127.0.0.1:8000/mcp --transport http
 ```
 
-Inspect the server identity, instructions, and the two tool schemas.
+Inspect the server identity, instructions, and the seven document tool schemas.
 For a machine-checkable catalog probe:
 
 ```powershell
 npx --yes @modelcontextprotocol/inspector@2.4.0 --cli --server-url http://127.0.0.1:8000/mcp --transport http --method tools/list
 ```
 
-The tool list must contain `search_entities` followed by `resolve_entity`, with no resource or prompt catalog in this first release.
+The tool list should include the four browse operations and `open_ontology`, `list_ontologies` and `close_ontology`.
 
 To reproduce the real-corpus `Person` call from PowerShell without relying on an interactive host:
 
 ```powershell
-npx --yes @modelcontextprotocol/inspector@2.4.0 --cli --server-url http://127.0.0.1:8000/mcp --transport http --method tools/call --tool-name search_entities --tool-args-json '{"queryText":"Person","ontologyReleaseSelection":{"selectionKind":"latest_stable_releases","ontologyArtifactFamilyIds":["universal/core"]},"preferredLanguageTags":["en-GB","en"],"maximumResultCount":10}' --format json
+npx --yes @modelcontextprotocol/inspector@2.4.0 --cli --server-url http://127.0.0.1:8000/mcp --transport http --method tools/call --tool-name search_entities --tool-args-json '{"queryText":"Person","preferredLanguageTags":["en-GB","en"],"maximumResultCount":10}' --format json
 ```
 
 The first match must be the `Person` entity documented above, with `matchBasis: preferred_label_exact`.

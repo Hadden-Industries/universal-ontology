@@ -43,6 +43,7 @@ test("refreshes the selected artifact root before the real workspace listener be
       projectRoot,
       environment: {
         UNIVERSAL_ONTOLOGY_QUERY_ROOT: queryRoot,
+        UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_FILE: "",
         UNIVERSAL_ONTOLOGY_MCP_PORT: String(port),
       },
       arguments: ["--refresh-index"],
@@ -100,6 +101,7 @@ test("refreshes the selected artifact root before the real workspace listener be
       projectRoot,
       environment: {
         UNIVERSAL_ONTOLOGY_QUERY_ROOT: queryRoot,
+        UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_FILE: "",
         UNIVERSAL_ONTOLOGY_MCP_PORT: String(port),
       },
       arguments: [],

@@ -16,7 +16,11 @@ import {
   UNIVERSAL_ONTOLOGY_MCP_REQUEST_BODY_MAXIMUM_BYTES,
 } from "../src/universalOntologyMcpHttpHandlers.js";
 import { createFileSystemOntologyQueryArtifactRepository } from "universal-ontology-query/repositories/file-system";
-import { createNodeOntologyQueryModule as createOntologyQueryModule } from "universal-ontology-query/node";
+import { parseUniversalOntologyMcpStdioConfiguration } from "../src/universalOntologyMcpStdioConfiguration.js";
+import {
+  createFileOntologyWorkspace,
+  createNodeOntologyQueryModule as createOntologyQueryModule,
+} from "universal-ontology-query/node";
 import { DEFAULT_MAXIMUM_IN_MEMORY_QUERY_INDEX_CACHE_BYTE_SIZE as DEFAULT_QUERY_CACHE_MAXIMUM_BYTES } from "universal-ontology-query/artifacts";
 import { UNIVERSAL_ONTOLOGY_MCP_PROTOCOL_REVISION } from "../src/universalOntologyMcpMetadata.js";
 
@@ -803,7 +807,12 @@ export function readLocalOntologyMcpServerConfiguration({
 
 function rejectListenerArguments(arguments_) {
   for (const argument of arguments_) {
-    throw new TypeError(`Unknown local MCP runner argument: ${argument}`);
+    if (
+      !/^--ontology-(?:file|root|mode|imports|import-policy|format)=/u.test(
+        argument,
+      )
+    )
+      throw new TypeError(`Unknown local MCP runner argument: ${argument}`);
   }
 }
 
@@ -929,24 +938,47 @@ export async function runLocalOntologyMcpServer({
       environment,
     });
 
-  const ontologyQueryArtifactRepository =
-    createFileSystemOntologyQueryArtifactRepository({
-      queryRoot: configuration.queryRoot,
+  const documentMode =
+    arguments_.length > 0 ||
+    ["FILE", "ROOT", "MODE", "FORMAT", "IMPORTS", "IMPORT_POLICY"].some((key) =>
+      Boolean(environment["UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_" + key]),
+    );
+  let ontologyQuery;
+  if (documentMode) {
+    const { ontologyQueryArtifactSource } =
+      parseUniversalOntologyMcpStdioConfiguration({
+        commandLineArguments: arguments_,
+        environment,
+      });
+    ontologyQuery = await createFileOntologyWorkspace(
+      ontologyQueryArtifactSource,
+    );
+  } else {
+    const ontologyQueryArtifactRepository =
+      createFileSystemOntologyQueryArtifactRepository({
+        queryRoot: configuration.queryRoot,
+      });
+    ontologyQuery = createOntologyQueryModule({
+      ontologyQueryArtifactRepository,
+      maximumInMemoryQueryIndexCacheByteSize:
+        configuration.maximumInMemoryQueryIndexCacheByteSize,
     });
-  const ontologyQuery = createOntologyQueryModule({
-    ontologyQueryArtifactRepository,
-    maximumInMemoryQueryIndexCacheByteSize:
-      configuration.maximumInMemoryQueryIndexCacheByteSize,
-  });
 
-  // Validate actual catalog selections, including working-only snapshots.
-  await ontologyQuery.checkReadiness();
+    // Validate actual catalog selections, including working-only snapshots.
+    await ontologyQuery.checkReadiness();
+  }
 
   const localServer = createLocalUniversalOntologyMcpServer({
     ontologyQuery,
     catalogReady: true,
   });
-  const address = await localServer.listen({ port: configuration.port });
+  let address;
+  try {
+    address = await localServer.listen({ port: configuration.port });
+  } catch (error) {
+    await ontologyQuery.close?.();
+    throw error;
+  }
   defaultWriteLogEvent({
     timestamp: new Date().toISOString(),
     severity: "info",

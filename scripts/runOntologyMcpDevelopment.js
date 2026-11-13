@@ -26,7 +26,12 @@ export async function runOntologyMcpDevelopment({
   }),
 } = {}) {
   for (const argument of arguments_) {
-    if (argument !== "--refresh-index") {
+    if (
+      argument !== "--refresh-index" &&
+      !/^--ontology-(?:file|root|mode|imports|import-policy|format)=/u.test(
+        argument,
+      )
+    ) {
       throw new TypeError(`Unknown local MCP runner argument: ${argument}`);
     }
   }
@@ -35,7 +40,19 @@ export async function runOntologyMcpDevelopment({
     environment,
     projectRoot,
   });
+  const sourceArguments = arguments_.filter(
+    (argument) => argument !== "--refresh-index",
+  );
   if (arguments_.includes("--refresh-index")) {
+    if (
+      sourceArguments.length ||
+      ["FILE", "ROOT", "MODE", "FORMAT", "IMPORTS", "IMPORT_POLICY"].some(
+        (key) => Boolean(environment["UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_" + key]),
+      )
+    )
+      throw new TypeError(
+        "Cannot combine artifact refresh with direct ontology options.",
+      );
     await generateOntologyQueryIndexes({
       ...(await readGenerationContext(projectRoot)),
       repositoryRoot: projectRoot,
@@ -48,7 +65,17 @@ export async function runOntologyMcpDevelopment({
   // the same listener owner used by the workspace's standalone executable.
   return runLocalOntologyMcpServer({
     environment,
-    arguments: [],
+    arguments:
+      sourceArguments.length ||
+      arguments_.includes("--refresh-index") ||
+      environment.UNIVERSAL_ONTOLOGY_QUERY_ROOT ||
+      environment.UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_FILE ||
+      environment.UNIVERSAL_ONTOLOGY_MCP_ONTOLOGY_ROOT
+        ? sourceArguments
+        : [
+            "--ontology-file=" +
+              resolve(projectRoot, "src/universal/core/20260912"),
+          ],
     configuration,
   });
 }
