@@ -117,12 +117,38 @@ export function registerOntologyDocumentTools(server, workspace, lifecycle) {
   };
   register(
     "search_entities",
-    "Search labels, identifiers and definitions. Follow an entityHandle to its term card.",
-    {
-      ...lexical,
-      queryText: z.string().min(1).max(1024),
-      maximumResultCount: z.number().int().min(1).max(20).default(10),
-    },
+    "Search labels, identifiers and definitions across selected ontologyIds. Continue with cursor only. Follow a hit’s entityHandle to its term card.",
+    z
+      .strictObject({
+        ...lexical,
+        queryText: z.string().min(1).max(1024).optional(),
+        ontologyIds: z.array(id).min(1).max(8).optional(),
+        cursor: z
+          .string()
+          .regex(/^[0-9a-f]{48}$/)
+          .optional(),
+        maximumResultCount: z.number().int().min(1).max(20).default(10),
+      })
+      .refine(
+        (input) =>
+          input.cursor
+            ? !input.queryText &&
+              !input.ontologyIds &&
+              !input.ontologyId &&
+              !input.preferredLanguageTags
+            : Boolean(input.queryText) &&
+              !(input.ontologyIds && input.ontologyId),
+        {
+          message:
+            "Use a query and one source selector, or continue using only the cursor and result limits.",
+        },
+      )
+      .refine(
+        (input) =>
+          !input.ontologyIds ||
+          new Set(input.ontologyIds).size === input.ontologyIds.length,
+        { message: "Select each ontology only once." },
+      ),
     (input, signal) => workspace.request("search", input, signal),
     (r) =>
       r.matches.map((m) => m.label + " (" + m.source + ")").join("\n") ||

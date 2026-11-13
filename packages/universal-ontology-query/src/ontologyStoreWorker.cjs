@@ -31,7 +31,13 @@ if (workerData?.documentView) {
       let value;
       switch (method) {
         case "open":
-          value = await workspace.open(await captureOntologyFile(input));
+          value = await workspace.open({
+            ...(await captureOntologyFile(input)),
+            viewId: input.viewId,
+          });
+          break;
+        case "searchPage":
+          value = workspace.search({ ...input, withRank: true });
           break;
         case "search":
           value = workspace.search(input);

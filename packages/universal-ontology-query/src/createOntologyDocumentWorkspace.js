@@ -12,16 +12,19 @@ export function createOntologyDocumentWorkspace() {
   let pending = 0;
 
   function getView(input) {
-    const id =
-      input.ontologyId ??
-      input.snapshotRef?.selectionSha256 ??
-      (input.rootSnapshotId
-        ? [...views].find(
-            ([, view]) =>
-              view.snapshotId === input.rootSnapshotId &&
-              view.graphSelection === "source_graph",
-          )?.[0]
-        : current);
+    let id = input.ontologyId ?? input.entityHandle?.ontologyId ?? current;
+    if (input.snapshotRef) {
+      id = [...views].find(
+        ([, view]) =>
+          view.selectionSha256 === input.snapshotRef.selectionSha256,
+      )?.[0];
+    } else if (input.rootSnapshotId) {
+      id = [...views].find(
+        ([, view]) =>
+          view.snapshotId === input.rootSnapshotId &&
+          view.graphSelection === "source_graph",
+      )?.[0];
+    }
     const view = views.get(id);
     if (!view)
       throw new OntologyQueryError("UNKNOWN_ONTOLOGY_RELEASE", {
@@ -44,7 +47,7 @@ export function createOntologyDocumentWorkspace() {
           view.close();
           throw new OntologyQueryError("QUERY_CANCELLED");
         }
-        current = view.selectionSha256;
+        current = view.viewId;
         if (views.has(current)) view.close();
         else views.set(current, view);
         const description = Object.freeze({
@@ -53,6 +56,7 @@ export function createOntologyDocumentWorkspace() {
           snapshotRef: view.snapshotRef,
           parsingMode: view.parsingMode,
           classCount: view.classCount,
+          capturedBytes: view.capturedBytes,
           interpretation: view.interpretation,
           title: view.title.slice(0, 160),
           versionIri:
@@ -87,7 +91,7 @@ export function createOntologyDocumentWorkspace() {
       const view = getView({ ontologyId });
       return view.lexical.resolve(name).map((iri) => ({
         label: view.lexical.label(iri, preferredLanguageTags),
-        entityHandle: { ontologyId: view.selectionSha256, iri },
+        entityHandle: { ontologyId: view.viewId, iri },
       }));
     },
     search({
@@ -95,21 +99,31 @@ export function createOntologyDocumentWorkspace() {
       ontologyId,
       preferredLanguageTags = ["en"],
       maximumResultCount = 10,
+      offset = 0,
+      withRank = false,
     }) {
       const view = getView({ ontologyId });
       const ranked = view.lexical.search(queryText, preferredLanguageTags);
       return {
         matches: ranked
-          .slice(0, maximumResultCount)
-          .map(({ candidate, matchBasis }) => ({
+          .slice(offset, offset + maximumResultCount)
+          .map(({ candidate, matchBasis, languageRank }) => ({
+            ...(withRank
+              ? {
+                  rank: {
+                    languageRank,
+                    length: candidate.normalizedValue.length,
+                  },
+                }
+              : {}),
             label: view.lexical.label(
               candidate.entityIri,
               preferredLanguageTags,
             ),
-            source: descriptions.get(view.selectionSha256).title,
+            source: descriptions.get(view.viewId).title,
             matchBasis,
             entityHandle: {
-              ontologyId: view.selectionSha256,
+              ontologyId: view.viewId,
               iri: candidate.entityIri,
             },
           })),

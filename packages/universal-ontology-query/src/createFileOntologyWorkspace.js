@@ -1,3 +1,7 @@
+import { freezeJsonValueDeeply } from "./jsonValueImmutability.js";
+import { randomBytes } from "node:crypto";
+import { createWaiterAwareSharedOperation } from "./createWaiterAwareSharedOperation.js";
+import { createOntologyWorkspaceSearch } from "./createOntologyWorkspaceSearch.js";
 import { isAbsolute, relative, resolve, parse, sep } from "node:path";
 import { Worker } from "node:worker_threads";
 import { OntologyQueryError } from "./ontologyQueryErrors.js";
@@ -47,6 +51,9 @@ function startViewWorker(onStop) {
   });
   return {
     stop,
+    get busy() {
+      return pending.size > 0;
+    },
     async run(method, input, signal) {
       if (stopped || signal?.aborted)
         throw new OntologyQueryError("QUERY_CANCELLED");
@@ -96,6 +103,12 @@ export async function createFileOntologyWorkspace({
     base = root && resolve(root);
   const views = new Map();
   const terminating = new Set();
+  const scheduled = new Map();
+  const share = createWaiterAwareSharedOperation({
+    createWaiterCancellationError: () =>
+      new OntologyQueryError("QUERY_CANCELLED"),
+  });
+  const pager = createOntologyWorkspaceSearch(get, () => current);
   let current,
     loading = false,
     closed = false,
@@ -108,7 +121,7 @@ export async function createFileOntologyWorkspace({
       });
     return v;
   }
-  async function openDocument(
+  async function loadDocument(
     { path, parsingMode: mode, format },
     options = {},
   ) {
@@ -121,9 +134,9 @@ export async function createFileOntologyWorkspace({
           actual.slice(parse(actual).root.length).includes(":")))
     )
       throw denied();
-    if (loading || terminating.size >= 2 || views.size >= 8)
+    if (loading || terminating.size || views.size >= 8)
       throw new OntologyQueryError(
-        loading || terminating.size >= 2
+        loading || terminating.size
           ? "QUERY_QUEUE_FULL"
           : "DATASET_LIMIT_EXCEEDED",
       );
@@ -144,6 +157,13 @@ export async function createFileOntologyWorkspace({
         "open",
         {
           path: actual,
+          remainingSourceBytes:
+            64 * 1024 * 1024 -
+            [...views.values()].reduce(
+              (sum, v) => sum + v.info.capturedBytes,
+              0,
+            ),
+          viewId: randomBytes(32).toString("hex"),
           root: actual === selected ? undefined : base,
           parsingMode: mode ?? parsingMode,
           bindings,
@@ -152,11 +172,28 @@ export async function createFileOntologyWorkspace({
         },
         options.signal,
       );
-      if (closed) throw new OntologyQueryError("QUERY_CANCELLED");
-      if (!views.has(info.ontologyId)) {
-        views.set(info.ontologyId, { info, worker: candidate, path: actual });
+      if (closed || options.signal?.aborted)
+        throw new OntologyQueryError("QUERY_CANCELLED");
+      freezeJsonValueDeeply(info);
+      const existing = [...views.values()].find(
+        (v) =>
+          v.info.snapshotRef.selectionSha256 ===
+          info.snapshotRef.selectionSha256,
+      );
+      if (existing) {
+        await candidate.stop();
         candidate = undefined;
+        if (closed || options.signal?.aborted)
+          throw new OntologyQueryError("QUERY_CANCELLED");
+        if (!views.has(existing.info.ontologyId))
+          throw new OntologyQueryError("UNKNOWN_ONTOLOGY_RELEASE");
+        current = existing.info.ontologyId;
+        views.delete(current);
+        views.set(current, existing);
+        return existing.info;
       }
+      views.set(info.ontologyId, { info, worker: candidate, path: actual });
+      candidate = undefined;
       current = info.ontologyId;
       return info;
     } finally {
@@ -164,6 +201,37 @@ export async function createFileOntologyWorkspace({
       candidate = undefined;
       loading = false;
     }
+  }
+  function openDocument(input, options = {}) {
+    const prior = [...views.values()]
+      .reverse()
+      .find((v) => v.path === resolve(input.path));
+    const request = {
+      ...input,
+      parsingMode: input.parsingMode ?? prior?.info.parsingMode ?? parsingMode,
+      format: input.format ?? prior?.info.format,
+    };
+    // Only join a capture that has not started. Once the worker can see
+    // filesystem bytes a later refresh must perform its own observation.
+    const key = JSON.stringify([
+      resolve(input.path),
+      request.parsingMode,
+      request.format ?? null,
+    ]);
+    const cohort = scheduled.get(key) ?? {};
+    scheduled.set(key, cohort);
+    queueMicrotask(() => {
+      if (scheduled.get(key) === cohort) scheduled.delete(key);
+    });
+    return share({
+      operationKey: cohort,
+      signal: options.signal,
+      executeOperation: async ({ signal }) => {
+        await Promise.resolve();
+        if (signal.aborted) throw new OntologyQueryError("QUERY_CANCELLED");
+        return loadDocument(request, { signal });
+      },
+    });
   }
   const workspace = {
     openDocument,
@@ -192,12 +260,18 @@ export async function createFileOntologyWorkspace({
     }),
     async closeView({ ontologyId }) {
       const v = get(ontologyId);
+      if (v.worker.busy)
+        throw new OntologyQueryError("QUERY_QUEUE_FULL", {
+          message:
+            "This ontology is serving an active request. Retry closing it after the request finishes.",
+        });
       views.delete(ontologyId);
       if (current === ontologyId) current = [...views.keys()].at(-1);
       await v.worker.stop();
       return { closed: true };
     },
     async request(method, input, signal) {
+      if (method === "search") return pager.search(input, signal);
       const v = get(
         input.entityHandle?.ontologyId ??
           input.resourceHandle?.ontologyId ??
@@ -207,6 +281,7 @@ export async function createFileOntologyWorkspace({
     },
     async close() {
       closed = true;
+      pager.close();
       await Promise.all(
         [...views.values()]
           .map((v) => v.worker.stop())

@@ -78,9 +78,10 @@ export async function captureOntologyFile({
   parsingMode,
   format,
   bindings = [],
+  remainingSourceBytes = maxBytes,
   requireComplete = false,
 }) {
-  let remaining = maxBytes;
+  let remaining = Math.min(maxBytes, remainingSourceBytes);
   async function capture(path, authority, hint) {
     const bytes = await readSource(path, authority, remaining);
     remaining -= bytes.length;

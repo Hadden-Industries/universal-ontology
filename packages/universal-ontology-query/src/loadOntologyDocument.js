@@ -46,6 +46,7 @@ function capture(source, parsingMode) {
     documentIRI,
     format,
     snapshotId,
+    byteLength: bytes.byteLength,
     text,
     source: new StringDocumentSource(text, { documentIRI, format }),
   };
@@ -123,6 +124,7 @@ export async function loadOntologyDocument({
   format,
   parsingMode = "compatible",
   imports = [],
+  viewId,
   requireComplete = false,
   signal,
 }) {
@@ -328,7 +330,7 @@ export async function loadOntologyDocument({
     );
     const documentContext = {
       projectionPolicies,
-      viewId: selectionSha256,
+      viewId: viewId ?? selectionSha256,
       resourceRows,
       knownTerms,
       includeOccurrences: true,
@@ -350,6 +352,7 @@ export async function loadOntologyDocument({
       snapshotId: root.snapshotId,
       snapshotRef,
       selectionSha256,
+      viewId: viewId ?? selectionSha256,
       graphSelection,
       parsingMode,
       interpretation: projectionPolicies[root.snapshotId].interpretation,
@@ -357,6 +360,10 @@ export async function loadOntologyDocument({
       versionIri: authored.versionIRI?.value ?? null,
       format,
       lexical,
+      capturedBytes: documents.reduce(
+        (total, { doc }) => total + doc.byteLength,
+        0,
+      ),
       classCount: loaded.ontology.getClassesInSignature().size,
       findConnections(input) {
         if (closed) throw new OntologyQueryError("QUERY_CANCELLED");
@@ -368,7 +375,7 @@ export async function loadOntologyDocument({
       getResource({ sourceGraph, termType, value, ontologyId }) {
         if (
           closed ||
-          ontologyId !== selectionSha256 ||
+          ontologyId !== (viewId ?? selectionSha256) ||
           !snapshotIds.includes(sourceGraph)
         )
           throw new OntologyQueryError("UNKNOWN_ONTOLOGY_RELEASE");
