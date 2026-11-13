@@ -61,6 +61,36 @@ async function createNestedMcpBuildFixture() {
     join(repositoryPath, "node_modules", "esbuild"),
     process.platform === "win32" ? "junction" : "dir",
   );
+  for (const name of [
+    "@hyperjump/uri",
+    "@rdfjs/data-model",
+    "@rdfjs/dataset",
+    "@rubensworks/saxes",
+    "@xmldom/xmldom",
+    "abort-controller",
+    "bcp-47",
+    "event-target-shim",
+    "is-alphabetical",
+    "is-alphanumerical",
+    "is-decimal",
+    "n3",
+    "owlapi",
+    "process",
+    "rdf-data-factory",
+    "rdfxml-streaming-parser",
+    "readable-stream",
+    "relative-to-absolute-iri",
+    "safe-buffer",
+    "string_decoder",
+    "validate-iri",
+    "xmlchars",
+  ]) {
+    await nodeFileSystem.cp(
+      join(REPOSITORY_ROOT_PATH, "node_modules", name),
+      join(repositoryPath, "node_modules", name),
+      { recursive: true },
+    );
+  }
   await nodeFileSystem.cp(
     join(REPOSITORY_ROOT_PATH, "node_modules", "zod"),
     join(repositoryPath, "node_modules", "zod"),
@@ -165,6 +195,45 @@ test("attributes a nested SDK installation and executable version to the MCP wor
       "--version",
     ]);
     expect(stdout).toBe("1.0.0\n");
+    const runBuilder = () =>
+      execFileAsync(
+        process.execPath,
+        [join(repositoryPath, BUILD_SCRIPT_PATH)],
+        { cwd: repositoryPath },
+      );
+    const worker = join(
+      repositoryPath,
+      "packages/universal-ontology-query/src/ontologyStoreWorker.cjs",
+    );
+    const original = await nodeFileSystem.readFile(worker, "utf8");
+    await nodeFileSystem.appendFile(
+      worker,
+      '\nvoid console.info("https://schema.org/position");\n',
+    );
+    await expect(runBuilder()).rejects.toMatchObject({
+      stderr: expect.stringContaining("worker URL expressions"),
+    });
+    const synthetic = "ghp_" + "X".repeat(36);
+    await nodeFileSystem.writeFile(
+      worker,
+      original + "\nconsole.info(" + JSON.stringify(synthetic) + ");\n",
+    );
+    await expect(runBuilder()).rejects.toMatchObject({
+      stderr: expect.stringContaining("forbidden GitHub token"),
+    });
+    await nodeFileSystem.writeFile(worker, original);
+    const renderer = join(
+      repositoryPath,
+      MCP_PACKAGE_PATH,
+      "src/renderOntologyToolResultAsText.js",
+    );
+    await nodeFileSystem.appendFile(
+      renderer,
+      '\nvoid console.info("https://schema.org/position");\n',
+    );
+    await expect(runBuilder()).rejects.toMatchObject({
+      stderr: expect.stringContaining("unexpected network origin"),
+    });
   } finally {
     await nodeFileSystem.rm(repositoryPath, { recursive: true, force: true });
   }

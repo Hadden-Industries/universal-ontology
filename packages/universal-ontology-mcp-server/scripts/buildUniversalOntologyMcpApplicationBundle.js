@@ -57,7 +57,43 @@ const ALLOWED_DIRECT_BUNDLED_COMPONENT_NAMES = new Set([
   "@modelcontextprotocol/server",
   "zod",
   "oxigraph",
+  "@hyperjump/uri",
+  "@rdfjs/data-model",
+  "@rdfjs/dataset",
+  "@rubensworks/saxes",
+  "@xmldom/xmldom",
+  "abort-controller",
+  "bcp-47",
+  "event-target-shim",
+  "is-alphabetical",
+  "is-alphanumerical",
+  "is-decimal",
+  "n3",
+  "owlapi",
+  "process",
+  "rdf-data-factory",
+  "rdfxml-streaming-parser",
+  "readable-stream",
+  "relative-to-absolute-iri",
+  "safe-buffer",
+  "string_decoder",
+  "validate-iri",
+  "xmlchars",
 ]);
+const COMPONENT_NOTICE_FILES = {
+  owlapi: ["LICENSE", "NOTICE", "LICENSES/Apache-2.0.txt"],
+  "@rdfjs/data-model": ["LICENSE.md"],
+  "@rdfjs/dataset": ["LICENSE.md"],
+  "bcp-47": ["license"],
+  "is-alphabetical": ["license"],
+  "is-alphanumerical": ["license"],
+  "is-decimal": ["license"],
+  n3: ["LICENSE.md"],
+  "rdf-data-factory": ["LICENSE.txt"],
+  "rdfxml-streaming-parser": ["LICENSE.txt"],
+  "relative-to-absolute-iri": ["LICENSE.txt"],
+  "validate-iri": ["LICENSE.txt"],
+};
 // The published MCP server artifact is itself prebundled. esbuild attributes
 // these validators to @modelcontextprotocol/server in its metafile. These
 // records therefore describe the source-region identities in that official
@@ -225,7 +261,8 @@ async function readBundledComponents(bundledPackages) {
       const packageMetadata = await readJsonDocument(packageJsonPath);
 
       if (
-        packageMetadata.name !== name ||
+        packageMetadata.name !==
+          (name === "owlapi" ? "@hadden-industries/owlapi" : name) ||
         typeof packageMetadata.version !== "string" ||
         typeof packageMetadata.license !== "string"
       ) {
@@ -235,7 +272,7 @@ async function readBundledComponents(bundledPackages) {
       }
 
       return Object.freeze({
-        name,
+        name: packageMetadata.name,
         version: packageMetadata.version,
         license: packageMetadata.license,
       });
@@ -335,6 +372,51 @@ function createMcpPackageVersionProjectionPlugin(mcpPackageVersion) {
   };
 }
 
+async function readEmbeddedOwlApiComponents(bundledPackages, notices) {
+  const owlApi = bundledPackages.find(({ name }) => name === "owlapi");
+  const provider = owlApi?.inputs.find(
+    ({ relativePath }) =>
+      relativePath === "internal/parsing/jsonld/provider/jsonld.js",
+  );
+  if (!provider) throw new Error("Expected bundled OwlAPI provider is absent.");
+  const directory = dirname(provider.absolutePath);
+  const manifest = await nodeFileSystem.readFile(
+    join(directory, "build-manifest.json"),
+  );
+  // The installed manifest fixes component identities and all licence paths.
+  if (
+    calculateSha256(manifest) !==
+    "42472613ce81ff6ce28e0592dea44c3418e153df378537d43cac190efb7e6301"
+  )
+    throw new Error("OwlAPI provider inventory changed.");
+  const { output, bundledPackages: embedded } = JSON.parse(manifest);
+  if (
+    calculateSha256(await nodeFileSystem.readFile(provider.absolutePath)) !==
+    output.sha256
+  )
+    throw new Error("OwlAPI provider differs from its inventory.");
+  for (const component of embedded) {
+    for (const notice of component.notices) {
+      const bytes = await nodeFileSystem.readFile(join(directory, notice.path));
+      if (
+        calculateSha256(bytes) !== notice.sha256 ||
+        !notices.includes(
+          bytes.toString("utf8").replaceAll("\r\n", "\n").trimEnd(),
+        )
+      ) {
+        throw new Error(
+          `Embedded OwlAPI component notice missing or changed for ${component.name}.`,
+        );
+      }
+    }
+  }
+  return embedded.map(({ name, version, license }) => ({
+    name,
+    version,
+    license,
+  }));
+}
+
 async function assertNoticesCoverBundledComponents(
   noticesText,
   bundledComponents,
@@ -353,26 +435,49 @@ async function assertNoticesCoverBundledComponents(
       );
     }
   }
+  const normalizedNotices = noticesText.replaceAll("\r\n", "\n");
   for (const { name, packageJsonPath } of bundledPackages) {
-    const licenseText = await nodeFileSystem.readFile(
+    if (name === "@rubensworks/saxes") {
+      // This published npm tarball omits LICENSE. Verify the vendored text
+      // from its gitHead without fetching any network resources at build time.
+      const section = normalizedNotices
+        .split("## @rubensworks/saxes 6.0.1\n")[1]
+        ?.split("\n## ")[0];
+      const text = section
+        ?.split("\u0060\u0060\u0060\u0060text\n")[1]
+        ?.split("\n\u0060\u0060\u0060\u0060")[0];
+      if (
+        !text ||
+        createHash("sha256").update(text).digest("hex") !==
+          "29f03bc214f25a56e480a01a6c54e227e5327904f000944ada35e5f361a389ce"
+      )
+        throw new Error(
+          "THIRD_PARTY_NOTICES.md omits the upstream saxes LICENSE.",
+        );
+      continue;
+    }
+    const files =
       name === "oxigraph"
-        ? join(
-            PUBLIC_PACKAGE_DIRECTORY_PATH,
-            "third-party",
-            "oxigraph",
-            "LICENSE-MIT",
-          )
-        : join(dirname(packageJsonPath), "LICENSE"),
-      "utf8",
-    );
-    if (
-      !noticesText
-        .replaceAll("\r\n", "\n")
-        .includes(licenseText.replaceAll("\r\n", "\n").trimEnd())
-    ) {
-      throw new Error(
-        `THIRD_PARTY_NOTICES.md omits the complete published LICENSE for ${name}.`,
-      );
+        ? [
+            join(
+              PUBLIC_PACKAGE_DIRECTORY_PATH,
+              "third-party",
+              "oxigraph",
+              "LICENSE-MIT",
+            ),
+          ]
+        : (COMPONENT_NOTICE_FILES[name] ?? ["LICENSE"]).map((file) =>
+            join(dirname(packageJsonPath), file),
+          );
+    for (const file of files) {
+      const text = await nodeFileSystem.readFile(file, "utf8");
+      if (
+        !normalizedNotices.includes(text.replaceAll("\r\n", "\n").trimEnd())
+      ) {
+        throw new Error(
+          `THIRD_PARTY_NOTICES.md omits the complete published ${basename(file)} for ${name}.`,
+        );
+      }
     }
   }
 }
@@ -380,7 +485,11 @@ async function assertNoticesCoverBundledComponents(
 function assertBundleContainsOnlyAllowedNetworkOrigins(bundleText) {
   const networkOriginPattern = /https?:\/\/[A-Za-z0-9._:-]+/gu;
 
-  for (const match of bundleText.matchAll(networkOriginPattern)) {
+  // These complete quoted vocabulary literals describe authored positions.
+  const inspectedText = bundleText
+    .replace('"https://schema.org/position": "Position"', "")
+    .replace('"http://schema.org/position": "Position"', "");
+  for (const match of inspectedText.matchAll(networkOriginPattern)) {
     const origin = new URL(match[0]).origin;
 
     if (!ALLOWED_NETWORK_ORIGINS.has(origin)) {
@@ -391,11 +500,60 @@ function assertBundleContainsOnlyAllowedNetworkOrigins(bundleText) {
   }
 }
 
-function assertBundleExcludesForbiddenContent(bundleBytes) {
-  const bundleText = bundleBytes.toString("utf8");
+// Record complete emitted lines, including their multiplicity and surrounding
+// expressions. This admits reviewed vocabulary, documentation and parser tables
+// while detecting an added occurrence even when it repeats an existing URL.
+function assertQualifiedWorker(workerText) {
+  const lines = workerText.split(/\r?\n/u);
+  const expressions = lines
+    .filter((line) => /https?:\/\/[A-Za-z0-9._:-]+/u.test(line))
+    .map((line) => line.trim())
+    .sort();
+  if (
+    calculateSha256(expressions.join("\n")) !==
+    "1caaa0ede047cccb8abad4530192f5ad5a24014e37d6649450b5cbe0d78d72eb"
+  )
+    throw new Error(
+      "Parser worker URL expressions differ from the qualified inventory.",
+    );
+  const fallback = 'callback = new Function("" + callback);';
+  const end = workerText.indexOf(fallback),
+    start = workerText.lastIndexOf("require_setImmediate =", end);
+  if (
+    start < 0 ||
+    end < 0 ||
+    calculateSha256(workerText.slice(start, end + fallback.length)) !==
+      "24778bdd117f9612781e06eafd0bc8f4339b6e6a79e854860360bdab03fca382"
+  )
+    throw new Error(
+      "Parser worker setimmediate fallback differs from the qualified native guard.",
+    );
+  // These are a JSDoc type, RDF/JS sink method declarations and a method call.
+  const remaining = workerText
+    .replace(fallback, "")
+    .replace(
+      '/** @param {import("../model/owlDocumentFormat.js").OWLDocumentFormat} format */',
+      "",
+    )
+    .replaceAll(/^      import\(stream\) \{$/gmu, "")
+    .replace("return this.filtered.import(stream);", "");
+  if (/\beval\s*\(|\bnew\s+Function\s*\(|\bimport\s*\(/u.test(remaining))
+    throw new Error(
+      "Parser worker contains unexpected dynamic code or a runtime import.",
+    );
+  assertNoForbiddenBuildContent(workerText);
+}
+function assertNoForbiddenBuildContent(bundleText) {
   const normalizedRepositoryRoot = normalizeRelativePath(
     resolve(REPOSITORY_ROOT_PATH),
   );
+  for (const { name, pattern } of [
+    { name: "AWS access key", pattern: /\b(?:AKIA|ASIA)[A-Z0-9]{16}\b/u },
+    { name: "GitHub token", pattern: /\bgh[pousr]_[A-Za-z0-9]{36,}\b/u },
+  ]) {
+    if (pattern.test(bundleText))
+      throw new Error("Application bundle contains forbidden " + name + ".");
+  }
   const forbiddenTextFragments = [
     normalizedRepositoryRoot,
     resolve(REPOSITORY_ROOT_PATH),
@@ -417,7 +575,11 @@ function assertBundleExcludesForbiddenContent(bundleBytes) {
       );
     }
   }
+}
 
+function assertBundleExcludesForbiddenContent(bundleBytes) {
+  const bundleText = bundleBytes.toString("utf8");
+  assertNoForbiddenBuildContent(bundleText);
   const approvedAjvConstructorIndex = bundleText.indexOf(
     APPROVED_AJV_DYNAMIC_FUNCTION_CONSTRUCTOR,
   );
@@ -443,8 +605,6 @@ function assertBundleExcludesForbiddenContent(bundleBytes) {
     { name: "dynamic eval", pattern: /\beval\s*\(/u },
     { name: "dynamic function constructor", pattern: /\bnew\s+Function\s*\(/u },
     { name: "runtime dynamic import", pattern: /\bimport\s*\(/u },
-    { name: "AWS access key", pattern: /\b(?:AKIA|ASIA)[A-Z0-9]{16}\b/u },
-    { name: "GitHub token", pattern: /\bgh[pousr]_[A-Za-z0-9]{36,}\b/u },
   ];
 
   for (const { name, pattern } of forbiddenPatterns) {
@@ -726,6 +886,10 @@ export async function buildUniversalOntologyMcpApplicationBundle() {
     const bundledComponents = [
       ...directBundledComponents,
       ...prebundledServerComponents,
+      ...(await readEmbeddedOwlApiComponents(
+        bundledPackages,
+        noticesText.replaceAll("\r\n", "\n"),
+      )),
     ].sort(({ name: leftName }, { name: rightName }) =>
       leftName.localeCompare(rightName),
     );
@@ -738,6 +902,9 @@ export async function buildUniversalOntologyMcpApplicationBundle() {
       applicationBundleCandidatePath,
     );
     assertBundleExcludesForbiddenContent(bundleBytes);
+    assertQualifiedWorker(
+      await nodeFileSystem.readFile(workerCandidatePath, "utf8"),
+    );
 
     if (process.platform !== "win32") {
       await nodeFileSystem.chmod(applicationBundleCandidatePath, 0o755);
@@ -769,6 +936,13 @@ export async function buildUniversalOntologyMcpApplicationBundle() {
           componentVersion: "8.18.0",
           occurrenceCount: 1,
           purpose: "Compile MCP JSON Schemas into validation functions",
+        },
+        {
+          componentName: "setimmediate",
+          componentVersion: "1.0.5",
+          occurrenceCount: 1,
+          purpose:
+            "Embedded legacy string-callback fallback skipped by native Node setImmediate",
         },
       ],
       bundledComponents,

@@ -120,25 +120,60 @@ const EXPECTED_PACKAGING_DEV_DEPENDENCIES = Object.freeze({
   yazl: ">=3.3.1",
   yauzl: ">=3.4.0",
 });
-const EXPECTED_BUNDLED_COMPONENTS = Object.freeze([
-  {
-    name: "@modelcontextprotocol/core",
-    version: "2.4.0",
-    license: "Apache-2.0",
-  },
-  {
-    name: "@modelcontextprotocol/server",
-    version: "2.4.0",
-    license: "Apache-2.0",
-  },
-  { name: "ajv", version: "8.18.0", license: "MIT" },
-  { name: "ajv-formats", version: "3.0.1", license: "MIT" },
-  { name: "fast-deep-equal", version: "3.1.3", license: "MIT" },
-  { name: "fast-uri", version: "3.1.8", license: "BSD-3-Clause" },
-  { name: "json-schema-traverse", version: "1.0.0", license: "MIT" },
-  { name: "oxigraph", version: "0.5.13", license: "MIT OR Apache-2.0" },
-  { name: "zod", version: "4.6.7", license: "MIT" },
-]);
+const EXPECTED_BUNDLED_COMPONENTS = Object.freeze(
+  [
+    {
+      name: "@modelcontextprotocol/core",
+      version: "2.4.0",
+      license: "Apache-2.0",
+    },
+    {
+      name: "@modelcontextprotocol/server",
+      version: "2.4.0",
+      license: "Apache-2.0",
+    },
+    { name: "ajv", version: "8.18.0", license: "MIT" },
+    { name: "ajv-formats", version: "3.0.1", license: "MIT" },
+    { name: "fast-deep-equal", version: "3.1.3", license: "MIT" },
+    { name: "fast-uri", version: "3.1.8", license: "BSD-3-Clause" },
+    { name: "json-schema-traverse", version: "1.0.0", license: "MIT" },
+    { name: "oxigraph", version: "0.5.13", license: "MIT OR Apache-2.0" },
+    { name: "zod", version: "4.6.7", license: "MIT" },
+    {
+      name: "@hadden-industries/owlapi",
+      version: "0.1.0-rc.3",
+      license: "AGPL-3.0-only",
+    },
+    { name: "@hyperjump/uri", version: "1.3.9", license: "MIT" },
+    { name: "@rdfjs/data-model", version: "2.1.2", license: "MIT" },
+    { name: "@rdfjs/dataset", version: "2.0.3", license: "MIT" },
+    { name: "@rubensworks/saxes", version: "6.0.1", license: "ISC" },
+    { name: "@xmldom/xmldom", version: "0.9.12", license: "MIT" },
+    { name: "abort-controller", version: "3.0.0", license: "MIT" },
+    { name: "bcp-47", version: "2.1.2", license: "MIT" },
+    { name: "event-target-shim", version: "5.0.1", license: "MIT" },
+    { name: "is-alphabetical", version: "2.0.1", license: "MIT" },
+    { name: "is-alphanumerical", version: "2.0.1", license: "MIT" },
+    { name: "is-decimal", version: "2.0.1", license: "MIT" },
+    { name: "n3", version: "2.13.12", license: "MIT" },
+    { name: "process", version: "0.11.10", license: "MIT" },
+    { name: "rdf-data-factory", version: "2.1.0", license: "MIT" },
+    { name: "rdfxml-streaming-parser", version: "3.3.0", license: "MIT" },
+    { name: "readable-stream", version: "4.8.0", license: "MIT" },
+    { name: "relative-to-absolute-iri", version: "1.0.8", license: "MIT" },
+    { name: "safe-buffer", version: "5.2.1", license: "MIT" },
+    { name: "string_decoder", version: "1.3.0", license: "MIT" },
+    { name: "validate-iri", version: "1.0.1", license: "MIT" },
+    { name: "xmlchars", version: "2.2.0", license: "MIT" },
+    { name: "canonicalize", version: "2.1.0", license: "Apache-2.0" },
+    { name: "jsonld", version: "9.0.0", license: "BSD-3-Clause" },
+    { name: "lru-cache", version: "6.0.0", license: "ISC" },
+    { name: "yallist", version: "4.0.0", license: "ISC" },
+    { name: "rdf-canonize", version: "5.0.0", license: "BSD-3-Clause" },
+    { name: "rolldown", version: "1.2.13", license: "MIT" },
+    { name: "setimmediate", version: "1.0.5", license: "MIT" },
+  ].sort((a, b) => a.name.localeCompare(b.name)),
+);
 
 async function readJsonDocument(fileUrl) {
   return JSON.parse(await nodeFileSystem.readFile(fileUrl, "utf8"));
@@ -432,6 +467,13 @@ describe("public Universal Ontology MCP npm package", () => {
         occurrenceCount: 1,
         purpose: "Compile MCP JSON Schemas into validation functions",
       },
+      {
+        componentName: "setimmediate",
+        componentVersion: "1.0.5",
+        occurrenceCount: 1,
+        purpose:
+          "Embedded legacy string-callback fallback skipped by native Node setImmediate",
+      },
     ]);
     expect(metadata.bundledComponents).toEqual(EXPECTED_BUNDLED_COMPONENTS);
     const noticesText = await nodeFileSystem.readFile(
@@ -480,7 +522,7 @@ describe("public Universal Ontology MCP npm package", () => {
     expect(helpText).toContain("Usage:");
     expect(helpText).toContain("universal-ontology-mcp-server [options]");
     expect(versionText).toBe("1.0.0\n");
-  });
+  }, 30000);
 
   test("keeps the canonical application bundle continuously available while rebuilding", async () => {
     const { buildUniversalOntologyMcpApplicationBundle } = await import(
@@ -662,6 +704,63 @@ describe("public Universal Ontology MCP npm package", () => {
           left.localeCompare(right),
         ),
       );
+      for (const [filename, source] of [
+        [
+          "small.ttl",
+          '<urn:Term> a <http://www.w3.org/2002/07/owl#Class>; <http://www.w3.org/2004/02/skos/core#prefLabel> "example"@en.',
+        ],
+        [
+          "small.rdf",
+          '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:skos="http://www.w3.org/2004/02/skos/core#"><owl:Class rdf:about="urn:Term"><skos:prefLabel xml:lang="en">example</skos:prefLabel></owl:Class></rdf:RDF>',
+        ],
+      ]) {
+        await nodeFileSystem.writeFile(
+          join(installationDirectoryPath, filename),
+          source,
+        );
+        const direct = new Client({
+          name: "installed-ontology-agent",
+          version: "1",
+        });
+        try {
+          await direct.connect(
+            new StdioClientTransport({
+              command: process.execPath,
+              args: [installedBundlePath, "--ontology-file=" + filename],
+              cwd: installationDirectoryPath,
+              stderr: "pipe",
+            }),
+          );
+          const call = async (name, args) => {
+            const res = await direct.callTool({ name, arguments: args });
+            expect(res.isError).not.toBe(true);
+            return res.structuredContent;
+          };
+          const { matches } = await call("search_entities", {
+            queryText: "example",
+          });
+          const { entityHandle } = matches[0];
+          expect(
+            (await call("resolve_entity", { name: "urn:Term" })).matches[0]
+              .entityHandle,
+          ).toEqual(entityHandle);
+          expect(
+            (await call("get_entity_context", { entityHandle, depth: 0 }))
+              .context.nodes[0].entityIri,
+          ).toBe("urn:Term");
+          expect(
+            (
+              await call("find_entity_connections", {
+                entityHandle,
+                targetEntityHandle: entityHandle,
+                depth: 0,
+              })
+            ).status,
+          ).toBe("paths_found");
+        } finally {
+          await direct.close();
+        }
+      }
       // Inspect actual rebuilt/packed target bytes, including producer-owned notices.
       const policy = resolveJsonQualityPolicy(
         JSON.parse(
