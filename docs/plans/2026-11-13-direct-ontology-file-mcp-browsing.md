@@ -17,7 +17,7 @@ Direct loading builds disposable indexes in memory. It does not invoke the artif
 
 ### Accepted direction and proposed decisions
 
-The user has accepted direct OwlAPI loading, in-memory indexes, agent-friendly browsing, one implementation for UO and other ontologies, and profile-level generalization beyond two ISO examples. The detailed interfaces and gates below are implementation proposals, not existing functionality.
+UO and external ontologies share direct OwlAPI loading and in-memory indexes. An agent can search an explicitly selected set of open ontologies and follow each hit to its source. Each load uses heuristic (default) or unambiguous OWL mapping. If both strategies refuse a document, return the diagnostic and keep every previously opened view usable. RDF-only browsing is outside the first release.
 
 The [September context plan](2026-09-23-mcp-ontology-context.md) remains useful semantic history, especially exact assertion evidence and honest completeness. Its restrictions against arbitrary document inputs and artifact-first local architecture are superseded **for this proposed delivery**. Its historical sole-consumer/compatibility assumptions must be rechecked against today's installed/published consumers.
 
@@ -46,7 +46,7 @@ The root `package.json.devDependencies.owlapi` currently selects `npm:@hadden-in
 
 The [public API reference](https://github.com/Hadden-Industries/owlapi/blob/main/API.md) and [preserve-mode prerequisites](https://github.com/Hadden-Industries/owlapi/blob/main/docs/compatibility/canonical-vowl-prerequisites.md) are the upstream capability references. Inspected public operations include `OWLManager.createOWLOntologyManager`, `StringDocumentSource`, `OWLOntologyLoaderConfiguration`, `loadOntologyGraphFromOntologyDocument`, entity/annotation/reference methods on the loaded ontology, and `owlapi/search`.
 
-OwlAPI derives indexes per immutable ontology snapshot. Consumers must use public operations, not private index modules. Its preserve mode exposes per-document `context.sourceStructure` containing statements, annotations, roles and expressions. This is **not a promised raw RDF/JS quad dataset**. SLICE-000 must prove that the required browsing/evidence view can be formed without losing authored information; do not assume a nonexistent quad-export operation.
+OwlAPI supplies model indexes through its public API. In a test with `0.1.0-rc.3`, two `owl:Axiom` resources annotated the same definition. One paired position 1 with citation A, the other paired position 2 with citation B. Preserve mode returned one axiom with all four values. For RDF/XML and Turtle, retain the original RDF graph evidence from the captured bytes to recover each authored pairing. See the [parser metadata contract](https://github.com/Hadden-Industries/owlapi/blob/main/docs/compatibility/rdf-parser-metadata.md).
 
 Installed and [remotely inspected package metadata](https://github.com/Hadden-Industries/owlapi/blob/main/package.json) identify version `0.1.0-rc.3` and licence `AGPL-3.0-only`. UO and the MCP manifest currently declare MIT. Build-time adoption does not establish runtime embedding/distribution clearance. Record actual rights clearance and accurate notices before embedding/shipping; do not infer a legal conclusion or silently change a licence.
 
@@ -83,7 +83,7 @@ Source locators:
 
 Earlier single-process loader checks observed approximately 416 ms and 60 ms. These are illustrative loading observations, not packaged-server, citation-fidelity, percentile or capacity qualification.
 
-A prior UO core/import-closure experiment rejected a legacy OWL 1 class-expression pattern in preserve mode; compatible mode loaded that closure. This real fit question belongs in SLICE-000. Silent policy fallback or silently omitted imports is unacceptable.
+The UO core closure imports [OWL-Time](../../src/external/time.rdf). Its named `time:TemporalEntity` uses `owl:unionOf` directly. On the inspected OwlAPI version, unambiguous mapping rejects this legacy expression with `RDF_LEGACY_CLASS_RECOVERY`; heuristic mapping loads the import. Use this case to qualify explicit retry in another mode.
 
 The Markdown HISEW reconciliation is supporting prose. Markdown conversion/retrieval and automated assessment of its conclusions are outside this delivery. Private ISO files remain untouched and are not committed as public test fixtures.
 
@@ -95,7 +95,7 @@ Direct authorized local/UNC ontology files; OwlAPI loading/structural access; in
 
 ### Excluded
 
-Ontology editing/saving, automatic repair, reasoning, source-quality certification, embeddings/model calls, public SPARQL, web scraping, automatic remote imports/JSON-LD contexts, recursive directory indexing, compressed archives, a new graph service and public hosting. Optional persistent caching waits for measured need and an accepted validity/retention contract.
+RDF-only browsing after an OwlAPI refusal is outside the first release. Also excluded: ontology editing/saving, automatic repair, reasoning, source-quality certification, embeddings/model calls, public SPARQL, web scraping, automatic remote imports/JSON-LD contexts, recursive directory indexing, compressed archives, a new graph service and public hosting. Optional persistent caching waits for measured need and an accepted validity/retention contract.
 
 Do not modify the exporter, authored UO content or private ISO exports as a shortcut.
 
@@ -128,9 +128,9 @@ Required lenses: ordinary semantic/implementation review, native security assess
 - **QA-002 — genericity:** vary publisher, namespace, title, language, filename and clause shape while preserving graph meaning. Browsing behavior is invariant; evidence remains authored.
 - **QA-003 — assertion identity:** languages, near-identical literals, duplicate wording with different occurrence IDs, and differently annotated axioms cannot share sources/positions accidentally.
 - **QA-004 — adverse input:** traversal/link escape, changed files, NAS interruption, malformed XML, entities, remote contexts/imports and unsupported structures cannot broaden authority or corrupt ready views.
-- **QA-005 — coherent refresh:** interrupt capture, parse, indexing and publication. Prior views remain valid; partial handles are never discoverable.
+- **QA-005 — failed open, mode switch and refresh:** keep a known view open. Exercise a first open and a refresh with an input that each strategy rejects, in two explicit attempts. Assert a diagnostic for each attempt, no new selectable view, and successful context lookup through the original handle. An initially empty workspace stays empty. Interrupt capture, parse and indexing to verify the same publication boundary.
 - **QA-006 — measured resources:** measure cold loads, at least 100 warm mixed queries, alternating ontologies, repeated open/close/refresh, peak RSS and retained entries. Verify work counts/release independently. SLICE-000 establishes concrete reference-machine latency/capacity budgets before dependent optimization.
-- **QA-007 — deployments:** repeat the same semantic journey through source stdio, installed stdio and loopback HTTP.
+- **QA-007 — deployments:** repeat the same journey through source stdio, installed stdio and loopback HTTP. Open two independent ontologies with overlapping wording. Search both, verify the source and definition of each hit, and confirm that selecting just one excludes the other. Open a third view between pages and verify that the cursor retains its original selection.
 - **QA-008 — recovery:** a killed worker is quiescent before replacement; another ready view works and retry does not duplicate publication.
 - **QA-009 — isolation:** mutating returned objects cannot modify cached state. Concurrent requests cannot observe partial selections.
 - **QA-010 — privacy:** logs/telemetry omit paths, source strings, citations and query text; dependency resolution does not upload ontology content.
@@ -159,17 +159,17 @@ Existing artifact/browser consumers may adapt their representation into shared q
 
 ### DEC-002 — public OwlAPI adapter with proved source fidelity
 
-Use the inspected public bindings and an explicit parsing/behavior policy. Begin fidelity qualification with `normative-v1` and `preserve`. Do not import private modules or depend on internal cache shape.
+Match the WebVOWL fork’s per-load strategies. **Heuristic OWL mapping** (default, OwlAPI `compatible`) permits parser recovery. **Unambiguous OWL mapping** (OwlAPI `preserve`) requires unambiguous reconstruction. Use the `normative-v1` manager behavior profile for both. Capture the choice before parsing and apply it to the root and its admitted imports.
 
-Retain captured bytes and supported source/axiom evidence. SLICE-000 carries the known refused UO import through the proposed caller and settles the supported representation or upstream gap.
+Return the effective strategy with each view and bind it to snapshot, cache and cursor identity. Opening the same captured bytes in another mode creates a distinct view on success. Existing handles retain their original interpretation.
 
-No automatic compatible-mode retry, syntax conversion, filtered validator input, invented declaration, discarded statement or lossy round trip may manufacture support. Any accepted alternate parsing policy is visible in diagnostics and cache identity.
+Each request tries only its selected mode. On refusal, return the attempted strategy, affected document and actionable diagnostic. The caller can explicitly retry in the other mode. If both attempts fail, publish no new view and keep every previous view usable. Successful RDF parsing alone cannot admit a document.
 
 ### DEC-003 — reuse existing semantic and execution owners
 
 Reuse lexical normalization/ranking, language selection, exact evidence joins, result fitting, waiter-aware loading, cancellation and context/connection logic where applicable.
 
-Retain embedded Oxigraph when it remains the qualified supplier for exact joins/traversal. First prove conversion from public OwlAPI/source evidence. If fidelity is insufficient, pursue an OwlAPI-owned public capability or an explicitly selected maintained RDF operation; do not reintroduce artifact generation secretly.
+For admitted RDF documents, read definitions, positions, citations and assertion annotations from document-scoped RDF evidence in both modes. Qualify the existing Oxigraph reader/store on the captured bytes. A public parser interface could supply the original quads directly if it preserves occurrence pairings. Keep blank nodes scoped to their source and avoid joining identifiers minted independently by two parsers.
 
 Do not mandate two complete stores if one admitted representation suffices. Measure retained-object/conversion cost before choosing lifetimes.
 
@@ -203,7 +203,7 @@ First-path mandatory formats are RDF/XML and Turtle, including explicit hints an
 
 Syntax support does not guarantee reconstruction of every ontology using that syntax. Distinguish unsupported structures from malformed bytes. Reasoning or OWL 2 DL validity is not a prerequisite for terminology browsing.
 
-Admit only configured local sources/catalog bindings. Remote imports/JSON-LD contexts are off by default. The capability slice settles a useful root view with explicit incomplete imports; a request requiring a complete closure fails if completeness cannot be established.
+Admit configured local sources and catalog bindings. Remote imports and JSON-LD contexts are off by default. A missing import may produce a coverage gap when the selected strategy successfully loads the root and partial-closure policy permits it. A request for complete closure fails on that gap. A reconstruction refusal in an available import remains a load error.
 
 ### DEC-008 — native reuse and one current contract
 
@@ -225,7 +225,7 @@ Expose three small workspace operations:
 | `list_ontologies` | Discover ready views, distinguish same-IRI versions, and recover handles without reading filesystem layout or release catalog internals.                                   |
 | `close_ontology`  | Release this loaded selection; explain active-use/deferred eviction when relevant.                                                                                         |
 
-Use `open_ontology` with an explicit refresh choice to capture current bytes and publish a replacement view. Do not add several competing refresh mechanisms. A startup-loaded default allows immediate use of the existing browsing tools.
+Allow startup loading and `open_ontology` to select a mapping strategy per load. Omitting it on a new open selects heuristic mapping. An explicit refresh retains the view’s strategy unless the caller selects another. A startup-loaded default allows immediate use of the existing browsing tools.
 
 Keep the four browsing operations, backed by the shared query contract:
 
@@ -236,7 +236,7 @@ Keep the four browsing operations, backed by the shared query contract:
 | `get_entity_context`      | Read a term card with definitions, designations, notes, examples, sources and bounded relationships, with evidence available for each assertion. |
 | `find_entity_connections` | Explain bounded, typed chains between entities; distinguish references, asserted hierarchy and structural OWL expressions.                       |
 
-An agent supplies `ontologyId` when several views are loaded, or uses the explicit default. Advanced source-selection fields may remain available, but graph-set, artifact-family and projection-policy identifiers must not be prerequisites for ordinary browsing.
+`search_entities` accepts one view or an explicitly selected set of open views. Search those views using shared ranking rules. Each hit names its source and snapshot and carries a handle for that view’s term card. Equal labels or IRIs across independent sources do not establish equivalence. Pagination pins the complete selection and its modes, with a stable source tie-breaker. Resolution, context and connection follow-ups use one selected view or a returned handle. An explicit default supports single-ontology calls.
 
 Return plain-language summaries with machine-readable structured content. Include the source's actual identifiers and language tags. Retain exact IRIs, datatypes, assertion provenance and structural evidence in expandable/detail fields; do not dump whole documents into ordinary responses.
 
@@ -244,7 +244,7 @@ A term card should answer “what is this term?”, “which wording and languag
 
 Handles, pagination and errors follow these rules:
 
-- Results pin an immutable loaded view. Cursors include its identity and effective query; unchanged cursors are followed unchanged.
+- Each hit pins one immutable view. A search cursor pins the ordered selection of views, their snapshots and the effective query; pass the returned cursor unchanged to read the next page.
 - An open/refresh never silently retargets an existing handle or cursor. A retained old view remains readable while leased; after expiry, return a clear expiration result.
 - Process restart expires ephemeral handles. Reopening the same file creates a newly admitted selection; it does not establish persistent cursor compatibility.
 - Entity handles disambiguate entity kind and view when one IRI has several roles or occurs in several documents. Annotation/citation resources need not masquerade as classes.
@@ -301,7 +301,7 @@ The initial load lifecycle is:
 
 1. Admit the source against startup/allowed-root authority and format/import policy.
 2. Capture bounded bytes once, establish file identity and content digest, and resolve the effective document base. Recheck the source identity/stability at the read boundary.
-3. Load the captured document and authorized closure in an isolated, terminable execution context using public OwlAPI APIs.
+3. Load the captured document and authorized closure in an isolated, terminable execution context using the selected OwlAPI mode. A refusal ends this attempt before publication.
 4. Build or acquire the required native indexes and evidence representation; validate internal references and capacity before exposing the view.
 5. Atomically publish a ready immutable view and return its handle. Publish no partly built searchable object.
 6. Release temporary bytes/managers/conversion structures once their actual consumers are finished, subject to the chosen evidence representation and bounded lifetime.
@@ -346,13 +346,13 @@ Each slice ends in a user-observable browse or recovery behavior and a specific 
 
 **Demonstration:** one synthetic Generic STS document, each private ISO document and representative current/historical UO documents reach a thin real MCP context response through public OwlAPI APIs. Include the previously refused UO import, not just an easy root document. No generated query directory participates.
 
-**Work and owners:** inspect the existing query/context/store modules and public OwlAPI loader/evidence contracts. Determine whether the public preserve representation can feed exact assertion/blank-node/axiom joins without a lossy round trip. Spike the real standalone bundler path, including its dynamic-import/native-component restrictions. Resolve runtime distribution rights and notices before admitting the selected supplier.
+**Work and owners:** trace the query/context/store path from a successful OwlAPI load through exact RDF evidence to a term card. Verify the two position/citation pairings in §2.2. Spike the standalone bundler with the actual parser dependencies and document the applicable rights and notices for distribution.
 
 **Independent proof:** hand-authored expected assertions/occurrences plus source inspection; capture the exact bytes, parser identity/policy, successful outputs and all refusal diagnostics. Measure the full load/query/cleanup path and duplicate-representation cost on a declared representative corpus.
 
-**Exit:** a recorded supplier/seam decision, public-API evidence recipe, actual bundle closure, supported preserve/import behavior, concrete capacity/latency targets and exact configuration proposals. Define whether incomplete imports permit a useful explicitly incomplete root view. No dependent rollout until these are settled.
+**Exit:** the real MCP caller demonstrates both mapping choices, the OWL-Time refusal and explicit successful retry, source-backed citation fidelity, and rejection by both modes with a previous view still usable. Record import behavior, package closure, capacity and latency budgets, and exact configuration proposals.
 
-**Replan:** if exact evidence or required UO reconstruction is unavailable, request the necessary public OwlAPI capability and repeat this slice after delivery. If licence rights, deployment closure or resource budgets do not fit, return a concrete supplier/architecture decision for approval; do not replace OwlAPI silently or manufacture a passing subset.
+**Replan:** if the evidence path loses authored pairings, qualify a maintained alternative or request a public upstream capability. Revisit supported inputs if a required acceptance document fails in both modes. Keep the diagnostic and previous views. A successful RDF read cannot substitute for an admitted OWL view.
 
 ### SLICE-001 — browse a directly supplied local document
 
@@ -394,7 +394,7 @@ Each slice ends in a user-observable browse or recovery behavior and a specific 
 
 **Trace:** REQ-006/007/008/009; AC-006/007/008/009; QA-004/005/006/008; DEC-005/006/007.
 
-**Demonstration:** open two ontologies, switch between them, change a root/import, refresh atomically, and continue a pinned old request. Close an idle view and observe bounded cleanup.
+**Demonstration:** open two independent ontologies and search their selected views in one call. Follow each result to its own source. Explicitly reopen under another strategy, refresh a changed source, and continue a pinned old request. Close an idle view and observe bounded cleanup.
 
 **Work and owners:** implement view identity, immutable snapshots, leases/eviction, import authority, stable reads and worker lifecycle by reusing the existing store-execution queue/cancellation pattern. Qualify Turtle as well as RDF/XML; enable any other advertised formats only after their matrix passes.
 
@@ -546,16 +546,16 @@ The source policy must constrain external DTD/entities, remote imports, JSON-LD 
 
 ## 16. Open decisions and conditional work
 
-| Uncertainty                                                                            | Cheapest discriminating observation                                                                    | Decision and independent work                                                                                                                              |
-| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Does public preserve evidence support exact original assertion/axiom/blank-node joins? | Thin real context response for the adversarial fixtures, not an assumed raw-quad export                | If insufficient, request an upstream public capability before dependent evidence implementation. Fixture expectations and consumer inventory can continue. |
-| Can required UO documents/imports load faithfully in the accepted policy?              | Reproduce the known preserve-mode refusal through the real proposed caller                             | Resolve upstream support or an explicitly accepted visible parsing policy; never silently retry compatible mode. Generic fixture work can continue.        |
-| Can runtime OwlAPI/parser imports fit the standalone distribution?                     | Build/run an isolated candidate with each mandatory format and inspect its complete closure            | Select the supported deployment binding and smallest approved packaging changes. No blanket dynamic-import/native-component exception.                     |
-| Are runtime distribution rights cleared?                                               | Review actual package licences/terms and obtain the owner's explicit distribution decision             | No inferred clearance from the root MIT declaration or existing build-time dependency. Rights uncertainty blocks adoption, not this plan.                  |
-| What inputs and workloads fit?                                                         | Measure representative current/historical UO and profile corpora, including conversion/refresh overlap | Publish concrete resource/SLO limits before dependent acceptance. If useful documents cannot fit, revise representation or supported scope explicitly.     |
-| Does lexical scanning meet the accepted search target?                                 | Measure warm search work and latency at the supported size while verifying accepted matching           | Keep the simple supplier if sufficient; otherwise select a maintained/justified in-memory index without semantic regression.                               |
-| Which consumers require migration/versioning?                                          | Inspect published package/CLI/schema commitments and actual configured clients                         | Set the release boundary from present evidence, not an older plan's sole-consumer assumption.                                                              |
-| Can a local/UNC path stay within intended authority?                                   | Real Windows file/link/share tests and offline parser I/O observation                                  | Approve the exact source-policy settings and document unsupported identity guarantees. No global filesystem access inferred from a tool call.              |
+| Uncertainty                                                        | Cheapest discriminating observation                                                                    | Decision and independent work                                                                                                                          |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Which RDF evidence path meets fidelity and resource limits?        | Return both position/citation pairings from the original RDF alongside a successfully loaded OWL view. | Qualify a maintained reader and exact joins on captured bytes in both modes.                                                                           |
+| Can the packaged caller reproduce the UO mode-specific behavior?   | Load the real OWL-Time import in each mode and check the diagnostic or returned view.                  | Qualify heuristic success and unambiguous refusal. Use a separate dual-refusal fixture for recovery.                                                   |
+| Can runtime OwlAPI/parser imports fit the standalone distribution? | Build/run an isolated candidate with each mandatory format and inspect its complete closure            | Select the supported deployment binding and smallest approved packaging changes. No blanket dynamic-import/native-component exception.                 |
+| Are runtime distribution rights cleared?                           | Review actual package licences/terms and obtain the owner's explicit distribution decision             | No inferred clearance from the root MIT declaration or existing build-time dependency. Rights uncertainty blocks adoption, not this plan.              |
+| What inputs and workloads fit?                                     | Measure representative current/historical UO and profile corpora, including conversion/refresh overlap | Publish concrete resource/SLO limits before dependent acceptance. If useful documents cannot fit, revise representation or supported scope explicitly. |
+| Does lexical scanning meet the accepted search target?             | Measure warm search work and latency at the supported size while verifying accepted matching           | Keep the simple supplier if sufficient; otherwise select a maintained/justified in-memory index without semantic regression.                           |
+| Which consumers require migration/versioning?                      | Inspect published package/CLI/schema commitments and actual configured clients                         | Set the release boundary from present evidence, not an older plan's sole-consumer assumption.                                                          |
+| Can a local/UNC path stay within intended authority?               | Real Windows file/link/share tests and offline parser I/O observation                                  | Approve the exact source-policy settings and document unsupported identity guarantees. No global filesystem access inferred from a tool call.          |
 
 Reconsider the affected decision when a new format changes parser I/O, an import changes without the root, multiple versions collide, fidelity requires unsupported private APIs, ordinary queries repeatedly rebuild state, resource cleanup is not observable, consumers need persistent cursors, or deployment becomes multi-user/remote.
 
@@ -566,9 +566,9 @@ A passing check with the correct oracle normally calls for continued integration
 The implementation is ready for local acceptance only when:
 
 - UO and generic documents share actual loading, indexing and query owners.
-- All four browsing tools work on a directly supplied source without generated indexes; source/workspace operations complete the agent journey.
+- All four browsing tools work on directly supplied sources without generated indexes. Searching a selected set returns source-attributed hits with working term-card handles and pinned pagination.
 - Generic STS semantics pass the full synthetic occurrence/citation matrix and non-ISO case.
-- Current/historical UO, both private ISO examples and advertised formats meet documented fidelity and completeness behavior.
+- Current/historical UO, both private ISO exports and advertised formats meet the documented fidelity and completeness rules. The mapping strategy is visible on each view. Two explicit failed attempts return diagnostics and leave previous views usable, with no RDF-only fallback.
 - Runtime distribution rights and exact configuration changes are approved; isolated packaged operation is proven.
 - Measured supported-size/resource/latency targets pass on the frozen candidate, including refresh and cancellation cleanup.
 - Actual consumers are migrated, recovery is demonstrated, and obsolete task-created material is removed when its consumers finish.
