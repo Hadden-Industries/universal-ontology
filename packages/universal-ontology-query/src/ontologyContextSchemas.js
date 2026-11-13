@@ -64,6 +64,15 @@ export const ContextDefinitionSchema = z.strictObject({
   definitionGraph: iri,
   sourceStatus: DefinitionSourceStatusSchema,
   definitionSources: z.array(sourceEvidence),
+  occurrences: z
+    .array(
+      z.strictObject({
+        resource: ContextRdfTermSchema,
+        annotationGraph: iri,
+        annotations: z.array(ContextAssertionSchema),
+      }),
+    )
+    .optional(),
   entitySources: z.array(ContextAssertionSchema),
   sourceQuality: z.literal("not_evaluated"),
 });

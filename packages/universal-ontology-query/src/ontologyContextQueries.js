@@ -312,6 +312,9 @@ export function queryOntologyContext(store, input) {
           quad.predicate.value,
           quad.object,
         );
+        const occurrences = input.includeOccurrences
+          ? definitionOccurrences(quad)
+          : undefined;
         const incomplete =
           reasons.has("candidate_limit") ||
           definitionSources.some(
@@ -334,6 +337,7 @@ export function queryOntologyContext(store, input) {
                 ? "entity_source_only"
                 : "no_recorded_source",
           definitionSources,
+          ...(occurrences ? { occurrences } : {}),
           entitySources,
           sourceQuality: "not_evaluated",
         };
@@ -372,6 +376,42 @@ export function queryOntologyContext(store, input) {
     };
     nodes.set(entityIri, value);
     return value;
+  }
+
+  // The axiom resource identifies an occurrence. Joining annotations using
+  // only (subject, predicate, literal) mixes positions and citations when two
+  // authored occurrences share the same wording.
+  function definitionOccurrences(quad) {
+    const rows = select(`SELECT ?g ?axiom ?p ?o WHERE {
+      GRAPH ?g {
+        ?axiom ${iri(RDF + "type")} ${iri(OWL + "Axiom")};
+          ${iri(OWL + "annotatedSource")} ${quad.subject.toString()};
+          ${iri(OWL + "annotatedProperty")} ${quad.predicate.toString()};
+          ${iri(OWL + "annotatedTarget")} ${quad.object.toString()} .
+        OPTIONAL { ?axiom ?p ?o .
+          FILTER (?p NOT IN (${[RDF + "type", OWL + "annotatedSource", OWL + "annotatedProperty", OWL + "annotatedTarget"].map(iri).join(", ")}))
+        }
+      }
+    } ORDER BY ?g ?axiom ?p ?o`);
+    const resources = new Map();
+    for (const row of rows) {
+      const axiom = row.get("axiom");
+      const graph = row.get("g");
+      const id = JSON.stringify([graph.value, axiom.toString()]);
+      if (!resources.has(id))
+        resources.set(id, {
+          resource: term(axiom),
+          annotationGraph: graph.value,
+          annotations: [],
+        });
+      if (row.has("p"))
+        resources
+          .get(id)
+          .annotations.push(
+            assertion(oxigraph.quad(axiom, row.get("p"), row.get("o"), graph)),
+          );
+    }
+    return [...resources.values()];
   }
 
   function admittedPredicate(predicateIri) {

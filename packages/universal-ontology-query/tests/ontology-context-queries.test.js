@@ -87,11 +87,23 @@ test("preserves exact literal citation matching across selected graphs and flags
     const definitions = queryOntologyContext(fixture, {
       entityIri: "urn:a",
       depth: 0,
+      includeOccurrences: true,
     }).nodes[0].definitions;
     expect(
       definitions.find((definition) => definition.term.language === "en"),
     ).toMatchObject({
       sourceStatus: "definition_source_recorded",
+      occurrences: [
+        {
+          annotationGraph: "urn:citations",
+          annotations: [
+            {
+              predicateIri: "http://purl.org/dc/terms/source",
+              object: { value: "printed dictionary" },
+            },
+          ],
+        },
+      ],
       definitionSources: [
         {
           annotationGraph: "urn:citations",

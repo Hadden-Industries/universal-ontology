@@ -5,6 +5,11 @@
  */
 
 const ONTOLOGY_QUERY_ERROR_DEFINITIONS = Object.freeze({
+  ONTOLOGY_DOCUMENT_REFUSED: {
+    retryable: false,
+    defaultMessage:
+      "The selected mapping mode could not load this ontology document.",
+  },
   UNKNOWN_ENTITY: {
     retryable: false,
     defaultMessage:

@@ -1,0 +1,23 @@
+@prefix ex: <https://example.org/vocabulary/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix schema: <https://schema.org/> .
+
+ex: a owl:Ontology .
+skos:prefLabel a owl:AnnotationProperty .
+skos:definition a owl:AnnotationProperty .
+schema:position a owl:AnnotationProperty .
+dct:source a owl:AnnotationProperty .
+ex:Record a owl:Class ;
+  skos:prefLabel "record"@en ;
+  skos:definition "A recorded entry."@en .
+
+[] a owl:Axiom ;
+   owl:annotatedSource ex:Record ; owl:annotatedProperty skos:definition ;
+   owl:annotatedTarget "A recorded entry."@en ;
+   schema:position 1 ; dct:source ex:citationA .
+[] a owl:Axiom ;
+   owl:annotatedSource ex:Record ; owl:annotatedProperty skos:definition ;
+   owl:annotatedTarget "A recorded entry."@en ;
+   schema:position 2 ; dct:source ex:citationB .
