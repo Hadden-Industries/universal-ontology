@@ -1,12 +1,8 @@
 name: Set up repository Python
-description: Provision the repository-selected Python in an isolated hosted environment
+description: Provision the repository-selected Python for hosted jobs
 runs:
   using: composite
   steps:
-    - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+    - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
       with:
-        version: "0.13.5"
-        activate-environment: true
-        venv-path: ${{ runner.temp }}/python
-        no-project: true
-        enable-cache: false
+        python-version-file: .python-version

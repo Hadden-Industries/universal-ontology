@@ -90,7 +90,7 @@ function readWorkflow() {
   return parseYaml(readFileSync(WORKFLOW_URL, "utf8"));
 }
 
-test("shared Python setup keeps a pinned native provider and isolated repository selection", () => {
+test("shared Python setup keeps a pinned native provider and one repository version declaration", () => {
   const action = parseYaml(
     readFileSync(
       new URL("../.github/actions/setup-python/action.yml", import.meta.url),
@@ -100,13 +100,9 @@ test("shared Python setup keeps a pinned native provider and isolated repository
   expect(action.runs.using).toBe("composite");
   expect(action.runs.steps).toHaveLength(1);
   const step = action.runs.steps[0];
-  expect(step.uses).toMatch(/^astral-sh\/setup-uv@[0-9a-f]{40}$/u);
+  expect(step.uses).toMatch(/^actions\/setup-python@[0-9a-f]{40}$/u);
   expect(step.with).toEqual({
-    version: expect.stringMatching(/^\d+\.\d+\.\d+$/u),
-    "activate-environment": true,
-    "venv-path": "${{ runner.temp }}/python",
-    "no-project": true,
-    "enable-cache": false,
+    "python-version-file": ".python-version",
   });
 });
 
@@ -369,7 +365,7 @@ test.each([
   ],
   ["ontology-validation.yml", ["validate-ontologies", "policy-qa", "qualify"]],
 ])(
-  "%s provisions repository-selected Python in an isolated uv environment",
+  "%s provisions repository-selected Python through the shared action",
   (fileName, jobNames) => {
     const workflow = parseYaml(
       readFileSync(
