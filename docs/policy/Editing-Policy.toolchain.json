@@ -1,6 +1,6 @@
 {
   "nodeVersion": "26.13.1",
-  "browserVersion": "HeadlessChrome/158.0.8127.18",
+  "browserVersion": "HeadlessChrome/159.0.8154.6",
   "mermaidCliVersion": "12.2.0",
   "fontVersion": "5.3.0",
   "rasterizerVersion": "2.6.2"

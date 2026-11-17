@@ -3,7 +3,7 @@
   "generator": "scripts/render_editing_policy.py",
   "policyIdentity": "sha256:250753977dc6cb2711e0fcc7fd1d1c63a44e6b0ea831488affaaf2fac6f10ecb",
   "inputDigestAlgorithm": "sha256",
-  "inputDigest": "sha256:1aad35ec6bded23cb453e0ecb7403a5560c6a8017e090bcdc9490a80cd539aac",
+  "inputDigest": "sha256:e324db1734d063084269ec51a7dfc7dd024cf6b1bb70f1c2644a6b8d934a80f1",
   "inputs": {
     ".json-quality.json": "26e90228af5996980a60b277a05900bcc412b5ef885550578d0ac7561508be90",
     ".markdown-quality-execution.json": "73c8b085746b01d2c76915f734027aa100eba637230734737c284ae00829d86f",
@@ -34,7 +34,7 @@
     "docs/editing-policy/source/reader-guidance.ttl": "dc4ee0d112ef5357a6e95389d3eb56222097a548fb9ed47b7c6a3adfed37ba3f",
     "docs/editing-policy/usability/acceptance-results.md": "6839d21d51e7561a749a4453744ccaf6e2301db538174907c20890b6665d5959",
     "docs/editing-policy/usability/test-script.md": "2574e1d5b98b5c22427704e5cbbad2f80fe7d5ce211dd96d39b11b058a940b50",
-    "package-lock.json": "d18b7b9f0dd36d300e006ee43ffe4b35b673c1cf2dde2ad9f648654192a8062f",
+    "package-lock.json": "5e277e179e0fd1fa110905a2f6422129ed11959ae21bff310fdfbe7d37cb60e6",
     "policy/axiom-policy.ttl": "c0102868259018f56ba9ec8a16deb7b89d955c473a1f5731cdb0e85dac0ed2e6",
     "policy/dataset-distribution-policy.ttl": "d614d689bebe06fac83624d7fb4ff17337450d42d52c3a095ab3b7212dd510c8",
     "policy/editing-policy.ttl": "f10fa8e68a14ec8de4a47171a9d8bf423f51cf42bfa1a50721becedfd2e43941",
@@ -42,7 +42,7 @@
     "policy/ontology-policy.ttl": "35dd354db3b4897b3646f056bcb00bcb56c32a1530611965b43bdca382f93ea0",
     "policy/policy-metadata-shapes.ttl": "f0c84f6e09c6f0b1684e7cf507302bf7499a897189121302e9a854886b098372",
     "policy/validation-context-shapes.ttl": "594ff44df9914adaaac7b93476d4fad6cdc830acd271091ed804b55e98c7acdb",
-    "requirements.lock.txt": "6622d14521515e9abad54e602e6a900b85831e37b51b9977b4f8137f690d44ec",
+    "requirements.lock.txt": "317b03d45e6a33720905bd3e382139ad9d958552aa89cf81f05a101900befd8a",
     "scripts/editingPolicyGfm.js": "603533d6c5db0a2694465f7be45e7c98376b86b61b8ff12ad92fa8b941dcf5f1",
     "scripts/formatEditingPolicyMarkdown.mjs": "bb1df7a4a50583d0418515bbf9cae3be34355623ac8733dc9957c21d37fe1629",
     "scripts/ontology_policy/__init__.py": "0179aa618f17a5d45d8b0d9c52c834e23edd968220701bbe9d6f959c99a40a29",
@@ -89,8 +89,8 @@
       "bytes": 150
     },
     "Editing-Policy.toolchain.json": {
-      "sha256": "bc7e6fad308d10e0e00f5298728b27d6da6aab528ac58df76594530bc3c78a78",
-      "bytes": 174
+      "sha256": "070ffae11fa104e3b2f60af277d6271028564cdd11e7e5cc07731a1cf444b4da",
+      "bytes": 173
     },
     "assets/editing-policy/OpenSans-LICENSE.txt": {
       "sha256": "9e7f12fafee50a9b4f7b3004c0fa58990805620d9debb0daf7f75de0d3ad5548",
