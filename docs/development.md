@@ -238,7 +238,8 @@ The release verifier binds the root dependency manifest and lockfile, UO adapter
 `npm run lint:python:fix` applies Ruff's safe fixes; `npm run format:python` formats Python.
 Ruff retains its configured Python scope and runtime.
 
-`npm ci --include=dev --ignore-scripts` installs Markdown Quality with the root development graph and matching optional native package from the frozen root lock.
+The root development graph declares Markdown Quality at `>=3.0.4`.
+`npm ci --include=dev --ignore-scripts` installs the locked graph, including the matching optional native package, ESLint, and ESLint Markdown.
 `npm run check:markdown` invokes the maintained native capability in full-selection mode without writing or installing anything.
 `npm run format:markdown` explicitly writes the same complete corpus; preservation guards reject changes to parsed meaning or literals.
 Preview a selected file without writing with `npm exec -- markdown-quality format --dry-run --root . -- README.md`.
