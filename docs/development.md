@@ -240,6 +240,10 @@ Ruff retains its configured Python scope and runtime.
 
 The root development graph declares Markdown Quality at `>=3.0.4`.
 `npm ci --include=dev --ignore-scripts` installs the locked graph, including the matching optional native package, ESLint, and ESLint Markdown.
+The root `micromark-extension-math@3.1.0` override selects patched KaTeX `0.19.1` for Markdown Quality.
+Mermaid and Mermaid CLI obtain their patched KaTeX through their published dependency ranges.
+[KaTeX security advisory](https://github.com/advisories/GHSA-238p-pmpm-9mq7)
+
 `npm run check:markdown` invokes the maintained native capability in full-selection mode without writing or installing anything.
 `npm run format:markdown` explicitly writes the same complete corpus; preservation guards reject changes to parsed meaning or literals.
 Preview a selected file without writing with `npm exec -- markdown-quality format --dry-run --root . -- README.md`.
